@@ -1,0 +1,52 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage[paperwidth=40in, paperheight=20in]{geometry}
+
+\usetikzlibrary{arrows, automata, positioning, shapes.geometric}
+\begin{document}
+\pagestyle{empty}
+
+\definecolor{se-blue}{HTML}{D0D5FF}
+
+\newcommand{\state}[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+
+\begin{tikzpicture}[
+  ->,>=stealth',auto,node distance=3cm,thick,
+  every node/.style={font=\sffamily\small},
+  every state/.style={draw=se-blue,thick,top color=white,ellipse,
+                      bottom color=se-blue!75,initial text=},
+  accepting/.style={accepting by arrow,accepting text=\ldots},
+  every edge/.style={draw=black!50}]
+
+  \node[state, initial] (s01) [                               ] {p/s};
+  \node[state]          (s02) [                   right of=s01] {i/s};
+  \node[state]          (s03) [                   right of=s02] {i/a};
+  \node[state]          (s05) [above =1cm of s03, right of=s03] {p/a};
+  \node[state]          (s06) [below =1cm of s03, right of=s03] {p/b};
+  \node[state]          (s04) [below =1cm of s05, right of=s05] {i/b};
+
+  \path[every node/.style={font=\sffamily\normalsize,outer sep=-1pt}]
+    (s01) edge[             ] node[                   ] {produce   } (s02)
+    (s02) edge[bend left =20] node[sloped,anchor=south] {provide\_a} (s05)
+    (s02) edge[bend right=20] node[sloped,anchor=north] {provide\_b} (s06)
+    (s03) edge[             ] node[sloped,anchor=north] {provide\_b} (s06)
+    (s04) edge[             ] node[sloped,anchor=south] {provide\_a} (s05)
+    (s05) edge[             ] node[sloped,anchor=south] {produce   } (s03)
+    (s06) edge[             ] node[sloped,anchor=north] {produce   } (s04)
+  ;
+
+\end{tikzpicture}
+\end{document}

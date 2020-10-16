@@ -1,0 +1,22 @@
+event enter;
+event processed;
+event exit;
+
+automaton machine:
+  disc int count = 0;
+  disc real process_time;
+  disc dist real d = normal(10, 7);
+  cont t der 1.0;
+
+  location waiting:
+    initial;
+    edge enter do (process_time, d) := sample d, t := 0 goto processing;
+
+  location processing:
+    edge processed when t >= process_time goto done;
+
+  location done:
+    edge exit do count := count + 1 goto waiting;
+end
+
+print machine.count for final;

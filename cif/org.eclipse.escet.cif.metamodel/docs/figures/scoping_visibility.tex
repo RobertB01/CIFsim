@@ -1,0 +1,144 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}[node distance=0,auto,>=stealth',
+                    every fit/.style={inner sep=7pt}]
+
+  % Styles
+  \tikzstyle{cifstate}=[state,node distance=2cm]
+  \tikzstyle{cifname}=[above right]
+  \tikzstyle{ciftext}=[]
+  \tikzstyle{cifaut}=[rounded corners=3pt]
+  \tikzstyle{cifcomp}=[draw,rounded corners=3pt]
+  \tikzstyle{cifspec}=[draw,rounded corners=3pt,dashed]
+
+  \begin{scope}[red]
+    % a.b (automaton)
+    \node[cifstate] (a_b_x) {x};
+    \node[cifstate] (a_b_y) [right of=a_b_x] {y}
+      edge [pre] (a_b_x);
+
+    \node[cifaut] (a_b_aut) [fit=(a_b_x) (a_b_y)] {};
+
+    \node[ciftext,above right] at (a_b_aut.north west) (a_b_txt)
+         {t v = true;};
+
+    \node[cifcomp] (a_b) [fit=(a_b_aut) (a_b_txt)] {};
+    \node[cifname] at (a_b.north west) (a_b_name) {b:};
+
+    % a (comp)
+    \node[ciftext,below right] at (a_b.south west)    (a_txt1) {inv b.x = b.y};
+    \node[ciftext,below right] at (a_txt1.south west) (a_txt2) {c: C()};
+    \node[ciftext,below right] at (a_txt2.south west) (a_txt3) {inv c.b.a.a.x};
+    \node[ciftext,below right] at (a_txt3.south west) (a_txt4) {k: K(c)};
+    \node[ciftext,below right] at (a_txt4.south west) (a_txt5) {inv k.h.x};
+    \node[ciftext,below right] at (a_txt5.south west) (a_txt6) {p: i.P()};
+    \node[ciftext,below right] at (a_txt6.south west) (a_txt7) {inv p.x};
+
+    \node[cifcomp] (a) [fit=(a_b_name) (a_b) (a_txt1) (a_txt2) (a_txt3)
+                             (a_txt4) (a_txt5) (a_txt6) (a_txt7)] {};
+    \node[cifname] at (a.north west) (a_name) {a:};
+  \end{scope}
+
+  \begin{scope}[black,xshift=5.15cm,yshift=-4.75cm]
+    % C.B.a.a (aut)
+    \node[cifstate] (C_B_a_a_x) {x};
+    \node[cifaut] (C_B_a_a_aut) [fit=(C_B_a_a_x)] {};
+
+    \node[ciftext,above right] at (C_B_a_a_aut.north west) (C_B_a_a_txt1)
+         {disc \^{}t v2 = true};
+    \node[ciftext,above right] at (C_B_a_a_txt1.north west) (C_B_a_a_txt2)
+         {disc .t v1 = 3};
+    \node[ciftext,above right] at (C_B_a_a_txt2.north west) (C_B_a_a_txt3)
+         {disc t v0 = 5};
+
+    \node[cifcomp] (C_B_a_a) [fit=(C_B_a_a_aut) (C_B_a_a_txt1)
+                                   (C_B_a_a_txt2) (C_B_a_a_txt3)] {};
+    \node[cifname] at (C_B_a_a.north west) (C_B_a_a_name) {a:};
+
+    % C.B.a (comp)
+    \node[ciftext,below right] at (C_B_a_a.south west)
+         (C_B_a_txt1) {inv a.x = d.x};
+    \node[ciftext,below right] at (C_B_a_txt1.south west)
+         (C_B_a_txt2) {inv .a.a.x = d.x};
+    \node[ciftext,below right] at (C_B_a_txt2.south west)
+         (C_B_a_txt3) {type t = int [5..6]};
+
+    \node[cifcomp] (C_B_a) [fit=(C_B_a_a) (C_B_a_a_name) (C_B_a_txt1)
+                                 (C_B_a_txt2) (C_B_a_txt3)] {};
+    \node[cifname] at (C_B_a.north west) (C_B_a_name) {a:};
+
+    \node[ciftext,below right] at (C_B_a.south west) (C_B_txt)
+         {type t = int [2..4]};
+  \end{scope}
+
+  \begin{scope}[Green,xshift=4.4cm,yshift=0.8cm]
+    % C.d (automaton)
+    \node[cifstate] (C_d_x) {x};
+    \node[cifstate] (C_d_y) [right of=C_d_x] {y}
+      edge [pre] (C_d_x);
+
+    \node[cifcomp,above right] (C_d) [fit=(C_d_x) (C_d_y)] {};
+    \node[cifname] at (C_d.north west) (C_d_name) {d:};
+
+    % C.b (inst)
+    \node[ciftext,below right] at (C_d.south west) (C_b) {b: B()};
+
+    % C.B (compdef)
+    \node[cifname,below right] at (C_b.south west) (C_B_name) {B():};
+    \node[cifcomp,below right,black] at (C_B_name.south west) (C_B)
+         [fit=(C_B_a) (C_B_a_name) (C_B_txt)] {};
+
+    % C (compdef)
+    \node[cifcomp] (C) [fit=(C_d_name) (C_d) (C_b) (C_B_name) (C_B)] {};
+    \node[cifname,red] at (C.north west) (C_name) {C():};
+  \end{scope}
+
+  \begin{scope}[blue,xshift=9.4cm,yshift=0.3cm]
+    % K.h (aut)
+    \node[cifstate] (K_h_x) {x};
+
+    \node[cifcomp] (K_h) [fit=(K_h_x)] {};
+    \node[cifname] at (K_h.north west) (K_h_name) {h:};
+
+    % K (compdef)
+    \node[ciftext,above right] at (K_h_name.north west) (K_txt) {inv c.d.x};
+    \node[cifcomp] (K) [fit=(K_txt) (K_h_name) (K_h)] {};
+    \node[cifname] at (K.north west) (K_name)
+         {\color{red}K(C \textcolor{blue}{c}):};
+  \end{scope}
+
+  \begin{scope}[red,xshift=9.4cm,yshift=-3cm]
+    % i.P (compdef)
+    \node[cifstate,cyan] (i_P_x) {x};
+
+    \node[cifcomp,cyan] (i_P) [fit=(i_P_x)] {};
+    \node[cifname] at (i_P.north west) (i_P_name) {P():};
+
+    % i (comp)
+    \node[cifcomp] (i) [fit=(i_P) (i_P_name)] {};
+    \node[cifname] at (i.north west) (i_name) {i:};
+  \end{scope}
+
+  \begin{scope}[red]
+    % t
+    \node[ciftext,below right,yshift=-10pt] at (i.south west) (t)
+         {type t = bool};
+  \end{scope}
+
+  % - (spec)
+  \node[cifspec,red] (_spec) [fit=(a) (a_name) (C) (C_name) (K) (K_name)
+                                   (i) (i_name) (t)] {};
+%   \node[cifname,gray] at (_spec.north west) (_spec_name)
+%        {specification:};
+
+\end{tikzpicture}

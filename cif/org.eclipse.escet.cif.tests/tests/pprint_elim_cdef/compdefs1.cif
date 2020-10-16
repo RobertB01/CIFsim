@@ -1,0 +1,82 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton def P1():
+  event e_a1, e_a2;
+  controllable c_c1, c_c2;
+  uncontrollable u_u1, u_u2;
+  controllable event c_d1, c_d2;
+  uncontrollable event u_v1, u_v2;
+  disc bool x = true;
+  invariant {c_c2, u_u2} needs true;
+  invariant {c_d2, u_v2} needs false;
+  location l1:
+    initial;
+    marked;
+    edge e_a1 goto l2;
+  location l2;
+end
+
+group def P2(alg bool b; location l; P1 p):
+  invariant b or l;
+  invariant p.l1 or p.x;
+end
+
+group def P3(event e1, e2; controllable c; uncontrollable u; controllable event c2; uncontrollable event u2):
+  invariant {e1, e2} needs true;
+  invariant {c, u, c2, u2} needs false;
+end
+
+group def P4():
+end
+
+p1: P1();
+p2: P2(true, p1.l1, p1);
+p3: P3(p1.e_a1, p1.e_a2, p1.c_c1, p1.u_u1, p1.c_d1, p1.u_v1);
+p4: P4();
+
+// instantiation before definition
+
+q: Q(1.5);
+
+group def Q(alg real param):
+  invariant param > 0;
+end
+
+// channel argument for non-channel event parameter
+
+event     e1;
+event int e2;
+
+automaton def A(event e):
+  location:
+    initial;
+    edge e;
+end
+
+a1: A(e1);
+a2: A(e2);
+
+// event parameter usage restrictions
+
+automaton def N(event int p): location: initial; edge p; end
+
+automaton def S(event int p!): location: initial; edge p!1; end
+automaton def R(event int p?): location: initial; edge p?;  end
+automaton def C(event int p~): location: initial; edge p;   end
+
+automaton def SR(event int p!?): location: initial; edge p?; end
+automaton def SC(event int p!~): location: initial; edge p;  end
+automaton def RC(event int p?~): location: initial; edge p;  end
+
+automaton def SRC(event int p!?~): location: initial; edge p; end

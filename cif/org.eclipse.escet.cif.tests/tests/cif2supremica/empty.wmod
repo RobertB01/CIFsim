@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+</Module>

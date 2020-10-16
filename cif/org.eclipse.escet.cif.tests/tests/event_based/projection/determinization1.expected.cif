@@ -1,0 +1,16 @@
+controllable a;
+controllable b;
+plant automaton projected:
+  alphabet a, b;
+  location s1:
+    initial;
+    marked;
+    edge a goto s2;
+  location s2:
+    edge b goto s3;
+    edge a goto s1;
+  location s3:
+    marked;
+    edge b;
+    edge a;
+end

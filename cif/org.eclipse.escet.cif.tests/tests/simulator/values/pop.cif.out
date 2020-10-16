@@ -1,0 +1,27 @@
+Initial state: time=0.0, p=l1, p.cnt=0, p.x=0, p.xs=[1, 2, 3, 4]
+
+Transition: event tau
+State: time=0.0, p=l2, p.cnt=0, p.x=1, p.xs=[2, 3, 4]
+
+Transition: event tau
+State: time=0.0, p=l1, p.cnt=1, p.x=1, p.xs=[2, 3, 4]
+
+Transition: event tau
+State: time=0.0, p=l2, p.cnt=1, p.x=2, p.xs=[3, 4]
+
+Transition: event tau
+State: time=0.0, p=l1, p.cnt=3, p.x=2, p.xs=[3, 4]
+
+Transition: event tau
+State: time=0.0, p=l2, p.cnt=3, p.x=3, p.xs=[4]
+
+Transition: event tau
+State: time=0.0, p=l1, p.cnt=6, p.x=3, p.xs=[4]
+
+Transition: event tau
+State: time=0.0, p=l2, p.cnt=6, p.x=4, p.xs=[]
+
+Transition: event tau
+State: time=0.0, p=l1, p.cnt=10, p.x=4, p.xs=[]
+
+Simulation resulted in deadlock.

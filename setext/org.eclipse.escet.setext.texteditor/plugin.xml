@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+         name="SeText Text Editor"
+         class="org.eclipse.escet.setext.texteditor.SeTextTextEditor"
+         id="org.eclipse.escet.setext.texteditor.SeTextTextEditor"
+         contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+         default="true"
+         extensions="setext"
+         icon="icons/setext_file.png">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.core.resources.markers"
+              id="org.eclipse.escet.setext.texteditor.SeTextSyntaxProblem"
+              name="SeText Syntax Problem">
+      <persistent value="true"/>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+   </extension>
+
+   <extension point="org.eclipse.core.resources.markers"
+              id="org.eclipse.escet.setext.texteditor.SeTextSemanticProblem"
+              name="SeText Semantic Problem">
+      <persistent value="true"/>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.core.resources.textmarker"/>
+   </extension>
+</plugin>

@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_aut_aut.in1.cif" with CIF specification "merger/err_aut_aut.in2.cif" failed.
+CAUSE: Merging objects with name "g.a" failed: merging two automata is not supported.

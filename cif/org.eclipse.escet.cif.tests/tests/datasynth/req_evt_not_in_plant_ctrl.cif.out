@@ -1,0 +1,136 @@
+Reading CIF file "datasynth/req_evt_not_in_plant_ctrl.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..3]  p.x   0      2 * 2     4 * 2       4 * 2       100%
+  2      location pointer   n/a        r     1      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      6         12          12          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 7
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    1 (total)                 0.14 (avg/edge) [before]
+    Total span:                    1 (total)                 0.14 (avg/edge) [iteration 1]
+    Total span:                    1 (total)                 0.14 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    1 (total)                 0.14 (avg/edge) [before]
+    Total span:                    1 (total)                 0.14 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         p.x = 0
+Initial   (discrete variables):          p.x = 0
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (aut/locs init predicate):     r.loc1
+Initial   (auts/locs init predicate):    r.loc1
+Initial   (uncontrolled system):         p.x = 0 and r.loc1
+Initial   (system, combined init/inv):   p.x = 0 and r.loc1
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (aut/locs marker predicate):   r.loc1
+Marked    (auts/locs marker predicate):  r.loc1
+Marked    (uncontrolled system):         r.loc1
+Marked    (system, combined marked/inv): r.loc1
+
+State/event exclusion requirements:
+  Event "p.inc" needs:
+    r.loc1
+  Event "r.trace" needs:
+    p.x = 2 or (p.x = 3 or r.loc1)
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: p.inc) (guard: true) (assignments: p.x := p.x + 1)
+    Edge: (event: p.dec) (guard: true) (assignments: p.x := p.x - 1)
+    Edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)
+    Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
+    Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: p.inc) (guard: true) (assignments: p.x := p.x + 1): guard: true -> r.loc1 [requirement: r.loc1].
+Edge (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2): guard: (p.x = 0 or p.x = 1) and r.loc2 -> false [requirement: p.x = 2 or (p.x = 3 or r.loc1)].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: true)
+    Edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1)
+    Edge: (event: p.dec) (guard: true) (assignments: p.x := p.x - 1)
+    Edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)
+    Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
+    Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2 -> false)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: r.loc1 [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: r.loc1 -> p.x = 2 or (p.x = 3 or r.loc1) [backward reach with edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
+Controlled behavior: true -> p.x = 2 or (p.x = 3 or r.loc1).
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (p.x = 0 or p.x = 1) and r.loc2 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.x = 0 and r.loc1 [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p.x = 0 and r.loc1 -> (p.x = 0 or p.x = 1) and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward reachability: iteration 2.
+Forward controlled-behavior: (p.x = 0 or p.x = 1) and r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 [forward reach with edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward controlled-behavior: (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1 -> (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward reachability: iteration 3.
+Forward controlled-behavior: (p.x != 0 or r.loc1) and ((p.x != 1 or r.loc1) and p.x != 3) -> (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) [forward reach with edge: (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward controlled-behavior: (p.x != 0 or r.loc1) and (p.x = 0 or (p.x = 2 or r.loc1)) -> p.x = 2 or (p.x = 3 or r.loc1) [forward reach with edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2), restricted to current/previous controlled-behavior predicate: p.x = 2 or (p.x = 3 or r.loc1)]
+Forward reachability: iteration 4.
+Forward controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1) [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: p.inc) (guard: true -> r.loc1) (assignments: p.x := p.x + 1): guard: r.loc1 -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1.
+Edge (event: p.dec) (guard: true) (assignments: p.x := p.x - 1): guard: true -> p.x != 0 and ((p.x != 2 or r.loc1) and (p.x != 1 or r.loc1)).
+Edge (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2): guard: r.loc1 -> (p.x = 2 or p.x = 3) and r.loc1.
+
+Final synthesis result:
+  State: (controlled-behavior: p.x = 2 or (p.x = 3 or r.loc1))
+    Edge: (event: p.inc) (guard: true -> (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1) (assignments: p.x := p.x + 1)
+    Edge: (event: p.dec) (guard: true -> p.x != 0 and ((p.x != 2 or r.loc1) and (p.x != 1 or r.loc1))) (assignments: p.x := p.x - 1)
+    Edge: (event: r.trace) (guard: r.loc1 -> (p.x = 2 or p.x = 3) and r.loc1) (assignments: r := r.loc2)
+    Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
+    Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2 -> false)
+
+Controlled system:                     exactly 6 states.
+
+Initial (synthesis result):            p.x = 2 or (p.x = 3 or r.loc1)
+Initial (uncontrolled system):         p.x = 0 and r.loc1
+Initial (controlled system):           p.x = 0 and r.loc1
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/req_evt_not_in_plant_ctrl.ctrlsys.real.cif".

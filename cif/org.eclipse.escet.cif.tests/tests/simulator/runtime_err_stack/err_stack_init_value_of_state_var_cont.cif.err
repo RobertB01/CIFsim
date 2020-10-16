@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "1 / 0" of continuous variable "p.x" failed.
+CAUSE: Division by zero: 1.0 / 0.0.

@@ -1,0 +1,3 @@
+ERROR: Runtime error while executing "M".
+at model "M" near line 18.
+CAUSE: Array index is too small (index -4 does not exist for a list with 3 elements).

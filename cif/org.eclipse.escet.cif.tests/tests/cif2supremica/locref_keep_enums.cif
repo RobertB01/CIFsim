@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant aut:
+  controllable e;
+
+  location loc1:
+    initial;
+    marked;
+    edge e goto loc2;
+
+  location loc2;
+end
+
+requirement invariant not aut.loc2;

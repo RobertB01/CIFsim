@@ -1,0 +1,3 @@
+ERROR: File "tchecker/tool_return_missing.tooldef": Semantic error at line 16, column 10: No execution of tool "b" can reach a "return" or "exit" statement.
+ERROR: File "tchecker/tool_return_missing.tooldef": Semantic error at line 18, column 10: No execution of tool "c" can reach a "return" or "exit" statement.
+ERROR: Failed to load ToolDef file "tchecker/tool_return_missing.tooldef": the file has errors.

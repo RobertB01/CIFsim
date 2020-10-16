@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_java_type_param_bounded.tooldef": Semantic error at line 14, column 40: Java method "org.eclipse.escet.tooldef.tests.TypeCheckerTestClass.testTypeParamExtends" is not supported, as its type parameter "U" is bounded.
+ERROR: Failed to load ToolDef file "tchecker/import_java_type_param_bounded.tooldef": the file has errors.

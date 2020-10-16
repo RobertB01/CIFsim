@@ -1,0 +1,1 @@
+Error: File "spec/const/overflow.chi": Semantic error at line 13, column 15: Number is out of range (too large or too small).

@@ -1,0 +1,6 @@
+Initial state: time=0.0, p=l1, p.x=[(0, {5: {8}})]
+
+Transition: event tau
+State: time=0.0, p=l2, p.x=[(1, {6: {9}})]
+
+Simulation resulted in deadlock.

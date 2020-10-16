@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="200"
+   height="125"
+   id="svg2383"
+   sodipodi:version="0.32"
+   inkscape:version="0.47 r22583"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:docname="button_lamp.svg">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="1080"
+     inkscape:window-width="1601"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="1.88"
+     inkscape:cx="-23.572513"
+     inkscape:cy="26.595747"
+     inkscape:window-x="311"
+     inkscape:window-y="0"
+     inkscape:current-layer="layer1"
+     inkscape:window-maximized="0" />
+  <defs
+     id="defs2385">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 150 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="300 : 150 : 1"
+       inkscape:persp3d-origin="150 : 100 : 1"
+       id="perspective13" />
+  </defs>
+  <g
+     id="layer1">
+    <path
+       d="M 186.12866,74.978312 C 186.12866,97.293992 166.90758,115.38442 143.19717,115.38442 C 119.48677,115.38442 100.26569,97.293992 100.26569,74.978312 C 100.26569,52.662642 119.48677,34.572212 143.19717,34.572212 C 166.90758,34.572212 186.12866,52.662642 186.12866,74.978312 z"
+       id="lamp"
+       style="opacity:1;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 15.106379,35.202697 L 15.106379,114.75393"
+       id="path2387" />
+    <rect
+       style="opacity:1;fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99999988;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="button"
+       width="35"
+       height="51.595745"
+       x="15.190909"
+       y="49.180443"
+       inkscape:label="#rect2389" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="5.8510637"
+       y="19.148935"
+       id="time"
+       sodipodi:linespacing="125%"
+       inkscape:label="#time"><tspan
+         sodipodi:role="line"
+         id="tspan2391"
+         x="5.8510637"
+         y="19.148935">Time: 0.0</tspan></text>
+  </g>
+</svg>

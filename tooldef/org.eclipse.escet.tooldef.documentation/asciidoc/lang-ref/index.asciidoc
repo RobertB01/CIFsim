@@ -1,0 +1,41 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[documentation,reference]
+
+[[lang-ref-chapter-index]]
+== Language reference
+
+The documentation in this language reference manual serves as reference.
+It is not intended to be read from beginning to end, but more to look up
+specific information when needed. The reference documentation generally
+provides detailed and complete information, but this information may not
+always be presented in the most accessible way.
+
+The information is divided into categories. The following categories and
+information is part of the language reference documentation:
+
+_Syntax_
+
+* <<lang-ref-syntax-lexical>>
+* <<lang-ref-syntax-grammar>>
+
+_Built-in tools and operators_
+
+* <<lang-ref-builtins-operators>>
+* <<lang-ref-builtins-data>>
+* <<lang-ref-builtins-io>>
+* <<lang-ref-builtins-generic>>
+* <<lang-ref-builtins-path>>
+* <<lang-ref-builtins-file>>

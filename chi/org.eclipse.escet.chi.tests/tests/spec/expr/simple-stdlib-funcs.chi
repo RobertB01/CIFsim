@@ -1,0 +1,63 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    real v = 0.8;
+    int  i = 3;
+
+    real r01 = acos(v);
+    real r02 = asin(v);
+    real r03 = atan(v);
+
+    real r11 = acosh(v);
+    real r12 = asinh(v);
+    real r13 = atanh(v);
+
+    real r21 = cos(v);
+    real r22 = sin(v);
+    real r23 = tan(v);
+
+    real r31 = cosh(v);
+    real r32 = sinh(v);
+    real r33 = tanh(v);
+
+    real r41 = ln(v);
+    real r42 = log(v);
+    real r43 = sqrt(v);
+    real r44 = cbrt(v);
+    real r45 = exp(v);
+
+    int n01 = ceil(v);
+    int n02 = floor(v);
+    int n03 = round(v);
+
+    dist bool db = constant(true);
+    dist int  di = constant(12);
+    dist real dr = constant(3.14);
+
+    db = bernoulli(v);
+    di = binomial(i, v);
+    di = geometric(v);
+    di = poisson(v);
+
+    di = uniform(i, i+5);
+    dr = uniform(v, v+10);
+
+    dr = beta(v, v);
+    dr = erlang(v, i);
+    dr = exponential(v);
+    dr = gamma(v, v);
+    dr = normal(v, v);
+    dr = lognormal(v, v);
+    dr = triangle(v, v+2, v + 4);
+    dr = weibull(v, v);
+end

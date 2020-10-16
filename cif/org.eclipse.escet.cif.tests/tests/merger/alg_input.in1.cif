@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t2 = real;
+
+alg t2 inp1 = 1.23;
+invariant inp1 > 1;
+
+alg t2 inp2;
+equation inp2 = 2.34;
+invariant inp2 > 1;
+
+group g:
+  alg t2 inp3;
+  invariant inp3 > 1;
+  equation inp3 = 2.34;
+end
+
+plant p:
+  alg t2 inp4;
+  plant invariant inp4 > 1;
+  location:
+    initial;
+    equation inp4 = 2.34;
+end
+
+group q:
+  alg t2 inp5;
+  equation inp5 = 3.45;
+  plant invariant inp5 > 0;
+end

@@ -1,0 +1,8 @@
+automaton p:
+  cont x = 0.0;
+  equation x' = 1.0;
+
+  location:
+    initial;
+    edge when x >= 2.33 and x <= 2.34 do x := 0.0;
+end

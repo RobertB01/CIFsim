@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "uniform(1, 1)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: uniform(1, 1).
+CAUSE: The lower bound (the first parameter) is not smaller than the upper bound (the second parameter).

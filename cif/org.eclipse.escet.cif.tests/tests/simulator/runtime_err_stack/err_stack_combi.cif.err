@@ -1,0 +1,19 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=*, p.x=0.
+CAUSE: Execution of the updates of an edge of the location of automaton "p" failed.
+CAUSE: Execution of assignment "p.x := a - 7" failed.
+CAUSE: Evaluation of algebraic variable "a" failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: Evaluation of return value "g(5) + 1" failed.
+CAUSE: Evaluation of function "g" failed.
+CAUSE: Evaluation of return value "10 div g.i + g(g.i - 1)" failed.
+CAUSE: Evaluation of function "g" failed.
+CAUSE: Evaluation of return value "10 div g.i + g(g.i - 1)" failed.
+CAUSE: Evaluation of function "g" failed.
+CAUSE: Evaluation of return value "10 div g.i + g(g.i - 1)" failed.
+CAUSE: Evaluation of function "g" failed.
+CAUSE: Evaluation of return value "10 div g.i + g(g.i - 1)" failed.
+CAUSE: Evaluation of function "g" failed.
+CAUSE: Evaluation of return value "10 div g.i + g(g.i - 1)" failed.
+CAUSE: Evaluation of function "g" failed.
+CAUSE: Evaluation of return value "10 div g.i + g(g.i - 1)" failed.
+CAUSE: Division by zero: 10 div 0.

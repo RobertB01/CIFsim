@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-lt-le-ge-gt-tuple-set-int.chi": Semantic error at line 18, column 19: Left operand must have a string or a numeric type (found "tuple(int, int)").

@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/multi_initial_locs.cif".
+CAUSE: Unsupported automaton "x": the automaton has multiple initial locations.

@@ -1,0 +1,118 @@
+Reading CIF file "datasynth/input_vars3.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name       Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+  1      input variable    bool  io.sensor  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   p_sensor   1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   p_act      2      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ---------  -----  --------  ----------  ----------  -----------
+  Total                                     3      6         12          12          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 4
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    2 (total)                 0.50 (avg/edge) [before]
+    Total span:                    2 (total)                 0.50 (avg/edge) [iteration 1]
+    Total span:                    2 (total)                 0.50 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    2 (total)                 0.50 (avg/edge) [before]
+    Total span:                    2 (total)                 0.50 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on)
+Initial   (aut/locs init predicate):     p_act.off
+Initial   (auts/locs init predicate):    not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial   (uncontrolled system):         not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial   (system, combined init/inv):   not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   p_sensor.off
+Marked    (aut/locs marker predicate):   p_act.off
+Marked    (auts/locs marker predicate):  p_sensor.off and p_act.off
+Marked    (uncontrolled system):         p_sensor.off and p_act.off
+Marked    (system, combined marked/inv): p_sensor.off and p_act.off
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: u_on) (guard: io.sensor and p_sensor.off) (assignments: p_sensor := p_sensor.on)
+    Edge: (event: u_off) (guard: not io.sensor and p_sensor.on) (assignments: p_sensor := p_sensor.off)
+    Edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on)
+    Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
+    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p_sensor.off and p_act.off [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p_sensor.off and p_act.off -> not io.sensor and p_act.off or io.sensor and (p_sensor.off and p_act.off) [backward reach with edge: (event: u_off) (guard: not io.sensor and p_sensor.on) (assignments: p_sensor := p_sensor.off), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: not io.sensor and p_act.off or io.sensor and (p_sensor.off and p_act.off) -> not io.sensor or p_sensor.off [backward reach with edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: not io.sensor or p_sensor.off -> true [backward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off) -> (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on) [forward reach with edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on) -> true [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: u_on) (guard: io.sensor and p_sensor.off) (assignments: p_sensor := p_sensor.on)
+    Edge: (event: u_off) (guard: not io.sensor and p_sensor.on) (assignments: p_sensor := p_sensor.off)
+    Edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on)
+    Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
+    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Controlled system:                     exactly 8 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial (controlled system):           not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event c_on: guard: p_act.off -> true [assume p_act.off].
+  Event c_off: guard: p_act.on -> true [assume p_act.on].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/input_vars3.ctrlsys.real.cif".

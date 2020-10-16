@@ -1,0 +1,80 @@
+enum COLOR = RED, GREEN, BLUE;
+alg COLOR r = RED;
+alg bool b = p.y;
+alg int[2..2] z = 1 + 1;
+alg int i = p.i + 1;
+alg list int li = [1];
+alg real a;
+group x:
+  group y:
+  end
+end
+plant automaton p:
+  alg bool y = true;
+  disc int i;
+  location:
+    initial;
+end
+group q1:
+  alg real a;
+  equation a = 1.0;
+end
+automaton q2:
+  alg int[1..3] a;
+  alg real alg_var;
+  location l1:
+    initial;
+    equation a = 1,
+             alg_var = 2.0;
+  location l2:
+    initial;
+    equation a = 3,
+             alg_var = 4.0;
+end
+automaton q3_1:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+end
+automaton q3_2:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+  location l2:
+    initial;
+    equation x = 2.0;
+end
+automaton q3_3:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+  location l2:
+    initial;
+    equation x = 2.0;
+  location l3:
+    initial;
+    equation x = 3.0;
+end
+automaton q3_4:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+  location l2:
+    initial;
+    equation x = 2.0;
+  location l3:
+    initial;
+    equation x = 3.0;
+  location l4:
+    initial;
+    equation x = 4.0;
+end
+invariant b or r = GREEN or r = BLUE;
+invariant z > 0 and i > 0 and size(li) > 0;
+invariant a + q1.a + q2.a + q2.alg_var > 0;
+invariant q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;
+equation a = 1.0;

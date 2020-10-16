@@ -1,0 +1,18 @@
+group a:
+  const bool c1 = true;
+  const bool c2 = true;
+  group b:
+    alg real a1 = 1.23;
+    alg real a2 = 1.23;
+    group c:
+      type t1 = bool;
+      type t2 = bool;
+      group d:
+        enum e1 = l1;
+      end
+      group e:
+        enum e2 = l2;
+      end
+    end
+  end
+end

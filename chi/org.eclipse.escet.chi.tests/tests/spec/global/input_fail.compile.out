@@ -1,0 +1,4 @@
+Error: File "spec/global/input_fail.chi": Semantic error at line 14, column 12: "eof" is not allowed here, the expression must be constant.
+Error: File "spec/global/input_fail.chi": Semantic error at line 18, column 12: "read" is not allowed here, the expression may not have side-effects.
+Error: File "spec/global/input_fail.chi": Semantic error at line 22, column 12: "eol" is not allowed here, the expression must be constant.
+Error: File "spec/global/input_fail.chi": Semantic error at line 26, column 12: "newlines" is not allowed here, the expression must be constant.

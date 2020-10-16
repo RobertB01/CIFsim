@@ -1,0 +1,16 @@
+Initial state: time=0.0, p=l1, p.a=[2, 3, 8, 10, 17, 23], p.b=[1, 2, 4, 6, 9], p.c=[12, 13, 15, 17, 20], p.d=23, q=l3
+
+Possible transitions:
+  #1: event tau
+  #2: event tau
+
+Transition: event tau
+State: time=0.0, p=l2, p.a=[2, 3, 8, 10, 17, 23], p.b=[1, 3, 5, 7, 10], p.c=[12, 13, 15, 17, 20], p.d=23, q=l3
+
+Transition: event tau
+State: time=0.0, p=l2, p.a=[2, 3, 8, 10, 17, 23], p.b=[1, 3, 5, 7, 10], p.c=[12, 14, 16, 18, 21], p.d=23, q=l4
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, p=l2, p.a=[2, 3, 8, 10, 17, 23], p.b=[1, 3, 5, 7, 10], p.c=[12, 14, 16, 18, 21], p.d=23, q=l4
+
+Simulation ended due to reaching the user-provided simulation end time.

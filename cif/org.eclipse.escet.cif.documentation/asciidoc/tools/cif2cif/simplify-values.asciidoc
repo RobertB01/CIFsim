@@ -1,0 +1,195 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-simplify-values]]
+== Simplify values
+
+indexterm:[CIF to CIF transformer,simplify values]
+indexterm:[simplify values]
+This CIF to CIF transformation simplifies CIF specifications, by applying
+the following value-related simplifications:
+
+* Evaluation of constant (sub-)expressions. For instance, `1 + 1` is
+simplified to `2`.
+
+* Simplification of short-circuit boolean binary operators. For instance,
+`true and x` is simplified to `x`.
+
+* Simplification of boolean unary operators. For instance, `not not x` is
+simplified to `x`.
+
+* Removal of default values. For instance, `true` state invariants are
+removed.
+
+indexterm:[simplify values,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[simplify values,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[simplify values,implementation]
+
+=== Implementation details
+
+The following is a complete list of the short-circuit boolean binary operators
+that are simplified (with `x` an arbitrary boolean expression):
+
+[cols=2*,options="header"]
+|===
+| Original
+| Simplified
+
+| `true  and x`
+| `x`
+
+| `x     and true`
+| `x`
+
+| `false and x`
+| `false`
+
+| `x     and false`
+| `false`
+
+| `true  or  x`
+| `true`
+
+| `x     or  true`
+| `true`
+
+| `false or  x`
+| `x`
+
+| `x     or  false`
+| `x`
+
+| `+true  =>  x+`
+| `x`
+
+| `+x     =>  true+`
+| `true`
+
+| `+false =>  x+`
+| `true`
+
+| `+x     =>  false+`
+| `not x`
+
+| `+true  <=> x+`
+| `x`
+
+| `+x     <=> true+`
+| `x`
+
+| `+false <=> x+`
+| `not x`
+
+| `+x     <=> false+`
+| `not x`
+|===
+
+The following is a complete list of the boolean unary operators that are
+simplified (with `x` and `y` two arbitrary expressions):
+
+[cols=2*,options="header"]
+|===
+| Original
+| Simplified
+
+| `not not x`
+| `x`
+
+| `not(x < y)`
+| `x >= y`
+
+| `+not(x <= y)+`
+| `x >  y`
+
+| `not(x = y)`
+| `x != y`
+
+| `not(x != y)`
+| `x =  y`
+
+| `not(x > y)`
+| `x <= y`
+
+| `not(x >= y)`
+| `x <  y`
+
+| `+not(x => y)+`
+| `x and not y`
+|===
+
+Default values are removed in the following places:
+
+* Initialization predicates of components (including automata) and locations.
+
+* Marker predicates of components (including automata) and locations.
+
+* Invariants of components (including automata) and locations.
+
+* Guards of edges.
+
+* Guards of 'if' and 'elif' updates on edges.
+
+* Guards of 'if' and 'elif' expressions.
+
+Predicates that are trivially equal to the default value are removed. If a
+trivial value is found that is equal to the negation of the default value, the
+entire feature gets the non-default value. For instance, for guards on edges,
+`true`, `1 = 1`, etc, are removed as they are all trivially `true`
+(the default for guards). If however, `false`, `1 = 2`, `1 != 1`, or any
+other trivially `false` guards is found, all guards on that edge are removed,
+and a single `false` guard is added.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[simplify values,size considerations]
+
+=== Size considerations
+
+This transformation tries to simplify the specification, possibly reducing its
+size.
+
+All uses of constants lead to constant (sub-)expressions, and they are
+evaluated. This leads to constants being inlined. For constants with large
+literal values, this may significantly increase the size of the specification,
+especially if the constant is used more than once. For information on how to
+prevent this, see the <<tools-cif2cif-chapter-simplify-values-no-refs>> CIF to CIF
+transformation.
+
+indexterm:[simplify values,optimality]
+
+=== Optimality
+
+Not all simplifications that could potentially be performed are implemented in
+this transformation.

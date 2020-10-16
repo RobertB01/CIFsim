@@ -1,0 +1,1 @@
+Error: File "spec/expr/strings/slice-step-string.chi": Semantic error at line 15, column 24: Step expression must have int type (found "string").

@@ -1,0 +1,38 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    int i;
+    bool b;
+    real r;
+    string s;
+    timer t;
+    list real lr = [1.0, 2.0, 3.0];
+    set real sr;
+    matrix(1, 3) m;
+
+    t = timer(r);
+    r = real(t);
+
+    b = bool("true");
+    i = int("1");
+    r = real("12");
+
+    s = string(b);
+    s = string(i);
+    s = string(r);
+
+    r = real(i);
+
+    m = matrix(1,3,lr);
+    sr = set(lr);
+end

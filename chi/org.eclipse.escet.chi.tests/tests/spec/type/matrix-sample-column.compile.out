@@ -1,0 +1,1 @@
+Error: File "spec/type/matrix-sample-column.chi": Semantic error at line 15, column 15: It is not allowed to sample distributions here.

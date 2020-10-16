@@ -1,0 +1,62 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// 'Normal' automata.
+event e;
+
+automaton p:
+  disc int x = 0;
+
+  location:
+    initial;
+    urgent;
+    edge e when x < 2 do x := x + 1;
+end
+
+automaton q:
+  disc int x = 0;
+
+  location:
+    initial;
+    urgent;
+    edge e when x < 4 do x := x + 1;
+end
+
+// 'Simple' automata.
+event f;
+
+automaton r:
+  location l1:
+    initial;
+    edge f goto l2;
+
+  location l2;
+end
+
+automaton s:
+  location l1:
+    initial;
+    edge f goto l2;
+
+  location l2:
+    edge f goto l3;
+
+  location l3;
+end
+
+// No delay.
+automaton t:
+  location:
+    initial;
+    urgent;
+end

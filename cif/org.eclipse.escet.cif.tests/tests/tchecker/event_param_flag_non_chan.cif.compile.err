@@ -1,0 +1,4 @@
+ERROR: File "tchecker/event_param_flag_non_chan.cif": Semantic error at line 15, column 24: Illegal flag: event parameter "B.p" is not a channel (has no data type).
+ERROR: File "tchecker/event_param_flag_non_chan.cif": Semantic error at line 16, column 24: Illegal flag: event parameter "C.p" is not a channel (has no data type).
+ERROR: File "tchecker/event_param_flag_non_chan.cif": Semantic error at line 17, column 24: Illegal flag: event parameter "D.p" is not a channel (has no data type).
+ERROR: Failed to load CIF file "tchecker/event_param_flag_non_chan.cif": the file has errors.

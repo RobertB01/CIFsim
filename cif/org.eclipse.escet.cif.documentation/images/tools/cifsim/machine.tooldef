@@ -1,0 +1,21 @@
+from "lib:cif" import *;
+
+cifsim("machine.cif --compile-only=on");
+
+rmfile("out.txt", force=true);
+
+for x in range(1000):
+    string args = "machine.cifcode -i auto -a first -t 100 -o print";
+    cifsim(args, stdout="out.txt", appendOut=true);
+end
+
+double minimum = 9999;
+double maximum = -9999;
+for line in readlines("out.txt"):
+    double value = <double>line;
+    minimum = min(minimum, value);
+    maximum = max(maximum, value);
+end
+
+outln("Minimum: %.2f", minimum);
+outln("Maximum: %.2f", maximum);

@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// No derivative.
+cont x;
+invariant x > 0;
+
+// Incomplete derivatives.
+automaton p:
+  cont x;
+  invariant x > 0;
+
+  location l1:
+    initial;
+    equation x' = 1.0;
+
+  location l2:
+    initial;
+
+  location l3:
+    initial;
+    equation x' = 1.0;
+
+  location l4:
+    initial;
+    equation x' = 1.0;
+
+  location l5:
+    initial;
+end

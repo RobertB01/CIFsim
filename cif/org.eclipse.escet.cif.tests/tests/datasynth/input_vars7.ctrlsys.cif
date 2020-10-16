@@ -1,0 +1,19 @@
+group io:
+  input bool sensor;
+end
+plant automaton p:
+  disc bool b = io.sensor;
+  uncontrollable u_ok;
+  location test:
+    initial;
+    edge u_ok when b goto done;
+  location done:
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  initial io.sensor;
+  location:
+    initial;
+    marked;
+end

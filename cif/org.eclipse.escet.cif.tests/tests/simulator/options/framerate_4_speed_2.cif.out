@@ -1,0 +1,68 @@
+Initial state: time=0.0, aut=*, aut.t1=0.0, aut.t2=0.0
+
+Transition: delaying for 1.8 time units at time 0.0
+Frame: time=0.5, aut=*, aut.t1=0.5, aut.t2=0.5
+Frame: time=1.0, aut=*, aut.t1=1.0000000000000002, aut.t2=1.0000000000000002
+Frame: time=1.5, aut=*, aut.t1=1.5000000000000004, aut.t2=1.5000000000000004
+State: time=1.8, aut=*, aut.t1=1.8000000000000003, aut.t2=1.8000000000000003
+
+Transition: event tau
+State: time=1.8, aut=*, aut.t1=0.0, aut.t2=1.8000000000000003
+
+Transition: delaying for 1.800000000000001 time units at time 1.8
+Frame: time=2.0, aut=*, aut.t1=0.19999999999999984, aut.t2=2.0
+Frame: time=2.5, aut=*, aut.t1=0.6999999999999998, aut.t2=2.5
+Frame: time=3.0, aut=*, aut.t1=1.2, aut.t2=3.0
+Frame: time=3.5, aut=*, aut.t1=1.7000000000000002, aut.t2=3.5
+State: time=3.600000000000001, aut=*, aut.t1=1.800000000000001, aut.t2=3.6000000000000005
+
+Possible transitions:
+  #1: event tau
+  #2: event tau
+
+Transition: event tau
+State: time=3.600000000000001, aut=*, aut.t1=0.0, aut.t2=3.6000000000000005
+
+Transition: event tau
+State: time=3.600000000000001, aut=*, aut.t1=0.0, aut.t2=0.0
+
+Transition: delaying for 1.800000000000002 time units at time 3.600000000000001
+Frame: time=4.0, aut=*, aut.t1=0.3999999999999987, aut.t2=0.3999999999999987
+Frame: time=4.5, aut=*, aut.t1=0.8999999999999988, aut.t2=0.8999999999999988
+Frame: time=5.0, aut=*, aut.t1=1.399999999999999, aut.t2=1.399999999999999
+State: time=5.400000000000003, aut=*, aut.t1=1.8000000000000023, aut.t2=1.8000000000000023
+
+Transition: event tau
+State: time=5.400000000000003, aut=*, aut.t1=0.0, aut.t2=1.8000000000000023
+
+Transition: delaying for 1.799999999999998 time units at time 5.400000000000003
+Frame: time=5.5, aut=*, aut.t1=0.09999999999999662, aut.t2=1.8999999999999988
+Frame: time=6.0, aut=*, aut.t1=0.5999999999999969, aut.t2=2.399999999999999
+Frame: time=6.5, aut=*, aut.t1=1.099999999999997, aut.t2=2.8999999999999995
+Frame: time=7.0, aut=*, aut.t1=1.5999999999999972, aut.t2=3.3999999999999995
+State: time=7.200000000000001, aut=*, aut.t1=1.7999999999999978, aut.t2=3.6
+
+Transition: event tau
+State: time=7.200000000000001, aut=*, aut.t1=1.7999999999999978, aut.t2=0.0
+
+Transition: delaying for 4.440892098500626E-15 time units at time 7.200000000000001
+State: time=7.2000000000000055, aut=*, aut.t1=1.8000000000000023, aut.t2=4.440892098500626e-15
+
+Transition: event tau
+State: time=7.2000000000000055, aut=*, aut.t1=0.0, aut.t2=4.440892098500626e-15
+
+Transition: delaying for 1.7999999999999998 time units at time 7.2000000000000055
+Frame: time=7.5, aut=*, aut.t1=0.2999999999999946, aut.t2=0.29999999999999905
+Frame: time=8.0, aut=*, aut.t1=0.7999999999999948, aut.t2=0.7999999999999993
+Frame: time=8.5, aut=*, aut.t1=1.299999999999995, aut.t2=1.2999999999999994
+Frame: time=9.0, aut=*, aut.t1=1.7999999999999952, aut.t2=1.7999999999999996
+State: time=9.000000000000005, aut=*, aut.t1=1.8000000000000005, aut.t2=1.800000000000005
+
+Transition: event tau
+State: time=9.000000000000005, aut=*, aut.t1=0.0, aut.t2=1.800000000000005
+
+Transition: delaying for 0.9999999999999947 time units at time 9.000000000000005
+Frame: time=9.5, aut=*, aut.t1=0.49999999999999445, aut.t2=2.2999999999999994
+State: time=10.0, aut=*, aut.t1=0.9999999999999947, aut.t2=2.7999999999999994
+
+Simulation ended due to reaching the user-provided simulation end time.

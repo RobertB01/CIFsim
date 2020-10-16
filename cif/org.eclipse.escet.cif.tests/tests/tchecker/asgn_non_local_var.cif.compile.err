@@ -1,0 +1,3 @@
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 21, column 16: Cannot assign variable "g.x1", as it is not declared in automaton "g.p".
+ERROR: File "tchecker/asgn_non_local_var.cif": Semantic error at line 21, column 20: Cannot assign variable "g.x2", as it is not declared in automaton "g.p".
+ERROR: Failed to load CIF file "tchecker/asgn_non_local_var.cif": the file has errors.

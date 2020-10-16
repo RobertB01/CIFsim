@@ -1,0 +1,1 @@
+Error: File "spec/statements/while-list.chi": Semantic error at line 14, column 16: Boolean type expected (found "list int").

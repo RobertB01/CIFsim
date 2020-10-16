@@ -1,0 +1,5 @@
+Initial state: time=0.0, a=*
+
+SVG output ("../../tchecker/small.svg") id "box" attr "x" (SVG attr): "6"
+
+Simulation resulted in deadlock.

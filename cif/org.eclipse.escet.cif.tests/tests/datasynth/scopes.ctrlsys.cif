@@ -1,0 +1,28 @@
+controllable c1;
+group g:
+  controllable c2;
+  plant automaton p:
+    controllable c3;
+    disc int[2..4] x;
+    location:
+      initial;
+      marked;
+      edge c1, c2, c3 do x := x + 1;
+  end
+end
+plant automaton p:
+  disc int[1..5] x;
+  location:
+    initial;
+    marked;
+    edge c1, g.c2 do x := 1;
+end
+supervisor automaton sup:
+  alphabet c1, g.c2, g.p.c3;
+  location:
+    initial;
+    marked;
+    edge c1 when g.p.x != 4;
+    edge g.c2 when g.p.x != 4;
+    edge g.p.c3 when g.p.x = 2 and p.x = 1 or g.p.x = 3 and p.x = 1;
+end

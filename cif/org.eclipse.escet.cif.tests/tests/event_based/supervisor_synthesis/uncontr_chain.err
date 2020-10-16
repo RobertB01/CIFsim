@@ -1,0 +1,2 @@
+WARNING: File "event_based/supervisor_synthesis/uncontr_chain.cif": Semantic warning at line 35, column 12: The alphabet of automaton "r" globally disables event "u", as the event is not used on any of the edges of the automaton.
+WARNING: Location "p.p4" is a marked deadlock location.

@@ -1,0 +1,7 @@
+ERROR: File "tchecker/svg_attr_unsupported.cif": Semantic error at line 16, column 22: Changing the "id" attribute of an SVG element is not supported.
+ERROR: File "tchecker/svg_attr_unsupported.cif": Semantic error at line 17, column 22: Changing the "id" attribute of an SVG element is not supported.
+ERROR: File "tchecker/svg_attr_unsupported.cif": Semantic error at line 18, column 22: Changing the "style" attribute of an SVG element is not supported.
+ERROR: File "tchecker/svg_attr_unsupported.cif": Semantic error at line 19, column 22: Changing the "style" attribute of an SVG element is not supported.
+WARNING: File "tchecker/svg_attr_unsupported.cif": Semantic warning at line 17, column 22: The SVG element with id "box" in SVG file "small.svg" has name "rect", which according to the SVG 1.1 standard does not have a "ID" attribute.
+WARNING: File "tchecker/svg_attr_unsupported.cif": Semantic warning at line 19, column 22: The SVG element with id "box" in SVG file "small.svg" has name "rect", which according to the SVG 1.1 standard does not have a "stYle" attribute.
+ERROR: Failed to load CIF file "tchecker/svg_attr_unsupported.cif": the file has errors.

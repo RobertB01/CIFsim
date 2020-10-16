@@ -1,0 +1,55 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group def Q():
+  enum e = A, B;
+  type t1 = bool;
+  type t2 = e;
+  invariant A = B;
+end
+
+q1: Q();
+q2: Q();
+
+automaton def P(Q qq1, qq2):
+  disc qq1.e v1;
+  disc qq2.e v2;
+  disc qq1.t1 w1;
+  disc qq2.t1 w2;
+  disc qq1.t2 x1;
+  disc qq2.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end
+
+p11: P(q1, q1);
+p12: P(q1, q2);
+p21: P(q2, q1);
+p22: P(q2, q2);
+
+automaton aut:
+  disc q1.e v1;
+  disc q2.e v2;
+  disc q1.t1 w1;
+  disc q2.t1 w2;
+  disc q1.t2 x1;
+  disc q2.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end

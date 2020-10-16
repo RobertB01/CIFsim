@@ -1,0 +1,2 @@
+ERROR: File "tchecker/svg_copy_root.cif": Semantic error at line 16, column 1: Copying the SVG element with id "root" in SVG file "small.svg" is not supported, as the element is the root element of the SVG file.
+ERROR: Failed to load CIF file "tchecker/svg_copy_root.cif": the file has errors.

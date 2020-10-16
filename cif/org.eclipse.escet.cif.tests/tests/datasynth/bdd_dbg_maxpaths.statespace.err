@@ -1,0 +1,1 @@
+WARNING: File "datasynth/bdd_dbg_maxpaths.ctrlsys.real.cif": Semantic warning at line 2, column 21: Discrete variable "p.x" is not used anywhere in the specification.

@@ -1,0 +1,347 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.abs;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.ceil;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.contains;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.del;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.delidx;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.empty;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.endswith;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.entries;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.enumerate;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.floor;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.fmtToolDef as $fmt;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.indexof;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.join;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.keys;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.lastindexof;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.ln;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.log;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.lower;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.ltrim;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.max;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.min;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.pow;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.range;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.replace;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.reverse;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.round;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.rtrim;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.size;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.sorted;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.split;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.sqrt;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.startswith;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.str;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.strdup;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.subset;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.trim;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.upper;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInDataTools.values;
+
+tool int _abs(int x):
+    return $abs(x);
+end
+
+tool long _abs(long x):
+    return $abs(x);
+end
+
+tool double _abs(double x):
+    return $abs(x);
+end
+
+tool long _ceil(double x):
+    return $ceil(x);
+end
+
+tool bool _contains(string whole, string part):
+    return $contains(whole, part);
+end
+
+tool bool _contains<T>(list T $list, T elem):
+    return $contains($list, elem);
+end
+
+tool bool _contains<T>(set T $set, T elem):
+    return $contains($set, elem);
+end
+
+tool bool _contains<K,V>(map(K:V) $map, K key):
+    return $contains($map, key);
+end
+
+tool list T _del<T>(list T $list, T elem):
+    return <list T>$del($list, elem);
+end
+
+tool set T _del<T>(set T $set, T elem):
+    return <set T>$del($set, elem);
+end
+
+tool map(K:V) _del<K,V>(map(K:V) $map, K key):
+    return <map(K:V)>$del($map, key);
+end
+
+tool list T _delidx<T>(list T $list, int index):
+    return <list T>$delidx($list, index);
+end
+
+tool bool _empty(string x):
+    return $empty(x);
+end
+
+tool bool _empty<T>(list T x):
+    return $empty(x);
+end
+
+tool bool _empty<T>(set T x):
+    return $empty(x);
+end
+
+tool bool _empty<K,V>(map(K:V) x):
+    return $empty(x);
+end
+
+tool bool _endswith(string whole, string suffix):
+    return $endswith(whole, suffix);
+end
+
+tool list tuple(K, V) _entries<K,V>(map(K:V) $map):
+    return <list tuple(K, V)>$entries($map);
+end
+
+tool list tuple(int, T) _enumerate<T>(list T $list):
+    return <list tuple(int, T)>$enumerate($list);
+end
+
+tool long _floor(double x):
+    return $floor(x);
+end
+
+tool string _fmt(string pattern, object?... args):
+    return <string>$fmt(pattern, args=args);
+end
+
+tool int _indexof(string whole, string part):
+    return $indexof(whole, part);
+end
+
+tool int _indexof(string whole, string part, int offset):
+    return $indexof(whole, part, offset);
+end
+
+tool int _indexof<T>(list T $list, T elem):
+    return $indexof($list, elem);
+end
+
+tool int _indexof<T>(list T $list, T elem, int offset):
+    return $indexof($list, elem, offset);
+end
+
+tool string _join(string... texts):
+    return <string>$join(texts);
+end
+
+tool string _join(list string texts):
+    return <string>$join(texts);
+end
+
+tool string _join(list string texts, string separator):
+    return <string>$join(texts, separator);
+end
+
+tool set K _keys<K,V>(map(K:V) $map):
+    return <set K>$keys($map);
+end
+
+tool int _lastindexof(string whole, string part):
+    return $lastindexof(whole, part);
+end
+
+tool int _lastindexof(string whole, string part, int offset):
+    return $lastindexof(whole, part, offset);
+end
+
+tool int _lastindexof<T>(list T $list, T elem):
+    return $lastindexof($list, elem);
+end
+
+tool int _lastindexof<T>(list T $list, T elem, int offset):
+    return $lastindexof($list, elem, offset);
+end
+
+tool double _ln(double x):
+    return $ln(x);
+end
+
+tool double _log(double x):
+    return $log(x);
+end
+
+tool string _lower(string text):
+    return <string>$lower(text);
+end
+
+tool string _ltrim(string text):
+    return <string>$ltrim(text);
+end
+
+tool int _max(int... x):
+    return $max(x=x);
+end
+
+tool long _max(long... x):
+    return $max(x=x);
+end
+
+tool double _max(double... x):
+    return $max(x=x);
+end
+
+tool int _max(list int x):
+    return $max(x=x);
+end
+
+tool long _max(list long x):
+    return $max(x=x);
+end
+
+tool double _max(list double x):
+    return $max(x=x);
+end
+
+tool int _min(int... x):
+    return $min(x=x);
+end
+
+tool long _min(long... x):
+    return $min(x=x);
+end
+
+tool double _min(double... x):
+    return $min(x=x);
+end
+
+tool int _min(list int x):
+    return $min(x=x);
+end
+
+tool long _min(list long x):
+    return $min(x=x);
+end
+
+tool double _min(list double x):
+    return $min(x=x);
+end
+
+tool double _pow(double base, double exponent):
+    return $pow(base, exponent);
+end
+
+tool list int _range(int count):
+    return <list int>$range(count);
+end
+
+tool list int _range(int begin, int $end):
+    return <list int>$range(begin, $end);
+end
+
+tool list int _range<T>(list T $list):
+    return <list int>$range($list);
+end
+
+tool string _replace(string text, string oldtext, string newtext):
+    return <string>$replace(text, oldtext, newtext);
+end
+
+tool list T _replace<T>(list T $list, T oldelem, T newelem):
+    return <list T>$replace($list, oldelem, newelem);
+end
+
+tool string _reverse(string text):
+    return <string>$reverse(text);
+end
+
+tool list T _reverse<T>(list T $list):
+    return <list T>$reverse($list);
+end
+
+tool long _round(double x):
+    return $round(x);
+end
+
+tool string _rtrim(string text):
+    return <string>$rtrim(text);
+end
+
+tool int _size(string x):
+    return $size(x);
+end
+
+tool int _size<T>(list T x):
+    return $size(x);
+end
+
+tool int _size<T>(set T x):
+    return $size(x);
+end
+
+tool int _size<K,V>(map(K:V) x):
+    return $size(x);
+end
+
+tool list T _sorted<T>(list T $list):
+    return <list T>$sorted($list);
+end
+
+tool list T _sorted<T>(set T $set):
+    return <list T>$sorted($set);
+end
+
+tool list string _split(string text, string? separator = null, bool removeEmpty = true):
+    return <list string>$split(text, separator, removeEmpty);
+end
+
+tool double _sqrt(double x):
+    return $sqrt(x);
+end
+
+tool bool _startswith(string whole, string prefix):
+    return $startswith(whole, prefix);
+end
+
+tool string _str(object? value):
+    return <string>$str(value);
+end
+
+tool string _strdup(string text, int count):
+    return <string>$strdup(text, count);
+end
+
+tool bool _subset<T>(set T part, set T whole):
+    return $subset(part, whole);
+end
+
+tool string _trim(string text):
+    return <string>$trim(text);
+end
+
+tool string _upper(string text):
+    return <string>$upper(text);
+end
+
+tool set V _values<K,V>(map(K:V) $map):
+    return <set V>$values($map);
+end

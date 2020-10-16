@@ -1,0 +1,15 @@
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 17, column 7: Function "g.f1" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 21, column 5: Function "g.f2" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 21, column 5: The "break" statement may only be used inside "while" statements.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 25, column 5: Function "g.f3" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 25, column 5: The "continue" statement may only be used inside "while" statements.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 29, column 5: Function "g.f4" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 35, column 5: Function "g.f5" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 45, column 9: Function "g.f6" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 58, column 9: Function "g.f7" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 71, column 9: Function "g.f8" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 78, column 9: Function "g.f9" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 80, column 9: Function "g.f9" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 82, column 9: Function "g.f9" does not end with a return statement.
+ERROR: File "tchecker/func_not_end_return.cif": Semantic error at line 88, column 5: Function "g.f10" does not end with a return statement.
+ERROR: Failed to load CIF file "tchecker/func_not_end_return.cif": the file has errors.

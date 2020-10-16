@@ -1,0 +1,6 @@
+Nonconflicting check FAILS in file "event_based/nonconflicting_check/odd_even.cif".
+
+Found 3 conflicts:
+  state "A.s1", "B.s1"
+  state "A.s2", "B.s2"
+  state "A.s1", "B.s3"

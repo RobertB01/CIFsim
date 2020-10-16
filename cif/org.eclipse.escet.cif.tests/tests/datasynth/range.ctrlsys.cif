@@ -1,0 +1,18 @@
+plant automaton buffer:
+  controllable add;
+  controllable remove;
+  disc int[0..5] x = 2;
+  location:
+    initial;
+    marked;
+    edge add do x := x + 1;
+    edge remove do x := x - 1;
+end
+supervisor automaton sup:
+  alphabet buffer.add, buffer.remove;
+  location:
+    initial;
+    marked;
+    edge buffer.add when buffer.x != 5;
+    edge buffer.remove when buffer.x != 0;
+end

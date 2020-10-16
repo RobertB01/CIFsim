@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/hooks_decl_missing1.setext": Semantic error at line 1, column 1: The specification is missing a hooks class.
+ERROR: Failed to load SeText file "models_invalid/hooks_decl_missing1.setext": the file has errors.

@@ -1,0 +1,14 @@
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 14, column 5: Cannot use the exit statement in a process or model without exit type.
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 18, column 5: Cannot use the exit statement in a process or model without exit type.
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 22, column 5: Cannot use the exit statement in a process or model without exit type.
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 30, column 5: Type of returned data does not match with the exit type (returned "bool", exit type "void").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 34, column 5: Type of returned data does not match with the exit type (returned "tuple(int, int)", exit type "void").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 38, column 5: Type of returned data does not match with the exit type (returned "void", exit type "tuple(int, int)").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 42, column 5: Type of returned data does not match with the exit type (returned "bool", exit type "tuple(int, int)").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 50, column 5: Cannot use the exit statement in a process or model without exit type.
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 54, column 5: Cannot use the exit statement in a process or model without exit type.
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 58, column 5: Cannot use the exit statement in a process or model without exit type.
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 66, column 5: Type of returned data does not match with the exit type (returned "bool", exit type "void").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 70, column 5: Type of returned data does not match with the exit type (returned "tuple(int, int)", exit type "void").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 74, column 5: Type of returned data does not match with the exit type (returned "void", exit type "tuple(int, int)").
+Error: File "spec/exit/exit_value_checks.chi": Semantic error at line 78, column 5: Type of returned data does not match with the exit type (returned "bool", exit type "tuple(int, int)").

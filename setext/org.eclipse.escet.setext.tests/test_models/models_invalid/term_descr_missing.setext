@@ -1,0 +1,35 @@
+// ------------------------------------------------------------------------------
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+// ------------------------------------------------------------------------------
+
+@scanner SomeClass;
+
+@shortcut z1 = "a";
+@shortcut z2 = "aa?";
+
+@terminals:
+  T01 = "a";        // Single graphical character.
+  T02 = "\.";       // Single escaped graphical character.
+  T03 = "aa";       // Sequence of graphical characters.
+  T04 = "a b";      // Sequence of graphical characters.
+  T05 = "{z1}";     // Single graphical character, via shortcut.
+
+  T06 = "a|a";      // Alternative.
+  T07 = "";       // Single non-graphical character (U+007F).
+  T08 = "[a]";      // Character class with single character.
+  T09 = "[a-a]";    // Character class with single character sequence.
+  T10 = ".";        // Dot special character.
+  T11 = "aa?";      // Optional part.
+  T12 = "a+";       // Plus part.
+  T13 = "aa*";      // Star part.
+  T14 = "{z2}";     // Optional part, via shortcut.
+  @eof;
+end

@@ -1,0 +1,195 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-chapter-history]]
+== State history
+
+indexterm:[CIF simulator,history]
+indexterm:[CIF simulator,undo]
+indexterm:[CIF simulator,reset]
+
+The CIF simulator can be used to explore the
+<<tools-cifsim-traces-state-space,state space>> of a CIF model. It is
+possible to see step by step, what is possible, and choose some transitions.
+Sometimes, after exploring a bit, you may want to go back a bit, to explore
+some alternative behavior. Obviously, you can terminate the simulation, and
+start a new one. There are several downsides to this. First, you have to start
+from the initial state again, while you may want to only go back a few states,
+and continue from there. Second, restarting the simulator may take some time,
+especially for large models. Third, if you use several visualizations, you may
+have to layout them again, to be able to see all of them.
+
+[[tools-cifsim-input-history-reset-undo]]
+To make it easier to explore alternatives, the simulator supports resetting the
+simulation to the initial state, as well as undoing a certain number of
+transitions. This page explains that functionality in more detail.
+
+[[tools-cifsim-input-history-enable]]
+=== Enabling history
+
+The _History_ option (_Input_ category) can be used to enable or disable
+history. By default history is enabled. Using the option, it can be disabled.
+Disabling history disables both the reset and the undo functionality, which
+ensures no time or memory is consumed in keeping track of earlier states.
+
+If history is enabled, it only has an effect if an interactive input mode is
+used. Other (automatic) input modes will never perform a reset or undo. That
+is, the simulator will not keep track of any history states, unless an
+interactive (either fully interactive or
+<<tools-cifsim-input-chapter-semi-automatic,semi-automatic>>) input mode is
+used, and history is enabled via the _History_ option.
+
+
+=== State stack
+
+In order for the simulator to be able to go back to earlier states, it will
+need to remember those states. To that end, the simulator can store states that
+it has encountered in a state stack. The initial state is remembered
+separately. So, initially, the following is remembered:
+
+image::{tools-imgsdir}/cifsim/input/history_0.png[]
+
+Here, state `0` is the initial state. After two transitions are taken, the
+following is remembered:
+
+image::{tools-imgsdir}/cifsim/input/history_012.png[]
+
+Here, two more states, numbered `1` and `2` are remembered. After one more
+transitions is taken, the following is remembered:
+
+image::{tools-imgsdir}/cifsim/input/history_0123.png[]
+
+Here, one more state, numbered `3`, is remembered. In each case, the last
+shown state is the current state. If we undo two transitions, the following is
+remembered:
+
+image::{tools-imgsdir}/cifsim/input/history_01.png[]
+
+As two transitions are undone, their resulting states (the last two states) are
+forgotten. If we take one more transition after the undo, we get the following:
+
+image::{tools-imgsdir}/cifsim/input/history_012.png[]
+
+This state `2` may be the same one as before, or it may be a new one, if a
+different simulation choice was made. If we reset the simulation, we forget all
+but the initial state, and end with up:
+
+image::{tools-imgsdir}/cifsim/input/history_0.png[]
+
+[[tools-cifsim-input-history-size]]
+=== Stack size
+
+For long simulations, a lot of states will need to be remembered. Each state
+that needs to be remembered costs some amount of memory. To limit the amount
+of states that are remembered, the _History size_ option (_Input_ category)
+can be used.
+
+If set to infinite, there is no limit to the amount of states that can be
+remembered. If set to a finite (non-negative) number, at most the given number
+of states are remembered, apart from the initial state. So, if set to zero,
+only the initial state is remembered. If set to one, one additional state is
+remembered, etc. The default history size is `100` states. Since if set to
+zero, only the initial state is remembered, this completely disables undo
+functionality.
+
+By introducing a maximum number of states that can be remembered, this also
+introduces a maximum number of transitions that can be undone. Let's consider a
+history size of `3`. After three transitions, the following is remembered:
+
+image::{tools-imgsdir}/cifsim/input/history_0123.png[]
+
+State `3` is the current state. It is possible to undo one, two, or three
+transitions, going back to states `2`, `1`, and `0`, respectively. Now
+consider what happens when we take another transition. We already remember
+three states besides the initial state, and have thus reached the maximum
+number of states to remember. By remembering the new target state of the fourth
+transition, we need to let go of state `1`, as it is the oldest remembered
+state, not taking into account the initial state. After this fourth transition,
+the following is remembered:
+
+image::{tools-imgsdir}/cifsim/input/history_0234.png[]
+
+State `4` is the current state. We can undo one transition, to go back to
+state `3`. We can also undo two transitions, to go back to state `2`.
+However, as we forgot all about state `1`, we can't undo three transitions.
+Due to the _gap_ between states `0` and `2`, we can't undo past state
+`2`. As you can see from this example, for a history size of 3, we can undo
+at most 3 transitions when there is no gap, and at most 2 transitions when
+there is a gap.
+
+
+=== Availability
+
+If history is disabled, reset is not available. If history is enabled, reset
+is available only if the current state is not the initial state. That is, reset
+is enabled for every state, except for the initial state.
+
+If history is disabled, or the history size is zero, undo is not available. If
+history is enabled, and the history size is positive or infinite, undo is
+available. The number of transitions that can be undone depends on the number
+of states that is remembered. If `n` states are currently remembered,
+excluding the initial state, then `n - 1` transitions can be undone, at the
+least. If there is no gap, and the current state is not the initial state, then
+`n` transitions can be undone.
+
+
+=== Requests
+
+Reset and undo are only supported by interactive input modes, as explained
+above.
+
+When the simulator interactively asks the user to choose between some possible
+transitions, it may also provide the possibility to reset the simulation to
+the initial state, or to undo some transitions. The details on how the
+different choices are presented, and how the choice can be made, are explained
+in the documentation for each of the interactive input modes.
+
+If no transitions are possible, for instance due to
+<<lang-tut-time-deadlock,deadlock>> or reaching the
+<<tools-cifsim-termination-endtime,end-user provided simulation end time>>,
+the simulator may interactively ask the
+user to choose between termination of the simulation, resetting the simulation
+to the initial state, or undoing some transitions. This choice is only
+presented if either reset or undo is enabled, as otherwise there is no choice
+to make. The details on how the different choices are presented, and how the
+choice can be made, are explained in the documentation for each of the
+interactive input modes.
+
+
+=== Semi-automatic mode
+
+By using <<tools-cifsim-input-chapter-semi-automatic,semi-automatic>> mode, a
+purely interactive input mode, can be made semi-automatic. This can lead to
+unexpected results, in combination with reset and undo.
+
+Consider a situation where four transitions have been taken. The first
+transition was manually chosen, as was the third. The second and fourth
+transition were automatically chosen. The user is asked to interactively choose
+the fifth transition. Consider what happens if the user chooses to undo three
+transitions. The simulator goes back to the state reached after the first
+transition. The possible transitions are the same as the first time they were
+calculated. An automatic choice was made for the second transition, so one will
+also be made the second time around. So, after the second transition is once
+again automatically chosen, the user is interactively asked to choose the third
+transition. So, instead of undoing three transitions and getting a choice for
+the second transition, three transitions are undone, a second transition is
+automatically chosen, and the user is asked to choose for the third transition.
+
+Similarly, undoing the fourth transition, will result in a fourth transition
+being automatically chosen again. If the same choice is made as before, undoing
+the fourth transition has no effect.
+
+Resetting the simulation to the initial state, will not lead to the user being
+able to choose the transition to take from the initial state, if the first
+transition is automatically chosen.

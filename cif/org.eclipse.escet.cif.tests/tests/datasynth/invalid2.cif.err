@@ -1,0 +1,18 @@
+ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
+ - Unsupported assignment: unsupported part "(p1.w + 1) mod -3" of assignment "p1.w := (p1.w + 1) mod -3": "(p1.w + 1) mod -3" performs division/modulus by a negative value, which is not supported.
+ - Unsupported assignment: unsupported part "(p1.w + 1) mod zero" of assignment "p1.w := (p1.w + 1) mod zero": "(p1.w + 1) mod zero" always results in division by zero.
+ - Unsupported assignment: unsupported part "p1.w - 1" of assignment "p1.w := (p1.w - 1) mod 10": value is too complex to be statically evaluated.
+ - Unsupported assignment: unsupported part "p1.w div -2" of assignment "p1.w := p1.w div -2": "p1.w div -2" performs division/modulus by a negative value, which is not supported.
+ - Unsupported assignment: unsupported part "p1.w div zero" of assignment "p1.w := p1.w div zero": "p1.w div zero" always results in division by zero.
+ - Unsupported assignment: unsupported part "p1.w mod -3" of assignment "p1.w := p1.w mod -3": "p1.w mod -3" performs division/modulus by a negative value, which is not supported.
+ - Unsupported assignment: unsupported part "p1.w mod zero" of assignment "p1.w := p1.w mod zero": "p1.w mod zero" always results in division by zero.
+ - Unsupported assignment: unsupported part "p2.x * 2" of assignment "p2.x := p2.x * 2": value is too complex to be statically evaluated.
+ - Unsupported linearized guard: unsupported part "-1" of guard(s) "p4.y = -1": value "-1" is unsupported, as it is negative.
+ - Unsupported linearized guard: unsupported part "[true][0]" of guard(s) "true and [true][0]": predicate is not supported.
+ - Unsupported location of automaton "p3": unsupported part "[true][0]" of marker predicate(s) "true and [true][0]": predicate is not supported.
+ - Unsupported update: assignments to continuous variables are not supported.
+ - Unsupported update: conditional updates ('if' updates) are not supported.
+ - Unsupported update: multi-assignments are not supported.
+ - Unsupported update: partial variable assignments are not supported.
+ - Unsupported variable "p1.v2": variables of type "tuple(int a; int b)" are not supported.
+ - Unsupported variable "p4.x": variables with integer type ranges that include negative values are not supported.

@@ -1,0 +1,4 @@
+ERROR: File "tchecker/print_when_non_bool.cif": Semantic error at line 14, column 16: Print declaration "when post" filter must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/print_when_non_bool.cif": Semantic error at line 15, column 20: Print declaration "when pre" filter must be of type "bool", but is of type "int[6..6]".
+ERROR: File "tchecker/print_when_non_bool.cif": Semantic error at line 16, column 21: Print declaration "when post" filter must be of type "bool", but is of type "int[7..7]".
+ERROR: Failed to load CIF file "tchecker/print_when_non_bool.cif": the file has errors.

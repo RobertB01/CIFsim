@@ -1,0 +1,3 @@
+ERROR: File "tchecker/proj_index_type.cif": Semantic error at line 14, column 21: Can't project a value of type "tuple(int[1..1]; int[2..2])", with an index value of type "bool", as an index value of type "int" (or a field name) is expected.
+ERROR: File "tchecker/proj_index_type.cif": Semantic error at line 15, column 20: Can't project a value of type "dict(int[1..1]:int[2..2])", with an index value of type "bool", as an index value of type "int[1..1]" is expected.
+ERROR: Failed to load CIF file "tchecker/proj_index_type.cif": the file has errors.

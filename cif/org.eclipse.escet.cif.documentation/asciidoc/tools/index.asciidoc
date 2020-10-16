@@ -1,0 +1,73 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tools-chapter-index]]
+== Tools
+
+Below you can find information about the individual applications of the CIF toolset.
+
+indexterm:[tools,overview]
+
+*Applications*
+
+The CIF toolset consists of applications that cover a wide range of
+functionality. The available applications are listed below, categorized by the
+different phases of the development process.
+
+_Specification_
+
+* <<tools-chapter-text-editor>>
+* <<tools-chapter-cif2yed>>
+
+_Supervisory controller synthesis_
+
+* <<tools-chapter-datasynth>>
+* <<tools-eventbased-chapter-index>>
+* <<tools-chapter-cif2supremica>>
+
+_Simulation, validation, and visualization_
+
+* <<tools-cifsim-chapter-index>>
+
+_Verification_
+
+* <<tools-chapter-cif2mcrl2>>
+* <<tools-chapter-cif2uppaal>>
+
+_Real-time testing, code generation, and implementation_
+
+* <<tools-codegen-chapter-index>>
+* <<tools-cif2plc-chapter-index>>
+
+_Miscellaneous_
+
+* <<tools-cif2cif-chapter-index>>
+* <<tools-chapter-mergecif>>
+* <<tools-chapter-event-disabler>>
+* <<tools-chapter-cif-explorer>>
+
+indexterm:[scripting]
+indexterm:[tools,scripting]
+
+*Scripting*
+
+The CIF tools can be used on the command line, as well as in the
+Eclipse IDE. They can also be used in ToolDef scripts. The following additional
+information is available on scripting related to CIF and ToolDef scripts:
+// Removed the previously present link to documentation about 'command line'.
+// Removed the previously present link to documentation about 'Eclipse IDE'.
+// Removed the previously present link to documentation about 'ToolDef'.
+
+* <<tools-scripting-chapter-intro>>
+* <<tools-scripting-chapter-tools>>

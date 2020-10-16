@@ -1,0 +1,125 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+initial p.x > 0;                        // Initial in spec.
+invariant p.y > 0;                      // Invariant in spec.
+
+group g:
+  initial p.x > 1;                      // Initial in group.
+  invariant p.y > 1;                    // Invariant in group.
+end
+
+plant p:
+  disc int x in any;                    // Discrete variable any init value.
+  disc int y in {1, 2};                 // Discrete variable multi init value.
+
+  initial x > 2;                        // Initial in automaton.
+  plant invariant y > 2;                // Invariant in automaton.
+
+  location a:
+    initial;
+    plant invariant x > 3;              // Invariant in location.
+    urgent;                             // Urgent location.
+    edge when true goto b;
+
+  location b:
+    //initial sqrt(-1.0) > 0;           // Evaluation failure. (can't test, simplify already fails)
+    edge now goto b;                    // Urgent edge.
+end
+
+func int f1(int b): "java:A.b";         // External user-defined function.
+
+func int f2():
+  while false:
+    continue;
+  end
+  return 1;
+end
+
+plant p2:                               // No initial location.
+  location;
+end
+
+plant p3:                               // Multiple initial locations.
+  location a:
+    initial;
+  location b:
+    initial;
+end
+
+plant q:
+  disc string v1 = "a";
+  disc dict(int:bool) v2 = {1:true};    // Dict type/value.
+  disc dist bool v3 = constant(true);   // Dist type, 'constant' stdlib func.
+  disc func int(int) v4 = f1;           // Func type/value.
+  disc list int v5 = [1];               // Non-array list type.
+  disc set int v6 = {1};                // Set type/value.
+
+  disc list[2] int v7 in any;           // Multi init value.
+
+  disc int i;
+  cont r der 1.0;
+
+  location:
+    initial;
+end
+
+invariant size(q.v1) + size(q.v2) > 0;  // 'size' stdlib func. (str ok, dict not)
+invariant size(q.v5) + size(q.v6) > 0;  // 'size' stdlib func.
+invariant (sample q.v3)[0];             // 'sample' unary operator.
+invariant q.v4(1) > 0;
+invariant size(q.v7) > 0;
+
+invariant empty(q.v6 or q.v6);          // 'empty' stdlib func, disj on sets.
+invariant empty(q.v6 and q.v6);         // 'empty' stdlib func, conj on sets.
+invariant q.v5 = q.v5;                  // Equality on non-array lists.
+invariant q.v6 != q.v6;                 // Inequality on sets.
+invariant empty(q.v5 + [1]);            // 'empty' stdlib, addition on non-array lists.
+invariant empty(q.v6 - {1});            // 'empty' stdlib, subtraction on sets.
+invariant 1 in q.v6;                    // element test.
+invariant {1} sub q.v6;                 // subset.
+invariant q.v5[:][0] > 0;               // Projection/slicing on non-array list.
+
+invariant del(q.v7, 0)[0] > 0;          // 'del' stdlib funcs, list.
+invariant pop(q.v5)[0] > 0;             // 'pop' stdlib func, non-array list, proj non-array list.
+invariant acosh(q.r) > 0;               // 'acosh' stdlib func.
+invariant asinh(q.r) > 0;               // 'asinh' stdlib func.
+invariant atanh(q.r) > 0;               // 'atanh' stdlib func.
+invariant cosh(q.r) > 0;                // 'cosh' stdlib func.
+invariant sinh(q.r) > 0;                // 'sinh' stdlib func.
+invariant tanh(q.r) > 0;                // 'tanh' stdlib func.
+
+invariant [f2][q.i]() > 0;              // func call non simple.
+
+event e;
+
+invariant e needs p.x > 1;              // State/event exclusion invariant.
+invariant p.x > 1 disables e;           // State/event exclusion invariant.
+
+group g2:
+  invariant e needs p.x > 1;            // State/event exclusion invariant.
+  invariant p.x > 1 disables e;         // State/event exclusion invariant.
+
+  automaton aut:
+    invariant e needs p.x > 1;          // State/event exclusion invariant.
+    invariant p.x > 1 disables e;       // State/event exclusion invariant.
+
+    location:
+      initial;
+      invariant e needs p.x > 1;        // State/event exclusion invariant.
+      invariant p.x > 1 disables e;     // State/event exclusion invariant.
+  end
+end
+
+print pre  "a" when post time > 1;       // Print pre text post when.
+print post "a" when pre  time > 2;       // Print post text pre when.

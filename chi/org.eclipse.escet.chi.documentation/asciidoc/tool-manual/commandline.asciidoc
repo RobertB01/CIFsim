@@ -1,0 +1,84 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tool-chapter-command-line]]
+== Command line options
+
+When you run the Chi software from the command line, the interactive dialog
+as shown in <<tool-chapter-software-operation>> is not shown (at least not by
+default), and everything has to be specified at the command line instead.
+
+The Chi simulator software takes one input file, which is a filename
+with `.chi` extension, or a filename with `.cchi` extension.
+
+Below is a list of the available options of such a command line. Most of them
+are for advanced uses only, and not of interest to most users.
+
+
+=== Simulator options
+
+* `--instance=<instance>`, `-i <instance>`
++
+Instantiate the model of the file as given by instance.
+Default is instantiation of a model without parameters.
+
+=== General application options
+
+* `--help, -h`
++
+Prints the help text of the application to the console.
+
+* `--option-dialog=<bool>`
++
+Whether to show the option dialog after the command line options have
+been processed. Default is `off`.
+
+* `--output-mode=<outmode>`, `-m <outmode>`
++
+The output mode. Specify `error` for errors only; `warning` for errors
+and warnings only; `normal` (default) for errors, warnings, and normal
+output; or `debug` for errors, warnings, normal, and debug output.
+
+* `--show-license`
++
+Prints the license text of the application to the console.
+
+* `--devmode=<bool>`
++
+Whether exceptional situations return limited user friendly information
+(`--devmode=off`), or extended developer oriented information
+(`--devmode=on`).
+Default is user friendly information.
+
+=== Compiler options
+
+* `--emf=<bool>`, `-e <bool>`
++
+Whether or not to write the generated EMF model after type checking
+(default is `off`).
+
+* `--directory=<dir>`, `-d <dir>`
++
+Output directory for generated Java files. Output is not written when the
+option is empty or not provided.
+
+* `--java-compile=<bool>`, `-c <bool>`
++
+Whether or not to perform compilation of the generated Java code (default
+is `on`).
+
+* `--jar=<bool>`, `-j <bool>`
++
+Whether or not to write the compiled Java simulator classes (default is
+`off`).

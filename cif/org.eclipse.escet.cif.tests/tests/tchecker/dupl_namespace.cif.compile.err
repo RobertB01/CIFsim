@@ -1,0 +1,4 @@
+ERROR: File "tchecker/dupl_namespace.cif": Semantic error at line 14, column 1: Duplicate namespace definition in a single file.
+ERROR: File "tchecker/dupl_namespace.cif": Semantic error at line 15, column 1: Duplicate namespace definition in a single file.
+ERROR: File "tchecker/dupl_namespace.cif": Semantic error at line 16, column 1: Duplicate namespace definition in a single file.
+ERROR: Failed to load CIF file "tchecker/dupl_namespace.cif": the file has errors.

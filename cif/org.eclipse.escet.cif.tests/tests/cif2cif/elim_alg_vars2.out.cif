@@ -1,0 +1,21 @@
+automaton a:
+  location:
+    initial;
+end
+automaton b1:
+  location:
+    initial;
+end
+automaton b2:
+  location:
+    initial;
+end
+invariant <string>a = "a";
+invariant <string>a = "b";
+invariant <string>true = "c";
+invariant <string>b1 = "a";
+invariant <string>b1 = "b";
+invariant <string>true = "c";
+invariant <string>b2 = "a";
+invariant <string>b1 = "b";
+invariant <string>true = "c";

@@ -1,0 +1,12 @@
+controllable powerup;
+controllable shutdown;
+automaton dfa:
+  alphabet powerup, shutdown;
+  location s1:
+    initial;
+    edge powerup goto s2;
+  location s2:
+    edge shutdown goto s3;
+  location s3:
+    edge powerup goto s2;
+end

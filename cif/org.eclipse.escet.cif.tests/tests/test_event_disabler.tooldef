@@ -1,0 +1,124 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cifevtdis;
+
+// Configuration.
+string test_path = "event_disabler";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1"];
+map(string:list string) test_options = {
+    "event_disabler/aut_rename.cif":                       ["-e event_disabler"],
+    "event_disabler/controllability.cif":                  ["-udisable -e e,e_e,c,c_c,u,u_u,g.a.e,g.a.e_e,g.a.c,g.a.c_c,g.a.u,g.a.u_u"],
+    "event_disabler/empty.cif":                            ["-f empty.txt"],
+    "event_disabler/event_is_comp.cif":                    ["-e a.b.c,a.b"],
+    "event_disabler/event_is_decl.cif":                    ["-i1 -e a.b"],
+    "event_disabler/invalid_event_name.cif":               ["-e a.%b.c"],
+    "event_disabler/opt_event_names.cif":                  ["-e \" a a b , c, d.e ,\""],
+    "event_disabler/opt_event_names_file.cif":             ["-f event_disabler/opt_event_names_file.events"],
+    "event_disabler/opt_event_names_multiple_options.cif": ["-e name1,name2,g.name3,all -f event_disabler/opt_event_names_multiple_options.events -s1"],
+    "event_disabler/opt_event_names_none.cif":             [""],
+    "event_disabler/opt_event_svgin.cif":                  ["-s1"],
+    "event_disabler/parent_aut.cif":                       ["-i1 -e g.a.b.c"],
+    "event_disabler/parent_decl.cif":                      ["-e a.b,a.b.c"],
+    "event_disabler/unsupported_comp_def.cif":             ["-e a"],
+    "event_disabler/usage_alphabet_incl_input.cif":        ["-ualphabet -i1 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
+    "event_disabler/usage_alphabet_no_input.cif":          ["-ualphabet -i0 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
+    "event_disabler/usage_disable_incl_input.cif":         ["-udisable -i1 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
+    "event_disabler/usage_disable_no_input.cif":           ["-udisable -i0 -e is,ns,new,g.is,g.ns,g.new,g.a.is,g.a.ns,g.a.new"],
+};
+set string test_skip = {
+   "event_disabler/opt_event_names_file_not_exist.cif", //"-f event_disabler/does_not_exist.events") -> test case disabled: contains absolute path
+};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(tests[i], ".disabled.cif"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, newext="out");
+    string test_err_exp  = chfileext(test, newext="err");
+    string test_out_real = chfileext(test, newext="out.real");
+    string test_err_real = chfileext(test, newext="err.real");
+
+    string rslt_exp  = chfileext(test, oldext="cif", newext="disabled.cif");
+    string rslt_real = chfileext(test, oldext="cif", newext="disabled.cif.real");
+
+    // Execute.
+    options = options + ["-o", rslt_real];
+    cifevtdis([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool rslt_diff   = diff(rslt_exp, rslt_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff:: rmfile(test_err_real);
+    if not stdout_diff:: rmfile(test_out_real);
+    if not rslt_diff::   if exists(rslt_real):: rmfile(rslt_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff:: diff_count = diff_count + 1;
+    if stdout_diff:: diff_count = diff_count + 1;
+    if rslt_diff::   diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

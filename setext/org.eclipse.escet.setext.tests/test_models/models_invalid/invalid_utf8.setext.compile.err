@@ -1,0 +1,1 @@
+ERROR: File "models_invalid/invalid_utf8.setext": Scanning failed for character "�" (Unicode U+FFFD) at line 15, column 12.

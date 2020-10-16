@@ -1,0 +1,262 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cifsim;
+
+// Configuration.
+string test_path = "simulator";
+string test_pattern = "*.cif";
+list string default_options = [
+    "--devmode=1",
+    "-i auto",
+    "-a first",
+    "-t 10",
+    "--complete=on",
+    "--test-mode=on",
+    "--debug=svg",
+    "--extfunc-async=no",
+    "--java-compiler=jdk",
+];
+map(string:list string) test_options = {
+    "simulator/distributions/immutable1.cif":                        ["--distributions-seed=123"],
+    "simulator/distributions/immutable2.cif":                        ["--distributions-seed=123 --complete=off"],
+    "simulator/distributions/runtime_err_bernoulli_chance_high.cif": ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_bernoulli_chance_low.cif":  ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_beta_a_low.cif":            ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_beta_b_low.cif":            ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_binomial_chance_high.cif":  ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_binomial_chance_low.cif":   ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_binomial_nr_low.cif":       ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_erlang_scale_low.cif":      ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_erlang_shape_low.cif":      ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_exponential_scale_low.cif": ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_gamma_scale_low.cif":       ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_gamma_shape_low.cif":       ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_geometric_chance_high.cif": ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_geometric_chance_low.cif":  ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_lognormal_overflow.cif":    ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_lognormal_var_low.cif":     ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_normal_var_low.cif":        ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_poisson_rate_low.cif":      ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_triangle_left_mid.cif":     ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_triangle_mid_right.cif":    ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_uniform_int.cif":           ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_uniform_real.cif":          ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_weibull_scale_low.cif":     ["--distributions-seed=123"],
+    "simulator/distributions/runtime_err_weibull_shape_low.cif":     ["--distributions-seed=123"],
+    "simulator/distributions/sampling.cif":                          ["--distributions-seed=123"],
+    "simulator/distributions/seed123.cif":                           ["--distributions-seed=123"],
+    "simulator/distributions/seed124.cif":                           ["--distributions-seed=124"],
+    "simulator/examples/fluid.cif":                                  ["--distributions-seed=374052563"],
+    "simulator/init/init_consistency.cif":                           ["--init=p.x:true"],
+    "simulator/init/init_match.cif":                                 ["--init=p0.x:0 --init=p1.x:4 --init=p2.x:2 --init=p3.x:3 --init=q0:l0 --init=q1:l1 --init=q2:l0"],
+    "simulator/init/init_opt_dupl_init_aut.cif":                     ["--init=a:b --init=a:b"],
+    "simulator/init/init_opt_dupl_init_disc_var.cif":                ["--init=a.x:1 --init=a.x:1"],
+    "simulator/init/init_opt_lhs_not_found.cif":                     ["--init=g.x:3"],
+    "simulator/init/init_opt_loc_not_found.cif":                     ["--init=a:c"],
+    "simulator/init/init_opt_no_colon.cif":                          ["--init=no_colon"],
+    "simulator/init/init_opt_var_type_unsup.cif":                    ["--init=a.x:[]"],
+    "simulator/init/init_opt_var_value_err1.cif":                    ["--init=a.x:[true]"],
+    "simulator/init/init_opt_var_value_err2.cif":                    ["--init=aut.x:[(a,c)]"],
+    "simulator/init/init_order.cif":                                 ["--init=a5.v:3"],
+    "simulator/init/no_init_aut2.cif":                               ["--init=p:l1"],
+    "simulator/init/no_init_aut3.cif":                               ["--init=p:l1"],
+    "simulator/init/no_init_combi.cif":                              ["--init=p.x:2"],
+    "simulator/init/no_init_disc_var2.cif":                          ["--init=p.x:3"],
+    "simulator/init/no_init_disc_var3.cif":                          ["--init=p.x:3"],
+    "simulator/init/no_init_disc_var4.cif":                          ["--init=p.x:3"],
+    "simulator/ode/stiff.cif":                                       ["-t0.001 --solver-int-minstep=1e-6 --solver-int-atol=1e-6 --solver-int-rtol=1e-6 --trajdata=on --debug=ode"],
+    "simulator/ode/tank_controlled.cif":                             ["--trajdata=on --debug=ode"],
+    "simulator/ode/time_in_guard.cif":                               ["--debug=ode"],
+    "simulator/ode/timed_guard_interval_and_default.cif":            ["-t1 --debug=ode"],
+    "simulator/ode/timed_guard_interval_and_maxchk.cif":             ["-t1 --solver-root-maxchk=0.0005 --debug=ode"],
+    "simulator/ode/timed_guard_interval_comma.cif":                  ["-t1 --debug=ode"],
+    "simulator/options/automode_first.cif":                          ["-afirst"],
+    "simulator/options/automode_last.cif":                           ["-alast"],
+    "simulator/options/automode_random0.cif":                        ["-arandom:0"],
+    "simulator/options/autotime_max.cif":                            ["--auto-time=max --max-delay=3"],
+    "simulator/options/autotime_random2_0.cif":                      ["--auto-time=random:2:0 --max-delay=3"],
+    "simulator/options/autotime_random5_0.cif":                      ["--auto-time=random:5:0 --max-delay=3"],
+    "simulator/options/complete_off.cif":                            ["--complete=off"],
+    "simulator/options/complete_on.cif":                             ["--complete=on"],
+    "simulator/options/endtime_20.cif":                              ["-t20"],
+    "simulator/options/endtime_inf.cif":                             ["-tinf"],
+    "simulator/options/env_events.cif":                              ["-alast --env-events=a.e"],
+    "simulator/options/env_events_filter_no_effect.cif":             ["--svg=0 --env-events=e1,e2,e1,svg,e4,e*"],
+    "simulator/options/env_events_random_random.cif":                ["--env-events=* -arandom:123 --auto-time=random:5.67:456"],
+    "simulator/options/env_events_svg.cif":                          ["--svg=0 --env-events=svg"],
+    "simulator/options/env_events_svg_nonexist.cif":                 ["--env-events=e1,svg,e2"],
+    "simulator/options/env_events_tau_nonexist.cif":                 ["--env-events=tau,not_exist"],
+    "simulator/options/framerate_4_speed_2.cif":                     [" --frame-rate=4 --speed=2 -o +state-intermediate,-state-derivs"],
+    "simulator/options/framerate_4_speed_05.cif":                    [" --frame-rate=4 --speed=0.5 -o +state-intermediate,-state-derivs"],
+    "simulator/options/int_adams_bashforth.cif":                     ["--solver-int-algo=adams-bashforth"],
+    "simulator/options/int_adams_moulton.cif":                       ["--solver-int-algo=adams-moulton"],
+    "simulator/options/int_atol_rtol.cif":                           ["--solver-int-atol=1e-3 --solver-int-rtol=1e-3"],
+    "simulator/options/int_dormand_prince_54.cif":                   ["--solver-int-algo=dormand-prince-54"],
+    "simulator/options/int_dormand_prince_853.cif":                  ["--solver-int-algo=dormand-prince-853"],
+    "simulator/options/int_gragg_bulirsch_stoer.cif":                ["--solver-int-algo=gragg-bulirsch-stoer"],
+    "simulator/options/int_higham_hall.cif":                         ["--solver-int-algo=higham-hall"],
+    "simulator/options/int_minstep_maxstep.cif":                     ["--trajdata=on --solver-int-minstep=1e-5 --solver-int-maxstep=0.2 --solver-root-atol=0.1 --solver-root-rtol=0.1"],
+    "simulator/options/interactive_auto_filter_no_effect.cif":       ["--history=off -i console --auto-choose=urgent,e1,e2,e3,e4,e*,tau -a first"],
+    "simulator/options/interactive_auto_single.cif":                 ["--history=off -i console --auto-choose=1 -a first"],
+    "simulator/options/interactive_auto_tau_nonexist.cif":           ["--history=off -i console --auto-choose=t*,non_exist -a first"],
+    "simulator/options/interactive_auto_time_event.cif":             ["--history=off -i console --auto-choose=time,timedur,p.e* -a first"],
+    "simulator/options/interactive_auto_urgent.cif":                 ["--history=off -i console --auto-choose=urgent --env-events=e1,e3 -a first"],
+    "simulator/options/interactive_auto_urgent_nonexist.cif":        ["--history=off -i console --auto-choose=urgent,e1 --env-events=* -a first"],
+    "simulator/options/max_delay_half.cif":                          ["--max-delay=0.5"],
+    "simulator/options/max_delay_zero.cif":                          ["--max-delay=0"],
+    "simulator/options/out_normal_deadlock.cif":                     ["-o state-deadlock"],
+    "simulator/options/out_normal_final.cif":                        ["-o state-final"],
+    "simulator/options/out_normal_init.cif":                         ["-o state-init"],
+    "simulator/options/out_normal_target.cif":                       ["-o state-target"],
+    "simulator/options/out_normal_no_alg.cif":                       ["-t3 --output=-state-alg-vars"],
+    "simulator/options/out_normal_no_deriv.cif":                     ["-t3 --output=-state-derivs"],
+    "simulator/options/out_normal_none.cif":                         ["--output="],
+    "simulator/options/out_normal_noseed.cif":                       ["--output=-seeds -arandom"],
+    "simulator/options/out_normal_simrslt.cif":                      ["-o sim-rslt"],
+    "simulator/options/out_normal_state_empty.cif":                  ["-t3 --output=state-init,state-target --output-state-filter=t1"],
+    "simulator/options/out_normal_state_filter.cif":                 ["-t3 --output=state-init,state-target,state-derivs,state-alg-vars --output-state-filter=x*,t1"],
+    "simulator/options/realtime_no_rt_out_comp.cif":                 ["--speed=1 --test-mode=0"],
+    "simulator/options/root_atol_rtol.cif":                          ["--trajdata=on --solver-root-maxchk=0.1 --solver-root-atol=1e-3 --solver-root-rtol=1e-3"],
+    "simulator/options/root_illinois.cif":                           ["--solver-root-algo=illinois --trajdata=on --solver-root-maxchk=0.1 --solver-root-atol=1e-8 --solver-root-rtol=1e-8"],
+    "simulator/options/root_max_iter5.cif":                          ["--solver-root-maxiter=5"],
+    "simulator/options/root_pegasus.cif":                            ["--solver-root-algo=pegasus --trajdata=on --solver-root-maxchk=0.1 --solver-root-atol=1e-8 --solver-root-rtol=1e-8"],
+    "simulator/options/root_regula_falsi.cif":                       ["--solver-root-algo=regula-falsi --trajdata=on --solver-root-maxchk=0.1 --solver-root-atol=1e-8 --solver-root-rtol=1e-8"],
+    "simulator/options/solver_out_step.cif":                         ["--trajdata=on --solver-outstep=0.5"],
+    "simulator/options/svg_input_no_svg_info.cif":                   ["-i svg"],
+    "simulator/options/svg_input_svgviz_disabled.cif":               ["-i svg --svg=no"],
+    "simulator/options/trajdata_filter_empty.cif":                   ["--trajdata=on --trajdata-filter="],
+    "simulator/options/trajdata_filter_invalid_syntax.cif":          ["--trajdata=on --trajdata-filter=a%,b*"],
+    "simulator/options/trajdata_filter_no_effect.cif":               ["--trajdata=on --trajdata-filter=time,-time,-t*,time --solver-outstep=2.5"],
+    "simulator/options/trajdata_filter_no_vars.cif":                 ["--trajdata=on --trajdata-filter=a*,-*"],
+    "simulator/options/trajdata_filter_not_state_obj.cif":           ["--trajdata=on --trajdata-filter=does_not_exist,time --solver-outstep=2.5"],
+    "simulator/options/trajdata_filter.cif":                         ["--trajdata=on --trajdata-filter=a*,-ab*,abc*,-abc\\' --solver-outstep=2.5"],
+    "simulator/options/trajdata_raw.cif":                            ["--trajdata=on --trajdata-sep=off"],
+    "simulator/options/trajdata_sep1.cif":                           ["--trajdata=on --trajdata-sep=1"],
+    "simulator/print/disabled.cif":                                  ["-o sim-rslt"],
+    "simulator/print/only_print_output.cif":                         ["-o print"],
+    "simulator/runtime_err/max_time_point_tol_exceeded.cif":         ["--max-time-point-tol=1 --frame-rate=10"],
+    "simulator/runtime_err_stack/err_stack_combi.cif":               ["-o state-init"],
+    "simulator/runtime_err_stack/err_stack_svg_outmap_attr.cif":     ["--frame-rate=4"],
+    "simulator/runtime_err_stack/err_stack_svg_outmap_txt.cif":      ["--frame-rate=4"],
+    "simulator/svgviz/option_disable_svg.cif":                       ["--svg=no"],
+    "simulator/svgviz/svg_input.cif":                                ["-i svg -a random:123"],
+    "simulator/trace/empty_trace.cif":                               ["-i trace"],
+    "simulator/trace/err_cmd_unknown.cif":                           ["-i trace"],
+    "simulator/trace/err_evt_no_name.cif":                           ["-i trace"],
+    "simulator/trace/err_evt_not_exist.cif":                         ["-i trace"],
+    "simulator/trace/err_opt_after_non_opt.cif":                     ["-i trace"],
+    "simulator/trace/err_opt_time_incomplete.cif":                   ["-i trace"],
+    "simulator/trace/err_opt_time_value_unknown.cif":                ["-i trace"],
+    "simulator/trace/err_opt_unknown.cif":                           ["-i trace"],
+    "simulator/trace/err_time_cmd_not_explicit.cif":                 ["-i trace"],
+    "simulator/trace/evt_deadlock.cif":                              ["-i trace"],
+    "simulator/trace/opt_strict_off_first.cif":                      ["-i trace -a first"],
+    "simulator/trace/opt_strict_off_last.cif":                       ["-i trace -a last"],
+    "simulator/trace/opt_strict_on.cif":                             ["-i trace"],
+    "simulator/trace/opt_time_explicit.cif":                         ["-i trace"],
+    "simulator/trace/opt_time_implicit.cif":                         ["-i trace"],
+    "simulator/trace/opt_time_off.cif":                              ["-i trace"],
+    "simulator/trace/time_cut_into_parts.cif":                       ["-i trace"],
+    "simulator/trace/time_dupl.cif":                                 ["-i trace"],
+};
+set string test_skip = {
+   "simulator/extfunc_java/invoke_exception.cif",      // test case disabled, output changes too often.
+   "simulator/extfunc_java/invoke_init_exception.cif", // test case disabled, output changes too often.
+   "simulator/extfunc_java/invoke_never_ends.cif",     // test case disabled, as it does not terminate.
+   "simulator/funcs_internal/funcs_infinite.cif",      // test case disabled, not deterministic/reproducible.
+   "simulator/print/print_to_dir.cif",                 // test case disabled, as stderr contains absolute paths.
+   "simulator/svgviz/svg_load_bridge_ex.cif",          // test case disabled, as stderr contains absolute paths.
+};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, newext="out");
+    string test_err_exp  = chfileext(test, newext="err");
+    string test_out_real = chfileext(test, newext="out.real");
+    string test_err_real = chfileext(test, newext="err.real");
+
+    string trajdata_exp  = chfileext(test, newext="trajdata.expected");
+    string trajdata_real = chfileext(test, newext="trajdata");
+    string txt_exp       = chfileext(test, newext="txt");
+    string txt_real      = chfileext(test, newext="txt.real");
+
+    // Execute.
+    cifsim([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr_diff   = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff   = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool trajdata_diff = diff(trajdata_exp, trajdata_real, missingAsEmpty=true, warnOnDiff=true);
+    bool txt_diff      = diff(txt_exp, txt_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff::   rmfile(test_err_real);
+    if not stdout_diff::   rmfile(test_out_real);
+    if not trajdata_diff:: if exists(trajdata_real):: rmfile(trajdata_real);
+    if not txt_diff::      if exists(txt_real):: rmfile(txt_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff::   diff_count = diff_count + 1;
+    if stdout_diff::   diff_count = diff_count + 1;
+    if trajdata_diff:: diff_count = diff_count + 1;
+    if txt_diff::      diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

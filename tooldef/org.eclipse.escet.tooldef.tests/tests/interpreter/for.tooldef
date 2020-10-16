@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+for x in <list int>[]:: outln("never printed");
+for x in [1, 2]:: outln("%s", x);
+for x in {1, 2, 3}:: outln("%s", x);
+for x in {1:2, 3:4}:: outln("%s", x);
+outln();
+
+tool t():
+    list int l = [7, 8, 9, 10, 11, 12, 13, 14];
+    for x in l:
+        if x > 11:: return;
+        out("%s ", x);
+        l = l + l;
+        x = x + 1;
+        outln("%s", x);
+    end
+end
+t();
+outln();
+
+for x           in {1:(2, 3), 4:(5, 6)}:: outln("%s", x);
+for x, y        in {1:(2, 3), 4:(5, 6)}:: outln("%s %s", x, y);
+for (x, y)      in {1:(2, 3), 4:(5, 6)}:: outln("%s %s", x, y);
+for x, (y, z)   in {1:(2, 3), 4:(5, 6)}:: outln("%s %s %s", x, y, z);
+for (x, (y, z)) in {1:(2, 3), 4:(5, 6)}:: outln("%s %s %s", x, y, z);
+outln();
+
+for x           in [(11, (22, 33)), (44, (55, 66))]:: outln("%s", x);
+for x, y        in [(11, (22, 33)), (44, (55, 66))]:: outln("%s %s", x, y);
+for (x, y)      in [(11, (22, 33)), (44, (55, 66))]:: outln("%s %s", x, y);
+for x, (y, z)   in [(11, (22, 33)), (44, (55, 66))]:: outln("%s %s %s", x, y, z);
+for (x, (y, z)) in [(11, (22, 33)), (44, (55, 66))]:: outln("%s %s %s", x, y, z);
+outln();

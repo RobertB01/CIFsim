@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Not in scope or at higher level.
+
+tool a():
+    t x;
+end
+
+while true:
+    t x;
+end
+
+// Not in 'via' scope.
+import "../empty.txt" as i;
+while true:
+    i.t x;
+end
+
+// Referring to value from outside tool inside a tool.
+int v = 5;
+tool b():
+    int y = v;
+end
+
+// Can't import non-importable object from imported script.
+import "stat_unreachable.tooldef" as imp;
+while true:
+    int y = imp.x;
+end
+
+// Not at top level.
+
+t x;

@@ -1,0 +1,6 @@
+plant automaton projected:
+  alphabet;
+  location s1:
+    initial;
+    marked;
+end

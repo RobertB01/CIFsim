@@ -1,0 +1,2824 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\citem}[1]{\item \textbf{#1}}
+
+% Package chi
+\newcommand{\pkgdocuchi}{
+Classes and attributes description of the EMF model of the discrete event Chi
+simulation language.
+}
+
+% ChiIdentifier (datatype)
+\newcommand{\dtypedocuChiIdentifier}{
+Not yet described.
+}
+
+% ChiNumber (datatype)
+\newcommand{\dtypedocuChiNumber}{
+Unsigned number literal value.
+}
+
+% ChiRealNumber (datatype)
+\newcommand{\dtypedocuChiRealNumber}{
+Non-negative real number literal value.
+}
+
+% BinaryOperators (enumeration)
+\newcommand{\enumdocuBinaryOperators}{
+Available binary operators in the expressions.
+Type constraints are listed in the
+\chiclass{BinaryExpression} class documentation.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsAddition}{
+Addition ($a+b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsConjunction}{
+Short circuit disjunction ($a\vee b$).
+
+Implementations must guarantee short circuit evaluation of this binary
+operator. Note that when manipulating expressions, the operands may only be
+swapped if the resulting expression evaluates to the same value as the
+original expression did, when using short circuit evaluation semantics for
+both the original and the resulting expression.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsDisjunction}{
+Short circuit disjunction ($a\vee b$).
+
+Implementations must guarantee short circuit evaluation of this binary
+operator. Note that when manipulating expressions, the operands may only be
+swapped if the resulting expression evaluates to the same value as the
+original expression did, when using short circuit evaluation semantics for
+both the original and the resulting expression.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsDivision}{
+(Real) division ($a / b$).
+
+Note that division by zero results in a run-time error.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsElementTest}{
+Element test on lists, sets, and dictionaries ($a\in b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsEqual}{
+Equality test ($a=b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsFloorDivision}{
+Floor division ($a \div b \equiv \left\lfloor a / b \right\rfloor$).
+Note that floor division is not the same as truncated division, and neither is
+it round-to-nearest integer division.
+
+\begin{tabular}{|l|l|l|l|} \hline
+$\boldsymbol{a}$ & $\boldsymbol{b}$
+                 & $\boldsymbol{a} \boldsymbol{\div} \boldsymbol{b}$
+                 & $\boldsymbol{a} \boldsymbol{\bmod} \boldsymbol{b}$ \\ \hline
+$7$   & $4$   & $1$   & $3$  \\
+$7$   & $-4$  & $-2$  & $-1$ \\
+$-7$  & $4$   & $-2$  & $1$  \\
+$-7$  & $-4$  & $1$   & $-3$ \\
+\hline\end{tabular}
+
+\medskip
+Note that division by zero results in a run-time error.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsGreaterEqual}{
+Greater or equal ($a\geq b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsGreaterThan}{
+Greater than ($a> b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsLessEqual}{
+Less or equal ($a\leq b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsLessThan}{
+Less than ($a<b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsMaximum}{
+Maximum operator ($a \max b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsMinimum}{
+Minimum operator ($a \min b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsModulus}{
+Modulus operator ($a \bmod b \equiv a - b\cdot(a \div b)$).
+
+Note that the following relation holds: $a = b\cdot(a \div b) + (a \bmod b)$.
+For examples, see the \chienumlit{BinaryOperators.FloorDivision} operator.
+
+Note that it is considered a run-time error if the second operand evaluates to
+zero.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsMultiplication}{
+Multiplication ($a \cdot b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsNotEqual}{
+Not-equal ($a \not= b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsPower}{
+Power operator ($a^b$).
+
+Note that it is considered a run-time error if one of the following conditions
+holds during evaluation:
+
+\begin{itemize}
+  \item the base ($a$) is zero, and the exponent ($b$) is negative
+  \item the base ($a$) is negative, and the exponent ($b$) is a non-integer
+    number
+\end{itemize}
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsProjection}{
+Projection operation, extracts a value from a container value.
+Meaning and precise semantics depend on the type of the container, see the
+\chiclass{BinaryExpression} class description for details.
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsSubset}{
+Subset test ($a\subseteq b$).
+}
+
+\newcommand{\enumlitdocuBinaryOperatorsSubtraction}{
+Subtraction operator ($a-b$).
+}
+
+% ChannelOps (enumeration)
+\newcommand{\enumdocuChannelOps}{
+Operations that may be performed on a channel data type.
+}
+
+\newcommand{\enumlitdocuChannelOpsReceive}{
+Only the receiving operation of a channel is allowed.
+}
+
+\newcommand{\enumlitdocuChannelOpsSend}{
+Only the sending operation of a channel is allowed.
+}
+
+\newcommand{\enumlitdocuChannelOpsSendReceive}{
+Both the sending and the receiving operations are allowed.
+This value means that the user explicitly stated allowance of both
+operations.
+}
+
+% StdLibFunctions (enumeration)
+\newcommand{\enumdocuStdLibFunctions}{
+Available standard library functions. Parameter and return types are listed in
+the \chiclass{StdLibFunctionReference} class documentation.
+
+\todo{Add a 'channel' function.}
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAbs}{
+Absolute value function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAcos}{
+Arc cosine function.
+
+Note that it is considered a run-time error if evaluation of the absolute
+value of the argument evaluates to a number larger than one.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAcosh}{
+Inverse hyperbolic cosine function.
+
+Note that it is considered a run-time error if evaluation of the value of the
+argument evaluates to a number less than one.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAsin}{
+Arc sine function.
+
+Note that it is considered a run-time error if evaluation of the absolute
+value of the argument evaluates to a number larger than one.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAsinh}{
+Inverse hyperbolic sine function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAtan}{
+Arc tangent function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsAtanh}{
+Inverse hyperbolic tangent function.
+
+Note that it is considered a run-time error if evaluation of the absolute
+value of the argument evaluates to a number greater than or equal to one.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsBernoulli}{
+Bernoulli distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsBeta}{
+Beta distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsBinomial}{
+Binomial distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsBoolString}{
+Convert boolean value to text.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsCbrt}{
+Cubic root function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsCeil}{
+Round up (towards $\infty$). In other words, it results in the smallest
+integer value that is not less than the argument.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsClose}{
+Close a file.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsConstant}{
+Constant distribution function (useful for debugging).
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsCos}{
+Cosine function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsCosh}{
+Hyperbolic cosine function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDictKeys}{
+Retrieve the keys of a dictionary.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDictValues}{
+Retrieve the values of a dictionary.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawBernoulli}{
+Compute a sample according to a Bernoulli distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawBeta}{
+Compute a sample according to a Beta distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawBinomial}{
+Compute a sample according to a Binomial distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawErlang}{
+Compute a sample according to a Erlang distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawExponential}{
+Compute a sample according to a Exponential distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawGamma}{
+Compute a sample according to a Gamma distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawGeometric}{
+Compute a sample according to a Geometric distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawLogNormal}{
+Compute a sample according to a LogNormal distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawNormal}{
+Compute a sample according to a Normal distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawPoisson}{
+Compute a sample according to a Poisson distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawRandom}{
+Compute a sample according to a Random distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawTriangle}{
+Compute a sample according to a Triangle distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawUniform}{
+Compute a sample according to a Uniform distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsDrawWeibull}{
+Compute a sample according to a Weibull distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsEmpty}{
+Tests whether its container argument is a empty. (Works for list, set, dictionary, and string.)
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsEnumerate}{
+Return a list of pairs, where the first value is an index number and the second
+value is a value from its container argument.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsErlang}{
+Erlang distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsExp}{
+Exponential function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsExponential}{
+Exponential distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsFinished}{
+Returns whether the process instance has finished already.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsFloor}{
+Round down (towards $-\infty$). In other words, it results in the largest
+integer value that does not exceed the argument.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsGamma}{
+Gamma distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsGeometric}{
+Geometric distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsInsert}{
+Insert a value in a sorted list.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsIntReal}{
+Convert integer number to real number.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsIntString}{
+Convert integer number to text.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsLength}{
+Length of list, set, dictionary, or string.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsLn}{
+Natural logarithmic function.
+
+Note that it is considered a run-time error if evaluation of the argument
+results in a non-positive number.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsLog}{
+Logarithmic (base 10) function.
+
+Note that it is considered a run-time error if evaluation of the argument
+results in a non-positive number.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsLogNormal}{
+LogNormal distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsMatrix}{
+Construct a matrix from a list.
+
+\todo{Is this a stdlib function?}
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsMax}{
+Take the maximum value of a list, dictionary, or set.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsMin}{
+Take the minimum value of a list, dictionary, or set.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsNormal}{
+Normal distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsOpen}{
+Open a file.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsPoisson}{
+Poisson distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsPop}{
+Extract a value from a container.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsRandom}{
+Core random (uniform from $[0, 1)$) distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsRange}{
+Construct a list with numbers in the given range.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsRealString}{
+Convert real number to text.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsRound}{
+Round to nearest integer value. If the value is exactly between two integer
+values, it is rounded up (towards $\infty$). The rounding of an argument $r$
+may be computed using the following expression:
+$\left\lfloor x + 0.5 \right\rfloor$.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSampleFunc}{
+Compute a sample of a distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSetSeed}{
+Set seed of a distribution.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSign}{
+Sign function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSin}{
+Sine function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSinh}{
+Hyperbolic sine function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSort}{
+Sort a list.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsSqrt}{
+Square root function.
+
+Note that it is considered a run-time error if evaluation of the argument
+results in a negative number.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsStringBool}{
+Convert string containing textual boolean value to boolean.
+
+Note that it is considered a run-time error if the argument is not an ASCII
+representation of a CIF boolean value (\emph{true} or \emph{false}).
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsStringInt}{
+Convert textual signed integer number to integer number.
+
+Note that it is considered a run-time error if the argument is not an ASCII
+representation of a CIF natural number (\chiclass{ChiNumber}), optionally
+prefixed with the ASCII representation of a negation
+(\chienumlit{UnaryOperators.Negate}).
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsStringReal}{
+Convert textual real value to a real number.
+
+Note that it is considered a run-time error if the argument is not an ASCII
+representation of a CIF real number (\chiclass{ChiRealNumber}), optionally
+prefixed with the ASCII representation of a negation
+(\chienumlit{UnaryOperators.Negate}).
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsTan}{
+Tangent function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsTanh}{
+Hyperbolic tangent function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsTimeout}{
+Test whether its timer argument has timed out.
+
+\todo{Add/replace with timer\_ready(timer)$\rightarrow$ bool, and
+time\_left(timer)$\rightarrow$real}
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsTriangle}{
+Triangle distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsUniform}{
+Uniform distribution function.
+}
+
+\newcommand{\enumlitdocuStdLibFunctionsWeibull}{
+Weibull distribution function.
+}
+
+% UnaryOperators (enumeration)
+\newcommand{\enumdocuUnaryOperators}{
+Expression operator with one child expression.
+}
+
+\newcommand{\enumlitdocuUnaryOperatorsInverse}{
+(Boolean) inverse operator ($\neg a$).
+}
+
+\newcommand{\enumlitdocuUnaryOperatorsNegate}{
+Negate operator ($-a$).
+}
+
+\newcommand{\enumlitdocuUnaryOperatorsPlus}{
+Unary plus operator (mostly for completeness only.
+}
+
+\newcommand{\enumlitdocuUnaryOperatorsSample}{
+Sample operator, draws a sample from a stochastic distribution.
+
+\todo{Decide where it may be used safely.}
+}
+
+% AssignmentStatement (class)
+\newcommand{\clsdocuAssignmentStatement}{
+Assigns values to variables.
+
+\begin{constraints}
+\citem{AssignmentStatement.type}
+    The type of the left-hand side and the type of the right-hand side must
+    be equal. Sequences of values are interpreted as record value.
+\citem{AssignmentStatement.count}
+    The number of addressed variables at the left-hand side must either be 1
+    (in which case the values at the right-hand side are packed in a tuple),
+    it must be equal to the number of values at the right-hand side (in which
+    case, a number of one-to-one assignments are performed simultaneously),
+    or the number of values at the right-hand side must be 1 (in which case
+    the right-hand side is unpacked to the variables at the left-hand side).
+\end{constraints}
+}
+
+
+\newcommand{\featdocuAssignmentStatementlhs}{
+Left-hand side of the assignment statement. The expression list must be
+addressable. See Section~\ref{sect:addressable-expressions} for the rules of
+addressable expressions.
+}
+
+\newcommand{\featdocuAssignmentStatementrhs}{
+Right-hand side of the assignment statement. A list of expressions is
+interpreted as a record of values.
+}
+
+% BaseFunctionReference (abstract class)
+\newcommand{\clsdocuBaseFunctionReference}{
+Base class for function references.
+}
+
+
+% BehaviourDeclaration (abstract class)
+\newcommand{\clsdocuBehaviourDeclaration}{
+Declaration with behaviour (a model, process, or function definition).
+}
+
+
+\newcommand{\featdocuBehaviourDeclarationstatements}{
+Body of statements of the definition.
+}
+
+\newcommand{\featdocuBehaviourDeclarationvariables}{
+Formal parameters and local variables of the definition. Both kinds of
+variables are read/write, as parameters are always call-by-value.
+}
+
+% BinaryExpression (class)
+\newcommand{\clsdocuBinaryExpression}{
+Binary operator in an expression.
+
+\begin{constraints}
+\citem{BinaryExpression.type}
+  The allowed types of the left hand side, the right hand side, and the result
+  depend on the operator.
+  The tables below list them for each possible operator.
+\end{constraints}
+
+\subsubsection{Addition operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{IntType}  \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{ListType} & \chiclass{ListType} & \chiclass{ListType} \\
+\chiclass{TupleType} & \chiclass{TupleType} & \chiclass{TupleType} \\
+\chiclass{StringType} & \chiclass{StringType} & \chiclass{StringType} \\
+\chiclass{SetType}  & \chiclass{SetType}  & \chiclass{SetType} \\
+\hline\end{tabular}
+
+\medskip
+For the lists, the element types of the left
+side, of the right side, and of the result are all the same.
+
+For records, the element types of the result are the element types of the left
+side followed by the element types of the right side, with all field names
+removed.
+
+For set union, the element types of all the set types must
+be the same. For union over dictionaries, the key types must all
+be the same and the value type must all be the same.
+
+\subsubsection{Conjunction operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{BoolType} & \chiclass{BoolType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\subsubsection{Disjunction operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{BoolType} & \chiclass{BoolType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\subsubsection{Division operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{RealType} \\
+\hline\end{tabular}
+
+\subsubsection{ElementTest operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+$t$  & \chiclass{ListType} & \chiclass{BoolType} \\
+$t$  & \chiclass{SetType}  & \chiclass{BoolType} \\
+$t$  & \chiclass{DictType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\medskip
+At the left side, any static type $t$ may be used. At the right side, for
+lists and sets, the element type must be the same type $t$.
+For element test on dictionaries, the \chiattr{DictType.keyType} must be
+the same type $t$.
+
+\subsubsection{Equal operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+$t$                 & $t$                 & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\medskip
+Any two values with same type $t$ can be compared with each other for
+equality.
+
+\subsubsection{FloorDivision operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{IntType}  \\
+\hline\end{tabular}
+
+\subsubsection{GreaterEqual operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{StringType} & \chiclass{StringType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+
+\subsubsection{GreaterThan operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{StringType} & \chiclass{StringType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+
+\subsubsection{LessEqual operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{StringType} & \chiclass{StringType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+
+\subsubsection{LessThan operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{BoolType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{BoolType} \\
+\chiclass{StringType} & \chiclass{StringType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+
+\subsubsection{Maximum operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}     & \chiclass{IntType}     & \chiclass{IntType} \\
+\chiclass{IntType}     & \chiclass{RealType}    & \chiclass{RealType} \\
+\chiclass{RealType}    & \chiclass{IntType}     & \chiclass{RealType} \\
+\chiclass{RealType}    & \chiclass{RealType}    & \chiclass{RealType} \\
+\chiclass{StringType}  & \chiclass{StringType}  & \chiclass{StringType} \\
+\hline\end{tabular}
+
+\subsubsection{Minimum operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}     & \chiclass{IntType}     & \chiclass{IntType} \\
+\chiclass{IntType}     & \chiclass{RealType}    & \chiclass{RealType} \\
+\chiclass{RealType}    & \chiclass{IntType}     & \chiclass{RealType} \\
+\chiclass{RealType}    & \chiclass{RealType}    & \chiclass{RealType} \\
+\chiclass{StringType}  & \chiclass{StringType}  & \chiclass{StringType} \\
+\hline\end{tabular}
+
+\subsubsection{Modulus operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{IntType}  \\
+\hline\end{tabular}
+
+\subsubsection{Multiplication operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{IntType}  \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{SetType}  & \chiclass{SetType}  & \chiclass{SetType} \\
+\chiclass{DictType} & \chiclass{DictType} & \chiclass{DictType} \\
+\hline\end{tabular}
+
+\subsubsection{NotEqual operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+$t$                 & $t$                 & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\medskip
+Any two values with same type $t$ can be compared with each other for
+unequality.
+
+\subsubsection{Power operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{RealType} \\
+\hline\end{tabular}
+
+\subsubsection{Projection operator}
+\begin{tabular}{|l|l|l|l|} \hline
+\textbf{Left type} & \textbf{Right type} & \textbf{Right class} &
+    \textbf{Result type} \\ \hline
+\chiclass{ListType}      & \chiclass{IntType}         & - & $t_l$ \\
+\chiclass{DictType}      & $t_k$                      & - & $t_v$ \\
+\chiclass{TupleType}    & - & \chiclass{FieldReference} & $t_i$ \\
+\chiclass{TupleType}    & \chiclass{IntType}        & - & $t_i$ \\
+\hline\end{tabular}
+
+\medskip
+For projection of lists, the result type $t_l$ is the
+same as the element type of the list.
+For dictionaries, the right hand side must have the same type $t_k$ as the key
+type of the dictionary expression, and the result type $t_v$ is the same type
+as the value type of the dictionary expression.
+For a record type, there are two cases. The first case is where the right hand
+side is a \chiclass{FieldReference}. In such a case, the referred field must
+match a field in the record type, and the result type of the projection is the
+type of the field addressed. The second case is where the right hand side has
+a \chiclass{IntType}. In such a case, the result type of the projection is the
+type of the field referred to by the right hand side expression, which is the
+zero-based projection index.
+
+\subsubsection{Subset operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{SetType}  & \chiclass{SetType}  & \chiclass{BoolType} \\
+\chiclass{DictType} & \chiclass{DictType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\medskip
+For the subset over sets, the element types of both set types must be the
+same. For subset over dictionaries, both key types must be the same and both
+value types must be the same.
+
+\subsubsection{Subtraction operator}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Left type}  & \textbf{Right type} & \textbf{Result type} \\ \hline
+\chiclass{IntType}  & \chiclass{IntType}  & \chiclass{IntType}  \\
+\chiclass{IntType}  & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{IntType}  & \chiclass{RealType} \\
+\chiclass{RealType} & \chiclass{RealType} & \chiclass{RealType} \\
+\chiclass{ListType} & \chiclass{ListType} & \chiclass{ListType} \\
+\chiclass{SetType}  & \chiclass{SetType}  & \chiclass{SetType} \\
+\chiclass{DictType} & \chiclass{DictType} & \chiclass{DictType} \\
+\hline\end{tabular}
+
+\medskip
+For subtraction over sets and lists, the element types of all the set types must
+be the same. For subtraction over dictionaries, the key types must all
+be the same and the value type must all be the same.
+}
+
+
+\newcommand{\featdocuBinaryExpressionleft}{
+Left-hand sub-expression of the binary expression.
+}
+
+\newcommand{\featdocuBinaryExpressionoperator}{
+Operator of the binary expression.
+}
+
+\newcommand{\featdocuBinaryExpressionright}{
+Right-hand sub-expression of the binary expression.
+}
+
+% BinaryOp (class)
+\newcommand{\clsdocuBinaryOp}{
+Extra class for attaching position information to a binary operator.
+}
+
+
+\newcommand{\featdocuBinaryOpop}{
+Binary operator value.
+}
+
+% BoolLiteral (class)
+\newcommand{\clsdocuBoolLiteral}{
+Boolean literal value.
+
+\begin{constraints}
+\citem{BoolLiteral.type}
+    The type of the boolean literal is a \chiclass{BoolType}.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuBoolLiteralvalue}{
+Value of the boolean literal.
+}
+
+% BoolType (class)
+\newcommand{\clsdocuBoolType}{
+Type denoting a boolean value.
+}
+
+
+% BreakStatement (class)
+\newcommand{\clsdocuBreakStatement}{
+The break statement aborts execution of the inner loop. Execution continues
+with the statement directly following the loop.
+
+\begin{constraints}
+\citem{BreakStatement.usage}
+    A break statement may only be used inside a for loop
+    (\chiattr{ForStatement.body}) or while loop (\chiattr{WhileStatement.body}).
+\end{constraints}
+}
+
+
+% CallExpression (class)
+\newcommand{\clsdocuCallExpression}{
+Expression denoting application of a function definition
+\chiclass{FunctionDeclaration} or instantiation of a process definition
+\chiclass{ProcessDeclaration}.
+}
+
+\newcommand{\featdocuCallExpressionarguments}{
+Expressions (one for each formal parameter of the function declaration or the
+process declaration) denoting the values of the parameters of the application.
+
+\begin{constraints}
+\citem{CallExpression.parameterCount}
+    The number of argument expressions must be equal to the number of formal
+    parameters of the function or process type of the
+    \chiattr{CallExpression.function} attribute.
+\citem{CallExpression.parameterTypes}
+    The type of each argument expression must be equal to the type of its
+    corresponding formal parameter of the function type or process type of
+    the \chiattr{CallExpression.function} attribute.
+\end{constraints}
+}
+
+\newcommand{\featdocuCallExpressionfunction}{
+Expression denoting the function to call or the process to instantiate.
+Often this is a \chiclass{FunctionReference} or a \chiclass{ProcessReference},
+but other forms are allowed too, for example a variable.
+
+\begin{constraints}
+\citem{CallExpression.funcType}
+    The type of the function expression must be a \chiclass{FunctionType} or
+    a \chiclass{ProcessType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuCallExpressionname}{
+Optional expression expressing the name of the process instance.
+
+\begin{constraints}
+\citem{CallExpression.nullName}
+    The name expression (\chiattr{CallExpression.name}) must be \texttt{null}
+    if \chiattr{CallExpression.type} is a function (\chiclass{FunctionType}.
+\citem{CallExpression.nameType}
+    If the attribute \chiattr{CallExpression.name} is not \texttt{null}, it
+    must be an expression of type \chiclass{StringType} or of type
+    \chiclass{IntType}.
+\end{constraints}
+}
+
+% ChannelExpression (class)
+\newcommand{\clsdocuChannelExpression}{
+Not yet described.
+}
+
+
+\newcommand{\featdocuChannelExpressionelementType}{
+Not yet described.
+}
+
+% ChannelOp (class)
+\newcommand{\clsdocuChannelOp}{
+Extra class to attach a position to the channel operations.
+}
+
+
+\newcommand{\featdocuChannelOpops}{
+Channel operations.
+}
+
+% ChannelType (class)
+\newcommand{\clsdocuChannelType}{
+Data type denoting a channel.
+}
+
+
+\newcommand{\featdocuChannelTypeelementType}{
+Data type of data communicated over the channel. The \chiclass{VoidType}
+means that no data is communicated (these are called `synchronization
+channels').
+}
+
+\newcommand{\featdocuChannelTypeoperations}{
+Allowed operations on the channel value.
+}
+
+% ChiObject (class)
+\newcommand{\clsdocuChiObject}{
+Base class for all classes with an optional position.
+}
+
+
+\newcommand{\featdocuChiObjectposition}{
+Position of the construct in the source file.
+}
+
+% CommunicationStatement (abstract class)
+\newcommand{\clsdocuCommunicationStatement}{
+Base class for communication (send and receive) actions.
+
+\begin{constraints}
+\citem{CommunicationStatement.notInFunction}
+    The communication statement may not be used in a function body
+    (\chiattr{FunctionDeclaration.statements}).
+\end{constraints}
+}
+
+
+\newcommand{\featdocuCommunicationStatementchannel}{
+Expression evaluating to the channel communicated on.
+
+\begin{constraints}
+\citem{CommunicationStatement.channelType}
+    The type of the \chiattr{CommunicationStatement.channel} expression must
+    be a channel type (\chiclass{ChannelType}).
+\end{constraints}
+}
+
+\newcommand{\featdocuCommunicationStatementdata}{
+For \chiclass{ReceiveStatement}, addressables that store the communicated data
+if the channel is not a synchronization channel (See
+Section~\ref{sect:addressable-expressions} for the constraints on addressable
+expressions).
+For \chiclass{SendStatement}, the expression evaluating to the value
+communicated over the channel (if not a synchronization channel).
+
+\begin{constraints}
+\citem{CommunicationStatement.synchronization}
+    If the channel element type is \chiclass{VoidType}, the data part must be
+    empty.
+\end{constraints}
+}
+
+% ConstantDeclaration (class)
+\newcommand{\clsdocuConstantDeclaration}{
+Declaration of a name for a constant value.
+
+\begin{constraints}
+\citem{ConstantDeclaration.type}
+    Type of the constant declaration must be equal to the type of the value.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuConstantDeclarationtype}{
+Data type of the value.
+}
+
+\newcommand{\featdocuConstantDeclarationvalue}{
+Expression denoting the value.
+
+\begin{constraints}
+\citem{ConstantDeclaration.constant}
+    Value of the expression may not change, it may only refer to literals,
+    operators, and other constant values.
+\citem{ConstantDeclaration.nocycle}
+    A constant value may not (indirectly) depend on itself.
+\end{constraints}
+}
+
+% ConstantReference (class)
+\newcommand{\clsdocuConstantReference}{
+Reference of a constant by its name in an expression.
+}
+
+
+\newcommand{\featdocuConstantReferenceconstant}{
+Referenced \chiclass{ConstantDeclaration} in the expression.
+
+\begin{constraints}
+\citem{ConstantReference.scope}
+    The name of the referenced constant should refer to the same declaration
+    in the current scope.
+\end{constraints}
+}
+
+% ContinueStatement (class)
+\newcommand{\clsdocuContinueStatement}{
+Abort execution of the body of the inner loop, and continue with the next
+iteration. For \chiclass{WhileStatement} loops, execution continues with
+evaluation of the while condition. For \chiclass{ForStatement} loops,
+execution continues with computing the next value of the iteration variables.
+
+\begin{constraints}
+\citem{ContinueStatement.usage}
+    A continue statement may only be used inside a for loop
+    (\chiattr{ForStatement.body}) or while loop (\chiattr{WhileStatement.body}).
+\end{constraints}
+}
+
+
+% CreateCase (abstract class)
+\newcommand{\clsdocuCreateCase}{
+One of the cases in a \textit{run} or \textit{start} statement.
+}
+
+
+% Declaration (abstract class)
+\newcommand{\clsdocuDeclaration}{
+Declaration at the global level of a Chi specification.
+}
+
+
+\newcommand{\featdocuDeclarationname}{
+Name of the declaration.
+
+\begin{constraints}
+\citem{Declaration.name}
+    Name of a declaration should be non-empty.
+\end{constraints}
+}
+
+% DelayStatement (class)
+\newcommand{\clsdocuDelayStatement}{
+Statement to pass some time.
+}
+
+
+\newcommand{\featdocuDelayStatementlength}{
+Expression denoting the length of the delay. Should be non-negative at
+run-time.
+
+\begin{constraints}
+\citem{DelayStatement.type}
+    Type of the length expression must be a \chiclass{RealType} or an
+    \chiclass{IntType}.
+\end{constraints}
+}
+
+% DictType (class)
+\newcommand{\clsdocuDictType}{
+Data type denoting a dictionary.
+}
+
+
+\newcommand{\featdocuDictTypekeyType}{
+Type of the keys of the dictionary type.
+
+\begin{constraints}
+\citem{DictType.keyType}
+    Type of the keys may not be \chiclass{VoidType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuDictTypevalueType}{
+Type of the values of the dictionary type.
+
+\begin{constraints}
+\citem{DictType.valueType}
+    Type of the values may not be \chiclass{VoidType}.
+\end{constraints}
+}
+
+% DictionaryExpression (class)
+\newcommand{\clsdocuDictionaryExpression}{
+Expression denoting a value with a dictionary type.
+
+\begin{constraints}
+\citem{DictionaryExpression.type}
+    Type of the expression must be \chiclass{DictionaryExpression}.
+\citem{DictionaryExpression.keyType}
+    Type of the key-part of each dictionary-pair must be the same as the
+    \chiattr{DictType.keyType} type.
+\citem{DictionaryExpression.valueType}
+    Type of the value-part of each dictionary-pair must be the same as the
+    \chiattr{DictType.valueType} type.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuDictionaryExpressionpairs}{
+Key/value pairs of the dictionary expression.
+
+\begin{constraints}
+\citem{DictType.keyValues}
+    Value of each pair must be unique.
+\end{constraints}
+}
+
+% DictionaryPair (class)
+\newcommand{\clsdocuDictionaryPair}{
+Key/value pair of a dictionary value.
+}
+
+
+\newcommand{\featdocuDictionaryPairkey}{
+Expression denoting the key of the pair.
+}
+
+\newcommand{\featdocuDictionaryPairvalue}{
+Expression denoting the value of the pair.
+}
+
+% DistributionType (class)
+\newcommand{\clsdocuDistributionType}{
+Data type denoting a distribution.
+}
+
+
+\newcommand{\featdocuDistributionTyperesultType}{
+Data type of sampled values of the distribution.
+}
+
+% EnumDeclaration (class)
+\newcommand{\clsdocuEnumDeclaration}{
+Not yet described.
+}
+
+
+\newcommand{\featdocuEnumDeclarationvalues}{
+Not yet described.
+}
+
+% EnumTypeReference (class)
+\newcommand{\clsdocuEnumTypeReference}{
+Not yet described.
+}
+
+
+\newcommand{\featdocuEnumTypeReferencetype}{
+Not yet described.
+}
+
+% EnumValue (class)
+\newcommand{\clsdocuEnumValue}{
+A value in an enumeration type.
+
+\begin{constraints}
+\citem{EnumValue.unique}
+    The name of each value must be unique globally, to ensure a proper mapping
+    of its values back to the correct enum type.
+\end{constraints}
+}
+
+
+% EnumValueReference (class)
+\newcommand{\clsdocuEnumValueReference}{
+Reference to the name of a enum type.
+
+\begin{constraints}
+\citem{EnumValueReference.type}
+    The data type of the reference is equal to the enum type to which the
+    referenced enum value belongs.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuEnumValueReferencevalue}{
+Reference to the referenced enum value.
+}
+
+% Expression (abstract class)
+\newcommand{\clsdocuExpression}{
+Object denoting a value.
+}
+
+
+\newcommand{\featdocuExpressiontype}{
+Type of the expression.
+
+\begin{constraints}
+\citem{Expression.notNull}
+    In type-checked models, \chiattr{Expression.type} is never \texttt{null}.
+\citem{Expression.noVoid}
+    Type of an expression is never \chiclass{VoidType}.
+\end{constraints}
+}
+
+% FieldReference (class)
+\newcommand{\clsdocuFieldReference}{
+Reference expression the field of a record.
+
+\begin{constraints}
+\citem{FieldReference.type}
+    Type of the field reference is equal to the type of the referenced field.
+\citem{FieldReference.visible}
+    The field must be reachable from the current scope.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuFieldReferencefield}{
+Referenced field.
+}
+
+% FileType (class)
+\newcommand{\clsdocuFileType}{
+Data type of a stream of data from or to the operating system.
+
+Note: There is no fixed type associated with the data at the stream. Also, a
+stream may be opened for reading, for writing, or both. Trying to use a
+stream in the `wrong' way results in undefined behaviour.
+}
+
+
+% ForStatement (class)
+\newcommand{\clsdocuForStatement}{
+Ierative loop statement.
+Values from the source are iteratively assigned to variables of the
+statement, and the body is executed for each assignment.
+
+Note that the body may contain \chiclass{BreakStatement} or
+\chiclass{ContinueStatement} objects, which cause partial execution of the
+body. Also, execution of a \chiclass{ReturnStatement} causes termination of
+the body as well as the loop.
+}
+
+
+\newcommand{\featdocuForStatementbody}{
+Statements executed after each assignment of values to the variables.
+}
+
+\newcommand{\featdocuForStatementsource}{
+Expression denoting a sequence of values to assign to the variables.
+
+\begin{constraints}
+\citem{ForStatement.sourceType}
+    The type of the source expression must be a \chiclass{ListType},
+    \chiclass{SetType}, or a \chiclass{DictType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuForStatementvariables}{
+Sequence of variables to assign at the start of each iteration.
+For the purpose of type correctness, the variable list may be considered to
+be a list of identifier expressions where
+Section~\ref{sect:addressable-expressions} must be applied to.
+
+\begin{constraints}
+\citem{ForStatement.variablesType}
+    If the type of the source expression (\chiattr{ForStatement.source}) is a
+    \chiclass{ListType} or \chiclass{SetType}, the type of the iterated
+    variable must be the element type (\chiattr{ListType.elementType} or
+    \chiattr{SetType.elementType}).
+    If the type of the source expression is a dictionary
+    (\chiclass{DictType}), the type of the variables is a record with the key
+    type and the value type of the dictionary.
+\citem{ForStatement.uniqueVariables}
+    Names of variables of the statement must be unique to each other as well
+    as in the scope.
+\end{constraints}
+}
+
+% FunctionDeclaration (class)
+\newcommand{\clsdocuFunctionDeclaration}{
+Definition of a user-defined function.
+
+\begin{constraints}
+\citem{FunctionDeclaration.bodyReturn}
+    All exit points in the statements of a function declaration must end with
+    a \chiclass{ReturnStatement}.
+\citem{FunctionDeclaration.dataOnly}
+    Formal parameters and local variables must not contain timers.
+\citem{FunctionDeclaration.noTimeAccess}
+    Expressions in the statements of a a function definition may not use
+    \chiclass{TimeLiteral}.
+\citem{FunctionDeclaration.noCreate}
+    \chiattr{FunctionDeclaration.statements} may not have objects of the
+    \chiclass{RunStatement} class.
+\citem{FunctionDeclaration.noDelay}
+    \chiattr{FunctionDeclaration.statements} may not have objects of the
+    \chiclass{DelayStatement} class.
+\citem{FunctionDeclaration.noCommunication}
+    The communication statement may not be used in a function body
+    (\chiattr{FunctionDeclaration.statements}).
+\end{constraints}
+}
+
+
+\newcommand{\featdocuFunctionDeclarationreturnType}{
+Type of the value returned by the function.
+
+\begin{constraints}
+\citem{FunctionDeclaration.typeOfReturnValue}
+    The type of the returned value is not \chiclass{VoidType}.
+\end{constraints}
+}
+
+% FunctionReference (class)
+\newcommand{\clsdocuFunctionReference}{
+Reference to a user-defined function.
+
+\begin{constraints}
+\citem{FunctionReference.type}
+    The type of a function reference is a \chiclass{FunctionType}, where its
+    return type (\chiattr{FunctionType.resultType}) is equal to the return
+    type of the referenced function, and the list of parameter types
+    (\chiattr{FunctionType.parameterTypes}) must match with the types of the
+    formal parameters of the referenced function.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuFunctionReferencefunction}{
+Referenced function.
+
+\begin{constraints}
+\citem{FunctionReference.inScope}
+    The referenced function must be visible in the current scope.
+\end{constraints}
+}
+
+% FunctionType (class)
+\newcommand{\clsdocuFunctionType}{
+Data type of a function.
+}
+
+
+\newcommand{\featdocuFunctionTyperesultType}{
+Type of the result value of an application of a function with this function
+signature.
+
+\begin{constraints}
+\citem{FunctionType.resultType}
+    The result type a function does not hjave type \chiclass{VoidType}.
+\end{constraints}
+}
+
+% IfCase (class)
+\newcommand{\clsdocuIfCase}{
+One case to try in an if statement.
+}
+
+
+\newcommand{\featdocuIfCasebody}{
+Statements to execute if the condition is empty or holds.
+}
+
+\newcommand{\featdocuIfCasecondition}{
+Expression that decides whether or not to execute the body of the object.
+
+\begin{constraints}
+\citem{IfCase.boolCondition}
+    If the condition is not empty (\texttt{null}), it must have type
+    \chiclass{BoolType}.
+\end{constraints}
+}
+
+% IfStatement (class)
+\newcommand{\clsdocuIfStatement}{
+Selection statement.
+
+Execution of the statement means sequentially testing whether the
+\chiattr{IfCase.condition} holds. If it does not hold, the next case is
+tried. If the condition is absent or it does hold, the body associated with
+the condition is executed. Then the if statement terminates (the remaining
+\chiclass{IfCase} objects are not tested nor executed).
+}
+
+
+\newcommand{\featdocuIfStatementcases}{
+Sequence of if cases to test and potentially execute.
+
+\begin{constraints}
+\citem{IfStatement.lastCase}
+    The \chiattr{IfCase.condition} may not be empty, except for the last
+    case. (This is then considered to be an `else' branch.)
+\end{constraints}
+}
+
+% InstanceType (class)
+\newcommand{\clsdocuInstanceType}{
+Data type of an instantiated (running) process.
+}
+
+
+% IntType (class)
+\newcommand{\clsdocuIntType}{
+Data type of an integer number.
+}
+
+
+% IteratedCreateCase (class)
+\newcommand{\clsdocuIteratedCreateCase}{
+A case in a \textit{run} or \textit{start} statement that must be expanded at
+run-time to a number of process instances.
+}
+
+
+\newcommand{\featdocuIteratedCreateCaseinstances}{
+Parameterized process instance to instantiate on each iteration.
+}
+
+\newcommand{\featdocuIteratedCreateCaseunwinds}{
+Sequence of loops to expand for the create case.
+}
+
+% IteratedSelectCase (class)
+\newcommand{\clsdocuIteratedSelectCase}{
+Case in a \textit{select} statement that must be expanded at tun-time to a
+number of conditions to wait on.
+}
+
+
+\newcommand{\featdocuIteratedSelectCaseunwinds}{
+Sequence of loops to expand for the select case.
+}
+
+% ListExpression (class)
+\newcommand{\clsdocuListExpression}{
+Expression denoting a list value.
+
+\begin{constraints}
+\citem{ListExpression.type}
+    The data type of a list expression is a \chiclass{ListType}.
+\citem{ListExpression.elements}
+    The element type of its list data type (\chiattr{ListType.elementType})
+    must be the same as the type of each of the element value expressions.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuListExpressionelements}{
+Ordered list of element values.
+}
+
+% ListType (class)
+\newcommand{\clsdocuListType}{
+Data type of a list value.
+}
+
+
+\newcommand{\featdocuListTypeelementType}{
+Data type of the elements of a list value.
+}
+
+\newcommand{\featdocuListTypeinitialLength}{
+Length of the list at initialization.
+
+\begin{constraints}
+\citem{ListType.nonZeroInitialLength}
+    The \chiattr{ListType.initialLength} can only be non-zero for for element
+    data types that have an initial value.
+\end{constraints}
+
+\todo{Define which data types have an initial value.}
+
+\todo{Define when a list can have an non-zero initial length.}
+}
+
+% MatrixExpression (class)
+\newcommand{\clsdocuMatrixExpression}{
+Expression denoting a matrix literal (with operators `$+$' and `$\cdot$' over
+real values).
+
+\begin{constraints}
+\citem{MatrixExpression.Rowlength}
+    Each row in \chiattr{MatrixExpression.rows} must have the same number of
+    elements.
+\citem{MatrixExpression.type}
+    The type of the matrix expression must be a \chiclass{MatrixType} where
+    the number of rows (\chiattr{MatrixType.rowSize}) matches with the
+    number of values in \chiattr{MatrixExpression.rows}, and the number of
+    columns (\chiattr{MatrixType.columnSize}) matches with the length of
+    each row,
+\end{constraints}
+}
+
+
+\newcommand{\featdocuMatrixExpressionrows}{
+Class for storing a single row in the matrix.
+}
+
+% MatrixRow (class)
+\newcommand{\clsdocuMatrixRow}{
+A row of elements in a matrix literal.
+}
+
+
+\newcommand{\featdocuMatrixRowelements}{
+A expression denoting a single value in a matrix.
+
+\begin{constraints}
+\citem{MatrixRow.type}
+    The type of each element must be \chiclass{RealType}.
+\end{constraints}
+}
+
+% MatrixType (class)
+\newcommand{\clsdocuMatrixType}{
+The type of a matrix.
+}
+
+
+\newcommand{\featdocuMatrixTypecolumnSize}{
+Number of columns in the matrix value.
+
+\begin{constraints}
+\citem{MatrixType.columnDimensionIsInt}
+  Type of the column dimension expression must be \chiclass{IntType}.
+\citem{MatrixType.columnDimensionValue}
+  Value must be a constant (and at least one, as expressed by other constraints).
+\end{constraints}
+}
+
+\newcommand{\featdocuMatrixTyperowSize}{
+Number of rows in the matrix value.
+
+\begin{constraints}
+\citem{MatrixType.rowDimensionIsInt}
+  Type of the row dimension expression must be \chiclass{IntType}.
+\citem{MatrixType.rowDimensionValue}
+  Value must be a constant (and at least one, as expressed by other constraints).
+\end{constraints}
+}
+
+% ModelDeclaration (class)
+\newcommand{\clsdocuModelDeclaration}{
+Toplevel declaration. Defines the experiment being performed.
+It is allowed to have several model declarations in a Chi specification.
+
+\begin{constraints}
+\citem{ModelDeclaration.noReturn}
+    The \chiattr{BehaviourDeclaration.statements} reference may not contain a
+    \chiclass{ReturnStatement}.
+\end{constraints}
+}
+
+
+% Name (class)
+\newcommand{\clsdocuName}{
+Extra class to attach a position to a name.
+}
+
+
+\newcommand{\featdocuNamename}{
+Name contained by the class.
+}
+
+% Number (class)
+\newcommand{\clsdocuNumber}{
+Unsigned number expression literal.
+
+\begin{constraints}
+\citem{ChiNumber.type}
+    Type of the number literal must be a \chiclass{IntType}.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuNumbervalue}{
+String expressing the value of the natural number.
+}
+
+% PassStatement (class)
+\newcommand{\clsdocuPassStatement}{
+Empty statement, ends immediately, and has no side effects.
+}
+
+
+% Position (class)
+\newcommand{\clsdocuPosition}{
+Position interval in a source file.
+
+\todo{Reuse position metamodel documentation.}
+
+\todo{Position should have a filename attached.}
+
+\todo{Position should not have startOffset and endOffset?}
+}
+
+
+\newcommand{\featdocuPositionendColumn}{
+Column number of the character behind the interval.
+}
+
+\newcommand{\featdocuPositionendLine}{
+Line number of the character behind the interval.
+}
+
+\newcommand{\featdocuPositionendOffset}{
+Offset of the character behind the interval in the file.
+}
+
+\newcommand{\featdocuPositionsource}{
+Source file name of the position.
+}
+
+\newcommand{\featdocuPositionstartColumn}{
+Column number of the first character in the interval.
+}
+
+\newcommand{\featdocuPositionstartLine}{
+Line number of the first character in the interval.
+}
+
+\newcommand{\featdocuPositionstartOffset}{
+Offset of the first character of the interval in the file.
+}
+
+% ProcessDeclaration (class)
+\newcommand{\clsdocuProcessDeclaration}{
+Parameterized definition of a process.
+
+\begin{constraints}
+\citem{ProcessDeclaration.noReturn}
+    The \chiattr{BehaviourDeclaration.statements} reference may not contain a
+    \chiclass{ReturnStatement}.
+\end{constraints}
+}
+
+
+% ProcessInstance (class)
+\newcommand{\clsdocuProcessInstance}{
+Single instantiated process in a \chiclass{CreateCase}.
+}
+
+
+\newcommand{\featdocuProcessInstancecall}{
+Instantiation expression.
+
+\begin{constraints}
+\citem{ProcessInstance.type}
+    The type of instantiation expression should be a \chiclass{InstanceType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuProcessInstancevar}{
+Variable for assigning the process instance to.
+
+\begin{constraints}
+\citem{ProcessInstance.varType}
+    The type of the \chiattr{ProcessInstance.var} attribute expression must be
+    of type \chiclass{InstanceType}.
+\end{constraints}
+}
+
+% ProcessReference (class)
+\newcommand{\clsdocuProcessReference}{
+Reference to a process declaration.
+
+\begin{constraints}
+\citem{ProcessReference.type}
+    Type of the process reference must be a \chiclass{ProcessType} class, with
+    matching formal parameeters.
+\citem{ProcessReference.scope}
+    The name of the reference must refer to the referenced process declaration
+    in the scope of the expression.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuProcessReferenceprocess}{
+Reference to the referenced process declaration.
+
+\begin{constraints}
+\citem{ProcessReference.processNotNull}
+    For type-checked chi models, the reference should not be \texttt{null}.
+\end{constraints}
+
+\todo{Check that the not-null requirement is also stated with other references.}
+}
+
+% ProcessType (class)
+\newcommand{\clsdocuProcessType}{
+Data type of a process declaration.
+}
+
+
+\newcommand{\featdocuProcessTypeparameterTypes}{
+Data types of the formal parameters.
+}
+
+% ReadCallExpression (class)
+\newcommand{\clsdocuReadCallExpression}{
+Function application of reading a value from an input stream (often a file).
+
+\begin{constraints}
+\citem{ReadCallExpression.resultType}
+    The type of the expression is the same as the
+    \chiattr{ReadCallExpression.type} attribute.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuReadCallExpressionfile}{
+Not yet described.
+}
+
+\newcommand{\featdocuReadCallExpressionloadType}{
+Type of the read data.
+}
+
+% RealNumber (class)
+\newcommand{\clsdocuRealNumber}{
+Unsigned real number expression literal.
+
+\begin{constraints}
+\citem{ChiRealNumber.type}
+    Type of the real number literal must be a \chiclass{RealType}.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuRealNumbervalue}{
+String describing the value of the unsigned real number.
+}
+
+% RealType (class)
+\newcommand{\clsdocuRealType}{
+Data type of the real nmubers.
+}
+
+
+% ReceiveStatement (class)
+\newcommand{\clsdocuReceiveStatement}{
+Perform receive operation on a communication channel.
+
+\begin{constraints}
+\citem{ReceiveStatement.channelOp}
+    The channel referenced by the \chiattr{CommunicationStatement.channel}
+    must allow a receive operation to take place.
+\end{constraints}
+}
+
+
+% ReturnStatement (class)
+\newcommand{\clsdocuReturnStatement}{
+Statement that ends execution of a function.
+}
+
+
+\newcommand{\featdocuReturnStatementvalues}{
+Values returned by the function.
+
+If the number of value expressions in a return statement is $1$, the type of
+the value returned by the return statement is the same as the type of the
+value expression. For longer sequences of value expressions, the type is a
+record, where each field in the record has the same type as the type of the
+associated value expression.
+
+\begin{constraints}
+\citem{ReturnStatement.Valuestype}
+    The type of the return statement (as explained above) must be equal to
+    the return type of the function that contains the return statement.
+\end{constraints}
+}
+
+% RunStatement (class)
+\newcommand{\clsdocuRunStatement}{
+Statement for executing one or more child processes, either just starting then
+or running them until completion.
+}
+
+
+\newcommand{\featdocuRunStatementcases}{
+Instantiated child processes.
+}
+
+\newcommand{\featdocuRunStatementstartOnly}{
+Only start the child processes, do not wait until they are all finished.
+}
+
+% SelectCase (class)
+\newcommand{\clsdocuSelectCase}{
+An alternative in a select statement.
+}
+
+
+\newcommand{\featdocuSelectCasebody}{
+Sequence of statements to execute if the select case is chosen.
+}
+
+\newcommand{\featdocuSelectCaseguard}{
+Optional guard expression that should hold for the case to be chosen.
+
+\begin{constraints}
+\citem{SelectCase.guardType}
+    If the guard is present (i.e. not \texttt{null}), the type of the guard
+    expression should be \chiclass{BoolType}.
+\end{constraints}
+}
+
+% SelectStatement (class)
+\newcommand{\clsdocuSelectStatement}{
+Selection of the next statement to execute from several alternatives based on
+guard expressions and ability to execute the next statement.
+
+\begin{constraints}
+\citem{SelectStatement.notInFunction}
+    The select statement may not be used in a function
+    (\chiattr{FunctionDeclaration.statements}).
+\end{constraints}
+}
+
+
+\newcommand{\featdocuSelectStatementcases}{
+Sequence of cases that belong to this select statement.
+}
+
+% SendStatement (class)
+\newcommand{\clsdocuSendStatement}{
+Perform send operation on a communication channel.
+
+\begin{constraints}
+\citem{SendStatement.channelOp}
+    The channel referenced by the \chiattr{CommunicationStatement.channel}
+    must allow a send operation to take place.
+\end{constraints}
+}
+
+
+% SetExpression (class)
+\newcommand{\clsdocuSetExpression}{
+Expression denoting a set value.
+
+\begin{constraints}
+\citem{SetExpression.type}
+    The type of a set expression is a \chiclass{SetType}.
+\citem{SetExpression.elementsType}
+    The type of each element expression of a set expression must be the same
+    as the \chiattr{SetType.elementType} attribute of its type.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuSetExpressionelements}{
+Element expressions of the set.
+}
+
+% SetType (class)
+\newcommand{\clsdocuSetType}{
+Data type of a set value.
+}
+
+
+\newcommand{\featdocuSetTypeelementType}{
+Type of the elements of the set.
+
+\todo{Check that the void type gets excluded at the appropriate points}
+}
+
+% SliceExpression (class)
+\newcommand{\clsdocuSliceExpression}{
+Take a slice of a list. First value in the slice is at the index given by
+\chiattr{SliceExpression.start} (if omitted, $0$ is taken).
+Iteratively add next values by incrementing the index by
+\chiattr{SliceExpression.step} (if omitted, $1$ is taken), until the index is
+equal or greater than the value expressed by \chiattr{SliceExpression.end}.
+If the end expression is omitted, it is equal to the length of the list.
+}
+
+
+\newcommand{\featdocuSliceExpressionend}{
+Upper limit of the slice. The list item with this index is not included in the
+slice.
+
+\begin{constraints}
+\citem{SliceExpression.endType}
+    If given, the type of the end expression must be \chiclass{IntType} or
+    \chiclass{IntType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuSliceExpressionsource}{
+Source expression of the slice.
+
+\begin{constraints}
+\citem{SliceExpression.sourceType}
+    The source expression of a slice must have a \chiclass{ListType} type.
+\end{constraints}
+}
+
+\newcommand{\featdocuSliceExpressionstart}{
+Lower index of the slice.
+
+\begin{constraints}
+\citem{SliceExpression.endType}
+    If given, the type of the end expression must be \chiclass{IntType} or
+    \chiclass{IntType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuSliceExpressionstep}{
+Increment of the index.
+
+\begin{constraints}
+\citem{SliceExpression.endType}
+    If given, the type of the end expression must be \chiclass{IntType}.
+\end{constraints}
+}
+
+% Specification (class)
+\newcommand{\clsdocuSpecification}{
+Class denoting a complete Chi specification.
+}
+
+
+\newcommand{\featdocuSpecificationdeclarations}{
+Global declarations of the specification.
+
+\begin{constraints}
+\citem{Specification.namesUnique}
+    Each name of its declarations (\chiattr{Specification.declarations}) must
+    be unique.
+\citem{Specification.hasModel}
+    A specification must have at least one \chiclass{ModelDeclaration}.
+\end{constraints}
+}
+
+% Statement (abstract class)
+\newcommand{\clsdocuStatement}{
+Abstract base class of a statement.
+}
+
+
+% StdLibFunctionReference (class)
+\newcommand{\clsdocuStdLibFunctionReference}{
+Reference to a standard library function.
+
+\begin{constraints}
+\citem{StdLibFunctionReference.type}
+    Type of the reference must be the function type of the referenced
+    function.
+\end{constraints}
+
+
+\subsubsection{Math functions}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Sign  & \chiclass{IntType}  & \chiclass{IntType}  \\
+Sign  & \chiclass{RealType} & \chiclass{IntType}  \\
+Abs   & \chiclass{IntType}  & \chiclass{IntType}  \\
+Abs   & \chiclass{RealType} & \chiclass{RealType} \\
+Exp   & \chiclass{RealType} & \chiclass{RealType} \\
+Ln    & \chiclass{RealType} & \chiclass{RealType} \\
+Log   & \chiclass{RealType} & \chiclass{RealType} \\
+Sqrt  & \chiclass{RealType} & \chiclass{RealType} \\
+Cbrt  & \chiclass{RealType} & \chiclass{RealType} \\
+\hline
+Floor & \chiclass{RealType} & \chiclass{IntType}  \\
+Ceil  & \chiclass{RealType} & \chiclass{IntType}  \\
+Round & \chiclass{RealType} & \chiclass{IntType}  \\
+\hline
+Sin   & \chiclass{RealType} & \chiclass{RealType} \\
+Cos   & \chiclass{RealType} & \chiclass{RealType} \\
+Tan   & \chiclass{RealType} & \chiclass{RealType} \\
+Asin  & \chiclass{RealType} & \chiclass{RealType} \\
+Acos  & \chiclass{RealType} & \chiclass{RealType} \\
+Atan  & \chiclass{RealType} & \chiclass{RealType} \\
+Sinh  & \chiclass{RealType} & \chiclass{RealType} \\
+Cosh  & \chiclass{RealType} & \chiclass{RealType} \\
+Tanh  & \chiclass{RealType} & \chiclass{RealType} \\
+Asinh & \chiclass{RealType} & \chiclass{RealType} \\
+Acosh & \chiclass{RealType} & \chiclass{RealType} \\
+Atanh & \chiclass{RealType} & \chiclass{RealType} \\
+\hline\end{tabular}
+
+\subsubsection{Conversion functions}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Int2Real & \chiclass{IntType} & \chiclass{RealType} \\
+String2Bool & \chiclass{StringType} & \chiclass{BoolType} \\
+Bool2String & \chiclass{BoolType} & \chiclass{StringType} \\
+String2Int & \chiclass{StringType} & \chiclass{IntType} \\
+Int2String & \chiclass{IntType} & \chiclass{StringType} \\
+String2Real & \chiclass{StringType} & \chiclass{RealType} \\
+Real2String & \chiclass{RealType} & \chiclass{StringType} \\
+\hline\end{tabular}
+
+\subsubsection{Container functions}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Length & \chiclass{ListType}   & \chiclass{IntType} \\ \cline{2-3}
+       & \chiclass{SetType}    & \chiclass{IntType} \\ \cline{2-3}
+       & \chiclass{DictType}   & \chiclass{IntType} \\ \cline{2-3}
+       & \chiclass{StringType} & \chiclass{IntType} \\
+\hline
+Empty  & \chiclass{ListType}  & \chiclass{BoolType} \\ \cline{2-3}
+       & \chiclass{SetType}   & \chiclass{BoolType} \\ \cline{2-3}
+       & \chiclass{DictType}  & \chiclass{BoolType} \\
+\hline
+Pop    & \chiclass{ListType}  & type $t$, \\
+       & of type $t$          & \chiclass{ListType} \\
+       &                      & \quad of type $t$ \\\cline{2-3}
+       & \chiclass{SetType}   & type $t$, \\
+       & of type $t$          & \chiclass{SetType} \\
+       &                      & \quad of type $t$ \\\cline{2-3}
+       & \chiclass{DictType}  & type $k$, \\
+       & of types $k$ and $v$ & type $v$, \\
+       &                      & \chiclass{DictType} \\
+       &                      & \quad of types $k$ and $v$ \\
+\hline
+Max    & \chiclass{ListType} & type $t$ \\
+       & of type $t$         & \\ \cline{2-3}
+       & \chiclass{SetType}  & type $t$ \\
+       & of type $t$         & \\ \cline{2-3}
+\hline
+Min    & \chiclass{ListType} & type $t$ \\
+       & of type $t$         & \\ \cline{2-3}
+       & \chiclass{SetType}  & type $t$ \\
+       & of type $t$         & \\ \cline{2-3}
+\hline
+Take   & \chiclass{ListType},   & \chiclass{ListType} \\
+       & \chiclass{IntType}     & \\ \cline{2-3}
+       & \chiclass{StringType}, & \chiclass{StringType} \\
+       & \chiclass{IntType}     & \\
+\hline
+Drop   & \chiclass{ListType},   & \chiclass{ListType} \\
+       & \chiclass{IntType}     & \\ \cline{2-3}
+       & \chiclass{StringType}, & \chiclass{StringType} \\
+       & \chiclass{IntType}     & \\
+\hline
+Head        & \chiclass{ListType} & $t_e$ \\
+HeadReverse & \chiclass{ListType} & $t_e$ \\
+Tail        & \chiclass{ListType} & \chiclass{ListType} \\
+TailReverse & \chiclass{ListType} & \chiclass{ListType} \\
+\hline
+Sort   & \chiclass{ListType}, $t_f$        & \chiclass{ListType} \\ \hline
+Insert & \chiclass{ListType}, $t_f$, $t_e$ & \chiclass{ListType} \\ \hline
+Range  & \chiclass{IntType}                & \chiclass{ListType} \\
+\cline{2-3}
+       & \chiclass{IntType},               & \chiclass{ListType} \\
+       & \chiclass{IntType}                & \\
+\hline
+Matrix & \chiclass{ListType}, & \chiclass{MatrixType} \\
+         \chiclass{IntType}   & \\
+\hline\end{tabular}
+
+\medskip
+For the `Length' function as well as the `Empty' function, the element type
+of the container parameter (all except the \chiclass{StringType} is not
+important.
+
+The `Pop' function gets a value from a non-empty container (with any element
+type $t$), and returns the element and the modified container value.
+
+The `Max' and `Min' functions return the biggest respectively smallest value
+in the list or set. These functions only work for types with ordered values,
+that is, for $t$ is one of \chiclass{IntType} or \chiclass{RealType}.
+
+The `Take' and `Drop' functions on lists, and the `Tail' and `TailReverse'
+functions, take lists with any element type, and return lists with the same
+element type.
+
+The `Head' and `HeadReverse' functions take lists of any element type $t_e$,
+and return elements.
+
+The `Sort' and `Insert' functions accept lists of any element type $t_e$, and
+also return such lists. The $t_f$ parameter is a compare function on two
+elements, returning a value of type \chiclass{IntType}. The value returned by
+the compare function should be negative if the first parameter is 'smaller'
+than the second parameter, zero if they are equal, and positive otherwise.
+
+The `Range' function constructs a list with values of the given interval. If
+only the (exclusive) upper limit is given, the interval starts at 0.
+Otherwise, the interval runs from the lower limit up to and excluding the
+upper limit.
+
+The `Matrix' function converts a list to a matrix type with a single row. The
+list must have a \chiclass{RealType} element type. The second parameter
+exists for the purpose of type checking. It must evaluate to a compile-time
+constant, and indicates the length of the list.
+
+\subsubsection{Distribution functions}
+The following distribution functions construct distributions with various
+shapes and forms.
+
+\noindent
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Constant & \chiclass{BoolType} & \chiclass{DistributionType} with \\
+         &                     & \chiclass{BoolType} result type. \\
+\cline{2-3}
+         & \chiclass{IntType} & \chiclass{DistributionType} with \\
+         &                    & \chiclass{IntType} result type. \\
+\cline{2-3}
+         & \chiclass{RealType} & \chiclass{DistributionType} with \\
+         &                     & \chiclass{RealType} result type. \\
+\hline
+Bernoulli & \chiclass{RealType} & \chiclass{DistributionType} with \\
+         &                      & \chiclass{BoolType} result type. \\
+\hline
+Binomial & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+         & \chiclass{IntType}   & \chiclass{IntType} result type. \\
+\hline
+Geometric & \chiclass{RealType} & \chiclass{DistributionType} with \\
+          &                     & \chiclass{IntType} result type. \\
+\hline
+Poisson & \chiclass{RealType} & \chiclass{DistributionType} with \\
+        &                     & \chiclass{IntType} result type. \\
+\hline
+Uniform & \chiclass{IntType}, & \chiclass{DistributionType} with \\
+        & \chiclass{IntType}  & \chiclass{IntType} result type. \\
+\cline{2-3}
+        & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+        & \chiclass{RealType}  & \chiclass{RealType} result type. \\
+\hline
+\end{tabular}
+
+\medskip\noindent
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+Beta & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+     & \chiclass{RealType}  & \chiclass{RealType} result type. \\
+\hline
+Erlang & \chiclass{IntType}, & \chiclass{DistributionType} with \\
+       & \chiclass{RealType} & \chiclass{RealType} result type. \\
+\hline
+Exponential & \chiclass{RealType} & \chiclass{DistributionType} with \\
+            &                     & \chiclass{RealType} result type. \\
+\hline
+Gamma & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+      & \chiclass{RealType}  & \chiclass{RealType} result type. \\
+\hline
+LogNormal & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+          & \chiclass{RealType}  & \chiclass{RealType} result type. \\
+\hline
+Normal & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+       & \chiclass{RealType}  & \chiclass{RealType} result type. \\
+\hline
+Triangle & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+         & \chiclass{RealType}, & \chiclass{RealType} result type. \\
+         & \chiclass{RealType}  & \\
+\hline
+Random & - & \chiclass{DistributionType} with \\
+       &   & \chiclass{RealType} result type. \\
+\hline
+Weibull & \chiclass{RealType}, & \chiclass{DistributionType} with \\
+        & \chiclass{RealType}  & \chiclass{RealType} result type. \\
+\hline
+SetSeed & \chiclass{DistributionType}, & \chiclass{DistributionType} \\
+        & \chiclass{IntType}           & \\
+\hline
+\end{tabular}
+
+\smallskip
+For \chienumlit{StdLibFunctions.SetSeed}, the result types of both
+distribution types must be the same.
+
+\medskip\noindent
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Sample  & \chiclass{DistributionType} with &
+                \chiclass{DistributionType} with \\
+        & \chiclass{BoolType} result type  &
+                \chiclass{BoolType} result type, \\
+        & &
+                \chiclass{BoolType}. \\
+\cline{2-3}
+        & \chiclass{DistributionType} with &
+                \chiclass{DistributionType} with \\
+        & \chiclass{IntType} result type  &
+                \chiclass{IntType} result type, \\
+        & &
+                \chiclass{IntType}. \\
+\cline{2-3}
+        & \chiclass{DistributionType} with &
+                \chiclass{DistributionType} with \\
+        & \chiclass{RealType} result type  &
+                \chiclass{RealType} result type, \\
+        & &
+                \chiclass{RealType}. \\
+\hline\end{tabular}
+
+\smallskip
+The \chienumlit{StdLibFunctions.SampleFunc} function (not to be confused with the
+`\texttt{sample}' unary operator \chienumlit{UnaryOperators.Sample}) takes a
+distribution, and returns a record with the updated distribution and the
+computed sample.
+
+\medskip
+In case the above distribution creation functions do not suffice, the
+following functions can be used to compute samples using basic random
+generators (distributions created with \chienumlit{StdLibFunctions.Random}).
+
+Each function takes one or more basic random generators, and the parameters
+of the distribution to compute. The answer is a record with the updated
+random generators (which should be kept and used again the next time), and
+the computed sample value. Some algorithms compute two sample values at the
+same time. Both these values should be used before computing a next batch of
+samples.
+
+\noindent
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+DrawBernoulli &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType} &
+        \quad \chiclass{BoolType}) \\
+\hline
+DrawBeta &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}) \\
+&   \chiclass{RealType} & \\
+\hline
+DrawBinomial &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{IntType}) \\
+&   \chiclass{IntType} & \\
+\hline
+DrawErlang &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{IntType}, &
+        \quad \chiclass{RealType}) \\
+&   \chiclass{RealType} & \\
+\hline
+DrawExponential &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType} &
+        \quad \chiclass{RealType}) \\
+\hline
+DrawGamma &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}) \\
+&   \chiclass{RealType} & \\
+\hline
+DrawGeometric &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType} &
+        \quad \chiclass{IntType}) \\
+\hline
+DrawLogNormal &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}, \\
+&   \chiclass{RealType} &
+        \quad \chiclass{RealType}) \\
+\hline
+DrawNormal &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{DistributionType}, &
+        \quad \chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}, \\
+&   \chiclass{RealType} &
+        \quad \chiclass{RealType}) \\
+\hline
+DrawPoisson &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{IntType}) \\
+\hline
+DrawTriangle &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}) \\
+&   \chiclass{RealType}, & \\
+&   \chiclass{RealType} & \\
+\hline
+DrawUniform &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{IntType}, &
+        \quad \chiclass{IntType}) \\
+&   \chiclass{IntType} & \\ \cline{2-3}
+%
+&   \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}) \\
+&   \chiclass{RealType} & \\
+\hline
+DrawWeibull &
+    \chiclass{DistributionType}, &
+        (\chiclass{DistributionType}, \\
+&   \chiclass{RealType}, &
+        \quad \chiclass{RealType}) \\
+&   \chiclass{RealType} & \\
+\hline
+\end{tabular}
+
+\subsubsection{File functions}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} i \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Open & \chiclass{StringType},      & \chiclass{FileType} \\
+     & \quad \chiclass{StringType} & \\ \hline
+Close & \chiclass{FileType} & \chiclass{BoolType} \\
+\hline
+\end{tabular}
+
+\smallskip
+The `Open' function constructs a connection to a file. First parameter is the
+name of the file. Second parameter is the mode (\texttt{r} or \texttt{w}).
+
+The `Close' function denotes that all data has been read or written, and the
+connection may be dropped.
+
+\todo{Instead of a file-name use a url-like notation to keep extensions
+possible?}
+
+\subsubsection{Guard functions}
+\begin{tabular}{|l|l|l|} \hline
+\textbf{Library function} & \textbf{Parameter types} & \textbf{Result type} \\
+\hline
+Timeout & \chiclass{VariableReference} & \chiclass{BoolType} \\
+\hline
+\end{tabular}
+
+The `Timeout' function takes a parameter referencing a timer variable and
+gives \texttt{true} if the timer has timed out.
+
+\todo{Timers are now much more useful, change the docs.}
+
+\todo{Check whether this text represents reality.}
+}
+
+
+\newcommand{\featdocuStdLibFunctionReferencefunction}{
+Referenced function.
+}
+
+% StringLiteral (class)
+\newcommand{\clsdocuStringLiteral}{
+Expression denoting a string value.
+
+\begin{constraints}
+\citem{StringLiteral.type}
+    The type of the string literal expression is a \chiclass{StringType}.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuStringLiteralvalue}{
+Value of the string literal. The value is the literal value, no quotes around
+it, and no escaping of characters takes place in the value.
+}
+
+% StringType (class)
+\newcommand{\clsdocuStringType}{
+Data type for string values.
+}
+
+
+% TerminateStatement (class)
+\newcommand{\clsdocuTerminateStatement}{
+Statement to terminate the execution of a Chi program.
+
+Execution of this statement stops all execution activity of the Chi program
+(It is a global self-destruct.)
+}
+
+
+% TimeLiteral (class)
+\newcommand{\clsdocuTimeLiteral}{
+Expression to refer to the current simulated time.
+
+\begin{constraints}
+\citem{TimeLiteral.type}
+    Type of the expression is \chiclass{RealType}.
+\end{constraints}
+}
+
+
+% TimerType (class)
+\newcommand{\clsdocuTimerType}{
+Type of a timer.
+}
+
+
+% TupleExpression (class)
+\newcommand{\clsdocuTupleExpression}{
+Expression denoting a tuple literal value.
+
+\begin{constraints}
+\citem{TupleExpression.type}
+    The type of a tuple expression is a \chiclass{TupleType}, with the type of
+    its fields being equal to the types of the \chiattr{TupleExpression.fields}
+    expressions.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuTupleExpressionfields}{
+Child expressions of a tuple expression.
+}
+
+% TupleField (class)
+\newcommand{\clsdocuTupleField}{
+Type of a single field in a tuple type.
+}
+
+
+\newcommand{\featdocuTupleFieldname}{
+Name of the field.
+}
+
+\newcommand{\featdocuTupleFieldtype}{
+Type of the field.
+}
+
+% TupleType (class)
+\newcommand{\clsdocuTupleType}{
+Tuple type.
+
+\begin{constraints}
+\citem{TupleType.unique}
+    Field names of the fields should be unique within the tuple type.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuTupleTypefields}{
+Available fields in the tuple type.
+}
+
+% Type (abstract class)
+\newcommand{\clsdocuType}{
+Base class of all data types.
+
+\begin{constraints}
+\citem{Type.nocycle}
+    A data type may not refer (indirectly) to itself.
+\end{constraints}
+}
+
+
+% TypeDeclaration (class)
+\newcommand{\clsdocuTypeDeclaration}{
+Declaration to attach a name to a data type.
+}
+
+
+\newcommand{\featdocuTypeDeclarationtype}{
+Type attached to the name.
+}
+
+% TypeReference (class)
+\newcommand{\clsdocuTypeReference}{
+Reference to a type declaration.
+
+\begin{constraints}
+\citem{TypeReference.type}
+    Type of the type variable is equal to the type of the referenced type
+    declaration.
+\citem{TypeReference.nocycle}
+    A type variable may not reference itself (neither directly nor
+    indirectly).
+\end{constraints}
+}
+
+
+\newcommand{\featdocuTypeReferencetype}{
+Referenced type declaration o the type variable.
+}
+
+% UnaryExpression (class)
+\newcommand{\clsdocuUnaryExpression}{
+Expression operation with one child expression.
+}
+
+
+\newcommand{\featdocuUnaryExpressionchild}{
+Child expression.
+}
+
+\newcommand{\featdocuUnaryExpressionoperator}{
+Operation performed on the child expression value.
+
+\begin{constraints}
+\citem{UnaryExpression.operatorArgument}
+    The type of the unary operator argument must match with the type of the
+    child expression (\chiattr{Expression.type} of
+    \chiattr{UnaryExpression.child}).
+\citem{UnaryExpression.resultType}
+    The result type of the unary expression must match with the result type
+    of the used operator.
+\end{constraints}
+
+The allowed child types and result types for each operator are listed in the
+tables below.
+
+\subsubsection{Inverse operator}
+\begin{tabular}{|l|l|} \hline
+\textbf{Child type} & \textbf{Result type} \\ \hline
+\chiclass{BoolType} & \chiclass{BoolType} \\
+\hline\end{tabular}
+
+\subsubsection{Negate operator}
+\begin{tabular}{|l|l|} \hline
+\textbf{Child type}  & \textbf{Result type} \\ \hline
+\chiclass{IntType}   & \chiclass{IntType}   \\
+\chiclass{RealType}  & \chiclass{RealType}  \\
+\hline\end{tabular}
+
+\subsubsection{Sample operator}
+The sample operator takes a distribution as child (an expression with a
+\chiclass{DistributionType} as type). The result type of the sample operator
+depends on the element type of the child type in the following way:
+
+\smallskip\noindent
+\begin{tabular}{|l|l|} \hline
+\textbf{Child element type}  & \textbf{Result type} \\ \hline
+\chiclass{BoolType}   & \chiclass{BoolType}   \\
+\chiclass{IntType}   & \chiclass{IntType}   \\
+\chiclass{RealType}  & \chiclass{RealType}  \\
+\hline\end{tabular}
+
+\medskip
+\begin{constraints}
+\citem{UnaryExpression.sampleNotInFunction}
+    The \chienumlit{UnaryOperators.Sample} may not be used in unary
+    expressions (\chiclass{UnaryExpression}) in a function declaration
+    (\chiclass{FunctionDeclaration}).
+\end{constraints}
+}
+
+% UnaryOp (class)
+\newcommand{\clsdocuUnaryOp}{
+Extra class for attaching a position to a unary operator.
+}
+
+
+\newcommand{\featdocuUnaryOpop}{
+Unary operator contained in the class.
+}
+
+% UnresolvedReference (class)
+\newcommand{\clsdocuUnresolvedReference}{
+Reference to a named value which is not yet resolved.
+
+\begin{constraints}
+\citem{UnresolvedReference.notInChecked}
+    \chiclass{UnresolvedReference} should not occur in type checked chi models.
+\citem{UnresolvedReference.type}
+    The \chiattr{UnresolvedReference.type} should be \texttt{null}.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuUnresolvedReferencename}{
+Name given to the unresolved reference.
+}
+
+% UnresolvedType (class)
+\newcommand{\clsdocuUnresolvedType}{
+Unresolved type reference.
+}
+
+
+\newcommand{\featdocuUnresolvedTypename}{
+Name of the unresolved type reference.
+
+\begin{constraints}
+\citem{UnresolvedType.notInChecked}
+    \chiclass{UnresolvedType} should not occur in type checked chi models.
+\end{constraints}
+}
+
+% Unwind (class)
+\newcommand{\clsdocuUnwind}{
+Unwind loop.
+}
+
+
+\newcommand{\featdocuUnwindsource}{
+Source expression to unwind.
+
+\begin{constraints}
+\citem{Unwind.sourceType}
+    The type of the \chiattr{Unwind.source} expression must be an iterable
+    container type, a \chiclass{ListType}, \chiclass{SetType}, or
+    \chiclass{DictType}.
+\end{constraints}
+}
+
+\newcommand{\featdocuUnwindvariables}{
+Local variables of the unwind.
+
+\begin{constraints}
+\citem{Unwind.variableNames}
+    The names of the variables should be unique within an unwind.
+\end{constraints}
+
+\todo{What do we decide on var overloading/scoping rule?}
+}
+
+% VariableDeclaration (class)
+\newcommand{\clsdocuVariableDeclaration}{
+Declaration of a variable or formal parameter.
+}
+
+
+\newcommand{\featdocuVariableDeclarationinitialValue}{
+Optional initial value of the variable.
+
+\begin{constraints}
+\citem{VariableDeclaration.initialValue}
+    The initial value of a \chiclass{VariableDeclaration} must be \texttt{null}
+    if \chiattr{VariableDeclaration.parameter} is true.
+\citem{VariableDeclaration.initialValueType}
+    If the initial value is not \texttt{null}, the type of the initial value
+    expression must be equal to the type of the variable.
+\end{constraints}
+
+\todo{Timer variables are not allowed as parameter.}
+}
+
+\newcommand{\featdocuVariableDeclarationname}{
+Name of the variable or formal parameter.
+}
+
+\newcommand{\featdocuVariableDeclarationparameter}{
+Variable is a formal parameter.
+}
+
+\newcommand{\featdocuVariableDeclarationtype}{
+Type of the variable.
+}
+
+% VariableReference (class)
+\newcommand{\clsdocuVariableReference}{
+Expression referencing a variable.
+
+\begin{constraints}
+\citem{VariableReference.type}
+    Type of the variable reference is the same as the type of the referenced
+    variable.
+\citem{VariableReference.inScope}
+    The referenced variable must be in the current scope.
+\end{constraints}
+}
+
+
+\newcommand{\featdocuVariableReferencevariable}{
+Referenced variable of the variable reference expression.
+}
+
+% VoidType (class)
+\newcommand{\clsdocuVoidType}{
+Data type without any values, used as data type for synchronization channels.
+}
+
+
+% WhileStatement (class)
+\newcommand{\clsdocuWhileStatement}{
+The while statement repeatedly tests its condition, and if it holds, it
+executes its body. The repetition ends when the condition evaluates to
+\texttt{false}.
+}
+
+
+\newcommand{\featdocuWhileStatementbody}{
+Sequence of statements to be executed when the condition of the while
+statement evaluates to \texttt{true}.
+}
+
+\newcommand{\featdocuWhileStatementcondition}{
+Condition of the while statement, used for testing whether the body of the
+while statement should be executed.
+
+\begin{constraints}
+\citem{WhileStatement.ConditionType}
+    Type of the condition expression must be a \chiclass{BoolType}.
+\end{constraints}
+}
+
+% WriteStatement (class)
+\newcommand{\clsdocuWriteStatement}{
+Statement for producing output onto an output stream.
+}
+
+
+\newcommand{\featdocuWriteStatementaddNewline}{
+Append a newline after writing the data.
+}
+
+\newcommand{\featdocuWriteStatementtoFile}{
+Output stream is a file (rather than a terminal).
+}
+
+\newcommand{\featdocuWriteStatementvalues}{
+Sequence of values to write. If \chiattr{WriteStatement.toFile} holds, the
+first value is the stream to write to.
+Values of type string are written unchanged, other data values are converted
+to string first.
+
+Note: Although an implementation should attempt to output a representative
+string for a value, some information may get lost during the conversion.
+
+\begin{constraints}
+\citem{WriteStatement.fileValue}
+    If \chiattr{WriteStatement.toFile} holds, the type of the first value
+    should be of type \chiclass{FileType}.
+\end{constraints}
+}

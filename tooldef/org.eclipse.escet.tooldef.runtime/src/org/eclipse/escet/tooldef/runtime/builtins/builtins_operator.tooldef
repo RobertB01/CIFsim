@@ -1,0 +1,212 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.not;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.and;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.or;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.plus;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.dash;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.star;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.slash;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.div;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.mod;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.lt;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.le;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.gt;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.ge;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.eq;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.ne;
+
+tool bool _not(bool arg):
+    return $not(arg);
+end
+
+tool bool _and(bool left, bool right):
+    return $and(left, right);
+end
+
+tool set T _and<T>(set T left, set T right):
+    return <set T>$and(left, right);
+end
+
+tool bool _or(bool left, bool right):
+    return $or(left, right);
+end
+
+tool set T _or<T>(set T left, set T right):
+    return <set T>$or(left, right);
+end
+
+tool int _plus(int arg):
+    return $plus(arg);
+end
+
+tool long _plus(long arg):
+    return $plus(arg);
+end
+
+tool double _plus(double arg):
+    return $plus(arg);
+end
+
+tool int _plus(int left, int right):
+    return $plus(left, right);
+end
+
+tool long _plus(long left, long right):
+    return $plus(left, right);
+end
+
+tool double _plus(double left, double right):
+    return $plus(left, right);
+end
+
+tool string _plus(string left, string right):
+    return <string>$plus(left, right);
+end
+
+tool list T _plus<T>(list T left, list T right):
+    return <list T>$plus(left, right);
+end
+
+tool map(K:V) _plus<K, V>(map(K:V) left, map(K:V) right):
+    return <map(K:V)>$plus(left, right);
+end
+
+tool int _dash(int arg):
+    return $dash(arg);
+end
+
+tool long _dash(long arg):
+    return $dash(arg);
+end
+
+tool double _dash(double arg):
+    return $dash(arg);
+end
+
+tool int _dash(int left, int right):
+    return $dash(left, right);
+end
+
+tool long _dash(long left, long right):
+    return $dash(left, right);
+end
+
+tool double _dash(double left, double right):
+    return $dash(left, right);
+end
+
+tool set T _dash<T>(set T left, set T right):
+    return <set T>$dash(left, right);
+end
+
+tool map(K:V) _dash<K, V>(map(K:V) left, list K right):
+    return <map(K:V)>$dash(left, right);
+end
+
+tool map(K:V) _dash<K, V>(map(K:V) left, set K right):
+    return <map(K:V)>$dash(left, right);
+end
+
+tool map(K:V) _dash<K, V, V2>(map(K:V) left, map(K:V2) right):
+    return <map(K:V)>$dash(left, right);
+end
+
+tool int _star(int left, int right):
+    return $star(left, right);
+end
+
+tool long _star(long left, long right):
+    return $star(left, right);
+end
+
+tool double _star(double left, double right):
+    return $star(left, right);
+end
+
+tool double _slash(double left, double right):
+    return $slash(left, right);
+end
+
+tool int _div(int left, int right):
+    return $div(left, right);
+end
+
+tool long _div(long left, long right):
+    return $div(left, right);
+end
+
+tool int _mod(int left, int right):
+    return $mod(left, right);
+end
+
+tool long _mod(long left, long right):
+    return $mod(left, right);
+end
+
+tool bool _lt(int left, int right):
+    return $lt(left, right);
+end
+
+tool bool _lt(long left, long right):
+    return $lt(left, right);
+end
+
+tool bool _lt(double left, double right):
+    return $lt(left, right);
+end
+
+tool bool _le(int left, int right):
+    return $le(left, right);
+end
+
+tool bool _le(long left, long right):
+    return $le(left, right);
+end
+
+tool bool _le(double left, double right):
+    return $le(left, right);
+end
+
+tool bool _gt(int left, int right):
+    return $gt(left, right);
+end
+
+tool bool _gt(long left, long right):
+    return $gt(left, right);
+end
+
+tool bool _gt(double left, double right):
+    return $gt(left, right);
+end
+
+tool bool _ge(int left, int right):
+    return $ge(left, right);
+end
+
+tool bool _ge(long left, long right):
+    return $ge(left, right);
+end
+
+tool bool _ge(double left, double right):
+    return $ge(left, right);
+end
+
+tool bool _eq<T>(T left, T right):
+    return $eq(left, right);
+end
+
+tool bool _ne<T>(T left, T right):
+    return $ne(left, right);
+end

@@ -1,0 +1,30 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    int p=1, q=2, a=3, b=4;
+    tuple (int x; int y) t;
+
+    write("[%d, %d] <%d, %d> %s\n", p, q, a, b, t);
+    p = q;
+    write("[%d, %d] <%d, %d> %s\n", p, q, a, b, t);
+    p,q = a,b;
+    write("[%d, %d] <%d, %d> %s\n", p, q, a, b, t);
+
+    a,b = b,a;
+    write("[%d, %d] <%d, %d> %s\n", p, q, a, b, t);
+
+    t = b,q;
+    write("[%d, %d] <%d, %d> %s\n", p, q, a, b, t);
+    a,b = t;
+    write("[%d, %d] <%d, %d> %s\n", p, q, a, b, t);
+end

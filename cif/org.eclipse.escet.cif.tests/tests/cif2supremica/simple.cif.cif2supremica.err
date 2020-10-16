@@ -1,0 +1,2 @@
+WARNING: None of the values of variable "p.v" is marked. In Supremica they will implicitly all be marked.
+WARNING: None of the locations of CIF automaton "r" is marked. In Supremica they will implicitly all be marked.

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/unop_invalid_child_type.cif": Semantic error at line 14, column 16: Unary operator "not" can not be applied to a value of type "int[1..1]".
+ERROR: Failed to load CIF file "tchecker/unop_invalid_child_type.cif": the file has errors.

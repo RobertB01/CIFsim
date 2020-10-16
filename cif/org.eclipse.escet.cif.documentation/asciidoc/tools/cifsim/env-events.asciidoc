@@ -1,0 +1,314 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-env-events]]
+== Environment events
+
+indexterm:[CIF simulator,environment events]
+indexterm:[CIF simulator,non-urgent events]
+indexterm:[environment events]
+indexterm:[event,urgency]
+indexterm:[urgency,event]
+indexterm:[simulation,urgency]
+indexterm:[urgency,simulation]
+By default, the CIF simulator treats all events are urgent. That is, whenever
+a transition is possible for any event, time may not progress. In other words,
+events take priority over time passage. However, not all events should be
+urgent. As such, the simulator has an
+menu:Environment events[]
+option
+(menu:Input[]
+category), that makes it possible to let the simulator know
+about the _environment events_ (non-urgent events). An example of an
+environment event (non-urgent event) is a button that can be pushed. The button
+can always be pushed, now or in the future. The corresponding event is thus
+always enabled, but time should still be able to progress, as the event may
+not actually happen at this time.
+
+As value for the
+menu:Environment events[]
+option, comma separated
+_filters_ should be supplied. Each filter specifies one or more environment
+events. The absolute names of the events are used. That is, for an automaton
+`a`, with an event `e`, the absolute name of the event is `a.e`. If CIF
+textual syntax keyword are used as names for events (such as `plant`),
+then they must be escaped in `.cif` files (`$plant`). For filters however,
+all escape characters (`$`) in event names are ignored. The `+*+` character
+can be used as wildcard, to indicate zero or more characters. The special
+`svg` filter can be used to turn all
+<<tools-cifsim-input-svg-chapter-index,SVG interactive/input events>> into
+environment (non-urgent) events. If a filter doesn't match any of the events of
+the CIF model, a warning is printed to the console. If a filter doesn't have
+any effect, because a previous filter already turned the matching events into
+environment events, a warning is printed as well.
+
+As an example, option value `+e, a.e, f*, t*+` consists of four filters: `e`,
+`a.e`, `+f*+`, and `+t*+`. The first filter indicates that event `e` is an
+environment event. The second filter indicates that event `e` in automaton
+`a` is an environment event. The third filter indicates that all events
+whose absolute name starts with an `f` are environment events. This could
+include events `f`, `f1`, `foo`, `f.e`, etc. The fourth filter is
+similar to the third filter, but uses character `t` as a prefix, rather than
+character `f`. The `+t*+` filter always matches the `tau` event, as that
+event is implicitly always present.
+
+indexterm:[environment events,input modes]
+
+=== Input modes
+
+By default, the simulator does not know which events of the model are
+environment events (non-urgent events). By letting the simulator know about
+them, it can properly simulate them with non-urgent semantics. The CIF
+simulator however, has several <<tools-cifsim-input-chapter-index,input modes>>.
+This section discusses for each input mode, the influence of environment
+events, and their practical use.
+
+* <<tools-cifsim-input-chapter-console>>
++
+When using the interactive console input mode, the simulator will
+interactively ask the user to choose transitions, from the list of possible
+transitions printed to the console.
++
+If however the CIF model contains events that are always enabled (such as a
+button that can always be pushed), time may never progress. The simulator
+treats all events as urgent. By specifying the always enabled events as
+environment events, those events become non-urgent, and the user is free to
+choose between those environment events and time passage (time transitions).
+If combined with the <<tools-cifsim-input-chapter-semi-automatic,semi-automatic mode>>
+for the urgent events, the user can
+choose the environment events and time transitions, while the other/urgent
+events are automatically chosen by the simulator, reducing the number of
+choices the user has to make.
+
+* <<tools-cifsim-input-chapter-gui>>
++
+When using the interactive GUI input mode, the simulator will interactively
+ask the user to choose transitions, using a GUI (Graphical User Interface).
++
+If however the CIF model contains events that are always enabled (such as a
+button that can always be pushed), time may never progress. The simulator
+treats all events as urgent. By specifying the always enabled events as
+environment events, those events become non-urgent, and the user is free to
+choose between those environment events and time passage (time transitions).
+If combined with the <<tools-cifsim-input-chapter-semi-automatic,semi-automatic mode>>
+for the urgent events, the user can
+choose the environment events and time transitions, while the other/urgent
+events are automatically chosen by the simulator, reducing the number of
+choices the user has to make.
+
+* <<tools-cifsim-input-chapter-automatic>>
++
+When using the automatic input mode, the simulator will automatically choose
+transitions, based on certain criteria. If the CIF model contains a use case,
+the simulator automatically simulates that use case.
++
+If however the CIF model contains events that are always enabled (such as a
+button that can always be pushed), time may never progress. The simulator
+treats all events as urgent. By specifying the always enabled events as
+environment events, those events become non-urgent, and the simulator is
+free to choose between those environment events and time passage (time
+transitions). If combined with the _random_
+<<tools-cifsim-input-automatic-trans,automatic mode choice algorithm>>,
+and _random_
+<<tools-cifsim-input-automatic-time,automatic mode time transition duration>>,
+this allows for the automatic validation of arbitrary traces.
+
+* <<tools-cifsim-input-svg-chapter-index>>
++
+When using the SVG input mode, the simulator will automatically choose
+transitions, based on certain criteria. The environment events are usually
+coupled to the SVG image (using <<tools-cifsim-input-svg-chapter-svgin,CIF/SVG input mappings>>).
+This ensures that the environment
+events are only enabled when the corresponding interactive element of the
+image is clicked by the user. The SVG image plays the role of the
+environment, closing the system. If the SVG image only partially closes the
+system, the remaining environment events can be specified, similar to the
+way they are specified for the automatic input mode.
+
+indexterm:[environment events,supervisory control application domain]
+
+=== Supervisory control application domain
+
+This section discusses environment events in the application domain of
+supervisory control, where the system consists of a plant (the hardware),
+and a supervisor (or other controller that restricts the plant behavior).
+
+Informally, we can distinguish the following types of events:
+
+* _Controller events_
++
+Controller events are those events that are initiated by a controller, such
+as a supervisor. These events are usually controllable events. However, if
+supervisor synthesis is not used, the events need not necessarily be
+controllable.
++
+For controller events, the behavior is usually fully specified in the CIF
+model. That is, if the CIF model contains both the plant and the controller,
+the CIF model determines when the events are enabled, and when they are
+disabled. The controller events should happen as soon as they are enabled.
+That is, once the controller determines that for instance a motor should be
+turned on, the motor should be turned on without further delays. Thus,
+controller events are urgent.
++
+For low-level controllers, the events generally correspond directly to the
+events of the actuators. For instance, a controller may turn a lamp on or
+off. For higher level controllers however, there usually is no such direct
+relation. Furthermore, internal events of the controller (usually event
+`tau`, or other events that are neither controllable nor uncontrollable),
+are considered controller events as well.
+
+* _Plant events_
++
+Plant events are those events that are initiated by the plants. These events
+are usually uncontrollable events. However, if supervisor synthesis is not
+used, the events need not necessarily be uncontrollable.
++
+For plant events, the behavior is usually fully specified in the CIF model.
+The CIF model models exactly when the events become enabled. For instance,
+when an elevator moves and reaches its top position, the event that indicates
+that 'the top position sensor goes on' becomes enabled, and should be
+executed at that time. That is, the plant model models/follows the physical
+behavior, and determines when the plants events are enabled. This behavior
+is fully specified and known, and further delays are undesirable. As such,
+plant events are urgent.
++
+For low-level plants, the events generally correspond directly to the events
+of sensors. Typical examples include limit sensors, such as the elevator top
+position sensor described above, and sensors that detect products throughout
+the system. For higher level plants however, there usually is no such
+direct relation. Furthermore, internal events of the plants (usually event
+`tau`, or other events that are neither controllable nor uncontrollable),
+may be considered plant events as well.
+
+* _Environment events_
++
+Environment events are those events that are initiated by the environment
+(anything outside and the plants and the controller). These events are
+usually uncontrollable events. However, if supervisor synthesis is not used,
+the events need not necessarily be uncontrollable.
++
+The CIF model only observes or monitors the environment events. The
+environment (outside of the behavior specified in the CIF model), determines
+when, if ever, the events actually happen, and thus defines their behavior.
+From the point of view of the CIF model, the environment events can happen at
+any time, and as such the CIF model allows them at all times. The
+behavior is left completely unrestricted/free in the CIF specification, as
+it is unknown when the events will actually happen. Since time may pass
+before these events actually happen (as determined by the environment, rather
+than the CIF model), these events are thus non-urgent (from the point of view
+of the CIF model). If the CIF model would instead consider them to be urgent,
+the model would always forbid time to progress, even if the environment does
+not currently allow any environment event to occur, leading to deadlock.
++
+For low-level plants, the events generally correspond directly to the events
+of sensors. For instance, the buttons of a user interface can be pushed and
+released. Other typical examples of environment events include events for
+other user interface elements, and events that indicate that a product has
+entered the system, from the environment of the system. For higher level
+plants however, there usually is no such direct relation. Furthermore,
+internal events of the plants (usually event `tau`, or other events that
+are neither controllable nor uncontrollable), may be considered plant events
+as well.
+
+Thus, for plant events as well as for controller events, the CIF model
+specifies/defines when the events may/should occur, while for environment
+events the specification always allows them, and lets the environment
+choose/determine when they actually occur. In other words, plant/controller
+events originate from within the specification (internal behavior), while
+environment events originate outside of the specification (external behavior).
+
+A closed system is a system for which the entire behavior is specified in the
+CIF model. Closed systems have no environment events.
+
+An open system does not model the environment. As such, open systems typically
+have plant events, controller events, and environment events. The environment
+events are then unrestricted in the CIF model, leaving the environment (which
+is not specified) free to determine its own behavior, and thus the behavior
+(enabledness) of the environment events.
+
+An open system can be closed by adding a use case, which models one possible
+sequence of behavior of the environment, over time. That is, the added use case
+eliminates environment events, by defining when they are enabled. Open systems
+can also be closed by the simulator, as described above for the different
+input modes.
+
+As an example, consider the following open system:
+
+
+[source, cif]
+----
+plant automaton Button:
+  uncontrollable u_pushed, u_released;
+
+  location Released:
+    initial;
+    edge u_pushed goto Pushed;
+
+  location Pushed:
+    edge u_released goto Released;
+end
+
+plant automaton Lamp:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on goto On;
+
+  location On:
+    edge c_off goto Off;
+end
+
+supervisor automaton ButtonLampController:
+  location:
+    initial;
+    edge Lamp.c_on  when Button.Pushed;
+    edge Lamp.c_off when Button.Released;
+end
+----
+
+Here we have a simple button and a lamp. The lamp can only be turned on while
+the button is pushed, and will be turned off as soon as the button is released.
+The button events are environment events, since it always possible to either
+push the button, or release it.
+
+By specifying the button events as environment events, and specifying the the
+lamp events as <<tools-cifsim-input-chapter-semi-automatic,semi-automatic>>
+events, we can use the <<tools-cifsim-input-chapter-console,interactive console input mode>>
+or the <<tools-cifsim-input-chapter-gui,interactive GUI input mode>> to try different traces,
+where we only have to
+choose between the button events and how much time we want to let pass.
+
+Alternatively, we could add a use case, modeling one possible behavior of a
+user:
+
+
+[source, cif]
+----
+plant automaton User:
+  cont t der 1.0;
+
+  location:
+    initial;
+    edge Button.u_pushed, Button.u_released when t >= 1 do t := 0.0;
+end
+----
+
+This specifies that the user either pushes or releases the button, after one
+unit of time has passed (typically one second). Since clock `t` is reset each
+time, the user repeats this behavior. Thus, the button is pushed after one
+second, for one second, after three seconds, for one second, after five
+seconds, for one second, etc. This extended model (with use case), can be
+simulated using the <<tools-cifsim-input-chapter-automatic,automatic input mode>>, as the
+`User` plant automaton closes the system.

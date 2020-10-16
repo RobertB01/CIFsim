@@ -1,0 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "small.svg";
+
+alg real a = b;
+alg real b = 1.0 / 0.0; // Evaluation failure, see SVG output mapping below.
+
+// Guard value fails to evaluate, so hasSingleValue reports 'false'.
+svgout id if a > 0: "a" else "b" end attr "c" value 1;
+
+// Evaluation of 'a' fails, due to failure to evaluate 'b', see 'b' above.
+svgout id <string>a attr "d" value 1;

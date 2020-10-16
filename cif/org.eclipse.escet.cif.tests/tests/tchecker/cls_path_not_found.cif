@@ -1,0 +1,17 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func bool f1(): "java:java.lang.Math.expm1|does_not_exist.jar";
+func bool f2(): "java:java.lang.Math.expm1|does_not_exist\\does_not_exist.jar";
+func bool f3(): "java:java.lang.Math.expm1|.;.;;cls_path_not_found.cif;does_not_exist1.jar;does_not_exist2.jar;";
+initial f1() or f2() or f3();

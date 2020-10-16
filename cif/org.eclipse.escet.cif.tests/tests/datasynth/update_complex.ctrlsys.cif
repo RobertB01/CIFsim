@@ -1,0 +1,19 @@
+uncontrollable error;
+plant automaton p:
+  disc int[0..3] x in any;
+  disc int[1..2] y in any;
+  disc int[2..3] z in any;
+  disc int[3..8] sum = 3;
+  location l1:
+    initial;
+    edge error do sum := x + y + z goto l2;
+  location l2:
+    marked sum = 7;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.x = 2 and (p.y = 2 and p.z = 3) or (p.x = 3 and (p.y = 2 and p.z = 2) or p.x = 3 and (p.y = 1 and p.z = 3));
+  location:
+    initial;
+    marked;
+end

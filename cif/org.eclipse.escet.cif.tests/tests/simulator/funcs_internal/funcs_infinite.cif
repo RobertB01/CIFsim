@@ -1,0 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Test case output is not deterministic/reproducible.
+// Maximum recursion depth before stack overflow differs per system, and even on a single system.
+
+func int inf(int x):
+  return inf(x + 1);
+end
+
+// Never ends (except for overflow). However, the maximum stack size is most
+// likely reached much earlier.
+invariant inf(0) > 0;

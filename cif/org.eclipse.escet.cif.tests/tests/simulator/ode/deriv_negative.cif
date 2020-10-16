@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton m:
+  cont x = 0.0 der -1.0;
+
+  location l1:
+    initial;
+    edge when x <=  1.0 goto l2;
+    edge when x <= -3.0 goto l3;
+
+  location l2:
+    urgent;
+
+  location l3:
+    urgent;
+end

@@ -1,0 +1,54 @@
+Initial state: time=0.0, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=3.1622776601683795, tank.V=10.0, tank.V'=-3.1622776601683795
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "75.0"
+SVG output ("tank.svg") id "V" text: "V = 10.00"
+SVG output ("tank.svg") id "Qi" text: "Qi = 0.0"
+SVG output ("tank.svg") id "Qo" text: "Qo = 3.16"
+SVG output ("tank.svg") id "n" attr "fill" (CSS attr): "red"
+
+Transition: delaying for 3.496128195593086 time units at time 0.0
+State: time=3.496128195593086, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=1.4142135623730936, tank.V=1.9999999999999958, tank.V'=-1.4142135623730936
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "14.999999999999968"
+SVG output ("tank.svg") id "V" text: "V = 2.00"
+SVG output ("tank.svg") id "Qi" text: "Qi = 0.0"
+SVG output ("tank.svg") id "Qo" text: "Qo = 1.41"
+SVG output ("tank.svg") id "n" attr "fill" (CSS attr): "red"
+
+Transition: event tau
+State: time=3.496128195593086, controller=opened, controller.n=1, tank.Qi=5.0, tank.Qo=1.4142135623730936, tank.V=1.9999999999999958, tank.V'=3.5857864376269064
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "14.999999999999968"
+SVG output ("tank.svg") id "V" text: "V = 2.00"
+SVG output ("tank.svg") id "Qi" text: "Qi = 5.0"
+SVG output ("tank.svg") id "Qo" text: "Qo = 1.41"
+SVG output ("tank.svg") id "n" attr "fill" (CSS attr): "lime"
+
+Transition: delaying for 3.188380532551417 time units at time 3.496128195593086
+State: time=6.684508728144503, controller=opened, controller.n=1, tank.Qi=5.0, tank.Qo=3.1622776601683795, tank.V=10.0, tank.V'=1.8377223398316205
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "75.0"
+SVG output ("tank.svg") id "V" text: "V = 10.00"
+SVG output ("tank.svg") id "Qi" text: "Qi = 5.0"
+SVG output ("tank.svg") id "Qo" text: "Qo = 3.16"
+SVG output ("tank.svg") id "n" attr "fill" (CSS attr): "lime"
+
+Transition: event tau
+State: time=6.684508728144503, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=3.1622776601683795, tank.V=10.0, tank.V'=-3.1622776601683795
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "75.0"
+SVG output ("tank.svg") id "V" text: "V = 10.00"
+SVG output ("tank.svg") id "Qi" text: "Qi = 0.0"
+SVG output ("tank.svg") id "Qo" text: "Qo = 3.16"
+SVG output ("tank.svg") id "n" attr "fill" (CSS attr): "red"
+
+Transition: delaying for 3.315491271855497 time units at time 6.684508728144503
+State: time=10.0, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=1.5045320242406033, tank.V=2.263616611965527, tank.V'=-1.5045320242406033
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "16.977124589741454"
+SVG output ("tank.svg") id "V" text: "V = 2.26"
+SVG output ("tank.svg") id "Qi" text: "Qi = 0.0"
+SVG output ("tank.svg") id "Qo" text: "Qo = 1.50"
+SVG output ("tank.svg") id "n" attr "fill" (CSS attr): "red"
+
+Simulation ended due to reaching the user-provided simulation end time.

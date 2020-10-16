@@ -1,0 +1,44 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type item = int;
+
+proc G(list chan! int a):
+   int j;
+   while true:
+      a[j]!0; j = (j + 1) mod size(a)
+   end
+end
+
+proc S(int j; chan int a, b; real ts):
+   dist real u = exponential(ts); item x;
+   while true:
+      a?x; delay sample u; b!j
+   end
+end
+
+proc E(chan? int a):
+   int x;
+   while true:
+      a?x; write("%g\tE\t%d\n", time, x)
+   end
+end
+
+model M():
+   list(5) chan int a; chan int b;
+   run
+      G(a),
+      unwind
+         j in range(5): S(j, a[j], b, 1.0)
+      end,
+      E(b)
+end

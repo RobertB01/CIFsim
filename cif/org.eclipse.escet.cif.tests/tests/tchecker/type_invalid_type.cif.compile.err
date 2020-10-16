@@ -1,0 +1,24 @@
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 22, column 13: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 23, column 13: Type "P" is not allowed for keys of dictionaries.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 24, column 13: Type "dist int" is not allowed for keys of dictionaries.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 26, column 17: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 27, column 17: Type "P" is not allowed for values of dictionaries.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 30, column 19: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 31, column 19: Type "P" is not allowed for parameters of functions.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 34, column 13: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 35, column 13: Type "P" is not allowed for return values of functions.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 38, column 13: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 39, column 13: Type "P" is not allowed for elements of lists.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 42, column 12: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 43, column 12: Type "P" is not allowed for elements of sets.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 44, column 12: Type "dist int" is not allowed for elements of sets.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 46, column 21: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 47, column 21: Type "P" is not allowed for fields of tuples.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 50, column 13: Type "int[1..2]" is not allowed for samples of distributions.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 51, column 13: Type "string" is not allowed for samples of distributions.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 57, column 6: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 58, column 6: Type "P" is not allowed for return values of functions.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 59, column 15: The return value of type "bool" is incompatible with the return type "dist int" of function "f2".
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 61, column 14: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type.cif": Semantic error at line 62, column 14: Function parameter "f4.z" is of type "P", which is a component or component definition.
+ERROR: Failed to load CIF file "tchecker/type_invalid_type.cif": the file has errors.

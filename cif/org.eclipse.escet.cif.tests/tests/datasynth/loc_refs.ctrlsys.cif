@@ -1,0 +1,50 @@
+controllable e1;
+controllable e2;
+controllable e3;
+controllable e4;
+controllable f1;
+controllable f2;
+plant automaton pe:
+  marked a;
+  location a:
+    initial;
+    marked;
+    edge e1 goto b;
+    edge e2 goto c;
+    edge e3;
+    edge e4 goto a;
+  location b:
+    marked;
+    edge e1 goto a;
+  location c:
+    marked;
+end
+plant automaton pf:
+  initial a;
+  location a:
+    initial;
+    marked;
+    edge f1;
+    edge f2 goto a;
+end
+plant automaton q1:
+  disc int[0..5] x;
+  disc int[1..3] y;
+  initial x = 0,
+          y = 1;
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet e1, e2, e3, e4, f1, f2;
+  location:
+    initial;
+    marked;
+    edge e1 when q1.x = 0 and q1.y = 1;
+    edge e2 when false;
+    edge e3 when q1.x = 0 and q1.y = 1;
+    edge e4 when q1.x = 0 and q1.y = 1;
+    edge f1 when not pe.c and (q1.x = 0 and q1.y = 1);
+    edge f2 when not pe.c and (q1.x = 0 and q1.y = 1);
+end

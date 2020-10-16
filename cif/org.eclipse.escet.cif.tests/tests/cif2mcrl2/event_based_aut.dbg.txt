@@ -1,0 +1,10 @@
+===============================================================
+Node 1 (automaton A)
+
+Variable use by behavior processes ordered by event:
+    A.a:
+        No variables from variables processes accessed.
+    A.b:
+        No variables from variables processes accessed.
+    A.c:
+        No variables from variables processes accessed.

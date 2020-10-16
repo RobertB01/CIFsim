@@ -1,0 +1,157 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Duplicate flag.
+print fmt("%--s", 5);
+print fmt("%++s", 5);
+print fmt("%  s", 5);
+print fmt("%00s", 5);
+print fmt("%,,s", 5);
+print fmt("%-+-+s", 5);
+
+// Percentage with other stuff.
+print fmt("%1$%", 5);
+print fmt("%+%", 5);
+print fmt("%5%", 5);
+print fmt("%.3%", 5);
+
+// Missing index/precision.
+print fmt("%$s", 5);
+print fmt("%$", 5);
+print fmt("%.s", 5);
+print fmt("%.", 5);
+
+// Invalid flag combinations.
+print fmt("%+ s", 5);
+print fmt("% +,s", 5);
+print fmt("%-0s", 5);
+print fmt("%0-,s", 5);
+
+// Missing width.
+print fmt("%-s", 5);
+print fmt("%0s", 5);
+
+// Unknown formatting conversion.
+print fmt("%z", 5);
+print fmt("%1$z", 5);
+print fmt("%+z", 5);
+print fmt("%2z", 5);
+print fmt("%.3z", 5);
+print fmt("%1$+2.3z", 5);
+
+// Incomplete specifier.
+print fmt("%", 5);
+print fmt("%1$", 5);
+print fmt("%+", 5);
+print fmt("%2", 5);
+print fmt("%.3", 5);
+
+// Test offset/length, with escaping.
+print fmt("a\tb\\c%sd%%e%sf", 1);
+
+// All conversion with flag/width/precision combinations.
+print fmt("%1b", true);     // OK
+print fmt("%-1b", true);    // OK
+print fmt("%+b", true);
+print fmt("% b", true);
+print fmt("%01b", true);
+print fmt("%,b", true);
+print fmt("%.3b", true);
+
+print fmt("%1B", true);     // OK
+print fmt("%-1B", true);    // OK
+print fmt("%+B", true);
+print fmt("% B", true);
+print fmt("%01B", true);
+print fmt("%,B", true);
+print fmt("%.3B", true);
+
+print fmt("%1d", 5);        // OK
+print fmt("%-1d", 5);       // OK
+print fmt("%+d", 5);        // OK
+print fmt("% d", 5);        // OK
+print fmt("%01d", 5);       // OK
+print fmt("%,d", 5);        // OK
+print fmt("%.3d", 5);
+
+print fmt("%1x", 5);        // OK
+print fmt("%-1x", 5);       // OK
+print fmt("%+x", 5);
+print fmt("% x", 5);
+print fmt("%01x", 5);       // OK
+print fmt("%,x", 5);
+print fmt("%.3x", 5);
+
+print fmt("%1X", 5);        // OK
+print fmt("%-1X", 5);       // OK
+print fmt("%+X", 5);
+print fmt("% X", 5);
+print fmt("%01X", 5);       // OK
+print fmt("%,X", 5);
+print fmt("%.3X", 5);
+
+print fmt("%1e", 5.0);      // OK
+print fmt("%-1e", 5.0);     // OK
+print fmt("%+e", 5.0);      // OK
+print fmt("% e", 5.0);      // OK
+print fmt("%01e", 5.0);     // OK
+print fmt("%,e", 5.0);
+print fmt("%.3e", 5.0);     // OK
+
+print fmt("%1E", 5.0);      // OK
+print fmt("%-1E", 5.0);     // OK
+print fmt("%+E", 5.0);      // OK
+print fmt("% E", 5.0);      // OK
+print fmt("%01E", 5.0);     // OK
+print fmt("%,E", 5.0);
+print fmt("%.3E", 5.0);     // OK
+
+print fmt("%1f", 5.0);      // OK
+print fmt("%-1f", 5.0);     // OK
+print fmt("%+f", 5.0);      // OK
+print fmt("% f", 5.0);      // OK
+print fmt("%01f", 5.0);     // OK
+print fmt("%,f", 5.0);      // OK
+print fmt("%.3f", 5.0);     // OK
+
+print fmt("%1g", 5.0);      // OK
+print fmt("%-1g", 5.0);     // OK
+print fmt("%+g", 5.0);      // OK
+print fmt("% g", 5.0);      // OK
+print fmt("%01g", 5.0);     // OK
+print fmt("%,g", 5.0);      // OK
+print fmt("%.3g", 5.0);     // OK
+
+print fmt("%1G", 5.0);      // OK
+print fmt("%-1G", 5.0);     // OK
+print fmt("%+G", 5.0);      // OK
+print fmt("% G", 5.0);      // OK
+print fmt("%01G", 5.0);     // OK
+print fmt("%,G", 5.0);      // OK
+print fmt("%.3G", 5.0);     // OK
+
+print fmt("%1s", 5);        // OK
+print fmt("%-1s", 5);       // OK
+print fmt("%+s", 5);
+print fmt("% s", 5);
+print fmt("%01s", 5);
+print fmt("%,s", 5);
+print fmt("%.3s", 5);
+
+print fmt("%1S", 5);        // OK
+print fmt("%-1S", 5);       // OK
+print fmt("%+S", 5);
+print fmt("% S", 5);
+print fmt("%01S", 5);
+print fmt("%,S", 5);
+print fmt("%.3S", 5);

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan a_b1;
+broadcast chan a_b12;
+const bool a_b2 = true;
+const bool SendAut = true;
+const bool Template_SendAut = true;
+const bool a_b22 = true;
+bool d_e_b = true;
+meta bool OLD_d_e_b = true;
+bool d_e_b2 = true;
+meta bool OLD_d_e_b2 = true;
+int[0,0] LP_d_e = 0;
+meta int[0,0] OLDLP_d_e = 0;
+int[0,0] LP_d_e2 = 0;
+meta int[0,0] OLDLP_d_e2 = 0;
+int[0,0] LP_Template_d_e = 0;
+meta int[0,0] OLDLP_Template_d_e = 0;</declaration>
+  <template>
+    <name>Template_d_e</name>
+    <location id="id0"/>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">a_b1?</label>
+      <label kind="assignment">LP_d_e = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_d_e2</name>
+    <location id="id1"/>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">a_b12?</label>
+      <label kind="assignment">LP_d_e2 = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_Template_d_e</name>
+    <location id="id2"/>
+    <init ref="id2"/>
+  </template>
+  <template>
+    <name>Template_SendAut2</name>
+    <location id="id3">
+      <label kind="invariant">(d_e_b) &amp;&amp; (d_e_b2)</label>
+    </location>
+    <init ref="id3"/>
+    <transition>
+      <source ref="id3"/>
+      <target ref="id3"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">a_b1!</label>
+      <label kind="assignment">OLD_d_e_b = d_e_b, OLD_d_e_b2 = d_e_b2, OLDLP_d_e = LP_d_e, OLDLP_d_e2 = LP_d_e2, OLDLP_Template_d_e = LP_Template_d_e</label>
+    </transition>
+    <transition>
+      <source ref="id3"/>
+      <target ref="id3"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">a_b12!</label>
+      <label kind="assignment">OLD_d_e_b = d_e_b, OLD_d_e_b2 = d_e_b2, OLDLP_d_e = LP_d_e, OLDLP_d_e2 = LP_d_e2, OLDLP_Template_d_e = LP_Template_d_e</label>
+    </transition>
+  </template>
+  <system>d_e = Template_d_e();
+d_e2 = Template_d_e2();
+Template_d_e3 = Template_Template_d_e();
+SendAut2 = Template_SendAut2();
+
+system d_e, d_e2, Template_d_e3, SendAut2;</system>
+</nta>

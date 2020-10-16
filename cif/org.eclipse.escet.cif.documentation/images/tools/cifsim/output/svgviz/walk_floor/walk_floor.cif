@@ -1,0 +1,24 @@
+// Behavior.
+automaton person:
+  cont pos = 0.0;
+
+  location forward:
+    initial;
+    equation pos' =  1.0;
+    edge when pos >= 5.0 goto backward;
+
+  location backward:
+    equation pos' = -1.0;
+    edge when pos <= 0.0 goto forward;
+end
+
+// Visualization.
+svgfile "walk_floor.svg";
+
+// width of the floor - width of the person = movement
+// 180px              - 19px                = 161px
+svgout id "person" attr "transform"
+  value fmt("translate(%s,0)", scale(person.pos, 0, 5, 0, 161));
+
+svgout id "pos_txt" text
+  value fmt("%.1f%%", scale(person.pos, 0, 5, 0, 100));

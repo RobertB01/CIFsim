@@ -1,0 +1,2 @@
+WARNING: Environment event filter "e1" does not have any effect. The matched events were already made environment events by an earlier filter.
+WARNING: Environment event filter "e*" does not have any effect. The matched events were already made environment events by an earlier filter.

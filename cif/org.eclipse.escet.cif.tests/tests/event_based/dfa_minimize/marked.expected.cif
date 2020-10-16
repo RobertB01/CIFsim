@@ -1,0 +1,17 @@
+controllable a;
+controllable b;
+automaton minimal:
+  alphabet a, b;
+  location s1:
+    initial;
+    edge b goto s2;
+    edge a goto s3;
+  location s2:
+    marked;
+    edge b;
+    edge a goto s3;
+  location s3:
+    marked;
+    edge b goto s1;
+    edge a goto s1;
+end

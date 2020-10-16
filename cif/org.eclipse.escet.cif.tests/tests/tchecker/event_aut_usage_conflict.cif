@@ -1,0 +1,89 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// No problems.
+automaton ok1:
+  event e;
+  event void ev;
+  event int ei;
+
+  location:
+    initial;
+    edge e;
+    edge ev?;
+    edge ei!1;
+end
+
+// No problems.
+automaton ok2:
+  event e;
+
+  location:
+    initial;
+    edge e;
+    edge tau;
+end
+
+// Send/receive.
+automaton sr:
+  event int ei;
+
+  location:
+    initial;
+    edge ei?;
+    edge ei!1;
+end
+
+// Send/sync.
+automaton sc:
+  event int ei;
+
+  location:
+    initial;
+    edge ei;
+    edge ei!1;
+end
+
+// Receive/sync.
+automaton rc:
+  event int ei;
+
+  location:
+    initial;
+    edge ei;
+    edge ei?;
+end
+
+// Triple use.
+automaton src:
+  event int ei;
+
+  location l1:
+    initial;
+    edge ei goto l2;
+    edge ei?;
+
+  location l2:
+    edge ei!1;
+    edge tau;
+end
+
+// Send/sync alphabet.
+automaton sc_alpha:
+  alphabet ei;
+  event int ei;
+
+  location:
+    initial;
+    edge ei!1;
+end

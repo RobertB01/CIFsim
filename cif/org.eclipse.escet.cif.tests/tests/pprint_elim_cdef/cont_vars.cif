@@ -1,0 +1,71 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+cont r = 1.0 der 2.0;
+
+group x:
+  group y:
+    plant def z():
+      cont y = <real>i der r;
+      disc int i;
+      location:
+        initial;
+    end
+  end
+end
+
+p: x.y.z();
+
+invariant r + p.y > 0;
+
+//
+
+cont a;
+equation a' = 1.0;
+
+group q1:
+  cont a;
+  equation a' = 1.0;
+end
+
+automaton q2:
+  cont a = 8.0;
+  cont cont_var;
+  location l1:
+    initial;
+    equation a'        = 1.0,
+             cont_var' = 2.0;
+  location l2:
+    initial;
+    equation a'        = 3.0,
+             cont_var' = 4.0;
+end
+
+invariant a  + q1.a  + q2.a  + q2.cont_var  > 0;
+invariant a' + q1.a' + q2.a' + q2.cont_var' > 0;
+
+//
+
+group z1:
+  cont x;
+  cont y;
+  equation x' = x;
+  equation y' = x;
+  invariant x + y > 0;
+end
+
+group z2:
+  cont x = y;
+  cont y = 0.0 der x;
+  equation x' = 1.0;
+end

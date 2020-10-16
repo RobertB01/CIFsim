@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan buf_add;
+broadcast chan buf_remove;
+int[0,10] buf_count = 5;
+meta int[0,10] OLD_buf_count = 5;
+int[0,0] LP_buf = 0;
+meta int[0,0] OLDLP_buf = 0;</declaration>
+  <template>
+    <name>Template_buf</name>
+    <location id="id0">
+      <label kind="invariant">(buf_count) &lt;= (7)</label>
+    </location>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">buf_add?</label>
+      <label kind="assignment">buf_count = (OLD_buf_count) + (1), LP_buf = 0</label>
+    </transition>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">buf_remove?</label>
+      <label kind="assignment">buf_count = (OLD_buf_count) - (1), LP_buf = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id1">
+      <label kind="invariant">(buf_count) &gt;= (3)</label>
+    </location>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">buf_add!</label>
+      <label kind="assignment">OLD_buf_count = buf_count, OLDLP_buf = LP_buf</label>
+    </transition>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">buf_remove!</label>
+      <label kind="assignment">OLD_buf_count = buf_count, OLDLP_buf = LP_buf</label>
+    </transition>
+  </template>
+  <system>buf = Template_buf();
+SendAut = Template_SendAut();
+
+system buf, SendAut;</system>
+</nta>

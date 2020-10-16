@@ -1,0 +1,20 @@
+event e1;
+group a:
+  event e2;
+  group b:
+  end
+end
+group c:
+  requirement automaton d1:
+    event e3;
+    location:
+      initial;
+      edge e1, a.e2, e3;
+  end
+  requirement automaton d2:
+    event e3;
+    location:
+      initial;
+      edge e1, a.e2, e3;
+  end
+end

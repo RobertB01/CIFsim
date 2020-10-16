@@ -1,0 +1,84 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-print-chapter-index]]
+== Print output
+
+indexterm:[CIF simulator,print output]
+indexterm:[print output]
+indexterm:[simulation output,print output]
+The CIF simulator supports several forms of
+<<tools-cifsim-output-chapter-index,output>>. By default, simulation results, such as the
+current <<tools-cifsim-traces-state,state>>, are printed to the console.
+While this provides useful information, it can also be useful to generate
+custom output, tailored to ones specific needs. To allow this, the CIF
+simulator supports _print output_.
+
+Simulation using the CIF simulator results in a
+<<tools-cifsim-traces-traces,trace>>. A trace consists of the
+<<tools-cifsim-traces-state,states>> that are encountered and the
+transitions that are taken, during the simulation. The print output
+declarations allow specifying for which transitions text should be printed
+(for instance only for transitions for a certain event), when the text should
+be printed (for instance before or after the transition), where the text should
+be printed (for instance to a file), and what text should be printed.
+
+Print output declarations are an extension to the CIF language, and can be
+specified directly in the CIF specification. They are only used to couple
+the model to textual output. They don't influence the behavior of the model
+itself. The CIF <<tools-chapter-text-editor,text editor>> provides full
+integration for the print output declarations extension, complete with syntax
+highlighting, background validation, etc.
+
+indexterm:[debug,print output]
+Print output can be used to generate text that after simulation is further
+processed, for instance for visualization or for analysis using statistical
+software. Print output can also be useful for debugging,
+
+indexterm:[print output,example]
+
+=== Quick example
+
+This example serves only to give a quick taste of what print output
+declarations look like:
+
+
+[source, cif]
+----
+printfile "out.txt";
+
+print x for e;
+----
+
+This example prints the value of variable `x` to a file `out.txt` each
+time after a transition for event `e` is taken.
+
+
+=== Documentation
+
+The tutorials introduce print declarations and text formatting, they explain
+the general idea behind them, and they show how to use them, all by means of
+examples. The tutorials are focused on practical use, and do not cover all uses
+and other details.
+
+* <<tools-cifsim-output-print-chapter-tut-print>>
+* <<tools-cifsim-output-print-chapter-tut-fmt>>
+
+The reference documentation discusses all details related to text output and
+text formatting. It is much more technical than the tutorials.
+
+* <<tools-cifsim-output-print-chapter-ref-printdecl>>
+* <<tools-cifsim-output-print-chapter-ref-printfile>>
+* <<tools-cifsim-output-print-chapter-ref-sim>>
+* <<tools-cifsim-output-print-chapter-ref-fmt>>

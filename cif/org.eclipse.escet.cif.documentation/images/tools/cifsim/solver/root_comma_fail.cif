@@ -1,0 +1,6 @@
+automaton p:
+  cont x der 1.0;
+  location:
+    initial;
+    edge when x > 0, 1 / x < 0.5 do x := 0.0;
+end

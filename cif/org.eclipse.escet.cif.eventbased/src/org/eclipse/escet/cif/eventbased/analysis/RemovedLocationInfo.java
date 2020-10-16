@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+package org.eclipse.escet.cif.eventbased.analysis;
+
+/** Information about a removed location. */
+public class RemovedLocationInfo {
+    /** Removed location. */
+    public final int loc;
+
+    /**
+     * Whether the removed location was found to be non-coreachable (else it was locally detected to be a deadlock
+     * non-marked location).
+     */
+    public final boolean isNotCoreachable;
+
+    /**
+     * Constructor of the {@link RemovedLocationInfo} class.
+     *
+     * @param loc Removed location.
+     * @param isNotCoreachable Whether the removed location was found to be non-coreachable (else it was locally
+     *     detected to be a deadlock non-marked location).
+     */
+    public RemovedLocationInfo(int loc, boolean isNotCoreachable) {
+        this.loc = loc;
+        this.isNotCoreachable = isNotCoreachable;
+    }
+}

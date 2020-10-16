@@ -1,0 +1,43 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage[paperwidth=40in, paperheight=20in]{geometry}
+
+\usetikzlibrary{arrows, automata, positioning, shapes.geometric}
+\begin{document}
+\pagestyle{empty}
+
+\definecolor{se-blue}{HTML}{D0D5FF}
+
+\newcommand{\state}[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+
+\begin{tikzpicture}[
+  ->,>=stealth',auto,node distance=3.5cm,thick,
+  every node/.style={font=\sffamily\small},
+  every state/.style={draw=se-blue,thick,top color=white,ellipse,
+                      bottom color=se-blue!75,initial text=},
+  accepting/.style={accepting by arrow,accepting text=\ldots},
+  every edge/.style={draw=black!50}]
+
+  \node[state, initial]   (s00) [            ] {processing};
+  \node[state]            (s01) [right of=s00] {providing};
+
+  \path[every node/.style={font=\sffamily\normalsize,outer sep=0pt}]
+    (s00) edge[bend left=15] node[] {\texttt{tau}} (s01)
+    (s01) edge[bend left=15] node[] {provide} (s00)
+  ;
+
+\end{tikzpicture}
+\end{document}

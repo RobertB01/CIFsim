@@ -1,0 +1,33 @@
+event x_y_z;
+type t_e = bool;
+event x_y_z2;
+event x_y_a;
+uncontrollable x_y_u;
+event x_y_z3;
+event x_b;
+controllable x_c;
+event t_e2;
+automaton x_y:
+  disc bool v;
+  location l:
+    initial;
+end
+automaton x:
+  location l:
+    initial;
+end
+automaton t:
+  disc t_e v;
+  location l:
+    initial;
+end
+invariant x_y_z needs true;
+invariant x_y_z2 needs true;
+invariant x_y_a needs true;
+invariant x_y_u needs true;
+invariant x_y.v;
+invariant x_y_z3 needs true;
+invariant x_b needs true;
+invariant x_c needs true;
+invariant t_e2 needs true;
+invariant t.v;

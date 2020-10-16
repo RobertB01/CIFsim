@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/tau_event.cif".
+CAUSE: Unsupported location "a" of automaton "a": edges with event "tau" are not supported.

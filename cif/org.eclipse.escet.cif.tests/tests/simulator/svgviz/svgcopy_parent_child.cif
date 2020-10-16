@@ -1,0 +1,84 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "svgcopy_parent_child.svg";
+
+// top (outer before inner, concrete components)
+
+svgcopy id "grp_top" post "2";
+svgcopy id "grp_top" post "3";
+
+svgout id "grp_top2" attr "transform" value "translate(200,0)";
+svgout id "grp_top3" attr "transform" value "translate(400,0)";
+
+group top:
+  svgcopy id "inner_top2" post "_2";
+  svgcopy id "inner_top2" post "_3";
+  svgcopy id "inner_top3" post "_2";
+  svgcopy id "inner_top3" post "_3";
+
+  svgout id "inner_top2_2" attr "transform" value "translate(20,0)";
+  svgout id "inner_top2_3" attr "transform" value "translate(40,0)";
+  svgout id "inner_top3_2" attr "transform" value "translate(20,0)";
+  svgout id "inner_top3_3" attr "transform" value "translate(40,0)";
+end
+
+// middle (inner before outer, concrete components)
+
+svgcopy id "inner_middle2" post "_2";
+svgcopy id "inner_middle2" post "_3";
+svgcopy id "inner_middle3" post "_2";
+svgcopy id "inner_middle3" post "_3";
+
+svgout id "inner_middle2_2" attr "transform" value "translate(20,0)";
+svgout id "inner_middle2_3" attr "transform" value "translate(40,0)";
+svgout id "inner_middle3_2" attr "transform" value "translate(20,0)";
+svgout id "inner_middle3_3" attr "transform" value "translate(40,0)";
+
+group middle:
+  svgcopy id "grp_middle" post "2";
+  svgcopy id "grp_middle" post "3";
+
+  svgout id "grp_middle2" attr "transform" value "translate(200,0)";
+  svgout id "grp_middle3" attr "transform" value "translate(400,0)";
+end
+
+// bottom (outer before inner, definition/instantiation)
+
+group def InnerBottom(alg int outerNr, innerNr):
+  svgcopy id "inner_bottom" + <string>outerNr post "_" + <string>innerNr;
+
+  svgout id fmt("inner_bottom%d_%d", outerNr, innerNr) attr "transform"
+         value fmt("translate(%d,0)", innerNr * 20);
+end
+
+group def OuterBottom(alg int outerNr):
+  svgcopy id "grp_bottom" post <string>outerNr;
+
+  svgout id "grp_bottom" + <string>outerNr attr "transform"
+         value fmt("translate(%d,0)", outerNr * 200);
+
+  inner1: InnerBottom(outerNr, 1);
+  inner2: InnerBottom(outerNr, 2);
+end
+
+outer1: OuterBottom(1);
+outer2: OuterBottom(2);
+
+// No delay.
+
+automaton no_delay:
+  location:
+    initial;
+    urgent;
+end

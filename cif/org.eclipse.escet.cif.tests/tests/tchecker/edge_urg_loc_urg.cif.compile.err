@@ -1,0 +1,7 @@
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 19, column 12: Edge is redundantly urgent, since its source location (the location of automaton "g.p1") is also urgent.
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 20, column 12: Edge is redundantly urgent, since its source location (the location of automaton "g.p1") is also urgent.
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 27, column 12: Edge is redundantly urgent, since its source location (location "a" of automaton "g.p2") is also urgent.
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 28, column 12: Edge is redundantly urgent, since its source location (location "a" of automaton "g.p2") is also urgent.
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 32, column 12: Edge is redundantly urgent, since its source location (location "b" of automaton "g.p2") is also urgent.
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 34, column 12: Edge is redundantly urgent, since its source location (location "b" of automaton "g.p2") is also urgent.
+WARNING: File "tchecker/edge_urg_loc_urg.cif": Semantic warning at line 35, column 12: Edge is redundantly urgent, since its source location (location "b" of automaton "g.p2") is also urgent.

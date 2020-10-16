@@ -1,0 +1,18 @@
+event up;
+event down;
+automaton statespace:
+  alphabet up, down;
+  location loc1:
+    initial;
+    marked;
+    edge up goto loc2;
+    edge down goto loc3;
+  location loc2:
+    edge up goto loc4;
+    edge down goto loc1;
+  location loc3:
+    marked;
+    edge up goto loc1;
+  location loc4:
+    edge down goto loc2;
+end

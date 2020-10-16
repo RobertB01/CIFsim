@@ -1,0 +1,1 @@
+Error: File "spec/expr/not-callable.chi": Semantic error at line 14, column 19: Expression is not a function that can be called nor a process that can be run or started.

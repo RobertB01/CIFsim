@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="744.09448"
+   height="1052.3622"
+   id="svg2">
+  <defs
+     id="defs4" />
+  <g
+     id="layer1">
+    <g
+       transform="matrix(1,0,1,0,1,1)"
+       id="g2820">
+      <rect
+         width="120"
+         height="122.85714"
+         x="80"
+         y="126.6479"
+         id="rect2816"
+         style="fill:#0000ff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    </g>
+  </g>
+</svg>

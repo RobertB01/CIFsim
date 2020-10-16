@@ -1,0 +1,63 @@
+Initial state: time=0.0
+
+Transition: delaying for 0.5 time units at time 0.0
+State: time=0.5
+
+Transition: delaying for 0.5 time units at time 0.5
+State: time=1.0
+
+Transition: delaying for 0.5 time units at time 1.0
+State: time=1.5
+
+Transition: delaying for 0.5 time units at time 1.5
+State: time=2.0
+
+Transition: delaying for 0.5 time units at time 2.0
+State: time=2.5
+
+Transition: delaying for 0.5 time units at time 2.5
+State: time=3.0
+
+Transition: delaying for 0.5 time units at time 3.0
+State: time=3.5
+
+Transition: delaying for 0.5 time units at time 3.5
+State: time=4.0
+
+Transition: delaying for 0.5 time units at time 4.0
+State: time=4.5
+
+Transition: delaying for 0.5 time units at time 4.5
+State: time=5.0
+
+Transition: delaying for 0.5 time units at time 5.0
+State: time=5.5
+
+Transition: delaying for 0.5 time units at time 5.5
+State: time=6.0
+
+Transition: delaying for 0.5 time units at time 6.0
+State: time=6.5
+
+Transition: delaying for 0.5 time units at time 6.5
+State: time=7.0
+
+Transition: delaying for 0.5 time units at time 7.0
+State: time=7.5
+
+Transition: delaying for 0.5 time units at time 7.5
+State: time=8.0
+
+Transition: delaying for 0.5 time units at time 8.0
+State: time=8.5
+
+Transition: delaying for 0.5 time units at time 8.5
+State: time=9.0
+
+Transition: delaying for 0.5 time units at time 9.0
+State: time=9.5
+
+Transition: delaying for 0.5 time units at time 9.5
+State: time=10.0
+
+Simulation ended due to reaching the user-provided simulation end time.

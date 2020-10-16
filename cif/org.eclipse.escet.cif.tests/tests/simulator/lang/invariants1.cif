@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+invariant p.y < 7;
+
+automaton p:
+  event ex, ey, ez;
+  disc int x = 0, y = 5, z = 9;
+  invariant x < 3;
+
+  location:
+    initial;
+    invariant z < 11;
+    urgent;
+
+    edge ex do x := x + 1;
+    edge ey do y := y + 1;
+    edge ez do z := z + 1;
+end

@@ -1,0 +1,3 @@
+ERROR: File "tchecker/duplicate_field_name.cif": Semantic error at line 14, column 20: Duplicate tuple type field name "a".
+ERROR: File "tchecker/duplicate_field_name.cif": Semantic error at line 14, column 23: Duplicate tuple type field name "a".
+ERROR: Failed to load CIF file "tchecker/duplicate_field_name.cif": the file has errors.

@@ -1,0 +1,106 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cif2yed;
+
+// Configuration.
+string test_path = "cif2yed";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1"];
+map(string:list string) test_options = {
+    "cif2yed/model_filter_none.cif":    ["--model-filters="],
+    "cif2yed/model_filter_all.cif":     ["--model-filters=io,decls,loc-decls,guards,updates"],
+    "cif2yed/opt_syntax_highlight.cif": ["-s0"],
+    "cif2yed/relations_none.cif":       ["-s0 --relations="],
+};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    for out_type in ["relations", "model"]:
+        // Get test specific options.
+        list string options = default_options;
+        list string extra_options;
+        if contains(test_options, test):: extra_options = test_options[test];
+        options = options + extra_options;
+
+        // Print what we are testing.
+        outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options + ["-k", out_type], " "));
+
+        // Get paths.
+        string test_out_exp  = chfileext(test, oldext="cif", newext=out_type + ".out");
+        string test_err_exp  = chfileext(test, oldext="cif", newext=out_type + ".err");
+        string test_out_real = chfileext(test, oldext="cif", newext=out_type + ".out.real");
+        string test_err_real = chfileext(test, oldext="cif", newext=out_type + ".err.real");
+
+        string yed_exp       = chfileext(test, oldext="cif", newext=out_type + ".graphml");
+        string yed_real      = chfileext(test, oldext="cif", newext=out_type + ".graphml.real");
+
+        // Execute.
+        options = options + ["-o", yed_real, "-k", out_type];
+        cif2yed([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+        // Compare output.
+        bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+        bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+        bool yed_diff    = diff(yed_exp, yed_real, missingAsEmpty=true, warnOnDiff=true);
+        if not stderr_diff:: rmfile(test_err_real);
+        if not stdout_diff:: rmfile(test_out_real);
+        if not yed_diff::    if exists(yed_real):: rmfile(yed_real);
+
+        // Update counts.
+        int diff_count = 0;
+        if stderr_diff:: diff_count = diff_count + 1;
+        if stdout_diff:: diff_count = diff_count + 1;
+        if yed_diff::    diff_count = diff_count + 1;
+
+        count = count + 1;
+        if diff_count == 0:: successes = successes + 1;
+        if diff_count > 0:: failures = failures + 1;
+    end
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

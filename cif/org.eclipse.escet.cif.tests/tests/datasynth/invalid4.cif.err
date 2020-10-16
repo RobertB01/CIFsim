@@ -1,0 +1,2 @@
+ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
+ - Unsupported variable "p.v2": unsupported part "5 div p.v1" of initial value "5 div p.v1": "5 div p.v1" always results in division by zero.

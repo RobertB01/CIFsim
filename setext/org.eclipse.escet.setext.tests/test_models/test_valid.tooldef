@@ -1,0 +1,112 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Configuration.
+string bundle = "org.eclipse.escet.setext.generator";
+string class = "org.eclipse.escet.setext.generator.SeTextGeneratorApp";
+string test_path = "models_valid";
+string test_pattern = "*.setext";
+list string default_options = ["--output-mode=warning",
+                               "--output-java=off",
+                               "--output-debug=on",
+                               "--output-bnf=off",
+                               "--devmode=1",
+];
+map(string:list string) test_options = {
+    "models_valid/output_bnf.setext": ["--output-bnf=on"],
+};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, newext="gen.out");
+    string test_err_exp  = chfileext(test, newext="gen.err");
+    string test_out_real = chfileext(test, newext="gen.out.real");
+    string test_err_real = chfileext(test, newext="gen.err.real");
+
+    string parser_exp  = chfileext(test, newext="Parser.dbg.exp");
+    string parser_real = chfileext(test, newext="Parser.dbg");
+    string scanner_real = chfileext(test, newext="Scanner.dbg");
+    string bnf_exp  = chfileext(test, oldext="setext", newext="bnf.exp");
+    string bnf_real = chfileext(test, oldext="setext", newext="bnf");
+
+    // Execute.
+    app(bundle, class, [test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr_diff  = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff  = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool parser_diff  = diff(parser_exp, parser_real, missingAsEmpty=true, warnOnDiff=true);
+    bool bnf_diff     = diff(bnf_exp, bnf_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff:: rmfile(test_err_real);
+    if not stdout_diff:: rmfile(test_out_real);
+    if not parser_diff:: rmfile(parser_real);
+    if not bnf_diff::    if exists(bnf_real):: rmfile(bnf_real);
+    rmfile(scanner_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff:: diff_count = diff_count + 1;
+    if stdout_diff:: diff_count = diff_count + 1;
+    if parser_diff:: diff_count = diff_count + 1;
+    if bnf_diff::    diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

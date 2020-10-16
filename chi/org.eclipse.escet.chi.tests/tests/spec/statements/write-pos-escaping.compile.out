@@ -1,0 +1,1 @@
+Error: File "spec/statements/write-pos-escaping.chi": Semantic error at line 14, column 39: Argument 2 is of type "int" (expected "bool").

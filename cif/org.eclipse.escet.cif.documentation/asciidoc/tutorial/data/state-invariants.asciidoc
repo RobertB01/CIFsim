@@ -1,0 +1,174 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-data-chapter-stat-invariants]]
+== State (exclusion) invariants
+
+indexterm:[invariant]
+indexterm:[invariant,state]
+indexterm:[state,invariant]
+The lesson on <<tut-data-chapter-discrete-variables,discrete variables>> used
+the following CIF specification:
+
+
+[source, cif]
+----
+automaton counter:
+  event increment, decrement;
+
+  disc int count = 3;
+
+  location:
+    initial;
+    edge decrement when count > 0 do count := count - 1;
+    edge increment when count < 5 do count := count + 1;
+end
+----
+
+The counter can repeatedly be incremented and decremented by one, as long as
+the count remains at least one and at most five. To keep the count in the
+allowed range of values, guards were used to limit the occurrence of the
+`increment` and `decrement` events.
+
+Instead of using guards, it is also possible to use state (exclusion)
+invariants, also called state invariants, or just invariants:
+
+
+[source, cif]
+----
+automaton counter:
+  event increment, decrement;
+
+  disc int count = 3;
+
+  invariant count >= 0;                   // Added invariants
+  invariant count <= 5;
+
+  location:
+    initial;
+    edge decrement do count := count - 1; // No more guards
+    edge increment do count := count + 1;
+end
+----
+
+The guards on the edges have been replaced by the two invariants. The first
+invariant specifies that the value of variable `count` must always be at
+least zero. The second invariant specifies that the value must also be at most
+five.
+
+Invariants specify conditions that must always hold. Invariants must hold in
+the initial state, and all states reached via transitions. If a transition
+results in a state where an invariant doesn't hold, the transition is not
+allowed and can't be taken.
+
+For the counter example, initially the `count` is `3`. The edge for the
+`increment` event can be taken, leading to a state where the `count` is
+`4`. Taking another transition for the `increment` event leads to a state
+where the `count` is `5`. If we then were to take another transition for
+the `increment` event, the `count` would then become `6`. However, that
+violates the invariant. Therefore, in the state where the `count` is `5`,
+no transition for the `increment` event is possible. In other words, the
+invariant disables the transition for the `increment` event for that state.
+
+The two invariants can be specified in various ways:
+
+
+[source, cif]
+----
+// Multiple invariants, each with a single predicate.
+invariant count >= 0;
+invariant count <= 5;
+
+// Single invariant, with multiple predicates.
+invariant count >= 0, count <= 5;
+
+// Single invariant, with single predicate.
+invariant count >= 0 and count <= 5;
+----
+
+Each of these variants leads to the exact same behavior, and which variant to
+use depends mostly on the modeler's own preference.
+
+The benefit of guards over invariants is that they more explicitly state the
+condition under which an edge can lead to a transition. If a guard doesn't
+hold, the edge can't be part of a transition. It is thus immediately clear when
+the edge can lead to a transition. For invariants, the update has to be
+calculated first, after which the invariants can be evaluated for the state
+resulting from the transition. If one of the invariants doesn't hold, the
+transition is not allowed. In the case of the invariants, it is not as
+immediately clear from the edge alone, when that specific edge can or can not
+lead to a transition.
+
+The benefit of invariants over guards is that they apply to all edges. If
+several edges in an automaton have updates to the same variable, then the
+invariants need to be specified only once, and apply to all transitions, for
+all edges. Using guards, all the edges that modify the variable would need
+their own guards, and if the updates are different, the different edges usually
+require different guards. Furthermore, if new edges with updates to the same
+variables are added, the invariant is already present, but guards have to be
+added, which can easily be forgotten. In those cases, invariants can thus help
+keep the specification consistent.
+
+Another benefit of invariants is that they explicitly state the conditions that
+must hold in relation to the variables, while guards specify the condition
+under which the update is allowed. Consider the following CIF specification:
+
+
+[source, cif]
+----
+// Using invariants.
+automaton a:
+  disc int x;
+
+  invariant 0 <= x, x <= 100;
+
+  location:
+    initial;
+    edge do x := 2 * x + 3;
+end
+
+// Using guards.
+automaton a:
+  disc int x;
+
+  location:
+    initial;
+    edge when x <= 48 do x := 2 * x + 3;
+end
+----
+
+The goal is to keep the value of in the range [0..100]. The invariant is simple
+and direct. The guard however, has to state the condition under which the
+update does not violate the goal. That is, the upper bound has to be decreased
+by three, and the result has to be divided by two, to get the highest value
+(48) for which the update is still within the valid range of values. That is,
+for value 48 the update results in value 99 (2 * 48 + 3 = 99), and for value
+49 the update results in value 101 (2 * 48 + 3 = 99). The more complex the
+update, the harder it is to figure out the guard to use to keep satisfy the
+goal.
+
+You can of course also use `+2 * x + 3 <= 100+` as guard, instead of
+`+x <= 48+`. However, this duplicates part of the update in the guard.
+
+So far, all invariants have been specified in automata. They may however also
+be specified outside of the automata, similar to
+<<tut-data-chapter-init-preds,initialization predicates>>. It is generally
+recommended to place an invariant inside an automaton if the condition only
+applies to declarations from that automaton, and to place it outside of the
+automata if the condition applies to declarations of multiple automata.
+
+indexterm:[location,invariant]
+Furthermore, invariants can be placed in a location. Such an invariant only has
+to hold while the location in which it is specified is the current location of
+its automaton.

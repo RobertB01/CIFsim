@@ -1,0 +1,11 @@
+enum e = a, b;
+const e c1 = g.a;
+const g.e2 c2 = g.b;
+const e c5 = g.a;
+const g.e2 c6 = g.b;
+type t = e;
+const e c3 = a;
+const t c4 = b;
+group g:
+  enum e2 = a, b;
+end

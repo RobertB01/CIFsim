@@ -1,0 +1,2 @@
+ERROR: Can't put supervisor in namespace "g.h".
+CAUSE: The namespace is not empty, as it contains the following declarations: "c", "u".

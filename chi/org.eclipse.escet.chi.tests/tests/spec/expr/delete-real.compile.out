@@ -1,0 +1,1 @@
+Error: File "spec/expr/delete-real.chi": Semantic error at line 16, column 10: Type mismatch at the 2nd argument (found type "real", expected type "int").

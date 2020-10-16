@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "triangle(1.0, 2.0, 2.0)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: triangle(1.0, 2.0, 2.0).
+CAUSE: The top position (the second parameter) is not smaller than the right-most position (the third parameter).

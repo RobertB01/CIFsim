@@ -1,0 +1,2 @@
+ERROR: File "tchecker/channel_void_with_value.cif": Semantic error at line 19, column 11: Can't send a value over channel "e" of type "void".
+ERROR: Failed to load CIF file "tchecker/channel_void_with_value.cif": the file has errors.

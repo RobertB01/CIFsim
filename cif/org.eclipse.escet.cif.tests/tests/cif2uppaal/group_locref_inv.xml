@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan e;
+int[0,1] LP_g_a = 0;
+meta int[0,1] OLDLP_g_a = 0;</declaration>
+  <template>
+    <name>Template_g_a</name>
+    <location id="id0">
+      <name>loc1</name>
+    </location>
+    <location id="id1">
+      <name>loc2</name>
+    </location>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">LP_g_a = 1</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id2">
+      <label kind="invariant">LP_g_a == 0</label>
+    </location>
+    <init ref="id2"/>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id2"/>
+      <label kind="guard">((LP_g_a == 0) &amp;&amp; (true)) || ((LP_g_a == 1) &amp;&amp; (false))</label>
+      <label kind="synchronisation">e!</label>
+      <label kind="assignment">OLDLP_g_a = LP_g_a</label>
+    </transition>
+  </template>
+  <system>g_a = Template_g_a();
+SendAut = Template_SendAut();
+
+system g_a, SendAut;</system>
+</nta>

@@ -1,0 +1,24 @@
+group p1:
+  group x:
+    automaton y:
+      type t = bool;
+      invariant z.l;
+      invariant l1;
+      invariant l2;
+      location l1:
+        initial;
+      location l2:
+        initial;
+    end
+  end
+end
+automaton z:
+  type t = p1.x.y.t;
+  disc t v;
+  invariant p1.x.y.l1 or p1.x.y.l2;
+  invariant l;
+  invariant v;
+  location l:
+    initial;
+end
+invariant p1.x.y.l1 or p1.x.y.l2;

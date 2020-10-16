@@ -1,0 +1,21 @@
+group motor1:
+  controllable c_on;
+  controllable c_off;
+end
+group motor2:
+  controllable c_on;
+  controllable c_off;
+end
+automaton statespace:
+  alphabet motor1.c_on, motor1.c_off, motor2.c_on, motor2.c_off;
+  location loc1:
+    initial;
+    marked;
+    edge motor1.c_on goto loc2;
+  location loc2:
+    edge motor2.c_off goto loc3;
+  location loc3:
+    edge motor2.c_on goto loc4;
+  location loc4:
+    edge motor1.c_off goto loc1;
+end

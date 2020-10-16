@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton a:
+  disc int[0..20] x;
+
+  location:
+    initial;
+    edge e when x < 10 do x := x + 1;
+end
+
+automaton b:
+  disc int[0..20] y;
+
+  monitor e;
+
+  location:
+    initial;
+    edge e when y < 5 do y := y + 1;
+end

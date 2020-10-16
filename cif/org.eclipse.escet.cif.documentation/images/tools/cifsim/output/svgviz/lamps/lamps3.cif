@@ -1,0 +1,26 @@
+svgfile "lamps3.svg";
+
+automaton def Lamp(alg int nr):
+  // Behavior.
+  event toggle;
+  disc bool on = false;
+
+  location:
+    initial;
+    edge toggle do on := not on;
+
+  // Visualization.
+  svgcopy id "lamp" post <string>nr;
+
+  svgmove id "lamp" + <string>nr to 20 + (nr - 1) * 100, 20;
+
+  svgout id "lamp" + <string>nr attr "fill"
+    value if on: "yellow" else "silver" end;
+
+  svgout id "lamp" + <string>nr attr "stroke-width"
+    value if on: 5 else 2 end;
+end
+
+lamp1: Lamp(1);
+lamp2: Lamp(2);
+lamp3: Lamp(3);

@@ -1,0 +1,602 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+== CIF to Simulink translation
+
+The goal is to construct a translation from a CIF model to an equivalent
+Simulink model, which can also be used in real time control.
+
+This document describes the structure of the generated code with respect to
+interfacing with the Simulink program.
+
+The name Simulink in this document refers to the Matlab/Simulink product by
+MathWorks.
+
+
+=== To do
+
+* print output
+* Simulink column major
+
+
+=== Variable conversion
+
+CIF has a number of different variable concepts, which must be mapped onto
+Simulink variable concepts.
+The following table shows the mapping.
+
+[cols="1,3", options="header"]
+|===
+| CIF variable
+| Simulink Variable
+
+| Constant
+| -
+
+| Input variable
+| `InputPort`
+
+| Algebraic variable
+| For singulars, vectors, and matrices of numeric-ish types.
+
+| Discrete variable
+| `PWork`, for singulars, vectors, and matrices of numeric-ish types.
+
+| Continuous variable
+| `ContState`, `Output`
+
+| Derivative
+| `Derivative`
+
+| Location pointer
+| `Mode`, `Output`
+|===
+
+Variables with tuple types are not usefully representable in Simulink, in
+general. Such variables are converted, but not externally available. The user
+must re-organize the CIF program, or add algebraic variables with singular value
+or with an array (up to two dimensions) to make such data externally available.
+
+
+=== Code organization
+
+Simulink expects code to be organized around its solvers. For this purpose, the
+following Simulink functions should be implemented.
+
+* *mdlIInitializeSizes* Setup sizes and types of the various pieces of data in
+  Simulink, and expected sample handling.
+* *mdlInitializeSampleTimes* Setup solver requirements.
+* *mdlInitializeConditions* Initialize all variables and other data.
+* *mdlStart* Startup of the `SFunction`, allocate `PWork` memory, initialize
+  constants.
+* *mdlZeroCrossings* Compute guards in current state.
+* *mdlOutputs* Compute outputs in current state.
+* *mdlDerivatives* Compute the derivatives in the current state.
+* *mdlUpdate* Update the discrete state by performing edges.
+* *mdlTerminate* Free `PWork` memory.
+
+
+=== Variable creation and access
+
+For each kind of CIF variable, a more precise description is given on the
+considerations of constructing and accessing the variable in a Simulink
+SFunction.
+
+==== Constant
+
+Constants are not declared as const, since they may be arbitrary large and
+complicated to compute. Instead, they are stored as value in `PWork` (and written
+once at initialization).
+
+See Discrete Variables for a discussion of `PWork`.
+
+==== Input variable
+
+An input variable represents a value from an external source that is not under
+control by the CIF program. This fits nicely as a Simulink `InputPort`.
+
+Simulink input ports however can only handle real values, in any number of
+dimensions. In the CIF to Simulink translation, only input variables of type
+`real`, type `list[r] real`, or type `list[r] list[c] real` are supported.
+These map to singular, undirected vectors, and matrix type input ports in
+Simulink.
+
+Creation of an input variable (in `mdlIInitializeSizes`):
+
+[source, c]
+----
+// Set number of input variables.
+if (!ssSetNumInputPorts(sim_struct, <number-input-vars>)) return;
+
+// For input variable number 'index', set the port width.
+ssSetInputPortWidth(sim_struct, index, 1); // Singular type.
+ssSetInputPortWidth(sim_struct, index, R); // 'list[R] T' type.
+ssSetInputPortMatrixDimensions(sim_struct, index, R, C); // 'list[R] list[C] T' type.
+
+ssSetInputPortDataType(sim_struct, index, SS_DOUBLE);
+ssSetInputPortComplexSignal(sim_struct, index, COMPLEX_NO);
+ssSetInputPortDirectFeedThrough(sim_struct, index, 1); // Output uses input.
+----
+
+Note that Simulink only knows about real or complex data types, CIF
+integer-like types (bool, int, and enum) are silently translated from real
+values. CIF types with strings, with tuples, or with more than two nested
+levels of lists, are not supported.
+
+Accessing (reading) is performed with:
+
+[source, c]
+----
+InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(sim_struct, index);
+
+// uPtrs is a vector of pointers, element j should be accessed by *uPtrs[j].
+// For matrices, Matlab uses column-major layout, element (r, c) is thus at
+// j = r + c * <num-rows>
+----
+
+Vectors and matrices are not understood by the CIF C code. For this reason
+a copy must be created of a vector or matrix input value prior to giving CIF
+access. To avoid doing this many times, such copies should be cached. The copy
+is stored in the work data structure `WorkStruct`, along with a flag to avoid
+loading it more than once, for vectors and matrices.
+
+
+==== Algebraic variable
+
+Algebraic variables do not really exist, they are functions to be called. Having
+a function instead of a variable ensures the returned value is always up-to-date
+with respect to the CIF state variables.
+
+In Simulink, algebraic variables are put into output ports. These are created
+with:
+
+[source, c]
+----
+if (!ssSetNumOutputPorts(sim_struct, <number-output-variables>)) return;
+
+// For input variable number 'index', set the port width.
+ssSetOutputPortWidth(sim_struct, index, 1); // 'real' type.
+ssSetOutputPortWidth(sim_struct, index, R); // 'list[R] real' type.
+ssSetOutputPortMatrixDimensions(sim_struct, index, R, C); // 'list[R] list[C] real' type.
+
+ssSetOutputPortDataType(sim_struct, index, SS_DOUBLE);
+ssSetOutputPortComplexSignal(sim_struct, index, COMPLEX_NO);
+----
+
+As with input variables, Simulink can only handle real valued output. CIF
+integer-like types (bool, int, and enum) are silently translated from real
+values. CIF types with strings, with tuples, or with more than two nested
+levels of lists, are not supported.
+
+Writing to the output is done as follows:
+
+[source, c]
+----
+// Get output vector of output 'index'.
+real_T *y = ssGetOutputPortSignal(sim_struct, index);
+----
+
+As with input, the output is a vector in column-major layout for matrices.
+Output is always contiguous.
+
+Prior to writing output, you can test for having blocks connected to it:
+
+[source, c]
+----
+if (ssGetOutputPortConnected(sim_struct, index)) {
+    // Write output.
+}
+----
+
+
+==== Discrete variable
+
+A CIF discrete state variable could be stored in Simulink `DiscState`, but that
+has limitations for tuple types. Instead, discrete variables are stored in
+`PWork`, which is plain C, and capable of handling any type.
+
+In addition, discrete state variables that can be handled by Simulink, are
+copied to the output.
+
+The `PWork` data must be initialized first:
+
+[source, c]
+----
+setNumRWork(sim_struct, 0);
+setNumIWork(sim_struct, 0);
+setNumPWork(sim_struct, 1); // One PWork for all discrete variables.
+
+struct WorkStruct {
+    // All constant definitions. See Constant 'variable' above.
+    // All disc variable definitions.
+    // All input variables
+    // Flags whether the input has been read.
+};
+
+struct WorkStruct *data = malloc(sizeof(struct WorkStruct));
+if (data == NULL) {
+    ssSetErrorSytatus(sim_struct, "Claiming of memory failed");
+    return;
+}
+ssSetPWorkValue(sim_struct, 0, data);
+----
+
+and released in `mdlTerminate`:
+
+[source, c]
+----
+free(ssGetPWorkValue(sim_struct, 0));
+----
+
+Access to the discrete variable also runs through the data variable:
+
+[source, c]
+----
+struct WorkStruct *data = ssGetPWorkValue(sim_struct, 0);
+// data->var. ....
+----
+
+The output of discrete variables is the same as with algebraic variables.
+
+
+==== Continuous variables
+
+CIF continuous variables map properly onto Simulink `ContState`, to make them
+available externally, they are also copied to the output. Continuous state
+variable `0` is used for `time`. This value is not exported to the output.
+
+Initialization of the `ContState` vector is done with:
+
+[source, c]
+----
+ssSetNumContStates(sim_struct, 1 + <number-cont-variables>);
+
+ssSetNumDiscStates(sim_struct, 0); // No discrete state.
+----
+
+Access is a vector of continuous variables:
+
+[source, c]
+----
+real_T *xC = ssGetContStates(sim_struct);
+
+// xC[0] is time, first continuous variable is at xC[1].
+----
+
+
+==== Derivative
+
+The derivative of a CIF continuous variable is a function. These are implemented
+similarly to algebraic variables, except that caching is less relevant since the
+number of contexts that use them is limited.
+
+In Simulink, derivatives are stored in a derivative vector for use by the
+solvers:
+
+[source, c]
+----
+real_T *dX = ssGetdX(sim_struct);
+----
+
+
+==== Location pointer
+
+A location pointer of an automaton is a mode in Simulink. Creation of a mode
+vector is done as follows:
+
+[source, c]
+----
+ssSetNumModes(sim_struct, <number-location-pointers>);
+----
+
+Access is done by getting the vector, and reading/writing it:
+
+[source, c]
+----
+int_T *modes = ssGetModeVector(sim_struct);
+----
+
+CIF C code uses an enumeration for the mode names, while Simulink uses integers.
+This should not be a problem in the translation.
+
+Location pointers are not part of the output state.
+
+
+==== Simulink functions
+
+* Array to/from matrix conversions.
+
+
+==== Declarations required for computing CIF values
+
+Almost all functions access some part of CIF at some stage. To give them proper
+access, at the start of each function, declarations are inserted to make the
+data available to the code.
+
+For simplicity, in every function, the following is made available:
+
+* CIF variables in Simulink.
+* Cached input variables.
+
+
+==== mdlIInitializeSizes
+
+Setup sizes and types of the various pieces of data in Simulink, and expected
+sample handling:
+
+[source, c]
+----
+static const int NUM_TIME_DEPENDENT_GUARDS = ....;
+static const int NUM_LOCATION_VARIABLES = .....;
+
+static void mdlInitializeSizes(SimStruct *sim_struct) {
+    /* Parameters. */
+    ssSetNumSFcnParams(s, 0);
+    if (ssGetNumSFcnParams(s) != ssGetSFcnParamsCount(s)) return;
+
+    /* Input ports, see Input variable. */
+    /* Output ports, see Algebraic variable, discrete variable, continuous
+     * variable. */
+
+    /* ContState & DiscState, see Continuous variables. */
+    ssSetNumContStates(sim_struct, 1 + <number-cont-variables>);
+    ssSetNumDiscStates(sim_struct, 0);
+
+    /* Work vectors, see Discrete variables. */
+    ssSetNumRWork(sim_struct, 0);
+    ssSetNumIWork(sim_struct, 0);
+    ssSetNumPWork(sim_struct, 1);
+
+    /* Modes, see Location pointers. */
+    ssSetNumModes(s, NUM_LOCATION_VARIABLES);
+
+    /* Zero crossings. */
+    ssSetNumSampleTimes(sim_struct, 1);
+    ssSetNumNonsampledZCs(sim_struct, NUM_TIME_DEPENDENT_GUARDS);
+
+    /* ssSetOptions(?!) */
+}
+----
+
+
+==== mdlInitializeSampleTimes
+
+Setup solver requirements:
+
+[source, c]
+----
+static void mdlInitializeSampleTimes(SimStruct *sim_struct) {
+    ssSetSampleTime(sim_struct, 0, CONTINUOUS_SAMPLE_TIME);
+    ssSetOffsetTime(sim_struct, 0, 0.0);
+}
+----
+
+
+==== mdlInitializeConditions
+
+Initialize all variables and other data:
+
+[source, c]
+----
+#define MDL_INITIALIZE_CONDITIONS
+#if defined(MDL_INITIALIZE_CONDITIONS)
+static void mdlInitializeConditions(SimStruct *sim_struct) {
+
+    // Initialize location pointers.
+    // Initialize discrete variables.
+    // Initialize continuous variables.
+}
+#endif
+----
+
+
+==== mdlStart
+
+Startup of the SFunction, allocate `PWork` memory, initialize constants:
+
+[source, c]
+----
+#define MDL_START
+#if defined(MDL_START)
+static void mdlStart(SimStruct *sim_struct) {
+    /* Allocate PWork[0]. */
+    struct WorkStruct *data = malloc(sizeof(struct WorkStruct));
+    if (data == NULL) {
+        ssSetErrorStatus(sim_struct, "Claiming of memory failed");
+        return;
+    }
+    ssSetPWorkValue(sim_struct, 0, data);
+
+    /* Initialize all constants. */
+    data->constA = ...
+    data->constB = ...
+    ...
+}
+#endif
+----
+
+==== mdlZeroCrossings
+
+Compute time-dependent guards in the current state. If no time-dependent guards,
+omit the entire function:
+
+[source, c]
+----
+#define MDL_ZERO_CROSSINGS
+#if defined(MDL_ZERO_CROSSINGS) && (defined(MATLAB_MEX_FILE) || defined(NRT))
+static void mdlZeroCrossings(SimStruct *sim_struct) {
+
+    /* Declarations required for computing the guards. */
+
+    real_T *zcSignals = ssGetNonsampledZCs(sim_struct);
+
+    bool guard0 = ... /* First time dependent guard. */
+    zcSignals[0] = guard0 ? 0.5 : -0.5;
+
+    bool guard1 = ... /* Second time dependent guard. */
+    zcSignals[1] = guard1 ? 0.5 : -0.5;
+
+    ...
+}
+#endif
+----
+
+
+==== mdlOutputs
+
+Compute outputs in current state:
+
+[source, c]
+----
+static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
+    struct WorkStruct *data = ssGetPWorkValue(sim_struct, 0);
+
+    UNUSED_ARG(tid);
+
+    /* Compute algebraic variables. */
+    /* Copy discrete variables from data. */
+    /* Copy continuous variables from data. */
+}
+----
+
+Note that output uses Matlab column major layout, copying matrices should be
+done while converting the format.
+
+==== mdlDerivatives
+
+Compute the derivatives in the current state:
+
+[source, c]
+----
+#define MDL_DERIVATIVES
+#if defined(MDL_DERIVATIVES)
+static void mdlDerivatives(SimStruct *sim_struct) {
+    real_T *dX = ssGetdX(sim_struct);
+
+    dX[0] = 1.0; /* Derivative of time. */
+    dx[1] = <contvar0>deriv();
+    dx[2] = <contvar1>deriv();
+    ...
+}
+#endif
+----
+
+==== mdlUpdate
+
+Update the discrete state by performing edges:
+
+[source, c]
+----
+#define MDL_UPDATE
+#if defined(MDL_UPDATE)
+static void mdlUpdate(SimStruct *sim_struct, int_T tid) {
+    /* Declarations required for the print statements. */
+
+    UNUSED_ARG(tid);
+
+    /* Print statements for init or time end. */
+
+    for (;;) {
+        if (tryEvent0()) continue;
+        if (tryEvent1()) continue;
+        ...
+
+        break; /* None of the events triggered. */
+    }
+
+    /* Print statement for time start. */
+}
+#endif
+----
+
+The `tryEvent..` function looks like:
+
+[source, c]
+----
+static bool tryEvent..() {
+    /* Declarations required for computing the guard. */`
+    bool guard = ...;
+    if (!guard) return 0;
+
+    /* Print pre-edge statement. */
+
+    /* Updates. */
+
+    /* Print post-edge statement. */
+
+    return 1;
+}
+----
+
+
+==== mdlTerminate
+
+Free `PWork` memory:
+
+[source, c]
+----
+/* See Discrete variable. */
+static void mdlTerminate(SimStruct *sim_struct) {
+    free(ssGetPWorkValue(sim_struct, 0));
+    ssSetPWorkValue(sim_struct, 0, NULL);
+}
+----
+
+
+=== Algebraic variable functions
+
+Algebraic variables are represented by functions. The function is evaluated each
+time the value of the algebraic variable is needed. An algebraic variable van
+have any CIF type:
+
+[source, c]
+----
+<type> <varname>() {
+    /* Declarations for accessing CIF data. */
+
+    <type> result = ....
+    return result;
+}
+----
+
+
+=== Derivative value functions
+
+Derivative value functions are always of type real. They compute the value of
+the derivative of a continuous variable. To do their job, they need access to
+the CIF variable data, as explained in Declarations required for computing CIF
+values:
+
+[source, c]
+----
+real_T <varname>deriv() {
+    /* Declarations for accessing CIF data. */
+
+    real_T der_value = ...;
+    return der_value;
+}
+----
+
+
+=== Print statements
+
+Print statements are translated, and produce output on the Simulink output
+stream if available.
+
+* Compile time flag to disable?
+
+
+=== Internal CIF functions
+
+Internal CIF functions do not use variables directly (they do use constants and
+constant algebraic variables). The functions are translated to C code and can be
+used in other CIF statements.

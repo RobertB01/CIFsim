@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int inc1(int x):
+  return x + 1;
+end
+
+func int inc2(int x):
+  return x + 2;
+end
+
+func func int(int) f1():
+  return inc1;
+end
+
+func func int(int) f2():
+  return inc2;
+end
+
+func func int(int), func func int(int)() ff():
+  return inc1, f2;
+end
+
+automaton p:
+  disc list int x = [inc1(5), inc2(7), f1()(10), f2()(12)];
+  invariant x     = [6,       9,       11,       14      ];
+
+  disc list int y = [ff()[0](15), ff()[1]()(17)];
+  invariant y     = [16,          19           ];
+
+  location:
+    initial;
+    urgent;
+end

@@ -1,0 +1,5 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "f()" of the top level scope of the specification failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: Execution of assignment "f.x := f.x + [3]" failed.
+CAUSE: Variable "x" is assigned value "[3, 3, 3]", which violates the list type bounds of the type "list[0..2] int[3..4]" of that variable.

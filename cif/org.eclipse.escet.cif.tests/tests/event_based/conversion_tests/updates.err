@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/updates.cif".
+CAUSE: Unsupported location "a" of automaton "a": edges with updates are currently not supported.

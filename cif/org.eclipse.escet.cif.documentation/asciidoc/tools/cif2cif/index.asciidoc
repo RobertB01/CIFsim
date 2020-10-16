@@ -1,0 +1,186 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-index]]
+== CIF to CIF transformer
+
+indexterm:[CIF to CIF transformer]
+indexterm:[tools,CIF to CIF transformer]
+The CIF to CIF transformer can be used to syntactically transform CIF
+specifications to similar CIF specifications, which behave in the same
+manner (are semantically equivalent), but are expressed using different
+language constructs. For example, the CIF to CIF transformation that
+eliminates constants, replaces all uses of constants by their values,
+and removes the constants from the specification.
+
+These reusable transformations are primarily used to increase the subset
+of CIF specifications that can be transformed or processed.
+Usually, there is no need to apply the CIF to CIF transformations manually.
+Transformations that work on subsets of the CIF language, automatically
+apply the necessary CIF to CIF transformations as a preprocessing step, to
+increase the translatable subset.
+
+The CIF to CIF transformer can also be used as a <<tools-cif2cif-pprinter,pretty printer>>.
+
+
+indexterm:[CIF to CIF transformer,start]
+
+=== Starting the transformation
+
+The transformation can be started from Eclipse in the following ways:
+
+* Right click a `.cif` file in the 'Project Explorer' tab or
+'Package Explorer' tab and choose
+menu:CIF miscellaneous tools[Apply CIF to CIF transformations...].
+
+* Right click an open text editor for a `.cif` file and choose
+menu:CIF miscellaneous tools[Apply CIF to CIF transformations...].
+
+* Use the `cif2cif` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cif2cif` command line tool.
+
+
+indexterm:[CIF to CIF transformer,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file path_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Output file path_: The absolute or relative local file system path to the
+output CIF specification. If not specified, the output file path defaults to
+the input file path, where the `.cif` file extension is removed (if
+present), and a `.transformed.cif` file extension is added.
+
+* _Transformations_: The CIF to CIF transformations to apply. The
+transformations are applied in the chosen order. Transformations may be
+applied multiple times. By default, no transformations are applied,
+essentially making the CIF to CIF transformer a <<tools-cif2cif-pprinter,pretty printer>>.
++
+In the option dialog, the available transformations are shown. To add a
+transformation, double click it, or select it and click the _Add_
+button below the list of available transformations. To remove a
+transformation, double click on it in the list of chosen transformations, or
+select it in that list and click the _Remove_ button.
++
+At the command line, specify comma separated transformation names, in the
+order they should be applied. The names to use are listed below, in the
+<<tools-cif2cif-available>> section.
+
+
+indexterm:[CIF to CIF transformer,transformation descriptions]
+
+=== Transformation descriptions
+
+The pages describing the <<tools-cif2cif-available,available transformations>> all use the same format. They have the following
+sections:
+
+* _Introduction_: describes the transformation in a few sentences.
+
+* _Supported specifications_: describes the subset of CIF specifications to which
+the transformation can be applied.
+
+* _Preprocessing_: specifies the CIF to CIF transformations that are
+automatically applied as preprocessing, or the CIF to CIF transformations
+that can be manually applied as preprocessing, to increase the subset of
+CIF specifications that can be transformed by the transformation.
+
+* _Implementation details_: further specifies what the transformation does, how
+it does it, and what the result of the transformation is. Most
+transformations also show one or more examples.
+
+* _Renaming_: explains if and when renaming may be performed by the
+transformation.
+
+* _Size considerations_: describes whether the transformation reduces or
+increases the size of the specification. If the specification may increase
+in size, an estimate of the order of increase is given (linear, exponential,
+etc). Note that the size is not the file size, but rather the number of
+objects used to represent the specification (the number of automata,
+locations, edges, guards, binary operators, etc).
+
+* _Optimality_: describes why the transformation result may not be optimal, if
+applicable. May also explain how to eliminate certain concepts that may be
+introduced as the result of the transformation.
+
+indexterm:[CIF to CIF transformer,available transformations]
+
+[[tools-cif2cif-available]]
+=== Available transformations
+
+A whole collection of CIF to CIF transformations is available. The available
+transformations are listed below, with a link to the information about the
+transformation, and the name to use for that transformation on the command
+line.
+
+* <<tools-cif2cif-chapter-add-default-init-values>> (`add-default-init-values`)
+* <<tools-cif2cif-chapter-elim-alg-vars>> (`elim-alg-vars`)
+* <<tools-cif2cif-chapter-elim-aut-casts>> (`elim-aut-casts`)
+* <<tools-cif2cif-chapter-elim-comp-def-inst>> (`elim-comp-def-inst`)
+* <<tools-cif2cif-chapter-elim-consts>> (`elim-consts`)
+* <<tools-cif2cif-chapter-elim-enums>> (`elim-enums`)
+* <<tools-cif2cif-chapter-equations>> (`elim-equations`)
+* <<tools-cif2cif-chapter-groups>> (`elim-groups`)
+* <<tools-cif2cif-chapter-elim-if-updates>> (`elim-if-updates`)
+* <<tools-cif2cif-chapter-elim-locs-in-exprs>> (`elim-locs-in-exprs`)
+* <<tools-cif2cif-chapter-elim-monitors>> (`elim-monitors`)
+* <<tools-cif2cif-chapter-elim-self>> (`elim-self`)
+* <<tools-cif2cif-chapter-elim-state-event-excl-invs>> (`elim-state-event-excl-invs`)
+* <<tools-cif2cif-chapter-elim-tau-event>> (`elim-tau-event`)
+* <<tools-cif2cif-chapter-elim-tuple-field-projs>> (`elim-tuple-field-projs`)
+* <<tools-cif2cif-chapter-elim-type-decls>> (`elim-type-decls`)
+* <<tools-cif2cif-chapter-lift-events>> (`lift-events`)
+* <<tools-cif2cif-chapter-linearize-merge>> (`linearize-merge`)
+* <<tools-cif2cif-chapter-linearize-product>> (`linearize-product`)
+* <<tools-cif2cif-chapter-merge-enums>> (`merge-enums`)
+* <<tools-cif2cif-chapter-print-file-into-decls>> (`print-file-into-decls`)
+* <<tools-cif2cif-chapter-remove-cif-svg-decls>> (`remove-cif-svg-decls`)
+* <<tools-cif2cif-chapter-remove-io-decls>> (`remove-io-decls`)
+* <<tools-cif2cif-chapter-remove-print-decls>> (`remove-print-decls`)
+* <<tools-cif2cif-chapter-remove-pos-info>> (`remove-pos-info`)
+* <<tools-cif2cif-chapter-remove-reqs>> (`remove-reqs`)
+* <<tools-cif2cif-chapter-simplify-others>> (`simplify-others`)
+* <<tools-cif2cif-chapter-simplify-values>> (`simplify-values`)
+* <<tools-cif2cif-chapter-simplify-values-optimized>> (`simplify-values-optimized`)
+* <<tools-cif2cif-chapter-simplify-values-no-refs>> (`simplify-values-no-refs`)
+* <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>> (`simplify-values-no-refs-optimized`)
+* <<tools-cif2cif-chapter-svg-file-into-decls>> (`svg-file-into-decls`)
+* <<tools-cif2cif-chapter-switches-to-ifs>> (`switches-to-ifs`)
+
+
+indexterm:[CIF to CIF transformer,pretty printer]
+indexterm:[tools,pretty printer]
+indexterm:[see: pretty printer,CIF to CIF transformer]
+
+[[tools-cif2cif-pprinter]]
+=== Pretty printer
+
+If no transformations are applied by the CIF to CIF transformer, the input CIF
+specification is just read from the input file, validated, and written to the
+output file. This can be useful, as it essentially turns the CIF to CIF
+transformer into a CIF _pretty printer_.
+
+As a side effect of reading the input file and validating it, the model may
+change slightly. In fact, this occurs not only for the CIF to CIF transformer
+but for all tools, as they all read input files and validate them, before
+continuing with their actual task. Examples of such changes include the
+elimination of imports, the loss of comments, and the evaluation of tuple
+projection indices.

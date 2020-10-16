@@ -1,0 +1,6 @@
+WARNING: File "merger/kind_change_warn.in1.cif": Semantic warning at line 17, column 28: Invariant does not specify a supervisory kind and thus implicitly inherits supervisory kind "plant" from automaton "p". This is deprecated. Please explicitly specify the kind before the "invariant" keyword.
+WARNING: File "merger/kind_change_warn.in2.cif": Semantic warning at line 25, column 28: Invariant does not specify a supervisory kind and thus implicitly inherits supervisory kind "requirement" from automaton "q". This is deprecated. Please explicitly specify the kind before the "invariant" keyword.
+WARNING: Merging group "p" into plant automaton "p" leads to kindless invariant "20 = 20 disables e" from the group implicitly becoming a plant invariant.
+WARNING: Merging group "p" into plant automaton "p" leads to kindless invariant "21 = 21" from the group implicitly becoming a plant invariant.
+WARNING: Merging group "q" into requirement automaton "q" leads to kindless invariant "30 = 30 disables e" from the group implicitly becoming a requirement invariant.
+WARNING: Merging group "q" into requirement automaton "q" leads to kindless invariant "31 = 31" from the group implicitly becoming a requirement invariant.

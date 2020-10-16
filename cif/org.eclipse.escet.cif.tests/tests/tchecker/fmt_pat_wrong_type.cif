@@ -1,0 +1,67 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+print fmt("%b", true);      // OK
+print fmt("%B", true);      // OK
+print fmt("%d", true);
+print fmt("%x", true);
+print fmt("%X", true);
+print fmt("%e", true);
+print fmt("%E", true);
+print fmt("%f", true);
+print fmt("%g", true);
+print fmt("%G", true);
+print fmt("%s", true);      // OK
+print fmt("%S", true);      // OK
+
+print fmt("%b", 1);
+print fmt("%B", 1);
+print fmt("%d", 1);      // OK
+print fmt("%x", 1);      // OK
+print fmt("%X", 1);      // OK
+print fmt("%e", 1);
+print fmt("%E", 1);
+print fmt("%f", 1);
+print fmt("%g", 1);
+print fmt("%G", 1);
+print fmt("%s", 1);      // OK
+print fmt("%S", 1);      // OK
+
+print fmt("%b", 2.34);
+print fmt("%B", 2.34);
+print fmt("%d", 2.34);
+print fmt("%x", 2.34);
+print fmt("%X", 2.34);
+print fmt("%e", 2.34);      // OK
+print fmt("%E", 2.34);      // OK
+print fmt("%f", 2.34);      // OK
+print fmt("%g", 2.34);      // OK
+print fmt("%G", 2.34);      // OK
+print fmt("%s", 2.34);      // OK
+print fmt("%S", 2.34);      // OK
+
+print fmt("%b", [9]);
+print fmt("%B", [9]);
+print fmt("%d", [9]);
+print fmt("%x", [9]);
+print fmt("%X", [9]);
+print fmt("%e", [9]);
+print fmt("%E", [9]);
+print fmt("%f", [9]);
+print fmt("%g", [9]);
+print fmt("%G", [9]);
+print fmt("%s", [9]);      // OK
+print fmt("%S", [9]);      // OK
+
+print fmt("%d %2$.5f %g %s %2$E %3$s", 1, 2.3, {9}); // OK
+print fmt("%d %2$.5f %g %s %3$E %3$s", 1, 2.3, {9});

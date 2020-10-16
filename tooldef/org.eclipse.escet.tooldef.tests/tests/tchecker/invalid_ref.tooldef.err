@@ -1,0 +1,14 @@
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 32, column 14: Could not resolve "var" as a tool (it resolves to variable "var", a value rather than a tool).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 33, column 14: Could not resolve "type_" as a tool (it resolves to type declaration "type_", a type rather than a tool).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 34, column 14: Could not resolve "imp" as a tool (it resolves to imported script "imp", a scope rather than a tool).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 36, column 18: Could not resolve "type_param" as a tool (it resolves to type parameter "tool2.type_param", a type rather than a tool).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 37, column 18: Could not resolve "param" as a tool (it resolves to tool parameter "tool2.param", a value rather than a tool).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 41, column 20: Could not resolve "tool_" as a value (it resolves to tool "tool_", a tool rather than a value).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 43, column 20: Could not resolve "type_" as a value (it resolves to type declaration "type_", a type rather than a value).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 44, column 20: Could not resolve "imp" as a value (it resolves to imported script "imp", a scope rather than a value).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 47, column 25: Could not resolve "type_param" as a value (it resolves to type parameter "tool3.type_param", a type rather than a value).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 52, column 14: Could not resolve "tool_" as a type (it resolves to tool "tool_", a tool rather than a type).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 53, column 14: Could not resolve "var" as a type (it resolves to variable "var", a value rather than a type).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 55, column 14: Could not resolve "imp" as a type (it resolves to imported script "imp", a scope rather than a type).
+ERROR: File "tchecker/invalid_ref.tooldef": Semantic error at line 58, column 18: Could not resolve "param" as a type (it resolves to tool parameter "tool4.param", a value rather than a type).
+ERROR: Failed to load ToolDef file "tchecker/invalid_ref.tooldef": the file has errors.

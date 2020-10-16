@@ -1,0 +1,12 @@
+type t2 = real;
+type t1 = real;
+type t3 = t1;
+plant automaton a:
+  disc t2 inp1;
+  disc t2 inp2 = 1.23;
+  disc t2 inp3 in {2.3, 3.4};
+  plant invariant inp1 + inp2 + inp3 > 1;
+  plant invariant inp1 + inp2 + inp3 > 0;
+  location:
+    initial;
+end

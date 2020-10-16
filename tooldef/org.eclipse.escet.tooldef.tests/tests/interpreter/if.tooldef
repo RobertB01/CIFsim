@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+for x in range(10):
+    out("%s", x);
+    if x == 0:
+        out(" 0a");
+        out(" 0b");
+    elif x == 1:
+        out(" 1a");
+        out(" 1b");
+    elif x == 2:
+        out(" 2a");
+        out(" 2b");
+    elif x == 3:
+        out(" 3a");
+        out(" 3b");
+    else
+        out(" >3");
+        out(" >3");
+    end
+
+    if x == 5:
+        out(" 5a");
+        out(" 5b");
+    end
+
+    if x == 6:
+        out(" 6a");
+        out(" 6b");
+    elif x == 7:
+        out(" 7a");
+        out(" 7b");
+    end
+
+    outln();
+end

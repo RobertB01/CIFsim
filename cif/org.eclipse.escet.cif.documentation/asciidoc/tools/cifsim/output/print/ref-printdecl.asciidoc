@@ -1,0 +1,412 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-print-chapter-ref-printdecl]]
+== Print declaration
+
+indexterm:[print declaration]
+indexterm:[print output,print declaration]
+indexterm:[I/O declaration,print declaration]
+indexterm:[print,declaration]
+The core concept of print output is the _print declaration_. The print
+declarations allow specifying what to print. They also optionally allow
+specifying when to print it, how to print it, and to where to print it.
+
+indexterm:[print declaration,transition centric view]
+
+=== Transition centric view
+
+Unlike many programming languages that have print statements, CIF has print
+declarations. Print declarations are
+link:http://en.wikipedia.org/wiki/Declarative_programming[declarative],
+rather than
+link:http://en.wikipedia.org/wiki/Imperative_programming[imperative].
+Print
+declarations center on transitions. The following is a schematic overview of
+a transition:
+
+image::{tools-imgsdir}/cifsim/output/print/transition.png[]
+
+The transition is graphically depicted as an arrow, with a label. The label
+denotes the event that occurred, or `time` for time transitions. Every
+transition has a _pre_ or _source_ <<tools-cifsim-traces-state,state>>,
+and a _post_ or _target_ state. The states are graphically depicted as circles,
+with a name above them. These names are only used so that they can be referred
+to from the text.
+
+The figure thus contains the transition and its immediate environment (its
+source and target states). Print declarations allow specifying what, how, and
+when to print, for transitions. Since the transition is the central part, we
+call this the _transition centric view_.
+
+indexterm:[print declaration,extended trace]
+indexterm:[print declaration,virtual labels]
+
+=== Extended trace
+
+Simulation using the CIF simulator results in a
+<<tools-cifsim-traces-traces,trace>>. A trace consists of the
+<<tools-cifsim-traces-state,states>> that are encountered and the
+transitions that are taken, during the simulation. For instance, consider the
+following CIF specification:
+
+
+[source, cif]
+----
+automaton buffer:
+  event add, remove;
+  disc int cnt = 5;
+
+  location:
+    initial;
+    edge add    when cnt < 10 do cnt := cnt + 1;
+    edge remove when cnt >  0 do cnt := cnt - 1;
+end
+----
+
+The `buffer` initially contains five items (`cnt = 5`). As long as there
+is room in the buffer (`cnt < 10`), an item can be added (event `add`) to
+the buffer. As long as the buffer is not empty (`cnt > 0`), an item can be
+removed (event `remove`) from the buffer. The following is a potential
+simulation trace:
+
+image::{tools-imgsdir}/cifsim/output/print/trace_normal.png[]
+
+In the initial state (S1), variable `cnt` has value `5`. An item is then
+added (transition for the event `add`), resulting in a new state (S2), where
+`cnt` has value `6`. After that, another item is added, leading to state
+S3, where `cnt` has value `7`. Finally, an item is removed by means of a
+transition for event `remove`, leading to state S4, where `cnt` has value
+`6` again.
+
+As can be seen in the figure, the initial state (S1) has no incoming
+transition. Furthermore, the last/final state (S4) has no outgoing
+transition. As we'll see later, that poses some difficulties in applying the
+transition centric view. To get around these limitations, the trace is extended
+as follows:
+
+image::{tools-imgsdir}/cifsim/output/print/trace_extended.png[]
+
+A transition with the _initial_ label is added before the initial state, and a
+transition with the _final_ label is added after the final state. This ensures
+that all states have an incoming and outgoing transition. These two added
+transitions are _virtual_, they don't actually exist. They are added only for
+the benefit of print output. That is, they don't affect the simulation behavior
+of the model, and are thus not part of the 'real' trace.
+
+The added 'initial' virtual transition has no source state, and the added
+'final' virtual transition has no target state. Since in the transition centric
+view every transition should have a source and a target state, we add the
+initial state (S1) as source state (S0) for the 'initial' transition, and the
+final state (S4) as target state (S5) for the 'final' transition. This way,
+every transition (whether virtual or real) has a source and target state, and
+fits the transition centric view. For the 'initial' and 'final' virtual
+transitions, the source and target states are thus the same (S0 = S1, S4 = S5).
+
+The trace with added virtual 'initial' and 'final' transitions, and with the
+duplicates (S0 and S5) of the source and final states, is called the
+_extended trace_.
+
+indexterm:[print declaration,text to print]
+indexterm:[print declaration,pre text]
+indexterm:[print declaration,post text]
+
+=== Specifying the text to print
+
+Every print declaration must specify _what_ to print, using CIF expressions.
+These CIF expressions can for instance refer to variables from the CIF model.
+Since variables can change values, it is important to know in which state the
+expression is evaluated. In the transition centric view, we have two states to
+choose from, the pre/source state and the post/target state. The following
+variants are supported to specify what to print:
+
+
+[source, cif]
+----
+print EXPR;
+print pre EXPR;
+print post EXPR;
+print pre EXPR post EXPR;
+----
+
+The first variant has only one expression, which is printed in the post/target
+state. The third variant is identical, but explicitly indicates that the
+post/target state is used. The second variant also has a single expression, but
+is evaluated in the pre/source state. The fourth variant has two expression,
+one of which is evaluated in the pre/source state, and one of which is
+evaluated in the post/target state. The first three variants only print one
+piece of text per transition, while the fourth variant prints two pieces of
+text per transition.
+
+Consider the following examples:
+
+
+[source, cif]
+----
+print "a";
+print pre x post x;
+----
+
+The first example prints `a` after each transition. The second example prints
+the value of variable `x` as it was before the transition, as well as the
+value of variable `x` as it is after the transition, for each transition.
+
+indexterm:[print declaration,quoting]
+indexterm:[print declaration,escaping]
+
+=== Quoting and escaping
+
+The expressions that indicate what text to print may be of any type, and the
+result of evaluating the expression is converted to a textual representation
+that closely resembles the textual syntax of CIF. For string literals this
+means that the text is escaped, and double quotes are added. If however the
+result of the expression is a `string` typed value, then that string is used
+'as is' (without quoting, and without escaping). Thus, consider the following
+example:
+
+
+[source, cif]
+----
+print ["a\"b"];
+print "a\"b";
+----
+
+The first print declaration prints a list that contains a single string value,
+while the second print declaration prints the single string value directly.
+This results in the following printed output:
+
+
+[source, console]
+----
+["a\"b"]
+a"b
+----
+
+That is, in general string values are quoted and escaped, as is the case for
+the first example, where the result is a list. However, if the entire result
+is a string, as is the case with the second example, the string value is used
+'as is', without quoting and without escaping.
+
+indexterm:[print declaration,transition filtering]
+
+=== Transition filtering
+
+It is possible to filter the transitions to which print declarations apply, by
+looking at the kind of the transitions (their labels). The following transition
+filters are available:
+
+[cols="1,2,4",options="header"]
+|===
+| Filter
+| Matches
+| Does not match
+
+| `event`
+| All event transitions, including those for the `tau` event.
+| All time and virtual transitions.
+
+| `time`
+| All time transitions.
+| All event and virtual transitions.
+
+| e
+| All transitions for event `e`.
+| All time and virtual transitions, as well as all transitions for
+'other' events (including those for the `tau` event).
+
+| `initial`
+| The single virtual _initial_ transition.
+| All event and time transitions, as well as the single virtual _final_ transition.
+
+| `final`
+| The single virtual _final_ transition.
+| All event and time transitions, as well as the single virtual _initial_ transition.
+|===
+
+Transition filters may be combined, leading to a combined transition filter
+that matches if any of the individual transition filters matches. The
+individual filters must be separated by commas.
+
+Transition filtering is optional. If no transition filter is supplied, the
+default transition filter is used, which is `initial, event, time`. That is,
+by default output is printed for all transitions, except for the _final_
+virtual transition.
+
+Consider the following examples:
+
+
+[source, cif]
+----
+print EXPR for e;
+print EXPR for time, event;
+print EXPR for initial, final;
+print EXPR for machine1.start, machine2.start;
+print EXPR;
+----
+
+The first example prints only for transitions for event `e`. That is, time
+transitions and virtual transitions, as well as transitions for all other
+events, are filtered out. The second example prints only for event and time
+transitions, and thus filters out the virtual transitions. The third example
+prints only for the virtual transitions, and thus filters out all 'real'
+transitions (the event and time transitions). The fourth example prints only
+for transitions for the `start` events declared in `machine1` and
+`machine2` (which could for instance be automata), and filters out time
+transitions, virtual transitions, and transitions for all other events. The
+fifth example does not specify a filter, and thus prints for the _initial_
+virtual transition, as well as all event and time transitions, but excludes
+the _final_ virtual transition.
+
+indexterm:[print declaration,state filtering]
+
+=== State filtering
+
+It is possible to filter the transitions to which print declarations apply,
+by looking at the pre/source and post/target states of the transitions.
+The following variants are supported for state filtering:
+
+
+[source, cif]
+----
+print EXPR when PRED;
+print EXPR when pre PRED;
+print EXPR when post PRED;
+print EXPR when pre PRED post PRED;
+----
+
+The first variant has only one predicate, which is evaluated in the post/target
+state. The third variant is identical, but explicitly indicates that the
+post/target state is used. For both these variants, text is only printed if the
+post/target state satisfies the given predicate. That is, if the predicate
+evaluated in the post/target state of the transition results in value `true`,
+text may be printed. Otherwise, no text is printed for that transition.
+
+The second variant also has a single predicate, but is evaluated in the
+pre/source state. Text is thus only printed if the pre/source state satisfies
+the given predicate.
+
+The fourth variant has two predicates, one of which is evaluated in the
+pre/source state, and one of which is evaluated in the post/target state. Text
+is only printed if the pre/source state satisfies the first predicate, and the
+post/target state satisfies the second predicate. If either of the states does
+not satisfy its corresponding predicate, no text is printed for that
+transition.
+
+Consider the following examples:
+
+
+[source, cif]
+----
+print "a";
+print "b" when aut.loc;
+print "c" when pre aut.loc;
+print "d" when pre x mod 2 = 0 post x mod 2 = 1;
+----
+
+The first example prints `a` after each transition, and does not restrict the
+pre/source or post/target states. The second example only prints `b` for
+transitions that end in location `loc` of automaton `aut`. The third
+example only prints `c` for transitions that start in location `loc` of
+automaton `aut`. The fourth example only prints `d` for transitions where
+the value of variable `x` is even before the transition, and odd after the
+transition.
+
+State filtering is thus optional. If no pre/source state predicate is
+specified, the default is `true`. Similarly, if no post/target state
+predicate is specified, the default is `true` as well.
+
+indexterm:[print declaration,combining filters]
+
+=== Combining filters
+
+The transition and state filters are all optional. If however both a transition
+filter and a state filter are specified, they must both match in order for text
+to be printed. Consider the following examples:
+
+
+[source, cif]
+----
+print time for time when time > 3;
+print x for e when pre x < 3 post x > 5;
+print pre y post y when pre y = 5;
+----
+
+For the first example, the value of variable `time` is printed after time
+transitions, if after those time transitions the value of variable `time` is
+strictly larger than three. For the second example, the value of variable `x`
+is printed after transitions for event `e` if before such transitions the
+value of variable `x` is strictly less than three, and after such transitions
+the value of variable `x` is strictly larger than `5`. For the third
+example, the value of variable `y` is printed twice for all 'default'
+transitions, once in the pre/source state, and once in the post/target state,
+but only if the value of variable `y` before the transition is exactly five.
+So if the condition over the pre/source state does not hold, the value of
+variable `y` is not printed, not for the pre/source state, and also not for
+the post/target state.
+
+indexterm:[print declaration,file]
+indexterm:[print declaration,target]
+indexterm:[print declaration,stdout]
+indexterm:[print declaration,stderr]
+
+[[tools-cifsim-output-print-ref-printdecl-file]]
+=== Output file/target
+
+By default text is printed to the console, to the
+link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream],
+usually called 'stdout'. It
+is however possible to explicitly specify the file or special target to which
+the output is to be printed. Consider the following examples:
+
+
+[source, cif]
+----
+print ... file "txt_files/some_file.txt";
+print ... file "../files/some_file.txt";
+----
+
+For the first print declaration, the simulator will look for a `txt_files`
+directory in the same directory as the CIF file, and print text to a file named
+`some_file.txt` in that directory. For the second print declaration, the
+simulator will look for a `files` directory in the parent directory of the
+directory that contains the CIF file, and print text to a file named
+`some_file.txt` in that `files` directory.
+
+Files and directories are separated using slashes (`/`), regardless of the
+used operating system. It is also allowed to use backslashes (`\`), which are
+more common on Microsoft Windows operating systems, but they need to be escaped
+as `\\` for this to work, making it easier to use slashes (`/`) instead.
+
+The following special non-file targets are supported:
+
+* `":stdout"`: prints to the
+link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
+In Eclipse, the text ends up on the console, as black text.
+
+* `":stderr"`: prints to the
+link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
+In Eclipse, the text ends up on the console, as red text.
+
+Besides these local file indications, CIF also supports global
+<<tools-cifsim-output-print-chapter-ref-printfile,print file declarations>>,
+which influence the default, in case no local file or special target is
+specified.
+
+indexterm:[print declaration,scoping]
+
+=== Scoping
+
+Print file declarations can be specified in all components. That is, they can
+be specified in the top level scope of the specification, in groups and group
+definitions, as well as in automata and automaton definitions.

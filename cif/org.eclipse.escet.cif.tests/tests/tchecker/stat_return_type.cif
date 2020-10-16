@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func bool f1():
+  return 1;
+end
+
+func int, real f2():
+  return 1, true;
+end
+
+group g:
+  func int[1..2] f3():
+    return 3;
+  end
+end
+
+invariant f1() or f2()[0] > 0 or g.f3() > 0;

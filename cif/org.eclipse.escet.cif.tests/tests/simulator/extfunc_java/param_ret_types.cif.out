@@ -1,0 +1,3 @@
+Initial state: time=0.0, p=*, p.g="abc", p.lb=[true, false], p.ld=[7.0, 8.0], p.lg=["def", "ghi"], p.li=[5, 6], p.lli=[[9], [10, 11]], p.mib={15: true, 16: false}, p.mlisb={[17]: {true, false}}, p.si={12, 13}, p.ssi={{}, {14}}, p.tibx=(18, false), p.tlitiixx=([19], (20, 21)), p.x_lb=[true], p.x_ld=[3.0], p.x_li=[1]
+
+Simulation resulted in deadlock.

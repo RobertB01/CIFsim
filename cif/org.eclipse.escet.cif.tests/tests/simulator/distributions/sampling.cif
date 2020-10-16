@@ -1,0 +1,95 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  disc dist bool d01 = bernoulli(1.0);
+  disc dist real d02 = beta(1.0, 2.0);
+  disc dist int  d03 = binomial(1.0, 2);
+  disc dist bool d04 = constant(true);
+  disc dist int  d05 = constant(1);
+  disc dist real d06 = constant(1.23);
+  disc dist real d07 = erlang(1, 2.0);
+  disc dist real d08 = exponential(1.0);
+  disc dist real d09 = gamma(1.0, 2.0);
+  disc dist int  d10 = geometric(1.0);
+  disc dist real d11 = lognormal(1.0, 2.0);
+  disc dist real d12 = normal(1.0, 2.0);
+  disc dist int  d13 = poisson(1.0);
+  disc dist real d14 = random();
+  disc dist real d15 = triangle(1.0, 2.0, 3.0);
+  disc dist int  d16 = uniform(1, 2);
+  disc dist real d17 = uniform(1.0, 2.0);
+  disc dist real d18 = weibull(1.0, 2.0);
+
+  disc bool b;
+  disc int i;
+  disc real r;
+
+  location l01:
+    initial;
+    edge do b := (sample d01)[0] goto l02;
+
+  location l02:
+    edge do r := (sample d02)[0] goto l03;
+
+  location l03:
+    edge do i := (sample d03)[0] goto l04;
+
+  location l04:
+    edge do b := (sample d04)[0] goto l05;
+
+  location l05:
+    edge do i := (sample d05)[0] goto l06;
+
+  location l06:
+    edge do r := (sample d06)[0] goto l07;
+
+  location l07:
+    edge do r := (sample d07)[0] goto l08;
+
+  location l08:
+    edge do r := (sample d08)[0] goto l09;
+
+  location l09:
+    edge do r := (sample d09)[0] goto l10;
+
+  location l10:
+    edge do i := (sample d10)[0] goto l11;
+
+  location l11:
+    edge do r := (sample d11)[0] goto l12;
+
+  location l12:
+    edge do r := (sample d12)[0] goto l13;
+
+  location l13:
+    edge do i := (sample d13)[0] goto l14;
+
+  location l14:
+    edge do r := (sample d14)[0] goto l15;
+
+  location l15:
+    edge do r := (sample d15)[0] goto l16;
+
+  location l16:
+    edge do i := (sample d16)[0] goto l17;
+
+  location l17:
+    edge do r := (sample d17)[0] goto l18;
+
+  location l18:
+    edge do r := (sample d18)[0] goto done;
+
+  location done:
+    urgent;
+end

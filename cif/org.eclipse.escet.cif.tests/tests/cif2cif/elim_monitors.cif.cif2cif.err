@@ -1,0 +1,1 @@
+WARNING: File "cif2cif/elim_monitors.cif": Semantic warning at line 48, column 3: Monitoring all events in the alphabet of automaton "q" has no effect, as its alphabet is empty.

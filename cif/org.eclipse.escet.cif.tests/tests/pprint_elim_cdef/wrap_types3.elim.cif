@@ -1,0 +1,36 @@
+enum e = A, B;
+group p1:
+  group q1:
+    type te = e;
+    type tb = bool;
+  end
+  group q2:
+    type te = e;
+    type tb = bool;
+  end
+end
+group p2:
+  group q1:
+    type te = e;
+    type tb = bool;
+  end
+  group q2:
+    type te = e;
+    type tb = bool;
+  end
+end
+automaton aut:
+  disc p1.q1.te w11;
+  disc p1.q2.te w12;
+  disc p2.q1.te w21;
+  disc p2.q2.te w22;
+  disc p1.q1.tb x11;
+  disc p1.q2.tb x12;
+  disc p2.q1.tb x21;
+  disc p2.q2.tb x22;
+  invariant w11 = w12 and w12 = w21 and w21 = w22;
+  invariant x11 = x12 and x12 = x21 and x21 = x22;
+  location:
+    initial;
+end
+invariant A = B;

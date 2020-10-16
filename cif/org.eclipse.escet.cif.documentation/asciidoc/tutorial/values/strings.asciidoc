@@ -1,0 +1,34 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-values-chapter-strings]]
+== Strings
+
+indexterm:[string]
+indexterm:[type,string]
+indexterm:[string,type]
+indexterm:[value,string]
+indexterm:[string,value]
+indexterm:[literal,string]
+indexterm:[string,literal]
+Strings represent textual values, as a sequence of characters. String values
+are always written between double quotes. An example is `"hello world"`. The
+default value of strings (`string` type) is the empty string `""`.
+
+Strings can be composed using the `pass:c[+]` operator. The expression
+`"hello" + " " + "world"` evaluates to `"hello world"`. For advanced text
+formatting, see
+<<tools-cifsim-output-print-chapter-tut-fmt,the text formatting tutorial>>.
+
+// TODO: link to future ref manual

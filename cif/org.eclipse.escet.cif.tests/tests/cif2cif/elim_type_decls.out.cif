@@ -1,0 +1,22 @@
+alg bool a = true;
+enum e = A;
+const list tuple(int[3..4] x; int[1..2] y) c1 = [(3, 1), (4, 2)];
+automaton p:
+  disc bool v1 = true;
+  disc int[1..2] v2 = 1;
+  disc int[3..4] v3 = 3;
+  disc int[5..6] v4 = 5;
+  invariant v1 or v2 = 1 or v3 = 3 or v4 = 5 or a;
+  location:
+    initial;
+end
+group p2:
+end
+automaton b:
+  disc e v1;
+  disc e v2;
+  invariant v1 = v2 or v1 = A;
+  location:
+    initial;
+end
+invariant size(c1) > 0;

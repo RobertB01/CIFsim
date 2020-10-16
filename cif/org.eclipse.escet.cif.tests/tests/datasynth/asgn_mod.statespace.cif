@@ -1,0 +1,24 @@
+group p:
+  controllable em1;
+  controllable em2;
+  controllable em3;
+  controllable em4;
+  controllable em5;
+end
+automaton statespace:
+  alphabet p.em1, p.em2, p.em3, p.em4, p.em5;
+  location loc1:
+    initial;
+    edge p.em2 goto loc4;
+    edge p.em3 goto loc4;
+    edge p.em4 goto loc4;
+    edge p.em5 goto loc4;
+  location loc2:
+    initial;
+    edge p.em3 goto loc4;
+  location loc3:
+    initial;
+    edge p.em2 goto loc4;
+  location loc4:
+    marked;
+end

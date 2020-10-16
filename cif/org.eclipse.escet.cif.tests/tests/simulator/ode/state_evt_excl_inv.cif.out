@@ -1,0 +1,27 @@
+Initial state: time=0.0, a=*, a.x=false
+
+Transition: delaying for 2.000000000000001 time units at time 0.0
+State: time=2.000000000000001, a=*, a.x=false
+
+Transition: delaying for 1.0 time units at time 2.000000000000001
+State: time=3.000000000000001, a=*, a.x=false
+
+Transition: delaying for 1.0000000000000009 time units at time 3.000000000000001
+State: time=4.000000000000002, a=*, a.x=false
+
+Transition: delaying for 1.0000000000000018 time units at time 4.000000000000002
+State: time=5.0000000000000036, a=*, a.x=false
+
+Transition: delaying for 0.9999999999999982 time units at time 5.0000000000000036
+State: time=6.000000000000002, a=*, a.x=false
+
+Transition: delaying for 1.0000000000000036 time units at time 6.000000000000002
+State: time=7.000000000000005, a=*, a.x=false
+
+Transition: event e
+State: time=7.000000000000005, a=*, a.x=true
+
+Transition: delaying for 2.9999999999999947 time units at time 7.000000000000005
+State: time=10.0, a=*, a.x=true
+
+Simulation ended due to reaching the user-provided simulation end time.

@@ -1,0 +1,1 @@
+Error: File "spec/expr/dict-literal-valuetype.chi": Semantic error at line 14, column 27: All values of a dictionary must have the same type (expected "int", found "real").

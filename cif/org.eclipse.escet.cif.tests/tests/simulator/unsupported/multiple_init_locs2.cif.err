@@ -1,0 +1,1 @@
+ERROR: Automaton "p" has multiple possible initial locations, which is currently not supported by the CIF simulator. Restrict the initialization using the appropriate simulation option.

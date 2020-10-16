@@ -1,0 +1,22 @@
+Initial state: time=0.0, b1.eh=2.5, b1.fh=2.5, b1.fh'=0.0, b1.pred_rate=1.0, b1.succ_rate=1.0, b2.eh=2.5, b2.fh=2.5, b2.fh'=0.0, b2.pred_rate=1.0, b2.succ_rate=1.0, b3.eh=2.5, b3.fh=2.5, b3.fh'=0.0, b3.pred_rate=1.0, b3.succ_rate=1.0, exit_rate=1.0, exit_volume=0.0, exit_volume'=1.0, s1=Start, s1.d_down=uniform(0.1, 3.0), s1.d_up=uniform(0.1, 15.0), s1.p=1, s1.pred_fh=2.5, s1.rate=1.0, s1.succ_eh=2.5, s1.t=0.0, s1.t'=-1.0, s2=Start, s2.d_down=uniform(0.1, 3.0), s2.d_up=uniform(0.1, 15.0), s2.p=1, s2.pred_fh=2.5, s2.rate=1.0, s2.succ_eh=2.5, s2.t=0.0, s2.t'=-1.0, start_rate=1.0
+
+Possible transitions:
+  #1: event tau
+  #2: event tau
+
+Transition: event tau
+State: time=0.0, b1.eh=2.5, b1.fh=2.5, b1.fh'=0.0, b1.pred_rate=1.0, b1.succ_rate=1.0, b2.eh=2.5, b2.fh=2.5, b2.fh'=0.0, b2.pred_rate=1.0, b2.succ_rate=1.0, b3.eh=2.5, b3.fh=2.5, b3.fh'=0.0, b3.pred_rate=1.0, b3.succ_rate=1.0, exit_rate=1.0, exit_volume=0.0, exit_volume'=1.0, s1=Up, s1.d_down=uniform(0.1, 3.0), s1.d_up=uniform(0.1, 15.0), s1.p=1, s1.pred_fh=2.5, s1.rate=1.0, s1.succ_eh=2.5, s1.t=12.03340322422023, s1.t'=-1.0, s2=Start, s2.d_down=uniform(0.1, 3.0), s2.d_up=uniform(0.1, 15.0), s2.p=1, s2.pred_fh=2.5, s2.rate=1.0, s2.succ_eh=2.5, s2.t=0.0, s2.t'=-1.0, start_rate=1.0
+
+Transition: event tau
+State: time=0.0, b1.eh=2.5, b1.fh=2.5, b1.fh'=0.0, b1.pred_rate=1.0, b1.succ_rate=1.0, b2.eh=2.5, b2.fh=2.5, b2.fh'=0.0, b2.pred_rate=1.0, b2.succ_rate=1.0, b3.eh=2.5, b3.fh=2.5, b3.fh'=0.0, b3.pred_rate=1.0, b3.succ_rate=1.0, exit_rate=1.0, exit_volume=0.0, exit_volume'=1.0, s1=Up, s1.d_down=uniform(0.1, 3.0), s1.d_up=uniform(0.1, 15.0), s1.p=1, s1.pred_fh=2.5, s1.rate=1.0, s1.succ_eh=2.5, s1.t=12.03340322422023, s1.t'=-1.0, s2=Up, s2.d_down=uniform(0.1, 3.0), s2.d_up=uniform(0.1, 15.0), s2.p=1, s2.pred_fh=2.5, s2.rate=1.0, s2.succ_eh=2.5, s2.t=7.5796307288605345, s2.t'=-1.0, start_rate=1.0
+
+Transition: delaying for 7.579630728860535 time units at time 0.0
+State: time=7.579630728860535, b1.eh=2.5, b1.fh=2.5, b1.fh'=0.0, b1.pred_rate=1.0, b1.succ_rate=1.0, b2.eh=2.5, b2.fh=2.5, b2.fh'=0.0, b2.pred_rate=1.0, b2.succ_rate=1.0, b3.eh=2.5, b3.fh=2.5, b3.fh'=0.0, b3.pred_rate=1.0, b3.succ_rate=1.0, exit_rate=1.0, exit_volume=7.579630728860536, exit_volume'=1.0, s1=Up, s1.d_down=uniform(0.1, 3.0), s1.d_up=uniform(0.1, 15.0), s1.p=1, s1.pred_fh=2.5, s1.rate=1.0, s1.succ_eh=2.5, s1.t=4.453772495359694, s1.t'=-1.0, s2=Up, s2.d_down=uniform(0.1, 3.0), s2.d_up=uniform(0.1, 15.0), s2.p=1, s2.pred_fh=2.5, s2.rate=1.0, s2.succ_eh=2.5, s2.t=-8.881784197001252e-16, s2.t'=-1.0, start_rate=1.0
+
+Transition: event tau
+State: time=7.579630728860535, b1.eh=2.5, b1.fh=2.5, b1.fh'=0.0, b1.pred_rate=1.0, b1.succ_rate=1.0, b2.eh=2.5, b2.fh=2.5, b2.fh'=1.0, b2.pred_rate=1.0, b2.succ_rate=0.0, b3.eh=2.5, b3.fh=2.5, b3.fh'=-1.0, b3.pred_rate=0.0, b3.succ_rate=1.0, exit_rate=1.0, exit_volume=7.579630728860536, exit_volume'=1.0, s1=Up, s1.d_down=uniform(0.1, 3.0), s1.d_up=uniform(0.1, 15.0), s1.p=1, s1.pred_fh=2.5, s1.rate=1.0, s1.succ_eh=2.5, s1.t=4.453772495359694, s1.t'=-1.0, s2=Down, s2.d_down=uniform(0.1, 3.0), s2.d_up=uniform(0.1, 15.0), s2.p=0, s2.pred_fh=2.5, s2.rate=0.0, s2.succ_eh=2.5, s2.t=2.4259445393048535, s2.t'=-1.0, start_rate=1.0
+
+Transition: delaying for 2.4203692711394647 time units at time 7.579630728860535
+State: time=10.0, b1.eh=2.1812679299920315, b1.fh=2.8187320700079685, b1.fh'=0.6016372011314939, b1.pred_rate=1.0, b1.succ_rate=0.3983627988685061, b2.eh=0.3983627988685061, b2.fh=4.601637201131494, b2.fh'=0.3983627988685061, b2.pred_rate=0.3983627988685061, b2.succ_rate=0.0, b3.eh=4.601637201131495, b3.fh=0.39836279886850556, b3.fh'=-0.39836279886850556, b3.pred_rate=0.0, b3.succ_rate=0.39836279886850556, exit_rate=0.39836279886850556, exit_volume=9.681267929992028, exit_volume'=0.39836279886850556, s1=Up, s1.d_down=uniform(0.1, 3.0), s1.d_up=uniform(0.1, 15.0), s1.p=1, s1.pred_fh=2.8187320700079685, s1.rate=0.3983627988685061, s1.succ_eh=0.3983627988685061, s1.t=2.0334032242202307, s1.t'=-1.0, s2=Down, s2.d_down=uniform(0.1, 3.0), s2.d_up=uniform(0.1, 15.0), s2.p=0, s2.pred_fh=4.601637201131494, s2.rate=0.0, s2.succ_eh=4.601637201131495, s2.t=0.005575268165388503, s2.t'=-1.0, start_rate=1.0
+
+Simulation ended due to reaching the user-provided simulation end time.

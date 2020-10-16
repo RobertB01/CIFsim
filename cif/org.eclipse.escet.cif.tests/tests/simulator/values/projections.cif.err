@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=l10, p.b=false, p.i1=123, p.i2=4, p.i3=3, p.r=234.0, p.s1="x", p.s2="b", p.s3="a", p.z=0.
+CAUSE: Execution of the updates of an edge of location "l10" of automaton "p" failed.
+CAUSE: Execution of assignment "p.i1 := <list[0] tuple(int a; int b)>[][p.z][a]" failed.
+CAUSE: Index out of bounds: [][0].

@@ -1,0 +1,8 @@
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 15, column 18: Binary operator "div" can not be applied to values of type "int[1..1]" and "int[0..0]".
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 16, column 18: Binary operator "mod" can not be applied to values of type "int[1..1]" and "int[0..0]".
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 19, column 19: Binary operator "and" can not be applied to values of type "int[1..1]" and "bool".
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 26, column 19: Binary operator "=" can not be applied to values of type "p" and "bool".
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 27, column 19: Binary operator "=" can not be applied to values of type "int[1..1]" and "bool".
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 30, column 19: Binary operator "<=" can not be applied to values of type "int[1..1]" and "bool".
+ERROR: File "tchecker/binop_invalid_types.cif": Semantic error at line 41, column 16: Binary operator "=" can not be applied to values of type "g1.e" and "g2.e".
+ERROR: Failed to load CIF file "tchecker/binop_invalid_types.cif": the file has errors.

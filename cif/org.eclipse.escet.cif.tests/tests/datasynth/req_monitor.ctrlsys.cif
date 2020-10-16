@@ -1,0 +1,39 @@
+plant automaton p:
+  controllable e1;
+  controllable e2;
+  location:
+    initial;
+    marked;
+    edge e1;
+    edge e2;
+end
+supervisor automaton r1:
+  monitor p.e1;
+  disc int[0..5] x;
+  location l1:
+    initial;
+    edge p.e1 when x = 0;
+    edge p.e1 when x > 2;
+    edge p.e2 when x < 3 goto l2;
+  location l2:
+    marked;
+end
+supervisor automaton r2:
+  monitor;
+  disc int[0..5] x;
+  location l1:
+    initial;
+    edge p.e1 when x = 0;
+    edge p.e1 when x > 2;
+    edge p.e2 when x < 3 goto l2;
+  location l2:
+    marked;
+end
+supervisor automaton sup:
+  alphabet p.e1, p.e2;
+  location:
+    initial;
+    marked;
+    edge p.e1 when r1.l1 and r1.x = 0 and (r2.l1 and r2.x = 0) or r1.l2 and r1.x = 0 and (r2.l2 and r2.x = 0);
+    edge p.e2 when r1.l1 and (r1.x = 0 and r2.x = 0);
+end

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="UNCONTROLLABLE" Name="u_inv_bad"/>
+    <EventDecl Kind="CONTROLLABLE" Name="aut:e"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <VariableComponent Name="aut:LP_aut">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="aut:LP_aut"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+    </VariableComponent>
+    <SimpleComponent Kind="PLANT" Name="aut">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="loc1">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+          <SimpleNode Name="loc2"/>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="loc1" Target="loc2">
+            <LabelBlock>
+              <SimpleIdentifier Name="aut:e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="aut:LP_aut"/>
+                  <IntConstant Value="1"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+    <SimpleComponent Kind="SPEC" Name="inv_req">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="u_inv_bad"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <IntConstant Value="0"/>
+              </Guards>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+    <SimpleComponent Kind="PLANT" Name="inv_plant">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="u_inv_bad"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <UnaryExpression Operator="!">
+                  <BinaryExpression Operator="!=">
+                    <SimpleIdentifier Name="aut:LP_aut"/>
+                    <IntConstant Value="1"/>
+                  </BinaryExpression>
+                </UnaryExpression>
+              </Guards>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

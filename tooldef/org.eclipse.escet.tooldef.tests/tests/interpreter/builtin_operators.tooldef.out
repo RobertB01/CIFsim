@@ -1,0 +1,234 @@
+=== short circuit and/or ===
+true
+false
+
+=== and/or ===
+true
+false
+false
+false
+
+true
+true
+true
+false
+
+{2}
+{1, 2, 3}
+
+=== + (unary) ===
+1
+1
+123456789012345
+123456789012345
+2.0
+2.0
+
+=== + (binary) ===
+4
+2
+-2
+-4
+1111111110111110
+5.0
+ab
+[1, 2, 2, 3]
+{1: 2, 2: 4, 3: 5}
+
+2
+2
+3
+3
+4
+2
+3
+4.0
+3
+4
+5.0
+4.0
+5.0
+6.0
+
+=== - (unary) ===
+-1
+1
+-123456789012345
+123456789012345
+-2.0
+2.0
+
+=== - (binary) ===
+-2
+-4
+4
+2
+-864197532086420
+-1.0
+{1}
+{1: 2}
+{1: 2}
+{1: 2}
+
+=== * ===
+3
+-3
+-3
+3
+4611686018427387904
+6.0
+
+=== / ===
+0.3333333333333333
+-0.3333333333333333
+-0.3333333333333333
+0.3333333333333333
+1.0
+0.6666666666666666
+
+=== div/mod ===
+1
+-1
+-1
+1
+7
+
+3
+3
+-3
+-3
+13
+
+=== < ===
+false
+true
+false
+false
+
+false
+true
+false
+false
+
+false
+true
+false
+false
+
+=== <= ===
+true
+true
+false
+true
+
+true
+true
+false
+true
+
+true
+true
+false
+true
+
+=== > ===
+false
+false
+true
+false
+
+false
+false
+true
+false
+
+false
+false
+true
+false
+
+=== >= ===
+true
+false
+true
+true
+
+true
+false
+true
+true
+
+true
+false
+true
+true
+
+=== == ===
+true
+false
+false
+true
+
+true
+false
+false
+true
+
+true
+false
+false
+true
+
+true
+true
+true
+true
+
+true
+false
+false
+true
+
+true
+false
+false
+true
+
+=== != ===
+false
+true
+true
+false
+
+false
+true
+true
+false
+
+false
+true
+true
+false
+
+false
+false
+false
+false
+
+false
+true
+true
+false
+
+false
+true
+true
+false
+
+=== not ===
+false
+true
+true
+false
+false
+true

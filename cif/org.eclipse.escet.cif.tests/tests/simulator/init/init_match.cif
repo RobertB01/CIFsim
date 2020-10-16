@@ -1,0 +1,69 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p0:
+  disc int[0..5] x;                 // Option value 0.
+  invariant x >= 0;
+
+  location:
+    initial;
+    urgent;
+end
+
+automaton p1:
+  disc int[0..5] x = 4;             // Option value 4.
+  invariant x >= 0;
+
+  location:
+    initial;
+end
+
+automaton p2:
+  disc int[0..5] x in {2, 3};       // Option value 2.
+  invariant x >= 0;
+
+  location:
+    initial;
+end
+
+automaton p3:
+  disc int[0..5] x in any;          // Option value 3.
+  invariant x >= 0;
+
+  location:
+    initial;
+end
+
+automaton q0:
+  location l0:                      // Option location l0;
+    initial;
+    edge tau goto l1;
+
+  location l1;
+end
+
+automaton q1:
+  location l0:
+    initial;
+
+  location l1:                      // Option location l1;
+    initial;
+end
+
+automaton q2:
+  location l0:
+    initial p3.x = 3;               // Option location l0;
+
+  location l1:
+    initial p3.x != 3;
+end

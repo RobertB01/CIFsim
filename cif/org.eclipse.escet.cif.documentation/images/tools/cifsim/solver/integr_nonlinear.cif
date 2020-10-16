@@ -1,0 +1,2 @@
+cont x = 0.0;
+equation x' = (x * x) - x - 2;

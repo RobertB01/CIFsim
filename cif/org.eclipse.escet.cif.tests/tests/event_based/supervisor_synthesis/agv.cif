@@ -1,0 +1,67 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable Load_AGV_At_M1, Load_AGV_At_M2, Unload_AGV_At_B;
+controllable   Load_M1, Unload_AGV_At_M2;
+
+plant p:
+  alphabet Load_AGV_At_M1, Load_AGV_At_M2, Load_M1, Unload_AGV_At_B, Unload_AGV_At_M2;
+
+  location s0:
+    marked;
+    initial;
+    edge Load_M1 goto s1;
+
+  location s1:
+    edge Load_AGV_At_M1 goto s2;
+
+  location s2:
+    edge Load_M1 goto s3;
+    edge Unload_AGV_At_M2 goto s4;
+
+  location s3:
+    edge Unload_AGV_At_M2 goto s5;
+
+  location s4:
+    edge Load_M1 goto s5;
+    edge Load_AGV_At_M2 goto s6;
+
+  location s5:
+    edge Load_AGV_At_M2 goto s7;
+    edge Load_AGV_At_M1 goto s8;
+
+  location s6:
+    edge Unload_AGV_At_B goto s0;
+    edge Load_M1 goto s7;
+
+  location s7:
+    edge Unload_AGV_At_B goto s1;
+
+  location s8:
+    edge Load_M1 goto s9;
+
+  location s9;
+end
+
+requirement r:
+  alphabet Load_AGV_At_M2, Load_M1;
+
+  location s0:
+    initial;
+    marked;
+    edge Load_AGV_At_M2;
+    edge Load_M1 goto s1;
+
+  location s1:
+    edge Load_AGV_At_M2 goto s0;
+end

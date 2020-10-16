@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-index-int-int.chi": Semantic error at line 17, column 20: Type "int" cannot be indexed.

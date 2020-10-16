@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event bool e1;
+event int[1..2] e2;
+event int[3..4] e3;
+event real e4;
+
+automaton a1:
+  location:
+    initial;
+    edge e1?, e2?;
+end
+
+automaton a2:
+  location:
+    initial;
+    edge e2?, e3?, e4?;
+end

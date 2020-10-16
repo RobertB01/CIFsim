@@ -1,0 +1,10 @@
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 16, column 47: Mandatory tool parameter "c.z" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 17, column 33: Mandatory tool parameter "d.y" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 17, column 47: Mandatory tool parameter "d.z" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 18, column 47: Mandatory tool parameter "e.z" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 22, column 47: Mandatory tool parameter "h.z" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 23, column 33: Mandatory tool parameter "i.y" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 23, column 47: Mandatory tool parameter "i.z" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 25, column 47: Mandatory tool parameter "j.z" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_param_order.tooldef": Semantic error at line 26, column 47: Mandatory tool parameter "k.z" may not follow a variadic or optional tool parameter.
+ERROR: Failed to load ToolDef file "tchecker/tool_param_order.tooldef": the file has errors.

@@ -1,0 +1,2 @@
+ERROR: Failed to disable events for CIF file "event_disabler/event_is_comp.cif".
+CAUSE: Can't disable event "a.b": "a.b" exists, but is a component.

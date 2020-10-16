@@ -1,0 +1,201 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[application, options]
+
+[[app-framework-option-framework]]
+== The option framework
+
+Applications often have settings, and they are generally passed as command
+line arguments. GUI applications however, often use a dialog to configure the
+options instead. To allow applications within the application framework to
+work in both scenarios, the application framework provides the option
+framework.
+
+
+indexterm:[option, class]
+
+[[app-framework-option-class]]
+=== The option class
+
+All options of applications that use the application framework, should be
+specified as application framework options. Each option is a derived class
+of the `org.eclipse.escet.common.app.framework.options.Option<T>` class.
+The generic type parameter `<T>` indicates that options are strongly typed
+with respect to their values.
+
+
+indexterm:[option, command line]
+indexterm:[option, dialog]
+indexterm:[option, processing]
+
+[[app-framework-cli-options-and-option-dialog]]
+=== Command line options and the option dialog
+
+The option framework requires all options to work via the command line, but
+options can also support the option dialog. It is recommended for all options
+to support the option dialog. The option framework process options as follows:
+
+* All registered options are first initialized to their default values.
+
+* The pre-options hook for the application is fired.
+
+* The command line options are parsed.
+
+* If the command line options enabled the option dialog option (a standard
+application framework option that controls whether the option dialog is to
+be shown), the option dialog is shown. The option values as processed so
+far, are shown to the user in this dialog. The user can modify the options
+via the dialog and choose btn:[OK] to continue.
+
+** If the user chose btn:[Cancel] in the option dialog, terminate the
+application.
+
+** All registered options are reset to their default values. This also
+clears the remaining arguments option, if any.
+
+** The options set in the dialog are parsed. This overwrites the values
+of all options.
+
+* The post-processing hook is fired for all options that have it.
+
+* All option values are checked (validated).
+
+* The post-options hook for the application is fired.
+
+
+indexterm:[option, category]
+
+[[app-framework-option-categories]]
+=== Option categories
+
+Options can be ordered into categories. Categories can be combined into a
+hierarchical structure. This allows the option dialog to show options per
+category, and allows the command line help message to show command line
+option help per category. In both cases, this adds structure to the possibly
+large amount of options, and makes it easier for end users to find the option
+they are looking for.
+
+
+indexterm:[option, instance]
+
+[[app-framework-instantiating-options]]
+=== Instantiating options
+
+For every option, there may be at most one instance. Therefore, never use
+the constructors of options directly. Instead use the following:
+
+[source,java]
+----
+Options.getInstance(MyOption.class)
+----
+
+to get an instance of an option.
+
+
+indexterm:[option, get]
+indexterm:[option, set]
+
+[[app-framework-getting-setting-option-values]]
+=== Getting and setting option values
+
+Applications don't have access to the command line arguments. The option
+framework automatically process the command line arguments based on the options
+registered for the application. Applications always retrieve the values of
+options through static methods defined in the option classes.
+
+Options are usually set via command line arguments, or via the option dialog.
+It is however also possible to set option values at run-time:
+
+[source, java]
+----
+Options.set(MyOption.class, <value>);
+----
+
+
+indexterm:[option, order]
+
+[[app-framework-option-processing-order]]
+=== Option processing order
+
+If possible, options should not depend on the order in which they are parsed.
+If the value of one option depends on the value of another option, use the
+post-processing hook to achieve consistency.
+
+
+indexterm:[option, syntax]
+
+[[app-framework-cli-option-syntax]]
+=== Command line option syntax
+
+All options have a long form (`--option`), optionally with a value
+(`--option=VALUE`). They can also have short form (`-o`), optionally with
+a value (`-oVALUE` or `-o VALUE`). All arguments that do not start with a
+dash symbol (`-`) are considered to be the 'remaining arguments'. It is
+possible to register one option that processes those remaining arguments. Such
+special options have `+*+` as long option name.
+
+
+indexterm:[option, implement]
+
+[[app-framework-implement-new-options]]
+=== Implementing your own options
+
+Simply derive from the `Option` class, and study its API to implement your own
+options. You can also look at existing options for best practices. Furthermore,
+the option framework provides several options that can be used in applications:
+
+* `BooleanOption`: convenience base class for boolean options.
+
+* `FilesOption`: multiple remaining arguments input file paths option.
+
+* `InputFileOption`: single remaining argument input file path option.
+
+* `OutputFileOption`: output file path option (`--output` / `-o`).
+
+
+indexterm:[option, standard]
+indexterm:[option, development mode]
+indexterm:[option, help]
+indexterm:[option, license]
+indexterm:[option, dialog]
+indexterm:[option, output mode]
+indexterm:[option, gui]
+
+[[app-framework-standard-options]]
+=== Standard options
+
+The application framework provides several options that must be registered
+for every application:
+
+* `DevModeOption`: option to enable/disable development mode. Developers can
+enable this option to get stack traces in case of internal exceptions,
+instead of crash reports. See also the chapter on the exception framework.
+
+* `HelpOption`: option to show the application help text at the console.
+
+* `LicenseOption`: option to print the license text of the application at
+the console, and terminate the application.
+
+* `OptionDialogOption`: option to show the option dialog.
+
+* `OutputModeOption`: option to control the amount of output produced by the
+application. See also the <<app-framework-io-framework,I/O framework>>
+section.
+
+* `GuiOption`: option to disable the GUI (enabled headless execution mode).
+See also the section on <<app-framework-guis-and-swt,GUIs and SWT>>.
+
+See also the section on
+<<app-framework-implement-your-application,how to implement your own application>>.

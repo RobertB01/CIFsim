@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  controllable c1, c2, c3;
+
+  disc int[0..4] x in any;
+  disc int[0..4] y in any;
+
+  disc int[0..3] a in any;
+  disc int[1..7] b in any;
+  disc int[3..6] c in any;
+
+  requirement invariant y != 2;
+
+  location:
+    initial y != 1;
+    marked y != 3;
+    edge c1 do x := y;
+    edge c2 do a := b;
+    edge c3 do a := c;
+end

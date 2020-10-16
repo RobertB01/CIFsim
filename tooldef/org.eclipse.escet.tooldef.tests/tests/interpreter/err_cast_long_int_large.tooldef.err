@@ -1,0 +1,3 @@
+ERROR: Failed to evaluate initial value "<int>x" of variable "y".
+CAUSE: Can't cast value "2147483648" to type "int".
+CAUSE: The value is outside of the "int" type range.

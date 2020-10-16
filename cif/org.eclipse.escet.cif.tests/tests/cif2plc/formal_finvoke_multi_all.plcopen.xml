@@ -1,0 +1,1067 @@
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://www.plcopen.org/xml/tc6_0201">
+  <fileHeader companyName="Eclipse Foundation" creationDateTime="1970-01-01T01:00:00" productName="CIF to Structured Text" productVersion="0.0"/>
+  <contentHeader name="Untitled1">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1"/>
+      </fbd>
+      <ld>
+        <scaling x="1" y="1"/>
+      </ld>
+      <sfc>
+        <scaling x="1" y="1"/>
+      </sfc>
+    </coordinateInfo>
+  </contentHeader>
+  <types>
+    <dataTypes>
+      <dataType name="STATE">
+        <baseType>
+          <struct>
+            <variable name="curTime">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="cvar_c">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut_r">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut_b">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut_i">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut_tii">
+              <type>
+                <derived name="TupleStruct_1"/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut_i2">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut_i3">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable address="%Q*" name="dvar_M_aut">
+              <type>
+                <derived name="enum_E"/>
+              </type>
+            </variable>
+          </struct>
+        </baseType>
+      </dataType>
+      <dataType name="enum_E">
+        <baseType>
+          <enum>
+            <values>
+              <value name="elit_l1"/>
+              <value name="elit_l2"/>
+            </values>
+          </enum>
+        </baseType>
+      </dataType>
+      <dataType name="TupleStruct_1">
+        <baseType>
+          <struct>
+            <variable name="field0">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="field1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </struct>
+        </baseType>
+      </dataType>
+      <dataType name="TupleStruct_2">
+        <baseType>
+          <struct>
+            <variable name="field0">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="field1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </struct>
+        </baseType>
+      </dataType>
+    </dataTypes>
+    <pous>
+      <pou name="derivcvar_c" pouType="function">
+        <interface>
+          <returnType>
+            <LREAL/>
+          </returnType>
+          <inputVars>
+            <variable name="state">
+              <type>
+                <derived name="STATE"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">derivcvar_c := state.cvar_c;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="alg_a" pouType="function">
+        <interface>
+          <returnType>
+            <LREAL/>
+          </returnType>
+          <inputVars>
+            <variable name="state">
+              <type>
+                <derived name="STATE"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">alg_a := (state.cvar_c) + (derivcvar_c(state));</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="func_f1" pouType="function">
+        <interface>
+          <returnType>
+            <BOOL/>
+          </returnType>
+          <inputVars>
+            <variable name="farg_f1_p">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">func_f1 := (farg_f1_p) AND (ifExprFunc1(0));
+RETURN;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="ifExprFunc1" pouType="function">
+        <interface>
+          <returnType>
+            <BOOL/>
+          </returnType>
+          <inputVars>
+            <variable name="dummy">
+              <type>
+                <INT/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF (func_f1(TRUE)) THEN
+    ifExprFunc1 := TRUE;
+ELSE
+    ifExprFunc1 := TRUE;
+END_IF;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="func_f2" pouType="function">
+        <interface>
+          <returnType>
+            <BOOL/>
+          </returnType>
+          <inputVars>
+            <variable name="farg_f2_p">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">func_f2 := ifExprFunc2(farg_f2_p);
+RETURN;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="ifExprFunc2" pouType="function">
+        <interface>
+          <returnType>
+            <BOOL/>
+          </returnType>
+          <inputVars>
+            <variable name="farg_f2_p">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF (farg_f2_p) THEN
+    ifExprFunc2 := TRUE;
+ELSE
+    ifExprFunc2 := TRUE;
+END_IF;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="makeTupleStruct_1" pouType="function">
+        <interface>
+          <returnType>
+            <derived name="TupleStruct_1"/>
+          </returnType>
+          <inputVars>
+            <variable name="field0">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+            <variable name="field1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </inputVars>
+          <localVars>
+            <variable name="rslt">
+              <type>
+                <derived name="TupleStruct_1"/>
+              </type>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">rslt.field0 := field0;
+rslt.field1 := field1;
+makeTupleStruct_1 := rslt;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="proj0_TupleStruct_1" pouType="function">
+        <interface>
+          <returnType>
+            <DINT/>
+          </returnType>
+          <inputVars>
+            <variable name="tuple">
+              <type>
+                <derived name="TupleStruct_1"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">proj0_TupleStruct_1 := tuple.field0;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="proj1_TupleStruct_1" pouType="function">
+        <interface>
+          <returnType>
+            <DINT/>
+          </returnType>
+          <inputVars>
+            <variable name="tuple">
+              <type>
+                <derived name="TupleStruct_1"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">proj1_TupleStruct_1 := tuple.field1;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="MAIN" pouType="program">
+        <interface>
+          <outputVars>
+            <variable name="timerValue0">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="timerValue1">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+          </outputVars>
+          <localVars>
+            <variable name="cnt">
+              <type>
+                <LINT/>
+              </type>
+            </variable>
+            <variable name="first">
+              <type>
+                <BOOL/>
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE"/>
+              </initialValue>
+            </variable>
+            <variable name="curTimerValue">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="state0">
+              <type>
+                <derived name="STATE"/>
+              </type>
+            </variable>
+            <variable name="curTime">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="loopsKilled">
+              <type>
+                <LINT/>
+              </type>
+            </variable>
+          </localVars>
+          <tempVars>
+            <variable name="lastTimerValue">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="curDeltaTime">
+              <type>
+                <TIME/>
+              </type>
+            </variable>
+            <variable name="curDeltaSecs">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="state1">
+              <type>
+                <derived name="STATE"/>
+              </type>
+            </variable>
+            <variable name="progress">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="loopCount">
+              <type>
+                <INT/>
+              </type>
+            </variable>
+            <variable name="b1">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+            <variable name="b2">
+              <type>
+                <BOOL/>
+              </type>
+            </variable>
+          </tempVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.cvar_c := 0.0;
+    state0.dvar_M_aut_r := 0.0;
+    state0.dvar_M_aut_b := FALSE;
+    state0.dvar_M_aut_i := 0;
+    state0.dvar_M_aut_tii := makeTupleStruct_1(field0:=0, field1:=0);
+    state0.dvar_M_aut_i2 := 1;
+    state0.dvar_M_aut_i3 := 1;
+    state0.dvar_M_aut := elit_l1;
+ELSE
+    // Update continuous variables for time delay.
+    state1.cvar_c := state0.cvar_c + curDeltaSecs * derivcvar_c(state0);
+
+    state0.curTime := curTime;
+    state0.cvar_c := state1.cvar_c;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "M.aut_e".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_aut) = (elit_l1);
+        IF b1 THEN
+            b2 := state0.dvar_M_aut_b;
+            b2 := b2 OR (state0.dvar_M_aut_b);
+            b2 := b2 OR (state0.dvar_M_aut_b);
+            b1 := b1 AND (b2);
+        END_IF;
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ivar_inp;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ((alg_a(state0)) + (state0.cvar_c)) + (derivcvar_c(state0));
+            state1.dvar_M_aut := elit_l2;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := DINT_TO_LREAL(state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := NOT(state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := NOT(state0.dvar_M_aut_b) OR (state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := DINT_TO_LREAL(state0.dvar_M_aut_i) / (state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := func_f1(state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := func_f2(state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := ifExprFunc3(state0);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := proj0_TupleStruct_1(state0.dvar_M_aut_tii);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ABS(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_r, IN2:=1.0/3);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXP(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := LN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := LOG(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := MIN(IN1:=state0.dvar_M_aut_i, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MIN(IN1:=DINT_TO_LREAL(state0.dvar_M_aut_i), IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MIN(IN1:=state0.dvar_M_aut_r, IN2:=DINT_TO_LREAL(state0.dvar_M_aut_i));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MIN(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := MAX(IN1:=state0.dvar_M_aut_i, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MAX(IN1:=DINT_TO_LREAL(state0.dvar_M_aut_i), IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MAX(IN1:=state0.dvar_M_aut_r, IN2:=DINT_TO_LREAL(state0.dvar_M_aut_i));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MAX(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := LREAL_TO_DINT(EXPT(IN1:=DINT_TO_LREAL(state0.dvar_M_aut_i2), IN2:=state0.dvar_M_aut_i3));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_i, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=DINT_TO_LREAL(state0.dvar_M_aut_i), IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := SQRT(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ASIN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ACOS(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ATAN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := SIN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := COS(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := TAN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_tii := makeTupleStruct_1(field0:=state0.dvar_M_aut_i, field1:=(state0.dvar_M_aut_i) + (1));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := proj0_TupleStruct_2(makeTupleStruct_2(field0:=(state0.dvar_M_aut_r) * (2.0), field1:=(state0.dvar_M_aut_i) + (1)));
+            state1.dvar_M_aut_i := proj1_TupleStruct_2(makeTupleStruct_2(field0:=(state0.dvar_M_aut_r) * (2.0), field1:=(state0.dvar_M_aut_i) + (1)));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+
+    // Protect against events that are always enabled.
+    loopCount := loopCount + 1;
+    IF loopCount &gt;= 100 THEN
+        loopsKilled := loopsKilled + 1;
+        EXIT;
+    END_IF;
+END_WHILE;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="ifExprFunc3" pouType="function">
+        <interface>
+          <returnType>
+            <BOOL/>
+          </returnType>
+          <inputVars>
+            <variable name="state">
+              <type>
+                <derived name="STATE"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">IF (state.dvar_M_aut_b) THEN
+    ifExprFunc3 := state.dvar_M_aut_b;
+ELSE
+    ifExprFunc3 := state.dvar_M_aut_b;
+END_IF;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="makeTupleStruct_2" pouType="function">
+        <interface>
+          <returnType>
+            <derived name="TupleStruct_2"/>
+          </returnType>
+          <inputVars>
+            <variable name="field0">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="field1">
+              <type>
+                <DINT/>
+              </type>
+            </variable>
+          </inputVars>
+          <localVars>
+            <variable name="rslt">
+              <type>
+                <derived name="TupleStruct_2"/>
+              </type>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">rslt.field0 := field0;
+rslt.field1 := field1;
+makeTupleStruct_2 := rslt;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="proj0_TupleStruct_2" pouType="function">
+        <interface>
+          <returnType>
+            <LREAL/>
+          </returnType>
+          <inputVars>
+            <variable name="tuple">
+              <type>
+                <derived name="TupleStruct_2"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">proj0_TupleStruct_2 := tuple.field0;</xhtml>
+          </ST>
+        </body>
+      </pou>
+      <pou name="proj1_TupleStruct_2" pouType="function">
+        <interface>
+          <returnType>
+            <DINT/>
+          </returnType>
+          <inputVars>
+            <variable name="tuple">
+              <type>
+                <derived name="TupleStruct_2"/>
+              </type>
+            </variable>
+          </inputVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">proj1_TupleStruct_2 := tuple.field1;</xhtml>
+          </ST>
+        </body>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations>
+      <configuration name="Untitled1">
+        <resource name="Untitled1">
+          <task interval="t#10ms" name="PlcTask" priority="20">
+            <pouInstance name="MAIN" typeName="MAIN"/>
+          </task>
+          <globalVars constant="false" name="INPUTS">
+            <variable address="%I*" name="ivar_inp">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+          </globalVars>
+          <globalVars constant="false" name="TIMERS">
+            <variable name="timer0">
+              <type>
+                <derived name="TON"/>
+              </type>
+            </variable>
+            <variable name="timer1">
+              <type>
+                <derived name="TON"/>
+              </type>
+            </variable>
+            <variable name="curTimer">
+              <type>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+            </variable>
+          </globalVars>
+        </resource>
+      </configuration>
+    </configurations>
+  </instances>
+</project>

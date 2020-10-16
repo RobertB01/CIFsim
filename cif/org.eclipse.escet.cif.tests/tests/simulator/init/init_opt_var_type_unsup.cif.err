@@ -1,0 +1,1 @@
+ERROR: Specifying initialization using the simulation option is not supported for discrete variable "a.x", as its type "list func bool(int)" is not serializable.

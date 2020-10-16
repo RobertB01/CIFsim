@@ -1,0 +1,95 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-reuse2-chapter-group-defs]]
+== Group definitions
+
+indexterm:[group,definition]
+indexterm:[group,instantiation]
+indexterm:[component,group instantiation]
+Similar to how <<tut-reuse2-chapter-aut-def-inst,automaton definitions>> can
+be used for reuse of automata, group definitions can be used for reuse of
+groups:
+
+
+[source, cif]
+----
+automaton def Machine():
+  location:
+    initial;
+  ...
+end
+
+group def Hall():
+  machine1: Machine();
+  machine2: Machine();
+end
+
+group def Factory():
+  hall1: Hall();
+  hall2: Hall();
+end
+
+factory1: Factory();
+----
+
+Automaton definition `Machine` models a machine, but most of the details are
+omitted here, as they are not relevant for this lesson. Group definition
+`Hall` models that each hall has two machines. Similarly, group definition
+`Factory` models that each factory has two halls.
+
+indexterm:[component]
+indexterm:[component,definition]
+Automata and groups are both _components_ in CIF. Automaton definitions and
+group definitions can together be called _component definitions_. If we
+eliminate all component definitions and their instantiations, by replacing
+instantiations by their definitions, we get the following CIF specification:
+
+
+[source, cif]
+----
+group factory1:
+  group hall1:
+    automaton machine1:
+      location:
+        initial;
+      ...
+    end
+
+    automaton machine2:
+      location:
+        initial;
+      ...
+    end
+  end
+
+  group hall2:
+    automaton machine1:
+      location:
+        initial;
+      ...
+    end
+
+    automaton machine2:
+      location:
+        initial;
+      ...
+    end
+  end
+end
+----
+
+Group definitions may be <<tut-reuse2-chapter-aut-def-params,parametrized>>
+using the same <<tut-reuse2-chapter-aut-def-param-kinds,kinds of parameters>>
+as automaton definitions.

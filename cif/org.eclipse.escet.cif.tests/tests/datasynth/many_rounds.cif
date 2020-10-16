@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c1, c2, c3, c4, c5, c6;
+uncontrollable u;
+
+plant p:
+  disc int[0..15] x in any;
+
+  location l0:
+    initial;
+    edge c1 do x := x + 1 goto l1;
+    edge c2 do x := x + 1 goto l2;
+    edge c3 do x := x + 1 goto l3;
+    edge c4 do x := x + 1 goto l4;
+    edge c5 do x := x + 1 goto l5;
+    edge c6 do x := x + 1 goto l6;
+
+  location l1:
+    marked x = 1;
+    edge u do x := x + 1 goto l0;
+
+  location l2:
+    marked x = 3;
+    edge u do x := x + 1 goto l0;
+
+  location l3:
+    marked x = 5;
+    edge u do x := x + 1 goto l0;
+
+  location l4:
+    marked x = 7;
+    edge u do x := x + 1 goto l0;
+
+  location l5:
+    marked x = 9;
+    edge u do x := x + 1 goto l0;
+
+  location l6:
+    marked x = 11;
+    edge u do x := x + 1 goto l0;
+end

@@ -1,0 +1,293 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[grammar]
+indexterm:[syntax,lexical]
+
+[[lang-ref-syntax-lexical]]
+== Lexical syntax
+
+This page describes the CIF lexical syntax.
+
+
+indexterm:[keywords]
+indexterm:[syntax,keywords]
+
+=== Keywords
+
+_Language keywords_
+
+[source, cif]
+----
+alg            disc       group       post          switch
+alphabet       dist       id          pre           tau
+any            do         if          print         text
+attr           edge       import      printfile     time
+automaton      elif       initial     real          to
+bool           else       input       requirement   true
+break          end        int         return        tuple
+case           enum       invariant   self          type
+const          equation   list        set           uncontrollable
+cont           event      location    string        urgent
+continue       false      marked      supervisor    value
+controllable   file       monitor     svgcopy       void
+def            final      namespace   svgfile       when
+der            for        needs       svgin         while
+dict           func       now         svgmove
+disables       goto       plant       svgout
+----
+
+_Trigonometric functions_
+
+[source, cif]
+----
+acosh   asin    cosh   sin
+acos    atanh   cos    tanh
+asinh   atan    sinh   tan
+----
+
+_General functions_
+
+[source, cif]
+----
+abs    empty   ln    pop     sign
+cbrt   exp     log   pow     size
+ceil   floor   max   round   sqrt
+del    fmt     min   scale
+----
+
+_Distributions_
+
+[source, cif]
+----
+bernoulli   erlang        lognormal   triangle
+beta        exponential   normal      uniform
+binomial    gamma         poisson     weibull
+constant    geometric     random
+----
+
+_Expression operators_
+
+[source, cif]
+----
+and   mod   sample
+div   not   sub
+in    or
+----
+
+
+indexterm:[terminals]
+indexterm:[syntax,terminals]
+
+=== Terminals
+
+Besides the keyword terminals listed above, CIF features several other
+terminals:
+
+indexterm:[identifiers]
+indexterm:[syntax,identifier]
+indexterm:[$]
+indexterm:[syntax,keyword escaping]
+indexterm:[keyword,escaping]
+
+`IDENTIFIERTK`::
+An identifier. Defined by the regular expression:
+`+[$]?[a-zA-Z_][a-zA-Z0-9_]*+`. They thus consist of letters, numbers
+and underscore characters (`+_+`). Identifiers may not start with a
+numeric digit. Keywords take priority over identifiers. To use a
+keyword as an identifier, prefix it with a `$` character.
+The `$` is not part of the identifier name.
+
++
+Examples:
++
+[source, cif]
+----
+apple       // identifier
+bear        // identifier
+int         // keyword
+$int        // identifier 'int' (override keyword priority with $)
+----
+
+indexterm:[names]
+indexterm:[syntax,name]
+
+indexterm:[syntax,relative name]
+indexterm:[.]
+
+`RELATIVENAMETK`::
+A relative name. Defined by the regular expression:
+`+[$]?[a-zA-Z_][a-zA-Z0-9_]*(\.[$]?[a-zA-Z_][a-zA-Z0-9_]*)++`.
+It thus consists of two or more `IDENTIFIERTK` joined together
+with periods (`.`).
++
+Examples:
++
+[source, cif]
+----
+some_automaton.some_location
+----
+
+indexterm:[syntax,absolute name]
+indexterm:[.]
+
+`ABSOLUTENAMETK`::
+An absolute name. Absolute names can be used to refer to objects that are
+otherwise hidden. It represents an absolute name from the root of the
+current scope.
++
+Defined by the regular expression:
+`+\.[$]?[a-zA-Z_][a-zA-Z0-9_]*(\.[$]?[a-zA-Z_][a-zA-Z0-9_]*)*+`.
+It starts with a period (`.`), and then follows an `IDENTIFIER` or
+`RELATIVENAMETK`. 
++
+Examples:
++
+[source, cif]
+----
+.some_event
+.some_group.some_event
+----
+
+indexterm:[syntax,root name]
+indexterm:[^]
+
+`ROOTNAMETK`::
+A root name. Absolute names can be used to refer to objects that are
+otherwise hidden. It represents an absolute name from the root the current
+specification.
++
+Defined by the regular expression:
+`+\^[$]?[a-zA-Z_][a-zA-Z0-9_]*(\.[$]?[a-zA-Z_][a-zA-Z0-9_]*)*+`.
+It starts with a circumflex accent (`^`), and then follows an `IDENTIFIER` or
+`RELATIVENAMETK`.
++
+Examples:
++
+[source, cif]
+----
+^some_group.some_event
+----
+
+indexterm:[int,literal]
+indexterm:[number,literal]
+indexterm:[syntax,number]
+
+`NUMBERTK`::
+An integer literal. Defined by the regular expression: `+0|[1-9][0-9]*+`.
+Integers thus consist of numeric digits. Only for the number `0` may an
+integer literal start with `0`. E.g. `02` is invalid.
++
+Examples:
++
+[source, cif]
+----
+0
+1
+123
+----
+
+indexterm:[real,literal]
+indexterm:[syntax,double]
+
+`REALTK`::
+A real literal. Defined by the regular expression:
+`+(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)+`.
+Simple double literals consist of an integer literal followed by
+a period (`.`) and some numeric digits. Double literals using scientific
+notation start with either an integer literal or a simple double literal.
+They then contain either an `e` or `E`, followed by the exponent.
+The exponent consists of numeric digits, optionally preceded by `+` or `-`.
++
+Examples:
++
+[source, cif]
+----
+0.0
+1e5
+1E+03
+1.05e-78
+----
+
+indexterm:[string,literal]
+indexterm:[syntax,string]
+
+`STRINGTK`::
+A string literal. Defined by the regular expression:
+`+\"([^\\\"\n]|\\[nt\\\"])*\"+`. String literals are enclosed in double
+quotes (`+"+`). String literals must be on a single line and must thus not
+include new line characters (`\n`, Unicode U+0A). To include a double quote
+(`+"+`) in a string literal, it must be escaped as `+\"+`. Since a
+backslash (`\`) serves as escape character, to include a backslash in a string
+literal it must be escaped as `\\`. To include a tab character in a string
+literal, use `\t`. To include a newline in a string literal, use `\n`.
++
+Examples:
++
+[source, cif]
+----
+"hello world"
+"first line\nsecond line"
+----
+
+
+indexterm:[whitespace]
+indexterm:[syntax,whitespace]
+
+=== Whitespace
+
+CIF supports spaces, tabs, and new line characters as whitespace.
+Whitespace is ignored (except in string literals), but can be used to separate
+tokens as well as for layout purposes. The use of tab characters is allowed,
+but should be avoided if possible, as layout will be different for text
+editors with different tab settings. You may generally format a CIF
+script as you see fit, and start on a new line when desired.
+
+Examples:
+
+[source, cif]
+----
+// Normal layout.
+int x = 5;
+
+// Alternative layout.
+int
+  x    =
+    5
+  ;
+----
+
+
+indexterm:[comments]
+indexterm:[comments,single line]
+indexterm:[comments,multi line]
+indexterm:[syntax,comments]
+
+=== Comments
+
+CIF features two types of comments. Single line comments start with
+`//` and end at end of the line. Multi line comments start with `+/*+` and
+end at `+*/+`. Comments are ignored.
+
+Examples:
+
+[source, cif]
+----
+int x = 5; // Single line comment.
+
+int /* some comment */ x = /* some
+  more comments
+  and some more
+ end of the multi line comment */ 5;
+----

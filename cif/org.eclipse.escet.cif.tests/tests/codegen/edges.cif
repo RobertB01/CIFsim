@@ -1,0 +1,279 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Implicit tau, explicit tau.
+automaton aut01:
+  location:
+    initial;
+    edge tau;
+    edge tau;
+    edge when true;
+    edge when true;
+end
+
+// Guard and updates, various combinations.
+event e02a, e02b;
+
+automaton aut02:
+  disc int[0..3] x;
+
+  location loc1:
+    initial;
+    edge e02a goto loc2;
+    edge e02b when x = 2;
+
+  location loc2:
+    edge e02a goto loc3;
+    edge e02b do x := 1;
+
+  location loc3:
+    edge e02a goto loc1;
+    edge e02b when x = 3 do x := 1;
+end
+
+// Simple assignments.
+event e03a, e03b;
+
+automaton aut03:
+  cont c der 1;
+  disc int d;
+
+  location:
+    initial;
+    edge e03a do c := 1.23;
+    edge e03b do d := 2;
+end
+
+// Conditional updates, multiple conditional updates.
+
+event e04a, e04b, e04c, e04d, e04e, e04f;
+
+automaton aut04:
+  disc int a, b, c, d;
+
+  location:
+    initial;
+    edge e04a do if a = 1: b := 2 end;
+    edge e04b do if a = 1: b := 2 elif a = 2: b := 3 end;
+    edge e04c do if a = 1: b := 2 elif a = 2: b := 3 elif a = 3: b := 4 end;
+    edge e04d do if a = 1: b := 2 elif a = 2: b := 3 elif a = 3: b := 4 else b := 5 end;
+    edge e04e do if a = 1: b := 2 else b := 5 end;
+    edge e04f do if a = 1: b := 2 else b := 5 end,
+                if a = 1: c := 2 else d := 5 end;
+end
+
+// Assignment multiple parts of same variable.
+
+event e05a, e05b, e05c, e05d, e05e;
+
+automaton aut05:
+  disc list[5] int v1, v2;
+
+  location:
+    initial;
+    edge e05a do v1[0] := 3, v1[1] := 4;
+    edge e05b do (v1[0], v1[1]) := (3, 4);
+    edge e05c do v1 := v2;
+    edge e05d do v1[0] := v2[0], v1[1] := v2[1];
+    edge e05e do (v1[0], v1[1]) := (v2[1], v2[0]);
+end
+
+// Assign whole, part, packing, unpacking, etc.
+
+event e06a, e06b, e06c, e06d, e06e;
+
+automaton aut06:
+  disc tuple(int a, b) v1, v2;
+  disc int x, y;
+
+  location:
+    initial;
+    edge e06a do v1 := (3, 4);
+    edge e06b do v1[a] := 5;
+    edge e06c do (x, y) := v1;
+    edge e06d do v1 := (x + 1, y * 2);
+    edge e06e do v1 := v2;
+end
+
+// Assign continuous variables.
+
+event e07a, e07b;
+
+automaton aut07:
+  cont x der 1;
+  cont y der 2;
+
+  location:
+    initial;
+    edge e07a do x := 5;
+    edge e07b do x := 5, y := x;
+end
+
+// Multiple levels of tuples.
+
+event e08a, e08b, e08c, e08d, e08e, e08f, e08g, e08h;
+
+automaton aut08:
+  disc tuple(tuple(int a, b) t; string c) tt1, tt2;
+  disc tuple(int a, b) t;
+  disc int i, j;
+  disc string s;
+
+  location:
+    initial;
+    edge e08a do tt1 := ((1, 2), "abc");
+    edge e08b do tt1 := tt2;
+    edge e08c do tt1[0] := t;
+    edge e08d do tt1[0][1] := 3;
+    edge e08e do tt1[t][a] := 4;
+    edge e08f do tt1[c] := "def";
+    edge e08g do (i, j) := tt1[0];
+    edge e08h do ((i, j), s) := tt1;
+end
+
+// Multiple levels of arrays.
+
+event e09a, e09b, e09c, e09d, e09e, e09f, e09g;
+
+automaton aut09:
+  disc list[2] list[3] int ll1, ll2;
+  disc list[3] int l;
+  disc int i, j;
+
+  location:
+    initial;
+    edge e09a do ll1 := [[1, 2, 3], [4, 5, 6]];
+    edge e09b do ll1 := ll2;
+    edge e09c do ll1[0] := l;
+    edge e09d do ll1[0][1] := 6;
+    edge e09e do i := l[0];
+    edge e09f do i := ll1[0][1];
+    edge e09g do ll1 := [[i, j, i + j], [-i, -j, -i - j]];
+end
+
+// Combi arrays and tuples.
+
+event e10a, e10b, e10c, e10d, e10e, e10f, e10g, e10h, e10i;
+
+automaton aut10:
+  disc tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) x1, x2;
+  disc list[2] tuple(list[1] int x; list[1] real y) l;
+  disc list[1] int li;
+  disc list[1] real lr;
+  disc int i;
+  disc real r;
+
+  location:
+    initial;
+    edge e10a do x1 := x2;
+    edge e10b do x1 := ("abc", [([1], [2.0]), ([i], [r])]);
+    edge e10c do x1[0] := "def", x1[z] := [([1], [2.0]), ([3], [4.0])];
+    edge e10d do x1[1][0] := ([4], [5.0]);
+    edge e10e do x1[1][0][x][0] := 5;
+    edge e10f do l := x1[z];
+    edge e10g do li := x1[z][0][x];
+    edge e10h do lr := x1[z][0][y];
+    edge e10i do (i, r) := (x1[1][0][x][0], x1[1][0][y][0]);
+end
+
+// Complex combination.
+
+event e11a;
+
+automaton aut11:
+  disc list[3] tuple(int a, b) v1;
+
+  location:
+    initial;
+    edge e11a do v1[2][a] := 3,
+                 if v1[0][a] = 1:
+                   v1[0][a] := v1[0][a] + 1
+                 elif v1[0][a] = 2:
+                   v1[0][b] := v1[0][b] - 1
+                 else
+                   v1[1][a] := v1[2][a]
+                 end;
+end
+
+event e12a, e12b, e12c, e12d, e12e;
+
+automaton aut12:
+  disc real x, y, z;
+  alg real v = x + y;
+  alg real w = v + z;
+  disc real td;
+  cont t der x + y;
+  cont u der t' + z;
+
+  location:
+    initial;
+    edge e12a do x := 1, z := v, y := 1;   // Both x and y assignments destroy v
+    edge e12b do x := v, y := v;           // Direct alg var conflict, both assignments destroy v
+    edge e12c do x := v, td := w, y := v;  // Indirect alg var conflict, both x and y assignments destroy v and w
+    edge e12d do x := t', y := t';         // Direct derivative conflict, both assignments destroy t'
+    edge e12e do x := 1, td := u', y := 1; // Indirect derivative conflict, both assignments destroy t'
+end
+
+event e13a, e13b, e13c, e13d, e13e;
+
+automaton aut13:
+  disc real x, y, z;
+  alg real v = x + y;
+  alg real w = v + z;
+
+
+  location:
+    initial;
+    edge e13a do x := 1;
+    edge e13b do if z = 5:
+                   x := 2
+                 else
+                   x := 3
+                 end;
+    edge e13c do if z = 5:
+                   x := 2
+                 elif z = 21:
+                   x := 3
+                 end;
+    edge e13d do if z = 5:
+                   x := 2
+                 elif z = 21:
+                   x := 3
+                 else
+                   x := 4
+                 end;
+    edge e13e do if w = 4:
+                   x := 1
+                 elif v = 5:
+                   x := 2
+                 end;
+  end
+
+event e14a, e14b, e14c, e14d, e14e, e14f, e14g, e14h;
+
+automaton aut14:
+  input bool b;
+  input int i;
+  input real r;
+
+  location:
+    initial;
+    edge e14a when b;
+    edge e14b when i > 3;
+    edge e14c when r + i != 18;
+    edge e14d when not b;
+    edge e14e when -i < 5;
+    edge e14f when -r < 6;
+    edge e14g when +i < 7;
+    edge e14h when +r < 8;
+end

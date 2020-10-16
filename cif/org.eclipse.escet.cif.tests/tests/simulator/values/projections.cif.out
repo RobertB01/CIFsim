@@ -1,0 +1,29 @@
+Initial state: time=0.0, p=l1, p.b=false, p.i1=0, p.i2=0, p.i3=0, p.r=0.0, p.s1="", p.s2="", p.s3="", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l2, p.b=false, p.i1=1, p.i2=2, p.i3=3, p.r=0.0, p.s1="", p.s2="", p.s3="", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l3, p.b=false, p.i1=3, p.i2=2, p.i3=1, p.r=0.0, p.s1="", p.s2="", p.s3="", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l4, p.b=false, p.i1=1, p.i2=2, p.i3=3, p.r=0.0, p.s1="", p.s2="", p.s3="", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l5, p.b=false, p.i1=4, p.i2=5, p.i3=3, p.r=0.0, p.s1="", p.s2="", p.s3="", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l6, p.b=false, p.i1=2, p.i2=4, p.i3=3, p.r=0.0, p.s1="", p.s2="", p.s3="", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l7, p.b=false, p.i1=2, p.i2=4, p.i3=3, p.r=0.0, p.s1="a", p.s2="b", p.s3="c", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l8, p.b=false, p.i1=2, p.i2=4, p.i3=3, p.r=0.0, p.s1="c", p.s2="b", p.s3="a", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l9, p.b=true, p.i1=9, p.i2=4, p.i3=3, p.r=0.0, p.s1="x", p.s2="b", p.s3="a", p.z=0
+
+Transition: event tau
+State: time=0.0, p=l10, p.b=false, p.i1=123, p.i2=4, p.i3=3, p.r=234.0, p.s1="x", p.s2="b", p.s3="a", p.z=0
+

@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  disc dist real d1 = random();
+  disc dist real d2 = random();
+  disc list real a, b;
+
+  location l1:
+    initial;
+    edge do a := a + [(sample d1)[0]], b := b + [(sample d2)[0]] goto l2;
+
+  location l2:
+    edge do a := a + [(sample d1)[0]], b := b + [(sample d2)[0]] goto l3;
+
+  location l3:
+    edge do d1 := (sample d1)[1], d2 := (sample d2)[1] goto l4;
+
+  location l4:
+    edge do a := a + [(sample d1)[0]], b := b + [(sample d2)[0]] goto l5;
+
+  location l5:
+    edge do a := a + [(sample d1)[0]], b := b + [(sample d2)[0]] goto l6;
+
+  location l6:
+    urgent;
+end

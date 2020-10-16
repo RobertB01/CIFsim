@@ -1,0 +1,1 @@
+Error: File "spec/statements/timer-cast-in-select.chi": Semantic error at line 15, column 14: Casting a timer to its value is not allowed here, the expression must be constant in time.

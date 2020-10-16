@@ -1,0 +1,172 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+include::_local_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-svgmove]]
+== CIF/SVG move declaration
+
+indexterm:[SVG move declaration]
+indexterm:[SVG,move declaration]
+indexterm:[SVG declaration,SVG move declaration]
+indexterm:[I/O declaration,SVG move declaration]
+indexterm:[see: svgmove,SVG move declaration]
+A CIF/SVG move declaration can be used to move parts of an SVG image to a
+certain position, regardless of transformations applied to the elements that
+are moved, or any surrounding groups and layers, etc. This page explains the
+technical details of such move declarations. For a concrete example, see the
+<<tools-cifsim-output-svgviz-chapter-example-lamps,lamps example>>.
+
+indexterm:[SVG move declaration,example]
+
+=== Example
+
+Consider the following SVG file:
+
+[source,svg]
+----
+include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.svg[]
+----
+
+image::{tools-imgsdir}/cifsim/output/svgviz/svgmove/svgmove.png[]
+
+It features a group `grp1`, with a green rectangle `rect1`. It is 20 by 20
+pixels in size. Its position is 20 pixels from the left (`x` is 5, but the
+horizontal translation is 15 pixels) and 30 pixels from the top (`y` is 10,
+but the vertical translation is 20 pixels).
+
+Group `grp2` and rectangle `rect2` are similar. Rectangle `rect2` is
+blue, and group `grp2` is scaled 5 times horizontally, and 2 times
+vertically. This means that rectangle `rect2` is 100 by 40 pixels in size
+(5 times 20, and 2 times 20). It also means that the position of `rect2`
+is 100 pixels from the left (5 times 20) and 60 pixels from the top (2 times
+30).
+
+Also consider the following CIF file:
+
+[source,cif]
+----
+include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.cif[]
+----
+
+The upper left corner of the bounding box of rectangle `rect1` is moved to
+10 pixels from the left side, and 10 pixels from the top. The upper left corner
+of the bounding box of rectangle `rect2` is moved to 10 pixels from the left
+side, and 50 pixels from the top. The effect of the move declarations on the
+SVG image is:
+
+[source,svg]
+----
+include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.out.svg[]
+----
+
+image::{tools-imgsdir}/cifsim/output/svgviz/svgmove/svgmove.out.png[]
+
+Note the translations that have been added to the `transform` attributes of
+the rectangles. The additional translation for rectangle `rect1` is -10 in
+the x direction and -20 in the y direction, as the rectangle has been moved
+from position (20, 30) to position (10, 10).
+
+Rectangle `rect2` has been moved from position (100, 60) to position
+(10, 50). You might have expected a horizontal translation of -90 and a
+vertical translation of -10. However, its added translation is for -18 pixels
+horizontally, and -5 pixels vertically. This is because the scaling applies to
+this translation as well, and 5 * 18 = 90, and 2 * 5 = 10.
+
+The scaling of the surrounding group complicates the calculations for the
+transformations of its children (`rect2` in this case). Moving elements to
+certain positions becomes more and more complicated when the elements
+themselves have transformations, their parents have transformations, the
+parents of their parents have transformations, etc. This especially holds for
+non-translation transformations, such as `scale`, `rotate`, etc. The
+CIF/SVG move declarations make moving easy, by allowing you to specify the
+target position, regardless of the existence of such transformations.
+
+indexterm:[SVG move declaration,syntax]
+indexterm:[SVG move declaration,id]
+indexterm:[SVG move declaration,to]
+indexterm:[SVG move declaration,coordinates]
+indexterm:[SVG move declaration,x]
+indexterm:[SVG move declaration,x coordinate]
+indexterm:[SVG move declaration,y]
+indexterm:[SVG move declaration,y coordinate]
+indexterm:[SVG move declaration,file]
+
+=== Syntax
+
+The general syntax of CIF/SVG move declarations is:
+
+
+[source, cif]
+----
+svgmove id <id> to <x>, <y>;
+
+svgmove id <id> to <x>, <y> file "...";
+----
+
+The `svgmove` keyword is followed by a specification of an SVG element
+<<tools-cifsim-output-svgviz-svg-id,id>>. Every move declaration must
+<<tools-cifsim-output-svgviz-svgout-id,specify the id>> of an SVG
+element, and an SVG element with that id must exist in the SVG image. The
+`id` indicates the element that is to be moved.
+
+The x and y target coordinates are both mandatory, and indicate the coordinates
+of the upper left corner of the bounding box of element that is being moved,
+relative to the upper left corner of the canvas, after the move is completed.
+Similar to <<tools-cifsim-output-svgviz-svgout-id,ids>>,
+expressions may be used for both the x and y coordinates, as long as they
+result in a `int` or `real` typed value when they're evaluated. That is,
+the x and y coordinates must be numeric.
+
+In the syntax examples above, we see that it is also allowed to declare a
+local <<tools-cifsim-output-svgviz-chapter-svgfile,SVG file declaration>>, that
+only applies to that specific move declaration.
+
+indexterm:[SVG move declaration,graphical elements]
+
+=== Moving graphical elements
+
+In order for an element to be moved, it must have a graphical representation.
+Elements that have a graphical representation include rectangles, paths, text
+labels, groups, etc. However, certain elements don't have a graphical
+representation, and thus can not be moved. An example of elements that can not
+be moved are the `tspan` sub-elements of `text` elements. The `tspan`
+sub-elements don't have graphical representations of their own, they are part
+of the text labels, and only the `text` elements have graphical
+representations.
+
+indexterm:[SVG move declaration,conflicts]
+
+=== Conflicting transformations
+
+The SVG standard allows for powerful
+link:http://www.w3.org/TR/SVG11/coords.html#TransformAttribute[transformations],
+including the `scale` and `matrix` transformations. Now assume we use a
+`scale(0, 0)` transformation. Then all coordinates are multiplied by zero,
+always resulting in zero. As such, the entire image is scaled into zero by
+zero pixels. In such cases, there is no translation that can be added to an
+element, that after application of the scaling transformation, moves it to a
+certain position. Thus, if such conflicting transformations are present, the
+move can not be accomplished, and the CIF/SVG move declaration is considered
+illegal. It should be noted however, that such conflicting transformations are
+rare, and usually indicate an error has been made in those transformations.
+
+indexterm:[SVG move declaration,application]
+indexterm:[SVG move declaration,order]
+
+=== Application
+
+Move declarations are only applied once, at the beginning of the simulation,
+after the <<tools-cifsim-output-svgviz-chapter-svgcopy,copy declarations>> have
+been applied. For more information, see the
+<<tools-cifsim-output-svgviz-simulation-order>> section.

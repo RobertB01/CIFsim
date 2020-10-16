@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/nonterm_undefined.setext": Semantic error at line 19, column 8: Undefined non-terminal "X".
+ERROR: Failed to load SeText file "models_invalid/nonterm_undefined.setext": the file has errors.

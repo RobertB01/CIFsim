@@ -1,0 +1,7 @@
+ERROR: File "tchecker/resolve_via_non_script.tooldef": Semantic error at line 31, column 14: Could not resolve "x" via tool "tool_", as the latter is not a imported script.
+ERROR: File "tchecker/resolve_via_non_script.tooldef": Semantic error at line 32, column 14: Could not resolve "x" via variable "var", as the latter is not a imported script.
+ERROR: File "tchecker/resolve_via_non_script.tooldef": Semantic error at line 33, column 14: Could not resolve "x" via type declaration "type_", as the latter is not a imported script.
+ERROR: File "tchecker/resolve_via_non_script.tooldef": Semantic error at line 34, column 14: Could not find a declaration with name "x" in imported script "imp".
+ERROR: File "tchecker/resolve_via_non_script.tooldef": Semantic error at line 36, column 18: Could not resolve "x" via type parameter "tool2.type_param", as the latter is not a imported script.
+ERROR: File "tchecker/resolve_via_non_script.tooldef": Semantic error at line 37, column 18: Could not resolve "x" via tool parameter "tool2.param", as the latter is not a imported script.
+ERROR: Failed to load ToolDef file "tchecker/resolve_via_non_script.tooldef": the file has errors.

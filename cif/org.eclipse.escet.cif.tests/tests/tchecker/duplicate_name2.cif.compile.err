@@ -1,0 +1,3 @@
+ERROR: File "tchecker/duplicate_name2.cif": Semantic error at line 14, column 22: Duplicate name "x" in automaton definition "x".
+ERROR: File "tchecker/duplicate_name2.cif": Semantic error at line 15, column 13: Duplicate name "x" in automaton definition "x".
+ERROR: Failed to load CIF file "tchecker/duplicate_name2.cif": the file has errors.

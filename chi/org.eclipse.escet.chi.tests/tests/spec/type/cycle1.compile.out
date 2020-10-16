@@ -1,0 +1,1 @@
+Error: File "spec/type/cycle1.chi": Semantic error at line 13, column 6: Declaration "x" uses itself in its definition.

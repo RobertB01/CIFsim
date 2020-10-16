@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tool a(): end
+
+tool int b(): end
+
+tool int c():
+    if true:
+        if true: end
+    elif true:
+    else
+    end
+
+    while true:
+        break;
+        return 5;
+    end
+
+    while true:
+        continue;
+        exit 6;
+    end
+
+    for x in [1, 2]:
+        int y;
+        y = x;
+        b();
+    end
+end
+
+tool int d():
+    int z = 5;
+    z = 7;
+    return z;
+end
+
+tool int e():
+    d();
+    exit;
+end

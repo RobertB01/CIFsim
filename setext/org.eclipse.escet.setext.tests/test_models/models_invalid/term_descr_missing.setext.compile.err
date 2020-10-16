@@ -1,0 +1,11 @@
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 25, column 3: Missing end-user readable description for terminal "T06".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 26, column 3: Missing end-user readable description for terminal "T07".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 27, column 3: Missing end-user readable description for terminal "T08".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 28, column 3: Missing end-user readable description for terminal "T09".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 28, column 12: The character sequence "a-a" contains only a single character.
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 29, column 3: Missing end-user readable description for terminal "T10".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 30, column 3: Missing end-user readable description for terminal "T11".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 31, column 3: Missing end-user readable description for terminal "T12".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 32, column 3: Missing end-user readable description for terminal "T13".
+WARNING: File "models_invalid/term_descr_missing.setext": Semantic warning at line 33, column 3: Missing end-user readable description for terminal "T14".
+ERROR: Two or more terminals have the same priority and they are overlapping (their languages have at least one string in common): T01="a", T05="{z1}", T06="a|a", T08="[a]", T09="[a-a]", T10=".", T11="aa?", T12="a+", T13="aa*", T14="{z2}".

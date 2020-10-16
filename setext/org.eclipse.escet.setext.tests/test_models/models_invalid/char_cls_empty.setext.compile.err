@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/char_cls_empty.setext": Semantic error at line 16, column 4: The character class is empty, and thus invalid.
+ERROR: Failed to load SeText file "models_invalid/char_cls_empty.setext": the file has errors.

@@ -1,0 +1,2 @@
+WARNING: File "event_based/trim/notreachable.cif": Semantic warning at line 20, column 12: Location "unreachable1" is not reachable from any of the initial locations of automaton "p".
+WARNING: File "event_based/trim/notreachable.cif": Semantic warning at line 22, column 12: Location "unreachable2" is not reachable from any of the initial locations of automaton "p".

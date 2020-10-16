@@ -1,0 +1,147 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-print-file-into-decls]]
+== Push print file declarations into print declarations
+
+indexterm:[CIF to CIF transformer,push print file declarations into print declarations]
+indexterm:[push print file declarations into print declarations]
+indexterm:[print file declaration,push]
+indexterm:[print declaration,push]
+This CIF to CIF transformation pushes
+<<tools-cifsim-output-print-chapter-ref-printfile,print file declarations>>
+inwards into the
+<<tools-cifsim-output-print-chapter-ref-printdecl,print declarations>>.
+
+indexterm:[push print file declarations into print declarations,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[push print file declarations into print declarations,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[push print file declarations into print declarations,implementation]
+
+=== Implementation details
+
+All <<tools-cifsim-output-print-chapter-ref-printfile,print file declarations>>
+specified in the top level scope of the specification, in groups, and in
+automata, are removed. The
+<<tools-cifsim-output-print-chapter-ref-printdecl,print declarations>> to which
+they applied, each get a local print file declaration instead. If they already
+had a local print file declaration, the print declaration is not changed.
+Print declarations to which no print file declaration applies, get the default
+target `":stdout"`.
+
+For instance, this specification:
+
+
+[source, cif]
+----
+printfile "out1.txt";
+
+print 5;
+print 6 file "out2.txt";
+
+group g:
+  printfile "out3.txt";
+
+  print 7;
+  print 8;
+  print 9 file "out4.txt";
+
+  group h:
+    printfile "out5.txt";
+  end
+
+  group i:
+    print 10;
+  end
+end
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+print 5 file "out1.txt";
+print 6 file "out2.txt";
+
+group g:
+  print 7 file "out3.txt";
+  print 8 file "out3.txt";
+  print 9 file "out4.txt";
+
+  group h:
+  end
+
+  group i:
+    print 10 file "out3.txt";
+  end
+end
+----
+
+The print declaration that prints `5` is declared in the top level scope of
+the specification, and does not have a local print file declaration. As such,
+the print file declaration from the top level scope (`out1.txt`) is pushed
+inwards into the print declaration. The print declaration that prints `6` is
+declared in the same scope, but already has a local print file declaration
+(`out2.txt`), and is thus not changed.
+
+Group `g` also has an print file declaration (`out3.txt`). This is pushed
+inwards to the print declarations that print `7` and `8`, as they are
+declared in the same scope, and don't have local print file declarations. The
+print declaration that prints `9` is not changed, as it already has a local
+print file declaration (`out4.txt`).
+
+The print file declaration (`out5.txt`) from group `g.h` does not apply to
+any print declarations, and thus gets lost.
+
+Group `g.i` does not have an print file declaration, so the print declaration
+that prints `10`, which is declared in that group, gets the print file
+declaration from group `g` (the parent scope of group `g.i`) instead.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[push print file declarations into print declarations,size considerations]
+
+=== Size considerations
+
+As print file declarations may apply to multiple print declarations, this
+transformation may increase the number of (local) print file declarations in
+the specification. The number of print file declarations after the
+transformation is at most the number of print declarations, and as such the
+increase is at most linear in the number of print declarations as well.
+
+
+=== Optimality
+
+n/a

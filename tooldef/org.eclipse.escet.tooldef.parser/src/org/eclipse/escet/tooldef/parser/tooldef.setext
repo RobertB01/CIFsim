@@ -1,0 +1,489 @@
+// ------------------------------------------------------------------------------
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+// ------------------------------------------------------------------------------
+
+// SeText syntax definition for ToolDef.
+
+@hooks org.eclipse.escet.tooldef.parser.ToolDefHooks;
+
+@scanner org.eclipse.escet.tooldef.parser.ToolDefScanner;
+
+@terminals:
+  // General keywords.
+  @keywords Keyword = $as
+                      bool
+                      break
+                      continue
+                      double
+                      elif
+                      else
+                      $end
+                      exit
+                      false
+                      for
+                      from
+                      if
+                      $import
+                      in
+                      int
+                      list
+                      long
+                      map
+                      null
+                      object
+                      return
+                      set
+                      string
+                      tool
+                      true
+                      tuple
+                      type
+                      while;
+
+  // Built-in I/O tool keywords.
+  @keywords BuiltInIoTool = err
+                            errln
+                            out
+                            outln;
+
+  // Built-in generic tool keywords.
+  @keywords BuiltInGenericTool = app
+                                 exec
+                                 tooldef;
+
+  // Built-in path tool keywords.
+  @keywords BuiltInPathTool = abspath
+                              basename
+                              chdir
+                              chfileext
+                              curdir
+                              dirname
+                              fileext
+                              hasfileext
+                              pathjoin
+                              scriptpath;
+
+  // Built-in file tool keywords.
+  @keywords BuiltInFileTool = cpdir
+                              cpfile
+                              diff
+                              exists
+                              filenewer
+                              filesize
+                              find
+                              isdir
+                              isfile
+                              mkdir
+                              mvdir
+                              mvfile
+                              readlines
+                              rmdir
+                              rmfile
+                              writefile;
+
+  // Built-in data tool keywords.
+  @keywords BuiltInDataTool = abs
+                              ceil
+                              contains
+                              del
+                              delidx
+                              empty
+                              endswith
+                              entries
+                              enumerate
+                              floor
+                              fmt
+                              indexof
+                              join
+                              keys
+                              lastindexof
+                              ln
+                              log
+                              lower
+                              ltrim
+                              max
+                              min
+                              pow
+                              range
+                              replace
+                              reverse
+                              round
+                              rtrim
+                              size
+                              sorted
+                              split
+                              sqrt
+                              startswith
+                              str
+                              strdup
+                              subset
+                              trim
+                              upper
+                              values;
+
+  // Operator keywords.
+  @keywords Operator = and
+                       div
+                       mod
+                       not
+                       or;
+
+  // Symbols.
+  ASTERISKTK         = "\*";
+  COLONCOLONTK       = "::";
+  COLONTK            = ":";
+  COMMATK            = ",";
+  CURCLOSETK         = "}";
+  CUROPENTK          = "{";
+  DOTSTK             = "\.\.\.";
+  EQEQTK             = "==";
+  EQTK               = "=";
+  GETK               = ">=";
+  GTTK               = ">";
+  LETK               = "<=";
+  LTTK               = "<";
+  MINUSTK            = "\-";
+  NETK               = "!=";
+  PARCLOSETK         = "\)";
+  PAROPENTK          = "\(";
+  PLUSTK             = "\+";
+  QUESTIONTK         = "\?";
+  SEMICOLTK          = ";";
+  SLASHTK            = "/";
+  SQCLOSETK          = "\]";
+  SQOPENTK           = "\[";
+end
+
+@shortcut identifier = "[$]?[a-zA-Z_][a-zA-Z0-9_]*";
+
+@terminals:
+  // Literals.
+  IDENTIFIERTK   = "{identifier}"                  {stripDollar}            [an identifier];
+  RELATIVENAMETK = "{identifier}(\.{identifier})+" {stripDollar}            [a name];
+  NUMBERTK       = "(0|[1-9][0-9]*)"                                        [an integer literal];
+  DOUBLETK       = "(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)" [a double literal];
+  STRINGTK       = "\"([^\\\"\n]|\\[nt\\\"])*\""   {processStringLiteral}   [a string literal];
+
+  // Comments.
+  "//.*";
+  "/\*" -> BLOCK_COMMENT;
+
+  // Whitespace and EOF.
+  "[ \t\r\n]+";
+  @eof;
+end
+
+@terminals BLOCK_COMMENT:
+  "\*/" ->;
+  ".";
+  "\n";
+end
+
+@main Script : org.eclipse.escet.tooldef.parser.ToolDefParser;
+
+@import java.util.List;
+@import org.eclipse.escet.tooldef.metamodel.tooldef;
+@import org.eclipse.escet.tooldef.metamodel.tooldef.expressions;
+@import org.eclipse.escet.tooldef.metamodel.tooldef.statements;
+@import org.eclipse.escet.tooldef.metamodel.tooldef.types;
+@import org.eclipse.escet.setext.runtime.Token;
+
+{tooldef.Script}
+Script : /* empty */
+       | Decls
+       ;
+
+{List<tooldef.Declaration>}
+Decls : Decl
+      | Decls Decl
+      ;
+
+{List<tooldef.Declaration>}
+Decl : Import
+     | TYPEKW TypeDecls SEMICOLTK
+     | @TOOLKW @IDENTIFIERTK OptTypeParams ToolParameters COLONTK OptStatements @ENDKW
+     | @TOOLKW Types @IDENTIFIERTK OptTypeParams ToolParameters COLONTK OptStatements @ENDKW
+     | Statement
+     ;
+
+{List<tooldef.Declaration>}
+Import : IMPORTKW @STRINGTK SEMICOLTK
+       | IMPORTKW @STRINGTK ASKW @IDENTIFIERTK SEMICOLTK
+       | IMPORTKW Name SEMICOLTK
+       | IMPORTKW Name ASKW @IDENTIFIERTK SEMICOLTK
+       | IMPORTKW Name COLONTK Name SEMICOLTK
+       | IMPORTKW Name COLONTK Name ASKW @IDENTIFIERTK SEMICOLTK
+       | FROMKW @STRINGTK IMPORTKW ImportParts SEMICOLTK
+       ;
+
+{List<tooldef.Declaration>}
+ImportParts : @ASTERISKTK
+            | @IDENTIFIERTK
+            | @IDENTIFIERTK ASKW @IDENTIFIERTK
+            | ImportParts COMMATK @ASTERISKTK
+            | ImportParts COMMATK @IDENTIFIERTK
+            | ImportParts COMMATK @IDENTIFIERTK ASKW @IDENTIFIERTK
+            ;
+
+{List<tooldef.Declaration>}
+TypeDecls : TypeDecl
+          | TypeDecls COMMATK TypeDecl
+          ;
+
+{tooldef.TypeDecl}
+TypeDecl : @IDENTIFIERTK EQTK Type
+         ;
+
+{List<tooldef.TypeParam>}
+OptTypeParams : /* empty */
+              | LTTK Names GTTK
+              ;
+
+{List<tooldef.ToolParameter>}
+ToolParameters : PAROPENTK PARCLOSETK
+               | PAROPENTK ToolParams PARCLOSETK
+               ;
+
+{List<tooldef.ToolParameter>}
+ToolParams : Type ToolParam
+           | Type DOTSTK ToolParam
+           | ToolParams COMMATK Type ToolParam
+           | ToolParams COMMATK Type DOTSTK ToolParam
+           ;
+
+{tooldef.ToolParameter}
+ToolParam : @IDENTIFIERTK
+          | @IDENTIFIERTK @EQTK Expression
+          ;
+
+{List<statements.Statement>}
+OptStatements : /* empty */
+              | OptStatements Statement
+              ;
+
+{List<statements.Statement>}
+Statement : Type VarDecls SEMICOLTK
+          | @WHILEKW Expression COLONTK OptStatements @ENDKW
+          | @WHILEKW Expression COLONCOLONTK Statement
+          | @FORKW AddressableDecls INKW Expression COLONTK OptStatements @ENDKW
+          | @FORKW AddressableDecls INKW Expression COLONCOLONTK Statement
+          | @IFKW Expression COLONTK OptStatements
+            OptElifStatements OptElseStatement @ENDKW
+          | @IFKW Expression COLONCOLONTK Statement
+          | @BREAKKW SEMICOLTK
+          | @CONTINUEKW SEMICOLTK
+          | Addressables @EQTK Expressions SEMICOLTK
+          | @RETURNKW SEMICOLTK
+          | @RETURNKW Expressions SEMICOLTK
+          | ToolInvokeExpression SEMICOLTK
+          | @EXITKW SEMICOLTK
+          | @EXITKW Expression SEMICOLTK
+          ;
+
+{List<statements.Statement>}
+VarDecls : VarDecl
+         | VarDecls COMMATK VarDecl
+         ;
+
+{statements.Statement}
+VarDecl : @IDENTIFIERTK
+        | @IDENTIFIERTK @EQTK Expression
+        ;
+
+{List<statements.ElifStatement>}
+OptElifStatements : /* empty */
+                  | OptElifStatements @ELIFKW Expression COLONTK OptStatements
+                  ;
+
+{List<statements.Statement>}
+OptElseStatement : /* empty */
+                 | ELSEKW OptStatements
+                 ;
+
+{List<statements.AddressableDecl>}
+AddressableDecls : AddressableDecl
+                 | AddressableDecls COMMATK AddressableDecl
+                 ;
+
+{statements.AddressableDecl}
+AddressableDecl : @IDENTIFIERTK
+                | @PAROPENTK AddressableDecl COMMATK AddressableDecls PARCLOSETK
+                ;
+
+{List<expressions.Expression>}
+Addressables : Addressable
+             | Addressables COMMATK Addressable
+             ;
+
+{expressions.Expression}
+Addressable : @IDENTIFIERTK
+            | @IDENTIFIERTK Projections
+            | @PAROPENTK Addressable COMMATK Addressables PARCLOSETK
+            ;
+
+{List<expressions.Expression>}
+Projections : Projection
+            | Projections Projection
+            ;
+
+{expressions.Expression}
+Projection : @SQOPENTK Expression SQCLOSETK
+           ;
+
+{List<types.ToolDefType>}
+Types : Type
+      | Types COMMATK Type
+      ;
+
+{types.ToolDefType}
+Type : @BOOLKW
+     | @BOOLKW QUESTIONTK
+     | @INTKW
+     | @INTKW QUESTIONTK
+     | @LONGKW
+     | @LONGKW QUESTIONTK
+     | @DOUBLEKW
+     | @DOUBLEKW QUESTIONTK
+     | @STRINGKW
+     | @STRINGKW QUESTIONTK
+     | @LISTKW Type
+     | @LISTKW QUESTIONTK Type
+     | @SETKW Type
+     | @SETKW QUESTIONTK Type
+     | @MAPKW PAROPENTK Type COLONTK Type PARCLOSETK
+     | @MAPKW QUESTIONTK PAROPENTK Type COLONTK Type PARCLOSETK
+     | @TUPLEKW PAROPENTK Type COMMATK Types PARCLOSETK
+     | @TUPLEKW QUESTIONTK PAROPENTK Type COMMATK Types PARCLOSETK
+     | @OBJECTKW
+     | @OBJECTKW QUESTIONTK
+     | Name
+     ;
+
+{List<expressions.Expression>}
+Expressions : Expression
+            | Expressions COMMATK Expression
+            ;
+
+{expressions.Expression}
+OptExpression : /* empty */
+              | Expression
+              ;
+
+{expressions.Expression}
+Expression : AndExpression
+           | Expression @ORKW AndExpression
+           ;
+
+{expressions.Expression}
+AndExpression : CompareExpression
+              | AndExpression @ANDKW CompareExpression
+              ;
+
+{expressions.Expression}
+CompareExpression : AddExpression
+                  | CompareExpression @LTTK AddExpression
+                  | CompareExpression @LETK AddExpression
+                  | CompareExpression @EQEQTK AddExpression
+                  | CompareExpression @NETK AddExpression
+                  | CompareExpression @GETK AddExpression
+                  | CompareExpression @GTTK AddExpression
+                  ;
+
+{expressions.Expression}
+AddExpression : MulExpression
+              | AddExpression @MINUSTK MulExpression
+              | AddExpression @PLUSTK MulExpression
+              ;
+
+{expressions.Expression}
+MulExpression : UnaryExpression
+              | MulExpression @ASTERISKTK UnaryExpression
+              | MulExpression @SLASHTK UnaryExpression
+              | MulExpression @DIVKW UnaryExpression
+              | MulExpression @MODKW UnaryExpression
+              ;
+
+{expressions.Expression}
+UnaryExpression : ProjExpression
+                | @MINUSTK UnaryExpression
+                | @PLUSTK UnaryExpression
+                | @NOTKW UnaryExpression
+                ;
+
+{expressions.Expression}
+ProjExpression : ExpressionFactor
+               | ProjExpression @SQOPENTK Expression SQCLOSETK
+               | ProjExpression @SQOPENTK OptExpression COLONTK OptExpression SQCLOSETK
+               ;
+
+{expressions.Expression}
+ExpressionFactor : @TRUEKW
+                 | @FALSEKW
+                 | @NUMBERTK
+                 | @DOUBLETK
+                 | @NULLKW
+                 | @STRINGTK
+                 | @LTTK Type GTTK ExpressionFactor
+                 | @SQOPENTK SQCLOSETK
+                 | @SQOPENTK Expressions OptComma SQCLOSETK
+                 | @CUROPENTK CURCLOSETK
+                 | @CUROPENTK Expressions OptComma CURCLOSETK
+                 | @CUROPENTK MapEntries OptComma CURCLOSETK
+                 | @PAROPENTK Expression COMMATK Expressions OptComma PARCLOSETK
+                 | PAROPENTK Expression PARCLOSETK
+                 | ToolInvokeExpression
+                 | Name
+                 ;
+
+{List<expressions.MapEntry>}
+MapEntries : Expression @COLONTK Expression
+           | MapEntries COMMATK Expression @COLONTK Expression
+           ;
+
+{expressions.ToolInvokeExpression}
+ToolInvokeExpression : ToolRef @PAROPENTK ToolArgs OptComma PARCLOSETK
+                     | ToolRef @PAROPENTK PARCLOSETK
+                     ;
+
+{expressions.ToolRef}
+ToolRef : BuiltInTool
+        | Name
+        ;
+
+{expressions.ToolRef}
+BuiltInTool : BuiltInIoTool
+            | BuiltInGenericTool
+            | BuiltInPathTool
+            | BuiltInFileTool
+            | BuiltInDataTool
+            ;
+
+{List<expressions.ToolArgument>}
+ToolArgs : Expression
+         | @IDENTIFIERTK EQTK Expression
+         | ToolArgs COMMATK Expression
+         | ToolArgs COMMATK @IDENTIFIERTK EQTK Expression
+         ;
+
+{List<Token>}
+Names : Name
+      | Names COMMATK Name
+      ;
+
+{Token}
+Name : @IDENTIFIERTK
+     | @RELATIVENAMETK
+     ;
+
+{Token}
+OptComma : /* empty */
+         | @COMMATK
+         ;

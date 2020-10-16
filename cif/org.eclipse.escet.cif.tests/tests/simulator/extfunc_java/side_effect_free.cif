@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t = list set dict(tuple(bool b; int i; real r; string s) : bool);
+func t f(t x): "java:TestClass1.side_effect|java_code/bin";
+
+plant p:
+  disc t v1 = [{{(true, 1, 2.0, "abc") : true}}];
+  disc t v2;
+  disc t v3;
+
+  location l1:
+    initial;
+    edge do v2 := f(v1) goto l2;
+
+  location l2:
+    edge do v3 := f(v2) goto l3;
+
+  location l3:
+    urgent;
+end

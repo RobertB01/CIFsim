@@ -1,0 +1,105 @@
+Reading CIF file "datasynth/initial3.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..3]  p.x1  0      2 * 2     4 * 2       4 * 2       100%
+  2      discrete variable  int[0..3]  p.x2  1      2 * 2     4 * 2       4 * 2       100%
+  3      discrete variable  int[0..3]  p.x3  2      2 * 2     4 * 2       4 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      3      12        24          24          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 0
+
+  Skipping automatic ordering: no hyperedges.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         true
+Initial   (discrete variable 1):         p.x1 = 0 and p.x2 = 0 or p.x1 = 2 and p.x2 = 2 or (p.x1 = 1 and p.x2 = 1 or p.x1 = 3 and p.x2 = 3)
+Initial   (discrete variable 2):         p.x2 = 0 and p.x3 = 0 or p.x2 = 2 and p.x3 = 2 or (p.x2 = 1 and p.x3 = 1 or p.x2 = 3 and p.x3 = 3)
+Initial   (discrete variables):          p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+Initial   (system, combined init/inv):   p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+
+Marked    (component marker predicate):  p.x3 = 1 or p.x3 = 3
+Marked    (components marker predicate): p.x3 = 1 or p.x3 = 3
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         p.x3 = 1 or p.x3 = 3
+Marked    (system, combined marked/inv): p.x3 = 1 or p.x3 = 3
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 [marker predicate]
+Backward reachability: iteration 1.
+Controlled behavior: true -> p.x3 = 1 or p.x3 = 3.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.x3 = 0 or p.x3 = 2 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)) [initialization predicate]
+Forward controlled-behavior: p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)) -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [restricted to current/previous controlled-behavior predicate: p.x3 = 1 or p.x3 = 3]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [fixed point].
+Controlled behavior: p.x3 = 1 or p.x3 = 3 -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 [marker predicate]
+Backward controlled-behavior: p.x3 = 1 or p.x3 = 3 -> p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [restricted to current/previous controlled-behavior predicate: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (p.x1 != 1 or (p.x2 != 1 or p.x3 != 1)) and (p.x1 != 3 or (p.x2 != 3 or p.x3 != 3)) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+
+Controlled system:                     exactly 2 states.
+
+Initial (synthesis result):            p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)
+Initial (uncontrolled system):         p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))
+Initial (controlled system):           p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3)
+Initial (removed by supervisor):       p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2)
+Initial (added by supervisor):         (p.x1 != 0 or (p.x2 != 0 or p.x3 != 0)) and (p.x1 != 2 or (p.x2 != 2 or p.x3 != 2))
+
+Simplification of controlled system under the assumption of the uncontrolled system:
+  Initial: p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3) -> p.x1 = 1 or p.x1 = 3 [assume p.x1 = 0 and (p.x2 = 0 and p.x3 = 0) or p.x1 = 2 and (p.x2 = 2 and p.x3 = 2) or (p.x1 = 1 and (p.x2 = 1 and p.x3 = 1) or p.x1 = 3 and (p.x2 = 3 and p.x3 = 3))].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/initial3.ctrlsys.real.cif".

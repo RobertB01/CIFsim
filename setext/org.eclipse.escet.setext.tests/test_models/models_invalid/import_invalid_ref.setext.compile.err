@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/import_invalid_ref.setext": Semantic error at line 18, column 2: Definition "XKW" does not define an import.
+ERROR: Failed to load SeText file "models_invalid/import_invalid_ref.setext": the file has errors.

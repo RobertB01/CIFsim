@@ -1,0 +1,2 @@
+ERROR: File "tchecker/resolve_via_compdef.cif": Semantic error at line 24, column 15: Could not resolve "y.l" via component definition "g.x", as the definition needs to be instantiated first.
+ERROR: Failed to load CIF file "tchecker/resolve_via_compdef.cif": the file has errors.

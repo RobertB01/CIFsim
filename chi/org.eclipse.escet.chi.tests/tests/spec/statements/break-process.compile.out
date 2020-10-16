@@ -1,0 +1,1 @@
+Error: File "spec/statements/break-process.chi": Semantic error at line 14, column 5: Break statement may only be used inside a loop statement.

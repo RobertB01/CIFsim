@@ -1,0 +1,4 @@
+Error: File "spec/const/channel-type.chi": Semantic error at line 18, column 18: Value of constant "d2" has type "chan! int" instead of the expected type "chan!? int".
+Error: File "spec/const/channel-type.chi": Semantic error at line 19, column 18: Value of constant "d3" has type "chan? int" instead of the expected type "chan!? int".
+Error: File "spec/const/channel-type.chi": Semantic error at line 22, column 17: Value of constant "e3" has type "chan? int" instead of the expected type "chan! int".
+Error: File "spec/const/channel-type.chi": Semantic error at line 24, column 17: Value of constant "f2" has type "chan! int" instead of the expected type "chan? int".

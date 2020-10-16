@@ -1,0 +1,4 @@
+ERROR: File "tchecker/comp_param_not_in_scope.cif": Semantic error at line 26, column 13: Component parameter "x1.l" is not in scope.
+ERROR: File "tchecker/comp_param_not_in_scope.cif": Semantic error at line 45, column 13: Component parameter "x1.y" is not in scope.
+ERROR: File "tchecker/comp_param_not_in_scope.cif": Semantic error at line 63, column 13: Component parameter "x1.y" is not in scope.
+ERROR: Failed to load CIF file "tchecker/comp_param_not_in_scope.cif": the file has errors.

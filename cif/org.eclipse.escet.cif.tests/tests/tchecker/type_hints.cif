@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const real x = 5;
+const bool b1 = (x = 3);
+alg bool b2 = (<list[0] int>[] = []);
+alg bool b3 = ([] = <list int>[]);
+alg bool b4 = (<list[0] int>[] = <list[0] int>[]);
+alg list real a1 = [1.0, 2.0];
+alg list real a2 = [1, 2.0];
+alg list real a3 = [1.0, 2];
+alg list real a4 = [1, 2];
+
+automaton a:
+  disc real x = 1;
+  disc dist real a = constant(5);
+  disc dist real t = triangle(1, 2, 3);
+  location:
+    initial;
+    edge when x = 3 do x := 5;
+    edge when 4 = x do x := 5;
+end
+
+alg bool bb = <bool>true;
+alg int ii = <int[1..1]>1;
+alg real rr = <real>2.3;
+alg list string lsls = <list[1] string>["a"];
+alg set bool lb = {true} or {};
+alg tuple(int a1, a2) tup1 = (1, 2, 3);
+alg tuple(int a1, a2, a3) tup2 = (1, 2);

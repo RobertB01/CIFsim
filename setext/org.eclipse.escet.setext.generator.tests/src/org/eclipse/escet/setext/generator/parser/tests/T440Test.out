@@ -1,0 +1,34 @@
+initial state 0 ([[E : . E PLUS T], [E : . T], [F : . ID], [F : . PAROPEN E PARCLOSE], [S' : . E], [T : . F], [T : . T TIMES F]]):
+  ID -> 1
+  PAROPEN -> 2
+  E -> 3
+  T -> 4
+  F -> 5
+state 1 ([[F : ID .]]):
+state 2 ([[E : . E PLUS T], [E : . T], [F : . ID], [F : . PAROPEN E PARCLOSE], [F : PAROPEN . E PARCLOSE], [T : . F], [T : . T TIMES F]]):
+  ID -> 1
+  PAROPEN -> 2
+  T -> 4
+  F -> 5
+  E -> 10
+state 3 ([[E : E . PLUS T], [S' : E .]]):
+  PLUS -> 8
+state 4 ([[E : T .], [T : T . TIMES F]]):
+  TIMES -> 6
+state 5 ([[T : F .]]):
+state 6 ([[F : . ID], [F : . PAROPEN E PARCLOSE], [T : T TIMES . F]]):
+  ID -> 1
+  PAROPEN -> 2
+  F -> 7
+state 7 ([[T : T TIMES F .]]):
+state 8 ([[E : E PLUS . T], [F : . ID], [F : . PAROPEN E PARCLOSE], [T : . F], [T : . T TIMES F]]):
+  ID -> 1
+  PAROPEN -> 2
+  F -> 5
+  T -> 9
+state 9 ([[E : E PLUS T .], [T : T . TIMES F]]):
+  TIMES -> 6
+state 10 ([[E : E . PLUS T], [F : PAROPEN E . PARCLOSE]]):
+  PLUS -> 8
+  PARCLOSE -> 11
+state 11 ([[F : PAROPEN E PARCLOSE .]]):

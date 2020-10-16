@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "../tchecker/small.svg"; // Used twice: "box", "grp".
+
+automaton def A(alg int x):
+  svgfile "../pprint_elim_cdef/text.svg"; // Two instances: local decl.
+
+  svgcopy id "txt" + <string>x pre "abc";
+
+  svgmove id "txt" + <string>x to x, x + 1;
+
+  svgout id "txt" + <string>x text value "abc";
+
+  location:
+    initial;
+end
+
+a1: A(1);
+a2: A(2);
+
+event e;
+
+svgin id "box" event e;
+
+svgin id "grp" event e;
+
+// Local decl, same as global one.
+svgin id "root" event e file "../tchecker/small.svg";
+
+group g:
+  svgfile "../tchecker/svg_unknown_name_elem.svg"; // Unused.
+
+  svgin id "V" event e file "../simulator/svgviz/tank.svg"; // Used, local.
+end

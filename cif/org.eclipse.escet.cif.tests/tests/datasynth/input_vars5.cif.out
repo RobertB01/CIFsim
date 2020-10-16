@@ -1,0 +1,86 @@
+Reading CIF file "datasynth/input_vars5.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind            Type       Name       Group  BDD vars  CIF values  BDD values  Values used
+  -----  --------------  ---------  ---------  -----  --------  ----------  ----------  -----------
+  1      input variable  int[0..2]  io.sensor  0      2 * 2     3 * 2       4 * 2       75%
+  -----  --------------  ---------  ---------  -----  --------  ----------  ----------  -----------
+  Total                                        1      4         6           8           75%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variables):          true
+Initial   (component init predicate):    io.sensor = 1
+Initial   (components init predicate):   io.sensor = 1
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         io.sensor = 1
+Initial   (system, combined init/inv):   io.sensor = 1
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   io.sensor = 2
+Marked    (auts/locs marker predicate):  io.sensor = 2
+Marked    (uncontrolled system):         io.sensor = 2
+Marked    (system, combined marked/inv): io.sensor = 2
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: input variable "io.sensor" of type "int[0..2]" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: io.sensor = 2 [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: io.sensor = 2 -> true [backward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: io.sensor = 1 [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: io.sensor = 1 -> true [forward reach with edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Controlled system:                     exactly 3 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         io.sensor = 1
+Initial (controlled system):           io.sensor = 1
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/input_vars5.ctrlsys.real.cif".

@@ -1,0 +1,32 @@
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 16, column 12: Invalid "%d" format specifier: a value of type "int" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 17, column 12: Invalid "%x" format specifier: a value of type "int" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 18, column 12: Invalid "%X" format specifier: a value of type "int" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 19, column 12: Invalid "%e" format specifier: a value of type "real" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 20, column 12: Invalid "%E" format specifier: a value of type "real" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 21, column 12: Invalid "%f" format specifier: a value of type "real" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 22, column 12: Invalid "%g" format specifier: a value of type "real" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 23, column 12: Invalid "%G" format specifier: a value of type "real" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 27, column 12: Invalid "%b" format specifier: a value of type "bool" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 28, column 12: Invalid "%B" format specifier: a value of type "bool" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 32, column 12: Invalid "%e" format specifier: a value of type "real" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 33, column 12: Invalid "%E" format specifier: a value of type "real" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 34, column 12: Invalid "%f" format specifier: a value of type "real" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 35, column 12: Invalid "%g" format specifier: a value of type "real" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 36, column 12: Invalid "%G" format specifier: a value of type "real" is required, but the 1st value of type "int[1..1]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 40, column 12: Invalid "%b" format specifier: a value of type "bool" is required, but the 1st value of type "real" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 41, column 12: Invalid "%B" format specifier: a value of type "bool" is required, but the 1st value of type "real" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 42, column 12: Invalid "%d" format specifier: a value of type "int" is required, but the 1st value of type "real" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 43, column 12: Invalid "%x" format specifier: a value of type "int" is required, but the 1st value of type "real" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 44, column 12: Invalid "%X" format specifier: a value of type "int" is required, but the 1st value of type "real" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 53, column 12: Invalid "%b" format specifier: a value of type "bool" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 54, column 12: Invalid "%B" format specifier: a value of type "bool" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 55, column 12: Invalid "%d" format specifier: a value of type "int" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 56, column 12: Invalid "%x" format specifier: a value of type "int" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 57, column 12: Invalid "%X" format specifier: a value of type "int" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 58, column 12: Invalid "%e" format specifier: a value of type "real" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 59, column 12: Invalid "%E" format specifier: a value of type "real" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 60, column 12: Invalid "%f" format specifier: a value of type "real" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 61, column 12: Invalid "%g" format specifier: a value of type "real" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 62, column 12: Invalid "%G" format specifier: a value of type "real" is required, but the 1st value of type "list[1] int[9..9]" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.cif": Semantic error at line 67, column 28: Invalid "%E" format specifier: a value of type "real" is required, but the 3rd value of type "set int[9..9]" is used.
+ERROR: Failed to load CIF file "tchecker/fmt_pat_wrong_type.cif": the file has errors.

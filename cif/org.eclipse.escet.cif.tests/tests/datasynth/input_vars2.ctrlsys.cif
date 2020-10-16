@@ -1,0 +1,15 @@
+group io:
+  input bool sensor;
+  alg bool act = not sensor;
+end
+plant automaton p:
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end

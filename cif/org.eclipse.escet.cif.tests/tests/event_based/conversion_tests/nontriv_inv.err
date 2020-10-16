@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/nontriv_inv.cif".
+CAUSE: Unsupported location "a" of automaton "a": an invariant predicate is not trivially true or false.

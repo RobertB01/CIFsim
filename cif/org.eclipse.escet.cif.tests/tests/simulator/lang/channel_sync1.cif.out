@@ -1,0 +1,12 @@
+Initial state: time=0.0, r=*, r.y=0, s=*, s.x=2, sup=*, sup.cnt=0
+
+Transition: event e (communicates value 2)
+State: time=0.0, r=*, r.y=2, s=*, s.x=4, sup=*, sup.cnt=1
+
+Transition: event e (communicates value 4)
+State: time=0.0, r=*, r.y=6, s=*, s.x=8, sup=*, sup.cnt=2
+
+Transition: event e (communicates value 8)
+State: time=0.0, r=*, r.y=14, s=*, s.x=16, sup=*, sup.cnt=3
+
+Simulation resulted in deadlock.

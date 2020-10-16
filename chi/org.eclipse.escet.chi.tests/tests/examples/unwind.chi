@@ -1,0 +1,49 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model modelunwind():
+    list(2) chan void a;
+    run
+        Buffer(a),
+        Arrival(a[0]),
+        Arrival(a[1]);
+end
+
+proc Buffer(list chan? void a):
+    list(2) int x = [0,0];
+
+    while time < 100:
+        select
+            unwind i in range(2):
+                a[i]?:
+                    writeln("i = %d", i);
+                    x[i]= x[i]+1; # waarom neemt hij hier i=2 en niet i=0 of i=1?
+                    writeln("%d, %d",x[0],x[1])
+            end
+        alt
+            unwind j in range(2):
+                x[j] > 4, a[j]?:   # waarom accepteert hij x[j] niet maar bijv. x[0] wel?
+                    writeln("j = %d", j);
+                    x[j]= x[j]+1;
+                    writeln("%d, %d",x[0],x[1])
+            end
+
+        end
+    end
+end
+
+proc Arrival(chan! void b):
+    while time < 100:
+        delay 1;
+        b!
+    end
+end

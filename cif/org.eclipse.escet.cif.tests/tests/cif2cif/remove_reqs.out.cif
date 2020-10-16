@@ -1,0 +1,52 @@
+group g:
+  group h:
+    invariant 21 = 21;
+    plant invariant 22 = 22;
+    supervisor invariant 24 = 24;
+    invariant 25 = 25;
+    plant invariant 26 = 26;
+    supervisor invariant 28 = 28;
+  end
+  automaton a:
+    invariant 31 = 31;
+    plant invariant 32 = 32;
+    supervisor invariant 34 = 34;
+    location:
+      initial;
+      invariant 131 = 131;
+      plant invariant 132 = 132;
+      supervisor invariant 134 = 134;
+  end
+  plant automaton p:
+    plant invariant 41 = 41;
+    plant invariant 42 = 42;
+    supervisor invariant 44 = 44;
+    location:
+      initial;
+      plant invariant 141 = 141;
+      plant invariant 142 = 142;
+      supervisor invariant 144 = 144;
+  end
+  supervisor automaton s:
+    supervisor invariant 61 = 61;
+    plant invariant 62 = 62;
+    supervisor invariant 64 = 64;
+    location:
+      initial;
+      supervisor invariant 161 = 161;
+      plant invariant 162 = 162;
+      supervisor invariant 164 = 164;
+  end
+  invariant 11 = 11;
+  plant invariant 12 = 12;
+  supervisor invariant 14 = 14;
+  invariant 15 = 15;
+  plant invariant 16 = 16;
+  supervisor invariant 18 = 18;
+end
+invariant 1 = 1;
+plant invariant 2 = 2;
+supervisor invariant 4 = 4;
+invariant 5 = 5;
+plant invariant 6 = 6;
+supervisor invariant 8 = 8;

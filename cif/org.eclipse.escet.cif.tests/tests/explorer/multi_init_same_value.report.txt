@@ -1,0 +1,19 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v = 1
+
+State 2:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v = 2

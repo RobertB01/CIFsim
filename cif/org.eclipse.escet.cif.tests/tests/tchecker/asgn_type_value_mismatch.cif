@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant x:
+  event e;
+  disc bool b;
+  disc int[0..1] i;
+  location:
+    initial;
+    edge e do b := 1;
+    edge e do i := 2;
+end
+
+plant y:
+  cont z1 der 3.0;
+  cont z2 der 4.0;
+  cont z3 der 5.0;
+  location:
+    initial;
+    edge do z1 := true;
+    edge do (z1, z2) := (false, 8);
+    edge do (z1, (z2, z3)) := (true, (false, 1.0));
+end
+
+func bool f():
+  bool b;
+  int[0..1] i;
+  b := 1;
+  i := 2;
+  b, i := true, false;
+  return true;
+end

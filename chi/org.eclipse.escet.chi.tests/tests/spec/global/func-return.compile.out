@@ -1,0 +1,4 @@
+Error: File "spec/global/func-return.chi": Semantic error at line 14, column 33: Type of returned data does not match with return type of the function (returned "chan! int", return type "chan? int").
+Error: File "spec/global/func-return.chi": Semantic error at line 16, column 33: Type of returned data does not match with return type of the function (returned "chan? int", return type "chan! int").
+Error: File "spec/global/func-return.chi": Semantic error at line 19, column 34: Type of returned data does not match with return type of the function (returned "chan? int", return type "chan!? int").
+Error: File "spec/global/func-return.chi": Semantic error at line 20, column 34: Type of returned data does not match with return type of the function (returned "chan! int", return type "chan!? int").

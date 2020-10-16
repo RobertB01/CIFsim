@@ -1,0 +1,157 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cif2cif;
+
+// Configuration.
+string test_path = "cif2cif";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1"];
+map(string:list string) test_options = {
+   "cif2cif/add_default_init_values.cif":           ["-t add-default-init-values"],
+   "cif2cif/elim_alg_vars1.cif":                    ["-t elim-alg-vars"],
+   "cif2cif/elim_alg_vars2.cif":                    ["-t elim-comp-def-inst,elim-self,elim-alg-vars"],
+   "cif2cif/elim_aut_casts.cif":                    ["-t elim-comp-def-inst,elim-aut-casts"],
+   "cif2cif/elim_consts.cif":                       ["-t elim-consts"],
+   "cif2cif/elim_enums1.cif":                       ["-t elim-comp-def-inst,elim-enums"],
+   "cif2cif/elim_enums2.cif":                       ["-t elim-enums"],
+   "cif2cif/elim_equations.cif":                    ["-t elim-equations"],
+   "cif2cif/elim_groups.cif":                       ["-t elim-groups"],
+   "cif2cif/elim_if_updates.cif":                   ["-t elim-if-updates"],
+   "cif2cif/elim_locs_in_exprs.cif":                ["-t elim-locs-in-exprs"],
+   "cif2cif/elim_monitors.cif":                     ["-t elim-monitors"],
+   "cif2cif/elim_self.cif":                         ["-t elim-comp-def-inst,elim-self"],
+   "cif2cif/elim_state_evt_excl_invs.cif":          ["-t elim-state-evt-excl-invs"],
+   "cif2cif/elim_tau_event.cif":                    ["-t elim-tau-event"],
+   "cif2cif/elim_tuple_field_projs.cif":            ["-t elim-tuple-field-projs"],
+   "cif2cif/elim_type_decls.cif":                   ["-t elim-type-decls"],
+   "cif2cif/lift_events.cif":                       ["-t lift-events"],
+   "cif2cif/linearize_merge1.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_merge2.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_merge3.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_merge4.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_merge5.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_merge6.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_merge7.cif":                  ["-t linearize-merge"],
+   "cif2cif/linearize_product1.cif":                ["-t linearize-product"],
+   "cif2cif/linearize_product2.cif":                ["-t linearize-product"],
+   "cif2cif/linearize_product3.cif":                ["-t linearize-product"],
+   "cif2cif/linearize_product4.cif":                ["-t linearize-product"],
+   "cif2cif/linearize_product5.cif":                ["-t linearize-product"],
+   "cif2cif/linearize_product6.cif":                ["-t linearize-product"],
+   "cif2cif/linearize_product7.cif":                ["-t linearize-product"],
+   "cif2cif/merge_enums1.cif":                      ["-t merge-enums"],
+   "cif2cif/merge_enums2.cif":                      ["-t merge-enums"],
+   "cif2cif/print_file_into_decls.cif":             ["-t elim-comp-def-inst,print-file-into-decls"],
+   "cif2cif/remove_cif_svg_decls.cif":              ["-t remove-cif-svg-decls"],
+   "cif2cif/remove_io_decls.cif":                   ["-t remove-io-decls"],
+   "cif2cif/remove_print_decls.cif":                ["-t remove-print-decls"],
+   "cif2cif/remove_reqs.cif":                       ["-t remove-reqs"],
+   "cif2cif/remove_reqs_ref_rm_decl.cif":           ["-t remove-reqs"],
+   "cif2cif/simplify_others.cif":                   ["-t simplify-others"],
+   "cif2cif/simplify_values.cif":                   ["-t simplify-values"],
+   "cif2cif/simplify_values_optimized.cif":         ["-t simplify-values-optimized"],
+   "cif2cif/simplify_values_no_refs.cif":           ["-t simplify-values-no-refs"],
+   "cif2cif/simplify_values_no_refs_optimized.cif": ["-t simplify-values-no-refs-optimized"],
+   "cif2cif/svg_file_into_decls.cif":               ["-t elim-comp-def-inst,svg-file-into-decls"],
+   "cif2cif/switches_to_ifs.cif":                   ["-t switches-to-ifs"],
+};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(tests[i], ".out.cif") or endswith(tests[i], ".out.real.cif"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Check completeness of test specific options.
+if size(test_options) != size(tests):
+    errln("CIF to CIF tests: %d tests, %d test specific options.",
+          size(tests), size(test_options));
+    exit 1;
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, newext="cif2cif.out");
+    string test_err_exp  = chfileext(test, newext="cif2cif.err");
+    string test_out_real = chfileext(test, newext="cif2cif.out.real");
+    string test_err_real = chfileext(test, newext="cif2cif.err.real");
+    string file_out_exp  = chfileext(test, "cif", "out.cif");
+    string file_out_real = chfileext(test, "cif", "out.real.cif");
+
+    // Execute.
+    options = options + ["-o", file_out_real];
+    cif2cif([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare stdout/stderr.
+    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool file_diff   = diff(file_out_exp, file_out_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff:: rmfile(test_err_real);
+    if not stdout_diff:: rmfile(test_out_real);
+    if not file_diff::   if exists(file_out_real):: rmfile(file_out_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff:: diff_count = diff_count + 1;
+    if stdout_diff:: diff_count = diff_count + 1;
+    if file_diff::   diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

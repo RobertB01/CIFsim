@@ -1,0 +1,2 @@
+ERROR: Failed to apply nonconflicting check for CIF file "event_based/nonconflicting_check/plant_sup_nontrim.cif".
+CAUSE: Unsupported automaton "S": the automaton is not trim.

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/return_no_types.tooldef": Semantic error at line 19, column 5: Cannot return values from tool "b" as the tool has no return types.
+ERROR: Failed to load ToolDef file "tchecker/return_no_types.tooldef": the file has errors.

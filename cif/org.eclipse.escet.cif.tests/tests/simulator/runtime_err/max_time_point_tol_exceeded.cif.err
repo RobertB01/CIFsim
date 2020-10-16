@@ -1,0 +1,2 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, x=1.0.
+CAUSE: Requested time point "1.6000000000000005" is "2.0" ulps (1 ulp = 2.220446049250313e-16) away from the closest time point in the trajectories "1.6", which is farther away than the maximum tolerance of "1" ulps. You can try increasing the value of the maximum time point tolerance option. Please also contact the development team.

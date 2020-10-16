@@ -1,0 +1,60 @@
+controllable add_a;
+controllable add_b;
+controllable add_c;
+controllable add_d;
+controllable add_e;
+controllable add_f;
+controllable add_g;
+controllable remove_a;
+controllable remove_b;
+controllable remove_c;
+controllable remove_d;
+controllable remove_e;
+controllable remove_f;
+controllable remove_g;
+plant automaton buffer:
+  disc int[0..3] a in any;
+  disc int[1..3] b in any;
+  disc int[0..2] c in any;
+  disc int[1..2] d in any;
+  disc int[0..3] e in any;
+  disc int[1..3] f in any;
+  disc int[0..2] g in any;
+  location:
+    initial;
+    marked;
+    edge add_a do a := a + 1;
+    edge add_b do b := b + 1;
+    edge add_c do c := c + 1;
+    edge add_d do d := d + 1;
+    edge add_e do e := e + 2;
+    edge add_f do f := f + 2;
+    edge add_g do g := g + 2;
+    edge remove_a do a := a - 1;
+    edge remove_b do b := b - 1;
+    edge remove_c do c := c - 1;
+    edge remove_d do d := d - 1;
+    edge remove_e do e := e - 2;
+    edge remove_f do f := f - 2;
+    edge remove_g do g := g - 2;
+end
+supervisor automaton sup:
+  alphabet add_a, add_b, add_c, add_d, add_e, add_f, add_g, remove_a, remove_b, remove_c, remove_d, remove_e, remove_f, remove_g;
+  location:
+    initial;
+    marked;
+    edge add_a when buffer.a != 3;
+    edge add_b when buffer.b != 3;
+    edge add_c when (buffer.b != 2 or buffer.c != 2) and (buffer.b = 2 or buffer.c != 2);
+    edge add_d when (buffer.b != 2 or (buffer.c = 1 or buffer.d = 1)) and (buffer.b != 2 or (buffer.c != 1 or buffer.d = 1)) and ((buffer.b = 2 or (buffer.c = 1 or buffer.d = 1)) and (buffer.b = 2 or (buffer.c != 1 or buffer.d = 1)));
+    edge add_e when (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.e = 0 or buffer.e = 1))) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.e = 0 or buffer.e = 1))) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.e = 0 or buffer.e = 1))) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.e = 0 or buffer.e = 1)))) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.e = 0 or buffer.e = 1))) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.e = 0 or buffer.e = 1))) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.e = 0 or buffer.e = 1))) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.e = 0 or buffer.e = 1)))));
+    edge add_f when (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or buffer.f = 1)) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or buffer.f = 1)) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or buffer.f = 1)) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or buffer.f = 1))) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or buffer.f = 1)) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or buffer.f = 1)) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or buffer.f = 1)) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or buffer.f = 1))));
+    edge add_g when buffer.b = 2 and buffer.c != 1 and (buffer.d = 2 and (buffer.f = 2 and buffer.g = 0)) or buffer.b = 2 and buffer.c != 1 and (buffer.d = 2 and (buffer.f != 2 and buffer.g = 0)) or (buffer.b = 2 and buffer.c != 1 and (buffer.d = 1 and (buffer.f = 2 and buffer.g = 0)) or buffer.b = 2 and buffer.c != 1 and (buffer.d = 1 and (buffer.f != 2 and buffer.g = 0))) or (buffer.b = 2 and buffer.c = 1 and (buffer.d = 2 and (buffer.f = 2 and buffer.g = 0)) or buffer.b = 2 and buffer.c = 1 and (buffer.d = 2 and (buffer.f != 2 and buffer.g = 0)) or (buffer.b = 2 and buffer.c = 1 and (buffer.d = 1 and (buffer.f = 2 and buffer.g = 0)) or buffer.b = 2 and buffer.c = 1 and (buffer.d = 1 and (buffer.f != 2 and buffer.g = 0)))) or (buffer.b != 2 and buffer.c != 1 and (buffer.d = 2 and (buffer.f = 2 and buffer.g = 0)) or buffer.b != 2 and buffer.c != 1 and (buffer.d = 2 and (buffer.f != 2 and buffer.g = 0)) or (buffer.b != 2 and buffer.c != 1 and (buffer.d = 1 and (buffer.f = 2 and buffer.g = 0)) or buffer.b != 2 and buffer.c != 1 and (buffer.d = 1 and (buffer.f != 2 and buffer.g = 0))) or (buffer.b != 2 and buffer.c = 1 and (buffer.d = 2 and (buffer.f = 2 and buffer.g = 0)) or buffer.b != 2 and buffer.c = 1 and (buffer.d = 2 and (buffer.f != 2 and buffer.g = 0)) or (buffer.b != 2 and buffer.c = 1 and (buffer.d = 1 and (buffer.f = 2 and buffer.g = 0)) or buffer.b != 2 and buffer.c = 1 and (buffer.d = 1 and (buffer.f != 2 and buffer.g = 0)))));
+    edge remove_a when buffer.a != 0;
+    edge remove_b when buffer.b != 1;
+    edge remove_c when (buffer.b != 2 or buffer.c != 0) and (buffer.b = 2 or buffer.c != 0);
+    edge remove_d when (buffer.b != 2 or (buffer.c = 1 or buffer.d = 2)) and (buffer.b != 2 or (buffer.c != 1 or buffer.d = 2)) and ((buffer.b = 2 or (buffer.c = 1 or buffer.d = 2)) and (buffer.b = 2 or (buffer.c != 1 or buffer.d = 2)));
+    edge remove_e when (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.e = 2 or buffer.e = 3))) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.e = 2 or buffer.e = 3))) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.e = 2 or buffer.e = 3))) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.e = 2 or buffer.e = 3)))) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.e = 2 or buffer.e = 3))) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.e = 2 or buffer.e = 3))) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.e = 2 or buffer.e = 3))) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.e = 2 or buffer.e = 3)))));
+    edge remove_f when (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or buffer.f != 2)) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or buffer.f != 1)) and ((buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or buffer.f != 2)) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or buffer.f != 1))) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or buffer.f != 2)) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or buffer.f != 1)) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or buffer.f != 2)) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or buffer.f != 1)))) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or buffer.f != 2)) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or buffer.f != 1)) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or buffer.f != 2)) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or buffer.f != 1))) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or buffer.f != 2)) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or buffer.f != 1)) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or buffer.f != 2)) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or buffer.f != 1)))));
+    edge remove_g when (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.f = 2 or buffer.g = 2))) and ((buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b != 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.f = 2 or buffer.g = 2)))) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.f = 2 or buffer.g = 2))) and ((buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b != 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.f = 2 or buffer.g = 2))))) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 1 or (buffer.f = 2 or buffer.g = 2))) and ((buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b = 2 or buffer.c = 1 or (buffer.d = 2 or (buffer.f = 2 or buffer.g = 2)))) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 1 or (buffer.f = 2 or buffer.g = 2))) and ((buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.f != 2 or buffer.g = 2))) and (buffer.b = 2 or buffer.c != 1 or (buffer.d = 2 or (buffer.f = 2 or buffer.g = 2))))));
+end

@@ -1,0 +1,9 @@
+Initial state: time=0.0, a=*, a.x=0
+
+Transition: event tau
+State: time=0.0, a=*, a.x=1
+
+Transition: event $tau
+State: time=0.0, a=*, a.x=2
+
+Simulation resulted in deadlock.

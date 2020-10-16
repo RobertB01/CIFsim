@@ -1,0 +1,5 @@
+ERROR: File "tchecker/svg_dupl_output_text.cif": Semantic error at line 16, column 1: Duplicate text output for SVG elements with ids "txt1" and "txt1" in SVG file "svg_dupl_output_text.svg".
+ERROR: File "tchecker/svg_dupl_output_text.cif": Semantic error at line 16, column 1: Duplicate text output for SVG elements with ids "txt1" and "txt2" in SVG file "svg_dupl_output_text.svg".
+ERROR: File "tchecker/svg_dupl_output_text.cif": Semantic error at line 17, column 1: Duplicate text output for SVG elements with ids "txt1" and "txt1" in SVG file "svg_dupl_output_text.svg".
+ERROR: File "tchecker/svg_dupl_output_text.cif": Semantic error at line 18, column 1: Duplicate text output for SVG elements with ids "txt1" and "txt2" in SVG file "svg_dupl_output_text.svg".
+ERROR: Failed to load CIF file "tchecker/svg_dupl_output_text.cif": the file has errors.

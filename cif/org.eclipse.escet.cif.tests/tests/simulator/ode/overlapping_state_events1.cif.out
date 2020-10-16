@@ -1,0 +1,87 @@
+Initial state: time=0.0, p=*, p.t1=0.0, p.t1'=1.0, p.t2=0.0, p.t2'=1.0
+
+Transition: delaying for 1.0 time units at time 0.0
+State: time=1.0, p=*, p.t1=1.0000000000000002, p.t1'=1.0, p.t2=1.0000000000000002, p.t2'=1.0
+
+Transition: event p.reset1
+State: time=1.0, p=*, p.t1=0.0, p.t1'=1.0, p.t2=1.0000000000000002, p.t2'=1.0
+
+Transition: delaying for 1.0 time units at time 1.0
+State: time=2.0, p=*, p.t1=1.0000000000000004, p.t1'=1.0, p.t2=2.000000000000001, p.t2'=1.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=2.0, p=*, p.t1=0.0, p.t1'=1.0, p.t2=2.000000000000001, p.t2'=1.0
+
+Transition: event p.reset2
+State: time=2.0, p=*, p.t1=0.0, p.t1'=1.0, p.t2=0.0, p.t2'=1.0
+
+Transition: delaying for 1.0 time units at time 2.0
+State: time=3.0, p=*, p.t1=1.0000000000000002, p.t1'=1.0, p.t2=1.0000000000000002, p.t2'=1.0
+
+Transition: event p.reset1
+State: time=3.0, p=*, p.t1=0.0, p.t1'=1.0, p.t2=1.0000000000000002, p.t2'=1.0
+
+Transition: delaying for 1.0000000000000009 time units at time 3.0
+State: time=4.000000000000001, p=*, p.t1=1.0000000000000013, p.t1'=1.0, p.t2=2.0000000000000018, p.t2'=1.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=4.000000000000001, p=*, p.t1=0.0, p.t1'=1.0, p.t2=2.0000000000000018, p.t2'=1.0
+
+Transition: event p.reset2
+State: time=4.000000000000001, p=*, p.t1=0.0, p.t1'=1.0, p.t2=0.0, p.t2'=1.0
+
+Transition: delaying for 1.0000000000000009 time units at time 4.000000000000001
+State: time=5.000000000000002, p=*, p.t1=1.0000000000000016, p.t1'=1.0, p.t2=1.0000000000000016, p.t2'=1.0
+
+Transition: event p.reset1
+State: time=5.000000000000002, p=*, p.t1=0.0, p.t1'=1.0, p.t2=1.0000000000000016, p.t2'=1.0
+
+Transition: delaying for 1.0 time units at time 5.000000000000002
+State: time=6.000000000000002, p=*, p.t1=1.0000000000000004, p.t1'=1.0, p.t2=2.0000000000000018, p.t2'=1.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=6.000000000000002, p=*, p.t1=0.0, p.t1'=1.0, p.t2=2.0000000000000018, p.t2'=1.0
+
+Transition: event p.reset2
+State: time=6.000000000000002, p=*, p.t1=0.0, p.t1'=1.0, p.t2=0.0, p.t2'=1.0
+
+Transition: delaying for 1.0000000000000036 time units at time 6.000000000000002
+State: time=7.000000000000005, p=*, p.t1=1.0000000000000042, p.t1'=1.0, p.t2=1.0000000000000042, p.t2'=1.0
+
+Transition: event p.reset1
+State: time=7.000000000000005, p=*, p.t1=0.0, p.t1'=1.0, p.t2=1.0000000000000042, p.t2'=1.0
+
+Transition: delaying for 0.9999999999999964 time units at time 7.000000000000005
+State: time=8.000000000000002, p=*, p.t1=0.9999999999999968, p.t1'=1.0, p.t2=2.000000000000001, p.t2'=1.0
+
+Transition: event p.reset2
+State: time=8.000000000000002, p=*, p.t1=0.9999999999999968, p.t1'=1.0, p.t2=0.0, p.t2'=1.0
+
+Transition: delaying for 3.552713678800501E-15 time units at time 8.000000000000002
+State: time=8.000000000000005, p=*, p.t1=1.0000000000000004, p.t1'=1.0, p.t2=3.552713678800501e-15, p.t2'=1.0
+
+Transition: event p.reset1
+State: time=8.000000000000005, p=*, p.t1=0.0, p.t1'=1.0, p.t2=3.552713678800501e-15, p.t2'=1.0
+
+Transition: delaying for 1.0000000000000018 time units at time 8.000000000000005
+State: time=9.000000000000007, p=*, p.t1=1.0000000000000033, p.t1'=1.0, p.t2=1.0000000000000069, p.t2'=1.0
+
+Transition: event p.reset1
+State: time=9.000000000000007, p=*, p.t1=0.0, p.t1'=1.0, p.t2=1.0000000000000069, p.t2'=1.0
+
+Transition: delaying for 0.9999999999999929 time units at time 9.000000000000007
+State: time=10.0, p=*, p.t1=0.9999999999999931, p.t1'=1.0, p.t2=2.0, p.t2'=1.0
+
+Simulation ended due to reaching the user-provided simulation end time.

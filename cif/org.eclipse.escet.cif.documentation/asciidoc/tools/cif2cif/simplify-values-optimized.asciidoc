@@ -1,0 +1,109 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-simplify-values-optimized]]
+== Simplify values (optimized)
+
+indexterm:[CIF to CIF transformer,simplify values (optimized)]
+indexterm:[simplify values (optimized)]
+This CIF to CIF transformation simplifies CIF specifications, by applying
+same value-related simplifications as the <<tools-cif2cif-chapter-simplify-values>>
+CIF to CIF transformation, but with optimizations for literal expressions.
+
+indexterm:[simplify values (optimized),supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[simplify values (optimized),preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[simplify values (optimized),implementation]
+
+=== Implementation details
+
+One of the simplifications that the CIF to CIF transformation to
+<<tools-cif2cif-chapter-simplify-values>> performs, is the evaluation of constant
+(sub-)expressions. For large literal expressions, such as arrays with thousands
+or even millions of elements, this is expensive, without having any effect.
+For instance, consider list/array literal `[1, 2, 3]`. Evaluating the
+list/array and the integer elements, and then reconstructing the literal
+list/array expression and literal integer expressions, has no effect. The
+result is the same list/array literal as the original.
+
+This transformation detects literal expressions, and doesn't further simplify
+them, thus greatly improving performance for large literal expressions.
+Literal expressions are detected using a static analysis. Due to using static
+analysis, some literals may not be simplified, while they would have been
+simplified if this literal detection optimization was not used. For instance,
+a set literal `{1, 2, 1}` is simplified to `{1, 2}` without optimizations,
+and is not simplified with optimizations. In this case, static analysis does
+not account for duplicate elements of the set.
+
+The following differences can be observed for literal optimization, with
+respect to not using literal optimization:
+
+* Negations of integer literals are not normalized, although this only affects
+the internal representation of negative integer values, and may not be
+externally visible to end users.
+
+* Real literals are not normalized. For instance, `1e3` is not normalized
+to `1000.0`.
+
+* For set literals, duplicate elements are not removed.
+
+* For dictionary literals, duplicate keys are not removed, and the dictionary
+literal is not further simplified. Without literal optimization, duplicate
+keys would lead to an error during simplification.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[simplify values (optimized),size considerations]
+
+=== Size considerations
+
+This transformation tries to simplify the specification, possibly reducing its
+size.
+
+All uses of constants lead to constant (sub-)expressions, and they are
+evaluated. This leads to constants being inlined. For constants with large
+literal values, this may significantly increase the size of the specification,
+especially if the constant is used more than once. For information on how to
+prevent this, see the <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
+CIF to CIF transformation.
+
+indexterm:[simplify values (optimized),optimality]
+
+=== Optimality
+
+Not all simplifications that could potentially be performed are implemented in
+this transformation.
+
+The optimizations for literals that are performed influence the optimality of
+the simplification, as described above.

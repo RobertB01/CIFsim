@@ -1,0 +1,199 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[Git, repository]
+
+[[developer-git-repo-chapter-index]]
+== Git repository
+
+The Eclipse ESCET project maintains the following source code repositories:
+
+* link:https://git.eclipse.org/c/escet/escet.git[Eclipse ESCET Git repository]
+
+indexterm:[EMF]
+indexterm:[Java]
+
+The software is written in the https://www.oracle.com/java/[Java] programming
+language, as a collection of https://www.eclipse.org/pde/[Eclipse plugins],
+and using the https://www.eclipse.org/modeling/emf/[Eclipse Modeling Framework]
+(EMF).
+
+For ease of programming, the https://eclipse.org[Eclipse IDE] is recommended.
+See also the section on
+<<developer-dev-env-setup-chapter-index, setting up a development environment>>.
+
+To contribute code (e.g. patches), documentation, or anything else, see the
+<<developer-contributing-chapter-index,contributing>> section.
+
+
+=== Repository structure
+
+In the Eclipse ESCET source code repository (Git repository), three layers are
+distinguished:
+
+* The top layer contains user-oriented languages for designing controllers.
+Currently there are two modeling languages in this layer,
+<<intro-chapter-cif,CIF>> and <<intro-chapter-chi,Chi>>.
++
+The third language in the top layer is <<intro-chapter-tooldef,ToolDef>>, a
+cross-platform scripting language to run tests, and to automate the various
+tools that need to be executed while designing a controller.
+
+* The middle layer contains developer oriented support code.
+It has a language of its own, named <<intro-chapter-setext,SeText>>. This
+language implements an LALR(1) parser generator with a few twists to make it
+easy to use in a Java environment and to connect it to an Eclipse text editor.
++
+The other part of the middle layer is common functionality shared between the
+languages.
+
+* The bottom layer is mostly configuration to attach the software to the Eclipse
+platform, including build and release engineering.
+
+This document describes the structure of the top and middle layers. For the
+bottom layer, standard Eclipse and Maven/Tycho tools are used, which are
+described elsewhere.
+
+The three layers are not further distinguished in the repository. Instead,
+different parts are stored in different sub-directories from the root.
+
+
+=== Language directories
+
+Each language has its own subdirectory in the root, `/cif` and `/chi` for the
+<<intro-chapter-cif,CIF>> and <<intro-chapter-chi,Chi>> modeling languages,
+`/tooldef` for the <<intro-chapter-tooldef,ToolDef>> language,
+and `/setext` for the <<intro-chapter-setext,SeText>> language.
+
+Within a language directory, a directory exists for each part of the code
+(often equivalent to a plugin), with the same name as the plugin.
+The pattern of a plugin name is `org.eclipse.escet.<language>.<plugin-name>`
+where the plugin-name in different directories has the same meaning.
+A non-exhaustive list:
+
+[cols="1,4",opts="header"]
+|===
+| Plugin name
+| Description
+
+| `documentation`
+| User-oriented documentation about the language, such as a user manual or a
+reference manual.
+
+| `metamodel`
+| Ecore metamodel back bone of the language. Model classes for the central
+data structure that all tools of the language use.
+Often generated using modeling tools such as Sirius, but manually written
+classes exist as well.
+
+| `metamodel.java`
+| Generated Java constructor and walker classes for the Ecore metamodel data
+structure.
+
+| `parser`
+| SeText input, and generated or manually written code to parse
+an input file and convert it to an tree of classes that can be given to the
+type checker.
+
+| `typechecker`
+| Implementation of the type checker to check the parsed input, and annotate
+it with derived information, resulting in an model instance that can be used
+by all tools of the language.
+
+| `io`
+| Text file loading, parsing, and type checking, and possibly writing result
+specifications.
+
+| `texteditor`
+| Code for editing source files of the language in an text Eclipse editor,
+with folding, syntax highlighting, and reporting of errors and warnings in
+the specification.
+
+| `tests`
+| Collection of tests to check the tools for the language. Typically a set
+of input specifications, a set of expected output files, and a
+<<intro-chapter-tooldef,ToolDef>> script to run the tests. These tests can
+be seen as integration tests.
+
+| `<plugin-name>.tests`
+| Unit tests for that specific plugin.
+
+| `codegen`
+| Code generator to convert the input specification to a runnable model.
+
+| `runtime`
+| Support libraries used by the runnable model.
+
+| `tooldefs`
+| Interface definitions to make tools of the language available for
+<<intro-chapter-tooldef,ToolDef>>.
+
+| `common`
+| Common functionality used by many tools of the language.
+|===
+
+Other plugin names are often tools with the same name.
+
+
+=== Middle layer common functionality
+
+The common code between all languages is stored in the `/common` directory,
+again with full name of the plugin as sub-directory names.
+These plugins contain:
+
+[cols="1,2",opts="header"]
+|===
+| Plugin name | Description
+
+| `org.eclipse.escet.common.app.framework`
+| Common <<app-framework-chapter-index,application framework>>.
+
+| `org.eclipse.escet.common.app.framework.appsview.ui`
+| The <<use-apps-view,Applications view>>. User interface of the active
+applications.
+
+| `org.eclipse.escet.common.box`
+| Library to generate formatted code-like text.
+
+| `org.eclipse.escet.common.eclipse.ui`
+| Common Eclipse User Interface code.
+
+| `org.eclipse.escet.common.emf`
+| Common _EMF_ code.
+
+| `org.eclipse.escet.common.emf.ecore.codegen`
+| Code generators from _Ecore_ files.
+
+| `org.eclipse.escet.common.emf.ecore.validation`
+| Common _EMF_ validation code.
+
+| `org.eclipse.escet.common.emf.ecore.xmi`
+| Common _EMF_ _XMI_ serialization code.
+
+| `org.eclipse.escet.common.java`
+| Common _Java_ functions and classes, in particular the _Lists_, _Sets_,
+_Maps_ and _Strings_ classes.
+
+| `org.eclipse.escet.common.position.common`
+| Common functions for (text-file) positions in source files.
+
+| `org.eclipse.escet.common.position.metamodel`
+| The Ecore metamodel for (text-file) positions in source files.
+
+| `org.eclipse.escet.common.svg`
+| Common _SVG_ library for viewing and manipulating _SVG_ trees.
+
+| `org.eclipse.escet.common.typechecker`
+| Common type checker functionality.
+|===

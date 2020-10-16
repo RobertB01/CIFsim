@@ -1,0 +1,73 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant def P():
+  disc dist real d = random();
+  location:
+    initial;
+end
+
+p: P();
+
+group def G():
+end
+
+g: G();
+
+group g01: invariant size({p  :1}) > 0;                       end
+group g02: invariant size({P  :1}) > 0;                       end
+group g03: invariant size({p.d:1}) > 0;                       end
+
+group g04: invariant size({1:p  }) > 0;                       end
+group g05: invariant size({1:P  }) > 0;                       end
+group g06: invariant size({1:p.d}) > 0;                       end
+
+group g07: invariant size(<dict(p  :bool)>{}) > 0;            end
+group g08: invariant size(<dict(P  :bool)>{}) > 0;            end
+group g09: invariant size(<dict(p.d:bool)>{}) > 0;            end
+
+group g10: invariant size(<dict(bool:p  )>{}) > 0;            end
+group g11: invariant size(<dict(bool:P  )>{}) > 0;            end
+group g12: invariant size(<dict(bool:p.d)>{}) > 0;            end
+
+group g13: invariant size([p  ]) > 0;                         end
+group g14: invariant size([P  ]) > 0;                         end
+group g15: invariant size([p.d]) > 0;                         end
+
+group g16: invariant size({p  }) > 0;                         end
+group g17: invariant size({P  }) > 0;                         end
+group g18: invariant size({p.d}) > 0;                         end
+
+group g19: invariant size(<list p  >[]) > 0;                  end
+group g20: invariant size(<list P  >[]) > 0;                  end
+group g21: invariant size(<list p.d>[]) > 0;                  end
+
+group g22: invariant size(<set p  >{}) > 0;                   end
+group g23: invariant size(<set P  >{}) > 0;                   end
+group g24: invariant size(<set p.d>{}) > 0;                   end
+
+group g25: invariant (p,   1)[1] > 0;                         end
+group g26: invariant (P,   1)[1] > 0;                         end
+group g27: invariant (p.d, 1)[1] > 0;                         end
+
+group g28: invariant if true: p   else p   end;               end
+group g29: invariant if true: P   else P   end;               end
+group g30: invariant if true: p.d else p.d end;               end
+
+group g31: invariant switch g:   case g:   g   end;           end
+group g32: invariant switch P:   case P:   P   end;           end
+group g33: invariant switch p.d: case p.d: p.d end;           end
+
+group g34: invariant switch 1.0: case 4.0: g   else g   end;  end
+group g35: invariant switch 2.0: case 5.0: P   else P   end;  end
+group g36: invariant switch 3.0: case 6.0: p.d else p.d end;  end

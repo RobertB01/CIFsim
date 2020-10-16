@@ -1,0 +1,2 @@
+ERROR: File "tchecker/proj_child_type.cif": Semantic error at line 14, column 19: Can't project a value of type "bool".
+ERROR: Failed to load CIF file "tchecker/proj_child_type.cif": the file has errors.

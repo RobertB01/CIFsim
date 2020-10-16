@@ -1,0 +1,36 @@
+Input/output report of the fmt.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+a 1
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+b 1
+i 2
+r 3
+
+Outputs
+-------
+a        1
+b0       2
+e0       3
+i0       4
+ii1      5
+ii2      6
+ii3      7
+ii4      8
+ii5      9
+ii7      10
+neg12345 11
+r0       12
+r456     13
+r_zero   14
+rr6      15

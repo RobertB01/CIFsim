@@ -1,0 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// expm1(x) = exp(x) - 1
+func real f(real x): "java:java.lang.Math.expm1";
+
+plant p:
+  // Function called multiple times, and verified against reference
+  // implementation.
+  disc list real l = [f(2.0), f(2.0), exp(2.0) - 1];
+  initial size(l) > 0;
+
+  location:
+    initial;
+    urgent;
+end

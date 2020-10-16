@@ -1,0 +1,5 @@
+WARNING: File "simulator/funcs_internal/funcs_unreachable.cif": Semantic warning at line 16, column 3: Statement is unreachable.
+WARNING: File "simulator/funcs_internal/funcs_unreachable.cif": Semantic warning at line 32, column 3: Statement is unreachable.
+WARNING: File "simulator/funcs_internal/funcs_unreachable.cif": Semantic warning at line 38, column 5: Statement is unreachable.
+WARNING: File "simulator/funcs_internal/funcs_unreachable.cif": Semantic warning at line 49, column 7: Statement is unreachable.
+WARNING: File "simulator/funcs_internal/funcs_unreachable.cif": Semantic warning at line 62, column 7: Statement is unreachable.

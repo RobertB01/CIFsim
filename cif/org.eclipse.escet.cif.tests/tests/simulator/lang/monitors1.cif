@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// 'Normal' automata.
+event e;
+
+plant p:
+  disc int x = 2;
+
+  location:
+    initial;
+    urgent;
+
+    edge e when x = 2 do x := x - 1; // first transition
+    edge e when x = 1 do x := x - 1; // second transition
+end
+
+plant m:
+  disc int x = 2;
+  monitor;
+
+  location:
+    initial;
+    urgent;
+
+    edge e when x = 2 do x := x - 1; // first transition
+                                     // second transition (due to monitor)
+end
+
+// 'Simple' automata.
+event g, h;
+
+plant a:
+  monitor;
+  location l1:          // Both possible, g chosen.
+    initial;
+    edge g goto l2;
+
+  location l2:
+    edge h;             // Event possible (once), g already done.
+end
+
+plant b:
+  disc int x = 0, y = 0;
+  location:
+    initial;
+    edge g when x = 0 do x := x + 1; // Only allow g once.
+    edge h when y = 0 do y := y + 1; // Only allow h once.
+end
+

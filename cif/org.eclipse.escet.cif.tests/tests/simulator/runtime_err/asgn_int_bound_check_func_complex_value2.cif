@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func bool f():
+  list tuple(int[0..2] a; dict(int[5..6]:set int[8..9]) b) x;
+  int y = 4;
+
+  x := [(0, {5: {}})];            // ok
+  x := [(1, {6: {8}})];           // ok
+  x := [(2, {6: {9}})];           // ok
+  x := [(0, {y: {8}})];           // err (y < 5)
+  return true;
+end
+
+invariant f();

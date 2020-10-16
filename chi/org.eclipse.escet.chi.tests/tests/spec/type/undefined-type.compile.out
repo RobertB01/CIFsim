@@ -1,0 +1,1 @@
+Error: File "spec/type/undefined-type.chi": Semantic error at line 14, column 5: Name "lot" does not refer to a type.

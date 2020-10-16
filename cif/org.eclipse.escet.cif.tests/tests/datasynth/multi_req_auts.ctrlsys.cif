@@ -1,0 +1,38 @@
+controllable a;
+controllable b;
+plant automaton p:
+  disc int[0..13] x = 0;
+  location:
+    initial;
+    marked;
+    edge a when x < 13 do x := x + 1;
+    edge b;
+end
+supervisor automaton r2:
+  location l1:
+    initial;
+    marked;
+    edge a goto l2;
+  location l2:
+    edge a goto l1;
+    edge b;
+end
+supervisor automaton r3:
+  location l1:
+    initial;
+    marked;
+    edge a goto l2;
+  location l2:
+    edge a goto l3;
+  location l3:
+    edge a goto l1;
+    edge b;
+end
+supervisor automaton sup:
+  alphabet a, b;
+  location:
+    initial;
+    marked;
+    edge a when p.x = 0 and (r2.l1 and r3.l1) or (p.x = 8 and (r2.l1 and r3.l3) or p.x = 4 and (r2.l1 and r3.l2)) or (p.x = 2 and (r2.l1 and r3.l3) or (p.x = 10 and (r2.l1 and r3.l2) or p.x = 6 and (r2.l1 and r3.l1))) or (p.x = 1 and (r2.l2 and r3.l2) or (p.x = 9 and (r2.l2 and r3.l1) or (p.x = 5 or p.x = 13) and (r2.l2 and r3.l3)) or (p.x = 3 and (r2.l2 and r3.l1) or (p.x = 11 and (r2.l2 and r3.l3) or p.x = 7 and (r2.l2 and r3.l2))));
+    edge b when p.x = 5 and (r2.l2 and r3.l3) or p.x = 11 and (r2.l2 and r3.l3);
+end

@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+int x;
+int y = x + 1;
+int z = x + y * 2;
+outln("%s %s %s", x, y, z);
+
+tool int t(int x, int y, int z):
+    return x + y + z;
+end
+
+outln("%s", t(1, 2, 3));
+outln("%s", t(10, 20, 30));

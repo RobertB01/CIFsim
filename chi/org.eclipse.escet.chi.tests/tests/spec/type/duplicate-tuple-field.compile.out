@@ -1,0 +1,2 @@
+Error: File "spec/type/duplicate-tuple-field.chi": Semantic error at line 14, column 15: There is more than one tuple field named "a".
+Error: File "spec/type/duplicate-tuple-field.chi": Semantic error at line 14, column 22: There is more than one tuple field named "a".

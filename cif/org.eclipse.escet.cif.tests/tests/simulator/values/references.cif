@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg bool ab = false;
+
+const int ci = 3;
+
+enum E = A, B;
+type T = E;
+
+func bool f1():
+  return true;
+end
+
+func bool f2():
+  return false;
+end
+
+automaton p:
+  disc int i = 1;
+  disc bool b = true;
+  disc T z = A;
+  disc func bool () g = f1;
+  disc tuple(int fa, fb) t = (1, 2);
+  cont v = 1.23 der 1.0;
+  disc real r = 0.12;
+
+  location l1:
+    initial;
+
+    edge do i := i + 1,      // disc         2
+            b := ab,         // alg          false
+            z := B,          // enum lit     B
+            g := f2,         // function     f2
+            r := v           // cont         1.23
+    goto l2;
+
+  location l2:
+    edge do i := ci,         // const        3
+            b := l2          // loc          true
+    goto l3;
+
+  location l3:
+    edge do b := l2,         // loc          false
+            i := t[fa]       // field        1
+    goto l4;
+
+  location l4:
+    urgent;
+end

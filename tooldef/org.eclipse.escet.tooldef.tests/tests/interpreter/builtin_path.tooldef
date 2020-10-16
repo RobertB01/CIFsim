@@ -1,0 +1,159 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// setup
+chdir("interpreter");
+
+// abspath
+outln("=== abspath ===");
+string abspath0 = abspath("a/b");
+abspath0 = replace(abspath0, "\\", "/");
+outln("%s", startswith(abspath0, replace(curdir(), "\\", "/")));
+outln("%s", "<curdir>" + abspath0[size(curdir()):]);
+outln();
+
+string abspath1 = abspath("a/b", "c/d");
+abspath1 = replace(abspath1, "\\", "/");
+outln("%s", abspath1);
+outln();
+
+// basename
+outln("=== basename ===");
+outln("!%s!", basename(""));
+outln("!%s!", basename("a"));
+outln("!%s!", basename("a/b"));
+outln("!%s!", basename("a\\b"));
+outln("!%s!", basename("/a/b"));
+outln("!%s!", basename("\\a\\b"));
+outln();
+
+// chdir
+outln("=== chdir ===");
+string chdir0 = replace(curdir(), "\\", "/");
+chdir("../interpreter/subdir");
+string chdir1 = replace(curdir(), "\\", "/");
+outln("%s", startswith(chdir1, chdir0));
+outln("%s", "<curdir>" + chdir1[size(chdir0):]);
+chdir("..");
+outln();
+
+// chfileext
+outln("=== chfileext ===");
+outln("!%s!", chfileext(""));
+outln("!%s!", chfileext("a/b.c"));
+outln("!%s!", chfileext("a\\b.c"));
+outln();
+outln("!%s!", chfileext("", "c"));
+outln("!%s!", chfileext("a/b.c", "c"));
+outln("!%s!", chfileext("a\\b.c", "c"));
+outln();
+outln("!%s!", chfileext("", null, "d"));
+outln("!%s!", chfileext("a/b.c", null, "d"));
+outln("!%s!", chfileext("a\\b.c", null, "d"));
+outln();
+outln("!%s!", chfileext("", "c", null));
+outln("!%s!", chfileext("a/b.c", "c", null));
+outln("!%s!", chfileext("a\\b.c", "c", null));
+outln();
+outln("!%s!", chfileext("", "x", "d"));
+outln("!%s!", chfileext("a/b.c", "x", "d"));
+outln("!%s!", chfileext("a\\b.c", "x", "d"));
+outln();
+outln("!%s!", chfileext("", "c", "d"));
+outln("!%s!", chfileext("a/b.c", "c", "d"));
+outln("!%s!", chfileext("a\\b.c", "c", "d"));
+outln();
+outln("!%s!", chfileext("", "C", "d"));
+outln("!%s!", chfileext("a/b.c", "C", "d"));
+outln("!%s!", chfileext("a\\b.c", "C", "d"));
+outln();
+
+// curdir
+outln("=== curdir ===");
+string curdir0 = replace(curdir(), "\\", "/");
+chdir("../interpreter/subdir");
+string curdir1 = replace(curdir(), "\\", "/");
+outln("%s", startswith(curdir1, curdir0));
+outln("%s", "<curdir>" + curdir1[size(curdir0):]);
+chdir("..");
+outln();
+
+// dirname
+outln("=== dirname ===");
+outln("%s", dirname("a/b"));
+outln("%s", dirname("a\\b"));
+outln("%s", dirname("/a/b/c"));
+outln("%s", dirname("\\a\\b\\c"));
+outln();
+
+// fileext
+outln("=== fileext ===");
+outln("!%s!", fileext("b"));
+outln("!%s!", fileext("b.e"));
+outln();
+outln("!%s!", fileext("a/b"));
+outln("!%s!", fileext("a\\b"));
+outln("!%s!", fileext("/a/b/c"));
+outln("!%s!", fileext("\\a\\b\\c"));
+outln();
+outln("!%s!", fileext("a/b.e"));
+outln("!%s!", fileext("a\\b.e"));
+outln("!%s!", fileext("/a/b/c.e"));
+outln("!%s!", fileext("\\a\\b\\c.e"));
+outln();
+
+// hasfileext
+outln("=== hasfileext ===");
+outln("!%s!", hasfileext("b", "e"));
+outln("!%s!", hasfileext("b.e", "e"));
+outln();
+outln("!%s!", hasfileext("a/b", "e"));
+outln("!%s!", hasfileext("a\\b", "e"));
+outln("!%s!", hasfileext("/a/b/c", "e"));
+outln("!%s!", hasfileext("\\a\\b\\c", "e"));
+outln();
+outln("!%s!", hasfileext("a/b.e", "e"));
+outln("!%s!", hasfileext("a\\b.e", "e"));
+outln("!%s!", hasfileext("/a/b/c.e", "e"));
+outln("!%s!", hasfileext("\\a\\b\\c.e", "e"));
+outln();
+outln("!%s!", hasfileext("b", "f"));
+outln("!%s!", hasfileext("b.e", "f"));
+outln();
+outln("!%s!", hasfileext("a/b", "f"));
+outln("!%s!", hasfileext("a\\b", "f"));
+outln("!%s!", hasfileext("/a/b/c", "f"));
+outln("!%s!", hasfileext("\\a\\b\\c", "f"));
+outln();
+outln("!%s!", hasfileext("a/b.e", "f"));
+outln("!%s!", hasfileext("a\\b.e", "f"));
+outln("!%s!", hasfileext("/a/b/c.e", "f"));
+outln("!%s!", hasfileext("\\a\\b\\c.e", "f"));
+outln();
+
+// pathjoin
+outln("=== pathjoin ===");
+outln("!%s!", replace(pathjoin(), "\\", "/"));
+outln("!%s!", replace(pathjoin("a/b"), "\\", "/"));
+outln("!%s!", replace(pathjoin(["a\\b"]), "\\", "/"));
+outln("!%s!", replace(pathjoin("a", "b"), "\\", "/"));
+outln("!%s!", replace(pathjoin(["a", "b"]), "\\", "/"));
+outln("!%s!", replace(pathjoin("a", "b/c", "d"), "\\", "/"));
+outln("!%s!", replace(pathjoin(["a", "b\\c", "d"]), "\\", "/"));
+outln("!%s!", replace(pathjoin(paths=["a", "b\\c", "d"]), "\\", "/"));
+outln();
+
+// scriptpath
+outln("=== scriptpath ===");
+outln("!%s!", dirname(scriptpath()) == curdir());
+outln();

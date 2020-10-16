@@ -1,0 +1,23 @@
+plant automaton p:
+  controllable inc;
+  disc int[0..3] x;
+  location:
+    initial;
+    marked;
+    edge inc do x := x + 1;
+end
+plant automaton q:
+  controllable c_not_in_alphabet;
+  location:
+    initial;
+    marked;
+end
+group g2:
+end
+supervisor automaton sup:
+  alphabet p.inc;
+  location:
+    initial;
+    marked;
+    edge p.inc when p.x != 3;
+end

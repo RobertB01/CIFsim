@@ -1,0 +1,401 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group alg_def_inst1:
+  // Instantiate before checking 'P'.
+  p1: P(p1.z);
+
+  group def P(alg real x):
+    alg real y = y;
+    alg real z = x;
+  end
+
+  // Instantiate after checking 'P'.
+  p2: P(p2.z);
+end
+
+group alg_def_inst2:
+  // Instantiate before checking 'P'.
+  p1: P(p2.y);
+  p2: P(p1.y);
+
+  group def P(alg real x):
+    alg real y = x;
+  end
+
+  // Instantiate after checking 'P'.
+  p3: P(p4.y);
+  p4: P(p3.y);
+end
+
+group alg_self:
+  // Self cycle for algebraic variable with rangeless integer type.
+  alg int a = a + 5;
+end
+
+group alg_var:
+  alg bool x = y;
+  alg bool y = x;
+end
+
+group alg_var_eqn1:
+  alg real x, y;
+  equation x = y, y = x;
+end
+
+group alg_var_eqn2:
+  automaton p:
+    alg real x, y;
+
+    location l1:
+      initial;
+      equation x = y, y = 5.0;
+
+    location l2:
+      initial;
+      equation x = 5.0, y = x;
+  end
+end
+
+group all:
+  // Constants and types not included, as they have checks during type checking,
+  // while these checks are for a later cycle detection phase.
+
+  automaton a:
+    disc real x0 = x1;           // Disc variable, not part of the cycle, but
+                                 // encountered first.
+    invariant x0 > 0;
+
+    disc real x1 = x2;           // Disc single initial value.
+    disc real x2 in {x3};        // Disc first initial value of set.
+    disc real x3 in {1.0, x4};   // Disc non-first initial value of set.
+
+    cont      x4 = x5' der 1.0;  // Cont initial value.
+    cont      x5 der x6';        // Cont derivative with declaration.
+    cont      x6;                // Cont derivative with automaton equation.
+    equation  x6' = x7';
+    cont      x7;                // Cont derivative with location equation.
+    cont      x8 der x9;         // Cont with derivative reference.
+    cont      x9 = x10' der 1.0; // Deriv (x8) to cont (x9) to deriv (x10).
+    cont      x10 der x11;       // Cont with derivative (part of x9).
+
+    alg real  x11 = x12;         // Alg direct value.
+    alg real  x12;               // Alg equation in automaton.
+    equation  x12 = x13;
+    alg real  x13;               // Alg equation in location.
+
+    disc real x14 = <real>(floor(x15));    // Cast expression.
+    disc real x15 = -x16 + 5.0;            // Unary/binary expression.
+    disc real x16 = if true: x17           // If expression.
+                    else 0.0
+                    end;
+    disc real x17 = if false: 0.0          // Elif expression.
+                    elif true: x18
+                    else 0.0
+                    end;
+    disc real x18 = if false: 0.0          // If/else expression.
+                    else x19
+                    end;
+    disc real x19 = [x20][0];              // List and projection expression.
+    disc real x20 = [1.0][floor(x21):][0]; // Slice begin expression.
+    disc real x21 = [1.0][:floor(x22)][0]; // Slice end expression.
+    disc real x22 = [x23][:][0];           // Slice child expression.
+    disc real x23 = (x24, b)[1](1.0);      // Function call function expression.
+    disc real x24 = sin(x25);              // Function call argument expression.
+    disc real x25 = (1.0, {x26})[0];       // Tuple and set expression.
+    disc real x26 = {x27: 0.0}[0.0];       // Dictionary key expression.
+    disc real x27 = {0.0: x28}[0.0];       // Dictionary value expression.
+    disc real x28 = x29 + inp;             // Input variable expression.
+    disc real x29 = x30 + size(<string>self); // Self reference.
+    disc real x30 = x31 + switch 5: case 5:  1.0 else 2.0 end; // Switch expr.
+    disc real x31 = x32 + switch z: case l1: 1.0 else 2.0 end; // Switch expr.
+
+    disc real x32 = x1;          // Closing the cycle.
+
+    disc list int lst;
+    input real inp;
+
+    initial   x1 > 0;            // Use cycle variables in initial predicate.
+    invariant x2 > 0;            // Use cycle variables in invariant predicate.
+    invariant x3 > 0;            // Use cycle variables in marker predicate.
+
+    location:
+      equation x7' = x8';
+      equation x13 = x14;
+
+      initial x1 > 0;            // Use cycle variables in initial predicate.
+      invariant x2 > 0;          // Use cycle variables in initial predicate.
+      marked x3 > 0;             // Use cycle variables in initial predicate.
+
+      edge when x4 > 0;          // Use cycle variables in edge guard.
+      edge do if x5 > 0:         // Use cycle variables in if/elif upd.
+                x6 := x7         // Use cycle variables in edge addr/upd.
+              elif x8 > 0:
+                x9 := x10
+              end;
+      edge do lst[floor(x11)] := 123; // Use cycle var in addr proj on an edge.
+  end
+
+  plant snd:
+    event real evt;
+    location:
+      initial;
+      edge evt!a.x15;
+  end
+
+  group def Q(alg real z):
+    invariant z > 0;
+  end
+
+  q: Q(a.x16);
+
+  func real b(real p):
+    real x1 = x2;                // Cycle in local variables of functions.
+    real x2 = x4;
+    real x3 = x1;
+    real x4 = x3 + p;            // Parameter should not be of influence.
+
+    list int lst;
+
+    x1 := x2;                    // Use cycle variables in func addr/upd.
+    if x3 > 0:                   // Use cycle variables in if stat guard/func.
+      x4 := x1;
+    elif x2 > 0:                 // Use cycle variables in elif stat guard/func.
+      x3 := x4;
+    end
+    while x1 > 0:                // Use cycle variables in while cond guard/func.
+      x2 := x3;
+    end
+    lst[ceil(x4)] := 123;        // Use cycle variables in addr proj in func.
+
+    return x1;                   // Use cycle variables in return stat of func.
+  end
+
+  invariant b(1.0) > 0;
+end
+
+group cont_deriv:
+  group p:
+    // OK.
+    cont a = a';
+    equation a' = 5.0;
+
+    // OK.
+    cont b;
+    equation b' = b;
+
+    // Cycle for initial value only.
+    cont c = c';
+    equation c' = c;
+  end
+end
+
+group derivative:
+  // simplest case
+  group p1:
+    cont x1 der x1';
+  end
+
+  // simple derivative equations cycle
+  group p2:
+    cont x2;
+    cont y2;
+    equation x2' = y2';
+    equation y2' = x2';
+  end
+
+  // cycle between different locations, derivatives only
+  automaton p3:
+    cont x3;
+    cont y3;
+    location l1:
+      initial;
+
+      equation x3' = 1.0;
+      equation y3' = x3';
+
+    location l2:
+      initial;
+
+      equation x3' = y3';
+      equation y3' = 2.0;
+  end
+
+  // cycle between different locations, derivatives via algebraic variable
+  automaton p4:
+    cont x4;
+    alg real y4;
+    cont z4;
+
+    location l1:
+      initial;
+
+      equation x4' = y4;
+      equation y4  = 2.0;
+      equation z4' = 3.0;
+
+      edge when true goto l2;
+      edge when true goto l3;
+
+    location l2:
+      equation x4' = 4.0;
+      equation y4  = z4';
+      equation z4' = 6.0;
+
+    location l3:
+      equation x4' = 7.0;
+      equation y4  = 8.0;
+      equation z4' = x4';
+  end
+end
+
+group disc_var:
+  plant p:
+    disc bool v1 = v2;
+    disc bool v2 = v1;
+    location:
+      initial;
+  end
+end
+
+group reachable_locs:
+  plant p:
+    disc bool d = d;      // Def/use cycle.
+
+    location l1:
+      initial d;          // Potential initial location.
+
+    location l2:
+      initial false, d;   // Definitely not an initial location.
+
+    location l3:
+      initial true, d;    // Potential initial location.
+  end
+end
+
+automaton z:
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+group init1a:
+  automaton p1:
+    location:
+      initial <string>p2 = "x";
+  end
+
+  automaton p2:
+    location l1:
+      initial <string>p1 = "x";
+  end
+end
+
+group init1b:
+  automaton p1:
+    location:
+      initial <string>self = "x";
+  end
+
+  automaton p2:
+    location l1:
+      initial <string>self = "x";
+  end
+end
+
+group init2a:
+  automaton a:
+    location:
+      initial v = "x";
+  end
+
+  alg string v = <string>a;
+end
+
+group init2b:
+  automaton a:
+    alg string v = <string>self;
+
+    location:
+      initial v = "x";
+  end
+end
+
+group init3a:
+  automaton p1:
+    location:
+      initial switch p2: else false end;
+  end
+
+  automaton p2:
+    location l1:
+      initial switch p1: else false end;
+  end
+end
+
+group init3b:
+  automaton p1:
+    location:
+      initial switch self: else false end;
+  end
+
+  automaton p2:
+    location l1:
+      initial switch self: else false end;
+  end
+end
+
+group init4a:
+  automaton a:
+    location:
+      initial v = "x";
+  end
+
+  alg string v = switch a: else "y" end;
+end
+
+group init4b:
+  automaton a:
+    alg string v = switch self: else "y" end;
+
+    location:
+      initial v = "x";
+  end
+end
+
+group init4c:
+  automaton a:
+    location l:
+      initial v = "x";
+  end
+
+  alg string v = if a.l: "y" else "z" end;
+end
+
+group init5:
+  automaton a:
+    location l0:
+      initial l1;
+    location l1:
+      initial l0;
+  end
+end
+
+group init6:
+  automaton a:
+    location l0:
+      initial l0;
+  end
+end
+

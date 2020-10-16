@@ -1,0 +1,89 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-consts]]
+== Eliminate constants
+
+indexterm:[CIF to CIF transformer,eliminate constants]
+indexterm:[eliminate constants]
+indexterm:[constant,eliminate]
+This CIF to CIF transformation eliminates constants.
+
+indexterm:[eliminate constants,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[eliminate constants,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[eliminate constants,implementation]
+
+=== Implementation details
+
+All uses of constants (for instance in guards, invariants, etc), are replaced
+by their values. The constants themselves are removed. For instance, the
+following specification:
+
+
+[source, cif]
+----
+const int x = 1;
+const int z = y;
+const int y = x + 1;
+invariant x + y + z > 0;
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+invariant 1 + 2 + 2 > 0;
+----
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate constants,size considerations]
+
+=== Size considerations
+
+Since constants are shortcuts for values, eliminating them could result in an
+increase of the size of the specification. Constants may be defined in terms of
+other constants. Therefore, in the worst case, the increase is exponential.
+
+indexterm:[eliminate constants,optimality]
+
+=== Optimality
+
+For an assignment `x := 1 + y`, where `y` is a constant that is eliminated,
+and where `y` has value `5`, the resulting assignment is `x := 1 + 5`.
+The result is not simplified any further. To further simplify the result, apply
+additional CIF to CIF transformations, such as
+<<tools-cif2cif-chapter-simplify-values>>.

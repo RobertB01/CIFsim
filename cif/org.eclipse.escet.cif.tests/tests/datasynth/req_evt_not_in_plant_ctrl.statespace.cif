@@ -1,0 +1,32 @@
+group p:
+  controllable inc;
+  controllable dec;
+end
+group r:
+  controllable trace;
+end
+automaton statespace:
+  alphabet p.inc, p.dec, r.trace;
+  location loc1:
+    initial;
+    marked;
+    edge p.inc goto loc2;
+  location loc2:
+    marked;
+    edge p.inc goto loc3;
+    edge p.dec goto loc1;
+  location loc3:
+    marked;
+    edge p.inc goto loc4;
+    edge p.dec goto loc2;
+    edge r.trace goto loc5;
+  location loc4:
+    marked;
+    edge p.dec goto loc3;
+    edge r.trace goto loc6;
+  location loc5:
+    edge r.trace goto loc3;
+  location loc6:
+    edge p.dec goto loc5;
+    edge r.trace goto loc4;
+end

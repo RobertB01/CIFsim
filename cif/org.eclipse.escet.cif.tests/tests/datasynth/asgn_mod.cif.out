@@ -1,0 +1,157 @@
+Reading CIF file "datasynth/asgn_mod.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..4]  p.m1  1      3 * 2     5 * 2       8 * 2       ~63%
+  3      discrete variable  int[0..4]  p.m2  2      3 * 2     5 * 2       8 * 2       ~63%
+  4      discrete variable  int[0..4]  p.m3  3      3 * 2     5 * 2       8 * 2       ~63%
+  5      discrete variable  int[0..4]  p.m4  4      3 * 2     5 * 2       8 * 2       ~63%
+  6      discrete variable  int[0..4]  p.m5  5      3 * 2     5 * 2       8 * 2       ~63%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      6      32        54          84          ~64%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 10
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                   15 (total)                 1.50 (avg/edge) [before]
+    Total span:                   11 (total)                 1.10 (avg/edge) [iteration 1]
+    Total span:                    9 (total)                 0.90 (avg/edge) [iteration 2]
+    Total span:                    9 (total)                 0.90 (avg/edge) [iteration 3]
+    Total span:                    9 (total)                 0.90 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 4
+
+    Total span:                    9 (total)                 0.90 (avg/edge) [before]
+    Total span:                    9 (total)                 0.90 (avg/edge) [after]
+
+  Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..4]  p.m1  0      3 * 2     5 * 2       8 * 2       ~63%
+  2      discrete variable  int[0..4]  p.m2  1      3 * 2     5 * 2       8 * 2       ~63%
+  3      location pointer   n/a        p     2      1 * 2     2 * 2       2 * 2       100%
+  4      discrete variable  int[0..4]  p.m3  3      3 * 2     5 * 2       8 * 2       ~63%
+  5      discrete variable  int[0..4]  p.m4  4      3 * 2     5 * 2       8 * 2       ~63%
+  6      discrete variable  int[0..4]  p.m5  5      3 * 2     5 * 2       8 * 2       ~63%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      6      32        54          84          ~64%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         true
+Initial   (discrete variable 1):         true
+Initial   (discrete variable 3):         true
+Initial   (discrete variable 4):         true
+Initial   (discrete variable 5):         true
+Initial   (discrete variables):          <bdd 15n 243p>
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     p.loc1
+Initial   (auts/locs init predicate):    p.loc1
+Initial   (uncontrolled system):         <bdd 16n 243p>
+Initial   (system, combined init/inv):   <bdd 16n 243p>
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+Marked    (auts/locs marker predicate):  p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+Marked    (uncontrolled system):         p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+Marked    (system, combined marked/inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: p.em1) (guard: p.loc1) (assignments: p.m1 := p.m1 mod 1, p := p.loc2)
+    Edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2)
+    Edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2)
+    Edge: (event: p.em4) (guard: p.loc1) (assignments: p.m4 := p.m4 mod 4, p := p.loc2)
+    Edge: (event: p.em5) (guard: p.loc1) (assignments: p.m5 := p.m5 mod 5, p := p.loc2)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.m1" of type "int[0..4]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.m2" of type "int[0..4]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 5/8)].
+Controlled behavior: true -> <bdd 9n 27p> [range: true, variable: discrete variable "p.m3" of type "int[0..4]" (group: 3, domain: 6+7, BDD variables: 3, CIF/BDD values: 5/8)].
+Controlled behavior: <bdd 9n 27p> -> <bdd 12n 81p> [range: true, variable: discrete variable "p.m4" of type "int[0..4]" (group: 4, domain: 8+9, BDD variables: 3, CIF/BDD values: 5/8)].
+Controlled behavior: <bdd 12n 81p> -> <bdd 15n 243p> [range: true, variable: discrete variable "p.m5" of type "int[0..4]" (group: 5, domain: 10+11, BDD variables: 3, CIF/BDD values: 5/8)].
+
+Extended controlled-behavior predicate using variable ranges: <bdd 15n 243p>.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 3 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [backward reach with edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 15n 243p>]
+Backward controlled-behavior: p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 3 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> <bdd 21n 4p> [backward reach with edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 15n 243p>]
+Backward reachability: iteration 2.
+Backward controlled-behavior: <bdd 21n 4p> [fixed point].
+Controlled behavior: <bdd 15n 243p> -> <bdd 21n 4p>.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: <bdd 21n 41p> [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: <bdd 16n 243p> [initialization predicate]
+Forward controlled-behavior: <bdd 16n 243p> -> <bdd 21n 3p> [restricted to current/previous controlled-behavior predicate: <bdd 21n 4p>]
+Forward reachability: iteration 1.
+Forward controlled-behavior: <bdd 21n 3p> -> <bdd 21n 4p> [forward reach with edge: (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2), restricted to current/previous controlled-behavior predicate: <bdd 21n 4p>]
+Forward reachability: iteration 2.
+Forward controlled-behavior: <bdd 21n 4p> [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: p.em1) (guard: p.loc1) (assignments: p.m1 := p.m1 mod 1, p := p.loc2): guard: p.loc1 -> false.
+Edge (event: p.em2) (guard: p.loc1) (assignments: p.m2 := p.m2 mod 2, p := p.loc2): guard: p.loc1 -> p.m1 = 1 and ((p.m2 = 1 or p.m2 = 3) and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)).
+Edge (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2): guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)).
+Edge (event: p.em4) (guard: p.loc1) (assignments: p.m4 := p.m4 mod 4, p := p.loc2): guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)).
+Edge (event: p.em5) (guard: p.loc1) (assignments: p.m5 := p.m5 mod 5, p := p.loc2): guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)).
+
+Final synthesis result:
+  State: (controlled-behavior: <bdd 21n 4p>)
+    Edge: (event: p.em1) (guard: p.loc1 -> false) (assignments: p.m1 := p.m1 mod 1, p := p.loc2)
+    Edge: (event: p.em2) (guard: p.loc1 -> p.m1 = 1 and ((p.m2 = 1 or p.m2 = 3) and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) (assignments: p.m2 := p.m2 mod 2, p := p.loc2)
+    Edge: (event: p.em3) (guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) (assignments: p.m3 := p.m3 mod 3, p := p.loc2)
+    Edge: (event: p.em4) (guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) (assignments: p.m4 := p.m4 mod 4, p := p.loc2)
+    Edge: (event: p.em5) (guard: p.loc1 -> p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) (assignments: p.m5 := p.m5 mod 5, p := p.loc2)
+
+Controlled system:                     exactly 4 states.
+
+Initial (synthesis result):            <bdd 21n 4p>
+Initial (uncontrolled system):         <bdd 16n 243p>
+Initial (controlled system):           <bdd 21n 3p>
+Initial (removed by supervisor):       <bdd 35n 387p>
+Initial (added by supervisor):         <bdd 35n 401p>
+
+Simplification of controlled system under the assumption of the uncontrolled system:
+  Initial: <bdd 21n 3p> -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))) [assume <bdd 16n 243p>].
+
+Simplification of controlled system under the assumption of the plants:
+  Event p.em2: guard: p.m1 = 1 and ((p.m2 = 1 or p.m2 = 3) and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and (p.m2 = 1 or p.m2 = 3) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+  Event p.em3: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+  Event p.em4: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+  Event p.em5: guard: p.m1 = 1 and (p.m2 = 1 and p.loc1) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) -> p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) [assume p.loc1].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/asgn_mod.ctrlsys.real.cif".

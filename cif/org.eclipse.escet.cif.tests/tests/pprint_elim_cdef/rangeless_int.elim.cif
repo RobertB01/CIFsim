@@ -1,0 +1,11 @@
+type t = int;
+type t2 = t;
+const int[123..123] c = 123;
+alg int a = q.x + c;
+automaton q:
+  disc t2 x;
+  invariant x > 0;
+  location:
+    initial;
+end
+invariant a > 123;

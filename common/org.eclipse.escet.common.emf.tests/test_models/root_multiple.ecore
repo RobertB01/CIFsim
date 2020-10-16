@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
+  <ecore:EPackage name="test1" nsURI="http://example.org/test1" nsPrefix="test1"/>
+  <ecore:EPackage name="test2" nsURI="http://example.org/test2" nsPrefix="test2"/>
+</xmi:XMI>

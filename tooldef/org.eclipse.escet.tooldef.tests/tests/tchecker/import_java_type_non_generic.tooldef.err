@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_java_type_non_generic.tooldef": Semantic error at line 14, column 40: Unsupported non-generic use of Java type "interface java.util.List" in a return type of a Java method.
+ERROR: Failed to load ToolDef file "tchecker/import_java_type_non_generic.tooldef": the file has errors.

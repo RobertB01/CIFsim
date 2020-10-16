@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<graphml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd" xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key for="node" id="ng" yfiles.type="nodegraphics"/>
+  <key for="edge" id="eg" yfiles.type="edgegraphics"/>
+  <key attr.name="description" attr.type="string" for="node" id="dn"/>
+  <graph edgedefault="undirected" id="cif:"/>
+</graphml>

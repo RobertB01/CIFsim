@@ -1,0 +1,5 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "f()" of the top level scope of the specification failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: Execution of assignment "f.x := [(0, {5: {f.y}})]" failed.
+CAUSE: Variable "x" is assigned value "[(0, {5: {10}})]", which violates the integer type bounds of the type "list tuple(int[0..2] a; dict(int[5..6]:set int[8..9]) b)" of that variable.

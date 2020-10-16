@@ -1,0 +1,9 @@
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 18, column 12: SVG element id "a#b" is not a valid SVG name.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 19, column 22: CIF/SVG copy declaration prefix "a#b" is not a valid SVG name prefix.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 20, column 23: CIF/SVG copy declaration postfix "a#b" is not a valid SVG name postfix.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 21, column 22: CIF/SVG copy declaration prefix "0" is not a valid SVG name prefix.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 24, column 12: SVG element id "a#b" is not a valid SVG name.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 26, column 11: SVG element id "a#b" is not a valid SVG name.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 28, column 22: SVG attribute name "a\b" is not a valid SVG name.
+ERROR: File "tchecker/svg_name_invalid.cif": Semantic error at line 30, column 10: SVG element id "a#b" is not a valid SVG name.
+ERROR: Failed to load CIF file "tchecker/svg_name_invalid.cif": the file has errors.

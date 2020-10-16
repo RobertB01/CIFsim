@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[issues]
+indexterm:[issue, create]
+indexterm:[Bugzilla]
+
+[[developer-issue-tracking-chapter-index]]
+== Issue tracking
+
+The Eclipse ESCET project uses Bugzilla to track ongoing development and
+issues:
+
+* link:https://bugs.eclipse.org/bugs/buglist.cgi?product=ESCET[Search for issues]
+* link:https://bugs.eclipse.org/bugs/enter_bug.cgi?product=ESCET[Create a new issue]
+
+Be sure to search for existing issues before you create another one. Remember
+that contributions are always welcome!
+
+To contribute code (e.g. patches), documentation, or anything else, see the
+<<developer-contributing-chapter-index,contributing>> section.

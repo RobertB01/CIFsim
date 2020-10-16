@@ -1,0 +1,25 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+const chan!? int a = channel(int);
+const chan! int b = a; # == e1
+const chan? int c = a; # == f1
+
+const chan!? int d1 = a;
+const chan!? int d2 = b;
+const chan!? int d3 = c;
+
+const chan! int e2 = b;
+const chan! int e3 = c;
+
+const chan? int f2 = b;
+const chan? int f3 = c;

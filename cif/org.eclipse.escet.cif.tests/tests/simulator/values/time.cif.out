@@ -1,0 +1,15 @@
+Initial state: time=0.0, p=l1, p.t=1.23
+
+Transition: event tau
+State: time=0.0, p=l2, p.t=2.34
+
+Transition: delaying for 3.0 time units at time 0.0
+State: time=3.0, p=l2, p.t=2.34
+
+Transition: event tau
+State: time=3.0, p=l3, p.t=2.34
+
+Transition: event tau
+State: time=3.0, p=l4, p.t=3.123
+
+Simulation resulted in deadlock.

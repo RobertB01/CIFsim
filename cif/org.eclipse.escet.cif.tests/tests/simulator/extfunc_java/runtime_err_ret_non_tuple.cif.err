@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of initialization predicate "size(f()) > 0" of the top level scope of the specification failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: The return value of the external Java function contains a value of type "java.lang.Integer", while a value of type "java.util.List" was expected.

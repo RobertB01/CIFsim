@@ -1,0 +1,1 @@
+Error: File "spec/statements/assignment.chi": Semantic error at line 17, column 7: Cannot assign value with type "real" to variables with type "int".

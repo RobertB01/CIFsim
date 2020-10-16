@@ -1,0 +1,157 @@
+Reading CIF file "datasynth/non_determinism.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a   p     0      2 * 2     3 * 2       4 * 2       75%
+  2      discrete variable  bool  p.x1  1      1 * 2     2 * 2       2 * 2       100%
+  3      discrete variable  bool  p.x2  2      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                 3      8         14          16          ~88%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 6
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    5 (total)                 0.83 (avg/edge) [before]
+    Total span:                    5 (total)                 0.83 (avg/edge) [iteration 1]
+    Total span:                    5 (total)                 0.83 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    5 (total)                 0.83 (avg/edge) [before]
+    Total span:                    4 (total)                 0.67 (avg/edge) [window 0..2]
+    Total span:                    4 (total)                 0.67 (avg/edge) [after]
+
+  Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  bool  p.x1  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer   n/a   p     1      2 * 2     3 * 2       4 * 2       75%
+  3      discrete variable  bool  p.x2  2      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                 3      8         14          16          ~88%
+
+Starting data-based synthesis.
+
+Invariant (component state invariant):   not p.l1
+Invariant (components state invariant):  not p.l1
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      not p.l1
+
+Initial   (discrete variable 0):         not p.x1
+Initial   (discrete variable 2):         not p.x2
+Initial   (discrete variables):          not p.x1 and not p.x2
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     p.l0
+Initial   (auts/locs init predicate):    p.l0
+Initial   (uncontrolled system):         not p.x1 and (p.l0 and not p.x2)
+Initial   (system, combined init/inv):   not p.x1 and (p.l0 and not p.x2)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   p.l0
+Marked    (auts/locs marker predicate):  p.l0
+Marked    (uncontrolled system):         p.l0
+Marked    (system, combined marked/inv): p.l0
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: p.c1) (guard: p.l0) (assignments: p.x1 := true)
+    Edge: (event: p.c2) (guard: p.l0) (assignments: p.x2 := true)
+    Edge: (event: p.u) (guard: p.x1 and p.l0) (assignments: p := p.l1)
+    Edge: (event: p.u) (guard: p.l0 and p.x2) (assignments: p := p.l2)
+    Edge: (event: p.u) (guard: p.l1) (assignments: p := p.l0)
+    Edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0)
+
+Initialized controlled-behavior predicate using invariants: not p.l1.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: not p.l1 -> not p.l1 [range: true, variable: location pointer for automaton "p" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+
+Extended controlled-behavior predicate using variable ranges: not p.l1.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.l0 [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.l0 -> not p.l1 [backward reach with edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0), restricted to current/previous controlled-behavior predicate: not p.l1]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not p.l1 [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.l1 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+Backward uncontrolled bad-state: p.l1 -> (p.x1 or p.l1) and (not p.x1 or not p.l2) [backward reach with edge: (event: p.u) (guard: p.x1 and p.l0) (assignments: p := p.l1)]
+Backward uncontrolled bad-state: (p.x1 or p.l1) and (not p.x1 or not p.l2) -> p.x1 or p.l1 [backward reach with edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0)]
+Backward reachability: iteration 2.
+Backward uncontrolled bad-state: p.x1 or p.l1 [fixed point].
+Controlled behavior: not p.l1 -> not p.x1 and not p.l1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: not p.x1 and (p.l0 and not p.x2) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: not p.x1 and (p.l0 and not p.x2) -> not p.x1 and p.l0 [forward reach with edge: (event: p.c2) (guard: p.l0) (assignments: p.x2 := true), restricted to current/previous controlled-behavior predicate: not p.x1 and not p.l1]
+Forward controlled-behavior: not p.x1 and p.l0 -> not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2) [forward reach with edge: (event: p.u) (guard: p.l0 and p.x2) (assignments: p := p.l2), restricted to current/previous controlled-behavior predicate: not p.x1 and not p.l1]
+Forward reachability: iteration 2.
+Forward controlled-behavior: not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2) [fixed point].
+Controlled behavior: not p.x1 and not p.l1 -> not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.l0 [marker predicate]
+Backward controlled-behavior: p.l0 -> not p.x1 and p.l0 [restricted to current/previous controlled-behavior predicate: not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2)]
+Backward reachability: iteration 1.
+Backward controlled-behavior: not p.x1 and p.l0 -> not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2) [backward reach with edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0), restricted to current/previous controlled-behavior predicate: not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2)]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (p.x1 or not p.l0) and (p.x1 or (not p.l2 or not p.x2)) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: p.c1) (guard: p.l0) (assignments: p.x1 := true): guard: p.l0 -> false.
+Edge (event: p.c2) (guard: p.l0) (assignments: p.x2 := true): guard: p.l0 -> not p.x1 and p.l0.
+
+Final synthesis result:
+  State: (controlled-behavior: not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2))
+    Edge: (event: p.c1) (guard: p.l0 -> false) (assignments: p.x1 := true)
+    Edge: (event: p.c2) (guard: p.l0 -> not p.x1 and p.l0) (assignments: p.x2 := true)
+    Edge: (event: p.u) (guard: p.x1 and p.l0) (assignments: p := p.l1)
+    Edge: (event: p.u) (guard: p.l0 and p.x2) (assignments: p := p.l2)
+    Edge: (event: p.u) (guard: p.l1) (assignments: p := p.l0)
+    Edge: (event: p.u) (guard: p.l2) (assignments: p := p.l0)
+
+Controlled system:                     exactly 3 states.
+
+Initial (synthesis result):            not p.x1 and p.l0 or not p.x1 and (p.l2 and p.x2)
+Initial (uncontrolled system):         not p.x1 and (p.l0 and not p.x2)
+Initial (controlled system):           not p.x1 and (p.l0 and not p.x2)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event p.c2: guard: not p.x1 and p.l0 -> not p.x1 [assume p.l0].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/non_determinism.ctrlsys.real.cif".

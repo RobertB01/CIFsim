@@ -1,0 +1,191 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-data-chapter-monitoring]]
+== Monitoring
+
+indexterm:[monitoring]
+indexterm:[see: observing,monitoring]
+This lesson explains the concept of _monitoring_. It is explained using the
+following CIF specification:
+
+
+[source, cif]
+----
+automaton producer:
+  event produce, provide_a, provide_b;
+
+  location producing:
+    initial;
+    edge produce goto idle;
+
+  location idle:
+    edge provide_a goto producing;
+    edge provide_b goto producing;
+end
+
+automaton detect_changeover:
+  disc int count = 0;
+
+  location start:
+    initial;
+    edge producer.provide_a goto a;
+    edge producer.provide_b goto b;
+
+  location a:
+    edge producer.provide_b do count := count + 1 goto b;
+
+  location b:
+    edge producer.provide_a do count := count + 1 goto a;
+end
+----
+
+The `producer` automaton represents a producer that can repeatedly
+`produce` a product, and provide it to either consumer 'a' (event
+`+provide_a+`) or consumer 'b' (event `+provide_b+`). The consumers are not
+modeled.
+
+The `+detect_changeover+` automaton detects consumer changes. That is, it
+detects and counts how often the producer switching from providing consumer 'a'
+with products to providing consumer 'b' with products, and vice versa.
+Initially, the automaton waits for the first product to be provided. It goes
+to either location `a` or location `b`, depending on which consumer is
+provided that first product. Whenever a product is then provided to the other
+consumer, the `count` is incremented by one to account for the changeover
+taking place. This also switches the location to the location for the other
+consumer, where once again the automaton waits for a changeover.
+
+=== The monitoring problem
+
+There is a problem with the `+detect_changeover+` automaton. In its `a`
+location, it disables the `+provide_a+` event, as there is no edge for that
+event, and the automaton has that event in its (implicit)
+<<tut-basics-chapter-alphabet,alphabet>>. This means that after a product is
+provided to consumer 'a', no more products can be provided to that same
+consumer, until the producer provides a product to the consumer 'b', and the
+automaton switches to the corresponding `b` location. However, the idea is
+that the producer can provide products to either consumer, at all times, as
+that is the way it is intended. The `+detect_changeover+` automaton currently
+prevents behavior that is present in the `producer`, while it is only meant
+to _observe_ or _monitor_ products being provided. The state space of the
+specification is:
+
+image::{tut-imgsdir}/data/monitoring_problem_state_space.png[]
+
+The states are labeled with the first letters of the names of the current
+locations of the automata. Note how the `i/a` and `i/b` locations only have
+outgoing transitions for either the `+provide_a+` transition or the
+`+provide_b+` transition.
+
+indexterm:[monitoring,self loops]
+
+=== Monitoring with self loops
+
+A simple solution is to allow the disabled events:
+
+
+[source, cif]
+----
+automaton detect_changeover:
+  disc int count = 0;
+
+  location start:
+    initial;
+    edge producer.provide_a goto a;
+    edge producer.provide_b goto b;
+
+  location a:
+    edge producer.provide_a; // Added self loop.
+    edge producer.provide_b do count := count + 1 goto b;
+
+  location b:
+    edge producer.provide_a do count := count + 1 goto a;
+    edge producer.provide_b; // Added self loop.
+end
+----
+
+indexterm:[self loop]
+indexterm:[edge,self loop]
+The `+provide_a+` event has been added to an edge in the `a` location. The
+edge is a <<lang-tut-basics-shorter-notations-self-loop,self loop>>,
+meaning the current location of automaton `+detect_changeover+` does not change
+as a result of taking the edge. This means that essentially the event is
+ignored by the `+detect_changeover+` automaton, as the edge also has no
+updates. The state space of the modified specification is:
+
+image::{tut-imgsdir}/data/monitoring_fixed_state_space.png[]
+
+Now, whenever the `+provide_a+` event is possible, the `+provide_b+` event is
+also possible, and vice versa, just as in the `producer` automaton. The
+`+detect_changeover+` automaton no longer restricts the occurrence of the
+events; it only monitors them.
+
+indexterm:[monitor]
+indexterm:[automaton,monitor]
+indexterm:[monitoring,monitor automaton]
+
+=== Monitoring with monitor automata
+
+An alternative to adding self loops, is to use a _monitor_ automaton. A monitor
+automaton is an automaton that monitors or observes one or more events. The
+events that it monitors, are never blocked (disabled) by that automaton. For
+our producer/changeover example, we can turn the `+detect_changeover+`
+automaton into a monitor automaton for the `+provide_a+` and `+provide_b+`
+events:
+
+
+[source, cif]
+----
+automaton detect_changeover:
+  monitor producer.provide_a, producer.provide_b; // Monitor instead of the self loops.
+
+  disc int count = 0;
+
+  location start:
+    initial;
+    edge producer.provide_a goto a;
+    edge producer.provide_b goto b;
+
+  location a:
+    edge producer.provide_b do count := count + 1 goto b;
+
+  location b:
+    edge producer.provide_a do count := count + 1 goto a;
+end
+----
+
+By default, automata don't monitor any events. Using a `monitor` declaration
+with one or more events, turns the automaton into a monitor automaton for those
+events. For the producer/changeover example, the behavior with the monitor
+automaton is exactly identical to the behavior of the specification with the
+self loops.
+
+By omitting the events from the `monitor` declaration, an automaton monitors
+all events of its alphabet:
+
+
+[source, cif]
+----
+monitor; // Monitor all events in the alphabet of the automaton.
+----
+
+For the producer/changeover, which has only the `+provide_a+` and `+provide_b+`
+events in its alphabet, this would result in the same behavior as for the
+automaton that monitors the two events explicitly.
+
+Using a monitor automaton instead of self loops has several advantages. A
+monitor declaration has to be provided only once, while self loops often have
+to be added to several locations. Furthermore, if the automaton is changed, it
+may be necessary to add or remove self loops, while the monitor declaration can
+most often be kept as is.

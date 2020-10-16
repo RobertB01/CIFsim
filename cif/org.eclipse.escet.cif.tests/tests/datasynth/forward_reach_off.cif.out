@@ -1,0 +1,125 @@
+Reading CIF file "datasynth/forward_reach_off.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..5]  p.v   0      3 * 2     6 * 2       8 * 2       75%
+  2      discrete variable  int[0..5]  p.w   1      3 * 2     6 * 2       8 * 2       75%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      12        24          32          75%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 17
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    2 (total)                 0.12 (avg/edge) [before]
+    Total span:                    2 (total)                 0.12 (avg/edge) [iteration 1]
+    Total span:                    2 (total)                 0.12 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    2 (total)                 0.12 (avg/edge) [before]
+    Total span:                    2 (total)                 0.12 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         p.v = 3
+Initial   (discrete variable 1):         true
+Initial   (discrete variables):          (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial   (system, combined init/inv):   (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e) (guard: p.v = 1)
+    Edge: (event: e) (guard: p.v = 2)
+    Edge: (event: e) (guard: p.v = 3)
+    Edge: (event: e) (guard: p.v = 4)
+    Edge: (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1)
+    Edge: (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1)
+    Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.w)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.v" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.w" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: e) (guard: p.v = 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: e) (guard: p.v = 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: e) (guard: p.v = 3): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+Edge (event: e) (guard: p.v = 4): guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))).
+Edge (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+Edge (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1): guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))).
+Edge (event: g) (guard: p.v = 2) (assignments: p.v := p.w): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: e) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3))
+    Edge: (event: e) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)))
+    Edge: (event: e) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4))
+    Edge: (event: e) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))))
+    Edge: (event: f) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 1)
+    Edge: (event: f) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4)))) (assignments: p.v := p.v + 1)
+    Edge: (event: g) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.w)
+
+Controlled system:                     at most 36 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial (controlled system):           (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/forward_reach_off.ctrlsys.real.cif".

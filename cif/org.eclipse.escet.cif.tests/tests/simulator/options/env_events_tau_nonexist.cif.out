@@ -1,0 +1,10 @@
+Initial state: time=0.0, a=l1
+
+Possible transitions:
+  #1: event tau
+  #2: delay for (0 .. 10.0]
+
+Transition: event tau
+State: time=0.0, a=l2
+
+Simulation resulted in deadlock.

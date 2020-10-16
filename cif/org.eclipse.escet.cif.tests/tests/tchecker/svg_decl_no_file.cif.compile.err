@@ -1,0 +1,12 @@
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 16, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 17, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 18, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 19, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 20, column 1: Missing SVG file declaration for a CIF/SVG declaration in the top level scope of the specification.
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 23, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "g".
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 24, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "g".
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 25, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "g".
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 26, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "g".
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 27, column 3: Missing SVG file declaration for a CIF/SVG declaration in group "g".
+ERROR: File "tchecker/svg_decl_no_file.cif": Semantic error at line 35, column 9: Missing SVG file declaration for a CIF/SVG declaration in group "k.j.l".
+ERROR: Failed to load CIF file "tchecker/svg_decl_no_file.cif": the file has errors.

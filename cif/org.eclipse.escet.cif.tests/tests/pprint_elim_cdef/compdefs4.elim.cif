@@ -1,0 +1,32 @@
+group p1:
+  automaton q1:
+    invariant l;
+    invariant l;
+    location l:
+      initial;
+  end
+  automaton q2:
+    invariant q1.l;
+    invariant l;
+    location l:
+      initial;
+  end
+end
+group p2:
+  automaton q1:
+    invariant l;
+    invariant l;
+    location l:
+      initial;
+  end
+  automaton q2:
+    invariant q1.l;
+    invariant l;
+    location l:
+      initial;
+  end
+end
+invariant p1.q1.l;
+invariant p1.q2.l;
+invariant p2.q1.l;
+invariant p2.q2.l;

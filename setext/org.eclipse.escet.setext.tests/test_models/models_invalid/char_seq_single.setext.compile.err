@@ -1,0 +1,1 @@
+WARNING: File "models_invalid/char_seq_single.setext": Semantic warning at line 16, column 6: The character sequence "a-a" contains only a single character.

@@ -1,0 +1,91 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc DrawBool(chan? tuple(string msg; dist bool db) c; chan void sync):
+    list bool xs;
+    dist bool db;
+    tuple(string msg; dist bool db) data;
+
+    while true:
+        c?data;
+        db = data.db;
+        xs = <bool>[];
+        for i in range(10):
+            xs = xs + [sample db];
+        end
+        writeln("%s: %s", data.msg, xs);
+        sync!
+    end
+end
+
+proc DrawReal(chan? tuple(string msg; dist real db) c; chan void sync):
+    list real xs;
+    dist real db;
+    tuple(string msg; dist real db) data;
+
+    while true:
+        c?data;
+        db = data.db;
+        xs = <real>[];
+        for i in range(10):
+            xs = xs + [sample db];
+        end
+        writeln("%s: %s", data.msg, xs);
+        sync!
+    end
+end
+
+proc DrawInt(chan? tuple(string msg; dist int db) c; chan void sync):
+    list int xs;
+    dist int db;
+    tuple(string msg; dist int db) data;
+
+    while true:
+        c?data;
+        db = data.db;
+        xs = <int>[];
+        for i in range(10):
+            xs = xs + [sample db];
+        end
+        writeln("%s: %s", data.msg, xs);
+        sync!
+    end
+end
+
+model M():
+    chan tuple(string msg; dist bool db) cb;
+    chan tuple(string msg; dist int  db) ci;
+    chan tuple(string msg; dist real db) cr;
+    chan void sync;
+
+    start DrawBool(cb, sync), DrawInt(ci, sync), DrawReal(cr, sync);
+
+    cb!("constant(true)     ", constant(true)); sync?;
+    cb!("bernoulli(0.4)     ", bernoulli(0.4)); sync?;
+
+    ci!("constant(10)       ", constant(10));      sync?;
+    ci!("binomial(10, 0.4)  ", binomial(10, 0.4)); sync?;
+    ci!("geometric(0.4)     ", geometric(0.4));    sync?;
+    ci!("poisson(4.1)       ", poisson(4.1));      sync?;
+    ci!("uniform(0, 10)     ", uniform(0, 10));    sync?;
+
+    cr!("constant(2.73)     ", constant(2.73));      sync?;
+    cr!("beta(1.7, 4.5)     ", beta(1.7, 4.5));      sync?;
+    cr!("erlang(1.7, 5)     ", erlang(1.7, 5));      sync?;
+    cr!("exponential(4.1)   ", exponential(4.1));    sync?;
+    cr!("gamma(1.7, 4.5)    ", gamma(1.7, 4.5));     sync?;
+    cr!("lognormal(1.7, 4.5)", lognormal(1.7, 4.5)); sync?;
+    cr!("normal(1.7, 4.5)   ", normal(1.7, 4.5));    sync?;
+    cr!("random()           ", random());            sync?;
+    cr!("uniform(0.0, 10.0) ", uniform(0.0, 10.0));  sync?;
+    cr!("weibull(1.7, 4.5)  ", weibull(1.7, 4.5));   sync?;
+end

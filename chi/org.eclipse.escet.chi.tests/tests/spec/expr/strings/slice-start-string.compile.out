@@ -1,0 +1,1 @@
+Error: File "spec/expr/strings/slice-start-string.chi": Semantic error at line 15, column 22: Start expression must have int type (found "string").

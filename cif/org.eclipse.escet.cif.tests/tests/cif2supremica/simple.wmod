@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="CONTROLLABLE" Name="c"/>
+    <EventDecl Kind="UNCONTROLLABLE" Name="p:u"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <VariableComponent Name="p:v">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="2"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:v"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+    </VariableComponent>
+    <SimpleComponent Kind="PLANT" Name="p">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="loc1">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+          <SimpleNode Name="loc2"/>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="loc1" Target="loc2">
+            <LabelBlock>
+              <SimpleIdentifier Name="c"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:v"/>
+                  <IntConstant Value="1"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc2" Target="loc1">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:u"/>
+            </LabelBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+    <SimpleComponent Kind="SPEC" Name="r">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X"/>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="c"/>
+            </LabelBlock>
+          </Edge>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:u"/>
+            </LabelBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+    <SimpleComponent Kind="SUPERVISOR" Name="s">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="c"/>
+            </LabelBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

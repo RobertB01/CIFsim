@@ -1,0 +1,65 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// setup
+chdir("interpreter");
+
+// tooldef
+outln("=== tooldef ===");
+outln("1a:");
+outln("%s", tooldef("simple.tooldef"));
+outln();
+
+outln("1b:");
+outln("%s", tooldef(["simple.tooldef"]));
+outln();
+
+outln("1c:");
+outln("%s", tooldef(args=["simple.tooldef"]));
+outln();
+
+outln("2a:");
+outln("%s", tooldef("simple.tooldef", "-mdebug"));
+outln();
+
+outln("2b:");
+outln("%s", tooldef(["simple.tooldef", "-mdebug"]));
+outln();
+
+outln("2c:");
+outln("%s", tooldef(args=["simple.tooldef", "-mdebug"]));
+outln();
+
+outln("3a:");
+outln("%s", tooldef("simple.tooldef", "-m debug"));
+outln();
+
+outln("3b:");
+outln("%s", tooldef(["simple.tooldef", "-m debug"]));
+outln();
+
+outln("3c:");
+outln("%s", tooldef(args=["simple.tooldef", "-m debug"]));
+outln();
+
+outln("4a:");
+outln("%s", tooldef("simple.tooldef", "-m", "debug"));
+outln();
+
+outln("4b:");
+outln("%s", tooldef(["simple.tooldef", "-m", "debug"]));
+outln();
+
+outln("4c:");
+outln("%s", tooldef(args=["simple.tooldef", "-m", "debug"]));
+outln();

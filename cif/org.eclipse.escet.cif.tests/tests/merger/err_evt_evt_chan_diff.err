@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_evt_evt_chan_diff.in1.cif" with CIF specification "merger/err_evt_evt_chan_diff.in2.cif" failed.
+CAUSE: Merging events with name "g.e" failed: the event is declared without a data type in one specification and with a data type in another.

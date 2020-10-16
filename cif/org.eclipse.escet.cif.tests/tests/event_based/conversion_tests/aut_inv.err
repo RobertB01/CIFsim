@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/aut_inv.cif".
+CAUSE: Unsupported automaton "p": invariants in components are currently not supported.

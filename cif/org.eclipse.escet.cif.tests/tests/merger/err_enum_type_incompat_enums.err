@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_enum_type_incompat_enums.in1.cif" with CIF specification "merger/err_enum_type_incompat_enums.in2.cif" failed.
+CAUSE: Merging a type declaration and enumeration with name "e" failed: type "e2" of the type declaration is not compatible with the type of the enumeration.

@@ -1,0 +1,3 @@
+ERROR: File "tchecker/type_range_bound_neg.cif": Semantic error at line 14, column 12: The lower bound value (-1) of a list type must not be negative.
+ERROR: File "tchecker/type_range_bound_neg.cif": Semantic error at line 15, column 15: The upper bound value (-2) of a list type must not be negative.
+ERROR: Failed to load CIF file "tchecker/type_range_bound_neg.cif": the file has errors.

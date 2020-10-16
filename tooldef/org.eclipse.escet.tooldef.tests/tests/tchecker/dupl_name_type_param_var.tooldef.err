@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_type_param_var.tooldef": Semantic error at line 14, column 8: Duplicate name "A" for type parameter "A" and variable "A" in tool "f".
+ERROR: File "tchecker/dupl_name_type_param_var.tooldef": Semantic error at line 15, column 7: Duplicate name "A" for variable "A" and type parameter "A" in tool "f".
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_type_param_var.tooldef": the file has errors.

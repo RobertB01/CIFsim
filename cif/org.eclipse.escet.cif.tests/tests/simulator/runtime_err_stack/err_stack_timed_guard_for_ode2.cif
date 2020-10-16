@@ -1,0 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Second guard predicate is not evaluated for the "tau" transition, since the
+// first guard evaluates to "false". For the time transition however, timed
+// guard "1 / 0 > time" is still used.
+
+automaton p:
+  cont x = 2.0 der -1.0;
+  location:
+    initial;
+    edge when false, sqrt(x) > time;
+end

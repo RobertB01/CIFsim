@@ -1,0 +1,67 @@
+Reading CIF file "datasynth/bdd_dbg_maxnodes.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type         Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  -----------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..100]  p.x   0      7 * 2     101 * 2     128 * 2     ~79%
+  -----  -----------------  -----------  ----  -----  --------  ----------  ----------  -----------
+  Total                                        1      14        202         256         ~79%
+
+Starting data-based synthesis.
+
+Invariant (component state invariant):   <bdd 6n 1p>
+Invariant (component state invariant):   <bdd 6n 1p>
+Invariant (components state invariant):  false
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      false
+
+Initial   (discrete variable 0):         <bdd 7n 1p>
+Initial   (discrete variables):          <bdd 7n 1p>
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         <bdd 7n 1p>
+Initial   (system, combined init/inv):   false
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): false
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Initialized controlled-behavior predicate using invariants: false.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
+Backward reachability: iteration 1.
+Backward controlled-behavior: false [fixed point].
+
+Round 1: finished, all states are bad.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: false)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            false
+Initial (uncontrolled system):         <bdd 7n 1p>
+Initial (controlled system):           false
+Initial (removed by supervisor):       <bdd 7n 1p>
+Initial (added by supervisor):         <bdd 7n 7p>

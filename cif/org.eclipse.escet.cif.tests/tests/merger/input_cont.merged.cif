@@ -1,0 +1,31 @@
+type t1 = real;
+cont inp1 = 1.23 der t2;
+cont inp2;
+const real t2 = 8.9;
+group g:
+  cont inp3;
+  invariant inp3 > 0;
+  invariant inp3 > 1;
+  equation inp3' = 2.34;
+end
+plant automaton p:
+  cont inp4;
+  plant invariant inp4 > 1;
+  plant invariant inp4 > 0;
+  location:
+    initial;
+    equation inp4' = 2.34;
+end
+plant automaton q:
+  cont inp5;
+  plant invariant inp5 > 1;
+  plant invariant inp5 > 0;
+  equation inp5' = 3.45;
+  location:
+    initial;
+end
+invariant inp1 > 0;
+invariant inp2 > 0;
+invariant inp1 > 1;
+invariant inp2 > 1;
+equation inp2' = 2.34;

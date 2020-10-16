@@ -1,0 +1,3 @@
+ERROR: File "tchecker/switch_no_value_eq.cif": Semantic error at line 26, column 23: Values of type "func bool()" do not support value equality, and may not be used as a control value of a switch.
+ERROR: File "tchecker/switch_no_value_eq.cif": Semantic error at line 27, column 23: Values of type "dist real" do not support value equality, and may not be used as a control value of a switch.
+ERROR: Failed to load CIF file "tchecker/switch_no_value_eq.cif": the file has errors.

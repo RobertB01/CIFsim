@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "small.svg";
+
+group a:
+  automaton b:
+    location l1:
+      initial;
+
+    svgout id "box" attr "width" value a;
+  end
+end
+
+svgout id "box" attr "x" value a;
+
+svgout id "box" attr "y" value a.b;
+
+automaton def C():
+  location:
+    initial;
+end
+
+c: C();
+
+svgout id "box" attr "height" value c;

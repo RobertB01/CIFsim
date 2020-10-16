@@ -1,0 +1,128 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-basics-chapter-event-placement]]
+== Event declaration placement
+
+indexterm:[event,placement]
+Consider the following CIF specification (the producer/consumer example from
+the lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>):
+
+
+[source, cif]
+----
+automaton producer:
+  event produce, provide;
+
+  location producing:
+    initial;
+    edge produce goto idle;
+
+  location idle:
+    edge provide goto producing;
+end
+
+automaton consumer:
+  event consume;
+
+  location idle:
+    initial;
+    edge producer.provide goto consuming;
+
+  location consuming:
+    edge consume goto idle;
+end
+----
+
+The specification could also be specified as follows:
+
+
+[source, cif]
+----
+automaton producer:
+  event produce, provide, consume; // Declaration of event 'consume' moved.
+
+  location producing:
+    initial;
+    edge produce goto idle;
+
+  location idle:
+    edge provide goto producing;
+end
+
+automaton consumer:
+  location idle:
+    initial;
+    edge producer.provide goto consuming;
+
+  location consuming:
+    edge producer.consume goto idle; // Event 'consume' from 'producer'.
+end
+----
+
+The `consume` event is now declared in the `producer` automaton rather than
+the `consumer` automaton, but the locations and edges have not changed. This
+modified specification exhibits the same behavior as the original.
+
+It should be clear that while events can be declared in various places, it is
+best to declare them where they belong. That is, the `consume` event is only
+used by the `consumer` automaton, and is thus best declared in that
+automaton. Similarly, the `produce` event is only used by the `producer`
+automaton.
+
+The `provide` event however is used by both automata. In such cases the event
+is usually declared where it is initiated. In the example above, the producer
+provides the product to the consumer, and not the other way around. Therefore,
+the `provide` event is declared in the `producer` automaton, rather than in
+the `consumer` automaton.
+
+However, the modeler is free to choose the best place to declare the event. If
+no choice can be made between the automata, the event can also be declared
+outside the automata, as follows:
+
+
+[source, cif]
+----
+event provide; // Event 'provide' now declared outside the automata.
+
+automaton producer:
+  event produce;
+
+  location producing:
+    initial;
+    edge produce goto idle;
+
+  location idle:
+    edge provide goto producing;
+end
+
+automaton consumer:
+  event consume;
+
+  location idle:
+    initial;
+    edge provide goto consuming; // Can directly refer to 'provide' event.
+
+  location consuming:
+    edge consume goto idle;
+end
+----
+
+This specification also has the same behavior. Only the placement of the event
+declarations has changed.
+
+The place where an event is declared is of no influence to the
+implicit (default) <<tut-basics-chapter-alphabet,alphabets>> of the
+automata. The implicit alphabet of an automaton is determined solely based on
+the events that occur on the edges of that automaton.

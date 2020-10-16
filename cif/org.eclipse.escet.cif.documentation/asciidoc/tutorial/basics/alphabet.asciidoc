@@ -1,0 +1,143 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-basics-chapter-alphabet]]
+== Alphabet
+
+indexterm:[alphabet]
+indexterm:[automaton,alphabet]
+
+The lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>
+described how events that are used in multiple automata exhibit synchronizing
+behavior. That is, if the event is used in multiple automata, they must all
+enable that event in order for a transition to be possible. If one of them can
+not perform the event, the event is disabled, and none of the automata can
+perform a transition for that event.
+
+Whether an automaton participates in the synchronization for a certain event,
+is determined by its _alphabet_. The alphabet of an automaton is the collection
+of events over which it synchronizes.
+
+indexterm:[alphabet,default]
+indexterm:[alphabet,implicit]
+
+=== Default and implicit alphabets
+
+By default, the alphabet of an automaton implicitly contains all the events
+that occur on the edges of the automaton. For instance, consider the following
+CIF specification (the producer/consumer example from the lesson on
+<<tut-basics-chapter-synchronizing-events,synchronizing events>>):
+
+
+[source, cif]
+----
+automaton producer:
+  event produce, provide;
+
+  location producing:
+    initial;
+    edge produce goto idle;
+
+  location idle:
+    edge provide goto producing;
+end
+
+automaton consumer:
+  event consume;
+
+  location idle:
+    initial;
+    edge producer.provide goto consuming;
+
+  location consuming:
+    edge consume goto idle;
+end
+----
+
+The alphabet of the `producer` automaton contains the events `produce` and
+`provide`, as both occur on edges of that automaton. The alphabet of the
+`consumer` automaton contains the events `producer.produce` and
+`consume`.
+
+indexterm:[alphabet,explicit]
+
+[[lang-tut-basics-alphabet-explicit]]
+=== Explicit alphabet
+
+It is possible to explicitly specify the alphabet of an automaton, as follows:
+
+[source, cif]
+----
+event provide;
+
+automaton producer:
+  event produce;
+
+  alphabet produce, provide; // Alphabet explicitly specified.
+
+  location producing:
+    initial;
+    edge produce goto idle;
+
+  location idle:
+    edge provide goto producing;
+end
+----
+
+The `alphabet` keyword is followed by the events that comprise the alphabet
+of the automaton, separated by commas. In this case, the alphabet contains
+the `produce` and `provide` events. Since this explicitly specified
+alphabet is exactly the same as the default alphabet, it could just as easily
+be omitted.
+
+indexterm:[alphabet,non-default]
+
+=== Non-default alphabet
+
+The alphabet is allowed to be empty, which can be explicitly specified as
+follows:
+
+
+[source, cif]
+----
+alphabet; // Empty alphabet. Automaton doesn't synchronize over any events.
+----
+
+indexterm:[alphabet,minimum]
+However, the alphabet of an automaton must at least contain the events that
+occur on the edges of an automaton. That is, it must at least contain the
+default alphabet.
+
+indexterm:[alphabet,global event disablement]
+It may however also contain additional events. Since there are no edges for
+those additional events, the automaton can never enable those events, and
+thus always disables them. If a single automaton disables an event, and since
+it must always participate if it has that event in its alphabet, this means
+that the event becomes globally disabled in the entire specification. Having
+such additional events in the alphabet leads to a warning, to inform about the
+potential undesired effects of globally disabling events in this manner.
+
+indexterm:[alphabet,implicit vs explicit]
+
+=== Implicit vs explicit
+
+It should be clear that for most automata, the implicit default alphabet
+suffices. There are however reasons for explicitly specifying the default
+alphabet. For large automata, it can improve the readability, as the explicit
+alphabet makes it easy to determine the alphabet of the automaton, without
+having to look at all the edges.
+
+The need to explicitly specifying a non-default alphabet rarely occurs.
+However, several <<tools-chapter-index,tools>> generate CIF specifications with
+explicit alphabets.

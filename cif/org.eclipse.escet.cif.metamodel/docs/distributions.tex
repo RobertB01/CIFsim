@@ -1,0 +1,246 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Distributions}\label{ch:distributions}
+
+This chapter gives an overview of the stochastic distributions that are
+available in CIF, as well as their properties.
+
+Tables~\ref{table:distr-constant},~\ref{table:distr-discrete},
+and~\ref{table:distr-continuous} respectively list the constant, discrete,
+and continuous distributions present in CIF. Each of the tables lists the
+name of the distribution in their first column, and the parameters and sample
+type in the second column. In the third column, they list the name of the
+distribution and its parameters as used in a book by Law \&
+Kelton~\cite{LawKelton1991}, except for the
+\cifenumlit{StdLibFunction.Constant} distributions. Those distributions
+return the provided parameter value as sampled value each time. Their main
+use is for testing and debugging. The fourth, fifth, and sixth column list
+the mean, variance, and range of the distributions respectively.
+
+\begin{table}[b]
+  \begin{center}
+  \begin{tabular}{|l l l l l l|} \hline
+    \textbf{Name} & \textbf{Type signature} & \textbf{Book} & \textbf{Mean} &
+        \textbf{Variance} & \textbf{Range} \\
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Constant distributions returning the specified
+                               value.}} \\
+    Constant &
+    bool (bool $b$) &
+    - &
+    $b$ &
+    $0$ &
+    $\{true,false\}$ \\[2pt]
+
+    Constant &
+    int (int $i$) &
+    - &
+    $i$ &
+    $0$ &
+    $(-\infty,\infty)$ \\[2pt]
+
+    Constant &
+    real (real $r$) &
+    - &
+    $r$ &
+    $0$ &
+    $(-\infty,\infty)$ \\[2pt]
+
+    \hline
+  \end{tabular}
+  \end{center}
+  \caption{Constant distributions and their properties.}
+  \label{table:distr-constant}
+\end{table}
+
+\begin{table}[t]
+  \begin{center}
+  \begin{tabular}{|l l l l l l|} \hline
+    \textbf{Name} & \textbf{Type signature} & \textbf{Book} & \textbf{Mean} &
+        \textbf{Variance} & \textbf{Range} \\
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Bernoulli distribution with chance
+                               $p \in [0, 1]$ for $true$.}} \\
+    Bernoulli &
+    bool (real $p$) &
+    Bernoulli($p$) &
+    $p$ &
+    $p(1-p)$ &
+    $\{true,false\}$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Binomial distribution with $t>0$ experiments
+                               with chance $p \in [0, 1]$.}} \\
+    Binomial &
+    int (real $p$, int $t$) &
+    bin($t$, $p$) &
+    $t\cdot{}p$ &
+    $t\cdot{}p(1-p)$ &
+    $\{0,1,2,\ldots,t\}$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Geometric distribution, number of failed
+                               Bernoulli($p$) experiments with chance
+                               $p \in (0, 1]$ before}} \\
+    \multicolumn{6}{|l|}{\emph{first success.}} \\
+    Geometric &
+    int (real $p$) &
+    geom($p$) &
+    $\frac{1-p}{p}$ &
+    $\frac{1-p}{p^2}$ &
+    $\{0,1,2,\ldots\}$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Poisson distribution with rate $r>0$.}} \\
+    Poisson &
+    int (real $r$) &
+    P($r$) &
+    $r$ &
+    $r$ &
+    $\{0,1,2,\ldots\}$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Discrete uniform distribution with $a<b$.}} \\
+    Uniform &
+    int (int $a$, $b$) &
+    DU($a$, $b-1$) &
+    $\frac{a+b-1}{2}$ &
+    $\frac{(b-a)^2-1}{12}$ &
+    $\{a,a+1,a+2,\ldots,b-1\}$ \\[2pt]
+
+    \hline
+  \end{tabular}
+  \end{center}
+  \caption{Discrete distributions and their properties.}
+  \label{table:distr-discrete}
+\end{table}
+
+\begin{table}[t]
+  \begin{center}
+  \begin{tabular}{|l l l l l l|} \hline
+    \textbf{Name} & \textbf{Type signature} & \textbf{Book} & \textbf{Mean} &
+        \textbf{Variance} & \textbf{Range} \\
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Beta distribution with shape parameters $a>0$
+                               and $b>0$.}} \\
+    Beta &
+    real (real $a$, $b$) &
+    B($a$, $b$) &
+    $\frac{a}{a+b}$ &
+    $\frac{a\cdot{}b}{(a+b)^2∗(a+b+1)}$ &
+    $[0,1]$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Erlang distribution with parameter $m>0$ and
+                               scale parameter $b>0$, also known as the}} \\
+    \multicolumn{6}{|l|}{\emph{Gamma($m$, $b$) distribution.}} \\
+    Erlang &
+    real (int $m$, real $b$) &
+    $m$-Erlang($b$) &
+    $m\cdot{}b$ &
+    $m\cdot{}b^2$ &
+    $[0,\infty)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Negative exponential distribution with scale
+                               parameter $b>0$.}} \\
+    Exponential &
+    real (real $b$) &
+    expo($b$) &
+    $b$ &
+    $b^2$ &
+    $[0,\infty)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Gamma distribution with shape parameter $a>0$
+                               and scale parameter $b>0$.}} \\
+    Gamma &
+    real (real $a$, $b$) &
+    Gamma($a$, $b$) &
+    $a\cdot{}b$ &
+    $a\cdot{}b^2$ &
+    $[0,\infty)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Lognormal distribution with $b>0$.}} \\
+    LogNormal &
+    real (real $a$, $b$) &
+    LN($a$, $b$) &
+    $e^{a+\frac{b}{2}}$ &
+    $e^{2a+b}(e^b-1)$ &
+    $[0,\infty)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Normal distribution with $b>0$.}} \\
+    Normal &
+    real (real $a$, $b$) &
+    N($a$, $b$) &
+    $a$ &
+    $b$ &
+    $(-\infty,\infty)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Random distribution, shorthand for the
+                               continuous uniform distribution from $0$
+                               to $1$.}} \\
+    Random &
+    real () &
+    U(0, 1) &
+    $\frac{1}{2}$ &
+    $\frac{1}{12}$ &
+    $[0,1)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Triangle distribution from $a$ to $c$ with the
+                               top at $b$, $a < b < c$.}} \\
+    Triangle &
+    real (real $a$, $b$, $c$) &
+    triang($a$, $c$, $b$) &
+    $\frac{a+b+c}{3}$ &
+    $\frac{a^2+b^2+c^2-a\cdot{}b-a\cdot{}c-b\cdot{}c}{18}$ &
+    $[a,c]$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Continuous uniform distribution from $a$ to
+                               $b$, with $a<b$.}} \\
+    Uniform &
+    real (real $a$, $b$) &
+    U($a$, $b$) &
+    $\frac{a+b}{2}$ &
+    $\frac{(b-a)^2}{12}$ &
+    $[a,b)$ \\[2pt]
+
+    \hline
+    \multicolumn{6}{|l|}{\emph{Weibull distribution with shape parameter
+                               $a>0$ and scale parameter $b>0$.}} \\
+    Weibull &
+    real (real $a$, $b$) &
+    Weibull($a$, $b$) &
+    $\frac{b}{a}\cdot{}\Gamma(\frac{1}{a})$ &
+    $\frac{b^2}{a}\cdot(2\cdot
+        \Gamma(\frac{2}{a})-\frac{\Gamma(\frac{1}{a})^2}{a})$ &
+    $[0,\infty)$ \\[2pt]
+
+    \hline
+  \end{tabular}
+  \end{center}
+  \caption{Continuous distributions and their properties.}
+  \label{table:distr-continuous}
+\end{table}
+
+For the \texttt{Weibull} function, $\Gamma(z)$ is the gamma function, defined
+as $\Gamma(z) = \int_{0}^{\infty} t^{(z-1)} \cdot e^{-t} \mathrm{d}t$
+for all real numbers $z>0$.

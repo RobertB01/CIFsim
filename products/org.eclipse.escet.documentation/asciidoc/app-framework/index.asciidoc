@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[app-framework-chapter-index]]
+== Application framework
+
+The Eclipse ESCET application framework provides common functionality for
+applications within the Eclipse ESCET toolkit. The following topics explain
+the framework in more detail:
+
+* <<app-framework-introduction>>
+* <<app-framework-standalone-vs-eclipse>>
+* <<app-framework-application-class>>
+* <<app-framework-exception-framework>>
+* <<app-framework-exit-codes>>
+* <<app-framework-io-framework>>
+* <<app-framework-option-framework>>
+* <<app-framework-compiler-framework>>
+* <<app-framework-implement-your-application>>
+* <<app-framework-registration>>
+* <<app-framework-execution>>

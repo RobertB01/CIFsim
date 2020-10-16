@@ -1,0 +1,1 @@
+INFO: Discrete variable "buff.cnt" is instantiated as variable process, but could be a local variable of an automaton process instead.

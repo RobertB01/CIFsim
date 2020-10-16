@@ -1,0 +1,7 @@
+M ended at time=0.0 (should be 0)
+Q stage 1 time=1.0 (should be 1)
+Q stage 2 time=4.0 (should be 4)
+Q stage 3 time=7.0 (should be 7)
+P ended at time=8.0 (should be 8)
+Q stage 4 time=10.0 (should be 10)
+All processes finished at time 10.00 (initial seed was 135).

@@ -1,0 +1,123 @@
+Initial state: time=0.0, p=l1, p.b1=false, p.b2=false, p.b3=false, p.b4=false, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={}
+
+Transition: event tau
+State: time=0.0, p=l2, p.b1=true, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={}
+
+Transition: event tau
+State: time=0.0, p=l3, p.b1=true, p.b2=false, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={}
+
+Transition: event tau
+State: time=0.0, p=l4, p.b1=false, p.b2=false, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={2, 3}
+
+Transition: event tau
+State: time=0.0, p=l5, p.b1=false, p.b2=true, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l6, p.b1=true, p.b2=false, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l7, p.b1=true, p.b2=false, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l8, p.b1=true, p.b2=false, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l9, p.b1=true, p.b2=false, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l10, p.b1=false, p.b2=false, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l11, p.b1=false, p.b2=false, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l12, p.b1=false, p.b2=false, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l13, p.b1=false, p.b2=false, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l14, p.b1=true, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l15, p.b1=true, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l16, p.b1=true, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l17, p.b1=true, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l18, p.b1=false, p.b2=true, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l19, p.b1=false, p.b2=true, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l20, p.b1=false, p.b2=true, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l21, p.b1=false, p.b2=true, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l22, p.b1=true, p.b2=false, p.b3=true, p.b4=false, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l23, p.b1=true, p.b2=false, p.b3=true, p.b4=false, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l24, p.b1=true, p.b2=false, p.b3=true, p.b4=false, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l25, p.b1=true, p.b2=false, p.b3=true, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l26, p.b1=false, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l27, p.b1=false, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l28, p.b1=false, p.b2=true, p.b3=false, p.b4=true, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l29, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={}, p.g="", p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l30, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={1: 6.0, 3: 5.0, 2: 7.0}, p.g="abcdef", p.i1=3, p.i2=0, p.i3=0, p.i4=0, p.li=[1, 2, 3, 4], p.r1=3.0, p.r2=3.0, p.r3=3.0, p.r4=0.0, p.si={1, 2, 3, 4}
+
+Transition: event tau
+State: time=0.0, p=l31, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 5.0}, p.g="abcdef", p.i1=4, p.i2=0, p.i3=0, p.i4=0, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=0.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l32, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 6.0}, p.g="abcdef", p.i1=4, p.i2=0, p.i3=0, p.i4=0, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=0.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l33, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=4, p.i2=0, p.i3=0, p.i4=0, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=0.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l34, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=6, p.i2=0, p.i3=0, p.i4=0, p.li=[1, 2, 3, 4], p.r1=6.0, p.r2=6.0, p.r3=6.0, p.r4=0.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l35, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=6, p.i2=0, p.i3=0, p.i4=0, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l36, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=1, p.i2=-1, p.i3=-1, p.i4=1, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l37, p.b1=false, p.b2=true, p.b3=false, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=3, p.i2=3, p.i3=-3, p.i4=-3, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l38, p.b1=true, p.b2=false, p.b3=true, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=3, p.i2=3, p.i3=-3, p.i4=-3, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l39, p.b1=true, p.b2=false, p.b3=true, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=3, p.i2=3, p.i3=-3, p.i4=-3, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l40, p.b1=true, p.b2=true, p.b3=true, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=3, p.i2=3, p.i3=-3, p.i4=-3, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Transition: event tau
+State: time=0.0, p=l41, p.b1=false, p.b2=true, p.b3=true, p.b4=false, p.dir={2: 7.0}, p.g="abcdef", p.i1=3, p.i2=3, p.i3=-3, p.i4=-3, p.li=[1, 2, 3, 4], p.r1=4.0, p.r2=4.0, p.r3=4.0, p.r4=4.0, p.si={1}
+
+Simulation resulted in deadlock.

@@ -1,0 +1,72 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-eventbased-chapter-automaton-abstraction]]
+== Event-based automaton abstraction
+
+indexterm:[event-based automaton abstraction]
+indexterm:[tools,event-based automaton abstraction]
+indexterm:[event-based synthesis toolset,event-based automaton abstraction]
+indexterm:[event-based automaton abstraction,event-based synthesis toolset]
+The event-based automaton abstraction takes an automaton, and a subset of the events
+of its alphabet that are observable. The abstraction produces a
+non-deterministic abstracted automaton with the observable events as its
+alphabet, that is weakly bisimilar to the original automaton.
+
+The tool takes a `.cif` file containing a single automaton, and the names
+of the events that are observable. The output is a `.cif` file with the
+abstracted automaton. The resulting automaton has the same kind as the input
+automaton.
+
+indexterm:[event-based automaton abstraction,start]
+
+=== Starting the automaton abstraction tool
+
+The tool can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply automaton abstraction...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply automaton abstraction...].
+
+* Use the `cifabstr` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifabstr` command line tool.
+
+indexterm:[event-based automaton abstraction,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Observable events_: Comma and/or whitespace separated absolute names of
+events that are observable.
+
+* _Output file_: The absolute or relative local file system path to the
+output CIF file. If not specified, defaults to the input file
+path, where the `.cif` file extension is removed (if present), and a
+`+_abstracted.cif+` file extension is added. The `abstracted` part of the
+default extension depends on the _Result name_ option.
+
+* _Result name_: The name to use for the abstracted automaton. If not
+specified, defaults to `abstracted`. Also affects the _Output file_ option.

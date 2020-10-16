@@ -1,0 +1,60 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tut-chapter-chi-tutorial]]
+== Chi Tutorial
+
+This manual explains using the Chi modeling language.
+
+_Topics_
+
+* <<tut-chapter-introduction,Introduction>> (global description of the aims of the language)
+
+* _Basics_: Elementary knowledge needed for writing and understanding Chi
+programs. _Start here to learn the language!_
+
+** <<tut-chapter-data-types,Data types>> (explanation of all kinds of data and their
+operations)
+
+** <<tut-chapter-statements,Statements>> (available process statements)
+
+** <<tut-chapter-functions,Functions>> (how to use functions)
+
+** <<tut-chapter-input-and-output,Input and output>> (reading/writing files, displaying output)
+
+* _Programming_: How to specify parallel executing processes using the Chi
+language.
+
+** <<tut-chapter-stochastic-behavior,Modeling stochastic behavior>> (how to model varying behavior)
+
+** <<tut-chapter-processes,Processes>> (creating and running processes)
+
+** <<tut-chapter-channels,Channels>> (connecting processes with each other)
+
+* _Modeling_: Modeling a real system with Chi.
+
+** <<tut-chapter-buffers,Buffers>> (modeling temporary storage of items)
+
+** <<tut-chapter-servers-with-time,Servers>> (modeling machines)
+
+** <<tut-chapter-conveyors,Conveyors>> (modeling conveyor belts)
+
+** <<tut-chapter-simulation-and-experiments,Experiments>> (performing simulation experiments)
+
+* _Visualization_: Making an animated graphical display of a system with the
+Chi simulator.
+
+** <<tut-chapter-svg-visualization,SVG visualization>> (how to attach an SVG visualization)
+
+** <<tut-chapter-svg-example,SVG example>> (an SVG example)

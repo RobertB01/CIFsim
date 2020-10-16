@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-element-int-set-string.chi": Semantic error at line 18, column 21: Type of left operand does not match with the elements of the right operand (expected "string", found "int").

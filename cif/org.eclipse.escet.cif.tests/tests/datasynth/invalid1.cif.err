@@ -1,0 +1,39 @@
+ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
+ - Unsupported automaton "aut": only plant and requirement automata are supported.
+ - Unsupported automaton "p1": unsupported part "p1.v1 > 0" of initialization predicate "p1.v1 > 0": binary operator ">" on values of types "real" and "int[0..0]" is not supported.
+ - Unsupported automaton "r5": unsupported part "-1" of invariant "r5.evt needs r5.v = -1": value "-1" is unsupported, as it is negative.
+ - Unsupported automaton "r5": unsupported part "-1" of invariant "r5.v = -1 disables r5.evt": value "-1" is unsupported, as it is negative.
+ - Unsupported automaton "r5": unsupported part "-1" of state invariant "r5.v = -1": value "-1" is unsupported, as it is negative.
+ - Unsupported automaton "r5": unsupported part "[true][0]" of combined guard "true and [true][0]": predicate is not supported.
+ - Unsupported automaton "r5": unsupported part "[true][0]" of state invariant "[true][0]": predicate is not supported.
+ - Unsupported automaton "r5": unsupported part "r1.x" of state invariant "r5.v = r5.v div r1.x": value is too complex to be statically evaluated.
+ - Unsupported automaton "r5": unsupported part "r1.x" of state invariant "r5.v = r5.v mod r1.x": value is too complex to be statically evaluated.
+ - Unsupported automaton "r5": unsupported part "r5.v * 2" of state invariant "r5.v = r5.v * 2": value is too complex to be statically evaluated.
+ - Unsupported automaton "r5": unsupported part "r5.v < 5.0" of state invariant "r5.v < 5.0": binary operator "<" on values of types "int[0..5]" and "real" is not supported.
+ - Unsupported automaton "r5": unsupported part "r5.v div -2" of state invariant "r5.v = r5.v div -2": "r5.v div -2" performs division/modulus by a negative value, which is not supported.
+ - Unsupported automaton "r5": unsupported part "r5.v div zero" of state invariant "r5.v = r5.v div zero": "r5.v div zero" always results in division by zero.
+ - Unsupported automaton "r5": unsupported part "r5.v mod -3" of state invariant "r5.v = r5.v mod -3": "r5.v mod -3" performs division/modulus by a negative value, which is not supported.
+ - Unsupported automaton "r5": unsupported part "r5.v mod zero" of state invariant "r5.v = r5.v mod zero": "r5.v mod zero" always results in division by zero.
+ - Unsupported automaton "r5": unsupported part "{1} sub {2}" of state invariant "{1} sub {2}": binary operator "sub" is not supported.
+ - Unsupported automaton "req": requirement uses channels: "g.chan1", "g.chan2".
+ - Unsupported automaton "sup": only plant and requirement automata are supported.
+ - Unsupported event "g.evt": event is not declared as controllable or uncontrollable.
+ - Unsupported group "g2a": only requirement invariants are supported.
+ - Unsupported group "g2b": only requirement invariants are supported.
+ - Unsupported group "g2c": only requirement invariants are supported.
+ - Unsupported group "g3a": only requirement invariants are supported.
+ - Unsupported group "g3b": only requirement invariants are supported.
+ - Unsupported group "g3c": only requirement invariants are supported.
+ - Unsupported group "g4a": only requirement invariants are supported.
+ - Unsupported group "g4b": only requirement invariants are supported.
+ - Unsupported group "g4c": only requirement invariants are supported.
+ - Unsupported location "l1" of automaton "r1": edges with "tau" events are not supported.
+ - Unsupported location "l1" of automaton "r1": edges without events (implicitly event "tau") are not supported.
+ - Unsupported location of automaton "p4": edges with "tau" events are not supported.
+ - Unsupported location of automaton "p4": edges without events (implicitly event "tau") are not supported.
+ - Unsupported location of automaton "r2": edges with "tau" events are not supported.
+ - Unsupported location of automaton "r2": edges without events (implicitly event "tau") are not supported.
+ - Unsupported specification: unsupported part "[true][0]" of initialization predicate "false and [true][0]": predicate is not supported.
+ - Unsupported specification: unsupported part "[true][0]" of marker predicate "true and [true][0]": predicate is not supported.
+ - Unsupported variable "p1.v1": variables of type "real" are not supported.
+ - Unsupported variable "p1.v2": variables with rangeless integer types are not supported.

@@ -1,0 +1,24 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    list int xs, ys;
+
+    xs = [1,2,3,4];
+    ys = del(xs, 2);
+    writeln("%s == [1,2,4]\n", ys);
+
+    writeln("%s contains 5: %s == false\n", xs, 5 in xs);
+    writeln("%s contains 1: %s == true\n",  xs, 1 in xs);
+
+    ys = xs[:] + xs[::] + xs[1:] + xs[:-1] + xs[::2] + xs[-1:0:-1];
+end

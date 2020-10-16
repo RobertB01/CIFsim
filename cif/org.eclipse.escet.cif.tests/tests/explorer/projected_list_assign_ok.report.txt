@@ -1,0 +1,52 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location "X" of automaton "A"
+
+    Valuation:
+        A.xs = [1, 2, 3]
+        A.ys = [[1, 23], [4, 5, 6]]
+
+    Edges:
+        edge tau goto state 2
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "Y" of automaton "A"
+
+    Valuation:
+        A.xs = [1, 5, 3]
+        A.ys = [[1, 23], [4, 5, 6]]
+
+    Edges:
+        edge tau goto state 3
+
+State 3:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "Z" of automaton "A"
+
+    Valuation:
+        A.xs = [1, 5, 3]
+        A.ys = [[1, 23], [8, 5, 6]]
+
+    Edges:
+        edge tau goto state 4
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "done" of automaton "A"
+
+    Valuation:
+        A.xs = [1, 5, 3]
+        A.ys = [[7], [8, 9, 6]]

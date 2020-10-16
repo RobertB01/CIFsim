@@ -1,0 +1,4 @@
+ERROR: File "models_invalid/no_start_symbol.setext": Semantic error at line 1, column 1: No scanner state accepts end-of-file.
+ERROR: File "models_invalid/no_start_symbol.setext": Semantic error at line 1, column 1: The specification is missing a start/main symbol.
+WARNING: File "models_invalid/no_start_symbol.setext": Semantic warning at line 18, column 1: Non-terminal "X" can not be reached from any of the main/start symbols.
+ERROR: Failed to load SeText file "models_invalid/no_start_symbol.setext": the file has errors.

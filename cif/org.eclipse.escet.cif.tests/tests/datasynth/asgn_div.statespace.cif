@@ -1,0 +1,30 @@
+group p:
+  controllable ed1;
+  controllable ed2;
+  controllable ed3;
+  controllable ed4;
+  controllable ed5;
+end
+automaton statespace:
+  alphabet p.ed1, p.ed2, p.ed3, p.ed4, p.ed5;
+  location loc1:
+    initial;
+    edge p.ed1 goto loc7;
+  location loc2:
+    initial;
+    edge p.ed4 goto loc7;
+  location loc3:
+    initial;
+    edge p.ed3 goto loc7;
+  location loc4:
+    initial;
+    edge p.ed3 goto loc7;
+  location loc5:
+    initial;
+    edge p.ed2 goto loc7;
+  location loc6:
+    initial;
+    edge p.ed2 goto loc7;
+  location loc7:
+    marked;
+end

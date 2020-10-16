@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/state_does_not_exist.setext": Semantic error at line 16, column 10: Scanner state "Y" does not exist.
+ERROR: Failed to load SeText file "models_invalid/state_does_not_exist.setext": the file has errors.

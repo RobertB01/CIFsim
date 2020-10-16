@@ -1,0 +1,6 @@
+Initial state: time=0.0, a=*, $time=0.0, $time'=2.0
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, a=*, $time=20.000000000000004, $time'=2.0
+
+Simulation ended due to reaching the user-provided simulation end time.

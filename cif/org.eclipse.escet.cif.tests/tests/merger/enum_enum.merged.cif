@@ -1,0 +1,20 @@
+enum e = a, b;
+const e c = a;
+enum f = g, h;
+const f c1 = g;
+enum i = j, k;
+const i c2 = j;
+automaton aut1:
+  disc e x;
+  invariant x = b;
+  location:
+    initial;
+end
+automaton aut2:
+  disc e x;
+  invariant x = b;
+  location:
+    initial;
+end
+invariant c = b;
+invariant c = b;

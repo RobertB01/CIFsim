@@ -1,0 +1,2 @@
+ERROR: Failed to statically evaluate the "floor(sqrt(-1.0))" part of predicate "p.x > floor(sqrt(-1.0))".
+CAUSE: Invalid operation: sqrt(-1.0).

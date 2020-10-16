@@ -1,0 +1,12 @@
+event e;
+controllable c1;
+controllable c2;
+uncontrollable u1;
+uncontrollable u2;
+controllable c3;
+uncontrollable u3;
+automaton aut:
+  location:
+    initial;
+    edge e, c1, c2, c3, u1, u2, u3;
+end

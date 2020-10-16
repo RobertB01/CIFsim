@@ -1,0 +1,2 @@
+ERROR: File "tchecker/invalid_cast.tooldef": Semantic error at line 14, column 14: Cannot cast from type "set int" to type "list int".
+ERROR: Failed to load ToolDef file "tchecker/invalid_cast.tooldef": the file has errors.

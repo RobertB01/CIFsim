@@ -1,0 +1,1 @@
+Error: File "spec/statements/finish-real.chi": Semantic error at line 14, column 12: Instance type expected (found "real").

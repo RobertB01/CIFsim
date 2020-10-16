@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/parser_class_generic.setext": Semantic error at line 19, column 12: Generic type "some.Class<T>" is currently not supported for start symbol "X".
+ERROR: Failed to load SeText file "models_invalid/parser_class_generic.setext": the file has errors.

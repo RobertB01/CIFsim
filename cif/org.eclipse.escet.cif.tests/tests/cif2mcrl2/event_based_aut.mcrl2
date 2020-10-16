@@ -1,0 +1,9 @@
+sort LocSort_A = struct loc_A_P | loc_A_Q;
+
+proc BehProc_A(Locvar_A : LocSort_A) =
+  (Locvar_A == loc_A_P) -> a . BehProc_A(loc_A_Q) +
+  (Locvar_A == loc_A_Q) -> b . BehProc_A(loc_A_P);
+
+act a, renamed_a, b, renamed_b, c, renamed_c;
+
+init BehProc_A(loc_A_P);

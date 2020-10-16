@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_const_const_incompat_values.in1.cif" with CIF specification "merger/err_const_const_incompat_values.in2.cif" failed.
+CAUSE: Merging constants with name "g.i" failed: values "2" and "3" are not the same.

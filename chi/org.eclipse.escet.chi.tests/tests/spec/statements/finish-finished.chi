@@ -1,0 +1,32 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc P():
+  delay 5
+end
+
+model M():
+  inst x;
+
+  start x = P();
+
+  writeln("finished %b", finished(x));
+
+  delay 1;
+  writeln("finished %b", finished(x));
+
+  finish x;
+  writeln("finished %b at time=%s (should be 5)", finished(x), time);
+
+  delay 6;
+  writeln("finished %b", finished(x));
+end

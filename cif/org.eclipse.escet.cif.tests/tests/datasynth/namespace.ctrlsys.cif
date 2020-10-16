@@ -1,0 +1,40 @@
+controllable c;
+group p:
+  uncontrollable u;
+  controllable c2;
+end
+group a:
+  group b:
+    group c:
+      plant automaton p:
+        location:
+          initial;
+          marked;
+          edge .c;
+          edge .p.u;
+          edge .p.c2;
+      end
+      group g:
+        supervisor automaton r:
+          disc int[0..3] x in any;
+          disc int[0..3] y in any;
+          location loc1:
+            initial;
+            marked;
+            edge .p.u do x := (x + 1) mod 4;
+            edge .c when x mod 2 = 1;
+            edge .p.c2 when y = 0 goto loc2;
+          location loc2;
+        end
+      end
+      supervisor automaton sup:
+        alphabet .c, .p.c2;
+        location:
+          initial;
+          marked;
+          edge .c when (g.r.x = 1 or g.r.x = 3) and g.r.loc1;
+          edge .p.c2 when false;
+      end
+    end
+  end
+end

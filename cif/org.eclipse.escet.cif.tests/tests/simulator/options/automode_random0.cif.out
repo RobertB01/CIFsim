@@ -1,0 +1,64 @@
+Initial state: time=0.0, p=*, p.x=0, p.y=0
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e2
+State: time=0.0, p=*, p.x=0, p.y=1
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e2
+State: time=0.0, p=*, p.x=0, p.y=2
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e1
+State: time=0.0, p=*, p.x=1, p.y=2
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e2
+State: time=0.0, p=*, p.x=1, p.y=3
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e2
+State: time=0.0, p=*, p.x=1, p.y=4
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e1
+State: time=0.0, p=*, p.x=2, p.y=4
+
+Possible transitions:
+  #1: event p.e1
+  #2: event p.e2
+
+Transition: event p.e2
+State: time=0.0, p=*, p.x=2, p.y=5
+
+Transition: event p.e1
+State: time=0.0, p=*, p.x=3, p.y=5
+
+Transition: event p.e1
+State: time=0.0, p=*, p.x=4, p.y=5
+
+Transition: event p.e1
+State: time=0.0, p=*, p.x=5, p.y=5
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, p=*, p.x=5, p.y=5
+
+Simulation ended due to reaching the user-provided simulation end time.

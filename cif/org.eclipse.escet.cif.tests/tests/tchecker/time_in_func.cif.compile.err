@@ -1,0 +1,2 @@
+ERROR: File "tchecker/time_in_func.cif": Semantic error at line 15, column 10: Invalid use of time dependent variable "time" in a function.
+ERROR: Failed to load CIF file "tchecker/time_in_func.cif": the file has errors.

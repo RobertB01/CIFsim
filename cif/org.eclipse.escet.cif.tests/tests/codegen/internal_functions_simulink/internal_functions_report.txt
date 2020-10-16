@@ -1,0 +1,41 @@
+Input/output report of the internal_functions.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+aut 1
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+No variables are available here.
+
+Outputs
+-------
+aut       1
+aut.combi 2
+aut.v00   3
+aut.v01   4
+aut.v02   5
+aut.v03   6
+aut.v04   7
+aut.v05   8
+aut.v06   9
+aut.v07   10
+aut.v08   11
+aut.v09   12
+aut.v10   13
+aut.v11   14
+aut.v12   15
+aut.v13   16
+aut.v14   17
+aut.v15   18
+aut.v16   19
+aut.v17   20
+aut.v18   21
+aut.v19   22

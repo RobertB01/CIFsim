@@ -1,0 +1,1222 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+package org.eclipse.escet.tooldef.parser;
+
+import java.util.List;
+
+import org.eclipse.escet.setext.runtime.Parser;
+import org.eclipse.escet.setext.runtime.Token;
+import org.eclipse.escet.tooldef.metamodel.tooldef.Declaration;
+import org.eclipse.escet.tooldef.metamodel.tooldef.Script;
+import org.eclipse.escet.tooldef.metamodel.tooldef.ToolParameter;
+import org.eclipse.escet.tooldef.metamodel.tooldef.TypeDecl;
+import org.eclipse.escet.tooldef.metamodel.tooldef.TypeParam;
+import org.eclipse.escet.tooldef.metamodel.tooldef.expressions.Expression;
+import org.eclipse.escet.tooldef.metamodel.tooldef.expressions.MapEntry;
+import org.eclipse.escet.tooldef.metamodel.tooldef.expressions.ToolArgument;
+import org.eclipse.escet.tooldef.metamodel.tooldef.expressions.ToolInvokeExpression;
+import org.eclipse.escet.tooldef.metamodel.tooldef.expressions.ToolRef;
+import org.eclipse.escet.tooldef.metamodel.tooldef.statements.AddressableDecl;
+import org.eclipse.escet.tooldef.metamodel.tooldef.statements.ElifStatement;
+import org.eclipse.escet.tooldef.metamodel.tooldef.statements.Statement;
+import org.eclipse.escet.tooldef.metamodel.tooldef.types.ToolDefType;
+
+/**
+ * Call back hook methods for:
+ * <ul>
+ *  <li>{@link ToolDefScanner}</li>
+ *  <li>{@link ToolDefParser}</li>
+ * </ul>
+ */
+public final class ToolDefHooks
+implements ToolDefScanner.Hooks,
+           ToolDefParser.Hooks
+{
+    @Override
+    public void setParser(Parser<?> parser) {
+    }
+
+    @Override
+    public void processStringLiteral(Token token) {
+    }
+
+    @Override
+    public void stripDollar(Token token) {
+    }
+
+    @Override // BuiltInIoTool : @ERRKW;
+    public Token parseBuiltInIoTool1(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInIoTool : @ERRLNKW;
+    public Token parseBuiltInIoTool2(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInIoTool : @OUTKW;
+    public Token parseBuiltInIoTool3(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInIoTool : @OUTLNKW;
+    public Token parseBuiltInIoTool4(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInGenericTool : @APPKW;
+    public Token parseBuiltInGenericTool1(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInGenericTool : @EXECKW;
+    public Token parseBuiltInGenericTool2(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInGenericTool : @TOOLDEFKW;
+    public Token parseBuiltInGenericTool3(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @ABSPATHKW;
+    public Token parseBuiltInPathTool01(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @BASENAMEKW;
+    public Token parseBuiltInPathTool02(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @CHDIRKW;
+    public Token parseBuiltInPathTool03(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @CHFILEEXTKW;
+    public Token parseBuiltInPathTool04(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @CURDIRKW;
+    public Token parseBuiltInPathTool05(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @DIRNAMEKW;
+    public Token parseBuiltInPathTool06(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @FILEEXTKW;
+    public Token parseBuiltInPathTool07(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @HASFILEEXTKW;
+    public Token parseBuiltInPathTool08(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @PATHJOINKW;
+    public Token parseBuiltInPathTool09(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInPathTool : @SCRIPTPATHKW;
+    public Token parseBuiltInPathTool10(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @CPDIRKW;
+    public Token parseBuiltInFileTool01(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @CPFILEKW;
+    public Token parseBuiltInFileTool02(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @DIFFKW;
+    public Token parseBuiltInFileTool03(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @EXISTSKW;
+    public Token parseBuiltInFileTool04(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @FILENEWERKW;
+    public Token parseBuiltInFileTool05(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @FILESIZEKW;
+    public Token parseBuiltInFileTool06(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @FINDKW;
+    public Token parseBuiltInFileTool07(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @ISDIRKW;
+    public Token parseBuiltInFileTool08(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @ISFILEKW;
+    public Token parseBuiltInFileTool09(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @MKDIRKW;
+    public Token parseBuiltInFileTool10(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @MVDIRKW;
+    public Token parseBuiltInFileTool11(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @MVFILEKW;
+    public Token parseBuiltInFileTool12(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @READLINESKW;
+    public Token parseBuiltInFileTool13(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @RMDIRKW;
+    public Token parseBuiltInFileTool14(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @RMFILEKW;
+    public Token parseBuiltInFileTool15(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInFileTool : @WRITEFILEKW;
+    public Token parseBuiltInFileTool16(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @ABSKW;
+    public Token parseBuiltInDataTool01(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @CEILKW;
+    public Token parseBuiltInDataTool02(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @CONTAINSKW;
+    public Token parseBuiltInDataTool03(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @DELKW;
+    public Token parseBuiltInDataTool04(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @DELIDXKW;
+    public Token parseBuiltInDataTool05(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @EMPTYKW;
+    public Token parseBuiltInDataTool06(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @ENDSWITHKW;
+    public Token parseBuiltInDataTool07(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @ENTRIESKW;
+    public Token parseBuiltInDataTool08(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @ENUMERATEKW;
+    public Token parseBuiltInDataTool09(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @FLOORKW;
+    public Token parseBuiltInDataTool10(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @FMTKW;
+    public Token parseBuiltInDataTool11(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @INDEXOFKW;
+    public Token parseBuiltInDataTool12(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @JOINKW;
+    public Token parseBuiltInDataTool13(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @KEYSKW;
+    public Token parseBuiltInDataTool14(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @LASTINDEXOFKW;
+    public Token parseBuiltInDataTool15(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @LNKW;
+    public Token parseBuiltInDataTool16(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @LOGKW;
+    public Token parseBuiltInDataTool17(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @LOWERKW;
+    public Token parseBuiltInDataTool18(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @LTRIMKW;
+    public Token parseBuiltInDataTool19(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @MAXKW;
+    public Token parseBuiltInDataTool20(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @MINKW;
+    public Token parseBuiltInDataTool21(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @POWKW;
+    public Token parseBuiltInDataTool22(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @RANGEKW;
+    public Token parseBuiltInDataTool23(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @REPLACEKW;
+    public Token parseBuiltInDataTool24(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @REVERSEKW;
+    public Token parseBuiltInDataTool25(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @ROUNDKW;
+    public Token parseBuiltInDataTool26(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @RTRIMKW;
+    public Token parseBuiltInDataTool27(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @SIZEKW;
+    public Token parseBuiltInDataTool28(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @SORTEDKW;
+    public Token parseBuiltInDataTool29(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @SPLITKW;
+    public Token parseBuiltInDataTool30(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @SQRTKW;
+    public Token parseBuiltInDataTool31(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @STARTSWITHKW;
+    public Token parseBuiltInDataTool32(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @STRKW;
+    public Token parseBuiltInDataTool33(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @STRDUPKW;
+    public Token parseBuiltInDataTool34(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @SUBSETKW;
+    public Token parseBuiltInDataTool35(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @TRIMKW;
+    public Token parseBuiltInDataTool36(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @UPPERKW;
+    public Token parseBuiltInDataTool37(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInDataTool : @VALUESKW;
+    public Token parseBuiltInDataTool38(Token t1) {
+        // return null;
+    }
+
+    @Override // Script : ;
+    public Script parseScript1() {
+        // return null;
+    }
+
+    @Override // Script : Decls;
+    public Script parseScript2(List<Declaration> l1) {
+        // return null;
+    }
+
+    @Override // Decls : Decl;
+    public List<Declaration> parseDecls1(List<Declaration> l1) {
+        // return null;
+    }
+
+    @Override // Decls : Decls Decl;
+    public List<Declaration> parseDecls2(List<Declaration> l1, List<Declaration> l2) {
+        // return null;
+    }
+
+    @Override // Decl : Import;
+    public List<Declaration> parseDecl1(List<Declaration> l1) {
+        // return null;
+    }
+
+    @Override // Decl : TYPEKW TypeDecls SEMICOLTK;
+    public List<Declaration> parseDecl2(List<Declaration> l2) {
+        // return null;
+    }
+
+    @Override // Decl : @TOOLKW @IDENTIFIERTK OptTypeParams ToolParameters COLONTK OptStatements @ENDKW;
+    public List<Declaration> parseDecl3(Token t1, Token t2, List<TypeParam> l3, List<ToolParameter> l4, List<Statement> l6, Token t7) {
+        // return null;
+    }
+
+    @Override // Decl : @TOOLKW Types @IDENTIFIERTK OptTypeParams ToolParameters COLONTK OptStatements @ENDKW;
+    public List<Declaration> parseDecl4(Token t1, List<ToolDefType> l2, Token t3, List<TypeParam> l4, List<ToolParameter> l5, List<Statement> l7, Token t8) {
+        // return null;
+    }
+
+    @Override // Decl : Statement;
+    public List<Declaration> parseDecl5(List<Statement> l1) {
+        // return null;
+    }
+
+    @Override // Import : IMPORTKW @STRINGTK SEMICOLTK;
+    public List<Declaration> parseImport1(Token t2) {
+        // return null;
+    }
+
+    @Override // Import : IMPORTKW @STRINGTK ASKW @IDENTIFIERTK SEMICOLTK;
+    public List<Declaration> parseImport2(Token t2, Token t4) {
+        // return null;
+    }
+
+    @Override // Import : IMPORTKW Name SEMICOLTK;
+    public List<Declaration> parseImport3(Token t2) {
+        // return null;
+    }
+
+    @Override // Import : IMPORTKW Name ASKW @IDENTIFIERTK SEMICOLTK;
+    public List<Declaration> parseImport4(Token t2, Token t4) {
+        // return null;
+    }
+
+    @Override // Import : IMPORTKW Name COLONTK Name SEMICOLTK;
+    public List<Declaration> parseImport5(Token t2, Token t4) {
+        // return null;
+    }
+
+    @Override // Import : IMPORTKW Name COLONTK Name ASKW @IDENTIFIERTK SEMICOLTK;
+    public List<Declaration> parseImport6(Token t2, Token t4, Token t6) {
+        // return null;
+    }
+
+    @Override // Import : FROMKW @STRINGTK IMPORTKW ImportParts SEMICOLTK;
+    public List<Declaration> parseImport7(Token t2, List<Declaration> l4) {
+        // return null;
+    }
+
+    @Override // ImportParts : @ASTERISKTK;
+    public List<Declaration> parseImportParts1(Token t1) {
+        // return null;
+    }
+
+    @Override // ImportParts : @IDENTIFIERTK;
+    public List<Declaration> parseImportParts2(Token t1) {
+        // return null;
+    }
+
+    @Override // ImportParts : @IDENTIFIERTK ASKW @IDENTIFIERTK;
+    public List<Declaration> parseImportParts3(Token t1, Token t3) {
+        // return null;
+    }
+
+    @Override // ImportParts : ImportParts COMMATK @ASTERISKTK;
+    public List<Declaration> parseImportParts4(List<Declaration> l1, Token t3) {
+        // return null;
+    }
+
+    @Override // ImportParts : ImportParts COMMATK @IDENTIFIERTK;
+    public List<Declaration> parseImportParts5(List<Declaration> l1, Token t3) {
+        // return null;
+    }
+
+    @Override // ImportParts : ImportParts COMMATK @IDENTIFIERTK ASKW @IDENTIFIERTK;
+    public List<Declaration> parseImportParts6(List<Declaration> l1, Token t3, Token t5) {
+        // return null;
+    }
+
+    @Override // TypeDecls : TypeDecl;
+    public List<Declaration> parseTypeDecls1(TypeDecl t1) {
+        // return null;
+    }
+
+    @Override // TypeDecls : TypeDecls COMMATK TypeDecl;
+    public List<Declaration> parseTypeDecls2(List<Declaration> l1, TypeDecl t3) {
+        // return null;
+    }
+
+    @Override // TypeDecl : @IDENTIFIERTK EQTK Type;
+    public TypeDecl parseTypeDecl1(Token t1, ToolDefType t3) {
+        // return null;
+    }
+
+    @Override // OptTypeParams : ;
+    public List<TypeParam> parseOptTypeParams1() {
+        // return null;
+    }
+
+    @Override // OptTypeParams : LTTK Names GTTK;
+    public List<TypeParam> parseOptTypeParams2(List<Token> l2) {
+        // return null;
+    }
+
+    @Override // ToolParameters : PAROPENTK PARCLOSETK;
+    public List<ToolParameter> parseToolParameters1() {
+        // return null;
+    }
+
+    @Override // ToolParameters : PAROPENTK ToolParams PARCLOSETK;
+    public List<ToolParameter> parseToolParameters2(List<ToolParameter> l2) {
+        // return null;
+    }
+
+    @Override // ToolParams : Type ToolParam;
+    public List<ToolParameter> parseToolParams1(ToolDefType t1, ToolParameter t2) {
+        // return null;
+    }
+
+    @Override // ToolParams : Type DOTSTK ToolParam;
+    public List<ToolParameter> parseToolParams2(ToolDefType t1, ToolParameter t3) {
+        // return null;
+    }
+
+    @Override // ToolParams : ToolParams COMMATK Type ToolParam;
+    public List<ToolParameter> parseToolParams3(List<ToolParameter> l1, ToolDefType t3, ToolParameter t4) {
+        // return null;
+    }
+
+    @Override // ToolParams : ToolParams COMMATK Type DOTSTK ToolParam;
+    public List<ToolParameter> parseToolParams4(List<ToolParameter> l1, ToolDefType t3, ToolParameter t5) {
+        // return null;
+    }
+
+    @Override // ToolParam : @IDENTIFIERTK;
+    public ToolParameter parseToolParam1(Token t1) {
+        // return null;
+    }
+
+    @Override // ToolParam : @IDENTIFIERTK @EQTK Expression;
+    public ToolParameter parseToolParam2(Token t1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // OptStatements : ;
+    public List<Statement> parseOptStatements1() {
+        // return null;
+    }
+
+    @Override // OptStatements : OptStatements Statement;
+    public List<Statement> parseOptStatements2(List<Statement> l1, List<Statement> l2) {
+        // return null;
+    }
+
+    @Override // Statement : Type VarDecls SEMICOLTK;
+    public List<Statement> parseStatement01(ToolDefType t1, List<Statement> l2) {
+        // return null;
+    }
+
+    @Override // Statement : @WHILEKW Expression COLONTK OptStatements @ENDKW;
+    public List<Statement> parseStatement02(Token t1, Expression e2, List<Statement> l4, Token t5) {
+        // return null;
+    }
+
+    @Override // Statement : @WHILEKW Expression COLONCOLONTK Statement;
+    public List<Statement> parseStatement03(Token t1, Expression e2, List<Statement> l4) {
+        // return null;
+    }
+
+    @Override // Statement : @FORKW AddressableDecls INKW Expression COLONTK OptStatements @ENDKW;
+    public List<Statement> parseStatement04(Token t1, List<AddressableDecl> l2, Expression e4, List<Statement> l6, Token t7) {
+        // return null;
+    }
+
+    @Override // Statement : @FORKW AddressableDecls INKW Expression COLONCOLONTK Statement;
+    public List<Statement> parseStatement05(Token t1, List<AddressableDecl> l2, Expression e4, List<Statement> l6) {
+        // return null;
+    }
+
+    @Override // Statement : @IFKW Expression COLONTK OptStatements OptElifStatements OptElseStatement @ENDKW;
+    public List<Statement> parseStatement06(Token t1, Expression e2, List<Statement> l4, List<ElifStatement> l5, List<Statement> l6, Token t7) {
+        // return null;
+    }
+
+    @Override // Statement : @IFKW Expression COLONCOLONTK Statement;
+    public List<Statement> parseStatement07(Token t1, Expression e2, List<Statement> l4) {
+        // return null;
+    }
+
+    @Override // Statement : @BREAKKW SEMICOLTK;
+    public List<Statement> parseStatement08(Token t1) {
+        // return null;
+    }
+
+    @Override // Statement : @CONTINUEKW SEMICOLTK;
+    public List<Statement> parseStatement09(Token t1) {
+        // return null;
+    }
+
+    @Override // Statement : Addressables @EQTK Expressions SEMICOLTK;
+    public List<Statement> parseStatement10(List<Expression> l1, Token t2, List<Expression> l3) {
+        // return null;
+    }
+
+    @Override // Statement : @RETURNKW SEMICOLTK;
+    public List<Statement> parseStatement11(Token t1) {
+        // return null;
+    }
+
+    @Override // Statement : @RETURNKW Expressions SEMICOLTK;
+    public List<Statement> parseStatement12(Token t1, List<Expression> l2) {
+        // return null;
+    }
+
+    @Override // Statement : ToolInvokeExpression SEMICOLTK;
+    public List<Statement> parseStatement13(ToolInvokeExpression t1) {
+        // return null;
+    }
+
+    @Override // Statement : @EXITKW SEMICOLTK;
+    public List<Statement> parseStatement14(Token t1) {
+        // return null;
+    }
+
+    @Override // Statement : @EXITKW Expression SEMICOLTK;
+    public List<Statement> parseStatement15(Token t1, Expression e2) {
+        // return null;
+    }
+
+    @Override // VarDecls : VarDecl;
+    public List<Statement> parseVarDecls1(Statement s1) {
+        // return null;
+    }
+
+    @Override // VarDecls : VarDecls COMMATK VarDecl;
+    public List<Statement> parseVarDecls2(List<Statement> l1, Statement s3) {
+        // return null;
+    }
+
+    @Override // VarDecl : @IDENTIFIERTK;
+    public Statement parseVarDecl1(Token t1) {
+        // return null;
+    }
+
+    @Override // VarDecl : @IDENTIFIERTK @EQTK Expression;
+    public Statement parseVarDecl2(Token t1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // OptElifStatements : ;
+    public List<ElifStatement> parseOptElifStatements1() {
+        // return null;
+    }
+
+    @Override // OptElifStatements : OptElifStatements @ELIFKW Expression COLONTK OptStatements;
+    public List<ElifStatement> parseOptElifStatements2(List<ElifStatement> l1, Token t2, Expression e3, List<Statement> l5) {
+        // return null;
+    }
+
+    @Override // OptElseStatement : ;
+    public List<Statement> parseOptElseStatement1() {
+        // return null;
+    }
+
+    @Override // OptElseStatement : ELSEKW OptStatements;
+    public List<Statement> parseOptElseStatement2(List<Statement> l2) {
+        // return null;
+    }
+
+    @Override // AddressableDecls : AddressableDecl;
+    public List<AddressableDecl> parseAddressableDecls1(AddressableDecl a1) {
+        // return null;
+    }
+
+    @Override // AddressableDecls : AddressableDecls COMMATK AddressableDecl;
+    public List<AddressableDecl> parseAddressableDecls2(List<AddressableDecl> l1, AddressableDecl a3) {
+        // return null;
+    }
+
+    @Override // AddressableDecl : @IDENTIFIERTK;
+    public AddressableDecl parseAddressableDecl1(Token t1) {
+        // return null;
+    }
+
+    @Override // AddressableDecl : @PAROPENTK AddressableDecl COMMATK AddressableDecls PARCLOSETK;
+    public AddressableDecl parseAddressableDecl2(Token t1, AddressableDecl a2, List<AddressableDecl> l4) {
+        // return null;
+    }
+
+    @Override // Addressables : Addressable;
+    public List<Expression> parseAddressables1(Expression e1) {
+        // return null;
+    }
+
+    @Override // Addressables : Addressables COMMATK Addressable;
+    public List<Expression> parseAddressables2(List<Expression> l1, Expression e3) {
+        // return null;
+    }
+
+    @Override // Addressable : @IDENTIFIERTK;
+    public Expression parseAddressable1(Token t1) {
+        // return null;
+    }
+
+    @Override // Addressable : @IDENTIFIERTK Projections;
+    public Expression parseAddressable2(Token t1, List<Expression> l2) {
+        // return null;
+    }
+
+    @Override // Addressable : @PAROPENTK Addressable COMMATK Addressables PARCLOSETK;
+    public Expression parseAddressable3(Token t1, Expression e2, List<Expression> l4) {
+        // return null;
+    }
+
+    @Override // Projections : Projection;
+    public List<Expression> parseProjections1(Expression e1) {
+        // return null;
+    }
+
+    @Override // Projections : Projections Projection;
+    public List<Expression> parseProjections2(List<Expression> l1, Expression e2) {
+        // return null;
+    }
+
+    @Override // Projection : @SQOPENTK Expression SQCLOSETK;
+    public Expression parseProjection1(Token t1, Expression e2) {
+        // return null;
+    }
+
+    @Override // Types : Type;
+    public List<ToolDefType> parseTypes1(ToolDefType t1) {
+        // return null;
+    }
+
+    @Override // Types : Types COMMATK Type;
+    public List<ToolDefType> parseTypes2(List<ToolDefType> l1, ToolDefType t3) {
+        // return null;
+    }
+
+    @Override // Type : @BOOLKW;
+    public ToolDefType parseType01(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @BOOLKW QUESTIONTK;
+    public ToolDefType parseType02(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @INTKW;
+    public ToolDefType parseType03(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @INTKW QUESTIONTK;
+    public ToolDefType parseType04(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @LONGKW;
+    public ToolDefType parseType05(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @LONGKW QUESTIONTK;
+    public ToolDefType parseType06(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @DOUBLEKW;
+    public ToolDefType parseType07(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @DOUBLEKW QUESTIONTK;
+    public ToolDefType parseType08(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @STRINGKW;
+    public ToolDefType parseType09(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @STRINGKW QUESTIONTK;
+    public ToolDefType parseType10(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @LISTKW Type;
+    public ToolDefType parseType11(Token t1, ToolDefType t2) {
+        // return null;
+    }
+
+    @Override // Type : @LISTKW QUESTIONTK Type;
+    public ToolDefType parseType12(Token t1, ToolDefType t3) {
+        // return null;
+    }
+
+    @Override // Type : @SETKW Type;
+    public ToolDefType parseType13(Token t1, ToolDefType t2) {
+        // return null;
+    }
+
+    @Override // Type : @SETKW QUESTIONTK Type;
+    public ToolDefType parseType14(Token t1, ToolDefType t3) {
+        // return null;
+    }
+
+    @Override // Type : @MAPKW PAROPENTK Type COLONTK Type PARCLOSETK;
+    public ToolDefType parseType15(Token t1, ToolDefType t3, ToolDefType t5) {
+        // return null;
+    }
+
+    @Override // Type : @MAPKW QUESTIONTK PAROPENTK Type COLONTK Type PARCLOSETK;
+    public ToolDefType parseType16(Token t1, ToolDefType t4, ToolDefType t6) {
+        // return null;
+    }
+
+    @Override // Type : @TUPLEKW PAROPENTK Type COMMATK Types PARCLOSETK;
+    public ToolDefType parseType17(Token t1, ToolDefType t3, List<ToolDefType> l5) {
+        // return null;
+    }
+
+    @Override // Type : @TUPLEKW QUESTIONTK PAROPENTK Type COMMATK Types PARCLOSETK;
+    public ToolDefType parseType18(Token t1, ToolDefType t4, List<ToolDefType> l6) {
+        // return null;
+    }
+
+    @Override // Type : @OBJECTKW;
+    public ToolDefType parseType19(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : @OBJECTKW QUESTIONTK;
+    public ToolDefType parseType20(Token t1) {
+        // return null;
+    }
+
+    @Override // Type : Name;
+    public ToolDefType parseType21(Token t1) {
+        // return null;
+    }
+
+    @Override // Expressions : Expression;
+    public List<Expression> parseExpressions1(Expression e1) {
+        // return null;
+    }
+
+    @Override // Expressions : Expressions COMMATK Expression;
+    public List<Expression> parseExpressions2(List<Expression> l1, Expression e3) {
+        // return null;
+    }
+
+    @Override // OptExpression : ;
+    public Expression parseOptExpression1() {
+        // return null;
+    }
+
+    @Override // OptExpression : Expression;
+    public Expression parseOptExpression2(Expression e1) {
+        // return null;
+    }
+
+    @Override // Expression : AndExpression;
+    public Expression parseExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // Expression : Expression @ORKW AndExpression;
+    public Expression parseExpression2(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // AndExpression : CompareExpression;
+    public Expression parseAndExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // AndExpression : AndExpression @ANDKW CompareExpression;
+    public Expression parseAndExpression2(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // CompareExpression : AddExpression;
+    public Expression parseCompareExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // CompareExpression : CompareExpression @LTTK AddExpression;
+    public Expression parseCompareExpression2(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // CompareExpression : CompareExpression @LETK AddExpression;
+    public Expression parseCompareExpression3(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // CompareExpression : CompareExpression @EQEQTK AddExpression;
+    public Expression parseCompareExpression4(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // CompareExpression : CompareExpression @NETK AddExpression;
+    public Expression parseCompareExpression5(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // CompareExpression : CompareExpression @GETK AddExpression;
+    public Expression parseCompareExpression6(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // CompareExpression : CompareExpression @GTTK AddExpression;
+    public Expression parseCompareExpression7(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // AddExpression : MulExpression;
+    public Expression parseAddExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // AddExpression : AddExpression @MINUSTK MulExpression;
+    public Expression parseAddExpression2(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // AddExpression : AddExpression @PLUSTK MulExpression;
+    public Expression parseAddExpression3(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // MulExpression : UnaryExpression;
+    public Expression parseMulExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // MulExpression : MulExpression @ASTERISKTK UnaryExpression;
+    public Expression parseMulExpression2(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // MulExpression : MulExpression @SLASHTK UnaryExpression;
+    public Expression parseMulExpression3(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // MulExpression : MulExpression @DIVKW UnaryExpression;
+    public Expression parseMulExpression4(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // MulExpression : MulExpression @MODKW UnaryExpression;
+    public Expression parseMulExpression5(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // UnaryExpression : ProjExpression;
+    public Expression parseUnaryExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // UnaryExpression : @MINUSTK UnaryExpression;
+    public Expression parseUnaryExpression2(Token t1, Expression e2) {
+        // return null;
+    }
+
+    @Override // UnaryExpression : @PLUSTK UnaryExpression;
+    public Expression parseUnaryExpression3(Token t1, Expression e2) {
+        // return null;
+    }
+
+    @Override // UnaryExpression : @NOTKW UnaryExpression;
+    public Expression parseUnaryExpression4(Token t1, Expression e2) {
+        // return null;
+    }
+
+    @Override // ProjExpression : ExpressionFactor;
+    public Expression parseProjExpression1(Expression e1) {
+        // return null;
+    }
+
+    @Override // ProjExpression : ProjExpression @SQOPENTK Expression SQCLOSETK;
+    public Expression parseProjExpression2(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // ProjExpression : ProjExpression @SQOPENTK OptExpression COLONTK OptExpression SQCLOSETK;
+    public Expression parseProjExpression3(Expression e1, Token t2, Expression e3, Expression e5) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @TRUEKW;
+    public Expression parseExpressionFactor01(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @FALSEKW;
+    public Expression parseExpressionFactor02(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @NUMBERTK;
+    public Expression parseExpressionFactor03(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @DOUBLETK;
+    public Expression parseExpressionFactor04(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @NULLKW;
+    public Expression parseExpressionFactor05(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @STRINGTK;
+    public Expression parseExpressionFactor06(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @LTTK Type GTTK ExpressionFactor;
+    public Expression parseExpressionFactor07(Token t1, ToolDefType t2, Expression e4) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @SQOPENTK SQCLOSETK;
+    public Expression parseExpressionFactor08(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @SQOPENTK Expressions OptComma SQCLOSETK;
+    public Expression parseExpressionFactor09(Token t1, List<Expression> l2, Token t3) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @CUROPENTK CURCLOSETK;
+    public Expression parseExpressionFactor10(Token t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @CUROPENTK Expressions OptComma CURCLOSETK;
+    public Expression parseExpressionFactor11(Token t1, List<Expression> l2, Token t3) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @CUROPENTK MapEntries OptComma CURCLOSETK;
+    public Expression parseExpressionFactor12(Token t1, List<MapEntry> l2, Token t3) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : @PAROPENTK Expression COMMATK Expressions OptComma PARCLOSETK;
+    public Expression parseExpressionFactor13(Token t1, Expression e2, List<Expression> l4, Token t5) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : PAROPENTK Expression PARCLOSETK;
+    public Expression parseExpressionFactor14(Expression e2) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : ToolInvokeExpression;
+    public Expression parseExpressionFactor15(ToolInvokeExpression t1) {
+        // return null;
+    }
+
+    @Override // ExpressionFactor : Name;
+    public Expression parseExpressionFactor16(Token t1) {
+        // return null;
+    }
+
+    @Override // MapEntries : Expression @COLONTK Expression;
+    public List<MapEntry> parseMapEntries1(Expression e1, Token t2, Expression e3) {
+        // return null;
+    }
+
+    @Override // MapEntries : MapEntries COMMATK Expression @COLONTK Expression;
+    public List<MapEntry> parseMapEntries2(List<MapEntry> l1, Expression e3, Token t4, Expression e5) {
+        // return null;
+    }
+
+    @Override // ToolInvokeExpression : ToolRef @PAROPENTK ToolArgs OptComma PARCLOSETK;
+    public ToolInvokeExpression parseToolInvokeExpression1(ToolRef t1, Token t2, List<ToolArgument> l3, Token t4) {
+        // return null;
+    }
+
+    @Override // ToolInvokeExpression : ToolRef @PAROPENTK PARCLOSETK;
+    public ToolInvokeExpression parseToolInvokeExpression2(ToolRef t1, Token t2) {
+        // return null;
+    }
+
+    @Override // ToolRef : BuiltInTool;
+    public ToolRef parseToolRef1(ToolRef t1) {
+        // return null;
+    }
+
+    @Override // ToolRef : Name;
+    public ToolRef parseToolRef2(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInTool : BuiltInIoTool;
+    public ToolRef parseBuiltInTool1(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInTool : BuiltInGenericTool;
+    public ToolRef parseBuiltInTool2(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInTool : BuiltInPathTool;
+    public ToolRef parseBuiltInTool3(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInTool : BuiltInFileTool;
+    public ToolRef parseBuiltInTool4(Token t1) {
+        // return null;
+    }
+
+    @Override // BuiltInTool : BuiltInDataTool;
+    public ToolRef parseBuiltInTool5(Token t1) {
+        // return null;
+    }
+
+    @Override // ToolArgs : Expression;
+    public List<ToolArgument> parseToolArgs1(Expression e1) {
+        // return null;
+    }
+
+    @Override // ToolArgs : @IDENTIFIERTK EQTK Expression;
+    public List<ToolArgument> parseToolArgs2(Token t1, Expression e3) {
+        // return null;
+    }
+
+    @Override // ToolArgs : ToolArgs COMMATK Expression;
+    public List<ToolArgument> parseToolArgs3(List<ToolArgument> l1, Expression e3) {
+        // return null;
+    }
+
+    @Override // ToolArgs : ToolArgs COMMATK @IDENTIFIERTK EQTK Expression;
+    public List<ToolArgument> parseToolArgs4(List<ToolArgument> l1, Token t3, Expression e5) {
+        // return null;
+    }
+
+    @Override // Names : Name;
+    public List<Token> parseNames1(Token t1) {
+        // return null;
+    }
+
+    @Override // Names : Names COMMATK Name;
+    public List<Token> parseNames2(List<Token> l1, Token t3) {
+        // return null;
+    }
+
+    @Override // Name : @IDENTIFIERTK;
+    public Token parseName1(Token t1) {
+        // return null;
+    }
+
+    @Override // Name : @RELATIVENAMETK;
+    public Token parseName2(Token t1) {
+        // return null;
+    }
+
+    @Override // OptComma : ;
+    public Token parseOptComma1() {
+        // return null;
+    }
+
+    @Override // OptComma : @COMMATK;
+    public Token parseOptComma2(Token t1) {
+        // return null;
+    }
+}

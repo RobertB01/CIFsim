@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "svg_elem_id_not_found.svg";
+
+// Simple cases.
+
+event e;
+
+svgcopy id "does_not_exist1" pre "a";
+
+svgmove id "does_not_exist1" to 1, 2;
+
+svgout id "does_not_exist1" attr "x" value 1;
+
+svgout id "box" attr "x" value 1;
+
+svgout id "does_not_exist2" attr "x" value 1;
+
+svgin id "does_not_exist3" event e;
+
+// Complex cases for 'copy' taking into account copying of copied elements.
+
+svgcopy id "_r4"             pre "_";               // OK, after copy of "gb".
+svgcopy id "r1"              pre "a" file ".";      // Directory not SVG file (checked before element existence).
+svgcopy id "does_not_exist4" pre "a";               // Missing element.
+svgcopy id "_r1"             pre "_";               // OK, after copy of "gb".
+svgcopy id "gb"              pre "_";               // OK.
+svgcopy id "_r2"             pre "_";               // OK, after copy of "gb".
+svgcopy id "does_not_exist5" pre "a";               // Missing element.
+svgcopy id "r0"              pre "%";               // Invalid prefix (checked after element existence).
+svgcopy id "_r3"             pre "_";               // OK, after copy of "gb".

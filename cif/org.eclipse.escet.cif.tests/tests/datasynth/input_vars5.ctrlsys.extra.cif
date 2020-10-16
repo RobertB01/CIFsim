@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Add concrete behavior of input variable, for state space exploration.
+
+automaton io:
+  disc int[0..2] sensor in any;
+  uncontrollable u_sensor;
+
+  location:
+    initial;
+    marked;
+
+    edge u_sensor when sensor != 0 do sensor := 0; // Can change arbitrarily.
+    edge u_sensor when sensor != 1 do sensor := 1; // Can change arbitrarily.
+    edge u_sensor when sensor != 2 do sensor := 2; // Can change arbitrarily.
+end

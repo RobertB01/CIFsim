@@ -1,0 +1,2 @@
+ERROR: File "tchecker/edge_tgt_formal_param.cif": Semantic error at line 19, column 27: Target location "g.X.z" is a location parameter, while a location of automaton "g.X" is expected.
+ERROR: Failed to load CIF file "tchecker/edge_tgt_formal_param.cif": the file has errors.

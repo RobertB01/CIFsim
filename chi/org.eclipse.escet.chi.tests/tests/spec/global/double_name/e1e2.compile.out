@@ -1,0 +1,2 @@
+Error: File "spec/global/double_name/e1e2.chi": Semantic error at line 13, column 6: There is more than one declaration named "M".
+Error: File "spec/global/double_name/e1e2.chi": Semantic error at line 14, column 15: There is more than one declaration named "M".

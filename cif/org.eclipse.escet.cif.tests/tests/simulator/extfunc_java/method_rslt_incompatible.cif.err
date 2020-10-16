@@ -1,0 +1,5 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of initialization predicate "f(1.0) > 0" of the top level scope of the specification failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: Failed to load external user-defined function "f".
+CAUSE: Method "public static double java.lang.Math.abs(double)" has a "java.lang.Double" return type, while a "java.lang.Integer" type is expected.

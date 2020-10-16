@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// declaration vs equation in component
+alg real x1 = 1.0;
+equation x1 = 2.0;
+invariant x1 > 0;
+
+// duplicate equation in component
+alg real x2;
+equation x2 = 2.0;
+equation x2 = 2.0;
+invariant x2 > 0;
+
+// declaration vs equation in location
+automaton p3:
+  alg real x3 = 1.0;
+  location:
+    initial;
+    equation x3 = 2.0;
+    invariant x3 > 0;
+end
+
+// equation in component vs equation in location
+automaton p4:
+  alg real x4;
+  equation x4 = 1.0;
+  location:
+    initial;
+    equation x4 = 2.0;
+    invariant x4 > 0;
+end
+
+// duplicate equation in location
+automaton p5:
+  alg real x5;
+  location:
+    initial;
+    equation x5 = 2.0;
+    equation x5 = 2.0;
+    invariant x5 > 0;
+end
+
+// declaration vs equations in component vs equations in location
+automaton p6:
+  alg real x6 = 1.0;
+  equation x6 = 2.0;
+  equation x6 = 2.0;
+  location:
+    initial;
+    equation x6 = 2.0;
+    equation x6 = 2.0;
+    invariant x6 > 0;
+end

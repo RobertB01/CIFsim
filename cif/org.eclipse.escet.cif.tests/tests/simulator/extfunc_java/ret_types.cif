@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func bool f_b(): "java:testpkg.TestReturnTypes.ret_b|java_code/bin";
+func bool f_B(): "java:testpkg.TestReturnTypes.ret_B|java_code/bin";
+func int f_i(): "java:testpkg.TestReturnTypes.ret_i|java_code/bin";
+func int f_I(): "java:testpkg.TestReturnTypes.ret_I|java_code/bin";
+func real f_d(): "java:testpkg.TestReturnTypes.ret_d|java_code/bin";
+func real f_D(): "java:testpkg.TestReturnTypes.ret_D|java_code/bin";
+func string f_G(): "java:testpkg.TestReturnTypes.ret_G|java_code/bin";
+func list bool f_LB(): "java:testpkg.TestReturnTypes.ret_LB|java_code/bin";
+func list int f_LI(): "java:testpkg.TestReturnTypes.ret_LI|java_code/bin";
+func list real f_LD(): "java:testpkg.TestReturnTypes.ret_LD|java_code/bin";
+func list string f_LG(): "java:testpkg.TestReturnTypes.ret_LG|java_code/bin";
+func list list int f_LLI(): "java:testpkg.TestReturnTypes.ret_LLI|java_code/bin";
+func set int f_SI(): "java:testpkg.TestReturnTypes.ret_SI|java_code/bin";
+func set set int f_SSI(): "java:testpkg.TestReturnTypes.ret_SSI|java_code/bin";
+func dict(int:bool) f_MIB(): "java:testpkg.TestReturnTypes.ret_MIB|java_code/bin";
+func dict(list int:set bool) f_MLISB(): "java:testpkg.TestReturnTypes.ret_MLISB|java_code/bin";
+func tuple(int a;bool b) f_TIBX(): "java:testpkg.TestReturnTypes.ret_TIBX|java_code/bin";
+func tuple(list int a;tuple(int c,d) b) f_TLITIIXX(): "java:testpkg.TestReturnTypes.ret_TLITIIXX|java_code/bin";
+
+plant p:
+  disc list bool x_lb = [f_b(), f_B()];
+  disc list int x_li = [f_i(), f_I()];
+  disc list real x_ld = [f_d(), f_D()];
+
+  disc string g = f_G();
+  disc list bool lb = f_LB();
+  disc list int li = f_LI();
+  disc list real ld = f_LD();
+  disc list string lg = f_LG();
+  disc list list int lli = f_LLI();
+  disc set int si = f_SI();
+  disc set set int ssi = f_SSI();
+  disc dict(int:bool) mib = f_MIB();
+  disc dict(list int:set bool) mlisb = f_MLISB();
+  disc tuple(int a;bool b) tibx = f_TIBX();
+  disc tuple(list int a;tuple(int c,d) b) tlitiixx = f_TLITIIXX();
+
+  initial size(x_lb) + size(x_li) + size(x_ld) > 0;
+  initial size(g) > 0;
+  initial lb[0], li[0] >= 0, ld[0] >= 0, lg[0] != "a";
+  initial lli[0][0] > 0, size(si) > 0, size(ssi) > 0, size(mib) > 0;
+  initial size(mlisb) > 0, tibx[a] > 0, tlitiixx[a][0] > 0;
+
+  location:
+    initial;
+    urgent;
+end

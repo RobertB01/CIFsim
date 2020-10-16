@@ -1,0 +1,16 @@
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 21, column 6: Synchronisation channels do not transport data.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 25, column 6: Cannot send on a receive-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 29, column 6: Cannot send on a receive-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 34, column 6: Cannot receive on a send-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 39, column 6: Cannot receive on a send-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 47, column 6: Synchronisation channels do not transport data.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 61, column 6: Cannot send on a receive-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 65, column 6: Cannot send on a receive-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 69, column 7: Expression cannot be assigned a value.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 73, column 6: Channel transports type "int", but no variables provided to receive.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 87, column 6: Channel transports type "int", but no data provided to send.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 91, column 6: Cannot receive on a send-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 95, column 6: Cannot receive on a send-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 100, column 6: Cannot receive on a send-only channel.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 111, column 12: Expression cannot be assigned a value.
+Error: File "spec/statements/send-recieve-check.chi": Semantic error at line 121, column 12: Expression cannot be assigned a value.

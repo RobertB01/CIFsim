@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/symbol_invalid_ref.setext": Semantic error at line 26, column 5: Definition "T" does not define a symbol.
+ERROR: Failed to load SeText file "models_invalid/symbol_invalid_ref.setext": the file has errors.

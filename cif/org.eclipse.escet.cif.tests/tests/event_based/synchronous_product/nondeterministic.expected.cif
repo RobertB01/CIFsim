@@ -1,0 +1,15 @@
+controllable a;
+plant automaton product:
+  alphabet a;
+  location s1:
+    initial;
+    edge a goto s2;
+    edge a goto s3;
+    edge a goto s4;
+    edge a goto s5;
+  location s2;
+  location s3:
+    edge a goto s1;
+  location s4;
+  location s5;
+end

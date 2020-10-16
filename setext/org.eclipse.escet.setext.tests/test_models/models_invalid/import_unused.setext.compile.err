@@ -1,0 +1,1 @@
+WARNING: File "models_invalid/import_unused.setext": Semantic warning at line 19, column 9: Import "thing" is not used.

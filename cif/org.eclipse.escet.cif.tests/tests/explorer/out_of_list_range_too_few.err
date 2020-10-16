@@ -1,0 +1,1 @@
+ERROR: Assigned list "[2]" has too few elements in assignment "A.x[0] := A.x[0][1:]" in state "A: *, A.x: [[1, 2]]".

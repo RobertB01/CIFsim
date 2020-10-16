@@ -1,0 +1,211 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func list int ifs():
+  int x, y, z;
+
+  // if, else
+
+  if true:
+    x := x + 1;             // x to 1
+  end
+
+  if false:
+    x := x + 2;
+  end
+
+  if true:
+    x := x + 4;             // x to 5
+  else
+    x := x + 8;
+  end
+
+  if false:
+    x := x + 16;
+  else
+    x := x + 32;            // x to 37
+  end
+
+  if true:
+    x := x + 64;            // x to 101
+    x := x + 128;           // x to 229
+  end
+
+  if true, true:
+    x := x + 256;           // x to 485
+  end
+
+  if true, false:
+    x := x + 512;
+  end
+
+  if false, true:
+    x := x + 1024;
+  end
+
+  if false, false:
+    x := x + 2048;
+  end
+
+  // if, elif, else
+
+  if false:
+    y := y * -1;
+  elif true:
+    y := y + 1;             // y to 1
+  end
+
+  if false:
+    y := y * -1;
+  elif false:
+    y := y + 2;
+  end
+
+  if false:
+    y := y * -1;
+  elif true:
+    y := y + 4;             // y to 5
+  else
+    y := y + 8;
+  end
+
+  if false:
+    y := y * -1;
+  elif false:
+    y := y + 16;
+  else
+    y := y + 32;            // y to 37
+  end
+
+  if false:
+    y := y * -1;
+  elif true:
+    y := y + 64;            // y to 101
+    y := y + 128;           // y to 229
+  end
+
+  if false:
+    y := y * -1;
+  elif true, true:
+    y := y + 256;           // y to 485
+  end
+
+  if false:
+    y := y * -1;
+  elif true, false:
+    y := y + 512;
+  end
+
+  if false:
+    y := y * -1;
+  elif false, true:
+    y := y + 1024;
+  end
+
+  if false:
+    y := y * -1;
+  elif false, false:
+    y := y + 2048;
+  end
+
+  // others
+
+  if true:
+    z := z + 1;             // z to 1
+  elif true:
+    z := z + 2;
+  end
+
+  if true:
+    z := z + 4;             // z to 5
+  elif true:
+    z := z + 8;
+  elif false:
+    z := z + 16;
+  end
+
+  if false:
+    z := z + 32;
+  elif true:
+    z := z + 64;            // z to 69
+  elif false:
+    z := z + 128;
+  end
+
+  if false:
+    z := z + 256;
+  elif true:
+    z := z + 512;           // z to 581
+  elif true:
+    z := z + 1024;
+  end
+
+  if z > 0:
+    z := z + 2048;          // z to 2629
+  else
+    z := z + 4096;
+  end
+
+  return [x, y, z];
+end
+
+func list int whiles():
+  int x1, y1;
+  int x2, y2;
+  int x3, y3, t3;
+
+  x1 := 10;
+  while true:
+    if x1 = 0: break; end
+    x1 := x1 - 1;
+    y1 := y1 + 1;
+  end
+
+  x2 := 11;
+  while true:
+    if x2 > 3:
+      x2 := x2 - 1;
+      y2 := y2 + 1;
+      continue;
+    end
+    break;
+  end
+
+  x3 := 2;
+
+  while x3 >= 0:
+    y3 := 2;
+    while y3 >= 0:
+      t3 := t3 + (x3 * y3);
+      y3 := y3 - 1;
+    end
+    x3 := x3 - 1;
+  end
+
+  // t3 = 2 * 2 + 2 * 1 + 1 * 2 + 1 * 1 = 9
+
+  return [x1, y1, x2, y2, x3, y3, t3];
+end
+
+automaton p:
+  disc list int l_ifs = ifs();
+  disc list int l_whiles = whiles();
+
+  invariant l_ifs = [485, 485, 2629];
+  invariant l_whiles = [0, 10, 3, 8, -1, -1, 9];
+  invariant l_whiles[6] = 2 * 2 + 2 * 1 + 1 * 2 + 1 * 1;
+
+  location:
+    initial;
+    urgent;
+end

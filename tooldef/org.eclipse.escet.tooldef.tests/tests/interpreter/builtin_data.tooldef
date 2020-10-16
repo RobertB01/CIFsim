@@ -1,0 +1,502 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// abs
+outln("=== abs ===");
+outln("%s", abs(123));
+outln("%s", abs(0));
+outln("%s", abs(-567));
+outln();
+outln("%s", abs(1234567890123));
+outln("%s", abs(0));
+outln("%s", abs(-2345678901234));
+outln();
+outln("%s", abs(123.0));
+outln("%s", abs(0.0));
+outln("%s", abs(-567.0));
+outln();
+
+// ceil
+outln("=== ceil ===");
+outln("%d", ceil(1.4));
+outln("%d", ceil(1.5));
+outln("%d", ceil(1.6));
+outln("%d", ceil(-1.4));
+outln("%d", ceil(-1.5));
+outln("%d", ceil(-1.6));
+outln();
+
+// contains
+outln("=== contains ===");
+outln("%s", contains("abc", "a"));
+outln("%s", contains("abc", "d"));
+outln("%s", contains("abc", ""));
+outln();
+outln("%s", contains([1, 2], 1));
+outln("%s", contains([1, 2], 3));
+outln();
+outln("%s", contains({1, 2}, 1));
+outln("%s", contains({1, 2}, 3));
+outln();
+outln("%s", contains({1: 2}, 1));
+outln("%s", contains({1: 2}, 2));
+outln();
+
+// del
+outln("=== del ===");
+outln("%s", del([1, 2, 2, 1], 1));
+outln("%s", del([1, 2, 2, 1], 3));
+outln();
+outln("%s", del({1, 2, 2, 1}, 1));
+outln("%s", del({1, 2, 2, 1}, 3));
+outln();
+outln("%s", del({1: 2, 2: 3}, 1));
+outln("%s", del({1: 2, 2: 3}, 3));
+outln();
+
+// delidx
+outln("=== delidx ===");
+outln("%s", delidx([1, 2, 3, 4], 0));
+outln("%s", delidx([1, 2, 3, 4], 1));
+outln("%s", delidx([1, 2, 3, 4], 2));
+outln("%s", delidx([1, 2, 3, 4], 3));
+outln();
+outln("%s", delidx([1, 2, 3, 4], -1));
+outln("%s", delidx([1, 2, 3, 4], -2));
+outln("%s", delidx([1, 2, 3, 4], -3));
+outln("%s", delidx([1, 2, 3, 4], -4));
+outln();
+
+// empty
+outln("=== empty ===");
+outln("%s", empty(""));
+outln("%s", empty("a"));
+outln("%s", empty(" "));
+outln("%s", empty("\n"));
+outln();
+outln("%s", empty([]));
+outln("%s", empty([1, 2]));
+outln();
+outln("%s", empty({}));
+outln("%s", empty(<set int>{}));
+outln("%s", empty({1, 2}));
+outln();
+outln("%s", empty(<map(int:int)>{}));
+outln("%s", empty({1:2}));
+outln();
+
+// endswith
+outln("=== endswith ===");
+outln("%s", endswith("abc", "c"));
+outln("%s", endswith("abc", "d"));
+outln("%s", endswith("abc", ""));
+outln();
+
+// entries
+outln("=== entries ===");
+outln("%s", entries({}));
+outln("%s", entries({1:2, 2:3, 3:4, 3:5}));
+outln();
+
+// enumerate
+outln("=== enumerate ===");
+outln("%s", enumerate([]));
+outln("%s", enumerate(["a", "b", "c"]));
+outln();
+
+// floor
+outln("=== floor ===");
+outln("%d", floor(1.4));
+outln("%d", floor(1.5));
+outln("%d", floor(1.6));
+outln("%d", floor(-1.4));
+outln("%d", floor(-1.5));
+outln("%d", floor(-1.6));
+outln();
+
+// fmt (incomplete tests)
+outln("=== fmt ===");
+outln("/%s/", fmt(""));
+outln("/%s/", fmt("xyz"));
+outln("/%s/", fmt("a\nb\tc d"));
+outln("/%s/", fmt("a%b %b %bb", <bool?>null, false, true));
+outln("/%s/", fmt("a%d %db", 123, <long>99999 * 99999));
+outln("/%s/", fmt("a%s %s %s %sb", null, 1, true, "s"));
+outln("/%s/", fmt("a%09db", 123));
+outln("/%s/", fmt("a%1s %1$b %1$sb", <bool?>null));
+outln("/%s/", fmt("a%fb", 1));
+outln();
+
+outln("/%s/", fmt(pattern = ""));
+outln("/%s/", fmt(pattern = "", args=[]));
+outln("/%s/", fmt(args=[], pattern = ""));
+outln("/%s/", fmt(pattern = "%s", args=[1]));
+outln("/%s/", fmt(args=[1], pattern = "%s"));
+outln();
+
+string pattern1 = "";
+string pattern2 = "%s";
+
+outln("/%s/", fmt(pattern = pattern1));
+outln("/%s/", fmt(pattern = pattern1, args=[]));
+outln("/%s/", fmt(args=[], pattern = pattern1));
+outln("/%s/", fmt(pattern = pattern2, args=[1]));
+outln("/%s/", fmt(args=[1], pattern = pattern2));
+outln();
+
+list object? args1 = [];
+list object? args2 = [1];
+
+outln("/%s/", fmt(pattern = "", args=args1));
+outln("/%s/", fmt(args=args1, pattern = ""));
+outln("/%s/", fmt(pattern = "%s", args=args2));
+outln("/%s/", fmt(args=args2, pattern = "%s"));
+outln();
+
+outln("/%s/", fmt(pattern = pattern1));
+outln("/%s/", fmt(pattern = pattern1, args=args1));
+outln("/%s/", fmt(args=args1, pattern = pattern1));
+outln("/%s/", fmt(pattern = pattern2, args=args2));
+outln("/%s/", fmt(args=args2, pattern = pattern2));
+outln();
+
+outln("/%s/", fmt("%b %f", true, 1.0));
+outln("/%s/", fmt("%b %f", args = [true, 1.0]));
+outln("/%s/", fmt(pattern = "%b %f", args = [true, 1.0]));
+outln("/%s/", fmt(args = [true, 1.0], pattern = "%b %f"));
+outln();
+
+// indexof
+outln("=== indexof ===");
+outln("%d", indexof("abcabc", "bc"));
+outln("%d", indexof("abcabc", "de"));
+outln("%d", indexof("abcabc", ""));
+outln("%d", indexof("abcabc", "bc", -1));
+outln("%d", indexof("abcabc", "", -1));
+outln("%d", indexof("abcabc", "bc", 0));
+outln("%d", indexof("abcabc", "", 0));
+outln("%d", indexof("abcabc", "bc", 1));
+outln("%d", indexof("abcabc", "", 1));
+outln("%d", indexof("abcabc", "bc", 2));
+outln("%d", indexof("abcabc", "", 2));
+outln("%d", indexof("abcabc", "bc", 3));
+outln("%d", indexof("abcabc", "", 3));
+outln("%d", indexof("abcabc", "bc", 99));
+outln("%d", indexof("abcabc", "", 99));
+outln();
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 4));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2, -1));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2, 0));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2, 1));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2, 2));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2, 3));
+outln("%d", indexof([1, 2, 3, 1, 2, 3], 2, 99));
+outln();
+
+// join
+outln("=== join ===");
+outln("/%s/", join([]));
+outln("/%s/", join(["a"]));
+outln("/%s/", join(["a", "b"]));
+outln("/%s/", join(["a", "b", "c"]));
+outln("/%s/", join([], "x"));
+outln("/%s/", join(["a"], "x"));
+outln("/%s/", join(["a", "b"], "x"));
+outln("/%s/", join(["a", "b", "c"], "x"));
+outln();
+outln("/%s/", join());
+outln("/%s/", join("a"));
+outln("/%s/", join("a", "b"));
+outln("/%s/", join("a", "b", "c"));
+outln();
+
+// keys
+outln("=== keys ===");
+outln("%s", keys({}));
+outln("%s", keys({1:2, 2:3, 3:4, 3:5}));
+outln();
+
+// lastindexof
+outln("=== lastindexof ===");
+outln("%d", lastindexof("abcabc", "bc"));
+outln("%d", lastindexof("abcabc", "de"));
+outln("%d", lastindexof("abcabc", ""));
+outln("%d", lastindexof("abcabc", "bc", -1));
+outln("%d", lastindexof("abcabc", "", -1));
+outln("%d", lastindexof("abcabc", "bc", 0));
+outln("%d", lastindexof("abcabc", "", 0));
+outln("%d", lastindexof("abcabc", "bc", 1));
+outln("%d", lastindexof("abcabc", "", 1));
+outln("%d", lastindexof("abcabc", "bc", 2));
+outln("%d", lastindexof("abcabc", "", 2));
+outln("%d", lastindexof("abcabc", "bc", 3));
+outln("%d", lastindexof("abcabc", "", 3));
+outln("%d", lastindexof("abcabc", "bc", 99));
+outln("%d", lastindexof("abcabc", "", 99));
+outln();
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 4));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2, -1));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2, 0));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2, 1));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2, 2));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2, 3));
+outln("%d", lastindexof([1, 2, 3, 1, 2, 3], 2, 99));
+outln();
+
+// ln
+outln("=== ln ===");
+outln("%s", ln(2.718281828459045));
+outln();
+
+// log
+outln("=== log ===");
+outln("%s", log(1000));
+outln();
+
+// lower
+outln("=== lower ===");
+outln("%s", lower("aAbBcC"));
+outln();
+
+// ltrim
+outln("=== ltrim ===");
+outln("x%sz", ltrim(" \t\na b\n\t "));
+outln();
+
+// max
+outln("=== max ===");
+outln("%s", max(1, 2, 3, 2, -5));
+outln("%s", max(2147483648, 2147483649, 2147483648));
+outln("%s", max(1.0, 2.0, 3.0, 2.0, -5.0));
+outln("%s", max(1.0, 2, 3, 2, -5));
+outln();
+outln("%s", max([1, 2, 3, 2, -5]));
+outln("%s", max([2147483648, 2147483649, 2147483648]));
+outln("%s", max([1.0, 2.0, 3.0, 2.0, -5.0]));
+outln("%s", max([1.0, 2, 3, 2, -5]));
+outln();
+
+// min
+outln("=== min ===");
+outln("%s", min(1, 2, 3, 2, -5));
+outln("%s", min(2147483648, 2147483649, 2147483648));
+outln("%s", min(1.0, 2.0, 3.0, 2.0, -5.0));
+outln("%s", min(1.0, 2, 3, 2, -5));
+outln();
+outln("%s", min([1, 2, 3, 2, -5]));
+outln("%s", min([2147483648, 2147483649, 2147483648]));
+outln("%s", min([1.0, 2.0, 3.0, 2.0, -5.0]));
+outln("%s", min([1.0, 2, 3, 2, -5]));
+outln();
+
+// pow
+outln("=== pow ===");
+outln("%s", pow(2, 3));
+outln();
+
+// range
+outln("=== range ===");
+outln("%s", range(-1));
+outln("%s", range(0));
+outln("%s", range(1));
+outln("%s", range(2));
+outln("%s", range(5));
+outln();
+outln("%s", range(2, 4));
+outln("%s", range(2, 2));
+outln("%s", range(2, 1));
+outln("%s", range(-3, 2));
+outln();
+outln("%s", range([]));
+outln("%s", range(["a"]));
+outln("%s", range(["a", "b"]));
+outln();
+
+// replace
+outln("=== replace ===");
+outln("/%s/", replace("aaa", "aa", "b"));
+outln("/%s/", replace("abc", "d", "e"));
+outln("/%s/", replace("xxx", "x", "y"));
+outln("/%s/", replace("abc", "", "d"));
+outln("/%s/", replace("", "", "z"));
+outln();
+outln("%s", replace([], null, null));
+outln("%s", replace([], 1, 2));
+outln("%s", replace([1, 2, 3, 2, 3], 2, 5));
+outln("%s", replace([1, 2, 3, 2, 3], 4, 5));
+outln();
+
+// reverse
+outln("=== reverse ===");
+outln("/%s/", reverse(""));
+outln("/%s/", reverse("a"));
+outln("/%s/", reverse("abc"));
+outln();
+outln("%s", reverse([]));
+outln("%s", reverse([1]));
+outln("%s", reverse([1, 2, 3]));
+outln();
+
+// round
+outln("=== round ===");
+outln("%d", round(1.4));
+outln("%d", round(1.5));
+outln("%d", round(1.6));
+outln("%d", round(-1.4));
+outln("%d", round(-1.5));
+outln("%d", round(-1.6));
+outln();
+
+// rtrim
+outln("=== rtrim ===");
+outln("x%sz", rtrim(" \t\na b\n\t "));
+outln();
+
+// size
+outln("=== size ===");
+outln("%s", size(""));
+outln("%s", size("a"));
+outln("%s", size(" "));
+outln("%s", size("\n"));
+outln();
+outln("%s", size([]));
+outln("%s", size([1, 2]));
+outln();
+outln("%s", size({}));
+outln("%s", size(<set int>{}));
+outln("%s", size({1, 2}));
+outln();
+outln("%s", size(<map(int:int)>{}));
+outln("%s", size({1:2}));
+outln();
+
+// sorted
+outln("=== sorted ===");
+outln("%s", sorted([]));
+outln("%s", sorted({}));
+outln("%s", sorted(["a", "A", "a", "A", "aa", "", "b", "B", "Aa"]));
+outln("%s", sorted({"a", "A", "a", "A", "aa", "", "b", "B", "Aa"}));
+outln("%s", sorted([2, 1.0, 2.0, 3, 4.0, 1, 1, 1.0, 4, 3.0]));
+outln("%s", sorted([true, 123, 2148000000, 1.23, "a", (1, 2), [1], {2}, {3:4}, null]));
+outln("%s", sorted({null, {3:4}, {2}, [1], (1, 2), "a", 1.23, 2148000000, 123, true}));
+outln("%s", sorted([true, false, false, true]));
+outln("%s", sorted([3, 0, 1, 2, -1, 1, 0, -1, 3]));
+outln("%s", sorted([<int>1, <int>0]));
+outln("%s", sorted([<int>1, <long>0]));
+outln("%s", sorted([<int>1, <double>0]));
+outln("%s", sorted([<long>1, <int>0]));
+outln("%s", sorted([<long>1, <long>0]));
+outln("%s", sorted([<long>1, <double>0]));
+outln("%s", sorted([<double>1, <int>0]));
+outln("%s", sorted([<double>1, <long>0]));
+outln("%s", sorted([<double>1, <double>0]));
+outln("%s", sorted([(0, 2, 3), (0, 1, 3), (1, 2), (0, 1, 2)]));
+outln("%s", sorted([[0, 2, 3], [0, 1, 3], [1, 2], [0, 1, 2]]));
+outln("%s", sorted([{0, 2, 3}, {0, 1, 3}, {1, 2}, {0, 1, 2}]));
+outln("%s", sorted([{3, 2, 2}, {1, 2, 3}, {3, 1, 0}]));
+outln("%s", sorted([{1:2}, <map(int:int)>{}, {2:1}]));
+outln("%s", sorted([{1:2, 2:3}, {2:3, 1:2}, {2:3, 1:4}, {2:3, 1:3}, {2:4, 1:2}, {2:3, 1:2}, {4:3, 0:2}]));
+outln("%s", sorted([1, null, 0, null, 2, null, null, 1]));
+outln();
+
+// split
+outln("=== split ===");
+outln("%s", split(" a b  c "));
+outln("%s", split(" a b  c ", removeEmpty = true));
+outln("%s", split(" a b  c ", removeEmpty = false));
+outln();
+outln("%s", split(" a b \t \n c "));
+outln("%s", split(" a b \t \n c ", removeEmpty = true));
+outln("%s", split(" a b \t \n c ", removeEmpty = false));
+outln();
+outln("%s", split(" a b \t \n c ", separator = null));
+outln("%s", split(" a b \t \n c ", separator = null, removeEmpty = true));
+outln("%s", split(" a b \t \n c ", separator = null, removeEmpty = false));
+outln();
+outln("%s", split(" a b \t \n c ", separator = " "));
+outln("%s", split(" a b \t \n c ", separator = " ", removeEmpty = true));
+outln("%s", split(" a b \t \n c ", separator = " ", removeEmpty = false));
+outln();
+
+// sqrt
+outln("=== sqrt ===");
+outln("%s", sqrt(9.0));
+outln();
+
+// startswith
+outln("=== startswith ===");
+outln("%s", startswith("abc", "a"));
+outln("%s", startswith("abc", "d"));
+outln("%s", startswith("abc", ""));
+outln();
+
+// str
+outln("=== str ===");
+outln("/%s/", str(""));
+outln("/%s/", str("abc"));
+outln("/%s/", str("a\nb\tc d\\e\"f"));
+outln("/%s/", str(123));
+outln("/%s/", str(1.23));
+outln("/%s/", str(1e7));
+outln("/%s/", str(1e-5));
+outln("/%s/", str([1, 2, 3]));
+outln("/%s/", str(["a", "b", "\n"]));
+outln();
+
+// strdup
+outln("=== strdup ===");
+outln("/%s/", strdup("abc", 0));
+outln("/%s/", strdup("abc", 1));
+outln("/%s/", strdup("abc", 2));
+outln();
+
+// subset
+outln("=== subset ===");
+outln("%s", subset({}, {}));
+outln("%s", subset({}, {1}));
+outln("%s", subset({}, {1, 2}));
+outln();
+outln("%s", subset({1}, {}));
+outln("%s", subset({1}, {1}));
+outln("%s", subset({1}, {1, 2}));
+outln();
+outln("%s", subset({2}, {}));
+outln("%s", subset({2}, {1}));
+outln("%s", subset({2}, {1, 2}));
+outln();
+outln("%s", subset({1, 2}, {}));
+outln("%s", subset({1, 2}, {1}));
+outln("%s", subset({1, 2}, {1, 2}));
+outln();
+outln("%s", subset({2, 1}, {}));
+outln("%s", subset({2, 1}, {1}));
+outln("%s", subset({2, 1}, {1, 2}));
+outln();
+
+// trim
+outln("=== trim ===");
+outln("x%sz", trim(" \t\na b\n\t "));
+outln();
+
+// upper
+outln("=== upper ===");
+outln("%s", upper("aAbBcC"));
+outln();
+
+// values
+outln("=== values ===");
+outln("%s", values({}));
+outln("%s", values({1:2, 2:3, 3:4, 3:2}));
+outln();

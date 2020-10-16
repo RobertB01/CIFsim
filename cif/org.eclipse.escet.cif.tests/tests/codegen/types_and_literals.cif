@@ -1,0 +1,81 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Booleans.
+
+const bool c1 = true;
+const bool c2 = false;
+const list[3] bool c3 = [true, false, true];
+
+// Integers.
+
+const int c4 = 123;
+const int c5 = -456;
+const list[3] int[-3..2] c6 = [-3, 2, 0];
+
+// Type declarations, and compatibility.
+
+type t1 = list[3] bool;
+type t2 = list[3] int[0..1];
+
+const t1 c7 = [false, true, false];
+const t2 c8 = [0, 1, 1];
+const list[3] int[-3..2] c9 = c8;
+
+// Enumerations, and compatibility.
+
+enum e1 = RED, WHITE, BLUE;
+
+automaton a:
+  enum e2 = RED, WHITE, BLUE;
+  location:
+    initial;
+end
+
+const e1 c10 = RED;
+const a.e2 c11 = WHITE;
+const e1 c12 = c11;
+
+// Reals.
+
+const real c13 = 1.23;
+const real c14 = 1e308;
+const list[10] real c15 = [0.0, -0.0, +0.0, 1e-999, 0.01, 1.234e12, 1e12, 1e+12, 1e-12, 0.00000001];
+
+// Strings.
+
+const string c16 = "";
+const string c17 = "abc";
+const string c18 = "d e f";
+const string c19 = "a\nb\tc\\d\"e";
+const list[3] string c20 = ["a", "a", "bcd"];
+
+// Arrays, and compatibility.
+
+const list[0] int c21 = [];
+const list[1] int c22 = [1];
+const list[2] bool c23 = [true, false];
+const list[2] bool c24 = c23;
+const list[3] list[2] real c25 = [[1, 2.0], [2.0, 3.0], [3, 4]];
+
+// Tuples, and compatibility.
+
+const tuple(int a, b) c26 = (1, 2);
+const tuple(int c, d) c27 = c26;
+const tuple(int c, d; string e) c28 = (3, 4, "abc");
+const tuple(tuple(int a, b) c; string d) c29 = ((5, 6), "def");
+
+// Combi arrays and tuples.
+
+const list[1] tuple(list[1] int a; list[2] tuple(real b; string c) d) c30 = c31;
+const list[1] tuple(list[1] int a; list[2] tuple(real b; string c) d) c31 = [([1], [(2.0, "a"), (3.0, "b")])];

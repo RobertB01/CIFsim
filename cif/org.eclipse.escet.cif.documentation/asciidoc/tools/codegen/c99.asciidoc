@@ -1,0 +1,395 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-codegen-chapter-c99]]
+== C99 code generation
+
+indexterm:[CIF code generator,C99]
+indexterm:[C99,code generation]
+The <<tools-codegen-chapter-index>> can generate C99 code from a CIF
+specification. It is assumed the reader of this page is familiar with the
+general information of the CIF code generator tool. This page describes
+specific information applicable only to C99 code generation.
+
+The aim of the C99 code generation tool is to provide an easy conversion from
+a CIF program to control of a real time system. It uses a simple integrator
+intended for updating running clocks (derivative should not change during
+a time step for best results). Also, it does not compute length of the next
+time step, but instead assumes being called regularly to update
+internal state and perform discrete steps if possible.
+
+=== Supported specifications
+
+The CIF code generator supports a subset of CIF specifications. Generation
+of C99 code does not impose additional restrictions. See the
+<<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>>
+page for more information.
+
+
+=== Differences in output
+
+When converting a real number to text, for example when printing a real value,
+the generated C99 code does not preserve trailing zeroes of real number
+fractions while using `%g`. For example `fmt("%.3g", 1.0)` will output
+`1` rather than `1.000`.
+
+This may cause real number values to be printed with less digits precision than
+indicated in the CIF program.
+
+Strings have an upper limit in length that is set during compilation. Longer
+strings are silently truncated to this length.
+
+
+=== Options
+
+The C99 code generator only uses the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the
+<<tools-codegen-chapter-index>>, it has no options of its own.
+
+The code prefix that can be configured using a common option is used to prefix
+external names, making them unique for the generated code.
+
+
+=== Generated files
+
+C99 code generation leads to creation of seven files:
+
+[cols="1,2",options="header"]
+|===
+| Generated file
+| Purpose
+
+| `<prefix>_library.h`
+| Runtime support code and library headers
+
+| `<prefix>_library.c`
+| Runtime support code and library implementation
+
+| `<prefix>_engine.h`
+| Interface definition of the translated CIF program
+
+| `<prefix>_engine.c`
+| Implementation of the translated CIF program
+
+| `<prefix>_compile.sh`
+| Compile script for Linux
+
+| `<prefix>_test_code.c`
+| Example of external functions, allow compiling the generated code
+
+| `<prefix>_readme.txt`
+| Short description of use, the interface, and compile options
+|===
+
+where `<prefix>` is replaced by the value of the _Code prefix_ option during
+code generation.
+
+The aim is to provide a complete and compilable package, to minimize the effort
+in converting a CIF specification. Most files are static text (modulo
+the `<prefix>` replacement). The two exceptions are both engine files that
+contain the C99 version of the CIF specification. The interface of these files
+is however fixed (modulo the `<prefix>` replacement), and generated data
+types and operations on them have predictable names, reducing the chance of
+failed compilation when re-generating the files.
+
+When modifying a generated file (such as the compile script or the example test
+code), keep in mind that running the code generator again will overwrite _all_
+files. Rename a file before modifying it to avoid loss of work.
+
+
+=== Compilation of the generated code
+
+The generated code is C99 code that can be compiled using a C99 C compiler, like `gcc`:
+
+[source,shell]
+----
+gcc -Wall -std=c99 -DPRINT_OUTPUT=1 -DCHECK_RANGES=1 \
+    <prefix>_engine.c <prefix>_library.c <prefix>_test_code.c -lm
+----
+
+The single `\` is not part of the command, it means the next line should be appended at the end.
+
+The `<prefix>` should be replaced by the value of the _Code prefix_ option during
+code generation. The `PRINT_OUTPUT` and `CHECK_RANGES` macros enable
+support for the CIF `print` statement and checking of integer range overlap,
+as defined by CIF. In general however, you may want to replace the test code
+file by your own code.
+
+
+=== C99 compile-time options
+
+Besides the `PRINT_OUTPUT` and `CHECK_RANGES` macros, the generated code
+has a few other compile-time options to customize its behavior. Below is the complete list.
+
+[cols="1,4",options="header"]
+|===
+| Macro name
+| Effect
+
+| `MAX_STRING_SIZE`
+| CIF has variable length strings, in the generated code they are converted to strings with a fixed
+upper limit. Default is 128 (including the terminator character). Set this macro for a different limit.
+_Note that both the library and the engine use this macro. It is crucial that both files use the same
+value for this macro_.
+
+| `CHECK_RANGES`
+| When copying integers from one range to another, where the latter is only partially covered by the
+former, CIF checks whether the copied values do not violate the destination range. Since violating
+this property generally indicates a programming error, it is recommended to enable this macro.
+
+| `EVENT_OUTPUT`
+| If set, the generated code calls `<prefix>_InfoEvent()` before and after performing an event to
+allow third-party code to act on it. Enable if your code needs to know when an event is performed.
+
+| `PRINT_OUTPUT`
+| If set, the CIF `print` statement is performed, and the `<prefix>__PrintOutput()` is called with
+the resulting text and destination filename. Mainly intended for debugging, but only useful in
+systems where the text can be displayed to a user.
+
+| `MAX_NUM_EVENTS`
+| The CIF semantics state that execution of edges is instantaneous and time-less. The generated code
+loops to perform edges, until no edge can be executed any more. Unfortunately, such a loop is not
+time-less. To avoid requiring too much time, there is an upper limit of 1000 iterations. Set this macro
+to change the limit.
+
+| `KEEP_RUNNING`
+| The CIF language checks range conversions (if `CHECK_RANGES` is set) and verifies updates of
+continuous variable updates. Setting this flag disables a few checks. Most of these checks are in
+`assert()` checks and not controlled by this macro, since violating the condition generally means a
+crash is eventually inevitable. It is recommended to avoid using this macro.
+|===
+
+
+=== Executing the code
+
+The engine files act as a library that implements the CIF program. To run the
+program, the code must be called regularly. The code has two entry points, one
+for initializing and performing the first steps, and one for handling a time
+delay.
+
+The first entry point is:
+
+[source,c]
+----
+<prefix>_EngineFirstStep(void)
+----
+
+This entry point initializes all the data, queries the values of the input
+variables if present, and performs execution of edges until blocked on the
+first time step or until hitting the `MAX_NUM_EVENTS` limit. Since this
+resets the entire CIF program to its initial state, you should only call this
+when the system being controlled is also (re-)initialized.
+
+The second entry point is more regularly called, after a period of time has passed:
+
+[source,c]
+----
+<prefix>_EngineTimeStep(double delta)
+----
+
+By calling this entry point, you indicate that `delta` (> 0) time units have
+passed. The code reads new values of the input variables,
+<<tools-codegen-accuracy-over-time,updates the continuous variables>>,
+and performs edges until all edges are blocked, or
+hitting the `MAX_NUM_EVENTS` limit.
+
+When the call of either entry point returns, you can query the value of the
+variables to use as input for other parts of the system.
+
+
+=== Environment interface
+
+Calling one of the above entry points causes the CIF program to be executed,
+up to the next time step (assuming the `MAX_NUM_EVENTS` limit is high
+enough). During the execution, the code performs a number of callbacks to get
+information from the environment, to provide information about its actions, or
+to deliver output. In addition, after each call, variables may be inspected by
+the environment to get information about the decisions of the CIF program.
+
+The externally provided callback functions that are being used are:
+
+[source,c]
+----
+<prefix>_AssignInputVariables(void)
+----
+
+The CIF program requests new values for all its input variables. In your
+implementation of this function you should write values directly in the input
+variables. Input variables are assumed to be independent of other parts of the
+CIF program, in general you should not need other CIF program values to
+implement this function.
+
+If `EVENT_OUTPUT` is set during compilation, executed events are reported with:
+
+[source,c]
+----
+<prefix>_InfoEvent(<prefix>_Event_ event, BoolType pre)
+----
+
+If the `EVENT_OUTPUT` macro is set during compilation, the generated code
+reports with this call that event event is about to (`pre` is `TRUE`),
+or has been (`pre` is `FALSE`) executed. In the pre-event call, the event
+can be executed, and all variables have their value before performing the
+updates of the involved edges. In the post-event call, all variables have their
+values updated as indicated in the updates of the edges.
+
+Primary use of this call is to forward the decision to other parts of the
+controlled system.
+
+Finally, if the `PRINT_OUTPUT` macro is set during compilation, the generated
+code reports lines of output to be printed with the following function call:
+
+[source,c]
+----
+<prefix>_PrintOutput(const char *line, const char *fname)
+----
+
+It denotes that text `line` should be printed at file `fname`. The primary
+uses of this call are to enable debugging the system, or to log relevant
+events. Note that `fname` here can mean anything. It can mean a real file,
+but also a pseudo-device like `:stdout` which is commonly used to print
+output to the C `stdout` stream.
+
+=== Data access
+
+Each CIF constant is available as a variable that does not change after
+initialization. Each algebraic variable can be queried by calling a function
+with the same name as the variable. The value of continuous variables is
+available by accessing the equivalent variable in the generated code. The
+derivative of each continuous variable is available as function named by the
+variable, and the suffix `deriv`. The model time is available as
+`model_time`. There is no derivative function of time. Internal functions are
+available as well if required.
+
+The engine header file lists the translated names. It should be easy to find
+the relevant entry, as the generated code also documents the original name.
+
+
+=== Data types
+
+The following table defines how CIF data types are converted in the C99 generated code.
+
+[cols=2*,options="header"]
+|===
+| CIF data type
+| C99 data type
+
+| `bool`
+| `BoolType` which is a typedef to `int`
+
+| `int`
+| `IntType` which is a typedef to `int`
+
+| `+enum e = ...+`
+| `<prefix>Enum` which is a typedef to `+enum Enum<prefix>_+`
+
+| `real`
+| `RealType` which is a typedef to `double`
+
+| `string`
+| `StringType` which is a typedef to a `struct`
+
+| `list[n] t`
+| `+...Type+` which is a typedef to a `struct`
+
+| `+tuple(...)+`
+| `+...Type+` which is a typedef to a `struct`
+|===
+
+A few notes:
+
+* The `+...+` in the C99 `+...Type+` name for arrays (fixed length lists) and
+tuples is the <<tools-codegen-c99-systematic-type-names,systematic type name>>
+of the array or tuple type.
+
+* Due to <<tools-cif2cif-chapter-linearize-merge,linearization>> all enumerations
+are merged into one. The generated C99 code always has exactly one translated
+`enum`.
+
+* The elementary data types (`BoolType`, `IntType`, `RealType`, and
+`StringType`) are defined in the library header file.
+
+* The `StringType` structure wraps a `char data[MAX_STRING_SIZE]` array.
+The `struct` allows copying arrays by value using an assignment statement.
+
+* The array type (list with a fixed length) structure wraps a
+`<element-type> data[<size>]` array for the same reason. Copying an array
+by assignment is allowed.
+
+* The tuple type is a structure with fields `+_field0+`, `+_field1+`, and so
+on, where the type of each field in the structure matches with the type of
+the CIF tuple field.
+
+* Boolean constants `true` and `false` are  named `TRUE` and `FALSE`
+respectively.
+
+* The `-0.0` value of doubles gets replaced by `0.0` to void subtle equality
+problems.
+
+* Strings get silently truncated to `MAX_STRING_SIZE - 1` characters. They
+are always terminated with a NUL character.
+
+* Enumeration values get `+_<prefix>_+` added in front to make them unique.
+
+[[tools-codegen-c99-systematic-type-names]]
+=== Systematic type names
+
+For tuple and list types, the type is converted to a name in a systematic way,
+making each type unique and predictable.
+
+The conversion composes a name of a type from the type of its elements, and
+concatenates the result. The following conversion table applies:
+
+[cols="1,3",options="header"]
+|===
+| CIF type
+| Systematic name
+
+| `bool`
+| `B`
+
+| `int`
+| `I`
+
+| `+enum e = ...+`
+| `E` (Due to linearization, all enumerations are merged together to a
+single enumeration. As such, always exactly one `enum` is generated for a
+CIF model.)
+
+| `real`
+| `R`
+
+| `list[n] t`
+| `A<n><t>`, with `<n>` the length of the array, and `<t>` the systematic
+type name of the element type of the array.
+
+| `+tuple(t1, t2, t3, ..., tn)+`
+| `+T<n><t1><t2><t3>...<tn>+`, with `<n>` the number of fields in the tuple, and
+`<t1>` to `<tn>` the systematic type names of the fields.
+|===
+
+For example, type `list[5] int` is converted to `A5I`, and type
+`tuple(list[5] int x; tuple(real a, b) z)` is converted to `T2A5IT2RR`
+(concatenation of `T2` with the field type names `A5I` and `T2RR`).
+
+
+=== Runtime errors
+
+The CIF language defines strict sets of allowed values for all data types, and
+performs checking of these values at run time. The generated C99 code follows
+that idea, and checks whether operations on data are safe. Most of these
+checks are performed with an `assert`. Executed C code does not provide useful
+stack traces by default, and original line numbers of e.g. a CIF program have no
+meaning due to the linearization that is performed before code is generated. In
+addition, the generated code is quite readable and it is not too hard to
+understand what the code is doing at some C source line.

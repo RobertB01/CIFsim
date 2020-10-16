@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=*, p.x=0.0.
+CAUSE: Execution of the updates of an edge of the location of automaton "p" failed.
+CAUSE: Evaluation of "if" update guard(s) "1 / 0 > 0" failed.
+CAUSE: Division by zero: 1.0 / 0.0.

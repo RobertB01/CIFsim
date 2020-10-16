@@ -1,0 +1,13 @@
+WARNING: File "datasynth/evts.cif": Semantic warning at line 22, column 14: Event "cnn" is not used anywhere in the specification.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 26, column 16: Event "unn" is not used anywhere in the specification.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 32, column 14: The alphabet of automaton "g.p" globally disables event "can", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 32, column 19: The alphabet of automaton "g.p" globally disables event "caa", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 32, column 24: The alphabet of automaton "g.p" globally disables event "cae", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 33, column 14: The alphabet of automaton "g.p" globally disables event "uan", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 33, column 19: The alphabet of automaton "g.p" globally disables event "uaa", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 33, column 24: The alphabet of automaton "g.p" globally disables event "uae", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 42, column 23: The alphabet of automaton "g.r" globally disables event "caa", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 42, column 28: The alphabet of automaton "g.r" globally disables event "cea", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 43, column 23: The alphabet of automaton "g.r" globally disables event "uaa", as the event is not used on any of the edges of the automaton.
+WARNING: File "datasynth/evts.cif": Semantic warning at line 43, column 28: The alphabet of automaton "g.r" globally disables event "uea", as the event is not used on any of the edges of the automaton.
+ERROR: Empty supervisor.

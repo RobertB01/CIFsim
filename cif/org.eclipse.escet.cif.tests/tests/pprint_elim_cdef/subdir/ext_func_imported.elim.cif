@@ -1,0 +1,4 @@
+group g2:
+  func real f(): "java:c.d|.";
+  initial f() > 0;
+end

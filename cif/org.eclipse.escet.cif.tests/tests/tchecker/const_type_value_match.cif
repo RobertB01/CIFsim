@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  const bool x = 5;
+end
+
+///
+
+group h:
+  const int[1..2] x1 = 1;
+  const int[1..1] x2 = x1;
+end
+
+///
+
+const bool ok1 = true;
+const bool err1 = 1;
+const bool via_err1 = err1;
+
+const bool err2 = 2;
+const bool via_via_err2 = via_err2;
+const bool via_err2 = err2;
+const bool ok2 = true;
+
+const bool via_err3 = err3;
+const bool err3 = 3;
+const bool ok3 = true;
+const bool via_via_err3 = via_err3;
+
+const bool via_err4 = err4;
+const bool ok4 = true;
+const bool err4 = 4;

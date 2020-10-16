@@ -1,0 +1,5 @@
+svgfile "svgcopy.svg";
+
+svgcopy id "rect" pre "a";
+svgcopy id "grp" post "b";
+svgcopy id "rect3" pre "_" post "x";

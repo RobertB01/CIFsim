@@ -1,0 +1,1 @@
+Error: File "spec/statements/send-in-function.chi": Semantic error at line 15, column 6: The "receive" statement is not allowed in a function.

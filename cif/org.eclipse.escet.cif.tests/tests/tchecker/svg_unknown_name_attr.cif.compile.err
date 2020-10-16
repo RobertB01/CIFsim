@@ -1,0 +1,2 @@
+WARNING: File "tchecker/svg_unknown_name_attr.cif": Semantic warning at line 17, column 22: The SVG element with id "grp" in SVG file "small.svg" has name "g", which according to the SVG 1.1 standard does not have a "x" attribute.
+WARNING: File "tchecker/svg_unknown_name_attr.cif": Semantic warning at line 20, column 22: The SVG element with id "box" in SVG file "small.svg" has name "rect", which according to the SVG 1.1 standard does not have a "widht" attribute.

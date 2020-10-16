@@ -1,0 +1,78 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc Clock(chan! void dayclock, nightclock):
+   list tuple(real len; bool d) pins; timer t;
+   pins = [(8.0, false),
+           (8.0, true),
+           (8.0, false)];
+
+    for d in range(2):
+        for p in pins:
+            t = timer(p.len);
+            while true:
+                select ready(t): break;
+                alt p.d, dayclock!
+                alt not p.d, nightclock!
+                end
+            end
+        end
+        write("day passed\n");
+    end
+end;
+
+proc RQG(chan! int to; chan? void dayclock, nightclock):
+   bool day = false;
+   timer t;
+
+   while true:
+      write("RQG: day=%s\n", day);
+      select day and ready(t):
+         write("ready\t%f\n", time);
+         to!1;
+         write("sent\t%f\n", time);
+         t = timer(1.23);
+      alt not day, dayclock?:
+         write("1\t%f\n",time);
+         day = true;
+      alt day, nightclock?:
+         write("0\t%f\n",time);
+         day = false;
+     end
+   end
+end;
+
+proc HYB(chan! int to):
+   timer t;
+   select false and ready(t), to!1: pass end # Never executed.
+end;
+
+
+proc void Exit(chan? int from):
+   int x;
+   while true:
+      from?x;
+   end
+end;
+
+
+model void Main():
+   chan void   dayclock,
+               nightclock;
+   chan int    Rqg2Exit;
+
+   run
+     Clock(dayclock, nightclock),
+       RQG(Rqg2Exit, dayclock, nightclock),
+#       HYB(Rqg2Exit), # Adds the comm option without actually communicating.
+      Exit(Rqg2Exit);
+end

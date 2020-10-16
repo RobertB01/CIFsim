@@ -1,0 +1,9 @@
+Initial state: time=0.0, r1=*, r1.x=0, r2=*
+
+Transition: event e
+State: time=0.0, r1=*, r1.x=1, r2=*
+
+Transition: event e
+State: time=0.0, r1=*, r1.x=2, r2=*
+
+Simulation resulted in deadlock.

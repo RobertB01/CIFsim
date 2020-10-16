@@ -1,0 +1,75 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable add;
+controllable remove;
+
+// Value given with declaration.
+alg int[1..2] x = 1;
+
+plant p:
+  disc int[0..3] c in any;
+
+  // Value given with equation in component.
+  alg int[0..3] y;
+  equation y = x;
+
+  location:
+    initial;
+    marked;
+
+    edge add do c := c + x;
+    edge remove do c := c - y;
+end
+
+controllable move;
+
+requirement add needs q.z;
+
+plant q:
+  // Value given with equation per location.
+  alg bool z;
+
+  location l1:
+    initial;
+    marked;
+    equation z = true;
+
+    edge move goto l2;
+
+  location l2:
+    equation z = false;
+
+    edge move goto l1;
+end
+
+// Algebraic variable and component parameter with rangeless integer types.
+plant def R(alg int active_count):
+  alg int cost = if active: active_count else 0 end;
+
+  controllable activate, deactivate;
+
+  location inactive:
+    initial;
+    marked;
+    edge activate goto active;
+
+  location active:
+    edge deactivate goto inactive;
+end
+
+r1: R(3);
+r2: R(2);
+r3: R(4);
+
+requirement invariant r1.cost + r2.cost + r3.cost < 7;

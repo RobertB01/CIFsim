@@ -1,0 +1,2 @@
+ERROR: File "tchecker/resolve_not_in_func_scope.cif": Semantic error at line 16, column 12: "p.b" may not be used inside function "g.f".
+ERROR: Failed to load CIF file "tchecker/resolve_not_in_func_scope.cif": the file has errors.

@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+print pre <string>time + ":" + <string>a.x
+      post <string>time + "_" + <string>a.x
+      for initial, final, time, event;
+
+print pre "c" post "d" for initial, final, time, event;
+
+automaton a:
+  cont t der 1.0;
+  alg int x;
+
+  location loc1:
+    initial;
+    equation x = 1;
+    edge when true goto loc2;
+
+  location loc2:
+    equation x = 2;
+    edge when t >= 1.0 goto loc3;
+
+  location loc3:
+    equation x = 3;
+    edge when true goto loc4;
+
+  location loc4:
+    equation x = 4;
+    urgent;
+end

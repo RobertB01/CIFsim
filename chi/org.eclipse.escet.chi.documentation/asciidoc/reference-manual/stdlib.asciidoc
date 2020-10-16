@@ -1,0 +1,576 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[ref-chapter-standard-library]]
+== Standard library functions
+
+indexterm:[stdlib functions]
+The Chi language has many general purpose functions available.
+They are organized by type and kind of use.
+
+* <<ref-integer-stdlib>>
+
+* <<ref-real-stdlib>>
+
+* <<ref-string-stdlib>>
+
+* <<ref-list-stdlib>>
+
+* <<ref-set-stdlib>>
+
+* <<ref-dictionary-stdlib>>
+
+* <<ref-chapter-distributions>>
+
+* <<ref-timer-stdlib>>
+
+* <<ref-file-stdlib>>
+
+* <<ref-instance-stdlib>>
+
+
+
+indexterm:[integer,stdlib functions]
+indexterm:[stdlib functions,integer]
+
+[[ref-integer-stdlib]]
+=== Integer functions
+
+The following standard library functions on integers exist
+
+* `int` *abs*`(int val)`
++
+Return the absolute value of `val`.
+
+* `int` *sign*`(int val)`
++
+Return `-1` if val less than zero, `1` if val more than zero, and
+`0` otherwise.
+
+* `int` *max*`+(int a, b, ...)+`
++
+Return the biggest value of the parameters.
+
+* `int` *min*`+(int a, b, ...)+`
++
+Return the smallest value of the parameters.
+
+
+indexterm:[real number,stdlib functions]
+indexterm:[stdlib functions,real number]
+
+[[ref-real-stdlib]]
+=== Real number functions
+
+The following standard library functions on real numbers exist
+
+* `real` *abs*`(real val)`
++
+Return the absolute value of `val`.
+
+* `int` *sign*`(real val)`
++
+Return `-1` if val less than zero, `1` if val more than zero, and
+`0` otherwise.
+
+* `real` *max*`+(real a, b, ...)+`
++
+Return the biggest value of the parameters. Integer parameters are
+silently promoted to real.
+
+* `real` *min*`+(real a, b, ...)+`
++
+Return the smallest value of the parameters. Integer parameters are
+silently promoted to real.
+
+
+Conversion from real number to integer can be performed in three different
+ways.
+
+* `int` *ceil*`(real val)`
++
+Return smallest integer bigger or equal to `val`.
+
+* `int` *floor*`(real val)`
++
+Return biggest integer less or equal to `val`.
+
+* `int` *round*`(real val)`
++
+Round to nearest integer value (up if distance is `0.5`).
+
+
+The following power and logarithmic functions exist.
+
+* `real` *sqrt*`(real val)`
++
+Return the square root of `val` (argument must be non-negative).
+
+* `real` *cbrt*`(real val)`
++
+Return the cube root of `val` (`+val^(1/3)+`).
+
+* `real` *exp*`(real x)`
++
+Compute `+e^x+`.
+
+* `real` *ln*`(real x)`
++
+Compute the natural logarithm of `x`.
+
+* `real` *log*`(real x)`
++
+Compute the base-10 logarithm of `x`.
+
+
+Finally, there are trigonometric functions available.
+
+* `real` *cos*`(real a)`
++
+Cosine function of angle `a` (in radians).
+
+* `real` *sin*`(real angle)`
++
+Sine function of angle `a` (in radians).
+
+* `real` *tan*`(real angle)`
++
+Tangent function of angle `a` (in radians).
+
+* `real` *acos*`(real val)`
++
+Arc cosine function of value `val`.
+
+* `real` *asin*`(real val)`
++
+Arc sine function of value `val`.
+
+* `real` *atan*`(real val)`
++
+Arc tangent function of value `val`.
+
+* `real` *cosh*`(real val)`
++
+Hyperbolic cosine function of value `val`.
+
+* `real` *sinh*`(real val)`
++
+Hyperbolic sine function of value `val`.
+
+* `real` *tanh*`(real val)`
++
+Hyperbolic tangent function of value `val`.
+
+* `real` *acosh*`(real val)`
++
+Inverse hyperbolic cosine function of value `val`.
+
+* `real` *asinh*`(real val)`
++
+Inverse hyperbolic sine function of value `val`.
+
+* `real` *atanh*`(real val)`
++
+Inverse hyperbolic tangent function of value `val`.
+
+
+
+indexterm:[string,stdlib functions]
+indexterm:[stdlib functions,string]
+
+[[ref-string-stdlib]]
+=== String functions
+
+The following string functions exist in the standard library.
+
+* `int` *size*`(string s)`
++
+Get the number of characters in string `s`.
+
+* `string` *max*`+(string a, b, ...)+`
++
+Return the biggest string of the parameters.
+
+* `string` *min*`+(string a, b, ...)+`
++
+Return the smallest string of the parameters.
+
+
+
+indexterm:[list,stdlib functions]
+indexterm:[stdlib functions,list]
+
+[[ref-list-stdlib]]
+=== List functions
+
+Getting an element out of list can be done in two ways.
+
+* `tuple(T value, list T ys)` *pop*`(list T xs)`
++
+Get the first element of non-empty list `xs` (with arbitrary element type
+`T`), and return a tuple with the first element and the list without the
+first element.
+
+* `list T` *del*`(list T xs, int index)`
++
+Remove element `xs[index]` from list `xs` (with arbitrary type `T`).
+The index position must exist in the list. Returns a
+list without the removed element.
+
+
+For getting information about the number of elements in a list, the following
+functions are available.
+
+* `bool` *empty*`(list T xs)`
++
+Is list `xs` empty (for any element type `T`)?
+Returns `true` when `xs` contains no elements, and `false` when it has at
+least one element.
+
+* `int` *size*`(list T xs)`
++
+Get the number of elements in list `xs` (for any element type `T`).
+
+
+List functions mainly useful for using with a `for` statement (explained in
+<<ref-for-loop-statement>>) follow next.
+
+* `list tuple(int index, T value)` *enumerate*`(list T xs)`
++
+Construct a copy of the list `xs` with arbitrary element type `T`, with
+each element replaced by a tuple containing the index of the element as
+well as the element itself.
+For example, `enumerate(["a", "b"])` results in the list
+`[(0, "a"), (1, "b")]`.
+
+* `list int` *range*`(int end)`
++
+Construct a list with integer values running from `0` to (but not including)
+`end`. For example `range(3)` produces list `[0, 1, 2]`.
+
+* `list int` *range*`(int start, end)`
++
+Construct a list with integer values running from `start` to (but not including)
+`end`. For example, `range(3, 7)` produces list `[3, 4, 5, 6]`.
+
+* `list int` *range*`(int start, end, step)`
++
+Construct a list with integer values running from `start` to (but not
+including) `end`, while incrementing the value with step size `step`.
+For example `range(3, 8, 2)` produces `list [3, 5, 7]`. Negative step sizes
+are also allowed to construct lists with decrementing values, but `start` has
+to be larger than `end` in that case.
+
+
+
+For occasionally getting the biggest or smallest element of a list, the `min`
+and `max` functions are available. These functions take a lot of time, if
+smallest or biggest values are needed often, it may be better to use a sorted
+list.
+
+* `T` *min*`(list T xs)`
++
+Return the smallest element value of type `T` (`T` must be type
+int, real, or string) from non-empty list `xs`.
+
+* `T` *max*`(list T xs)`
++
+Return the biggest element value of type `T` (`T` must be type
+int, real, or string) from non-empty list `xs`.
+
+* `list` `T` *sort*`(list T xs, func bool pred(T a, b))`
++
+Sort list `xs` such that the predicate function `pred` holds for
+every pair of elements in the list, and return the sorted list.
++
+The predicate function `pred` must implement a total ordering on the
+values. See also the <<tut-sorted-lists,sorted lists>> discussion
+in the tutorial.
+
+* `list` `T` *insert*`(list T xs, T x, func bool pred(T a, b))`
++
+Given an already sorted list `xs` with respect to predicate function `pred`
+(with arbitrary element type `T`), insert element value `x` into the list
+such that the predicate function `pred` again holds for every pair of
+elements in the list. Return the list with the inserted `element`.
++
+The predicate function `pred` must implement a total ordering on the
+values. See also the <<tut-sorted-lists,sorted lists>> discussion
+in the tutorial.
+
+
+indexterm:[set,stdlib functions]
+indexterm:[stdlib functions,set]
+
+[[ref-set-stdlib]]
+=== Set functions
+
+Similar to lists, there are two functions for getting an element from a set.
+
+* `tuple(T val, set T yr)` *pop*`(set T xr)`
++
+Get an element of non-empty set `xr` (with arbitrary element type `T`), and
+return a tuple with the retrieved element and the set without the retrieved
+element. Note that the order of elements in a set has no meaning, and may
+change at any moment.
+
+* `list tuple(int index, T val)` *enumerate*`(set T xr)`
++
+Construct a list of tuples with position `index` and element value `val`
+from the set `xr` with arbitrary element type `T`. Note that the `index`
+has no meaning in the set.
+
+
+Removing a single element from a set can be done with the function below.
+
+* `set T` *del*`(set T xr, T value)`
++
+Remove from set `xr` (with arbitrary element type `T`) element
+`value` if it exists in the set. Returns a set without the (possibly)
+removed element.
+
+
+For getting information about the number of elements in a set, the following
+functions are available.
+
+* `bool` *empty*`(set T xr)`
++
+Is set `xr` empty (for any element type `T`)?
+Returns `true` when `xr` contains no elements, and `false` when it has at
+least one element.
+
+* `int` *size*`(set T xr)`
++
+Get the number of elements in set `xr` (for any element type `T`).
+
+
+
+For occasionally getting the biggest or smallest element of a set, the `min`
+and `max` functions are available. These functions take a lot of time, if
+smallest or biggest values are needed often, it may be better to make a sorted
+list.
+
+* `T` *min*`(set T xr)`
++
+Return the smallest element value of type `T` (`T` must be type
+`int`, `real`, or `string`) from non-empty set `xr`.
+
+* `T` *max*`(set T xr)`
++
+Return the biggest element value of type `T` (`T` must be type
+`int`, `real`, or `string`) from non-empty set `xr`.
+
+
+indexterm:[dictionary,stdlib functions]
+indexterm:[stdlib functions,dictionary]
+
+[[ref-dictionary-stdlib]]
+=== Dictionary functions
+
+Getting a value or a sequence of values from a dictionary can be done with the
+following functions.
+
+
+* `tuple(K key, V val, dict(K:V) e)` *pop*`(dict(K:V) d)`
++
+Get a key-value pair from non-empty dictionary `d` (with arbitrary key
+type `K` and arbitrary value type `V`), and return a tuple with the
+retrieved key, the retrieved value, and the dictionary without the
+retrieved element.
+
+* `list tuple(int index, K key, V val)` *enumerate*`(dict(K:V) d)`
++
+Construct a list of tuples with position `index`, key `key` and value
+`val` from dictionary `d` (with arbitrary key type `K` and arbitrary
+value type `V`). Note that the `index` has no meaning in the
+dictionary. In combination with a for statement (explained in
+<<ref-for-loop-statement>>), it is also possible to iterate over the
+dictionary directly.
+
+* `list K` *dictkeys*`(dict(K:V) d)`
++
+Return the keys of dictionary `d` (with any key type `K` and value type
+`V`) as a list with element type `K`. Since a dictionary has no order,
+the order of the elements in the resulting list is also undefined.
+
+* `list V` *dictvalues*`(dict(K:V) d)`
++
+Return the values of dictionary `d` (with any key type `K` and value type
+`V`) as a list with element type `V`. Since a dictionary has no order,
+the order of the elements in the resulting list is also undefined.
+
+
+
+Removing a single element from a dictionary can be done with the function below.
+
+* `dict(K:V)` *del*`(dict(K:V) d, K key)`
++
+Remove element `key` from dictionary `d` (with arbitrary element key type `K` and
+arbitrary value type `V`) if it exists in the dictionary.
+Returns a dictionary without the (possibly) removed element.
+
+
+The number of keys in a dictionary can be queried with the following
+functions.
+
+* `bool` *empty*`(dict(K:V) d)`
++
+Is dictionary `d` empty? (with any key type `K` and value type `V`)
+Returns `true` when `d` contains no elements, and `false` when it has at
+least one key element.
+
+* `int` *size*`(dict(K:V) d)`
++
+Get the number of key elements in dictionary `d` (with any key type `K`
+and value type `V`).
+
+
+For occasionally getting the biggest or smallest key value of a dictionary, the
+`min` and `max` functions are available. These functions take a lot of
+time, if smallest or biggest keys are needed often, it may be better to use a
+sorted list.
+
+* `K` *min*`(dict(K:V) d)`
++
+Return the smallest key of type `K` (`K` must be type
+`int`, `real`, or `string`) from non-empty dictionary `d`.
+
+* `K` *max*`(dict(K:V) d)`
++
+Return the biggest key of type `K` (`K` must be type
+`int`, `real`, or `string`) from non-empty dictionary `d`.
+
+
+indexterm:[timer,stdlib functions]
+indexterm:[stdlib functions,timer]
+
+[[ref-timer-stdlib]]
+=== Timer functions
+
+* `bool` *ready*`(timer t)`
++
+Return whether timer `t` has expired (or was never set). Returns `true`
+if the timer has reached `0` or was never set, and `false` if it is still
+running.
+
+
+indexterm:[file,stdlib functions]
+indexterm:[stdlib functions,file]
+
+[[ref-file-stdlib]]
+=== File functions
+
+* `bool` *eof*`(file handle)`
++
+For files that are read, this function tests whether the end of the file
+(EOF) has been reached. That is, it tests whether you have read the last
+value in the `file`.
++
+If the call returns `true`, there are no more values to read. If it
+returns `false`, another value is still available.
+For an example of how to use `eof` and `eol`, see
+<<tut-advanced-file-reading>>.
+
+* `bool` *eol*`(file handle)`
++
+For files that are read, this function tests whether the end of a line
+(EOL) has been reached. That is, it tests whether you have read the last
+value at the current line.
++
+If the call returns `true`, there are no more values to read at this
+line. If it returns `false`, another value can be read.
+For an example of how to use `eof` and `eol`, see
+<<tut-advanced-file-reading>>.
++
+Note that 'the same line' is applied only to the leading white space. It
+does not say anything about the number lines that a value itself uses.
+For example, you could spread a list or set with numbers over multiple lines.
+
+* `int` *newlines*`(file handle)`
++
+For files that are read, this function returns how many lines down the
+next value can be found. It returns a negative number if the end of the
+file has been reached.
++
+For example, executing:
++
+[source,chi]
+----
+int i;
+file f = open("data.txt", "r");
+
+i = read(f, int);
+writeln("read %d, eol count is %d", i, newlines(f));
+i = read(f, int);
+writeln("read %d, eol count is %d", i, newlines(f));
+i = read(f, int);
+writeln("read %d, eol count is %d", i, newlines(f));
+close(f);
+----
++
+where "data.txt" contains:
++
+[source,console]
+----
+123 345
+789
+----
++
+produces:
++
+[source,console]
+----
+read 123, eol count is 0
+read 345, eol count is 1
+read 789, eol count is -1
+----
++
+After reading `123`, the next integer is at the same line, which is `0`
+lines down. After reading `345`, the next value is at the next line,
+which is `1` line down. After reading the final value, a negative line
+count is returned to indicate lack of a next value.
++
+Note that 'number of lines down' is applied only to the leading white
+space. It does not say anything about the number lines that a value itself
+uses, a set of list could use several lines.
+
+
+* `file` *open*`(string filename, string mode)`
++
+Open the file with name `filename` using access mode `mode`.
+When the access mode is `"r"`, the file should exist and is opened for
+reading. When the access mode is `"w"`, the file is either created or its
+previous contents is erased. There is no way to append output to an
+existing file.
++
+Notice that filename is a normal Chi string, which means that the `\`
+character needs to be escaped to `\\`. (That is, use a string like
+`"mydir\\myfile.txt"` to open the file with the name `myfile.txt` in
+directory (map) `mydir`.
++
+Alternatively, you may want to use the forward slash `/` instead as path
+component separator.
+
+
+indexterm:[process instance,stdlib functions]
+indexterm:[stdlib functions,process instance]
+
+[[ref-instance-stdlib]]
+=== Process instance functions
+
+
+* `bool` *finished*`(inst p)`
++
+Return whether the process stored by process instance `p` has finished.
+Returns `true` when the process has finished, and `false` if it has not ended yet.

@@ -1,0 +1,15 @@
+Initial state: time=0.0, p=l1, p.b=false, p.i=0, p.r=0.0
+
+Transition: event tau
+State: time=0.0, p=l2, p.b=false, p.i=-1, p.r=-5.0
+
+Transition: event tau
+State: time=0.0, p=l3, p.b=true, p.i=1, p.r=5.0
+
+Transition: event tau
+State: time=0.0, p=l4, p.b=true, p.i=1, p.r=1.0
+
+Transition: event tau
+State: time=0.0, p=l5, p.b=true, p.i=1, p.r=-1.2
+
+Simulation resulted in deadlock.

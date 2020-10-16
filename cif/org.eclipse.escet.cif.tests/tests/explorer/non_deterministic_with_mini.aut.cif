@@ -1,0 +1,18 @@
+event e;
+event f;
+event g;
+automaton statespace:
+  alphabet e, f, g;
+  location loc1:
+    initial;
+    edge e;
+    edge e goto loc2;
+    edge e goto loc3;
+    edge e goto loc4;
+  location loc2;
+  location loc3;
+  location loc4:
+    edge f goto loc1;
+    edge g;
+    edge g goto loc2;
+end

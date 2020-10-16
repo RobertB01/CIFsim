@@ -1,0 +1,54 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Together, 'r2' and 'r3' allow a 'b' every 6th 'a' event.
+
+controllable a;
+controllable b;
+
+plant p:
+  disc int[0..13] x = 0;
+
+  location:
+    initial;
+    marked;
+    edge a when x < 13 do x := x + 1;
+    edge b;
+end
+
+// Every 2nd 'a' events, allow a 'b'.
+requirement r2:
+  location l1:
+    initial;
+    marked;
+    edge a goto l2;
+
+  location l2:
+    edge a goto l1;
+    edge b;
+end
+
+// Every 3rd 'a' events, allow a 'b'.
+requirement r3:
+  location l1:
+    initial;
+    marked;
+    edge a goto l2;
+
+  location l2:
+    edge a goto l3;
+
+  location l3:
+    edge a goto l1;
+    edge b;
+end

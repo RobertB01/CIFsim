@@ -1,0 +1,24 @@
+sort LocSort_buff = struct loc_buff;
+
+proc BehProc_buff(Locvar_buff : LocSort_buff) =
+  sum cnt : Int . ((cnt >= 0) && (cnt <= 3) && (Locvar_buff == loc_buff)) -> c_e | aread_cnt(cnt) | awrite_cnt((cnt + 1)) . BehProc_buff(Locvar_buff);
+
+act value_cnt, vread_cnt, vwrite_cnt, sync_cnt, aread_cnt, awrite_cnt : Int;
+
+proc VarProc_cnt(v:Int) =
+  value_cnt(v) . VarProc_cnt(v) +
+  vread_cnt(v) . VarProc_cnt(v) +
+  sum m:Int . ((m >= 0) && (m <= 3)) -> vwrite_cnt(m) . VarProc_cnt(m) +
+  sum m:Int . ((m >= 0) && (m <= 3)) -> vread_cnt(v) | vwrite_cnt(m) . VarProc_cnt(m);
+
+act c_e, renamed_c_e;
+
+init block({aread_cnt, awrite_cnt, vread_cnt, vwrite_cnt},
+     hide({sync_cnt},
+     comm({aread_cnt | vread_cnt -> sync_cnt,
+           awrite_cnt | vwrite_cnt -> sync_cnt},
+     (
+       BehProc_buff(loc_buff)
+     ||
+       VarProc_cnt(0)
+     ))));

@@ -1,0 +1,30 @@
+controllable c1;
+controllable c2;
+uncontrollable u1;
+uncontrollable u2;
+plant automaton p1:
+  disc int[0..3] x;
+  location a:
+    initial;
+    marked;
+    edge c1 goto b;
+  location b:
+    edge u1 when x < 2 do x := x + 1 goto a;
+end
+plant automaton p2:
+  disc int[0..3] x;
+  location a:
+    initial;
+    marked;
+    edge c2 goto b;
+  location b:
+    edge u2 when x < 2 do x := x + 1 goto a;
+end
+supervisor automaton sup:
+  alphabet c1, c2;
+  location:
+    initial;
+    marked;
+    edge c1 when (p1.b or p1.x = 2 or (p1.x = 3 or (p2.b or p2.x != 3))) and (p1.b or (p1.x = 2 or p1.x = 3) or (p2.a or (p2.x = 0 or p2.x = 1))) and ((p1.b or (p1.x = 0 or p1.x = 1)) and p1.a);
+    edge c2 when p1.a and (p1.x = 0 or p1.x = 2) and (p2.a and (p2.x = 0 or p2.x = 1)) or (p1.a and p1.x = 1 and (p2.a and (p2.x = 0 or p2.x = 1)) or p1.b and (p1.x = 0 or p1.x = 1) and (p2.a and (p2.x = 0 or p2.x = 1)));
+end

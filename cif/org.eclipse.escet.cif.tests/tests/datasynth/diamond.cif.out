@@ -1,0 +1,169 @@
+Reading CIF file "datasynth/diamond.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   motor1  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   motor2  1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer  n/a   order   2      2 * 2     4 * 2       4 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  3      8         16          16          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 4
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    6 (total)                 1.50 (avg/edge) [before]
+    Total span:                    4 (total)                 1.00 (avg/edge) [iteration 1]
+    Total span:                    4 (total)                 1.00 (avg/edge) [iteration 2]
+    Total span:                    4 (total)                 1.00 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    4 (total)                 1.00 (avg/edge) [before]
+    Total span:                    4 (total)                 1.00 (avg/edge) [after]
+
+  Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   motor1  0      1 * 2     2 * 2       2 * 2       100%
+  2      location pointer  n/a   order   1      2 * 2     4 * 2       4 * 2       100%
+  3      location pointer  n/a   motor2  2      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                  3      8         16          16          100%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     motor1.Off
+Initial   (aut/locs init predicate):     motor2.On
+Initial   (aut/locs init predicate):     order.l1
+Initial   (auts/locs init predicate):    motor1.Off and (order.l1 and motor2.On)
+Initial   (uncontrolled system):         motor1.Off and (order.l1 and motor2.On)
+Initial   (system, combined init/inv):   motor1.Off and (order.l1 and motor2.On)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   motor1.Off
+Marked    (aut/locs marker predicate):   motor2.On
+Marked    (aut/locs marker predicate):   order.l1
+Marked    (auts/locs marker predicate):  motor1.Off and (order.l1 and motor2.On)
+Marked    (uncontrolled system):         motor1.Off and (order.l1 and motor2.On)
+Marked    (system, combined marked/inv): motor1.Off and (order.l1 and motor2.On)
+
+State/event exclusion requirements:
+  Event "motor1.c_on" needs:
+    order.l1
+  Event "motor2.c_off" needs:
+    order.l2
+  Event "motor2.c_on" needs:
+    order.l3
+  Event "motor1.c_off" needs:
+    order.l4
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2)
+    Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On)
+    Edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1)
+    Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4)) (assignments: motor1 := motor1.Off)
+    Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4)
+    Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On)
+    Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
+    Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off) (assignments: motor1 := motor1.On): guard: (motor1.On or not order.l1) and motor1.Off -> false [requirement: order.l1].
+Edge (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4)) (assignments: motor1 := motor1.Off): guard: motor1.On and (motor1.Off or not order.l4) -> false [requirement: order.l4].
+Edge (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On): guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false [requirement: order.l3].
+Edge (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off): guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false [requirement: order.l2].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: true)
+    Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2)
+    Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off -> false) (assignments: motor1 := motor1.On)
+    Edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1)
+    Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4) -> false) (assignments: motor1 := motor1.Off)
+    Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4)
+    Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false) (assignments: motor2 := motor2.On)
+    Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
+    Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false) (assignments: motor2 := motor2.Off)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l4 and motor2.On) [backward reach with edge: (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l4 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l4 and motor2.On)) [backward reach with edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l4 and motor2.On)) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [backward reach with edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [fixed point].
+Controlled behavior: true -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)).
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (motor1.On or (not order.l1 or motor2.Off)) and ((motor1.Off or (not order.l3 or motor2.On)) and (motor1.Off or order.l1 or (order.l3 or motor2.Off))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l2 and motor2.On) [forward reach with edge: (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
+Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or motor1.On and (order.l2 and motor2.On) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l2 and motor2.On)) [forward reach with edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
+Forward reachability: iteration 2.
+Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and (order.l2 and motor2.On)) -> motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [forward reach with edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4), restricted to current/previous controlled-behavior predicate: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))]
+Forward reachability: iteration 3.
+Forward controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)) [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: motor1.c_on) (guard: motor1.Off and order.l1) (assignments: motor1 := motor1.On, order := order.l2): guard: motor1.Off and order.l1 -> motor1.Off and (order.l1 and motor2.On).
+Edge (event: motor1.c_off) (guard: motor1.On and order.l4) (assignments: motor1 := motor1.Off, order := order.l1): guard: motor1.On and order.l4 -> motor1.On and (order.l4 and motor2.On).
+Edge (event: motor2.c_on) (guard: order.l3 and motor2.Off) (assignments: motor2 := motor2.On, order := order.l4): guard: order.l3 and motor2.Off -> motor1.On and (order.l3 and motor2.Off).
+Edge (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3): guard: order.l2 and motor2.On -> motor1.On and (order.l2 and motor2.On).
+
+Final synthesis result:
+  State: (controlled-behavior: motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On)))
+    Edge: (event: motor1.c_on) (guard: motor1.Off and order.l1 -> motor1.Off and (order.l1 and motor2.On)) (assignments: motor1 := motor1.On, order := order.l2)
+    Edge: (event: motor1.c_on) (guard: (motor1.On or not order.l1) and motor1.Off -> false) (assignments: motor1 := motor1.On)
+    Edge: (event: motor1.c_off) (guard: motor1.On and order.l4 -> motor1.On and (order.l4 and motor2.On)) (assignments: motor1 := motor1.Off, order := order.l1)
+    Edge: (event: motor1.c_off) (guard: motor1.On and (motor1.Off or not order.l4) -> false) (assignments: motor1 := motor1.Off)
+    Edge: (event: motor2.c_on) (guard: order.l3 and motor2.Off -> motor1.On and (order.l3 and motor2.Off)) (assignments: motor2 := motor2.On, order := order.l4)
+    Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off -> false) (assignments: motor2 := motor2.On)
+    Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On -> motor1.On and (order.l2 and motor2.On)) (assignments: motor2 := motor2.Off, order := order.l3)
+    Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On -> false) (assignments: motor2 := motor2.Off)
+
+Controlled system:                     exactly 4 states.
+
+Initial (synthesis result):            motor1.Off and (order.l1 and motor2.On) or (motor1.On and (order.l3 and motor2.Off) or motor1.On and ((order.l2 or order.l4) and motor2.On))
+Initial (uncontrolled system):         motor1.Off and (order.l1 and motor2.On)
+Initial (controlled system):           motor1.Off and (order.l1 and motor2.On)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event motor1.c_on: guard: motor1.Off and (order.l1 and motor2.On) -> order.l1 and motor2.On [assume motor1.Off].
+  Event motor1.c_off: guard: motor1.On and (order.l4 and motor2.On) -> order.l4 and motor2.On [assume motor1.On].
+  Event motor2.c_on: guard: motor1.On and (order.l3 and motor2.Off) -> motor1.On and order.l3 [assume motor2.Off].
+  Event motor2.c_off: guard: motor1.On and (order.l2 and motor2.On) -> motor1.On and order.l2 [assume motor2.On].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/diamond.ctrlsys.real.cif".

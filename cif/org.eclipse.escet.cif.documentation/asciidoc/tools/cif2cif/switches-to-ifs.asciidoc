@@ -1,0 +1,126 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-switches-to-ifs]]
+== Convert `switch` expressions to `if` expressions
+
+indexterm:[CIF to CIF transformer,convert switch expressions to if expressions]
+indexterm:[convert switch expressions to if expressions]
+indexterm:[switch expression,convert]
+This CIF to CIF transformation converts `switch` expressions to `if`
+expressions.
+
+=== Supported specifications
+
+This transformation supports all CIF specifications.
+
+
+=== Preprocessing
+
+n/a
+
+indexterm:[convert switch expressions to if expressions,implementation]
+
+=== Implementation details
+
+All `switch` expressions are replaced by `if` expressions. For instance,
+consider the following CIF specification:
+
+
+[source, cif]
+----
+alg int y = ...
+alg real x = switch y:
+               case 1: 1.0
+               case 2: 4.0
+               case 3: 9.0
+               else    0.0
+             end;
+alg real z = switch y:
+               else 1.0
+             end;
+
+automaton a:
+  alg string v = switch self:
+                   case l1: "first"
+                   case l2: "second"
+                 end;
+
+  location l1:
+    initial;
+    edge tau goto l2;
+
+  location l2;
+end
+----
+
+This is transformed to the following CIF specification:
+
+
+[source, cif]
+----
+alg int y = ...
+alg real x = if   y = 1: 1.0
+             elif y = 2: 4.0
+             elif y = 3: 9.0
+             else        0.0
+             end;
+alg real z = 1.0;
+
+automaton a:
+  alg string v = if l1: "first"
+                 else   "second"
+                 end;
+
+  location l1:
+    initial;
+    edge tau goto l2;
+
+  location l2;
+end
+----
+
+For algebraic variable `z`, there is only one case (the `else`), so no
+`if` expression is generated. This optimization means that the control value
+(`y` in this case) is lost.
+
+For algebraic variable `v` in automaton `a`, the `switch` expression uses
+an automaton self reference. The cases list the possible locations of the
+automaton, and the `switch` expression maps them to string values. Since for
+`if` expressions the `else` part is mandatory, the last `case` of the
+`switch` is converted to the `else` of the `if` expression.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[convert switch expressions to if expressions,size considerations]
+
+=== Size considerations
+
+The created `if` expression is usually larger than the original `switch`
+expression, as the control value is duplicated for each `if` and `elif`
+part, where it is compared to the `case` values. For `switch` expressions
+with only one `case` or `else`, no `if` expression is generated, and the
+expression becomes smaller.
+
+indexterm:[convert switch expressions to if expressions,optimality]
+
+=== Optimality
+
+This transformation transforms `switch` expressions to `if` expressions,
+leading to `if` expressions with `if` and `elif` guards that may not be
+optimal. To simplify the result, apply additional CIF to CIF transformations,
+such as <<tools-cif2cif-chapter-simplify-values>>.

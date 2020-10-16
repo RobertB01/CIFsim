@@ -1,0 +1,2 @@
+ERROR: Failed to disable events for CIF file "event_disabler/parent_decl.cif".
+CAUSE: Can't disable event "a.b.c": "a.b" is not a component.

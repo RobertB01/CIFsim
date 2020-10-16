@@ -1,0 +1,6 @@
+ERROR: File "tchecker/fcall_wrong_arg_count.cif": Semantic error at line 16, column 18: Function of type "func real()" needs 0 arguments, but 1 argument is given.
+ERROR: File "tchecker/fcall_wrong_arg_count.cif": Semantic error at line 22, column 22: Function "random" needs 0 arguments, but 1 argument is given.
+ERROR: File "tchecker/fcall_wrong_arg_count.cif": Semantic error at line 27, column 15: Function "abs" needs 1 argument, but 0 arguments are given.
+ERROR: File "tchecker/fcall_wrong_arg_count.cif": Semantic error at line 29, column 15: Function "pow" needs 2 arguments, but 1 argument is given.
+ERROR: File "tchecker/fcall_wrong_arg_count.cif": Semantic error at line 30, column 18: Function "fmt" needs at least 1 argument, but 0 arguments are given.
+ERROR: Failed to load CIF file "tchecker/fcall_wrong_arg_count.cif": the file has errors.

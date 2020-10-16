@@ -1,0 +1,11 @@
+group $group:
+  group $plant:
+    controllable $event;
+  end
+end
+plant automaton product:
+  alphabet $group.$plant.$event;
+  location s1:
+    initial;
+    edge $group.$plant.$event;
+end

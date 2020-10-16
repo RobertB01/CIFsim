@@ -1,0 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int f(): "java:TestClass1.ret_priv125|java_code/bin";
+
+automaton p:
+  disc int x = f();
+  invariant x > 0;
+
+  location:
+    initial;
+    urgent;
+end

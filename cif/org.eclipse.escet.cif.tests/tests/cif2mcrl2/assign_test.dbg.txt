@@ -1,0 +1,138 @@
+===============================================================
+Node 1
+
+Available variable processes:
+    A.y
+
+Variable use by behavior processes ordered by event:
+    a1:
+        A.y  read:ALWAYS  write:NEVER
+    b1:
+        A.y  read:ALWAYS  write:NEVER
+    c1:
+        A.y  read:ALWAYS  write:NEVER
+    a2:
+        A.y  read:ALWAYS  write:NEVER
+    b2:
+        A.y  read:ALWAYS  write:NEVER
+    c2:
+        A.y  read:ALWAYS  write:NEVER
+    a3:
+        A.y  read:ALWAYS  write:NEVER
+    b3:
+        A.y  read:ALWAYS  write:NEVER
+    c3:
+        A.y  read:ALWAYS  write:NEVER
+    a4:
+        A.y  read:NEVER  write:ALWAYS
+    b4:
+        A.y  read:ALWAYS  write:ALWAYS
+    c4:
+        A.y  read:NEVER  write:ALWAYS
+    a5:
+        A.y  read:ALWAYS  write:ALWAYS
+    b5:
+        A.y  read:ALWAYS  write:ALWAYS
+    c5:
+        A.y  read:ALWAYS  write:ALWAYS
+
+Children:
+    node 1.1
+    node 1.2
+
+===============================================================
+Node 1.1
+
+Variable use by behavior processes ordered by event:
+    a1:
+        A.y  read:ALWAYS  write:NEVER
+    b1:
+        A.y  read:ALWAYS  write:NEVER
+    c1:
+        A.y  read:ALWAYS  write:NEVER
+    a2:
+        A.y  read:ALWAYS  write:NEVER
+    b2:
+        A.y  read:ALWAYS  write:NEVER
+    c2:
+        A.y  read:ALWAYS  write:NEVER
+    a3:
+        A.y  read:ALWAYS  write:NEVER
+    b3:
+        A.y  read:ALWAYS  write:NEVER
+    c3:
+        A.y  read:ALWAYS  write:NEVER
+    a4:
+        A.y  read:NEVER  write:ALWAYS
+    b4:
+        A.y  read:ALWAYS  write:ALWAYS
+    c4:
+        A.y  read:NEVER  write:ALWAYS
+    a5:
+        A.y  read:ALWAYS  write:ALWAYS
+    b5:
+        A.y  read:ALWAYS  write:ALWAYS
+    c5:
+        A.y  read:ALWAYS  write:ALWAYS
+
+Children:
+    node 1.1.1
+    node 1.1.2
+
+===============================================================
+Node 1.1.1 (automaton A)
+
+Variable use by behavior processes ordered by event:
+    a1:
+        No variables from variables processes accessed.
+    b1:
+        No variables from variables processes accessed.
+    c1:
+        A.y  read:ALWAYS  write:NEVER
+    a2:
+        No variables from variables processes accessed.
+    b2:
+        No variables from variables processes accessed.
+    c2:
+        A.y  read:ALWAYS  write:NEVER
+    a3:
+        A.y  read:ALWAYS  write:NEVER
+    b3:
+        A.y  read:ALWAYS  write:NEVER
+    c3:
+        A.y  read:ALWAYS  write:NEVER
+    a4:
+        A.y  read:NEVER  write:ALWAYS
+    b4:
+        A.y  read:ALWAYS  write:ALWAYS
+    c4:
+        A.y  read:NEVER  write:ALWAYS
+    a5:
+        A.y  read:ALWAYS  write:ALWAYS
+    b5:
+        A.y  read:ALWAYS  write:ALWAYS
+    c5:
+        A.y  read:ALWAYS  write:ALWAYS
+
+===============================================================
+Node 1.1.2 (automaton B)
+
+Variable use by behavior processes ordered by event:
+    a1:
+        A.y  read:ALWAYS  write:NEVER
+    b1:
+        A.y  read:ALWAYS  write:NEVER
+    c1:
+        A.y  read:ALWAYS  write:NEVER
+    a2:
+        A.y  read:ALWAYS  write:NEVER
+    b2:
+        A.y  read:ALWAYS  write:NEVER
+    c2:
+        A.y  read:ALWAYS  write:NEVER
+
+===============================================================
+Node 1.2 (variable A.y)
+
+Available variable processes:
+    A.y

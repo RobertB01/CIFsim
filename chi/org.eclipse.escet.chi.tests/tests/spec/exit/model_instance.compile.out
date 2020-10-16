@@ -1,0 +1,4 @@
+Error: File "spec/exit/model_instance.chi": Semantic error at line 22, column 7: Cannot assign value with type "bool" to variables with type "int".
+Error: File "spec/exit/model_instance.chi": Semantic error at line 27, column 19: Model definition "M" may not be used here.
+Error: File "spec/exit/model_instance.chi": Semantic error at line 31, column 19: Model definition "M" may not be used here.
+Error: File "spec/exit/model_instance.chi": Semantic error at line 35, column 12: Model definition "M" may not be used here.

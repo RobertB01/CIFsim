@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a:
+  alg string v1 = <string>self;
+  alg string v2 = <string>a;
+  alg string v3 = <string>true;
+
+  location:
+    initial;
+end
+
+invariant a.v1 = "a";
+invariant a.v2 = "b";
+invariant a.v3 = "c";
+
+automaton def B():
+  alg string v1 = <string>self;
+  alg string v2 = <string>b1;
+  alg string v3 = <string>true;
+
+  location:
+    initial;
+end
+
+b1: B();
+b2: B();
+
+invariant b1.v1 = "a";
+invariant b1.v2 = "b";
+invariant b1.v3 = "c";
+invariant b2.v1 = "a";
+invariant b2.v2 = "b";
+invariant b2.v3 = "c";

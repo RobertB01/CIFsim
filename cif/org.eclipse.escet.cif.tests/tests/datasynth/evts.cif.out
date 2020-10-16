@@ -1,0 +1,100 @@
+Reading CIF file "datasynth/evts.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         true
+Initial   (system, combined init/inv):   true
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  Event "caa" needs:
+    false
+  Event "cea" needs:
+    false
+  Event "cae" needs:
+    true
+  Event "cee" needs:
+    true
+  Event "uaa" needs:
+    false
+  Event "uea" needs:
+    false
+  Event "uae" needs:
+    true
+  Event "uee" needs:
+    true
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: cen) (guard: true)
+    Edge: (event: cea) (guard: true)
+    Edge: (event: cee) (guard: true)
+    Edge: (event: uen) (guard: true)
+    Edge: (event: uea) (guard: true)
+    Edge: (event: uee) (guard: true)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: cea) (guard: true): guard: true -> false [requirement: false].
+Controlled behavior: true -> false [requirement: false, edge: (event: uea) (guard: true)].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: false)
+    Edge: (event: cen) (guard: true)
+    Edge: (event: cea) (guard: true -> false)
+    Edge: (event: cee) (guard: true)
+    Edge: (event: uen) (guard: true)
+    Edge: (event: uea) (guard: true)
+    Edge: (event: uee) (guard: true)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> false [restricted to current/previous controlled-behavior predicate: false]
+Backward reachability: iteration 1.
+Backward controlled-behavior: false [fixed point].
+
+Round 1: finished, all states are bad.
+
+Computing controlled system guards.
+
+Edge (event: cen) (guard: true): guard: true -> false.
+Edge (event: cee) (guard: true): guard: true -> false.
+
+Final synthesis result:
+  State: (controlled-behavior: false)
+    Edge: (event: cen) (guard: true -> false)
+    Edge: (event: cea) (guard: true -> false)
+    Edge: (event: cee) (guard: true -> false)
+    Edge: (event: uen) (guard: true)
+    Edge: (event: uea) (guard: true)
+    Edge: (event: uee) (guard: true)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            false
+Initial (uncontrolled system):         true
+Initial (controlled system):           false
+Initial (removed by supervisor):       true
+Initial (added by supervisor):         false

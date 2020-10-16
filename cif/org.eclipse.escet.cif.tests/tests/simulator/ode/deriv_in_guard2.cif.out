@@ -1,0 +1,9 @@
+Initial state: time=0.0, p=l1, p.x=1.0, p.x'=1.0
+
+Transition: delaying for 1.6094379126251455 time units at time 0.0
+State: time=1.6094379126251455, p=l1, p.x=5.000000000000005, p.x'=5.000000000000005
+
+Transition: event e
+State: time=1.6094379126251455, p=l2, p.x=5.000000000000005, p.x'=5.000000000000005
+
+Simulation resulted in deadlock.

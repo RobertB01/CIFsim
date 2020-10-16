@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_comp_aut_func.in1.cif" with CIF specification "merger/err_comp_aut_func.in2.cif" failed.
+CAUSE: Merging group with name "p" into an automaton with the same name failed: the group contains function "f".

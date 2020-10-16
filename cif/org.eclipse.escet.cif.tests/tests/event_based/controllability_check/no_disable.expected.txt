@@ -1,0 +1,3 @@
+Controllability check HOLDS in file "event_based/controllability_check/no_disable.cif".
+
+No disabled events found.

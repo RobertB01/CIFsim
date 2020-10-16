@@ -1,0 +1,3 @@
+WARNING: Automaton "p" has no marked location, supervisor will be empty.
+ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/empty_unmarked.cif".
+CAUSE: Supervisor is empty (no marker states).

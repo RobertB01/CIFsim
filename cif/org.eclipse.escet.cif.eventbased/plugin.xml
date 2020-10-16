@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <extension point="org.eclipse.ui.commands">
+      <category
+         id="org.eclipse.escet.cif.commands.category"
+         name="CIF commands">
+      </category>
+   </extension>
+
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.cif.eventbased.singleCifFile">
+         <and>
+            <iterate>
+               <adapt type="org.eclipse.core.resources.IFile">
+                  <test property="org.eclipse.core.resources.name"
+                        value="*.cif"/>
+               </adapt>
+            </iterate>
+            <count value="1"/>
+         </and>
+      </definition>
+   </extension>
+
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.cif.eventbased.singleSynthdumpFile">
+         <and>
+            <iterate>
+               <adapt type="org.eclipse.core.resources.IFile">
+                  <test property="org.eclipse.core.resources.name"
+                        value="*.synth_dump"/>
+               </adapt>
+            </iterate>
+            <count value="1"/>
+         </and>
+      </definition>
+   </extension>
+
+   <!-- Automaton abstraction. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionCommand"
+         name="Apply automaton abstraction">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;automaton abstraction...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Automaton projection. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.ProjectionCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.ProjectionCommand"
+         name="Apply automaton projection">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.ProjectionCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply automaton pro&amp;jection...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+
+   <!-- NFA to DFA automaton conversion. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.NfaToDfaCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.NfaToDfaCommand"
+         name="Apply NFA to DFA automaton conversion">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.NfaToDfaCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply N&amp;FA to DFA automaton conversion...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Controllability check. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckCommand"
+         name="Apply controllability check">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;controllability check...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Language equivalence check. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckCommand"
+         name="Apply language equivalence check">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;language equivalence check...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Nonconflicting check. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckCommand"
+         name="Apply nonconflicting check">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;nonconflicting check...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Observer check. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.ObserverCheckCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.ObserverCheckCommand"
+         name="Apply observer check">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.ObserverCheckCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply o&amp;bserver check...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Supervisor synthesis. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisCommand"
+         name="Apply supervisor synthesis">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;supervisor synthesis...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Synchronous product. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.SynchronousProductCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.SynchronousProductCommand"
+         name="Apply synchronous product">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.SynchronousProductCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply synchronous &amp;product...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Trim. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.TrimCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.TrimCommand"
+         name="Apply trim">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.TrimCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply tri&amp;m...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Trim check. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.TrimCheckCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.TrimCheckCommand"
+         name="Apply trim check">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.TrimCheckCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;trim check...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- DFA minimization. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.DfaMinimizationCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.DfaMinimizationCommand"
+         name="Apply DFA minimization">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/eventbased_cif.png"
+               id="org.eclipse.escet.cif.menu.synthesis"
+               label="CIF s&amp;ynthesis tools">
+            <menu
+                  icon="icons/eventbased_cif.png"
+                  id="org.eclipse.escet.cif.menu.synthesis.eventbased"
+                  label="&amp;Event-based synthesis tools">
+               <command
+                     commandId="org.eclipse.escet.cif.eventbased.apps.DfaMinimizationCommand"
+                     icon="icons/eventbased_cif.png"
+                     label="Apply &amp;DFA minimization...">
+                  <visibleWhen>
+                     <or>
+                        <with variable="activeMenuSelection">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                        <with variable="activeMenuEditorInput">
+                           <reference definitionId="org.eclipse.escet.cif.eventbased.singleCifFile"/>
+                        </with>
+                     </or>
+                  </visibleWhen>
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <!-- Synthesis analysis, double click. -->
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisEditor"
+            extensions="synth_dump"
+            icon="icons/synth_dump_file.png"
+            id="org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisEditor"
+            name="Synthesis analysis">
+      </editor>
+   </extension>
+
+   <!-- Synthesis analysis, right-menu. -->
+   <extension point="org.eclipse.ui.commands">
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisCommandHandler"
+         id="org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisCommand"
+         name="Analyze Synthesis Result">
+      </command>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisCommand"
+               icon="icons/eventbased_cif.png"
+               label="Analyze Synthesis &amp;Result">
+            <visibleWhen>
+               <with variable="activeMenuSelection">
+                  <reference definitionId="org.eclipse.escet.cif.eventbased.singleSynthdumpFile"/>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+</plugin>

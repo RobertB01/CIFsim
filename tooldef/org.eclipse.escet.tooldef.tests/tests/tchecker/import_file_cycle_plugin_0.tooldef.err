@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_cycle_plugin_0.tooldef": Semantic error at line 14, column 8: Imported ToolDef script "tooldef://org.eclipse.escet.tooldef.tests/org/eclipse/escet/tooldef/tests/import_file_cycle_plugin_1.tooldef" has an error: Import cycle detected: "import_file_cycle_plugin_2.tooldef" -> "tooldef://org.eclipse.escet.tooldef.tests/org/eclipse/escet/tooldef/tests/import_file_cycle_plugin_3.tooldef" -> "import_file_cycle_plugin_1.tooldef".
+ERROR: Failed to load ToolDef file "tchecker/import_file_cycle_plugin_0.tooldef": the file has errors.

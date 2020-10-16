@@ -1,0 +1,114 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[application, registration]
+
+[[app-framework-registration]]
+== Application registration
+
+Applications that use the application framework maintain their own data. This
+includes options, output components (via an output provider), streams, etc.
+Only a single application can be registered for each thread. Only once the
+application terminates and automatically unregisters itself, can a new
+application register itself in that thread. To run multiple applications
+in parallel, simply run them on different threads.
+
+
+indexterm:[application, multi-threading]
+indexterm:[application, thread]
+
+[[app-framework-multi-threaded-apps]]
+=== Multi-threaded applications
+
+All data stored for the application is wrapped in the `AppEnvData` class, and
+stored by the `AppEnv` class, on a per-thread basis. If your application uses
+multiple threads, you need to register each thread with the application
+framework. Use the `AppEnv.registerThread` method for this. This method
+requires the current application environment data as parameter, which may
+be obtained by using the `AppEnv.getData` method. To avoid managed memory
+leaks, always unregister threads once they are no longer used, by using the
+`AppEnv.unregisterThread` method.
+
+
+indexterm:[application, testing]
+
+[[app-framework-unit-tests]]
+=== Unit tests
+
+If unit tests use methods that depend on the application being registered, then
+the unit test will need to register an application. Examples of method using
+the application framework are methods that use options, or produce output via
+the application framework. Especially for unit tests, the
+`AppEnv.registerSimple` method can be used to register a dummy application.
+This method uses a default application environment, without an actual
+application, registers a default stream output provider, sets the output mode
+to errors and warnings only (no normal or debug output), and disables
+development mode. It can be used in a unit test class as follows:
+
+[source, java]
+----
+/***/ @BeforeClass
+public static void oneTimeSetUp() {
+    AppEnv.registerSimple();
+}
+
+/***/ @AfterClass
+public static void oneTimeTearDown() {
+    AppEnv.unregisterApplication();
+}
+----
+
+If any options are used, they will need to be available as well. For instance,
+one could add the following to the `oneTimeSetUp` method, or at the start of
+the actual unit test method:
+
+[source, java]
+----
+Options.set(SomeOption.class, <value>);
+----
+
+
+indexterm:[application, running]
+
+[[app-framework-running-app-from-other-app]]
+=== Running an application from another application
+
+As noted above, only a single application can be registered for a single
+thread. To start one application from another application, simply run the
+second application in a fresh thread. In the new thread, do the following:
+
+* Construct the child application, using a constructor with the `AppStreams`
+argument, to pass along the streams from the parent application.
+
+* Set the current working directory to the current working directory of the
+parent application.
+
+* Obtain the Eclipse IDE console (if any) from the parent application, and couple
+it the child application.
+
+* Run the child application.
+
+After the child application thread finishes, make sure you:
+
+* Restore the coupling between the Eclipse IDE console (if any) and the parent
+application.
+
+* If the child application finished due to a termination request, request
+termination for the parent application.
+
+* Decide what to do with the exit code of the child application. If it is
+non-zero, you'll probably want to terminate the parent application.
+
+To make it easier to follow this approach, the `ChildAppStarter.exec`
+methods can be used.

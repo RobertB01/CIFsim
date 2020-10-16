@@ -1,0 +1,2 @@
+ERROR: File "tchecker/exit_code_non_int.tooldef": Semantic error at line 16, column 19: Exit code must be of type "int", but is of type "bool".
+ERROR: Failed to load ToolDef file "tchecker/exit_code_non_int.tooldef": the file has errors.

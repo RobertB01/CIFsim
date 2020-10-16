@@ -1,0 +1,5 @@
+WARNING: Controllable event "x" is only used by automaton "P3".
+WARNING: Controllable event "y" is only used by automaton "P3".
+WARNING: Found 2 disjunct groups of automata that do not share events between the groups:
+ - Group 1 consists of automata "P1", "R".
+ - Group 2 consists of automata "P2", "P3".

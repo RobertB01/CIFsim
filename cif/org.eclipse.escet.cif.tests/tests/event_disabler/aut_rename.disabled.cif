@@ -1,0 +1,7 @@
+event event_disabler;
+automaton event_disabler2:
+  alphabet event_disabler;
+  location:
+    initial;
+    edge event_disabler when false;
+end

@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-subset-list-set.chi": Semantic error at line 18, column 22: Set type expected (found type "list int").

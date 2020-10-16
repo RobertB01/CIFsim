@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable a,b,c, t;
+
+plant G:
+  location s0:
+    initial;
+    edge t goto s1;
+  location s1:
+    edge a goto s2;
+  location s2:
+    edge b goto s3;
+  location s3:
+    edge c goto s4;
+  location s4:
+    marked;
+    edge b goto s1;
+end

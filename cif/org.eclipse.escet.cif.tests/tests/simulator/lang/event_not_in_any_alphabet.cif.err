@@ -1,0 +1,1 @@
+WARNING: File "simulator/lang/event_not_in_any_alphabet.cif": Semantic warning at line 14, column 7: Event "e" is not used anywhere in the specification.

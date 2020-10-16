@@ -1,0 +1,695 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+// Including common attributes to set for all documents within this directory.
+include::_root_attributes.asciidoc[]
+
+// Enable custom style in index-docinfo.html.
+:docinfo: private
+
+// Use this for asciidoc documents containing a title.
+:doctype: book
+
+
+= CIF documentation (Incubation)
+:author: Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+:title-logo-image: {imgsdir}/eclipse-incubation.png
+:favicon: favicon.png
+
+CIF is a declarative modeling language for the specification of discrete
+event, timed, and hybrid systems as a collection of synchronizing automata.
+The CIF tooling supports the entire development process of controllers,
+including among others specification, supervisory controller synthesis,
+simulation-based validation and visualization, verification, real-time
+testing, and code generation.
+
+CIF is one of the tools of the
+link:https://eclipse.org/escet[Eclipse ESCET(TM) project].
+
+[WARNING]
+====
+The Eclipse ESCET project, including the CIF language and toolset,
+is currently in the
+link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+
+image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
+====
+
+ifdef::website-output[]
+TIP: You can link:eclipse-escet-incubation-cif-manual.pdf[download this manual]
+as a PDF as well.
+endif::website-output[]
+
+The documentation consists of:
+
+* <<introduction-chapter-index,CIF introduction>>
+* <<tut-chapter-index,CIF language tutorial>>
+* <<lang-ref-chapter-index,CIF language reference manual>>
+* <<tools-chapter-index,CIF tool manual>>
+* <<examples-chapter-index,CIF examples>>
+* <<release-notes-chapter-index, CIF release notes>>
+* <<dev-chapter-index, CIF developers manual>>
+* <<legal-chapter-index, Legal information>>
+
+A screenshot of the CIF tooling IDE:
+
+image::{imgsdir}/screenshot_ide.png[]
+
+// Introduction
+
+include::introduction.asciidoc[]
+
+// Language tutorial
+
+include::tutorial/index.asciidoc[]
+
+=== Basics
+
+:leveloffset: +2
+
+include::tutorial/basics/automata.asciidoc[]
+
+include::tutorial/basics/synchronization.asciidoc[]
+
+include::tutorial/basics/non-determinism.asciidoc[]
+
+include::tutorial/basics/alphabet.asciidoc[]
+
+include::tutorial/basics/event-placement.asciidoc[]
+
+include::tutorial/basics/shorter-notations.asciidoc[]
+
+:leveloffset: -2
+
+=== Data
+
+:leveloffset: +2
+
+include::tutorial/data/discrete-variables.asciidoc[]
+
+include::tutorial/data/discvar-change.asciidoc[]
+
+include::tutorial/data/loc-var-duality1.asciidoc[]
+
+include::tutorial/data/loc-var-duality2.asciidoc[]
+
+include::tutorial/data/read-write.asciidoc[]
+
+include::tutorial/data/monitoring.asciidoc[]
+
+include::tutorial/data/asgn-old-vs-new.asciidoc[]
+
+include::tutorial/data/tau-event.asciidoc[]
+
+include::tutorial/data/discvar-init.asciidoc[]
+
+include::tutorial/data/init-preds.asciidoc[]
+
+include::tutorial/data/locs-as-vars.asciidoc[]
+
+include::tutorial/data/state-invariants.asciidoc[]
+
+include::tutorial/data/state-evt-excl-invariants.asciidoc[]
+
+:leveloffset: -2
+
+=== Types and values
+
+:leveloffset: +2
+
+include::tutorial/values/types-values-exprs.asciidoc[]
+
+include::tutorial/values/overview.asciidoc[]
+
+include::tutorial/values/integers.asciidoc[]
+
+include::tutorial/values/integer-ranges.asciidoc[]
+
+include::tutorial/values/reals.asciidoc[]
+
+include::tutorial/values/booleans.asciidoc[]
+
+include::tutorial/values/strings.asciidoc[]
+
+include::tutorial/values/enumerations.asciidoc[]
+
+include::tutorial/values/tuples.asciidoc[]
+
+include::tutorial/values/lists.asciidoc[]
+
+include::tutorial/values/bounded-lists-and-arrays.asciidoc[]
+
+include::tutorial/values/sets.asciidoc[]
+
+include::tutorial/values/dictionaries.asciidoc[]
+
+include::tutorial/values/combining-values.asciidoc[]
+
+:leveloffset: -2
+
+=== Scalable solutions and reuse (1/2)
+
+:leveloffset: +2
+
+include::tutorial/reuse1/constants.asciidoc[]
+
+include::tutorial/reuse1/algebraic-variables.asciidoc[]
+
+include::tutorial/reuse1/algvar-equations.asciidoc[]
+
+include::tutorial/reuse1/type-declarations.asciidoc[]
+
+:leveloffset: -2
+
+=== Time
+
+:leveloffset: +2
+
+include::tutorial/time/intro.asciidoc[]
+
+include::tutorial/time/continuous-variables.asciidoc[]
+
+include::tutorial/time/contvar-equations.asciidoc[]
+
+include::tutorial/time/equations.asciidoc[]
+
+include::tutorial/time/var-overview.asciidoc[]
+
+include::tutorial/time/urgency.asciidoc[]
+
+include::tutorial/time/deadlock-livelock.asciidoc[]
+
+:leveloffset: -2
+
+=== Channel communication
+
+:leveloffset: +2
+
+include::tutorial/channels/intro.asciidoc[]
+
+include::tutorial/channels/void.asciidoc[]
+
+include::tutorial/channels/chan-sync-combi.asciidoc[]
+
+:leveloffset: -2
+
+=== Functions
+
+:leveloffset: +2
+
+include::tutorial/functions/intro.asciidoc[]
+
+include::tutorial/functions/internal-functions.asciidoc[]
+
+include::tutorial/functions/statements.asciidoc[]
+
+include::tutorial/functions/functions-as-values.asciidoc[]
+
+:leveloffset: -2
+
+=== Scalable solutions and reuse (2/2)
+
+:leveloffset: +2
+
+include::tutorial/reuse2/aut-def-inst.asciidoc[]
+
+include::tutorial/reuse2/aut-def-params.asciidoc[]
+
+include::tutorial/reuse2/aut-def-param-kinds.asciidoc[]
+
+include::tutorial/reuse2/groups.asciidoc[]
+
+include::tutorial/reuse2/group-defs.asciidoc[]
+
+include::tutorial/reuse2/imports.asciidoc[]
+
+include::tutorial/reuse2/imports-libraries.asciidoc[]
+
+include::tutorial/reuse2/imports-groups.asciidoc[]
+
+include::tutorial/reuse2/namespaces.asciidoc[]
+
+include::tutorial/reuse2/input-variables.asciidoc[]
+
+:leveloffset: -2
+
+=== Stochastics
+
+:leveloffset: +2
+
+include::tutorial/stochastics/intro.asciidoc[]
+
+include::tutorial/stochastics/discrete-continuous-constant.asciidoc[]
+
+include::tutorial/stochastics/pseudo-randomness.asciidoc[]
+
+:leveloffset: -2
+
+=== Language extensions
+
+:leveloffset: +2
+
+include::tutorial/extensions/synthesis.asciidoc[]
+
+:leveloffset: -2
+
+
+// Language reference manual
+
+include::lang-ref/index.asciidoc[]
+
+:leveloffset: +1
+
+include::lang-ref/syntax/lexical.asciidoc[]
+
+include::lang-ref/syntax/grammar.asciidoc[]
+
+:leveloffset: -1
+
+
+// Tool manual
+
+include::tools/index.asciidoc[]
+
+=== Specification tools
+
+:leveloffset: +2
+
+include::tools/text-editor.asciidoc[]
+
+include::tools/cif2yed.asciidoc[]
+
+:leveloffset: -2
+
+=== Supervisory controller synthesis tools
+
+:leveloffset: +2
+
+include::tools/datasynth.asciidoc[]
+
+include::tools/eventbased/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/eventbased/product.asciidoc[]
+
+include::tools/eventbased/supervisorsynthesis.asciidoc[]
+
+include::tools/eventbased/synthesis-analysis.asciidoc[]
+
+include::tools/eventbased/nonconflicting-check.asciidoc[]
+
+include::tools/eventbased/controllability-check.asciidoc[]
+
+include::tools/eventbased/language-equivalence-check.asciidoc[]
+
+include::tools/eventbased/nfa-to-dfa.asciidoc[]
+
+include::tools/eventbased/dfa-minimize.asciidoc[]
+
+include::tools/eventbased/projection.asciidoc[]
+
+include::tools/eventbased/observer-check.asciidoc[]
+
+include::tools/eventbased/automaton-abstraction.asciidoc[]
+
+include::tools/eventbased/trim-check.asciidoc[]
+
+include::tools/eventbased/trim.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cif2supremica.asciidoc[]
+
+:leveloffset: -2
+
+=== Simulation, validation, and visualization tools
+
+:leveloffset: +2
+
+include::tools/cifsim/index.asciidoc[]
+
+:leveloffset: -2
+
+==== Simulation basics
+
+:leveloffset: +3
+
+include::tools/cifsim/supported.asciidoc[]
+
+include::tools/cifsim/start.asciidoc[]
+
+include::tools/cifsim/init.asciidoc[]
+
+include::tools/cifsim/termination.asciidoc[]
+
+include::tools/cifsim/traces.asciidoc[]
+
+include::tools/cifsim/repeated-simulation.asciidoc[]
+
+:leveloffset: -3
+
+==== Simulation input/Output
+
+:leveloffset: +3
+
+include::tools/cifsim/input/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cifsim/input/console.asciidoc[]
+
+include::tools/cifsim/input/gui.asciidoc[]
+
+include::tools/cifsim/input/automatic.asciidoc[]
+
+include::tools/cifsim/input/trace.asciidoc[]
+
+include::tools/cifsim/input/svg/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cifsim/input/svg/svgin.asciidoc[]
+
+include::tools/cifsim/input/svg/simulation.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cifsim/input/semi-automatic.asciidoc[]
+
+include::tools/cifsim/input/history.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cifsim/env-events.asciidoc[]
+
+include::tools/cifsim/output/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cifsim/output/normal.asciidoc[]
+
+include::tools/cifsim/output/debug.asciidoc[]
+
+include::tools/cifsim/output/print/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cifsim/output/print/tut-print.asciidoc[]
+
+include::tools/cifsim/output/print/tut-fmt.asciidoc[]
+
+include::tools/cifsim/output/print/ref-printdecl.asciidoc[]
+
+include::tools/cifsim/output/print/ref-printfile.asciidoc[]
+
+include::tools/cifsim/output/print/ref-sim.asciidoc[]
+
+include::tools/cifsim/output/print/ref-fmt.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cifsim/output/svgviz/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cifsim/output/svgviz/first-example.asciidoc[]
+
+include::tools/cifsim/output/svgviz/svg.asciidoc[]
+
+include::tools/cifsim/output/svgviz/inkscape.asciidoc[]
+
+include::tools/cifsim/output/svgviz/cifsvg.asciidoc[]
+
+include::tools/cifsim/output/svgviz/svgfile.asciidoc[]
+
+include::tools/cifsim/output/svgviz/svgout.asciidoc[]
+
+include::tools/cifsim/output/svgviz/svgcopy.asciidoc[]
+
+include::tools/cifsim/output/svgviz/svgmove.asciidoc[]
+
+include::tools/cifsim/output/svgviz/simulation.asciidoc[]
+
+include::tools/cifsim/output/svgviz/debugging.asciidoc[]
+
+include::tools/cifsim/output/svgviz/viewer.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-sun-moon.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-walk.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-rate.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-workstation.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-tank.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-lamps.asciidoc[]
+
+include::tools/cifsim/output/svgviz/example-buffers-products.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cifsim/output/trajdata.asciidoc[]
+
+include::tools/cifsim/output/plotviz.asciidoc[]
+
+include::tools/cifsim/output/stateviz.asciidoc[]
+
+include::tools/cifsim/output/realtime.asciidoc[]
+
+:leveloffset: -1
+
+:leveloffset: -3
+
+==== Simulation advanced topics
+
+:leveloffset: +3
+
+include::tools/cifsim/options.asciidoc[]
+
+include::tools/cifsim/performance.asciidoc[]
+
+include::tools/cifsim/solver/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cifsim/solver/basics-int.asciidoc[]
+
+include::tools/cifsim/solver/basics-root.asciidoc[]
+
+include::tools/cifsim/solver/root-problems.asciidoc[]
+
+include::tools/cifsim/solver/options-outstep.asciidoc[]
+
+include::tools/cifsim/solver/endtime-maxdelay.asciidoc[]
+
+include::tools/cifsim/solver/options-int.asciidoc[]
+
+include::tools/cifsim/solver/options-root.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cifsim/java-compiler.asciidoc[]
+
+:leveloffset: -3
+
+==== Simulation miscellaneous topics
+
+:leveloffset: +3
+
+include::tools/cifsim/complete-mode.asciidoc[]
+
+include::tools/cifsim/extfuncs.asciidoc[]
+
+include::tools/cifsim/extfuncs-java.asciidoc[]
+
+include::tools/cifsim/profiling.asciidoc[]
+
+include::tools/cifsim/distr-seeds.asciidoc[]
+
+:leveloffset: -3
+
+==== Simulation developer topics
+
+:leveloffset: +3
+
+include::tools/cifsim/max-time-point-tol.asciidoc[]
+
+include::tools/cifsim/debug-gen-code.asciidoc[]
+
+include::tools/cifsim/test-mode.asciidoc[]
+
+:leveloffset: -3
+
+=== Verification tools
+
+:leveloffset: +2
+
+include::tools/cif2mcrl2.asciidoc[]
+
+include::tools/cif2uppaal.asciidoc[]
+
+:leveloffset: -2
+
+=== Real-time testing, code generation, and implementation tools
+
+:leveloffset: +2
+
+include::tools/codegen/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/codegen/c89.asciidoc[]
+
+include::tools/codegen/c99.asciidoc[]
+
+include::tools/codegen/java.asciidoc[]
+
+include::tools/codegen/simulink.asciidoc[]
+
+include::tools/codegen/simulink-example.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/cif2plc/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cif2plc/twincat.asciidoc[]
+
+:leveloffset: -1
+
+:leveloffset: -2
+
+=== Miscellaneous tools
+
+:leveloffset: +2
+
+include::tools/cif2cif/index.asciidoc[]
+
+:leveloffset: +1
+
+include::tools/cif2cif/add-default-init-values.asciidoc[]
+
+include::tools/cif2cif/switches-to-ifs.asciidoc[]
+
+include::tools/cif2cif/elim-alg-vars.asciidoc[]
+
+include::tools/cif2cif/elim-aut-casts.asciidoc[]
+
+include::tools/cif2cif/elim-comp-def-inst.asciidoc[]
+
+include::tools/cif2cif/elim-consts.asciidoc[]
+
+include::tools/cif2cif/elim-enums.asciidoc[]
+
+include::tools/cif2cif/elim-equations.asciidoc[]
+
+include::tools/cif2cif/elim-groups.asciidoc[]
+
+include::tools/cif2cif/elim-if-updates.asciidoc[]
+
+include::tools/cif2cif/elim-locs-in-exprs.asciidoc[]
+
+include::tools/cif2cif/elim-monitors.asciidoc[]
+
+include::tools/cif2cif/elim-self.asciidoc[]
+
+include::tools/cif2cif/elim-state-event-excl-invs.asciidoc[]
+
+include::tools/cif2cif/elim-tau-event.asciidoc[]
+
+include::tools/cif2cif/elim-tuple-field-projs.asciidoc[]
+
+include::tools/cif2cif/elim-type-decls.asciidoc[]
+
+include::tools/cif2cif/lift-events.asciidoc[]
+
+include::tools/cif2cif/linearize-merge.asciidoc[]
+
+include::tools/cif2cif/linearize-product.asciidoc[]
+
+include::tools/cif2cif/merge-enums.asciidoc[]
+
+include::tools/cif2cif/print-file-into-decls.asciidoc[]
+
+include::tools/cif2cif/svg-file-into-decls.asciidoc[]
+
+include::tools/cif2cif/remove-cif-svg-decls.asciidoc[]
+
+include::tools/cif2cif/remove-io-decls.asciidoc[]
+
+include::tools/cif2cif/remove-print-decls.asciidoc[]
+
+include::tools/cif2cif/remove-pos-info.asciidoc[]
+
+include::tools/cif2cif/remove-reqs.asciidoc[]
+
+include::tools/cif2cif/simplify-others.asciidoc[]
+
+include::tools/cif2cif/simplify-values.asciidoc[]
+
+include::tools/cif2cif/simplify-values-optimized.asciidoc[]
+
+include::tools/cif2cif/simplify-values-no-refs.asciidoc[]
+
+include::tools/cif2cif/simplify-values-no-refs-optimized.asciidoc[]
+
+:leveloffset: -1
+
+include::tools/mergecif.asciidoc[]
+
+include::tools/event-disabler.asciidoc[]
+
+include::tools/explorer.asciidoc[]
+
+:leveloffset: -2
+
+=== Scripting
+
+:leveloffset: +2
+
+include::tools/scripting/intro.asciidoc[]
+
+include::tools/scripting/tools.asciidoc[]
+
+:leveloffset: -2
+
+// Examples
+
+include::examples.asciidoc[]
+
+// Release notes
+
+include::release-notes.asciidoc[]
+
+// Developers
+
+include::dev/index.asciidoc[]
+
+:leveloffset: +1
+
+include::dev/lang-modify.asciidoc[]
+
+:leveloffset: -1
+
+// Legal
+
+include::legal.asciidoc[]
+
+
+ifdef::pdf-output[]
+[index]
+== Index
+endif::pdf-output[]

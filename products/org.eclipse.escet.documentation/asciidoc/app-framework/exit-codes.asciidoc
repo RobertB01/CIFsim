@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[exit code]
+
+[[app-framework-exit-codes]]
+== Exit codes
+
+Application framework applications can terminate with the following exit codes:
+
+* `0`: Application finished without errors.
+* `1`: Application finished after reporting an error to the end user.
+* `2`: Application crashed after running out of memory.
+* `3`: Application crashed for any reason other than running out of memory.
+
+Note that applications themselves should always return a zero exit code. The
+other exit codes are generated automatically by the exception framework when
+applicable.
+
+Any exceptions to these rules should generally be avoided, but otherwise must
+be clearly documented for end users.

@@ -1,0 +1,68 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func bool f():
+  bool b1, b2;
+  real r;
+  tuple(bool a, b) bb;
+  list int li;
+  dict(int:list int) d_i_li;
+
+  r := 1.0;
+  b1 := true;
+
+  (r, b1) := (2.0, false);
+   r, b1  := (2.0, false);
+  (r, b1) :=  2.0, false ;
+   r, b1  :=  2.0, false ;
+
+  (r, (b1, b2)) := (2.0, (false, true));
+  (r, (b1, b2)) := (2.0, bb);
+  (r, bb)       := (2.0, (true, false));
+  (r, bb)       := (2.0, bb);
+
+  bb[a]     := true;
+  bb[a]     := true;
+  li[0]     := 5;
+  d_i_li[5] := li;
+
+  return true;
+end
+
+invariant f();
+
+automaton p:
+  disc bool b1, b2;
+  cont r der 1.0;
+  disc tuple(bool a, b) bb;
+  disc list int li;
+  disc dict(int:list int) d_i_li;
+
+  location:
+    initial;
+
+    edge do r := 1.0;
+    edge do b1 := true;
+
+    edge do (r, b1) := (2.0, false);
+
+    edge do (r, (b1, b2)) := (2.0, (false, true));
+    edge do (r, (b1, b2)) := (2.0, bb);
+    edge do (r, bb)       := (2.0, (true, false));
+    edge do (r, bb)       := (2.0, bb);
+
+    edge do bb[a]     := true;
+    edge do bb[a]     := true;
+    edge do li[0]     := 5;
+    edge do d_i_li[5] := li;
+end

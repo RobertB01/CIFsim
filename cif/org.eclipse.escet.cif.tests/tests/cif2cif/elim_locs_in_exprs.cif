@@ -1,0 +1,138 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Simple test.
+automaton p1:
+  disc bool x;
+  invariant l1 or l2;
+  location l1:
+    initial;
+    edge when l1 do x := l1 goto l2;
+  location l2:
+    edge when l1 or l2 goto l1;
+end
+
+// Test renaming.
+automaton p2:
+  disc bool LP_p2;
+  disc bool LOCS_p2;
+  disc bool LOC_l1;
+  disc bool LOC_l12;
+  invariant LP_p2 or LOCS_p2 or LOC_l1 or LOC_l12;
+  location l1:
+    initial;
+    edge when LP_p2 or l1;
+end
+
+// Test no location pointer needed.
+automaton p3:
+  location l:
+    initial;
+end
+
+// Test cross references.
+automaton p4a:
+  location l1:
+    initial;
+    edge when p4b.l goto l2;
+  location l2;
+end
+
+automaton p4b:
+  invariant p4a.l2;
+  location l:
+    initial;
+end
+
+// Test initialization.
+automaton p5:
+  disc bool x in {true, false};
+  disc bool x2;
+  location l1;
+  location l2:
+    initial;
+    edge when true goto l1;
+  location l3:
+    initial false;
+  location l4:
+    initial true;
+    edge when true goto l3;
+  location l5:
+    initial l3;
+  location l6:
+    initial x;
+    edge when true goto l7;
+  location l7:
+    initial x2;
+end
+
+// Test updates.
+automaton p6:
+  disc bool x;
+  disc int y;
+  location l1:
+    initial;
+    edge do y := 5 goto l2;
+    edge do y := 5, x := l1 goto l1; // self loop
+  location l2:
+    initial;
+    edge do if x: y := 0 else y := 1 end, x := false goto l1;
+end
+
+// Test 'switch' expression.
+automaton p_switch1:
+  alg real x1 = switch self:
+                  case l1: 1.0
+                end;
+
+  location l1:
+    initial;
+end
+
+automaton p_switch2:
+  alg real x1 = switch 5:
+                  case 5: 1.0
+                  else    2.0
+                end;
+  alg real x2 = switch true:
+                  case l1: 3.0
+                  else     4.0
+                end;
+  alg real x3 = switch self:
+                  case l1: 5.0
+                  case l2: 6.0
+                end;
+  alg real x4 = switch p_switch2:
+                  case l1: 7.0
+                  case l2: 8.0
+                end;
+  alg real x5 = switch self:
+                  case l1: 9.0
+                  else     10.0
+                end;
+  alg real x6 = switch p_switch2:
+                  case l1: 11.0
+                  else     12.0
+                end;
+  alg bool x7 = switch true:
+                  case l1: l1
+                  case l2: l2
+                  else     false
+                end;
+
+  location l1:
+    initial;
+    edge tau goto l2;
+
+  location l2;
+end

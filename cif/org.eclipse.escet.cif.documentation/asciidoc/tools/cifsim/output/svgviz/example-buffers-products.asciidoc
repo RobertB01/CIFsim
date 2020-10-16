@@ -1,0 +1,100 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+include::_local_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-example-buffers-products]]
+== Buffers/products example
+
+indexterm:[SVG visualization,buffers/products example]
+indexterm:[SVG visualization,copy of a copy]
+indexterm:[SVG visualization,scalability]
+This example shows:
+
+* Improving hierarchical scalability by making use of the reuse of mappings.
+
+* Improving hierarchical scalability by making copies of copied elements.
+
+It is assumed the reader is already familiar with the
+<<tools-cifsim-output-svgviz-chapter-example-workstation,workstation example>>.
+
+=== SVG image
+
+The following SVG image is used for this example:
+
+image::{tools-imgsdir}/cifsim/output/svgviz/buffers_products/buffers_products_inkscape.png[]
+
+The SVG image contains a single template for a buffer (large rectangle), with
+one product (small rectangle). The template is moved outside of the canvas to
+ensure the template itself is not shown.
+
+The SVG file has the following XML content:
+
+[source,svg]
+----
+include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.svg[]
+----
+
+We'll use CIF to turn this into two buffers with three products each, in a
+scalable manner. That is, to add a single buffer, we only need one more
+instantiation, and also to put an additional product in each buffer, we also
+only need one more instantiation.
+
+
+=== CIF specification
+
+The following CIF specification models the buffers/products example:
+
+[source,cif]
+----
+include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.cif[]
+----
+
+Two buffers are present (`buffer0` and `buffer1`). Both are instances of
+the `Buffer` definition, and are provided with their own identity (parameter
+`nr`). For each buffer, the `buffer` element of the image is copied, and
+the copy is given a unique number. For instance, for instantiation `buffer0`,
+`nr` is `0`, and thus `buffer` is copied to `buffer0`, `background`
+is copied to `background0` and `product` is copied to `product0`.
+
+Each buffer is also moved. The first buffer (`nr` `0`) gets moved to
+position (10, 10), while the second (`nr` `1`) gets moved to position
+(120, 10).
+
+Each buffer contains three products, as the `Product` definition is
+instantiated three times. The number of the buffer is passed along, as is a
+unique product number. For the copy of the products, the copy of the product
+in the copied buffer is copied, and given a unique name using the product
+number. For `buffer0`, the copy of the `product` was already named
+`product0`. This already copied element is copied another three times, to
+`product0_0` (by the copy declaration in CIF group `buffer0.product0`),
+`product0_1` (by the copy declaration in CIF group `buffer0.product1`),
+and `product0_2` (by the copy declaration in CIF group `buffer0.product2`).
+Similarly, three copies are made for `buffer1`.
+
+Unlike the buffers, which are moved to an absolute position using an
+`svgmove`, the products are moved relatively, using an `svgout` for their
+`transform` attribute. The first product (`product0_0`) is not moved, the
+second product (`product0_1`) is moved `20` pixels, etc.
+
+The buffer template was put outside of the canvas to show only the copies and
+not the template. For the products, which are contained in the buffers, this
+trick is not possible. So, instead the `visibility` of the template
+`product` was set to `hidden` in the original SVG image. To show the actual
+(copied) products, an `svgout` is used to set the `visibility` attribute
+to `visible`. The template `product` is not changed, so it remains hidden.
+
+The result of all this hierarchical 2-level structure is the following SVG
+image:
+
+image::{tools-imgsdir}/cifsim/output/svgviz/buffers_products/buffers_products.png[]

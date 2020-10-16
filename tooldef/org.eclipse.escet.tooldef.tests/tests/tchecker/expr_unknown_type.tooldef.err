@@ -1,0 +1,3 @@
+ERROR: File "tchecker/expr_unknown_type.tooldef": Semantic error at line 17, column 14: Cannot determine the type of expression "{}". Please use a cast expression to explicitly specify the type.
+ERROR: File "tchecker/expr_unknown_type.tooldef": Semantic error at line 23, column 14: Cannot determine the type of expression "[]". Please use a cast expression to explicitly specify the type.
+ERROR: Failed to load ToolDef file "tchecker/expr_unknown_type.tooldef": the file has errors.

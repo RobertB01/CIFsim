@@ -1,0 +1,6 @@
+Initial state: time=0.0, a=0.0, a'=1.0, aa=0.0, aa'=1.0, ab=0.0, ab'=1.0, aba=0.0, aba'=1.0, abb=0.0, abb'=1.0, abc=0.0, abc'=1.0, ac=0.0, ac'=1.0
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, a=10.000000000000002, a'=1.0, aa=10.000000000000002, aa'=1.0, ab=10.000000000000002, ab'=1.0, aba=10.000000000000002, aba'=1.0, abb=10.000000000000002, abb'=1.0, abc=10.000000000000002, abc'=1.0, ac=10.000000000000002, ac'=1.0
+
+Simulation ended due to reaching the user-provided simulation end time.

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/asgn_func_type.cif": Semantic error at line 26, column 15: The type "func int[1..2]()" of the value of the assignment is incompatible with type "func int[2..3]()" of the addressable.
+ERROR: Failed to load CIF file "tchecker/asgn_func_type.cif": the file has errors.

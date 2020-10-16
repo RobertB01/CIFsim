@@ -1,0 +1,21 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+   real x = 2.0; int y = 3; real z = 0.0;
+   while y > 0:
+      while y mod 2 == 0:
+         y = y div 2; x = x * x
+      end;
+      y = y - 1; z = x * z
+   end
+end

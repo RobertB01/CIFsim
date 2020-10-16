@@ -1,0 +1,2 @@
+ERROR: Trace file "simulator/trace/err_cmd_unknown.trace" is invalid.
+CAUSE: Unknown command: "bla bla bla".

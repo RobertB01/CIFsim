@@ -1,0 +1,98 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[developer-dev-env-setup-chapter-index]]
+== Development environment setup
+
+Follow these instructions to set up an Eclipse ESCET development environment.
+
+indexterm:[installer]
+indexterm:[oomph]
+
+Get the Eclipse Installer:
+
+* Go to link:https://www.eclipse.org/[] in a browser.
+* Click on the big btn:[Download] button at the top right.
+* Download Eclipse Installer, 64 bit edition, using the btn:[Download 64 bit]
+button.
+
+indexterm:[oomph, setup]
+
+Get the Oomph setup:
+
+* Download the Oomph setup (`org.eclipse.escet.setup`) from the root of the
+Git repository, and save it to your computer.
+
+To create a development environment for the first time:
+
+* Start Eclipse Installer x64 that you downloaded.
+* Use the hamburger menu at the top right to switch to advanced mode.
+* For Windows:
+** When asked to keep the installer in a permanent location, choose to do so.
+Select a directory of your choosing.
+** The Eclipse installer will start automatically in advanced mode, from the
+new permanent location.
+* For Linux:
+** The Eclipse installer will restart in advanced mode.
+* Continue with non-first time instructions for setting up a development
+environment.
+
+To create a development environment for a non-first time:
+
+* In the first wizard window:
+** Select 'Eclipse Platform' from the big list at the top.
+** Select '2020-06' for 'Product Version'.
+** Select a Java 8 JDK for 'Java 1.8+ VM'.
+** Choose whether you want a P2 bundle pool (recommended).
+** Click btn:[Next].
+* In the second wizard window:
+** Use the green '+' icon at the top right to add the Oomph setup.
+*** For 'Catalog', choose 'Eclipse Projects'.
+*** Use the btn:[Browse File System...] button to select the
+`org.eclipse.escet.setup` file that you previously downloaded.
+*** Eclipse will turn the path into a 'file' URI.
+*** Click btn:[OK].
+** Select 'Supervisory Control Toolkit' in the big list. It is under 'Eclipse
+Projects' / '<User>'.
+** At the bottom, select the 'eclipse-move' stream.
+** Click btn:[Next].
+* In the third wizard window:
+** Choose a 'Root install folder' and 'Installation folder name'.
+** The development environment will be put at
+'<root_installation_folder>/<installation_folder_name>'.
+** Click btn:[Next].
+* In the fourth wizard window:
+** Select Finish.
+* Wait for the setup to complete and the development environment to be
+launched.
+** If asked, accept any licenses and certificates.
+* Press btn:[Finish] in the Eclipse Installer to close the Eclipse Installer.
+* Click the rotating arrows icon in the status bar (bottom right) of the
+development environment.
+* Observe Oomph executing the startup tasks (such as Git clone, importing
+projects, etc).
+* Wait for the startup tasks to finish successfully.
+* NOTE: If you don't open the Oomph dialog, the status bar icon icon will
+disappear when the tasks are successfully completed.
+
+In your new development environment, consider changing the following settings:
+
+* For the _Package Explorer_ <<use-terminology-view,view>>:
+
+** Enable the _Link with Editor_ setting, using the
+image:{developer-imgsdir}/link-with-editor.png[] icon.
+
+** Enable showing resources (files/folders) with names starting with a period.
+Open the _View Menu_ (image:{developer-imgsdir}/view-menu.png[]) and choose
+menu:Filters...[]. Uncheck the `+.* resources+` option and click btn:[OK].

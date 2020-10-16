@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Always enabled, environment event.
+automaton a:
+  event e;
+  location:
+    initial;
+    edge e;
+end
+
+// Always enabled, non-environment event.
+automaton b:
+  event e;
+  location:
+    initial;
+    edge e;
+end
+
+// Enabled once, non-environment event.
+automaton c:
+  location m1:
+    initial;
+    edge b.e goto m2;
+
+  location m2;
+end

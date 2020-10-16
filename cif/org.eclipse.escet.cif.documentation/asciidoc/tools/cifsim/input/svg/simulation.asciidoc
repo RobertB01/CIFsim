@@ -1,0 +1,146 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-svg-chapter-simulation]]
+== Simulation with SVG input
+
+indexterm:[SVG input mode,simulation]
+This page explains the use of the SVG input mode of the CIF simulator at
+runtime (during simulation).
+
+[[tools-cifsim-input-svg-simulation-works]]
+=== How it works
+
+During simulation, as long as none of the interactive SVG elements (the SVG
+elements for which an input mapping exists) are clicked, the corresponding
+events are never chosen. For the other events (the non-interactive events), a
+choice is made using the <<tools-cifsim-input-chapter-automatic,automatic input component>>.
+The automatic input component makes a choice
+based on its own settings.
+
+indexterm:[SVG input mode,hovering]
+
+==== Hovering
+
+When moving over one of the interactive SVG elements of the SVG visualization,
+using the mouse pointer, the border of the SVG element is highlighted in red.
+This makes it easier to identify the interactive SVG elements in the
+<<tools-cifsim-output-svgviz-chapter-viewer,SVG visualizer>>. When an
+interactive SVG element is clicked, the color is changed from red to green, for
+as long as the mouse button is not released.
+
+
+==== Clicking
+
+The mouse click (and _not_ the release) makes that the input component will
+interrupt any time transition that is currently being taken by the simulator.
+Then, when asked to choose a next transition, it will apply the input mapping
+for the interactive SVG element that was clicked. The event that results from
+the input mapping is then chosen. If the event is not enabled at that time,
+simulation ends in deadlock. To prevent such deadlocks, you can use a
+<<tut-data-chapter-monitoring,monitor>> automaton. If multiple transitions
+are possible for that event, the choice (between the transitions for that event
+only) is deferred to the
+<<tools-cifsim-input-chapter-automatic,automatic input component>>, which makes
+a choice based on its own settings. Note that multiple transitions are only
+possible if <<tools-cifsim-chapter-complete-mode,complete mode>> is enabled.
+
+indexterm:[SVG input mode,queue]
+
+==== Queue
+
+The SVG input mode allows interactively choosing certain events by clicking on
+interactive elements of an SVG image. The SVG input mode is however not
+officially an interactive input mode.
+
+The image plays the part of the environment. Whenever an interactive element is
+clicked, the element is added to a queue. If a user quickly clicks the same
+element multiple times, or quickly clicks different elements, they are all
+stored in the queue, and the queue can grow. The transition to take is
+automatically chosen, based on the queue of events. If the queue is empty, the
+environment (the SVG image and the user) doesn't allow the interactive events.
+If the queue is not empty, the environment allows exactly one interactive
+event, the one at the head of the queue. The model, together with the queue,
+form a closed model, without further interaction. Each interactive SVG element
+that is clicked, will be used in the order they were clicked, to choose
+transitions.
+
+The SVG input mode internally acts as an automated input mode, that makes
+choices about which transitions to take, without further user interaction.
+Since no further user interaction is possible,
+<<tools-cifsim-input-history-reset-undo,undo>> and
+<<tools-cifsim-input-history-reset-undo,reset>> are also not supported.
+
+indexterm:[SVG input mode,debugging]
+indexterm:[debug,SVG input]
+
+[[tools-cifsim-input-svg-simulation-debugging]]
+=== Debugging
+
+The <<tools-cifsim-output-svgviz-debugging-console,console debugging output>> for CIF/SVG mappings includes
+debugging output for SVG input mappings. Input mappings that encounter runtime
+errors have <<tools-cifsim-output-svgviz-debugging-stacktrace,stack traces>> similar to those of output
+mappings.
+
+indexterm:[SVG input mode,responsiveness]
+indexterm:[SVG input mode,frame rate]
+indexterm:[SVG input mode,performance]
+indexterm:[performance,SVG input]
+
+[[tools-cifsim-input-svg-simulation-responsiveness]]
+=== Responsiveness
+
+SVG input is usually combined with <<tools-cifsim-output-chapter-realtime,real-time simulation>>.
+Clicking an interactive SVG element results
+in the application of an input mapping, which results in an event. That event
+is put in the queue. If a time transition is being taken by the simulator, the
+simulator will continue to take that time transition until the input component
+interrupts it. However, an input component can only interrupt a time transition
+during <<tools-cifsim-output-realtime-frames,intermediate frames>>. As
+such, choosing a low <<tools-cifsim-output-realtime-framerate,frame rate>>
+(typically less than 10 frames per
+second) can significantly reduce the responsiveness of the SVG input.
+
+Hovering interactive SVG elements highlights their borders in red. This too
+becomes less responsive when a low frame rate is used.
+
+indexterm:[SVG input mode,interactive groups]
+
+[[tools-cifsim-input-svg-simulation-groups]]
+=== Interactive groups
+
+It is possible to make a group of SVG elements (an `svg:g` element) an
+interactive element. By doing so, all the elements that are part of the group
+together become one single interactive element.
+
+One practical example where this is very useful, is for buttons with a text
+label. In SVG, this requires the use of a rectangle and a text label. To ensure
+that clicking either one of them results in the same event, group the rectangle
+and text label together in a group. Then assign an
+<<tools-cifsim-output-svgviz-svg-id,id>> to the group and use that id in
+an <<tools-cifsim-input-svg-chapter-svgin,input mapping>>. During simulation,
+when hovering over either the rectangle or the text label, both will will be
+highlighted. Clicking on either of them results in the corresponding input
+mapping being applied, and the resulting event being chosen by the SVG input
+component.
+
+In general, if an SVG image is clicked, the simulator will figure out on which
+graphical element the user clicked. If that element is itself an interactive
+SVG element, then the corresponding mapping is applied. If it is not an
+interactive SVG element, its parent (which may be a group) is checked. If the
+parent is not an interactive SVG element either, the parent of the parent is
+checked, etc. If none of the ancestors is an interactive SVG element, clicking
+the element has no effect on the simulation. Because of this behavior, it is
+strongly recommended not to make a child (or descendant in general) of an
+interactive SVG element interactive as well.

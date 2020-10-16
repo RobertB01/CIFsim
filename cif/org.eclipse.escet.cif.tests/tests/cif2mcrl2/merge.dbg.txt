@@ -1,0 +1,108 @@
+===============================================================
+Node 1
+
+Available variable processes:
+    B.x
+
+Variable use by behavior processes ordered by event:
+    nn:
+        B.x  read:NEVER  write:NEVER
+    ns:
+        B.x  read:SOMETIMES  write:NEVER
+    na:
+        B.x  read:ALWAYS  write:NEVER
+    sn:
+        B.x  read:SOMETIMES  write:NEVER
+    ss:
+        B.x  read:SOMETIMES  write:NEVER
+    sa:
+        B.x  read:ALWAYS  write:NEVER
+    an:
+        B.x  read:ALWAYS  write:NEVER
+    as:
+        B.x  read:ALWAYS  write:NEVER
+    aa:
+        B.x  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1
+    node 1.2
+
+===============================================================
+Node 1.1
+
+Variable use by behavior processes ordered by event:
+    nn:
+        No variables from variables processes accessed.
+    ns:
+        B.x  read:SOMETIMES  write:NEVER
+    na:
+        B.x  read:ALWAYS  write:NEVER
+    sn:
+        B.x  read:SOMETIMES  write:NEVER
+    ss:
+        B.x  read:SOMETIMES  write:NEVER
+    sa:
+        B.x  read:ALWAYS  write:NEVER
+    an:
+        B.x  read:ALWAYS  write:NEVER
+    as:
+        B.x  read:ALWAYS  write:NEVER
+    aa:
+        B.x  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1.1
+    node 1.1.2
+
+===============================================================
+Node 1.1.1 (automaton A)
+
+Variable use by behavior processes ordered by event:
+    nn:
+        No variables from variables processes accessed.
+    ns:
+        No variables from variables processes accessed.
+    na:
+        No variables from variables processes accessed.
+    sn:
+        B.x  read:SOMETIMES  write:NEVER
+    ss:
+        B.x  read:SOMETIMES  write:NEVER
+    sa:
+        B.x  read:SOMETIMES  write:NEVER
+    an:
+        B.x  read:ALWAYS  write:NEVER
+    as:
+        B.x  read:ALWAYS  write:NEVER
+    aa:
+        B.x  read:ALWAYS  write:NEVER
+
+===============================================================
+Node 1.1.2 (automaton B)
+
+Variable use by behavior processes ordered by event:
+    nn:
+        No variables from variables processes accessed.
+    sn:
+        No variables from variables processes accessed.
+    an:
+        No variables from variables processes accessed.
+    ns:
+        B.x  read:SOMETIMES  write:NEVER
+    ss:
+        B.x  read:SOMETIMES  write:NEVER
+    as:
+        B.x  read:SOMETIMES  write:NEVER
+    na:
+        B.x  read:ALWAYS  write:NEVER
+    sa:
+        B.x  read:ALWAYS  write:NEVER
+    aa:
+        B.x  read:ALWAYS  write:NEVER
+
+===============================================================
+Node 1.2 (variable B.x)
+
+Available variable processes:
+    B.x

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/eqn_alg_der.cif": Semantic error at line 16, column 15: Specifying the derivative of algebraic variable "g.x" (using an equation) is not allowed.
+ERROR: Failed to load CIF file "tchecker/eqn_alg_der.cif": the file has errors.

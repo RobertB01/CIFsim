@@ -1,0 +1,170 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+include::_local_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-example-lamps]]
+== Lamps example
+
+indexterm:[SVG visualization,lamps example]
+indexterm:[SVG visualization,scalability]
+indexterm:[SVG visualization,copy example]
+indexterm:[SVG visualization,move example]
+This example shows:
+
+* Scalability of CIF models and SVG visualizations.
+
+* The use of <<tools-cifsim-output-svgviz-chapter-svgcopy,CIF/SVG copy declarations>>.
+
+* The use of <<tools-cifsim-output-svgviz-chapter-svgmove,CIF/SVG move declarations>>.
+
+=== Introducing the lamps example
+
+Consider the following CIF specification:
+
+[source,cif]
+----
+include::{incdir-tools-cifsim-output-svgviz}/lamps/lamps2.cif[]
+----
+
+This specification has two lamps, `lamp1` and `lamp2`. Both lamps have
+identical behavior, and therefore the behavior is only specified once, using
+automaton definition `Lamp`. This definition is instantiated two times, once
+for each of the lamps. A lamp is initially off, can go on, go off again, go on
+again, etc. The following SVG image is used for this example:
+
+image::{tools-imgsdir}/cifsim/output/svgviz/lamps/lamps2_inkscape.png[]
+
+The visualization shows the two lamps. The first lamp is off, and has a silver
+background color. The second lamp is on and has a yellow background color. The
+lamp that is off has a thin border and the lamp that is on has a thicker
+border. The CIF specification also contains four
+<<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>>, two for
+the background colors of the circles and two for the thickness of the borders
+(strokes) of the circles.
+
+
+=== SVG visualization scalability issues
+
+The use of the automaton definition allows us to add another lamp by simply
+adding the following line to the CIF specification:
+
+
+[source, cif]
+----
+lamp3: Lamp();
+----
+
+This single line ensures that we have a third lamp, with the corresponding
+behavior. However, we also need to adapt the SVG image, by adding another
+circle, and we need to add two more output mappings to the CIF model. In this
+case, the additional amount of work is manageable. If however our lamp would
+have been represented in the image by many different graphical elements,
+adding another lamp would require copying all those graphical elements, and
+might also lead to adding many more output mappings per lamp.
+
+Furthermore, if we were to decide to change the graphical representation of
+lamps from a circle to a square, we would have to change the graphical
+representation of each of the lamps in the image.
+
+It should be clear that this approach does not scale very well. Ideally, we
+would add another lamp by just adding another instantiation of the `Lamp`
+definition as we did above, and automatically get another circle in the image,
+and two more output mappings in the CIF model.
+
+
+=== A scalable solution
+
+For the behavior of the lamp, we already had a scalable solution, by using the
+component definition/instantiation mechanism. That same mechanism can be used
+to make the image and mappings scalable. First, we'll change the SVG image:
+
+image::{tools-imgsdir}/cifsim/output/svgviz/lamps/lamps3_inkscape.png[]
+
+The second lamp has been removed from the image. We only keep one lamp, as a
+sort of template for all the lamps. Since we want to use the same graphical
+representation for all lamps, we only want to include it once in the SVG image.
+This allows us to change the graphical representation of the template, to have
+all the lamps change appearance at once. The lamp has been moved outside of the
+visible part of the canvas, and its `id` has been changed from `lamp1` to
+`lamp`. The reason for these last two changes will become clear once we look
+at the new CIF model, and especially the new output mappings:
+
+[source, cif]
+----
+include::{incdir-tools-cifsim-output-svgviz}/lamps/lamps3.cif[]
+----
+
+The first change is that the `Lamp` automaton definition now has a `nr`
+parameter, that indicates which lamp it is. Each lamp is given a different
+number when instantiated. This allows the lamp automata to know their own
+identity, and use that for the SVG visualization.
+
+We also put the CIF/SVG declarations for the visualization inside the automaton
+definition. By doing this, we ensure that each instantiation (each lamp) gets
+their own version of these declarations.
+
+The CIF/SVG declarations have changed as well. A
+<<tools-cifsim-output-svgviz-chapter-svgcopy,CIF/SVG copy declaration>> has been added. The copy
+declaration states that the SVG element with id `lamp` (the circle) should
+be copied. It also states that the copy should be postfixed with
+`<string>nr`. That is, for automaton `lamp1`, the value of the `nr`
+parameter is `1`, and the id is thus postfixed with `"1"`. In other words,
+circle `lamp` is copied, and the copy is given name `lamp1` (composed
+from `lamp` and `1`). For `lamp2`, the id of the copied circle is
+`lamp2`, etc. For each of the lamps, the copy gets a different name, that is
+unique within the SVG image. This single copy declaration takes care of the
+scalability of the SVG image, by ensuring we have exactly as many circles as we
+have lamps (not counting the template circle `lamp`).
+
+The copies of the template circle all get exactly the same attributes as the
+template (except for their `id` attribute). As such, they are all positioned
+outside the visible part of the canvas. The easiest way to put them at the
+correct positions, is to use a
+<<tools-cifsim-output-svgviz-chapter-svgmove,CIF/SVG move declaration>>, which
+is also new compared to the previous CIF model. The move declarations use the
+ids of the copied circles, so that each move declaration moves the circle for
+that specific lamp. They are all moved to 20 pixels from the top of the canvas,
+and '20 + (`nr` - 1) * 100' pixels from the left side of the canvas. So, the
+first lamp (`nr` 1) is moved to (20, 20), the second lamp (`nr` 2) is moved
+to (120, 20), and the third lamp (`nr` 3) is moved to (220, 20). This single
+move declaration takes care of the scalability of the positions of the lamps,
+by ensuring we have exactly as many movements as we have lamps. By using the
+`nr` parameter, each lamp can easily be moved to their own unique position.
+
+The output mappings for the background color of the circles and thickness of
+the borders of the circles, are very similar to the output mappings of the
+first version of the CIF model, though there are a few changes. The mappings
+use the same method as the move declaration, to construct the ids. Since the
+mappings are now defined within the automaton definition, they can directly
+refer to the `on` variable. This ensures that for each different lamp, the
+mappings refer to the `on` variable of that specific lamp. We now have only
+one output mapping for the background color, and also only one output mapping
+for the thickness of the border.
+
+By putting the CIF/SVG declarations inside the automaton definition, and by
+using the copy and move declarations, we now have a scalable solution. We only
+have one lamp in our SVG image, only one behavioral specification in the CIF
+model, and only one output mapping per attribute that we want to couple. No
+matter how many instantiations of the `Lamp` automaton definition we add, we
+don't have to manually change the SVG image or the visualization coupling.
+
+For completeness, take a look at this CIF model after the
+<<tools-cif2cif-chapter-elim-comp-def-inst,elimination of component definition/instantiation>>, the
+<<tools-cif2cif-chapter-elim-alg-vars,elimination of algebraic variables>>, and
+the <<tools-cif2cif-chapter-simplify-values,simplification of values>>.
+
+[source, cif]
+----
+include::{incdir-tools-cifsim-output-svgviz}/lamps/lamps3.simple.cif[]
+----

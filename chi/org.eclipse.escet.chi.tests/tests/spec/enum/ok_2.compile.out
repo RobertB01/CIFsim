@@ -1,0 +1,6 @@
+Warning: File "spec/enum/ok_2.chi": Semantic warning at line 13, column 15: Unused enum value "red".
+Warning: File "spec/enum/ok_2.chi": Semantic warning at line 13, column 20: Unused enum value "white".
+Warning: File "spec/enum/ok_2.chi": Semantic warning at line 13, column 33: Unused enum value "purple".
+Warning: File "spec/enum/ok_2.chi": Semantic warning at line 14, column 15: Unused enum value "B".
+Warning: File "spec/enum/ok_2.chi": Semantic warning at line 14, column 18: Unused enum value "C".
+Warning: File "spec/enum/ok_2.chi": Semantic warning at line 14, column 21: Unused enum value "D".

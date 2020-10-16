@@ -1,0 +1,1 @@
+Error: File "spec/global/vardecl05.chi": Semantic error at line 14, column 14: Name "y" does not refer to a value.

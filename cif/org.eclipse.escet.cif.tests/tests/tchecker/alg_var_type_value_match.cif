@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  alg bool x = 5;
+end
+
+alg int[1..2] x1 = 1;
+alg int[1..1] x2 = x1;
+
+alg bool x;
+equation x = 5;
+
+automaton p:
+  alg bool x;
+  location l1:
+    initial;
+    equation x = true;
+  location l2:
+    initial;
+    equation x = 5;
+end

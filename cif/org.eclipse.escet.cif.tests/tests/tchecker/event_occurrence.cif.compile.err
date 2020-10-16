@@ -1,0 +1,27 @@
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 29, column 9: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 30, column 12: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 31, column 17: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 35, column 30: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 42, column 34: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 47, column 13: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 50, column 12: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 55, column 15: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 60, column 14: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 64, column 22: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 68, column 14: "g.e" may not be used inside function "g.f".
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 69, column 8: "g.e" may not be used inside function "g.f".
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 74, column 16: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 75, column 26: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 76, column 19: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 80, column 19: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 90, column 17: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 97, column 18: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 104, column 23: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 112, column 20: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 121, column 15: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 126, column 15: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 129, column 23: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 132, column 15: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 135, column 28: Invalid use of event "g.e" as a variable or a value.
+ERROR: File "tchecker/event_occurrence.cif": Semantic error at line 138, column 15: Invalid use of event "g.e" as a variable or a value.
+ERROR: Failed to load CIF file "tchecker/event_occurrence.cif": the file has errors.

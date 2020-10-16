@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "size({1: 2, 1: 3}) > 0" of the top level scope of the specification failed.
+CAUSE: Duplicate key in dictionary value: 1.

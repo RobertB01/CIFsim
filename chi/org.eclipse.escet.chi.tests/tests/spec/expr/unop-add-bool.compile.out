@@ -1,0 +1,1 @@
+Error: File "spec/expr/unop-add-bool.chi": Semantic error at line 17, column 21: Numeric type expected (either int or real, found "bool").

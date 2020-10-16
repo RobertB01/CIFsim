@@ -1,0 +1,4 @@
+ERROR: File "tchecker/cont_var_no_der.cif": Semantic error at line 15, column 6: Missing derivative for continuous variable "x".
+ERROR: File "tchecker/cont_var_no_der.cif": Semantic error at line 27, column 3: Missing derivative for continuous variable "p.x".
+ERROR: File "tchecker/cont_var_no_der.cif": Semantic error at line 38, column 3: Missing derivative for continuous variable "p.x".
+ERROR: Failed to load CIF file "tchecker/cont_var_no_der.cif": the file has errors.

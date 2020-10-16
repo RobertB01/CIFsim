@@ -1,0 +1,9 @@
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 38, column 11: Event "sr.ei" is used in automaton "sr" to send and to receive.
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 48, column 11: Event "sc.ei" is used in automaton "sc" to send and to synchronize.
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 58, column 11: Event "rc.ei" is used in automaton "rc" to receive and to synchronize.
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 68, column 11: Event "src.ei" is used in automaton "src" to receive and to synchronize.
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 68, column 11: Event "src.ei" is used in automaton "src" to send and to receive.
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 68, column 11: Event "src.ei" is used in automaton "src" to send and to synchronize.
+ERROR: File "tchecker/event_aut_usage_conflict.cif": Semantic error at line 82, column 11: Event "sc_alpha.ei" is used in automaton "sc_alpha" to send and to synchronize.
+WARNING: File "tchecker/event_aut_usage_conflict.cif": Semantic warning at line 83, column 12: The alphabet of automaton "sc_alpha" globally disables event "sc_alpha.ei", as the event is not used on any of the edges of the automaton.
+ERROR: Failed to load CIF file "tchecker/event_aut_usage_conflict.cif": the file has errors.

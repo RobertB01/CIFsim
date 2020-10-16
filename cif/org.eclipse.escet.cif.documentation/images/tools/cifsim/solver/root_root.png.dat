@@ -1,0 +1,20 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+################################################################################
+
+# ix     guard   iy     ilow     ihigh
+0.75     -1       0.75  1.1111   5.0
+1.1111   -1       0.50  1.1111   3.0555
+1.5      -1       0.25  1.1111   2.0833
+1.5      +1       0.0   1.1111   1.5972
+2.0      +1      -0.25  1.3542   1.5972
+3.0      +1      -0.50  1.4757   1.5972
+5.0      +1      -0.75  1.4757   1.5364

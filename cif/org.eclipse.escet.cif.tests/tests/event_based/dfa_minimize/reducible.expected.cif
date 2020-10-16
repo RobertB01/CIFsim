@@ -1,0 +1,13 @@
+uncontrollable a;
+uncontrollable b;
+automaton minimal:
+  alphabet a, b;
+  location s1:
+    initial;
+    edge b;
+    edge a goto s2;
+  location s2:
+    marked;
+    edge b goto s1;
+    edge a goto s1;
+end

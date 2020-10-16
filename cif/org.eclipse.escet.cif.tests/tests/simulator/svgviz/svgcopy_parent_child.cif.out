@@ -1,0 +1,41 @@
+SVG copy ("svgcopy_parent_child.svg") id "grp_top" post "2".
+SVG copy ("svgcopy_parent_child.svg") id "grp_top" post "3".
+SVG copy ("svgcopy_parent_child.svg") id "inner_top2" post "_2".
+SVG copy ("svgcopy_parent_child.svg") id "inner_top2" post "_3".
+SVG copy ("svgcopy_parent_child.svg") id "inner_top3" post "_2".
+SVG copy ("svgcopy_parent_child.svg") id "inner_top3" post "_3".
+SVG copy ("svgcopy_parent_child.svg") id "grp_middle" post "2".
+SVG copy ("svgcopy_parent_child.svg") id "grp_middle" post "3".
+SVG copy ("svgcopy_parent_child.svg") id "grp_bottom" post "1".
+SVG copy ("svgcopy_parent_child.svg") id "inner_bottom1" post "_1".
+SVG copy ("svgcopy_parent_child.svg") id "inner_bottom1" post "_2".
+SVG copy ("svgcopy_parent_child.svg") id "grp_bottom" post "2".
+SVG copy ("svgcopy_parent_child.svg") id "inner_bottom2" post "_1".
+SVG copy ("svgcopy_parent_child.svg") id "inner_bottom2" post "_2".
+SVG copy ("svgcopy_parent_child.svg") id "inner_middle2" post "_2".
+SVG copy ("svgcopy_parent_child.svg") id "inner_middle2" post "_3".
+SVG copy ("svgcopy_parent_child.svg") id "inner_middle3" post "_2".
+SVG copy ("svgcopy_parent_child.svg") id "inner_middle3" post "_3".
+
+Initial state: time=0.0, no_delay=*, outer1.inner1.innerNr=1, outer1.inner1.outerNr=1, outer1.inner2.innerNr=2, outer1.inner2.outerNr=1, outer1.outerNr=1, outer2.inner1.innerNr=1, outer2.inner1.outerNr=2, outer2.inner2.innerNr=2, outer2.inner2.outerNr=2, outer2.outerNr=2
+
+SVG output ("svgcopy_parent_child.svg") id "grp_top2" attr "transform" (SVG attr): "translate(200,0)"
+SVG output ("svgcopy_parent_child.svg") id "grp_top3" attr "transform" (SVG attr): "translate(400,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_middle2_2" attr "transform" (SVG attr): "translate(20,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_middle2_3" attr "transform" (SVG attr): "translate(40,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_middle3_2" attr "transform" (SVG attr): "translate(20,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_middle3_3" attr "transform" (SVG attr): "translate(40,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_top2_2" attr "transform" (SVG attr): "translate(20,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_top2_3" attr "transform" (SVG attr): "translate(40,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_top3_2" attr "transform" (SVG attr): "translate(20,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_top3_3" attr "transform" (SVG attr): "translate(40,0)"
+SVG output ("svgcopy_parent_child.svg") id "grp_middle2" attr "transform" (SVG attr): "translate(200,0)"
+SVG output ("svgcopy_parent_child.svg") id "grp_middle3" attr "transform" (SVG attr): "translate(400,0)"
+SVG output ("svgcopy_parent_child.svg") id "grp_bottom1" attr "transform" (SVG attr): "translate(200,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_bottom1_1" attr "transform" (SVG attr): "translate(20,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_bottom1_2" attr "transform" (SVG attr): "translate(40,0)"
+SVG output ("svgcopy_parent_child.svg") id "grp_bottom2" attr "transform" (SVG attr): "translate(400,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_bottom2_1" attr "transform" (SVG attr): "translate(20,0)"
+SVG output ("svgcopy_parent_child.svg") id "inner_bottom2_2" attr "transform" (SVG attr): "translate(40,0)"
+
+Simulation resulted in deadlock.

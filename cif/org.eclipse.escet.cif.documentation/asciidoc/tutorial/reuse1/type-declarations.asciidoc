@@ -1,0 +1,66 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-reuse1-chapter-type-declarations]]
+== Type declarations
+
+indexterm:[type declaration]
+indexterm:[type,declaration]
+Consider this slightly modified version of an example from the lesson on
+<<tut-reuse1-chapter-constants,constants>>:
+
+
+[source, cif]
+----
+enum ProductType = A, B, C;
+
+const dict(ProductType:real) M1_DURATION = {A: 3.5, B: 5.7, C: 0.8};
+const dict(ProductType:real) M2_DURATION = {A: 1.8, B: 4.2, C: 3.9};
+----
+
+This example declares a `ProductType` enumeration, with three different
+product types: `A`, `B`, and `C`. The `M1_DURATION` constant indicates
+for each product type, how long it takes to produce a product of that type,
+on machine 1. Products of type `A` can be produced in 3.5 hours, products of
+type `B` in 5.7 hours, etc. Constant `M2_DURATION` is similar, but for
+machine 2.
+
+The type of both constants is the same. To avoid having to repeat complex types
+in multiple places, a _type declaration_ can be used:
+
+
+[source, cif]
+----
+enum ProductType = A, B, C;
+type Durations = dict(ProductType:real)
+
+const Durations M1_DURATION = {A: 3.5, B: 5.7, C: 0.8};
+const Durations M2_DURATION = {A: 1.8, B: 4.2, C: 3.9};
+----
+
+A type declaration with name `Durations` is introduced, and `Durations` can
+then be used wherever a type is expected, instead of
+`dict(ProductType:real)`. In the example above, `Durations` is used as
+type of the two constants. The original specification and the one with the
+type declaration have the same constants, with effectively the same type. That
+is, in both specification the value of constant `M1_DURATION` is a
+<<tut-values-chapter-dictionaries,dictionary>> with three key/value pairs.
+
+Type declarations can be used to give a type a name, similar to how
+<<tut-reuse1-chapter-constants,constants>> can be used to give fixed values
+a name, and <<tut-reuse1-chapter-algebraic-variables,algebraic variables>>
+can be used to give computations a name. The benefits are also similar, as type
+declarations can be used to make specifications more concise, to increase
+readability, and to make it easier to consistently change types throughout the
+specification.

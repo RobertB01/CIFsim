@@ -1,0 +1,3 @@
+ERROR: File "tchecker/eval_failure_svg_elem_id.cif": Semantic error at line 17, column 18: Evaluation failure: Division by zero: 1.0 / 0.0.
+ERROR: File "tchecker/eval_failure_svg_elem_id.cif": Semantic error at line 20, column 11: SVG element id cannot be evaluated statically.
+ERROR: Failed to load CIF file "tchecker/eval_failure_svg_elem_id.cif": the file has errors.

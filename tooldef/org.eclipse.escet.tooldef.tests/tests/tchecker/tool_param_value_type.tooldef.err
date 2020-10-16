@@ -1,0 +1,4 @@
+ERROR: File "tchecker/tool_param_value_type.tooldef": Semantic error at line 14, column 16: The default value of tool parameter "x.x" is of type "bool", which doesn't fit in the type "int" of the parameter.
+ERROR: File "tchecker/tool_param_value_type.tooldef": Semantic error at line 14, column 31: The default value of tool parameter "x.y" is of type "int", which doesn't fit in the type "bool" of the parameter.
+ERROR: File "tchecker/tool_param_value_type.tooldef": Semantic error at line 15, column 15: Tool parameter "y.x" may not be both variadic and optional.
+ERROR: Failed to load ToolDef file "tchecker/tool_param_value_type.tooldef": the file has errors.

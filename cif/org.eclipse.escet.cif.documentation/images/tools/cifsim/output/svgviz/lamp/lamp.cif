@@ -1,0 +1,14 @@
+svgfile "lamp.svg";
+
+automaton lamp:
+  cont t der 1.0;
+
+  location Off:
+    initial;
+    edge when t >= 1.0 do t := 0.0 goto On;
+
+  location On:
+    edge when t >= 2.0 do t := 0.0 goto Off;
+
+  svgout id "lamp" attr "fill" value if Off: "gray" else "yellow" end;
+end

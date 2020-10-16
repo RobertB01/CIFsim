@@ -1,0 +1,4 @@
+ERROR: File "tchecker/alphabet_non_sync_param.cif": Semantic error at line 17, column 45: Event parameter "S.p" does not allow synchronization, and may thus not be in the alphabet of automaton "S".
+ERROR: File "tchecker/alphabet_non_sync_param.cif": Semantic error at line 18, column 45: Event parameter "R.p" does not allow synchronization, and may thus not be in the alphabet of automaton "R".
+ERROR: File "tchecker/alphabet_non_sync_param.cif": Semantic error at line 21, column 45: Event parameter "SR.p" does not allow synchronization, and may thus not be in the alphabet of automaton "SR".
+ERROR: Failed to load CIF file "tchecker/alphabet_non_sync_param.cif": the file has errors.

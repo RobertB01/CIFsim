@@ -1,0 +1,79 @@
+Reading CIF file "datasynth/multi_preds.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..10]  p.x   0      4 * 2     11 * 2      16 * 2      ~69%
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  Total                                       1      8         22          32          ~69%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         p.x = 9
+Initial   (discrete variables):          p.x = 9
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         p.x = 9
+Initial   (system, combined init/inv):   p.x = 9
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (auts/locs marker predicate):  p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (uncontrolled system):         p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (system, combined marked/inv): p.x = 4 or (p.x = 6 or p.x = 5)
+
+State/event exclusion requirements:
+  Event "c" needs:
+    p.x = 4 or p.x = 3
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3))
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..10]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 11/16)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3)): guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3 [requirement: p.x = 4 or p.x = 3].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: true)
+    Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.x = 4 or (p.x = 6 or p.x = 5) [marker predicate]
+Backward reachability: iteration 1.
+Controlled behavior: true -> p.x = 4 or (p.x = 6 or p.x = 5).
+
+Round 1: finished, no initialization possible.
+
+Computing controlled system guards.
+
+Edge (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4 or p.x = 3): guard: p.x = 4 or p.x = 3 -> p.x = 4.
+
+Final synthesis result:
+  State: (controlled-behavior: p.x = 4 or (p.x = 6 or p.x = 5))
+    Edge: (event: c) (guard: p.x = 4 or p.x = 5 or (p.x = 2 or p.x = 3) -> p.x = 4)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            p.x = 4 or (p.x = 6 or p.x = 5)
+Initial (uncontrolled system):         p.x = 9
+Initial (controlled system):           false
+Initial (removed by supervisor):       p.x = 9
+Initial (added by supervisor):         p.x != 9

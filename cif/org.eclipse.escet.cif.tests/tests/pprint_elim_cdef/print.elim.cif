@@ -1,0 +1,32 @@
+event e;
+event f;
+group g:
+  alg real t = time;
+  print t + time for initial, time;
+end
+group pe:
+  printfile "output.txt";
+  print "bla" for e;
+end
+group pf:
+  printfile "output.txt";
+  print "bla" for f;
+end
+printfile "global.txt";
+print "x";
+print "a";
+print pre "b";
+print "c";
+print pre "d" post "e";
+print "a" for initial;
+print "a" for final;
+print "a" for event;
+print "a" for time;
+print "a" for e;
+print "a" for initial, final, time, e, f;
+print "b" when 1 = 1;
+print "b" when pre 2 = 2;
+print "b" when 3 = 3;
+print "b" when pre 4 = 4 post 5 = 5;
+print "c" file "local.txt";
+print pre "a" post "b" for initial, e when pre 6 = 6 post 7 = 7 file "local2.txt";

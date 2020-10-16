@@ -1,0 +1,83 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc D01():
+    exit;
+end
+
+proc D02():
+    exit true;
+end
+
+proc D03():
+    exit 1,2;
+end
+
+proc void D04():
+    exit;
+end
+
+proc void D05():
+    exit true;
+end
+
+proc void D06():
+    exit 1,2;
+end
+
+proc tuple(int a; int b) D07():
+    exit;
+end
+
+proc tuple(int a; int b) D08():
+    exit true;
+end
+
+proc tuple(int a; int b) D09():
+    exit 1,2;
+end
+
+model D10():
+    exit;
+end
+
+model D11():
+    exit true;
+end
+
+model D12():
+    exit 1,2;
+end
+
+model void D13():
+    exit;
+end
+
+model void D14():
+    exit true;
+end
+
+model void D15():
+    exit (1,2);
+end
+
+model tuple(int a; int b) D16():
+    exit;
+end
+
+model tuple(int a; int b) D17():
+    exit true;
+end
+
+model tuple(int a; int b) D18():
+    exit 1,2;
+end

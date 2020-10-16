@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_obj_unsupported_var1.tooldef": Semantic error at line 14, column 56: Cannot import variable "v" from the imported ToolDef script, as only tools and type declarations can be imported.
+ERROR: Failed to load ToolDef file "tchecker/import_file_obj_unsupported_var1.tooldef": the file has errors.

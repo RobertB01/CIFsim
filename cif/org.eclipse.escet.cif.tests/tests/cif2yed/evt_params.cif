@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton def A(event e):
+  event ea;
+  location:
+    initial;
+    edge e;
+end
+
+automaton def B(event e):
+  event eb;
+  location:
+    initial;
+    edge e;
+end
+
+a1: A(a1.ea);
+b1: B(b1.eb);
+
+a2: A(b2.eb);
+b2: B(a2.ea);

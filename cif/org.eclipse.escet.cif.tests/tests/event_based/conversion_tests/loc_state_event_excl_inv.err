@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/loc_state_event_excl_inv.cif".
+CAUSE: Unsupported location "l1" of automaton "aut": state/event exclusion invariants are not supported.

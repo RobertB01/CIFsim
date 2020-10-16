@@ -1,0 +1,358 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tut-chapter-statements]]
+== Statements
+
+There are several kinds of statements, such as assignment statements, choice
+statements (select and if statements), and loop statements (while and for
+statements).
+
+Semicolons are required after statements, except at the end of a sequence
+(that is, just before an `end` keyword and after the last statement) or
+after the keyword `end`. In this text semicolons are omitted before `end`.
+
+indexterm:[statement,assignment]
+indexterm:[assignment,statement]
+
+=== The assignment statement
+
+An _assignment_ statement is used to assign values to variables.
+An example:
+
+
+[source, chi]
+----
+y = x + 10
+----
+
+This assignment consists of a name of the variable (`y`), an assignment
+symbol (`=`), and an expression (`x + 10`) yielding a value. For example,
+when `x` is `2`, the value of the expression is `12`.
+Execution of this statement copies the value to the `y` variable,
+immediately after executing the assignment, the value of the `y` variable is
+`10` larger than the value of the `x` variable at this point of the
+program.
+The value of the `y` variable will not change until the next assignment to
+`y`, for example, performing the assignment `x = 7` has no effect on the
+value of the `y` variable.
+
+An example with two assignment statements:
+
+
+[source, chi]
+----
+i = 2;
+j = j + 1
+----
+
+The values of `i` becomes 2, and the value of `j` is incremented.
+Independent assignments can also be combined in a multi-assignment, for
+example:
+
+
+[source, chi]
+----
+i, j = 2, j + 1
+----
+
+The result is the same as the above described example, the first value goes
+into the first variable, the second value into the second variable, etc.
+
+In an assignment statement, first all expression values are computed before
+any assignment is actually done. In the following example the values of `x`
+and `y` are swapped:
+
+
+[source, chi]
+----
+x, y = y, x;
+----
+
+indexterm:[statement,if]
+indexterm:[if,statement]
+
+=== The `if` statement
+
+The _if_ statement is used to express decisions.
+An example:
+
+
+[source, chi]
+----
+if x < 0:
+    y = -x
+end
+----
+
+If the value of `x` is negative, assign its negated value to `y`.
+Otherwise, do nothing (skip the `y = -x` assignment statement).
+
+To perform a different statement when the decision fails, an `if`-statement
+with an `else` alternative can be used. It has the following form.
+An example:
+
+
+[source, chi]
+----
+if a > 0:
+    c = a
+else:
+    c = b
+end
+----
+
+If `a` is positive, variable `c` gets the value of `a`, otherwise it
+gets the value of `b`.
+
+In some cases more alternatives must be tested. One way of writing it is by
+nesting an `if`-statement in the `else` alternative of the previous
+`if`-statement, like:
+
+
+[source, chi]
+----
+if i < 0:
+    writeln("i < 0")
+else:
+    if i == 0:
+        writeln("i = 0")
+    else:
+        if i > 0 and i < 10:
+            writeln("0 < i < 10")
+        else:
+            # i must be greater or equal 10
+            writeln("i >= 10")
+        end
+    end
+end
+----
+
+This tests `i < 0`. If it fails, the `else` is chosen, which contains a
+second `if`-statement with the `i == 0` test. If that test also fails, the
+third condition `i > 0 and i < 10` is tested, and one of the `writeln`
+statements is chosen.
+
+The above can be written more compactly by combining an `else`-part and the
+`if`-statement that follows, into an `elif` part. Each `elif` part
+consists of a boolean expression, and a statement list. Using `elif` parts
+results in:
+
+
+[source, chi]
+----
+if i < 0:
+    writeln("i < 0")
+elif i == 0:
+    writeln("i = 0")
+elif i > 0 and i < 10:
+    writeln("0 < i < 10")
+else:
+    # i must be greater or equal 10
+    writeln("i >= 10")
+end
+----
+
+Each alternative starts at the same column, instead of having increasing
+indentation.
+The execution of this combined statement is still the same, an alternative is
+only tested when the conditions of all previous alternatives fail.
+
+indexterm:[comment]
+Note that the line `# i must be greater or equal 10` is a comment to clarify
+when the alternative is chosen. It is not executed by the simulator. You can
+write comments either at a line by itself like above, or behind program code.
+It is often useful to clarify the meaning of variables, give a more detailed
+explanation of parameters, or add a line of text describing what the purpose
+of a block of code is from a birds-eye view.
+
+indexterm:[statement,while]
+indexterm:[while,statement]
+
+=== The `while` statement
+
+The _while_ statement is used for repetitive execution of the same statements,
+a so-called _loop_. A fragment that calculates the sum of `10` integers,
+`+10, 9, 8, ..., 3, 2, 1+`, is:
+
+
+[source, chi]
+----
+int i = 10, sum;
+
+while i > 0:
+    sum = sum + i; i = i - 1
+end
+----
+
+Each iteration of a `while` statement starts with evaluating its condition
+(`i > 0` above). When it holds, the statements inside the while (the 
+`sum = sum + i; i = i - 1` assignments) are executed (which adds `i` to the sum
+and decrements `i`). At the end of the statements, the `while` is executed
+again by evaluating the condition again. If it still holds, the next iteration
+of the loop starts by executing the assignment statements again, etc.
+When the condition fails (`i` is equal to `0`), the `while` statement
+ends, and execution continues with the statement following `end`.
+
+A fragment with an infinite loop is:
+
+
+[source, chi]
+----
+while true:
+    i = i + 1;
+    ...
+end
+----
+
+The condition in this fragments always holds, resulting in `i` getting
+incremented 'forever'. Such loops are very useful to model things you switch
+on but never off, e.g. processes in a factory.
+
+A fragment to calculate `+z = x ^ y+`, where `z` and `x` are of type
+`real`, and `y` is of type `integer` with a non-negative value, showing
+the use of two `while` loops, is:
+
+
+[source, chi]
+----
+real x; int y; real z = 1;
+
+while y > 0:
+    while y mod 2 == 0:
+        y = y div 2; x = x * x
+    end;
+    y = y - 1; z = x * z
+end
+----
+
+A fragment to calculate the greatest common divisor (GCD) of two integer
+numbers `j` and `k`, showing the use of `if` and `while` statements,
+is:
+
+
+[source, chi]
+----
+while j != k:
+    if j > k:
+        j = j - k
+    else:
+        k = k - j
+    end
+end
+----
+
+The symbol `!=` stands for 'differs from' ('not equal').
+
+indexterm:[statement,for]
+indexterm:[for,statement]
+
+[[tut-for-statement]]
+=== The `for` statement
+
+The while statement is useful for looping until a condition fails. The _for_
+statement is used for iterating over a collection of values. A fragment with
+the calculation of the sum of `10` integers:
+
+
+[source, chi]
+----
+int sum;
+
+for i in range(1, 11):
+    sum = sum + i
+end
+----
+
+indexterm:[function,range]
+indexterm:[range,function]
+The result of the expression `range(1, 11)`
+is a list whose items are consecutive integers from `1` (included)
+up to `11` (excluded): `+[1, 2, 3, ..., 9, 10]+`.
+
+The following example illustrates the use of the for statement in relation
+with container-type variables. Another way of calculating the sum of a list of
+integer numbers:
+
+
+[source, chi]
+----
+list int xs = [1, 2, 3, 5, 7, 11, 13];
+int sum;
+
+for x in xs:
+    sum = sum + x
+end
+----
+
+This statement iterates over the elements of list `xs`.
+This is particularly useful when the value of `xs` may change before the
+`for` statement.
+
+
+=== Notes
+
+In this chapter the most used statements are described. Below are a few other
+statements that may be useful some times:
+
+indexterm:[statement,break]
+indexterm:[break,statement]
+indexterm:[statement,continue]
+indexterm:[continue,statement]
+. Inside loop statements, the _break_ and _continue_ statements are allowed.
+The `break` statements allows 'breaking
+out of a loop', that is, abort a while or a for statement.
+The `continue` statement aborts
+execution of the statements in a loop.
+It 'jumps' to the start of the next iteration.
+
+indexterm:[statement,pass]
+indexterm:[pass,statement]
+. A rarely used statement is the `pass` statement.
+It's like an `x = x` assignment statement, but more clearly
+expresses 'nothing is done here'.
+
+
+=== Exercises
+
+. Study the Chi specification below and explain why, though it works, it is
+not an elegant way of modeling the selection.
+Make a suggestion for a shorter, more elegant version of:
++
+[source, chi]
+----
+model M():
+    int i = 3;
+
+    if (i <  0) == true:
+        write("%d is a negative number\n", i);
+    elif (i <= 0) == false:
+        write("%d is a positive number\n", i);
+    end
+end
+----
+
+. Construct a list with the squares of the integers 1 to 10.
+
+.. using a `for` statement, and
+
+.. using a `while` statement.
+
+. Write a program that
+
+.. Makes a list with the first 50 prime numbers.
+
+.. Extend the program with computing the sum of the first 7 prime numbers.
+
+.. Extend the program with computing the sum of the last 11 prime numbers.

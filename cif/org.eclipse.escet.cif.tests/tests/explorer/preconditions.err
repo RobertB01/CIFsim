@@ -1,0 +1,7 @@
+ERROR: State space exploration failed due to unsatisfied preconditions:
+ - Discrete variable "pp.d1" of type "int" with 4.294967296e9 potential initial values is not supported.
+ - Discrete variable "pp.d2" of type "list string" with infinite potential initial values is not supported.
+ - Distribution standard library function "constant" is not supported.
+ - Distribution type "dist real" is not supported.
+ - External user-defined function "f" is not supported.
+ - Input variable "i" is not supported.

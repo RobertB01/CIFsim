@@ -1,0 +1,2 @@
+WARNING: SVG file "../../pprint_elim_cdef/text.svg" has no CIF/SVG input/output mappings that apply to it.
+ERROR: Moving the SVG element with id "tspan2818" in SVG file "../../pprint_elim_cdef/text.svg" failed, as the element does not have a graphical representation.

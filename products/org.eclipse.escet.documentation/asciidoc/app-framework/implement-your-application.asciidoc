@@ -1,0 +1,163 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[application, implement]
+
+[[app-framework-implement-your-application]]
+== How to implement your own application
+
+This section more or less explains step by step how to implement your own
+application, by using the application framework.
+
+* Decide whether it is enough to use the `IOutputComponent` interface, or
+that you need more. See also the <<app-framework-io-framework,I/O framework>>
+section.
+
+* Create a new class, deriving from `Application`.
+
+* Add a `main` method to your application class. For instance:
++
+[source, java]
+----
+/**
+ * Application main method.
+ *
+ * @param args The command line arguments supplied to the application.
+ */
+public static void main(String[] args) {
+    MyApp app = new MyApp();
+    app.run(args);
+}
+----
++
+This allows for standalone execution.
+
+* Add constructors as needed. You'll probably want to implement some or most
+of the constructors provided by the `Application` class. In order to
+support standalone execution, the following constructor is required:
++
+[source, java]
+----
+/** Constructor for the {@link MyApp} class. */
+public MyApp() {
+    // Nothing to do here.
+}
+----
++
+In order to support the ToolDef `app` tool, which can be used to run
+application framework applications from ToolDef scripts, the following
+constructor is required:
++
+[source, java]
+----
+/**
+ * Constructor for the {@link MyApp} class.
+ *
+ * @param streams The streams to use for input, output, and error streams.
+ */
+public MyApp(AppStreams streams) {
+    super(streams);
+}
+----
++
+This constructor is also required by the `ChildAppStarter` class, to support
+starting one application framework application from another application
+framework application.
+
+* Implement the mandatory methods `getAppName` and `getAppDescription`.
+
+* Implement mandatory method `getProvider`. If you use `IOutputComponent`,
+then you can implement it as follows:
++
+[source, java]
+----
+return new OutputProvider<>();
+----
++
+If you don't use `IOutputComponent`, return a new instance of a derived
+class of `OutputProvider` that implements the derived interface of
+`IOutputComponent`.
+
+* If you don't use `IOutputComponent`, override the
+`getStreamOutputComponent` method, and return a new instance of a derived
+class of `StreamOutputComponent` that implements the derived interface of
+`IOutputComponent`. Such a class usually ignores all other output, and
+thus behaves exactly as `StreamOutputComponent`, but implements the full
+output interface of the application.
+
+* Implement mandatory method `getAllOptions`. You'll need to return an
+option category that wraps the actual option categories of the application.
+Use the `getGeneralOptionCategory` to obtain the default application
+options category, which must always be the first category of options for
+your application. An example of an implementation of this method:
++
+[source, java]
+----
+@Override
+@SuppressWarnings("rawtypes")
+protected OptionCategory getAllOptions() {
+    OptionCategory generalOpts = getGeneralOptionCategory();
+
+    OptionCategory debugOpts =
+        new OptionCategory("Debug", "Debugging options.", list(),
+                           list(Options.getInstance(DebugOption.class)));
+
+    OptionCategory options =
+        new OptionCategory("My Application Options",
+                           "All options for My Application.",
+                           list(generalOpts, debugOpts), list());
+
+    return options;
+}
+----
+
+* Implement mandatory method `runInternal` with the actual application code.
+
+* Override optional method `getHelpMessageNotes` if applicable.
+
+* Override optional methods `preOptions` and `postOptions` if applicable.
+
+* Override optional method `getAppVersion` if applicable.
+
+
+[[app-framework-runinternal-method]]
+=== The runInternal method
+
+Some things to consider when implementing the `runInternal` method:
+
+* If you want to support stand-alone execution, register all Eclipse Modeling
+Framework (EMF) metamodels with the EMF metamodel registry. Also register any
+parsers, constraints, etc. For instance:
++
+[source, java]
+----
+if (!Platform.isRunning()) {
+    // Register languages and parsers for stand-alone execution.
+    LanguageRegistry.register...(...)
+}
+----
+
+* The start of the `runInternal` method is a good place to add output
+components, as all options have been fully processed at this point. Output
+components can be registered by using the application's output provider
+(though static methods).
+
+* The code in this method and all code directly or indirectly executed by this
+method, should regularly call the `AppEnv.isTerminationRequested` method,
+to find out whether the application should be terminated.
+
+* For the return code of this method, always use value zero, to indicate
+successful termination. Other exit codes are automatically generated by the
+exception framework, if applicable. See also the
+<<app-framework-exit-codes,exit codes>> section.

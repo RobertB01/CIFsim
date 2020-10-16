@@ -1,0 +1,106 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[download-install-install]]
+== Installation of Eclipse ESCET tools
+
+Before installing Eclipse ESCET tools, first install a Java Development Kit
+(JDK), taking into account the following restrictions:
+
+* Version 8 update 31 (8u31) or newer is required. Versions 9 and higher are
+currently not yet supported.
+* An x64 (64-bit) version of Java is required, which also requires a 64-bit
+operating system.
+* Currently the Eclipse ESCET tools are only tested using Oracle JDKs. Your
+experience with other JDK vendors may vary.
+* A Java Runtime Environment (JRE) is not sufficient. A JDK is required.
+
+You can download a JDK from Oracle's
+link:https://www.oracle.com/java/technologies/javase-downloads.html[Java SE Downloads]
+page. For more information, see:
+
+* Oracle's
+link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/linux_jdk.html[JDK Installation for Linux Platforms]
+page.
+* Oracle's
+link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/windows_jdk_install.html[JDK Installation for Microsoft Windows]
+page.
+* Oracle's
+link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jdk.html[JDK 8 Installation for OS X]
+page.
+
+Ensure that this JDK is in your `PATH`. See e.g.
+link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?]
+for how to achieve this.
+
+Next, obtain the Eclipse ESCET tools:
+
+* <<download-install-chapter-index,Download>> the Eclipse ESCET tools.
+
+* Extract the downloaded archive somewhere on your hard disk, to a new empty
+directory where you have read and write access.
+
+You can now start the Eclipse ESCET IDE:
+
+* For Windows, execute `eclipse.exe` from the directory that contains the
+extracted files.
+
+* For Linux, execute `eclipse` from the directory that contains the
+extracted files.
+
+* For macOS, the archive contains a directory named `Eclipse.app`, which
+contains all the files of the release. The operating system recognizes this
+directory as a macOS application and displays it as _Eclipse_ with a custom
+icon.  You can now execute the application by double clicking the _Eclipse_
+application icon. A dialog may be shown with the following text:
+_"Eclipse" is an application downloaded from the Internet. Are you sure you
+want to open it?_ Click the btn:[Open] button to confirm. You may move/drag
+the _Eclipse_ application icon to the macOS _Applications_ folder, to
+make the Eclipse icon appear among the other macOS applications.
+
+For more information, see the section on starting the Eclipse ESCET IDE
+<<download-install-first-start,for the first time>>.
+
+You can now also use the command line scripts located in the `bin`
+directory (`Eclipse.app/Contents/Eclipse/bin` on macOS). To see which
+tools are available, simply look in the `bin` directory. Each of these
+tools can be started with the `-h` or `--help` option to get further
+information. You may want to add the `bin` directory to your `PATH`
+environment variable. See e.g.
+link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?]
+for how to achieve this.
+
+If the Eclipse ESCET IDE or one of the command line scripts can't be started,
+you can try the following:
+
+* The Eclipse ESCET tools may not be able to correctly detect the JDK you
+installed. In such a case, edit the `eclipse.ini` file from the directory
+that contains the extracted files and add in the following lines at the
+beginning of the file:
++
+[source]
+----
+-vm
+C:/Program Files/Java/jdk1.8.0_211/bin
+----
++
+Note that `-vm` and the path to the JDK need to be on separate lines.
+Obviously, change the JDK path to the actual path for your system.
+Make sure to save the file and retry starting the Eclipse ESCET IDE
+or one of the command line scripts.
+
+* For macOS, open the _System Preferences_ of the operation system. Click
+on _Security & Privacy_. Click on the lock icon to allow changing the security
+settings. For _Allow apps downloaded from_, choose _Anywhere_. Close the
+_Security & Privacy_ settings window.

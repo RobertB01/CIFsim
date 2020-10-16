@@ -1,0 +1,4 @@
+ERROR: File "tchecker/def_use_cycle_typedecl_import2.cif": Semantic error at line 14, column 8: File "def_use_cycle_typedecl_import1.cif": Definition/use cycle detected: "t1" is recursively defined in terms of itself: t1 -> t3 -> t2 -> t1.
+ERROR: File "tchecker/def_use_cycle_typedecl_import2.cif": Semantic error at line 15, column 8: File "def_use_cycle_typedecl_import3.cif": Definition/use cycle detected: "t3" is recursively defined in terms of itself: t3 -> t2 -> t1 -> t3.
+ERROR: File "tchecker/def_use_cycle_typedecl_import2.cif": Semantic error at line 17, column 6: Definition/use cycle detected: "t2" is recursively defined in terms of itself: t2 -> t1 -> t3 -> t2.
+ERROR: Failed to load CIF file "tchecker/def_use_cycle_typedecl_import2.cif": the file has errors.

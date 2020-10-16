@@ -1,0 +1,161 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func list bool testb(dist bool d):
+  list bool rslt;
+  bool v;
+  int i;
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  // Move on to next sample.
+  v, d := sample d;
+  rslt := rslt + [v];
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  // Move on to next sample.
+  v, d := sample d;
+  rslt := rslt + [v];
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  return rslt;
+end
+
+func list int testi(dist int d):
+  list int rslt;
+  int v;
+  int i;
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  // Move on to next sample.
+  v, d := sample d;
+  rslt := rslt + [v];
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  // Move on to next sample.
+  v, d := sample d;
+  rslt := rslt + [v];
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  return rslt;
+end
+
+func list real testr(dist real d):
+  list real rslt;
+  real v;
+  int i;
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  // Move on to next sample.
+  v, d := sample d;
+  rslt := rslt + [v];
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  // Move on to next sample.
+  v, d := sample d;
+  rslt := rslt + [v];
+
+  // Sample distribution 10 times, without updating it. All the same samples.
+  i := 0;
+  while i < 10:
+    i := i + 1;
+    rslt := rslt + [(sample d)[0]];
+  end
+
+  return rslt;
+end
+
+plant p:
+  disc list dist bool bds = [ bernoulli(0.5),
+                              constant(true) ];
+
+  disc list dist int  ids = [ binomial(0.5, 10),
+                              constant(123),
+                              geometric(0.6),
+                              poisson(15.0),
+                              uniform(-5, 9) ];
+
+  disc list dist real rds = [ beta(1.0, 2.0),
+                              constant(1.23),
+                              erlang(3, 4.0),
+                              exponential(1.5),
+                              gamma(1.0, 2.0),
+                              lognormal(1.0, 2.0),
+                              normal(1.0, 2.0),
+                              random(),
+                              triangle(-2.0, 3.0, 5.0),
+                              uniform(-5.0, 9.0),
+                              weibull(1.0, 2.0) ];
+
+  disc list bool lb;
+  disc list int li;
+  disc list real lr;
+
+  location:
+    initial;
+    urgent;
+
+    edge when not empty(bds) do bds := bds[1:], li := [], lr := [],
+                                lb := testb(bds[0]);
+    edge when not empty(ids) do ids := ids[1:], lb := [], lr := [],
+                                li := testi(ids[0]);
+    edge when not empty(rds) do rds := rds[1:], lb := [], li := [],
+                                lr := testr(rds[0]);
+end

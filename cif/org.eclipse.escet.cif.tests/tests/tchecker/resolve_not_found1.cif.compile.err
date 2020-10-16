@@ -1,0 +1,7 @@
+ERROR: File "tchecker/resolve_not_found1.cif": Semantic error at line 14, column 17: Could not find a declaration with name "y1" in the top level scope of the specification.
+ERROR: File "tchecker/resolve_not_found1.cif": Semantic error at line 20, column 17: Could not find a declaration with name "y2" in the top level scope of the specification.
+ERROR: File "tchecker/resolve_not_found1.cif": Semantic error at line 26, column 17: Could not find a declaration with name "b3" in group "a3".
+ERROR: File "tchecker/resolve_not_found1.cif": Semantic error at line 28, column 17: Could not find a declaration with name "a4" in the top level scope of the specification.
+ERROR: File "tchecker/resolve_not_found1.cif": Semantic error at line 33, column 13: Could not find a declaration with name "c5" in group definition "P5".
+ERROR: File "tchecker/resolve_not_found1.cif": Semantic error at line 39, column 15: Could not find a declaration with name "z6" in automaton "g6.a6" or at a higher level.
+ERROR: Failed to load CIF file "tchecker/resolve_not_found1.cif": the file has errors.

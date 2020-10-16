@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "../pprint_elim_cdef/text.svg";
+
+event e, f;
+svgin id "txt1" event e;
+
+group g:
+  svgin id "txt2" event e;
+
+  event $plant, $automaton, $requirement;
+
+  automaton a:
+    location:
+      initial;
+      edge f;
+
+    svgin id "svg2" event if true: $plant elif true: $automaton else $requirement end;
+  end
+end

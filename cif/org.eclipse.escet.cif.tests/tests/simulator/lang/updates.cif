@@ -1,0 +1,322 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// See also: funcs_internal/funcs_asgn.cif
+
+automaton p:
+  disc int i, j;
+  disc tuple(int a, b) tii;
+  disc list int li;
+  disc list[3] int ai;
+  disc dict(int:real) dir;
+  disc list list list int llli;
+  disc list tuple(int c; list dict(int:real) d) v;
+
+  // Simple assignment.
+  location simple1:
+    initial;
+    edge when i < 3 do i := i + 1;                           // i to 1, 2, 3
+    edge when i = 3 goto multi1;
+
+  // Multiple assignments.
+  location multi1:
+    edge do i := 5, j := 6 goto if1;                         // i to 5, j to 6
+
+  // If updates.
+  location if1:
+    edge do if i = 5: i := 0 end goto if2;                   // i to 0
+
+  location if2:
+    edge do if i = 1: i := 2 end goto if3;                   // no change
+
+  location if3:
+    edge do if i = 99: i := 1 else i := -1 end goto ifs01;   // i to -1
+
+  // If updates (guard/if/elif/else combos), with 'else' always.
+  location ifs01:
+    edge do if true:  i :=  2                                         else i :=  3 end // i to 2
+    goto ifs02;
+
+  location ifs02:
+    edge do if false: i :=  4                                         else i :=  5 end // i to 5
+    goto ifs03;
+
+  location ifs03:
+    edge do if false: i :=  6 elif true:  i :=  7 elif true:  i :=  8 else i :=  9 end // i to 7
+    goto ifs04;
+
+  location ifs04:
+    edge do if false: i := 10 elif true:  i := 11 elif false: i := 12 else i := 13 end // i to 11
+    goto ifs05;
+
+  location ifs05:
+    edge do if false: i := 14 elif false: i := 15 elif true:  i := 16 else i := 17 end // i to 16
+    goto ifs06;
+
+  location ifs06:
+    edge do if false: i := 18 elif false: i := 19 elif false: i := 20 else i := 21 end // i to 21
+    goto ifs07;
+
+  location ifs07:
+    edge do if true:  i := 22 elif true:  i := 23 elif true:  i := 24 else i := 25 end // i to 22
+    goto ifs08;
+
+  location ifs08:
+    edge do if true:  i := 26 elif true:  i := 27 elif false: i := 28 else i := 29 end // i to 26
+    goto ifs09;
+
+  location ifs09:
+    edge do if true:  i := 30 elif false: i := 31 elif true:  i := 32 else i := 33 end // i to 30
+    goto ifs10;
+
+  location ifs10:
+    edge do if true:  i := 34 elif false: i := 35 elif false: i := 36 else i := 37 end // i to 34
+    goto ifs11;
+
+  location ifs11:
+    edge do if true, true:   i := 38                                  else i := 39 end // i to 38
+    goto ifs12;
+
+  location ifs12:
+    edge do if true, false:  i := 40                                  else i := 41 end // i to 41
+    goto ifs13;
+
+  location ifs13:
+    edge do if false, true:  i := 42                                  else i := 43 end // i to 43
+    goto ifs14;
+
+  location ifs14:
+    edge do if false, false: i := 44                                  else i := 45 end // i to 45
+    goto ifs15;
+
+  location ifs15:
+    edge do if false: i := 46 elif true, true:   i := 47              else i := 48 end // i to 47
+    goto ifs16;
+
+  location ifs16:
+    edge do if false: i := 49 elif true, false:  i := 50              else i := 51 end // i to 51
+    goto ifs17;
+
+  location ifs17:
+    edge do if false: i := 52 elif false, true:  i := 53              else i := 54 end // i to 54
+    goto ifs18;
+
+  location ifs18:
+    edge do if false: i := 55 elif false, false: i := 56              else i := 57 end // i to 57
+    goto ifs19;
+
+  location ifs19:
+    edge do if true:  if true:  i := 58 else i := 59 end else i := 60 end              // i to 58
+    goto ifs20;
+
+  location ifs20:
+    edge do if true:  if false: i := 61 else i := 62 end else i := 63 end              // i to 62
+    goto ifs21;
+
+  location ifs21:
+    edge do if false: if true:  i := 64 else i := 65 end else i := 66 end              // i to 66
+    goto ifs22;
+
+  location ifs22:
+    edge do if false: if false: i := 67 else i := 68 end else i := 69 end              // i to 69
+    goto jfs01;
+
+  // If updates (guard/if/elif/else combos), without last 'else'.
+  location jfs01:
+    edge do if true:  i :=  2                                         end // i to 2
+    goto jfs02;
+
+  location jfs02:
+    edge do if false: i :=  4                                         end // no change
+    goto jfs03;
+
+  location jfs03:
+    edge do if false: i :=  6 elif true:  i :=  7 elif true:  i :=  8 end // i to 7
+    goto jfs04;
+
+  location jfs04:
+    edge do if false: i := 10 elif true:  i := 11 elif false: i := 12 end // i to 11
+    goto jfs05;
+
+  location jfs05:
+    edge do if false: i := 14 elif false: i := 15 elif true:  i := 16 end // i to 16
+    goto jfs06;
+
+  location jfs06:
+    edge do if false: i := 18 elif false: i := 19 elif false: i := 20 end // no change
+    goto jfs07;
+
+  location jfs07:
+    edge do if true:  i := 22 elif true:  i := 23 elif true:  i := 24 end // i to 22
+    goto jfs08;
+
+  location jfs08:
+    edge do if true:  i := 26 elif true:  i := 27 elif false: i := 28 end // i to 26
+    goto jfs09;
+
+  location jfs09:
+    edge do if true:  i := 30 elif false: i := 31 elif true:  i := 32 end // i to 30
+    goto jfs10;
+
+  location jfs10:
+    edge do if true:  i := 34 elif false: i := 35 elif false: i := 36 end // i to 34
+    goto jfs11;
+
+  location jfs11:
+    edge do if true, true:   i := 38                                  end // i to 38
+    goto jfs12;
+
+  location jfs12:
+    edge do if true, false:  i := 40                                  end // no change
+    goto jfs13;
+
+  location jfs13:
+    edge do if false, true:  i := 42                                  end // no change
+    goto jfs14;
+
+  location jfs14:
+    edge do if false, false: i := 44                                  end // no change
+    goto jfs15;
+
+  location jfs15:
+    edge do if false: i := 46 elif true, true:   i := 47              end // i to 47
+    goto jfs16;
+
+  location jfs16:
+    edge do if false: i := 49 elif true, false:  i := 50              end // no change
+    goto jfs17;
+
+  location jfs17:
+    edge do if false: i := 52 elif false, true:  i := 53              end // no change
+    goto jfs18;
+
+  location jfs18:
+    edge do if false: i := 55 elif false, false: i := 56              end // no change
+    goto jfs19;
+
+  location jfs19:
+    edge do if true:  if true:  i := 58 else i := 59 end end              // i to 58
+    goto jfs20;
+
+  location jfs20:
+    edge do if true:  if false: i := 61 else i := 62 end end              // i to 62
+    goto jfs21;
+
+  location jfs21:
+    edge do if false: if true:  i := 64 else i := 65 end end              // no change
+    goto jfs22;
+
+  location jfs22:
+    edge do if false: if false: i := 67 else i := 68 end end              // no change
+    goto pack1;
+
+  // Packing/unpacking.
+  location pack1:
+    edge do tii := (1, 2) goto pack2;                        // tii to (1, 2)
+
+  location pack2:
+    edge do (i, j) := tii goto pack3;                        // i to 1, j to 2
+
+  location pack3:
+    edge do (i, tii) := (5, (6, 7)) goto pack4;              // i to 5, tii to (6, 7)
+
+  location pack4:
+    edge do (tii, (i, j)) := ((1, 2), (3, 4)) goto pack5;    // tii to (1, 2), i to 3, j to 4
+
+  location pack5:
+    edge do (tii, (i, j)) := ((8, 9), tii) goto proj1;       // tii to (8, 9), i to 1, j to 2
+
+  // Projections.
+  location proj1:
+    edge do li := [1, 2],                        // li to [1, 2]
+            dir := {1: 2.0, 3: 4.0}              // dir to {1: 2.0, 3: 4.0}
+    goto proj2a;
+
+  location proj2a:
+    edge do tii[a] := 5 goto proj2b;             // tii to (5, 9)
+
+  location proj2b:
+    edge do tii[1] := 8 goto proj3a;             // tii to (5, 8)
+
+  location proj3a:
+    edge do li[0] := 3 goto proj3b;              // li to [3, 2]
+
+  location proj3b:
+    edge do li[-1] := 4 goto proj4;              // li to [3, 4]
+
+  location proj4:
+    edge do dir[1] := 8.0 goto proj5;            // dir to {1: 8.0, 3: 4.0}
+
+  location proj5:
+    edge do dir[2] := 6.0 goto proj6;            // dir to {1: 8.0, 3: 4.0, 2: 6.0}
+
+  location proj6:
+    edge do llli := [[[1], [2]], [[3], [4]], [[5]]] goto proj7; // llli to [[[1], [2]], [[3], [4]], [[5]]]
+
+  location proj7:
+    edge do llli[0][0][0] := 8 goto proj8;                      // llli to [[[8], [2]], [[3], [4]], [[5]]]
+
+  location proj8:
+    edge do llli[1][1][0] := 9 goto proj9;                      // llli to [[[8], [2]], [[3], [9]], [[5]]]
+
+  location proj9:
+    edge do li  := [],                                          // li to []
+            dir := {},                                          // dir to {}
+            llli := []                                          // llli to []
+    goto proj10;
+
+  location proj10:
+    edge do v := [(1, [{2:3.0}])] goto proj11;      // v to [(1, [{2:3.0}])]
+
+  location proj11:
+    edge do v[0][1][0][2] := 4.0 goto proj12;       // v to [(1, [{2:4.0}])]
+
+  location proj12:
+    edge do v[0][1][0][3] := 5.0 goto proj13;       // v to [(1, [{2:4.0, 3:5.0}])]
+
+  location proj13:
+    edge do v := <list[0] tuple(int c; list dict(int:real) d)>[] goto combi1; // v to []
+
+  // Projection and multi-assignment combi.
+  location combi1:
+    edge do li := [1, 2, 3],                             // li to [1, 2, 3]
+            tii := (4, 5)                                // tii to (4, 5)
+     goto combi2;
+
+  location combi2:
+    edge do (i, li[2]) := tii goto combi3;               // i to 4, li to [1, 2, 5]
+
+  location combi3:
+    edge do li := [] goto partial1;                      // li to []
+
+  // Non-overlapping partial variable assignments.
+  location partial1:
+    edge do li := [1, 2, 3],                                // li to [1, 2, 3]
+            ai := [1, 2, 3],                                // ai to [1, 2, 3]
+            llli := [[[1], [2], [3]], [[4]]] goto partial2; // llli to [[[1], [2], [3]], [[4]]]
+
+  location partial2:
+    edge do li[0] := 4, li[1] := 5 goto partial3;           // li to [4, 5, 3]
+
+  location partial3:
+    edge do ai[-1] := 6, ai[-2] := 7 goto partial4;         // ai to [1, 7, 6]
+
+  location partial4:
+    edge do llli[0][0][0] := 8,
+            llli[0][1][0] := 9,
+            llli[1] := [[10]] goto done;                    // llli to [[[8], [9], [3]], [[10]]]
+
+  // Done.
+  location done:
+    urgent;
+end

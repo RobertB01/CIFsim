@@ -1,0 +1,3 @@
+Problems detected in merged CIF specification:
+ - ERROR: Duplicate output mapping for attribute "width" of the SVG element with id "box" in SVG file "../tchecker/small.svg".
+ERROR: Merging CIF specifications "merger/err_post_svg_dupl_output_id_attr.in1.cif", "merger/err_post_svg_dupl_output_id_attr.in2.cif" failed.

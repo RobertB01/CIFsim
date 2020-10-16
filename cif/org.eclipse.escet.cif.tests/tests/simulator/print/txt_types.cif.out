@@ -1,0 +1,7 @@
+a"b
+["a\"b"]
+1.0e-17
+1.0e-17
+Initial state: time=0.0, a=*
+
+Simulation resulted in deadlock.

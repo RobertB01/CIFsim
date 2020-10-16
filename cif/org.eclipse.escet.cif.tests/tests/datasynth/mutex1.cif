@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant def Machine():
+  controllable c_start;
+  uncontrollable u_waiting, u_finished;
+  disc int[0..1] producing = 0;
+
+  location Idle:
+    initial; marked;
+    edge c_start do producing := 1 goto Producing;
+
+  location Producing:
+    edge u_waiting do producing := 0 goto CoolDown;
+
+  location CoolDown:
+    edge u_finished goto Idle;
+end
+
+machine1: Machine();
+machine2: Machine();
+
+group mutual_exclusion:
+  // The machines use the same critical resource when producing, and as such
+  // must not produce at the same time. This is expressed using a mutual state
+  // exclusion constraint.
+  requirement invariant not(machine1.producing = 1 and machine2.producing = 1);
+end

@@ -1,0 +1,46 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "../../tchecker/small.svg";
+
+svgin id "grp" event e1;
+svgin id "box" event if a.l1: e2 else e3 end;
+
+event e1, e2, e3, e4;
+
+automaton a:
+  location l1:
+    initial;
+    edge e4 when true goto l2;
+
+  location l2:
+    urgent;
+end
+
+automaton b:
+  location loc1:
+    initial;
+    edge e1 goto loc2;
+
+  location loc2:
+    edge e2 goto loc3;
+
+  location loc3:
+    edge e3 goto loc4;
+
+  location loc4:
+    edge e4 goto loc5;
+
+  location loc5:
+    urgent;
+end

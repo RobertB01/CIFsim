@@ -1,0 +1,110 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Copied and adapted from "elim_aut_casts.cif". This test tests casts that
+// refer to automaton instantiations, and it tests the combination of
+// elim-comp-def-inst, elim-self, and elim-aut-casts, combined with
+// linearization.
+
+group aut:
+  automaton a1_noname:
+    alg string v1 = <string>self;
+    alg string v2 = <string>a1_noname;
+    alg string v3 = <string>true;
+
+    location:
+      initial;
+  end
+
+  automaton a1_named:
+    alg string v1 = <string>self;
+    alg string v2 = <string>a1_named;
+    alg string v3 = <string>true;
+
+    location l:
+      initial;
+  end
+
+  automaton a2:
+    alg string v1 = <string>self;
+    alg string v2 = <string>a2;
+    alg string v3 = <string>true;
+
+    location l1:
+      initial;
+    location l2:
+      initial;
+  end
+
+  automaton a3:
+    alg string v1 = <string>self;
+    alg string v2 = <string>a3;
+    alg string v3 = <string>true;
+
+    location l1:
+      initial;
+    location l2:
+      initial;
+    location l3:
+      initial;
+  end
+end
+
+group aut_def:
+  automaton def A1_noname():
+    alg string v1 = <string>self;
+    alg string v2 = <string>a1_noname;
+    alg string v3 = <string>true;
+
+    location:
+      initial;
+  end
+
+  automaton def A1_named():
+    alg string v1 = <string>self;
+    alg string v2 = <string>a1_named;
+    alg string v3 = <string>true;
+
+    location l:
+      initial;
+  end
+
+  automaton def A2():
+    alg string v1 = <string>self;
+    alg string v2 = <string>a2;
+    alg string v3 = <string>true;
+
+    location l1:
+      initial;
+    location l2:
+      initial;
+  end
+
+  automaton def A3():
+    alg string v1 = <string>self;
+    alg string v2 = <string>a3;
+    alg string v3 = <string>true;
+
+    location l1:
+      initial;
+    location l2:
+      initial;
+    location l3:
+      initial;
+  end
+
+  a1_noname: A1_noname();
+  a1_named: A1_named();
+  a2: A2();
+  a3: A3();
+end

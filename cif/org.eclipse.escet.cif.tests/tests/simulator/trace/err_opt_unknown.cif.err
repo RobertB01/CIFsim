@@ -1,0 +1,2 @@
+ERROR: Trace file "simulator/trace/err_opt_unknown.trace" is invalid.
+CAUSE: Invalid option: "option bla bla".

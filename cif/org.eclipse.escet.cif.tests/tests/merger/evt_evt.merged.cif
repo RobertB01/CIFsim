@@ -1,0 +1,28 @@
+event int e1;
+event e2;
+event void e3;
+plant automaton p1:
+  location:
+    initial;
+    edge e1!1;
+    edge e2;
+    edge e3?;
+end
+plant automaton q1:
+  disc int x;
+  location:
+    initial;
+    edge e1? do x := ?;
+end
+plant automaton p2:
+  location:
+    initial;
+    edge e1?;
+    edge e2;
+    edge e3;
+end
+plant automaton q2:
+  location:
+    initial;
+    edge e3!;
+end

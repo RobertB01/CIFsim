@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "import3b.cif";
+
+namespace a.b;
+
+alg real alg1 = 1.23;
+const real const1 = 2.34;
+cont cont1 der 3.45;
+enum enum1 = lit1a, lit1b;
+event event1a;
+event bool event1b;
+input bool input1;
+type type1 = bool;
+
+func real func1(int funcparam1):
+  real funcvar1 = 2.0;
+  return funcparam1 * funcvar1;
+end
+
+automaton aut1a:
+  disc bool disc1a = true;
+
+  location loc1a:
+    initial;
+    edge event1a do disc1a := false;
+    edge event1b!true;
+end
+
+automaton def autdef1():
+  location loc1b:
+    initial;
+end
+
+group def grpdef1(autdef1 compparam1; alg real algparam1; event evtparam1;
+                  location locparam1):
+  invariant algparam1 > 0 or locparam1 or compparam1.loc1b;
+
+  automaton aut1b:
+    disc bool disc1b;
+
+    location:
+      initial;
+      edge evtparam1;
+      edge event1b? do disc1b := ?;
+  end
+end
+
+inst1a: autdef1();
+inst1b: grpdef1(inst1a, const1, event1a, aut1a.loc1a);
+
+group group1:
+end

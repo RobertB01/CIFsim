@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_alg_alg.in1.cif" with CIF specification "merger/err_alg_alg.in2.cif" failed.
+CAUSE: Merging objects with name "b" failed: merging two algebraic variables is not supported.

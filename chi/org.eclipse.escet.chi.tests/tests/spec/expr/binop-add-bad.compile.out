@@ -1,0 +1,54 @@
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 14, column 62: Incorrectly typed addition (cannot add types "list chan! int" and "list chan? int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 16, column 62: Incorrectly typed addition (cannot add types "list chan? int" and "list chan! int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 17, column 54: Cannot assign value with type "list chan! int" to variables with type "list chan? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 18, column 54: Cannot assign value with type "list chan! int" to variables with type "list chan? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 20, column 54: Cannot assign value with type "list chan! int" to variables with type "list chan? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 23, column 54: Cannot assign value with type "list chan? int" to variables with type "list chan! int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 24, column 62: Incorrectly typed addition (cannot add types "list chan! int" and "list chan? int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 25, column 54: Cannot assign value with type "list chan? int" to variables with type "list chan! int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 26, column 62: Incorrectly typed addition (cannot add types "list chan? int" and "list chan! int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 29, column 54: Cannot assign value with type "list chan? int" to variables with type "list chan! int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 33, column 55: Cannot assign value with type "list chan? int" to variables with type "list chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 34, column 63: Incorrectly typed addition (cannot add types "list chan! int" and "list chan? int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 35, column 55: Cannot assign value with type "list chan? int" to variables with type "list chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 36, column 63: Incorrectly typed addition (cannot add types "list chan? int" and "list chan! int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 37, column 55: Cannot assign value with type "list chan! int" to variables with type "list chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 38, column 55: Cannot assign value with type "list chan! int" to variables with type "list chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 39, column 55: Cannot assign value with type "list chan? int" to variables with type "list chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 40, column 55: Cannot assign value with type "list chan! int" to variables with type "list chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 45, column 61: Incorrectly typed addition (cannot add types "set chan! int" and "set chan? int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 47, column 61: Incorrectly typed addition (cannot add types "set chan? int" and "set chan! int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 48, column 53: Cannot assign value with type "set chan! int" to variables with type "set chan? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 49, column 53: Cannot assign value with type "set chan! int" to variables with type "set chan? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 51, column 53: Cannot assign value with type "set chan! int" to variables with type "set chan? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 54, column 53: Cannot assign value with type "set chan? int" to variables with type "set chan! int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 55, column 61: Incorrectly typed addition (cannot add types "set chan! int" and "set chan? int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 56, column 53: Cannot assign value with type "set chan? int" to variables with type "set chan! int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 57, column 61: Incorrectly typed addition (cannot add types "set chan? int" and "set chan! int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 60, column 53: Cannot assign value with type "set chan? int" to variables with type "set chan! int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 64, column 54: Cannot assign value with type "set chan? int" to variables with type "set chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 65, column 62: Incorrectly typed addition (cannot add types "set chan! int" and "set chan? int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 66, column 54: Cannot assign value with type "set chan? int" to variables with type "set chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 67, column 62: Incorrectly typed addition (cannot add types "set chan? int" and "set chan! int").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 68, column 54: Cannot assign value with type "set chan! int" to variables with type "set chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 69, column 54: Cannot assign value with type "set chan! int" to variables with type "set chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 70, column 54: Cannot assign value with type "set chan? int" to variables with type "set chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 71, column 54: Cannot assign value with type "set chan! int" to variables with type "set chan!? int".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 76, column 69: Incorrectly typed addition (cannot add types "dict(chan! int : int)" and "dict(chan? int : int)").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 78, column 69: Incorrectly typed addition (cannot add types "dict(chan? int : int)" and "dict(chan! int : int)").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 79, column 59: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 80, column 59: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 82, column 59: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 85, column 59: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan! int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 86, column 69: Incorrectly typed addition (cannot add types "dict(chan! int : int)" and "dict(chan? int : int)").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 87, column 59: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan! int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 88, column 69: Incorrectly typed addition (cannot add types "dict(chan? int : int)" and "dict(chan! int : int)").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 91, column 59: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan! int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 95, column 60: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan!? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 96, column 70: Incorrectly typed addition (cannot add types "dict(chan! int : int)" and "dict(chan? int : int)").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 97, column 60: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan!? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 98, column 70: Incorrectly typed addition (cannot add types "dict(chan? int : int)" and "dict(chan! int : int)").
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 99, column 60: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan!? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 100, column 60: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan!? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 101, column 60: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan!? int : int)".
+Error: File "spec/expr/binop-add-bad.chi": Semantic error at line 102, column 60: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan!? int : int)".

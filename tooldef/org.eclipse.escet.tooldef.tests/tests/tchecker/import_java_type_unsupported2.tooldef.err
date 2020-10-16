@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_java_type_unsupported2.tooldef": Semantic error at line 14, column 40: Unsupported use of Java type "float" in a return type of a Java method.
+ERROR: Failed to load ToolDef file "tchecker/import_java_type_unsupported2.tooldef": the file has errors.

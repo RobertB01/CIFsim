@@ -1,0 +1,2 @@
+ERROR: File "tchecker/proj_tuple_non_lit.tooldef": Semantic error at line 15, column 15: Can only project a tuple with an integer number literal.
+ERROR: Failed to load ToolDef file "tchecker/proj_tuple_non_lit.tooldef": the file has errors.

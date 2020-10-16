@@ -1,0 +1,26 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model Lindley(real ta, ts; int N):
+   #real ta = 1.0, ts = 0.8; int N = 100000;
+   dist real ua = exponential(ta),
+             us = exponential(ts);
+   real a, s, w, ave_w;
+   for i in range(N):
+      a = sample ua;
+      s = sample us;
+      w = (w + s - a); #max 0.0;
+      if w < 0.0: w = 0.0 end
+      ave_w = ave_w + (w - ave_w) / (i + 1)
+   end;
+   write("%% foo %.2f\n", ave_w)
+end

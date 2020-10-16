@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Names of events (c/u)(n/a/e)(n/a/e).
+//  - c/u: controllable vs uncontrollable.
+//  - n/a/e: not in alphabet, in alphabet, in alphabet and on edge (plant).
+//  - n/a/e: not in alphabet, in alphabet, in alphabet and on edge (req).
+
+// Events cna / cne / una / une: in req alphabet but not plant alphabet, which
+// violates precondition.
+
+controllable cnn, /*cna,*/ /*cne,*/
+             can, caa, cae,
+             cen, cea, cee;
+
+uncontrollable unn, /*una,*/ /*une,*/
+               uan, uaa, uae,
+               uen, uea, uee;
+
+group g:
+  plant p:
+    alphabet can, caa, cae, cen, cea, cee,
+             uan, uaa, uae, uen, uea, uee;
+
+    location:
+      initial;
+      marked;
+      edge cen, cea, cee, uen, uea, uee;
+  end
+
+  requirement r:
+    alphabet /*cna,*/ caa, cea, /*cne,*/ cae, cee,
+             /*una,*/ uaa, uea, /*une,*/ uae, uee;
+
+    location:
+      initial;
+      marked;
+      edge /*cne,*/ cae, cee, /*une,*/ uae, uee;
+  end
+end

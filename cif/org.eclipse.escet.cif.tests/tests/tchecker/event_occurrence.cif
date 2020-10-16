@@ -1,0 +1,140 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  event e;
+
+  // Event in component instantiation argument.
+  automaton def Q():
+    location l:
+      initial;
+  end
+
+  group def P(Q q; location l; alg bool a):
+    invariant q.l or l or a;
+  end
+
+  q: Q();
+
+  p1: P(e, q.l, q.l);
+  p2: P(q, e,   q.l);
+  p3: P(q, q.l, e);
+
+  // Event in equation.
+  cont x;
+  equation x' = <real>(size([e]));
+  invariant x > 0;
+
+  automaton z:
+    cont x;
+    location:
+      initial x = 0.0;
+      equation x' = <real>(size([e]));
+  end
+
+  // Event in initialization predicate or marker predicate.
+  group gi:
+    initial e;
+  end
+  group gm:
+    marked e;
+  end
+
+  automaton w1:
+    location:
+      initial e;
+  end
+
+  automaton w2:
+    location:
+      marked e;
+  end
+
+  // Event in integer type range.
+  type t = int[size([e])..5];
+
+  // Event in function.
+  func bool f():
+    bool x = e;
+    if e: x := e; else x := x; end
+    return e;
+  end
+
+  // Event in values of variables.
+  alg bool a = e;
+  cont c2 = <real>(size([e])) der 1.0;
+  const bool c1 = e;
+  invariant a or c2 > 0.0;
+
+  automaton pp:
+    disc bool d = e;
+    location:
+      initial d;
+  end
+
+  // Event in guard.
+  automaton g1:
+    disc bool x;
+    location:
+      initial;
+      edge when e;
+  end
+
+  automaton g2:
+    disc bool x;
+    location:
+      initial;
+      edge do if e: x := x elif e: x := x end;
+  end
+
+  automaton g3:
+    disc bool x;
+    location:
+      initial;
+      edge do x := if e: x elif e: x else x end;
+  end
+
+  // Event in update.
+  automaton u:
+    disc bool x;
+    location:
+      initial;
+      edge do x := e;
+  end
+
+  // Event in send value.
+  event bool eb;
+
+  automaton s:
+    location:
+      initial;
+      edge eb!e;
+  end
+
+  // Event in invariant.
+  group ginv1:
+    invariant e;
+  end
+  group ginv2:
+    invariant e needs e;
+  end
+  group ginv3:
+    invariant e disables e;
+  end
+  group ginv4:
+    invariant {e, e} needs e;
+  end
+  group ginv5:
+    invariant e disables {e, e};
+  end
+end

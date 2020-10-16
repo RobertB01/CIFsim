@@ -1,0 +1,4 @@
+ERROR: File "tchecker/switch_case_loc_ref.cif": Semantic error at line 25, column 29: The switch "case" key refers to "a.v", which is not a location of automaton "a".
+ERROR: File "tchecker/switch_case_loc_ref.cif": Semantic error at line 26, column 29: The switch "case" key refers to "c", which is not a location of automaton "a".
+ERROR: File "tchecker/switch_case_loc_ref.cif": Semantic error at line 29, column 31: The switch "case" key refers to "B.l", which is not a location of automaton "B".
+ERROR: Failed to load CIF file "tchecker/switch_case_loc_ref.cif": the file has errors.

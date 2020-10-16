@@ -1,0 +1,2 @@
+ERROR: Failed to disable events for CIF file "event_disabler/invalid_event_name.cif".
+CAUSE: Event name "a.%b.c" is not a valid absolute name for a CIF event.

@@ -1,0 +1,2 @@
+ERROR: Failed to evaluate initial value "<int>x1" of variable "x2".
+CAUSE: Can't cast value "[0]" to type "int".

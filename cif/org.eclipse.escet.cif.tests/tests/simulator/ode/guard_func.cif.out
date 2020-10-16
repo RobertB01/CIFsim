@@ -1,0 +1,19 @@
+Initial state: time=0.0, m=l1, m.t=0.0, m.t'=2.0, m.z=true
+
+Transition: delaying for 0.5000000000000004 time units at time 0.0
+State: time=0.5000000000000004, m=l1, m.t=1.0000000000000009, m.t'=2.0, m.z=true
+
+Possible transitions:
+  #1: event m.e1
+  #2: event m.e2
+
+Transition: event m.e1
+State: time=0.5000000000000004, m=l2, m.t=1.0000000000000009, m.t'=2.0, m.z=true
+
+Transition: delaying for 0.49999999999999933 time units at time 0.5000000000000004
+State: time=0.9999999999999998, m=l2, m.t=1.9999999999999998, m.t'=2.0, m.z=true
+
+Transition: event m.e1
+State: time=0.9999999999999998, m=l3, m.t=1.9999999999999998, m.t'=2.0, m.z=true
+
+Simulation resulted in deadlock.

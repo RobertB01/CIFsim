@@ -1,0 +1,5 @@
+ERROR: File "tchecker/expr_unknown_type.cif": Semantic error at line 14, column 17: Could not determine the type of expression "[]". Please use a cast expression to explicitly specify the type.
+ERROR: File "tchecker/expr_unknown_type.cif": Semantic error at line 16, column 17: Could not determine the type of expression "[]". Please use a cast expression to explicitly specify the type.
+ERROR: File "tchecker/expr_unknown_type.cif": Semantic error at line 19, column 7: Could not determine the type of expression "[]". Please use a cast expression to explicitly specify the type.
+ERROR: File "tchecker/expr_unknown_type.cif": Semantic error at line 20, column 7: Could not determine the type of expression "{}". Please use a cast expression to explicitly specify the type.
+ERROR: Failed to load CIF file "tchecker/expr_unknown_type.cif": the file has errors.

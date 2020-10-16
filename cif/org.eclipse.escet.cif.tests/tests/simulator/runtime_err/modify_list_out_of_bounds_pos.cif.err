@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=*, p.x=[5].
+CAUSE: Execution of the updates of an edge of the location of automaton "p" failed.
+CAUSE: Execution of assignment "p.x[1] := 3" failed.
+CAUSE: Index out of bounds: [5][1].

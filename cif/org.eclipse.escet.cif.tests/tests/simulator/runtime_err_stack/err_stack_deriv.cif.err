@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, x=0.0.
+CAUSE: Evaluation of initialization predicate "x' > 0" of the top level scope of the specification failed.
+CAUSE: Evaluation of the derivative of continuous variable "x" failed.
+CAUSE: Division by zero: 1.0 / 0.0.

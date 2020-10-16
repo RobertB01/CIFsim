@@ -1,0 +1,2 @@
+ERROR: File "tchecker/fcall_pow_overflow.cif": Semantic error at line 15, column 20: The "pow" function is applied to values of type "int[35..35]" and "int[7..7]", and this could result in integer overflow.
+ERROR: Failed to load CIF file "tchecker/fcall_pow_overflow.cif": the file has errors.

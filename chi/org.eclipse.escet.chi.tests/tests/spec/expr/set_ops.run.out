@@ -1,0 +1,10 @@
+3 in {1, 2, 3, 4} = true == true
+8 in {1, 2, 3, 4} = false == false
+<int>{} sub {1, 2, 3, 4} = true == true
+{2,4} sub {1, 2, 3, 4} = true == true
+{2,9} sub {1, 2, 3, 4} = false == false
+{1, 2, 3}
+{1, 2, 3, 4}
+{1, 2, 3}
+{1, 2}
+All processes finished at time 0.00 (initial seed was 135).

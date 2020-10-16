@@ -1,0 +1,4 @@
+WARNING: File "tchecker/import_self.cif": Semantic warning at line 14, column 8: Duplicate import of CIF specification "import_self.cif" from a single file.
+WARNING: File "tchecker/import_self.cif": Semantic warning at line 14, column 8: Importing a CIF specification into itself has no effect.
+WARNING: File "tchecker/import_self.cif": Semantic warning at line 15, column 8: Duplicate import of CIF specification "import_self.cif" from a single file.
+WARNING: File "tchecker/import_self.cif": Semantic warning at line 15, column 8: Importing a CIF specification into itself has no effect.

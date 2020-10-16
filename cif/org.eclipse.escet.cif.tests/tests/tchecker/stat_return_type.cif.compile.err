@@ -1,0 +1,4 @@
+ERROR: File "tchecker/stat_return_type.cif": Semantic error at line 15, column 3: The return value of type "int[1..1]" is incompatible with the return type "bool" of function "f1".
+ERROR: File "tchecker/stat_return_type.cif": Semantic error at line 19, column 3: The return value of type "tuple(int[1..1]; bool)" is incompatible with the return type "tuple(int; real)" of function "f2".
+ERROR: File "tchecker/stat_return_type.cif": Semantic error at line 24, column 5: The return value of type "int[3..3]" is incompatible with the return type "int[1..2]" of function "g.f3".
+ERROR: Failed to load CIF file "tchecker/stat_return_type.cif": the file has errors.

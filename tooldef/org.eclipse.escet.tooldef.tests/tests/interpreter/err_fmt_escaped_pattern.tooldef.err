@@ -1,0 +1,4 @@
+ERROR: Failed to execute built-in tool "outln".
+CAUSE: Failed to execute Java method "org.eclipse.escet.tooldef.runtime.builtins.BuiltInIoTools.outln".
+CAUSE: Invalid format pattern: "a \n \t \\ \" %d b" (problem at position 15..16).
+CAUSE: Invalid "%d" format specifier: a value of type "int" or "long" is required, but the 1st value of type "bool" is used.

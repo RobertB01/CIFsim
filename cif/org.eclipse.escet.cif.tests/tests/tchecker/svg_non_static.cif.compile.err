@@ -1,0 +1,10 @@
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 26, column 12: SVG element id cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 27, column 22: CIF/SVG copy declaration prefix cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 28, column 23: CIF/SVG copy declaration postfix cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 30, column 12: SVG element id cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 31, column 21: CIF/SVG move declaration x coordinate cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 32, column 24: CIF/SVG move declaration y coordinate cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 34, column 11: SVG element id cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 42, column 12: SVG element id cannot be evaluated statically.
+ERROR: File "tchecker/svg_non_static.cif": Semantic error at line 48, column 11: SVG element id cannot be evaluated statically.
+ERROR: Failed to load CIF file "tchecker/svg_non_static.cif": the file has errors.

@@ -1,0 +1,97 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// x has 3 references to y
+alg int x = y + y + y;
+alg int y = 3;
+
+// ignore functions
+func int f(int a, b):
+  int c = a + b;
+  return c;
+end
+
+alg int z = f(x, y);
+
+// via instantiation references
+automaton def A(alg int p):
+  disc int v;
+  invariant v = p;
+
+  location:
+    initial;
+    edge do v := p;
+end
+
+a1: A(a2.v);
+a2: A(a2.v);
+
+// equations for the variable itself, not the scope, unless nameless location
+alg real r = 5;
+cont c1 der r;
+cont c2;
+equation c2' = r;
+
+automaton aut1:
+  cont c3;
+  location l1:
+    initial;
+    equation c3' = r;
+    edge tau goto l2;
+
+  location l2:
+    equation c3' = r;
+end
+
+automaton aut2:
+  cont c4;
+  location:
+    initial;
+    equation c4' = r;
+end
+
+// complex expression for instantiation argument
+group def G(alg int p):
+  invariant p + p > 0;
+  alg int pp = p * p;
+end
+
+g1: G(x + x + y);
+g2: G(x * y * y);
+
+// references in declarations
+automaton aut3:
+  disc int z = y;
+  disc int x = y + z;
+  disc int y = 5;
+
+  location:
+    initial;
+    invariant x > 0;
+end
+
+// bidirectional relations
+automaton aut4:
+  alg bool b1 = l1;
+
+  location l1:
+    initial;
+    invariant b1;
+    edge when b1;
+end
+
+cont c5 der c6;
+cont c6 = c5 der 1;
+
+// self relation (between continuous variable and its derivative)
+cont c7 der c7;

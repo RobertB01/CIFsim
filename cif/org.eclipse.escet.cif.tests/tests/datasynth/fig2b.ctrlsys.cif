@@ -1,0 +1,18 @@
+controllable e1;
+uncontrollable e2;
+plant automaton p:
+  disc int[0..9] x = 2;
+  location L0:
+    initial;
+    marked;
+    edge e1 when x < 8 do x := x + 2 goto L1;
+  location L1:
+    edge e2 when x < 9 do x := x + 1 goto L0;
+end
+supervisor automaton sup:
+  alphabet e1;
+  location:
+    initial;
+    marked;
+    edge e1 when false;
+end

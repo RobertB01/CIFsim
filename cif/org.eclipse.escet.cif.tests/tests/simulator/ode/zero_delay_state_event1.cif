@@ -1,0 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Copied from CIF 2 test set.
+// Test for bug 'Irrelevant guards may cause deadlocks when using the symbolic trajectory solver'.
+enum direction = UP, DOWN;
+
+automaton m:
+  disc direction dir = UP;
+  cont y = 0.0 der if dir = UP: 1.0 else -1.0 end;
+
+  location:
+    initial;
+    edge when dir = DOWN, y <= 0.0 do dir := UP;
+    edge when dir = UP,   y >= 4.0 do dir := DOWN;
+end

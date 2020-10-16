@@ -1,0 +1,11 @@
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 26, column 3: A "break" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 27, column 3: A "continue" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 29, column 3: A "break" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 30, column 3: A "continue" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 32, column 3: A "break" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 33, column 3: A "continue" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 37, column 3: A "break" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 38, column 3: A "continue" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 41, column 1: A "break" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: File "tchecker/not_in_loop.tooldef": Semantic error at line 42, column 1: A "continue" statement can only be used inside a loop ("for" or "while" statement).
+ERROR: Failed to load ToolDef file "tchecker/not_in_loop.tooldef": the file has errors.

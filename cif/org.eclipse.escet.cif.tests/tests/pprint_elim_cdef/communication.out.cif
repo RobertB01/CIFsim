@@ -1,0 +1,80 @@
+event e;
+event e2;
+event bool eb;
+event tuple(real a; int b) etri;
+event int[1..2] ei12;
+group def Q(event qe; event bool qeb):
+  invariant qe needs true;
+  invariant qeb needs false;
+end
+automaton p_none:
+  location:
+    initial;
+    edge e;
+    edge e2;
+    edge eb;
+    edge etri;
+    edge ei12;
+end
+automaton p_send:
+  disc tuple(real a; int b) vtri;
+  location:
+    initial;
+    edge e;
+    edge e2;
+    edge eb!true;
+    edge etri!(1.0, 1);
+    edge etri!vtri;
+    edge ei12!1;
+    edge ei12!2;
+end
+automaton p_receive:
+  disc bool b;
+  disc tuple(real a; int b) vtri;
+  disc real r;
+  disc int i;
+  disc int[1..2] i12;
+  disc int[1..3] i13;
+  disc list int li;
+  location:
+    initial;
+    edge e;
+    edge e2;
+    edge eb? do b := ?;
+    edge etri? do vtri := ?;
+    edge etri? do (r, i) := ?;
+    edge ei12? do i := ?;
+    edge ei12? do i12 := ?;
+    edge ei12? do i13 := ?;
+    edge ei12? do li[?] := 5;
+end
+automaton p_multi_on_edge:
+  event string es1;
+  event string es2;
+  location:
+    initial;
+    edge e, es1;
+    edge e, es2!"a";
+    edge e, es2!"a", e2;
+end
+automaton p_send_var_in_upd:
+  event string es;
+  disc string vs;
+  location:
+    initial;
+    edge es!vs do vs := "s";
+end
+q: Q(e, eb);
+group g_void:
+  event void ev;
+  automaton void_snd:
+    location:
+      initial;
+      edge ev!;
+  end
+  automaton void_rcv:
+    location:
+      initial;
+      edge ev?;
+  end
+end

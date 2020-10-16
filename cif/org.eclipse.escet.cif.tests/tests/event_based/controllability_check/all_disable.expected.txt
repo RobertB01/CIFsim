@@ -1,0 +1,4 @@
+Controllability check FAILS in file "event_based/controllability_check/all_disable.cif".
+
+Disabled uncontrollable events:
+  event "u" at state "p.s1", "s.s1"

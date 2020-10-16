@@ -1,0 +1,37 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+// Common attributes to set for all documents within this directory.
+
+// Note that we do not use the official 'imagesdir' attribute of asciidoc as there seems to be a bug in the asciidoc editor within our development environment.
+// Defining an alternative 'imgsdir' attribute avoids this problem and images will be visible in the preview.
+// For specific parts of the documentation, we introduce an additional attribute, to allow shorter relative paths.
+// Changes to attributes require a restart of Eclipse to become effective in the asciidoc editor.
+ifndef::imgsdir[:download-install-imgsdir: ../images/download-install]
+ifdef::imgsdir[:download-install-imgsdir: {imgsdir}/download-install]
+
+// Defining a unique prefix for all sections in this part of the documentation to avoid duplication of reference ids.
+// Note that this only works for section ids and not for figures, tables, etc. (and there is no alternative attribute for this).
+:idprefix: download-install-
+:idseparator: -
+
+:listing-caption: Listing
+:chapter-label:
+
+// Enable Science, Technology, Engineering and Math (STEM) expressions in the browser.
+:stem:
+
+// Enable experimental features, for 'kbd' macro.
+:experimental:
+
+// Admonition symbols (e.g. 'warning' symbol).
+:icons: font

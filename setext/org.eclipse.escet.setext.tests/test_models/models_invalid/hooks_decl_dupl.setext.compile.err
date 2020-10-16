@@ -1,0 +1,3 @@
+ERROR: File "models_invalid/hooks_decl_dupl.setext": Semantic error at line 19, column 8: Duplicate hooks class.
+ERROR: File "models_invalid/hooks_decl_dupl.setext": Semantic error at line 20, column 8: Duplicate hooks class.
+ERROR: Failed to load SeText file "models_invalid/hooks_decl_dupl.setext": the file has errors.

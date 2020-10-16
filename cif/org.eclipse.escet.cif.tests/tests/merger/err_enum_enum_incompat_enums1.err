@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_enum_enum_incompat_enums1.in1.cif" with CIF specification "merger/err_enum_enum_incompat_enums1.in2.cif" failed.
+CAUSE: Merging enumerations with name "e" failed: the enumerations are not compatible.

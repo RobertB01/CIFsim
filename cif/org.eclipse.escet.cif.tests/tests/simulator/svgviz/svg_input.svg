@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="350"
+   height="500"
+   id="svg2"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="svg_input.svg">
+  <metadata
+     id="metadata28">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs26">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 52.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="105 : 52.5 : 1"
+       inkscape:persp3d-origin="52.5 : 35 : 1"
+       id="perspective30" />
+    <inkscape:perspective
+       id="perspective2839"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2868"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2897"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2897-0"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2897-1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2944"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2969"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2994"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3019"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3058"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3083"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1251"
+     inkscape:window-height="965"
+     id="namedview24"
+     showgrid="false"
+     inkscape:zoom="2.247619"
+     inkscape:cx="165.86109"
+     inkscape:cy="353.4117"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="5"
+     id="x1" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="30"
+     id="x2" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="55"
+     id="x3" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="80"
+     id="x4" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="105"
+     id="x5" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="130"
+     id="x6" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="155"
+     id="x7" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="180"
+     id="x8" />
+  <rect
+     width="20"
+     height="20"
+     x="5"
+     y="205"
+     id="x9" />
+  <g
+     id="x99"
+     transform="translate(3.1144029,165.9322)">
+    <rect
+       y="80"
+       x="5"
+       height="12"
+       width="45"
+       id="txt_grp_rect"
+       style="fill:#808080;fill-opacity:1" />
+    <text
+       id="txt_grp_text"
+       y="89"
+       x="10">
+      <tspan
+         style="font-size:8px"
+         y="89"
+         x="10"
+         id="txt_grp_tspan">some txt</tspan>
+    </text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.919493"
+     y="20.826262"
+     id="text2827"><tspan
+       sodipodi:role="line"
+       id="tspan2829"
+       x="28.919493"
+       y="20.826262"
+       style="font-size:12px">1. Single event: a</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.338587"
+     y="45.279057"
+     id="text2827-6"><tspan
+       sodipodi:role="line"
+       x="28.338587"
+       y="45.279057"
+       style="font-size:12px"
+       id="tspan2856">2. Multi event: b1, b2, b1, b2, ... (complete)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.70455"
+     y="71.451332"
+     id="text2827-6-5"><tspan
+       sodipodi:role="line"
+       x="28.70455"
+       y="71.451332"
+       style="font-size:12px"
+       id="tspan2856-7">3. Multi event: b1, b2, b1, b2, ... (with else)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.581171"
+     y="97.638824"
+     id="text2827-6-5-5"><tspan
+       sodipodi:role="line"
+       x="28.581171"
+       y="97.638824"
+       style="font-size:12px"
+       id="tspan2856-7-6">4. Multi event ordered: a</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.581171"
+     y="121.66426"
+     id="text2827-6-5-8"><tspan
+       sodipodi:role="line"
+       x="28.581171"
+       y="121.66426"
+       style="font-size:12px"
+       id="tspan2856-7-4">5. Multi event: b1, error (incomplete)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="27.691341"
+     y="145.68968"
+     id="text2827-6-5-0"><tspan
+       sodipodi:role="line"
+       x="27.691341"
+       y="145.68968"
+       style="font-size:12px"
+       id="tspan2856-7-2">6. Multi event: error (guard eval, err wrap)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="27.448755"
+     y="163.62651"
+     id="text2827-3"><tspan
+       sodipodi:role="line"
+       id="tspan2829-7"
+       x="27.448755"
+       y="163.62651"
+       style="font-size:12px">7. Single event: a (non-det, complete mode)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.545519"
+     y="175.66656"
+     id="vd"
+     inkscape:label="#text2827-3-1"><tspan
+       sodipodi:role="line"
+       id="tspan2829-7-6"
+       x="28.545519"
+       y="175.66656"
+       style="font-size:12px">vd = ?</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:8px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.990435"
+     y="196.99515"
+     id="text2827-3-9"><tspan
+       sodipodi:role="line"
+       id="tspan2829-7-0"
+       x="28.990435"
+       y="196.99515"
+       style="font-size:12px">8. Single event: deadlock</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="28.626162"
+     y="221.91043"
+     id="text2827-3-9-0"><tspan
+       sodipodi:role="line"
+       id="tspan2829-7-0-3"
+       x="28.626162"
+       y="221.91043"
+       style="font-size:12px">9. Single event: f (hides box, click for &gt;1 sec)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     x="63.061577"
+     y="257.0799"
+     id="text2827-3-9-0-3-7"><tspan
+       sodipodi:role="line"
+       id="tspan2829-7-0-3-4-9"
+       x="63.061577"
+       y="257.0799"
+       style="font-size:12px">99. Single event: a (rect/txt in group)</tspan></text>
+</svg>

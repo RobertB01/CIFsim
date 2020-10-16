@@ -1,0 +1,134 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-comp-def-inst]]
+== Eliminate component definition/instantiation
+
+indexterm:[CIF to CIF transformer,eliminate component definition/instantiation]
+indexterm:[eliminate component definition/instantiation]
+indexterm:[component definition,eliminate]
+indexterm:[component instantiation,eliminate]
+This CIF to CIF transformation eliminates all component definitions and
+instantiations, by actually instantiating the component definitions.
+
+=== Supported specifications
+
+This transformation supports all CIF specifications.
+
+
+=== Preprocessing
+
+n/a
+
+indexterm:[eliminate component definition/instantiation,implementation]
+
+=== Implementation details
+
+This transformation operates in three phases:
+
+* Phase 1: Find the component definitions without any component definitions
+and/or component instantiations in them.
+
+* Phase 2: Instantiate the component definitions found in phase 1, by putting
+the body of the definition in the place of the instantiation, in a component
+named after the component instantiation. Also removes the component
+definitions that were just instantiated, and introduces new local algebraic
+variables for the algebraic parameters.
+
+* Phase 3: Replace uses of component, event, and location parameters by the
+actual arguments provided for the instantiation.
+
+For instance, the following specification:
+
+
+[source, cif]
+----
+group def P(alg int x):
+  invariant x > 0;
+end
+
+p1: P(1);
+
+alg int y = 2;
+p2: P(y);
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+group p1:
+  alg int x = 1;
+  invariant x > 0;
+end
+
+alg int y = 2;
+group p2:
+  alg int x = y;
+  invariant x > 0;
+end
+----
+
+Absolute references may be needed to express the results of this
+transformation. For instance:
+
+
+[source, cif]
+----
+const int x = 5;
+
+group def X():
+  invariant x = 5;
+end
+
+group a:
+  x: X();
+end
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+const int x = 5;
+
+group a:
+  group x:
+    invariant .x = 5;
+  end
+end
+----
+
+Note how the invariant in component `a.x` can not refer to constant `x`
+directly, as `x` refers to component `a.x` in that context. Therefore, the
+scope absolute reference `.x` is used instead.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate component definition/instantiation,size considerations]
+
+=== Size considerations
+
+Since component definitions are shortcuts for components, eliminating
+them could result in an increase of the size of the specification.
+
+
+=== Optimality
+
+n/a

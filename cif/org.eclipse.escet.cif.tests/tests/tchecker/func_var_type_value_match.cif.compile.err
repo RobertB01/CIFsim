@@ -1,0 +1,3 @@
+ERROR: File "tchecker/func_var_type_value_match.cif": Semantic error at line 15, column 13: The type "int[5..5]" of the initial value of variable "f.x1" is incompatible with the type "bool" of the variable.
+ERROR: File "tchecker/func_var_type_value_match.cif": Semantic error at line 18, column 18: The type "list[1] bool" of the initial value of variable "f.x5" is incompatible with the type "list real" of the variable.
+ERROR: Failed to load CIF file "tchecker/func_var_type_value_match.cif": the file has errors.

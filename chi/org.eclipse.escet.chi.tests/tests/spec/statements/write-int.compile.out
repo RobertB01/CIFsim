@@ -1,0 +1,1 @@
+Error: File "spec/statements/write-int.chi": Semantic error at line 14, column 11: Formatting string must be a string literal.

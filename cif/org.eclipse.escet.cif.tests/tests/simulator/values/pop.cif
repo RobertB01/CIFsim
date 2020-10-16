@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc list int xs = [1, 2, 3, 4];
+  disc int cnt, x;
+
+  location l1:
+    initial;
+    urgent;
+    edge when not empty(xs) do (x, xs) := pop(xs) goto l2;
+
+  location l2:
+    edge do cnt := cnt + x goto l1;
+end

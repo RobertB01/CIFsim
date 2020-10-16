@@ -1,0 +1,77 @@
+WARNING: File "cif2supremica/invalid1.cif": Semantic warning at line 31, column 9: Automaton "g.p0" has no initial location.
+ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
+ - Failed to evaluate initialization predicate(s): sqrt(-1.0) > 0.
+ - Failed to evaluate marker predicate(s): sqrt(-1.0) > 0.
+ - Unsupported automaton "g.a": kindless/regular automata are currently not supported.
+ - Unsupported automaton "g.p0": automata without an initial location are currently not supported.
+ - Unsupported automaton "g.p2": automata with multiple (2) initial locations are currently not supported.
+ - Unsupported declaration "g.p0.cnt": continuous variables are currently unsupported.
+ - Unsupported declaration "g.p0.inp": input variables are currently unsupported.
+ - Unsupported declaration "g.p0.lb": discrete variables with multiple marker predicates are currently not supported.
+ - Unsupported declaration "g.p0.x1": discrete variables with multiple marker predicates are currently not supported.
+ - Unsupported declaration "g.p0.x1": discrete variables with multiple potential initial values are currently supported.
+ - Unsupported declaration "g.p0.x2": discrete variables with multiple potential initial values are currently supported.
+ - Unsupported event "g.e1": event is not declared as controllable or uncontrollable.
+ - Unsupported event "g.e2": event is a channel (has a data type).
+ - Unsupported event "tau": event is not controllable or uncontrollable (explicit use of "tau").
+ - Unsupported event "tau": event is not controllable or uncontrollable (implicit use of "tau").
+ - Unsupported expression "(1, 2)": tuple expressions are currently not supported.
+ - Unsupported expression "(g.p0.x1, g.p0.x2)": tuple expressions are currently not supported.
+ - Unsupported expression "-1.0": unary operator "-" is currently not supported, or is not supported for the operand that is used.
+ - Unsupported expression "-2.0": unary operator "-" is currently not supported, or is not supported for the operand that is used.
+ - Unsupported expression "1.0": real number expressions are currently not supported.
+ - Unsupported expression "1.0": real number expressions are currently not supported.
+ - Unsupported expression "1.2": real number expressions are currently not supported.
+ - Unsupported expression "2.0": real number expressions are currently not supported.
+ - Unsupported expression "[false, true]": list expressions are currently not supported.
+ - Unsupported expression "[false]": list expressions are currently not supported.
+ - Unsupported expression "[true]": list expressions are currently not supported.
+ - Unsupported expression "[true]": list expressions are currently not supported.
+ - Unsupported expression "g.p0.lb[0]": projection expressions are currently not supported.
+ - Unsupported expression "sqrt(-1.0) > 0": binary operator ">" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "sqrt(-1.0)": function calls are currently not supported.
+ - Unsupported expression "sqrt(-2.0) > 0": binary operator ">" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "sqrt(-2.0)": function calls are currently not supported.
+ - Unsupported function "g.f": user-defined functions are currently unsupported.
+ - Unsupported group "g": initialization predicates are currently only supported in locations.
+ - Unsupported group "g": unsupported kindless invariant "8 = 8".
+ - Unsupported group "g": unsupported marker predicate "1 > 2".
+ - Unsupported group "g": unsupported marker predicate "2 = 2".
+ - Unsupported group "g": unsupported marker predicate "g.p0.cnt = 1.2".
+ - Unsupported group "g": unsupported marker predicate "not false".
+ - Unsupported group "g": unsupported plant invariant "9 = 9".
+ - Unsupported group "g": unsupported state/event exclusion invariant "g.e1 needs g.p0.x1 > 0".
+ - Unsupported group "g": unsupported state/event exclusion invariant "g.p0.x1 > 0 disables g.e1".
+ - Unsupported group "g": unsupported supervisor invariant "10 = 10".
+ - Unsupported location of automaton "g.p0": edges with 'if' updates are currently unsupported.
+ - Unsupported location of automaton "g.p0": edges with multi-assignments are currently unsupported.
+ - Unsupported location of automaton "g.p0": edges with partial variable assignments are currently unsupported.
+ - Unsupported location of automaton "g.p0": urgent locations are currently unsupported.
+ - Unsupported location of automaton "g.p1": invariants in locations are currently unsupported.
+ - Unsupported location of automaton "g.snd": urgent edges are currently unsupported.
+ - Unsupported type "func real(real)": function types are currently not supported.
+ - Unsupported type "func real(real)": function types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list[1] bool": list types are currently not supported.
+ - Unsupported type "list[1] bool": list types are currently not supported.
+ - Unsupported type "list[1] bool": list types are currently not supported.
+ - Unsupported type "list[2] bool": list types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "tuple(int[1..1]; int[2..2])": tuple types are currently not supported.
+ - Unsupported type "tuple(int[1..2]; int[1..2])": tuple types are currently not supported.

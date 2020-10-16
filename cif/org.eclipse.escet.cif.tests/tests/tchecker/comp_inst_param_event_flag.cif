@@ -1,0 +1,135 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Automaton defs with all event parameter usage restriction flag variants.
+automaton def X(event     p): location: initial; edge p; end
+automaton def N(event int p): location: initial; edge p; end
+
+automaton def S(event int p!): location: initial; edge p!1; end
+automaton def R(event int p?): location: initial; edge p?;  end
+automaton def C(event int p~): location: initial; edge p;   end
+
+automaton def SR(event int p!?): location: initial; edge p?; end
+automaton def SC(event int p!~): location: initial; edge p;  end
+automaton def RC(event int p?~): location: initial; edge p;  end
+
+automaton def SRC(event int p!?~): location: initial; edge p; end
+
+// Group defs with all event parameter usage restriction flag variants.
+group def grpX(event p):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpN(event int p):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpS(event int p!):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpR(event int p?):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpC(event int p~):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpSR(event int p!?):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpSC(event int p!~):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpRC(event int p?~):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end
+
+group def grpSRC(event int p!?~):
+  x: X(p);
+  n: N(p);
+  s: S(p);
+  r: R(p);
+  c: C(p);
+  sr: SR(p);
+  sc: SC(p);
+  rc: RC(p);
+  src: SRC(p);
+end

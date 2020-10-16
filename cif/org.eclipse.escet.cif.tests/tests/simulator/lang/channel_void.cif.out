@@ -1,0 +1,6 @@
+Initial state: time=0.0, r=*, s=l1
+
+Transition: event e (communicates no value)
+State: time=0.0, r=*, s=l2
+
+Simulation resulted in deadlock.

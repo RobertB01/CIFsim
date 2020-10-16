@@ -1,0 +1,34 @@
+automaton lamp1:
+  event toggle;
+  disc bool on = false;
+  svgcopy id "lamp" post "1";
+  svgmove id "lamp1" to 20, 20;
+  svgout id "lamp1" attr "fill" value if on: "yellow" else "silver" end;
+  svgout id "lamp1" attr "stroke-width" value if on: 5 else 2 end;
+  location:
+    initial;
+    edge toggle do on := not on;
+end
+automaton lamp2:
+  event toggle;
+  disc bool on = false;
+  svgcopy id "lamp" post "2";
+  svgmove id "lamp2" to 120, 20;
+  svgout id "lamp2" attr "fill" value if on: "yellow" else "silver" end;
+  svgout id "lamp2" attr "stroke-width" value if on: 5 else 2 end;
+  location:
+    initial;
+    edge toggle do on := not on;
+end
+automaton lamp3:
+  event toggle;
+  disc bool on = false;
+  svgcopy id "lamp" post "3";
+  svgmove id "lamp3" to 220, 20;
+  svgout id "lamp3" attr "fill" value if on: "yellow" else "silver" end;
+  svgout id "lamp3" attr "stroke-width" value if on: 5 else 2 end;
+  location:
+    initial;
+    edge toggle do on := not on;
+end
+svgfile "lamps3.svg";

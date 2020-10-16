@@ -1,0 +1,58 @@
+
+initial state 0:
+  + S' : . S {¶}
+  - C : . c C {c, d}
+  - C : . d {c, d}
+  - S : . C C {¶}
+
+  c -> shift to state 1
+  d -> shift to state 2
+
+  C -> goto state 3
+  S -> goto state 4
+
+state 1:
+  + C : c . C {c, d, ¶}
+  - C : . c C {c, d, ¶}
+  - C : . d {c, d, ¶}
+
+  c -> shift to state 1
+  d -> shift to state 2
+
+  C -> goto state 6
+
+state 2:
+  + C : d . {c, d, ¶}
+
+  c -> reduce C : d;
+  d -> reduce C : d;
+  ¶ -> reduce C : d;
+
+state 3:
+  + S : C . C {¶}
+  - C : . c C {¶}
+  - C : . d {¶}
+
+  c -> shift to state 1
+  d -> shift to state 2
+
+  C -> goto state 5
+
+state 4:
+  + S' : S . {¶}
+
+  ¶ -> accept
+
+state 5:
+  + S : C C . {¶}
+
+  ¶ -> reduce S : C C;
+
+state 6:
+  + C : c C . {c, d, ¶}
+
+  c -> reduce C : c C;
+  d -> reduce C : c C;
+  ¶ -> reduce C : c C;
+
+0 conflict(s) in total.

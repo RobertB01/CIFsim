@@ -1,0 +1,3 @@
+ERROR: File "tchecker/duplicate_name1.cif": Semantic error at line 14, column 12: Duplicate name "x" in the top level scope of the specification.
+ERROR: File "tchecker/duplicate_name1.cif": Semantic error at line 15, column 12: Duplicate name "x" in the top level scope of the specification.
+ERROR: Failed to load CIF file "tchecker/duplicate_name1.cif": the file has errors.

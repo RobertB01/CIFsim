@@ -1,0 +1,147 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+input bool b;
+input int i;
+input real r;
+alg string s = "a\nb\tc\\d\"e";
+alg list[1] string ls = [s];
+
+// Various variants.
+
+print fmt("%b", b);
+print fmt("%B", b);
+print fmt("%d", i);
+print fmt("%x", i);
+print fmt("%X", i);
+print fmt("%-15s", b);
+print fmt("%f", r);
+print fmt("%,.3f", r);
+print fmt("%+.3e", r);
+print fmt("%+.3E", r);
+print fmt("%,.3g", r);
+print fmt("%,.3G", r);
+print fmt("%s", b);
+print fmt("%s", i);
+print fmt("%s", r);
+print fmt("%s", s);
+print fmt("%s", ls);
+print fmt("%,23.5f", r);
+print fmt("% 25.3f", r);
+print fmt("%+0,25.3f", r);
+print fmt("a%%b%sc", r);
+print fmt("a%1$sb%2$sc%1$d", i, b);
+
+// Escaping.
+
+alg string s1 = "a";
+alg string s2 = "a\nb\tc\\d\"e f%g%%h%si%fj";
+alg string s3 = "a\nb\tc\\d\"e f%g%%h%si%fj";
+
+print fmt("%s", s1);
+print fmt("%s", s2);
+print fmt("%s # 1\n2\t3\\4\"5 6%%7", s3);
+
+// Flag order.
+
+alg int neg12345 = -12345;
+
+print fmt("_%-+,8d_", neg12345);
+print fmt("_%-,+8d_", neg12345);
+print fmt("_%+-,8d_", neg12345);
+print fmt("_%+,-8d_", neg12345);
+print fmt("_%,+-8d_", neg12345);
+print fmt("_%,-+8d_", neg12345);
+
+// Precision zero.
+
+alg real r456 = 4.56;
+
+print fmt("#%.0f#", r456);
+print fmt("#%.00f#", r456);
+print fmt("#%.000f#", r456);
+print fmt("#%.1f#", r456);
+print fmt("#%.01f#", r456);
+print fmt("#%.2f#", r456);
+
+// Precision zero for all conversions.
+
+print fmt("@%.0e@", r456);
+print fmt("@%.0E@", r456);
+print fmt("@%.0f@", r456);
+print fmt("@%.0g@", r456);
+print fmt("@%.0G@", r456);
+
+// Significant digits and g/G: uses %f if in [0.0001 .. 10000), %e otherwise.
+// 6 times %e, then 8 times %f, then 1 time %e.
+
+alg real r_zero = 0;
+
+print fmt("%.4g", r_zero + 1234.5678e+6); // 1234567800.0            -> %e
+print fmt("%.4g", r_zero + 1234.5678e+5); //  123456780.0            -> %e
+print fmt("%.4g", r_zero + 1234.5678e+4); //   12345678.0            -> %e
+print fmt("%.4g", r_zero + 1234.5678e+3); //    1234567.8            -> %e
+print fmt("%.4g", r_zero + 1234.5678e+2); //     123456.78           -> %e
+print fmt("%.4g", r_zero + 1234.5678e+1); //      12345.678          -> %e
+print fmt("%.4g", r_zero + 1234.5678e+0); //       1234.5678         -> %f
+print fmt("%.4g", r_zero + 1234.5678e-1); //        123.45678        -> %f
+print fmt("%.4g", r_zero + 1234.5678e-2); //         12.345678       -> %f
+print fmt("%.4g", r_zero + 1234.5678e-3); //          1.2345678      -> %f
+print fmt("%.4g", r_zero + 1234.5678e-4); //          0.12345678     -> %f
+print fmt("%.4g", r_zero + 1234.5678e-5); //          0.012345678    -> %f
+print fmt("%.4g", r_zero + 1234.5678e-6); //          0.0012345678   -> %f
+print fmt("%.4g", r_zero + 1234.5678e-7); //          0.00012345678  -> %f
+print fmt("%.4g", r_zero + 1234.5678e-8); //          0.000012345678 -> %e
+
+// Types.
+
+group g:
+  enum E = A, B;
+end
+
+alg string s0 = "a";
+alg int i0 = 1;
+alg bool b0 = true;
+alg tuple(int a; list[1] int b) t0 = (1, [2]);
+alg real r0 = 1.23456e7;
+alg string s00 = <string>1.23456e7;
+alg list[2] string l0 = ["a", "b"];
+alg g.E e0 = g.A;
+
+print fmt("%s", s0);
+print fmt("%s", i0);
+print fmt("%s", b0);
+print fmt("%s", t0);
+print fmt("%s", r0);
+print fmt("%s", s00);
+print fmt("%s", l0);
+print fmt("%s", e0);
+
+// Unused.
+
+alg int ii1 = 1;
+alg int ii2 = 2;
+alg int ii3 = 3;
+alg int ii4 = 4;
+alg int ii5 = 5;
+alg real rr6 = 6.0;
+alg int ii7 = 7;
+
+print fmt("%s %4$s %s %6$s %2$s %6$f", ii1, ii2, ii3, ii4, ii5, rr6, ii7);
+
+// Dummy automaton, to satisfy precondition.
+
+automaton a:
+  location:
+    initial;
+end

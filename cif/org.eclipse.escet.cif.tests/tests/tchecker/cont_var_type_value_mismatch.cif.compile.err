@@ -1,0 +1,2 @@
+ERROR: File "tchecker/cont_var_type_value_mismatch.cif": Semantic error at line 15, column 12: The type "bool" of the initial value of continuous variable "g.x" is incompatible with the type "real" of the variable.
+ERROR: Failed to load CIF file "tchecker/cont_var_type_value_mismatch.cif": the file has errors.

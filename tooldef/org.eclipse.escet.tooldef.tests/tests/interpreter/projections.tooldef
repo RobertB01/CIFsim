@@ -1,0 +1,69 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tuple(int, bool, double) tibr = (123, false, 234.0);
+
+bool b;
+int i1, i2, i3;
+string s1, s2, s3;
+double r;
+int z = 0;
+
+outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);
+outln();
+
+i1 = [1, 2, 3][0];                             outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 1
+i2 = [1, 2, 3][1];                             outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 2
+i3 = [1, 2, 3][2];                             outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 3
+outln();
+
+i1 = [4, 5, 6][-1];                            outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 3
+i2 = [4, 5, 6][-2];                            outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 2
+i3 = [4, 5, 6][-3];                            outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 1
+outln();
+
+i1 = [[7, 8], [9, 0, 1]][0][0];                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 1
+i2 = [[7, 8], [9, 0, 1]][0][1];                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 2
+i3 = [[7, 8], [9, 0, 1]][1][0];                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 3
+outln();
+
+i1 = [[1, 2], [3, 4, 5]][1][1];                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 4
+i2 = [[1, 2], [3, 4, 5]][1][2];                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 5
+outln();
+
+i1 = {1: 2, 3: 4}[1];                          outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 2
+i2 = {1: 2, 3: 4}[3];                          outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 4
+outln();
+
+s1 = "abc"[0];                                 outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "a"
+s2 = "abc"[1];                                 outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "b"
+s3 = "abc"[2];                                 outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "c"
+outln();
+
+s1 = "def"[-1];                                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "c"
+s2 = "def"[-2];                                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "b"
+s3 = "def"[-3];                                outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "a"
+outln();
+
+i1 = (7, true, "x")[0];                        outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 9
+b  = (7, true, "x")[1];                        outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // true
+s1 = (7, true, "x")[2];                        outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // "x"
+outln();
+
+i1 = tibr[0];                                  outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 123
+b  = tibr[1];                                  outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // false
+r  = tibr[2];                                  outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // 234.0
+outln();
+
+i1 = <list tuple(int, int)>[][z][0];           outln("%5s %5s %5s %5s /%5s/ /%5s/ /%5s/ %5s %5s", b, i1, i2, i3, s1, s2, s3, r, z);  // err
+outln();

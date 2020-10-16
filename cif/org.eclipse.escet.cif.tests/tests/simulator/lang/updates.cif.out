@@ -1,0 +1,240 @@
+Initial state: time=0.0, p=simple1, p.ai=[0, 0, 0], p.dir={}, p.i=0, p.j=0, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=simple1, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=0, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=simple1, p.ai=[0, 0, 0], p.dir={}, p.i=2, p.j=0, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=simple1, p.ai=[0, 0, 0], p.dir={}, p.i=3, p.j=0, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=multi1, p.ai=[0, 0, 0], p.dir={}, p.i=3, p.j=0, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=if1, p.ai=[0, 0, 0], p.dir={}, p.i=5, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=if2, p.ai=[0, 0, 0], p.dir={}, p.i=0, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=if3, p.ai=[0, 0, 0], p.dir={}, p.i=0, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs01, p.ai=[0, 0, 0], p.dir={}, p.i=-1, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs02, p.ai=[0, 0, 0], p.dir={}, p.i=2, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs03, p.ai=[0, 0, 0], p.dir={}, p.i=5, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs04, p.ai=[0, 0, 0], p.dir={}, p.i=7, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs05, p.ai=[0, 0, 0], p.dir={}, p.i=11, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs06, p.ai=[0, 0, 0], p.dir={}, p.i=16, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs07, p.ai=[0, 0, 0], p.dir={}, p.i=21, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs08, p.ai=[0, 0, 0], p.dir={}, p.i=22, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs09, p.ai=[0, 0, 0], p.dir={}, p.i=26, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs10, p.ai=[0, 0, 0], p.dir={}, p.i=30, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs11, p.ai=[0, 0, 0], p.dir={}, p.i=34, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs12, p.ai=[0, 0, 0], p.dir={}, p.i=38, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs13, p.ai=[0, 0, 0], p.dir={}, p.i=41, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs14, p.ai=[0, 0, 0], p.dir={}, p.i=43, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs15, p.ai=[0, 0, 0], p.dir={}, p.i=45, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs16, p.ai=[0, 0, 0], p.dir={}, p.i=47, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs17, p.ai=[0, 0, 0], p.dir={}, p.i=51, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs18, p.ai=[0, 0, 0], p.dir={}, p.i=54, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs19, p.ai=[0, 0, 0], p.dir={}, p.i=57, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs20, p.ai=[0, 0, 0], p.dir={}, p.i=58, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs21, p.ai=[0, 0, 0], p.dir={}, p.i=62, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=ifs22, p.ai=[0, 0, 0], p.dir={}, p.i=66, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs01, p.ai=[0, 0, 0], p.dir={}, p.i=69, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs02, p.ai=[0, 0, 0], p.dir={}, p.i=2, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs03, p.ai=[0, 0, 0], p.dir={}, p.i=2, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs04, p.ai=[0, 0, 0], p.dir={}, p.i=7, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs05, p.ai=[0, 0, 0], p.dir={}, p.i=11, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs06, p.ai=[0, 0, 0], p.dir={}, p.i=16, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs07, p.ai=[0, 0, 0], p.dir={}, p.i=16, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs08, p.ai=[0, 0, 0], p.dir={}, p.i=22, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs09, p.ai=[0, 0, 0], p.dir={}, p.i=26, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs10, p.ai=[0, 0, 0], p.dir={}, p.i=30, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs11, p.ai=[0, 0, 0], p.dir={}, p.i=34, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs12, p.ai=[0, 0, 0], p.dir={}, p.i=38, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs13, p.ai=[0, 0, 0], p.dir={}, p.i=38, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs14, p.ai=[0, 0, 0], p.dir={}, p.i=38, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs15, p.ai=[0, 0, 0], p.dir={}, p.i=38, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs16, p.ai=[0, 0, 0], p.dir={}, p.i=47, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs17, p.ai=[0, 0, 0], p.dir={}, p.i=47, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs18, p.ai=[0, 0, 0], p.dir={}, p.i=47, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs19, p.ai=[0, 0, 0], p.dir={}, p.i=47, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs20, p.ai=[0, 0, 0], p.dir={}, p.i=58, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs21, p.ai=[0, 0, 0], p.dir={}, p.i=62, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=jfs22, p.ai=[0, 0, 0], p.dir={}, p.i=62, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=pack1, p.ai=[0, 0, 0], p.dir={}, p.i=62, p.j=6, p.li=[], p.llli=[], p.tii=(0, 0), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=pack2, p.ai=[0, 0, 0], p.dir={}, p.i=62, p.j=6, p.li=[], p.llli=[], p.tii=(1, 2), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=pack3, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(1, 2), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=pack4, p.ai=[0, 0, 0], p.dir={}, p.i=5, p.j=2, p.li=[], p.llli=[], p.tii=(6, 7), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=pack5, p.ai=[0, 0, 0], p.dir={}, p.i=3, p.j=4, p.li=[], p.llli=[], p.tii=(1, 2), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj1, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(8, 9), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj2a, p.ai=[0, 0, 0], p.dir={1: 2.0, 3: 4.0}, p.i=1, p.j=2, p.li=[1, 2], p.llli=[], p.tii=(8, 9), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj2b, p.ai=[0, 0, 0], p.dir={1: 2.0, 3: 4.0}, p.i=1, p.j=2, p.li=[1, 2], p.llli=[], p.tii=(5, 9), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj3a, p.ai=[0, 0, 0], p.dir={1: 2.0, 3: 4.0}, p.i=1, p.j=2, p.li=[1, 2], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj3b, p.ai=[0, 0, 0], p.dir={1: 2.0, 3: 4.0}, p.i=1, p.j=2, p.li=[3, 2], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj4, p.ai=[0, 0, 0], p.dir={1: 2.0, 3: 4.0}, p.i=1, p.j=2, p.li=[3, 4], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj5, p.ai=[0, 0, 0], p.dir={1: 8.0, 3: 4.0}, p.i=1, p.j=2, p.li=[3, 4], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj6, p.ai=[0, 0, 0], p.dir={1: 8.0, 3: 4.0, 2: 6.0}, p.i=1, p.j=2, p.li=[3, 4], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj7, p.ai=[0, 0, 0], p.dir={1: 8.0, 3: 4.0, 2: 6.0}, p.i=1, p.j=2, p.li=[3, 4], p.llli=[[[1], [2]], [[3], [4]], [[5]]], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj8, p.ai=[0, 0, 0], p.dir={1: 8.0, 3: 4.0, 2: 6.0}, p.i=1, p.j=2, p.li=[3, 4], p.llli=[[[8], [2]], [[3], [4]], [[5]]], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj9, p.ai=[0, 0, 0], p.dir={1: 8.0, 3: 4.0, 2: 6.0}, p.i=1, p.j=2, p.li=[3, 4], p.llli=[[[8], [2]], [[3], [9]], [[5]]], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj10, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=proj11, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(5, 8), p.v=[(1, [{2: 3.0}])]
+
+Transition: event tau
+State: time=0.0, p=proj12, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(5, 8), p.v=[(1, [{2: 4.0}])]
+
+Transition: event tau
+State: time=0.0, p=proj13, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(5, 8), p.v=[(1, [{2: 4.0, 3: 5.0}])]
+
+Transition: event tau
+State: time=0.0, p=combi1, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[], p.llli=[], p.tii=(5, 8), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=combi2, p.ai=[0, 0, 0], p.dir={}, p.i=1, p.j=2, p.li=[1, 2, 3], p.llli=[], p.tii=(4, 5), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=combi3, p.ai=[0, 0, 0], p.dir={}, p.i=4, p.j=2, p.li=[1, 2, 5], p.llli=[], p.tii=(4, 5), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=partial1, p.ai=[0, 0, 0], p.dir={}, p.i=4, p.j=2, p.li=[], p.llli=[], p.tii=(4, 5), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=partial2, p.ai=[1, 2, 3], p.dir={}, p.i=4, p.j=2, p.li=[1, 2, 3], p.llli=[[[1], [2], [3]], [[4]]], p.tii=(4, 5), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=partial3, p.ai=[1, 2, 3], p.dir={}, p.i=4, p.j=2, p.li=[4, 5, 3], p.llli=[[[1], [2], [3]], [[4]]], p.tii=(4, 5), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=partial4, p.ai=[1, 7, 6], p.dir={}, p.i=4, p.j=2, p.li=[4, 5, 3], p.llli=[[[1], [2], [3]], [[4]]], p.tii=(4, 5), p.v=[]
+
+Transition: event tau
+State: time=0.0, p=done, p.ai=[1, 7, 6], p.dir={}, p.i=4, p.j=2, p.li=[4, 5, 3], p.llli=[[[8], [9], [3]], [[10]]], p.tii=(4, 5), p.v=[]
+
+Simulation resulted in deadlock.

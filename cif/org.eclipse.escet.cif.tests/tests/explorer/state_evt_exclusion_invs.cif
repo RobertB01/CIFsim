@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+event f;
+event g;
+event h;
+
+automaton a:
+  disc int x = 1;
+
+  invariant f needs x >= 10;            // f enabled for 10 <= x <= 15
+  invariant f needs x <= 15;
+
+  invariant x < 11 disables g;          // g enabled for 11 <= x <= 14
+  invariant x > 14 disables g;
+
+  invariant h needs x >= 12;            // h enabled for 12 <= x <= 13
+  invariant x > 13 disables h;
+
+  location:
+    initial;
+    edge e when x < 20 do x := x + 1;
+    edge e when x < 20 do x := x + 2;
+    edge f;
+    edge g;
+    edge h;
+end

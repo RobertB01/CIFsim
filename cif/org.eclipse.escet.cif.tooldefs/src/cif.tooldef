@@ -1,0 +1,337 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// yed
+tool int cif2yed(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2yed", "org.eclipse.escet.cif.cif2yed.CifToYedApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cif2yed(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2yed", "org.eclipse.escet.cif.cif2yed.CifToYedApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// data synthesis
+tool int cifdatasynth(string... args, string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false,
+                       bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.datasynth", "org.eclipse.escet.cif.datasynth.CifDataSynthesisApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifdatasynth(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.datasynth", "org.eclipse.escet.cif.datasynth.CifDataSynthesisApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// supremica
+tool int cif2supremica(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2supremica", "org.eclipse.escet.cif.cif2supremica.CifToSupremicaApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cif2supremica(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2supremica", "org.eclipse.escet.cif.cif2supremica.CifToSupremicaApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// simulator
+tool int cifsim(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.simulator", "org.eclipse.escet.cif.simulator.CifSimulatorApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifsim(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.simulator", "org.eclipse.escet.cif.simulator.CifSimulatorApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// mcrl2
+tool int cif2mcrl2(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2mcrl2", "org.eclipse.escet.cif.cif2mcrl2.Cif2Mcrl2Application", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cif2mcrl2(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2mcrl2", "org.eclipse.escet.cif.cif2mcrl2.Cif2Mcrl2Application", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// uppaal
+tool int cif2uppaal(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2uppaal", "org.eclipse.escet.cif.cif2uppaal.CifToUppaalApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cif2uppaal(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2uppaal", "org.eclipse.escet.cif.cif2uppaal.CifToUppaalApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// codegen
+tool int cifcodegen(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                     bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.codegen", "org.eclipse.escet.cif.codegen.CodeGenApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifcodegen(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                     bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.codegen", "org.eclipse.escet.cif.codegen.CodeGenApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// plc
+tool int cif2plc(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2plc", "org.eclipse.escet.cif.cif2plc.CifToPlcApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cif2plc(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2plc", "org.eclipse.escet.cif.cif2plc.CifToPlcApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// cif -> cif
+tool int cif2cif(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2cif.app", "org.eclipse.escet.cif.cif2cif.app.CifToCifApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cif2cif(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.cif2cif.app", "org.eclipse.escet.cif.cif2cif.app.CifToCifApp", args, stdin, stdout, stderr
+               , appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// cif merge
+tool int cifmerge(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.merger", "org.eclipse.escet.cif.merger.CifMergerApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifmerge(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.merger", "org.eclipse.escet.cif.merger.CifMergerApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// event disabler
+tool int cifevtdis(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventdisabler", "org.eclipse.escet.cif.eventdisabler.EventDisablerApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifevtdis(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventdisabler", "org.eclipse.escet.cif.eventdisabler.EventDisablerApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// explorer
+tool int cifexplorer(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                      bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.explorer", "org.eclipse.escet.cif.explorer.app.ExplorerApplication", args, stdin, stdout, stderr, appendOut,
+               appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifexplorer(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                      bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.explorer", "org.eclipse.escet.cif.explorer.app.ExplorerApplication", args, stdin, stdout, stderr, appendOut,
+               appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based product
+tool int cifprod(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.SynchronousProductApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifprod(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.SynchronousProductApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based supervisor synthesis
+tool int cifsupsynth(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                      bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifsupsynth(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                      bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.SupervisorSynthesisApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based synthesis analysis
+tool int cifsynthanalys(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                         bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifsynthanalys(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                         bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.SynthesisAnalysisApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based non-conflicting check
+tool int cifncchk(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifncchk(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based controllability check
+tool int cifctrlchk(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                     bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifctrlchk(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                     bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.ControllabilityCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based language equivalence
+tool int ciflngeqv(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int ciflngeqv(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.LanguageEquivalenceCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based nfa -> dfa
+tool int cifnfadfa(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.NfaToDfaApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifnfadfa(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.NfaToDfaApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based minimal dfa
+tool int cifdfamin(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.DfaMinimizationApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifdfamin(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.DfaMinimizationApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based projection
+tool int cifproj(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.ProjectionApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifproj(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.ProjectionApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based observer check
+tool int cifobschk(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.ObserverCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifobschk(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                    bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.ObserverCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based abstraction
+tool int cifabstr(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifabstr(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                   bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.AutomatonAbstractionApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based trim check
+tool int ciftrimchk(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                     bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.TrimCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int ciftrimchk(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                       bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.TrimCheckApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+// evt-based make trim
+tool int ciftrim(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.TrimApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int ciftrim(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                  bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.TrimApplication", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end

@@ -1,0 +1,30 @@
+controllable c;
+uncontrollable u;
+plant automaton p:
+  disc int[0..9] x = 0;
+  location l0:
+    initial;
+    marked;
+    edge c do x := 1 goto l1;
+  location l1:
+    marked;
+    edge u do x := 2 goto l2;
+  location l2:
+    marked;
+    edge c do x := 3 goto l3;
+  location l3:
+    marked;
+    edge u do x := 4 goto l4;
+  location l4:
+    edge c do x := 5 goto l5;
+  location l5:
+    edge u do x := 6 goto l6;
+  location l6;
+end
+supervisor automaton sup:
+  alphabet c;
+  location:
+    initial;
+    marked;
+    edge c when p.l0 or p.l1;
+end

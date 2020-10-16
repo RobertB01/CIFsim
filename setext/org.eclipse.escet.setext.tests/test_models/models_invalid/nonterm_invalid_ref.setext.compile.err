@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/nonterm_invalid_ref.setext": Semantic error at line 18, column 8: Definition "X" does not define a non-terminal.
+ERROR: Failed to load SeText file "models_invalid/nonterm_invalid_ref.setext": the file has errors.

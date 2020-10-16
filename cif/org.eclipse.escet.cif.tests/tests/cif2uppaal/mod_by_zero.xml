@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan a_e;
+int[0,5] a_v = 0;
+meta int[0,5] OLD_a_v = 0;
+int[0,0] LP_a = 0;
+meta int[0,0] OLDLP_a = 0;</declaration>
+  <template>
+    <name>Template_a</name>
+    <location id="id0"/>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">a_e?</label>
+      <label kind="assignment">a_v = (5) % (OLD_a_v), LP_a = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id1"/>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">a_e!</label>
+      <label kind="assignment">OLD_a_v = a_v, OLDLP_a = LP_a</label>
+    </transition>
+  </template>
+  <system>a = Template_a();
+SendAut = Template_SendAut();
+
+system a, SendAut;</system>
+</nta>

@@ -1,0 +1,7 @@
+ERROR: File "tchecker/eval_failure.cif": Semantic error at line 16, column 24: Evaluation failure: Division by zero: 1 div 0.
+ERROR: File "tchecker/eval_failure.cif": Semantic error at line 19, column 29: Evaluation failure: Dictionary has 1 duplicate key.
+ERROR: File "tchecker/eval_failure.cif": Semantic error at line 20, column 29: Evaluation failure: Dictionary has 2 duplicate keys.
+ERROR: File "tchecker/eval_failure.cif": Semantic error at line 24, column 24: Evaluation failure: Division by zero: 1 mod 0.
+ERROR: File "tchecker/eval_failure.cif": Semantic error at line 27, column 21: Evaluation failure: Empty input interval: scale(123.0, 1.0, 1.0, 3.0, 4.0).
+ERROR: File "tchecker/eval_failure.cif": Semantic error at line 28, column 21: Evaluation failure: Real overflow: 9.999999999999999e197 * 2.0e299.
+ERROR: Failed to load CIF file "tchecker/eval_failure.cif": the file has errors.

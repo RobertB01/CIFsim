@@ -1,0 +1,39 @@
+const int[5..5] c1 = 5;
+const int[6..6] c2 = c1 + 1;
+type t = bool;
+plant automaton p:
+  location l:
+    initial;
+end
+plant automaton d1:
+  location l:
+    initial;
+end
+plant automaton d2:
+  location l:
+    initial;
+end
+group e1:
+  marked p.l;
+  invariant d1.l;
+end
+group e2:
+  marked p.l;
+  invariant d2.l;
+end
+group f:
+  type t = int[2..2];
+  automaton g:
+    type t = int[3..3];
+    disc t v1 = 3;
+    disc .f.t v2 = 2;
+    disc t v3 = 3;
+    disc .t v4 = true;
+    invariant v2 + v3 > 0 and v4;
+    location l:
+      initial;
+  end
+  invariant g.l or g.v1 = 3;
+  invariant d1.l;
+end
+invariant c2 > 0;

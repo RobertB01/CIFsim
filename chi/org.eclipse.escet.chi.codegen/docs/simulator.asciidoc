@@ -1,0 +1,571 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+= Chi simulator design
+
+Some thoughts in designing the Chi simulator.
+
+Note that is text is ancient and written way before implementing anything, and
+as such is likely to contain errors, omissions, inconsistencies, and never
+implemented ideas with respect to the actual code.
+
+
+== Chi simulator design
+
+Chi is a distributed parallel processing language using C semantics for
+variables (variable is space for storing a value) and blocking synchronous
+communication, while Java is a sequential implementation language where
+variables point to values, thus allowing shared access to data. This means a
+few bridges have to be crossed to implement the Chi language in a simulator.
+
+
+== Possible simulator functionality
+
+What are the things we may want to have?
+
+* _Execution of Chi statements and communication_.
+At implementation level, there are seemingly three options available.
+
+** Single threaded (no mutexes needed, deterministic execution possible).
+** N threads (one for each CPU) with some worker mechanism.
+** Many threads (one for each Chi process).
+
++
+Workers are pretty much useless in Chi, as typically Chi processes are
+communication heavy, thus typically almost all Chi processes are blocked on
+the next synchronous communication.
+The same property also makes the 'many threads' idea less useful. In addition,
+true multi-threading introduces all kinds of problems in a language that
+does little else but exchange data between its processes. The single threaded
+option looks the most useful.
++
+* _Types of execution_.
+At Chi level, several options exist for performing Chi statements. All of them
+are useful in some cases.
+
+** Single trace
+** Randomized trace
+** All options (and let user chose)
+** Real-time
+This option implies aiming for speed rather than careful checking which may
+include considerations like
+*** Have better control over stack-depth with function calls and process
+instantiation?
+*** Do explicit bounds and safety checking?
++
+* _Debugging_.
+Chi code may need to be debugged as well, simulator support for that can be
+useful.
+** Break points
+*** On statement
+*** On variables (assignment, some value, some limit)
+*** On communication, useful for
+**** Deadlock analysis
+**** Livelock analysis
+**** Reverse execution (go back to the previous statement).
++
+* _Visualization._
+A model with parallel processes is complicated to understand, it would be
+useful to have a way to visualize what happens. Some points to consider here
+are
+** Output
+** Input
+** 'Real' time
++
+* _Useful feedback on problems_.
+Chi code is Turing complete and has all the usual problems of normal
+languages, like trying to do impossible things, getting into a live-lock, or
+crash the simulator.
++
+Getting some information in these cases is crucial in finding the cause.
+One form is to have a position reported on execution failures.
+Positions also seem useful in the context of debugging.
+
+
+== Runtime support
+
+While the user only writes Chi code, in the implementation mechanisms must
+exist to push the simulation forward by
+
+* Perform conceptually timeless computations in one of the Chi processes.
+* Perform a synchronous communication on a channel between a sender and receiver.
+* Perform a time delay if all processes are blocked on time.
+
+All these steps use data that is setup by the Chi processes at runtime. The
+code of the Chi statements use several service points for that:
+
+* _Channel service_ for creating synchronous communication options between
+processes.
+* _Timer service_ for tracking the current simulation time, and for creating
+timers and updating them. Timers also provide information how long to delay
+in a delay step.
+* _Process service_ for creating child processes, and monitor them or await
+for their termination.
+* _File service_ for reading and writing data files
+
+
+== Process body transformations
+
+In all the above, the common theme is performing Chi statements. To make the
+transition to Java feasible, a two-step transformation looks like a good idea.
+
+. Transform the body a Chi process to sequential code.
++
+Basically pretend that a Chi process is a thread of execution, and generate
+code in an intermediate language where all statements can be expressed using
+as few as possible primitives. It may block for communication or time delays.
+
+. Convert the sequential code to a co-operative multi-tasking function that
+can be executed from a central dispatcher.
++
+At every point where execution of the sequential code may block, control flow
+is inverted and returned to the dispatcher to allow it to make progress with
+other Chi processes first.
+
+The final result is thus a of small code blocks that can run without blocking,
+and a administration around that which defines the next block to run, like a
+program counter. Each code block updates that program counter to the next code
+to run just before it returns to the caller.
+This can be nicely implemented using a `switch` and a class instance for each
+Chi process.
+
+
+== Statements in sequential code
+
+. Copy parameter values to local data, if needed.
+(It could do a check whether the parameter is ever written first).
+
+. Initialization of variables are the first statements (that is, a sequence of
+assignment statements). It should be careful enough not to use uninitialized
+variables in the initialization.
+
+. A Chi statement has three phases at implementation level:
++
+** _Setup_ (any preparation in the implementation needed to perform the statement)
+** _execute_ (perform the function expressed by the Chi statement)
+** _finish_ (cleanup/update)
+
+. Statements with sub-statements such as `while` or `for` don't quite have
+anything to execute themselves, so they don't do _execute_ but instead:
++
+** _decide_ (whether to do another iteration)
+** _body_ (execute the sub-statements)
+** _enditerate_ (update at the end of the iteration, jump back to _decide_)
+** _exit_ (abort the loop eg `break` or `exit`, and end the iteration)
+
++
+As _body_ may contain blocking statements where the code must return to the
+caller, the sequential code uses jumps rather than the usual loop constructs.
+
+. The if statement is special case as it can branch to many different
+directions.
+
+. The `sample` Chi primitive is special in providing two results, the sample
+value and an updated distribution seed. In the context of using a sample value
+in a condition using Java short-circuit evaluation, the generated code must
+either use a sampled value and update the seed, or it must not use the sampled
+value and not update the seed.
++
+Likely a sample should be drawn beforehand, and after deciding on usage the
+seed must be modified to the correct value.
+There is also the issue of correctly drawing multiple samples from the same
+distribution in a single condition.
+
+. At the end of the body an `end` statement should be added for processes and
+models, and an `error` statement for functions.
+Note that elimination of non-reachable code may eliminate these statements.
+
+. Eliminate `do nothing` statements, and kill non-reachable code.
+(A warning about removal may be given to the user in some cases, although an
+earlier analysis is perhaps of more use.).
+
+Other transformations could be to skip phases that only jump to the next
+phase, and merging of phases that do the same action.
+
+
+=== Sequential code for each Chi statement
+
+For each of the Chi statements the above boils down to performing the
+following in each phase
+
+* Assignment statement
+** _setup_
++
+Perform sampling of the distributions at the RHS and the projections
+at the LHS. Assign the updated distributions (they may get assigned
+again in the _execute_ phase).
+
+** _execute_
++
+In general, compute the RHS entirely, then assign to each variable at
+the LHS. The end result is a sequence of assignments to single
+variables such that the semantics of the original statement is
+expressed.
+
+** _finish_ Empty
+
+
+* Break statement
+
+** _seup Empty
+
+** _execute_
++
+`break` is a primitive in sequential code, in multi-tasking code it jumps to
+the end of the containing iterative statement to continue execution there.
+
+** _finish_ Empty
+
+
+* Continue statement
+
+** _setup_ Empty
+
+** _execute_
++
+`continue` is a primitive in sequential code.
+
+** _finish_ Empty
+
+
+* Delay statement
+
+** _setup_
++
+Compute any sampling, and update the distributions immediately. Also
+compute the actual delay length.
+
+** _execute_
++
+Perform the delay (`delay(N)` is a primitive in sequential code).
+
+** _finish_ Empty
+
+
+* For statement
+
+** _setup_
++
+Compute any sampling in the source expression, while updating the
+distributions. Compute the value of the source expression.
+In principle, variables in the source expression may get changed in
+the body. If necessary, make a copy of the data.
+Also set up some form of administration to know how far the iteration
+has come.
+
+** _decide_
++
+Decide whether another iteration can be performed (using the
+administration). If another one can be performed, assign the values of
+the local variables (as a kind of assignment) and execute _body_.
+A special case `for x in range(y):` seems useful here.
+
+** _body_
++
+Execute the sub-statements.
+
+** _enditerate_
++
+Update the iteration administration for the next cycle.
+
+** _exit_
++
+Copies made in _setup_ need to be cleaned up during `exit`, `break`,
+`return`, or `terminate`. This needs more thought.
++
+Jump to _finish_.
+
+** _finish_
++
+Clean up the source data, the iteration administration, and the local variables.
+
+
+* If statement
++
+As already stated, this statement is a special case since it may branch out to
+one of many blocks of statement.
++
+The statement is a sequence of if tests. If one test fails, the next test
+is tried. If the test succeeds, its sub-statements are executed. Since
+the sub-statements may contain `break`, `continue`, `return`, or `terminate`,
+the process may never continue below the if statement. For this reason, a
+non-empty _finish_ phase is not so useful.
++
+Each case of an if statement has the following phases:
+
+** _condition_
++
+Compute sampled values while updating the distributions for the guard
+expression. If it fails, jump to the next condition phase (or to
+_finish_ after the last case). If the guard holds, jump to
+the _body_ of this case (and from there to the
+_finish_ phase).
++
+If all the cases compute the same expression in order to compare its
+result against different values, it may be useful to consider
+translating it to a switch-statement.
+
+** _body_
++
+Execute the sub-statements.
+
+** _finish_
++
+Just a collect phase to merge all flows of the program.
+
+
+* Pass statement
+
+** _setup_ Empty
+
+** _execute_
++
+'do nothing' is a primitive in sequential code, although in a next step it
+may be useful to eliminate these statements.
+
+** _finish_ Empty
+
+
+* Receive statement
+
+** _setup_
++
+Perform sample computations in the channel expression (while updating
+the distributions), and compute which channel should be received from.
+Block on receipt of a communication.
+
+** _execute_
++
+When data is received, compute samples in expressions of the variable
+projections while updating the distributions, and perform assignment
+of the value into the variables, much like an assignment statement.
++
+Note that the sender is responsible for ensuring the data is completely
+owned by the receiver.
++
+If no data was communicated, this phase is empty
+
+** _finish_ Empty
+
+
+* Return statement
+
+** _setup_
++
+Compute any sampled values, while updating the distribution immediately.
+
+** _execute_
++
+Compute the return value, denote end of execution (and return of
+control to its caller).
+
+** _finish_ Never reached
+
+
+* Run statement
++
+Basically, a run statement is just a bunch of nested for-loops to start
+all processes. If the statement waits for termination of its children, an
+administration should be set up which processes are started and the
+statement does a sequential block on child process termination (until all
+children are terminated).
+
+** _setup_
++
+If the statement blocks on termination, set up an administration of
+started processes.
++
+Compute the instance parameter values (after eliminating the sampling,
+updating the distributions immediately), and fork a process. For
+process instances inside an iteration, generate the for-loop
+(much like a plain `for` statement).
++
+Note that any forked process may start to run immediately, and even
+finish before the run-statement has created all its children. This is
+not a problem in the sense as it cannot communicate with
+non-instantiated processes (and thus will block on them, or find other
+partners). Also, time cannot pass, as the parent process is not
+blocked.
+
+** _execute_
++
+If `startOnly` holds, this phase is empty.
+Otherwise, block on termination of any child process (and remove it from
+the administration after it terminated). Repeat until there are no more child
+processed to block on.
+
+** _finish_
++
+If `startOnly` is false, the child process administration needs to be
+cleaned up.
++
+Note that if a child process performs `terminate`, such cleanup must be done
+without ever reaching the _finish_ phase. This likely need further attention.
+
+
+* Select statement
++
+If the first statement in the body is a communication (that is, no guard),
+it is used in the decision whether or not the alternative should be executed.
++
+The basic idea here is that first the available alternatives are
+collected, a central object performs selecting an alternative, and then
+the process continues with the selected alternative.
+The complicating factors are
+
+** The guard may depend on time (by means of functions that use timers,
+`time` is not allowed in a guard).
+** Different alternatives have a different number of local variables.
+*** Each alternative has unique values for such local variables.
+To keep it manageable, the setup phase must (for each alternative)
+**** state the used channel (if any)
+**** state a guard function (if anything else than `true`).
+
++
+In addition, it must keep enough information to reproduce variable
+settings after selecting an alternative.
+
++
+Special handling of time-constant guards seems useful.
+
+** _setup_
++
+Compute the sampled values of the guards (and update the
+distributions). If a channel is available, do the same for the channel
+(possibly after checking the guard is not time constant, or it is
+`true`). The iterated case transforms to a nested number of `for`
+loops. For each alternative, construct an alternative.
+(No available alternatives would be deadlock, something worth
+reporting to the user perhaps.)
+
+** _execute_
++
+Block on selection of one of the alternatives. After selection, setup
+the values of the variables, cleanup the alternatives, and jump to the
+body (if a channel is involved perform communication).
+
+** _finish_ Never reached
+
+
+* Send statement
+
+** _setup_
+Perform sample computations in the channel expression (while updating
+the distributions), and compute which channel should be sent to.
+Block on sending of a communication.
+
+** _execute_
+If data must be sent, compute samples in expressions of data to be
+sent while updating the distributions. Compute the value to send,
+ensuring it has no sharing of data with the process. The receiver is
+responsible for handling the sent value.
+(If no data needs to be sent, the phase is empty.)
++
+(This approach has the advantage that new values computed with an
+expression are automatically owned by the receiver. If data is the
+contents of a variable, a copy must be made unless an analysis shows
+that the variable is dead after this statement.)
+
+** _finish_ Empty
+
+
+* Terminate statement
+
+** _setup_ Empty
+
+** _execute_
++
+Denotes that execution should stop globally, and ends execution of the process.
+
+** _finish_ Never reached
+
+
+    * WhileStatement
+** _setup_ Empty
+** _decide_
++
+Compute any sampled values, and update the distributions of the
+condition expression. Depending on the value of the condition, either
+proceed to _body_ or to _finish_.
+(`while true` makes this phase just a jump to the _body_, and
+makes _finish_ non-reachable.)
+
+** _body_
++
+Execute all statements (jumping back to _decide_ at the end).
+
+** _enditerate_ Empty
+** _exit_ Empty
+** _finish_ Empty
++
+(Collect the flows of the body to a single point in the code.)
+
+
+* Write statement
+
+** _setup_
++
+Perform sampling of any expression, and update the distributions immediately.
+
+** _execute_
++
+Compute the string to write, and write it to the right file handle.
+
+** _finish_
++
+Flush the file handle.
+
+
+== Data types
+
+The basic approach is to use data types of the implementation language as much
+as possible.
+
+Unfortunately, Java does not have orthogonal data types if you want to use
+native data types. As such the data type generator cannot use always use the
+same type building blocks when creating more complex data structures.
+An Chi `int` is a Java `int`, while a Chi `list int` becomes a Java
+`List<Integer>`. As java has automatic boxing and unboxing, the impact of this
+is quite limited.
+
+
+=== Implementing data operations
+
+Chi has high level powerful data manipulation primitives, Java on the other
+hand generally needs more code to construct data.
+
+This means that an expression in Chi may become a blob of code in Java where
+at the end of its execution, the desired value is in a variable.
+
+Expression code generation thus not only has to communicate where to find the
+end-result, but also what code to execute beforehand.
+
+Finally, in the interest of reducing the number of temporaries it should keep
+track which variables hold data which has not been handed out to other
+processes, as such variables or data can safely be modified. This also holds
+for data structures themselves, for example a shallowly copied list allows
+changing of the list structure but not its element values.
+
+
+=== Data sharing
+
+In Java, it is trivial to share data between different users which is great
+for reducing memory footprint and avoiding spending CPU time to copy values.
+However as Chi processes use the C style 'variable is space for value'
+concept, where each process has its own copy of the data, there has to be
+agreement which data is safe to modify.
+
+In the simulator, the rule applied is 'write once, read many'. All new data is
+created in fresh memory blocks, possibly with re-use of existing data if that
+part of the data doesn't change. Existing data is never modified, making it safe to use
+existing data as much as possible.
+

@@ -1,0 +1,16 @@
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 15, column 30: Guard must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 21, column 32: Guard must be of type "bool", but is of type "int[6..6]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 28, column 12: Guard must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 38, column 14: Guard must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 48, column 15: Guard must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 60, column 23: Guard must be of type "bool", but is of type "int[1..1]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 60, column 37: Guard must be of type "bool", but is of type "int[6..6]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 61, column 39: Guard must be of type "bool", but is of type "int[7..7]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 62, column 33: Guard must be of type "bool", but is of type "int[8..8]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 72, column 22: Guard must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 81, column 24: Guard must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 98, column 10: Guard must be of type "bool", but is of type "int[123..123]".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 99, column 10: Guard must be of type "bool", but is of type "real".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 100, column 10: Guard must be of type "bool", but is of type "string".
+ERROR: File "tchecker/guard_non_bool.cif": Semantic error at line 101, column 10: Guard must be of type "bool", but is of type "list[1] int[1..1]".
+ERROR: Failed to load CIF file "tchecker/guard_non_bool.cif": the file has errors.

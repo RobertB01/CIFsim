@@ -1,0 +1,16 @@
+Initial state: time=0.0, p=l1
+
+Possible transitions:
+  #1: event p.e1
+  #2: event tau
+
+Transition: event p.e1
+State: time=0.0, p=l2
+
+Possible transitions:
+  #1: delay for (0 .. 10.0]
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, p=l2
+
+Simulation ended due to reaching the user-provided simulation end time.

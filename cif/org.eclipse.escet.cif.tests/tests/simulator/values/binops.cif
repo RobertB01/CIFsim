@@ -1,0 +1,287 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc bool b1, b2, b3, b4;
+  disc int i1, i2, i3, i4;
+  disc real r1, r2, r3, r4;
+  disc string g;
+  disc list int li;
+  disc set int si;
+  disc dict(int: real) dir;
+
+  location l1:
+    initial;
+
+    edge do b1 := false => false,                            // true
+            b2 := false => true,                             // true
+            b3 := true  => false,                            // false
+            b4 := true  => true                              // true
+    goto l2;
+
+  location l2:
+    edge do b1 := false <=> false,                           // true
+            b2 := false <=> true,                            // false
+            b3 := true  <=> false,                           // false
+            b4 := true  <=> true                             // true
+    goto l3;
+
+  location l3:
+    edge do b1 := false and false,                           // false
+            b2 := false and true,                            // false
+            b3 := true  and false,                           // false
+            b4 := true  and true,                            // true
+            si := {1, 2, 3} and {2, 3, 4}                    // {2, 3}
+    goto l4;
+
+  location l4:
+    edge do b1 := false or false,                            // false
+            b2 := false or true,                             // true
+            b3 := true  or false,                            // true
+            b4 := true  or true,                             // true
+            si := {1, 2, 3} or {2, 3, 4}                     // {1, 2, 3, 4}
+    goto l5;
+
+  location l5:
+    edge do b1 := 1   < 2,                                   // true
+            b2 := 1   < 1,                                   // false
+            b3 := 2   < 1                                    // false
+    goto l6;
+
+  location l6:
+    edge do b1 := 1   < 2.0,                                 // true
+            b2 := 1   < 1.0,                                 // false
+            b3 := 2   < 1.0                                  // false
+    goto l7;
+
+  location l7:
+    edge do b1 := 1.0 < 2,                                   // true
+            b2 := 1.0 < 1,                                   // false
+            b3 := 2.0 < 1                                    // false
+    goto l8;
+
+  location l8:
+    edge do b1 := 1.0 < 2.0,                                 // true
+            b2 := 1.0 < 1.0,                                 // false
+            b3 := 2.0 < 1.0                                  // false
+    goto l9;
+
+  location l9:
+    edge do b1 := 1   > 2,                                   // false
+            b2 := 1   > 1,                                   // false
+            b3 := 2   > 1                                    // true
+    goto l10;
+
+  location l10:
+    edge do b1 := 1   > 2.0,                                 // false
+            b2 := 1   > 1.0,                                 // false
+            b3 := 2   > 1.0                                  // true
+    goto l11;
+
+  location l11:
+    edge do b1 := 1.0 > 2,                                   // false
+            b2 := 1.0 > 1,                                   // false
+            b3 := 2.0 > 1                                    // true
+    goto l12;
+
+  location l12:
+    edge do b1 := 1.0 > 2.0,                                 // false
+            b2 := 1.0 > 1.0,                                 // false
+            b3 := 2.0 > 1.0                                  // true
+    goto l13;
+
+  location l13:
+    edge do b1 := 1   <= 2,                                  // true
+            b2 := 1   <= 1,                                  // true
+            b3 := 2   <= 1                                   // false
+    goto l14;
+
+  location l14:
+    edge do b1 := 1   <= 2.0,                                // true
+            b2 := 1   <= 1.0,                                // true
+            b3 := 2   <= 1.0                                 // false
+    goto l15;
+
+  location l15:
+    edge do b1 := 1.0 <= 2,                                  // true
+            b2 := 1.0 <= 1,                                  // true
+            b3 := 2.0 <= 1                                   // false
+    goto l16;
+
+  location l16:
+    edge do b1 := 1.0 <= 2.0,                                // true
+            b2 := 1.0 <= 1.0,                                // true
+            b3 := 2.0 <= 1.0                                 // false
+    goto l17;
+
+  location l17:
+    edge do b1 := 1   >= 2,                                  // false
+            b2 := 1   >= 1,                                  // true
+            b3 := 2   >= 1                                   // true
+    goto l18;
+
+  location l18:
+    edge do b1 := 1   >= 2.0,                                // false
+            b2 := 1   >= 1.0,                                // true
+            b3 := 2   >= 1.0                                 // true
+    goto l19;
+
+  location l19:
+    edge do b1 := 1.0 >= 2,                                  // false
+            b2 := 1.0 >= 1,                                  // true
+            b3 := 2.0 >= 1                                   // true
+    goto l20;
+
+  location l20:
+    edge do b1 := 1.0 >= 2.0,                                // false
+            b2 := 1.0 >= 1.0,                                // true
+            b3 := 2.0 >= 1.0                                 // true
+    goto l21;
+
+  location l21:
+    edge do b1 := true       = true,                         // true
+            b2 := true       = false,                        // false
+            b3 := 1          = 1,                            // true
+            b4 := 1          = 2                             // false
+    goto l22;
+
+  location l22:
+    edge do b1 := 1.0        = 1.0,                          // true
+            b2 := 1.0        = 2.0,                          // false
+            b3 := [1]        = [1],                          // true
+            b4 := [1]        = [2]                           // false
+    goto l23;
+
+  location l23:
+    edge do b1 := {1}        = {1},                          // true
+            b2 := {1}        = {2},                          // false
+            b3 := {1, 2}     = {2, 1, 2},                    // true
+            b4 := {1:2}      = {1:3}                         // false
+    goto l24;
+
+  location l24:
+    edge do b1 := {1:2}      = {1:2},                        // true
+            b2 := {2:1}      = {1:2},                        // false
+            b3 := {1:2, 2:1} = {2:1, 1:2},                   // true
+            b4 := [0][0]     = [0][0]                        // true
+    goto l25;
+
+  location l25:
+    edge do b1 := true       != true,                        // false
+            b2 := true       != false,                       // true
+            b3 := 1          != 1,                           // false
+            b4 := 1          != 2                            // true
+    goto l26;
+
+  location l26:
+    edge do b1 := 1.0        != 1.0,                         // false
+            b2 := 1.0        != 2.0,                         // true
+            b3 := [1]        != [1],                         // false
+            b4 := [1]        != [2]                          // true
+    goto l27;
+
+  location l27:
+    edge do b1 := {1}        != {1},                         // false
+            b2 := {1}        != {2},                         // true
+            b3 := {1, 2}     != {2, 1, 2},                   // false
+            b4 := {1:2}      != {1:3}                        // true
+    goto l28;
+
+  location l28:
+    edge do b1 := {1:2}      != {1:2},                       // false
+            b2 := {2:1}      != {1:2},                       // true
+            b3 := {1:2, 2:1} != {2:1, 1:2},                  // false
+            b4 := [0][0]     != [0][0]                       // false
+    goto l29;
+
+  location l29:
+    edge do i1  := 1   + 2,                                  // 3
+            r1  := 1   + 2.0,                                // 3.0
+            r2  := 1.0 + 2,                                  // 3.0
+            r3  := 1.0 + 2.0,                                // 3.0
+            g   := "abc" + "def",                            // "abcdef";
+            li  := [1, 2] + [3, 4],                          // [1, 2, 3, 4]
+            dir := {1: 4.0, 3: 5.0} + {1: 6.0, 2: 7.0}   // {1: 6.0, 3: 5.0, 2: 7.0}
+    goto l30;
+
+  location l30:
+    edge do i1  := 6   - 2,                                  // 4
+            r1  := 6   - 2.0,                                // 4.0
+            r2  := 6.0 - 2,                                  // 4.0
+            r3  := 6.0 - 2.0,                                // 4.0
+            si  := {1, 2, 3} - {2, 3, 4},                    // {1}
+            dir := {1: 4.0, 2: 5.0} - {1: 6.0, 3: 7.0}       // {2: 5.0}
+    goto l31;
+
+  location l31:
+    edge do dir := {1: 4.0, 2: 6.0} - {1, 3}                 // {2: 6.0}
+    goto l32;
+
+  location l32:
+    edge do dir := {1: 4.0, 2: 7.0} - [1, 3]                 // {2: 7.0}
+    goto l33;
+
+  location l33:
+    edge do i1 := 2   * 3,                                   // 6
+            r1 := 2   * 3.0,                                 // 6.0
+            r2 := 2.0 * 3,                                   // 6.0
+            r3 := 2.0 * 3.0                                  // 6.0
+    goto l34;
+
+  location l34:
+    edge do r1 := 8   / 2,                                   // 4.0
+            r2 := 8   / 2.0,                                 // 4.0
+            r3 := 8.0 / 2,                                   // 4.0
+            r4 := 8.0 / 2.0                                  // 4.0
+    goto l35;
+
+  location l35:
+    edge do i1 :=  7 div  4,                                 // 1
+            i2 :=  7 div -4,                                 // -1
+            i3 := -7 div  4,                                 // -1
+            i4 := -7 div -4                                  // 1
+    goto l36;
+
+  location l36:
+    edge do i1 :=  7 mod  4,                                 // 3
+            i2 :=  7 mod -4,                                 // 3
+            i3 := -7 mod  4,                                 // -3
+            i4 := -7 mod -4                                  // -3
+    goto l37;
+
+  location l37:
+    edge do b1 := 1 in [1, 2],                               // true
+            b2 := 3 in [1, 2],                               // false
+            b3 := 1 in {1, 2},                               // true
+            b4 := 3 in {1, 2}                                // false
+    goto l38;
+
+  location l38:
+    edge do b1 := 1 in {1: 3, 2: 4},                         // true
+            b2 := 3 in {1: 3, 2: 4}                          // false
+    goto l39;
+
+  location l39:
+    edge do b1 := {1, 2} sub {1, 2},                         // true
+            b2 := {1, 2} sub {1, 2, 3},                      // true
+            b3 := {1, 3} sub {1, 2, 3},                      // true
+            b4 := {3, 4} sub {1, 2, 3}                       // false
+    goto l40;
+
+  location l40:
+    edge do b1 := {4}    sub {1, 2, 3}                       // false
+    goto l41;
+
+  location l41:
+    urgent;
+end

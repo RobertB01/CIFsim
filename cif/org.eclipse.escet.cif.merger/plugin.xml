@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <extension point="org.eclipse.ui.commands">
+      <category
+         id="org.eclipse.escet.cif.commands.category"
+         name="CIF commands">
+      </category>
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.merger.CifMergerCommandHandler"
+         id="org.eclipse.escet.cif.merger.CifMergerCommand"
+         name="Merge CIF specifications">
+      </command>
+   </extension>
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.cif.merger.singleFile">
+         <and>
+            <iterate>
+               <adapt type="org.eclipse.core.resources.IFile">
+                  <test property="org.eclipse.core.resources.name"
+                        value="*.cif"/>
+               </adapt>
+            </iterate>
+            <count value="1"/>
+         </and>
+      </definition>
+      <definition id="org.eclipse.escet.cif.merger.multipleFiles">
+         <and>
+            <iterate>
+               <adapt type="org.eclipse.core.resources.IFile">
+                  <test property="org.eclipse.core.resources.name"
+                        value="*.cif"/>
+               </adapt>
+            </iterate>
+            <count value="(1-"/> <!-- More than 1 file. -->
+         </and>
+      </definition>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <menu
+               icon="icons/cif_merger.png"
+               id="org.eclipse.escet.cif.menu.misc"
+               label="CIF miscellaneo&amp;us tools">
+            <command
+                  commandId="org.eclipse.escet.cif.merger.CifMergerCommand"
+                  icon="icons/cif_merger.png"
+                  label="&amp;Merge CIF specifications...">
+               <visibleWhen>
+                  <or>
+                     <with variable="activeMenuSelection">
+                        <reference definitionId="org.eclipse.escet.cif.merger.singleFile"/>
+                     </with>
+                     <with variable="activeMenuEditorInput">
+                        <reference definitionId="org.eclipse.escet.cif.merger.singleFile"/>
+                     </with>
+                  </or>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="org.eclipse.escet.cif.merger.CifMergerCommand"
+               icon="icons/cif_merger.png"
+               label="&amp;Merge CIF specifications...">
+            <visibleWhen>
+               <with variable="activeMenuSelection">
+                  <reference definitionId="org.eclipse.escet.cif.merger.multipleFiles"/>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+</plugin>

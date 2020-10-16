@@ -1,0 +1,1 @@
+WARNING: Unsupported output type "tuple(int var; int low; int high)" found in discrete variable "node", variable will be omitted from the output.

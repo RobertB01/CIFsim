@@ -1,0 +1,2 @@
+ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/sup_evt_not_in_plant1.cif".
+CAUSE: Event "r.e3" is in the alphabet of the requirements, but not in the alphabet of the plants.

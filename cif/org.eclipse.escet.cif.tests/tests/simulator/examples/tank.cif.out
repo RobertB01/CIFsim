@@ -1,0 +1,18 @@
+Initial state: time=0.0, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=3.1622776601683795, tank.V=10.0, tank.V'=-3.1622776601683795
+
+Transition: delaying for 3.496128195593086 time units at time 0.0
+State: time=3.496128195593086, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=1.4142135623730936, tank.V=1.9999999999999958, tank.V'=-1.4142135623730936
+
+Transition: event tau
+State: time=3.496128195593086, controller=opened, controller.n=1, tank.Qi=5.0, tank.Qo=1.4142135623730936, tank.V=1.9999999999999958, tank.V'=3.5857864376269064
+
+Transition: delaying for 3.188380532551417 time units at time 3.496128195593086
+State: time=6.684508728144503, controller=opened, controller.n=1, tank.Qi=5.0, tank.Qo=3.1622776601683795, tank.V=10.0, tank.V'=1.8377223398316205
+
+Transition: event tau
+State: time=6.684508728144503, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=3.1622776601683795, tank.V=10.0, tank.V'=-3.1622776601683795
+
+Transition: delaying for 3.315491271855497 time units at time 6.684508728144503
+State: time=10.0, controller=closed, controller.n=0, tank.Qi=0.0, tank.Qo=1.5045320242406033, tank.V=2.263616611965527, tank.V'=-1.5045320242406033
+
+Simulation ended due to reaching the user-provided simulation end time.

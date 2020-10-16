@@ -1,0 +1,14 @@
+type t = bool;
+input t i;
+group g:
+  input bool i;
+  plant automaton p:
+    input real i;
+    disc real d;
+    location:
+      initial i > 0;
+      edge when i > 0;
+      edge do d := i;
+  end
+end
+invariant i or g.i or g.p.i > 0;

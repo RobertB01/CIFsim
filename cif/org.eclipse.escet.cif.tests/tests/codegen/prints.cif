@@ -1,0 +1,85 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Print to different files.
+
+automaton a1:
+  printfile "a.txt";
+
+  print "bla1";
+  print "bla2" file "b.txt";
+
+  location:
+    initial;
+end
+
+group g1:
+  printfile "c.txt";
+
+  print "bla3";
+  print "bla4" file "d.txt";
+end
+
+// Print targets, including special targets, implicit explicit.
+
+print "bla5";
+print "bla6" file "e.txt";
+print "bla7" file ":stdout";
+print "bla8" file ":stderr";
+
+// Print 'for' filters.
+
+event e1, e2;
+
+print "bla9";
+print "bla10" for initial;
+print "bla11" for final;
+print "bla12" for event;
+print "bla13" for time;
+print "bla14" for e1;
+print "bla15" for e2;
+print "bla16" for e1, e2;
+print "bla17" for initial, final, event, time;
+
+// Print pre/post and pre/post when.
+
+print      "bla18";
+print pre  "bla19";
+print post "bla20";
+print pre  "bla21" post "bla22";
+//print      "bla23"              when pre  time > 5;
+print      "bla24"              when post time > 5;
+print pre  "bla25"              when pre  time > 5;
+//print post "bla26"              when pre  time > 5;
+//print pre  "bla27"              when post time > 5;
+print post "bla28"              when post time > 5;
+//print pre  "bla29" post "bla30" when post time > 5;
+//print      "bla31"              when pre  time > 5 post time > 6;
+//print pre  "bla32"              when pre  time > 5 post time > 6;
+//print post "bla33"              when pre  time > 5 post time > 6;
+//print pre  "bla34" post "bla35" when pre  time > 5 post time > 6;
+
+// Print various types.
+group g:
+  enum E = A, B;
+end
+
+print true;
+print 123;
+print 1.23;
+print "a\nbc";
+print g.A;
+print g.B;
+print [1, 3, 2];
+print ["a\nbc", "def"];
+print (1, true, "a");

@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant ""x"[-2] = "abc"" of the top level scope of the specification failed.
+CAUSE: Index out of bounds: "x"[-2].

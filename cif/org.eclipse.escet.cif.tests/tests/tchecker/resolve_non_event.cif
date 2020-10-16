@@ -1,0 +1,73 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  plant x:
+    alphabet x;
+    location;
+  end
+end
+
+group h:
+  plant x:
+    location:
+      edge x;
+  end
+end
+
+group i:
+  plant x:
+    monitor x;
+    location;
+  end
+end
+
+group j:
+  alg bool a = c;
+  const bool c = true;
+
+  print "a" for a, c;
+  print "a" for c;
+end
+
+svgfile "small.svg";
+
+group k:
+  const bool c = true;
+  invariant c;
+
+  svgin id "grp" event c;
+
+  svgin id "box" event
+    if   true:  c
+    elif false: c
+    elif c:     c
+    else        c
+    end;
+end
+
+group l1:
+  invariant l1 needs true;
+end
+
+group l2:
+  invariant true disables l2;
+end
+
+group l3:
+  invariant {l3, l3} needs true;
+end
+
+group l4:
+  invariant true disables {l4, l4};
+end

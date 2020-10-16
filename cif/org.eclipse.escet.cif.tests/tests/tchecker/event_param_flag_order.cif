@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton def N(event int p): location: initial; edge p; end
+
+automaton def S(event int p!): location: initial; edge p!1; end
+automaton def R(event int p?): location: initial; edge p?;  end
+automaton def C(event int p~): location: initial; edge p;   end
+
+automaton def SR(event int p!?): location: initial; edge p?; end
+automaton def SC(event int p!~): location: initial; edge p;  end
+automaton def RC(event int p?~): location: initial; edge p;  end
+
+automaton def SRC(event int p!?~): location: initial; edge p; end
+automaton def SCR(event int p!~?): location: initial; edge p; end
+automaton def RSC(event int p?!~): location: initial; edge p; end
+automaton def RCS(event int p?~!): location: initial; edge p; end
+automaton def CSR(event int p~!?): location: initial; edge p; end
+automaton def CRS(event int p~?!): location: initial; edge p; end

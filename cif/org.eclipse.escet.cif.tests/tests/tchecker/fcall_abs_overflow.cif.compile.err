@@ -1,0 +1,2 @@
+ERROR: File "tchecker/fcall_abs_overflow.cif": Semantic error at line 15, column 16: The "abs" function is applied to a value of type "int[-2,147,483,648..-2,147,483,648]", and this could result in integer overflow.
+ERROR: Failed to load CIF file "tchecker/fcall_abs_overflow.cif": the file has errors.

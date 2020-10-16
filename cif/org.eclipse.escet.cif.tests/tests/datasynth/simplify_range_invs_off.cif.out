@@ -1,0 +1,152 @@
+Reading CIF file "datasynth/simplify_range_invs_off.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name     Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..1]  aut.v01  0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..2]  aut.v02  1      2 * 2     3 * 2       4 * 2       75%
+  3      discrete variable  int[0..3]  aut.v03  2      2 * 2     4 * 2       4 * 2       100%
+  4      discrete variable  int[1..3]  aut.v13  3      2 * 2     3 * 2       4 * 2       75%
+  5      discrete variable  int[2..3]  aut.v23  4      2 * 2     2 * 2       4 * 2       50%
+  -----  -----------------  ---------  -------  -----  --------  ----------  ----------  -----------
+  Total                                         5      18        28          36          ~78%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 20
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [iteration 1]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 4
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         aut.v01 = 0
+Initial   (discrete variable 1):         aut.v02 = 0
+Initial   (discrete variable 2):         aut.v03 = 0
+Initial   (discrete variable 3):         aut.v13 = 1
+Initial   (discrete variable 4):         aut.v23 = 2
+Initial   (discrete variables):          aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial   (system, combined init/inv):   aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1)
+    Edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1)
+    Edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1)
+    Edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1)
+    Edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1)
+    Edge: (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1)
+    Edge: (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1)
+    Edge: (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1)
+    Edge: (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1)
+    Edge: (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "aut.v02" of type "int[0..2]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "aut.v13" of type "int[1..3]" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "aut.v23" of type "int[2..3]" (group: 4, domain: 8+9, BDD variables: 2, CIF/BDD values: 2/4)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2)) -> aut.v02 = 0 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: aut.v02 = 0 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) -> aut.v02 != 2 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: aut.v02 != 2 and aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2) -> aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) -> aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 2 and aut.v23 = 2) or aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) [forward reach with edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 2 and aut.v23 = 2) or aut.v02 != 2 and (aut.v03 = 0 or aut.v03 = 1) and (aut.v13 = 1 and aut.v23 = 2) -> (aut.v02 = 2 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 2 or (aut.v03 = 0 or aut.v03 = 1)) and aut.v02 != 2) [forward reach with edge: (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: (aut.v02 = 2 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 2 or (aut.v03 = 0 or aut.v03 = 1)) and aut.v02 != 2) -> (aut.v02 = 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 = 1 or (aut.v03 = 0 or aut.v03 = 1)) and ((aut.v02 != 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 != 1 or (aut.v03 = 0 or aut.v03 = 1))) [forward reach with edge: (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (aut.v02 = 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 = 1 or (aut.v03 = 0 or aut.v03 = 1)) and ((aut.v02 != 1 or aut.v03 = 2 or (aut.v03 = 3 or aut.v13 != 3)) and (aut.v02 != 1 or (aut.v03 = 0 or aut.v03 = 1))) -> (aut.v02 = 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 = 1 or aut.v03 != 3)) and ((aut.v02 != 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 != 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 != 1 or aut.v03 != 3))) [forward reach with edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: (aut.v02 = 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 = 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 = 1 or aut.v03 != 3)) and ((aut.v02 != 1 or aut.v03 = 1 or (aut.v03 = 3 or aut.v13 != 3)) and ((aut.v02 != 1 or (aut.v03 != 1 or aut.v13 != 3)) and (aut.v02 != 1 or aut.v03 != 3))) -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3) [forward reach with edge: (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 3.
+Forward controlled-behavior: (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3) -> true [forward reach with edge: (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 4.
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: v01_inc) (guard: true) (assignments: aut.v01 := aut.v01 + 1): guard: true -> aut.v01 = 0.
+Edge (event: v02_inc) (guard: true) (assignments: aut.v02 := aut.v02 + 1): guard: true -> aut.v02 != 2.
+Edge (event: v03_inc) (guard: true) (assignments: aut.v03 := aut.v03 + 1): guard: true -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3).
+Edge (event: v13_inc) (guard: true) (assignments: aut.v13 := aut.v13 + 1): guard: true -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3).
+Edge (event: v23_inc) (guard: true) (assignments: aut.v23 := aut.v23 + 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2))).
+Edge (event: v01_dec) (guard: true) (assignments: aut.v01 := aut.v01 - 1): guard: true -> aut.v01 = 1.
+Edge (event: v02_dec) (guard: true) (assignments: aut.v02 := aut.v02 - 1): guard: true -> aut.v02 != 0.
+Edge (event: v03_dec) (guard: true) (assignments: aut.v03 := aut.v03 - 1): guard: true -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0).
+Edge (event: v13_dec) (guard: true) (assignments: aut.v13 := aut.v13 - 1): guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1).
+Edge (event: v23_dec) (guard: true) (assignments: aut.v23 := aut.v23 - 1): guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3))).
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: v01_inc) (guard: true -> aut.v01 = 0) (assignments: aut.v01 := aut.v01 + 1)
+    Edge: (event: v02_inc) (guard: true -> aut.v02 != 2) (assignments: aut.v02 := aut.v02 + 1)
+    Edge: (event: v03_inc) (guard: true -> (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3)) (assignments: aut.v03 := aut.v03 + 1)
+    Edge: (event: v13_inc) (guard: true -> (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3)) (assignments: aut.v13 := aut.v13 + 1)
+    Edge: (event: v23_inc) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2)))) (assignments: aut.v23 := aut.v23 + 1)
+    Edge: (event: v01_dec) (guard: true -> aut.v01 = 1) (assignments: aut.v01 := aut.v01 - 1)
+    Edge: (event: v02_dec) (guard: true -> aut.v02 != 0) (assignments: aut.v02 := aut.v02 - 1)
+    Edge: (event: v03_dec) (guard: true -> (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0)) (assignments: aut.v03 := aut.v03 - 1)
+    Edge: (event: v13_dec) (guard: true -> (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1)) (assignments: aut.v13 := aut.v13 - 1)
+    Edge: (event: v23_dec) (guard: true -> (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)))) (assignments: aut.v23 := aut.v23 - 1)
+
+Controlled system:                     exactly 144 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial (controlled system):           aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/simplify_range_invs_off.ctrlsys.real.cif".

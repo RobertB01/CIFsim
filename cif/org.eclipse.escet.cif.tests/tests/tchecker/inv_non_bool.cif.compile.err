@@ -1,0 +1,12 @@
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 14, column 11: Invariant predicate must be of type "bool", but is of type "int[0..0]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 17, column 19: Invariant predicate must be of type "bool", but is of type "int[1..1]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 21, column 13: Invariant predicate must be of type "bool", but is of type "int[2..2]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 25, column 19: Invariant predicate must be of type "bool", but is of type "int[3..3]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 31, column 24: Invariant predicate must be of type "bool", but is of type "int[4..4]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 39, column 27: Invariant predicate must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 44, column 11: Invariant predicate must be of type "bool", but is of type "int[6..6]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 45, column 19: Invariant predicate must be of type "bool", but is of type "int[7..7]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 46, column 11: Invariant predicate must be of type "bool", but is of type "int[8..8]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 47, column 24: Invariant predicate must be of type "bool", but is of type "int[9..9]".
+ERROR: File "tchecker/inv_non_bool.cif": Semantic error at line 48, column 11: Invariant predicate must be of type "bool", but is of type "int[10..10]".
+ERROR: Failed to load CIF file "tchecker/inv_non_bool.cif": the file has errors.

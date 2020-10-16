@@ -1,0 +1,64 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location "X" of automaton "P"
+        location "X" of automaton "Q"
+        location "X" of automaton "M"
+        location "X" of automaton "N"
+
+    Valuation:
+        Q.y = 38
+        N.c = 0
+
+    Edges:
+        edge a value 5 goto state 2
+
+State 2:
+    Initial: false
+    Marked: true
+
+    Locations:
+        location "X" of automaton "P"
+        location "X" of automaton "Q"
+        location "Y" of automaton "M"
+        location "X" of automaton "N"
+
+    Valuation:
+        Q.y = 43
+        N.c = 1
+
+    Edges:
+        edge a value 5 goto state 3
+
+State 3:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "X" of automaton "P"
+        location "X" of automaton "Q"
+        location "Z" of automaton "M"
+        location "X" of automaton "N"
+
+    Valuation:
+        Q.y = 48
+        N.c = 2
+
+    Edges:
+        edge a value 5 goto state 4
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "X" of automaton "P"
+        location "X" of automaton "Q"
+        location "Z" of automaton "M"
+        location "X" of automaton "N"
+
+    Valuation:
+        Q.y = 53
+        N.c = 3

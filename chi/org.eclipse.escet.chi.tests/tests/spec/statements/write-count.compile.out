@@ -1,0 +1,1 @@
+Error: File "spec/statements/write-count.chi": Semantic error at line 14, column 11: Formatting string does not have enough format specifiers.

@@ -1,0 +1,3 @@
+ERROR: File "models_invalid/symtable_dupl_decl1.setext": Semantic error at line 13, column 11: Duplicate declaration of "s1".
+ERROR: File "models_invalid/symtable_dupl_decl1.setext": Semantic error at line 14, column 11: Duplicate declaration of "s1".
+ERROR: Failed to load SeText file "models_invalid/symtable_dupl_decl1.setext": the file has errors.

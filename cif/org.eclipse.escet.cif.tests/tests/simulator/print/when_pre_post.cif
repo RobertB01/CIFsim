@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// From odd 'a.x' to even 'a.x'.
+print pre <string>time + ":" + <string>a.x
+      post <string>time + "_" + <string>a.x
+      for initial, final, time, event
+      when pre a.x mod 2 = 1 post a.x mod 2 = 0;
+
+automaton a:
+  cont t der 1.0;
+  disc int x;
+  event timeout, increase;
+
+  location wait:
+    initial;
+    edge timeout when t >= 1.0 goto inc;
+
+  location inc:
+    urgent;
+    edge increase when x < 4 do t := 0.0, x := x + 1 goto wait;
+end

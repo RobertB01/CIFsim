@@ -1,0 +1,2 @@
+ERROR: File "tchecker/init_non_bool2b.cif": Semantic error at line 14, column 9: Initialization predicate must be of type "bool", but is of type "int[5..5]".
+ERROR: Failed to load CIF file "tchecker/init_non_bool2b.cif": the file has errors.

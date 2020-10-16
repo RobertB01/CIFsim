@@ -1,0 +1,7 @@
+Initial state: time=0.0, a=*
+
+SVG output ("small.svg") id "box" attr "x" (SVG attr): "15"
+SVG output ("small.svg") id "box" attr "y" (SVG attr): "30"
+SVG output ("small.svg") id "box" attr "width" (SVG attr): "40"
+
+Simulation resulted in deadlock.

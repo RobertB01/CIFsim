@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.escet.tooldef.runtime" 
+        xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.escet.tooldef.runtime"
+                      id="org.eclipse.escet.tooldef.library"
+                      name="ToolDef Library"/>
+      </appinfo>
+      <documentation>
+         Supplies one or more globally registered ToolDef libraries.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="library"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The id of the extension point. Must be &apos;org.eclipse.escet.tooldef.library&apos;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  The id of the extension. Not used.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  The name of the extension. Not used.
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="library">
+      <annotation>
+         <documentation>
+            A single globally registered ToolDef library.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the library.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         &lt;extension point=&quot;org.eclipse.escet.tooldef.library&quot;&gt;
+   &lt;library name=&quot;mylib&quot;/&gt;
+&lt;/extension&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         For a library with name &apos;{name}&apos;, the corresponding ToolDef file should be named &apos;{name}.tooldef&apos;. It must exist in the root of the classpath of the plug-in declaring the library via this extension point. It is loaded using the classloader from that plug-in, as a resource, using &apos;{name}.tooldef&apos; as the path to the resource.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+      </documentation>
+   </annotation>
+
+</schema>

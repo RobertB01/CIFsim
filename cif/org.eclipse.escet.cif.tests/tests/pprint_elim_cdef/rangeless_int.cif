@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t = int;
+type t2 = t;
+
+const t c = 123;
+
+alg t2 a = q.x + c;
+invariant a > 123;
+
+automaton q:
+  disc t2 x;
+  invariant x > 0;
+  location:
+    initial;
+end
+
+group def P(alg int ip):
+  invariant pow(ip - 1, 312) * 5 > -239;
+end

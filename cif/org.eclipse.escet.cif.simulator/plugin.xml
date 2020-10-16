@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <extension point="org.eclipse.ui.commands">
+      <category
+         id="org.eclipse.escet.cif.commands.category"
+         name="CIF commands">
+      </category>
+      <command
+         categoryId="org.eclipse.escet.cif.commands.category"
+         defaultHandler="org.eclipse.escet.cif.simulator.CifSimulatorCommandHandler"
+         id="org.eclipse.escet.cif.simulator.CifSimulatorCommand"
+         name="Simulate CIF specification">
+      </command>
+   </extension>
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.cif.simulator.singleFile">
+         <and>
+            <iterate>
+               <adapt type="org.eclipse.core.resources.IFile">
+                  <or>
+                     <test property="org.eclipse.core.resources.name"
+                           value="*.cif"/>
+                     <test property="org.eclipse.core.resources.name"
+                           value="*.cifcode"/>
+                  </or>
+               </adapt>
+            </iterate>
+            <count value="1"/>
+         </and>
+      </definition>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="org.eclipse.escet.cif.simulator.CifSimulatorCommand"
+               icon="icons/cif_simulator.png"
+               label="&amp;Simulate CIF specification...">
+            <visibleWhen>
+               <or>
+                  <with variable="activeMenuSelection">
+                     <reference definitionId="org.eclipse.escet.cif.simulator.singleFile"/>
+                  </with>
+                  <with variable="activeMenuEditorInput">
+                     <reference definitionId="org.eclipse.escet.cif.simulator.singleFile"/>
+                  </with>
+               </or>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor name="GUI input"
+              icon="icons/gui_input_component.png"
+              class="org.eclipse.escet.cif.simulator.input.InteractiveGuiInputEditor"
+              id="org.eclipse.escet.cif.simulator.input.InteractiveGuiInputEditor">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor name="State Visualizer"
+              icon="icons/state_visualizer.png"
+              class="org.eclipse.escet.cif.simulator.output.stateviz.StateVisualizer"
+              id="org.eclipse.escet.cif.simulator.output.stateviz.StateVisualizer">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor name="Plot Visualizer"
+              icon="icons/plot_visualizer.png"
+              class="org.eclipse.escet.cif.simulator.output.plotviz.PlotVisualizer"
+              id="org.eclipse.escet.cif.simulator.output.plotviz.PlotVisualizer">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor name="Compiled CIF code"
+              default="true"
+              extensions="cifcode"
+              icon="icons/cifcode_file.png"
+              launcher="org.eclipse.escet.cif.simulator.CifCodeFileLauncher"
+              id="org.eclipse.escet.cif.simulator.CifCodeFileLauncher">
+      </editor>
+   </extension>
+</plugin>

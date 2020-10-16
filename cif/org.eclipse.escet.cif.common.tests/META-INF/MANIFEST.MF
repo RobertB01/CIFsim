@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET CIF Common Tests (Incubation)
+Bundle-SymbolicName: org.eclipse.escet.cif.common.tests;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Eclipse ESCET
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="0.1.0",
+ org.junit;bundle-version="4.12.0",
+ org.eclipse.escet.common.java;bundle-version="0.1.0",
+ org.eclipse.escet.cif.metamodel.java;bundle-version="0.1.0",
+ org.eclipse.escet.cif.common;bundle-version="0.1.0"
+Automatic-Module-Name: org.eclipse.escet.cif.common.tests
+Export-Package: org.eclipse.escet.cif.common.tests;x-internal:=true

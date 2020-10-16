@@ -1,0 +1,6 @@
+group def H(G g):
+  invariant g.x > 0;
+end
+group def G():
+  alg real x = 5.0;
+end

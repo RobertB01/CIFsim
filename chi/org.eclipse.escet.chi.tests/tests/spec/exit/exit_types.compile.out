@@ -1,0 +1,2 @@
+Error: File "spec/exit/exit_types.chi": Semantic error at line 36, column 6: Exit type "file" does not have printable values.
+Error: File "spec/exit/exit_types.chi": Semantic error at line 40, column 7: Exit type "file" does not have printable values.

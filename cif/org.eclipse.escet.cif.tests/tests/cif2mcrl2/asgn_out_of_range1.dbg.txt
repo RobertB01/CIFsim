@@ -1,0 +1,6 @@
+===============================================================
+Node 1 (automaton buff)
+
+Variable use by behavior processes ordered by event:
+    buff.c_e:
+        No variables from variables processes accessed.

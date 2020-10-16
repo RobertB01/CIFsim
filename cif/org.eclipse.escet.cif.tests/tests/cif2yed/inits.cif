@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton a:
+  disc int[0..10] x in any;
+  disc int[0..10] y in any;
+
+  location f:
+    edge e goto t2;
+    edge e goto p1;
+
+  location t1:
+    initial;
+    edge e goto f;
+
+  location t2:
+    initial true;
+
+  location p1:
+    initial x > 1, y < 2;
+end

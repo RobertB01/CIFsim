@@ -1,0 +1,214 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tools-chapter-cif2uppaal]]
+== CIF to UPPAAL transformer
+
+indexterm:[CIF to UPPAAL transformer]
+indexterm:[tools,CIF to UPPAAL transformer]
+indexterm:[see: UPPAAL,CIF to UPPAAL transformer]
+The CIF to UPPAAL transformer can be used to transform CIF specifications
+to UPPAAL systems (`+*.xml+` files).
+link:http://www.uppaal.org/[UPPAAL]
+is a tool modeling, validation, and verification of networks of timed automata with
+variables. The transformer only transforms untimed CIF specifications.
+
+indexterm:[CIF to UPPAAL transformer,start]
+
+=== Starting the transformation
+
+The transformation can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF verification tools[Convert CIF to UPPAAL...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF verification tools[Convert CIF to UPPAAL...].
+
+* Use the `cif2uppaal` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cif2uppaal` command line tool.
+
+indexterm:[CIF to UPPAAL transformer,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file path_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Output file path_: The absolute or relative local file system path to the
+output UPPAAL file. If not specified, defaults to the input file path, where
+the `.cif` file extension is removed (if present), and a `.xml` file
+extension is added.
+
+indexterm:[CIF to UPPAAL transformer,supported specifications]
+
+=== Supported specifications
+
+The CIF to UPPAAL transformer supports a subset of CIF specifications. The
+following restrictions apply:
+
+* Specifications without automata are not supported.
+
+* Channels (events with data types) are not supported.
+
+* Initialization predicates in components are not supported.
+
+* Automata that do not have exactly one initial location are not supported.
+
+* Locations with initialization predicates that are too complex to evaluate
+statically, are not supported. That is, those predicates must essentially be
+be constant. For instance, `true` and `true or false` are supported, as
+is `c` if `c` is a constant. However, `+v => c+` with `v` a discrete
+variable that can initially have several different values, is not supported.
+
+* Discrete variables with multiple potential initial values are not supported.
+
+* Discrete variables with initial values that are too complex to evaluate
+statically, are not supported. That is, their initial values must essentially
+be constant. For instance, `1 + 1` and `2 * 5` are supported, as is
+`c + 1` if `c` is a constant. However, `v * 2` with `v` a discrete
+variable that can initially have several different values, is not supported.
+
+* Enumerations are not supported.
+
+* Continuous variables are not supported.
+
+* Algebraic variables are not supported.
+
+* Input variables are not supported.
+
+* User-defined functions are not supported.
+
+* Urgent edges are not supported.
+
+* Multi-assignments on edges (such as `do (x, y) := (1, 2)`) are not
+supported. However, it is allowed to use multiple assignments on an edge
+(such as `do x := 1, y := 2`).
+
+* Partial variable assignments (such as `do x[0] := 5`) are not supported.
+
+* Conditional updates (`if` updates) on edges (such as
+`do if b: x := 5 end`) are not supported.
+
+* Only the following data types are supported: boolean types and integer (both
+with a range and without a range).
+
+* Only the following expressions are supported: boolean literal values
+(`true` and `false`), integer literal values, binary expressions
+(partially, see below), unary expressions (partially, see below), casts that
+don't change the type, `if` expressions, and references to constants,
+discrete variables, and locations.
+
+* Only the following binary operators are supported: logical equivalence
+(`+<=>+`), logical implication (`+=>+`), logical conjunction (`and` on
+boolean operands), logical disjunction (`or` on boolean operands), addition
+(`pass:c[+]`) on integer operands, subtraction (`-`) on integer operands,
+multiplication (`+*+`) on integer operands, integer division (`div`),
+integer modulus (`mod`), equality (`=`) on integer operands, inequality
+(`!=`) on integer operands, less than (`<`) on integer operands, less
+than or equal to (`+<=+`) on integer operands, greater than (`>`) on
+integer operands, and greater than or equal to (`>=`) on integer operands.
+
+* Only the following unary operators are supported: logical inverse (`not`),
+negation (`-`) on an integer operand, and plus (`pass:c[+]`) on an integer
+operand.
+
+* Only state invariants are supported. State/event exclusion invariants are
+not supported. To allow state/event exclusion invariants to be used in the
+input, manually eliminate them first using the
+<<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
+
+* The controllability of events is ignored.
+
+* The supervisory kinds of automata are ignored.
+
+* The supervisory kinds of invariants are ignored.
+
+* Marker predicates are ignored.
+
+indexterm:[CIF to UPPAAL transformer,preprocessing]
+
+=== Preprocessing
+
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
+applied as preprocessing (in the given order), to increase the subset of CIF
+specifications that can be transformed:
+
+* <<tools-cif2cif-chapter-remove-io-decls>>
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+* <<tools-cif2cif-chapter-elim-tau-event>>
+
+* <<tools-cif2cif-chapter-elim-monitors>>
+
+indexterm:[CIF to UPPAAL transformer,transformation result]
+
+=== Transformation result
+
+CIF features synchronizing events, while UPPAAL only supports channels. A
+`SendAut` automaton/template is added to the UPPAAL system to ensure proper
+event synchronization. The UPPAAL template has a single location, and self
+loops for every event in the CIF specification. The guards of the self loops
+express the conditions under which the events are globally enabled (guard wise)
+in the CIF specification. Every CIF event is a broadcast channel in UPPAAL. If
+the self loop is enabled (guard wise), the `SendAut` template broadcasts over
+the channel. All the other templates (for the CIF automata) receive the event.
+They can actually receive, as the guard of the self loop ensures that. Together
+the `SendAut` self loops and the receive edges form the synchronization.
+
+As the `SendAut` template needs to refer to locations of the other templates,
+location pointer variables are added for all the other templates. For every
+CIF automaton `some.aut`, a location pointer variable `LP_some_aut` is
+added. The location pointers are integer variables with range `[0,n-1]`, for
+an automaton with `n` locations. Updates are added to the edges to ensure the
+location pointer variables have the proper values. The location pointers are
+similar to those created by the CIF to CIF transformation that
+<<tools-cif2cif-chapter-elim-locs-in-exprs,eliminates the use of locations in expressions>>.
+
+In CIF, assignments interpret the right hand side of the assignment (the new
+value of the variable) in the source state of the transition. In UPPAAL,
+assignments have order, and the right hand sides are interpreted over the
+current state, after any preceding assignments. Furthermore, the order in which
+the assignments of the edges of different participating templates are executed
+is not defined. To ensure the proper CIF semantics, 'old' versions of all
+variables (including the location pointer variables) are added. For a variable
+`x`, `OLD_x` is added. The `SendAut` automaton assigns the current values
+of all variables to their 'old' counterparts. The assignments on the edges of
+the other automata then use the 'old' variables to compute the new values of
+the variables. As the values of the 'old' variables are only used during the
+transitions, the 'old' variables are _meta_ variables in the UPPAAL system.
+
+The invariants from CIF components are added to the location of the `SendAut`
+template.
+
+For CIF variables with an `int` type, the UPPAAL type is
+`int[-2147483648,2147483647]`.
+
+The names of templates, variables, etc in UPPAAL are based on the absolute
+names of their CIF counterparts. For a variable `a.b.c` in CIF, the UPPAAL
+name is `a_b_c`. If there are conflicts between the UPPAAL names, or if one
+of the UPPAAL names conflicts with a UPPAAL keyword, renaming is performed, and
+a warning is printed to the console.
+
+No geometry is generated. When the generated UPPAAL file is opened in UPPAAL,
+UPPAAL will perform some layouting.

@@ -1,0 +1,148 @@
+Reading CIF file "datasynth/initial_bad.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a         p     0      2 * 2     3 * 2       4 * 2       75%
+  2      discrete variable  int[0..20]  p.x   1      5 * 2     21 * 2      32 * 2      ~66%
+  -----  -----------------  ----------  ----  -----  --------  ----------  ----------  -----------
+  Total                                       2      14        48          72          ~67%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 4
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [iteration 1]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 1):         true
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     p.l0
+Initial   (auts/locs init predicate):    p.l0
+Initial   (uncontrolled system):         not p.l2 and not p.l1
+Initial   (system, combined init/inv):   not p.l2 and not p.l1
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13))
+Marked    (auts/locs marker predicate):  p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13))
+Marked    (uncontrolled system):         p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13))
+Marked    (system, combined marked/inv): p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13))
+
+State/event exclusion requirements:
+  Event "u1" needs:
+    p.x != 3
+  Event "u2" needs:
+    p.x != 6
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)
+    Edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..20]" (group: 1, domain: 2+3, BDD variables: 5, CIF/BDD values: 21/32)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Controlled behavior: true -> <bdd 13n 27p> [requirement: p.x != 3, edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)].
+Controlled behavior: <bdd 13n 27p> -> <bdd 17n 27p> [requirement: p.x != 6, edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: <bdd 17n 27p>)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) [marker predicate]
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) -> p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and p.x = 7 or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) [restricted to current/previous controlled-behavior predicate: <bdd 17n 27p>]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and p.x = 7 or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) -> p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.l0 and p.x = 7 or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) [backward reach with edge: (event: u1) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: <bdd 17n 27p>]
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.l0 and p.x = 7 or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) -> p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.l0 and p.x = 7 or p.l2 and p.x = 16 or (p.l1 and p.x = 16 or p.l1 and p.x = 13)) [backward reach with edge: (event: u2) (guard: p.l1) (assignments: p := p.l2), restricted to current/previous controlled-behavior predicate: <bdd 17n 27p>]
+Backward reachability: iteration 2.
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13))) or (p.l0 and p.x = 7 or p.l2 and p.x = 16 or (p.l1 and p.x = 16 or p.l1 and p.x = 13)) -> <bdd 21n 10p> [backward reach with edge: (event: u1) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: <bdd 17n 27p>]
+Backward reachability: iteration 3.
+Backward controlled-behavior: <bdd 21n 10p> [fixed point].
+Controlled behavior: <bdd 17n 27p> -> <bdd 21n 10p>.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: <bdd 21n 24p> [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+Backward uncontrolled bad-state: <bdd 21n 24p> -> <bdd 13n 22p> [backward reach with edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)]
+Backward uncontrolled bad-state: <bdd 13n 22p> -> (not p.l0 or p.x != 16) and (not p.l0 or p.x != 13) and ((not p.l2 or p.x != 16) and (not p.l1 or p.x != 16)) [backward reach with edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)]
+Backward reachability: iteration 2.
+Backward uncontrolled bad-state: (not p.l0 or p.x != 16) and (not p.l0 or p.x != 13) and ((not p.l2 or p.x != 16) and (not p.l1 or p.x != 16)) -> (p.l1 or p.x != 16) and (not p.l1 or p.x != 16) [backward reach with edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)]
+Backward reachability: iteration 3.
+Backward uncontrolled bad-state: (p.l1 or p.x != 16) and (not p.l1 or p.x != 16) [fixed point].
+Controlled behavior: <bdd 21n 10p> -> not p.l1 and p.x = 16 or p.l1 and p.x = 16.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: not p.l2 and not p.l1 [initialization predicate]
+Forward controlled-behavior: not p.l2 and not p.l1 -> p.l0 and p.x = 16 [restricted to current/previous controlled-behavior predicate: not p.l1 and p.x = 16 or p.l1 and p.x = 16]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p.l0 and p.x = 16 -> not p.l2 and p.x = 16 [forward reach with edge: (event: u1) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: not p.l1 and p.x = 16 or p.l1 and p.x = 16]
+Forward controlled-behavior: not p.l2 and p.x = 16 -> not p.l1 and p.x = 16 or p.l1 and p.x = 16 [forward reach with edge: (event: u2) (guard: p.l1) (assignments: p := p.l2), restricted to current/previous controlled-behavior predicate: not p.l1 and p.x = 16 or p.l1 and p.x = 16]
+Forward reachability: iteration 2.
+Forward controlled-behavior: not p.l1 and p.x = 16 or p.l1 and p.x = 16 [fixed point].
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) [marker predicate]
+Backward controlled-behavior: p.l0 and (p.x = 0 or p.x = 2 or (p.x = 8 or p.x = 10)) or (p.l0 and (p.x = 4 or p.x = 6) or p.l0 and (p.x = 1 or p.x = 9)) or (p.l0 and p.x = 5 or p.l0 and (p.x = 3 or p.x = 7) or (p.l2 and p.x = 16 or p.l1 and p.x = 13)) -> p.l2 and p.x = 16 [restricted to current/previous controlled-behavior predicate: not p.l1 and p.x = 16 or p.l1 and p.x = 16]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.l2 and p.x = 16 -> p.l2 and p.x = 16 or p.l1 and p.x = 16 [backward reach with edge: (event: u2) (guard: p.l1) (assignments: p := p.l2), restricted to current/previous controlled-behavior predicate: not p.l1 and p.x = 16 or p.l1 and p.x = 16]
+Backward reachability: iteration 2.
+Backward controlled-behavior: p.l2 and p.x = 16 or p.l1 and p.x = 16 -> not p.l1 and p.x = 16 or p.l1 and p.x = 16 [backward reach with edge: (event: u1) (guard: p.l0) (assignments: p := p.l1), restricted to current/previous controlled-behavior predicate: not p.l1 and p.x = 16 or p.l1 and p.x = 16]
+Backward reachability: iteration 3.
+Backward controlled-behavior: not p.l1 and p.x = 16 or p.l1 and p.x = 16 [fixed point].
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: not p.l1 and p.x = 16 or p.l1 and p.x = 16)
+    Edge: (event: u1) (guard: p.l0) (assignments: p := p.l1)
+    Edge: (event: u2) (guard: p.l1) (assignments: p := p.l2)
+
+Controlled system:                     exactly 3 states.
+
+Initial (synthesis result):            not p.l1 and p.x = 16 or p.l1 and p.x = 16
+Initial (uncontrolled system):         not p.l2 and not p.l1
+Initial (controlled system):           p.l0 and p.x = 16
+Initial (removed by supervisor):       (not p.l0 or p.x != 16) and (not p.l2 and not p.l1)
+Initial (added by supervisor):         p.l0 and p.x = 16 or (p.l2 or p.l1)
+
+Simplification of controlled system under the assumption of the uncontrolled system:
+  Initial: p.l0 and p.x = 16 -> p.x = 16 [assume not p.l2 and not p.l1].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/initial_bad.ctrlsys.real.cif".

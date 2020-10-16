@@ -1,0 +1,2 @@
+ERROR: File "tchecker/rcvd_value_void.cif": Semantic error at line 20, column 21: The received value of a communication is not available for channels of type "void".
+ERROR: Failed to load CIF file "tchecker/rcvd_value_void.cif": the file has errors.

@@ -1,0 +1,16 @@
+automaton def P(Q qq):
+  invariant qq.ql;
+  invariant pl;
+  location pl:
+    initial;
+end
+automaton def Q(P pp):
+  invariant pp.pl;
+  invariant ql;
+  location ql:
+    initial;
+end
+p1: P(q1);
+q1: Q(p1);
+invariant p1.pl;
+invariant q1.ql;

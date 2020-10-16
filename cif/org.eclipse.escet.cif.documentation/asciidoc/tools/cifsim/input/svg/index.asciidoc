@@ -1,0 +1,45 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-svg-chapter-index]]
+== SVG input mode
+
+indexterm:[input mode,SVG input mode]
+indexterm:[SVG input mode]
+indexterm:[SVG,input mode]
+indexterm:[SVG,interactivity]
+indexterm:[SVG,interactive event]
+indexterm:[SVG,input event]
+indexterm:[event,interactive]
+indexterm:[event,input]
+In the SVG input mode, the <<tools-cifsim-output-svgviz-chapter-svg,SVG>> images
+that are used for <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>>
+can be used to interactively control the simulation. Since the SVG images are
+reused, using the SVG input mode requires the use of SVG visualization.
+
+The idea is that certain SVG elements are coupled (mapped) to events from the
+CIF specification. Clicking on those graphical elements then results in the
+corresponding event being executed by the simulator. This way, the user
+interface of a system can be modeled graphically, and can be coupled to the
+specification (during simulation), by means of events. The user interface of
+the system is thus part of the specification, but is controlled interactively
+at runtime (during simulation) by the user.
+
+The events that are coupled to visualization elements are called
+_SVG interactive events_ or _SVG input events_.
+
+_Topics_
+
+* <<tools-cifsim-input-svg-chapter-svgin>>
+* <<tools-cifsim-input-svg-chapter-simulation>>

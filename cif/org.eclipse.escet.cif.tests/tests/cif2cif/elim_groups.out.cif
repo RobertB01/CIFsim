@@ -1,0 +1,50 @@
+const int[0..0] c = 0;
+const int[0..0] g2_c = 0;
+const int[0..0] g4_A = 0;
+enum g3_E = A, B;
+const int[1..1] g1_c = 1;
+const int[1..1] g1_c2 = 1;
+const int[2..2] g2_c2 = 2;
+enum g3_E2 = A2, B2;
+alg real p_eq_a;
+cont p_eq_x;
+automaton g1_p_p1:
+  location l:
+    initial;
+end
+automaton g1_p_p2:
+  location l:
+    initial;
+end
+automaton g3b:
+  disc g3_E2 v1 = A2;
+  disc g3_E v2 = A;
+  invariant v1 = B2 or v2 = B;
+  location l:
+    initial;
+end
+automaton g4_A2:
+  location l:
+    initial;
+end
+automaton x_y_z:
+  location l:
+    initial;
+end
+automaton x_y_z2:
+  location l:
+    initial;
+end
+invariant c + g2_c + g4_A + g1_c2 > 0;
+invariant 0 = 0;
+plant invariant g1_c = 1;
+requirement invariant g2_c2 = 2;
+invariant p_eq_a + p_eq_x > 0;
+equation p_eq_a = 1.0,
+         p_eq_x' = 2.0;
+svgout id "box" attr "x" value 1.23 file "../tchecker/small.svg";
+print "abc" file "output1.txt";
+svgout id "txt1" text value "abc" file "../pprint_elim_cdef/text.svg";
+svgout id "txt2" text value "def" file "../pprint_elim_cdef/text.svg";
+print "def" file "output2.txt";
+print "ghi" file "output2.txt";

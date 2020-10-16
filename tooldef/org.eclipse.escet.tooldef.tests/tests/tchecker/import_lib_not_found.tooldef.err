@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_lib_not_found.tooldef": Semantic error at line 14, column 8: Cannot find a library with name "some_library_that_does_not_exist".
+ERROR: Failed to load ToolDef file "tchecker/import_lib_not_found.tooldef": the file has errors.

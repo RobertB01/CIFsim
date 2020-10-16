@@ -1,0 +1,3 @@
+WARNING: Location pointer variable "LP_p2" is renamed to "LP_p22".
+WARNING: Enumeration "LOCS_p2", introduced as the type of location pointer variable "LP_p22", is renamed to "LOCS_p22".
+WARNING: Enumeration literal "LOC_l1", introduced as a value for location pointer variable "LP_p22", is renamed to "LOC_l13".

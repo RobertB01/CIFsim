@@ -1,0 +1,12 @@
+Initial state: time=0.0, p=*, p.x=f2, p.y=246, q=l1, q.g=defaultValueFunc, q.v=9.0
+
+Transition: event tau
+State: time=0.0, p=*, p.x=f2, p.y=246, q=l2, q.g=g1, q.v=0.0
+
+Transition: event tau
+State: time=0.0, p=*, p.x=f2, p.y=246, q=l3, q.g=g2, q.v=1.0
+
+Transition: event tau
+State: time=0.0, p=*, p.x=f2, p.y=246, q=l4, q.g=g2, q.v=2.0
+
+Simulation resulted in deadlock.

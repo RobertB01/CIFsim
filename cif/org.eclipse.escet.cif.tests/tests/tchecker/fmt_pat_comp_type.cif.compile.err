@@ -1,0 +1,25 @@
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 21, column 12: Invalid "%b" format specifier: a value of type "bool" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 22, column 12: Invalid "%B" format specifier: a value of type "bool" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 23, column 12: Invalid "%d" format specifier: a value of type "int" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 24, column 12: Invalid "%x" format specifier: a value of type "int" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 25, column 12: Invalid "%X" format specifier: a value of type "int" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 26, column 12: Invalid "%e" format specifier: a value of type "real" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 27, column 12: Invalid "%E" format specifier: a value of type "real" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 28, column 12: Invalid "%f" format specifier: a value of type "real" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 29, column 12: Invalid "%g" format specifier: a value of type "real" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 30, column 12: Invalid "%G" format specifier: a value of type "real" is required, but the 1st value of type "g" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 31, column 12: Invalid "%s" format specifier: the 1st value of type "g" is used, which is a component or component definition.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 32, column 12: Invalid "%S" format specifier: the 1st value of type "g" is used, which is a component or component definition.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 34, column 12: Invalid "%b" format specifier: a value of type "bool" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 35, column 12: Invalid "%B" format specifier: a value of type "bool" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 36, column 12: Invalid "%d" format specifier: a value of type "int" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 37, column 12: Invalid "%x" format specifier: a value of type "int" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 38, column 12: Invalid "%X" format specifier: a value of type "int" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 39, column 12: Invalid "%e" format specifier: a value of type "real" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 40, column 12: Invalid "%E" format specifier: a value of type "real" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 41, column 12: Invalid "%f" format specifier: a value of type "real" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 42, column 12: Invalid "%g" format specifier: a value of type "real" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 43, column 12: Invalid "%G" format specifier: a value of type "real" is required, but the 1st value of type "g.a" is used.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 44, column 12: Invalid "%s" format specifier: the 1st value of type "g.a" is used, which is a component or component definition.
+ERROR: File "tchecker/fmt_pat_comp_type.cif": Semantic error at line 45, column 12: Invalid "%S" format specifier: the 1st value of type "g.a" is used, which is a component or component definition.
+ERROR: Failed to load CIF file "tchecker/fmt_pat_comp_type.cif": the file has errors.

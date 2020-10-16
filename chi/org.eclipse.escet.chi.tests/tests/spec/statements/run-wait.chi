@@ -1,0 +1,37 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc Z():
+    delay 3;
+end
+
+proc P():
+    delay 5;
+    run Z();
+    writeln("P ended at time=%s (should be 8)", time);
+end
+
+proc Q():
+    delay 1;
+    writeln("Q stage 1 time=%s (should be 1)", time);
+    run Z();
+    writeln("Q stage 2 time=%s (should be 4)", time);
+    run Z();
+    writeln("Q stage 3 time=%s (should be 7)", time);
+    run Z();
+    writeln("Q stage 4 time=%s (should be 10)", time);
+end
+
+model M():
+    start P(), Q();
+    writeln("M ended at time=%s (should be 0)", time);
+end

@@ -1,0 +1,1 @@
+Error: File "spec/enum/invalid_3.chi": Semantic error at line 18, column 14: Left operand must have a string or a numeric type (found "enum A").

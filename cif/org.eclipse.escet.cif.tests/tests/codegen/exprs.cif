@@ -1,0 +1,259 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Multiple predicates.
+
+automaton a1:
+  disc int x;
+
+  location:
+    initial;
+    edge do if   x != 1, x != 2: x := 3
+            elif x != 2, x != 3: x := 4
+            end;
+end
+
+func int f1(int x):
+  while x != 0, x != 4:
+    x := x -1;
+  end
+
+  if x != 1, x != 2:
+    x := 3;
+  elif x != 2, x != 3:
+    x := 4;
+  end
+
+  return x;
+end
+
+alg int v1 = if   a1.x > 0, a1.x < 5: 0
+             elif a1.x > 6, a1.x < 9: 1
+             else                     2
+             end;
+
+// Some literals for later use. For other literals, see 'types_and_literals.cif'.
+
+enum E = A, B;
+
+// if/elif/else exprs.
+
+alg int if1 = if time > 1: 1 else 0 end;
+alg int if2 = if time > 1: 1 elif time > 0.5: 2 else 0 end + 1;
+alg int if3 = if time > 1: 1 elif time > 0.5: 2 elif time > 0.25: 3 else 0 end + 2;
+
+
+// Function calls, on user defined functions.
+
+func int inc(int x):
+  return x + 1;
+end
+
+alg int fcall1 = inc(0);
+alg int fcall2 = inc(inc(0));
+
+// Operations in expressions.
+automaton AA:
+  disc bool vb = true;
+  disc int vi = 5;
+  disc int[1..3] vp = 2;
+  disc int[-5..-1] vn = -1;
+  disc int[0..5] vz = 1;
+  disc real vr = 1.23;
+  disc string vs = "a";
+  disc E ve = A;
+  disc list[2] int va = [1, 2];
+
+// Variable 'time'.
+
+  disc real v2 = sqrt(time) + 5;
+
+// Casts.
+
+  disc real i2r = <real>vi;
+  disc string b2s = <string>vb;
+  disc string i2s = <string>vi;
+  disc string r2s = <string>vr;
+  disc bool   s2b = <bool>b2s;
+  disc int    s2i = <int>i2s;
+  disc real   s2r = <real>r2s;
+  disc list[3] int self_cast1 = [1, 2, 3];
+  disc list[3] int self_cast2 = <list[3] int>self_cast1;
+
+// Unary expressions.
+
+  disc bool inv1 = not vb;
+  disc bool inv2 = not not vb;
+  disc int neg1 = -vi;
+  disc int neg2 = --vi;
+  disc int neg3 = -vp;
+  disc int neg4 = --vp;
+  disc int pos1 = +vi;
+  disc int pos2 = ++vi;
+  disc int posneg = +--++-+-vi;
+
+// Short circuit and/or.
+  disc list[1] bool l3i = [true];
+  disc int[0..4] idx1 = 1;
+  disc bool vt = true;
+  disc bool vf = false;
+  disc bool short_and = vf and l3i[idx1];
+  disc bool short_or = vt or l3i[idx1];
+
+// Binary expressions.
+
+  disc bool   impl   = vb =>  vb;
+  disc bool   biimpl = vb <=> vb;
+  disc bool   conj   = vb and vb;
+  disc bool   disj   = vb or  vb;
+
+  disc bool   lt1    = vi <   vi;
+  disc bool   le1    = vi <=  vi;
+  disc bool   gt1    = vi >   vi;
+  disc bool   ge1    = vi >=  vi;
+
+  disc bool   lt2    = vi <   vr;
+  disc bool   le2    = vi <=  vr;
+  disc bool   gt2    = vi >   vr;
+  disc bool   ge2    = vi >=  vr;
+
+  disc bool   lt3    = vr <   vr;
+  disc bool   le3    = vr <=  vr;
+  disc bool   gt3    = vr >   vr;
+  disc bool   ge3    = vr >=  vr;
+
+  disc bool   lt4    = vr <   vr;
+  disc bool   le4    = vr <=  vr;
+  disc bool   gt4    = vr >   vr;
+  disc bool   ge4    = vr >=  vr;
+
+  disc bool   eq1    = vb =   vb;
+  disc bool   eq2    = vi =   vi;
+  disc bool   eq3    = vr =   vr;
+  disc bool   eq4    = vs =   vs;
+  disc bool   eq5    = ve =   ve;
+
+  disc bool   ne1    = vb !=  vb;
+  disc bool   ne2    = vi !=  vi;
+  disc bool   ne3    = vr !=  vr;
+  disc bool   ne4    = vs !=  vs;
+  disc bool   ne5    = ve !=  ve;
+
+  disc int    add1   = vi +   vi;
+  disc real   add2   = vi +   vr;
+  disc real   add3   = vr +   vi;
+  disc real   add4   = vr +   vr;
+  disc string add5   = vs +   vs;
+  disc int    add6   = vp +   vp; // Never fails.
+  disc int    add7   = vi +   vp;
+  disc int    add8   = vp +   vi;
+
+  disc int    sub1   = vi -   vi;
+  disc real   sub2   = vi -   vr;
+  disc real   sub3   = vr -   vi;
+  disc real   sub4   = vr -   vr;
+  disc int    sub5   = vp -   vp; // Never fails.
+  disc int    sub6   = vi -   vp;
+  disc int    sub7   = vp -   vi;
+
+  disc int    mul1   = vi *   vi;
+  disc real   mul2   = vi *   vr;
+  disc real   mul3   = vr *   vi;
+  disc real   mul4   = vr *   vr;
+  disc int    mul5   = vp *   vp; // Never fails.
+  disc int    mul6   = vi *   vp;
+  disc int    mul7   = vp *   vi;
+
+  disc real   rdiv1  = vi /   vi;
+  disc real   rdiv2  = vi /   vr;
+  disc real   rdiv3  = vr /   vi;
+  disc real   rdiv4  = vr /   vr;
+  disc real   rdiv5  = vi /   vp; // No division by 0.
+  disc real   rdiv6  = vi /   vn; // No division by 0.
+
+  disc int    div1   = vi div vi;
+  disc int    div2   = vi div vp; // No failures.
+  disc int    div3   = vi div vn; // Only range failure.
+  disc int    div4   = vi div vz; // Only divide by 0.
+
+  disc int    mod1   = vi mod vi;
+  disc int    mod2   = vi mod vp; // No failures.
+
+// Projections.
+
+  disc list[2] int li = [1, 2];
+  disc tuple(int a, b) tii = (1, 2);
+  disc string ss = "abc";
+  disc int proj1 = li[0];
+  disc int proj2 = li[-1];
+  disc int proj3 = tii[0];
+  disc int proj4 = tii[b];
+  disc string proj5 = ss[0];
+  disc string proj6 = ss[-1];
+
+// Function calls, on standard library functions.
+
+  disc real f_acos  = acos(vr);
+  disc real f_asin  = asin(vr);
+  disc real f_atan  = atan(vr);
+  disc real f_cos   = cos(vr);
+  disc real f_sin   = sin(vr);
+  disc real f_tan   = tan(vr);
+  disc int  f_abs1  = abs(vi);
+  disc int  f_abs12 = abs(vp); // Never fails.
+  disc real f_abs2  = abs(vr);
+  disc real f_cbrt  = cbrt(vr);
+  disc int  f_ceil  = ceil(vr);
+  disc bool f_empty = empty(va);
+  disc real f_exp   = exp(vr);
+  disc int  f_floor = floor(vr);
+  disc real f_ln    = ln(vr);
+  disc real f_log   = log(vr);
+  disc int  f_max1  = max(vi, vi);
+  disc real f_max2  = max(vi, vr);
+  disc real f_max3  = max(vr, vi);
+  disc real f_max4  = max(vr, vr);
+  disc int  f_min1  = min(vi, vi);
+  disc real f_min2  = min(vi, vr);
+  disc real f_min3  = min(vr, vi);
+  disc real f_min4  = min(vr, vr);
+  disc real f_pow1  = pow(vi, vi); // Power of arbitrary integer values.
+  disc int  f_pow12 = pow(vp, vp);
+  disc real f_pow2  = pow(vi, vr);
+  disc real f_pow3  = pow(vr, vi);
+  disc real f_pow4  = pow(vr, vr);
+  disc int  f_round = round(vr);
+  disc real f_scale = scale(vr, 0, 10, 1, 11);
+  disc int  f_sign1 = sign(vi);
+  disc int  f_sign2 = sign(vr);
+  disc int  f_size1 = size(va);
+  disc int  f_size2 = size(vs);
+  disc real f_sqrt  = sqrt(vr);
+
+  location X:
+    initial;
+end
+
+
+// References.
+alg E vea = A;
+
+const int x1 = 5;
+alg int x2 = x1;
+alg int x3 = x2;
+alg int x4 = a1.x;
+cont x5 der 1;
+alg real x6 = x5 + x5';
+alg bool x7 = vea = B;
+input int x8;
+alg int x9 = x8 + 1;

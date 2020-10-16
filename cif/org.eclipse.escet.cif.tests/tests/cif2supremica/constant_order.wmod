@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <ConstantAliasList>
+    <ConstantAlias Name="c1">
+      <ConstantAliasExpression>
+        <IntConstant Value="16"/>
+      </ConstantAliasExpression>
+    </ConstantAlias>
+    <ConstantAlias Name="c2">
+      <ConstantAliasExpression>
+        <IntConstant Value="5"/>
+      </ConstantAliasExpression>
+    </ConstantAlias>
+    <ConstantAlias Name="c3">
+      <ConstantAliasExpression>
+        <IntConstant Value="8"/>
+      </ConstantAliasExpression>
+    </ConstantAlias>
+  </ConstantAliasList>
+  <EventDeclList>
+    <EventDecl Kind="UNCONTROLLABLE" Name="u"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <VariableComponent Name="p:v">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="20"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:v"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:v"/>
+          <IntConstant Value="12"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <SimpleComponent Kind="PLANT" Name="p">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="u"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:v"/>
+                  <IntConstant Value="16"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

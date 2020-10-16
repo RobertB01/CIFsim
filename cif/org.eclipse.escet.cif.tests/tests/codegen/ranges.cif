@@ -1,0 +1,58 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e11, e12, e13, e14, e15, e16, e17, e18;
+event e21, e22, e23, e24, e25, e26, e27, e28;
+event e31, e32, e33, e34, e35, e36, e37, e38;
+event e41;
+
+automaton aut1:
+  disc list[3] tuple(int[0..7] a, b) v1, v2;
+  disc list[3] tuple(int[1..8] a, b) w1;
+
+  disc int[0..4] x1;
+  disc int[0..9] x2;
+  disc int[-1..4] x3;
+  disc int[-1..9] x4;
+
+  location:
+    initial;
+    edge e11 do v1 := v1;                           // No check, fits.
+    edge e12 do v1 := v2;                           // No check, fits.
+    edge e13 do v1 := w1;                           // Check recursively for array/tuple, int overlap (check upper only).
+    edge e14 do v1 := [(1, 2), (2, 3), (3, 4)];     // No check, fits.
+    edge e15 do v1 := [(1, 2), (2, 3), (9, 4)];     // Check recursively for array/tuple, int 'a' field overlap (check upper only).
+    edge e16 do v1 := [(1, 2), (2, 3), (3, 9)];     // Check recursively for array/tuple, int 'b' field overlap (check upper only).
+    edge e17 do v1 := [(1, 2), (2, 3), (-1, 4)];    // Check recursively for array/tuple, int 'a' field overlap (check lower only).
+    edge e18 do v1 := [(1, 2), (-3, 3), (9, 9)];    // Check recursively for array/tuple, int 'a' field overlap (check lower and upper), int 'b' field overlap (check upper only).
+
+    edge e21 do v1[2] := v1[2];                     // No check, fits.
+    edge e22 do v1[2] := v2[2];                     // No check, fits.
+    edge e23 do v1[2] := w1[2];                     // Check recursively for tuple, int overlap (check upper only).
+    edge e24 do v1[2] := (x1, 4);                   // No check, fits.
+    edge e25 do v1[2] := (x2, 4);                   // Check recursively for tuple, int 'a' field overlap (check upper only).
+    edge e26 do v1[2] := (4, x2);                   // Check recursively for tuple, int 'b' field overlap (check upper only).
+    edge e27 do v1[2] := (x3, 4);                   // Check recursively for tuple, int 'a' field overlap (check lower only).
+    edge e28 do v1[2] := (x4, 4);                   // Check recursively for tuple, int 'a' field overlap (check lower and upper).
+
+    edge e31 do v1[2][a] := v1[2][a];               // No check, fits.
+    edge e32 do v1[2][a] := v2[2][a];               // No check, fits.
+    edge e33 do v1[2][a] := w1[2][a];               // Check int overlap (check upper only).
+    edge e34 do v1[2][a] := x1;                     // No check, fits.
+    edge e35 do v1[2][a] := x2;                     // Check int overlap (check upper only).
+    edge e36 do v1[2][b] := x2;                     // Check int overlap (check upper only).
+    edge e37 do v1[2][a] := x3;                     // Check int overlap (check lower only).
+    edge e38 do v1[2][a] := x4;                     // Check int overlap (check lower and upper).
+
+    edge e41 do x3 := x4;                           // Check int overlap (check upper only).
+end

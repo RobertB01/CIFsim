@@ -1,0 +1,42 @@
+plant automaton motor1:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    initial;
+    marked;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+plant automaton motor2:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    edge c_on goto On;
+  location On:
+    initial;
+    marked;
+    edge c_off goto Off;
+end
+supervisor automaton order:
+  location l1:
+    initial;
+    marked;
+    edge motor1.c_on goto l2;
+  location l2:
+    edge motor2.c_off goto l3;
+  location l3:
+    edge motor2.c_on goto l4;
+  location l4:
+    edge motor1.c_off goto l1;
+end
+supervisor automaton sup:
+  alphabet motor1.c_on, motor1.c_off, motor2.c_on, motor2.c_off;
+  location:
+    initial;
+    marked;
+    edge motor1.c_off when order.l4 and motor2.On;
+    edge motor1.c_on when order.l1 and motor2.On;
+    edge motor2.c_off when motor1.On and order.l2;
+    edge motor2.c_on when motor1.On and order.l3;
+end

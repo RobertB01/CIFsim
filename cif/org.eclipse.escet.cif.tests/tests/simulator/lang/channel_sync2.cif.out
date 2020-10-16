@@ -1,0 +1,10 @@
+Initial state: time=0.0, recv=*, send=l1, sync1=*, sync2=*
+
+Possible transitions:
+  #1: event e110 (communicates value 110)
+  #2: event e111 (communicates value 111)
+
+Transition: event e110 (communicates value 110)
+State: time=0.0, recv=*, send=l2, sync1=*, sync2=*
+
+Simulation resulted in deadlock.

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/svg_file_invalid_file_unsupported.cif": Semantic error at line 14, column 9: SVG image file "svg_file_invalid_file_unsupported.svg" is not an SVG file, is an invalid SVG file, or contains unsupported SVG features.
+ERROR: Failed to load CIF file "tchecker/svg_file_invalid_file_unsupported.cif": the file has errors.

@@ -1,0 +1,14 @@
+controllable sup2;
+plant automaton sup:
+  location l0:
+    initial;
+    marked;
+    edge sup2;
+end
+supervisor automaton sup3:
+  alphabet sup2;
+  location:
+    initial;
+    marked;
+    edge sup2 when true;
+end

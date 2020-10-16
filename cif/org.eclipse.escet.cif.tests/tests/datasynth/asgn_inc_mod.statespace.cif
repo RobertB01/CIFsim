@@ -1,0 +1,7 @@
+controllable next;
+automaton statespace:
+  alphabet next;
+  location loc1:
+    initial;
+    marked;
+end

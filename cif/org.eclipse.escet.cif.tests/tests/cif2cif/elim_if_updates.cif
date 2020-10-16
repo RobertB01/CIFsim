@@ -1,0 +1,170 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc int x, y, z;
+  disc tuple(int a, b) t;
+  invariant t[0] > 23;
+  location:
+    initial;
+
+    // No ifs.
+    edge do x := 1;
+
+    edge do x := 2, y := 3;
+
+    // Complete ifs.
+    edge do if   true: x := 1
+            else       x := 2
+            end;
+
+    edge do if   x = 7: x := 1
+            elif x = 8: x := 2
+            else        x := 3
+            end;
+
+    edge do if   x = 7: x := 1
+            elif x = 8: x := 2
+            elif x = 9: x := 3
+            else        x := 4
+            end;
+
+    // Partial if.
+    edge do if   true: x := 1
+            end;
+
+    edge do if   x = 7: x := 1
+            elif x = 8: x := 2
+            end;
+
+    edge do if   x = 7: x := 1
+            elif x = 8: x := 2
+            elif x = 9: x := 3
+            end;
+
+    // If in if (outer, first inner, second inner).
+    // C = complete, I = incomplete.
+
+    // CCC
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        else         x := 3
+                        end
+            else        if   x = 17: x := 7
+                        elif x = 18: x := 8
+                        else         x := 9
+                        end
+            end;
+
+    // CCI
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        else         x := 3
+                        end
+            else        if   x = 17: x := 7
+                        elif x = 18: x := 8
+                        end
+            end;
+
+    // CIC
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        end
+            else        if   x = 17: x := 7
+                        elif x = 18: x := 8
+                        else         x := 9
+                        end
+            end;
+
+    // CII
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        end
+            else        if   x = 17: x := 7
+                        elif x = 18: x := 8
+                        end
+            end;
+
+    // ICC
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        else         x := 3
+                        end
+            elif x < 0: if   x = 14: x := 4
+                        elif x = 15: x := 5
+                        else         x := 6
+                        end
+            end;
+
+    // ICI
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        else         x := 3
+                        end
+            elif x < 0: if   x = 14: x := 4
+                        elif x = 15: x := 5
+                        end
+            end;
+
+    // IIC
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        end
+            elif x < 0: if   x = 14: x := 4
+                        elif x = 15: x := 5
+                        else         x := 6
+                        end
+            end;
+
+    // III
+    edge do if   x > 0: if   x = 11: x := 1
+                        elif x = 12: x := 2
+                        end
+            elif x < 0: if   x = 14: x := 4
+                        elif x = 15: x := 5
+                        end
+            end;
+
+    // Multiple variables.
+    edge do if z = 1: if z = 2: x := 1
+                      else      x := 2,
+                                y := 3
+                      end
+            else      x := 5,
+                      y := 6
+            end,
+            z := 99;
+
+    edge do if   z > 0: x := 5
+            elif z > 1: y := 6
+            else        z := 7
+            end;
+
+    // Assignments at same level as 'if'.
+    edge do if z > 1: x := 3,
+                      if z > 2: y := 4
+                      else      y := 5
+                      end
+            end;
+
+    // Unsupported for now.
+//    edge do if   z > 1: (x, y) := t
+//            else        x := 5
+//            end;
+//
+//    edge do if   z > 1: t := (2, 3)
+//            else        t[0] := 4
+//            end;
+//
+//    edge do (t[0], t[1]) := (4, 5);
+end

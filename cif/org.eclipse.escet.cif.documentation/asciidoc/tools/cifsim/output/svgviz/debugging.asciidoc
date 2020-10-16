@@ -1,0 +1,140 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-debugging]]
+== Debugging SVG visualizations
+
+indexterm:[SVG visualization,debugging]
+indexterm:[debug,SVG visualization]
+If an SVG visualization does not behave as you would expect it to behave, there
+are several ways to debug such problems. The following approaches are
+available:
+
+* <<tools-cifsim-output-svgviz-debugging-console>>
+
+* <<tools-cifsim-output-svgviz-debugging-saveas>>
+
+* <<tools-cifsim-output-svgviz-debugging-stacktrace>>
+
+indexterm:[SVG visualization,console output]
+
+[[tools-cifsim-output-svgviz-debugging-console]]
+=== Console debugging
+
+Console debugging for CIF/SVG declarations can be enabled or disabled by using
+the
+menu:Debug output[]
+option (menu:Output[]
+category). It is
+disabled by default. If enabled, it produces debug output to the console,
+whenever CIF/SVG declarations are applied. Here is an example of what such
+output looks like:
+
+
+[source, console]
+----
+SVG output ("some_file.svg") id "a" text: "10.00"
+SVG output ("some_file.svg") id "b" text: "0.0"
+SVG output ("some_file.svg") id "c" text: "3.16"
+SVG output ("some_file.svg") id "n" attr "fill" (CSS attr): "#ff0000"
+SVG output ("some_file.svg") id "water" attr "height" (SVG attr): "75.0"
+SVG output ("some_file.svg") id "water" attr "y" (SVG attr): "104.5"
+----
+
+Each of the output mappings that is applied, results in a line of debugging
+output. For output mappings that update the value of an attribute, the output
+indicates whether the attribute is handled as an
+<<tools-cifsim-output-svgviz-svgout-svgcss,SVG presentation attribute>> or as a
+<<tools-cifsim-output-svgviz-svgout-svgcss,CSS style attribute>>.
+
+The textual representations of the values that are set, are put between double
+quotes, and their content is not escaped in any way.
+
+indexterm:[test mode,SVG debugging]
+Due to the asynchronous nature of the SVG visualizer, the simulator will
+continue to calculate the next states that are to become a frame, while the SVG
+visualizer is still applying mappings for previous frames. As such, the debug
+output and other simulation output are likely to be out of sync and
+interleaved. To ease debugging, you can enable the
+<<tools-cifsim-chapter-test-mode,test mode option>>, which ensures synchronous
+execution, and thus synchronous output.
+
+For the input mappings, whenever an interactive SVG element is clicked, and
+the corresponding mapping is used to determine the event to take, a line of
+debug output is produced. Here is an example of what such output looks like:
+
+
+[source, console]
+----
+SVG input ("some_file.svg") id "button": event "button.u_pushed"
+Transition: event button.u_pushed
+----
+
+From the line of debugging output, it can be seen that the SVG element with id
+`button` was clicked, and this resulted in the execution of event
+`button.u_pushed`.
+
+Similar debug output is available for the other CIF/SVG declarations:
+
+
+[source, console]
+----
+SVG copy ("some_file.svg") id "button" post "1".
+SVG copy ("some_file.svg") id "button" post "2".
+
+SVG move ("some_file.svg") id "button1" to 10.0, 10.0.
+SVG move ("some_file.svg") id "button2" to 30.0, 10.0.
+----
+
+indexterm:[SVG visualization,save as]
+indexterm:[SVG visualization,export]
+
+[[tools-cifsim-output-svgviz-debugging-saveas]]
+=== Save as SVG
+
+During simulation, the SVG visualizer can be used to
+<<tools-cifsim-output-svgviz-viewer-saveas,save>> the currently visible image as
+an SVG image file. This way, the actual XML representation of the SVG image as
+it is displayed at that time, can be inspected in an XML editor or text editor.
+This may give insight in the actual effect of the CIF/SVG declarations applied
+until that moment.
+
+indexterm:[SVG visualization,runtime error]
+indexterm:[SVG visualization,stack trace]
+
+[[tools-cifsim-output-svgviz-debugging-stacktrace]]
+=== Stack traces
+
+If the application of a CIF/SVG declaration results in a runtime error, a stack
+trace is printed to the console. This stack trace makes it possible to track
+the exact origin of the error. Here is an example of such a stack trace for an
+output mapping:
+
+
+[source, console]
+----
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of the SVG output mapping ("some_file.svg") for the text of the SVG element with id "txt1" failed for state: time=0.0, x=-1.5265566588595902e-16.
+CAUSE: Evaluation of SVG output mapping value "sqrt(x)" failed.
+CAUSE: Invalid operation: sqrt(-1.5265566588595902e-16).
+----
+
+Here, we see that simulation resulted in a runtime error. The cause is that
+the SVG output mapping for the text of the SVG element with id `txt1` failed.
+This points to the exact CIF/SVG mapping that failed, and includes the file
+name of the SVG image file, as the same id may exist in multiple images. It
+also includes the state at which the error occurred. The stack trace further
+indicates that evaluation of the value expression failed, and the actual
+failure was the evaluation of the `sqrt` standard library function, with a
+negative argument.

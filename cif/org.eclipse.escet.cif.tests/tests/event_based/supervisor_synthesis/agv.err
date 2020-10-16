@@ -1,0 +1,2 @@
+WARNING: Automaton "p" is not trim.
+WARNING: Controllable event "Unload_AGV_At_M2" is only used by automaton "p".

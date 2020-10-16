@@ -1,0 +1,10 @@
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 14, column 6: Tool "t1" has multiple variadic parameters.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 16, column 6: Tool "t2" has multiple variadic parameters.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 17, column 6: Tool "t3" has multiple variadic parameters.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 17, column 30: Mandatory tool parameter "t3.b" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 18, column 6: Tool "t4" has multiple variadic parameters.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 18, column 44: Mandatory tool parameter "t4.c" may not follow a variadic or optional tool parameter.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 20, column 6: Tool "t5" has multiple variadic parameters.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 21, column 6: Tool "t6" has multiple variadic parameters.
+ERROR: File "tchecker/tool_multiple_variadic.tooldef": Semantic error at line 22, column 6: Tool "t7" has multiple variadic parameters.
+ERROR: Failed to load ToolDef file "tchecker/tool_multiple_variadic.tooldef": the file has errors.

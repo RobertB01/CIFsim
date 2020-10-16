@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Behavior.
+const real CAPACITY   = 10.0;
+const real MAX_LEVEL  =  8.0;
+const real INIT_LEVEL =  5.0;
+const real MIN_LEVEL  =  2.0;
+
+automaton tank:
+  cont level = INIT_LEVEL;
+
+  location open:
+    initial;
+    equation level' =  1.0;
+    edge when level >= MAX_LEVEL goto closed;
+
+  location closed:
+    equation level' = -1.0;
+    edge when level <= MIN_LEVEL goto open;
+end
+
+// Visualization.
+svgfile "tank2.svg";
+
+svgout id "water" attr "height" value scale(tank.level, 0, CAPACITY, 0, 80);

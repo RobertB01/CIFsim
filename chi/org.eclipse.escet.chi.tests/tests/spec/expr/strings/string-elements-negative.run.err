@@ -1,0 +1,3 @@
+ERROR: Runtime error while executing "M".
+at model "M" near line 19.
+CAUSE: Index of string projection is out of range, value is -7, while the lowest allowed value is -6.

@@ -1,0 +1,14 @@
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 14, column 10: Unused variable "b".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 15, column 9: Unused variable "i".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 16, column 10: Unused variable "d".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 17, column 10: Unused variable "f".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 18, column 17: Unused variable "fn".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 19, column 13: Unused variable "pr".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 20, column 14: Unused variable "s".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 21, column 14: Unused variable "di".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 22, column 15: Unused variable "db".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 23, column 15: Unused variable "dr".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 24, column 29: Unused variable "sdx".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 25, column 11: Unused variable "t".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 26, column 10: Unused variable "ins".
+Warning: File "spec/statements/default_values.chi": Semantic warning at line 27, column 19: Unused variable "ch".

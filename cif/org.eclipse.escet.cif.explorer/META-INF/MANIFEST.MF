@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET CIF State Space Explorer (Incubation)
+Bundle-SymbolicName: org.eclipse.escet.cif.explorer;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Eclipse ESCET
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="0.1.0",
+ org.eclipse.escet.cif.metamodel.java;bundle-version="0.1.0",
+ org.eclipse.escet.common.emf;bundle-version="0.1.0",
+ org.eclipse.escet.cif.common;bundle-version="0.1.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.1.0",
+ org.eclipse.escet.common.eclipse.ui;bundle-version="0.1.0",
+ org.eclipse.core.resources;bundle-version="3.13.600",
+ org.eclipse.escet.cif.io;bundle-version="0.1.0",
+ org.eclipse.escet.cif.cif2cif;bundle-version="0.1.0",
+ org.eclipse.escet.setext.runtime;bundle-version="0.1.0",
+ org.eclipse.escet.cif.parser;bundle-version="0.1.0",
+ org.eclipse.escet.cif.typechecker;bundle-version="0.1.0",
+ org.eclipse.escet.common.typechecker;bundle-version="0.1.0",
+ org.eclipse.escet.common.java;bundle-version="0.1.0",
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.eclipse.escet.common.box;bundle-version="0.1.0"
+Export-Package: org.eclipse.escet.cif.explorer,
+ org.eclipse.escet.cif.explorer.app,
+ org.eclipse.escet.cif.explorer.app.common,
+ org.eclipse.escet.cif.explorer.runtime
+Automatic-Module-Name: org.eclipse.escet.cif.explorer

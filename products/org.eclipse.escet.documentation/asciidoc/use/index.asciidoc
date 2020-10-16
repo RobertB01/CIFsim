@@ -1,0 +1,30 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[use-chapter-index]]
+== Using Eclipse ESCET tools
+
+After you have <<download-install-install,installed>> the Eclipse ESCET
+tools, you can start using them. The following information is available to
+get you started on using the Eclipse ESCET tools in general, and applies to
+the various tools in the toolkit:
+
+* <<use-terminology>>
+* <<use-projects>>
+* <<use-edit-exec>>
+* <<use-escet-perspective>>
+* <<use-apps-view>>
+
+Consult the documentation of the individual tools for specific information
+regarding their use.

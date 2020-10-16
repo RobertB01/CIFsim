@@ -1,0 +1,12 @@
+WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 50: The 3rd value is not used in the format pattern.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 60: The 5th value is not used in the format pattern.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 70: The 7th value is not used in the format pattern.
+WARNING: Unsupported output type "string" found in algebraic variable "s", variable will be omitted from the output.
+WARNING: Unsupported output type "list[1] string" found in algebraic variable "ls", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in algebraic variable "s1", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in algebraic variable "s2", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in algebraic variable "s3", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in algebraic variable "s0", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(int a; list[1] int b)" found in algebraic variable "t0", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in algebraic variable "s00", variable will be omitted from the output.
+WARNING: Unsupported output type "list[2] string" found in algebraic variable "l0", variable will be omitted from the output.

@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant motor1:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    marked;
+    edge c_on goto On;
+
+  location On:
+    edge c_off goto Off;
+end
+
+plant motor2:
+  controllable c_on, c_off;
+
+  location Off:
+    edge c_on goto On;
+
+  location On:
+    initial;
+    marked;
+    edge c_off goto Off;
+end
+
+requirement order:
+  location l1:
+    initial;
+    marked;
+    edge motor1.c_on goto l2;
+
+  location l2:
+    edge motor2.c_off goto l3;
+
+  location l3:
+    edge motor2.c_on goto l4;
+
+  location l4:
+    edge motor1.c_off goto l1;
+end

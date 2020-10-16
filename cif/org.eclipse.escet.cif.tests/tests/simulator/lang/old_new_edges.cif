@@ -1,0 +1,86 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// See also: funcs_internal/funcs_old_new.cif
+
+event e1;
+
+automaton p1a:
+  disc int x = 1;
+  location:
+    initial;
+    edge e1 do x := p1b.y + 3; // x to 5
+end
+
+automaton p1b:
+  disc int y = 2;
+  location:
+    initial;
+    edge e1 when y = 2 do y := p1a.x + 6; // y to 7
+end
+
+///
+
+automaton p2:
+  event e2;
+  disc int x = 1;
+  disc list int li = [3, 4];
+  disc dict(int:int) d = {5:6};
+
+  location:
+    initial;
+    edge e2 when x = 1 do x := 7,             // x to 7
+                          li[x] := 8,         // li to [3, 8]
+                          d[x] := 9;          // d to {5:6, 1:9}
+end
+
+///
+
+automaton p3:
+  event e3;
+  disc int x = 1, y = 2;
+
+  location l1:
+    initial;
+    edge e3 do x := y, y := x goto l2;             // x to 2, y to 1
+
+  location l2:
+    edge e3 do (x, y) := (y, x) goto l3;           // x to 1, y to 2
+
+  location l3:
+    edge e3 do x := x + 1, y := y + 1 goto l4;     // x to 2, y to 3
+
+  location l4:
+    edge e3 do (x, y) := (x + 1, y + 1) goto l5;   // x to 3, y to 4
+
+  location l5:
+    urgent;
+end
+
+///
+
+automaton p4:
+  event e4;
+  disc list int x = [1, 2], y = [3, 4];
+
+  location l1:
+    initial;
+    edge e4 do x[0] := 5, y[x[0]] := 6 goto l2;     // x to [5, 2], y to [3, 6]
+
+  location l2:
+    edge e4 do x[1] := 7, y[x[0] - 5] := 8 goto l3; // x to [5, 7], y to [8, 6]
+
+  location l3:
+    urgent;
+end
+

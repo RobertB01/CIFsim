@@ -1,0 +1,14 @@
+group def D():
+  const int[5..5] c = 5;
+  invariant c > 0;
+end
+automaton p:
+  const int[1..1] c = 1;
+  alg int[2..2] a = 2;
+  disc int[3..4] v;
+  invariant c + a + v > 0;
+  location l:
+    initial;
+end
+d1: D();
+d2: D();

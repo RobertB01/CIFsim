@@ -1,0 +1,37 @@
+plant automaton p:
+  controllable em1;
+  controllable em2;
+  controllable em3;
+  controllable em4;
+  controllable em5;
+  disc int[0..4] m1 in any;
+  disc int[0..4] m2 in any;
+  disc int[0..4] m3 in any;
+  disc int[0..4] m4 in any;
+  disc int[0..4] m5 in any;
+  location loc1:
+    initial;
+    edge em1 do m1 := m1 mod 1 goto loc2;
+    edge em2 do m2 := m2 mod 2 goto loc2;
+    edge em3 do m3 := m3 mod 3 goto loc2;
+    edge em4 do m4 := m4 mod 4 goto loc2;
+    edge em5 do m5 := m5 mod 5 goto loc2;
+  location loc2:
+    marked m1 = 1,
+           m2 = 1,
+           m3 = 1,
+           m4 = 1,
+           m5 = 1;
+end
+supervisor automaton sup:
+  alphabet p.em1, p.em2, p.em3, p.em4, p.em5;
+  initial p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or (p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 3 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1)));
+  location:
+    initial;
+    marked;
+    edge p.em1 when false;
+    edge p.em2 when p.m1 = 1 and (p.m2 = 1 or p.m2 = 3) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1));
+    edge p.em3 when p.m1 = 1 and p.m2 = 1 and (p.m3 = 4 and (p.m4 = 1 and p.m5 = 1)) or p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1));
+    edge p.em4 when p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1));
+    edge p.em5 when p.m1 = 1 and p.m2 = 1 and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1));
+end

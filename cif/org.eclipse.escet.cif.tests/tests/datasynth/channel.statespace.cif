@@ -1,0 +1,35 @@
+controllable e;
+group cnt:
+  controllable next;
+end
+automaton statespace:
+  alphabet cnt.next, e;
+  location loc1:
+    initial;
+    marked;
+    edge cnt.next goto loc2;
+  location loc2:
+    marked;
+    edge cnt.next goto loc3;
+    edge e goto loc4;
+  location loc3:
+    marked;
+    edge cnt.next goto loc5;
+    edge e goto loc6;
+  location loc4:
+    marked;
+    edge cnt.next goto loc7;
+  location loc5:
+    marked;
+  location loc6:
+    marked;
+    edge cnt.next goto loc8;
+    edge e;
+  location loc7:
+    marked;
+    edge cnt.next goto loc9;
+  location loc8:
+    marked;
+  location loc9:
+    marked;
+end

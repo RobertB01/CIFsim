@@ -1,0 +1,5 @@
+group a:
+  group b:
+    type t = bool;
+  end
+end

@@ -1,0 +1,8 @@
+ERROR: Initial value "[(a,c)]" for discrete variable "aut.x" is invalid, for initialization "aut.x:[(a,c)]".
+CAUSE: Failed to read value of type "list tuple(aut.E f; aut.E g)".
+CAUSE: Failed to read literal of type "list tuple(aut.E f; aut.E g)".
+CAUSE: Failed to read literal of type "list tuple(aut.E f; aut.E g)".
+CAUSE: Failed to read literal of type "tuple(aut.E f; aut.E g)".
+CAUSE: Failed to read literal of type "aut.E".
+CAUSE: Failed to read literal of type "aut.E".
+CAUSE: Identifier "c" is not the name of an expected enumeration literal, at line 1 column 5.

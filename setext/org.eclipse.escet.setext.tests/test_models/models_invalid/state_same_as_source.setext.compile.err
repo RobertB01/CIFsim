@@ -1,0 +1,2 @@
+WARNING: File "models_invalid/state_same_as_source.setext": Semantic warning at line 16, column 7: Superfluous target scanner state ("") should be omitted.
+WARNING: File "models_invalid/state_same_as_source.setext": Semantic warning at line 22, column 10: Superfluous target scanner state ("A") should be omitted.

@@ -1,0 +1,4 @@
+ERROR: File "tchecker/switch_case_loc_id.cif": Semantic error at line 21, column 29: The switch "case" key must be a name of a location of automaton "a".
+ERROR: File "tchecker/switch_case_loc_id.cif": Semantic error at line 22, column 29: The switch "case" key must be a name of a location of automaton "a".
+ERROR: File "tchecker/switch_case_loc_id.cif": Semantic error at line 23, column 29: The switch "case" key must be a name of a location of automaton "a".
+ERROR: Failed to load CIF file "tchecker/switch_case_loc_id.cif": the file has errors.

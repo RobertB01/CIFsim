@@ -1,0 +1,2 @@
+WARNING: Automaton "req" is a requirement, but will be simulated as a plant.
+WARNING: Automaton "grp.req" is a requirement, but will be simulated as a plant.

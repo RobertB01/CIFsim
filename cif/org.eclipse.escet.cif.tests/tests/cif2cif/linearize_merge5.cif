@@ -1,0 +1,81 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Tau event with normal/self-loop edges, with(out) guards, and with(out)
+// updates.
+automaton p1:
+  disc real x;
+  location l1:
+    initial;
+    edge when 1.0 = 1.0;
+    edge when 1.1 = 1.1 do x := 1.5;
+  location l2:
+    initial;
+    edge when 1.2 = 1.2 do x := 1.6;
+    edge when 1.3 = 1.3 goto l1;
+    edge when 1.4 = 1.4 do x := 1.8 goto l1;
+    edge tau goto l1;
+    edge tau do x := 1.7;
+end
+
+// Normal event with normal/self-loop edges, with(out) guards, and with(out)
+// updates.
+automaton p2:
+  event e2;
+  disc real x;
+  location l1:
+    initial;
+    edge e2 when 2.0 = 2.0;
+    edge e2 when 2.1 = 2.1 do x := 2.5;
+  location l2:
+    initial;
+    edge e2 when 2.2 = 2.2 do x := 2.6;
+    edge e2 when 2.3 = 2.3 goto l1;
+    edge e2 when 2.4 = 2.4 do x := 2.8 goto l1;
+    edge e2 goto l1;
+    edge e2 do x := 2.7;
+end
+
+// Normal event, synchronizing over 2 automata, with normal/self-loop edges,
+// with(out) guards, and with(out) updates.
+event e3;
+
+automaton p3a:
+  disc real x;
+  location l1:
+    initial;
+    edge e3 when 3.10 = 3.10;
+    edge e3 when 3.11 = 3.11 do x := 3.15;
+  location l2:
+    initial;
+    edge e3 when 3.12 = 3.12 do x := 3.16;
+    edge e3 when 3.13 = 3.13 goto l1;
+    edge e3 when 3.14 = 3.14 do x := 3.18 goto l1;
+    edge e3 goto l1;
+    edge e3 do x := 3.17;
+end
+
+automaton p3b:
+  disc real x;
+  location l1:
+    initial;
+    edge e3 when 3.20 = 3.20;
+    edge e3 when 3.21 = 3.21 do x := 3.25;
+  location l2:
+    initial;
+    edge e3 when 3.22 = 3.22 do x := 3.26;
+    edge e3 when 3.23 = 3.23 goto l1;
+    edge e3 when 3.24 = 3.24 do x := 3.28 goto l1;
+    edge e3 goto l1;
+    edge e3 do x := 3.27;
+end

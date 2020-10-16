@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/nontriv_initial.cif".
+CAUSE: Unsupported location "a" of automaton "a": an initialization predicate is not trivially true or false.

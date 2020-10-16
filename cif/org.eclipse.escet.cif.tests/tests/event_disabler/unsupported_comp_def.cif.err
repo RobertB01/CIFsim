@@ -1,0 +1,2 @@
+ERROR: Failed to disable events for CIF file "event_disabler/unsupported_comp_def.cif".
+CAUSE: Specifications with component definitions are currently not supported.

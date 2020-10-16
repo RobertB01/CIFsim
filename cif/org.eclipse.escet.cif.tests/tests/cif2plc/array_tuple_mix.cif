@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Suppress no input variables warning.
+input int i;
+
+automaton aut:
+  disc tuple(int a, b) tii = (1, 2);
+  disc list[2] tuple(int a, b) ltii = [(3, 4), (5, 6)];
+  disc tuple(list[2] int c, d) tlili = ([7, 8], [9, 10]);
+  disc int i = 11;
+  disc int j = 12;
+
+  location l1:
+    initial;
+    edge do i := ltii[0][1], j := tlili[1][-1] goto l2; // i = 4, j = 10
+
+  location l2:
+    edge do ltii[-1][0] := 13, tlili[0][-1] := 14 goto l3; // ltii[1][0] = 13, tlili[0][1] = 14
+
+  location l3:
+    edge do ltii[0] := tii goto l4; // ltii[0] = (1, 2)
+
+  location l4:
+    edge do tii := ltii[1] goto l5; // tii = (5, 6)
+
+  location l5;
+end

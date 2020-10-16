@@ -1,0 +1,35 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model real M():
+    exit 3.14;
+end
+
+model real N():
+    write("line without newline gives 0.38");
+    exit 0.38;
+end
+
+model real O():
+    write("line with newline gives 2.71\n");
+    exit 2.71;
+end
+
+xper X():
+    writeln("The answer is %f or %.1f, isn't it?", M(), M());
+    write("\n");
+    writeln("The answer is %f or %.1f, isn't it?", N(), N());
+    write("\n");
+    writeln("The answer is %f or %.1f, isn't it?", O(), O());
+    write("\n");
+    writeln("more output from xper");
+end

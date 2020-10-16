@@ -1,0 +1,14 @@
+type t1 = real;
+const t1 c1 = 1.23;
+const real c2 = 0.23 + 1.0;
+type t3 = real;
+type t2 = t3;
+group g:
+  const t1 c3 = 2.34;
+  invariant c3 > 0;
+  invariant c3 > 1;
+end
+invariant c1 > 0;
+invariant c2 > 0;
+invariant c1 > 1;
+invariant c2 > 1;

@@ -1,0 +1,23 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+{\ttfamily
+\begin{tikzpicture}[x=1ex,y=1ex,thin,>=triangle 45,auto]
+\path
+          node[proc](G){G}
+++ (12,0) node[proc](B){B}
+++ (12,0) node[proc](T){T}
+++ (12,0) node[proc](E){E};
+\path (G) edge node{gb} (B);
+\path (B) edge node{bt} (T);
+\path (T) edge node{te} (E);
+\end{tikzpicture}
+}

@@ -1,0 +1,100 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable e01, e02, e03, e04, e05, e06, e07, e08, e09, e10,
+             e11, e12, e13, e14, e15, e16, e17, e18, e19, e20,
+             e21, e22, e23, e24, e25, e26, e27, e28, e29, e30,
+             e31, e32, e33, e34, e35, e36, e37, e38, e39, e40,
+             e41, e42, e43, e44, e45;
+
+const int z = 1;
+
+enum E = X, Y;
+
+plant p:
+  disc bool bt = true;
+  disc bool bf = false;
+
+  disc int[0..20] x1 = 10;
+  disc int[0..20] x2 = 10;
+
+  disc int[0..4] x3 = 2;
+  disc int[2..8] x4 = 3;
+
+  disc E v1 = X;
+  disc E v2 = Y;
+
+  location l0:
+    initial;
+    marked true;
+
+    edge e01 when true;
+    edge e02 when false goto l1;
+
+    edge e03 when x1 >= 11;
+    edge e04 when x1 >  11;
+    edge e05 when x1 <= 11;
+    edge e06 when x1 <  11;
+    edge e07 when x1 =  11;
+    edge e08 when x1 != 11;
+
+    edge e09 when 11 <= x1;
+    edge e10 when 11 <  x1;
+    edge e11 when 11 >= x1;
+    edge e12 when 11 >  x1;
+    edge e13 when 11 =  x1;
+    edge e14 when 11 != x1;
+
+    edge e15 when x1 = 15 + 2;
+    edge e16 when x1 = 10 + (3 * 2);
+    edge e17 when x1 = 10 + sign(z + 8);
+
+    edge e18 when x1 = 11 or x1 != 11;
+    edge e19 when x1 < 10 or x1 >= 10;
+
+    edge e20 when x1 = 11 and x1 != 11;
+    edge e21 when x1 < 10 and x1 >= 10;
+
+    edge e22 when 10 <= x1 and x1 <= 13;
+    edge e23 when x1 <= 5 or 15 <= x1;
+
+    edge e24 when x1 > 15 => x1 > 17;
+    edge e25 when (x1 <= 13 or x1 = 17) <=> (x1 >= 7 or x1 = 3);
+
+    edge e26 when x1 > 10 and x2 < 15;
+    edge e27 when x1 > 10 or x2 < 15;
+    edge e28 when (x1 > 10 and x2 < 15) or (x1 < 10 and x2 > 15);
+
+    edge e29 when bt = bf;
+    edge e30 when bt != bf;
+    edge e31 when false or bt != (bt => bf or false);
+
+    edge e32 when v1 = v2;
+    edge e33 when v1 != v2;
+    edge e34 when v1 = X;
+    edge e35 when Y != v2;
+
+    edge e36 when x3 = x4;
+    edge e37 when x3 = +x4;
+    edge e38 when x3 = ++x4;
+    edge e39 when x3 != x4;
+    edge e40 when x3 + 1 = x3;
+    edge e41 when x3 + x4 = 5;
+    edge e42 when x3 div 2 = 1;
+    edge e43 when x3 mod 2 = 1;
+    edge e44 when (x3 + 1) div 2 = 1;
+    edge e45 when (x3 + 1) mod 2 = 1;
+
+  location l1:
+    marked false;
+end

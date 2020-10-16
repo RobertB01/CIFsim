@@ -1,0 +1,2 @@
+ERROR: File "tchecker/comp_inst_param_count.cif": Semantic error at line 19, column 3: The number of arguments (0) of component instantiation "g.x" does not match the number of parameters (1) of component definition "g.X".
+ERROR: Failed to load CIF file "tchecker/comp_inst_param_count.cif": the file has errors.

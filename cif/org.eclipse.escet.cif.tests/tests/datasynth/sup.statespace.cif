@@ -1,0 +1,8 @@
+controllable sup2;
+automaton statespace:
+  alphabet sup2;
+  location loc1:
+    initial;
+    marked;
+    edge sup2;
+end

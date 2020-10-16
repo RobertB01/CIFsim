@@ -1,0 +1,69 @@
+virtual
+initial
+initial2
+all
+default
+Initial state: time=0.0, a=loc1, a.t=0.0, a.t'=1.0
+
+Transition: event a.e
+all
+event
+event,e
+default
+State: time=0.0, a=loc2, a.t=0.0, a.t'=1.0
+
+Transition: event tau
+all
+event
+event,e
+default
+State: time=0.0, a=loc3, a.t=0.0, a.t'=1.0
+
+Transition: event a.f
+all
+event
+f,g
+event,e
+default
+State: time=0.0, a=loc4, a.t=0.0, a.t'=1.0
+
+Transition: event a.g
+all
+event
+f,g
+event,e
+default
+State: time=0.0, a=loc5, a.t=0.0, a.t'=1.0
+
+Transition: event a.g
+all
+event
+f,g
+event,e
+default
+State: time=0.0, a=loc6, a.t=0.0, a.t'=1.0
+
+Transition: event tau
+all
+event
+event,e
+default
+State: time=0.0, a=loc7, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0 time units at time 0.0
+time
+all
+default
+State: time=1.0, a=loc7, a.t=1.0000000000000002, a.t'=1.0
+
+Transition: event tau
+all
+event
+event,e
+default
+State: time=1.0, a=loc8, a.t=1.0000000000000002, a.t'=1.0
+
+virtual
+final
+all
+Simulation resulted in deadlock.

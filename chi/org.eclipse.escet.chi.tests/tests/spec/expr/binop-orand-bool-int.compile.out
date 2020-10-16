@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-orand-bool-int.chi": Semantic error at line 18, column 24: Right operand must have a boolean type (found "int").

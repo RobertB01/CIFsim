@@ -1,0 +1,1 @@
+Error: File "spec/global/chan-model.chi": Semantic error at line 13, column 9: Model parameter has type "chan!? int" that cannot be created with a model instance.

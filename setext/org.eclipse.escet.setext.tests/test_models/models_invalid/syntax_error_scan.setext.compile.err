@@ -1,0 +1,1 @@
+ERROR: File "models_invalid/syntax_error_scan.setext": Scanning failed for character "%" (Unicode U+25) at line 14, column 3.

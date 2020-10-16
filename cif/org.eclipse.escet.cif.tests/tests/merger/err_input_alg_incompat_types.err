@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_input_alg_incompat_types.in1.cif" with CIF specification "merger/err_input_alg_incompat_types.in2.cif" failed.
+CAUSE: Merging an algebraic variable and input variable with name "g.i" failed: types "int[1..2]" and "int[1..3]" are not compatible.

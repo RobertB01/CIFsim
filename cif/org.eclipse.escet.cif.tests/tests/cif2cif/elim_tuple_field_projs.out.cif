@@ -1,0 +1,16 @@
+const tuple(int a; int b) c1 = (1, 2);
+const int c1a = c1[0];
+const int c1b = c1[1];
+const tuple(int d; tuple(int e; int f) g) c2 = (3, (4, 5));
+const int c2d = c2[0];
+const tuple(int x; int y) c2g = c2[1];
+const int c2ge = c2[1][0];
+const int c2gf = c2[1][1];
+automaton p:
+  disc tuple(int k; int l) d;
+  location:
+    initial;
+    edge do d[0] := 6;
+    edge when d[0] = 6 do d[1] := 7;
+end
+invariant c1a + c1b + c2d + c2g[0] + c2g[1] + c2ge + c2gf > 0;

@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_enumlit_enumlit_diff_enums.in1.cif" with CIF specification "merger/err_enumlit_enumlit_diff_enums.in2.cif" failed.
+CAUSE: Merging enumeration literals with names "g.c" and "g.c" failed: the literals are from enumerations "g.a1" and "g.a2", which have different names and are not merged.

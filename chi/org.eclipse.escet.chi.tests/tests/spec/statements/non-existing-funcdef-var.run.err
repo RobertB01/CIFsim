@@ -1,0 +1,3 @@
+ERROR: Runtime error while executing "M".
+at model "M" near line 16.
+CAUSE: Trying to call a function through an uninitialized function variable.

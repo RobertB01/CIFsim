@@ -1,0 +1,77 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e, f;
+
+            invariant 1 = 1;
+plant       invariant 2 = 2;
+requirement invariant 3 = 3, 4 = 4;
+supervisor  invariant 5 = 5, 6 = 6, 7 = 7;
+
+invariant 8 = 8;
+invariant e needs 9 = 9;
+invariant 10 = 10 disables e;
+invariant {e, f} needs 11 = 11;
+invariant 12 = 12 disables {f, e};
+
+plant invariant 8 = 8;
+plant invariant e needs 9 = 9;
+plant invariant 10 = 10 disables e;
+plant invariant {e, f} needs 11 = 11;
+plant invariant 12 = 12 disables {f, e};
+
+plant 8 = 8;
+plant e needs 9 = 9;
+plant 10 = 10 disables e;
+plant {e, f} needs 11 = 11;
+plant 12 = 12 disables {f, e};
+
+group g:
+              invariant 1 = 1;
+  plant       invariant 2 = 2;
+  requirement invariant 3 = 3, 4 = 4;
+  supervisor  invariant 5 = 5, 6 = 6, 7 = 7;
+
+  automaton a:
+                invariant 1 = 1;
+    plant       invariant 2 = 2;
+    requirement invariant 3 = 3, 4 = 4;
+    supervisor  invariant 5 = 5, 6 = 6, 7 = 7;
+
+    location l:
+      initial;
+
+                  invariant 1 = 1;
+      plant       invariant 2 = 2;
+      requirement invariant 3 = 3, 4 = 4;
+      supervisor  invariant 5 = 5, 6 = 6, 7 = 7;
+
+      invariant 8 = 8;
+      invariant e needs 9 = 9;
+      invariant 10 = 10 disables e;
+      invariant {e, f} needs 11 = 11;
+      invariant 12 = 12 disables {f, e};
+
+      plant invariant 8 = 8;
+      plant invariant e needs 9 = 9;
+      plant invariant 10 = 10 disables e;
+      plant invariant {e, f} needs 11 = 11;
+      plant invariant 12 = 12 disables {f, e};
+
+      plant 8 = 8;
+      plant e needs 9 = 9;
+      plant 10 = 10 disables e;
+      plant {e, f} needs 11 = 11;
+      plant 12 = 12 disables {f, e};
+  end
+end

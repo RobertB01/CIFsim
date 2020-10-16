@@ -1,0 +1,7 @@
+plant automaton abstracted:
+  alphabet;
+  location s1:
+    initial;
+  location s2:
+    marked;
+end

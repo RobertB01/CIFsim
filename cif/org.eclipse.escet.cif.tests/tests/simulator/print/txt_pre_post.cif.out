@@ -1,0 +1,39 @@
+0.0:1
+c
+0.0_1
+d
+Initial state: time=0.0, a=loc1, a.t=0.0, a.t'=1.0, a.x=1
+
+Transition: event tau
+0.0:1
+c
+0.0_2
+d
+State: time=0.0, a=loc2, a.t=0.0, a.t'=1.0, a.x=2
+
+Transition: delaying for 1.0 time units at time 0.0
+0.0:2
+c
+1.0_2
+d
+State: time=1.0, a=loc2, a.t=1.0000000000000002, a.t'=1.0, a.x=2
+
+Transition: event tau
+1.0:2
+c
+1.0_3
+d
+State: time=1.0, a=loc3, a.t=1.0000000000000002, a.t'=1.0, a.x=3
+
+Transition: event tau
+1.0:3
+c
+1.0_4
+d
+State: time=1.0, a=loc4, a.t=1.0000000000000002, a.t'=1.0, a.x=4
+
+1.0:4
+c
+1.0_4
+d
+Simulation resulted in deadlock.

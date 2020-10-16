@@ -1,0 +1,2283 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\newcommand{\chipkg}[1]{\textit{#1} (Section~\ref{chipkg:#1})}
+%\newcommand{\chiclass}[1]{\textit{#1} (Section~\ref{chiclass:#1})}
+%\newcommand{\chiattr}[1]{\textit{#1} (Section~\ref{chiattr:#1})}
+%\newcommand{\chienumlit}[1]{\textit{#1} (Section~\ref{chienumlit:#1})}
+%\newcommand{\chiclassDetail}[7]{\item {#1} \textbf{#2} {#3} :
+%    {\textit{#4}} {#5} {#6} \hfill \\ {#7}}
+%\newcommand{\chienumlitDetail}[4]{\item literal \textbf{#1} {#2} {#3}
+%    \hfill \\ {#4}}
+\newcommand{\hook}{\hspace*{5pt}\raisebox{2.5pt}{$\llcorner$}}
+
+\section{Package chi}\label{chipkg:chi}
+\pkgdocuchi
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/chi
+\item[Namespace prefix] chi
+\item[Sub-packages] none
+\end{description}
+
+\subsection{ChiIdentifier (datatype)}\label{chiclass:ChiIdentifier}
+\dtypedocuChiIdentifier
+
+\begin{description}
+\item[Name]
+\item[Instance class name] java.lang.String
+\item[Basetype]
+\item[Pattern] \verb@@
+\end{description}
+
+\subsection{ChiNumber (datatype)}\label{chiclass:ChiNumber}
+\dtypedocuChiNumber
+
+\begin{description}
+\item[Name] ChiNumber
+\item[Instance class name] java.lang.String
+\item[Basetype] string
+\item[Pattern] \verb@0|([1-9][0-9]*)@
+\end{description}
+
+\subsection{ChiRealNumber (datatype)}\label{chiclass:ChiRealNumber}
+\dtypedocuChiRealNumber
+
+\begin{description}
+\item[Name] ChiRealNumber
+\item[Instance class name] java.lang.String
+\item[Basetype] string
+\item[Pattern] \verb@(0|([1-9][0-9]*))((\.[0-9]+)|((\.[0-9]+)?[eE][\-\+]?[0-9]+))@
+\end{description}
+
+\subsection{BinaryOperators (enumeration)}\label{chiclass:BinaryOperators}
+\enumdocuBinaryOperators
+
+\begin{description}
+\chienumlitDetail{Addition}{(default)}{\label{chienumlit:BinaryOperators.Addition}}{\enumlitdocuBinaryOperatorsAddition}
+\chienumlitDetail{Conjunction}{}{\label{chienumlit:BinaryOperators.Conjunction}}{\enumlitdocuBinaryOperatorsConjunction}
+\chienumlitDetail{Disjunction}{}{\label{chienumlit:BinaryOperators.Disjunction}}{\enumlitdocuBinaryOperatorsDisjunction}
+\chienumlitDetail{Division}{}{\label{chienumlit:BinaryOperators.Division}}{\enumlitdocuBinaryOperatorsDivision}
+\chienumlitDetail{ElementTest}{}{\label{chienumlit:BinaryOperators.ElementTest}}{\enumlitdocuBinaryOperatorsElementTest}
+\chienumlitDetail{Equal}{}{\label{chienumlit:BinaryOperators.Equal}}{\enumlitdocuBinaryOperatorsEqual}
+\chienumlitDetail{FloorDivision}{}{\label{chienumlit:BinaryOperators.FloorDivision}}{\enumlitdocuBinaryOperatorsFloorDivision}
+\chienumlitDetail{GreaterEqual}{}{\label{chienumlit:BinaryOperators.GreaterEqual}}{\enumlitdocuBinaryOperatorsGreaterEqual}
+\chienumlitDetail{GreaterThan}{}{\label{chienumlit:BinaryOperators.GreaterThan}}{\enumlitdocuBinaryOperatorsGreaterThan}
+\chienumlitDetail{LessEqual}{}{\label{chienumlit:BinaryOperators.LessEqual}}{\enumlitdocuBinaryOperatorsLessEqual}
+\chienumlitDetail{LessThan}{}{\label{chienumlit:BinaryOperators.LessThan}}{\enumlitdocuBinaryOperatorsLessThan}
+\chienumlitDetail{Maximum}{}{\label{chienumlit:BinaryOperators.Maximum}}{\enumlitdocuBinaryOperatorsMaximum}
+\chienumlitDetail{Minimum}{}{\label{chienumlit:BinaryOperators.Minimum}}{\enumlitdocuBinaryOperatorsMinimum}
+\chienumlitDetail{Modulus}{}{\label{chienumlit:BinaryOperators.Modulus}}{\enumlitdocuBinaryOperatorsModulus}
+\chienumlitDetail{Multiplication}{}{\label{chienumlit:BinaryOperators.Multiplication}}{\enumlitdocuBinaryOperatorsMultiplication}
+\chienumlitDetail{NotEqual}{}{\label{chienumlit:BinaryOperators.NotEqual}}{\enumlitdocuBinaryOperatorsNotEqual}
+\chienumlitDetail{Power}{}{\label{chienumlit:BinaryOperators.Power}}{\enumlitdocuBinaryOperatorsPower}
+\chienumlitDetail{Projection}{}{\label{chienumlit:BinaryOperators.Projection}}{\enumlitdocuBinaryOperatorsProjection}
+\chienumlitDetail{Subset}{}{\label{chienumlit:BinaryOperators.Subset}}{\enumlitdocuBinaryOperatorsSubset}
+\chienumlitDetail{Subtraction}{}{\label{chienumlit:BinaryOperators.Subtraction}}{\enumlitdocuBinaryOperatorsSubtraction}
+\end{description}
+
+\subsection{ChannelOps (enumeration)}\label{chiclass:ChannelOps}
+\enumdocuChannelOps
+
+\begin{description}
+\chienumlitDetail{Receive}{(default)}{\label{chienumlit:ChannelOps.Receive}}{\enumlitdocuChannelOpsReceive}
+\chienumlitDetail{Send}{}{\label{chienumlit:ChannelOps.Send}}{\enumlitdocuChannelOpsSend}
+\chienumlitDetail{SendReceive}{}{\label{chienumlit:ChannelOps.SendReceive}}{\enumlitdocuChannelOpsSendReceive}
+\end{description}
+
+\subsection{StdLibFunctions (enumeration)}\label{chiclass:StdLibFunctions}
+\enumdocuStdLibFunctions
+
+\begin{description}
+\chienumlitDetail{Abs}{(default)}{\label{chienumlit:StdLibFunctions.Abs}}{\enumlitdocuStdLibFunctionsAbs}
+\chienumlitDetail{Acos}{}{\label{chienumlit:StdLibFunctions.Acos}}{\enumlitdocuStdLibFunctionsAcos}
+\chienumlitDetail{Acosh}{}{\label{chienumlit:StdLibFunctions.Acosh}}{\enumlitdocuStdLibFunctionsAcosh}
+\chienumlitDetail{Asin}{}{\label{chienumlit:StdLibFunctions.Asin}}{\enumlitdocuStdLibFunctionsAsin}
+\chienumlitDetail{Asinh}{}{\label{chienumlit:StdLibFunctions.Asinh}}{\enumlitdocuStdLibFunctionsAsinh}
+\chienumlitDetail{Atan}{}{\label{chienumlit:StdLibFunctions.Atan}}{\enumlitdocuStdLibFunctionsAtan}
+\chienumlitDetail{Atanh}{}{\label{chienumlit:StdLibFunctions.Atanh}}{\enumlitdocuStdLibFunctionsAtanh}
+\chienumlitDetail{Bernoulli}{}{\label{chienumlit:StdLibFunctions.Bernoulli}}{\enumlitdocuStdLibFunctionsBernoulli}
+\chienumlitDetail{Beta}{}{\label{chienumlit:StdLibFunctions.Beta}}{\enumlitdocuStdLibFunctionsBeta}
+\chienumlitDetail{Binomial}{}{\label{chienumlit:StdLibFunctions.Binomial}}{\enumlitdocuStdLibFunctionsBinomial}
+\chienumlitDetail{Bool2String}{}{\label{chienumlit:StdLibFunctions.Bool2String}}{\enumlitdocuStdLibFunctionsBoolString}
+\chienumlitDetail{Cbrt}{}{\label{chienumlit:StdLibFunctions.Cbrt}}{\enumlitdocuStdLibFunctionsCbrt}
+\chienumlitDetail{Ceil}{}{\label{chienumlit:StdLibFunctions.Ceil}}{\enumlitdocuStdLibFunctionsCeil}
+\chienumlitDetail{Close}{}{\label{chienumlit:StdLibFunctions.Close}}{\enumlitdocuStdLibFunctionsClose}
+\chienumlitDetail{Constant}{}{\label{chienumlit:StdLibFunctions.Constant}}{\enumlitdocuStdLibFunctionsConstant}
+\chienumlitDetail{Cos}{}{\label{chienumlit:StdLibFunctions.Cos}}{\enumlitdocuStdLibFunctionsCos}
+\chienumlitDetail{Cosh}{}{\label{chienumlit:StdLibFunctions.Cosh}}{\enumlitdocuStdLibFunctionsCosh}
+\chienumlitDetail{DictKeys}{}{\label{chienumlit:StdLibFunctions.DictKeys}}{\enumlitdocuStdLibFunctionsDictKeys}
+\chienumlitDetail{DictValues}{}{\label{chienumlit:StdLibFunctions.DictValues}}{\enumlitdocuStdLibFunctionsDictValues}
+\chienumlitDetail{DrawBernoulli}{}{\label{chienumlit:StdLibFunctions.DrawBernoulli}}{\enumlitdocuStdLibFunctionsDrawBernoulli}
+\chienumlitDetail{DrawBeta}{}{\label{chienumlit:StdLibFunctions.DrawBeta}}{\enumlitdocuStdLibFunctionsDrawBeta}
+\chienumlitDetail{DrawBinomial}{}{\label{chienumlit:StdLibFunctions.DrawBinomial}}{\enumlitdocuStdLibFunctionsDrawBinomial}
+\chienumlitDetail{DrawErlang}{}{\label{chienumlit:StdLibFunctions.DrawErlang}}{\enumlitdocuStdLibFunctionsDrawErlang}
+\chienumlitDetail{DrawExponential}{}{\label{chienumlit:StdLibFunctions.DrawExponential}}{\enumlitdocuStdLibFunctionsDrawExponential}
+\chienumlitDetail{DrawGamma}{}{\label{chienumlit:StdLibFunctions.DrawGamma}}{\enumlitdocuStdLibFunctionsDrawGamma}
+\chienumlitDetail{DrawGeometric}{}{\label{chienumlit:StdLibFunctions.DrawGeometric}}{\enumlitdocuStdLibFunctionsDrawGeometric}
+\chienumlitDetail{DrawLogNormal}{}{\label{chienumlit:StdLibFunctions.DrawLogNormal}}{\enumlitdocuStdLibFunctionsDrawLogNormal}
+\chienumlitDetail{DrawNormal}{}{\label{chienumlit:StdLibFunctions.DrawNormal}}{\enumlitdocuStdLibFunctionsDrawNormal}
+\chienumlitDetail{DrawPoisson}{}{\label{chienumlit:StdLibFunctions.DrawPoisson}}{\enumlitdocuStdLibFunctionsDrawPoisson}
+\chienumlitDetail{DrawRandom}{}{\label{chienumlit:StdLibFunctions.DrawRandom}}{\enumlitdocuStdLibFunctionsDrawRandom}
+\chienumlitDetail{DrawTriangle}{}{\label{chienumlit:StdLibFunctions.DrawTriangle}}{\enumlitdocuStdLibFunctionsDrawTriangle}
+\chienumlitDetail{DrawUniform}{}{\label{chienumlit:StdLibFunctions.DrawUniform}}{\enumlitdocuStdLibFunctionsDrawUniform}
+\chienumlitDetail{DrawWeibull}{}{\label{chienumlit:StdLibFunctions.DrawWeibull}}{\enumlitdocuStdLibFunctionsDrawWeibull}
+\chienumlitDetail{Empty}{}{\label{chienumlit:StdLibFunctions.Empty}}{\enumlitdocuStdLibFunctionsEmpty}
+\chienumlitDetail{Enumerate}{}{\label{chienumlit:StdLibFunctions.Enumerate}}{\enumlitdocuStdLibFunctionsEnumerate}
+\chienumlitDetail{Erlang}{}{\label{chienumlit:StdLibFunctions.Erlang}}{\enumlitdocuStdLibFunctionsErlang}
+\chienumlitDetail{Exp}{}{\label{chienumlit:StdLibFunctions.Exp}}{\enumlitdocuStdLibFunctionsExp}
+\chienumlitDetail{Exponential}{}{\label{chienumlit:StdLibFunctions.Exponential}}{\enumlitdocuStdLibFunctionsExponential}
+\chienumlitDetail{Finished}{}{\label{chienumlit:StdLibFunctions.Finished}}{\enumlitdocuStdLibFunctionsFinished}
+\chienumlitDetail{Floor}{}{\label{chienumlit:StdLibFunctions.Floor}}{\enumlitdocuStdLibFunctionsFloor}
+\chienumlitDetail{Gamma}{}{\label{chienumlit:StdLibFunctions.Gamma}}{\enumlitdocuStdLibFunctionsGamma}
+\chienumlitDetail{Geometric}{}{\label{chienumlit:StdLibFunctions.Geometric}}{\enumlitdocuStdLibFunctionsGeometric}
+\chienumlitDetail{Insert}{}{\label{chienumlit:StdLibFunctions.Insert}}{\enumlitdocuStdLibFunctionsInsert}
+\chienumlitDetail{Int2Real}{}{\label{chienumlit:StdLibFunctions.Int2Real}}{\enumlitdocuStdLibFunctionsIntReal}
+\chienumlitDetail{Int2String}{}{\label{chienumlit:StdLibFunctions.Int2String}}{\enumlitdocuStdLibFunctionsIntString}
+\chienumlitDetail{Length}{}{\label{chienumlit:StdLibFunctions.Length}}{\enumlitdocuStdLibFunctionsLength}
+\chienumlitDetail{Ln}{}{\label{chienumlit:StdLibFunctions.Ln}}{\enumlitdocuStdLibFunctionsLn}
+\chienumlitDetail{Log}{}{\label{chienumlit:StdLibFunctions.Log}}{\enumlitdocuStdLibFunctionsLog}
+\chienumlitDetail{LogNormal}{}{\label{chienumlit:StdLibFunctions.LogNormal}}{\enumlitdocuStdLibFunctionsLogNormal}
+\chienumlitDetail{Matrix}{}{\label{chienumlit:StdLibFunctions.Matrix}}{\enumlitdocuStdLibFunctionsMatrix}
+\chienumlitDetail{Max}{}{\label{chienumlit:StdLibFunctions.Max}}{\enumlitdocuStdLibFunctionsMax}
+\chienumlitDetail{Min}{}{\label{chienumlit:StdLibFunctions.Min}}{\enumlitdocuStdLibFunctionsMin}
+\chienumlitDetail{Normal}{}{\label{chienumlit:StdLibFunctions.Normal}}{\enumlitdocuStdLibFunctionsNormal}
+\chienumlitDetail{Open}{}{\label{chienumlit:StdLibFunctions.Open}}{\enumlitdocuStdLibFunctionsOpen}
+\chienumlitDetail{Poisson}{}{\label{chienumlit:StdLibFunctions.Poisson}}{\enumlitdocuStdLibFunctionsPoisson}
+\chienumlitDetail{Pop}{}{\label{chienumlit:StdLibFunctions.Pop}}{\enumlitdocuStdLibFunctionsPop}
+\chienumlitDetail{Random}{}{\label{chienumlit:StdLibFunctions.Random}}{\enumlitdocuStdLibFunctionsRandom}
+\chienumlitDetail{Range}{}{\label{chienumlit:StdLibFunctions.Range}}{\enumlitdocuStdLibFunctionsRange}
+\chienumlitDetail{Real2String}{}{\label{chienumlit:StdLibFunctions.Real2String}}{\enumlitdocuStdLibFunctionsRealString}
+\chienumlitDetail{Round}{}{\label{chienumlit:StdLibFunctions.Round}}{\enumlitdocuStdLibFunctionsRound}
+\chienumlitDetail{SampleFunc}{}{\label{chienumlit:StdLibFunctions.SampleFunc}}{\enumlitdocuStdLibFunctionsSampleFunc}
+\chienumlitDetail{SetSeed}{}{\label{chienumlit:StdLibFunctions.SetSeed}}{\enumlitdocuStdLibFunctionsSetSeed}
+\chienumlitDetail{Sign}{}{\label{chienumlit:StdLibFunctions.Sign}}{\enumlitdocuStdLibFunctionsSign}
+\chienumlitDetail{Sin}{}{\label{chienumlit:StdLibFunctions.Sin}}{\enumlitdocuStdLibFunctionsSin}
+\chienumlitDetail{Sinh}{}{\label{chienumlit:StdLibFunctions.Sinh}}{\enumlitdocuStdLibFunctionsSinh}
+\chienumlitDetail{Sort}{}{\label{chienumlit:StdLibFunctions.Sort}}{\enumlitdocuStdLibFunctionsSort}
+\chienumlitDetail{Sqrt}{}{\label{chienumlit:StdLibFunctions.Sqrt}}{\enumlitdocuStdLibFunctionsSqrt}
+\chienumlitDetail{String2Bool}{}{\label{chienumlit:StdLibFunctions.String2Bool}}{\enumlitdocuStdLibFunctionsStringBool}
+\chienumlitDetail{String2Int}{}{\label{chienumlit:StdLibFunctions.String2Int}}{\enumlitdocuStdLibFunctionsStringInt}
+\chienumlitDetail{String2Real}{}{\label{chienumlit:StdLibFunctions.String2Real}}{\enumlitdocuStdLibFunctionsStringReal}
+\chienumlitDetail{Tan}{}{\label{chienumlit:StdLibFunctions.Tan}}{\enumlitdocuStdLibFunctionsTan}
+\chienumlitDetail{Tanh}{}{\label{chienumlit:StdLibFunctions.Tanh}}{\enumlitdocuStdLibFunctionsTanh}
+\chienumlitDetail{Timeout}{}{\label{chienumlit:StdLibFunctions.Timeout}}{\enumlitdocuStdLibFunctionsTimeout}
+\chienumlitDetail{Triangle}{}{\label{chienumlit:StdLibFunctions.Triangle}}{\enumlitdocuStdLibFunctionsTriangle}
+\chienumlitDetail{Uniform}{}{\label{chienumlit:StdLibFunctions.Uniform}}{\enumlitdocuStdLibFunctionsUniform}
+\chienumlitDetail{Weibull}{}{\label{chienumlit:StdLibFunctions.Weibull}}{\enumlitdocuStdLibFunctionsWeibull}
+\end{description}
+
+\subsection{UnaryOperators (enumeration)}\label{chiclass:UnaryOperators}
+\enumdocuUnaryOperators
+
+\begin{description}
+\chienumlitDetail{Inverse}{(default)}{\label{chienumlit:UnaryOperators.Inverse}}{\enumlitdocuUnaryOperatorsInverse}
+\chienumlitDetail{Negate}{}{\label{chienumlit:UnaryOperators.Negate}}{\enumlitdocuUnaryOperatorsNegate}
+\chienumlitDetail{Plus}{}{\label{chienumlit:UnaryOperators.Plus}}{\enumlitdocuUnaryOperatorsPlus}
+\chienumlitDetail{Sample}{}{\label{chienumlit:UnaryOperators.Sample}}{\enumlitdocuUnaryOperatorsSample}
+\end{description}
+
+\subsection{AssignmentStatement (class)}\label{chiclass:AssignmentStatement}
+\clsdocuAssignmentStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{AssignmentStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:AssignmentStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{lhs}{{[1]}}{Expression}{}{\label{chiattr:AssignmentStatement.lhs}}
+{\featdocuAssignmentStatementlhs}
+\chiclassDetail{cont}{rhs}{{[1]}}{Expression}{}{\label{chiattr:AssignmentStatement.rhs}}
+{\featdocuAssignmentStatementrhs}
+\end{description}
+
+
+\subsection{BaseFunctionReference (abstract class)}\label{chiclass:BaseFunctionReference}
+\clsdocuBaseFunctionReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{BaseFunctionReference}
+
+~\\ \noindent Direct derived classes:
+\chiclass{FunctionReference}, \chiclass{StdLibFunctionReference}
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BaseFunctionReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:BaseFunctionReference.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{BehaviourDeclaration (abstract class)}\label{chiclass:BehaviourDeclaration}
+\clsdocuBehaviourDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\emph{BehaviourDeclaration}
+
+~\\ \noindent Direct derived classes:
+\chiclass{FunctionDeclaration}, \chiclass{ModelDeclaration}, \chiclass{ProcessDeclaration}
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BehaviourDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:BehaviourDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{statements}{{[1..*]}}{Statement}{}{\label{chiattr:BehaviourDeclaration.statements}}
+{\featdocuBehaviourDeclarationstatements}
+\chiclassDetail{cont}{variables}{{[0..*]}}{VariableDeclaration}{}{\label{chiattr:BehaviourDeclaration.variables}}
+{\featdocuBehaviourDeclarationvariables}
+\end{description}
+
+
+\subsection{BinaryExpression (class)}\label{chiclass:BinaryExpression}
+\clsdocuBinaryExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{BinaryExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BinaryExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:BinaryExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{left}{{[1]}}{Expression}{}{\label{chiattr:BinaryExpression.left}}
+{\featdocuBinaryExpressionleft}
+\chiclassDetail{cont}{operator}{{[1]}}{BinaryOp}{}{\label{chiattr:BinaryExpression.operator}}
+{\featdocuBinaryExpressionoperator}
+\chiclassDetail{cont}{right}{{[1]}}{Expression}{}{\label{chiattr:BinaryExpression.right}}
+{\featdocuBinaryExpressionright}
+\end{description}
+
+
+\subsection{BinaryOp (class)}\label{chiclass:BinaryOp}
+\clsdocuBinaryOp
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{BinaryOp}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BinaryOp.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{op}{{[1]}}{BinaryOperators}{}{\label{chiattr:BinaryOp.op}}
+{\featdocuBinaryOpop}
+\end{description}
+
+
+\subsection{BoolLiteral (class)}\label{chiclass:BoolLiteral}
+\clsdocuBoolLiteral
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{BoolLiteral}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BoolLiteral.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:BoolLiteral.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{attr}{value}{{[1]}}{EBoolean}{}{\label{chiattr:BoolLiteral.value}}
+{\featdocuBoolLiteralvalue}
+\end{description}
+
+
+\subsection{BoolType (class)}\label{chiclass:BoolType}
+\clsdocuBoolType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{BoolType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BoolType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{BreakStatement (class)}\label{chiclass:BreakStatement}
+\clsdocuBreakStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{BreakStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:BreakStatement.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{CallExpression (class)}\label{chiclass:CallExpression}
+\clsdocuCallExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{CallExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:CallExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:CallExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{arguments}{{[0..*]}}{Expression}{}{\label{chiattr:CallExpression.arguments}}
+{\featdocuCallExpressionarguments}
+\chiclassDetail{cont}{function}{{[1]}}{Expression}{}{\label{chiattr:CallExpression.function}}
+{\featdocuCallExpressionfunction}
+\chiclassDetail{cont}{name}{{[0..1]}}{Expression}{}{\label{chiattr:CallExpression.name}}
+{\featdocuCallExpressionname}
+\end{description}
+
+
+\subsection{ChannelExpression (class)}\label{chiclass:ChannelExpression}
+\clsdocuChannelExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{ChannelExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ChannelExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:ChannelExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{elementType}{{[1]}}{Type}{}{\label{chiattr:ChannelExpression.elementType}}
+{\featdocuChannelExpressionelementType}
+\end{description}
+
+
+\subsection{ChannelOp (class)}\label{chiclass:ChannelOp}
+\clsdocuChannelOp
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{ChannelOp}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ChannelOp.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{ops}{{[1]}}{ChannelOps}{}{\label{chiattr:ChannelOp.ops}}
+{\featdocuChannelOpops}
+\end{description}
+
+
+\subsection{ChannelType (class)}\label{chiclass:ChannelType}
+\clsdocuChannelType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{ChannelType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ChannelType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{elementType}{{[1]}}{Type}{}{\label{chiattr:ChannelType.elementType}}
+{\featdocuChannelTypeelementType}
+\chiclassDetail{cont}{operations}{{[0..1]}}{ChannelOp}{}{\label{chiattr:ChannelType.operations}}
+{\featdocuChannelTypeoperations}
+\end{description}
+
+
+\subsection{ChiObject (class)}\label{chiclass:ChiObject}
+\clsdocuChiObject
+
+~\\ \noindent \emph{EObject} \\
+\hook~\emph{ChiObject}
+
+~\\ \noindent Direct derived classes:
+\chiclass{BinaryOp}, \chiclass{ChannelOp}, \chiclass{CreateCase}, \chiclass{Declaration}, \chiclass{DictionaryPair}, \chiclass{Expression}, \chiclass{IfCase}, \chiclass{MatrixRow}, \chiclass{Name}, \chiclass{SelectCase}, \chiclass{Statement}, \chiclass{TupleField}, \chiclass{Type}, \chiclass{UnaryOp}, \chiclass{Unwind}, \chiclass{VariableDeclaration}
+
+\begin{description}
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{}{\label{chiattr:ChiObject.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{CommunicationStatement (abstract class)}\label{chiclass:CommunicationStatement}
+\clsdocuCommunicationStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{CommunicationStatement}
+
+~\\ \noindent Direct derived classes:
+\chiclass{ReceiveStatement}, \chiclass{SendStatement}
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:CommunicationStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{channel}{{[1]}}{Expression}{}{\label{chiattr:CommunicationStatement.channel}}
+{\featdocuCommunicationStatementchannel}
+\chiclassDetail{cont}{data}{{[0..*]}}{Expression}{}{\label{chiattr:CommunicationStatement.data}}
+{\featdocuCommunicationStatementdata}
+\end{description}
+
+
+\subsection{ConstantDeclaration (class)}\label{chiclass:ConstantDeclaration}
+\clsdocuConstantDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\emph{ConstantDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ConstantDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:ConstantDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{type}{{[1]}}{Type}{}{\label{chiattr:ConstantDeclaration.type}}
+{\featdocuConstantDeclarationtype}
+\chiclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{chiattr:ConstantDeclaration.value}}
+{\featdocuConstantDeclarationvalue}
+\end{description}
+
+
+\subsection{ConstantReference (class)}\label{chiclass:ConstantReference}
+\clsdocuConstantReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{ConstantReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ConstantReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:ConstantReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{ref}{constant}{{[1]}}{ConstantDeclaration}{}{\label{chiattr:ConstantReference.constant}}
+{\featdocuConstantReferenceconstant}
+\end{description}
+
+
+\subsection{ContinueStatement (class)}\label{chiclass:ContinueStatement}
+\clsdocuContinueStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{ContinueStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ContinueStatement.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{CreateCase (abstract class)}\label{chiclass:CreateCase}
+\clsdocuCreateCase
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{CreateCase}
+
+~\\ \noindent Direct derived classes:
+\chiclass{IteratedCreateCase}, \chiclass{ProcessInstance}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:CreateCase.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{Declaration (abstract class)}\label{chiclass:Declaration}
+\clsdocuDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{Declaration}
+
+~\\ \noindent Direct derived classes:
+\chiclass{BehaviourDeclaration}, \chiclass{ConstantDeclaration}, \chiclass{EnumDeclaration}, \chiclass{TypeDeclaration}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Declaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{}{\label{chiattr:Declaration.name}}
+{\featdocuDeclarationname}
+\end{description}
+
+
+\subsection{DelayStatement (class)}\label{chiclass:DelayStatement}
+\clsdocuDelayStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{DelayStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:DelayStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{length}{{[1]}}{Expression}{}{\label{chiattr:DelayStatement.length}}
+{\featdocuDelayStatementlength}
+\end{description}
+
+
+\subsection{DictType (class)}\label{chiclass:DictType}
+\clsdocuDictType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{DictType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:DictType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{keyType}{{[1]}}{Type}{}{\label{chiattr:DictType.keyType}}
+{\featdocuDictTypekeyType}
+\chiclassDetail{cont}{valueType}{{[1]}}{Type}{}{\label{chiattr:DictType.valueType}}
+{\featdocuDictTypevalueType}
+\end{description}
+
+
+\subsection{DictionaryExpression (class)}\label{chiclass:DictionaryExpression}
+\clsdocuDictionaryExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{DictionaryExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:DictionaryExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:DictionaryExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{pairs}{{[0..*]}}{DictionaryPair}{}{\label{chiattr:DictionaryExpression.pairs}}
+{\featdocuDictionaryExpressionpairs}
+\end{description}
+
+
+\subsection{DictionaryPair (class)}\label{chiclass:DictionaryPair}
+\clsdocuDictionaryPair
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{DictionaryPair}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:DictionaryPair.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{key}{{[1]}}{Expression}{}{\label{chiattr:DictionaryPair.key}}
+{\featdocuDictionaryPairkey}
+\chiclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{chiattr:DictionaryPair.value}}
+{\featdocuDictionaryPairvalue}
+\end{description}
+
+
+\subsection{DistributionType (class)}\label{chiclass:DistributionType}
+\clsdocuDistributionType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{DistributionType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:DistributionType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{resultType}{{[1]}}{Type}{}{\label{chiattr:DistributionType.resultType}}
+{\featdocuDistributionTyperesultType}
+\end{description}
+
+
+\subsection{EnumDeclaration (class)}\label{chiclass:EnumDeclaration}
+\clsdocuEnumDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\emph{EnumDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:EnumDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:EnumDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{values}{{[1..*]}}{EnumValue}{}{\label{chiattr:EnumDeclaration.values}}
+{\featdocuEnumDeclarationvalues}
+\end{description}
+
+
+\subsection{EnumTypeReference (class)}\label{chiclass:EnumTypeReference}
+\clsdocuEnumTypeReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{EnumTypeReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:EnumTypeReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{ref}{type}{{[1]}}{EnumDeclaration}{}{\label{chiattr:EnumTypeReference.type}}
+{\featdocuEnumTypeReferencetype}
+\end{description}
+
+
+\subsection{EnumValue (class)}\label{chiclass:EnumValue}
+\clsdocuEnumValue
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Name} \\
+\indent\indent\hook~\emph{EnumValue}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:EnumValue.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{name}{{[1]}}{ChiIdentifier}{(inherited from \textit{Name})}{\label{chiattr:EnumValue.name}}
+{\featdocuNamename}
+\end{description}
+
+
+\subsection{EnumValueReference (class)}\label{chiclass:EnumValueReference}
+\clsdocuEnumValueReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{EnumValueReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:EnumValueReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:EnumValueReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{ref}{value}{{[1]}}{EnumValue}{}{\label{chiattr:EnumValueReference.value}}
+{\featdocuEnumValueReferencevalue}
+\end{description}
+
+
+\subsection{Expression (abstract class)}\label{chiclass:Expression}
+\clsdocuExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{Expression}
+
+~\\ \noindent Direct derived classes:
+\chiclass{BaseFunctionReference}, \chiclass{BinaryExpression}, \chiclass{BoolLiteral}, \chiclass{CallExpression}, \chiclass{ChannelExpression}, \chiclass{ConstantReference}, \chiclass{DictionaryExpression}, \chiclass{EnumValueReference}, \chiclass{FieldReference}, \chiclass{ListExpression}, \chiclass{MatrixExpression}, \chiclass{Number}, \chiclass{ProcessReference}, \chiclass{ReadCallExpression}, \chiclass{RealNumber}, \chiclass{SetExpression}, \chiclass{SliceExpression}, \chiclass{StringLiteral}, \chiclass{TimeLiteral}, \chiclass{TupleExpression}, \chiclass{UnaryExpression}, \chiclass{UnresolvedReference}, \chiclass{VariableReference}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Expression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{}{\label{chiattr:Expression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{FieldReference (class)}\label{chiclass:FieldReference}
+\clsdocuFieldReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{FieldReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:FieldReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:FieldReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{ref}{field}{{[1]}}{TupleField}{}{\label{chiattr:FieldReference.field}}
+{\featdocuFieldReferencefield}
+\end{description}
+
+
+\subsection{FileType (class)}\label{chiclass:FileType}
+\clsdocuFileType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{FileType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:FileType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{ForStatement (class)}\label{chiclass:ForStatement}
+\clsdocuForStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{ForStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ForStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{body}{{[1..*]}}{Statement}{}{\label{chiattr:ForStatement.body}}
+{\featdocuForStatementbody}
+\chiclassDetail{cont}{source}{{[1]}}{Expression}{}{\label{chiattr:ForStatement.source}}
+{\featdocuForStatementsource}
+\chiclassDetail{cont}{variables}{{[1..*]}}{VariableDeclaration}{}{\label{chiattr:ForStatement.variables}}
+{\featdocuForStatementvariables}
+\end{description}
+
+
+\subsection{FunctionDeclaration (class)}\label{chiclass:FunctionDeclaration}
+\clsdocuFunctionDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\chiclass{BehaviourDeclaration} \\
+\indent\indent\indent\hook~\emph{FunctionDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:FunctionDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:FunctionDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{statements}{{[1..*]}}{Statement}{(inherited from \textit{BehaviourDeclaration})}{\label{chiattr:FunctionDeclaration.statements}}
+{\featdocuBehaviourDeclarationstatements}
+\chiclassDetail{cont}{variables}{{[0..*]}}{VariableDeclaration}{(inherited from \textit{BehaviourDeclaration})}{\label{chiattr:FunctionDeclaration.variables}}
+{\featdocuBehaviourDeclarationvariables}
+\chiclassDetail{cont}{returnType}{{[1]}}{Type}{}{\label{chiattr:FunctionDeclaration.returnType}}
+{\featdocuFunctionDeclarationreturnType}
+\end{description}
+
+
+\subsection{FunctionReference (class)}\label{chiclass:FunctionReference}
+\clsdocuFunctionReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\chiclass{BaseFunctionReference} \\
+\indent\indent\indent\hook~\emph{FunctionReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:FunctionReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:FunctionReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{ref}{function}{{[1]}}{FunctionDeclaration}{}{\label{chiattr:FunctionReference.function}}
+{\featdocuFunctionReferencefunction}
+\end{description}
+
+
+\subsection{FunctionType (class)}\label{chiclass:FunctionType}
+\clsdocuFunctionType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\chiclass{ProcessType} \\
+\indent\indent\indent\hook~\emph{FunctionType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:FunctionType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{parameterTypes}{{[0..*]}}{Type}{(inherited from \textit{ProcessType})}{\label{chiattr:FunctionType.parameterTypes}}
+{\featdocuProcessTypeparameterTypes}
+\chiclassDetail{cont}{resultType}{{[1]}}{Type}{}{\label{chiattr:FunctionType.resultType}}
+{\featdocuFunctionTyperesultType}
+\end{description}
+
+
+\subsection{IfCase (class)}\label{chiclass:IfCase}
+\clsdocuIfCase
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{IfCase}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:IfCase.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{body}{{[1..*]}}{Statement}{}{\label{chiattr:IfCase.body}}
+{\featdocuIfCasebody}
+\chiclassDetail{cont}{condition}{{[0..1]}}{Expression}{}{\label{chiattr:IfCase.condition}}
+{\featdocuIfCasecondition}
+\end{description}
+
+
+\subsection{IfStatement (class)}\label{chiclass:IfStatement}
+\clsdocuIfStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{IfStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:IfStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{cases}{{[1..*]}}{IfCase}{}{\label{chiattr:IfStatement.cases}}
+{\featdocuIfStatementcases}
+\end{description}
+
+
+\subsection{InstanceType (class)}\label{chiclass:InstanceType}
+\clsdocuInstanceType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{InstanceType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:InstanceType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{IntType (class)}\label{chiclass:IntType}
+\clsdocuIntType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{IntType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:IntType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{IteratedCreateCase (class)}\label{chiclass:IteratedCreateCase}
+\clsdocuIteratedCreateCase
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{CreateCase} \\
+\indent\indent\hook~\emph{IteratedCreateCase}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:IteratedCreateCase.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{instances}{{[1..*]}}{CreateCase}{}{\label{chiattr:IteratedCreateCase.instances}}
+{\featdocuIteratedCreateCaseinstances}
+\chiclassDetail{cont}{unwinds}{{[1..*]}}{Unwind}{}{\label{chiattr:IteratedCreateCase.unwinds}}
+{\featdocuIteratedCreateCaseunwinds}
+\end{description}
+
+
+\subsection{IteratedSelectCase (class)}\label{chiclass:IteratedSelectCase}
+\clsdocuIteratedSelectCase
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{SelectCase} \\
+\indent\indent\hook~\emph{IteratedSelectCase}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:IteratedSelectCase.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{body}{{[1..*]}}{Statement}{(inherited from \textit{SelectCase})}{\label{chiattr:IteratedSelectCase.body}}
+{\featdocuSelectCasebody}
+\chiclassDetail{cont}{guard}{{[0..1]}}{Expression}{(inherited from \textit{SelectCase})}{\label{chiattr:IteratedSelectCase.guard}}
+{\featdocuSelectCaseguard}
+\chiclassDetail{cont}{unwinds}{{[1..*]}}{Unwind}{}{\label{chiattr:IteratedSelectCase.unwinds}}
+{\featdocuIteratedSelectCaseunwinds}
+\end{description}
+
+
+\subsection{ListExpression (class)}\label{chiclass:ListExpression}
+\clsdocuListExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{ListExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ListExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:ListExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{elements}{{[0..*]}}{Expression}{}{\label{chiattr:ListExpression.elements}}
+{\featdocuListExpressionelements}
+\end{description}
+
+
+\subsection{ListType (class)}\label{chiclass:ListType}
+\clsdocuListType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{ListType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ListType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{elementType}{{[1]}}{Type}{}{\label{chiattr:ListType.elementType}}
+{\featdocuListTypeelementType}
+\chiclassDetail{ref}{initialLength}{{[0..1]}}{Expression}{}{\label{chiattr:ListType.initialLength}}
+{\featdocuListTypeinitialLength}
+\end{description}
+
+
+\subsection{MatrixExpression (class)}\label{chiclass:MatrixExpression}
+\clsdocuMatrixExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{MatrixExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:MatrixExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:MatrixExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{rows}{{[1..*]}}{MatrixRow}{}{\label{chiattr:MatrixExpression.rows}}
+{\featdocuMatrixExpressionrows}
+\end{description}
+
+
+\subsection{MatrixRow (class)}\label{chiclass:MatrixRow}
+\clsdocuMatrixRow
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{MatrixRow}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:MatrixRow.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{elements}{{[1..*]}}{Expression}{}{\label{chiattr:MatrixRow.elements}}
+{\featdocuMatrixRowelements}
+\end{description}
+
+
+\subsection{MatrixType (class)}\label{chiclass:MatrixType}
+\clsdocuMatrixType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{MatrixType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:MatrixType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{columnSize}{{[1]}}{Expression}{}{\label{chiattr:MatrixType.columnSize}}
+{\featdocuMatrixTypecolumnSize}
+\chiclassDetail{cont}{rowSize}{{[1]}}{Expression}{}{\label{chiattr:MatrixType.rowSize}}
+{\featdocuMatrixTyperowSize}
+\end{description}
+
+
+\subsection{ModelDeclaration (class)}\label{chiclass:ModelDeclaration}
+\clsdocuModelDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\chiclass{BehaviourDeclaration} \\
+\indent\indent\indent\hook~\emph{ModelDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ModelDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:ModelDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{statements}{{[1..*]}}{Statement}{(inherited from \textit{BehaviourDeclaration})}{\label{chiattr:ModelDeclaration.statements}}
+{\featdocuBehaviourDeclarationstatements}
+\chiclassDetail{cont}{variables}{{[0..*]}}{VariableDeclaration}{(inherited from \textit{BehaviourDeclaration})}{\label{chiattr:ModelDeclaration.variables}}
+{\featdocuBehaviourDeclarationvariables}
+\end{description}
+
+
+\subsection{Name (class)}\label{chiclass:Name}
+\clsdocuName
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{Name}
+
+~\\ \noindent Direct derived classes:
+\chiclass{EnumValue}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Name.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{name}{{[1]}}{ChiIdentifier}{}{\label{chiattr:Name.name}}
+{\featdocuNamename}
+\end{description}
+
+
+\subsection{Number (class)}\label{chiclass:Number}
+\clsdocuNumber
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{Number}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Number.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:Number.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{attr}{value}{{[1]}}{ChiNumber}{}{\label{chiattr:Number.value}}
+{\featdocuNumbervalue}
+\end{description}
+
+
+\subsection{PassStatement (class)}\label{chiclass:PassStatement}
+\clsdocuPassStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{PassStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:PassStatement.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{Position (class)}\label{chiclass:Position}
+\clsdocuPosition
+
+~\\ \noindent \emph{EObject} \\
+\hook~\emph{Position}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+\chiclassDetail{attr}{endColumn}{{[1]}}{EInt}{}{\label{chiattr:Position.endColumn}}
+{\featdocuPositionendColumn}
+\chiclassDetail{attr}{endLine}{{[1]}}{EInt}{}{\label{chiattr:Position.endLine}}
+{\featdocuPositionendLine}
+\chiclassDetail{attr}{endOffset}{{[1]}}{EInt}{}{\label{chiattr:Position.endOffset}}
+{\featdocuPositionendOffset}
+\chiclassDetail{attr}{source}{{[0..1]}}{EString}{}{\label{chiattr:Position.source}}
+{\featdocuPositionsource}
+\chiclassDetail{attr}{startColumn}{{[0..1]}}{EInt}{}{\label{chiattr:Position.startColumn}}
+{\featdocuPositionstartColumn}
+\chiclassDetail{attr}{startLine}{{[1]}}{EInt}{}{\label{chiattr:Position.startLine}}
+{\featdocuPositionstartLine}
+\chiclassDetail{attr}{startOffset}{{[1]}}{EInt}{}{\label{chiattr:Position.startOffset}}
+{\featdocuPositionstartOffset}
+\end{description}
+
+
+\subsection{ProcessDeclaration (class)}\label{chiclass:ProcessDeclaration}
+\clsdocuProcessDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\chiclass{BehaviourDeclaration} \\
+\indent\indent\indent\hook~\emph{ProcessDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ProcessDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:ProcessDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{statements}{{[1..*]}}{Statement}{(inherited from \textit{BehaviourDeclaration})}{\label{chiattr:ProcessDeclaration.statements}}
+{\featdocuBehaviourDeclarationstatements}
+\chiclassDetail{cont}{variables}{{[0..*]}}{VariableDeclaration}{(inherited from \textit{BehaviourDeclaration})}{\label{chiattr:ProcessDeclaration.variables}}
+{\featdocuBehaviourDeclarationvariables}
+\end{description}
+
+
+\subsection{ProcessInstance (class)}\label{chiclass:ProcessInstance}
+\clsdocuProcessInstance
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{CreateCase} \\
+\indent\indent\hook~\emph{ProcessInstance}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ProcessInstance.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{call}{{[1]}}{Expression}{}{\label{chiattr:ProcessInstance.call}}
+{\featdocuProcessInstancecall}
+\chiclassDetail{cont}{var}{{[0..1]}}{Expression}{}{\label{chiattr:ProcessInstance.var}}
+{\featdocuProcessInstancevar}
+\end{description}
+
+
+\subsection{ProcessReference (class)}\label{chiclass:ProcessReference}
+\clsdocuProcessReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{ProcessReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ProcessReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:ProcessReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{ref}{process}{{[1]}}{ProcessDeclaration}{}{\label{chiattr:ProcessReference.process}}
+{\featdocuProcessReferenceprocess}
+\end{description}
+
+
+\subsection{ProcessType (class)}\label{chiclass:ProcessType}
+\clsdocuProcessType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{ProcessType}
+
+~\\ \noindent Direct derived classes:
+\chiclass{FunctionType}
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ProcessType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{parameterTypes}{{[0..*]}}{Type}{}{\label{chiattr:ProcessType.parameterTypes}}
+{\featdocuProcessTypeparameterTypes}
+\end{description}
+
+
+\subsection{ReadCallExpression (class)}\label{chiclass:ReadCallExpression}
+\clsdocuReadCallExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{ReadCallExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ReadCallExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:ReadCallExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{file}{{[0..1]}}{Expression}{}{\label{chiattr:ReadCallExpression.file}}
+{\featdocuReadCallExpressionfile}
+\chiclassDetail{cont}{loadType}{{[1]}}{Type}{}{\label{chiattr:ReadCallExpression.loadType}}
+{\featdocuReadCallExpressionloadType}
+\end{description}
+
+
+\subsection{RealNumber (class)}\label{chiclass:RealNumber}
+\clsdocuRealNumber
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{RealNumber}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:RealNumber.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:RealNumber.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{attr}{value}{{[1]}}{ChiRealNumber}{}{\label{chiattr:RealNumber.value}}
+{\featdocuRealNumbervalue}
+\end{description}
+
+
+\subsection{RealType (class)}\label{chiclass:RealType}
+\clsdocuRealType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{RealType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:RealType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{ReceiveStatement (class)}\label{chiclass:ReceiveStatement}
+\clsdocuReceiveStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\chiclass{CommunicationStatement} \\
+\indent\indent\indent\hook~\emph{ReceiveStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ReceiveStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{channel}{{[1]}}{Expression}{(inherited from \textit{CommunicationStatement})}{\label{chiattr:ReceiveStatement.channel}}
+{\featdocuCommunicationStatementchannel}
+\chiclassDetail{cont}{data}{{[0..*]}}{Expression}{(inherited from \textit{CommunicationStatement})}{\label{chiattr:ReceiveStatement.data}}
+{\featdocuCommunicationStatementdata}
+\end{description}
+
+
+\subsection{ReturnStatement (class)}\label{chiclass:ReturnStatement}
+\clsdocuReturnStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{ReturnStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:ReturnStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{values}{{[1..*]}}{Expression}{}{\label{chiattr:ReturnStatement.values}}
+{\featdocuReturnStatementvalues}
+\end{description}
+
+
+\subsection{RunStatement (class)}\label{chiclass:RunStatement}
+\clsdocuRunStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{RunStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:RunStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{cases}{{[1..*]}}{CreateCase}{}{\label{chiattr:RunStatement.cases}}
+{\featdocuRunStatementcases}
+\chiclassDetail{attr}{startOnly}{{[1]}}{EBoolean}{}{\label{chiattr:RunStatement.startOnly}}
+{\featdocuRunStatementstartOnly}
+\end{description}
+
+
+\subsection{SelectCase (class)}\label{chiclass:SelectCase}
+\clsdocuSelectCase
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{SelectCase}
+
+~\\ \noindent Direct derived classes:
+\chiclass{IteratedSelectCase}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:SelectCase.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{body}{{[1..*]}}{Statement}{}{\label{chiattr:SelectCase.body}}
+{\featdocuSelectCasebody}
+\chiclassDetail{cont}{guard}{{[0..1]}}{Expression}{}{\label{chiattr:SelectCase.guard}}
+{\featdocuSelectCaseguard}
+\end{description}
+
+
+\subsection{SelectStatement (class)}\label{chiclass:SelectStatement}
+\clsdocuSelectStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{SelectStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:SelectStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{cases}{{[1..*]}}{SelectCase}{}{\label{chiattr:SelectStatement.cases}}
+{\featdocuSelectStatementcases}
+\end{description}
+
+
+\subsection{SendStatement (class)}\label{chiclass:SendStatement}
+\clsdocuSendStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\chiclass{CommunicationStatement} \\
+\indent\indent\indent\hook~\emph{SendStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:SendStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{channel}{{[1]}}{Expression}{(inherited from \textit{CommunicationStatement})}{\label{chiattr:SendStatement.channel}}
+{\featdocuCommunicationStatementchannel}
+\chiclassDetail{cont}{data}{{[0..*]}}{Expression}{(inherited from \textit{CommunicationStatement})}{\label{chiattr:SendStatement.data}}
+{\featdocuCommunicationStatementdata}
+\end{description}
+
+
+\subsection{SetExpression (class)}\label{chiclass:SetExpression}
+\clsdocuSetExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{SetExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:SetExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:SetExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{elements}{{[0..*]}}{Expression}{}{\label{chiattr:SetExpression.elements}}
+{\featdocuSetExpressionelements}
+\end{description}
+
+
+\subsection{SetType (class)}\label{chiclass:SetType}
+\clsdocuSetType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{SetType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:SetType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{elementType}{{[1]}}{Type}{}{\label{chiattr:SetType.elementType}}
+{\featdocuSetTypeelementType}
+\end{description}
+
+
+\subsection{SliceExpression (class)}\label{chiclass:SliceExpression}
+\clsdocuSliceExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{SliceExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:SliceExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:SliceExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{end}{{[0..1]}}{Expression}{}{\label{chiattr:SliceExpression.end}}
+{\featdocuSliceExpressionend}
+\chiclassDetail{cont}{source}{{[1]}}{Expression}{}{\label{chiattr:SliceExpression.source}}
+{\featdocuSliceExpressionsource}
+\chiclassDetail{cont}{start}{{[0..1]}}{Expression}{}{\label{chiattr:SliceExpression.start}}
+{\featdocuSliceExpressionstart}
+\chiclassDetail{cont}{step}{{[0..1]}}{Expression}{}{\label{chiattr:SliceExpression.step}}
+{\featdocuSliceExpressionstep}
+\end{description}
+
+
+\subsection{Specification (class)}\label{chiclass:Specification}
+\clsdocuSpecification
+
+~\\ \noindent \emph{EObject} \\
+\hook~\emph{Specification}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+\chiclassDetail{cont}{declarations}{{[0..*]}}{Declaration}{}{\label{chiattr:Specification.declarations}}
+{\featdocuSpecificationdeclarations}
+\end{description}
+
+
+\subsection{Statement (abstract class)}\label{chiclass:Statement}
+\clsdocuStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{Statement}
+
+~\\ \noindent Direct derived classes:
+\chiclass{AssignmentStatement}, \chiclass{BreakStatement}, \chiclass{CommunicationStatement}, \chiclass{ContinueStatement}, \chiclass{DelayStatement}, \chiclass{ForStatement}, \chiclass{IfStatement}, \chiclass{PassStatement}, \chiclass{ReturnStatement}, \chiclass{RunStatement}, \chiclass{SelectStatement}, \chiclass{TerminateStatement}, \chiclass{WhileStatement}, \chiclass{WriteStatement}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Statement.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{StdLibFunctionReference (class)}\label{chiclass:StdLibFunctionReference}
+\clsdocuStdLibFunctionReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\chiclass{BaseFunctionReference} \\
+\indent\indent\indent\hook~\emph{StdLibFunctionReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:StdLibFunctionReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:StdLibFunctionReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{attr}{function}{{[1]}}{StdLibFunctions}{}{\label{chiattr:StdLibFunctionReference.function}}
+{\featdocuStdLibFunctionReferencefunction}
+\end{description}
+
+
+\subsection{StringLiteral (class)}\label{chiclass:StringLiteral}
+\clsdocuStringLiteral
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{StringLiteral}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:StringLiteral.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:StringLiteral.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{attr}{value}{{[1]}}{EString}{}{\label{chiattr:StringLiteral.value}}
+{\featdocuStringLiteralvalue}
+\end{description}
+
+
+\subsection{StringType (class)}\label{chiclass:StringType}
+\clsdocuStringType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{StringType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:StringType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{TerminateStatement (class)}\label{chiclass:TerminateStatement}
+\clsdocuTerminateStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{TerminateStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TerminateStatement.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{TimeLiteral (class)}\label{chiclass:TimeLiteral}
+\clsdocuTimeLiteral
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{TimeLiteral}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TimeLiteral.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:TimeLiteral.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{TimerType (class)}\label{chiclass:TimerType}
+\clsdocuTimerType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{TimerType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TimerType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{TupleExpression (class)}\label{chiclass:TupleExpression}
+\clsdocuTupleExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{TupleExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TupleExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:TupleExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{fields}{{[2..*]}}{Expression}{}{\label{chiattr:TupleExpression.fields}}
+{\featdocuTupleExpressionfields}
+\end{description}
+
+
+\subsection{TupleField (class)}\label{chiclass:TupleField}
+\clsdocuTupleField
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{TupleField}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TupleField.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[0..1]}}{Name}{}{\label{chiattr:TupleField.name}}
+{\featdocuTupleFieldname}
+\chiclassDetail{cont}{type}{{[1]}}{Type}{}{\label{chiattr:TupleField.type}}
+{\featdocuTupleFieldtype}
+\end{description}
+
+
+\subsection{TupleType (class)}\label{chiclass:TupleType}
+\clsdocuTupleType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{TupleType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TupleType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{fields}{{[2..*]}}{TupleField}{}{\label{chiattr:TupleType.fields}}
+{\featdocuTupleTypefields}
+\end{description}
+
+
+\subsection{Type (abstract class)}\label{chiclass:Type}
+\clsdocuType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{Type}
+
+~\\ \noindent Direct derived classes:
+\chiclass{BoolType}, \chiclass{ChannelType}, \chiclass{DictType}, \chiclass{DistributionType}, \chiclass{EnumTypeReference}, \chiclass{FileType}, \chiclass{InstanceType}, \chiclass{IntType}, \chiclass{ListType}, \chiclass{MatrixType}, \chiclass{ProcessType}, \chiclass{RealType}, \chiclass{SetType}, \chiclass{StringType}, \chiclass{TimerType}, \chiclass{TupleType}, \chiclass{TypeReference}, \chiclass{UnresolvedType}, \chiclass{VoidType}
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Type.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{TypeDeclaration (class)}\label{chiclass:TypeDeclaration}
+\clsdocuTypeDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Declaration} \\
+\indent\indent\hook~\emph{TypeDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TypeDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{(inherited from \textit{Declaration})}{\label{chiattr:TypeDeclaration.name}}
+{\featdocuDeclarationname}
+\chiclassDetail{cont}{type}{{[1]}}{Type}{}{\label{chiattr:TypeDeclaration.type}}
+{\featdocuTypeDeclarationtype}
+\end{description}
+
+
+\subsection{TypeReference (class)}\label{chiclass:TypeReference}
+\clsdocuTypeReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{TypeReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:TypeReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{ref}{type}{{[1]}}{TypeDeclaration}{}{\label{chiattr:TypeReference.type}}
+{\featdocuTypeReferencetype}
+\end{description}
+
+
+\subsection{UnaryExpression (class)}\label{chiclass:UnaryExpression}
+\clsdocuUnaryExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{UnaryExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:UnaryExpression.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:UnaryExpression.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{cont}{child}{{[1]}}{Expression}{}{\label{chiattr:UnaryExpression.child}}
+{\featdocuUnaryExpressionchild}
+\chiclassDetail{cont}{operator}{{[1]}}{UnaryOp}{}{\label{chiattr:UnaryExpression.operator}}
+{\featdocuUnaryExpressionoperator}
+\end{description}
+
+
+\subsection{UnaryOp (class)}\label{chiclass:UnaryOp}
+\clsdocuUnaryOp
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{UnaryOp}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:UnaryOp.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{op}{{[1]}}{UnaryOperators}{}{\label{chiattr:UnaryOp.op}}
+{\featdocuUnaryOpop}
+\end{description}
+
+
+\subsection{UnresolvedReference (class)}\label{chiclass:UnresolvedReference}
+\clsdocuUnresolvedReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{UnresolvedReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:UnresolvedReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:UnresolvedReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{attr}{name}{{[1]}}{ChiIdentifier}{}{\label{chiattr:UnresolvedReference.name}}
+{\featdocuUnresolvedReferencename}
+\end{description}
+
+
+\subsection{UnresolvedType (class)}\label{chiclass:UnresolvedType}
+\clsdocuUnresolvedType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{UnresolvedType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:UnresolvedType.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{name}{{[1]}}{ChiIdentifier}{}{\label{chiattr:UnresolvedType.name}}
+{\featdocuUnresolvedTypename}
+\end{description}
+
+
+\subsection{Unwind (class)}\label{chiclass:Unwind}
+\clsdocuUnwind
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{Unwind}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:Unwind.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{source}{{[1]}}{Expression}{}{\label{chiattr:Unwind.source}}
+{\featdocuUnwindsource}
+\chiclassDetail{cont}{variables}{{[1..*]}}{VariableDeclaration}{}{\label{chiattr:Unwind.variables}}
+{\featdocuUnwindvariables}
+\end{description}
+
+
+\subsection{VariableDeclaration (class)}\label{chiclass:VariableDeclaration}
+\clsdocuVariableDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\emph{VariableDeclaration}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:VariableDeclaration.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{initialValue}{{[0..1]}}{Expression}{}{\label{chiattr:VariableDeclaration.initialValue}}
+{\featdocuVariableDeclarationinitialValue}
+\chiclassDetail{cont}{name}{{[1]}}{Name}{}{\label{chiattr:VariableDeclaration.name}}
+{\featdocuVariableDeclarationname}
+\chiclassDetail{attr}{parameter}{{[1]}}{EBoolean}{}{\label{chiattr:VariableDeclaration.parameter}}
+{\featdocuVariableDeclarationparameter}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{}{\label{chiattr:VariableDeclaration.type}}
+{\featdocuVariableDeclarationtype}
+\end{description}
+
+
+\subsection{VariableReference (class)}\label{chiclass:VariableReference}
+\clsdocuVariableReference
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Expression} \\
+\indent\indent\hook~\emph{VariableReference}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:VariableReference.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{type}{{[0..1]}}{Type}{(inherited from \textit{Expression})}{\label{chiattr:VariableReference.type}}
+{\featdocuExpressiontype}
+\chiclassDetail{ref}{variable}{{[1]}}{VariableDeclaration}{}{\label{chiattr:VariableReference.variable}}
+{\featdocuVariableReferencevariable}
+\end{description}
+
+
+\subsection{VoidType (class)}\label{chiclass:VoidType}
+\clsdocuVoidType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Type} \\
+\indent\indent\hook~\emph{VoidType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:VoidType.position}}
+{\featdocuChiObjectposition}
+\end{description}
+
+
+\subsection{WhileStatement (class)}\label{chiclass:WhileStatement}
+\clsdocuWhileStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{WhileStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:WhileStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{cont}{body}{{[1..*]}}{Statement}{}{\label{chiattr:WhileStatement.body}}
+{\featdocuWhileStatementbody}
+\chiclassDetail{cont}{condition}{{[1]}}{Expression}{}{\label{chiattr:WhileStatement.condition}}
+{\featdocuWhileStatementcondition}
+\end{description}
+
+
+\subsection{WriteStatement (class)}\label{chiclass:WriteStatement}
+\clsdocuWriteStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\chiclass{ChiObject} \\
+\indent\hook~\chiclass{Statement} \\
+\indent\indent\hook~\emph{WriteStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+
+
+
+\chiclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{ChiObject})}{\label{chiattr:WriteStatement.position}}
+{\featdocuChiObjectposition}
+\chiclassDetail{attr}{addNewline}{{[1]}}{EBoolean}{}{\label{chiattr:WriteStatement.addNewline}}
+{\featdocuWriteStatementaddNewline}
+\chiclassDetail{attr}{toFile}{{[1]}}{EBoolean}{}{\label{chiattr:WriteStatement.toFile}}
+{\featdocuWriteStatementtoFile}
+\chiclassDetail{cont}{values}{{[1..*]}}{Expression}{}{\label{chiattr:WriteStatement.values}}
+{\featdocuWriteStatementvalues}
+\end{description}
+
+
+

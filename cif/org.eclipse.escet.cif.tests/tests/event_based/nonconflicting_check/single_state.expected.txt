@@ -1,0 +1,3 @@
+Nonconflicting check HOLDS in file "event_based/nonconflicting_check/single_state.cif".
+
+No conflicts found!

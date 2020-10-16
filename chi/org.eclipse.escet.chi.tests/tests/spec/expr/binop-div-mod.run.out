@@ -1,0 +1,9 @@
+7 div 4 = 1
+7 mod 4 = 3
+7 div -4 = -2
+7 mod -4 = -1
+-7 div 4 = -2
+-7 mod 4 = 1
+-7 div -4 = 1
+-7 mod -4 = -3
+All processes finished at time 0.00 (initial seed was 135).

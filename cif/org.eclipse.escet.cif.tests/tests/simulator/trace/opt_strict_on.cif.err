@@ -1,0 +1,2 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, a=l2.
+CAUSE: Multiple transitions are possible for event "f" from the trace input, but strict mode is enabled, which does not allow multiple matches.

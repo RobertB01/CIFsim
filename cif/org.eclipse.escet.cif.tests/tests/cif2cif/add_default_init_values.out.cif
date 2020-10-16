@@ -1,0 +1,81 @@
+func int _f(list int l):
+  int s = 0;
+  s := size(l);
+  return s;
+end
+type t = bool;
+enum e1 = A, B;
+enum e2 = D, C;
+type ti = int;
+func bool f1():
+  list ti v = <list[0] ti>[];
+  v[0] := 5;
+  return size(v) > 0;
+end
+type te1 = e1;
+func bool f2():
+  list te1 v = <list[0] te1>[];
+  v[0] := A;
+  return size(v) > 0;
+end
+func bool _f2():
+  return false;
+end
+func bool _f3(int p0; real p1):
+  return false;
+end
+func tuple(string a; int b) _f4():
+  return ("", 0);
+end
+func func tuple(string a; int b)() _f5():
+  return _f4;
+end
+automaton p:
+  cont x = 0.0 der 1.0;
+  disc bool b = false;
+  disc int i1 = 0;
+  disc int[-5..-3] i2 = -3;
+  disc int[3..5] i3 = 3;
+  disc int[-5..3] i4 = 0;
+  disc int[-3..5] i5 = 0;
+  disc int[-3..-3] i6 = -3;
+  disc int[3..3] i7 = 3;
+  disc int[-5..-5] i8 = -5;
+  disc int[5..5] i9 = 5;
+  disc t vt = false;
+  disc e1 ve1 = A;
+  disc e2 ve2 = D;
+  disc real r = 0.0;
+  disc string g = "";
+  disc list int l = <list[0] int>[];
+  disc list[0] int l0 = <list[0] int>[];
+  disc list[1] int l1 = [0];
+  disc list[2] int l2 = [0, 0];
+  disc list[0..2] int l02 = <list[0] int>[];
+  disc list[1..3] int l13 = [0];
+  disc list[2..4] int l24 = [0, 0];
+  disc set int s = <set int>{};
+  disc func bool() f1 = _f2;
+  disc func bool(int, real) f2 = _f3;
+  disc func func tuple(string a; int b)()() f3 = _f5;
+  disc dict(bool:real) d = <dict(bool:real)>{};
+  disc tuple(bool bf; int if0; int[2..4] if2) t1 = (false, 0, 2);
+  disc tuple(t tf; e1 ef; real rf; string sf) t2 = (false, A, 0.0, "");
+  disc tuple(list int lf; set int sf) t3 = (<list[0] int>[], <set int>{});
+  disc tuple(func bool() ff; dict(real:bool) df) t4 = (_f2, <dict(real:bool)>{});
+  disc tuple(tuple(int a; int b) tf; dist bool df) t5 = ((0, 0), constant(false));
+  disc dist bool db = constant(false);
+  disc dist int di = constant(0);
+  disc dist real dr = constant(0.0);
+  invariant x > 0 or b or i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 > 0;
+  invariant vt or ve1 in {A, B} or ve2 in {D, C} or r > 0 or size(g) > 0;
+  invariant size(l) + size(l0) + size(l1) + size(l2) > 0;
+  invariant size(l02) + size(l13) + size(l24) > 0;
+  invariant size(s) > 0 or f1() or f2(1, 1.0) or f3()()[1] > 0;
+  invariant size(d) > 0 or t1[bf] or t2[rf] + size(t3[lf]) > 0;
+  invariant size(t4[df]) > 0 or t5[tf][a] > 0;
+  invariant (sample db)[0] or (sample di)[0] + (sample dr)[0] > 0;
+  location:
+    initial;
+end
+invariant _f([1]) > 0;

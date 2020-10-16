@@ -1,0 +1,20 @@
+group a:
+  group b:
+    automaton c:
+      invariant x.x.x.l;
+      invariant x.x.x.l;
+      location l:
+        initial;
+    end
+  end
+end
+group x:
+  group x:
+    automaton x:
+      invariant a.b.c.l;
+      invariant a.b.c.l;
+      location l:
+        initial;
+    end
+  end
+end

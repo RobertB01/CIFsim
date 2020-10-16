@@ -1,0 +1,2 @@
+ERROR: File "tchecker/svg_file_invalid_file_xml_file.cif": Semantic error at line 14, column 9: SVG image file "svg_file_invalid_file_xml_file.svg" could not be read, is empty, is incomplete, is not an SVG file, or is an invalid SVG file.
+ERROR: Failed to load CIF file "tchecker/svg_file_invalid_file_xml_file.cif": the file has errors.

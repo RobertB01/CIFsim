@@ -1,0 +1,138 @@
+ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
+ - Unsupported expression ""a"": string literal expressions are currently not supported.
+ - Unsupported expression ""a"": string literal expressions are currently not supported.
+ - Unsupported expression "(p.b, p.db)": tuple expressions are currently not supported.
+ - Unsupported expression "(true, false)": tuple expressions are currently not supported.
+ - Unsupported expression "+p.i": unary operator "+" is currently not supported, or is not supported for the operand that is used.
+ - Unsupported expression "-p.i": unary operator "-" is currently not supported, or is not supported for the operand that is used.
+ - Unsupported expression "1.0": real number expressions are currently not supported.
+ - Unsupported expression "1.2": real number expressions are currently not supported.
+ - Unsupported expression "<real>1": cast expressions are currently not supported.
+ - Unsupported expression "[true]": list expressions are currently not supported.
+ - Unsupported expression "constant(true)": function calls are currently not supported.
+ - Unsupported expression "if true: 1 else 2 end": 'if' expressions are currently not supported.
+ - Unsupported expression "p.i < p.i": binary operator "<" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.i <= p.i": binary operator "<=" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.i > p.i": binary operator ">" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.i >= p.i": binary operator ">=" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.i div p.i": binary operator "div" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.i mod p.i": binary operator "mod" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.lb[:]": slice expressions are currently not supported.
+ - Unsupported expression "p.r * p.r": binary operator "*" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.r + p.r": binary operator "+" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.r - p.r": binary operator "-" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.r / p.r": binary operator "/" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.sb sub p.sb": binary operator "sub" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "p.tbb[a]": projection expressions are currently not supported.
+ - Unsupported expression "sample p.db": unary operator "sample" is currently not supported, or is not supported for the operand that is used.
+ - Unsupported expression "switch 1: else 2 end": 'switch' expressions are currently not supported.
+ - Unsupported expression "switch p: case l: 3 end": 'switch' expressions are currently not supported.
+ - Unsupported expression "time": the use of variable "time" is currently not supported.
+ - Unsupported expression "true in p.sb": binary operator "in" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "{false}": set expressions are currently not supported.
+ - Unsupported expression "{false}": set expressions are currently not supported.
+ - Unsupported expression "{true: false}": dictionary expressions are currently not supported.
+ - Unsupported expression "{true: true}": dictionary expressions are currently not supported.
+ - Unsupported expression "{true} and {false}": binary operator "and" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "{true} or {false}": binary operator "or" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "{true}": set expressions are currently not supported.
+ - Unsupported expression "{true}": set expressions are currently not supported.
+ - Unsupported expression "{true}": set expressions are currently not supported.
+ - Unsupported function "f": user-defined functions are currently unsupported.
+ - Unsupported location "l" of automaton "p": edges with multi-assignments are currently unsupported.
+ - Unsupported location "l" of automaton "p": edges with partial variable assignments are currently unsupported.
+ - Unsupported location "l" of automaton "p": invariants in locations are currently unsupported.
+ - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
+ - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
+ - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
+ - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "func bool(bool)": function types are currently not supported.
+ - Unsupported type "func bool(bool)": function types are currently not supported.
+ - Unsupported type "func bool(bool)": function types are currently not supported.
+ - Unsupported type "func bool(bool)": function types are currently not supported.
+ - Unsupported type "func dist bool(bool)": function types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "int": rangeless integer types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list bool": list types are currently not supported.
+ - Unsupported type "list[1] bool": list types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "real": real types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "set bool": set types are currently not supported.
+ - Unsupported type "string": string types are currently not supported.
+ - Unsupported type "string": string types are currently not supported.
+ - Unsupported type "string": string types are currently not supported.
+ - Unsupported type "string": string types are currently not supported.
+ - Unsupported type "tuple(bool a; bool b)": tuple types are currently not supported.
+ - Unsupported type "tuple(bool a; bool b)": tuple types are currently not supported.
+ - Unsupported type "tuple(bool; bool)": tuple types are currently not supported.
+ - Unsupported type "tuple(bool; dist bool)": tuple types are currently not supported.
+ - Unsupported type "tuple(bool; dist bool)": tuple types are currently not supported.

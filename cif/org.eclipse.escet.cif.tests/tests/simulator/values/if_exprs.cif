@@ -1,0 +1,46 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func list int f():
+  return [1                                                        // 1
+         ,if true:   2                               else  3 end   // 2
+         ,if false:  4                               else  5 end   // 5
+         ,if false:  6 elif true:   7 elif true:   8 else  9 end   // 7
+         ,if false: 10 elif true:  11 elif false: 12 else 13 end   // 11
+         ,if false: 14 elif false: 15 elif true:  16 else 17 end   // 16
+         ,if false: 18 elif false: 19 elif false: 20 else 21 end   // 21
+         ,if true:  22 elif true:  23 elif true:  24 else 25 end   // 22
+         ,if true:  26 elif true:  27 elif false: 28 else 29 end   // 26
+         ,if true:  30 elif false: 31 elif true:  32 else 33 end   // 30
+         ,if true:  34 elif false: 35 elif false: 36 else 37 end   // 34
+         ,if true, true:   38                        else 39 end   // 38
+         ,if true, false:  40                        else 41 end   // 41
+         ,if false, true:  42                        else 43 end   // 43
+         ,if false, false: 44                        else 45 end   // 45
+         ,if false: 46 elif true, true:   47         else 48 end   // 47
+         ,if false: 49 elif true, false:  50         else 51 end   // 51
+         ,if false: 52 elif false, true:  53         else 54 end   // 54
+         ,if false: 55 elif false, false: 56         else 57 end   // 57
+         ,if true:  if true:  58 else 59 end else 60 end           // 58
+         ,if true:  if false: 61 else 62 end else 63 end           // 62
+         ,if false: if true:  64 else 65 end else 66 end           // 66
+         ,if false: if false: 67 else 68 end else 69 end           // 69
+         ];
+end
+
+automaton p:
+  disc list int b = f();
+  location:
+    initial b[0] = 1;
+    urgent;
+end

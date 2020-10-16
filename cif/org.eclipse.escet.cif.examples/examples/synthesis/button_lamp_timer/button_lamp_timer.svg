@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="400"
+   height="200"
+   id="svg2383"
+   sodipodi:version="0.32"
+   inkscape:version="0.47 r22583"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:docname="button_lamp_timer.svg">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="1080"
+     inkscape:window-width="1912"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="311.03103"
+     inkscape:cy="119.27362"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:current-layer="timer"
+     inkscape:window-maximized="1" />
+  <defs
+     id="defs2385">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 150 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="300 : 150 : 1"
+       inkscape:persp3d-origin="150 : 100 : 1"
+       id="perspective13" />
+    <inkscape:perspective
+       id="perspective2833"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3636"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(0,75)">
+    <path
+       d="m 216.36297,14.799011 c 0,22.31568 -19.22108,40.406108 -42.93149,40.406108 -23.7104,0 -42.93148,-18.090428 -42.93148,-40.406108 0,-22.3156699 19.22108,-40.406099 42.93148,-40.406099 23.71041,0 42.93149,18.0904291 42.93149,40.406099 z"
+       id="lamp"
+       style="fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <g
+       id="button_grp"
+       transform="translate(15.393621,-60.179298)">
+      <path
+         id="button_bar"
+         d="m 15.106379,35.202697 0,79.551233"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <rect
+         inkscape:label="#rect2389"
+         y="49.180443"
+         x="15.190909"
+         height="51.595745"
+         width="35"
+         id="button"
+         style="fill:#c0c0c0;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.99999988;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="5.8510637"
+       y="-54.851067"
+       id="time"
+       sodipodi:linespacing="125%"
+       inkscape:label="#time"><tspan
+         sodipodi:role="line"
+         id="tspan2391"
+         x="5.8510637"
+         y="-54.851067">Time: 0.0</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="48.042267"
+       y="89.773438"
+       id="button_state_txts"><tspan
+         sodipodi:role="line"
+         id="button_state_txt_fixed"
+         x="48.042267"
+         y="89.773438"
+         style="text-align:center;text-anchor:middle">Button:</tspan><tspan
+         sodipodi:role="line"
+         x="48.042267"
+         y="109.77344"
+         id="button_state_txt"
+         style="text-align:center;text-anchor:middle">released</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="173.58774"
+       y="89.773438"
+       id="lamp_state_txts"><tspan
+         sodipodi:role="line"
+         id="lamp_state_txt_fixed"
+         x="173.58774"
+         y="89.773438"
+         style="text-align:center;text-anchor:middle">Lamp:</tspan><tspan
+         sodipodi:role="line"
+         x="173.58774"
+         y="109.77344"
+         id="lamp_state_txt"
+         style="text-align:center;text-anchor:middle">off</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="325.5"
+       y="88.46875"
+       id="timer_state_txts"><tspan
+         sodipodi:role="line"
+         id="timer_state_txt_fixed"
+         x="325.5"
+         y="88.46875"
+         style="text-align:center;text-anchor:middle">Timer:</tspan><tspan
+         sodipodi:role="line"
+         x="325.5"
+         y="108.46875"
+         style="text-align:center;text-anchor:middle"
+         id="timer_state_txt">running</tspan></text>
+    <g
+       id="timer">
+      <rect
+         y="4.2990155"
+         x="260.5"
+         height="20"
+         width="130"
+         id="timer_back"
+         style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+      <rect
+         style="fill:#ff8000;fill-opacity:1;stroke:none"
+         id="timer_front"
+         width="87.438667"
+         height="19"
+         x="261"
+         y="4.7999997" />
+    </g>
+  </g>
+</svg>

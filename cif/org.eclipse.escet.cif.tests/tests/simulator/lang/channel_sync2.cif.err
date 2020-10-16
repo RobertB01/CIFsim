@@ -1,0 +1,8 @@
+WARNING: File "simulator/lang/channel_sync2.cif": Semantic warning at line 15, column 11: Event "e000" is not used anywhere in the specification.
+WARNING: File "simulator/lang/channel_sync2.cif": Semantic warning at line 58, column 12: The alphabet of automaton "sync2" globally disables event "e110b", as the event is not used on any of the edges of the automaton.
+WARNING: No senders found for channel "e001".
+WARNING: No receivers found for channel "e001".
+WARNING: No senders found for channel "e010".
+WARNING: No senders found for channel "e011".
+WARNING: No receivers found for channel "e100".
+WARNING: No receivers found for channel "e101".

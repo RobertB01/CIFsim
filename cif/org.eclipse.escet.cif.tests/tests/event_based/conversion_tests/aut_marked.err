@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/aut_marked.cif".
+CAUSE: Unsupported automaton "p": marker predicates in components are currently not supported.

@@ -1,0 +1,168 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cif2cif;
+
+// Configuration.
+string test_path = "pprint_elim_cdef";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1"];
+map(string:list string) test_options = {};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if endswith(tests[i], ".out.cif") or endswith(tests[i], ".elim.cif"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Get paths.
+    string test1_out_exp  = chfileext(test, newext="compile.out");
+    string test1_err_exp  = chfileext(test, newext="compile.err");
+    string test1_out_real = chfileext(test, newext="compile.out.real");
+    string test1_err_real = chfileext(test, newext="compile.err.real");
+    string file1_out_exp  = chfileext(test, "cif", "out.cif");
+    string file1_out_real = chfileext(test, "cif", "out.real.cif");
+
+    // Pretty print (1st test).
+    list string options1 = [test] + options + ["-o", file1_out_real];
+    outln("Testing \"%s\" (1/3)...", test);
+    cif2cif(options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare stdout/stderr.
+    bool stderr1_diff = diff(test1_err_exp, test1_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout1_diff = diff(test1_out_exp, test1_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool file1_diff   = diff(file1_out_exp, file1_out_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr1_diff:: rmfile(test1_err_real);
+    if not stdout1_diff:: rmfile(test1_out_real);
+    if not file1_diff::   rmfile(file1_out_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr1_diff:: diff_count = diff_count + 1;
+    if stdout1_diff:: diff_count = diff_count + 1;
+    if file1_diff::   diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+
+    // Pretty print (2nd test).
+    if diff_count == 0:
+        // Cleanup.
+        if exists(file1_out_real):: rmfile(file1_out_real);
+
+        // Get paths.
+        string test2_out_exp  = chfileext(test, newext="compile2.out");
+        string test2_err_exp  = chfileext(test, newext="compile2.err");
+        string test2_out_real = chfileext(test, newext="compile2.out.real");
+        string test2_err_real = chfileext(test, newext="compile2.err.real");
+        string file2_out_exp  = file1_out_exp;
+        string file2_out_real = file1_out_real;
+
+        // Pretty print (second time).
+        list string options2 = [file1_out_exp] + options + ["-o", file2_out_real];
+        outln("Testing \"%s\" (2/3)...", test);
+        cif2cif(options2, stdout=test2_out_real, stderr=test2_err_real, ignoreNonZeroExitCode=true);
+
+        // Compare stdout/stderr.
+        bool stderr2_diff = diff(test2_err_exp, test2_err_real, missingAsEmpty=true, warnOnDiff=true);
+        bool stdout2_diff = diff(test2_out_exp, test2_out_real, missingAsEmpty=true, warnOnDiff=true);
+        bool file2_diff   = diff(file2_out_exp, file2_out_real, missingAsEmpty=true, warnOnDiff=true);
+        if not stderr2_diff:: rmfile(test2_err_real);
+        if not stdout2_diff:: rmfile(test2_out_real);
+        if not file2_diff::   rmfile(file2_out_real);
+
+        // Update counts.
+        int diff_count = 0;
+        if stderr2_diff:: diff_count = diff_count + 1;
+        if stdout2_diff:: diff_count = diff_count + 1;
+        if file2_diff::   diff_count = diff_count + 1;
+
+        count = count + 1;
+        if diff_count == 0:: successes = successes + 1;
+        if diff_count > 0:: failures = failures + 1;
+    end
+
+    // Get paths.
+    string test3_out_exp  = test1_out_exp;
+    string test3_err_exp  = test1_err_exp;
+    string test3_out_real = test1_out_real;
+    string test3_err_real = test1_err_real;
+    string file3_out_exp  = chfileext(test, "cif", "elim.cif");
+    string file3_out_real = chfileext(test, "cif", "elim.real.cif");
+
+    // Eliminate component definition/instantiation (3rd test).
+    list string options3 = [test] + options + ["-o", file3_out_real, "-t elim-comp-def-inst"];
+    outln("Testing \"%s\" (3/3)...", test);
+    cif2cif(options3, stdout=test3_out_real, stderr=test3_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare stdout/stderr.
+    bool stderr3_diff = diff(test3_err_exp, test3_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout3_diff = diff(test3_out_exp, test3_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool file3_diff   = diff(file3_out_exp, file3_out_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr3_diff:: rmfile(test3_err_real);
+    if not stdout3_diff:: rmfile(test3_out_real);
+    if not file3_diff::   rmfile(file3_out_real);
+
+    // Update counts.
+    diff_count = 0;
+    if stderr1_diff:: diff_count = diff_count + 1;
+    if stdout1_diff:: diff_count = diff_count + 1;
+    if file1_diff::   diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

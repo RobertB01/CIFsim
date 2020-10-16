@@ -1,0 +1,15 @@
+Reading ToolDef script file "interpreter/exit_deep.tooldef".
+Executing ToolDef script.
+c 0
+c 1
+c 2
+c 3
+b 0
+b 1
+b 2
+b 3
+a 0
+a 1
+a 2
+a 3
+Finished executing ToolDef script (exit code 5).

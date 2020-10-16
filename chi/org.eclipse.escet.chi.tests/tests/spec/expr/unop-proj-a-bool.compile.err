@@ -1,0 +1,1 @@
+ERROR: File "spec/expr/unop-proj-a-bool.chi": Parsing failed at line 15, column 22, at or near "true" (found "true", expected an identifier).

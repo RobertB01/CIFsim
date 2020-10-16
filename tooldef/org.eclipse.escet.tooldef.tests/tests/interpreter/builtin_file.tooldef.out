@@ -1,0 +1,254 @@
+=== cpfile ===
+false false
+true false
+["tmp"]
+true true
+["tmp"] ["tmp"]
+true
+true
+false false
+
+=== cpdir ===
+false false
+true false
+["a.txt", "sub1", "sub1/b1.txt", "sub1/b2.txt", "sub2", "sub2/c1.txt", "sub2/c2.txt", "sub2/subsub2", "sub2/subsub2/d1.txt", "sub2/subsub2/d2.txt"]
+true true
+["a.txt", "sub1", "sub1/b1.txt", "sub1/b2.txt", "sub2", "sub2/c1.txt", "sub2/c2.txt", "sub2/subsub2", "sub2/subsub2/d1.txt", "sub2/subsub2/d2.txt"]
+["a.txt", "sub1", "sub1/b1.txt", "sub1/b2.txt", "sub2", "sub2/c1.txt", "sub2/c2.txt", "sub2/subsub2", "sub2/subsub2/d1.txt", "sub2/subsub2/d2.txt"]
+true
+true
+false false
+
+=== diff ===
+1:
+diff:false
+
+2:
+--- subdir/sub_subdir1/x.txt
++++ subdir/sub_subdir2/y.txt
+@@ -1,1 +1,1 @@
+-abc
++def
+diff:true
+
+3:
+--- does_not_exist
++++ subdir/sub_subdir2/y.txt
+@@ -1,0 +1,1 @@
++def
+diff:true
+
+4:
+--- subdir/sub_subdir1/x.txt
++++ does_not_exist
+@@ -1,1 +1,0 @@
+-abc
+diff:true
+
+5:
+diff:false
+
+6:
+diff:true
+
+7:
+diff:true
+["--- subdir/sub_subdir1/x.txt", "+++ subdir/sub_subdir2/y.txt", "@@ -1,1 +1,1 @@", "-abc", "+def"]
+true
+
+8:
+--- subdir/data1.txt
++++ subdir/data2.txt
+@@ -1,7 +1,6 @@
+ text1
+-text2
++tfxt2
+ text3
+-text4
+ text5
+ text6
+ text7
+@@ -9,5 +8,6 @@
+ text9
+ text10
+ text11
++text11b
+ text12
+ text13
+diff:true
+
+9:
+--- subdir/sub_subdir1/x.txt
++++ subdir/sub_subdir2/y.txt
+@@ -1,1 +1,1 @@
+-abc
++def
+diff:true
+
+10:
+diff:false
+
+=== exists ===
+false
+true
+true
+true
+
+=== filenewer ===
+false false
+true false
+true true
+false
+false
+true
+true
+false
+false
+false
+false
+true
+true
+false
+false
+true
+true
+false
+false
+false
+false
+true
+true
+false false
+
+=== filesize ===
+0
+9
+0
+
+=== find ===
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+["sub_subdir1/x.txt", "sub_subdir2/y.txt"]
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir2"]
+["sub_subdir1", "sub_subdir2"]
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1/x.txt", "sub_subdir2/y.txt"]
+[]
+
+=== isdir ===
+false
+
+true
+true
+true
+true
+
+false
+false
+
+=== isfile ===
+false
+
+false
+false
+false
+false
+
+true
+true
+
+=== mkdir ===
+false
+true
+true
+true
+false
+
+false
+true
+true
+true
+false
+
+=== mvfile ===
+false false false
+true false false
+["tmp"]
+false true false
+["tmp"]
+false false true
+["tmp"]
+true
+false false false
+
+=== mvdir ===
+false false false
+true false false
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+
+false true false
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+
+false false true
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+["data.txt", "data0.txt", "data1.txt", "data2.txt", "sub_subdir1", "sub_subdir1/x.txt", "sub_subdir2", "sub_subdir2/y.txt"]
+
+false false false
+
+=== readlines ===
+["first line", "second line"]
+["abc"]
+
+=== rmfile ===
+false
+true
+true
+false
+false
+false
+
+=== rmdir ===
+false
+true
+["a.txt", "sub1", "sub1/b1.txt", "sub1/b2.txt", "sub2", "sub2/c1.txt", "sub2/c2.txt", "sub2/subsub2", "sub2/subsub2/d1.txt", "sub2/subsub2/d2.txt"]
+true
+false
+false
+false
+
+=== writefile (text) ===
+false
+
+true
+["abc", "def"]
+
+true
+["abc", "def", "ghi"]
+
+true
+["abc", "def", "ghi", "x"]
+
+true
+["abc", "def", "ghi", "xy"]
+
+true
+false
+
+=== writefile (lines) ===
+false
+
+true
+["abc", "def"]
+
+true
+["abc", "def", "ghi"]
+
+true
+["abc", "def", "ghi", "x"]
+
+true
+["abc", "def", "ghi", "x", "y"]
+
+true
+false
+

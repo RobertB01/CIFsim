@@ -1,0 +1,5 @@
+Initial state: time=0.0, p=*, p.x=2.0, p.x'=-1.0
+
+Transition: delaying for 0.9999999999999999 time units at time 0.0
+State: time=0.9999999999999999, p=*, p.x=0.9999999999999996, p.x'=-1.0
+

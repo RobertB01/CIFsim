@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc real t = time + 1.23;
+
+  location l1:
+    initial;
+    edge do t := time + 2.34 goto l2;
+
+  location l2:
+    edge when time >= 3.0 goto l3;
+
+  location l3:
+    edge do t := time + 0.123 goto l4;
+
+  location l4:
+    urgent;
+end

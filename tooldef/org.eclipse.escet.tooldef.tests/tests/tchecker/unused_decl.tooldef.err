@@ -1,0 +1,4 @@
+WARNING: File "tchecker/unused_decl.tooldef": Semantic warning at line 27, column 8: Variable "y" is not used.
+WARNING: File "tchecker/unused_decl.tooldef": Semantic warning at line 31, column 11: Type parameter "b.U" is not used.
+WARNING: File "tchecker/unused_decl.tooldef": Semantic warning at line 31, column 23: Tool parameter "b.w" is not used.
+WARNING: File "tchecker/unused_decl.tooldef": Semantic warning at line 35, column 38: Imported script "imp" is not used.

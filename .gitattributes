@@ -1,0 +1,47 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+################################################################################# 
+
+# Set the default behavior, convert to native line endings on checkout.
+* text=auto
+
+# Declare files that will always have certain line endings on checkout.
+*.bash text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+Makefile text eol=lf
+
+# Denote all files that are truly binary.
+*.7z        binary
+*.bmp       binary
+*.class     binary
+*.doc       binary
+*.docx      binary
+*.eps       binary
+*.exe       binary
+*.fig       binary
+*.gif       binary
+*.gz        binary
+*.ico       binary
+*.jar       binary
+*.jpg       binary
+*.pdf       binary
+*.png       binary
+*.ppt       binary
+*.pptx      binary
+*.ps        binary
+*.slx       binary
+*.tar       binary
+*.tgz       binary
+*.xls       binary
+*.xlsx      binary
+*.zip       binary

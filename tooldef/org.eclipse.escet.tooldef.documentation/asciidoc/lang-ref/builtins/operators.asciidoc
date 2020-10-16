@@ -1,0 +1,585 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-ref-builtins-operators]]
+== Built-in operators
+
+This page describes the built-in operators:
+
+* <<lang-ref-builtins-operators-not,not>>
+* <<lang-ref-builtins-operators-and,and>>
+* <<lang-ref-builtins-operators-or,or>>
+* <<lang-ref-builtins-operators-plus-unary,pass:[+] (unary)>>
+* <<lang-ref-builtins-operators-dash-unary,pass:[-] (unary)>>
+* <<lang-ref-builtins-operators-plus-binary,pass:[+] (binary)>>
+* <<lang-ref-builtins-operators-dash-binary,pass:[-] (binary)>>
+* <<lang-ref-builtins-operators-star,pass:[*]>>
+* <<lang-ref-builtins-operators-slash,pass:[/]>>
+* <<lang-ref-builtins-operators-div,div>>
+* <<lang-ref-builtins-operators-mod,mod>>
+* <<lang-ref-builtins-operators-lt,+<+>>
+* <<lang-ref-builtins-operators-le,+<=+>>
+* <<lang-ref-builtins-operators-gt,pass:[>]>>
+* <<lang-ref-builtins-operators-ge,pass:[>=]>>
+* <<lang-ref-builtins-operators-eq,pass:[==]>>
+* <<lang-ref-builtins-operators-ne,pass:[!=]>>
+
+The signatures of the operators are given using tool headers, to show the name
+of the operator, the types of the arguments, and the type of the resulting
+value. Operators however, can not be used by means of tool invocations.
+Operators with one argument are put directly before the argument (e.g.
+`not true`, `-5`), while operators with two arguments are put between the
+arguments (e.g. `true and false`, `+1 + 3+`).
+
+
+indexterm:[not]
+
+[[lang-ref-builtins-operators-not]]
+=== not operator
+
+[source, tooldef]
+----
+tool bool not(bool arg)
+----
+
+Returns the logical inverse of a boolean value.
+
+_Arguments_
+
+`arg`::
+The boolean value.
+
+_Returns_
+
+The logical inverse result.
+
+
+indexterm:[and]
+
+[[lang-ref-builtins-operators-and]]
+=== and operator
+
+[source, tooldef]
+----
+tool bool  and(bool left, bool right)
+tool set T and<T>(set T left, set T right)
+----
+
+Returns the conjunction of two boolean values, or the intersection of two sets.
+For boolean values, the operator uses short circuit evaluation. That is, the
+`right` argument is only evaluated if necessary, i.e. only if the `left`
+argument evaluates to `true`.
+
+_Type parameters_
+
+`T`::
+The type of the elements of the set.
+
+_Arguments_
+
+`left`::
+The first boolean value or set.
+
+`right`::
+The second boolean value or set.
+
+_Returns_
+
+The conjunction or intersection result.
+
+
+indexterm:[or]
+
+[[lang-ref-builtins-operators-or]]
+=== or operator
+
+[source, tooldef]
+----
+tool bool  or(bool left, bool right)
+tool set T or<T>(set T left, set T right)
+----
+
+Returns the disjunction of two boolean values, or the union of two sets.
+For boolean values, the operator uses short circuit evaluation. That is, the
+`right` argument is only evaluated if necessary, i.e. only if the `left`
+argument evaluates to `false`.
+
+_Type parameters_
+
+`T`::
+The type of the elements of the set.
+
+_Arguments_
+
+`left`::
+The first boolean value or set.
+
+`right`::
+The second boolean value or set.
+
+_Returns_
+
+The disjunction or union result.
+
+
+indexterm:[+,unary]
+
+[[lang-ref-builtins-operators-plus-unary]]
+=== pass:[+] operator (unary)
+
+[source, tooldef]
+----
+tool int    +(int arg)
+tool long   +(long arg)
+tool double +(double arg)
+----
+
+Returns the unary plus of an integer, long, or double value. This is
+essentially the
+link:http://en.wikipedia.org/wiki/Identity_function[identity function].
+
+_Arguments_
+
+`arg`::
+The integer, long, or double value.
+
+_Returns_
+
+The integer, long, or double value.
+
+
+indexterm:[+,binary]
+
+[[lang-ref-builtins-operators-plus-binary]]
+=== pass:[+] operator (binary)
+
+[source, tooldef]
+----
+tool int      +(int left, int right)
+tool long     +(long left, long right)
+tool double   +(double left, double right)
+tool string   +(string left, string right)
+tool list T   +<T>(list T left, list T right)
+tool map(K:V) +<K, V>(map(K:V) left, map(K:V) right)
+----
+
+Returns the addition of two integer, long, or double numbers, the concatenation
+of two strings or lists, or the update of a first map with the entries of a
+second map. For two maps, essentially, the entries of the first map are
+overwritten by the entries of the second map, while entries for new keys are
+added.
+
+_Type parameters_
+
+`T`::
+The type of the elements of the list.
+
+`K`::
+The type of the keys of the map.
+
+`V`::
+The type of the values of the map.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number, string, list, or map.
+
+`right`::
+The second integer, long, or double number, string, list, or map.
+
+_Returns_
+
+The addition, concatenation, or map update result.
+
+_Runtime errors_
+
+* If the operation results in overflow (for integer, long, and double numbers
+only).
+
+
+indexterm:[-,unary]
+
+[[lang-ref-builtins-operators-dash-unary]]
+=== pass:[-] operator (unary)
+
+[source, tooldef]
+----
+tool int    -(int arg)
+tool long   -(long arg)
+tool double -(double arg)
+----
+
+Returns the negation of an integer, long, or double value.
+
+_Arguments_
+
+`arg`::
+The integer, long, or double value.
+
+_Returns_
+
+The negation result.
+
+_Runtime errors_
+
+* If the operation results in overflow.
+
+
+indexterm:[-,binary]
+
+[[lang-ref-builtins-operators-dash-binary]]
+=== pass:[-] operator (binary)
+
+[source, tooldef]
+----
+tool int      -(int left, int right)
+tool long     -(long left, long right)
+tool double   -(double left, double right)
+tool set T    -<T>(set T left, set T right)
+tool map(K:V) -<K, V>(map(K:V) left, list K right)
+tool map(K:V) -<K, V>(map(K:V) left, set K right)
+tool map(K:V) -<K, V, V2>(map(K:V) left, map(K:V2) right)
+----
+
+Returns the subtraction of two integer, long, or double numbers, the set
+difference of two sets, the map with the keys from the list removed from it,
+the map with the keys from the set removed from it, or the first map with the
+keys from the second map removed from it.
+
+_Type parameters_
+
+`T`::
+The type of the elements of the list.
+
+`K`::
+The type of the keys of the map.
+
+`V`::
+The type of the values of the map.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number, the first set, or the (first) map.
+
+`right`::
+The second integer, long, or double number, the (second) set, the list, or
+the second map.
+
+_Returns_
+
+The subtraction, set difference, or map removal result.
+
+_Runtime errors_
+
+* If the operation results in overflow (for integer, long, and double numbers
+only).
+
+
+indexterm:[*]
+
+[[lang-ref-builtins-operators-star]]
+=== pass:[*] operator
+
+[source, tooldef]
+----
+tool int    *(int left, int right)
+tool long   *(long left, long right)
+tool double *(double left, double right)
+----
+
+Returns the multiplication of two integer, long, or double numbers.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number.
+
+`right`::
+The second integer, long, or double number.
+
+_Returns_
+
+The multiplication result.
+
+_Runtime errors_
+
+* If the operation results in overflow.
+
+
+indexterm:[/]
+
+[[lang-ref-builtins-operators-slash]]
+=== pass:[/] operator
+
+[source, tooldef]
+----
+tool double /(double left, double right)
+----
+
+Returns the division of two double numbers.
+
+_Arguments_
+
+`left`::
+The first double number.
+
+`right`::
+The second double number.
+
+_Returns_
+
+The division result.
+
+_Runtime errors_
+
+* If the operation results in overflow or division by zero.
+
+
+indexterm:[div]
+
+[[lang-ref-builtins-operators-div]]
+=== div operator
+
+[source, tooldef]
+----
+tool int  div(int left, int right)
+tool long div(long left, long right)
+----
+
+Returns the integer division of two integer or long numbers.
+
+_Arguments_
+
+`left`::
+The first integer or long number.
+
+`right`::
+The second integer or long number.
+
+_Returns_
+
+The integer division result.
+
+_Runtime errors_
+
+* If the operation results in overflow or division by zero.
+
+
+indexterm:[mod]
+
+[[lang-ref-builtins-operators-mod]]
+=== mod operator
+
+[source, tooldef]
+----
+tool int  mod(int left, int right)
+tool long mod(long left, long right)
+----
+
+Returns the modulus of two integer or long numbers.
+
+_Arguments_
+
+`left`::
+The first integer or long number.
+
+`right`::
+The second integer or long number.
+
+_Returns_
+
+The modulus result.
+
+_Runtime errors_
+
+* If the operation results in division by zero.
+
+
+indexterm:[<]
+
+[[lang-ref-builtins-operators-lt]]
+=== +<+ operator
+
+[source, tooldef]
+----
+tool bool <(int left, int right)
+tool bool <(long left, long right)
+tool bool <(double left, double right)
+----
+
+Returns whether the first integer, long, or double number is less than the
+second integer, long, or double number.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number.
+
+`right`::
+The second integer, long, or double number.
+
+_Returns_
+
+`true` if the first number is less than the second number, `false`
+otherwise.
+
+
+[subs=-replacements]
+indexterm:[<=]
+
+[[lang-ref-builtins-operators-le]]
+=== +<=+ operator
+
+[source, tooldef]
+----
+tool bool <=(int left, int right)
+tool bool <=(long left, long right)
+tool bool <=(double left, double right)
+----
+
+Returns whether the first integer, long, or double number is less than or equal
+to the second integer, long, or double number.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number.
+
+`right`::
+The second integer, long, or double number.
+
+_Returns_
+
+`true` if the first number is less than or equal to the second number,
+`false` otherwise.
+
+
+indexterm:[>]
+
+[[lang-ref-builtins-operators-gt]]
+=== pass:[>] operator
+
+[source, tooldef]
+----
+tool bool >(int left, int right)
+tool bool >(long left, long right)
+tool bool >(double left, double right)
+----
+
+Returns whether the first integer, long, or double number is greater than the
+second integer, long, or double number.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number.
+
+`right`::
+The second integer, long, or double number.
+
+_Returns_
+
+`true` if the first number is greater than the second number, `false`
+otherwise.
+
+indexterm:[>=]
+
+[[lang-ref-builtins-operators-ge]]
+=== pass:[>=] operator
+
+[source, tooldef]
+----
+tool bool >=(int left, int right)
+tool bool >=(long left, long right)
+tool bool >=(double left, double right)
+----
+
+Returns whether the first integer, long, or double number is greater than or
+equal to the second integer, long, or double number.
+
+_Arguments_
+
+`left`::
+The first integer, long, or double number.
+
+`right`::
+The second integer, long, or double number.
+
+_Returns_
+
+`true` if the first number is greater than or equal to the second number,
+`false` otherwise.
+
+
+indexterm:[==]
+
+[[lang-ref-builtins-operators-eq]]
+=== pass:[==] operator
+
+[source, tooldef]
+----
+tool bool ==<T>(T left, T right)
+----
+
+Returns whether the first value is equal to the second value.
+
+_Type parameters_
+
+`T`::
+The type of the values.
+
+_Arguments_
+
+`left`::
+The first value. May be `null`.
+
+`right`::
+The second value. May be `null`.
+
+_Returns_
+
+`true` if the first value is equal to the second value, `false` otherwise.
+
+
+indexterm:[!=]
+
+[[lang-ref-builtins-operators-ne]]
+=== pass:[!=] operator
+
+[source, tooldef]
+----
+tool bool !=<T>(T left, T right)
+----
+
+Returns whether the first value is unequal to the second value.
+
+_Type parameters_
+
+`T`::
+The type of the values.
+
+_Arguments_
+
+`left`::
+The first value. May be `null`.
+
+`right`::
+The second value. May be `null`.
+
+_Returns_
+
+`true` if the first value is unequal to the second value, `false`
+otherwise.

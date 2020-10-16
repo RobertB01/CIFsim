@@ -1,0 +1,135 @@
+Reading CIF file "datasynth/initial1.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..9]  p.x1  0      4 * 2     10 * 2      16 * 2      ~63%
+  2      discrete variable  int[0..9]  p.x2  1      4 * 2     10 * 2      16 * 2      ~63%
+  3      discrete variable  int[0..9]  p.x3  2      4 * 2     10 * 2      16 * 2      ~63%
+  4      discrete variable  int[0..9]  p.x4  3      4 * 2     10 * 2      16 * 2      ~63%
+  5      discrete variable  int[0..9]  p.x5  4      4 * 2     10 * 2      16 * 2      ~63%
+  6      discrete variable  int[0..9]  p.x6  5      4 * 2     10 * 2      16 * 2      ~63%
+  7      discrete variable  int[0..9]  p.x7  6      4 * 2     10 * 2      16 * 2      ~63%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      7      56        140         224         ~63%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 0
+
+  Skipping automatic ordering: no hyperedges.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         p.x1 = 0
+Initial   (discrete variable 1):         p.x2 = 2
+Initial   (discrete variable 2):         <bdd 52n 27p>
+Initial   (discrete variable 3):         true
+Initial   (discrete variable 4):         true
+Initial   (discrete variable 5):         true
+Initial   (discrete variable 6):         p.x7 = 0 or p.x7 = 2 or (p.x7 = 4 or (p.x7 = 6 or p.x7 = 8))
+Initial   (discrete variables):          <bdd 25n 81p>
+Initial   (component init predicate):    p.x1 = 0
+Initial   (component init predicate):    p.x2 = 2
+Initial   (component init predicate):    p.x3 = 2
+Initial   (component init predicate):    true
+Initial   (component init predicate):    p.x5 != 5
+Initial   (component init predicate):    p.x6 != 6
+Initial   (component init predicate):    p.x6 != 7
+Initial   (component init predicate):    p.x7 != 8
+Initial   (components init predicate):   <bdd 23n 48p>
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         <bdd 27n 45p>
+Initial   (system, combined init/inv):   <bdd 27n 45p>
+
+Marked    (component marker predicate):  p.x5 != 1
+Marked    (component marker predicate):  p.x6 != 2
+Marked    (component marker predicate):  p.x7 != 6
+Marked    (components marker predicate): <bdd 12n 64p>
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         <bdd 12n 64p>
+Marked    (system, combined marked/inv): <bdd 12n 64p>
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x1" of type "int[0..9]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 10/16)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x2" of type "int[0..9]" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 10/16)].
+Controlled behavior: true -> <bdd 9n 27p> [range: true, variable: discrete variable "p.x3" of type "int[0..9]" (group: 2, domain: 4+5, BDD variables: 4, CIF/BDD values: 10/16)].
+Controlled behavior: <bdd 9n 27p> -> <bdd 12n 81p> [range: true, variable: discrete variable "p.x4" of type "int[0..9]" (group: 3, domain: 6+7, BDD variables: 4, CIF/BDD values: 10/16)].
+Controlled behavior: <bdd 12n 81p> -> <bdd 15n 243p> [range: true, variable: discrete variable "p.x5" of type "int[0..9]" (group: 4, domain: 8+9, BDD variables: 4, CIF/BDD values: 10/16)].
+Controlled behavior: <bdd 15n 243p> -> <bdd 18n 729p> [range: true, variable: discrete variable "p.x6" of type "int[0..9]" (group: 5, domain: 10+11, BDD variables: 4, CIF/BDD values: 10/16)].
+Controlled behavior: <bdd 18n 729p> -> <bdd 21n 2,187p> [range: true, variable: discrete variable "p.x7" of type "int[0..9]" (group: 6, domain: 12+13, BDD variables: 4, CIF/BDD values: 10/16)].
+
+Extended controlled-behavior predicate using variable ranges: <bdd 21n 2,187p>.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: <bdd 12n 64p> [marker predicate]
+Backward controlled-behavior: <bdd 12n 64p> -> <bdd 31n 17,496p> [restricted to current/previous controlled-behavior predicate: <bdd 21n 2,187p>]
+Backward reachability: iteration 1.
+Backward controlled-behavior: <bdd 31n 17,496p> [fixed point].
+Controlled behavior: <bdd 21n 2,187p> -> <bdd 31n 17,496p>.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: <bdd 31n 17,495p> [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: <bdd 27n 45p> [initialization predicate]
+Forward controlled-behavior: <bdd 27n 45p> -> <bdd 32n 150p> [restricted to current/previous controlled-behavior predicate: <bdd 31n 17,496p>]
+Forward reachability: iteration 1.
+Forward controlled-behavior: <bdd 32n 150p> [fixed point].
+Controlled behavior: <bdd 31n 17,496p> -> <bdd 32n 150p>.
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: <bdd 12n 64p> [marker predicate]
+Backward controlled-behavior: <bdd 12n 64p> -> <bdd 32n 150p> [restricted to current/previous controlled-behavior predicate: <bdd 32n 150p>]
+Backward reachability: iteration 1.
+Backward controlled-behavior: <bdd 32n 150p> [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: <bdd 32n 404p> [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: <bdd 32n 150p>)
+
+Controlled system:                     exactly 1,680 states.
+
+Initial (synthesis result):            <bdd 32n 150p>
+Initial (uncontrolled system):         <bdd 27n 45p>
+Initial (controlled system):           <bdd 32n 150p>
+Initial (removed by supervisor):       <bdd 37n 99p>
+Initial (added by supervisor):         <bdd 37n 473p>
+
+Simplification of controlled system under the assumption of the uncontrolled system:
+  Initial: <bdd 32n 150p> -> (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or p.x5 = 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7)))) and (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or (p.x5 = 9 or not(p.x6 = 2 or p.x6 = 6)))) and ((p.x5 = 1 or p.x5 = 3 or (p.x5 = 5 or (p.x5 = 7 or p.x5 = 9)) or (p.x6 = 0 or (p.x6 = 2 or p.x6 = 4) or (p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7))))) and (not(p.x5 = 1 or p.x5 = 5) and (p.x5 != 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))))) and ((p.x5 != 9 or not(p.x6 = 2 or p.x6 = 6)) and (p.x5 != 9 or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7)))) and ((not(p.x5 = 3 or p.x5 = 7) or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))) and ((not(p.x5 = 3 or p.x5 = 7) or not(p.x6 = 2 or p.x6 = 6)) and (not(p.x5 = 3 or p.x5 = 7) or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7))))))) [assume <bdd 27n 45p>].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/initial1.ctrlsys.real.cif".

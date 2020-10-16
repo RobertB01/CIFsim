@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg dist real x1 = random();
+
+plant p:
+  alg dist real x2 = random();
+  disc dist real x3 = random();
+  disc dist real x4 in {random(), random()};
+  location:
+    initial;
+end
+
+invariant (sample   x1)[0] + (sample p.x2)[0] > 0;
+invariant (sample p.x3)[0] + (sample p.x4)[0] > 0;
+
+func dist real f():
+  dist real d = random();
+  if true: return d; end
+  return random();
+end
+
+invariant (sample f())[0] > 0;

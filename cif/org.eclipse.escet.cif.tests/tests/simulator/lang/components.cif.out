@@ -1,0 +1,16 @@
+Initial state: time=0.0, p.p1=l1, p.p2=l1
+
+Transition: event a
+State: time=0.0, p.p1=l2, p.p2=l2
+
+Possible transitions:
+  #1: event p.p1.f
+  #2: event p.p2.f
+
+Transition: event p.p1.f
+State: time=0.0, p.p1=l3, p.p2=l2
+
+Transition: event p.p2.f
+State: time=0.0, p.p1=l3, p.p2=l3
+
+Simulation resulted in deadlock.

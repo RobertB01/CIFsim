@@ -1,0 +1,71 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-eventbased-chapter-dfa-minimization]]
+== Event-based DFA minimization
+
+indexterm:[event-based DFA minimization]
+indexterm:[tools,event-based DFA minimization]
+indexterm:[event-based synthesis toolset,event-based DFA minimization]
+indexterm:[event-based DFA minimization,event-based synthesis toolset]
+Minimizing the number of locations of an automaton while preserving the
+language gives a canonical representation of the language, making it easier to
+compare automata. The DFA minimization tool computes such a minimal automaton.
+
+The tool takes a `.cif` file containing one deterministic automaton with an
+initial location. In addition, the general event-based restrictions listed at
+<<tools-eventbased-supported-specifications>> apply as well.
+
+The DFA minimization tool produces an automaton with the same language, but
+with the minimal number of locations. If the original automaton already had
+the minimal number of locations, the result is the same as the input.
+
+indexterm:[event-based DFA minimization,start]
+
+=== Starting the DFA minimization tool
+
+The tool can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply DFA minimization...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply DFA minimization...].
+
+* Use the `cifdfamin` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifdfamin` command line tool.
+
+indexterm:[event-based language equivalence check,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Output file_: The absolute or relative local file system path to the
+output CIF specification. If not specified, defaults to the input file
+path, where the `.cif` file extension is removed (if present), and a
+`+_minimal.cif+` file extension is added. The `minimal` part of the default
+extension depends on the _Result name_ option.
+
+* _Result name_: The name to use for the minimized automaton. If not specified,
+defaults to `minimal`. Also affects the _Output file_ option.

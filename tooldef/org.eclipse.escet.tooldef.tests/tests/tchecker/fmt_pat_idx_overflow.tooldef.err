@@ -1,0 +1,2 @@
+ERROR: File "tchecker/fmt_pat_idx_overflow.tooldef": Semantic error at line 14, column 6: Invalid format specifier: the explicit index causes integer overflow.
+ERROR: Failed to load ToolDef file "tchecker/fmt_pat_idx_overflow.tooldef": the file has errors.

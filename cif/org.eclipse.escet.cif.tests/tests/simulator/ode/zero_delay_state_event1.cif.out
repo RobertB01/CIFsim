@@ -1,0 +1,27 @@
+Initial state: time=0.0, m=*, m.dir=UP, m.y=0.0, m.y'=1.0
+
+Transition: delaying for 3.0636361421201616E-16 time units at time 0.0
+State: time=3.0636361421201616e-16, m=*, m.dir=UP, m.y=3.063684288900914e-16, m.y'=1.0
+
+Transition: delaying for 4.000000000000002 time units at time 3.0636361421201616E-16
+State: time=4.000000000000002, m=*, m.dir=UP, m.y=4.000000000000003, m.y'=1.0
+
+Transition: event tau
+State: time=4.000000000000002, m=*, m.dir=DOWN, m.y=4.000000000000003, m.y'=-1.0
+
+Transition: delaying for 5.329070518200751E-15 time units at time 4.000000000000002
+State: time=4.000000000000007, m=*, m.dir=DOWN, m.y=3.9999999999999973, m.y'=-1.0
+
+Transition: delaying for 4.0 time units at time 4.000000000000007
+State: time=8.000000000000007, m=*, m.dir=DOWN, m.y=-4.4825254619240695e-15, m.y'=-1.0
+
+Transition: event tau
+State: time=8.000000000000007, m=*, m.dir=UP, m.y=-4.4825254619240695e-15, m.y'=1.0
+
+Transition: delaying for 7.105427357601002E-15 time units at time 8.000000000000007
+State: time=8.000000000000014, m=*, m.dir=UP, m.y=2.6229018956769323e-15, m.y'=1.0
+
+Transition: delaying for 1.9999999999999858 time units at time 8.000000000000014
+State: time=10.0, m=*, m.dir=UP, m.y=1.9999999999999907, m.y'=1.0
+
+Simulation ended due to reaching the user-provided simulation end time.

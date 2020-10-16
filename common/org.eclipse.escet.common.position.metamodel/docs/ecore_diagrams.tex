@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Metamodels are represented using Ecore class diagrams, which are very similar
+to UML class diagrams. In Ecore class diagrams,
+\emph{classifiers} represent concepts, and \emph{associations} represent
+relationships between concepts. There are two kinds of classifiers, namely
+\emph{data types} and \emph{classes}.
+
+Data types are used for simple types, whose details are not modeled as classes.
+Data types are identified by a name. Examples of data types include booleans,
+numbers, strings (optionally restricted using regular expressions), and
+enumerations.
+
+A class is also identified by its name, and can have a number of structural
+features, namely attributes and references. Classes allow \emph{inheritance},
+giving them access to the structural features of their supertypes/basetypes.
+
+\emph{Attributes} are identified by name, and they have a data type.
+Associations between classes are modeled by \emph{references}. Like attributes,
+references are identified by name and have a type. However, the type is the
+class at the other end of the association. A reference specifies lower and
+upper bounds on its multiplicity. The multiplicity indicators that can be used
+are shown in Table~\ref{tbl:multiplicity}.
+\begin{table}
+\caption{Multiplicity indicators}\label{tbl:multiplicity}
+\begin{center}
+\begin{tabular}[htb]{@{}|r|@{\quad} l |}
+    \hline
+    \textbf{Indicator} & \textbf{Meaning} \\
+    $n$    & Exactly $n$ (where $n\ge 1$), default notation \\
+    $n..n$ & Exactly $n$ (where $n\ge 1$), alternative notation \\
+    $n..m$ & $n$ up to and including $m$
+             (where $n\ge 0$, $m\ge 1$, and $m>n$) \\
+    $n..*$ & $n$ or more (where $n\ge 0$) \\
+    \hline
+\end{tabular}
+\end{center}
+\end{table}
+Finally, a reference specifies whether it is being used to represent a
+stronger type of association, called \emph{containment}.
+
+Graphically, data types are depicted as rectangles. The rectangles have a
+yellow background. The data type name is shown at the top inside the
+rectangle. The Java class name is shown below it. Enumerations differ
+slightly. They have a green background. Instead of the Java class name,
+the enumeration literals are listed below the name of the enumeration.
+
+Classes are depicted as rounded rectangles with a yellow background. The
+class name is shown at the top inside the rectangle. Abstract classes have
+a grey background, and the class name is shown in italic font. The names,
+types and multiplicity of the attributes are shown inside the rectangle.
+References for which the target class is not part of the diagram, are
+listed as well. Features from base classes are listed using a grey font.
+
+Tables~\ref{tbl:ecore-classifier-icons} and \ref{tbl:ecore-feature-icons}
+shows the various icons used in Ecore class diagrams for classifiers and
+features.
+
+\begin{table}
+\caption{Ecore diagram classifier icons}\label{tbl:ecore-classifier-icons}
+\begin{center}
+\begin{tabular}[htb]{@{}|c|@{\quad} l |}
+    \hline
+    \textbf{Icon} & \textbf{Meaning} \\
+    \includegraphics{figures/ecore_icon_datatype.png} & Data type \\
+    \includegraphics{figures/ecore_icon_enum.png} & Enumeration \\
+    \includegraphics{figures/ecore_icon_class.png} & Class \\
+    \includegraphics{figures/ecore_icon_class_abstr.png} & Abstract class \\
+    \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}
+\caption{Ecore diagram feature icons}\label{tbl:ecore-feature-icons}
+\begin{center}
+\begin{tabular}[htb]{@{}|c|@{\quad} l |}
+    \hline
+    \textbf{Icon} & \textbf{Meaning} \\
+    \includegraphics{figures/ecore_icon_attr_01.png} &
+      Attribute with multiplicity $[0..1]$ \\
+    \includegraphics{figures/ecore_icon_attr_11.png} &
+      Attribute with multiplicity $[1..1]$ \\
+    \includegraphics{figures/ecore_icon_ref_01.png} &
+      Reference with multiplicity $[0..1]$ \\
+    \includegraphics{figures/ecore_icon_ref_11.png} &
+      Reference with multiplicity $[1..1]$ \\
+    \includegraphics{figures/ecore_icon_ref_0x.png} &
+      Reference with multiplicity $[0..*]$ \\
+    \includegraphics{figures/ecore_icon_ref_1x.png} &
+      Reference with multiplicity $[1..*]$ \\
+    \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Inheritance relations are depicted as arrows between two classes with a
+(non-solid) triangle on the side of the superclass. A reference is depicted as
+an arrow between two classes, labeled with its name and its multiplicity. A
+containment reference is depicted with a solid diamond at the side of the
+containing class.

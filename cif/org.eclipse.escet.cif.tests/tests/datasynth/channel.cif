@@ -1,0 +1,58 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable int e;
+
+plant cnt:
+  controllable next;
+  disc int[0..3] c = 0;
+
+  location:
+    initial;
+    marked;
+    edge next when c < 3 do c := c + 1;
+end
+
+plant snd1:
+  location:
+    initial;
+    marked;
+    edge e!1 when cnt.c = 1;
+end
+
+plant snd2:
+  location:
+    initial;
+    marked;
+    edge e!2 when cnt.c = 2;
+end
+
+plant rcv1:
+  disc int[0..3] x;
+
+  location:
+    initial;
+    marked;
+    edge e? when cnt.c = 1 do x := ?;
+end
+
+plant rcv2:
+  disc int[0..3] x;
+
+  location:
+    initial;
+    marked;
+    edge e? when cnt.c = 2 do x := ?;
+end
+
+requirement e needs rcv1.x = 0 or rcv2.x = 1;

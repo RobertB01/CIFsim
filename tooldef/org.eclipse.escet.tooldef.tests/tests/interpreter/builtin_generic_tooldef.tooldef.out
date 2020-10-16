@@ -1,0 +1,100 @@
+=== tooldef ===
+1a:
+5
+6
+OK
+0
+
+1b:
+5
+6
+OK
+0
+
+1c:
+5
+6
+OK
+0
+
+2a:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+2b:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+2c:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+3a:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+3b:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+3c:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+4a:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+4b:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+
+4c:
+Reading ToolDef script file "simple.tooldef".
+Executing ToolDef script.
+5
+6
+OK
+Finished executing ToolDef script (exit code 0).
+0
+

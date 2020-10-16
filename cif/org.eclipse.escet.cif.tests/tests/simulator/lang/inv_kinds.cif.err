@@ -1,0 +1,6 @@
+WARNING: Invariant "e needs true" of the top level scope of the specification is a requirement, but will be simulated as a plant.
+WARNING: Invariant "false disables e" of the top level scope of the specification is a requirement, but will be simulated as a plant.
+WARNING: Invariant "13 = 13" of the top level scope of the specification is a requirement, but will be simulated as a plant.
+WARNING: Invariant "23 = 23" of group "g" is a requirement, but will be simulated as a plant.
+WARNING: Invariant "33 = 33" of automaton "g.a" is a requirement, but will be simulated as a plant.
+WARNING: Invariant "43 = 43" of location "l" of automaton "g.a" is a requirement, but will be simulated as a plant.

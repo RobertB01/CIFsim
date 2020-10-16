@@ -1,0 +1,69 @@
+Reading CIF file "datasynth/no_marked2.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      1      6         12          16          75%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         p.x = 2 or p.x = 3
+Initial   (discrete variables):          p.x = 2 or p.x = 3
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         p.x = 2 or p.x = 3
+Initial   (system, combined init/inv):   p.x = 2 or p.x = 3
+
+Marked    (component marker predicate):  p.x = 0 or p.x = 1
+Marked    (components marker predicate): p.x = 0 or p.x = 1
+Marked    (aut/locs marker predicate):   2 <= p.x and p.x <= 5
+Marked    (auts/locs marker predicate):  2 <= p.x and p.x <= 5
+Marked    (uncontrolled system):         false
+Marked    (system, combined marked/inv): false
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: false [marker predicate]
+Backward reachability: iteration 1.
+Controlled behavior: true -> false.
+
+Round 1: finished, all states are bad.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: false)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            false
+Initial (uncontrolled system):         p.x = 2 or p.x = 3
+Initial (controlled system):           false
+Initial (removed by supervisor):       p.x = 2 or p.x = 3
+Initial (added by supervisor):         not(p.x = 2 or p.x = 3)

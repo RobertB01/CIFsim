@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  event reset1, reset2;
+  cont t1 = 0.0 der 1.0,
+       t2 = 0.0 der 1.0;
+
+  location:
+    initial;
+    edge reset1 when t1 >= 1.0 do t1 := 0.0;
+    edge reset2 when t2 >= 2.0 do t2 := 0.0;
+end
+
+// reset1 every time unit, reset2 every two time units

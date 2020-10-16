@@ -1,0 +1,78 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage[paperwidth=40in, paperheight=20in]{geometry}
+
+\usetikzlibrary{arrows, automata, positioning, shapes.geometric}
+\begin{document}
+\pagestyle{empty}
+
+\definecolor{se-blue}{HTML}{D0D5FF}
+
+\newcommand{\state}[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+
+\begin{tikzpicture}[
+  ->,>=stealth',auto,node distance=5cm,thick,
+  every node/.style={font=\sffamily\small},
+  every state/.style={draw=se-blue,thick,top color=white,ellipse,
+                      bottom color=se-blue!75,initial text=},
+  accepting/.style={accepting by arrow,accepting text=\ldots},
+  every edge/.style={draw=black!50}]
+
+  \node[state, initial]   (s00) [                                 ] {0/0};
+  \node[state]            (s01) [below =1.3cm of s00, right of=s00] {0/1};
+  \node[state]            (s02) [below =1.3cm of s01, right of=s01] {0/2};
+  \node[state]            (s10) [above =1.3cm of s00, right of=s00] {1/0};
+  \node[state]            (s11) [below =1.3cm of s10, right of=s10] {1/1};
+  \node[state]            (s12) [below =1.3cm of s11, right of=s11] {1/2};
+  \node[state]            (s20) [above =1.3cm of s10, right of=s10] {2/0};
+  \node[state]            (s21) [below =1.3cm of s20, right of=s20] {2/1};
+  \node[state]            (s22) [below =1.3cm of s21, right of=s21] {2/2};
+
+  \path[every node/.style={font=\sffamily\normalsize,outer sep=-2pt}]
+    (s00) edge[bend left=3] node[sloped,anchor=south] {queue1.enter} (s10)
+    (s00) edge[bend left=3] node[sloped,anchor=south] {queue2.enter} (s01)
+
+    (s01) edge[bend left=3] node[sloped,anchor=south] {queue1.enter} (s11)
+    (s01) edge[bend left=3] node[sloped,anchor=north] {queue2.exit } (s00)
+
+    (s02) edge[bend left=3] node[sloped,anchor=south] {queue1.enter} (s12)
+    (s02) edge[           ] node[sloped,anchor=north] {queue2.exit } (s01)
+
+    (s10) edge[bend left=3] node[sloped,anchor=south] {queue2.enter} (s11)
+    (s10) edge[bend left=3] node[sloped,anchor=north] {queue1.exit } (s00)
+
+    (s11) edge[bend left=3] node[sloped,anchor=south] {queue1.enter} (s21)
+    (s11) edge[bend left=3] node[sloped,anchor=south] {queue2.enter} (s12)
+    (s11) edge[bend left=3] node[sloped,anchor=north] {queue1.exit } (s01)
+    (s11) edge[bend left=3] node[sloped,anchor=north] {queue2.exit } (s10)
+
+    (s12) edge[bend left=3] node[sloped,anchor=south] {queue1.enter} (s22)
+    (s12) edge[bend left=3] node[sloped,anchor=north] {queue1.exit } (s02)
+    (s12) edge[bend left=3] node[sloped,anchor=north] {queue2.exit } (s11)
+
+    (s20) edge[bend left=3] node[sloped,anchor=south] {queue2.enter} (s21)
+    (s20) edge[           ] node[sloped,anchor=north] {queue1.exit } (s10)
+
+    (s21) edge[bend left=3] node[sloped,anchor=south] {queue2.enter} (s22)
+    (s21) edge[bend left=3] node[sloped,anchor=north] {queue1.exit } (s11)
+    (s21) edge[bend left=3] node[sloped,anchor=north] {queue2.exit } (s20)
+
+    (s22) edge[bend left=3] node[sloped,anchor=north] {queue1.exit } (s12)
+    (s22) edge[bend left=3] node[sloped,anchor=north] {queue2.exit } (s21)
+  ;
+
+\end{tikzpicture}
+\end{document}

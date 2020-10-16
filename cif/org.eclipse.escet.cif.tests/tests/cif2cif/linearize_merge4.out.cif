@@ -1,0 +1,69 @@
+const bool p4_l1 = true;
+const real X = 7.0;
+alg real E = 9.0;
+const bool p10_p10 = true;
+const bool M = true;
+enum E2 = p3_l1, p4_l12, p6_X2, X2;
+automaton M2:
+  alphabet;
+  disc .E2 E2 = X2;
+  disc bool p1_p1 = false;
+  disc .E2 p1 = X2;
+  disc .E2 p10_p102 = X2;
+  disc .E2 p1_p12 = X2;
+  disc bool p2_p2_x = false;
+  disc .E2 p2_p2 = X2;
+  disc .E2 p2_p2_x2 = X2;
+  disc bool p3_l1 = false;
+  disc .E2 p3 = .p3_l1;
+  disc .E2 p4 = p4_l12;
+  disc .E2 p5_p5 = X2;
+  disc .E2 p5_p52 = X2;
+  disc .E2 p6_X = p6_X2;
+  disc .E2 p7 = X2;
+  alg real p8_a_p8 = 8.2;
+  disc .E2 p8 = X2;
+  alg real p8_a_p82 = 8.0;
+  disc .E2 p8_a = X2;
+  initial E2 = X2 and true,
+          p1 = X2 and true,
+          p10_p102 = X2 and true,
+          p1_p12 = X2 and true,
+          p2_p2 = X2 and true,
+          p2_p2_x2 = X2 and true,
+          p3 = .p3_l1 and true,
+          p4 = p4_l12 and true,
+          p5_p5 = X2 and true,
+          p5_p52 = X2 and true,
+          p6_X = p6_X2 and true,
+          p7 = X2 and true,
+          p8 = X2 and true,
+          p8_a = X2 and true;
+  marked E2 = X2 and false,
+         p1 = X2 and false,
+         p10_p102 = X2 and false,
+         p1_p12 = X2 and false,
+         p2_p2 = X2 and false,
+         p2_p2_x2 = X2 and false,
+         p3 = .p3_l1 and false,
+         p4 = p4_l12 and false,
+         p5_p5 = X2 and false,
+         p5_p52 = X2 and false,
+         p6_X = p6_X2 and false,
+         p7 = X2 and false,
+         p8 = X2 and false,
+         p8_a = X2 and false;
+  invariant p1_p1;
+  invariant p2_p2_x;
+  invariant p3_l1;
+  invariant p8_a_p8 = 8.3;
+  invariant p8_a_p82 = 8.1;
+  invariant p7 = X2 => X > 7.1;
+  location L:
+    initial;
+    marked;
+end
+invariant p4_l1;
+invariant E > 9.1;
+invariant p10_p10;
+invariant M;

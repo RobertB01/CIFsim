@@ -1,0 +1,3 @@
+WARNING: File "tchecker/fmt_pat_unused_value.cif": Semantic warning at line 14, column 46: The 3rd value is not used in the format pattern.
+WARNING: File "tchecker/fmt_pat_unused_value.cif": Semantic warning at line 14, column 52: The 5th value is not used in the format pattern.
+WARNING: File "tchecker/fmt_pat_unused_value.cif": Semantic warning at line 14, column 58: The 7th value is not used in the format pattern.

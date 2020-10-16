@@ -1,0 +1,9 @@
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 20, column 23: Cannot invoke tool "a" (1 overload) for the given arguments: no return types present.
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 24, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: a positional and a named argument both match parameter "b".
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 29, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: no argument for mandatory parameter "a".
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 30, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: no argument for mandatory parameter "a".
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 33, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: no 3rd parameter found.
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 36, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: no "c" parameter found.
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 39, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: type "bool" doesn't fit parameter "a".
+ERROR: File "tchecker/invoke_no_match_all_errs.tooldef": Semantic error at line 40, column 15: Cannot invoke tool "a" (1 overload) for the given arguments: type "long" doesn't fit parameter "a".
+ERROR: Failed to load ToolDef file "tchecker/invoke_no_match_all_errs.tooldef": the file has errors.

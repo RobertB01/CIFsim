@@ -1,0 +1,71 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.abspath;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.basename;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.chdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.chfileext;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.curdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.dirname;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.fileext;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.hasfileext;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.pathjoin;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInPathTools.scriptpath;
+
+tool string _abspath(string path):
+    return <string>$abspath(path);
+end
+
+tool string _abspath(string path, string workdir):
+    return <string>$abspath(path, workdir);
+end
+
+tool string _basename(string path):
+    return <string>$basename(path);
+end
+
+tool _chdir(string path):
+    $chdir(path);
+end
+
+tool string _chfileext(string path, string? oldext = null, string? newext = null):
+    return <string>$chfileext(path, oldext, newext);
+end
+
+tool string _curdir():
+    return <string>$curdir();
+end
+
+tool string _dirname(string path):
+    return <string>$dirname(path);
+end
+
+tool string _fileext(string path):
+    return <string>$fileext(path);
+end
+
+tool bool _hasfileext(string path, string ext):
+    return $hasfileext(path, ext);
+end
+
+tool string _pathjoin(string... paths):
+    return <string>$pathjoin(paths);
+end
+
+tool string _pathjoin(list string paths):
+    return <string>$pathjoin(paths);
+end
+
+tool string _scriptpath():
+    return <string>$scriptpath();
+end

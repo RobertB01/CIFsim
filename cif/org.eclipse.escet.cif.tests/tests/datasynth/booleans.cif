@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  controllable e1, e2, e3, e4;
+
+  plant p:
+    disc bool b0;
+    disc bool b1 = true;
+    disc bool b2 = false;
+    disc bool b3 in {true, false};
+    disc bool b4 in any;
+
+    initial b1, b3, b4;
+
+    location:
+      initial;
+      marked b0;
+      edge e1 do b0 := not b0;
+      edge e2 when not b2 do b0 := (1 = 1);
+      edge e3 when b4;
+      edge e4 when b3 = true;
+      edge e4 when b3 = false;
+  end
+end

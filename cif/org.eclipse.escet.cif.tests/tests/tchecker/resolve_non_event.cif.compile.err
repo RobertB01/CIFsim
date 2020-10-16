@@ -1,0 +1,15 @@
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 16, column 14: "g.x" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 24, column 12: "h.x" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 30, column 13: "i.x" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 39, column 17: "j.a" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 40, column 17: "j.c" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 49, column 24: "k.c" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 52, column 17: "k.c" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 53, column 17: "k.c" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 54, column 17: "k.c" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 55, column 17: "k.c" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 60, column 13: "l1" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 64, column 27: "l2" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 68, column 14: "l3" is not an event.
+ERROR: File "tchecker/resolve_non_event.cif": Semantic error at line 72, column 28: "l4" is not an event.
+ERROR: Failed to load CIF file "tchecker/resolve_non_event.cif": the file has errors.

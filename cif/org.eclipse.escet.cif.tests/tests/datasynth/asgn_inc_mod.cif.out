@@ -1,0 +1,100 @@
+Reading CIF file "datasynth/asgn_inc_mod.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..4]  p.x   0      3 * 2     5 * 2       8 * 2       ~63%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      1      6         10          16          ~63%
+
+Starting data-based synthesis.
+
+Invariant (component state invariant):   p.x = 0 or (p.x = 2 or p.x = 4)
+Invariant (components state invariant):  p.x = 0 or (p.x = 2 or p.x = 4)
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      p.x = 0 or (p.x = 2 or p.x = 4)
+
+Initial   (discrete variable 0):         p.x = 2
+Initial   (discrete variables):          p.x = 2
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         p.x = 2
+Initial   (system, combined init/inv):   p.x = 2
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): p.x = 0 or (p.x = 2 or p.x = 4)
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count)
+
+Initialized controlled-behavior predicate using invariants: p.x = 0 or (p.x = 2 or p.x = 4).
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: p.x = 0 or (p.x = 2 or p.x = 4) -> p.x = 0 or (p.x = 2 or p.x = 4) [range: true, variable: discrete variable "p.x" of type "int[0..4]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 5/8)].
+
+Extended controlled-behavior predicate using variable ranges: p.x = 0 or (p.x = 2 or p.x = 4).
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> p.x = 0 or (p.x = 2 or p.x = 4) [restricted to current/previous controlled-behavior predicate: p.x = 0 or (p.x = 2 or p.x = 4)]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.x = 0 or (p.x = 2 or p.x = 4) [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.x = 1 or p.x = 3 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.x = 2 [initialization predicate]
+Forward reachability: iteration 1.
+Controlled behavior: p.x = 0 or (p.x = 2 or p.x = 4) -> p.x = 2.
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> p.x = 2 [restricted to current/previous controlled-behavior predicate: p.x = 2]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.x = 2 [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.x != 2 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: next) (guard: true) (assignments: p.x := (p.x + 1) mod count): guard: true -> p.x = 1.
+
+Final synthesis result:
+  State: (controlled-behavior: p.x = 2)
+    Edge: (event: next) (guard: true -> p.x = 1) (assignments: p.x := (p.x + 1) mod count)
+
+Controlled system:                     exactly 1 state.
+
+Initial (synthesis result):            p.x = 2
+Initial (uncontrolled system):         p.x = 2
+Initial (controlled system):           p.x = 2
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/asgn_inc_mod.ctrlsys.real.cif".

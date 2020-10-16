@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/char_seq_invalid.setext": Semantic error at line 16, column 6: The character sequence "c-a" is empty, and thus invalid.
+ERROR: Failed to load SeText file "models_invalid/char_seq_invalid.setext": the file has errors.

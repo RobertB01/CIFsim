@@ -1,0 +1,181 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "conveyer.svg";
+
+// Time label.
+svgout id "time_txt" text value fmt("Time: %.1f", time);
+
+// Sensors.
+s1: Sensor(1,  5.0,  9.0);
+s2: Sensor(2, 11.0, 15.0);
+
+group def Sensor(alg int nr; alg real left, right):
+  func bool atsensor(real x, left, right):
+    return x >= left and x <= right;
+  end
+
+  alg bool s = atsensor(box1.x, left, right) or
+               atsensor(box2.x, left, right) or
+               atsensor(box3.x, left, right);
+
+  svgcopy id "sensor" post <string>nr;
+
+  svgmove id "sensor" + <string>nr to 270 + 180 * (nr - 1), 35.5;
+
+  svgout id "sensor_box" + <string>nr attr "fill"
+    value if s: "green" else "white" end;
+end
+
+// Box generator.
+gen: Generator();
+
+automaton def Generator():
+  event void generate;
+  event void release;
+
+  cont t = 0.0 der 1.0;
+  disc real gen_time;
+  disc dist real d = uniform(0.15, 1.75);
+
+  location waitfor_controller:
+    initial;
+    edge generate! do t := 0.0, (gen_time, d) := sample d goto generate_box;
+
+  location generate_box:
+    edge when t >= gen_time goto release_box;
+
+  location release_box:
+    edge release! goto waitfor_controller;
+
+  svgout id "gen_progress" attr "width"
+    value scale(if release_box: gen_time else t end,
+                0, if generate_box or release_box: gen_time else 1.0 end,
+                0, 100);
+
+  svgout id "gen_progress" attr "visibility"
+    value if waitfor_controller: "hidden" else "visible" end;
+
+  svgout id "gen_progress_bg" attr "fill"
+    value if waitfor_controller: "grey" else "white" end;
+
+  svgout id "gen_time_txt" text value fmt("%.1f", gen.t);
+
+  svgout id "gen_time_total_txt" text value fmt("%.1f", gen.gen_time);
+
+  svgout id "gen_txts" attr "visibility"
+    value if generate_box: "visible" else "hidden" end;
+end
+
+// Conveyer belt controllers.
+ctrl1: Controller(s1.s, 1, gen.generate);
+ctrl2: Controller(s2.s, 2, ctrl1.to_next);
+
+automaton def Controller(alg bool sensor; alg int nr; event void from_prev?):
+  event void to_next;
+  disc int v = 1;       // Conveyer belt speed.
+  cont t = 0.0 der 1.0; // Clock for time tracking.
+
+  location start:
+    initial;
+    edge when sensor     do t := 0.0 goto atsensor_on;
+    edge when t >= 4.5   do t := 0.0 goto empty_on;
+
+  location empty_on:
+    edge from_prev?                  goto entering;
+    edge when t >= 5.0   do v := 0   goto empty_off;
+
+  location empty_off:
+    edge from_prev?      do v := 1   goto entering;
+
+  location entering:
+    edge when sensor     do t := 0.0 goto atsensor_on;
+
+  location atsensor_on:
+    edge to_next!                    goto leaving;
+    edge when t >= 0.2   do v := 0   goto atsensor_off;
+
+  location atsensor_off:
+    edge to_next!        do v := 1   goto leaving;
+
+  location leaving:
+    edge when not sensor do t := 0.0 goto empty_on;
+    edge from_prev?                  goto leaving_entering;
+
+  location leaving_entering:
+    edge when not sensor             goto entering;
+
+  svgcopy id "ctrl_state" post <string>nr;
+  svgcopy id "belt"       post <string>nr;
+
+  svgmove id "ctrl_state" + <string>nr to 140 + 180 * (nr - 1), 13;
+  svgmove id "belt"       + <string>nr to 130 + 180 * (nr - 1), 138;
+
+  svgout id "ctrl_state_txt" + <string>nr text value <string>self;
+
+  svgout id "belt_outer" + <string>nr attr "fill"
+    value if v = 0: "rgb(220,220,220)" else "green" end;
+end
+
+// Boxes.
+box1: Box(gen.release,  3.0, "1", ctrl1.v, ctrl2.v);
+box2: Box(gen.release, 10.0, "2", ctrl1.v, ctrl2.v);
+box3: Box(gen.release, -1.0, "3", ctrl1.v, ctrl2.v);
+
+automaton def Box(event void release?; alg real xini; alg string nr;
+                  alg int v1, v2):
+  // Assumes that initially: x = -1.0 or x >= 0.0.
+  cont x = xini;
+
+  location start:
+    initial;
+    equation x' = 0.0;
+
+    edge when x = -1.0 goto absent;
+    edge when x >= 0.0 goto present;
+
+  location absent:
+    equation x' = 0.0;
+
+    edge release? do x := 0.0 goto present;
+
+  location present:
+    equation x' = if   x <= 8:         v1 * 1.0
+                  elif 8 < x, x <= 14: v2 * 1.0
+                  else                 1.0
+                  end;
+
+    edge when x >= (2 * 6) + 4 do x := -1.0 goto absent;
+
+  svgcopy id "box_wrapper" post nr;
+
+  svgmove id "box_wrapper" + nr to 0, 93.5;
+
+  svgout id "box" + nr attr "x" value 10 + 30 * x;
+
+  svgout id "box" + nr attr "visibility"
+    value if present: "visible" else "hidden" end;
+end
+
+// Exit, with count.
+exit: Exit(ctrl2.to_next);
+
+automaton def Exit(event void from_prev?):
+  disc int count = 0;
+
+  location:
+    initial;
+    edge from_prev? do count := count + 1;
+
+  svgout id "exit_cnt_txt" text value fmt("Exit count: %d", count);
+end

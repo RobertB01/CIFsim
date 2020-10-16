@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET Chi Documentation Utils (Incubation)
+Bundle-SymbolicName: org.eclipse.escet.chi.documentation.utils;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Eclipse ESCET
+Automatic-Module-Name: org.eclipse.escet.chi.documentation.utils
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.apache.commons.math3;bundle-version="3.5.0",
+ org.eclipse.escet.common.java;bundle-version="0.1.0"
+Export-Package: org.eclipse.escet.chi.documentation.utils

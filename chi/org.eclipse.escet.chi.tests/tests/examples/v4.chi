@@ -1,0 +1,119 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type item = tuple(real begin; real tb1; real ts1; real tb2; real ts2);
+type wip = int;
+
+
+proc G(chan! item a; chan! wip w; real ta; int N):
+    item x;
+    while true:
+        for i in range(N):
+            x.begin=time;
+            a!x; delay ta;
+            w!;
+        end
+    end
+end
+
+
+proc B_one(chan? item a; chan! item b; int CB_one):
+    list item xs; item x;
+    while true:
+        select
+            size(xs)<CB_one, a?x:
+                xs=xs+[x]
+        alt
+            not empty(xs), b!xs[0]:
+                xs=xs[1:];
+                x.tb1=time-ta-x.begin;
+        end
+    end
+end
+
+
+proc S_one(chan? item b; chan! item c):
+    item x;
+    dist real u = gamma(1.0,2.0);
+    while true:
+        b?x; delay sample u;
+        x.ts1=time-ta-x.begin-x.tb1;
+        c!x
+    end
+end
+
+
+proc B_two( chan? item c; chan! item d; int CB_two):
+    list item xs; item x;
+    while true:
+        select
+            size(xs)<CB_two, c?x:
+                xs=xs+[x]
+        alt
+            not empty(xs), d!xs[0]:
+                xs=xs[1:];
+                x.tb2=time-ta-x.begin-x.tb1-ts1;
+        end
+    end
+end
+
+proc S_two(chan? item d; chan! item e; chan! wip v):
+    item x;
+    dist real u= gamma(1.0,2.0);
+    while true:
+        d?x; delay sample u;
+        x.ts2=time-ta-x.begin-x.tb1-ts1-tb2;
+        e!x; v!;
+    end
+end
+
+
+proc W (chan? wip w; chan! wip f):
+    list wip ws; wip w;
+    while true:
+        select
+            w?w:
+            w=w+1;
+            ws=ws+[w];
+            f!ws
+        alt
+            v?w:
+            w=w-1;
+            ws=ws+[w];
+            f!ws
+        end
+    end
+end
+
+
+proc E (chan item e; chan wip f; int N):
+    item x; list wip ws;
+    for i in range(N):
+        e?x;
+        f?ws;
+        write("%f, %f, %f, %f, %f, %f, %d\n", time, time - x.begin, x.tb1, x.ts1, x.tb2, x.ts2, ws);
+    end
+end
+
+
+model M(real ta; int N, CB_one, CB_two):
+chan item a, b, c, d, e; chan wip w;
+run
+    G(a,w,ta, N),
+    B_one(a,b, CB_one),
+    S_one(b,c),
+    B_two(c,d, CB_two),
+    S_two(d,e,v),
+    W(w,v,f),
+    E(e,N)
+end
+

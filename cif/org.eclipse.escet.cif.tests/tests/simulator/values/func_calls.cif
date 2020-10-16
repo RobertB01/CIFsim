@@ -1,0 +1,69 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type ft1 = func real();
+type ft2 = func real(real);
+
+func real f_fr0():
+  return 1.01;
+end
+
+func int f_fi1r(real a):
+  return round(a) + 99;
+end
+
+func ft1 f_ffr():
+  return f_fr0;
+end
+
+func real f_frr(real b):
+  return b + 7.89;
+end
+
+func ft2 f_ffrr():
+  return f_frr;
+end
+
+automaton p:
+  disc func real()    fr0  = f_fr0;
+  disc func int(real) fi1r = f_fi1r;
+  disc func ft1()     ffr  = f_ffr;
+  disc ft2            frr  = f_frr;
+  disc func ft2()     ffrr = f_ffrr;
+
+  disc int  i = 123;
+  disc real r = 234.0;
+
+  location l1:
+    initial;
+
+    edge do fr0  := fr0,                                 // f_fr0
+            fi1r := fi1r,                                // f_fi1r
+            ffr  := ffr,                                 // f_ffr
+            r    := fr0()                                // 1.01
+    goto l2;
+
+  location l2:
+    edge do fr0  := ffr(),                               // f_fr0
+            r    := ffr()()                              // 1.01
+    goto l3;
+
+  location l3:
+    edge do i    := fi1r(1.6),                           // 101
+            frr  := ffrr(),                              // f_frr
+            r    := ffrr()(1.0)                          // 8.89
+    goto l4;
+
+  location l4:
+    urgent;
+end

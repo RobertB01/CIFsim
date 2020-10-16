@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/symbol_undefined.setext": Semantic error at line 24, column 5: Undefined symbol "Y".
+ERROR: Failed to load SeText file "models_invalid/symbol_undefined.setext": the file has errors.

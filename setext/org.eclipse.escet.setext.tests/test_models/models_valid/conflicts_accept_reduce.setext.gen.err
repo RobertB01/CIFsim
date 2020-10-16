@@ -1,0 +1,2 @@
+WARNING: accept/reduce conflict on ¶ in state 1.
+ERROR: 1 conflict(s) in total (0 shift/reduce, 0 reduce/reduce, 1 accept/reduce).

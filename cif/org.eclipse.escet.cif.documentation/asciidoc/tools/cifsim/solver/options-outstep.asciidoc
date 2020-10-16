@@ -1,0 +1,54 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-solver-chapter-options-outstep]]
+== Fixed output step size
+
+indexterm:[ODE,fixed output step size]
+indexterm:[CIF simulator,fixed output step size]
+indexterm:[trajectory data,fixed output step size]
+The <<tools-cifsim-solver-chapter-basics-int,integrator>> determines the time
+points for which values are calculated. By default, those points are included
+in the trajectories. This means that they are also the output of the
+<<tools-cifsim-output-chapter-trajdata,trajectory data output component>>.
+The integrator determines the time points for which to calculate values, based
+on the complexity of the ODEs. The integrator can be influenced using
+the <<tools-cifsim-solver-chapter-options,integrator options>>.
+
+Sometimes however, it may be more convenient to have the integration output
+at more regular intervals. Using the
+menu:ODE solver fixed output step size[]
+option (menu:ODE solver[]
+category), a fixed output step size can be
+configured. This value must be an integer or real number larger than zero.
+
+This option does not influence the actual time points for which the integrator
+calculates the values. Instead, it influences how these results are put in the
+trajectories, that are subsequently used by the simulator.
+
+Setting a fixed output step size, ensures that the trajectories contain output
+for all multiples of the given step size. They will however also contain output
+for the start and end of each time transition, which may not be at multiples
+of the step size, due to guards becoming enabled or disabled at other times.
+
+indexterm:[trajectory data,real-time simulation]
+indexterm:[real-time simulation,trajectory data]
+If <<tools-cifsim-output-chapter-realtime,real-time>> simulation is enabled, the
+default is changed to automatically use the
+<<tools-cifsim-output-realtime-delta,model time delta>> that is used for
+real-time simulation, as the fixed output step size. This way, the trajectories
+contain the time points for which intermediate
+<<tools-cifsim-output-realtime-frames,frames>> are generated. If
+real-time simulation is enabled, setting a custom fixed output step size is
+not supported.

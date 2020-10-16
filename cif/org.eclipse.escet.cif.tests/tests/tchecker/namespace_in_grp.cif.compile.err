@@ -1,0 +1,2 @@
+ERROR: File "tchecker/namespace_in_grp.cif": Semantic error at line 15, column 3: Invalid namespace declaration: namespace declarations in groups are not allowed.
+ERROR: Failed to load CIF file "tchecker/namespace_in_grp.cif": the file has errors.

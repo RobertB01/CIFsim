@@ -1,0 +1,137 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-eventbased-chapter-supervisorsynthesis]]
+== Event-based supervisor synthesis
+
+indexterm:[event-based supervisor synthesis]
+indexterm:[tools,event-based supervisor synthesis]
+indexterm:[event-based synthesis toolset,event-based supervisor synthesis]
+indexterm:[event-based supervisor synthesis,event-based synthesis toolset]
+The supervisor synthesis procedure takes one or more deterministic plant
+automata, one or more deterministic requirement automata, and combines
+them to a maximal permissive supervisor.
+
+indexterm:[event-based supervisor synthesis,supported specifications]
+The tool takes a `.cif` file containing `plant` and `requirement`
+automata. Besides the general event-based restrictions listed at
+<<tools-eventbased-supported-specifications>>, the current implementation
+does not support:
+
+* Having no `plant` automata at all.
+
+* Having no `requirement` automata at all.
+
+* Having any other kind of automaton in the file. See
+<<tools-eventbased-kinds>> for a list of all automaton kinds.
+
+* Non-determinism in the input automata. The tool reports the violating
+automaton, location, and event, for ease of reference.
+
+* Events in the alphabet of the requirements that are not in the alphabet of
+the plants.
+
+* Events that are not controllable or uncontrollable, if used (present in the
+alphabet or on an edge of at least one automaton).
+
+In addition, it warns about common mistakes:
+
+* Automata without a marked location.
+
+* Non-<<tools-eventbased-chapter-trim-check,trim>> automata.
+
+Finally, it can also perform checks about correct constructs that may not be
+the intention of its author. Each of these checks has to be enabled with an
+option:
+
+* Automata with a marked deadlock location. In a system with infinite
+behavior, you should probably never enter a deadlock location.
+
+* Automata with an empty alphabet. Such automata never participate in an
+event, and can be removed.
+
+* Controllable events that are used in exactly one automaton. Not always
+wrong, but creating a controllable event, and not using it for control may
+be a mistake.
+
+* Groups of automata that share events only within the group (and not with any
+automaton outside the group). Such a group is completely independent, and
+can be synthesized separately.
+
+The synthesis tool produces a new `.cif` file with the supervisor
+automaton (of kind `supervisor`) if the resulting automaton has at
+least an initial location. Otherwise, synthesis fails with a `Supervisor is
+empty` error, and no `.cif` file is written.
+
+indexterm:[event-based supervisor synthesis,start]
+
+=== Starting the supervisor synthesis tool
+
+The tool can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply supervisor synthesis...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply supervisor synthesis...].
+
+* Use the `cifsupsynth` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifsupsynth` command line tool.
+
+indexterm:[event-based supervisor synthesis,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Output file_: The absolute or relative local file system path to the
+output CIF specification. If not specified, defaults to the input file
+path, where the `.cif` file extension is removed (if present), and a
+`+_sup.cif+` file extension is added. The `sup` part of the default
+extension depends on the _Result name_ option.
+
+* _Result name_: The name to use for the supervisor automaton. If not
+specified, defaults to `sup`. Also affects the _Output file_ option.
+
+* _Enable Synthesis dump_: If enabled, the synthesis algorithm writes a
+dump file containing the actions performed by the algorithm, for later
+analysis. The name of the file is decided by the _Dump file_ option.
+
+* _Synthesis dump file_: The name of the dump file. Setting this option will enable
+dumping of the synthesis algorithm actions. The options contains the
+absolute or relative local file system path to the
+synthesis dump file. If not specified, defaults to the input file
+path, where the `.cif` file extension is removed (if present), and a
+`+.synth_dump+` file extension is added.
+
+* _Disjunct groups check_: If enabled, the tool will report about groups of
+automata that share events in the group only.
+
+* _Empty alphabet check_: If enabled, the tool will report about automata
+without events in their alphabet.
+
+* _Marked deadlock location check_: If enabled, the tool will report about
+marked locations without outgoing edges.
+
+* _Single use controllable check_: If enabled, the tool will report about
+controllable events that are used in exactly one automaton.

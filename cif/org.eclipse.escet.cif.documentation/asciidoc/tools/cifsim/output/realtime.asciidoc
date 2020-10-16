@@ -1,0 +1,192 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-chapter-realtime]]
+== Real-time simulation
+
+indexterm:[CIF simulator,real-time simulation]
+indexterm:[real-time simulation]
+indexterm:[simulation output,real-time]
+The CIF simulator allows for a form of real-time simulation. By enabling
+real-time simulation, the simulator interprets the model time (the value of
+variable `time`) in seconds. The simulator attempts to ensure that the actual
+simulation time is equal to the model time. This feature is very useful for
+visualizers, which then visualize their output at a steady rate. Without
+real-time simulation, the rate at which such visualizers would visualize their
+output, would primarily be determined by the amount of time it takes for the
+simulator to compute the output, leading to abrupt slow downs and sudden speed
+increases.
+
+indexterm:[real-time simulation,frame]
+indexterm:[frame]
+
+[[tools-cifsim-output-realtime-frames]]
+=== Frames
+
+If real-time simulation is disabled, visualizations are only updated for the
+<<tools-cifsim-traces-state,states>> that are reached. That is, the
+visualizations are updated for the initial state, and each new state that is
+reached after taking a transition. The visual representations of the
+visualizations resulting from these states are called _frames_.
+
+As time progresses, the values of continuous variables (and algebraic variables
+for which the value is directly or indirectly derived from a continuous
+variable, etc) change. If the visualization is only updated before and after
+time transitions, as is done when real-time simulation is disabled, this leads
+to 'jumps' in the visualization. For real-time simulation, the simulator
+calculates states that are evenly spaced over time. This ensures that we get
+regular updates of the visualizations, as time progresses, and the
+visualizations thus become 'smooth' or 'fluent'. If enough states are
+visualized per second, a visualization essentially becomes a _movie_.
+
+indexterm:[real-time simulation,intermediate state]
+indexterm:[real-time simulation,intermediate frame]
+indexterm:[state,intermediate]
+indexterm:[frame,intermediate]
+The states that result from transitions are always calculated. For real-time
+simulation, the simulator calculates additional states for the purpose
+of visualization, as mentioned above. These additional states are called
+_intermediate states_, and the corresponding visual representations of the
+visualizations to which they lead are called _intermediate frames_.
+
+For real-time simulation, the simulator thus uses intermediate frames that are
+evenly spaced over time, for smooth visualizations. A consequence of this, is
+that state changes between those intermediate frames are lost. If the effect is
+still visible in the next intermediate state, this is not a problem. If however
+the effect is temporary, and does not last until the next intermediate state,
+the effect is thus not visualized.
+
+For real-time simulation combined with an interactive
+<<tools-cifsim-input-chapter-index,input mode>>, the
+simulator uses both the state frames and the intermediate frames. This ensures
+that at the moment an interactive choice has to be made about which
+transition to take, the visualization reflects the current state of the system.
+Semi-automatic mode is not taken into account.
+
+indexterm:[real-time simulation,frame rate]
+
+[[tools-cifsim-output-realtime-framerate]]
+=== Frame rate
+
+Using the
+menu:Frame rate[]
+option (menu:Output[]
+category), it is
+possible to specify how often per second of real time, visualizations should
+be updated. A higher frame rate leads to more updates per second, and thus to
+a more fluent visualization. However, since a higher frame rate also leads to
+more frequent updates, the amount of CPU power it takes to perform these
+updates increases as well. If the computer can not update the visualization in
+time for the next update to take place, the visualization may start to
+'stutter'.
+
+indexterm:[performance,simulation frame rate]
+The frame rate will thus always be a compromise between fluency and
+performance. Choosing an appropriate frame rate depends not only on the
+complexity of the specification being simulated and the visualization that is
+being shown, but also on the computer on which the simulation is run.
+Furthermore, it may depend on the other tasks the computer is performing while
+the simulation is being run.
+
+Frame rates are always positive, and may be fractional. For instance, a frame
+rate of `7.5` is valid, and will update the visualization 7.5 times per
+second.
+
+A low frame rate (typically less than 10 frames per second) can have a
+devastating effect on the
+<<tools-cifsim-input-svg-simulation-responsiveness,responsiveness of SVG input>>.
+Similarly, it can hinder
+<<tools-cifsim-chapter-termination,termination>> of the simulation, as the red
+_Terminate_ button has no effect between intermediate frames. That is, the
+effect of clicking the button is postponed until the next frame, or until the
+time transition ends.
+
+indexterm:[real-time simulation,simulation speed]
+
+[[tools-cifsim-output-realtime-simspeed]]
+=== Simulation speed
+
+If real-time simulation is enabled, the simulator by default interprets the
+model time (the value of variable `time`) in seconds. However, this can be
+changed using the
+menu:Simulation speed[]
+option (menu:Output[]
+category). This option specifies a scaling factor. A scaling factor of `1.0`
+interprets model time as seconds, `2.0` is twice as fast (1 unit of model
+time takes 0.5 seconds), etc. The simulation speed must always be positive,
+and may be fractional. For instance, a simulation speed of `0.5` is valid,
+and will interpret model time as twice as slow (1 unit of model time takes 2
+seconds).
+
+indexterm:[real-time simulation,enable]
+indexterm:[real-time simulation,disable]
+
+=== Enabling real-time simulation
+
+By default, real-time simulation is disabled, and the simulator will try to
+simulate as fast as possible (infinite speed, taking time transitions takes no
+time). By setting a frame rate and/or a simulation speed, real-time simulation
+can be enabled. If only one of the options is specified, the other gets a
+default value. The default frame rate for real-time simulation is `20.0`
+frames per second. The default simulation speed is `1.0`.
+
+indexterm:[output component,real-time]
+
+[[tools-cifsim-output-realtime-outcomp]]
+Enabling real-time simulation requires a real-time output component
+(visualizer). Currently, the following real-time output components are
+available:
+
+* <<tools-cifsim-output-svgviz-chapter-index>>
+
+If real-time simulation is enabled without using a real-time output component,
+simulation can't be started. Closing the visualizer of a real-time simulation
+during the simulation, if it is the last remaining real-time output component,
+leads to the simulation being <<tools-cifsim-chapter-termination,stopped>>.
+
+All real-time output components can also be used when real-time simulation is
+disabled, but obviously without any real-time effects.
+
+indexterm:[real-time simulation,model time delta]
+
+[[tools-cifsim-output-realtime-delta]]
+=== Model time delta
+
+The simulation speed does not influence the frame rate. That is, both options
+can be specified orthogonally. The two options together however, do influence
+the model time delta, the amount of model time between two consecutive updates
+of the visualizations, i.e. the amount of model time between two consecutive
+intermediate frames. The model time delta is calculated using the following
+formula (where `r` is the frame rate, and `s` is the simulation speed):
+1 / (`r` / `s`). Doubling the frame rate results in half the model time
+delta, while doubling the simulation speed results in double the model time
+delta.
+
+If the model time delta becomes to big, this may lead to 'jumps' in the
+visualization. In such cases, increasing the frame rate, or reducing the
+simulation speed causes a smaller model time delta, leading to a more fluent
+visualization.
+
+The model time delta (and thus the frame rate and simulation speed) also
+affects the <<tools-cifsim-solver-chapter-options-outstep,ODE solver fixed output step size>>.
+
+indexterm:[real-time simulation,test mode]
+indexterm:[test mode,real-time simulation]
+
+=== Test mode
+
+<<tools-cifsim-chapter-test-mode,Test mode>> disables all real-time delays of
+the real-time simulation mode, but still updates the visualizations for the
+intermediate frames. With test mode enabled, it is also allowed to perform a
+real-time simulation without real-time output component.

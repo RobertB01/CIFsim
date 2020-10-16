@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tool int, string a():
+    return 1, "a";
+end
+
+tool int, string b():
+    return (2, "b");
+end
+
+tool tuple(int, string) c():
+    return 3, "c";
+end
+
+tool tuple(int, string) d():
+    return (4, "d");
+end
+
+tool e():
+    return;
+    outln("never reached");
+end
+
+tool f():
+end
+
+tuple(int, string) x;
+outln("%s", x);
+
+x = a();
+outln("%s", x);
+x = b();
+outln("%s", x);
+x = c();
+outln("%s", x);
+x = d();
+outln("%s", x);
+
+e();
+f();

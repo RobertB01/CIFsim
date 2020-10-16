@@ -1,0 +1,32 @@
+alg string x = "box";
+event e;
+event f;
+automaton aut:
+  svgout id x attr "height" value <string>self;
+  location l1:
+    initial;
+    edge tau goto l2;
+  location l2;
+end
+automaton c1:
+  alg int x = 1;
+  svgout id "txt" + <string>x text value "bla" + <string>x file "text.svg";
+  location:
+    initial;
+end
+automaton c2:
+  alg int x = 2;
+  svgout id "txt" + <string>x text value "bla" + <string>x file "text.svg";
+  location:
+    initial;
+end
+svgfile "../tchecker/small.svg";
+svgcopy id "box" pre "a";
+svgcopy id "box" post "b";
+svgcopy id "box" pre "a" post "b";
+svgcopy id "box" pre "c" file "../tchecker/small.svg";
+svgmove id "box" to 1, 2;
+svgmove id "grp" to 3, 4 file "../tchecker/small.svg";
+svgout id "box" attr "x" value 1 + 1 file "../tchecker/svg_unknown_name_elem.svg";
+svgin id "grp" event e file "../tchecker/small.svg";
+svgin id "box" event if aut.l1: e elif aut.l2: f end;

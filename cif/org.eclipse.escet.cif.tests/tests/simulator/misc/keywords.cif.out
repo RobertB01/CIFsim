@@ -1,0 +1,3 @@
+Initial state: time=0.0, $automaton=*, automaton2=*, $plant=location, $plant.$alg=true, $plant.$cont=0.0, $plant.$cont'=1.0, $plant.$disc=false, $plant.disc2=$group.$func, $plant.disc3=a, plant2=*
+
+Simulation resulted in deadlock.

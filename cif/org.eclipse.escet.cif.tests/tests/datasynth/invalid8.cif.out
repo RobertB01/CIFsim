@@ -1,0 +1,31 @@
+Reading CIF file "datasynth/invalid8.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..5]  p.x1  0      3 * 2     6 * 2       8 * 2       75%
+  2      discrete variable  int[0..5]  p.x2  1      3 * 2     6 * 2       8 * 2       75%
+  3      location pointer   n/a        r2    2      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      3      14        28          36          ~78%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 23
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    1 (total)                 0.04 (avg/edge) [before]
+    Total span:                    1 (total)                 0.04 (avg/edge) [iteration 1]
+    Total span:                    1 (total)                 0.04 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    1 (total)                 0.04 (avg/edge) [before]
+    Total span:                    1 (total)                 0.04 (avg/edge) [after]
+
+  Variable order unchanged.
+

@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Various types of referable objects.
+
+tool bool tool_(bool x):
+    return x;
+end
+
+tool int tool_(int x):
+    return x;
+end
+
+int var;
+
+type type_ = bool;
+
+import "../empty.txt" as imp;
+
+// Not a 'via' imported script reference.
+while true:: tool_.x();
+while true:: var.x();
+while true:: type_.x();
+while true:: imp.x();
+tool tool2<type_param>(int param):
+    while true:: type_param.x();
+    while true:: param.x();
+end

@@ -1,0 +1,234 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Test external function.
+
+func bool ext(): "java:a.b";
+
+invariant ext();
+
+// Test simple internal function.
+
+func bool iden(bool x):
+  return x;
+end
+
+invariant iden(true);
+
+// Test parameters and multiple return values.
+// Test local variables, with initialization.
+
+func bool, int, list int f1(list int x, y; bool z):
+  int g, h = 1;
+  bool b = z;
+  return b and z, g + h, x + y;
+end
+
+invariant f1([1], [2], true)[0];
+
+// Test statements.
+
+func bool f2():
+  int x, y;
+  int t;
+
+  if true:
+    x := 1;
+  end
+
+  if true:
+    x := 1;
+    x := 2;
+  elif true:
+    x := 3;
+  end
+
+  if true:
+    x := 1;
+  elif true:
+    x := 2;
+  elif false:
+    x := 3;
+  end
+
+  if true:
+    x := 1;
+  else
+    x := 2;
+  end
+
+  if true:
+    x := 1;
+  elif x > 0:
+    x := 2;
+  else
+    x := 3;
+  end
+
+  x := 10;
+  while true:
+    if x = 0: break; end
+    x := x - 1;
+  end
+
+  x := 10;
+  while true:
+    if x > 0:
+      x := x - 1;
+      continue;
+    end
+    break;
+  end
+
+  x := 10;
+  y := 10;
+
+  while x >= 0:
+    while y >= 0:
+      t := t + (x * y);
+      y := y - 1;
+    end
+    x := x - 1;
+  end
+
+  return true;
+end
+
+invariant f2();
+
+// Test references to inside/outside.
+
+const bool c = true;
+enum e = A;
+type t = e;
+
+func bool f3(bool a, b):
+  t v1 = A;
+  e v2 = A;
+  if v1 = v2: return true; end
+  return a and b;
+end
+
+invariant f3(c, false);
+
+// Test calling one function from another function.
+
+func int f4(int x):
+  return f5(x - 1) + 1;
+end
+
+func int f5(int x):
+  return f4(x - 1) + 2;
+end
+
+// Test self-recursion of functions.
+
+func int fac1(int x):
+  return if x <= 1: 1 else fac1(x - 1) * x end;
+end
+
+func int fac2(int[0..12] x):
+  int[-1..12] y = x - 1;
+  int[0..12] z = max(2, y);
+  return if x <= 1: 1 else fac2(z) * x end;
+end
+
+// Test functions returning functions, and function call on function call
+// result.
+
+func bool f6(int x):
+  return x > 3;
+end
+
+func func bool(int) f7():
+  return f6;
+end
+
+invariant f7()(2);
+
+// Test function declared in different scopes.
+
+group def P1():
+  group a:
+    func bool f():
+      return p2.f();
+    end
+  end
+end
+
+group def P2():
+  func bool f():
+    return true;
+  end
+end
+
+p1: P1();
+p2: P2();
+
+invariant p1.a.f() or p2.f();
+
+// Test distributions and sampling in functions.
+
+func bool f8(dist bool d):
+  return (sample d)[0];
+end
+
+automaton p:
+  disc dist bool d = constant(true);
+  location:
+    initial;
+end
+
+invariant f8(p.d);
+
+// Test tuple returns.
+func int, real f9a():
+  if true:
+    return 1, 1.0;
+  else
+    return (2, 2.0);
+  end
+end
+
+func tuple(int a; real b) f9b():
+  if true:
+    return 1, 1.0;
+  else
+    return (2, 2.0);
+  end
+end
+
+invariant f9a()[0] + f9b()[a] > 0;
+
+// Variables of type 'func'.
+func bool f10():
+  return true;
+end
+
+func bool f11():
+  func bool() x = f10;
+  return x();
+end
+
+automaton q:
+  disc func bool() x = f11;
+  invariant x();
+  location:
+    initial;
+end
+
+// Test for bug 'type checker provides wrong type hints when type checking return values of functions'.
+
+func list int, set int fhint():
+  return [], {};
+end

@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\newcommand{\positionpkg}[1]{\textit{#1} (Section~\ref{positionpkg:#1})}
+%\newcommand{\positionclass}[1]{\textit{#1} (Section~\ref{positionclass:#1})}
+%\newcommand{\positionattr}[1]{\textit{#1} (Section~\ref{positionattr:#1})}
+%\newcommand{\positionenumlit}[1]{\textit{#1} (Section~\ref{positionenumlit:#1})}
+%\newcommand{\positionclassDetail}[7]{\item {#1} \textbf{#2} {#3} :
+%    {\textit{#4}} {#5} {#6} \hfill \\ {#7}}
+%\newcommand{\positionenumlitDetail}[4]{\item literal \textbf{#1} {#2} {#3}
+%    \hfill \\ {#4}}
+%\newcommand{\hook}{\hspace*{5pt}\raisebox{2.5pt}{$\llcorner$}}
+%\newcommand{\hookindent}{\hspace*{15pt}}
+
+\section{Package position}\label{positionpkg:position}
+\pkgdocuposition
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/position
+\item[Namespace prefix] position
+\item[Sub-packages] none
+\end{description}
+
+\subsection{Position (class)}\label{positionclass:Position}
+\clsdocuPosition
+
+~\\ \noindent \emph{EObject} \\
+\hook~\emph{Position}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{attr}{endColumn}{{[1]}}{EInt}{}{\label{positionattr:Position.endColumn}}
+{\featdocuPositionendColumn}
+\positionclassDetail{attr}{endLine}{{[1]}}{EInt}{}{\label{positionattr:Position.endLine}}
+{\featdocuPositionendLine}
+\positionclassDetail{attr}{endOffset}{{[1]}}{EInt}{}{\label{positionattr:Position.endOffset}}
+{\featdocuPositionendOffset}
+\positionclassDetail{attr}{location}{{[1]}}{EString}{}{\label{positionattr:Position.location}}
+{\featdocuPositionlocation}
+\positionclassDetail{attr}{source}{{[0..1]}}{EString}{}{\label{positionattr:Position.source}}
+{\featdocuPositionsource}
+\positionclassDetail{attr}{startColumn}{{[1]}}{EInt}{}{\label{positionattr:Position.startColumn}}
+{\featdocuPositionstartColumn}
+\positionclassDetail{attr}{startLine}{{[1]}}{EInt}{}{\label{positionattr:Position.startLine}}
+{\featdocuPositionstartLine}
+\positionclassDetail{attr}{startOffset}{{[1]}}{EInt}{}{\label{positionattr:Position.startOffset}}
+{\featdocuPositionstartOffset}
+\end{description}
+
+
+\subsection{PositionObject (abstract class)}\label{positionclass:PositionObject}
+\clsdocuPositionObject
+
+~\\ \noindent \emph{EObject} \\
+\hook~\emph{PositionObject}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{}{\label{positionattr:PositionObject.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+

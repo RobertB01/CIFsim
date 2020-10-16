@@ -1,0 +1,26 @@
+Parser automaton for main state "Rr":
+
+initial state 0:
+  + S' : . Rr {¶}
+  - Rr : . NAME {¶}
+  - Rr : . NAME {¶}
+
+  NAME -> shift to state 1
+
+  Rr -> goto state 2
+
+state 1:
+  + Rr : NAME . {¶}
+  + Rr : NAME . {¶}
+
+! reduce/reduce conflict on ¶
+
+! ¶ -> reduce Rr : NAME;
+! ¶ -> reduce Rr : NAME;
+
+state 2:
+  + S' : Rr . {¶}
+
+  ¶ -> accept
+
+1 conflict(s) in total (0 shift/reduce, 1 reduce/reduce, 0 accept/reduce).

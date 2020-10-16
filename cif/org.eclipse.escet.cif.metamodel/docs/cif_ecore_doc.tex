@@ -1,0 +1,500 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\PassOptionsToPackage{usenames,dvipsnames}{xcolor}
+
+\documentclass{report}
+
+% General used packages.
+\usepackage[a4paper]{geometry}
+\usepackage[final]{pdfpages}
+
+% For generating hyper-references
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{stmaryrd}
+\usepackage{import}
+\usepackage{subfig}
+
+% For title page image
+\usepackage{titlepic}
+\usepackage{graphicx}
+
+% For figure 'H' placement
+\usepackage{float}
+
+% yes (green tick) and no (red cross) commands
+\usepackage{amsfonts}
+\newcommand{\yes}{\textcolor{Green}{\hspace{2pt}\checkmark}}
+\usepackage{pifont}
+\newcommand{\no}{\textcolor{red}{\ding{55}}}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,petri,fit} % positioning
+
+% CIF commands.
+\newcommand{\cifpkg}[1]{\textit{#1} (Section~\ref{cifpkg:#1})}
+\newcommand{\cifclass}[1]{\textit{#1} (Section~\ref{cifclass:#1})}
+\newcommand{\cifattr}[1]{\textit{#1} (Section~\ref{cifattr:#1})}
+\newcommand{\cifenumlit}[1]{\textit{#1} (Section~\ref{cifenumlit:#1})}
+\newcommand{\cifclassDetail}[7]{\item {#1} \textbf{#2} {#3} :
+   {\textit{#4}} {#5} {#6} \hfill \\ {#7}}
+\newcommand{\cifenumlitDetail}[4]{\item literal \textbf{#1} {#2} {#3}
+   \hfill \\ {#4}}
+
+% Position commands.
+\newcommand{\positionpkg}[1]{\textit{#1} (Section~\ref{positionpkg:#1})}
+\newcommand{\positionclass}[1]{\textit{#1} (Section~\ref{positionclass:#1})}
+\newcommand{\positionattr}[1]{\textit{#1} (Section~\ref{positionattr:#1})}
+\newcommand{\positionenumlit}[1]{\textit{#1} (Section~\ref{positionenumlit:#1})}
+\newcommand{\positionclassDetail}[7]{\item {#1} \textbf{#2} {#3} :
+   {\textit{#4}} {#5} {#6} \hfill \\ {#7}}
+\newcommand{\positionenumlitDetail}[4]{\item literal \textbf{#1} {#2} {#3}
+   \hfill \\ {#4}}
+
+% Hook commands.
+\newcommand{\hook}{\hspace*{5pt}\raisebox{2.5pt}{$\llcorner$}}
+\newcommand{\hookindent}{\hspace*{15pt}}
+
+% Constraint commands.
+\newenvironment{constraints}{Constraints:\begin{itemize}}{\end{itemize}}
+\newcommand{\citem}[1]{\item \textbf{#1}}
+\newcommand{\citemnf}[1]{\item \textbf{#1 (non-fatal)}}
+
+% Layout settings.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5ex}
+
+% Ranges.
+\newcommand{\range}[2]{$[{#1}~..~{#2}]$}
+\newcommand{\rangeBig}[2]{$\left[~{#1}~..~{#2}~\right]$}
+\newcommand{\mathrange}[2]{[{#1}~..~{#2}]}
+\newcommand{\rangeV}[2]{$\left[
+                         \begin{array}{@{}l@{\,}l@{}}
+                           ~{#1} & ..~ \\
+                           ~{#2} &   ~ \\
+                         \end{array}
+                        \right]$}
+
+
+% Todo command.
+% \newcommand{\todo}[1]{\textcolor{red}{#1}}
+%\newcommand{\todo}[1]{}
+
+% \newcommand{\question}[1]{\textcolor{orange}{#1}}
+%\newcommand{\question}[1]{}
+
+% Ecore language name.
+\newcommand{\ecorelang}{CIF}
+
+% Document settings.
+\title{Compositional Interchange Format (CIF) Metamodel Reference Documentation (Incubation)}
+\author{Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation}
+\date{Version 2020-06-04}
+\titlepic{\includegraphics[width=0.5\textwidth]{figures/eclipse-incubation.png}}
+
+% Start of document.
+\begin{document}
+\maketitle
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+CIF is a declarative modeling language for the specification of discrete
+event, timed, and hybrid systems as a collection of synchronizing automata.
+The CIF tooling supports the entire development process of controllers,
+including among others specification, supervisory controller synthesis,
+simulation-based validation and visualization, verification, real-time
+testing, and code generation.
+
+CIF is one of the tools of the Eclipse ESCET\textsuperscript{\texttrademark{}}
+project~\cite{Eclipse:ESCET}.
+
+The Eclipse ESCET project, including the CIF language and toolset, is
+currently in the \emph{Incubation Phase}~\cite{Eclipse:Incubation}.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/eclipse-incubation.png}
+\end{figure}
+
+\import{../../../common/org.eclipse.escet.common.position.metamodel/docs/}
+       {ecore_intro.tex}
+
+This report is organized as follows. The notations and conventions used in
+this document are explained in Chapter~\ref{ch:notations-conventions},
+Chapter~\ref{ch:cif} describes the CIF metamodel, and
+Chapter~\ref{ch:distributions} describes the stochastic distributions in more
+detail.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Notations and conventions}\label{ch:notations-conventions}
+
+\section{Ecore class diagrams}
+
+\import{../../../common/org.eclipse.escet.common.position.metamodel/docs/}
+       {ecore_diagrams.tex}
+
+For the CIF language, arrows colored in red are containments, but should
+be interpreted semantically as references. That is, in order to allow
+wrapping expressions and types to be used, they are containments instead of
+references. See also Section~\ref{sec:scoping}.
+
+
+\section{Metamodel documentation conventions}
+
+\import{../../../common/org.eclipse.escet.common.position.metamodel/docs/}
+       {ecore_doc_conventions.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{CIF metamodel}\label{ch:cif}
+
+The CIF metamodel consists of the following packages:
+\begin{itemize}
+    \item \emph{cif} package: includes component structure and component
+        definition/instantiation (Section~\ref{cifpkg:cif} at
+        page~\pageref{cifpkg:cif}),
+    \item \emph{declarations} sub-package: includes CIF declarations,
+        including among others events and variables
+        (Section~\ref{cifpkg:declarations} at
+        page~\pageref{cifpkg:declarations}),
+    \item \emph{automata} sub-package: includes automata, the basic components
+        of CIF models (Section~\ref{cifpkg:automata} at
+        page~\pageref{cifpkg:automata}),
+    \item \emph{types} sub-package: includes CIF types
+        (Section~\ref{cifpkg:types} at page~\pageref{cifpkg:types}),
+    \item \emph{expressions} sub-package: includes CIF expressions
+        (Section~\ref{cifpkg:expressions} at
+        page~\pageref{cifpkg:expressions}),
+    \item \emph{functions} sub-package: includes internal and external
+        user-defined CIF functions (Section~\ref{cifpkg:functions} at
+        page~\pageref{cifpkg:functions}),
+    \item \emph{cifsvg} sub-package: includes CIF/SVG I/O declarations
+        (Section~\ref{cifpkg:cifsvg} at page~\pageref{cifpkg:cifsvg}),
+        and
+    \item \emph{print} sub-package: includes print I/O declarations
+        (Section~\ref{cifpkg:print} at page~\pageref{cifpkg:print}),
+        and
+    \item \emph{position} package: position information
+        (Section~\ref{positionpkg:position} at
+        page~\pageref{positionpkg:position}).
+\end{itemize}
+
+The class diagrams are presented and described in the respective sections
+below.
+
+Note that the \textit{position} package is not actually part of the CIF
+metamodel. It is actually part of the \textit{position} metamodel, but it is
+used by the CIF metamodel to represent position information. As such, the
+documentation for the \textit{position} package is included in this document,
+for completeness. All CIF classes directly or indirectly derive from
+\positionclass{PositionObject}.
+
+
+\section{Scoping}\label{sec:scoping}
+
+\subsection{Reference wrapping}\label{sec:ref-wrapping}
+
+One of the features of CIF is that pretty much anything in the entire
+specification can be referenced from anywhere in the specification. This
+is however complicated by the existence of a component
+definition/instantiation mechanism.
+
+\begin{figure}[!ht]
+  \centering
+  \subfloat[The model]{
+    \label{fig:wrapping-pre-model}
+    \includegraphics[width=0.45\textwidth]{figures/wrapping_pre_model.pdf}
+  }
+  \hfill
+  \subfloat[The reference expression]{
+    \label{fig:wrapping-pre-expr}
+    \includegraphics[width=0.45\textwidth]{figures/wrapping_pre_expr.pdf}
+  }
+  \caption{Wrapping expression example: situation before.}
+  \label{fig:wrapping-pre}
+\end{figure}
+
+Take a look at Figure~\ref{fig:wrapping-pre-model}. It shows a CIF model with
+a component definition \texttt{A}, which contains a location \texttt{x}. This
+component definition is instantiated twice, once as \texttt{a1}, and once as
+\texttt{a2}. Finally, there is a component \texttt{b}, which refers to
+location \texttt{x} of component \texttt{a1}. The reference
+is written in the CIF textual syntax.
+
+Figure~\ref{fig:wrapping-pre-expr} shows the corresponding instance of
+metamodel classes that is generated by the compiler to represent the
+\texttt{a1.x} text. Instead of just generating a reference to an instance
+of the \cifclass{Location} class, an expression is used. An instance of the
+\cifclass{LocationExpression} class is wrapped in an instance of
+the \cifclass{CompInstWrapExpression} class, which also references an
+instance of the \cifclass{ComponentInst} class.
+
+What we see here is a direct representation of the textual syntax, as we
+reference location \texttt{x} via component instantiation \texttt{a1}. We
+need to keep track
+of references via component instantiations. If we were to only generate an
+instance of the \cifclass{LocationExpression} class, or just use a direct
+reference to an instance of the \cifclass{Location} class, we would no
+longer be able to distinguish between location \texttt{x} in component
+\texttt{a1}, and location \texttt{x} in component \texttt{a2}.
+
+\begin{figure}[!ht]
+  \centering
+  \subfloat[The model]{
+    \label{fig:wrapping-post-model}
+    \includegraphics[width=0.45\textwidth]{figures/wrapping_post_model.pdf}
+  }
+  \hfill
+  \subfloat[The reference expression]{
+    \label{fig:wrapping-post-expr}
+    \includegraphics[width=0.45\textwidth]{figures/wrapping_post_expr.pdf}
+  }
+  \caption{Wrapping expression example: situation after.}
+  \label{fig:wrapping-post}
+\end{figure}
+
+Figure~\ref{fig:wrapping-post-model} shows the model after elimination of
+component definition/instantiation. We see that components instantiations
+\texttt{a1} and \texttt{a2} are replaced by components \texttt{a1} and
+\texttt{a2}, which are essentially equal to the body of component definition
+\texttt{A}. As such, we now have two locations \texttt{x}, one in component
+\texttt{a1}, and one in component \texttt{a2}. The text to refer to location
+\texttt{x} of component \texttt{a1}, as used in component \texttt{b}, is
+still \texttt{a1.x}.
+
+Figure~\ref{fig:wrapping-post-expr} shows the corresponding reference
+expression. It is no longer necessary to use a wrapping expression, as we
+can refer to location \texttt{x} in component a1 directly, as it is a real
+location, not one that we can get multiple versions of due to instantiation.
+As such, there is no confusion about which location we mean by that reference
+expression.
+
+Note that wrapping does not only apply to references via component
+instantiations, but also to references via component parameters.
+Also, it does not just apply to expressions references, but also to type
+references. See also the \cifclass{CompInstWrapType},
+\cifclass{CompParamWrapType}, \cifclass{CompInstWrapExpression}, and
+\cifclass{CompParamWrapExpression} classes.
+
+From this we can conclude that reference expressions, reference types, and
+their wrapping variants, are necessary to keep track of the component
+instantiations and component parameters via which we reference certain
+objects. That is, we need to correctly capture all of the information contained
+in the textual representations of references, in our metamodel representation.
+This is for instance needed to be able to correctly reroute references during
+the elimination of component definition/instantiation. After that elimination
+step however, wrapping expressions and wrapping types are no longer present.
+References do remain expressions, and as such, in the example, an instance
+of the \cifclass{LocationExpression} is contained, instead of a direct
+reference to an instance of the \cifclass{Location} class. Such containments
+are colored in red in the metamodel, as already mentioned in
+Chapter~\ref{ch:notations-conventions}.
+
+
+\subsection{Scoping rules}
+
+As previously mentioned in Section~\ref{sec:ref-wrapping}, one of the features
+of CIF is that pretty much anything in the entire specification can be
+referenced from anywhere in the specification. This is however complicated by
+the existence of a component definition/instantiation mechanism, which caused
+a need for reference wrapping.
+
+This section explains the scoping rules of CIF.
+Figure~\ref{fig:scoping-visibility} shows an example CIF specification. The
+rectangles in the figure indicate components and component definitions. The
+outer rectangle (the dashed one), indicates the entire specification. The
+text fragments are written in a slightly simplified version of the CIF textual
+syntax. In the remainder of this section, the example is used to explain
+the scoping rules.
+
+\begin{figure}
+  \centering
+  \import{figures/}{scoping_visibility.tex}
+  \caption{Scoping and visibility example.}
+  \label{fig:scoping-visibility}
+\end{figure}
+
+The first thing to note about the figure are the different colors. They
+indicate the different scopes of the specification. The outer-most scope (the
+red scope) is the specification scope. We walk the containment hierarchy
+downwards until we hit a component definition. From there, we start a new
+scope, and repeat the process. That is, specifications and component
+definitions start a new scope. The idea is that component definitions are
+definitions, and as such we can't refer to objects in component definitions
+directly. If we were to be able to reference objects in component definitions
+directly, and there would not be any instance of such a component definition,
+or there would be multiple instances, to what would we be referring? So, to
+solve this ambiguity, only once we instantiate a component definition, can we
+refer to objects within that definition (via component instantiation reference
+wrapping expressions for instance).
+
+An example of this is component
+instantiation \texttt{c:} \texttt{C()} in component \texttt{a}. In component
+\texttt{a}, in the red scope, we can't directly reference objects from
+component definition \texttt{C}, as those objects are in the green scope. Once
+we have \texttt{c}, we can use it to refer to objects in \texttt{C}, such
+as \texttt{c.b}. In fact, \texttt{c.b.a.a.x} refers to location \texttt{x}
+(black scope) in component \texttt{a.a} (black scope) in component definition
+\texttt{B}, via component instantiations \texttt{c} (red scope to green scope)
+and \texttt{b} (green scope to black scope).
+
+Note how a component definition itself is part of the enclosing scope, while
+the parameters are part of the new scope that is introduced by the component
+definition. That is, the parameter cannot be referenced directly from the
+enclosing scope. If we look at component definition \texttt{K}, we see that
+component parameter \texttt{c} is part of the new blue scope. The type of
+component parameter \texttt{c} is component \texttt{C}, which is resolved
+in the enclosing scope (the red scope).
+
+Within a single scope (single color in the figure), anything can be referenced
+directly. For instance, in component \texttt{a} (red scope), references
+\texttt{b.x} and \texttt{b.y} refer to locations in automaton \texttt{b},
+which is part of the same red scope. Furthermore, component definition
+\texttt{P} (from component \texttt{i}) can be instantiated directly in
+component \texttt{a}, as both are in the red scope.
+
+In general, anything within the same scope can be referenced directly, as can
+anything from ancestors scopes (the parent scope, the parent of the parent
+scope, etc). An example of the latter is \texttt{d.x}
+in an invariant of component \texttt{C.B.a} (in the black scope), which refers
+to location \texttt{C.d.x} of automaton \texttt{C.d}, in the green parent
+scope. The only two ways to reference things in component definitions
+that the reference itself is not a part of, are via component
+instantiations and via component parameters. For an example of the latter,
+see invariant \texttt{inv c.d.x} in component definition \texttt{K}.
+
+Note that it is not allowed to instantiate component definitions which, in the
+instantiation context, can only be referenced via another component
+instantiation or via a component parameter. That is, it is not allowed to
+instantiate a component definition X, declared inside other component
+definition Y, from outside Y. Conceptually, in an instantiated component,
+there are no component definitions.
+
+Also, it is not allowed to refer to a parameter of a component definition,
+via component instantiations or via other component parameters. Once again,
+conceptually, in an instantiated component, there are no parameters.
+
+For user-defined functions, it is not allowed to refer to anything inside a
+function (parameters etc) from outside the function. The other way around, from
+inside a function, it is not allowed to refer to variables, locations, events,
+components, component definitions, etc. Objects with constant values (such as
+constants etc) may be referenced from inside functions, as may types (type
+declarations, enumerations, etc).
+
+The scoping rules for tuple fields are special. See the
+\cifclass{ProjectionExpression} class for further details.
+
+
+\subsection{Visibility}
+
+Within the metamodel, the scoping rules are enough. However, in the CIF
+textual syntax, the concept of \emph{visibility} is important as well.
+
+If we look at Figure~\ref{fig:scoping-visibility}, we see that relative
+references to objects that are `in scope' are possible. For instance, in
+component \texttt{a}, there is a relative reference to \texttt{b.x}.
+Reference \texttt{c.b.a.a.x} is a relative reference as well, even though it
+uses some component instantiations to reach other scopes. Relative references
+refer to objects in the same sub-scope or deeper sub-scopes, possibly via
+references to other scopes.
+
+Relative references are also possible to objects defined at higher levels,
+as for instance shown by discrete variable \texttt{C.B.a.a.v0}, which has type
+\texttt{t}. This type \texttt{t} is defined one sub-scope above, in
+\texttt{C.B.a}.
+
+The other discrete variables in that same automaton, discrete variables
+\texttt{v1} and
+\texttt{v2}, also have type \texttt{t} as their type, but refer to different
+types \texttt{t}. Since only one object with a given name can be visible in
+a scope or sub-scope, types \texttt{t} (in the specification scope) and
+\texttt{C.B.t} are not visible in automaton \texttt{C.B.a.a}. They are however
+`in scope', as they are type declarations in the same scope or in ancestor
+scopes.
+
+To be able to refer to objects that are in scope, but are \emph{hidden} by
+other declarations of the same name, absolute references can be used. There
+are two variants: scope absolute references and specification absolute
+references. The type \texttt{.t} of discrete variable \texttt{v1} is a scope
+absolute
+reference. The reference starts with a single dot (\texttt{.}) and is then
+relative to the root of the current scope (the black scope). The type
+\texttt{\^{}t} of discrete variable \texttt{v2} is a specification absolute
+reference. The reference starts with a caret (\texttt{\^}) and is then
+relative to the root of the current specification (the red scope).
+
+Note that functions, similar to components, introduce a sub-scope.
+
+Note that edges with a receive communication that receives a value in a
+`receive variable', introduce a sub-scope. This scope has only one declaration,
+the `receive variable'. This kind of sub-scope is special in the sense that
+it has no name, and as such the `receive variable' can't be reached using a
+relative reference, from outside that sub-scope. In fact, `receive variables'
+are only in scope for the the updates of their edge. Note that as for all
+scopes, `receive variables' may hide other objects with the same name, from
+parent scopes.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\import{../../../common/org.eclipse.escet.common.position.metamodel/docs/}
+       {position_ecore_doc_details.tex}
+\input{cif_ecore_doc_details.tex}
+\input{cif_ecore_doc_generated.tex}
+\import{../../../common/org.eclipse.escet.common.position.metamodel/docs/}
+       {position_ecore_doc_generated.tex}
+\input{distributions.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Legal}
+
+The material in this documentation is
+Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation.
+
+Eclipse ESCET and ESCET are trademarks of the Eclipse Foundation.
+Eclipse, and the Eclipse Logo are registered trademarks of the
+Eclipse Foundation. Other names may be trademarks of their
+respective owners.
+
+\textbf{License}
+
+The Eclipse Foundation makes available all content in this document
+(``Content''). Unless otherwise indicated below, the Content is provided to you
+under the terms and conditions of the MIT License. A copy of the MIT License
+is available at \url{https://opensource.org/licenses/MIT}. For purposes of the
+MIT License, ``Software'' will mean the Content.
+
+If you did not receive this Content directly from the Eclipse Foundation,
+the Content is being redistributed by another party (``Redistributor'') and
+different terms and conditions may apply to your use of any object code in
+the Content. Check the Redistributor's license that was provided with the
+Content. If no such license exists, contact the Redistributor. Unless
+otherwise indicated below, the terms and conditions of the MIT License
+still apply to any source code in the Content and such source code may be
+obtained at \url{http://www.eclipse.org}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\bibliographystyle{plain}
+\bibliography{cif_ecore_doc}
+
+\end{document}

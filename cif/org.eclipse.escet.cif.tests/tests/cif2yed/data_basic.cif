@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg int x = g.y;
+
+group g:
+  input int y;
+
+  automaton def A(location loc; alg int p):
+    invariant p > 0;
+
+    location l1:
+      initial;
+      edge when p > 1 goto l2;
+
+    location l2:
+      edge when loc goto l1;
+  end
+
+  a1: A(a2.l1, y);
+  a2: A(a1.l2, x);
+end

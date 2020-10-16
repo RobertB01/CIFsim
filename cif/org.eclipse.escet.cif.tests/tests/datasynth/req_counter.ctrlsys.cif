@@ -1,0 +1,27 @@
+plant automaton adder:
+  controllable c_add;
+  uncontrollable u_remove;
+  location l1:
+    initial;
+    marked;
+    edge c_add goto l2;
+  location l2:
+    edge c_add goto l3;
+  location l3:
+    edge u_remove goto l1;
+end
+supervisor automaton count_max3:
+  disc int[0..10] cnt = 0;
+  location:
+    initial;
+    marked;
+    edge adder.c_add do cnt := cnt + 1;
+    edge adder.u_remove do cnt := cnt - 1;
+end
+supervisor automaton sup:
+  alphabet adder.c_add;
+  location:
+    initial;
+    marked;
+    edge adder.c_add when not adder.l2 and (count_max3.cnt = 0 or count_max3.cnt = 1) or (adder.l2 and count_max3.cnt = 2 or adder.l2 and count_max3.cnt = 1);
+end

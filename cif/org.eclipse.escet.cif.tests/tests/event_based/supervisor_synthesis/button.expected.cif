@@ -1,0 +1,28 @@
+uncontrollable ButtonPush;
+controllable LedOn;
+uncontrollable ButtonRelease;
+controllable LedOff;
+supervisor automaton sup:
+  alphabet ButtonPush, LedOn, ButtonRelease, LedOff;
+  location s1:
+    initial;
+    marked;
+    edge ButtonPush goto s2;
+  location s2:
+    edge ButtonRelease goto s3;
+    edge LedOn goto s4;
+  location s3:
+    marked;
+    edge ButtonPush goto s2;
+  location s4:
+    edge ButtonRelease goto s5;
+  location s5:
+    edge ButtonPush goto s6;
+  location s6:
+    edge LedOff goto s7;
+    edge ButtonRelease goto s8;
+  location s7:
+    edge ButtonRelease goto s1;
+  location s8:
+    edge ButtonPush goto s6;
+end

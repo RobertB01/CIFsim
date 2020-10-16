@@ -1,0 +1,118 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int _f():
+  int s;
+  return s;
+end
+
+invariant _f() = 0;
+
+type t = bool;
+
+enum e1 = A, B;
+enum e2 = C, D;
+
+invariant A != B, C != D;
+
+group q:
+  // e2 is same as ^e2, to check representatives.
+  enum e2 = C, D;
+  invariant C != D;
+end
+
+automaton p:
+  cont x der 1.0;                       // 0.0
+  initial x = 0.0;
+
+  disc bool b;                          // false
+  invariant not b;
+
+  disc int         i1;                  // 0
+  disc int[-5..-3] i2;                  // -3
+  disc int[ 3.. 5] i3;                  // 3
+  disc int[-5.. 3] i4;                  // 0
+  disc int[-3.. 5] i5;                  // 0
+  disc int[-3..-3] i6;                  // -3
+  disc int[ 3.. 3] i7;                  // 3
+  disc int[-5..-5] i8;                  // -5
+  disc int[ 5.. 5] i9;                  // 5
+  invariant i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 < 100;
+
+  disc t vt;                            // false
+  invariant not vt;
+
+  disc e1 ve1;                          // A
+  disc e2 ve2;                          // C
+  disc q.e2 vqe2;                       // C
+  invariant ve1 = A, ve2 = C, vqe2 = C;
+
+  disc real r;                          // 0.0
+  invariant r = 0.0;
+
+  disc string g;                        // ""
+  invariant g = "";
+
+  disc list int l1;                     // []
+  disc list[0..2] int l2;               // []
+  disc list[1..3] int l3;               // [0]
+  disc list[4] int l4;                  // [0, 0, 0, 0]
+  invariant l1 = [];
+  invariant l2 = [];
+  invariant l3 = [0];
+  invariant l4 = [0, 0, 0, 0];
+
+  disc set int s;                       // {}
+  invariant s = {};
+
+  disc func bool                           ()          f1;
+  disc func bool                           (int, real) f2;
+  disc func func tuple(string a; int b) () ()          f3;
+  invariant f1() = false;
+  invariant f2(1, 2.3) = false;
+  invariant f3()() = ("", 0);
+
+  disc dict(bool:real) d;
+  invariant d = {};
+
+  disc tuple(bool bf; int if0; int[2..4] if2)    t1;  // (false, 0, 2)
+  disc tuple(t tf; e1 ef; real rf; string sf)    t2;  // (false, A, 0.0, "")
+  disc tuple(list int lf; set int sf)            t3;  // ([], {})
+  disc tuple(func bool() ff; dict(real:bool) df) t4;  // (defaultValueFunc, {})
+  disc tuple(tuple(int a,b) tf; bool bf)         t5;  // ((0, 0), false)
+  disc tuple(dist bool df1, df2)                 t6;  // (constant(false),
+                                                      //  constant(false))
+  invariant t1 = (false, 0, 2);
+  invariant t2 = (false, A, 0.0, "");
+  invariant t3 = ([], {});
+  invariant t4[0]() = false, t4[1] = {};
+  invariant t5 = ((0, 0), false);
+  invariant (sample t6[df1])[0] = false;
+  invariant (sample t6[df2])[0] = false;
+
+  disc dist bool db;
+  disc dist int  di;
+  disc dist real dr;
+  invariant (sample db)[0] = false;
+  invariant (sample di)[0] = 0;
+  invariant (sample dr)[0] = 0.0;
+
+  disc list[3] tuple(int a, b) l3ii;
+
+  location m0:
+    initial;
+    edge do l3ii[1][b] := 5 goto m1;
+
+  location m1:
+    urgent;
+end

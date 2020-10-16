@@ -1,0 +1,7 @@
+Initial state: time=0.0, x=0.5, x'=-1.0
+
+SVG output ("../svgviz/small.svg") id "box" attr "x" (SVG attr): "0.7071067811865476"
+
+Transition: delaying for 10.0 time units at time 0.0
+SVG output ("../svgviz/small.svg") id "box" attr "x" (SVG attr): "0.5000000000000003"
+

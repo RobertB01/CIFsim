@@ -1,0 +1,132 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// NOTE: This test case tests code generation, but no svg input is actually
+// selected. Perform manual simulation using svg_input.tooldef to actual test
+// SVG input.
+
+svgfile "svg_input.svg";
+
+event a;
+event b1;
+event b2;
+event c;
+event d;
+event e;
+event f;
+
+automaton aut:
+  location:
+    initial;
+    edge a, c;
+end
+
+automaton aut_b:
+  location l1:
+    initial;
+    edge b1 goto l2;
+
+  location l2:
+    edge b2 goto l1;
+end
+
+automaton aut_d:
+  disc int vd = 0;
+  location:
+    initial;
+    // Two edges for event 'd' (non-deterministic choice).
+    edge d do vd := vd + 1;
+    edge d do vd := vd * -1;
+end
+
+automaton aut_e:
+  location:
+    initial;
+    edge e when false; // Event 'e' never enabled.
+end
+
+automaton aut_f:
+  disc bool b = true;
+  location l1:
+    initial;
+    edge f do b := not b;
+end
+
+// Single event input.
+svgin id "x1" event a;
+
+// Multi event svgin based on two locations, both listed, no else.
+svgin id "x2" event if   aut_b.l1: b1
+                    elif aut_b.l2: b2
+                    end;
+
+// Multi event svgin based on two locations, one listed, other else.
+svgin id "x3" event if   aut_b.l1: b1
+                    else           b2
+                    end;
+
+// Multi event input, ordered.
+svgin id "x4" event if   true: a
+                    elif true: c
+                    end;
+
+// Multi event svgin based on two locations, with incomplete mapping (includes
+// error wrapping for multi svgin mappings).
+svgin id "x5" event if   aut_b.l1: b1
+                    elif aut_b.l1: b1
+                    // missing aut_b.l2 or 'else'...
+                    end;
+
+// Multi event svgin with guard evaluation error (includes error wrapping for
+// multi svgin mappings).
+svgin id "x6" event if   sqrt(-1.0) > 0: b1
+                    else                 b1
+                    end;
+
+// Multiple transitions enabled for an interactive event (requires complete
+// mode).
+svgout id "vd" text value fmt("vd = %s", aut_d.vd);
+
+svgin id "x7" event d;
+
+// Chosen interactive event not enabled (deadlock, with warning).
+svgin id "x8" event e;
+
+// Clicking on object that results in hiding itself (keep pushed a few secs).
+svgout id "x9" attr "visibility" value if aut_f.b: "visible" else "hidden" end;
+
+svgin id "x9" event f;
+
+// Rectangle and text label in group, to test clicking children of interactive
+// elements.
+svgin id "x99" event a;
+
+// Test input from multiple SVG files.
+group g:
+  svgfile "small.svg";
+
+  event z;
+
+  automaton a:
+    disc bool b;
+    location:
+      initial;
+      edge z do b := not b;
+  end
+
+  svgout id "box" attr "fill" value if a.b: "green" else "red" end;
+
+  svgin id "box" event z;
+end
+
+// Debug SVG output is disabled in ToolDef; enable to test SVG input debugging.

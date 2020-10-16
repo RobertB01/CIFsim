@@ -1,0 +1,17 @@
+Initial state: time=0.0, a=*, b=*, c=m1
+
+Possible transitions:
+  #1: event a.e
+  #2: event b.e
+
+Transition: event b.e
+State: time=0.0, a=*, b=*, c=m2
+
+Possible transitions:
+  #1: event a.e
+  #2: delay for (0 .. 10.0]
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, a=*, b=*, c=m2
+
+Simulation ended due to reaching the user-provided simulation end time.

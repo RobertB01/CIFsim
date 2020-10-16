@@ -1,0 +1,36 @@
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 27, column 27: Type "p" is not allowed for keys of dictionaries.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 28, column 28: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 29, column 27: Type "dist real" is not allowed for keys of dictionaries.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 31, column 27: Type "p" is not allowed for values of dictionaries.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 32, column 30: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 35, column 33: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 36, column 33: Type "P" is not allowed for keys of dictionaries.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 37, column 33: "P.d" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 39, column 38: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 40, column 38: Type "P" is not allowed for values of dictionaries.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 41, column 38: "P.d" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 43, column 27: Type "p" is not allowed for elements of lists.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 44, column 28: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 47, column 27: Type "p" is not allowed for elements of sets.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 48, column 28: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 49, column 27: Type "dist real" is not allowed for elements of sets.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 51, column 33: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 52, column 33: Type "P" is not allowed for elements of lists.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 53, column 33: "P.d" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 55, column 32: "p" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 56, column 32: Type "P" is not allowed for elements of sets.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 57, column 32: "P.d" is not a type.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 59, column 22: Type "p" is not allowed for fields of tuples.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 60, column 23: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 63, column 22: Type "p" is not allowed for results of ifs.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 64, column 31: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 65, column 22: Invariant predicate must be of type "bool", but is of type "dist real".
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 67, column 29: Type "g" is not allowed for the control value of a switch.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 68, column 29: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 69, column 29: Values of type "dist real" do not support value equality, and may not be used as a control value of a switch.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 71, column 44: Type "g" is not allowed for results of switches.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 71, column 53: Type "g" is not allowed for results of switches.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 72, column 44: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 72, column 53: Cannot use "P" as a value, as it is a component definition.
+ERROR: File "tchecker/type_invalid_type_expr.cif": Semantic error at line 73, column 22: Invariant predicate must be of type "bool", but is of type "dist real".
+ERROR: Failed to load CIF file "tchecker/type_invalid_type_expr.cif": the file has errors.

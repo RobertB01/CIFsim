@@ -1,0 +1,87 @@
+sort LocSort_A = struct loc_A;
+
+proc BehProc_A(Locvar_A : LocSort_A) =
+  (Locvar_A == loc_A) -> nn . BehProc_A(Locvar_A) +
+  (Locvar_A == loc_A) -> ns . BehProc_A(Locvar_A) +
+  (Locvar_A == loc_A) -> na . BehProc_A(Locvar_A) +
+  (Locvar_A == loc_A) -> sn . BehProc_A(Locvar_A) +
+  (Locvar_A == loc_A) -> ss . BehProc_A(Locvar_A) +
+  (Locvar_A == loc_A) -> sa . BehProc_A(Locvar_A) +
+  sum x : Bool . ((Locvar_A == loc_A) && x) -> sn | aread_x(x) . BehProc_A(Locvar_A) +
+  sum x : Bool . ((Locvar_A == loc_A) && x) -> ss | aread_x(x) . BehProc_A(Locvar_A) +
+  sum x : Bool . ((Locvar_A == loc_A) && x) -> sa | aread_x(x) . BehProc_A(Locvar_A) +
+  sum x : Bool . ((Locvar_A == loc_A) && x) -> an | aread_x(x) . BehProc_A(Locvar_A) +
+  sum x : Bool . ((Locvar_A == loc_A) && x) -> as | aread_x(x) . BehProc_A(Locvar_A) +
+  sum x : Bool . ((Locvar_A == loc_A) && x) -> aa | aread_x(x) . BehProc_A(Locvar_A);
+
+sort LocSort_B = struct loc_B;
+
+proc BehProc_B(Locvar_B : LocSort_B) =
+  (Locvar_B == loc_B) -> nn . BehProc_B(Locvar_B) +
+  (Locvar_B == loc_B) -> sn . BehProc_B(Locvar_B) +
+  (Locvar_B == loc_B) -> an . BehProc_B(Locvar_B) +
+  (Locvar_B == loc_B) -> ns . BehProc_B(Locvar_B) +
+  (Locvar_B == loc_B) -> ss . BehProc_B(Locvar_B) +
+  (Locvar_B == loc_B) -> as . BehProc_B(Locvar_B) +
+  sum x : Bool . ((Locvar_B == loc_B) && x) -> ns | aread_x(x) . BehProc_B(Locvar_B) +
+  sum x : Bool . ((Locvar_B == loc_B) && x) -> ss | aread_x(x) . BehProc_B(Locvar_B) +
+  sum x : Bool . ((Locvar_B == loc_B) && x) -> as | aread_x(x) . BehProc_B(Locvar_B) +
+  sum x : Bool . ((Locvar_B == loc_B) && x) -> na | aread_x(x) . BehProc_B(Locvar_B) +
+  sum x : Bool . ((Locvar_B == loc_B) && x) -> sa | aread_x(x) . BehProc_B(Locvar_B) +
+  sum x : Bool . ((Locvar_B == loc_B) && x) -> aa | aread_x(x) . BehProc_B(Locvar_B);
+
+act value_x, vread_x, vwrite_x, sync_x, aread_x, awrite_x : Bool;
+
+proc VarProc_x(v:Bool) =
+  value_x(v) . VarProc_x(v) +
+  vread_x(v) . VarProc_x(v) +
+  sum m:Bool . true -> vwrite_x(m) . VarProc_x(m) +
+  sum m:Bool . true -> vread_x(v) | vwrite_x(m) . VarProc_x(m);
+
+act nn, renamed_nn, ns, renamed_ns, na, renamed_na, sn, renamed_sn, ss, renamed_ss, sa, renamed_sa, an, renamed_an, as, renamed_as, aa, renamed_aa;
+
+init block({aread_x, awrite_x, vread_x, vwrite_x},
+     hide({sync_x},
+     comm({aread_x | vread_x -> sync_x,
+           awrite_x | vwrite_x -> sync_x},
+     (
+       allow({nn,
+              ns,
+              ns | aread_x,
+              na | aread_x,
+              sn,
+              sn | aread_x,
+              ss,
+              ss | aread_x,
+              sa | aread_x,
+              an | aread_x,
+              as | aread_x,
+              aa | aread_x},
+       comm({aread_x | aread_x -> aread_x},
+       rename({renamed_nn -> nn,
+               renamed_ns -> ns,
+               renamed_na -> na,
+               renamed_sn -> sn,
+               renamed_ss -> ss,
+               renamed_sa -> sa,
+               renamed_an -> an,
+               renamed_as -> as,
+               renamed_aa -> aa},
+       block({nn, ns, na, sn, ss, sa, an, as, aa},
+       comm({nn | nn -> renamed_nn,
+             ns | ns -> renamed_ns,
+             na | na -> renamed_na,
+             sn | sn -> renamed_sn,
+             ss | ss -> renamed_ss,
+             sa | sa -> renamed_sa,
+             an | an -> renamed_an,
+             as | as -> renamed_as,
+             aa | aa -> renamed_aa},
+       (
+         BehProc_A(loc_A)
+       ||
+         BehProc_B(loc_B)
+       ))))))
+     ||
+       VarProc_x(false)
+     ))));

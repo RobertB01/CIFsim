@@ -1,0 +1,1 @@
+ERROR: Two or more terminals have the same priority and they are overlapping (their languages have at least one string in common): "aa*b", TERM1="a+b".

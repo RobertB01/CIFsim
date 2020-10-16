@@ -1,0 +1,2 @@
+ERROR: Failed to apply controllability check for CIF file "event_based/controllability_check/non_deterministic.cif".
+CAUSE: Unsupported automaton "p1": location "p1.s1" has several outgoing edges for event "e", only deterministic automata are supported.

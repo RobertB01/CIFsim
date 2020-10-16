@@ -1,0 +1,1 @@
+ERROR: Assigned value 4 is too big in assignment "A.x := A.x + 1" in state "A: *, A.x: 3".

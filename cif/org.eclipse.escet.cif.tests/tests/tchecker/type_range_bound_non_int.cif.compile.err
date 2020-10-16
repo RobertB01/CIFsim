@@ -1,0 +1,5 @@
+ERROR: File "tchecker/type_range_bound_non_int.cif": Semantic error at line 14, column 11: The lower bound value of an integer type must be of type "int".
+ERROR: File "tchecker/type_range_bound_non_int.cif": Semantic error at line 15, column 14: The upper bound value of an integer type must be of type "int".
+ERROR: File "tchecker/type_range_bound_non_int.cif": Semantic error at line 17, column 12: The lower bound value of a list type must be of type "int".
+ERROR: File "tchecker/type_range_bound_non_int.cif": Semantic error at line 18, column 15: The upper bound value of a list type must be of type "int".
+ERROR: Failed to load CIF file "tchecker/type_range_bound_non_int.cif": the file has errors.

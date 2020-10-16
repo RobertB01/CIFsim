@@ -1,0 +1,88 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Tuple parameters and return values.
+
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.swap2;
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.swap3;
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.swap4;
+
+tuple(int, string) t2a = (1, "a");
+tuple(string, int) t2b = <tuple(string, int)>swap2(t2a);
+outln("%s", t2a);
+outln("%s", t2b);
+outln();
+
+tuple(int, string, bool) t3a = (1, "a", true);
+tuple(bool, string, int) t3b = <tuple(bool, string, int)>swap3(t3a);
+outln("%s", t3a);
+outln("%s", t3b);
+outln();
+
+tuple(int, string, bool, list int) t4a = (1, "a", true, [2, 3]);
+tuple(list int, bool, string, int) t4b = <tuple(list int, bool, string, int)>swap4(t4a);
+outln("%s", t4a);
+outln("%s", t4b);
+outln();
+
+// Variadic parameters with various types.
+
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.variadic1;
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.variadic2;
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.variadic3;
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.variadic4;
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.variadic5;
+
+outln("%s", variadic1());
+outln("%s", variadic1(1));
+outln("%s", variadic1(1, 2, 3));
+outln();
+
+outln("/%s/", variadic2());
+outln("/%s/", variadic2("a"));
+outln("/%s/", variadic2("a", "b", "c"));
+outln();
+
+outln("%s", variadic3());
+outln("%s", variadic3([]));
+outln("%s", variadic3([1]));
+outln("%s", variadic3([1, 2], [3]));
+outln();
+
+outln("/%s/", variadic4());
+outln("/%s/", variadic4([]));
+outln("/%s/", variadic4(["a"]));
+outln("/%s/", variadic4(["a", "b"], ["c"]));
+outln();
+
+outln("%s", variadic5());
+outln("%s", variadic5([]));
+outln("%s", variadic5([[]]));
+outln("%s", variadic5([[], []]));
+outln("%s", variadic5([[1]]));
+outln("%s", variadic5([[1, 2], [3]]));
+outln("%s", variadic5([[1, 2], [3]], [[4], [5, 6]]));
+outln();
+
+// Test negative zero normalization.
+
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.testNegativeZero;
+
+outln("%s", testNegativeZero());
+outln();
+
+// Private method.
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.priv;
+
+outln("%s", priv());
+outln();

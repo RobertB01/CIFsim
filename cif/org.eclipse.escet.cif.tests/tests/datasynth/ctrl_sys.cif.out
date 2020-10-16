@@ -1,0 +1,143 @@
+Reading CIF file "datasynth/ctrl_sys.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type        Name   Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a         g.p    0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..10]  g.p.x  1      4 * 2     11 * 2      16 * 2      ~69%
+  -----  -----------------  ----------  -----  -----  --------  ----------  ----------  -----------
+  Total                                        2      10        26          36          ~72%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 8
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    2 (total)                 0.25 (avg/edge) [before]
+    Total span:                    2 (total)                 0.25 (avg/edge) [iteration 1]
+    Total span:                    2 (total)                 0.25 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    2 (total)                 0.25 (avg/edge) [before]
+    Total span:                    2 (total)                 0.25 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (component state invariant):   (g.p.x = 1 or 3 <= g.p.x and g.p.x <= 10) and g.p.x != 1
+Invariant (component state invariant):   0 <= g.p.x and g.p.x <= 7
+Invariant (components state invariant):  g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
+
+Initial   (discrete variable 1):         true
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     g.p.l0
+Initial   (auts/locs init predicate):    g.p.l0
+Initial   (uncontrolled system):         g.p.l0
+Initial   (system, combined init/inv):   g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   g.p.l0
+Marked    (auts/locs marker predicate):  g.p.l0
+Marked    (uncontrolled system):         g.p.l0
+Marked    (system, combined marked/inv): g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
+
+State/event exclusion requirements:
+  Event "c" needs:
+    g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))
+  Event "u" needs:
+    4 <= g.p.x and g.p.x <= 10
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
+    Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
+
+Initialized controlled-behavior predicate using invariants: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)).
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1): guard: g.p.l0 -> g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3)) [requirement: g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))].
+Controlled behavior: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)) [requirement: 4 <= g.p.x and g.p.x <= 10, edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)))
+    Edge: (event: c) (guard: g.p.l0 -> g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3))) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
+    Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: g.p.l0 [marker predicate]
+Backward controlled-behavior: g.p.l0 -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) [restricted to current/previous controlled-behavior predicate: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7))]
+Backward reachability: iteration 1.
+Backward controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)) [backward reach with edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0), restricted to current/previous controlled-behavior predicate: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7))]
+Backward reachability: iteration 2.
+Backward controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)) [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (g.p.l1 or not(g.p.x = 4 or g.p.x = 6)) and (g.p.l1 or g.p.x != 5) and ((g.p.l1 or not(g.p.x = 3 or g.p.x = 7)) and (g.p.l0 or not(4 <= g.p.x and g.p.x <= 7))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: g.p.l0 [initialization predicate]
+Forward controlled-behavior: g.p.l0 -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) [restricted to current/previous controlled-behavior predicate: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7))]
+Forward reachability: iteration 1.
+Forward controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5)) [forward reach with edge: (event: c) (guard: g.p.l0 -> g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3))) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1), restricted to current/previous controlled-behavior predicate: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7))]
+Forward reachability: iteration 2.
+Forward controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5)) [fixed point].
+Controlled behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (4 <= g.p.x and g.p.x <= 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5)).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: g.p.l0 [marker predicate]
+Backward controlled-behavior: g.p.l0 -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) [restricted to current/previous controlled-behavior predicate: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5))]
+Backward reachability: iteration 1.
+Backward controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) -> g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5)) [backward reach with edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0), restricted to current/previous controlled-behavior predicate: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5))]
+Backward reachability: iteration 2.
+Backward controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5)) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (g.p.l1 or not(g.p.x = 4 or g.p.x = 6)) and (g.p.l1 or g.p.x != 5) and ((g.p.l1 or not(g.p.x = 3 or g.p.x = 7)) and (g.p.l0 or not(g.p.x = 4 or g.p.x = 5))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: c) (guard: g.p.l0 -> g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3))) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1): guard: g.p.l0 and (g.p.x = 0 or g.p.x = 4) or (g.p.l0 and g.p.x = 2 or g.p.l0 and (g.p.x = 1 or g.p.x = 3)) -> g.p.l0 and g.p.x = 4 or g.p.l0 and g.p.x = 3.
+
+Final synthesis result:
+  State: (controlled-behavior: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5)))
+    Edge: (event: c) (guard: g.p.l0 -> g.p.l0 and g.p.x = 4 or g.p.l0 and g.p.x = 3) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
+    Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
+
+Controlled system:                     exactly 7 states.
+
+Initial (synthesis result):            g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1 and (g.p.x = 4 or g.p.x = 5))
+Initial (uncontrolled system):         g.p.l0
+Initial (controlled system):           g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
+Initial (removed by supervisor):       g.p.l0 and (g.p.x = 0 or g.p.x = 2 or (g.p.x = 8 or g.p.x = 10)) or g.p.l0 and (g.p.x = 1 or g.p.x = 9)
+Initial (added by supervisor):         g.p.l0 and (g.p.x = 4 or g.p.x = 6) or g.p.l0 and g.p.x = 5 or (g.p.l0 and (g.p.x = 3 or g.p.x = 7) or g.p.l1)
+
+Simplification of controlled system under the assumption of the uncontrolled system:
+  Initial: g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7)) -> g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)) [assume g.p.l0].
+
+Simplification of controlled system under the assumption of the plants:
+  Event c: guard: g.p.l0 and g.p.x = 4 or g.p.l0 and g.p.x = 3 -> g.p.x = 4 or g.p.x = 3 [assume g.p.l0].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/ctrl_sys.ctrlsys.real.cif".

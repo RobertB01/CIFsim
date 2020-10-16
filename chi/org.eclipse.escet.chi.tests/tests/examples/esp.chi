@@ -1,0 +1,61 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type event = tuple(real t; int e);
+
+func bool pred(event x, y):
+   return x.t <= y.t
+end
+
+func list event ins(list event fes; real t; int i):
+   write("event %f %d\n", t, i);
+   return insert(fes, (t, i), pred)
+end
+
+model ESP():
+   real ta = 1.0, ts = 0.8, cs2 = 1.0, T = 10000.0;
+   dist real ua = exponential(ta),
+             us = gamma(1 / cs2, cs2 * ts);
+   int N;
+   list event fes; real t, current; int kind;
+   list real qs; real q, sum_w; bool busy;
+
+   fes = [ (sample ua, -1) ];
+   while t < T:
+      write("%d %d \n", size(fes), size(qs));
+      (current, kind), fes = pop(fes);
+      write("%s %f %d\n", "cur kind", current, kind);
+      if kind == -1:                # generator event
+         write("test\n");
+         fes = ins(fes, current + sample ua, -1);
+         write("test2\n");
+         if busy:                   # server busy
+            qs = qs + [current]
+         else:                      # server free
+            busy = true;
+            N = N + 1;
+            fes = ins(fes, current + sample us, 0)
+         end
+      else:                         # server event
+         if empty(qs):              # items not waiting
+            busy = false
+         else:                      # items waiting
+            q, qs = pop(qs);
+            sum_w = sum_w + (current - q);
+            N = N + 1;
+            fes = ins(fes, current + sample us, 0);
+         end
+      end;
+      write("\n %s\n", "Loop")
+   end;
+   write("%f\n", sum_w / N)
+end

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/subdir/svg_file_not_found_import2.cif": Semantic error at line 14, column 9: SVG image file "../does_not_exist.svg" could not be found, is a directory, or for some other reason could not be opened for reading.
+ERROR: Failed to load CIF file "tchecker/subdir/svg_file_not_found_import2.cif": the file has errors.

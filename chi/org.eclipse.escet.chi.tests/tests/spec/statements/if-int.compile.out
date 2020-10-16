@@ -1,0 +1,1 @@
+Error: File "spec/statements/if-int.chi": Semantic error at line 14, column 8: Boolean type expected (found "int").

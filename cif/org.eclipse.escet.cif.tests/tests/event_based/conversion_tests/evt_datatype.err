@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/evt_datatype.cif".
+CAUSE: Unsupported event "g.e": event has a data type.

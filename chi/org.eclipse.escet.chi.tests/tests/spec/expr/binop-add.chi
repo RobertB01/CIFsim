@@ -1,0 +1,32 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    string xg        = "abcd",         zg = "efgh";
+    list int xs      = [1,2],          zs = [3,4,5];
+    set real yr      = {2.0,3.0, 4.0}, zr = {2.0, 5.0};
+    dict(int:int) xd = {1:1, 2:2},     zd = {1:2, 3:3};
+    tuple(int  a, b) xt = (1, 2);
+    tuple(real x, y) yt = (2.5, 3.8);
+    int  i = 1;
+    real r = 4.5;
+
+    writeln("%s", xg + zg);
+    writeln("%s", xs + zs);
+    writeln("%s", yr + zr);
+    writeln("%s", xd + zd);
+    writeln("%s", xt + yt);
+    writeln("%s", i + i);
+    writeln("%s", r + i);
+    writeln("%s", i + r);
+    writeln("%s", r + r);
+end

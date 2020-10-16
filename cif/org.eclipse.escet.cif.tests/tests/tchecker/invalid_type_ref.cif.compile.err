@@ -1,0 +1,7 @@
+ERROR: File "tchecker/invalid_type_ref.cif": Semantic error at line 16, column 12: "g.c" is not a type.
+ERROR: File "tchecker/invalid_type_ref.cif": Semantic error at line 27, column 12: "X.p" is not a type.
+ERROR: File "tchecker/invalid_type_ref.cif": Semantic error at line 32, column 7: "x" is not a type.
+ERROR: File "tchecker/invalid_type_ref.cif": Semantic error at line 33, column 5: "y" is not a type.
+ERROR: File "tchecker/invalid_type_ref.cif": Semantic error at line 34, column 7: "z" is not a type.
+ERROR: File "tchecker/invalid_type_ref.cif": Semantic error at line 37, column 8: "a.d" is not a type.
+ERROR: Failed to load CIF file "tchecker/invalid_type_ref.cif": the file has errors.

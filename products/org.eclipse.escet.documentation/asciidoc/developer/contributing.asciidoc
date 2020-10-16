@@ -1,0 +1,67 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[contributing]
+indexterm:[patches]
+
+[[developer-contributing-chapter-index]]
+== Contributing
+
+Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit
+(Eclipse ESCET) project.
+
+It is often a good idea to first discuss your contribution with the project's
+community and committers, before creating the actual code (e.g. patches),
+documentation, etc of your contribution. Discussions can take place via an
+<<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on
+the project's <<developer-chapter-index,'dev' list>>.
+
+To contribute your actual contribution, e.g. code, documentation, examples,
+or anything else to the project, please first create an issue in the issue
+tracker.
+
+To contribute the actual contribution, please use Gerrit:
+
+* link:https://git.eclipse.org/r/#/q/project:escet/escet[Eclipse ESCET Gerrit]
+
+indexterm:[ECA]
+
+Before your contribution can be accepted by the project team, contributors must
+electronically sign the Eclipse Contributor Agreement (ECA):
+
+* link:https://www.eclipse.org/legal/ECA.php[Eclipse Contributor Agreement (ECA)]
+
+Commits that are provided by non-committers must have a `Signed-off-by` field in
+the footer indicating that the author is aware of the terms by which the
+contribution has been provided to the project. The non-committer must
+additionally have an Eclipse Foundation account and must have a signed Eclipse
+Contributor Agreement (ECA) on file.
+
+For more information, including the specific format of commit messages,
+please see the Eclipse Foundation Project Handbook:
+
+* link:https://www.eclipse.org/projects/handbook[Eclipse Foundation Project Handbook]
+* link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records]
+
+A contribution by a non-committer will be reviewed by the project committers.
+This includes adherence to the project's
+<<developer-coding-standards-chapter-index,coding standards>>. Discussions
+regarding the contribution will take place in the associated issue and/or
+Gerrit. If the committers agree with the contribution, they will commit the
+contribution into the project's Git repository.
+
+Remember that contributions are always welcome, and contributions don't have
+to be perfect. The project's developers can help to improve your contribution.
+If you need any help, just ask the project's developers using the issue or the
+project's 'dev' list.

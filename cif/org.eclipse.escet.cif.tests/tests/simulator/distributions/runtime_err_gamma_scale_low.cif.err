@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "gamma(1.0, 0.0)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: gamma(1.0, 0.0).
+CAUSE: The scale parameter (the second parameter) is not positive.

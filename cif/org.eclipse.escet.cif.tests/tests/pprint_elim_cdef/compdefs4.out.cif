@@ -1,0 +1,16 @@
+group def P():
+  automaton def Q():
+    invariant q1.l;
+    invariant l;
+    location l:
+      initial;
+  end
+  q1: Q();
+  q2: Q();
+end
+p1: P();
+p2: P();
+invariant p1.q1.l;
+invariant p1.q2.l;
+invariant p2.q1.l;
+invariant p2.q2.l;

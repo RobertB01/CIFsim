@@ -1,0 +1,15 @@
+controllable t;
+controllable c;
+plant automaton abstracted:
+  alphabet t, c;
+  location s1:
+    initial;
+    edge t goto s2;
+  location s2:
+    edge c goto s3;
+    edge c;
+  location s3:
+    marked;
+    edge c;
+    edge c goto s2;
+end

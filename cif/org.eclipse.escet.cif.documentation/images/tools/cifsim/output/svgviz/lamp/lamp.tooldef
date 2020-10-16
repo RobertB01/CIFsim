@@ -1,0 +1,8 @@
+from "lib:cif" import *;
+
+cifsim(
+    "lamp.cif",
+    "-t 10",
+    "-i auto",
+    "--frame-rate=20",
+);

@@ -1,0 +1,4 @@
+ERROR: File "models_invalid/gen_class_dupl.setext": Semantic error at line 13, column 10: Duplicate generated class "some.Class".
+ERROR: File "models_invalid/gen_class_dupl.setext": Semantic error at line 19, column 12: Duplicate generated class "some.Class".
+ERROR: File "models_invalid/gen_class_dupl.setext": Semantic error at line 20, column 12: Duplicate generated class "some.Class".
+ERROR: Failed to load SeText file "models_invalid/gen_class_dupl.setext": the file has errors.

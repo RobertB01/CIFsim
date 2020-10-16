@@ -1,0 +1,55 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Simple example with a channel, a monitor, and an integer counter.
+
+event int a;
+
+automaton P:
+  location X:
+    initial;
+    marked;
+    edge a!5; // Always send a!5
+end
+
+automaton Q:
+  disc int y = 38;
+
+  location X:
+    initial;
+    marked;
+    edge a? do y := y + ?; // Always y = y + a?
+end
+
+// Monitor a, 2nd state is marked, 1st and 3rd state are not.
+automaton M:
+  monitor a;
+  location X:
+    initial;
+    edge a goto Y;
+
+  location Y:
+    marked;
+    edge a goto Z;
+
+  location Z; // Still allows a.
+end
+
+automaton N: // Counter to limit expansion
+  disc int c;
+
+  location X:
+    initial;
+    marked;
+    edge a when c < 3 do c := c + 1;
+end

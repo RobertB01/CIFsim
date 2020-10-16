@@ -1,0 +1,3 @@
+ERROR: File "tchecker/invoke_dupl_named_arg.tooldef": Semantic error at line 18, column 3: Duplicated named argument "a".
+ERROR: File "tchecker/invoke_dupl_named_arg.tooldef": Semantic error at line 18, column 8: Duplicated named argument "a".
+ERROR: Failed to load ToolDef file "tchecker/invoke_dupl_named_arg.tooldef": the file has errors.

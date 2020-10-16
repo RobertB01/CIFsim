@@ -1,0 +1,133 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-ref-builtins-io]]
+== Built-in I/O tools
+
+This page describes the built-in I/O tools:
+
+* <<lang-ref-builtins-io-out,out>>
+* <<lang-ref-builtins-io-err,err>>
+* <<lang-ref-builtins-io-outln,outln>>
+* <<lang-ref-builtins-io-errln,errln>>
+
+
+indexterm:[out]
+
+[[lang-ref-builtins-io-out]]
+=== out tool
+
+[source, tooldef]
+----
+tool out(string pattern, object?... args)
+----
+
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
+pattern and arguments) to the standard output stream (stdout).
+
+_Parameters_
+
+`pattern`::
+The format pattern.
+
+`args`::
+The arguments.
+
+_Runtime errors_
+
+* If the format pattern is invalid.
+* If the format pattern and arguments don't match.
+
+
+indexterm:[err]
+
+[[lang-ref-builtins-io-err]]
+=== err tool
+
+[source, tooldef]
+----
+tool err(string pattern, object?... args)
+----
+
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
+pattern and arguments) to the standard error stream (stderr).
+
+_Parameters_
+
+`pattern`::
+The format pattern.
+
+`args`::
+The arguments.
+
+_Runtime errors_
+
+* If the format pattern is invalid.
+* If the format pattern and arguments don't match.
+
+
+indexterm:[outln]
+
+[[lang-ref-builtins-io-outln]]
+=== outln tool
+
+[source, tooldef]
+----
+tool outln(string pattern = "", object?... args)
+----
+
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
+pattern and arguments) to the standard output stream (stdout), printing an
+additional new line at the end.
+
+_Parameters_
+
+`pattern`::
+The format pattern.
+
+`args`::
+The arguments.
+
+_Runtime errors_
+
+* If the format pattern is invalid.
+* If the format pattern and arguments don't match.
+
+
+indexterm:[errln]
+
+[[lang-ref-builtins-io-errln]]
+=== errln tool
+
+[source, tooldef]
+----
+tool errln(string pattern = "", object?... args)
+----
+
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
+pattern and arguments) to the standard error stream (stderr), printing an
+additional new line at the end.
+
+_Parameters_
+
+`pattern`::
+The format pattern.
+
+`args`::
+The arguments.
+
+_Runtime errors_
+
+* If the format pattern is invalid.
+* If the format pattern and arguments don't match.

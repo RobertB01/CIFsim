@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc func real() x;
+  disc real y = x(1);
+  location:
+    initial;
+end
+
+automaton q:
+  disc dist real x = random(1);
+  location:
+    initial;
+end
+
+const int x = abs();
+
+const int y = pow(1);
+const string z = fmt();

@@ -1,0 +1,178 @@
+Initial state: time=0.0, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000004 time units at time 0.0
+State: time=0.5000000000000004, p=*, p.x1=0.5000000000000004, p.x1'=1.0, p.x2=1.0000000000000009, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=0.5000000000000004, p=*, p.x1=0.5000000000000004, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000002 time units at time 0.5000000000000004
+State: time=1.0000000000000007, p=*, p.x1=1.0000000000000007, p.x1'=1.0, p.x2=1.0000000000000004, p.x2'=2.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=1.0000000000000007, p=*, p.x1=0.0, p.x1'=1.0, p.x2=1.0000000000000004, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=1.0000000000000007, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000002 time units at time 1.0000000000000007
+State: time=1.5000000000000009, p=*, p.x1=0.5000000000000002, p.x1'=1.0, p.x2=1.0000000000000004, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=1.5000000000000009, p=*, p.x1=0.5000000000000002, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 1.5000000000000009
+State: time=2.0000000000000018, p=*, p.x1=1.0000000000000013, p.x1'=1.0, p.x2=1.0000000000000018, p.x2'=2.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=2.0000000000000018, p=*, p.x1=0.0, p.x1'=1.0, p.x2=1.0000000000000018, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=2.0000000000000018, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5 time units at time 2.0000000000000018
+State: time=2.5000000000000018, p=*, p.x1=0.5, p.x1'=1.0, p.x2=1.0, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=2.5000000000000018, p=*, p.x1=0.5, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5 time units at time 2.5000000000000018
+State: time=3.0000000000000018, p=*, p.x1=0.9999999999999999, p.x1'=1.0, p.x2=1.0, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=3.0000000000000018, p=*, p.x1=0.9999999999999999, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 4.440892098500626E-16 time units at time 3.0000000000000018
+State: time=3.000000000000002, p=*, p.x1=1.0000000000000004, p.x1'=1.0, p.x2=8.881784197001252e-16, p.x2'=2.0
+
+Transition: event p.reset1
+State: time=3.000000000000002, p=*, p.x1=0.0, p.x1'=1.0, p.x2=8.881784197001252e-16, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 3.000000000000002
+State: time=3.500000000000003, p=*, p.x1=0.5000000000000009, p.x1'=1.0, p.x2=1.0000000000000027, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=3.500000000000003, p=*, p.x1=0.5000000000000009, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.49999999999999956 time units at time 3.500000000000003
+State: time=4.000000000000003, p=*, p.x1=1.0000000000000009, p.x1'=1.0, p.x2=1.0, p.x2'=2.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=4.000000000000003, p=*, p.x1=0.0, p.x1'=1.0, p.x2=1.0, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=4.000000000000003, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 4.000000000000003
+State: time=4.5000000000000036, p=*, p.x1=0.5000000000000013, p.x1'=1.0, p.x2=1.0000000000000027, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=4.5000000000000036, p=*, p.x1=0.5000000000000013, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 4.5000000000000036
+State: time=5.000000000000004, p=*, p.x1=1.0000000000000022, p.x1'=1.0, p.x2=1.0000000000000018, p.x2'=2.0
+
+Possible transitions:
+  #1: event p.reset1
+  #2: event p.reset2
+
+Transition: event p.reset1
+State: time=5.000000000000004, p=*, p.x1=0.0, p.x1'=1.0, p.x2=1.0000000000000018, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=5.000000000000004, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000027 time units at time 5.000000000000004
+State: time=5.500000000000007, p=*, p.x1=0.5000000000000031, p.x1'=1.0, p.x2=1.0000000000000062, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=5.500000000000007, p=*, p.x1=0.5000000000000031, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.4999999999999982 time units at time 5.500000000000007
+State: time=6.000000000000005, p=*, p.x1=1.0000000000000013, p.x1'=1.0, p.x2=0.9999999999999964, p.x2'=2.0
+
+Transition: event p.reset1
+State: time=6.000000000000005, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.9999999999999964, p.x2'=2.0
+
+Transition: delaying for 3.552713678800501E-15 time units at time 6.000000000000005
+State: time=6.000000000000009, p=*, p.x1=3.5527136788005005e-15, p.x1'=1.0, p.x2=1.0000000000000036, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=6.000000000000009, p=*, p.x1=3.5527136788005005e-15, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000036 time units at time 6.000000000000009
+State: time=6.500000000000012, p=*, p.x1=0.5000000000000075, p.x1'=1.0, p.x2=1.000000000000008, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=6.500000000000012, p=*, p.x1=0.5000000000000075, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.4999999999999929 time units at time 6.500000000000012
+State: time=7.000000000000005, p=*, p.x1=1.0000000000000004, p.x1'=1.0, p.x2=0.9999999999999858, p.x2'=2.0
+
+Transition: event p.reset1
+State: time=7.000000000000005, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.9999999999999858, p.x2'=2.0
+
+Transition: delaying for 7.105427357601002E-15 time units at time 7.000000000000005
+State: time=7.000000000000012, p=*, p.x1=7.105427357601001e-15, p.x1'=1.0, p.x2=1.0, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=7.000000000000012, p=*, p.x1=7.105427357601001e-15, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000036 time units at time 7.000000000000012
+State: time=7.500000000000016, p=*, p.x1=0.5000000000000111, p.x1'=1.0, p.x2=1.000000000000008, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=7.500000000000016, p=*, p.x1=0.5000000000000111, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.4999999999999911 time units at time 7.500000000000016
+State: time=8.000000000000007, p=*, p.x1=1.0000000000000013, p.x1'=1.0, p.x2=0.9999999999999805, p.x2'=2.0
+
+Transition: event p.reset1
+State: time=8.000000000000007, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.9999999999999805, p.x2'=2.0
+
+Transition: delaying for 1.0658141036401503E-14 time units at time 8.000000000000007
+State: time=8.000000000000018, p=*, p.x1=1.0658141036401503e-14, p.x1'=1.0, p.x2=1.0000000000000018, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=8.000000000000018, p=*, p.x1=1.0658141036401503e-14, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5 time units at time 8.000000000000018
+State: time=8.500000000000018, p=*, p.x1=0.500000000000012, p.x1'=1.0, p.x2=1.0000000000000027, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=8.500000000000018, p=*, p.x1=0.500000000000012, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.4999999999999929 time units at time 8.500000000000018
+State: time=9.00000000000001, p=*, p.x1=1.0000000000000058, p.x1'=1.0, p.x2=0.9999999999999876, p.x2'=2.0
+
+Transition: event p.reset1
+State: time=9.00000000000001, p=*, p.x1=0.0, p.x1'=1.0, p.x2=0.9999999999999876, p.x2'=2.0
+
+Transition: delaying for 1.0658141036401503E-14 time units at time 9.00000000000001
+State: time=9.000000000000021, p=*, p.x1=1.0658141036401503e-14, p.x1'=1.0, p.x2=1.0000000000000089, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=9.000000000000021, p=*, p.x1=1.0658141036401503e-14, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.5000000000000036 time units at time 9.000000000000021
+State: time=9.500000000000025, p=*, p.x1=0.5000000000000155, p.x1'=1.0, p.x2=1.0000000000000098, p.x2'=2.0
+
+Transition: event p.reset2
+State: time=9.500000000000025, p=*, p.x1=0.5000000000000155, p.x1'=1.0, p.x2=0.0, p.x2'=2.0
+
+Transition: delaying for 0.49999999999997513 time units at time 9.500000000000025
+State: time=10.0, p=*, p.x1=0.9999999999999916, p.x1'=1.0, p.x2=0.9999999999999523, p.x2'=2.0
+
+Simulation ended due to reaching the user-provided simulation end time.

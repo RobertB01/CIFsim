@@ -1,0 +1,9 @@
+Warning: File "examples/enum.chi": Semantic warning at line 13, column 17: Unused enum value "blue".
+Warning: File "examples/enum.chi": Semantic warning at line 13, column 23: Unused enum value "yellow".
+Warning: File "examples/enum.chi": Semantic warning at line 13, column 31: Unused enum value "red".
+Warning: File "examples/enum.chi": Semantic warning at line 14, column 6: Unused type "machines".
+Warning: File "examples/enum.chi": Semantic warning at line 14, column 19: Unused enum value "mixer".
+Warning: File "examples/enum.chi": Semantic warning at line 14, column 26: Unused enum value "Jumbler".
+Warning: File "examples/enum.chi": Semantic warning at line 14, column 35: Unused enum value "jumbler".
+Warning: File "examples/enum.chi": Semantic warning at line 14, column 44: Unused enum value "stirrer".
+Warning: File "examples/enum.chi": Semantic warning at line 17, column 12: Unused variable "c".

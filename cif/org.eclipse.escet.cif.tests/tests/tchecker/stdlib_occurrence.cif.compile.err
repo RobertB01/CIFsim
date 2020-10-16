@@ -1,0 +1,5 @@
+ERROR: File "tchecker/stdlib_occurrence.cif": Semantic error at line 14, column 20: Distribution standard library function "random" may only be used in the initial values of discrete variables, declared in automata.
+ERROR: File "tchecker/stdlib_occurrence.cif": Semantic error at line 17, column 22: Distribution standard library function "random" may only be used in the initial values of discrete variables, declared in automata.
+ERROR: File "tchecker/stdlib_occurrence.cif": Semantic error at line 28, column 17: Distribution standard library function "random" may only be used in the initial values of discrete variables, declared in automata.
+ERROR: File "tchecker/stdlib_occurrence.cif": Semantic error at line 30, column 10: Distribution standard library function "random" may only be used in the initial values of discrete variables, declared in automata.
+ERROR: Failed to load CIF file "tchecker/stdlib_occurrence.cif": the file has errors.

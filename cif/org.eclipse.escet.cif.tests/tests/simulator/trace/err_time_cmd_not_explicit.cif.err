@@ -1,0 +1,2 @@
+ERROR: Trace file "simulator/trace/err_time_cmd_not_explicit.trace" is invalid.
+CAUSE: Time command only allowed for explicit time mode.

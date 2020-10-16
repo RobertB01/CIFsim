@@ -1,0 +1,3 @@
+ERROR: File "tchecker/proj_tuple_bound.tooldef": Semantic error at line 14, column 28: Cannot project a tuple of type "tuple(int, int)", with index 2, as the index is out of bounds.
+ERROR: File "tchecker/proj_tuple_bound.tooldef": Semantic error at line 15, column 28: Can only project a tuple with an integer number literal.
+ERROR: Failed to load ToolDef file "tchecker/proj_tuple_bound.tooldef": the file has errors.

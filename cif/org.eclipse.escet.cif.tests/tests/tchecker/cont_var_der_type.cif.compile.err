@@ -1,0 +1,2 @@
+ERROR: File "tchecker/cont_var_der_type.cif": Semantic error at line 15, column 8: The type "bool" of the derivative of continuous variable "g.x" is incompatible with the type "real" of the variable.
+ERROR: Failed to load CIF file "tchecker/cont_var_der_type.cif": the file has errors.

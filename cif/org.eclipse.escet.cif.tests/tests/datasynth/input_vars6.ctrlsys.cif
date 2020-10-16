@@ -1,0 +1,19 @@
+group io:
+  input bool sensor1;
+  input bool sensor2;
+  input bool sensor3;
+end
+plant automaton p:
+  location:
+    initial;
+    marked not io.sensor2,
+           not io.sensor3;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end
+initial io.sensor1,
+        io.sensor2;

@@ -1,0 +1,58 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// dist param
+func bool f1(dist bool x): "java:java.lang.Math.abs";
+initial f1(p.d);
+
+plant p:
+  disc dist bool d;
+  location:
+    initial;
+end
+
+// dist return
+func dist bool f2(): "java:java.lang.Math.abs";
+initial (sample f2())[0];
+
+// enum param
+group g:
+  enum e = a;
+end
+type t1 = tuple(int a; list set dict(g.e:bool) b);
+type t2 = tuple(int a; list set dict(bool:g.e) b);
+func bool f3a(t1 x): "java:java.lang.Math.abs";
+func bool f3b(t2 x): "java:java.lang.Math.abs";
+initial f3a((1, [{{g.a:true}}]));
+initial f3b((1, [{{true:g.a}}]));
+
+// enum return
+enum e = a;
+func list e f4(): "java:java.lang.Math.abs";
+initial f4()[0] = a;
+
+// func param
+func bool f5b():
+  return true;
+end
+
+group g2:
+  func bool f5(int a; func bool() x): "java:java.lang.Math.abs";
+  initial f5(1, f5b);
+end
+
+// func return
+group g3:
+  func func bool() f6(): "java:java.lang.Math.abs";
+  initial f6()();
+end

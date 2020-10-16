@@ -1,0 +1,5 @@
+ERROR: File "tchecker/edge_rcv_expected.cif": Semantic error at line 22, column 10: Synchronizing over an event may not be combined with receiving over a channel, on the same edge.
+ERROR: File "tchecker/edge_rcv_expected.cif": Semantic error at line 22, column 15: Synchronizing over an event may not be combined with receiving over a channel, on the same edge.
+ERROR: File "tchecker/edge_rcv_expected.cif": Semantic error at line 28, column 12: Sending over a channel may not be combined with receiving over a channel, on the same edge.
+ERROR: File "tchecker/edge_rcv_expected.cif": Semantic error at line 28, column 21: Synchronizing over an event may not be combined with receiving over a channel, on the same edge.
+ERROR: Failed to load CIF file "tchecker/edge_rcv_expected.cif": the file has errors.

@@ -1,0 +1,1 @@
+ERROR: Conflicting class names: "Parser" and "org.eclipse.escet.setext.runtime.Parser".

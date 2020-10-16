@@ -1,0 +1,1 @@
+Warning: File "spec/global/eof_fail.chi": Semantic warning at line 15, column 10: Unused variable "b".

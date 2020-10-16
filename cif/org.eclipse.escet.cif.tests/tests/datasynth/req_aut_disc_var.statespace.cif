@@ -1,0 +1,8 @@
+controllable c;
+automaton statespace:
+  alphabet c;
+  location loc1:
+    initial;
+    marked;
+    edge c;
+end

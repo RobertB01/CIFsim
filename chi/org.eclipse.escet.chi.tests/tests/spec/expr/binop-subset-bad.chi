@@ -1,0 +1,21 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc SP1(chan? int a;  chan?  int b): bool x = {a} sub {b}; pass end
+proc SP2(chan! int a;  chan?  int b): bool x = {a} sub {b}; pass end
+proc SP3(chan!? int a; chan?  int b): bool x = {a} sub {b}; pass end
+proc SP4(chan? int a;  chan!  int b): bool x = {a} sub {b}; pass end
+proc SP5(chan! int a;  chan!  int b): bool x = {a} sub {b}; pass end
+proc SP6(chan!? int a; chan!  int b): bool x = {a} sub {b}; pass end
+proc SP7(chan? int a;  chan!? int b): bool x = {a} sub {b}; pass end
+proc SP8(chan! int a;  chan!? int b): bool x = {a} sub {b}; pass end
+proc SP9(chan!? int a; chan!? int b): bool x = {a} sub {b}; pass end

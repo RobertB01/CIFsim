@@ -1,0 +1,62 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+            invariant 11 = 11;
+plant       invariant 12 = 12;
+requirement invariant 13 = 13;
+supervisor  invariant 14 = 14;
+
+automaton a:
+              invariant 21 = 21;
+  plant       invariant 22 = 22;
+  requirement invariant 23 = 23;
+  supervisor  invariant 24 = 24;
+
+  location:
+    initial;
+end
+
+plant p:
+              invariant 31 = 31;
+  plant       invariant 32 = 32;
+  requirement invariant 33 = 33;
+  supervisor  invariant 34 = 34;
+
+  location:
+    initial;
+end
+
+requirement r:
+              invariant 41 = 41;
+  plant       invariant 42 = 42;
+  requirement invariant 43 = 43;
+  supervisor  invariant 44 = 44;
+
+  location:
+    initial;
+end
+
+supervisor s:
+              invariant 51 = 51;
+  plant       invariant 52 = 52;
+  requirement invariant 53 = 53;
+  supervisor  invariant 54 = 54;
+
+  location:
+    initial;
+
+                invariant 61 = 61;
+    plant       invariant 62 = 62;
+    requirement invariant 63 = 63;
+    supervisor  invariant 64 = 64;
+end

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation&#xA;&#xA;See the NOTICE file(s) distributed with this work for additional&#xA;information regarding copyright ownership.&#xA;&#xA;This program and the accompanying materials are made available under the terms&#xA;of the MIT License which is available at https://opensource.org/licenses/MIT&#xA;&#xA;SPDX-License-Identifier: MIT&#xA;&#xA;Disable Eclipse Java formatter for generated code file:&#xA;@formatter:off"
+    modelDirectory="/org.eclipse.escet.cif.metamodel/src-gen" editDirectory="" editorDirectory=""
+    modelPluginID="org.eclipse.escet.cif.metamodel" modelName="Cif" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.genmodel#//position"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>cif.ecore</foreignModel>
+  <genPackages prefix="Cif" basePackage="org.eclipse.escet.cif.metamodel" disposableProviderFactory="true"
+      fileExtensions="cifx" ecorePackage="cif.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="cif.ecore#//SupKind">
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//SupKind/None"/>
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//SupKind/Plant"/>
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//SupKind/Requirement"/>
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//SupKind/Supervisor"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="cif.ecore#//InvKind">
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//InvKind/State"/>
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//InvKind/EventNeeds"/>
+      <genEnumLiterals ecoreEnumLiteral="cif.ecore#//InvKind/EventDisables"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="cif.ecore#//CifIdentifier"/>
+    <genClasses image="false" ecoreClass="cif.ecore#//Component">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Component/name"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//Group">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//Group/definitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//Group/components"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//ComponentDef">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentDef/body"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentDef/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//ComponentInst">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/definition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentInst/parameters"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="cif.ecore#//ComplexComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/declarations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/markeds"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/invariants"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/initials"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/equations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComplexComponent/ioDecls"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//Specification"/>
+    <genClasses image="false" ecoreClass="cif.ecore#//Parameter"/>
+    <genClasses ecoreClass="cif.ecore#//EventParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//EventParameter/event"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//EventParameter/sendFlag"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//EventParameter/recvFlag"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//EventParameter/syncFlag"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//LocationParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//LocationParameter/location"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//AlgParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//AlgParameter/variable"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//ComponentParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//ComponentParameter/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//ComponentParameter/name"/>
+    </genClasses>
+    <genClasses ecoreClass="cif.ecore#//Equation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Equation/derivative"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//Equation/value"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cif.ecore#//Equation/variable"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="cif.ecore#//IoDecl"/>
+    <genClasses ecoreClass="cif.ecore#//Invariant">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Invariant/supKind"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//Invariant/predicate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//Invariant/invKind"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//Invariant/event"/>
+    </genClasses>
+    <nestedGenPackages prefix="Declarations" disposableProviderFactory="true" ecorePackage="cif.ecore#//declarations">
+      <genClasses image="false" ecoreClass="cif.ecore#//declarations/Declaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//declarations/Declaration/name"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/AlgVariable">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/AlgVariable/value"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/AlgVariable/type"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/Event">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//declarations/Event/controllable"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/Event/type"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/EnumDecl">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/EnumDecl/literals"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/TypeDecl">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/TypeDecl/type"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/EnumLiteral">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//declarations/EnumLiteral/name"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/DiscVariable">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/DiscVariable/type"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/DiscVariable/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/VariableValue">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/VariableValue/values"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/Constant">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/Constant/type"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/Constant/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/ContVariable">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/ContVariable/value"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/ContVariable/derivative"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//declarations/InputVariable">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//declarations/InputVariable/type"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Automata" disposableProviderFactory="true" ecorePackage="cif.ecore#//automata">
+      <genClasses ecoreClass="cif.ecore#//automata/Automaton">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Automaton/locations"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Automaton/alphabet"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Automaton/monitors"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//automata/Automaton/kind"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/Location">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//automata/Location/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Location/initials"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Location/invariants"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Location/edges"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Location/markeds"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//automata/Location/urgent"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Location/equations"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/Edge">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//automata/Edge/target"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Edge/events"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Edge/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Edge/updates"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//automata/Edge/urgent"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="cif.ecore#//automata/Update"/>
+      <genClasses ecoreClass="cif.ecore#//automata/Assignment">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Assignment/addressable"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Assignment/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/IfUpdate">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/IfUpdate/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/IfUpdate/thens"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/IfUpdate/elifs"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/IfUpdate/elses"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/ElifUpdate">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/ElifUpdate/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/ElifUpdate/thens"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/Alphabet">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Alphabet/events"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/EdgeEvent">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/EdgeEvent/event"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/Monitors">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/Monitors/events"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/EdgeSend">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//automata/EdgeSend/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//automata/EdgeReceive"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Types" disposableProviderFactory="true" ecorePackage="cif.ecore#//types">
+      <genClasses image="false" ecoreClass="cif.ecore#//types/CifType"/>
+      <genClasses ecoreClass="cif.ecore#//types/BoolType"/>
+      <genClasses ecoreClass="cif.ecore#//types/IntType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//types/IntType/lower"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//types/IntType/upper"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/TypeRef">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//types/TypeRef/type"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/EnumType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//types/EnumType/enum"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/CompParamWrapType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//types/CompParamWrapType/parameter"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/CompParamWrapType/reference"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/CompInstWrapType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//types/CompInstWrapType/instantiation"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/CompInstWrapType/reference"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/ComponentType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//types/ComponentType/component"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/ComponentDefType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//types/ComponentDefType/definition"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/RealType"/>
+      <genClasses ecoreClass="cif.ecore#//types/StringType"/>
+      <genClasses ecoreClass="cif.ecore#//types/ListType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/ListType/elementType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//types/ListType/lower"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//types/ListType/upper"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/SetType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/SetType/elementType"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/DictType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/DictType/keyType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/DictType/valueType"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/TupleType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/TupleType/fields"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/Field">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//types/Field/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/Field/type"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/FuncType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/FuncType/returnType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/FuncType/paramTypes"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/DistType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//types/DistType/sampleType"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//types/VoidType"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Expressions" disposableProviderFactory="true" ecorePackage="cif.ecore#//expressions">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="cif.ecore#//expressions/UnaryOperator">
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/UnaryOperator/Inverse"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/UnaryOperator/Negate"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/UnaryOperator/Plus"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/UnaryOperator/Sample"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="cif.ecore#//expressions/BinaryOperator">
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Disjunction"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Implication"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/BiConditional"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Conjunction"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/LessThan"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/LessEqual"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/GreaterThan"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/GreaterEqual"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Equal"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Unequal"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Modulus"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/IntegerDivision"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Multiplication"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Subtraction"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Addition"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Subset"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/ElementOf"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/BinaryOperator/Division"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="cif.ecore#//expressions/StdLibFunction">
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Minimum"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Maximum"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Power"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Sign"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Cbrt"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Ceil"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Delete"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Empty"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Exp"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Floor"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Ln"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Log"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Pop"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Round"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Size"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Sqrt"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Acosh"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Acos"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Asinh"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Asin"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Atanh"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Atan"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Cosh"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Cos"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Sinh"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Sin"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Tanh"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Tan"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Abs"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Bernoulli"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Beta"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Binomial"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Constant"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Erlang"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Exponential"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Gamma"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Geometric"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/LogNormal"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Normal"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Poisson"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Random"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Triangle"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Uniform"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Weibull"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Format"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//expressions/StdLibFunction/Scale"/>
+      </genEnums>
+      <genClasses image="false" ecoreClass="cif.ecore#//expressions/Expression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/Expression/type"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/BinaryExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/BinaryExpression/operator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/BinaryExpression/left"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/BinaryExpression/right"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/UnaryExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/UnaryExpression/operator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/UnaryExpression/child"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/BoolExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/BoolExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/IntExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/IntExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/FunctionCallExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/params"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionCallExpression/function"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/IfExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/IfExpression/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/IfExpression/then"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/IfExpression/else"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/IfExpression/elifs"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/DiscVariableExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/DiscVariableExpression/variable"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/AlgVariableExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/AlgVariableExpression/variable"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/EventExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/EventExpression/event"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/EnumLiteralExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/EnumLiteralExpression/literal"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/LocationExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/LocationExpression/location"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/ElifExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/ElifExpression/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/ElifExpression/then"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/CompParamWrapExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/CompParamWrapExpression/reference"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/CompParamWrapExpression/parameter"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/CompInstWrapExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/CompInstWrapExpression/reference"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/CompInstWrapExpression/instantiation"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/ComponentExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/ComponentExpression/component"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/ConstantExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/ConstantExpression/constant"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/TauExpression"/>
+      <genClasses ecoreClass="cif.ecore#//expressions/ProjectionExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/ProjectionExpression/index"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/ProjectionExpression/child"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/SliceExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SliceExpression/begin"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SliceExpression/end"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SliceExpression/child"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="cif.ecore#//expressions/BaseFunctionExpression"/>
+      <genClasses ecoreClass="cif.ecore#//expressions/StdLibFunctionExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/StdLibFunctionExpression/function"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/RealExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/RealExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/TimeExpression"/>
+      <genClasses ecoreClass="cif.ecore#//expressions/ListExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/ListExpression/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/SetExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SetExpression/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/DictExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/DictExpression/pairs"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/DictPair">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/DictPair/key"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/DictPair/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/TupleExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/TupleExpression/fields"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/CastExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/CastExpression/child"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/StringExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/StringExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/FieldExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/FieldExpression/field"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/FunctionExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/FunctionExpression/function"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/ContVariableExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/ContVariableExpression/variable"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//expressions/ContVariableExpression/derivative"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/InputVariableExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/InputVariableExpression/variable"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/ReceivedExpression"/>
+      <genClasses ecoreClass="cif.ecore#//expressions/SelfExpression"/>
+      <genClasses ecoreClass="cif.ecore#//expressions/SwitchExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SwitchExpression/value"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SwitchExpression/cases"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//expressions/SwitchCase">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SwitchCase/key"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//expressions/SwitchCase/value"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Functions" disposableProviderFactory="true" ecorePackage="cif.ecore#//functions">
+      <genClasses image="false" ecoreClass="cif.ecore#//functions/Function">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/Function/returnTypes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/Function/parameters"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/FunctionParameter">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/FunctionParameter/parameter"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/InternalFunction">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/InternalFunction/variables"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/InternalFunction/statements"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/ExternalFunction">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//functions/ExternalFunction/function"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="cif.ecore#//functions/FunctionStatement"/>
+      <genClasses ecoreClass="cif.ecore#//functions/BreakFuncStatement"/>
+      <genClasses ecoreClass="cif.ecore#//functions/ContinueFuncStatement"/>
+      <genClasses ecoreClass="cif.ecore#//functions/AssignmentFuncStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/AssignmentFuncStatement/value"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/AssignmentFuncStatement/addressable"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/WhileFuncStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/WhileFuncStatement/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/WhileFuncStatement/statements"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/IfFuncStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/IfFuncStatement/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/IfFuncStatement/thens"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/IfFuncStatement/elses"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/IfFuncStatement/elifs"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/ElifFuncStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/ElifFuncStatement/guards"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/ElifFuncStatement/thens"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//functions/ReturnFuncStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//functions/ReturnFuncStatement/values"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Cifsvg" disposableProviderFactory="true" ecorePackage="cif.ecore#//cifsvg">
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgFile">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//cifsvg/SvgFile/path"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgOut">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgOut/id"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//cifsvg/SvgOut/attr"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgOut/svgFile"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgOut/attrTextPos"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgOut/value"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgIn">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/id"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/svgFile"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgIn/event"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgInEventSingle">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgInEventSingle/event"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgInEventIf">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgInEventIf/entries"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgInEventIfEntry">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgInEventIfEntry/guard"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgInEventIfEntry/event"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgCopy">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgCopy/id"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgCopy/pre"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgCopy/post"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgCopy/svgFile"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//cifsvg/SvgMove">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgMove/id"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgMove/x"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgMove/y"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//cifsvg/SvgMove/svgFile"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="cif.ecore#//cifsvg/SvgInEvent"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Print" disposableProviderFactory="true" ecorePackage="cif.ecore#//print">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="cif.ecore#//print/PrintForKind">
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//print/PrintForKind/Event"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//print/PrintForKind/Time"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//print/PrintForKind/Name"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//print/PrintForKind/Initial"/>
+        <genEnumLiterals ecoreEnumLiteral="cif.ecore#//print/PrintForKind/Final"/>
+      </genEnums>
+      <genClasses ecoreClass="cif.ecore#//print/PrintFile">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//print/PrintFile/path"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//print/Print">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/Print/txtPre"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/Print/txtPost"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/Print/whenPre"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/Print/whenPost"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/Print/file"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/Print/fors"/>
+      </genClasses>
+      <genClasses ecoreClass="cif.ecore#//print/PrintFor">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cif.ecore#//print/PrintFor/kind"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cif.ecore#//print/PrintFor/event"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

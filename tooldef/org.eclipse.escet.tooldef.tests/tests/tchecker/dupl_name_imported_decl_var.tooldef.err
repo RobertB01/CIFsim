@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_imported_decl_var.tooldef": Semantic error at line 14, column 5: Duplicate name "a" for variable "a" and tool "a" in the top level scope of the script.
+ERROR: File "tchecker/dupl_name_imported_decl_var.tooldef": Semantic error at line 15, column 137: Duplicate name "a" for tool "a" and variable "a" in the top level scope of the script.
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_imported_decl_var.tooldef": the file has errors.

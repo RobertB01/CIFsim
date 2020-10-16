@@ -1,0 +1,18 @@
+SVG copy ("out_txt.svg") id "txt" pre "a".
+SVG copy ("out_txt.svg") id "txt" post "b".
+SVG copy ("out_txt.svg") id "txt" pre "c" post "d".
+SVG copy ("out_txt.svg") id "txt" post "_1".
+SVG copy ("out_txt.svg") id "txt" post "_2".
+SVG copy ("out_txt.svg") id "txt" post "_3".
+SVG copy ("out_txt.svg") id "txt" post "_4".
+SVG copy ("out_txt.svg") id "txt" post "_5".
+
+Initial state: time=0.0, a=*, x1.nr=1, x2.nr=2, x3.nr=3, x4.nr=4, x5.nr=5
+
+SVG output ("out_txt.svg") id "txt_1" text: "abc1"
+SVG output ("out_txt.svg") id "txt_2" text: "abc2"
+SVG output ("out_txt.svg") id "txt_3" text: "abc3"
+SVG output ("out_txt.svg") id "txt_4" text: "abc4"
+SVG output ("out_txt.svg") id "txt_5" text: "abc5"
+
+Simulation resulted in deadlock.

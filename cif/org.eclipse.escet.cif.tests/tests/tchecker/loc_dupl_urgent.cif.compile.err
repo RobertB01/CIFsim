@@ -1,0 +1,7 @@
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 18, column 7: Duplicate urgent property for the location of automaton "g.p1".
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 19, column 7: Duplicate urgent property for the location of automaton "g.p1".
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 25, column 7: Duplicate urgent property for location "a" of automaton "g.p2".
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 26, column 7: Duplicate urgent property for location "a" of automaton "g.p2".
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 30, column 7: Duplicate urgent property for location "b" of automaton "g.p2".
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 31, column 7: Duplicate urgent property for location "b" of automaton "g.p2".
+WARNING: File "tchecker/loc_dupl_urgent.cif": Semantic warning at line 32, column 7: Duplicate urgent property for location "b" of automaton "g.p2".

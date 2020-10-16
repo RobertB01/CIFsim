@@ -1,0 +1,6 @@
+group h:
+  invariant g.x > 0;
+end
+group g:
+  alg real x = 5.0;
+end

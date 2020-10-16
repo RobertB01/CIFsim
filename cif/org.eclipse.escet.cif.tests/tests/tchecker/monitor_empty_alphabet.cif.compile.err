@@ -1,0 +1,3 @@
+WARNING: File "tchecker/monitor_empty_alphabet.cif": Semantic warning at line 16, column 5: Monitoring all events in the alphabet of automaton "g.a1" has no effect, as its alphabet is empty.
+WARNING: File "tchecker/monitor_empty_alphabet.cif": Semantic warning at line 23, column 5: Monitoring all events in the alphabet of automaton "g.a2" has no effect, as its alphabet is empty.
+WARNING: File "tchecker/monitor_empty_alphabet.cif": Semantic warning at line 30, column 5: Monitoring all events in the alphabet of automaton "g.a3" has no effect, as its alphabet is empty.

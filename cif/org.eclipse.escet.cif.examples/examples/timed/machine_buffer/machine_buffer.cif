@@ -1,0 +1,108 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "machine_buffer.svg";
+
+svgout id "time-txt" text value fmt("Time: %.1f", time);
+
+automaton def Generator(alg string name; alg real generation_time;
+                        event int exit!):
+  event generated;
+
+  disc int nr = 0;
+  cont t der 1.0;
+
+  location idle:
+    initial;
+    edge exit!nr do t := 0.0, nr := nr + 1 goto generating;
+
+  location generating:
+    edge generated when t >= generation_time goto idle;
+
+  svgout id name + "-txt-t" text value fmt("%.2f", t);
+
+  svgout id name + "-txt-total" text value fmt("%.2f", generation_time);
+
+  svgout id name + "-txt" attr "visibility"
+    value if idle: "hidden" else "visible" end;
+
+  svgout id name + "-bar-front" attr "visibility"
+    value if idle: "hidden" else "visible" end;
+
+  svgout id name + "-bar-bg" attr "fill"
+    value if idle: "silver" else "white" end;
+
+  svgout id name + "-bar-front" attr "width"
+    value scale(min(t, 130), 0, generation_time, 0, 130);
+end
+
+automaton def Buffer(alg string name; alg int capacity;
+                     event int enter?, exit!):
+  disc list int buf;
+
+  location:
+    initial;
+    edge enter?      when size(buf) < capacity do buf := buf + [?];
+    edge exit!buf[0] when not empty(buf)       do buf := buf[1:];
+
+  svgout id name + "-bar-front" attr "width" value size(buf) * 11;
+end
+
+automaton def Machine(alg string name; alg real process_time;
+                      event int enter?, exit!):
+  disc int nr;
+  cont t der 1.0;
+
+  location idle:
+    initial;
+    edge enter? do nr := ?, t := 0.0 goto processing;
+
+  location processing:
+    edge exit!nr when t >= process_time goto idle;
+
+  svgout id name + "-txt-t" text value fmt("%.2f", t);
+
+  svgout id name + "-txt-total" text value fmt("%.2f", process_time);
+
+  svgout id name + "-txt" attr "visibility"
+    value if idle: "hidden" else "visible" end;
+
+  svgout id name + "-bar-front" attr "visibility"
+    value if idle: "hidden" else "visible" end;
+
+  svgout id name + "-bar-bg" attr "fill"
+    value if idle: "silver" else "white" end;
+
+  svgout id name + "-bar-front" attr "width"
+    value scale(min(t, 130), 0, process_time, 0, 130);
+end
+
+automaton def Exit(alg string name; event int enter?):
+  disc int count = 0;
+
+  location:
+    initial;
+    edge enter? do count := count + 1;
+
+  svgout id name + "-txt-cnt" text value count;
+end
+
+event int g2b;
+event int b2m;
+event int m2e;
+
+generator: Generator("gen", 0.3, g2b);
+buffer:    Buffer("buf", 12, g2b, b2m);
+machine1:  Machine("m1", 1.3, b2m, m2e);
+machine2:  Machine("m2", 1.2, b2m, m2e);
+exit:      Exit("exit", m2e);

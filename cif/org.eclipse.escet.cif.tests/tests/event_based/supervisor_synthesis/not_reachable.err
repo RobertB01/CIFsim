@@ -1,0 +1,3 @@
+WARNING: File "event_based/supervisor_synthesis/not_reachable.cif": Semantic warning at line 21, column 12: Location "p2" is not reachable from any of the initial locations of automaton "a".
+WARNING: Automaton "a" is not trim.
+WARNING: Location "a.p1" is a marked deadlock location.

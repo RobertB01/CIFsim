@@ -1,0 +1,1 @@
+WARNING: File "datasynth/state_evt_excl_not_alphabet.ctrlsys.real.cif": Semantic warning at line 10, column 16: Event "q.c_not_in_alphabet" is not used anywhere in the specification.

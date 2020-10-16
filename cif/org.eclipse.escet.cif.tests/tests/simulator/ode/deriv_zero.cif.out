@@ -1,0 +1,15 @@
+Initial state: time=0.0, p=l0, p.t=0.0, p.t'=1.0, p.x=0.0, p.x'=1.0
+
+Transition: delaying for 0.20000000000000023 time units at time 0.0
+State: time=0.20000000000000023, p=l0, p.t=0.20000000000000023, p.t'=1.0, p.x=0.20000000000000023, p.x'=1.0
+
+Transition: event tau
+State: time=0.20000000000000023, p=l1, p.t=0.20000000000000023, p.t'=1.0, p.x=0.20000000000000023, p.x'=0.0
+
+Transition: delaying for 4.800000000000002 time units at time 0.20000000000000023
+State: time=5.000000000000002, p=l1, p.t=5.000000000000002, p.t'=1.0, p.x=0.20000000000000023, p.x'=0.0
+
+Transition: event tau
+State: time=5.000000000000002, p=l2, p.t=5.000000000000002, p.t'=1.0, p.x=0.20000000000000023, p.x'=1.23
+
+Simulation resulted in deadlock.

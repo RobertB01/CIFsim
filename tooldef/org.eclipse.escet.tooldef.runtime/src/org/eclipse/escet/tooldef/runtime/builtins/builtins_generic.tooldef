@@ -1,0 +1,40 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInGenericTools.app;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInGenericTools.exec;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInGenericTools.tooldef;
+
+tool int _app(string? plugin, string classname, string... args, string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return $app(plugin, classname, args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int _app(string? plugin, string classname, list string args = [], string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return $app(plugin, classname, args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int _exec(string cmd, string... args, string stdin = "", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return $exec(cmd, args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int _exec(string cmd, list string args = [], string stdin = "", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return $exec(cmd, args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int _tooldef(string... args, string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return $tooldef(args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int _tooldef(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return $tooldef(args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end

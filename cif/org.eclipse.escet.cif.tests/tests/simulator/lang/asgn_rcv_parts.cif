@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event tuple(int nr, _) e;
+
+automaton s:
+  location:
+    initial;
+    edge e!(1, -123);
+end
+
+automaton r:
+  disc list tuple(int a, b) x = [(5, 6), (7, 8), (9, 10)];
+
+  location l0:
+    initial;
+    edge e? do x[?[nr]][a] := 1, x[?[nr]][b] := 2 goto l1;
+
+  location l1:
+    urgent;
+end

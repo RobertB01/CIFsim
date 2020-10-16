@@ -1,0 +1,21 @@
+uncontrollable u1;
+uncontrollable u2;
+plant automaton p:
+  disc int[0..20] x in any;
+  location l0:
+    initial;
+    marked x <= 10;
+    edge u1 goto l1;
+  location l1:
+    marked x = 13;
+    edge u2 goto l2;
+  location l2:
+    marked x = 16;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.x = 16;
+  location:
+    initial;
+    marked;
+end

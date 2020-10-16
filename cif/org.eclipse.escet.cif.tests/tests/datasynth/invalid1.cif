@@ -1,0 +1,206 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c_evt;
+uncontrollable u_evt;
+
+group g:
+  event evt;                        // Event not (un)controllable.
+  controllable int chan1;
+  controllable int chan2;
+end
+
+automaton aut:                      // Regular automaton.
+  location:
+    initial;
+    edge g.evt;
+end
+
+supervisor sup:                     // Supervisor automaton.
+  location:
+    initial;
+end
+
+plant plt:
+  location:
+    initial;
+    marked;
+    edge g.chan1!1;
+    edge g.chan2?;
+end
+
+requirement req:
+  location:
+    initial;
+    marked;
+    edge g.chan1!1;                 // Requirement automaton that sends.
+    edge g.chan2?;                  // Requirement automaton that receives.
+end
+
+plant p1:
+  disc real v1;                     // Not an integer typed variable.
+  disc int  v2;                     // Not a ranged integer typed variable.
+
+  initial v1 > 0, v2 > 0;
+
+  location:
+    initial;
+    edge c_evt do v2 := 2;          // OK. Update check for unsupported 'v2'.
+end
+
+plant p4:
+  location:
+    initial;
+    edge when true;                 // Implicit tau, in plant.
+    edge tau when true;             // Explicit tau, in plant.
+end
+
+group g2a:
+  invariant false;                          // Non-requirement state invariant.
+end
+
+group g2b:
+  controllable evt;
+  invariant evt needs true;                 // Non-requirement state/event exclusion invariant.
+end
+
+group g2c:
+  controllable evt;
+  invariant false disables evt;             // Non-requirement state/event exclusion invariant.
+end
+
+group g3a:
+  plant invariant false;                    // Non-requirement state invariant.
+end
+
+group g3b:
+  controllable evt;
+  plant invariant evt needs true;           // Non-requirement state/event exclusion invariant.
+end
+
+group g3c:
+  controllable evt;
+  plant invariant false disables evt;       // Non-requirement state/event exclusion invariant.
+end
+
+group g4a:
+  supervisor invariant false;               // Non-requirement state invariant.
+end
+
+group g4b:
+  controllable evt;
+  supervisor invariant evt needs true;      // Non-requirement state/event exclusion invariant.
+end
+
+group g4c:
+  controllable evt;
+  supervisor invariant false disables evt;  // Non-requirement state/event exclusion invariant.
+end
+
+group g5:
+  controllable evt;
+  requirement invariant 6 = 6;              // OK.
+  requirement invariant evt needs true;     // Non-requirement state/event exclusion invariant.
+  requirement invariant false disables evt; // Non-requirement state/event exclusion invariant.
+end
+
+plant p:
+  location:
+    initial;
+    marked;
+
+    // Ensure events are in alphabet, to avoid tool warnings.
+    edge g2b.evt, g2c.evt, g3b.evt, g3c.evt, g4b.evt, g4c.evt, g5.evt;
+end
+
+requirement r1:
+  disc int[0..5] x;
+
+  location l1:
+    initial;
+    marked;
+    edge c_evt goto l2;
+    edge u_evt do x := x + 1;
+    edge when true;                 // Implicit tau, in requirement.
+    edge tau when true;             // Explicit tau, in requirement.
+
+  location l2:
+    initial;
+    marked;
+end
+
+requirement r2:
+  location:
+    initial;
+    marked;
+    edge when true;                 // Implicit tau, in requirement.
+    edge tau when true;             // Explicit tau, in requirement.
+end
+
+enum E = {X, Y};
+
+const int[0..2] zero = 0;
+
+requirement r5:
+  controllable evt;
+
+  disc int[0..5] v;
+  disc int[0..5] v2 in any;         // Multiple potential initial values.
+
+  requirement invariant true;               // OK.
+  requirement invariant true and false;     // OK.
+  requirement invariant not(true) or false; // OK.
+  requirement invariant true => false;      // OK.
+  requirement invariant true <=> false;     // OK.
+  requirement invariant v >= 2;             // OK.
+  requirement invariant 1 <= v or v <= 2;   // OK.
+
+  // Can't test:
+  //  - Wrong unary operator, as can't be top level in predicate.
+  //  - Wrong conjunction/disjunction, as can't be top level in predicate.
+
+  requirement invariant {1} sub {2};        // Wrong binary operator.
+  requirement invariant v < 5.0;            // Not compared to integer value.
+  requirement invariant v = v * 2;          // Compared to too complex value.
+  requirement invariant [true][0];          // Unsupported predicate.
+  requirement invariant v = -1;             // Compared with negative integer value.
+  requirement invariant v = v div zero;     // Division by zero.
+  requirement invariant v = v mod zero;     // Division by zero.
+  requirement invariant v = v div -2;       // Division by negative number.
+  requirement invariant v = v mod -3;       // Modulus by negative number.
+  requirement invariant v = v div r1.x;     // Division by too complex value.
+  requirement invariant v = v mod r1.x;     // Modulus by too complex value.
+
+  requirement invariant evt needs v = -1;       // Compared with negative integer value.
+  requirement invariant v = -1 disables evt;    // Compared with negative integer value.
+
+  requirement invariant v2 = 5;             // OK. Can't check as 'v2' unsupported.
+
+  location:
+    initial;
+    marked;
+    edge c_evt when [true][0];      // Unsupported in requirement edge guard.
+
+end
+
+plant p5:
+  location:
+    initial;
+    marked;
+
+    // Ensure event is in the alphabet, to avoid tool warning.
+    edge r5.evt;
+end
+
+marked true and [true][0];          // Unsupported component marker predicate.
+initial false and [true][0];        // Unsupported component init predicate.

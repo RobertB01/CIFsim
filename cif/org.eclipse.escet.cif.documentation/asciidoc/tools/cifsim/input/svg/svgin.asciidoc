@@ -1,0 +1,129 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-svg-chapter-svgin]]
+== CIF/SVG input mappings
+
+indexterm:[SVG input mapping]
+indexterm:[SVG,input mapping]
+indexterm:[SVG declaration,SVG input mapping]
+indexterm:[I/O declaration,SVG input mapping]
+indexterm:[see: svgin,SVG input mapping]
+CIF/SVG input mappings couple <<tools-cifsim-output-svgviz-svg-id,ids>>
+of <<tools-cifsim-output-svgviz-chapter-svg,SVG>> elements to events from the
+CIF specification. CIF/SVG input mappings are
+<<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declarations>>, similar to
+<<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>>. If the
+CIF specification contains input mappings, and SVG input mode is not used, the
+input mappings are simply ignored.
+
+indexterm:[SVG input mapping,single event input mapping]
+
+=== Single event input mapping
+
+The simplest form of an SVG input mapping maps to a single event. For instance:
+
+
+[source, cif]
+----
+svgin id "button" event machine.button.toggle;
+----
+
+This input mapping maps the SVG element with
+<<tools-cifsim-output-svgviz-svg-id,id>> `button` to the
+`machine.button.toggle` event from the CIF specification.
+
+Every input mapping must
+<<tools-cifsim-output-svgviz-svgout-id,specify the id>> of an SVG
+element, and an SVG element with that id must exist in the SVG image.
+Specifying an input mapping for an SVG element turns that SVG element into an
+_interactive SVG element_. Note that
+<<tools-cifsim-input-svg-simulation-groups,groups>> may be used as
+interactive SVG elements as well.
+
+indexterm:[SVG input mapping,if event input mapping]
+
+=== `if` event input mapping
+
+Sometimes, the simple _single event input mapping_ is not enough. Consider
+for instance the following CIF specification:
+
+
+[source, cif]
+----
+automaton button:
+  event u_pushed, u_released;
+
+  location Released:
+    initial;
+    edge u_pushed goto Pushed;
+
+  location Pushed:
+    edge u_released goto Released;
+end
+----
+
+This specification models a `button` that is initially released (location
+`Released`). When the button is pushed (event `u_pushed`), the location is
+updated to `Pushed`. If we now want to couple a graphical representation of
+a button to this CIF specification, the event to choose depends on the current
+location of the `button` automaton. This can be mapped using an
+_if event input mapping_, as follows:
+
+
+[source, cif]
+----
+svgin id "button" event
+  if   button.Released: button.u_pushed
+  elif button.Pushed:   button.u_released
+  end;
+----
+
+If the button is released, the `u_pushed` event is chosen, and if the button
+is pushed, the `u_released` event is chosen.
+
+The `if` event input mappings are essentially an `if` expressions that
+result in an event rather than a value. The conditions (such as
+`button.Released` are guard expressions that evaluates to a boolean value.
+The guard expressions may be arbitrary expressions, similar to the use of
+expressions in output mappings.
+
+If a condition holds, the corresponding event is chosen. The entries are
+processed in the order they are specified: if the first guard (of the `if`)
+holds, the first event is chosen, otherwise if the second guard
+(of an `elif`) holds, the second event is chosen, etc.
+
+The last part of the `if` is allowed to be an `else`, to indicate that
+if none of the previous guards hold, the event of the `else` is to be chosen.
+Using an `else` entry is optional, but if used, there may only be one such
+entry, and it must be the last entry of the input mapping.
+
+indexterm:[SVG input mapping,uniqueness]
+
+=== Uniqueness
+
+Similar to output mappings, all input mappings must be unique, per SVG image.
+That is, no two input mappings for the same SVG image may use the
+same SVG element id. Note that it is allowed to have an input mapping and an
+output mapping (or even multiple output mappings) for the same SVG element.
+
+indexterm:[SVG input mapping,completeness]
+
+=== Completeness
+
+Input mappings must be complete. Single event input mappings are always
+complete, as are `if` event input mappings with an `else`. For `if`
+event input mappings without an `else`, at least one of the guards must hold.
+If none of the guards holds, the mapping results in a runtime error during
+simulation.

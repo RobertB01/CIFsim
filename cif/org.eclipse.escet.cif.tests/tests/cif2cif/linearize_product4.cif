@@ -1,0 +1,123 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Local variable same as automaton name.
+automaton p1:
+  disc bool p1;
+  invariant p1;
+  location:
+    initial;
+end
+
+automaton p1_p1:
+  location:
+    initial;
+end
+
+// Local variable same as automaton name, automaton in group.
+group p2:
+  automaton p2:
+    disc bool x;
+    invariant x;
+    location:
+      initial;
+  end
+end
+
+automaton p2_p2_x:
+  location:
+    initial;
+end
+
+// Location pointer literal overlap with local variable name.
+automaton p3:
+  disc bool l1;
+  invariant l1;
+  location p3_l1:
+    initial;
+end
+
+// Location pointer literal overlap with global constant name.
+const bool p4_l1 = true;
+invariant p4_l1;
+
+automaton p4:
+  location p4_l1:
+    initial;
+end
+
+// Conflicting automata names.
+group p5:
+  automaton p5:
+    location:
+      initial;
+  end
+end
+
+automaton p5_p5:
+  location:
+    initial;
+end
+
+// Conflict between location and automaton name.
+automaton p6_X:
+  location p6_X:
+    initial;
+end
+
+// Conflict on name of nameless location.
+const real X = 7.0;
+automaton p7:
+  location:
+    initial;
+    invariant X > 7.1;
+end
+
+// Conflict on declarations from multiple automata.
+automaton p8_a:
+  alg real p8 = 8.0;
+  invariant p8 = 8.1;
+  location:
+    initial;
+end
+
+automaton p8:
+  alg real a_p8 = 8.2;
+  invariant a_p8 = 8.3;
+  location:
+    initial;
+end
+
+// Merged enumeration conflict.
+alg real E = 9.0;
+invariant E > 9.1;
+
+automaton E2:
+  location:
+    initial;
+end
+
+// Conflict on location pointer name and global constant name.
+const bool p10_p10 = true;
+invariant p10_p10;
+
+group p10:
+  automaton p10:
+    location:
+      initial;
+  end
+end
+
+// Conflict on model name.
+const bool M = true;
+invariant M;

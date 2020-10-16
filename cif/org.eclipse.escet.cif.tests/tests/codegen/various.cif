@@ -1,0 +1,72 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+input int x;
+input int y;
+input list[3] int[0..5] input_li;
+
+alg int z = x + y;
+
+event e1;
+
+print pre time;
+print post g.sync.c;
+print time for g.h1;
+print g.rcv.v for g.h1;
+print "out" file ":stdout";
+print "err" file ":stderr";
+print "file" file ".\\some_file.txt";
+
+group g:
+  event int h1;
+
+  automaton snd:
+    disc int a = 5 + size(input_li) + inc(rcv.v);
+    location:
+      initial;
+      edge h1!(z + a) do a := a + 1;
+  end
+
+  automaton rcv:
+    disc int v;
+    disc int v2 = v;
+
+    location:
+      initial;
+      edge h1? do v := v2 * ?;
+  end
+
+  automaton sync:
+    cont c der 1;
+
+    location l1:
+      initial;
+      edge e1 goto l2;
+
+    location l2:
+      edge h1 when c >= 2 do c := 0 goto l1;
+  end
+end
+
+automaton a:
+  disc list[2] int[0..3] li;
+  disc int[2..5] x;
+
+  location:
+    initial;
+    edge when false do li[0] := x;
+end
+
+func int inc(int x):
+    return x + 1;
+end

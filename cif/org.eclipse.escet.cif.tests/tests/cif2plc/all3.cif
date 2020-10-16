@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+event f;
+
+plant p:
+  disc int x = 1;
+
+  location l1:
+    initial;
+    edge e do x := q.y + 1 goto l2;                // old vs new
+
+  location l2;
+end
+
+plant q:
+  disc int y = 2;
+  disc bool b;
+
+  location l1:
+    initial;
+    edge e do y := p.x + 1;                        // old vs new
+
+    edge when y < 6 do y := y + 1;                 // old vs new
+
+    edge f do if y < 6:                            // if upd
+                y := y + 1
+              else
+                b := not b
+              end;
+end

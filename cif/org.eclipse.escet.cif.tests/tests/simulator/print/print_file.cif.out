@@ -1,0 +1,33 @@
+Initial state: time=0.0, buf=*, buf.x=0
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=1
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=2
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=3
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=4
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=5
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=6
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=7
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=8
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=9
+
+Transition: event buf.increase
+State: time=0.0, buf=*, buf.x=10
+
+Simulation resulted in deadlock.

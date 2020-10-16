@@ -1,0 +1,6 @@
+Initial state: time=0.0, a=*
+
+SVG output ("id_attr_chars.svg") id "box" attr "x" (SVG attr): "1"
+SVG output ("id_attr_chars.svg") id ":ABZ_abz-.019" attr ":ACZ_acz-.029" (SVG attr): "2"
+
+Simulation resulted in deadlock.

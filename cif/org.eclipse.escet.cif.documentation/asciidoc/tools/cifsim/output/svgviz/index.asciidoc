@@ -1,0 +1,66 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-index]]
+== SVG visualizer
+
+indexterm:[CIF simulator,SVG visualization]
+indexterm:[SVG visualization]
+indexterm:[SVG,visualization]
+indexterm:[simulation output,SVG visualization]
+The CIF simulator supports several forms of <<tools-cifsim-output-chapter-index,output>>.
+By default, simulation results, such as the
+current <<tools-cifsim-traces-state,state>>, are printed to the console.
+While this provides useful information, it is not easy to decipher the precise
+state of a (sub-)system. Also, it does not give a graphical overview of the
+current state of the system.
+
+The simulator however, also supports _SVG visualization_, which allows the user
+to make an image of the system, and have that image be updated by the simulator
+during simulation, based on the current state of the system. This allows the
+user to see changes in the state of the system, in a graphical representation
+of that system. This makes it much easier to get a global overview of the
+system during simulation. Since the user makes the image, the representation
+directly corresponds to the way the user sees the system.
+
+*Documentation*
+
+* <<tools-cifsim-output-svgviz-chapter-first-example>>
+* <<tools-cifsim-output-svgviz-chapter-svg>>
+* <<tools-cifsim-output-svgviz-chapter-inkscape>>
+* <<tools-cifsim-output-svgviz-chapter-cifsvg>>
+* <<tools-cifsim-output-svgviz-chapter-svgfile>>
+* <<tools-cifsim-output-svgviz-chapter-svgout>>
+* <<tools-cifsim-output-svgviz-chapter-svgcopy>>
+* <<tools-cifsim-output-svgviz-chapter-svgmove>>
+* <<tools-cifsim-output-svgviz-chapter-simulation>>
+* <<tools-cifsim-output-svgviz-chapter-debugging>>
+* <<tools-cifsim-output-svgviz-chapter-viewer>>
+
+indexterm:[SVG visualization,examples]
+
+[[tools-cifsim-output-svgviz-examples]]
+*Examples*
+
+Below is a list of available examples of SVG visualizations, which show some
+often used SVG attributes, as well as some tips and tricks on how to handle
+common challenges. The following examples are available:
+
+* <<tools-cifsim-output-svgviz-chapter-example-sun-moon>>
+* <<tools-cifsim-output-svgviz-chapter-example-walk>>
+* <<tools-cifsim-output-svgviz-chapter-example-rate>>
+* <<tools-cifsim-output-svgviz-chapter-example-workstation>>
+* <<tools-cifsim-output-svgviz-chapter-example-tank>>
+* <<tools-cifsim-output-svgviz-chapter-example-lamps>>
+* <<tools-cifsim-output-svgviz-chapter-example-buffers-products>>

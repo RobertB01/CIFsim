@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/scanner_decl_generic.setext": Semantic error at line 13, column 10: Generic types are currently not supported for scanner classes.
+ERROR: Failed to load SeText file "models_invalid/scanner_decl_generic.setext": the file has errors.

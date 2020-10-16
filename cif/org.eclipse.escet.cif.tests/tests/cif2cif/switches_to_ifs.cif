@@ -1,0 +1,130 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg real x1 = switch true:
+                else 2.0
+              end;
+alg real x2 = switch true:
+                case true: 3.0
+                else       4.0
+              end;
+alg real x3 = switch 5.0:
+                case 6.0: 8.0
+                case 7.0: 9.0
+                else      10.0
+              end;
+
+automaton a1_noname:
+  alg real v1 = switch self:
+                  else 1.0
+                end;
+  alg real v2 = switch a1_noname:
+                  else 2.0
+                end;
+
+  location:
+    initial;
+end
+
+automaton a1_named:
+  alg real v1 = switch self:
+                  case l: 1.0
+                end;
+  alg real v2 = switch a1_named:
+                  case l: 2.0
+                end;
+  alg real v3 = switch self:
+                  else 3.0
+                end;
+
+  location l:
+    initial;
+end
+
+automaton a2:
+  alg real v1 = switch self:
+                  case l1: 1.0
+                  case l2: 2.0
+                end;
+  alg real v2 = switch a2:
+                  case l1: 3.0
+                  else     4.0
+                end;
+  alg real v3 = switch self:
+                  else 5.0
+                end;
+  alg real v4 = switch a3:
+                  case l3: 6.0
+                  else     7.0
+                end;
+
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+automaton a3:
+  alg real v1 = switch self:
+                  case l1: 1.0
+                  case l2: 2.0
+                  case l3: 3.0
+                end;
+  alg real v2 = switch a3:
+                  case l1: 4.0
+                  case l2: 5.0
+                  else     6.0
+                end;
+  alg real v3 = switch a3:
+                  case l2: 7.0
+                  else     8.0
+                end;
+  alg real v4 = switch self:
+                  else 9.0
+                end;
+
+  location l1:
+    initial;
+  location l2:
+    initial;
+  location l3:
+    initial;
+end
+
+automaton def B():
+  location m1:
+    initial;
+  location m2:
+    initial;
+  location m3:
+    initial;
+end
+
+group def G():
+  b1: B();
+  b2: B();
+end
+
+g1: G();
+g2: G();
+
+alg real y1 = switch g1.b1:
+                case m1: 1.0
+                case m2: 2.0
+                case m3: 3.0
+              end;
+alg real y2 = switch g2.b2:
+                case m1: 4.0
+                case m2: 5.0
+                else     6.0
+              end;

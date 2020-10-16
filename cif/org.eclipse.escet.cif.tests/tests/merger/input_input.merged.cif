@@ -1,0 +1,22 @@
+input bool inp0;
+type t1 = bool;
+input t1 inp1;
+type t2 = bool;
+plant automaton p2:
+  input t1 inp2;
+  plant invariant inp2 or false;
+  plant invariant inp2 or true;
+  location:
+    initial inp2;
+end
+requirement automaton p3:
+  input t1 inp3;
+  requirement invariant inp3 or true;
+  requirement invariant inp3 or false;
+  location:
+    initial inp3;
+end
+invariant inp0 or true;
+invariant inp1 or true;
+invariant inp0 or false;
+invariant inp1 or false;

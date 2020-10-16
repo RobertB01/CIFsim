@@ -1,0 +1,5 @@
+ERROR: File "tchecker/stat_not_in_while.cif": Semantic error at line 15, column 3: The "break" statement may only be used inside "while" statements.
+ERROR: File "tchecker/stat_not_in_while.cif": Semantic error at line 20, column 3: The "continue" statement may only be used inside "while" statements.
+WARNING: File "tchecker/stat_not_in_while.cif": Semantic warning at line 16, column 3: Statement is unreachable.
+WARNING: File "tchecker/stat_not_in_while.cif": Semantic warning at line 21, column 3: Statement is unreachable.
+ERROR: Failed to load CIF file "tchecker/stat_not_in_while.cif": the file has errors.

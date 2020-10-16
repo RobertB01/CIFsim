@@ -1,0 +1,112 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int _f(list int l):
+  int s;
+  s := size(l);
+  return s;
+end
+
+invariant _f([1]) > 0;
+
+type t = bool;
+
+enum e1 = A, B;
+enum e2 = D, C;
+
+automaton p:
+  cont x der 1.0;
+
+  disc bool b;
+
+  disc int         i1;
+  disc int[-5..-3] i2;
+  disc int[ 3.. 5] i3;
+  disc int[-5.. 3] i4;
+  disc int[-3.. 5] i5;
+  disc int[-3..-3] i6;
+  disc int[ 3.. 3] i7;
+  disc int[-5..-5] i8;
+  disc int[ 5.. 5] i9;
+
+  disc t vt;
+
+  disc e1 ve1;
+  disc e2 ve2;
+
+  disc real r;
+
+  disc string g;
+
+  disc list int l;
+
+  disc list[0] int l0;
+  disc list[1] int l1;
+  disc list[2] int l2;
+
+  disc list[0..2] int l02;
+  disc list[1..3] int l13;
+  disc list[2..4] int l24;
+
+  disc set int s;
+
+  disc func bool                           ()          f1;
+  disc func bool                           (int, real) f2;
+  disc func func tuple(string a; int b) () ()          f3;
+
+  disc dict(bool:real) d;
+
+  disc tuple(bool bf; int if0; int[2..4] if2)    t1;
+  disc tuple(t tf; e1 ef; real rf; string sf)    t2;
+  disc tuple(list int lf; set int sf)            t3;
+  disc tuple(func bool() ff; dict(real:bool) df) t4;
+  disc tuple(tuple(int a,b) tf; dist bool df)    t5;
+
+  disc dist bool db;
+  disc dist int  di;
+  disc dist real dr;
+
+  invariant x > 0 or b or i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8 + i9 > 0;
+  invariant vt or ve1 in {A, B} or ve2 in {D, C} or r > 0 or size(g) > 0;
+  invariant size(l) + size(l0) + size(l1) + size(l2) > 0;
+  invariant size(l02) + size(l13) + size(l24) > 0;
+  invariant size(s) > 0 or f1() or f2(1, 1.0) or f3()()[1] > 0;
+  invariant size(d) > 0 or t1[bf] or t2[rf] + size(t3[lf]) > 0;
+  invariant size(t4[df]) > 0 or t5[tf][a] > 0;
+  invariant (sample db)[0] or (sample di)[0] + (sample dr)[0] > 0;
+
+  location:
+    initial;
+end
+
+// START: Test for bug 'Pretty printing of empty list literals with reference types in the list child type crashes'.
+
+type ti = int;
+
+func bool f1():
+  list ti v;
+
+  v[0] := 5;
+  return size(v) > 0;
+end
+
+type te1 = e1;
+
+func bool f2():
+  list te1 v;
+
+  v[0] := A;
+  return size(v) > 0;
+end
+
+// END: Test for bug 'Pretty printing of empty list literals with reference types in the list child type crashes'.

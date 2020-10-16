@@ -1,0 +1,3 @@
+ERROR: File "tchecker/ifexpr_incompat_types.cif": Semantic error at line 15, column 27: Incompatible result types for if expression: then type "bool" is incompatible with elif type "int[1..1]".
+ERROR: File "tchecker/ifexpr_incompat_types.cif": Semantic error at line 19, column 35: Incompatible result types for if expression: then type "bool" is incompatible with else type "int[3..3]".
+ERROR: Failed to load CIF file "tchecker/ifexpr_incompat_types.cif": the file has errors.

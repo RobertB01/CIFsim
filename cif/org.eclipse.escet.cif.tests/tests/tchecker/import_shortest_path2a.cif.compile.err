@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_shortest_path2a.cif": Semantic error at line 14, column 8: File "import_shortest_path2c.cif": Duplicate name "a" in the top level scope of the specification.
+ERROR: Failed to load CIF file "tchecker/import_shortest_path2a.cif": the file has errors.

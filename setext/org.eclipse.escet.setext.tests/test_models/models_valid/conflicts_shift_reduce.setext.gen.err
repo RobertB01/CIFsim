@@ -1,0 +1,5 @@
+WARNING: shift/reduce conflict on MINUS in state 5.
+WARNING: shift/reduce conflict on PLUS in state 5.
+WARNING: shift/reduce conflict on MINUS in state 6.
+WARNING: shift/reduce conflict on PLUS in state 6.
+ERROR: 4 conflict(s) in total (4 shift/reduce, 0 reduce/reduce, 0 accept/reduce).

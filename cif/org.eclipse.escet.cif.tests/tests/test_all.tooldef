@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+int failures;
+failures = failures + tooldef("test_tchecker.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_pprint_elim_cdef.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_cif2cif.tooldef", ignoreNonZeroExitCode=true);
+
+failures = failures + tooldef("test_event_based_conversion.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_aut_abstraction.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_ctrl_chk.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_dfa_minimize.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_lang_equiv.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_nfa_to_dfa.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_nonconfl_chk.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_obs_chk.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_product.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_projection.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_synthesis.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_trim_chk.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_based_trim.tooldef", ignoreNonZeroExitCode=true);
+
+failures = failures + tooldef("test_cif2yed.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_cif2mcrl2.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_codegen.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_cif2plc.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_cif2supremica.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_cif2uppaal.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_datasynth.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_event_disabler.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_explorer.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_merger.tooldef", ignoreNonZeroExitCode=true);
+
+failures = failures + tooldef("test_simulator.tooldef", ignoreNonZeroExitCode=true);
+
+if failures == 0:
+   outln("Testing completed (all): SUCCESS.");
+else
+   errln("Testing completed (all): FAILURE for %d tests.", failures);
+end
+
+exit failures;

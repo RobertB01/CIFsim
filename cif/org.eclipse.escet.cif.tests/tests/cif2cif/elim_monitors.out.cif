@@ -1,0 +1,64 @@
+automaton p:
+  disc int[1..5] x;
+  event a;
+  event b;
+  location l1:
+    initial;
+    edge a;
+  location l2:
+    initial;
+    edge a goto l1;
+    edge b goto l2;
+  location l3:
+    initial;
+    edge a when x = 1, x = 2;
+    edge a when x = 3;
+    edge a when not(x = 1 and x = 2), not(x = 3);
+  location l4:
+    initial;
+    edge a when 4 = 4;
+    edge a when not(4 = 4);
+  location l5:
+    initial;
+    edge a when false;
+    edge a when not false;
+  location l6:
+    initial;
+    edge a when x = 5 goto l1;
+    edge a when not(x = 5);
+end
+automaton q:
+  event bool eb;
+  event real er;
+  disc bool b;
+  location l1:
+    initial;
+    edge tau, er!1.0 when b;
+    edge er!2.0 when b do b := true;
+  location l2:
+    initial;
+    edge eb? do b := ?;
+end
+automaton q2:
+  location:
+    initial;
+    edge q.eb!true;
+end
+automaton q3:
+  disc bool b;
+  location:
+    initial;
+    edge tau when b;
+end
+automaton r:
+  event e1;
+  event e2;
+  location l1:
+    initial;
+    edge e1 goto l2;
+    edge e2;
+  location l2:
+    edge e2 when 1 = 1;
+    edge e1;
+    edge e2 when not(1 = 1);
+end

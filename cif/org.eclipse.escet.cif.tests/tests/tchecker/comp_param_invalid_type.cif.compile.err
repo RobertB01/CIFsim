@@ -1,0 +1,6 @@
+ERROR: File "tchecker/comp_param_invalid_type.cif": Semantic error at line 16, column 13: The type of component parameter "p.x" is not a component definition.
+ERROR: File "tchecker/comp_param_invalid_type.cif": Semantic error at line 26, column 13: The type of component parameter "Q.x" is not a component definition.
+ERROR: File "tchecker/comp_param_invalid_type.cif": Semantic error at line 34, column 13: The type of component parameter "G.x" is not a component definition.
+ERROR: File "tchecker/comp_param_invalid_type.cif": Semantic error at line 34, column 18: The type of component parameter "G.y" is not a component definition.
+ERROR: File "tchecker/comp_param_invalid_type.cif": Semantic error at line 34, column 23: The type of component parameter "G.z" is not a component definition.
+ERROR: Failed to load CIF file "tchecker/comp_param_invalid_type.cif": the file has errors.

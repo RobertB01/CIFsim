@@ -1,0 +1,114 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cif2plc;
+
+// Configuration.
+string test_path = "cif2plc";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1 --warn-rename=yes"];
+map(string:list string) test_options = {
+    "cif2plc/button_lamp.cif":                 ["-j MyProj -c MyConfig -r MyResource -n MyTask -i 7 -p 123"],
+    "cif2plc/constants_elim.cif":              ["--simplify-values=yes"],
+    "cif2plc/constants_keep.cif":              ["--simplify-values=no"],
+    "cif2plc/formal_finvoke_all_all.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=all"],
+    "cif2plc/formal_finvoke_all_std.cif":      ["--formal-finvoke-arg=all --formal-finvoke-func=std"],
+    "cif2plc/formal_finvoke_all_others.cif":   ["--formal-finvoke-arg=all --formal-finvoke-func=others"],
+    "cif2plc/formal_finvoke_multi_all.cif":    ["--formal-finvoke-arg=multi --formal-finvoke-func=all"],
+    "cif2plc/formal_finvoke_multi_std.cif":    ["--formal-finvoke-arg=multi --formal-finvoke-func=std"],
+    "cif2plc/formal_finvoke_multi_others.cif": ["--formal-finvoke-arg=multi --formal-finvoke-func=others"],
+    "cif2plc/formal_finvoke_none_all.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=all"],
+    "cif2plc/formal_finvoke_none_std.cif":     ["--formal-finvoke-arg=none --formal-finvoke-func=std"],
+    "cif2plc/formal_finvoke_none_others.cif":  ["--formal-finvoke-arg=none --formal-finvoke-func=others"],
+    "cif2plc/option_max_iter_inf.cif":         ["-x inf"],
+    "cif2plc/options.cif":                     ["-i off -b 32 -x 101"],
+};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, newext="out");
+    string test_err_exp  = chfileext(test, newext="err");
+    string test_out_real = chfileext(test, newext="out.real");
+    string test_err_real = chfileext(test, newext="err.real");
+
+    string plcopen_exp  = chfileext(test, oldext="cif", newext="plcopen.xml");
+    string plcopen_real = chfileext(test, oldext="cif", newext="plcopen.xml.real");
+
+    // Execute.
+    options = options + ["-o", plcopen_real];
+    cif2plc([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr_diff  = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff  = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool plcopen_diff = diff(plcopen_exp, plcopen_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff::  rmfile(test_err_real);
+    if not stdout_diff::  rmfile(test_out_real);
+    if not plcopen_diff:: if exists(plcopen_real):: rmfile(plcopen_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff::  diff_count = diff_count + 1;
+    if stdout_diff::  diff_count = diff_count + 1;
+    if plcopen_diff:: diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

@@ -1,0 +1,169 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-chapter-console]]
+== Interactive console input mode
+
+indexterm:[input mode,interactive console input mode]
+indexterm:[interactive console input mode]
+In the interactive console input mode, the simulator interactively asks the
+user to choose the transitions to take, etc. The questions are asked via text
+printed to the console. The user enters his/her choice via the console as well.
+
+=== Choosing a transition to take
+
+The following is an example of the simulator interactively asking the user to
+choose a possible transition:
+
+
+[source, console]
+----
+Possible transitions:
+  #1: event machine1.c_start
+  #2: event machine2.c_start
+  #3: delay for (0 .. 100.0]
+
+Select a transition ([1..3]). Enter q to quit. Enter h for help and additional commands. Confirm with <ENTER>:
+----
+
+Here, three possible transitions are given, numbered `1` to `3`. For your
+convenience, they are sorted alphabetically on the names of the events, with
+event `tau` always at the end, just before time transitions.
+
+The user should enter a command, and confirm that choice by pressing
+kbd:[ENTER]. Several command are available:
+
+* Entering a number in the given range, corresponding to the transition with
+that number, will result in that specific transition being taken. So,
+entering `2` and pressing kbd:[ENTER], will result in the simulator taking
+the transition for event `machine2.c_start`. The valid choices for the
+transitions are indicated by the range `[1..3]`. In case of an invalid
+number, an error message is printed to the console, and the user can choose
+again.
+
+* Entering nothing, and only pressing kbd:[ENTER], defaults to choosing
+transition `1`.
+
+* Entering `r` or `R`, and confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-input-history-reset-undo,reset>> the simulation to the
+initial state. If reset is not enabled, or not possible for the current
+state, an error message is printed and the user can choose again.
+
+* Entering `u` or `U`, and confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-input-history-reset-undo,undo>> one transition. If undo is
+not enabled, or not possible for the current state, an error message is
+printed and the user can choose again.
+
+* Entering `u <n>` or `U <n>`, with `<n>` a positive number, and
+confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-input-history-reset-undo,undo>> `n` transitions. If undo is
+not enabled, it is not possible to undo `n` transitions for the current
+state, an error message is printed and the user can choose again.
+
+* Entering `q` or `Q`, and confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-chapter-termination,terminate>> the simulation.
+
+* Entering `h` or `H`, and confirming that by pressing kbd:[ENTER], will
+result in the simulator printing a short help text to the console, that
+shows the available commands. The user is then again asked to choose.
+
+If a choice is made that is invalid or is not available for the current state,
+an error message is printed to the console, and the user is asked to make an
+other choice.
+
+
+=== Choosing a time transition duration
+
+If the user chooses a time transition (choice `3` in the above example), the
+simulator subsequently asks for the duration of the time delay:
+
+
+[source, console]
+----
+Select a duration from (0 .. 100.0]. Empty choice equals maximum delay. Enter q to quit. Confirm with <ENTER>:
+----
+
+Here, the duration of the time delay is to be entered. In this case, the
+duration must be in the `(0 .. 100.0]` interval. That is, it must be larger
+than zero, and less or equal to `100.0`. Both integer and real values are
+allowed. As before, confirm with kbd:[ENTER].
+
+Pressing kbd:[ENTER] without having entered anything, defaults to the maximum
+delay, which in this case is `100.0`. Entering `q` or `Q`, and confirming
+that by pressing kbd:[ENTER], will
+<<tools-cifsim-chapter-termination,terminate>> the simulation.
+
+If a choice is made that is invalid, an error message is printed to the
+console, and the user is asked to make an other choice.
+
+
+=== Choosing between termination or going back
+
+If no transitions are possible, for instance due to
+<<lang-tut-time-deadlock,deadlock>> or reaching the
+<<tools-cifsim-termination-endtime,end-user provided simulation end time>>,
+the simulator may interactively ask the
+user to choose between termination of the simulation, resetting the simulation
+to the initial state, or undoing some transitions. This choice is only
+presented if either reset or undo is enabled, as otherwise there is no choice
+to make.
+
+The following is an example of the simulator interactively asking the user to
+choose between termination and going back:
+
+
+[source, console]
+----
+Simulation resulted in deadlock. Enter q to quit. Enter h for help and additional commands. Confirm with <ENTER>:
+----
+
+The user should enter a command, and confirm that choice by pressing
+kbd:[ENTER]. Several command are available:
+
+* Entering `r` or `R`, and confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-input-history-reset-undo,reset>> the simulation to the
+initial state. If reset is not enabled, or not possible for the current
+state, an error message is printed and the user can choose again.
+
+* Entering `u` or `U`, and confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-input-history-reset-undo,undo>> one transition. If undo is
+not enabled, or not possible for the current state, an error message is
+printed and the user can choose again.
+
+* Entering `u <n>` or `U <n>`, with `<n>` a positive number, and
+confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-input-history-reset-undo,undo>> `n` transitions. If undo is
+not enabled, it is not possible to undo `n` transitions for the current
+state, an error message is printed and the user can choose again.
+
+* Entering `q` or `Q`, and confirming that by pressing kbd:[ENTER], will
+<<tools-cifsim-chapter-termination,terminate>> the simulation.
+
+* Entering `h` or `H`, and confirming that by pressing kbd:[ENTER], will
+result in the simulator printing a short help text to the console, that
+shows the available commands. The user is then again asked to choose.
+
+If a choice is made that is invalid or is not available for the current state,
+an error message is printed to the console, and the user is asked to make an
+other choice.
+
+indexterm:[interactive console input mode,semi-automatic mode]
+
+=== Semi-automatic mode
+
+By default, in the interactive console input mode, the user is asked to choose,
+even if for instance there is only one possible transition. Having to choose
+for every transition can become tiresome. To reduce the number of situations
+where a choice is required, the
+<<tools-cifsim-input-chapter-semi-automatic,semi-automatic>> mode is available.

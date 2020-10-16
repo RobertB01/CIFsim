@@ -1,0 +1,78 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-values-chapter-bounded-lists-and-arrays]]
+== Bounded lists and arrays
+
+indexterm:[list,limits]
+indexterm:[list,maximum size]
+CIF can only represent <<tut-values-chapter-lists,lists>> (type `list`)
+with at most 2,147,483,647 (= 2^31^ - 1) elements. Using lists
+with more elements results in the CIF model being invalid, and leads to runtime
+errors. For instance, consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton a:
+  disc list int x;
+
+  location:
+    initial;
+    edge do x := x + [1];
+end
+----
+
+Each time the edge is taken, another element is added to list `x`. As soon
+as an attempt is made to add the 2,147,483,648^th^ element, a
+runtime error occurs.
+
+It is possible to explicitly restrict the number of elements that may be
+contained in a list:
+
+
+[source, cif]
+----
+disc list[3..7] int y;      // List with at least 3 and at most 7 elements.
+----
+
+indexterm:[list,bounded]
+Variable `y` can only have lists as its value that have at least `3` and at
+most `7` elements. Assigning a list with any other number of elements is not
+allowed. Lists with size restrictions are called _bounded lists_. They can also
+be called _size restricted lists_ or _ranged lists_. The default value for
+`y` is `[0, 0, 0]`. That is, the default value has the least amount of
+elements that is allowed by the bounded list, and the default value (`0`) of
+the element type (`int`).
+
+indexterm:[array]
+
+[[lang-tut-values-array]]
+Lists with a fixed length are called _arrays_:
+
+
+[source, cif]
+----
+disc list[5..5] int a;      // List with at least 5 and at most 5 elements.
+disc list[5]    int b;      // Shorter but equivalent array notation.
+----
+
+By giving a bounded list the same lower and upper bound, the bounded list has a
+fixed number of elements, and can be called an _array_. Arrays also have a
+shorter and more convenient notation, where the number of elements is only
+given once. Both notations for arrays are equivalent.
+
+Both bounded lists and arrays support the same operations as regular lists, and
+can be modified (assigned) the same way as regular lists, as long as their size
+restrictions are not violated.

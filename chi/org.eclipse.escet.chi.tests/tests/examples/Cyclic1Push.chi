@@ -1,0 +1,71 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type item = tuple(int idx; real t);
+
+proc G(int idx; chan item a; real ta):
+   dist real u = exponential(ta);
+   while true:
+      a!(idx, time); delay sample u
+   end
+end
+
+proc B(chan? item a; chan! item b):
+   list item xs; item x;
+   while true:
+      select
+         a?x:
+            xs = xs + [x]
+      alt
+         not empty(xs), b!xs[0]:
+            xs = xs[1:]
+      end
+   end
+end
+
+func real set_up(int k, N):
+   return 1.0
+end
+
+proc S(chan item a, b; chan? void d;
+       real ts, cs2; int N):
+   dist real u = exponential(ts);
+   item x; int k;
+   while true:
+      select
+         a?x:
+            delay sample u; b!x
+      alt
+         d?:
+            delay set_up(k, N); k = (k + 1) mod N
+      end
+   end
+end
+
+proc E(chan item a):
+   item x;
+   while true:
+      a?x;
+      write("%f %f\n", time, time - x.t)
+   end
+end
+
+model M(int N; real ta, ts):
+   chan item a; chan item b, c; chan void d;
+   run
+      unwind j in range(N):
+         G(j, a, ta)
+      end,
+      B(a, b),
+      S(b, c, d, ts, 1.0, N),
+      E(c)
+end

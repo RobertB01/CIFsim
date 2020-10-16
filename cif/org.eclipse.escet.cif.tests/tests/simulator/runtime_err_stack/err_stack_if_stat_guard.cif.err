@@ -1,0 +1,5 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "f()" of the top level scope of the specification failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: Evaluation of "if" statement guard(s) "1 / 0 > 0" failed.
+CAUSE: Division by zero: 1.0 / 0.0.

@@ -1,0 +1,10 @@
+group p:
+  controllable u1;
+  controllable u2;
+end
+supervisor automaton sup:
+  alphabet p.u1, p.u2;
+  location s1:
+    initial;
+    marked;
+end

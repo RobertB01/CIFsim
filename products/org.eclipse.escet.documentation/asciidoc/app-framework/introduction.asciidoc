@@ -1,0 +1,35 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[app-framework-introduction]]
+== Introduction
+
+The Eclipse ESCET application framework provides common functionality for
+applications within the Eclipse ESCET toolkit. It has several goals:
+
+* Provide a uniform end-user experience, for example in the form of uniform
+option dialogs.
+
+* Hide technical details from the end user, for example in the form of
+crash reports and user friendly error messages, instead of stack traces.
+
+* Provide support for applications to run both as a stand-alone Java program
+(say, from the command line), as well as within the Eclipse environment.
+
+* Provide the basic functionality needed by most applications, to reduce the
+overhead needed for developers to develop an application.
+
+The documentation for this framework describes the issues that the application
+framework attempts to solve, and the way it solves them. It also provides
+guidance in implementing applications using the application framework.

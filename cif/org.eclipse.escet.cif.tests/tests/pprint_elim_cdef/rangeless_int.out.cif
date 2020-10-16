@@ -1,0 +1,14 @@
+type t = int;
+type t2 = t;
+const int[123..123] c = 123;
+alg int a = q.x + c;
+group def P(alg int ip):
+  invariant pow(ip - 1, 312) * 5 > -239;
+end
+automaton q:
+  disc t2 x;
+  invariant x > 0;
+  location:
+    initial;
+end
+invariant a > 123;

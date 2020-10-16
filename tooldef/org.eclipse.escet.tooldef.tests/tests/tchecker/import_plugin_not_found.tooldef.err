@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_plugin_not_found.tooldef": Semantic error at line 14, column 8: Cannot find a plug-in (OSGi bundle or Eclipse project) with name "plugin.that.does.not.exist".
+ERROR: Failed to load ToolDef file "tchecker/import_plugin_not_found.tooldef": the file has errors.

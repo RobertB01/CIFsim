@@ -1,0 +1,49 @@
+Initial state: time=0.0, a=l1, a.t=0.0, a.t'=1.0
+
+Transition: event e
+State: time=0.0, a=l2, a.t=0.0, a.t'=1.0
+
+Possible transitions:
+  #1: event f
+  #2: event g
+
+Transition: event f
+State: time=0.0, a=l3, a.t=0.0, a.t'=1.0
+
+Transition: event f
+State: time=0.0, a=l4, a.t=0.0, a.t'=1.0
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=l1, a.t=0.0, a.t'=1.0
+
+Transition: event e
+State: time=0.0, a=l2, a.t=0.0, a.t'=1.0
+
+Possible transitions:
+  #1: event f
+  #2: event g
+
+Transition: event g
+State: time=0.0, a=l2b, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 2.000000000000001 time units at time 0.0
+State: time=2.000000000000001, a=l2b, a.t=2.0000000000000013, a.t'=1.0
+
+Transition: event h
+State: time=2.000000000000001, a=l3, a.t=2.0000000000000013, a.t'=1.0
+
+Transition: event f
+State: time=2.000000000000001, a=l4, a.t=2.0000000000000013, a.t'=1.0
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=2.000000000000001, a=l1, a.t=2.0000000000000013, a.t'=1.0
+
+Simulation was terminated per the user's request.

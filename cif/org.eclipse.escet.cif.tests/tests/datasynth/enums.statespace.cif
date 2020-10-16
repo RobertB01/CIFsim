@@ -1,0 +1,135 @@
+group g:
+  controllable e1;
+  controllable e2;
+end
+automaton statespace:
+  alphabet g.e1, g.e2;
+  location loc1:
+    initial;
+    edge g.e1 goto loc9;
+    edge g.e2;
+  location loc2:
+    initial;
+    edge g.e1 goto loc10;
+    edge g.e2;
+  location loc3:
+    initial;
+    edge g.e1 goto loc11;
+    edge g.e2;
+  location loc4:
+    initial;
+    edge g.e1 goto loc12;
+    edge g.e2;
+  location loc5:
+    initial;
+    edge g.e1 goto loc13;
+    edge g.e2;
+  location loc6:
+    initial;
+    edge g.e1 goto loc14;
+    edge g.e2;
+  location loc7:
+    initial;
+    edge g.e1 goto loc15;
+    edge g.e2;
+  location loc8:
+    initial;
+    edge g.e1 goto loc16;
+    edge g.e2;
+  location loc9:
+    edge g.e1 goto loc17;
+    edge g.e2;
+  location loc10:
+    edge g.e1 goto loc18;
+    edge g.e2;
+  location loc11:
+    edge g.e1 goto loc19;
+    edge g.e2;
+  location loc12:
+    edge g.e1 goto loc20;
+    edge g.e2;
+  location loc13:
+    edge g.e1 goto loc21;
+    edge g.e2;
+  location loc14:
+    edge g.e1 goto loc22;
+    edge g.e2;
+  location loc15:
+    edge g.e1 goto loc23;
+    edge g.e2;
+  location loc16:
+    edge g.e1 goto loc24;
+    edge g.e2;
+  location loc17:
+    edge g.e1 goto loc25;
+    edge g.e2;
+  location loc18:
+    edge g.e1 goto loc26;
+    edge g.e2;
+  location loc19:
+    edge g.e1 goto loc27;
+    edge g.e2;
+  location loc20:
+    edge g.e1 goto loc28;
+    edge g.e2;
+  location loc21:
+    edge g.e1 goto loc29;
+    edge g.e2;
+  location loc22:
+    edge g.e1 goto loc30;
+    edge g.e2;
+  location loc23:
+    edge g.e1 goto loc31;
+    edge g.e2;
+  location loc24:
+    edge g.e1 goto loc32;
+    edge g.e2;
+  location loc25:
+    edge g.e1 goto loc33;
+    edge g.e2;
+  location loc26:
+    edge g.e1 goto loc34;
+    edge g.e2;
+  location loc27:
+    edge g.e1 goto loc35;
+    edge g.e2;
+  location loc28:
+    edge g.e1 goto loc36;
+    edge g.e2;
+  location loc29:
+    edge g.e1 goto loc37;
+    edge g.e2;
+  location loc30:
+    edge g.e1 goto loc38;
+    edge g.e2;
+  location loc31:
+    edge g.e1 goto loc39;
+    edge g.e2;
+  location loc32:
+    edge g.e1 goto loc40;
+    edge g.e2;
+  location loc33:
+    marked;
+    edge g.e2;
+  location loc34:
+    marked;
+    edge g.e2;
+  location loc35:
+    marked;
+    edge g.e2;
+  location loc36:
+    marked;
+    edge g.e2;
+  location loc37:
+    marked;
+    edge g.e2;
+  location loc38:
+    marked;
+    edge g.e2;
+  location loc39:
+    marked;
+    edge g.e2;
+  location loc40:
+    marked;
+    edge g.e2;
+end

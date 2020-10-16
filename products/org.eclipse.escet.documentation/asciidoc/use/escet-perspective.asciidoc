@@ -1,0 +1,78 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[Eclipse,perspective]
+indexterm:[perspective]
+indexterm:[perspective,ESCET]
+
+[[use-escet-perspective]]
+== Eclipse ESCET perspective
+
+The layout of the different parts of the Eclipse ESCET IDE, including the
+position and size of the various <<use-terminology-view,views>>, can be
+configured per perspective. Different perspectives allow you to use different
+layouts for different tasks.
+
+The Eclipse ESCET IDE ships with some built-in perspectives. The default
+_ESCET_ perspective is ideally suited for the use of the Eclipse
+ESCET software.
+
+indexterm:[perspective,open]
+indexterm:[perspective,switch]
+You can manually open the _ESCET_ perspective (or any other perspective), by
+selecting menu:Window[Perspective > Open Perspective > Other...]. Then, in the
+_Open Perspective_ dialog, select the _ESCET_ perspective from the list, and
+click the btn:[OK] button.
+
+indexterm:[perspective,active]
+indexterm:[perspective,switch]
+By default, the Eclipse ESCET IDE shows the opened perspectives at the top
+right corner of the IDE. Each perspective is a button that can be used to
+active it. If the button appears in a pushed state, that perspective is
+active. The following image shows an Eclipse ESCET IDE with two open
+perspectives: the _Resource_ perspective and the _ESCET_ perspective.
+The _ESCET_ perspective  is the currently enabled perspective.
+
+image::{use-imgsdir}/perspectives.png[]
+
+By default, the _ESCET_ perspective shows the following views:
+
+indexterm:[perspective,default views]
+indexterm:[view,Project Explorer]
+indexterm:[view,applications]
+indexterm:[view,problems]
+indexterm:[view,properties]
+indexterm:[view,console]
+
+* Project explorer (top left)
+* <<use-apps-view,Applications>> (bottom left)
+* Problems (bottom, grouped)
+* Properties (bottom, grouped)
+* Console (bottom, grouped)
+
+indexterm:[perspective,layout]
+indexterm:[perspective,reset]
+You can manually <<use-terminology-view-open,open>> additional
+<<use-terminology-view,views>>, close some views, move views around,
+change the size of the different views, etc. If at any time you wish to go
+back to the original layout, you can reset the perspective, by selecting
+menu:Window[Perspective > Reset Perspective...]. Click the btn:[OK]
+button to confirm.
+
+indexterm:[perspective,default layout]
+indexterm:[perspective,default views]
+Whenever a new release changes the default layout of a perspective, for
+instance by adding a new default view, you can reset the perspective to get
+the new view, or you can <<use-terminology-view-open,open>> that view it
+manually.

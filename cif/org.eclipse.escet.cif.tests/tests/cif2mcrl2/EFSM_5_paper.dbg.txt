@@ -1,0 +1,90 @@
+===============================================================
+Node 1
+
+Available variable processes:
+    A.x
+    A.y
+
+Variable use by behavior processes ordered by event:
+    A.a:
+        A.x  read:NEVER  write:ALWAYS
+        A.y  read:NEVER  write:ALWAYS
+    A.b:
+        A.x  read:ALWAYS  write:ALWAYS
+        A.y  read:NEVER   write:NEVER
+    A.c:
+        A.x  read:ALWAYS  write:ALWAYS
+        A.y  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1
+    node 1.2
+
+===============================================================
+Node 1.1
+
+Available variable processes:
+    A.x
+
+Variable use by behavior processes ordered by event:
+    A.a:
+        A.x  read:NEVER  write:ALWAYS
+        A.y  read:NEVER  write:ALWAYS
+    A.b:
+        A.x  read:ALWAYS  write:ALWAYS
+    A.c:
+        A.x  read:ALWAYS  write:ALWAYS
+        A.y  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1.1
+    node 1.1.2
+
+===============================================================
+Node 1.1.1
+
+Variable use by behavior processes ordered by event:
+    A.a:
+        A.x  read:NEVER  write:ALWAYS
+        A.y  read:NEVER  write:ALWAYS
+    A.b:
+        A.x  read:ALWAYS  write:ALWAYS
+    A.c:
+        A.x  read:ALWAYS  write:ALWAYS
+        A.y  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1.1.1
+    node 1.1.1.2
+
+===============================================================
+Node 1.1.1.1 (automaton A)
+
+Variable use by behavior processes ordered by event:
+    A.a:
+        A.x  read:NEVER  write:ALWAYS
+        A.y  read:NEVER  write:ALWAYS
+    A.b:
+        A.x  read:ALWAYS  write:ALWAYS
+    A.c:
+        A.x  read:ALWAYS  write:ALWAYS
+
+===============================================================
+Node 1.1.1.2 (automaton B)
+
+Variable use by behavior processes ordered by event:
+    A.c:
+        A.x  read:ALWAYS  write:NEVER
+        A.y  read:ALWAYS  write:NEVER
+
+===============================================================
+Node 1.1.2 (variable A.x)
+
+Available variable processes:
+    A.x
+
+===============================================================
+Node 1.2 (variable A.y)
+
+Available variable processes:
+    A.y

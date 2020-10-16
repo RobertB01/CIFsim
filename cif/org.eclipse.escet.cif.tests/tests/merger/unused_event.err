@@ -1,0 +1,6 @@
+WARNING: File "merger/unused_event.in1.cif": Semantic warning at line 14, column 7: Event "e10" is not used anywhere in the specification.
+WARNING: File "merger/unused_event.in1.cif": Semantic warning at line 15, column 7: Event "e11" is not used anywhere in the specification.
+WARNING: File "merger/unused_event.in1.cif": Semantic warning at line 16, column 7: Event "e12" is not used anywhere in the specification.
+WARNING: File "merger/unused_event.in2.cif": Semantic warning at line 14, column 7: Event "e01" is not used anywhere in the specification.
+WARNING: File "merger/unused_event.in2.cif": Semantic warning at line 16, column 7: Event "e11" is not used anywhere in the specification.
+WARNING: File "merger/unused_event.in2.cif": Semantic warning at line 18, column 7: Event "e21" is not used anywhere in the specification.

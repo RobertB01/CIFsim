@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const bool x1 = y1;
+
+group a2:
+  const bool y2 = true;
+end
+
+const bool x2 = y2;
+
+group a3:
+  invariant true;
+end
+
+const bool x3 = a3.b3;
+
+const bool x4 = a4.b4;
+
+const real c5 = 1.23;
+
+group def P5():
+  invariant .c5 > 0;
+end
+
+group g6:
+  automaton a6:
+    location:
+      initial z6;
+  end
+end

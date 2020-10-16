@@ -1,0 +1,288 @@
+controllable add;
+controllable remove;
+controllable move;
+group r1:
+  controllable activate;
+  controllable deactivate;
+end
+group r2:
+  controllable activate;
+  controllable deactivate;
+end
+group r3:
+  controllable activate;
+  controllable deactivate;
+end
+automaton statespace:
+  alphabet add, remove, move, r1.activate, r1.deactivate, r2.activate, r2.deactivate, r3.activate, r3.deactivate;
+  location loc1:
+    initial;
+    marked;
+    edge add goto loc2;
+    edge move goto loc5;
+    edge r1.activate goto loc6;
+    edge r2.activate goto loc7;
+    edge r3.activate goto loc8;
+  location loc2:
+    initial;
+    marked;
+    edge add goto loc3;
+    edge remove goto loc1;
+    edge move goto loc9;
+    edge r1.activate goto loc10;
+    edge r2.activate goto loc11;
+    edge r3.activate goto loc12;
+  location loc3:
+    initial;
+    marked;
+    edge add goto loc4;
+    edge remove goto loc2;
+    edge move goto loc13;
+    edge r1.activate goto loc14;
+    edge r2.activate goto loc15;
+    edge r3.activate goto loc16;
+  location loc4:
+    initial;
+    marked;
+    edge remove goto loc3;
+    edge move goto loc17;
+    edge r1.activate goto loc18;
+    edge r2.activate goto loc19;
+    edge r3.activate goto loc20;
+  location loc5:
+    edge move goto loc1;
+    edge r1.activate goto loc21;
+    edge r2.activate goto loc22;
+    edge r3.activate goto loc23;
+  location loc6:
+    edge add goto loc10;
+    edge move goto loc21;
+    edge r1.deactivate goto loc1;
+    edge r2.activate goto loc24;
+  location loc7:
+    edge add goto loc11;
+    edge move goto loc22;
+    edge r1.activate goto loc24;
+    edge r2.deactivate goto loc1;
+    edge r3.activate goto loc25;
+  location loc8:
+    edge add goto loc12;
+    edge move goto loc23;
+    edge r2.activate goto loc25;
+    edge r3.deactivate goto loc1;
+  location loc9:
+    edge remove goto loc5;
+    edge move goto loc2;
+    edge r1.activate goto loc26;
+    edge r2.activate goto loc27;
+    edge r3.activate goto loc28;
+  location loc10:
+    edge add goto loc14;
+    edge remove goto loc6;
+    edge move goto loc26;
+    edge r1.deactivate goto loc2;
+    edge r2.activate goto loc29;
+  location loc11:
+    edge add goto loc15;
+    edge remove goto loc7;
+    edge move goto loc27;
+    edge r1.activate goto loc29;
+    edge r2.deactivate goto loc2;
+    edge r3.activate goto loc30;
+  location loc12:
+    edge add goto loc16;
+    edge remove goto loc8;
+    edge move goto loc28;
+    edge r2.activate goto loc30;
+    edge r3.deactivate goto loc2;
+  location loc13:
+    edge remove goto loc9;
+    edge move goto loc3;
+    edge r1.activate goto loc31;
+    edge r2.activate goto loc32;
+    edge r3.activate goto loc33;
+  location loc14:
+    edge add goto loc18;
+    edge remove goto loc10;
+    edge move goto loc31;
+    edge r1.deactivate goto loc3;
+    edge r2.activate goto loc34;
+  location loc15:
+    edge add goto loc19;
+    edge remove goto loc11;
+    edge move goto loc32;
+    edge r1.activate goto loc34;
+    edge r2.deactivate goto loc3;
+    edge r3.activate goto loc35;
+  location loc16:
+    edge add goto loc20;
+    edge remove goto loc12;
+    edge move goto loc33;
+    edge r2.activate goto loc35;
+    edge r3.deactivate goto loc3;
+  location loc17:
+    edge remove goto loc13;
+    edge move goto loc4;
+    edge r1.activate goto loc36;
+    edge r2.activate goto loc37;
+    edge r3.activate goto loc38;
+  location loc18:
+    edge remove goto loc14;
+    edge move goto loc36;
+    edge r1.deactivate goto loc4;
+    edge r2.activate goto loc39;
+  location loc19:
+    edge remove goto loc15;
+    edge move goto loc37;
+    edge r1.activate goto loc39;
+    edge r2.deactivate goto loc4;
+    edge r3.activate goto loc40;
+  location loc20:
+    edge remove goto loc16;
+    edge move goto loc38;
+    edge r2.activate goto loc40;
+    edge r3.deactivate goto loc4;
+  location loc21:
+    edge move goto loc6;
+    edge r1.deactivate goto loc5;
+    edge r2.activate goto loc41;
+  location loc22:
+    edge move goto loc7;
+    edge r1.activate goto loc41;
+    edge r2.deactivate goto loc5;
+    edge r3.activate goto loc42;
+  location loc23:
+    edge move goto loc8;
+    edge r2.activate goto loc42;
+    edge r3.deactivate goto loc5;
+  location loc24:
+    edge add goto loc29;
+    edge move goto loc41;
+    edge r1.deactivate goto loc7;
+    edge r2.deactivate goto loc6;
+  location loc25:
+    edge add goto loc30;
+    edge move goto loc42;
+    edge r2.deactivate goto loc8;
+    edge r3.deactivate goto loc7;
+  location loc26:
+    edge remove goto loc21;
+    edge move goto loc10;
+    edge r1.deactivate goto loc9;
+    edge r2.activate goto loc43;
+  location loc27:
+    edge remove goto loc22;
+    edge move goto loc11;
+    edge r1.activate goto loc43;
+    edge r2.deactivate goto loc9;
+    edge r3.activate goto loc44;
+  location loc28:
+    edge remove goto loc23;
+    edge move goto loc12;
+    edge r2.activate goto loc44;
+    edge r3.deactivate goto loc9;
+  location loc29:
+    edge add goto loc34;
+    edge remove goto loc24;
+    edge move goto loc43;
+    edge r1.deactivate goto loc11;
+    edge r2.deactivate goto loc10;
+  location loc30:
+    edge add goto loc35;
+    edge remove goto loc25;
+    edge move goto loc44;
+    edge r2.deactivate goto loc12;
+    edge r3.deactivate goto loc11;
+  location loc31:
+    edge remove goto loc26;
+    edge move goto loc14;
+    edge r1.deactivate goto loc13;
+    edge r2.activate goto loc45;
+  location loc32:
+    edge remove goto loc27;
+    edge move goto loc15;
+    edge r1.activate goto loc45;
+    edge r2.deactivate goto loc13;
+    edge r3.activate goto loc46;
+  location loc33:
+    edge remove goto loc28;
+    edge move goto loc16;
+    edge r2.activate goto loc46;
+    edge r3.deactivate goto loc13;
+  location loc34:
+    edge add goto loc39;
+    edge remove goto loc29;
+    edge move goto loc45;
+    edge r1.deactivate goto loc15;
+    edge r2.deactivate goto loc14;
+  location loc35:
+    edge add goto loc40;
+    edge remove goto loc30;
+    edge move goto loc46;
+    edge r2.deactivate goto loc16;
+    edge r3.deactivate goto loc15;
+  location loc36:
+    edge remove goto loc31;
+    edge move goto loc18;
+    edge r1.deactivate goto loc17;
+    edge r2.activate goto loc47;
+  location loc37:
+    edge remove goto loc32;
+    edge move goto loc19;
+    edge r1.activate goto loc47;
+    edge r2.deactivate goto loc17;
+    edge r3.activate goto loc48;
+  location loc38:
+    edge remove goto loc33;
+    edge move goto loc20;
+    edge r2.activate goto loc48;
+    edge r3.deactivate goto loc17;
+  location loc39:
+    edge remove goto loc34;
+    edge move goto loc47;
+    edge r1.deactivate goto loc19;
+    edge r2.deactivate goto loc18;
+  location loc40:
+    edge remove goto loc35;
+    edge move goto loc48;
+    edge r2.deactivate goto loc20;
+    edge r3.deactivate goto loc19;
+  location loc41:
+    edge move goto loc24;
+    edge r1.deactivate goto loc22;
+    edge r2.deactivate goto loc21;
+  location loc42:
+    edge move goto loc25;
+    edge r2.deactivate goto loc23;
+    edge r3.deactivate goto loc22;
+  location loc43:
+    edge remove goto loc41;
+    edge move goto loc29;
+    edge r1.deactivate goto loc27;
+    edge r2.deactivate goto loc26;
+  location loc44:
+    edge remove goto loc42;
+    edge move goto loc30;
+    edge r2.deactivate goto loc28;
+    edge r3.deactivate goto loc27;
+  location loc45:
+    edge remove goto loc43;
+    edge move goto loc34;
+    edge r1.deactivate goto loc32;
+    edge r2.deactivate goto loc31;
+  location loc46:
+    edge remove goto loc44;
+    edge move goto loc35;
+    edge r2.deactivate goto loc33;
+    edge r3.deactivate goto loc32;
+  location loc47:
+    edge remove goto loc45;
+    edge move goto loc39;
+    edge r1.deactivate goto loc37;
+    edge r2.deactivate goto loc36;
+  location loc48:
+    edge remove goto loc46;
+    edge move goto loc40;
+    edge r2.deactivate goto loc38;
+    edge r3.deactivate goto loc37;
+end

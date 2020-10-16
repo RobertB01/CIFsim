@@ -1,0 +1,87 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[ref-chapter-lexical-syntax]]
+== Lexical syntax
+
+At the lowest level, a Chi specification file consists of a sequence of
+characters. The characters are grouped together to form keywords, names,
+literal values such as numbers, and symbols such as expression operators
+like `pass:c[+]` and statement separator `;`. Also comments are recognized at this
+level.
+
+=== Whitespace
+
+The characters that delimit groups and lines from each other is known as
+_whitespace_. It contains the 'tab' character (U0009), the 'line feed'
+character (U000A), the 'carriage return' character (U000D), and the 'space'
+character (U0020).
+
+
+=== Comment
+
+A comment is a line of text intended for annotating the program text. It can
+also be used to (temporarily) add or remove statements.
+In the latter case, do note that the meaning of the program may change.
+
+A line of comment starts with a 'hash' character `#`, and continues
+until a 'line feed' character (or the end of the file). All characters in the
+comment are ignored by the simulator.
+
+[[ref-lexical-names]]
+=== Names
+
+A name is a word-like group of characters. It may start with a `$` prefix.
+After the prefix (if one is provided), first a letter (`A` to `Z` or `a`
+to `z`) or an 'underscore' character `+_+` should be used, optionally
+followed by more letters, 'underscore' characters, or digits `0` to `9`.
+
+Some names are special in the sense that the Chi language reserves them for
+its own use, for example the names `model` and `end`. Keywords are always
+written using lowercase letters. In the grammar diagrams, the keywords are
+shown in a rounded box. Names starting with a `$` prefix are never used as
+keyword.
+
+Names not used as keyword can be used to give entities in the Chi program a
+unique identification. In the grammar of this reference manual names are split
+according to the kind of entity that they refer to:
+
+ConstantName:: Name that refers to a constant value, see <<ref-constant-definitions>>
+for details.
+
+EnumtypeName:: Name that refers to an enum type, see <<ref-enum-definitions>> for
+details.
+
+EnumvalueName:: Name that refers to a value within an enum type, see
+<<ref-enum-value-expression>> for details.
+
+FieldName:: Name that refers to a field in a tuple type, see <<ref-tuple-type>>
+for more details about tuples.
+
+FunctionName:: Name that refers to a function definition, see
+<<ref-function-definitions>> for details.
+
+ModelName:: Name that refers to a model definition, see <<ref-model-definitions>>
+for details.
+
+ProcessName:: Name that refers to a process definition, see
+<<ref-process-definitions>> for details.
+
+TypeName:: Name that refers to a type, see <<ref-type-definitions>> for details.
+
+VariableName:: Name that refers to a variable (see <<ref-variable-declarations>>) or
+formal parameter in a process or function (see <<ref-formal-parameters>>).
+
+Names are also shown in a rounded box, but as shown above, start with an
+uppercase letter and end with `Name`.

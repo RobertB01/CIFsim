@@ -1,0 +1,65 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg bool c_alg = true;
+
+const bool c_const = true;
+
+enum c_enum = c_lit;
+
+input bool c_input;
+
+type c_type = bool;
+
+invariant c_alg or c_const or c_input or c_aut.c_var2 or c_aut.c_var1 = c_lit;
+
+plant c_aut:
+  plant invariant true;
+  disc c_enum c_var1 = c_lit;
+  disc c_type c_var2 = true;
+  location:
+    initial;
+end
+
+plant def c_aut_def():
+  plant invariant true;
+  location:
+    initial;
+end
+
+group c_group:
+  plant invariant true;
+end
+
+group def c_group_def():
+  invariant true;
+end
+
+plant def C():
+  plant invariant true;
+  location l:
+    initial;
+end
+
+c_compinst: C();
+
+plant def D(C c_comp_param; alg bool c_alg_param; location c_loc_param):
+  plant invariant c_alg_param or c_loc_param or c_comp_param.l;
+  location u_location:
+    initial;
+end
+
+group g:
+  group e_g:
+  end
+end

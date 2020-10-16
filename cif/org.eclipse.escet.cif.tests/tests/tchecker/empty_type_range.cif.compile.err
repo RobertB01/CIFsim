@@ -1,0 +1,3 @@
+ERROR: File "tchecker/empty_type_range.cif": Semantic error at line 14, column 7: Empty integer type range [1 .. 0].
+ERROR: File "tchecker/empty_type_range.cif": Semantic error at line 15, column 7: Empty list type range [2 .. 1].
+ERROR: Failed to load CIF file "tchecker/empty_type_range.cif": the file has errors.

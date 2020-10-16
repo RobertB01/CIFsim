@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan e1;
+broadcast chan e2;
+int[-2147483648,2147483647] a_x = 1;
+meta int[-2147483648,2147483647] OLD_a_x = 1;
+int[-2147483648,2147483647] a_y = 2;
+meta int[-2147483648,2147483647] OLD_a_y = 2;
+int[-2147483648,2147483647] b_b = 1;
+meta int[-2147483648,2147483647] OLD_b_b = 1;
+int[-2147483648,2147483647] c_c = 2;
+meta int[-2147483648,2147483647] OLD_c_c = 2;
+int[0,0] LP_a = 0;
+meta int[0,0] OLDLP_a = 0;
+int[0,0] LP_b = 0;
+meta int[0,0] OLDLP_b = 0;
+int[0,0] LP_c = 0;
+meta int[0,0] OLDLP_c = 0;</declaration>
+  <template>
+    <name>Template_a</name>
+    <location id="id0"/>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">e1?</label>
+      <label kind="assignment">a_x = OLD_a_y, a_y = OLD_a_x, LP_a = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_b</name>
+    <location id="id1"/>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">e2?</label>
+      <label kind="assignment">b_b = OLD_c_c, LP_b = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_c</name>
+    <location id="id2"/>
+    <init ref="id2"/>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id2"/>
+      <label kind="synchronisation">e2?</label>
+      <label kind="assignment">c_c = OLD_b_b, LP_c = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id3"/>
+    <init ref="id3"/>
+    <transition>
+      <source ref="id3"/>
+      <target ref="id3"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">e1!</label>
+      <label kind="assignment">OLD_a_x = a_x, OLD_a_y = a_y, OLD_b_b = b_b, OLD_c_c = c_c, OLDLP_a = LP_a, OLDLP_b = LP_b, OLDLP_c = LP_c</label>
+    </transition>
+    <transition>
+      <source ref="id3"/>
+      <target ref="id3"/>
+      <label kind="guard">((true) &amp;&amp; (true)) &amp;&amp; ((true) &amp;&amp; (true))</label>
+      <label kind="synchronisation">e2!</label>
+      <label kind="assignment">OLD_a_x = a_x, OLD_a_y = a_y, OLD_b_b = b_b, OLD_c_c = c_c, OLDLP_a = LP_a, OLDLP_b = LP_b, OLDLP_c = LP_c</label>
+    </transition>
+  </template>
+  <system>a = Template_a();
+b = Template_b();
+c = Template_c();
+SendAut = Template_SendAut();
+
+system a, b, c, SendAut;</system>
+</nta>

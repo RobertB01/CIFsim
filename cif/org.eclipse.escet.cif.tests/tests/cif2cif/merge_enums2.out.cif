@@ -1,0 +1,12 @@
+enum E = A, B;
+group g1:
+end
+group g2:
+end
+plant automaton p:
+  disc E v1 = A;
+  disc E v2 = B;
+  initial v1 = A or v2 = A or v1 = B or v2 = B;
+  location:
+    initial;
+end

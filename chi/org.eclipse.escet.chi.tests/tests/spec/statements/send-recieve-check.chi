@@ -1,0 +1,122 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+# ?, ?x, !, !1 cases on a receive-only channel
+
+proc V1a(chan? void c):
+    c?
+end
+
+proc V1b(chan? void c):
+    int x;
+    c?x;
+end
+
+proc V1c(chan? void c):
+    c!
+end
+
+proc V1d(chan? void c):
+    c!1
+end
+
+# ?, ?x, !, !1 cases on a send-only channel
+proc V2a(chan! void c):
+    c?
+end
+
+proc V2b(chan! void c):
+    int x;
+    c?x
+end
+
+proc V2c(chan! void c):
+    c!
+end
+
+proc V2d(chan! void c):
+    c!1
+end
+
+# Bi-directional channel
+proc V3(chan void c):
+    c!; c?
+end
+
+proc V5(chan!? void c):
+    c!; c?
+end
+
+# Receive channel with data
+proc D1a(chan? int c):
+    c!1
+end
+
+proc D1b(chan? int c):
+    c!
+end
+
+proc D1c(chan? int c):
+    c?1
+end
+
+proc D1d(chan? int c):
+    c?
+end
+
+proc D1e(chan? int c):
+    int x;
+    c?x;
+end
+
+# Send channel with data
+proc D2a(chan! int c):
+    c!1
+end
+
+proc D2b(chan! int c):
+    c!
+end
+
+proc D2c(chan! int c):
+    c?1
+end
+
+proc D2d(chan! int c):
+    c?
+end
+
+proc D2e(chan! int c):
+    int x;
+    c?x;
+end
+
+# Bi-directional channel
+proc D4(chan int c):
+    int x;
+    c!1; c?x
+end
+
+proc D5(chan int c):
+    int x;
+    c!1; c?56
+end
+
+proc D6(chan!? int c):
+    int x;
+    c!1; c?x;
+end
+
+proc D8(chan!? int c):
+    int x;
+    c!1; c?1
+end

@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+print "a";
+
+automaton a:
+  alphabet e;
+  monitor e;
+
+  disc int x;
+  const int y = 1;
+
+  initial x > 2;
+  invariant x > 2;
+  marked x > 2;
+
+  print "b" for e;
+
+  location:
+    initial;
+    edge e when x > y now do x := x + 1;
+end
+
+automaton b:
+  cont c;
+
+  location loc1:
+    initial a.x > 1;
+
+    equation c' = 5;
+    edge e when c > 2 do c := 0;
+
+  location loc2:
+    initial a.x > 2;
+
+    urgent;
+
+    equation c' = 6;
+    invariant a.x > c;
+end

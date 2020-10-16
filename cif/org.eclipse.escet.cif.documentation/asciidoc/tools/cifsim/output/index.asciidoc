@@ -1,0 +1,77 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-chapter-index]]
+== Simulation output
+
+indexterm:[CIF simulator,output]
+indexterm:[simulation output]
+The CIF simulator can produce various forms of output.
+
+indexterm:[CIF simulator,console output]
+indexterm:[simulation output,console]
+
+[[tools-cifsim-output-console]]
+=== Console output
+
+[[tools-cifsim-output-mode]]
+The default form of output is to the console. The type of console output to
+produce, is determined by the
+menu:Output mode[]
+option
+(menu:General[]
+category). The following modes are available:
+
+* _Error_: produces only error output. It is recommended not to use this mode.
+Use the warning mode instead, if you wish to limit the amount of console
+output.
+
+* _Warning_: produces error and warning output. Use this mode to be informed
+about potential problems, while keeping the amount of console output to a
+minimum.
+
+* _Normal_: produces error, warning, and normal output. This is the default
+output mode. The information that is printed to the console for normal output
+can be configured using the <<tools-cifsim-output-chapter-normal,Normal output>> option.
+
+* _Debug_: produces error, warning, normal, and debug output. This mode can be
+used to print additional debugging information to the console. The
+information that is printed to the console for normal output can be
+configured using the <<tools-cifsim-output-chapter-debug,Debug output>>
+option.
+
+The simulator can thus produce two types of configurable console output:
+
+* <<tools-cifsim-output-chapter-normal>>
+* <<tools-cifsim-output-chapter-debug>>
+
+indexterm:[CIF simulator,output components]
+indexterm:[see: output components,simulation output]
+
+[[tools-cifsim-output-components]]
+*Output components*
+
+Besides console output, the simulator also features a powerful and extensible
+output framework. This framework allows for the addition of output components,
+such as visualizers. The following output components are currently available:
+
+* <<tools-cifsim-output-print-chapter-index>>
+* <<tools-cifsim-output-svgviz-chapter-index>>
+* <<tools-cifsim-output-chapter-trajdata>>
+* <<tools-cifsim-output-chapter-plotviz>>
+* <<tools-cifsim-output-chapter-stateviz>>
+
+*Other topics*
+
+* <<tools-cifsim-output-chapter-realtime>>

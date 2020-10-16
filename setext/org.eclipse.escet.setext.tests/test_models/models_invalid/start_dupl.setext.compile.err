@@ -1,0 +1,5 @@
+ERROR: File "models_invalid/start_dupl.setext": Semantic error at line 1, column 1: The specification is missing a scanner class.
+WARNING: File "models_invalid/start_dupl.setext": Semantic warning at line 17, column 8: Duplicate main/start non-terminal "X".
+WARNING: File "models_invalid/start_dupl.setext": Semantic warning at line 18, column 8: Duplicate main/start non-terminal "X".
+WARNING: File "models_invalid/start_dupl.setext": Semantic warning at line 19, column 8: Duplicate main/start non-terminal "X".
+ERROR: Failed to load SeText file "models_invalid/start_dupl.setext": the file has errors.

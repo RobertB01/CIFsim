@@ -1,0 +1,19 @@
+Initial state: time=0.0, p=l1, q=l1, r=l1, s=l1
+
+Possible transitions:
+  #1: event e1
+  #2: event e2
+  #3: event f1
+  #4: event f2
+
+Transition: event e1
+State: time=0.0, p=l2, q=l1, r=l1, s=l1
+
+Possible transitions:
+  #1: event f1
+  #2: event f2
+
+Transition: event f1
+State: time=0.0, p=l2, q=l1, r=l2, s=l1
+
+Simulation resulted in deadlock.

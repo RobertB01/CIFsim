@@ -1,0 +1,2 @@
+ERROR: File "tchecker/comp_def_inst_cycle1.cif": Semantic error at line 14, column 11: Component definition "P" is directly or indirectly instantiated in itself, resulting in an infinite specification: P -> P.
+ERROR: Failed to load CIF file "tchecker/comp_def_inst_cycle1.cif": the file has errors.

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/proj_tuple_index_bounds.cif": Semantic error at line 14, column 21: Can't project a tuple of type "tuple(int[1..1]; int[2..2])", with index 2, as the index is out of bounds.
+ERROR: Failed to load CIF file "tchecker/proj_tuple_index_bounds.cif": the file has errors.

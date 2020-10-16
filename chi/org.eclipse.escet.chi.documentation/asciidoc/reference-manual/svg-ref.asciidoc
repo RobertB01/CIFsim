@@ -1,0 +1,104 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[ref-chapter-svg-visualization]]
+== SVG visualization
+
+The Chi simulator has the possibility to display an SVG file during the
+simulation. The model can modify the displayed image depending on the state of
+the simulated system, thus visualizing the system.
+
+Such a visualization is useful for getting a quick global verification, as
+well as explaining the purpose of the model to people that do not know the
+detailed ins and outs of the problem being solved.
+
+Below are the technical details of the SVG visualization. The tutorial has a
+<<tut-chapter-svg-visualization,more gentle introduction>> into the subject.
+
+=== SVG interface
+
+The SVG visualization itself is controlled by the simulator. Normally, it is
+updated just before a time step is performed. The simulation can however
+force an update with the `redraw` command (see below for details).
+
+The simulation accesses the SVG visualization by opening a file for writing
+with a name like `SVG:xyz.svg`. The `SVG:` prefix redirects the request to
+the SVG visualizer, the `xyz.svg` suffix is the name of the SVG file to
+display. The file should be available at the file system.
+
+Different Chi processes may open the same file at the same time. The SVG
+visualizer can only display one SVG file at a time, it is not allowed for
+processes to open different `.svg` files.
+
+
+=== Visualization modification commands
+
+After opening the file, the content of the SVG file can be changed by
+modifying the nodes. This is done by writing lines with commands (one command
+at each line). Available commands are:
+
+* *Copy an element (recursively)*
++
+`copy [orig-id], [opt-prefix], [op-suffix]`, with `[orig-id]` the
+id-name of the element to copy, `[opt-prefix]` an optional prefix that is
+added to the `id` of all copied elements, and `[opt-suffix]` an optional
+suffix that is added to the `id` of all copied elements. Since the `id`
+of all elements must be unique, leaving both the prefix and the suffix empty
+gives an error about duplicate `id` labels.
++
+Note that the element (and its descendants) is only copied, but not moved.
+In other words, after copying it is fully obscured by the original element.
+The next step is normally an absolute move command or an attribute command
+to perform a relative translate transformation.
+
+* *Move an element to an absolute position*
++
+`absmove [id] ([xpos], [ypos])` with `[id]` the id-name of the
+element to move, `[xpos]` the horizontal position to move to, and
+`[ypos]` the vertical position to move to. This operation adds a
+translation to the `transform` attribute of the node such that the
+top-left corner of the bounding rectangle is moved to the provided position.
+It also takes the existing transformation into account, and in doing so,
+will fail if the transformation cannot be reversed.
++
+The origin of the coordinate system is at the top-left of the SVG
+visualization window, with positive X running to the right, and positive Y
+running down.
++
+Avoid using this operation repeatedly on the same element. Instead move it
+once to a base position, and perform relative translate transformations
+on a child element to move it to the desired position.
+
+* *Change an attribute of an element*
++
+`attr [id].[atrribute] = [value]` with `[id]` the id-name of the
+element, `[attribute]` the name of the attribute of the element to change,
+and `[value]` the new value of the attribute.
++
+A change overwrites any previous value of the attribute. Also, names of
+attributes and syntax of values are not checked.
+
+* *Change the text of an element*
++
+`text [id] = [value]` with `[id]` the id-name of the element, and
+`[value]` the new text.
+
+* *Force a redraw of the image*
++
+Normally the program redraws the SVG image when it detects a change in time
+after making changes in the image by using one of the previous commands.
+With this command you can fake a change in time, thus allowing you to also
+display intermediate states.
++
+The command is mostly useful in experiments, where time never changes.

@@ -1,0 +1,5 @@
+finished false
+finished false
+finished true at time=5.0 (should be 5)
+finished true
+All processes finished at time 11.00 (initial seed was 135).

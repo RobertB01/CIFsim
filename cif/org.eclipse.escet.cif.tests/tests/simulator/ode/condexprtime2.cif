@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Copied and adapted from Chi 1 and CIF 2 test models.
+
+cont V = 10.0 der -2.0;
+
+alg real X = if V >= 0.0: sqrt(V) else 0.0 end;
+
+automaton p:
+  cont t der 1.0;
+  disc real x;
+
+  location:
+    initial;
+    edge when t >= 1.0 do t := 0.0, x := X;
+end

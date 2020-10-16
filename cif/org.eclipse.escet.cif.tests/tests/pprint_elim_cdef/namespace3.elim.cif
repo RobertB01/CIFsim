@@ -1,0 +1,9 @@
+group a:
+  group b:
+    group c:
+      group d:
+        type t = bool;
+      end
+    end
+  end
+end

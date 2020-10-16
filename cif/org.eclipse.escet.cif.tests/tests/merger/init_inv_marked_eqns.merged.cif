@@ -1,0 +1,66 @@
+cont x1;
+cont x2;
+group a:
+  cont x1;
+  cont x2;
+  initial 1 = 1,
+          x1 > 0,
+          5 = 5,
+          x2 > 0;
+  marked 4 = 4,
+         8 = 8;
+  invariant 2 = 2;
+  invariant 3 = 3;
+  invariant 6 = 6;
+  invariant 7 = 7;
+  equation x1' = 5.0,
+           x2' = 9.0;
+end
+plant automaton b:
+  cont x1;
+  cont x2;
+  initial 1 = 1,
+          x1 > 0,
+          5 = 5,
+          x2 > 0;
+  marked 4 = 4,
+         8 = 8;
+  plant invariant 2 = 2;
+  plant invariant 3 = 3;
+  plant invariant 6 = 6;
+  plant invariant 7 = 7;
+  equation x1' = 5.0,
+           x2' = 9.0;
+  location:
+    initial;
+end
+plant automaton c:
+  cont x2;
+  cont x1;
+  initial 5 = 5,
+          x2 > 0,
+          1 = 1,
+          x1 > 0;
+  marked 8 = 8,
+         4 = 4;
+  plant invariant 6 = 6;
+  plant invariant 7 = 7;
+  plant invariant 2 = 2;
+  plant invariant 3 = 3;
+  equation x2' = 9.0,
+           x1' = 5.0;
+  location:
+    initial;
+end
+initial 1 = 1,
+        x1 > 0,
+        5 = 5,
+        x2 > 0;
+marked 4 = 4,
+       8 = 8;
+invariant 2 = 2;
+invariant 3 = 3;
+invariant 6 = 6;
+invariant 7 = 7;
+equation x1' = 5.0,
+         x2' = 9.0;

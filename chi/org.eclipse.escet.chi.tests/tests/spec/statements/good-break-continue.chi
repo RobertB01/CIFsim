@@ -1,0 +1,43 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    int n;
+
+    n = 0;
+    while n < 10:
+        n = n + 1;
+        continue
+    end
+    writeln("n = %d", n);
+
+    n = 0;
+    for i in range(100):
+        n = n + 1;
+        continue
+    end
+    writeln("n = %d", n);
+
+    n = 0;
+    while n < 10:
+        n = n + 1;
+        break
+    end
+    writeln("n = %d", n);
+
+    n = 0;
+    for i in range(100):
+        n = n + 1;
+        break
+    end
+    writeln("n = %d", n);
+end

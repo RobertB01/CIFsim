@@ -1,0 +1,2 @@
+WARNING: File "simulator/init/no_init_aut1.cif": Semantic warning at line 14, column 11: Automaton "p" has no initial location.
+WARNING: Automaton "p" is not initialized.

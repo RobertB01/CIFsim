@@ -1,0 +1,2 @@
+WARNING: File "explorer/no_initial_state.cif": Semantic warning at line 14, column 11: Automaton "A" has no initial location.
+WARNING: Automaton "A" has no initial location.

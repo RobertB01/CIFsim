@@ -1,0 +1,8 @@
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 18, column 7: Event "f" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 22, column 15: Component parameter "P.cp" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 22, column 28: Location parameter "P.lp" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 22, column 38: Event parameter "P.ep" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 22, column 51: Algebraic parameter "P.ap" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 26, column 18: Discrete variable "C.v" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 37, column 20: Function parameter "f3.y" is not used anywhere in the specification.
+WARNING: File "tchecker/unused_decl.cif": Semantic warning at line 38, column 7: Variable "f3.v" is not used anywhere in the specification.

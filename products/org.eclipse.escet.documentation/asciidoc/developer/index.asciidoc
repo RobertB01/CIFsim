@@ -1,0 +1,42 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[developer-chapter-index]]
+== Eclipse ESCET development
+
+Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit
+(Eclipse ESCET) project.
+
+For more about the project information, see:
+
+* link:https://projects.eclipse.org/projects/technology.escet[Eclipse ESCET project home]
+* link:https://eclipse.org/escet[Eclipse ESCET website]
+
+Contact the project developers via the project's 'dev' list.
+
+* link:https://accounts.eclipse.org/mailing-list/escet-dev[Eclipse ESCET 'dev' list]
+
+For other means to interact with the Eclipse ESCET community and its
+developers, see the <<contact-chapter-index,contact>> section.
+
+Further topics:
+
+* <<developer-issue-tracking-chapter-index>>
+* <<developer-contributing-chapter-index>>
+* <<developer-git-repo-chapter-index>>
+* <<developer-dev-env-setup-chapter-index>>
+* <<developer-building-and-testing-chapter-index>>
+* <<developer-coding-standards-chapter-index>>
+* <<developer-third-party-tools-chapter-index>>
+* <<developer-upgrade-instructions-chapter-index>>

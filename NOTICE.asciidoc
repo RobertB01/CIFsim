@@ -1,0 +1,128 @@
+# Notices for Eclipse ESCET
+
+This content is produced and maintained by the Eclipse Supervisory Control
+Engineering Toolkit (Eclipse ESCET) project.
+
+ * Project home: https://projects.eclipse.org/projects/technology.escet
+ * Website: https://eclipse.org/escet
+ * Issue tracker: https://bugs.eclipse.org/bugs/describecomponents.cgi?product=escet
+ * Downloads: https://download.eclipse.org/escet
+ * Archived downloads: https://archive.eclipse.org/escet
+ * Forum: https://www.eclipse.org/forums/index.php/f/527/
+ * Developers mailing list: https://accounts.eclipse.org/mailing-list/escet-dev
+
+
+## Trademarks
+
+Eclipse ESCET and ESCET are trademarks of the Eclipse Foundation. Eclipse,
+and the Eclipse Logo are registered trademarks of the Eclipse Foundation.
+
+
+## Copyright
+
+All content is the property of the respective authors or their employers.
+For more information regarding authorship of content, please consult the
+listed source code repository logs.
+
+
+## Declared Project Licenses
+
+This program and the accompanying materials are made available under the
+terms of the MIT License which is available at
+https://opensource.org/licenses/MIT
+
+SPDX-License-Identifier: MIT
+
+
+## Source Code
+
+The project maintains the following source code repositories:
+
+ * https://git.eclipse.org/c/escet/escet.git
+
+
+## Third-party Content
+
+com.github.difflib
+
+ * Project: https://github.com/java-diff-utils/java-diff-utils
+ * Source: https://github.com/java-diff-utils/java-diff-utils
+ * License: Apache License 2.0
+
+com.github.javabdd
+
+ * Project: https://github.com/com-github-javabdd/com.github.javabdd
+ * Source: https://github.com/com-github-javabdd/com.github.javabdd
+ * License: GNU Library General Public License v2 (LGPLv2) or later
+
+javax.inject
+
+ * License: Apache License 2.0
+
+org.apache.batik
+
+ * License: Apache License 2.0
+
+org.apache.commons.exec
+
+ * License: Apache License 2.0
+
+org.apache.commons.io
+
+ * License: Apache License 2.0
+
+org.apache.commons.lang
+
+ * License: Apache License 2.0
+
+org.apache.commons.lang3
+
+ * License: Apache License 2.0
+
+org.apache.commons.math3
+
+ * License: Apache License 2.0
+
+org.apache.xalan
+
+ * License: Apache License 2.0
+
+org.apache.xerces
+
+ * License: Apache License 2.0
+
+org.eclipse.sdk
+
+ * License: Eclipse Public License 2.0
+
+org.eclipse.emf
+
+ * License: Eclipse Public License 2.0
+
+org.junit
+
+ * License: Eclipse Public License 1.0
+ * License: Common Public License Version 1.0
+
+org.knowm.xchart
+
+ * Project: https://knowm.org/open-source/xchart/
+ * Source: https://github.com/knowm/XChart
+ * License: Apache License 2.0
+
+org.w3c.css.sac
+
+ * License: Apache License 2.0, Public Domain, W3C
+
+org.w3c.dom.svg
+
+ * License: Apache License 2.0
+
+## Cryptography
+
+Content may contain encryption software. The country in which you are
+currently may have restrictions on the import, possession, and use, and/or
+re-export to another country, of encryption software. BEFORE using any
+encryption software, please check the country's laws, regulations and
+policies concerning the import, possession, or use, and re-export of
+encryption software, to see if this is permitted.

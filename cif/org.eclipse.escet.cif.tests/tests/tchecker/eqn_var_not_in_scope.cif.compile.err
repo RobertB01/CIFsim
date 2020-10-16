@@ -1,0 +1,7 @@
+ERROR: File "tchecker/eqn_var_not_in_scope.cif": Semantic error at line 15, column 12: Invalid equation: "x" is not an algebraic or continuous variable declared in the top level scope of the specification.
+ERROR: File "tchecker/eqn_var_not_in_scope.cif": Semantic error at line 21, column 17: Invalid equation: "y" is not an algebraic or continuous variable declared in automaton "g.p".
+ERROR: File "tchecker/eqn_var_not_in_scope.cif": Semantic error at line 24, column 19: Invalid equation: "y" is not an algebraic or continuous variable declared in automaton "g.p".
+ERROR: File "tchecker/eqn_var_not_in_scope.cif": Semantic error at line 29, column 20: Invalid equation: "param" is not an algebraic or continuous variable declared in group definition "g.q".
+ERROR: File "tchecker/eqn_var_not_in_scope.cif": Semantic error at line 39, column 16: The type "string" of the value of algebraic variable "a.x" is incompatible with the type "int" of the algebraic variable.
+ERROR: File "tchecker/eqn_var_not_in_scope.cif": Semantic error at line 48, column 14: The type "string" of the value of algebraic variable "g2.x" is incompatible with the type "int" of the algebraic variable.
+ERROR: Failed to load CIF file "tchecker/eqn_var_not_in_scope.cif": the file has errors.

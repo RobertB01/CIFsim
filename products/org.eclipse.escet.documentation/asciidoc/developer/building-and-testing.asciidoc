@@ -1,0 +1,48 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[build]
+
+[[developer-building-and-testing-chapter-index]]
+== Building and testing
+
+The Eclipse ESCET software can be built using Maven/Tycho. The build will
+build every individual plugin and feature, as well as the update site,
+product and all documentation. Run it in one of the following ways:
+
+* In an Eclipse-based
+<<developer-dev-env-setup-chapter-index,development environment>>,
+select menu:Run[Run Configurations...] to open the _Run Configurations_
+dialog. From the list at the left, undeer _Maven Build_, select the
+_build_ launch configuration, and click the btn:[Run] button to run
+the build.
++
+Additional launch configurations are available to build documenation
+projects separately.
+
+* On Windows, in a command prompt, with the root of the Git repository as
+current directory, enter `.\build.cmd` and press kbd:[ENTER].
+This requires Maven to be available on your system (to be on your `PATH`).
+
+* On Linux/macOS, in a shell, with the root of the Git repository as
+current directory, enter `./build.sh` and press kbd:[ENTER].
+This requires Maven to be available on your system (to be on your `PATH`).
+
+Run tests in one of the following ways:
+
+* As part of the build, all tests will be performed as well.
+
+* Launch configurations to run the integration/regression tests for a specific
+language are also available, under the _JUnit Plug-in Test_ section of the
+_Run Configurations_ dialog.

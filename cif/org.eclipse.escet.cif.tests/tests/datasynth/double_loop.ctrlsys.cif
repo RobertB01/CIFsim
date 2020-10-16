@@ -1,0 +1,46 @@
+controllable c1;
+controllable c2;
+uncontrollable u;
+plant automaton p:
+  disc int[0..20] x in any;
+  disc int[0..20] y in any;
+  location m0:
+    initial;
+    edge u goto m1;
+  location m1:
+    edge u do x := x + 1 goto m2;
+  location m2:
+    edge u do x := x + 1 goto m3;
+    edge c1 do x := x + 1 goto t1;
+    edge c2 do x := x + 1, y := y - 1 goto b1;
+  location m3:
+    marked x < 15,
+           y > 5;
+  location t1:
+    edge u do x := x + 1, y := y + 1 goto t2;
+  location t2:
+    edge u do y := y - 1 goto t3;
+  location t3:
+    edge u do x := x + 1, y := y - 1 goto t4;
+  location t4:
+    edge u do x := x - 1, y := y - 1 goto t5;
+  location t5:
+    edge u do y := y - 1 goto m1;
+  location b1:
+    edge u do x := x + 1, y := y - 1 goto b2;
+  location b2:
+    edge u do x := x + 1 goto b3;
+  location b3:
+    edge u do y := y - 1 goto b4;
+  location b4:
+    edge u do x := x - 4, y := y + 3 goto m1;
+end
+supervisor automaton sup:
+  alphabet c1, c2;
+  initial (not(p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) or not(p.y = 0 or p.y = 4)) and ((not(p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) or p.y != 2) and (not(p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) or p.y != 1)) and ((not(p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) or p.y != 5) and (not(p.x = 0 or p.x = 4 or (p.x = 8 or p.x = 12)) or p.y != 3) and (not(p.x = 16 or p.x = 20) and (not(p.x = 2 or p.x = 10) or not(p.y = 0 or p.y = 4)))) and ((not(p.x = 2 or p.x = 10) or p.y != 2) and (not(p.x = 2 or p.x = 10) or p.y != 1) and ((not(p.x = 2 or p.x = 10) or p.y != 5) and (not(p.x = 2 or p.x = 10) or p.y != 3)) and (p.x != 18 and (p.x != 6 or not(p.y = 0 or p.y = 4)) and ((p.x != 6 or p.y != 2) and (p.x != 6 or p.y != 1)))) and ((p.x != 6 or p.y != 5) and ((p.x != 6 or p.y != 3) and p.x != 14) and ((not(p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) or not(p.y = 0 or p.y = 4)) and (not(p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) or p.y != 2) and ((not(p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) or p.y != 1) and (not(p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) or p.y != 5))) and ((not(p.x = 1 or p.x = 3 or (p.x = 9 or p.x = 11)) or p.y != 3) and not(p.x = 17 or p.x = 19) and ((not(p.x = 5 or p.x = 7) or not(p.y = 0 or p.y = 4)) and (not(p.x = 5 or p.x = 7) or p.y != 2)) and ((not(p.x = 5 or p.x = 7) or p.y != 1) and (not(p.x = 5 or p.x = 7) or p.y != 5) and ((not(p.x = 5 or p.x = 7) or p.y != 3) and not(p.x = 13 or p.x = 15)))));
+  location:
+    initial;
+    marked;
+    edge c1 when p.x = 8 and p.y = 16 or (p.x = 8 and p.y = 12 or p.x = 8 and p.y = 18) or (p.x = 8 and p.y = 10 or p.x = 8 and p.y = 14 or (p.x = 8 and (p.y = 17 or p.y = 19) or p.x = 8 and (p.y = 9 or p.y = 11))) or (p.x = 8 and (p.y = 13 or p.y = 15) or (p.x = 4 and p.y = 16 or p.x = 4 and p.y = 12) or (p.x = 4 and p.y = 18 or p.x = 4 and p.y = 10 or (p.x = 4 and p.y = 14 or p.x = 4 and (p.y = 17 or p.y = 19)))) or (p.x = 4 and (p.y = 9 or p.y = 11) or (p.x = 4 and (p.y = 13 or p.y = 15) or (p.x = 2 or p.x = 10) and p.y = 16) or ((p.x = 2 or p.x = 10) and p.y = 12 or (p.x = 2 or p.x = 10) and p.y = 18 or ((p.x = 2 or p.x = 10) and p.y = 10 or (p.x = 2 or p.x = 10) and p.y = 14)) or ((p.x = 2 or p.x = 10) and (p.y = 17 or p.y = 19) or ((p.x = 2 or p.x = 10) and (p.y = 9 or p.y = 11) or (p.x = 2 or p.x = 10) and (p.y = 13 or p.y = 15)) or (p.x = 6 and p.y = 16 or p.x = 6 and p.y = 12 or (p.x = 6 and p.y = 18 or p.x = 6 and p.y = 10)))) or (p.x = 6 and p.y = 14 or (p.x = 6 and (p.y = 17 or p.y = 19) or p.x = 6 and (p.y = 9 or p.y = 11)) or (p.x = 6 and (p.y = 13 or p.y = 15) or (p.x = 1 or p.x = 9) and p.y = 16 or ((p.x = 1 or p.x = 9) and p.y = 12 or (p.x = 1 or p.x = 9) and p.y = 18)) or ((p.x = 1 or p.x = 9) and p.y = 10 or ((p.x = 1 or p.x = 9) and p.y = 14 or (p.x = 1 or p.x = 9) and (p.y = 17 or p.y = 19)) or ((p.x = 1 or p.x = 9) and (p.y = 9 or p.y = 11) or (p.x = 1 or p.x = 9) and (p.y = 13 or p.y = 15) or (p.x = 5 and p.y = 16 or p.x = 5 and p.y = 12))) or (p.x = 5 and p.y = 18 or (p.x = 5 and p.y = 10 or p.x = 5 and p.y = 14) or (p.x = 5 and (p.y = 17 or p.y = 19) or p.x = 5 and (p.y = 9 or p.y = 11) or (p.x = 5 and (p.y = 13 or p.y = 15) or (p.x = 3 or p.x = 7) and p.y = 16)) or ((p.x = 3 or p.x = 7) and p.y = 12 or ((p.x = 3 or p.x = 7) and p.y = 18 or (p.x = 3 or p.x = 7) and p.y = 10) or ((p.x = 3 or p.x = 7) and p.y = 14 or (p.x = 3 or p.x = 7) and (p.y = 17 or p.y = 19) or ((p.x = 3 or p.x = 7) and (p.y = 9 or p.y = 11) or (p.x = 3 or p.x = 7) and (p.y = 13 or p.y = 15))))));
+    edge c2 when not(p.x = 0 or p.x = 16) and (p.x != 8 or not(p.y = 0 or p.y = 4)) and ((p.x != 8 or p.y != 2) and ((p.x != 8 or p.y != 1) and (p.x != 8 or p.y != 5))) and ((p.x != 8 or p.y != 3) and (not(p.x = 4 or p.x = 12) or not(p.y = 0 or p.y = 4)) and ((not(p.x = 4 or p.x = 12) or p.y != 2) and ((not(p.x = 4 or p.x = 12) or p.y != 1) and (not(p.x = 4 or p.x = 12) or p.y != 5)))) and ((not(p.x = 4 or p.x = 12) or p.y != 3) and p.x != 20 and ((not(p.x = 2 or p.x = 10) or not(p.y = 0 or p.y = 4)) and ((not(p.x = 2 or p.x = 10) or p.y != 2) and (not(p.x = 2 or p.x = 10) or p.y != 1))) and ((not(p.x = 2 or p.x = 10) or p.y != 5) and ((not(p.x = 2 or p.x = 10) or p.y != 3) and p.x != 18) and ((p.x != 6 or not(p.y = 0 or p.y = 4)) and ((p.x != 6 or p.y != 2) and (p.x != 6 or p.y != 1))))) and ((p.x != 6 or p.y != 5) and (p.x != 6 or p.y != 3) and (p.x != 14 and ((not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or not(p.y = 0 or p.y = 4)) and (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or p.y != 2))) and ((not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or p.y != 1) and (not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or p.y != 5) and ((not(p.x = 1 or p.x = 5 or (p.x = 9 or p.x = 13)) or p.y != 3) and (p.x != 17 and (not(p.x = 3 or p.x = 11) or not(p.y = 0 or p.y = 4))))) and ((not(p.x = 3 or p.x = 11) or p.y != 2) and (not(p.x = 3 or p.x = 11) or p.y != 1) and ((not(p.x = 3 or p.x = 11) or p.y != 5) and ((not(p.x = 3 or p.x = 11) or p.y != 3) and p.x != 19)) and ((p.x != 7 or not(p.y = 0 or p.y = 4)) and ((p.x != 7 or p.y != 2) and (p.x != 7 or p.y != 1)) and ((p.x != 7 or p.y != 5) and ((p.x != 7 or p.y != 3) and p.x != 15)))));
+end

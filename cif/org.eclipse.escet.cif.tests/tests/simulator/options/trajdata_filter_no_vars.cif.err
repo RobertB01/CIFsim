@@ -1,0 +1,3 @@
+WARNING: Trajectory data filter "a*" does not match any of the state objects.
+WARNING: Trajectory data filter "-*" has no effect, as it did not remove any state objects from the filtered result.
+WARNING: Trajectory data filters "a*,-*" together match no state objects. Nothing will be included in the trajectory data file, except for variable "time".

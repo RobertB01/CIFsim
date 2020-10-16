@@ -1,0 +1,1 @@
+Error: File "spec/type/printable/rw-timr.chi": Semantic error at line 16, column 14: Argument 1 of type "timer" cannot be printed.

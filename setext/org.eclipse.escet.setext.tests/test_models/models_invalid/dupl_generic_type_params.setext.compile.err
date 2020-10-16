@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/dupl_generic_type_params.setext": Semantic error at line 25, column 2: Both this Java type and the imported Java type "b" specify generic type parameters.
+ERROR: Failed to load SeText file "models_invalid/dupl_generic_type_params.setext": the file has errors.

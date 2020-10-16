@@ -1,0 +1,4 @@
+ERROR: File "tchecker/fmt_pat_idx_out_of_range.tooldef": Semantic error at line 14, column 19: Invalid format specifier: the 1st value is used, which does not exist.
+ERROR: File "tchecker/fmt_pat_idx_out_of_range.tooldef": Semantic error at line 15, column 19: Invalid format specifier: flag "0" requires a width.
+ERROR: File "tchecker/fmt_pat_idx_out_of_range.tooldef": Semantic error at line 16, column 19: Invalid format specifier: the 2nd value is used, which does not exist.
+ERROR: Failed to load ToolDef file "tchecker/fmt_pat_idx_out_of_range.tooldef": the file has errors.

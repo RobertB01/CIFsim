@@ -1,0 +1,4 @@
+Problems detected in merged CIF specification:
+ - ERROR: Definition/use cycle detected: "g.x" is recursively defined in terms of itself: g.x -> g.y -> g.x.
+ - ERROR: Definition/use cycle detected: "g.y" is recursively defined in terms of itself: g.y -> g.x -> g.y.
+ERROR: Merging CIF specifications "merger/err_post_cycle.in1.cif", "merger/err_post_cycle.in2.cif" failed.

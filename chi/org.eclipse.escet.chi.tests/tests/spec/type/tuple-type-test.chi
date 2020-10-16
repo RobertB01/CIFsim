@@ -1,0 +1,43 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+enum flag = {wie, ba, bie, doe, da};
+model M():
+    tuple(
+        bool v01;
+        dict(int: bool) v02;
+        dict(int: file) v03;
+        dict(file: bool) v04;
+        dist bool v05;
+        flag v07;
+        file v08;
+        func int (int) v09;
+        inst v10;
+        chan int v11;
+        int v12;
+        list file v13;
+        list int v14;
+        matrix(2,2) v15;
+        proc (int) v16;
+        real v17;
+        set file v18;
+        set string v19;
+        string v20;
+        chan void v21;
+        timer v22;
+        tuple(file f; int x) v23;
+        tuple(int a, b) v24;
+        tuple(int a; tuple(file f; int x) t) v25
+    ) t;
+
+    pass;
+end

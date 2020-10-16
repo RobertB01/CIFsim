@@ -1,0 +1,91 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-type-decls]]
+== Eliminate type declarations
+
+indexterm:[CIF to CIF transformer,eliminate type declarations]
+indexterm:[eliminate type declarations]
+indexterm:[type declaration,eliminate]
+This CIF to CIF transformation eliminates type declarations.
+
+indexterm:[eliminate type declarations,supported transformations]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[eliminate type declarations,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[eliminate type declarations,implementation]
+
+=== Implementation details
+
+All uses of type declarations (in types of variables, types of other type
+declarations, etc), are replaced by the types of those type declarations. The
+type declarations themselves are removed. For instance, the following
+specification:
+
+
+[source, cif]
+----
+type t = int;
+type u = v;
+type v = tuple(t a, b);
+
+const t x = 1;
+const u y = (2, 3);
+const v z = (4, 5);
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+const int x = 1;
+const tuple(int a, b) y = (2, 3);
+const tuple(int a, b) z = (4, 5);
+----
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate type declarations,size considerations]
+
+=== Size considerations
+
+Since type declarations are shortcuts for types, eliminating them could result
+in an increase of the size of the specification. Type declarations may be
+defined in terms of other type declarations. Therefore, in the worst case, the
+increase is exponential.
+
+
+=== Optimality
+
+n/a

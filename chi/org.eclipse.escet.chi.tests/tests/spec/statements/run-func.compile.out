@@ -1,0 +1,1 @@
+Error: File "spec/statements/run-func.chi": Semantic error at line 18, column 10: Instantiating a process must be done with a run or start statement.

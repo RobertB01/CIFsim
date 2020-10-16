@@ -1,0 +1,165 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-chapter-stateviz]]
+== State visualizer
+
+indexterm:[CIF simulator,state visualizer]
+indexterm:[state visualizer]
+indexterm:[simulation output,state visualizer]
+The <<tools-cifsim-output-chapter-normal,normal console output>>, which may
+include the <<tools-cifsim-traces-state,state>> of the specification,
+is printed to the console. The entire state is then printed as a single line
+of text, which can be hard to read as the specification grows, and the state
+contains more and more variables. The _state visualizer_ can be used as an
+alternative. It shows the same information, but in a table in a separate
+window. Here is an example screenshot of the visualizer:
+
+image::{tools-imgsdir}/cifsim/output/stateviz_sshot.png[]
+
+indexterm:[state visualizer,enable]
+indexterm:[state visualizer,disable]
+
+[[tools-cifsim-output-stateviz-option]]
+Unlike <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>>, which
+requires that the user makes an image of the system and couples the image to
+the specification, the state visualizer can be used directly, without any
+additional effort. All that is required to use it, is to enable it. The state
+visualizer is disabled by default, and can be enabled using the
+menu:State visualization[]
+option (menu:Output: State visualization[]
+category).
+
+indexterm:[state visualizer,contents]
+
+=== Contents
+
+The state visualizer shows all the discrete, continuous, and algebraic
+variables of the specification, as well as their values. It also shows the
+derivatives of the continuous variables, and their values. This includes
+variable `time`, but not its derivative. It also shows the automata, with
+their current locations. The variables and automata are listed in alphabetical
+order, except for variable `time`, which is always shown at the top.
+
+indexterm:[state visualizer,icons]
+indexterm:[state visualizer,legend]
+
+=== Icons and legend
+
+The icons on the left indicate the kind of object that is shown in a particular
+row of the table:
+
+:img-icon-aut:     
+:img-icon-discvar: 
+:img-icon-contvar: 
+:img-icon-deriv:   
+:img-icon-algvar:  
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_aut.png[]
+An automaton, with its current location.
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_discvar.png[]
+A discrete variable, with its current value.
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_contvar.png[]
+A continuous variable (includes variable `time`),
+with its current value.
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_deriv.png[]
+A derivative of a continuous variable (excludes variable
+`time`), with its current value.
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_algvar.png[]
+An algebraic variable, with its current value.
+
+indexterm:[state visualizer,updates]
+The values are updated for the initial state, states reached after transitions
+(event transitions and time transitions), as well as for
+<<tools-cifsim-output-realtime-frames,frames>>.
+
+indexterm:[state visualizer,filtering]
+
+[[tools-cifsim-output-stateviz-filtering]]
+=== Filtering
+
+By default, all state objects are displayed by the state visualizer. Using
+the
+menu:State visualization filters[]
+option
+(menu:Output: State visualization[]
+category), the state objects can
+be filtered. The
+menu:State visualization filters[]
+option only has effect
+if state visualization is enabled, using the
+menu:State visualization[]
+option.
+
+As value for the option, comma separated _filters_ should be supplied. Each
+filter specifies one or more state objects. The absolute names of the objects
+are used. That is, for an automaton `a`, with a variable `x`, the absolute
+name of the variable object is `a.x`. If CIF textual syntax keyword are
+used as names for events (such as `plant`), then they must be escaped in
+`.cif` files (`$plant`). For filters however, all escape characters (`$`)
+in the names are ignored. The `+*+` character can be used as wildcard, to
+indicate zero or more characters. If a filter doesn't match any of the state
+objects of the CIF model, a warning is printed to the console. A warning is
+also printed if the entire state is filtered out.
+
+By default, filters include matching state objects. Filters may however be
+preceded by a `-` character, turning them into exclusion filters, which
+exclude matching states objects rather than including them. Filters are
+processed in the order they are specified, allowing for alternating additions
+and removals. If a filter does not result in the addition/removal of any state
+objects to/from the filter result, a warning is printed to the console.
+
+As an example, option value `+a.*,-a.b*,a.bc*+` consists of three filters:
+`+a.*+`, `+-a.b*+`, and `+a.bc*+`. The first filter indicates that state
+objects whose absolute names start with `a.` are to be included. The second
+filter indicates that from those matching state objects, the state objects
+whose absolute names start with `+a.b*+` are to be excluded. To that result,
+the third filter adds those state objects whose absolute names start with
+`+a.bc*+`. For instance, if a specification contains state objects `time`,
+`a.a`, `a.b` `a.bb`, `a.bc`, `a.b.c`, `a.bc`, `a.bcc`, and
+`a.bcd`, the result of the three filters is that the following state objects
+are displayed: `a.a`, `a.bc`, `a.bc`, `a.bcc`, and `a.bcd`.
+
+The default option value (filter) is `+*+`.
+
+indexterm:[state visualizer,multiple]
+
+=== Multiple state visualizers
+
+By default, only one visualizer is shown. However, using the
+menu:State visualization filters[]
+option
+(menu:Output: State visualization[]
+category), it is possible to specify
+that multiple visualizers should be used. The option allows for filtering of
+the state objects, as described above. However, such filters can be separated
+by semicolons, to specify the filters per visualizer.
+
+As an example, consider option value `time,a.x;b.y`. This results in two
+state visualizers. The first one displays state objects `time` and `a.x`,
+while the second one displays state object `b.y`.
+
+indexterm:[state visualizer,undo]
+indexterm:[state visualizer,reset]
+
+=== Undo/reset
+
+By <<tools-cifsim-input-history-reset-undo,undoing>> one or more transitions,
+or by <<tools-cifsim-input-history-reset-undo,resetting>> the simulation, the
+state may change. The state visualizer is automatically updated to reflect such
+changes.

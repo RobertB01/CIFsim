@@ -1,0 +1,49 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    string s;
+    int i, b;
+    bool c;
+
+    file f = open("spec/global/read_eol_eof.txt", "r");
+
+    # 1. Read 123 after some EOL
+    s = string(read(f, int));
+    write("Read text %s\n", s);
+
+    # 2. Count EOL, read 234
+    i = newlines(f);
+    s = string(read(f, int));
+    write("\nEOL count: %s\nRead text %s\n", i, s);
+
+    # 3. Count EOL twice, read 345
+    i = newlines(f);
+    b = newlines(f);
+    s = string(read(f, int));
+    write("\nFound %d EOL (extra test %d)\nRead text %s\n", i, b, s);
+
+    # 3. Test EOF, count EOL, read 456
+    c = eof(f);
+    i = newlines(f);
+    s = string(read(f, int));
+    write("\nFound EOF %b\nFound %d EOL\nRead text %s\n", c, i, s);
+
+    # 4. Count EOL, test EOF (at eof)
+    b = newlines(f);
+    c = eof(f);
+    i = newlines(f);
+    write("\nCounted EOL %s\nFound EOF %s\nCounted EOL %s\n", b, c, i);
+
+    if eof(f) or newlines(f) > 0 or eol(f): pass
+    end
+end

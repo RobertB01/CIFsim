@@ -1,0 +1,1 @@
+Error: File "spec/expr/bino-minus-dict-real-set-string.chi": Semantic error at line 18, column 22: Incorrectly typed subtraction (cannot subtract types "dict(real : real)" and "set string").

@@ -1,0 +1,495 @@
+// ------------------------------------------------------------------------------
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+// ------------------------------------------------------------------------------
+
+// Parser specification of Chi.
+//
+@import java.util.List;
+
+@import org.eclipse.escet.chi.metamodel.chi;
+@import org.eclipse.escet.chi.parser;
+
+/////////////////////////////////////////////////////////////////////////////
+// Scanner
+//
+
+@scanner parser.ChiScanner;
+
+@terminals:
+    @keywords Functions =
+        // 'simple' conversions
+        abs sign max min ceil floor round
+        // power and logarithmic functions
+        cbrt sqrt exp ln log
+        // trigonometry
+        acosh acos asinh asin atanh atan cosh cos sinh sin tanh tan
+        // distributions
+        bernoulli beta binomial constant lognormal exponential erlang gamma
+        geometric normal poisson random triangle uniform weibull
+        // container functions
+        dictkeys dictvalues
+        empty size pop
+        enumerate range del insert sort
+        // other stuff
+        finished ready open
+        channel read eol $eof newlines;
+
+    @keywords Keywords =
+        // top-level
+        const enum xper func model proc type
+        // iterative statements
+        for while break continue
+        // sub-process statements
+        return run $start
+        // Other keywords
+        select alt unwind close if elif else delay time $end finish pass exit
+        write writeln;
+
+    @keywords Types =
+        bool chan dict dist file inst int list matrix real set string timer
+        tuple void;
+
+    @keywords Operators =
+        and div in mod not or sub sample;
+
+    @keywords Constants =
+        false true;
+end
+
+@shortcut number =  "0|[1-9][0-9]*";
+
+@terminals:
+    ASTERISKTK = "\*";
+    SLASHTK = "/";
+    CARETTK = "\^";
+    DOTTK = "\.";
+    LTTK = "<";
+    LETK = "<=";
+    EQTK = "==";
+    NETK = "!=";
+    GETK = ">=";
+    GTTK = ">";
+    PLUSTK = "\+";
+    MINUSTK = "\-";
+    BECOMESTK = "=";
+    COLONTK = ":";
+    COMMATK = ",";
+    SEMICOLTK = ";";
+    CUROPENTK = "\{";
+    CURCLOSETK = "\}";
+    PAROPENTK = "\(";
+    PARCLOSETK = "\)";
+    SQOPENTK = "\[";
+    SQCLOSETK = "\]";
+    SENDTK = "!";
+    RECEIVETK = "\?";
+    SENDRECEIVETK = "!\?";
+
+    IDENTIFIERTK = "$?[a-zA-Z_][a-zA-Z0-9_]*" [an identifier];
+    STRINGTK = "\"([^\\\"\t\n]|\\[nt\\\"])*\"" {stripQuotes}
+               [a string literal];
+    NUMBERTK = "{number}" [an integer literal];
+    REALTK = "{number}((\.[0-9]+)|((\.[0-9]+)?[eE][\-\+]?[0-9]+))"
+             [a real literal];
+end
+
+@terminals:
+    "#.*";
+    "[ \t\n\r]+";
+    @eof;
+end
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Parser section
+//
+
+@hooks parser.ChiHooks;
+@main Program : parser.ChiParser;
+
+{List<chi.Declaration>}
+Program : /* empty */
+        | EndSimpleProgram
+        | EndSimpleProgram SEMICOLTK
+        | EndCompoundProgram
+        | EndCompoundProgram SEMICOLTK
+        ;
+
+{List<chi.Declaration>}
+EndSimpleProgram : SimpleProgram
+                 | EndSimpleProgram SEMICOLTK SimpleProgram
+                 | EndCompoundProgram SEMICOLTK SimpleProgram
+                 | EndCompoundProgram SimpleProgram
+                 ;
+
+{List<chi.Declaration>}
+EndCompoundProgram : CompoundProgram
+                   | EndCompoundProgram CompoundProgram
+                   | EndCompoundProgram SEMICOLTK CompoundProgram
+                   | EndSimpleProgram SEMICOLTK CompoundProgram
+                   ;
+
+{List<chi.Declaration>}
+CompoundProgram : @PROCKW @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW
+                | @PROCKW Type @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW
+                | @PROCKW @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW
+                | @PROCKW Type @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW
+                | @FUNCKW Type @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW
+                | @FUNCKW Type @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW
+                | @MODELKW @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW
+                | @MODELKW Type @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW
+                | @MODELKW @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW
+                | @MODELKW Type @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW
+                | @XPERKW @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW
+                | @XPERKW @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW
+                ;
+
+{List<chi.Declaration>}
+SimpleProgram : TYPEKW TypeDefList
+              | CONSTKW ConstantDefList
+              | ENUMKW EnumDefList
+              ;
+
+{List<chi.Declaration>}
+TypeDefList : @IDENTIFIERTK BECOMESTK Type
+            | TypeDefList COMMATK @IDENTIFIERTK BECOMESTK Type
+            ;
+
+{List<chi.Declaration>}
+ConstantDefList : Type @IDENTIFIERTK BECOMESTK Expression
+                | ConstantDefList COMMATK Type @IDENTIFIERTK BECOMESTK Expression
+                ;
+
+{List<chi.Declaration>}
+EnumDefList : @IDENTIFIERTK BECOMESTK CUROPENTK IdentifierList CURCLOSETK
+            | EnumDefList COMMATK @IDENTIFIERTK BECOMESTK CUROPENTK IdentifierList CURCLOSETK
+            ;
+
+{parser.ParserBody}
+Body : VarDefinitionList StatementList
+     | StatementList
+     ;
+
+{List<chi.Statement>}
+StatementList : EndSimple
+              | EndSimple SEMICOLTK
+              | EndCompound
+              | EndCompound SEMICOLTK
+              ;
+
+{List<chi.Statement>}
+EndSimple : SimpleStatement
+          | EndSimple SEMICOLTK SimpleStatement
+          | EndCompound SEMICOLTK SimpleStatement
+          | EndCompound SimpleStatement
+          ;
+
+{List<chi.Statement>}
+EndCompound : CompoundStatement
+            | EndCompound CompoundStatement
+            | EndCompound SEMICOLTK CompoundStatement
+            | EndSimple SEMICOLTK CompoundStatement
+            ;
+
+{chi.Statement}
+CompoundStatement : @FORKW IdentifierList INKW Expression COLONTK StatementList ENDKW
+                  | @WHILEKW Expression COLONTK StatementList ENDKW
+                  | @IFKW Expression COLONTK StatementList ElifsOpt ElseOpt ENDKW
+                  | @SELECTKW Selections ENDKW
+                  ;
+
+{chi.Statement}
+SimpleStatement : @PASSKW
+                | @BREAKKW
+                | @CONTINUEKW
+                | ExprList @BECOMESTK ExprList
+                | @DELAYKW Expression
+                | @RUNKW Instances
+                | @STARTKW Instances
+                | @CLOSEKW PAROPENTK Expression PARCLOSETK
+                | @FINISHKW ExprList
+                | @WRITEKW PAROPENTK ExprList PARCLOSETK
+                | @WRITELNKW PAROPENTK ExprList PARCLOSETK
+                | @RETURNKW ExprList
+                | @EXITKW ExprList
+                | @EXITKW
+                | CommStatement
+                ;
+
+{chi.Statement}
+CommStatement : Expression @SENDTK
+              | Expression @SENDTK ExprList
+              | Expression @RECEIVETK
+              | Expression @RECEIVETK ExprList
+              ;
+
+{List<chi.IfCase>}
+ElifsOpt : /* empty */
+         | ElifsOpt @ELIFKW Expression COLONTK StatementList
+         ;
+
+{chi.IfCase}
+ElseOpt : /* empty */
+        | @ELSEKW COLONTK StatementList
+        ;
+
+{List<chi.CreateCase>}
+Instances : EndIterated
+          | EndIterated COMMATK
+          | EndInstance
+          | EndInstance COMMATK
+          ;
+
+{List<chi.Unwind>}
+Unwinds : UNWINDKW IdentifierList @INKW Expression
+        | Unwinds COMMATK IdentifierList @INKW Expression
+        ;
+
+{chi.CreateCase}
+IteratedInstance : Unwinds @COLONTK Instances ENDKW
+                 ;
+
+{chi.CreateCase}
+ProcessInstance : Expression
+                | Expression @BECOMESTK Expression
+                ;
+
+{List<chi.CreateCase>}
+EndInstance : ProcessInstance
+            | EndIterated ProcessInstance
+            | EndIterated COMMATK ProcessInstance
+            | EndInstance COMMATK ProcessInstance
+            ;
+
+{List<chi.CreateCase>}
+EndIterated : IteratedInstance
+            | EndInstance COMMATK IteratedInstance
+            | EndIterated IteratedInstance
+            | EndIterated COMMATK IteratedInstance
+            ;
+
+{List<chi.SelectCase>}
+Selections : SelectionAlt
+           | Selections ALTKW SelectionAlt
+           ;
+
+{chi.SelectCase}
+SelectionAlt : SelectCondition
+             | SelectCondition @COLONTK StatementList
+             | Unwinds COLONTK SelectionAlt ENDKW
+             ;
+
+{parser.ParserSelectCondition}
+SelectCondition : Expression
+                | Expression COMMATK CommStatement
+                | CommStatement
+                ;
+
+// Declarations
+
+{List<chi.VariableDeclaration>}
+FormalParameters : Type IdentifierList
+                 | FormalParameters SEMICOLTK Type IdentifierList
+                 ;
+
+{List<chi.VariableDeclaration>}
+VarDefinitionList : Type VarNames SEMICOLTK
+                  | VarDefinitionList Type VarNames SEMICOLTK
+                  ;
+
+{List<parser.ParserVarValue>}
+VarNames : @IDENTIFIERTK
+         | @IDENTIFIERTK BECOMESTK Expression
+         | VarNames COMMATK @IDENTIFIERTK
+         | VarNames COMMATK @IDENTIFIERTK BECOMESTK Expression
+         ;
+
+// Types
+
+{chi.Type}
+ElementaryType : @VOIDKW
+               | @BOOLKW
+               | @INTKW
+               | @REALKW
+               | @STRINGKW
+               | @FILEKW
+               | @INSTKW
+               | @TIMERKW
+               ;
+
+{chi.Type}
+Type : ElementaryType
+     | @MATRIXKW PAROPENTK Expression COMMATK Expression PARCLOSETK
+     | @SETKW Type
+     | @LISTKW Type
+     | @LISTKW PAROPENTK Expression PARCLOSETK Type
+     | @CHANKW Type
+     | @CHANKW RECEIVETK Type
+     | @CHANKW SENDTK Type
+     | @CHANKW SENDRECEIVETK Type
+     | @DICTKW PAROPENTK Type COLONTK Type PARCLOSETK
+     | @TUPLEKW PAROPENTK TupleTypeList PARCLOSETK
+     | @FUNCKW Type PAROPENTK PARCLOSETK
+     | @FUNCKW Type PAROPENTK TypeList PARCLOSETK
+     | @PROCKW PAROPENTK TypeList PARCLOSETK
+     | @PROCKW PAROPENTK PARCLOSETK
+     | @PROCKW Type PAROPENTK TypeList PARCLOSETK
+     | @PROCKW Type PAROPENTK PARCLOSETK
+     | @DISTKW Type
+     | @IDENTIFIERTK
+     ;
+
+{List<chi.TupleField>}
+TupleTypeList : TupleType
+              | TupleTypeList SEMICOLTK TupleType
+              ;
+
+{List<chi.TupleField>}
+TupleType : Type IdentifierList
+          ;
+
+{List<chi.Type>}
+TypeList : Type
+         | TypeList COMMATK Type
+         ;
+
+// Expressions
+
+{List<parser.ParserIdentifier>}
+IdentifierList : @IDENTIFIERTK
+               | IdentifierList COMMATK @IDENTIFIERTK
+               ;
+
+{chi.Expression}
+OptExpression : /* empty */
+              | Expression
+              ;
+
+{List<chi.Expression>}
+ExprList : Expression
+         | ExprList COMMATK Expression
+         ;
+
+{List<chi.MatrixRow>}
+MatExprList : ExprList
+            | MatExprList SEMICOLTK ExprList
+            ;
+{chi.Expression}
+Expression : AndExpression
+           | Expression @ORKW AndExpression
+           ;
+
+{chi.Expression}
+AndExpression : NotExpression
+              | AndExpression @ANDKW NotExpression
+              ;
+
+{chi.Expression}
+NotExpression : CompareExpression
+              | @NOTKW NotExpression
+              ;
+
+{chi.Expression}
+CompareExpression : AddExpression
+                  | CompareExpression @LTTK AddExpression
+                  | CompareExpression @LETK AddExpression
+                  | CompareExpression @EQTK AddExpression
+                  | CompareExpression @NETK AddExpression
+                  | CompareExpression @GETK AddExpression
+                  | CompareExpression @GTTK AddExpression
+                  | CompareExpression @INKW AddExpression
+                  | CompareExpression @SUBKW AddExpression
+                  ;
+
+{chi.Expression}
+AddExpression : MulExpression
+              | AddExpression @PLUSTK MulExpression
+              | AddExpression @MINUSTK MulExpression
+              ;
+
+{chi.Expression}
+MulExpression : PowerExpression
+              | MulExpression @ASTERISKTK PowerExpression
+              | MulExpression @SLASHTK PowerExpression
+              | MulExpression @DIVKW PowerExpression
+              | MulExpression @MODKW PowerExpression
+              ;
+
+{chi.Expression}
+PowerExpression : UnaryExpression
+                | PowerExpression @CARETTK UnaryExpression
+                ;
+
+{chi.Expression}
+UnaryExpression : SampleExpression
+                | @MINUSTK UnaryExpression
+                | @PLUSTK UnaryExpression
+                ;
+
+{chi.Expression}
+SampleExpression : FuncExpression
+                 | @SAMPLEKW FuncExpression
+                 ;
+
+
+{chi.Expression}
+FuncExpression : ExpressionFactor
+               | @READKW PAROPENTK Type PARCLOSETK
+               | @READKW PAROPENTK Expression COMMATK Type PARCLOSETK
+               | @CHANNELKW PAROPENTK Type PARCLOSETK
+               | FuncExpression @DOTTK @IDENTIFIERTK
+               | FuncExpression @SQOPENTK Expression SQCLOSETK
+               | FuncExpression @SQOPENTK OptExpression COLONTK OptExpression SQCLOSETK
+               | FuncExpression @SQOPENTK OptExpression COLONTK OptExpression COLONTK OptExpression SQCLOSETK
+               | FuncExpression CUROPENTK Expression CURCLOSETK @PAROPENTK ExprList PARCLOSETK
+               | FuncExpression CUROPENTK Expression CURCLOSETK @PAROPENTK PARCLOSETK
+               | FuncExpression @PAROPENTK ExprList PARCLOSETK
+               | FuncExpression @PAROPENTK PARCLOSETK
+               ;
+
+{chi.Expression}
+ExpressionFactor : @TIMEKW
+                 | @TRUEKW
+                 | @FALSEKW
+                 | @NUMBERTK
+                 | @REALTK
+                 | @STRINGTK
+                 | LTTK Type GTTK @SQOPENTK SQCLOSETK
+                 | @SQOPENTK MatExprList SQCLOSETK
+                 | LTTK Type GTTK @CUROPENTK CURCLOSETK
+                 | LTTK Type COLONTK Type GTTK @CUROPENTK CURCLOSETK
+                 | @CUROPENTK ExprList CURCLOSETK
+                 | @CUROPENTK DictPairs CURCLOSETK
+                 | PAROPENTK ExprList PARCLOSETK
+                 | @IDENTIFIERTK
+                 | ElementaryType @PAROPENTK Expression PARCLOSETK
+                 | @MATRIXKW PAROPENTK Expression COMMATK Expression COMMATK Expression PARCLOSETK
+                 | @SETKW PAROPENTK Expression PARCLOSETK
+                 | @ABSKW | @SIGNKW | @MAXKW | @MINKW | @CEILKW | @FLOORKW
+                 | @ROUNDKW | @CBRTKW | @SQRTKW | @EXPKW | @LNKW | @LOGKW
+                 | @ACOSHKW | @ACOSKW | @ASINHKW | @ASINKW | @ATANHKW | @ATANKW
+                 | @COSHKW | @COSKW | @SINHKW | @SINKW | @TANHKW | @TANKW
+                 | @BERNOULLIKW | @BETAKW | @BINOMIALKW | @CONSTANTKW
+                 | @LOGNORMALKW | @EXPONENTIALKW | @ERLANGKW | @GAMMAKW
+                 | @GEOMETRICKW | @NORMALKW | @POISSONKW | @RANDOMKW
+                 | @TRIANGLEKW | @UNIFORMKW | @WEIBULLKW
+                 | @DICTKEYSKW | @DICTVALUESKW
+                 | @EMPTYKW | @SIZEKW | @POPKW
+                 | @ENUMERATEKW | @RANGEKW | @DELKW | @INSERTKW | @SORTKW
+                 | @FINISHEDKW | @READYKW | @OPENKW | @EOLKW | @EOFKW
+                 | @NEWLINESKW
+                 ;
+
+{List<chi.DictionaryPair>}
+DictPairs : Expression @COLONTK Expression
+          | DictPairs COMMATK Expression @COLONTK Expression
+          ;

@@ -1,0 +1,27 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    real r = 1.5;
+    int i = 1;
+    real r2;
+
+    r2 = r / r;
+    r2 = i / r;
+    r2 = r / i;
+    r2 = i / i;
+
+    r2 = r ^ r;
+    r2 = i ^ r;
+    r2 = r ^ i;
+    r2 = i ^ i;
+end

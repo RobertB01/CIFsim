@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "../tchecker/small.svg";
+printfile "../tchecker/out1a.txt";
+
+svgout id "grp" attr "transform" value 5;
+
+svgout id "box" attr "x" value 5 file "../tchecker/small.svg";
+
+event e1;
+
+svgin id "box" event e1 file "../tchecker/small.svg";
+
+print "a1";
+print "b1" file "../tchecker/out1b.txt";
+
+func real expm1(real x): "java:java.util.math.exp1m|../empty.txt";
+
+group g1:
+  svgout id "box" attr "y" value 5 file "../tchecker/small.svg";
+
+  event e1;
+
+  svgin id "grp" event e1 file "../tchecker/small.svg";
+
+  print "c1";
+  print "d1" file "../tchecker/out1d.txt";
+
+  func real expm1(real x): "java:java.util.math.exp1m|../empty.txt";
+end
+
+group def H1():
+  svgout id "box" attr "width" value 5 file "../tchecker/small.svg";
+
+  event e1;
+
+  svgin id "root" event e1 file "../tchecker/small.svg";
+
+  print "e1";
+  print "f1" file "../tchecker/out1f.txt";
+
+  func real expm1(real x): "java:java.util.math.exp1m|../empty.txt";
+end
+
+h1: H1();

@@ -1,0 +1,6 @@
+Initial state: time=0.0, p=m0, p.b=false, p.d={}, p.db=constant(false), p.di=constant(0), p.dr=constant(0.0), p.f1=defaultValueFunc, p.f2=defaultValueFunc, p.f3=defaultValueFunc, p.g="", p.i1=0, p.i2=-3, p.i3=3, p.i4=0, p.i5=0, p.i6=-3, p.i7=3, p.i8=-5, p.i9=5, p.l1=[], p.l2=[], p.l3=[0], p.l3ii=[(0, 0), (0, 0), (0, 0)], p.l4=[0, 0, 0, 0], p.r=0.0, p.s={}, p.t1=(false, 0, 2), p.t2=(false, A, 0.0, ""), p.t3=([], {}), p.t4=(defaultValueFunc, {}), p.t5=((0, 0), false), p.t6=(constant(false), constant(false)), p.ve1=A, p.ve2=C, p.vqe2=C, p.vt=false, p.x=0.0, p.x'=1.0
+
+Transition: event tau
+State: time=0.0, p=m1, p.b=false, p.d={}, p.db=constant(false), p.di=constant(0), p.dr=constant(0.0), p.f1=defaultValueFunc, p.f2=defaultValueFunc, p.f3=defaultValueFunc, p.g="", p.i1=0, p.i2=-3, p.i3=3, p.i4=0, p.i5=0, p.i6=-3, p.i7=3, p.i8=-5, p.i9=5, p.l1=[], p.l2=[], p.l3=[0], p.l3ii=[(0, 0), (0, 5), (0, 0)], p.l4=[0, 0, 0, 0], p.r=0.0, p.s={}, p.t1=(false, 0, 2), p.t2=(false, A, 0.0, ""), p.t3=([], {}), p.t4=(defaultValueFunc, {}), p.t5=((0, 0), false), p.t6=(constant(false), constant(false)), p.ve1=A, p.ve2=C, p.vqe2=C, p.vt=false, p.x=0.0, p.x'=1.0
+
+Simulation resulted in deadlock.

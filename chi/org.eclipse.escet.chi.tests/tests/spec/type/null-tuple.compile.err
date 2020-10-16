@@ -1,0 +1,1 @@
+ERROR: File "spec/type/null-tuple.chi": Parsing failed at line 14, column 11, at or near ")" (found ")", expected "bool", "chan", "dict", "dist", "file", "func", "inst", "int", "list", "matrix", "proc", "real", "set", "string", "timer", "tuple", "void", or an identifier).

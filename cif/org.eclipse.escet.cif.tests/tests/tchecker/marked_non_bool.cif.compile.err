@@ -1,0 +1,7 @@
+ERROR: File "tchecker/marked_non_bool.cif": Semantic error at line 14, column 8: Marker predicate must be of type "bool", but is of type "int[0..0]".
+ERROR: File "tchecker/marked_non_bool.cif": Semantic error at line 17, column 10: Marker predicate must be of type "bool", but is of type "int[1..1]".
+ERROR: File "tchecker/marked_non_bool.cif": Semantic error at line 21, column 10: Marker predicate must be of type "bool", but is of type "int[2..2]".
+ERROR: File "tchecker/marked_non_bool.cif": Semantic error at line 25, column 10: Marker predicate must be of type "bool", but is of type "int[3..3]".
+ERROR: File "tchecker/marked_non_bool.cif": Semantic error at line 31, column 10: Marker predicate must be of type "bool", but is of type "int[4..4]".
+ERROR: File "tchecker/marked_non_bool.cif": Semantic error at line 39, column 12: Marker predicate must be of type "bool", but is of type "int[5..5]".
+ERROR: Failed to load CIF file "tchecker/marked_non_bool.cif": the file has errors.

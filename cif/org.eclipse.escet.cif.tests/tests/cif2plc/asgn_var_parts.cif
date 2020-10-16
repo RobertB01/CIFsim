@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+input bool i;
+
+automaton a:
+  disc list[5] int li;
+
+  location:
+    initial;
+    edge when f(li) = 9  do li[0] := 5, li[1] := 6;
+    edge when f(li) = 10 do (li[2], li[3]) := (7, 8);
+end
+
+func int f(list[5] int p):
+  p[0] := 5;
+  p[1] := 6;
+  return p[0] + p[1] + p[2] + p[3] + p[4];
+end

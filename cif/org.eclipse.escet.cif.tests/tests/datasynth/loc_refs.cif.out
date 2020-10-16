@@ -1,0 +1,161 @@
+Reading CIF file "datasynth/loc_refs.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        pe    0      2 * 2     3 * 2       4 * 2       75%
+  2      discrete variable  int[0..5]  q1.x  1      3 * 2     6 * 2       8 * 2       75%
+  3      discrete variable  int[1..3]  q1.y  2      2 * 2     3 * 2       4 * 2       75%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      3      14        24          32          75%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 4
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [iteration 1]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 1):         q1.x = 0
+Initial   (discrete variable 2):         q1.y = 1
+Initial   (discrete variables):          q1.x = 0 and q1.y = 1
+Initial   (component init predicate):    true
+Initial   (component init predicate):    q1.x = 0
+Initial   (component init predicate):    q1.y = 1
+Initial   (components init predicate):   q1.x = 0 and q1.y = 1
+Initial   (aut/locs init predicate):     pe.a
+Initial   (aut/locs init predicate):     true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    pe.a
+Initial   (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)
+Initial   (system, combined init/inv):   pe.a and (q1.x = 0 and q1.y = 1)
+
+Marked    (component marker predicate):  pe.a
+Marked    (components marker predicate): pe.a
+Marked    (aut/locs marker predicate):   true
+Marked    (aut/locs marker predicate):   true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         pe.a
+Marked    (system, combined marked/inv): pe.a
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b)
+    Edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a)
+    Edge: (event: e2) (guard: pe.a) (assignments: pe := pe.c)
+    Edge: (event: e3) (guard: pe.a)
+    Edge: (event: e4) (guard: pe.a)
+    Edge: (event: f1) (guard: true)
+    Edge: (event: f2) (guard: true)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "pe" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "q1.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "q1.y" of type "int[1..3]" (group: 2, domain: 4+5, BDD variables: 2, CIF/BDD values: 3/4)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: pe.a [marker predicate]
+Backward controlled-behavior: pe.a -> not pe.c and not pe.b [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: not pe.c and not pe.b -> not pe.c [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not pe.c [fixed point].
+Controlled behavior: true -> not pe.c.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: pe.c [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [forward reach with edge: (event: e1) (guard: pe.a) (assignments: pe := pe.b), restricted to current/previous controlled-behavior predicate: not pe.c]
+Forward reachability: iteration 2.
+Forward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
+Controlled behavior: not pe.c -> not pe.c and (q1.x = 0 and q1.y = 1).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: pe.a [marker predicate]
+Backward controlled-behavior: pe.a -> pe.a and (q1.x = 0 and q1.y = 1) [restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
+Backward reachability: iteration 1.
+Backward controlled-behavior: pe.a and (q1.x = 0 and q1.y = 1) -> not pe.c and (q1.x = 0 and q1.y = 1) [backward reach with edge: (event: e1) (guard: pe.b) (assignments: pe := pe.a), restricted to current/previous controlled-behavior predicate: not pe.c and (q1.x = 0 and q1.y = 1)]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: pe.c or (q1.x != 0 or q1.y != 1) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: e1) (guard: pe.a) (assignments: pe := pe.b): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+Edge (event: e1) (guard: pe.b) (assignments: pe := pe.a): guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1).
+Edge (event: e2) (guard: pe.a) (assignments: pe := pe.c): guard: pe.a -> false.
+Edge (event: e3) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+Edge (event: e4) (guard: pe.a): guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1).
+Edge (event: f1) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+Edge (event: f2) (guard: true): guard: true -> not pe.c and (q1.x = 0 and q1.y = 1).
+
+Final synthesis result:
+  State: (controlled-behavior: not pe.c and (q1.x = 0 and q1.y = 1))
+    Edge: (event: e1) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.b)
+    Edge: (event: e1) (guard: pe.b -> pe.b and (q1.x = 0 and q1.y = 1)) (assignments: pe := pe.a)
+    Edge: (event: e2) (guard: pe.a -> false) (assignments: pe := pe.c)
+    Edge: (event: e3) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1))
+    Edge: (event: e4) (guard: pe.a -> pe.a and (q1.x = 0 and q1.y = 1))
+    Edge: (event: f1) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
+    Edge: (event: f2) (guard: true -> not pe.c and (q1.x = 0 and q1.y = 1))
+
+Controlled system:                     exactly 2 states.
+
+Initial (synthesis result):            not pe.c and (q1.x = 0 and q1.y = 1)
+Initial (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)
+Initial (controlled system):           pe.a and (q1.x = 0 and q1.y = 1)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event e1: guard: not pe.c and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume not pe.c].
+  Event e3: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
+  Event e4: guard: pe.a and (q1.x = 0 and q1.y = 1) -> q1.x = 0 and q1.y = 1 [assume pe.a].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/loc_refs.ctrlsys.real.cif".

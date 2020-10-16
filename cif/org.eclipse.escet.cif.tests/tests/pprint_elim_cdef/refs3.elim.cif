@@ -1,0 +1,12 @@
+group i:
+end
+plant automaton q:
+  location l:
+    initial;
+end
+plant automaton $plant:
+  location $location:
+    initial;
+end
+invariant q.l;
+invariant $plant.$location;

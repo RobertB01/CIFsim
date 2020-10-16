@@ -1,0 +1,107 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cif2mcrl2;
+
+// Configuration.
+string test_path = "cif2mcrl2";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1"];
+map(string:list string) test_options = {
+    "cif2mcrl2/asgn_out_of_range2.cif": ["-t buff,buff.cnt"],
+    "cif2mcrl2/example.cif":            ["--read-values=+*,-*novalue*,-*value*,+*wel"],
+};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, oldext="cif", newext="out");
+    string test_err_exp  = chfileext(test, oldext="cif", newext="err");
+    string test_out_real = chfileext(test, oldext="cif", newext="out.real");
+    string test_err_real = chfileext(test, oldext="cif", newext="err.real");
+
+    string mcrl2_exp  = chfileext(test, oldext="cif", newext="mcrl2");
+    string mcrl2_real = chfileext(test, oldext="cif", newext="mcrl2.real");
+    string dbg_exp    = chfileext(test, oldext="cif", newext="dbg.txt");
+    string dbg_real   = chfileext(test, oldext="cif", newext="dbt.txt");
+
+    // Execute.
+    options = options + ["-o", mcrl2_real, "-x", dbg_real];
+    cif2mcrl2([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool mcrl2_diff  = diff(mcrl2_exp, mcrl2_real, missingAsEmpty=true, warnOnDiff=true);
+    bool dbg_diff    = diff(dbg_exp, dbg_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff:: rmfile(test_err_real);
+    if not stdout_diff:: rmfile(test_out_real);
+    if not mcrl2_diff::  if exists(mcrl2_real):: rmfile(mcrl2_real);
+    if not dbg_diff::    if exists(dbg_real):: rmfile(dbg_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff:: diff_count = diff_count + 1;
+    if stdout_diff:: diff_count = diff_count + 1;
+    if mcrl2_diff::  diff_count = diff_count + 1;
+    if dbg_diff::    diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

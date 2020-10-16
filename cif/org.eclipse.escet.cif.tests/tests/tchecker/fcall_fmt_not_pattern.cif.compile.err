@@ -1,0 +1,2 @@
+ERROR: File "tchecker/fcall_fmt_not_pattern.cif": Semantic error at line 14, column 26: The first argument for the "fmt" standard library function must be a format pattern (string literal).
+ERROR: Failed to load CIF file "tchecker/fcall_fmt_not_pattern.cif": the file has errors.

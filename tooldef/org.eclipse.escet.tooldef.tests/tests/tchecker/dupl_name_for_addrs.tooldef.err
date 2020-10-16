@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_for_addrs.tooldef": Semantic error at line 14, column 5: Duplicate name "x" for variable "x" and variable "x" in for statement.
+ERROR: File "tchecker/dupl_name_for_addrs.tooldef": Semantic error at line 14, column 8: Duplicate name "x" for variable "x" and variable "x" in for statement.
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_for_addrs.tooldef": the file has errors.

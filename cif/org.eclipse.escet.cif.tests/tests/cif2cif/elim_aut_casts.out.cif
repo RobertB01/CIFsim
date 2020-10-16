@@ -1,0 +1,44 @@
+alg string x1 = "*";
+alg string x2 = "*";
+automaton a1_noname:
+  alg string v1 = "*";
+  alg string v2 = "*";
+  alg string v3 = <string>true;
+  location:
+    initial;
+end
+automaton a1_named:
+  alg string v1 = "l";
+  alg string v2 = "l";
+  alg string v3 = <string>true;
+  location l:
+    initial;
+end
+automaton a2:
+  alg string v1 = if l1: "l1" else "l2" end;
+  alg string v2 = if l1: "l1" else "l2" end;
+  alg string v3 = <string>true;
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+automaton a3:
+  alg string v1 = if l1: "l1" elif l2: "l2" else "l3" end;
+  alg string v2 = if l1: "l1" elif l2: "l2" else "l3" end;
+  alg string v3 = <string>true;
+  location l1:
+    initial;
+  location l2:
+    initial;
+  location l3:
+    initial;
+end
+automaton b1:
+  location:
+    initial;
+end
+automaton b2:
+  location:
+    initial;
+end

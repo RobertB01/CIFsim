@@ -1,0 +1,10 @@
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 20, column 12: Could not find an SVG element with id "does_not_exist1" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 22, column 12: Could not find an SVG element with id "does_not_exist1" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 24, column 11: Could not find an SVG element with id "does_not_exist1" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 28, column 11: Could not find an SVG element with id "does_not_exist2" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 30, column 10: Could not find an SVG element with id "does_not_exist3" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 35, column 43: SVG image file "." could not be found, is a directory, or for some other reason could not be opened for reading.
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 36, column 12: Could not find an SVG element with id "does_not_exist4" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 40, column 12: Could not find an SVG element with id "does_not_exist5" in SVG file "svg_elem_id_not_found.svg".
+ERROR: File "tchecker/svg_elem_id_not_found.cif": Semantic error at line 41, column 34: CIF/SVG copy declaration prefix "%" is not a valid SVG name prefix.
+ERROR: Failed to load CIF file "tchecker/svg_elem_id_not_found.cif": the file has errors.

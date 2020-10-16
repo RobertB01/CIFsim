@@ -1,0 +1,38 @@
+// Behavior.
+automaton person:
+  cont x = 0.0;
+  cont y = 0.0;
+
+  location right:
+    initial;
+    equation x' =  1.0;
+    equation y' =  0.0;
+    edge when x >= 5.0 goto down;
+
+  location down:
+    equation x' =  0.0;
+    equation y' =  1.0;
+    edge when y >= 5.0 goto left;
+
+  location left:
+    equation x' = -1.0;
+    equation y' =  0.0;
+    edge when x <= 0.0 goto up;
+
+  location up:
+    equation x' =  0.0;
+    equation y' = -1.0;
+    edge when y <= 0.0 goto right;
+end
+
+// Visualization.
+svgfile "walk_room.svg";
+
+// width of the room - width of the person = horizontal movement
+// 180px             - 19px                = 161px
+//
+// height of the room - height of the person = vertical movement
+// 180px              - 40x                  = 140px
+svgout id "person" attr "transform"
+  value fmt("translate(%s,%s)", scale(person.x, 0, 5, 0, 161),
+                                scale(person.y, 0, 5, 0, 140));

@@ -1,0 +1,19 @@
+Parser automaton for main state "Ar":
+
+initial state 0:
+  + S' : . Ar {¶}
+  - Ar : . Ar {¶}
+
+  Ar -> goto state 1
+
+state 1:
+  + Ar : Ar . {¶}
+  + S' : Ar . {¶}
+
+! accept/reduce conflict on ¶
+
+! ¶ -> reduce Ar : Ar;
+
+! ¶ -> accept
+
+1 conflict(s) in total (0 shift/reduce, 0 reduce/reduce, 1 accept/reduce).

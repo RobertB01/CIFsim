@@ -1,0 +1,4 @@
+ERROR: File "tchecker/var_no_initial_value.tooldef": Semantic error at line 14, column 1: Variable "x" is of type "object", which does not have a default value.
+ERROR: File "tchecker/var_no_initial_value.tooldef": Semantic error at line 16, column 1: Variable "y" is of type "tuple(object, bool)", which does not have a default value.
+ERROR: File "tchecker/var_no_initial_value.tooldef": Semantic error at line 19, column 5: Variable "t.x" is of type "t.T", which does not have a default value.
+ERROR: Failed to load ToolDef file "tchecker/var_no_initial_value.tooldef": the file has errors.

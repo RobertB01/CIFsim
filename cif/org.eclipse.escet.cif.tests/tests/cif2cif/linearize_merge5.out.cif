@@ -1,0 +1,34 @@
+event e3;
+enum E = l1, l2;
+automaton M:
+  alphabet e3, p2_e2;
+  disc real p1_x = 0.0;
+  disc E p1 in any;
+  event p2_e2;
+  disc real p2_x = 0.0;
+  disc E p2 in any;
+  disc real p3a_x = 0.0;
+  disc E p3a in any;
+  disc real p3b_x = 0.0;
+  disc E p3b in any;
+  initial p1 = l1 and true or p1 = l2 and true,
+          p2 = l1 and true or p2 = l2 and true,
+          p3a = l1 and true or p3a = l2 and true,
+          p3b = l1 and true or p3b = l2 and true;
+  marked p1 = l1 and false or p1 = l2 and false,
+         p2 = l1 and false or p2 = l2 and false,
+         p3a = l1 and false or p3a = l2 and false,
+         p3b = l1 and false or p3b = l2 and false;
+  location L:
+    initial;
+    marked;
+    edge e3 when (p3a = l1 and (3.10 = 3.10 or 3.11 = 3.11) or p3a = l2 and (3.12 = 3.12 or 3.13 = 3.13 or (3.14 = 3.14 or (true or true)))) and (p3b = l1 and (3.20 = 3.20 or 3.21 = 3.21) or p3b = l2 and (3.22 = 3.22 or 3.23 = 3.23 or (3.24 = 3.24 or (true or true)))) do if p3a = l1 and 3.10 = 3.10: p3a := l1 elif p3a = l1 and 3.11 = 3.11: p3a_x := 3.15 elif p3a = l2 and 3.12 = 3.12: p3a_x := 3.16 elif p3a = l2 and 3.13 = 3.13: p3a := l1 elif p3a = l2 and 3.14 = 3.14: p3a_x := 3.18, p3a := l1 elif p3a = l2 and true: p3a := l1 elif p3a = l2 and true: p3a_x := 3.17 end, if p3b = l1 and 3.20 = 3.20: p3b := l1 elif p3b = l1 and 3.21 = 3.21: p3b_x := 3.25 elif p3b = l2 and 3.22 = 3.22: p3b_x := 3.26 elif p3b = l2 and 3.23 = 3.23: p3b := l1 elif p3b = l2 and 3.24 = 3.24: p3b_x := 3.28, p3b := l1 elif p3b = l2 and true: p3b := l1 elif p3b = l2 and true: p3b_x := 3.27 end;
+    edge p2_e2 when p2 = l1 and (2.0 = 2.0 or 2.1 = 2.1) or p2 = l2 and (2.2 = 2.2 or 2.3 = 2.3 or (2.4 = 2.4 or (true or true))) do if p2 = l1 and 2.0 = 2.0: p2 := l1 elif p2 = l1 and 2.1 = 2.1: p2_x := 2.5 elif p2 = l2 and 2.2 = 2.2: p2_x := 2.6 elif p2 = l2 and 2.3 = 2.3: p2 := l1 elif p2 = l2 and 2.4 = 2.4: p2_x := 2.8, p2 := l1 elif p2 = l2 and true: p2 := l1 elif p2 = l2 and true: p2_x := 2.7 end;
+    edge tau when p1 = l1 and 1.0 = 1.0;
+    edge tau when p1 = l1 and 1.1 = 1.1 do p1_x := 1.5;
+    edge tau when p1 = l2 and 1.2 = 1.2 do p1_x := 1.6;
+    edge tau when p1 = l2 and 1.3 = 1.3 do p1 := l1;
+    edge tau when p1 = l2 and 1.4 = 1.4 do p1_x := 1.8, p1 := l1;
+    edge tau when p1 = l2 do p1 := l1;
+    edge tau when p1 = l2 do p1_x := 1.7;
+end

@@ -1,0 +1,39 @@
+Initial state: time=0.0, p=*, p.i=0, p.x1=[], p.x2=[]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=1, p.x1=[1], p.x2=[1]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=2, p.x1=[1, 1], p.x2=[1, 1]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=3, p.x1=[1, 1, 2], p.x2=[1, 1, 2]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=4, p.x1=[1, 1, 2, 6], p.x2=[1, 1, 2, 6]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=5, p.x1=[1, 1, 2, 6, 24], p.x2=[1, 1, 2, 6, 24]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=6, p.x1=[1, 1, 2, 6, 24, 120], p.x2=[1, 1, 2, 6, 24, 120]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=7, p.x1=[1, 1, 2, 6, 24, 120, 720], p.x2=[1, 1, 2, 6, 24, 120, 720]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=8, p.x1=[1, 1, 2, 6, 24, 120, 720, 5040], p.x2=[1, 1, 2, 6, 24, 120, 720, 5040]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=9, p.x1=[1, 1, 2, 6, 24, 120, 720, 5040, 40320], p.x2=[1, 1, 2, 6, 24, 120, 720, 5040, 40320]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=10, p.x1=[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880], p.x2=[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=11, p.x1=[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800], p.x2=[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]
+
+Transition: event tau
+State: time=0.0, p=*, p.i=12, p.x1=[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800], p.x2=[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, 39916800]
+
+Simulation resulted in deadlock.

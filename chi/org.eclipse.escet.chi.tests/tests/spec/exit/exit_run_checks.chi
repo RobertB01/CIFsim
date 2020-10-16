@@ -1,0 +1,88 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc NullP(): pass end
+proc void VoidP(): pass end
+proc bool BoolP(): pass end
+
+
+proc NullNullproc():
+    run NullP();
+end
+
+proc NullVoidproc():
+    run VoidP();
+end
+
+proc NullBoolproc():
+    run BoolP();
+end
+
+proc void VoidNullproc():
+    run NullP();
+end
+
+proc void VoidVoidproc():
+    run VoidP();
+end
+
+proc void VoidBoolproc():
+    run BoolP();
+end
+
+proc bool BoolNullproc():
+    run NullP();
+end
+
+proc bool BoolVoidproc():
+    run VoidP();
+end
+
+proc bool BoolBoolproc():
+    run BoolP();
+end
+
+model NullNullmodel():
+    run NullP();
+end
+
+model NullVoidmodel():
+    run VoidP();
+end
+
+model NullBoolmodel():
+    run BoolP();
+end
+
+model void VoidNullmodel():
+    run NullP();
+end
+
+model void VoidVoidmodel():
+    run VoidP();
+end
+
+model void VoidBoolmodel():
+    run BoolP();
+end
+
+model bool BoolNullmodel():
+    run NullP();
+end
+
+model bool BoolVoidmodel():
+    run VoidP();
+end
+
+model bool BoolBoolmodel():
+    run BoolP();
+end

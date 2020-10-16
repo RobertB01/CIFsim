@@ -1,0 +1,43 @@
+enum E = X;
+automaton M:
+  alphabet;
+  disc E a = X;
+  disc E p = X;
+  disc E r = X;
+  disc E s = X;
+  initial a = X and true,
+          p = X and true,
+          r = X and true,
+          s = X and true;
+  marked a = X and false,
+         p = X and false,
+         r = X and false,
+         s = X and false;
+  invariant 21 = 21;
+  plant invariant 22 = 22;
+  requirement invariant 23 = 23;
+  supervisor invariant 24 = 24;
+  plant invariant 31 = 31;
+  plant invariant 32 = 32;
+  requirement invariant 33 = 33;
+  supervisor invariant 34 = 34;
+  requirement invariant 41 = 41;
+  plant invariant 42 = 42;
+  requirement invariant 43 = 43;
+  supervisor invariant 44 = 44;
+  supervisor invariant 51 = 51;
+  plant invariant 52 = 52;
+  requirement invariant 53 = 53;
+  supervisor invariant 54 = 54;
+  supervisor invariant s = X => 61 = 61;
+  plant invariant s = X => 62 = 62;
+  requirement invariant s = X => 63 = 63;
+  supervisor invariant s = X => 64 = 64;
+  location L:
+    initial;
+    marked;
+end
+invariant 11 = 11;
+plant invariant 12 = 12;
+requirement invariant 13 = 13;
+supervisor invariant 14 = 14;

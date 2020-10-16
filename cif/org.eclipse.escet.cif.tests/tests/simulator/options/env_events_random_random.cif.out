@@ -1,0 +1,156 @@
+Initial state: time=0.0, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 3.3030603323208734]
+
+Transition: event a.env3
+State: time=0.0, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 3.3030603323208734]
+
+Transition: event a.env1
+State: time=0.0, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 3.3030603323208734]
+
+Transition: delaying for 3.3030603323208734 time units at time 0.0
+State: time=3.3030603323208734, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 1.9430227337720885]
+
+Transition: event a.env2
+State: time=3.3030603323208734, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 1.9430227337720885]
+
+Transition: event a.env2
+State: time=3.3030603323208734, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 1.9430227337720885]
+
+Transition: event a.env3
+State: time=3.3030603323208734, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 1.9430227337720885]
+
+Transition: event a.env3
+State: time=3.3030603323208734, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 1.9430227337720885]
+
+Transition: event a.env2
+State: time=3.3030603323208734, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 1.9430227337720885]
+
+Transition: delaying for 1.9430227337720885 time units at time 3.3030603323208734
+State: time=5.246083066092962, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 3.995206356246645]
+
+Transition: event a.env3
+State: time=5.246083066092962, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 3.995206356246645]
+
+Transition: delaying for 3.995206356246645 time units at time 5.246083066092962
+State: time=9.241289422339607, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 0.7587105776603931]
+
+Transition: event a.env3
+State: time=9.241289422339607, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 0.7587105776603931]
+
+Transition: event a.env3
+State: time=9.241289422339607, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 0.7587105776603931]
+
+Transition: event a.env1
+State: time=9.241289422339607, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 0.7587105776603931]
+
+Transition: event a.env1
+State: time=9.241289422339607, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 0.7587105776603931]
+
+Transition: event a.env3
+State: time=9.241289422339607, a=*
+
+Possible transitions:
+  #1: event a.env1
+  #2: event a.env2
+  #3: event a.env3
+  #4: delay for (0 .. 0.7587105776603931]
+
+Transition: delaying for 0.7587105776603931 time units at time 9.241289422339607
+State: time=10.0, a=*
+
+Simulation ended due to reaching the user-provided simulation end time.

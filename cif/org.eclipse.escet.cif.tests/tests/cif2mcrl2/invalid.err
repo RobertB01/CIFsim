@@ -1,0 +1,19 @@
+WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 22, column 13: Automaton "g.no_initial" has no initial location.
+WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 30, column 20: Discrete variable "g.p.x2" is not used anywhere in the specification.
+ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
+ - A value in the location of automaton "g.p" has an unsupported type "list bool" in expression "g.p.lb + [false]".
+ - Automaton "g.no_initial" has no initial location.
+ - Continuous variable "g.p.cnt" is unsupported in the transformation.
+ - Continuous variable "g.x" is unsupported in the transformation.
+ - Continuous variable "g.y" is unsupported in the transformation.
+ - Discrete variable "g.p.lb" does not have a boolean or integer type.
+ - Discrete variable "g.p.x1" does not have a single initial value.
+ - Discrete variable "g.p.x2" does not have a single initial value.
+ - Equations are not supported in group "g".
+ - Initialization predicates are not supported in group "g".
+ - Invariants are not supported in automaton "g.p".
+ - Invariants are not supported in group "g".
+ - The location of automaton "g.no_initial" has a "tau" event.
+ - The location of automaton "g.no_initial" has a "tau" event.
+ - The location of automaton "g.p" has conditional updates.
+ - The location of automaton "g.p" has invariants.

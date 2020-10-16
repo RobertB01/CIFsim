@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_imported_java_methods.tooldef": Semantic error at line 14, column 8: Duplicate tool overload for tool "valueOf" and tool "valueOf".
+ERROR: File "tchecker/dupl_name_imported_java_methods.tooldef": Semantic error at line 15, column 8: Duplicate tool overload for tool "valueOf" and tool "valueOf".
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_imported_java_methods.tooldef": the file has errors.

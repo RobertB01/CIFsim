@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "geometric(0.0)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: geometric(0.0).
+CAUSE: The chance parameter is not in the range (0.0 .. 1.0].

@@ -1,0 +1,2 @@
+ERROR: Failed to disable events for CIF file "event_disabler/opt_event_names_none.cif".
+CAUSE: No events specified. Use one of the options to specify events.

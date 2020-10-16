@@ -1,0 +1,19 @@
+group g:
+  group b:
+    invariant 1 = 1;
+    invariant 6 = 6;
+  end
+  group f:
+    invariant 2 = 2;
+    invariant 5 = 5;
+  end
+  group d:
+    invariant 3 = 3;
+  end
+  group a:
+    invariant 4 = 4;
+  end
+  group e:
+    invariant 7 = 7;
+  end
+end

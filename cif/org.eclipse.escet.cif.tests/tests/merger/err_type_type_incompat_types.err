@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_type_type_incompat_types.in1.cif" with CIF specification "merger/err_type_type_incompat_types.in2.cif" failed.
+CAUSE: Merging type declarations with name "t" failed: types "bool" and "int" are not compatible.

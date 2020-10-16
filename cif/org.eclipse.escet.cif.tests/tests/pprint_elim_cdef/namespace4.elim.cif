@@ -1,0 +1,6 @@
+group a:
+  const bool x = true;
+  alg bool y;
+  invariant x;
+  equation y = true;
+end

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/tuple_type_one_field.cif": Semantic error at line 14, column 10: Tuple types must have at least two fields.
+ERROR: Failed to load CIF file "tchecker/tuple_type_one_field.cif": the file has errors.

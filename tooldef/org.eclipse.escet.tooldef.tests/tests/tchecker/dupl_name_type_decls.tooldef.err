@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_type_decls.tooldef": Semantic error at line 14, column 6: Duplicate name "x" for type declaration "x" and type declaration "x" in the top level scope of the script.
+ERROR: File "tchecker/dupl_name_type_decls.tooldef": Semantic error at line 15, column 6: Duplicate name "x" for type declaration "x" and type declaration "x" in the top level scope of the script.
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_type_decls.tooldef": the file has errors.

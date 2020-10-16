@@ -1,0 +1,34 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg real x = if b.l1: y + 1 elif b.l2: y + 2 else y + 3 end;
+input real y;
+cont z = x der y;
+
+automaton a:
+  disc real v = z;
+  event e;
+
+  location:
+    initial;
+    edge e when v > 0;
+end
+
+automaton b:
+  location l1:
+    initial;
+    edge when a.v <= 0 goto l2;
+
+  location l2:
+    edge when a.v > 0 goto l1;
+end

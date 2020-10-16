@@ -1,0 +1,113 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const int c = 0;
+const int g2_c = 0;
+const int g4_A = 0;
+
+invariant c + g2_c + g4_A + g1.c2 > 0;
+
+enum g3_E = A, B;
+
+group g1:
+  const int c = 1;
+  const int c2 = 1;
+
+  group p:
+    automaton p1:
+      location l:
+        initial;
+    end
+    automaton p2:
+      location l:
+        initial;
+    end
+  end
+
+  plant invariant c = 1;
+end
+
+group g2:
+  const int c = 2;
+  requirement invariant c = 2;
+end
+
+group g3:
+  enum E = A, B;
+end
+
+automaton g3b:
+  disc g3.E v1 = g3.A;
+  disc g3_E v2 = A;
+  invariant v1 = g3.B or v2 = B;
+  location l:
+    initial;
+end
+
+group g4:
+  automaton A:
+    location l:
+      initial;
+  end
+end
+
+group x:
+  automaton y_z:
+    location l:
+      initial;
+  end
+end
+
+group x_y:
+  automaton z:
+    location l:
+      initial;
+  end
+end
+
+invariant 0 = 0;
+
+group p_eq:
+  alg real a;
+  cont x;
+  equation a  = 1.0;
+  equation x' = 2.0;
+  invariant a + x > 0;
+end
+
+svgfile "../tchecker/small.svg";
+
+svgout id "box" attr "x" value 1.23;
+
+group g5:
+  svgfile "../pprint_elim_cdef/text.svg";
+
+  svgout id "txt1" text value "abc";
+
+  group g5b:
+    svgout id "txt2" text value "def";
+  end
+end
+
+printfile "output1.txt";
+
+print "abc";
+
+group g6:
+  printfile "output2.txt";
+  print "def";
+
+  group g6b:
+    print "ghi";
+  end
+end

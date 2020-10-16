@@ -1,0 +1,8 @@
+group a:
+  type t1 = b.t2;
+  type t3 = bool;
+  group b:
+    type t2 = bool;
+    type t4 = t3;
+  end
+end

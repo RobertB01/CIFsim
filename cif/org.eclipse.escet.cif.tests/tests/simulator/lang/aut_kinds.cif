@@ -1,0 +1,62 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton none:
+  location:
+    initial;
+    urgent;
+end
+
+plant plt:
+  location:
+    initial;
+    urgent;
+end
+
+requirement req:
+  location:
+    initial;
+    urgent;
+end
+
+supervisor sup:
+  location:
+    initial;
+    urgent;
+end
+
+group grp:
+  automaton none:
+    location:
+      initial;
+      urgent;
+  end
+
+  plant plt:
+    location:
+      initial;
+      urgent;
+  end
+
+  requirement req:
+    location:
+      initial;
+      urgent;
+  end
+
+  supervisor sup:
+    location:
+      initial;
+      urgent;
+  end
+end

@@ -1,0 +1,20 @@
+automaton io:
+  disc bool sensor in any;
+  uncontrollable u_sensor;
+  alg bool act = not sensor;
+  location:
+    initial;
+    marked;
+    edge u_sensor do sensor := not sensor;
+end
+plant automaton p:
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end

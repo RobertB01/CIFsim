@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[download-install-first-start]]
+== Starting Eclipse ESCET IDE for the first time
+
+When you start the Eclipse ESCET IDE for the first time, it will ask you to
+choose a <<use-terminology-workspace,workspace>> directory. A workspace
+directory is where all your settings will be stored. It is also the default
+directory for <<use-create-project,new projects>>, in which you will store
+your files.
+
+Choose a workspace directory and continue. Make sure that you have read and
+write access to the directory you choose. If you wish, the Eclipse ESCET IDE
+can remember your workspace directory. Note that if the workspace directory
+you choose does not yet exist, Eclipse will create it for you.
+
+The first time Eclipse launches in a fresh workspace, you will get a
+_Welcome_ screen. You can close this tab by clicking the 'X' at the right of
+the tab, or by clicking on the 'workbench' icon (the right most icon on
+the welcome page).

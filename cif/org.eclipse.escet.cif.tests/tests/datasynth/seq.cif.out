@@ -1,0 +1,161 @@
+Reading CIF file "datasynth/seq.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        p     0      3 * 2     6 * 2       8 * 2       75%
+  2      discrete variable  int[0..9]  p.x   1      4 * 2     10 * 2      16 * 2      ~63%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      14        32          48          ~67%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 9
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    3 (total)                 0.33 (avg/edge) [before]
+    Total span:                    3 (total)                 0.33 (avg/edge) [iteration 1]
+    Total span:                    3 (total)                 0.33 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    3 (total)                 0.33 (avg/edge) [before]
+    Total span:                    3 (total)                 0.33 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 1):         p.x = 3
+Initial   (discrete variables):          p.x = 3
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     p.m0
+Initial   (auts/locs init predicate):    p.m0
+Initial   (uncontrolled system):         p.m0 and p.x = 3
+Initial   (system, combined init/inv):   p.m0 and p.x = 3
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   p.m5 and (0 <= p.x and p.x <= 7)
+Marked    (auts/locs marker predicate):  p.m5 and (0 <= p.x and p.x <= 7)
+Marked    (uncontrolled system):         p.m5 and (0 <= p.x and p.x <= 7)
+Marked    (system, combined marked/inv): p.m5 and (0 <= p.x and p.x <= 7)
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: c1) (guard: p.m0) (assignments: p := p.m1)
+    Edge: (event: u2) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2)
+    Edge: (event: u1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3)
+    Edge: (event: u1) (guard: p.m3) (assignments: p.x := p.x + 1, p := p.m4)
+    Edge: (event: u1) (guard: p.m4) (assignments: p.x := p.x + 1, p := p.m5)
+    Edge: (event: c2) (guard: p.m2) (assignments: p.x := p.x + 1)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..9]" (group: 1, domain: 2+3, BDD variables: 4, CIF/BDD values: 10/16)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.m5 and (0 <= p.x and p.x <= 7) [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.m5 and (0 <= p.x and p.x <= 7) -> not p.m0 and (not p.m4 or p.x != 8) and ((not p.m4 or p.x != 9) and (not p.m4 or p.x != 7)) and (not p.m2 and not p.m1 and ((not p.m5 or 0 <= p.x and p.x <= 7) and not p.m3)) [backward reach with edge: (event: u1) (guard: p.m4) (assignments: p.x := p.x + 1, p := p.m5), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not p.m0 and (not p.m4 or p.x != 8) and ((not p.m4 or p.x != 9) and (not p.m4 or p.x != 7)) and (not p.m2 and not p.m1 and ((not p.m5 or 0 <= p.x and p.x <= 7) and not p.m3)) -> not p.m0 and (not p.m4 or p.x != 8) and ((not p.m4 or p.x != 9) and (not p.m4 or p.x != 7)) and (not p.m2 and not p.m1 and ((not p.m5 or 0 <= p.x and p.x <= 7) and ((not p.m3 or 0 <= p.x and p.x <= 7) and (not p.m3 or not(p.x = 6 or p.x = 7))))) [backward reach with edge: (event: u1) (guard: p.m3) (assignments: p.x := p.x + 1, p := p.m4), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 3.
+Backward controlled-behavior: not p.m0 and (not p.m4 or p.x != 8) and ((not p.m4 or p.x != 9) and (not p.m4 or p.x != 7)) and (not p.m2 and not p.m1 and ((not p.m5 or 0 <= p.x and p.x <= 7) and ((not p.m3 or 0 <= p.x and p.x <= 7) and (not p.m3 or not(p.x = 6 or p.x = 7))))) -> not p.m0 and ((not p.m4 or p.x != 8) and (not p.m4 or p.x != 9)) and ((not p.m4 or p.x != 7) and ((not p.m2 or p.x != 8) and (not p.m2 or p.x != 6))) and ((not p.m2 or p.x != 9) and ((not p.m2 or not(p.x = 5 or p.x = 7)) and not p.m1) and ((not p.m5 or 0 <= p.x and p.x <= 7) and ((not p.m3 or 0 <= p.x and p.x <= 7) and (not p.m3 or not(p.x = 6 or p.x = 7))))) [backward reach with edge: (event: u1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 4.
+Backward controlled-behavior: not p.m0 and ((not p.m4 or p.x != 8) and (not p.m4 or p.x != 9)) and ((not p.m4 or p.x != 7) and ((not p.m2 or p.x != 8) and (not p.m2 or p.x != 6))) and ((not p.m2 or p.x != 9) and ((not p.m2 or not(p.x = 5 or p.x = 7)) and not p.m1) and ((not p.m5 or 0 <= p.x and p.x <= 7) and ((not p.m3 or 0 <= p.x and p.x <= 7) and (not p.m3 or not(p.x = 6 or p.x = 7))))) -> p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or (p.m2 and (p.x = 0 or p.x = 4) or p.m2 and p.x = 2)) or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3)))) [backward reach with edge: (event: u2) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 5.
+Backward controlled-behavior: p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or (p.m2 and (p.x = 0 or p.x = 4) or p.m2 and p.x = 2)) or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3)))) -> p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3)))) [backward reach with edge: (event: c1) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 6.
+Backward controlled-behavior: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3)))) [fixed point].
+Controlled behavior: true -> p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3)))).
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.m0 and (p.x = 8 or p.x = 9) or (p.m0 and (4 <= p.x and p.x <= 7) or p.m4 and p.x = 8) or (p.m4 and p.x = 9 or p.m4 and p.x = 7 or (p.m2 and p.x = 8 or p.m2 and p.x = 6)) or (p.m2 and p.x = 9 or (p.m2 and (p.x = 5 or p.x = 7) or p.m1 and (p.x = 8 or p.x = 9)) or (p.m1 and (4 <= p.x and p.x <= 7) or p.m5 and (p.x = 8 or p.x = 9) or (p.m3 and (p.x = 8 or p.x = 9) or p.m3 and (p.x = 6 or p.x = 7)))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.m0 and p.x = 3 [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p.m0 and p.x = 3 -> (p.m0 or p.m1) and p.x = 3 [forward reach with edge: (event: c1) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3))))]
+Forward controlled-behavior: (p.m0 or p.m1) and p.x = 3 -> p.m0 and p.x = 3 or (p.m2 and p.x = 4 or p.m1 and p.x = 3) [forward reach with edge: (event: u2) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3))))]
+Forward controlled-behavior: p.m0 and p.x = 3 or (p.m2 and p.x = 4 or p.m1 and p.x = 3) -> p.m0 and p.x = 3 or p.m2 and p.x = 4 or (p.m1 and p.x = 3 or p.m3 and p.x = 5) [forward reach with edge: (event: u1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3))))]
+Forward controlled-behavior: p.m0 and p.x = 3 or p.m2 and p.x = 4 or (p.m1 and p.x = 3 or p.m3 and p.x = 5) -> p.m0 and p.x = 3 or p.m4 and p.x = 6 or (p.m2 and p.x = 4 or (p.m1 and p.x = 3 or p.m3 and p.x = 5)) [forward reach with edge: (event: u1) (guard: p.m3) (assignments: p.x := p.x + 1, p := p.m4), restricted to current/previous controlled-behavior predicate: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3))))]
+Forward controlled-behavior: p.m0 and p.x = 3 or p.m4 and p.x = 6 or (p.m2 and p.x = 4 or (p.m1 and p.x = 3 or p.m3 and p.x = 5)) -> p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)) [forward reach with edge: (event: u1) (guard: p.m4) (assignments: p.x := p.x + 1, p := p.m5), restricted to current/previous controlled-behavior predicate: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3))))]
+Forward reachability: iteration 2.
+Forward controlled-behavior: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)) [fixed point].
+Controlled behavior: p.m0 and (0 <= p.x and p.x <= 3) or p.m4 and (p.x = 0 or p.x = 2 or (p.x = 4 or p.x = 6)) or (p.m4 and (p.x = 1 or p.x = 5) or (p.m4 and p.x = 3 or p.m2 and (p.x = 0 or p.x = 4))) or (p.m2 and p.x = 2 or (p.m2 and (p.x = 1 or p.x = 3) or p.m1 and (0 <= p.x and p.x <= 3)) or (p.m5 and (0 <= p.x and p.x <= 7) or (p.m3 and (p.x = 0 or p.x = 1 or (p.x = 4 or p.x = 5)) or p.m3 and (p.x = 2 or p.x = 3)))) -> p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: p.m5 and (0 <= p.x and p.x <= 7) [marker predicate]
+Backward controlled-behavior: p.m5 and (0 <= p.x and p.x <= 7) -> p.m5 and p.x = 7 [restricted to current/previous controlled-behavior predicate: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.m5 and p.x = 7 -> p.m4 and p.x = 6 or p.m5 and p.x = 7 [backward reach with edge: (event: u1) (guard: p.m4) (assignments: p.x := p.x + 1, p := p.m5), restricted to current/previous controlled-behavior predicate: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))]
+Backward reachability: iteration 2.
+Backward controlled-behavior: p.m4 and p.x = 6 or p.m5 and p.x = 7 -> p.m4 and p.x = 6 or (p.m5 and p.x = 7 or p.m3 and p.x = 5) [backward reach with edge: (event: u1) (guard: p.m3) (assignments: p.x := p.x + 1, p := p.m4), restricted to current/previous controlled-behavior predicate: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))]
+Backward reachability: iteration 3.
+Backward controlled-behavior: p.m4 and p.x = 6 or (p.m5 and p.x = 7 or p.m3 and p.x = 5) -> p.m4 and p.x = 6 or p.m2 and p.x = 4 or (p.m5 and p.x = 7 or p.m3 and p.x = 5) [backward reach with edge: (event: u1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3), restricted to current/previous controlled-behavior predicate: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))]
+Backward reachability: iteration 4.
+Backward controlled-behavior: p.m4 and p.x = 6 or p.m2 and p.x = 4 or (p.m5 and p.x = 7 or p.m3 and p.x = 5) -> p.m4 and p.x = 6 or p.m2 and p.x = 4 or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)) [backward reach with edge: (event: u2) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2), restricted to current/previous controlled-behavior predicate: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))]
+Backward reachability: iteration 5.
+Backward controlled-behavior: p.m4 and p.x = 6 or p.m2 and p.x = 4 or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)) -> p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)) [backward reach with edge: (event: c1) (guard: p.m0) (assignments: p := p.m1), restricted to current/previous controlled-behavior predicate: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))]
+Backward reachability: iteration 6.
+Backward controlled-behavior: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: <bdd 18n 26p> [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: c1) (guard: p.m0) (assignments: p := p.m1): guard: p.m0 -> p.m0 and p.x = 3.
+Edge (event: c2) (guard: p.m2) (assignments: p.x := p.x + 1): guard: p.m2 -> p.m2 and p.x = 3.
+
+Final synthesis result:
+  State: (controlled-behavior: p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5)))
+    Edge: (event: c1) (guard: p.m0 -> p.m0 and p.x = 3) (assignments: p := p.m1)
+    Edge: (event: u2) (guard: p.m1) (assignments: p.x := p.x + 1, p := p.m2)
+    Edge: (event: u1) (guard: p.m2) (assignments: p.x := p.x + 1, p := p.m3)
+    Edge: (event: u1) (guard: p.m3) (assignments: p.x := p.x + 1, p := p.m4)
+    Edge: (event: u1) (guard: p.m4) (assignments: p.x := p.x + 1, p := p.m5)
+    Edge: (event: c2) (guard: p.m2 -> p.m2 and p.x = 3) (assignments: p.x := p.x + 1)
+
+Controlled system:                     exactly 6 states.
+
+Initial (synthesis result):            p.m0 and p.x = 3 or (p.m4 and p.x = 6 or p.m2 and p.x = 4) or (p.m1 and p.x = 3 or (p.m5 and p.x = 7 or p.m3 and p.x = 5))
+Initial (uncontrolled system):         p.m0 and p.x = 3
+Initial (controlled system):           p.m0 and p.x = 3
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event c1: guard: p.m0 and p.x = 3 -> p.x = 3 [assume p.m0].
+  Event c2: guard: p.m2 and p.x = 3 -> p.x = 3 [assume p.m2].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/seq.ctrlsys.real.cif".

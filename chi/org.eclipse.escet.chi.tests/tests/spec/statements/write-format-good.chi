@@ -1,0 +1,447 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+
+    write("%b\n", true);
+    write("%7b\n", true);
+
+#    write("%-b\n", true);      # Bad java
+
+    write("%-7b\n", true);
+
+    write("---\n");
+
+# -----------------------------------------
+    write("%B\n", true);
+    write("%7B\n", true);
+
+#    write("%-B\n", true);      # Bad java
+
+    write("%-7B\n", true);
+
+    write("---\n");
+
+# -----------------------------------------
+    write("%d\n", 1);
+
+    write("%7d\n", 1);
+
+#    write("%0d\n", 1);         # Bad java
+    write("%07d\n", 1);
+
+    write("%+d\n", 1);
+    write("%+7d\n", 1);
+#    write("%+0d\n", 1);        # Bad java
+    write("%+07d\n", 1);
+
+    write("% d\n", 1);
+    write("% 7d\n", 1);
+#    write("% 0d\n", 1);        # Bad java
+    write("% 07d\n", 1);
+#    write("%+ d\n", 1);        # Bad java
+#    write("%+ 7d\n", 1);       # Bad java
+#    write("%+ 0d\n", 1);       # Bad java
+#    write("%+ 07d\n", 1);      # Bad java
+
+#    write("%-d\n", 1);         # Bad java
+    write("%-7d\n", 1);
+#    write("%-0d\n", 1);        # Bad java
+#    write("%-07d\n", 1);       # Bad java
+#    write("%-+d\n", 1);        # Bad java
+    write("%-+7d\n", 1);
+#    write("%-+0d\n", 1);       # Bad java
+#    write("%-+07d\n", 1);      # Bad java
+#    write("%- d\n", 1);        # Bad java
+    write("%- 7d\n", 1);
+#    write("%- 0d\n", 1);       # Bad java
+#    write("%- 07d\n", 1);      # Bad java
+#    write("%-+ d\n", 1);       # Bad java
+#    write("%-+ 7d\n", 1);      # Bad java
+#    write("%-+ 0d\n", 1);      # Bad java
+#    write("%-+ 07d\n", 1);     # Bad java
+
+    write("%,d\n", 1234);       # Bad java
+    write("%,7d\n", 1234);      # Bad java
+#   write("%-,d\n", 1234);      # Bad java
+    write("%-,7d\n", 1234);
+#    write("%-0,d\n", 1234);    # Bad java
+#    write("%-0,7d\n", 1234);   # Bad java
+#    write("%-+,d\n", 1234);    # Bad java
+    write("%-+,7d\n", 1234);
+#    write("%-+0,d\n", 1234);   # Bad java
+#    write("%-+0,7d\n", 1234);  # Bad java
+#    write("%- ,d\n", 1234);    # Bad java
+    write("%- ,7d\n", 1234);
+#    write("%- 0,d\n", 1234);   # Bad java
+#    write("%- 0,7d\n", 1234);  # Bad java
+#    write("%-+ ,d\n", 1234);   # Bad java
+#    write("%-+ ,7d\n", 1234);  # Bad java
+#    write("%-+ 0,d\n", 1234);  # Bad java
+#    write("%-+ 0,7d\n", 1234); # Bad java
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%x\n", 10);
+
+    write("%7x\n", 10);
+
+#    write("%0x\n", 10);        # Bad java
+    write("%07x\n", 10);
+
+#    write("%+x\n", 10);        # Bad java
+#    write("%+7x\n", 10);       # Bad java
+#    write("%+0x\n", 10);       # Bad java
+#    write("%+07x\n", 10);      # Bad java
+
+#    write("% x\n", 10);        # Bad java
+#    write("% 7x\n", 10);       # Bad java
+#    write("% 0x\n", 10);       # Bad java
+#    write("% 07x\n", 10);      # Bad java
+#    write("%+ x\n", 10);       # Bad java
+#    write("%+ 7x\n", 10);      # Bad java
+#    write("%+ 0x\n", 10);      # Bad java
+#    write("%+ 07x\n", 10);     # Bad java
+
+#    write("%-x\n", 10);        # Bad java
+    write("%-7x\n", 10);
+#    write("%-0x\n", 10);       # Bad java
+#    write("%-07x\n", 10);      # Bad java
+#    write("%-+x\n", 10);       # Bad java
+#    write("%-+7x\n", 10);      # Bad java
+#    write("%-+0x\n", 10);      # Bad java
+#    write("%-+07x\n", 10);     # Bad java
+#    write("%- x\n", 10);       # Bad java
+#    write("%- 7x\n", 10);      # Bad java
+#    write("%- 0x\n", 10);      # Bad java
+#    write("%- 07x\n", 10);     # Bad java
+#    write("%-+ x\n", 10);      # Bad java
+#    write("%-+ 7x\n", 10);     # Bad java
+#    write("%-+ 0x\n", 10);     # Bad java
+#    write("%-+ 07x\n", 10);    # Bad java
+
+#    write("%,x\n", 1234);      # Bad java
+#    write("%,7x\n", 1234);     # Bad java
+#    write("%-,x\n", 1234);     # Bad java
+#    write("%-,7x\n", 1234);    # Bad java
+#    write("%-0,x\n", 1234);    # Bad java
+#    write("%-0,7x\n", 1234);   # Bad java
+#    write("%-+,x\n", 1234);    # Bad java
+#    write("%-+,7x\n", 1234);   # Bad java
+#    write("%-+0,x\n", 1234);   # Bad java
+#    write("%-+0,7x\n", 1234);  # Bad java
+#    write("%- ,x\n", 1234);    # Bad java
+#    write("%- ,7x\n", 1234);   # Bad java
+#    write("%- 0,x\n", 1234);   # Bad java
+#    write("%- 0,7x\n", 1234);  # Bad java
+#    write("%-+ ,x\n", 1234);   # Bad java
+#    write("%-+ ,7x\n", 1234);  # Bad java
+#    write("%-+ 0,x\n", 1234);  # Bad java
+#    write("%-+ 0,7x\n", 1234); # Bad java
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%X\n", 13);
+
+    write("%7X\n", 13);
+
+#    write("%0X\n", 13);        # Bad java
+    write("%07X\n", 13);
+
+#    write("%+X\n", 13);        # Bad java
+#    write("%+7X\n", 13);       # Bad java
+#    write("%+0X\n", 13);       # Bad java
+#    write("%+07X\n", 13);      # Bad java
+
+#    write("% X\n", 13);        # Bad java
+#    write("% 7X\n", 13);       # Bad java
+#    write("% 0X\n", 13);       # Bad java
+#    write("% 07X\n", 13);      # Bad java
+#    write("%+ X\n", 13);       # Bad java
+#    write("%+ 7X\n", 13);      # Bad java
+#    write("%+ 0X\n", 13);      # Bad java
+#    write("%+ 07X\n", 13);     # Bad java
+
+#    write("%-X\n", 13);        # Bad java
+    write("%-7X\n", 13);
+#    write("%-0X\n", 13);       # Bad java
+#    write("%-07X\n", 13);      # Bad java
+#    write("%-+X\n", 13);       # Bad java
+#    write("%-+7X\n", 13);      # Bad java
+#    write("%-+0X\n", 13);      # Bad java
+#    write("%-+07X\n", 13);     # Bad java
+#    write("%- X\n", 13);       # Bad java
+#    write("%- 7X\n", 13);      # Bad java
+#    write("%- 0X\n", 13);      # Bad java
+#    write("%- 07X\n", 13);     # Bad java
+#    write("%-+ X\n", 13);      # Bad java
+#    write("%-+ 7X\n", 13);     # Bad java
+#    write("%-+ 0X\n", 13);     # Bad java
+#    write("%-+ 07X\n", 13);    # Bad java
+
+#    write("%,X\n", 1234);      # Bad java
+#    write("%,7X\n", 1234);     # Bad java
+#    write("%-,X\n", 1234);     # Bad java
+#    write("%-,7X\n", 1234);    # Bad java
+#    write("%-0,X\n", 1234);    # Bad java
+#    write("%-0,7X\n", 1234);   # Bad java
+#    write("%-+,X\n", 1234);    # Bad java
+#    write("%-+,7X\n", 1234);   # Bad java
+#    write("%-+0,X\n", 1234);   # Bad java
+#    write("%-+0,7X\n", 1234);  # Bad java
+#    write("%- ,X\n", 1234);    # Bad java
+#    write("%- ,7X\n", 1234);   # Bad java
+#    write("%- 0,X\n", 1234);   # Bad java
+#    write("%- 0,7X\n", 1234);  # Bad java
+#    write("%-+ ,X\n", 1234);   # Bad java
+#    write("%-+ ,7X\n", 1234);  # Bad java
+#    write("%-+ 0,X\n", 1234);  # Bad java
+#    write("%-+ 0,7X\n", 1234); # Bad java
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%f\n", 1.5);
+    write("%22f\n", 1.5);
+    write("%022f\n", 1.5);
+    write("%+f\n", 1.5);
+    write("%+22f\n", 1.5);
+    write("%+022f\n", 1.5);
+    write("% f\n", 1.5);
+    write("% 22f\n", 1.5);
+    write("% 022f\n", 1.5);
+    write("%-22f\n", 1.5);
+    write("%-+22f\n", 1.5);
+    write("%- 22f\n", 1.5);
+    write("%,f\n", 123456.7);
+    write("%,22f\n", 123456.7);
+    write("%-,22f\n", 123456.7);
+    write("%-+,22f\n", 123456.7);
+    write("%- ,22f\n", 123456.7);
+
+    write("%.2f\n", 1.5);
+    write("%22.2f\n", 1.5);
+    write("%022.2f\n", 1.5);
+    write("%+.2f\n", 1.5);
+    write("%+22.2f\n", 1.5);
+    write("%+022.2f\n", 1.5);
+    write("% .2f\n", 1.5);
+    write("% 22.2f\n", 1.5);
+    write("% 022.2f\n", 1.5);
+    write("%-22.2f\n", 1.5);
+    write("%-+22.2f\n", 1.5);
+    write("%- 22.2f\n", 1.5);
+    write("%,.2f\n", 123456.7);
+    write("%,22.2f\n", 123456.7);
+    write("%-,22.2f\n", 123456.7);
+    write("%-+,22.2f\n", 123456.7);
+    write("%- ,22.2f\n", 123456.7);
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%e\n", 1.6);
+    write("%22e\n", 1.6);
+    write("%022e\n", 1.6);
+    write("%+e\n", 1.6);
+    write("%+22e\n", 1.6);
+    write("%+022e\n", 1.6);
+    write("% e\n", 1.6);
+    write("% 22e\n", 1.6);
+    write("% 022e\n", 1.6);
+    write("%-22e\n", 1.6);
+    write("%-+22e\n", 1.6);
+    write("%- 22e\n", 1.6);
+
+    write("%.2e\n", 1.6);
+    write("%22.2e\n", 1.6);
+    write("%022.2e\n", 1.6);
+    write("%+.2e\n", 1.6);
+    write("%+22.2e\n", 1.6);
+    write("%+022.2e\n", 1.6);
+    write("% .2e\n", 1.6);
+    write("% 22.2e\n", 1.6);
+    write("% 022.2e\n", 1.6);
+    write("%-22.2e\n", 1.6);
+    write("%-+22.2e\n", 1.6);
+    write("%- 22.2e\n", 1.6);
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%E\n", 1.7);
+    write("%22E\n", 1.7);
+    write("%022E\n", 1.7);
+    write("%+E\n", 1.7);
+    write("%+22E\n", 1.7);
+    write("%+022E\n", 1.7);
+    write("% E\n", 1.7);
+    write("% 22E\n", 1.7);
+    write("% 022E\n", 1.7);
+    write("%-22E\n", 1.7);
+    write("%-+22E\n", 1.7);
+    write("%- 22E\n", 1.7);
+
+    write("%.2E\n", 1.7);
+    write("%22.2E\n", 1.7);
+    write("%022.2E\n", 1.7);
+    write("%+.2E\n", 1.7);
+    write("%+22.2E\n", 1.7);
+    write("%+022.2E\n", 1.7);
+    write("% .2E\n", 1.7);
+    write("% 22.2E\n", 1.7);
+    write("% 022.2E\n", 1.7);
+    write("%-22.2E\n", 1.7);
+    write("%-+22.2E\n", 1.7);
+    write("%- 22.2E\n", 1.7);
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%g\n", 1.8);
+    write("%22g\n", 1.8);
+    write("%022g\n", 1.8);
+    write("%+g\n", 1.8);
+    write("%+22g\n", 1.8);
+    write("%+022g\n", 1.8);
+    write("% g\n", 1.8);
+    write("% 22g\n", 1.8);
+    write("% 022g\n", 1.8);
+    write("%-22g\n", 1.8);
+    write("%-+22g\n", 1.8);
+    write("%- 22g\n", 1.8);
+    write("%,g\n", 123456.7);
+    write("%,22g\n", 123456.7);
+    write("%-,22g\n", 123456.7);
+    write("%-+,22g\n", 123456.7);
+    write("%- ,22g\n", 123456.7);
+
+    write("%.2g\n", 1.8);
+    write("%22.2g\n", 1.8);
+    write("%022.2g\n", 1.8);
+    write("%+.2g\n", 1.8);
+    write("%+22.2g\n", 1.8);
+    write("%+022.2g\n", 1.8);
+    write("% .2g\n", 1.8);
+    write("% 22.2g\n", 1.8);
+    write("% 022.2g\n", 1.8);
+    write("%-22.2g\n", 1.8);
+    write("%-+22.2g\n", 1.8);
+    write("%- 22.2g\n", 1.8);
+    write("%,.2g\n", 123456.7);
+    write("%,22.2g\n", 123456.7);
+    write("%-,22.2g\n", 123456.7);
+    write("%-+,22.2g\n", 123456.7);
+    write("%- ,22.2g\n", 123456.7);
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%+022G\n", 1.9);
+    write("% G\n", 1.9);
+    write("% 22G\n", 1.9);
+    write("% 022G\n", 1.9);
+    write("%-22G\n", 1.9);
+    write("%-+22G\n", 1.9);
+    write("%- 22G\n", 1.9);
+    write("%,G\n", 123456.7);
+    write("%,22G\n", 123456.7);
+    write("%-,22G\n", 123456.7);
+    write("%-+,22G\n", 123456.7);
+    write("%- ,22G\n", 123456.7);
+
+    write("%.2G\n", 1.9);
+    write("%22.2G\n", 1.9);
+    write("%022.2G\n", 1.9);
+    write("%+.2G\n", 1.9);
+    write("%+22.2G\n", 1.9);
+    write("%+022.2G\n", 1.9);
+    write("% .2G\n", 1.9);
+    write("% 22.2G\n", 1.9);
+    write("% 022.2G\n", 1.9);
+    write("%-22.2G\n", 1.9);
+    write("%-+22.2G\n", 1.9);
+    write("%- 22.2G\n", 1.9);
+    write("%,.2G\n", 123456.7);
+    write("%,22.2G\n", 123456.7);
+    write("%-,22.2G\n", 123456.7);
+    write("%-+,22.2G\n", 123456.7);
+    write("%- ,22.2G\n", 123456.7);
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%s\n", "aBc");
+    write("%7s\n", "aBc");
+
+#    write("%-s\n", "aBc");    # Bad java
+
+    write("%-7s\n", "aBc");
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%S\n", "aBc");
+    write("%7S\n", "aBc");
+
+#    write("%-S\n", "aBc");    # Bad java
+
+    write("%-7S\n", "aBc");
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%%\n");
+
+#    write("%7%\n");
+#    write("%-%\n");   # Bad java
+#    write("%-7%\n");
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("a\nb\tc\\d\"e\n");
+
+    write("---\n");
+
+# -----------------------------------------
+
+    # 1 1 2.000000 1 2.000000 true false false
+    writeln("%d %1$d %f %1$d %2$f %b %4$b %b", 1, 2.0, true, false);
+
+    write("---\n");
+
+# -----------------------------------------
+
+    write("%-+,5d\n", 123);
+    write("%-,+5d\n", 123);
+    write("%+-,5d\n", 123);
+    write("%+,-5d\n", 123);
+    write("%,+-5d\n", 123);
+    write("%,-+5d\n", 123);
+
+    write("---\n");
+
+end

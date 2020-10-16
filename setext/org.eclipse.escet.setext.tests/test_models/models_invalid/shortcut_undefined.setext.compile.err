@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/shortcut_undefined.setext": Semantic error at line 14, column 4: Undefined shortcut "a".
+ERROR: Failed to load SeText file "models_invalid/shortcut_undefined.setext": the file has errors.

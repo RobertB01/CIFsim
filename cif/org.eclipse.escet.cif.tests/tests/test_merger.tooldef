@@ -1,0 +1,125 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cifmerge;
+
+// Configuration.
+string test_path = "merger";
+string test_pattern = "*.cif";
+list string default_options = ["--devmode=1"];
+map(string:list string) test_options = {};
+set string test_skip = {};
+
+// Initialize counts.
+int count = 0;
+int successes = 0;
+int failures = 0;
+int skipped = 0;
+
+// Find tests.
+list string tests1 = find(test_path, test_pattern, recursive=false);
+for i in range(tests1):: tests1[i] = replace(pathjoin(test_path, tests1[i]), "\\", "/");
+for i in reverse(range(tests1)):
+    if contains(tests1[i], ".merged.cif"):
+        tests1 = delidx(tests1, i);
+        continue;
+    end
+    if contains(test_skip, tests1[i]):
+        tests1 = delidx(tests1, i);
+        count = count + 1;
+        skipped = skipped + 1;
+    end
+end
+
+// Per test, input files, output file base.
+set tuple(list string, string) tests2;
+for test in tests1:
+    string prefix;
+    if endswith(test, ".in1.cif"):: prefix = test[:-size(".in1.cif")];
+    if endswith(test, ".in2.cif"):: prefix = test[:-size(".in2.cif")];
+    if endswith(test, ".in3.cif"):: prefix = test[:-size(".in3.cif")];
+
+    if prefix == "merger/rel_paths":
+        tests2 = tests2 or {(["merger/rel_paths.in1.cif",
+                              "merger/subdir1/rel_paths.in2.cif",
+                              "empty.txt"],
+                             "merger/subdir2/rel_paths")};
+    else
+        list string inputs;
+        if exists(prefix + ".in1.cif"):: inputs = inputs + [prefix + ".in1.cif"];
+        if exists(prefix + ".in2.cif"):: inputs = inputs + [prefix + ".in2.cif"];
+        if exists(prefix + ".in3.cif"):: inputs = inputs + [prefix + ".in3.cif"];
+        tests2 = tests2 or {(inputs, prefix)};
+    end
+end
+
+// Test all tests.
+for test_inputs, test in tests2:
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test_out_exp  = chfileext(test, newext="out");
+    string test_err_exp  = chfileext(test, newext="err");
+    string test_out_real = chfileext(test, newext="out.real");
+    string test_err_real = chfileext(test, newext="err.real");
+
+    string rslt_exp  = chfileext(test, newext="merged.cif");
+    string rslt_real = chfileext(test, newext="merged.cif.real");
+
+    // Execute.
+    options = options + test_inputs + ["-o", rslt_real];
+    cifmerge(options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout_diff = diff(test_out_exp, test_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool rslt_diff  = diff(rslt_exp, rslt_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr_diff:: rmfile(test_err_real);
+    if not stdout_diff:: rmfile(test_out_real);
+    if not rslt_diff::   if exists(rslt_real):: rmfile(rslt_real);
+
+    // Update counts.
+    int diff_count = 0;
+    if stderr_diff:: diff_count = diff_count + 1;
+    if stdout_diff:: diff_count = diff_count + 1;
+    if rslt_diff::   diff_count = diff_count + 1;
+
+    count = count + 1;
+    if diff_count == 0:: successes = successes + 1;
+    if diff_count > 0:: failures = failures + 1;
+end
+
+// Get result message.
+string rslt;
+if failures == 0: rslt = "SUCCESS"; else rslt = "FAILURE"; end
+
+string msg = fmt("Test %s (%s): %d tests, %d successes, %d failures, %d skipped.",
+                 rslt, test_path, count, successes, failures, skipped);
+
+// Output result message.
+if failures == 0:
+    outln(msg);
+else
+    errln(msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit failures;

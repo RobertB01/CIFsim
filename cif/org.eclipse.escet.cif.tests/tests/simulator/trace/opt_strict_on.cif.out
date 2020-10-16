@@ -1,0 +1,9 @@
+Initial state: time=0.0, a=l1
+
+Transition: event e
+State: time=0.0, a=l2
+
+Possible transitions:
+  #1: event f
+  #2: event f
+

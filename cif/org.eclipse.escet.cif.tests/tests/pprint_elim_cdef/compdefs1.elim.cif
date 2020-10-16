@@ -1,0 +1,53 @@
+event e1;
+event int e2;
+automaton p1:
+  event e_a1;
+  event e_a2;
+  controllable c_c1;
+  controllable c_c2;
+  uncontrollable u_u1;
+  uncontrollable u_u2;
+  controllable c_d1;
+  controllable c_d2;
+  uncontrollable u_v1;
+  uncontrollable u_v2;
+  disc bool x = true;
+  invariant c_c2 needs true;
+  invariant u_u2 needs true;
+  invariant c_d2 needs false;
+  invariant u_v2 needs false;
+  location l1:
+    initial;
+    marked;
+    edge e_a1 goto l2;
+  location l2;
+end
+group p2:
+  alg bool b = true;
+  invariant b or p1.l1;
+  invariant p1.l1 or p1.x;
+end
+group p3:
+  invariant p1.e_a1 needs true;
+  invariant p1.e_a2 needs true;
+  invariant p1.c_c1 needs false;
+  invariant p1.u_u1 needs false;
+  invariant p1.c_d1 needs false;
+  invariant p1.u_v1 needs false;
+end
+group p4:
+end
+group q:
+  alg real param = 1.5;
+  invariant param > 0;
+end
+automaton a1:
+  location:
+    initial;
+    edge e1;
+end
+automaton a2:
+  location:
+    initial;
+    edge e2;
+end

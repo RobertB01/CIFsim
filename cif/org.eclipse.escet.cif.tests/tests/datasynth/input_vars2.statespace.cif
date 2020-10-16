@@ -1,0 +1,14 @@
+group io:
+  uncontrollable u_sensor;
+end
+automaton statespace:
+  alphabet io.u_sensor;
+  location loc1:
+    initial;
+    marked;
+    edge io.u_sensor goto loc2;
+  location loc2:
+    initial;
+    marked;
+    edge io.u_sensor goto loc1;
+end

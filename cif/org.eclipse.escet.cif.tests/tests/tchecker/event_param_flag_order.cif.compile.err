@@ -1,0 +1,9 @@
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 25, column 32: Flag "?" should be before flag "~", for event parameter "SCR.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 26, column 31: Flag "!" should be before flag "?", for event parameter "RSC.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 27, column 32: Flag "!" should be before flag "?", for event parameter "RCS.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 27, column 32: Flag "!" should be before flag "~", for event parameter "RCS.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 28, column 31: Flag "!" should be before flag "~", for event parameter "CSR.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 28, column 32: Flag "?" should be before flag "~", for event parameter "CSR.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 29, column 31: Flag "?" should be before flag "~", for event parameter "CRS.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 29, column 32: Flag "!" should be before flag "?", for event parameter "CRS.p".
+WARNING: File "tchecker/event_param_flag_order.cif": Semantic warning at line 29, column 32: Flag "!" should be before flag "~", for event parameter "CRS.p".

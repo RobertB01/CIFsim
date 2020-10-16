@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+enum e = A, B;
+
+automaton def P():
+  enum e = A, B;
+  disc e v = A;
+  invariant v = B;
+  location:
+    initial;
+end
+
+p1: P();
+p2: P();
+
+const e c0 = A;
+
+const p1.e c1 = p1.A;
+const p2.e c2 = p2.A;
+
+invariant c0 = c1 or c1 = c2 or c0 = B;
+invariant p1.v = c0;
+invariant p1.v = c1;
+invariant p1.v = c2;
+invariant p2.v = c0;
+invariant p2.v = c1;
+invariant p2.v = c2;

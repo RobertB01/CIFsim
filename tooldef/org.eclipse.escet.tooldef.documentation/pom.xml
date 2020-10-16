@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.escet</groupId>
+        <artifactId>org.eclipse.escet.root</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../../</relativePath>
+    </parent>
+
+    <artifactId>org.eclipse.escet.tooldef.documentation</artifactId>
+    <packaging>eclipse-plugin</packaging>
+
+    <!-- See https://github.com/asciidoctor/asciidoctor-maven-examples for ASCIIDOC Maven configuration examples -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <configuration>
+                    <sourceDirectory>asciidoc</sourceDirectory>
+                    <sourceDocumentName>index.asciidoc</sourceDocumentName>
+                    <attributes>
+                        <imagesdir />
+                    </attributes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-eclipse-help</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${project.build.directory}/eclipse-help/index.html</outputFile>
+                            <backend>html5</backend>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <logHandler>
+                                <failIf>
+                                    <severity>DEBUG</severity>
+                                </failIf>
+                            </logHandler>
+                            <attributes>
+                                <attribute-missing>warn</attribute-missing>
+                                <linkcss>true</linkcss>
+                                <imgsdir>../../images</imgsdir>
+                                <icons>font</icons>
+                                <sectanchors>true</sectanchors>
+                                <html-output>true</html-output>
+                                <eclipse-help-output>true</eclipse-help-output>
+                            </attributes>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-pdf</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>
+                                ${project.build.directory}/website/eclipse-escet-incubation-tooldef-manual.pdf
+                            </outputFile>
+                            <backend>pdf</backend>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <logHandler>
+                                <failIf>
+                                    <severity>DEBUG</severity>
+                                </failIf>
+                            </logHandler>
+                            <attributes>
+                                <attribute-missing>warn</attribute-missing>
+                                <imgsdir>${project.basedir}/images</imgsdir>
+                                <doctype>book</doctype>
+                                <icons>font</icons>
+                                <pagenums />
+                                <sectnums />
+                                <toc />
+                                <toclevels>3</toclevels>
+                                <pdf-output>true</pdf-output>
+                            </attributes>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>generate-website</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>${project.build.directory}/website/index.html</outputFile>
+                            <backend>html5</backend>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <logHandler>
+                                <failIf>
+                                    <severity>DEBUG</severity>
+                                </failIf>
+                            </logHandler>
+                            <attributes>
+                                <attribute-missing>warn</attribute-missing>
+                                <imgsdir>.</imgsdir>
+                                <doctype>book</doctype>
+                                <icons>font</icons>
+                                <toc>left</toc>
+                                <toclevels>3</toclevels>
+                                <html-output>true</html-output>
+                                <website-output>true</website-output>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- TODO: Review if this plugin is allowed, it is required for automated Eclipse help TOC generation -->
+            <plugin>
+                <groupId>com.bsiag.geneclipsetoc</groupId>
+                <artifactId>geneclipsetoc-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>geneclipsetoc</goal>
+                        </goals>
+                        <configuration>
+                            <outputTocFile>${project.build.directory}/eclipse-help/toc.xml</outputTocFile>
+                            <sourceFolder>${basedir}</sourceFolder>
+                            <pages>
+                                <page>target/eclipse-help/index.html</page>
+                            </pages>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- Package the eclipse help contents in the plugin -->
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-packaging-plugin</artifactId>
+                <configuration>
+                    <additionalFileSets>
+                        <fileSet>
+                            <!-- Put in same dir within JAR ensuring doc will work in runtime instance and RCP. -->
+                            <prefix>target/eclipse-help/</prefix>
+                            <directory>${project.build.directory}/eclipse-help/</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </fileSet>
+                    </additionalFileSets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>assemble-website</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${basedir}/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

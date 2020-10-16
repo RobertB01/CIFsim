@@ -1,0 +1,3 @@
+ERROR: File "tchecker/switch_expr_incompat_types.cif": Semantic error at line 16, column 29: Incompatible result types for switch expression: type "bool" is incompatible with type "string".
+ERROR: File "tchecker/switch_expr_incompat_types.cif": Semantic error at line 24, column 33: Incompatible result types for switch expression: type "real" is incompatible with type "list[1] int[1..1]".
+ERROR: Failed to load CIF file "tchecker/switch_expr_incompat_types.cif": the file has errors.

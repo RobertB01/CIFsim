@@ -1,0 +1,1 @@
+ERROR: File "tchecker/syntax_error_scan.cif": Scanning failed for character "%" (Unicode U+25) at line 14, column 7.

@@ -1,0 +1,2 @@
+ERROR: Failed to evaluate assignment value "<list tuple(int, int)>[][z][0]".
+CAUSE: Index out of bounds: [][0].

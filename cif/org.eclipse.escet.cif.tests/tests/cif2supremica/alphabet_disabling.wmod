@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="CONTROLLABLE" Name="c_e1"/>
+    <EventDecl Kind="CONTROLLABLE" Name="c_e2"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <SimpleComponent Kind="PLANT" Name="p">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="loc1">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+          <SimpleNode Name="loc2"/>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="loc1" Target="loc2">
+            <LabelBlock>
+              <SimpleIdentifier Name="c_e1"/>
+            </LabelBlock>
+          </Edge>
+          <Edge Source="loc2" Target="loc1">
+            <LabelBlock>
+              <SimpleIdentifier Name="c_e1"/>
+            </LabelBlock>
+          </Edge>
+          <Edge Source="loc1" Target="loc1">
+            <LabelBlock>
+              <SimpleIdentifier Name="c_e2"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <IntConstant Value="0"/>
+              </Guards>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

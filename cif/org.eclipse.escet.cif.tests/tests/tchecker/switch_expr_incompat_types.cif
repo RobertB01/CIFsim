@@ -1,0 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const real c1 = switch 1.0:
+                  case 1.0: "a"
+                  case 2.0: true
+                  else      "b"
+                end;
+
+const list int c2 = switch 1.0:
+                      case 1.0: [1]
+                      case 2.0: [2]
+                      case 3.0: [5, 7]
+                      case 4.0: 1.0
+                      else      [6]
+                    end;

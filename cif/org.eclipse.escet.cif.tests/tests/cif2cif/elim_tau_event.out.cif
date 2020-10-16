@@ -1,0 +1,64 @@
+automaton def P():
+  event tau_;
+  location:
+    initial;
+    edge tau_ when true;
+end
+p1: P();
+p2: P();
+automaton q1:
+  alphabet e;
+  event e;
+  location:
+    initial;
+    edge e;
+end
+automaton q2:
+  alphabet e, tau_;
+  event e;
+  event tau_;
+  location l1:
+    initial;
+    edge e;
+    edge tau_ when true;
+  location l2:
+    initial;
+    edge tau_ when true;
+end
+automaton q3:
+  event tau_;
+  event tau_2;
+  location l1:
+    initial;
+    edge tau_;
+  location l2:
+    initial;
+    edge tau_2 when true;
+end
+automaton q4:
+  event tau_;
+  location l:
+    initial;
+    edge tau_;
+end
+automaton q5:
+  event e;
+  event tau_;
+  location l:
+    initial;
+    edge e, tau_;
+    edge e, tau_;
+end
+automaton q6:
+  event bool eb;
+  event tau_;
+  location:
+    initial;
+    edge tau_, eb!true;
+end
+automaton q6b:
+  disc bool b;
+  location:
+    initial;
+    edge q6.eb? do b := ?;
+end

@@ -1,0 +1,37 @@
+group machine1:
+  controllable c_start;
+  uncontrollable u_waiting;
+  uncontrollable u_finished;
+end
+group machine2:
+  controllable c_start;
+  uncontrollable u_waiting;
+  uncontrollable u_finished;
+end
+automaton statespace:
+  alphabet machine1.c_start, machine1.u_waiting, machine1.u_finished, machine2.c_start, machine2.u_waiting, machine2.u_finished;
+  location loc1:
+    initial;
+    marked;
+    edge machine1.c_start goto loc2;
+    edge machine2.c_start goto loc3;
+  location loc2:
+    edge machine1.u_waiting goto loc4;
+  location loc3:
+    edge machine2.u_waiting goto loc5;
+  location loc4:
+    edge machine1.u_finished goto loc1;
+    edge machine2.c_start goto loc6;
+  location loc5:
+    edge machine1.c_start goto loc7;
+    edge machine2.u_finished goto loc1;
+  location loc6:
+    edge machine1.u_finished goto loc3;
+    edge machine2.u_waiting goto loc8;
+  location loc7:
+    edge machine1.u_waiting goto loc8;
+    edge machine2.u_finished goto loc2;
+  location loc8:
+    edge machine1.u_finished goto loc5;
+    edge machine2.u_finished goto loc4;
+end

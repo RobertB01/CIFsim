@@ -1,0 +1,39 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event int e;
+
+automaton s:
+  disc int x = 2;
+
+  location:
+    initial;
+    edge e!x do x := x * 2;
+end
+
+automaton r:
+  disc int y;
+
+  location:
+    initial;
+    edge e? do y := y + ?;
+end
+
+supervisor sup:
+  disc int cnt = 0;
+
+  location:
+    initial;
+    urgent;
+    edge e when cnt < 3 do cnt := cnt + 1;
+end

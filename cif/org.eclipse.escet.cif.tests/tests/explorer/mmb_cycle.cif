@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton def M(event void a, b; alg bool initial_full):
+  location Empty:
+    initial not initial_full;
+    edge a? goto Full;
+
+  location Full:
+    initial initial_full;
+    edge b! goto Empty;
+end
+
+event void mm, bm, mb;
+
+automaton B:
+  disc int c;
+
+  location:
+    initial;
+    edge bm! when c > 0 do c := c - 1;
+    edge mb? do c := c + 1;
+end
+
+m1: M(bm, mm, true);
+m2: M(mm, mb, true);

@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_const_const_no_value_eq.in1.cif" with CIF specification "merger/err_const_const_no_value_eq.in2.cif" failed.
+CAUSE: Merging constants with name "g.ff" failed: values of type "func bool()" can not be compared, and are thus not supported.

@@ -1,0 +1,175 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, false]
+        aut.v5 = (false, 0)
+
+State 2:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, false]
+        aut.v5 = (false, 1)
+
+State 3:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, false]
+        aut.v5 = (true, 0)
+
+State 4:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, false]
+        aut.v5 = (true, 1)
+
+State 5:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, true]
+        aut.v5 = (false, 0)
+
+State 6:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, true]
+        aut.v5 = (false, 1)
+
+State 7:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, true]
+        aut.v5 = (true, 0)
+
+State 8:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [false, true]
+        aut.v5 = (true, 1)
+
+State 9:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, false]
+        aut.v5 = (false, 0)
+
+State 10:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, false]
+        aut.v5 = (false, 1)
+
+State 11:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, false]
+        aut.v5 = (true, 0)
+
+State 12:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, false]
+        aut.v5 = (true, 1)
+
+State 13:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, true]
+        aut.v5 = (false, 0)
+
+State 14:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, true]
+        aut.v5 = (false, 1)
+
+State 15:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, true]
+        aut.v5 = (true, 0)
+
+State 16:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v4 = [true, true]
+        aut.v5 = (true, 1)

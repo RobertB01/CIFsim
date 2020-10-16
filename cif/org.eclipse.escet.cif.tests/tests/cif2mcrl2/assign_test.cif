@@ -1,0 +1,57 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event a1, a2, b1, b2, c1, c2;
+event a3, a4, b3, b4, c3, c4;
+event a5, b5, c5;
+
+automaton A:
+    disc int[0..4] locx, y;
+
+    location U:
+        initial;
+
+        edge a1 do locx := 1;
+        edge b1 do locx := locx + 1;
+        edge c1 do locx := y + 1;
+
+        edge a2 when locx > 1 do locx := 2;
+        edge b2 when locx > 1 do locx := locx - 1;
+        edge c2 when locx > 1 do locx := y + 1;
+
+        edge a3 when y > 1 do locx := 2;
+        edge b3 when y > 1 do locx := locx - 1;
+        edge c3 when y > 1 do locx := y + 1;
+
+        edge a4 do y := 1;
+        edge b4 do y := y + 1;
+        edge c4 do y := locx + 1;
+
+        edge a5 when y > 1 do y := 2;
+        edge b5 when y > 1 do y := y - 1;
+        edge c5 when y > 1 do y := locx + 1;
+
+end
+
+automaton B:
+    location V:
+        initial;
+
+        edge a1 when A.y = 2;
+        edge b1 when A.y = 2;
+        edge c1 when A.y = 2;
+
+        edge a2 when A.y = 2;
+        edge b2 when A.y = 2;
+        edge c2 when A.y = 2;
+end

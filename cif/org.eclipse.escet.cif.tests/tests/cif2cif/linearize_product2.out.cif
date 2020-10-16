@@ -1,0 +1,15 @@
+enum E = l;
+plant automaton M:
+  alphabet p1_e;
+  event p1_e;
+  disc E p1 = l;
+  disc E p2 = l;
+  initial p1 = l and true,
+          p2 = l and true;
+  marked p1 = l and false,
+         p2 = l and false;
+  location L:
+    initial;
+    marked;
+    edge p1_e when true;
+end

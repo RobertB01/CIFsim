@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=*, p.x=2.
+CAUSE: Execution of the updates of an edge of the location of automaton "p" failed.
+CAUSE: Execution of assignment "p.x := p.x + 1" failed.
+CAUSE: Variable "x" is assigned value "3", which violates the integer type bounds of the type "int[0..2]" of that variable.

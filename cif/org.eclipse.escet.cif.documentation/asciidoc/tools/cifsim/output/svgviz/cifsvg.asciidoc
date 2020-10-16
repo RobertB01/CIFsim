@@ -1,0 +1,50 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-cifsvg]]
+== CIF/SVG declarations
+
+indexterm:[SVG declaration]
+indexterm:[SVG,declarations]
+indexterm:[I/O declaration,SVG declaration]
+indexterm:[CIF/SVG declaration]
+The connection between the <<tools-cifsim-traces-state,state>> of the CIF
+specification and the SVG image can be specified by using CIF/SVG declarations
+(sometimes also called SVG declarations, for simplicity). Such declarations can
+be specified directly in the CIF specification. CIF/SVG declarations are an
+extension to the CIF language, and can only be used to couple the model to the
+image. They don't influence the behavior of the model itself.
+
+The CIF <<tools-chapter-text-editor,text editor>> provides full integration for
+the CIF/SVG declarations extension, complete with syntax highlighting,
+background validation, etc.
+
+=== Declarations
+
+The following types of CIF/SVG declarations are available:
+
+* <<tools-cifsim-output-svgviz-chapter-svgfile>>:
+Specifies which SVG image file to use.
+
+* <<tools-cifsim-output-svgviz-chapter-svgcopy>>:
+Specifies that a part of the SVG image should be copied.
+
+* <<tools-cifsim-output-svgviz-chapter-svgmove>>:
+Specifies that a part of the SVG image should be moved.
+
+* <<tools-cifsim-output-svgviz-chapter-svgout>>:
+Specifies how to update a certain property of an element of the SVG image.
+
+* <<tools-cifsim-input-svg-chapter-svgin>>:
+Specifies how interaction with the SVG image affects simulation.

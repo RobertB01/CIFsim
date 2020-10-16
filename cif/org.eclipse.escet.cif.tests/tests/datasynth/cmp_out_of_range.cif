@@ -1,0 +1,68 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant a:
+  disc int[2..4] x;
+
+  requirement invariant x = 0;
+  requirement invariant x = 1;
+  requirement invariant x = 2;
+  requirement invariant x = 3;
+  requirement invariant x = 4;
+  requirement invariant x = 5;
+  requirement invariant x = 6;
+
+  requirement invariant x != 0;
+  requirement invariant x != 1;
+  requirement invariant x != 2;
+  requirement invariant x != 3;
+  requirement invariant x != 4;
+  requirement invariant x != 5;
+  requirement invariant x != 6;
+
+  requirement invariant x < 0;
+  requirement invariant x < 1;
+  requirement invariant x < 2;
+  requirement invariant x < 3;
+  requirement invariant x < 4;
+  requirement invariant x < 5;
+  requirement invariant x < 6;
+
+  requirement invariant x <= 0;
+  requirement invariant x <= 1;
+  requirement invariant x <= 2;
+  requirement invariant x <= 3;
+  requirement invariant x <= 4;
+  requirement invariant x <= 5;
+  requirement invariant x <= 6;
+
+  requirement invariant x > 0;
+  requirement invariant x > 1;
+  requirement invariant x > 2;
+  requirement invariant x > 3;
+  requirement invariant x > 4;
+  requirement invariant x > 5;
+  requirement invariant x > 6;
+
+  requirement invariant x >= 0;
+  requirement invariant x >= 1;
+  requirement invariant x >= 2;
+  requirement invariant x >= 3;
+  requirement invariant x >= 4;
+  requirement invariant x >= 5;
+  requirement invariant x >= 6;
+
+  location:
+    initial;
+    marked;
+end

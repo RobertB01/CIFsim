@@ -1,0 +1,21 @@
+controllable c;
+plant automaton p:
+  location:
+    initial;
+    marked;
+    edge c;
+end
+supervisor automaton r:
+  disc int[1..10] x = 5;
+  location:
+    initial;
+    marked;
+    edge c when x = 5;
+end
+supervisor automaton sup:
+  alphabet c;
+  location:
+    initial;
+    marked;
+    edge c when r.x = 5;
+end

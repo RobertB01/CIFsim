@@ -1,0 +1,2 @@
+WARNING: SVG file "svg_move_confl_transform1.svg" has no CIF/SVG input/output mappings that apply to it.
+ERROR: Moving the SVG element with id "rect2816" in SVG file "svg_move_confl_transform1.svg" failed, due to conflicting existing transformations on the element itself, or one of its ancestors.

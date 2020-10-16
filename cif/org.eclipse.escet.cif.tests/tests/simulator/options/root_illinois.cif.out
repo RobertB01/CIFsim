@@ -1,0 +1,18 @@
+Initial state: time=0.0, p=l1, s=0.0
+
+Transition: delaying for 2.239539043209877 time units at time 0.0
+State: time=2.239539043209877, p=l1, s=0.9000000028796213
+
+Transition: event tau
+State: time=2.239539043209877, p=l2, s=0.9000000028796213
+
+Transition: delaying for 1.8041072588020128 time units at time 2.239539043209877
+State: time=4.04364630201189, p=l2, s=0.8999999945885202
+
+Transition: event tau
+State: time=4.04364630201189, p=l1, s=0.8999999945885202
+
+Transition: delaying for 5.95635369798811 time units at time 4.04364630201189
+State: time=10.0, p=l1, s=-0.9589242746631385
+
+Simulation ended due to reaching the user-provided simulation end time.

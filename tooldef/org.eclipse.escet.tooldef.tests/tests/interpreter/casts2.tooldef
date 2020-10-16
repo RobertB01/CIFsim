@@ -1,0 +1,79 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+int i0 = 1;
+int i1 = <int>2;
+int i2 = <int><long>3;
+int i3 = <int><double>4;
+int i4 = <int>5.0;
+outln("%s %s %s %s %s", i0, i1, i2, i3, i4);
+
+long l0 = 1;
+long l1 = <long>2;
+long l2 = <long><int>3;
+long l3 = <long><int><long>4;
+long l4 = <long><double>5;
+long l5 = <long>6.0;
+outln("%s %s %s %s %s %s", l0, l1, l2, l3, l4, l5);
+
+double d0 = 1;
+double d1 = <long>2;
+double d2 = <double>3;
+double d3 = <double><int>4;
+double d4 = <double><long>5;
+double d5 = <double><int><double>6;
+double d6 = <double><long><double>7;
+double d7 = 8.0;
+double d8 = <double>9.0;
+outln("%s %s %s %s %s %s %s %s %s", d0, d1, d2, d3, d4, d5, d6, d7, d8);
+
+string s0 = "a";
+object s1 = s0;
+object s2 = <object>s0;
+string s3 = <string>s1;
+string s4 = <string>s2;
+outln("/%s/ /%s/ /%s/ /%s/ /%s/", s0, s1, s2, s3, s4);
+
+list double ld0 = [1.0, 2.0, 3.0];
+list int    li1 = <list int>ld0;
+list double ld2 = <list double>li1;
+outln("%s %s %s", ld0, li1, ld2);
+
+set double sd0 = {1.0, 2.0, 3.0};
+set int    si1 = <set int>sd0;
+set double sd2 = <set double>si1;
+outln("%s %s %s", sd0, si1, sd2);
+
+map(bool:double) mbd0 = {true: 1.0, false:2.0};
+map(bool:int   ) mbi1 = <map(bool:int)>mbd0;
+map(bool:double) mbd2 = <map(bool:double)>mbi1;
+outln("%s %s %s", mbd0, mbi1, mbd2);
+
+tuple(double, double, double, double) td0 = (1.0, 2.0, 3.0, 4.0);
+tuple(int,    int,    int,    int)    ti1 = <tuple(int, int, int, int)>td0;
+tuple(double, double, double, double) td2 = <tuple(double, double, double, double)>ti1;
+outln("%s %s %s", td0, ti1, td2);
+
+tool T g<T>(T x):
+  return x;
+end
+
+tool list T f<T>(list T x):
+  return g(x);
+end
+
+list double x0 = [1.0, 2.0, 3.0];
+list int    x1 = <list int>f(x0);
+list double x2 = f(x1);
+list double x3 = <list double>f(x1);
+outln("%s %s %s %s", x0, x1, x2, x3);

@@ -1,0 +1,65 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-time-chapter-var-overview]]
+== Variables overview
+
+indexterm:[variable]
+indexterm:[variable,different kinds]
+CIF features different kinds of variables, that have different functionality.
+Each is better suited for a particular purpose. The following table gives an
+overview:
+
+[cols="<,^,^",options="header"]
+|===
+| Kind of variable
+| Can be assigned
+| Can change as time progresses
+
+| <<tut-data-chapter-discrete-variables,Discrete variable>>
+| *yes*
+| no
+
+| <<tut-reuse1-chapter-algebraic-variables,Algebraic variable>>
+| no
+| *yes*
+
+| <<tut-time-chapter-continuous-variables,Continuous variable>>
+| *yes*
+| *yes*
+
+| <<lang-tut-time-continuous-variables-deriv,Derivative of a continuous variable>>
+| no
+| *yes*
+|===
+
+Discrete variables can only change value when given an explicit new value by
+means of an assignment. They don't change automatically as time progresses.
+
+Algebraic variables can't be assigned. Instead, their values depend on their
+declarations or equation(s). If the computations that result in their values
+depend on a variable that can change value as time progresses, then so can
+the values of the algebraic variables. Algebraic variables are used as named
+shorthand notations for computations, for readability, reuse, consistency, and
+abstraction.
+
+Continuous variables automatically change value as time progresses, as
+specified by their derivatives. They can also be assigned new values, from
+which they then automatically change again, based on the current values of
+their derivatives.
+
+The derivatives of the continuous variables can be seen as variables
+themselves. Their values depend on their declaration or equation(s). If the
+computations that result in their values depend on a variable that can change
+value as time progresses, then so can the values of the derivatives.

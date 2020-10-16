@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-mul-set-int-set-string.chi": Semantic error at line 18, column 22: Incorrectly typed multiplication (cannot multiply types "set int" and "set string").

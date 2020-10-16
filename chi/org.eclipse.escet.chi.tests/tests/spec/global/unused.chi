@@ -1,0 +1,41 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type lot = int;
+enum E = {A} ;
+
+func int f(int v):
+    int w;
+    return 1;
+end
+
+proc P(int v):
+    int w;
+    pass
+end
+proc Q(int v):
+    int w;
+    pass
+end
+
+model M():
+    chan void c, x;
+
+    for i in range(10): pass end
+    run unwind j in range(10): P(1) end;
+    select unwind k in range(10): c? end end
+end
+
+model N(int v):
+    int w;
+    pass
+end

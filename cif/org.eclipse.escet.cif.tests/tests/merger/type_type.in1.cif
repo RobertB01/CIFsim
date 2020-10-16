@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type ta = real;
+type tb = ta;
+const ta ca = 1.23;
+const tb cb = 2.34;
+const ta c1 = 1.0;
+const tb c2 = 2.0;
+
+group g:
+  const ta c5 = 3.45;
+  invariant c5 > 0;
+end

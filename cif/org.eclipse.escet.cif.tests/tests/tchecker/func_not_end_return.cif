@@ -1,0 +1,95 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  func bool f1():
+    int x;
+    x := 1;
+  end
+
+  func bool f2():
+    break;
+  end
+
+  func bool f3():
+    continue;
+  end
+
+  func bool f4():
+    if true:
+      return true;
+    end
+  end
+
+  func bool f5():
+    if true:
+      return true;
+    elif true:
+      return true;
+    end
+  end
+
+  func bool f6():
+    int x;
+    if true:
+      x := 1;
+    elif true:
+      return true;
+    else
+      return true;
+    end
+  end
+
+  func bool f7():
+    int x;
+    if true:
+      return true;
+    elif true:
+      x := 1;
+    else
+      return true;
+    end
+  end
+
+  func bool f8():
+    int x;
+    if true:
+      return true;
+    elif true:
+      return true;
+    else
+      x := 1;
+    end
+  end
+
+  func bool f9():
+    int x;
+    if true:
+      x := 1;
+    elif true:
+      x := 1;
+    else
+      x := 1;
+    end
+  end
+
+  func bool f10():
+    int x;
+    while true:
+      x := 1;
+    end
+  end
+
+  invariant f1() or f2() or f3() or f4() or f5();
+  invariant f6() or f7() or f8() or f9() or f10();
+end

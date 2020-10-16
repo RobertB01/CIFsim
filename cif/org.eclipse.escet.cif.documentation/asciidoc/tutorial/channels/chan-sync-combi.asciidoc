@@ -1,0 +1,136 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-channels-chapter-chan-sync-combi]]
+== Combining channel communication with event synchronization
+
+indexterm:[channel,synchronization]
+Consider again the producer/consumer example with two producers and two
+consumers, from a <<tut-channels-chapter-intro,previous lesson>>:
+
+// Copied from: channels/intro
+
+[source,cif]
+----
+event int provide;
+
+automaton producer1:
+  disc int nr = 0;
+
+  location:
+    initial;
+    edge provide!nr do nr := nr + 1;
+end
+
+automaton producer2:
+  disc int nr = 0;
+
+  location:
+    initial;
+    edge provide!nr do nr := nr + 1;
+end
+
+automaton consumer1:
+  disc int nr = -1;
+
+  location:
+    initial;
+    edge provide? do nr := ?;
+end
+
+automaton consumer2:
+  disc int nr = -1;
+
+  location:
+    initial;
+    edge provide? do nr := ?;
+end
+----
+
+Now assume we want to restrict communication to allow at most five products in
+total to be provided to the consumers. We could adapt both producers, as
+follows:
+
+
+[source, cif]
+----
+automaton producer1:
+  disc int nr = 0;
+
+  location:
+    initial;
+    edge provide!nr when nr + producer2.nr < 5 do nr := nr + 1;
+end
+
+automaton producer2:
+  disc int nr = 0;
+
+  location:
+    initial;
+    edge provide!nr when producer1.nr + nr < 5  do nr := nr + 1;
+end
+----
+
+Each producer gets an additional guard condition whether it may provide a
+product to one of the consumers. If the total number of products provided by
+both providers does not exceed five, they may still provide a product. Having
+to adapt both producers is less than ideal.
+
+As an alternative solution, we can add an additional automaton, instead of
+adapting the producers:
+
+
+[source, cif]
+----
+automaton controller:
+  disc int cnt = 0;
+
+  location:
+    initial;
+    edge provide when cnt < 5 do cnt := cnt + 1;
+end
+----
+
+This `controller` automaton (together with the original producer automata)
+keeps track of the number of products provided to consumers, by counting them
+in variable `cnt`. It only allows the `provide` event when less than five
+products have been provided. If five or more products have been provided, it
+disables the `provide` event.
+
+In the `controller` automaton, the `provide` channel is used as an event
+rather than a channel. When one of the producers and one of the consumers
+together perform a channel communication, the `controller` automaton that has
+the `provide` event in its <<tut-basics-chapter-alphabet,alphabet>>, must
+synchronize with it. This allows the `controller` to impose additional
+restrictions on the channel communication, allowing or forbidding it in
+certain cases. The `controller` is added as a separate process, which
+improves scalability.
+
+In general, every automaton may either send over a channel, receive over a
+channel, or synchronize with a channel. An automaton may not take on more than
+one of these roles, for a single event. It may however send over one channel,
+receive over another channel, and synchronize with yet another one.
+
+Every event transition for a channel requires exactly one automaton that
+participates as sender, and exactly one automaton that participates as
+receiver. Furthermore, all automata that have the channel in their alphabet,
+must additionally participate as well, by synchronizing together with the
+sender and receiver. Automata that send or receive over a channel, do not have
+that channel in their alphabet. Only automata that synchronize with an event
+or channel have that event or channel in their alphabet.
+
+Automata that synchronize over a channel can be used to further _restrict_ the
+allowed channel communications, as shown in the above example. It is however
+also possible for the additional synchronizing automata to
+<<tut-data-chapter-monitoring,monitor>> (observe) the channel communication.

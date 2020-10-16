@@ -1,0 +1,139 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-simulation]]
+== Simulation of SVG visualizations
+
+indexterm:[SVG visualization,simulation]
+Once a CIF specification with CIF/SVG declarations, and the SVG image or images
+are available, it is time to start simulating the CIF specification with SVG
+visualization. This page discusses the following simulation related topics:
+
+* <<tools-cifsim-output-svgviz-simulation-order>>
+
+* <<tools-cifsim-output-svgviz-simulation-option>>
+
+* <<tools-cifsim-output-svgviz-simulation-demos>>
+
+indexterm:[SVG visualization,application order]
+
+[[tools-cifsim-output-svgviz-simulation-order]]
+=== Application order
+
+When the simulator is started, the SVG image is loaded. First, the
+<<tools-cifsim-output-svgviz-chapter-svgcopy,CIF/SVG copy declarations>> are
+applied, to ensure all elements exist. For copies of copied elements, the
+former are applied after the latter, to ensure the elements that need to be
+copied actually exist. Besides that, the copy declarations from a CIF file
+are applied in the order in which they are specified (after
+<<tools-cif2cif-chapter-elim-comp-def-inst,elimination of component definition/instantiation>>).
+The copy declarations are only applied once.
+
+After the copy declarations, the
+<<tools-cifsim-output-svgviz-chapter-svgmove,CIF/SVG move declarations>>
+are applied. The move declarations from a CIF file are applied in the order in
+which they are specified (after
+<<tools-cif2cif-chapter-elim-comp-def-inst,elimination of component definition/instantiation>>).
+The move declarations are only applied once.
+
+The <<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>> are
+applied after that, for the initial <<tools-cifsim-traces-state,state>>.
+After the output mappings have been applied, the resulting SVG image is shown
+by the simulator. The output mappings are applied again and again, as the state
+of the CIF model changes.
+
+The output mappings from a CIF file are applied in the order in
+which they are specified (after
+<<tools-cif2cif-chapter-elim-comp-def-inst,elimination of component definition/instantiation>>).
+Note however, that the order does not matter, as all output mappings are
+<<tools-cifsim-output-svgviz-svgout-unique,unique>> and independent of each
+other.
+
+Each mapping that is applied, results in an update of an attribute or text
+label. Either the new value is different from the previous value, or the value
+is updated to the value that was already there. The results of the mappings
+are cumulative. That is, the first mapping is applied to the original SVG
+image, the second mapping is applied to the image that resulted from applying
+the first mapping, the third mapping is applied to the image that resulted
+from applying the second mapping, etc.
+
+During simulation, the simulator provides states to the SVG visualizer, which
+applies the mappings to each of those states, in order to generate
+<<tools-cifsim-output-realtime-frames,frames>>. Whenever the
+mappings are applied, they are all applied, one after the other. Between the
+application of the individual output mappings, the display is never updated.
+That is, only after all mappings are applied, is the visualization updated.
+This assures that the images are in a consistent state when they are rendered.
+
+By changing the `width` and `height` attributes of the root `svg` element
+of an SVG image, it is possible to change the size of the image, and thus the
+canvas on which it is displayed during simulation. Changes to these attributes
+currently only have effect for the initial state. If the size of the image is
+changed during simulation, such changes are ignored.
+
+indexterm:[SVG visualization,enable]
+indexterm:[SVG visualization,disable]
+
+[[tools-cifsim-output-svgviz-simulation-option]]
+=== SVG visualization option
+
+The
+menu:SVG visualization[]
+option
+(menu:Output: SVG visualization[]
+category) can be used to disable SVG
+visualization. By default, the option is enabled, and SVG visualization is used
+if the CIF file being simulated declares any CIF/SVG declarations. By disabling
+the option, SVG visualization is disabled, regardless of whether the CIF
+specification has any CIF/SVG declarations.
+
+indexterm:[SVG visualization,demo]
+indexterm:[SVG visualization,record]
+
+[[tools-cifsim-output-svgviz-simulation-demos]]
+=== Demonstrations
+
+For demonstrations and presentations, it may be useful to record a movie of a
+simulation with SVG visualization. This way, during the demonstration, there is
+no need to manually control the simulation input. Furthermore, a prerecorded
+movie can't fail to execute, which may be a problem for live demonstrations.
+Finally, a prerecorded movie doesn't change, and is not influenced by the
+<<tools-cifsim-chapter-performance,performance>> of the computer on which the
+demonstration is given.
+
+To record a movie of the SVG visualization, screen recording or screen
+capturing software can be used. For instance:
+
+* link:http://camstudio.org/[CamStudio]
+for Microsoft Windows.
+
+* link:http://recordmydesktop.sourceforge.net/about.php[recordMyDesktop]
+for Linux.
+
+Both these screen recording applications are free and open source.
+
+Ideally a capturing software supports capturing a region of the screen, so
+that it is for instance possible to only capture the visualization.
+Furthermore, it may be beneficial to be able to capture the mouse pointer, so
+that it is clear where interaction takes place, etc.
+
+indexterm:[SVG visualization,undo]
+indexterm:[SVG visualization,reset]
+
+=== Undo/reset
+
+By <<tools-cifsim-input-history-reset-undo,undoing>> one or more transitions,
+or by <<tools-cifsim-input-history-reset-undo,resetting>> the simulation, the
+state may change. The SVG visualizer is automatically updated to reflect such
+changes.

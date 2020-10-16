@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "small.svg";
+
+event e;
+
+svgcopy id true post "x";
+
+svgmove id true to 1, 2;
+
+svgout id true attr "x" value 1;
+
+svgout id 5 attr "x" value 1;
+
+svgin id 5.0 event e;
+
+svgin id [1] event e;

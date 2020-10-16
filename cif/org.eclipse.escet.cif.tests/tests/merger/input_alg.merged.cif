@@ -1,0 +1,31 @@
+type t1 = real;
+alg t2 inp1 = 1.23;
+alg t2 inp2;
+type t2 = real;
+group g:
+  alg t2 inp3;
+  invariant inp3 > 0;
+  invariant inp3 > 1;
+  equation inp3 = 2.34;
+end
+plant automaton p:
+  alg t2 inp4;
+  plant invariant inp4 > 1;
+  plant invariant inp4 > 0;
+  location:
+    initial;
+    equation inp4 = 2.34;
+end
+plant automaton q:
+  alg t2 inp5;
+  plant invariant inp5 > 1;
+  plant invariant inp5 > 0;
+  equation inp5 = 3.45;
+  location:
+    initial;
+end
+invariant inp1 > 0;
+invariant inp2 > 0;
+invariant inp1 > 1;
+invariant inp2 > 1;
+equation inp2 = 2.34;

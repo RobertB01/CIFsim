@@ -1,0 +1,9 @@
+automaton statespace:
+  alphabet;
+  location loc1:
+    initial;
+    edge tau goto loc2;
+  location loc2:
+    edge tau goto loc3;
+  location loc3;
+end

@@ -1,0 +1,58 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a1:
+  disc int x = a2.y;                                        // 3
+
+  location:
+    initial x = 3;                                          // true
+    urgent;
+end
+
+automaton a2:
+  disc int y = if loc: 3 else 4 end;                        // 3
+
+  location loc:
+    initial a4.loc;                                         // true
+end
+
+automaton a3:
+  disc real z = switch self: case loc1: 1.5 else 3.0 end;   // 3.0
+
+  location loc1:
+    initial a6.z != "*3";
+
+  location loc2:
+    initial a6.z = "*3";                                    // Location loc2.
+end
+
+automaton a4:
+  cont x der a3.z;                                          // Derivative 3.0
+
+  location loc:
+    initial x' = 3;                                         // true
+end
+
+automaton a5:
+  disc int v in any;                                        // Option value 3.
+
+  location:
+    initial;
+end
+
+automaton a6:
+  disc string z = <string>a6 + <string>a5.v;                // "*3"
+
+  location:
+    initial;
+end

@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_tool_params.tooldef": Semantic error at line 14, column 12: Duplicate name "a" for tool parameter "a" and tool parameter "a" in tool "f".
+ERROR: File "tchecker/dupl_name_tool_params.tooldef": Semantic error at line 14, column 19: Duplicate name "a" for tool parameter "a" and tool parameter "a" in tool "f".
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_tool_params.tooldef": the file has errors.

@@ -1,0 +1,6 @@
+ERROR: Failed to evaluate 'if' condition "1 / 0 > 0".
+CAUSE: Failed to evaluate 1st argument for invocation of built-in tool ">".
+CAUSE: Failed to execute built-in tool "/".
+CAUSE: Failed to evaluate return value "slash(/.left, /.right)".
+CAUSE: Failed to execute Java method "org.eclipse.escet.tooldef.runtime.builtins.BuiltInOperators.slash".
+CAUSE: Division by zero: 1.0 / 0.0.

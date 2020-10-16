@@ -1,0 +1,24 @@
+type t = int[0..2];
+automaton p:
+  disc int[0..1] v1 = 0;
+  disc int[0..1] v2 = 1;
+  invariant v2 = 0;
+  location:
+    initial;
+end
+automaton a:
+  disc t x = 2;
+  invariant x = 2;
+  location:
+    initial;
+end
+automaton q:
+  disc int[0..1] d = 1;
+  invariant d = 0;
+  location:
+    initial;
+end
+invariant 0 = 1;
+invariant 0 = 0;
+invariant p.v1 = 0;
+invariant 0 = 0 and 1 = 1;

@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "out_txt.svg";
+
+svgcopy id "txt" pre "a";
+svgcopy id "txt" post "b";
+svgcopy id "txt" pre "c" post "d";
+
+group def X(alg int nr):
+  svgcopy id "txt" post "_" + <string>nr;
+
+  svgout id "txt_" + <string>nr text value "abc" + <string>nr;
+end
+
+x1: X(1);
+x2: X(2);
+x3: X(3);
+x4: X(4);
+x5: X(5);
+
+automaton a:
+  location:
+    initial;
+    urgent;
+end

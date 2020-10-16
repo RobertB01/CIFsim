@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan e;
+bool a_bt = true;
+meta bool OLD_a_bt = true;
+bool a_bf = false;
+meta bool OLD_a_bf = false;
+bool a_b1 = false;
+meta bool OLD_a_b1 = false;
+bool a_b2 = false;
+meta bool OLD_a_b2 = false;
+bool a_b3 = false;
+meta bool OLD_a_b3 = false;
+bool a_b4 = false;
+meta bool OLD_a_b4 = false;
+int[-40,40] a_i1 = 0;
+meta int[-40,40] OLD_a_i1 = 0;
+int[-40,40] a_i2 = 0;
+meta int[-40,40] OLD_a_i2 = 0;
+int[-40,40] a_i3 = 0;
+meta int[-40,40] OLD_a_i3 = 0;
+int[-40,40] a_i4 = 0;
+meta int[-40,40] OLD_a_i4 = 0;
+int[5,8] a_i5 = 5;
+meta int[5,8] OLD_a_i5 = 5;
+int[5,8] a_i6 = 6;
+meta int[5,8] OLD_a_i6 = 6;
+int[5,8] a_i7 = 7;
+meta int[5,8] OLD_a_i7 = 7;
+int[5,8] a_i8 = 8;
+meta int[5,8] OLD_a_i8 = 8;
+int[0,16] LP_a = 0;
+meta int[0,16] OLDLP_a = 0;</declaration>
+  <template>
+    <name>Template_a</name>
+    <location id="id0">
+      <name>loc1</name>
+    </location>
+    <location id="id1">
+      <name>loc2</name>
+    </location>
+    <location id="id2">
+      <name>loc3</name>
+    </location>
+    <location id="id3">
+      <name>loc4</name>
+    </location>
+    <location id="id4">
+      <name>loc5</name>
+    </location>
+    <location id="id5">
+      <name>loc6</name>
+    </location>
+    <location id="id6">
+      <name>loc7</name>
+    </location>
+    <location id="id7">
+      <name>loc8</name>
+    </location>
+    <location id="id8">
+      <name>loc9</name>
+    </location>
+    <location id="id9">
+      <name>loc10</name>
+    </location>
+    <location id="id10">
+      <name>loc11</name>
+    </location>
+    <location id="id11">
+      <name>loc12</name>
+    </location>
+    <location id="id12">
+      <name>loc13</name>
+    </location>
+    <location id="id13">
+      <name>loc14</name>
+    </location>
+    <location id="id14">
+      <name>loc15</name>
+    </location>
+    <location id="id15">
+      <name>loc16</name>
+    </location>
+    <location id="id16">
+      <name>loc17</name>
+    </location>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_bf) == (OLD_a_bf), a_b2 = (OLD_a_bf) == (OLD_a_bt), a_b3 = (OLD_a_bt) == (OLD_a_bf), a_b4 = (OLD_a_bt) == (OLD_a_bt), LP_a = 1</label>
+    </transition>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id2"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = !(OLD_a_bf) || (OLD_a_bf), a_b2 = !(OLD_a_bf) || (OLD_a_bt), a_b3 = !(OLD_a_bt) || (OLD_a_bf), a_b4 = !(OLD_a_bt) || (OLD_a_bt), LP_a = 2</label>
+    </transition>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id3"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_bf) &amp;&amp; (OLD_a_bf), a_b2 = (OLD_a_bf) &amp;&amp; (OLD_a_bt), a_b3 = (OLD_a_bt) &amp;&amp; (OLD_a_bf), a_b4 = (OLD_a_bt) &amp;&amp; (OLD_a_bt), LP_a = 3</label>
+    </transition>
+    <transition>
+      <source ref="id3"/>
+      <target ref="id4"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_bf) || (OLD_a_bf), a_b2 = (OLD_a_bf) || (OLD_a_bt), a_b3 = (OLD_a_bt) || (OLD_a_bf), a_b4 = (OLD_a_bt) || (OLD_a_bt), LP_a = 4</label>
+    </transition>
+    <transition>
+      <source ref="id4"/>
+      <target ref="id5"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_i1 = (OLD_a_i7) + (OLD_a_i5), a_i2 = (OLD_a_i7) + (-(OLD_a_i5)), a_i3 = (-(OLD_a_i7)) + (OLD_a_i5), a_i4 = (-(OLD_a_i7)) + (-(OLD_a_i5)), LP_a = 5</label>
+    </transition>
+    <transition>
+      <source ref="id5"/>
+      <target ref="id6"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_i1 = (OLD_a_i7) - (OLD_a_i5), a_i2 = (OLD_a_i7) - (-(OLD_a_i5)), a_i3 = (-(OLD_a_i7)) - (OLD_a_i5), a_i4 = (-(OLD_a_i7)) - (-(OLD_a_i5)), LP_a = 6</label>
+    </transition>
+    <transition>
+      <source ref="id6"/>
+      <target ref="id7"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_i1 = (OLD_a_i7) * (OLD_a_i5), a_i2 = (OLD_a_i7) * (-(OLD_a_i5)), a_i3 = (-(OLD_a_i7)) * (OLD_a_i5), a_i4 = (-(OLD_a_i7)) * (-(OLD_a_i5)), LP_a = 7</label>
+    </transition>
+    <transition>
+      <source ref="id7"/>
+      <target ref="id8"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_i1 = (OLD_a_i7) / (OLD_a_i5), a_i2 = (OLD_a_i7) / (-(OLD_a_i5)), a_i3 = (-(OLD_a_i7)) / (OLD_a_i5), a_i4 = (-(OLD_a_i7)) / (-(OLD_a_i5)), LP_a = 8</label>
+    </transition>
+    <transition>
+      <source ref="id8"/>
+      <target ref="id9"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_i1 = (OLD_a_i7) % (OLD_a_i5), a_i2 = (OLD_a_i7) % (-(OLD_a_i5)), a_i3 = (-(OLD_a_i7)) % (OLD_a_i5), a_i4 = (-(OLD_a_i7)) % (-(OLD_a_i5)), LP_a = 9</label>
+    </transition>
+    <transition>
+      <source ref="id9"/>
+      <target ref="id10"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_i7) == (OLD_a_i5), a_b2 = (OLD_a_i7) == (OLD_a_i7), a_b3 = (OLD_a_i7) != (OLD_a_i5), a_b4 = (OLD_a_i7) != (OLD_a_i7), LP_a = 10</label>
+    </transition>
+    <transition>
+      <source ref="id10"/>
+      <target ref="id11"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_i6) &lt; (OLD_a_i5), a_b2 = (OLD_a_i6) &lt; (OLD_a_i6), a_b3 = (OLD_a_i6) &lt; (OLD_a_i7), a_b4 = (OLD_a_i6) &lt; (OLD_a_i8), LP_a = 11</label>
+    </transition>
+    <transition>
+      <source ref="id11"/>
+      <target ref="id12"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_i6) &lt;= (OLD_a_i5), a_b2 = (OLD_a_i6) &lt;= (OLD_a_i6), a_b3 = (OLD_a_i6) &lt;= (OLD_a_i7), a_b4 = (OLD_a_i6) &lt;= (OLD_a_i8), LP_a = 12</label>
+    </transition>
+    <transition>
+      <source ref="id12"/>
+      <target ref="id13"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_i6) &gt; (OLD_a_i5), a_b2 = (OLD_a_i6) &gt; (OLD_a_i6), a_b3 = (OLD_a_i6) &gt; (OLD_a_i7), a_b4 = (OLD_a_i6) &gt; (OLD_a_i8), LP_a = 13</label>
+    </transition>
+    <transition>
+      <source ref="id13"/>
+      <target ref="id14"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = (OLD_a_i6) &gt;= (OLD_a_i5), a_b2 = (OLD_a_i6) &gt;= (OLD_a_i6), a_b3 = (OLD_a_i6) &gt;= (OLD_a_i7), a_b4 = (OLD_a_i6) &gt;= (OLD_a_i8), LP_a = 14</label>
+    </transition>
+    <transition>
+      <source ref="id14"/>
+      <target ref="id15"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_b1 = !(OLD_a_bt), a_b2 = !(OLD_a_bf), a_i3 = -(OLD_a_i5), a_i4 = -(-(OLD_a_i5)), LP_a = 15</label>
+    </transition>
+    <transition>
+      <source ref="id15"/>
+      <target ref="id16"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">a_i1 = 39, LP_a = 16</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id17"/>
+    <init ref="id17"/>
+    <transition>
+      <source ref="id17"/>
+      <target ref="id17"/>
+      <label kind="guard">(((((LP_a == 0) &amp;&amp; (true)) || ((LP_a == 1) &amp;&amp; (true))) || (((LP_a == 2) &amp;&amp; (true)) || ((LP_a == 3) &amp;&amp; (true)))) || ((((LP_a == 4) &amp;&amp; (true)) || ((LP_a == 5) &amp;&amp; (true))) || (((LP_a == 6) &amp;&amp; (true)) || ((LP_a == 7) &amp;&amp; (true))))) || (((((LP_a == 8) &amp;&amp; (true)) || ((LP_a == 9) &amp;&amp; (true))) || (((LP_a == 10) &amp;&amp; (true)) || ((LP_a == 11) &amp;&amp; (true)))) || ((((LP_a == 12) &amp;&amp; (true)) || ((LP_a == 13) &amp;&amp; (true))) || (((LP_a == 14) &amp;&amp; (true)) || (((LP_a == 15) &amp;&amp; (true)) || ((LP_a == 16) &amp;&amp; (false))))))</label>
+      <label kind="synchronisation">e!</label>
+      <label kind="assignment">OLD_a_bt = a_bt, OLD_a_bf = a_bf, OLD_a_b1 = a_b1, OLD_a_b2 = a_b2, OLD_a_b3 = a_b3, OLD_a_b4 = a_b4, OLD_a_i1 = a_i1, OLD_a_i2 = a_i2, OLD_a_i3 = a_i3, OLD_a_i4 = a_i4, OLD_a_i5 = a_i5, OLD_a_i6 = a_i6, OLD_a_i7 = a_i7, OLD_a_i8 = a_i8, OLDLP_a = LP_a</label>
+    </transition>
+  </template>
+  <system>a = Template_a();
+SendAut = Template_SendAut();
+
+system a, SendAut;</system>
+</nta>

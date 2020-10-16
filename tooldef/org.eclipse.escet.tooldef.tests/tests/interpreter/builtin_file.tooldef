@@ -1,0 +1,330 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// setup
+chdir("interpreter");
+
+// Path normalization for platform independent results.
+tool list string normpaths(list string paths):
+    for i in range(size(paths)):
+        paths[i] = replace(paths[i], "\\", "/");
+    end
+    return paths;
+end
+
+// cpfile
+outln("=== cpfile ===");
+outln("%s %s", exists("subdir/cpfile"), exists("subdir/cpfile2"));
+writefile("subdir/cpfile", "tmp");
+outln("%s %s", exists("subdir/cpfile"), exists("subdir/cpfile2"));
+outln("%s", readlines("subdir/cpfile"));
+cpfile("subdir/cpfile", "subdir/cpfile2");
+outln("%s %s", exists("subdir/cpfile"), exists("subdir/cpfile2"));
+outln("%s %s", readlines("subdir/cpfile"), readlines("subdir/cpfile2"));
+outln("%s", rmfile("subdir/cpfile"));
+outln("%s", rmfile("subdir/cpfile2"));
+outln("%s %s", exists("subdir/cpfile"), exists("subdir/cpfile2"));
+outln();
+
+// cpdir
+outln("=== cpdir ===");
+outln("%s %s", exists("subdir/cpdir"), exists("subdir/cpdir2"));
+mkdir("subdir/cpdir");
+mkdir("subdir/cpdir/sub1");
+mkdir("subdir/cpdir/sub2");
+mkdir("subdir/cpdir/sub2/subsub2");
+writefile("subdir/cpdir/a.txt", "a");
+writefile("subdir/cpdir/sub1/b1.txt", "b1");
+writefile("subdir/cpdir/sub1/b2.txt", "b2");
+writefile("subdir/cpdir/sub2/c1.txt", "b1");
+writefile("subdir/cpdir/sub2/c2.txt", "c2");
+writefile("subdir/cpdir/sub2/subsub2/d1.txt", "d1");
+writefile("subdir/cpdir/sub2/subsub2/d2.txt", "d2");
+outln("%s %s", exists("subdir/cpdir"), exists("subdir/cpdir2"));
+outln("%s", normpaths(find("subdir/cpdir")));
+cpdir("subdir/cpdir", "subdir/cpdir2");
+outln("%s %s", exists("subdir/cpdir"), exists("subdir/cpdir2"));
+outln("%s", normpaths(find("subdir/cpdir")));
+outln("%s", normpaths(find("subdir/cpdir2")));
+outln("%s", rmdir("subdir/cpdir"));
+outln("%s", rmdir("subdir/cpdir2"));
+outln("%s %s", exists("subdir/cpdir"), exists("subdir/cpdir2"));
+outln();
+
+// diff
+outln("=== diff ===");
+outln("1:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "subdir/sub_subdir1/x.txt"));
+outln();
+outln("2:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "subdir/sub_subdir2/y.txt"));
+outln();
+outln("3:");
+outln("diff:%s", diff("does_not_exist", "subdir/sub_subdir2/y.txt", missingAsEmpty=true));
+outln();
+outln("4:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "does_not_exist", missingAsEmpty=true));
+outln();
+outln("5:");
+outln("diff:%s", diff("does_not_exist", "does_not_exist", missingAsEmpty=true));
+outln();
+outln("6:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "subdir/sub_subdir2/y.txt", output=""));
+outln();
+outln("7:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "subdir/sub_subdir2/y.txt", output="subdir/diff.txt"));
+outln("%s", readlines("subdir/diff.txt"));
+outln("%s", rmfile("subdir/diff.txt"));
+outln();
+outln("8:");
+outln("diff:%s", diff("subdir/data1.txt", "subdir/data2.txt"));
+outln();
+outln("9:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "subdir/sub_subdir2/y.txt", warnOnDiff=true));
+outln();
+outln("10:");
+outln("diff:%s", diff("subdir/sub_subdir1/x.txt", "subdir/sub_subdir1/x.txt", warnOnDiff=true, failOnDiff=true));
+outln();
+
+// exists
+outln("=== exists ===");
+outln("%s", exists("does_not_exist"));
+outln("%s", exists("subdir/data.txt"));
+outln("%s", exists("../empty.txt"));
+outln("%s", exists("./builtin_file.tooldef"));
+outln();
+
+// filenewer
+outln("=== filenewer ===");
+outln("%s %s", exists("subdir/filenewer.txt"), exists("subdir/filenewer2.txt"));
+writefile("subdir/filenewer.txt", "a");
+outln("%s %s", exists("subdir/filenewer.txt"), exists("subdir/filenewer2.txt"));
+cpfile("subdir/filenewer.txt", "subdir/filenewer2.txt");
+outln("%s %s", exists("subdir/filenewer.txt"), exists("subdir/filenewer2.txt"));
+
+outln("%s", filenewer("subdir/filenewer.txt",  "subdir/filenewer2.txt", sameAsNewer=false));
+outln("%s", filenewer("subdir/filenewer2.txt", "subdir/filenewer.txt",  sameAsNewer=false));
+outln("%s", filenewer("subdir/filenewer.txt",  "subdir/filenewer2.txt", sameAsNewer=true));
+outln("%s", filenewer("subdir/filenewer2.txt", "subdir/filenewer.txt",  sameAsNewer=true));
+
+outln("%s", filenewer("does_not_exist", "subdir/filenewer.txt", allowNonExisting=true, sameAsNewer=true));
+outln("%s", filenewer("does_not_exist", "subdir/filenewer.txt", allowNonExisting=true, sameAsNewer=false));
+
+outln("%s", filenewer("subdir/filenewer.txt",  ["subdir/filenewer2.txt", "subdir/filenewer2.txt"], sameAsNewer=false));
+outln("%s", filenewer("subdir/filenewer2.txt", ["subdir/filenewer.txt",  "subdir/filenewer.txt"],  sameAsNewer=false));
+outln("%s", filenewer("subdir/filenewer.txt",  ["subdir/filenewer2.txt", "subdir/filenewer2.txt"], sameAsNewer=true));
+outln("%s", filenewer("subdir/filenewer2.txt", ["subdir/filenewer.txt",  "subdir/filenewer.txt"],  sameAsNewer=true));
+
+outln("%s", filenewer("subdir/filenewer.txt",  "subdir/filenewer2.txt", "subdir/filenewer2.txt", sameAsNewer=false));
+outln("%s", filenewer("subdir/filenewer2.txt", "subdir/filenewer.txt",  "subdir/filenewer.txt",  sameAsNewer=false));
+outln("%s", filenewer("subdir/filenewer.txt",  "subdir/filenewer2.txt", "subdir/filenewer2.txt", sameAsNewer=true));
+outln("%s", filenewer("subdir/filenewer2.txt", "subdir/filenewer.txt",  "subdir/filenewer.txt",  sameAsNewer=true));
+
+outln("%s", filenewer("does_not_exist", ["subdir/filenewer.txt", "subdir/filenewer.txt"], allowNonExisting=true, sameAsNewer=true));
+outln("%s", filenewer("does_not_exist", ["subdir/filenewer.txt", "subdir/filenewer.txt"], allowNonExisting=true, sameAsNewer=false));
+
+outln("%s", filenewer("does_not_exist", "subdir/filenewer.txt", "subdir/filenewer.txt", allowNonExisting=true, sameAsNewer=true));
+outln("%s", filenewer("does_not_exist", "subdir/filenewer.txt", "subdir/filenewer.txt", allowNonExisting=true, sameAsNewer=false));
+
+outln("%s", rmfile("subdir/filenewer.txt"));
+outln("%s", rmfile("subdir/filenewer2.txt"));
+outln("%s %s", exists("subdir/filenewer.txt"), exists("subdir/filenewer2.txt"));
+outln();
+
+// filesize
+outln("=== filesize ===");
+outln("%s", filesize("../empty.txt"));
+outln("%s", filesize("subdir/data0.txt"));
+outln("%s", filesize("does_not_exist.txt", missingAsZero=true));
+outln();
+
+// find
+outln("=== find ===");
+outln("%s", normpaths(find("subdir")));
+outln("%s", normpaths(find("subdir", "?.txt")));
+outln("%s", normpaths(find("subdir", recursive=false)));
+outln("%s", normpaths(find("subdir", files=false)));
+outln("%s", normpaths(find("subdir", dirs=false)));
+outln("%s", normpaths(find("subdir", files=false, dirs=false)));
+outln();
+
+// isdir
+outln("=== isdir ===");
+outln("%s", isdir("does_not_exist"));
+outln();
+outln("%s", isdir("."));
+outln("%s", isdir("../interpreter"));
+outln("%s", isdir("subdir"));
+outln("%s", isdir("subdir/sub_subdir1"));
+outln();
+outln("%s", isdir("subdir/data.txt"));
+outln("%s", isdir("./builtin_file.tooldef"));
+outln();
+
+// isfile
+outln("=== isfile ===");
+outln("%s", isfile("does_not_exist"));
+outln();
+outln("%s", isfile("."));
+outln("%s", isfile("../interpreter"));
+outln("%s", isfile("subdir"));
+outln("%s", isfile("subdir/sub_subdir1"));
+outln();
+outln("%s", isfile("subdir/data.txt"));
+outln("%s", isfile("./builtin_file.tooldef"));
+outln();
+
+// mkdir
+outln("=== mkdir ===");
+outln("%s", exists("subdir/mkdir"));
+mkdir("subdir/mkdir");
+outln("%s", exists("subdir/mkdir"));
+mkdir("subdir/mkdir", force=true);
+outln("%s", exists("subdir/mkdir"));
+outln("%s", rmdir("subdir/mkdir"));
+outln("%s", exists("subdir/mkdir"));
+outln();
+
+outln("%s", exists("subdir/mkdir1/mkdir2/mkdir3"));
+mkdir("subdir/mkdir1/mkdir2/mkdir3");
+outln("%s", exists("subdir/mkdir1/mkdir2/mkdir3"));
+mkdir("subdir/mkdir1/mkdir2/mkdir3", force=true);
+outln("%s", exists("subdir/mkdir1/mkdir2/mkdir3"));
+outln("%s", rmdir("subdir/mkdir1"));
+outln("%s", exists("subdir/mkdir1"));
+outln();
+
+// mvfile
+outln("=== mvfile ===");
+outln("%s %s %s", exists("subdir/mvfile"), exists("subdir/mvfile2"), exists("subdir/sub_subdir1/mvfile3"));
+writefile("subdir/mvfile", "tmp");
+outln("%s %s %s", exists("subdir/mvfile"), exists("subdir/mvfile2"), exists("subdir/sub_subdir1/mvfile3"));
+outln("%s", readlines("subdir/mvfile"));
+mvfile("subdir/mvfile", "subdir/mvfile2");
+outln("%s %s %s", exists("subdir/mvfile"), exists("subdir/mvfile2"), exists("subdir/sub_subdir1/mvfile3"));
+outln("%s", readlines("subdir/mvfile2"));
+mvfile("subdir/mvfile2", "subdir/sub_subdir1/mvfile3");
+outln("%s %s %s", exists("subdir/mvfile"), exists("subdir/mvfile2"), exists("subdir/sub_subdir1/mvfile3"));
+outln("%s", readlines("subdir/sub_subdir1/mvfile3"));
+outln("%s", rmfile("subdir/sub_subdir1/mvfile3"));
+outln("%s %s %s", exists("subdir/mvfile"), exists("subdir/mvfile2"), exists("subdir/sub_subdir1/mvfile3"));
+outln();
+
+// mvdir
+outln("=== mvdir ===");
+outln("%s %s %s", exists("mvdir"), exists("mvdir2"), exists("mvdir3"));
+cpdir("subdir", "mvdir");
+outln("%s %s %s", exists("mvdir"), exists("mvdir2"), exists("mvdir3"));
+outln("%s", normpaths(find("subdir")));
+outln("%s", normpaths(find("mvdir")));
+outln();
+mvdir("mvdir", "mvdir2");
+outln("%s %s %s", exists("mvdir"), exists("mvdir2"), exists("mvdir3"));
+outln("%s", normpaths(find("subdir")));
+outln("%s", normpaths(find("mvdir2")));
+outln();
+mkdir("mvdir3");
+mvdir("mvdir2", "mvdir3/mvdir4");
+outln("%s %s %s", exists("mvdir"), exists("mvdir2"), exists("mvdir3"));
+outln("%s", normpaths(find("subdir")));
+outln("%s", normpaths(find("mvdir3/mvdir4")));
+outln();
+rmdir("mvdir3");
+outln("%s %s %s", exists("mvdir"), exists("mvdir2"), exists("mvdir3"));
+outln();
+
+// readlines
+outln("=== readlines ===");
+outln("%s", readlines("subdir/data.txt"));
+outln("%s", readlines("subdir/sub_subdir1/x.txt"));
+outln();
+
+// rmfile
+outln("=== rmfile ===");
+outln("%s", exists("subdir/rmfile"));
+writefile("subdir/rmfile", "tmp");
+outln("%s", exists("subdir/rmfile"));
+outln("%s", rmfile("subdir/rmfile"));
+outln("%s", exists("subdir/rmfile"));
+outln("%s", rmfile("subdir/rmfile", force=true));
+outln("%s", exists("subdir/rmfile"));
+outln();
+
+// rmdir
+outln("=== rmdir ===");
+outln("%s", exists("subdir/rmdir"));
+mkdir("subdir/rmdir");
+mkdir("subdir/rmdir/sub1");
+mkdir("subdir/rmdir/sub2");
+mkdir("subdir/rmdir/sub2/subsub2");
+writefile("subdir/rmdir/a.txt", "a");
+writefile("subdir/rmdir/sub1/b1.txt", "b1");
+writefile("subdir/rmdir/sub1/b2.txt", "b2");
+writefile("subdir/rmdir/sub2/c1.txt", "b1");
+writefile("subdir/rmdir/sub2/c2.txt", "c2");
+writefile("subdir/rmdir/sub2/subsub2/d1.txt", "d1");
+writefile("subdir/rmdir/sub2/subsub2/d2.txt", "d2");
+outln("%s", exists("subdir/rmdir"));
+outln("%s", normpaths(find("subdir/rmdir")));
+outln("%s", rmdir("subdir/rmdir"));
+outln("%s", exists("subdir/rmdir"));
+outln("%s", rmdir("subdir/rmdir", force=true));
+outln("%s", exists("subdir/rmdir"));
+outln();
+
+// writefile
+outln("=== writefile (text) ===");
+outln("%s", exists("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", "abc\ndef");
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", "abc\ndef\nghi\n");
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", "x", append=true);
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", "y", append=true);
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+outln("%s", rmfile("subdir/writefile.txt"));
+outln("%s", exists("subdir/writefile.txt"));
+outln();
+
+outln("=== writefile (lines) ===");
+outln("%s", exists("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", ["abc", "def"]);
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", ["abc", "def", "ghi"]);
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", ["x"], append=true);
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+writefile("subdir/writefile.txt", ["y"], append=true);
+outln("%s", exists("subdir/writefile.txt"));
+outln("%s", readlines("subdir/writefile.txt"));
+outln();
+outln("%s", rmfile("subdir/writefile.txt"));
+outln("%s", exists("subdir/writefile.txt"));
+outln();

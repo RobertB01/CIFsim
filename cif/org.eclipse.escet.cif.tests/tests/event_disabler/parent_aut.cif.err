@@ -1,0 +1,2 @@
+ERROR: Failed to disable events for CIF file "event_disabler/parent_aut.cif".
+CAUSE: Can't disable event "g.a.b.c": "g.a" is an automaton.

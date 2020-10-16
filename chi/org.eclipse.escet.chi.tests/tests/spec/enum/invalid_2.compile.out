@@ -1,0 +1,2 @@
+Error: File "spec/enum/invalid_2.chi": Semantic error at line 14, column 18: There is more than one declaration named "D".
+Error: File "spec/enum/invalid_2.chi": Semantic error at line 15, column 15: There is more than one declaration named "D".

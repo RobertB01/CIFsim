@@ -1,0 +1,24 @@
+initial state 0 ([[S' : . S, {¶}]]):
+  ID -> 1
+  STAR -> 2
+  L -> 3
+  R -> 4
+  S -> 5
+state 1 ([[L : ID ., {EQUALS, ¶}]]):
+state 2 ([[L : STAR . R, {EQUALS, ¶}]]):
+  ID -> 1
+  STAR -> 2
+  L -> 7
+  R -> 9
+state 3 ([[R : L ., {¶}], [S : L . EQUALS R, {¶}]]):
+  EQUALS -> 6
+state 4 ([[S : R ., {¶}]]):
+state 5 ([[S' : S ., {¶}]]):
+state 6 ([[S : L EQUALS . R, {¶}]]):
+  ID -> 1
+  STAR -> 2
+  L -> 7
+  R -> 8
+state 7 ([[R : L ., {EQUALS, ¶}]]):
+state 8 ([[S : L EQUALS R ., {¶}]]):
+state 9 ([[L : STAR R ., {EQUALS, ¶}]]):

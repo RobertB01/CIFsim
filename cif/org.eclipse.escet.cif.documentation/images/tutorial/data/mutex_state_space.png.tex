@@ -1,0 +1,64 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage[paperwidth=40in, paperheight=20in]{geometry}
+
+\usetikzlibrary{arrows, automata, positioning, shapes.geometric}
+\begin{document}
+\pagestyle{empty}
+
+\definecolor{se-blue}{HTML}{D0D5FF}
+
+\newcommand{\state}[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+
+\begin{tikzpicture}[
+  ->,>=stealth',auto,node distance=5cm,thick,
+  every node/.style={font=\sffamily\small},
+  every state/.style={draw=se-blue,thick,top color=white,ellipse,
+                      bottom color=se-blue!75,initial text=},
+  accepting/.style={accepting by arrow,accepting text=\ldots},
+  every edge/.style={draw=black!50}]
+
+  \node[state, initial]   (s1) [                               ] {i/i};
+  \node[state]            (s2) [above =1.1cm of s1, right of=s1] {p/i};
+  \node[state]            (s3) [below =1.1cm of s1, right of=s1] {i/p};
+  \node[state]            (s4) [                    right of=s2] {c/i};
+  \node[state]            (s5) [                    right of=s3] {i/c};
+  \node[state]            (s6) [                    right of=s4] {c/p};
+  \node[state]            (s7) [                    right of=s5] {p/c};
+  \node[state]            (s8) [below =1.1cm of s6, right of=s6] {c/c};
+
+  \path[every node/.style={font=\sffamily\normalsize,outer sep=0pt}]
+    (s1) edge[             ] node[sloped,anchor=south] {start1} (s2)
+    (s1) edge[             ] node[sloped,anchor=north] {start2} (s3)
+    (s2) edge[             ] node[sloped,anchor=south] {done1 } (s4)
+    (s3) edge[             ] node[sloped,anchor=north] {done2 } (s5)
+    (s4) edge[             ] node[sloped,anchor=south] {start2} (s6)
+    (s5) edge[             ] node[sloped,anchor=north] {start1} (s7)
+    (s6) edge[             ] node[sloped,anchor=south] {done2 } (s8)
+    (s7) edge[             ] node[sloped,anchor=north] {done1 } (s8)
+
+    (s4) edge[bend right=22] node[sloped,anchor=south] {reset1} (s1)
+    (s5) edge[bend left =22] node[sloped,anchor=north] {reset2} (s1)
+
+    (s8) edge[bend right=22] node[sloped,anchor=south] {reset2} (s4)
+    (s8) edge[bend left =22] node[sloped,anchor=north] {reset1} (s5)
+
+    (s6) edge[bend right= 9] node[sloped,anchor=north] {reset1} (s3)
+    (s7) edge[bend left = 9] node[sloped,anchor=south] {reset2} (s2)
+  ;
+
+\end{tikzpicture}
+\end{document}

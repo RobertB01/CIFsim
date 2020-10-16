@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInIoTools.out;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInIoTools.err;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInIoTools.outln;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInIoTools.errln;
+
+tool _out(string pattern, object?... args):
+    $out(pattern, args=args);
+end
+
+tool _err(string pattern, object?... args):
+    $err(pattern, args=args);
+end
+
+tool _outln(string pattern = "", object?... args):
+    $outln(pattern, args=args);
+end
+
+tool _errln(string pattern = "", object?... args):
+    $errln(pattern, args=args);
+end

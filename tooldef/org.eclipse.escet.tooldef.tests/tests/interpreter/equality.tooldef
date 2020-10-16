@@ -1,0 +1,89 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+set object a = {<int>1, <double>1.0, <long>1};
+outln("%s %s", a, size(a) == 1);
+outln();
+
+set object b = {2147483648, 2147483648 - 1, 2147483647};
+outln("%s %s", b, size(b) == 2);
+outln();
+
+int i = 1;
+long l = 2147483648 - 2147483647;
+double d = 1.0;
+set double c = {d, l, i};
+outln("%s %s", c, size(c) == 1);
+outln("%s", d == 1);
+outln();
+
+set object e = {1};
+outln("%s %s %s", e, l, contains(e, l));
+outln();
+
+outln("%s %s %s", i, i, i == i);
+outln("%s %s %s", i, l, i == l);
+outln("%s %s %s", i, d, i == d);
+outln("%s %s %s", l, i, l == i);
+outln("%s %s %s", l, l, l == l);
+outln("%s %s %s", l, d, l == d);
+outln("%s %s %s", d, i, d == i);
+outln("%s %s %s", d, l, d == l);
+outln("%s %s %s", d, d, d == d);
+outln();
+
+outln("%s %s %s", <int>i, <int>i, <int>i == <int>i);
+outln("%s %s %s", <int>i, <int>l, <int>i == <int>l);
+outln("%s %s %s", <int>i, <int>d, <int>i == <int>d);
+outln("%s %s %s", <int>l, <int>i, <int>l == <int>i);
+outln("%s %s %s", <int>l, <int>l, <int>l == <int>l);
+outln("%s %s %s", <int>l, <int>d, <int>l == <int>d);
+outln("%s %s %s", <int>d, <int>i, <int>d == <int>i);
+outln("%s %s %s", <int>d, <int>l, <int>d == <int>l);
+outln("%s %s %s", <int>d, <int>d, <int>d == <int>d);
+outln();
+
+outln("%s %s %s", <long>i, <long>i, <long>i == <long>i);
+outln("%s %s %s", <long>i, <long>l, <long>i == <long>l);
+outln("%s %s %s", <long>i, <long>d, <long>i == <long>d);
+outln("%s %s %s", <long>l, <long>i, <long>l == <long>i);
+outln("%s %s %s", <long>l, <long>l, <long>l == <long>l);
+outln("%s %s %s", <long>l, <long>d, <long>l == <long>d);
+outln("%s %s %s", <long>d, <long>i, <long>d == <long>i);
+outln("%s %s %s", <long>d, <long>l, <long>d == <long>l);
+outln("%s %s %s", <long>d, <long>d, <long>d == <long>d);
+outln();
+
+outln("%s %s %s", <double>i, <double>i, <double>i == <double>i);
+outln("%s %s %s", <double>i, <double>l, <double>i == <double>l);
+outln("%s %s %s", <double>i, <double>d, <double>i == <double>d);
+outln("%s %s %s", <double>l, <double>i, <double>l == <double>i);
+outln("%s %s %s", <double>l, <double>l, <double>l == <double>l);
+outln("%s %s %s", <double>l, <double>d, <double>l == <double>d);
+outln("%s %s %s", <double>d, <double>i, <double>d == <double>i);
+outln("%s %s %s", <double>d, <double>l, <double>d == <double>l);
+outln("%s %s %s", <double>d, <double>d, <double>d == <double>d);
+outln();
+
+long x = 5;
+bool y = x == 2147483648 - 2147483643;
+outln("%s", y);
+outln();
+
+map(object:string) m = {1:"a", 2:"b"};
+outln("%s", m);
+m[d] = "c";
+outln("%s", m);
+m[l+1] = "d";
+outln("%s", m);
+outln();

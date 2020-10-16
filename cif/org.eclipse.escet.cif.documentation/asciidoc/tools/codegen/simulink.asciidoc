@@ -1,0 +1,142 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[CIF code generator,Simulink]
+indexterm:[Simulink; code generation]
+
+[[tools-codegen-chapter-simulink]]
+== Simulink C S-Function code generation
+
+Everywhere at this page, the terms _Matlab_, _Simulink_, _S-Function_, and
+_Mex_ refer to products and programs developed and owned by _MathWorks_. For
+more information, please visit link:http://mathworks.com/[].
+
+The <<tools-codegen-chapter-index>> can generate Matlab Simulink S-Function C code
+from a CIF specification. It is assumed the reader of this page is familiar with the
+general information of the CIF code generator tool. This page describes
+specific information applicable only to Simulink code generation.
+
+The aim of the the conversion from CIF to Simulink is to provide a smooth path
+from a CIF specification to a controlled real-time system.
+
+At this page, all the details about the Simulink code generation are discussed.
+For an example of how to use this code generation in practice, read
+<<tools-codegen-chapter-simulink-example,the example>>.
+
+
+=== Supported specifications
+
+The CIF code generator supports a subset of CIF specifications.  See the
+<<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page
+for more information. Generation of Simulink S-Function C code adds
+a restriction to the type of CIF input variables caused by limitations in
+Simulink input ports.
+
+Simulink input ports can only handle real and complex signals. The latter
+cannot be expressed in CIF, while the former creates the need for CIF input
+variables with data types that can be relatively easily converted to real
+number values. For this reason, CIF input variables must have a boolean,
+enumeration, integer, or real elementary type. Arrays (fixed length CIF lists)
+of these elementary types are also supported, they are converted to a vector
+of real numbers at a Simulink input port. Finally, arrays of arrays of the
+elementary types are converted to a matrix of real numbers at a Simulink input
+port.
+
+Data types of all other CIF variables have no additional constraints. However,
+Simulink poses similar restrictions to its other data vectors, in particular
+the output ports. The CIF to Simulink code generator toool only makes
+variables available for output that are compatible with real number, vectors
+of real numbers, or matrices of real numbers.
+That means that use of the CIF string type, the tuple type, or arrays with
+a deeper nesting than two levels will not be available at the output.
+
+
+=== Differences in output
+
+When converting a real number to text, for example when printing a real value,
+the generated Simulink code does not preserve trailing zeroes of real number
+fractions while using `%g`. For example `fmt("%.3g", 1.0)` will output
+`1` rather than `1.000`.
+This may cause real number values to be printed with less digits precision than
+indicated in the CIF program.
+
+Strings have an upper limit in length that is set during compilation. Longer
+strings are silently truncated to this length.
+
+The CIF print statement is supported, but only for the `:stdout` file. It
+is translated to the `ssPrintf` C function. This is also the only way to get
+a string to appear outside the Simulink S-Function block. Note that Simulink
+may drop the output function for platforms that have no output possibilities.
+
+
+=== Options
+
+The CIF to Simulink code generator uses the <<tools-codegen-options,common options>>
+that apply to all target languages/platforms of the
+<<tools-codegen-chapter-index>>. It also has the additional options:
+
+* _Simulink Outputs_: This option takes a list of CIF variables that should be
+made available as output of the generated S-Function. Only location
+varaiables (automata), discrete variables, continuous variables, and
+algebraic variables can be selected. The option also allows to use the
+wildcard character `+*+`, which represents zero or more characters from the
+name. You can use it to match several variables at once, for example
+`+*out+` matches all variables that end with `out`. The special name
+`nothing` means that no output should be produced at all.
+
+* _Simulink sample time_: This option controls how Simulink samples the
+generated block. Allowed values are `continuous`, `inherited`,
+`variable`, or a sample period. Check the Mathworks `ssSetSampleTime`
+function documentation for details which to use. By default, sample time is
+set to `continuous`.
+
+* _Simulink sample offset_: This option controls the offset of sampling. Its
+allowed values depend on the value of the _Simulink sample time_ option.
+Possible values are `fixed`, `0.0`, or a positive non-zero value. Check
+the Mathworks `ssSetSampleOffset` function documentation for details which
+to use. By default, this options is set to `0.0`.
+
+The code prefix that can be configured using a common option is used as name
+for the generated S-Function.
+
+
+=== Generated files
+
+Running the Simulink code generator produces two output files:
+
+[cols="1,3",options="header"]
+|===
+| Generated file
+| Contents
+
+| `<prefix>.c`
+| The generated Simulink S-Function C code.
+
+| Report file
+| Links CIF variables to Simulink entries.
+|===
+
+where `<prefix>` is replaced by the value of the _Code prefix_ option during
+code generation.
+
+The `<prefix>.c` file contains the source code of the actual S-Function. The
+file can be compiled using the Matlab Mex C compiler. The resulting mex file
+can be used in Simulink (Open the menu:Simulink Library[], select
+menu:User-defined functions[], and then the menu:S-Function[] block,
+drag it into the Simulink canvas, open the block , and type the `<prefix>`
+name into the menu:Name[] field.)
+
+The report file lists how CIF variables got mapped onto
+the input, mode, contstate, and output Simulink vectors. You can use this
+information to connect your CIF program with the other parts of the Simulink model.

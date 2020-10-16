@@ -1,0 +1,82 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type item = real;
+
+proc G(chan item gb; real ta):
+   dist real u = exponential(ta);
+   while true:
+      gb!time; delay sample u
+   end
+end
+
+proc B(chan? item gb; chan! item a; chan! void b):
+   list item xs; item x; int i;
+   while true:
+      select
+         gb?x:
+            xs = xs + [x]
+      alt
+         not empty(xs), a!xs[0]:
+            xs = xs[1:]; write("%s %d\n", "not empty", i)
+      alt
+         empty(xs), b!:
+            pass; write("%s %d\n", "empty", i)
+      end;
+      i = i + 1
+   end
+end
+
+proc W(chan! item a; chan! void b; real ta):
+   chan item gb;
+   run
+      G(gb, ta), B(gb, a, b)
+end
+
+proc S(list chan? item a; list chan? void b; chan! item c; real ts; int N):
+   dist real u = exponential(ts);
+   item x; int k;
+   while true:
+      select
+         a[k]?x:
+            delay sample u; c!x
+      alt
+         b[k]?: k = (k + 1) mod N;
+         delay 1
+      end
+   end
+end
+
+proc E(chan item a):
+   real ave, phi; item x;
+   for i in range(100):
+      a?x;
+      phi = time - x;
+      ave = ave + (phi - ave) / (i + 1)
+   end;
+   write("%f %f\n", time, ave)
+end
+
+proc M(int N):
+   list(N) chan item a; list(N) chan void b; chan item c;
+   real ta = 5.0, ts = 0.8;
+   run
+      unwind j in range(N):
+         W(a[j], b[j], ta)
+      end,
+      S(a, b, c, ts, N),
+      E(c)
+end
+
+model Shell():
+   run M(5)
+end

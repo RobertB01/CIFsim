@@ -1,0 +1,39 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc real v1  = -0.0;
+  disc real v2  = <real>"-0.0";
+  disc real v3  = ---0.0;
+  disc real v4  = +--+-++--0.0;
+  disc real v5  = 0.0 * -1;
+  disc real v6  = 0.0 / -1;
+  disc real v7  = -4.9E-324 / 1e99;
+  disc real v8  = cbrt(-0.0);
+  disc real v9  = ln(1 - 1e-18);
+  disc real v10 = ln(1 - 1e-17);
+  disc real v11 = ln(1 - 1e-16);
+  disc real v12 = pow(-1e-300, 1);
+  disc real v13 = pow(-1e-300, 2);
+  disc real v14 = pow(-1e-300, 3);
+  disc real v15 = -1e-9999999;
+
+  disc list real l1 = [v1, v2, v3, v4, v5, v6, v7, v8, v9];
+  disc list real l2 = [v10, v11, v12, v13, v14, v15];
+
+  invariant size(l1) + size(l2) > 0;
+
+  location:
+    initial;
+    urgent;
+end

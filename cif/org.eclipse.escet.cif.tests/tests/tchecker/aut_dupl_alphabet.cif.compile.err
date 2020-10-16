@@ -1,0 +1,3 @@
+ERROR: File "tchecker/aut_dupl_alphabet.cif": Semantic error at line 17, column 5: Duplicate alphabet definition in automaton "g.x".
+ERROR: File "tchecker/aut_dupl_alphabet.cif": Semantic error at line 18, column 5: Duplicate alphabet definition in automaton "g.x".
+ERROR: Failed to load CIF file "tchecker/aut_dupl_alphabet.cif": the file has errors.

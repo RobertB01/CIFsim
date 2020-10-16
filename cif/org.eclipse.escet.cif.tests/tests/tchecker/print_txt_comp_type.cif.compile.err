@@ -1,0 +1,13 @@
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 21, column 9: The print declaration post text is of type "a", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 22, column 13: The print declaration pre text is of type "a", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 23, column 14: The print declaration post text is of type "a", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 30, column 9: The print declaration post text is of type "A", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 31, column 13: The print declaration pre text is of type "A", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 32, column 14: The print declaration post text is of type "A", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 35, column 7: The print declaration post text is of type "g", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 36, column 11: The print declaration pre text is of type "g", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 37, column 12: The print declaration post text is of type "g", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 39, column 7: The print declaration post text is of type "a", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 40, column 11: The print declaration pre text is of type "a", which is a component or component definition.
+ERROR: File "tchecker/print_txt_comp_type.cif": Semantic error at line 41, column 12: The print declaration post text is of type "a", which is a component or component definition.
+ERROR: Failed to load CIF file "tchecker/print_txt_comp_type.cif": the file has errors.

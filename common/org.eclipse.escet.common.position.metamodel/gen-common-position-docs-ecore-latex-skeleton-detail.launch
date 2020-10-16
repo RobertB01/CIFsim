@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/org.eclipse.escet.common.emf.ecore.codegen/src/org/eclipse/escet/common/emf/ecore/codegen/latex/EmfLatexDocSkeletonDetailGenerator.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.escet.common.emf.ecore.codegen.latex.EmfLatexDocSkeletonDetailGenerator"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="org.eclipse.escet.common.position.metamodel.position.PositionPackage target/classes docs"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.escet.common.emf.ecore.codegen"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:org.eclipse.escet.common.position.metamodel}"/>
+</launchConfiguration>

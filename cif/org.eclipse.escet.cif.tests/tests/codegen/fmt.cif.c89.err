@@ -1,0 +1,3 @@
+WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 50: The 3rd value is not used in the format pattern.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 60: The 5th value is not used in the format pattern.
+WARNING: File "codegen/fmt.cif": Semantic warning at line 140, column 70: The 7th value is not used in the format pattern.

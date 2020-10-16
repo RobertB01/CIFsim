@@ -1,0 +1,36 @@
+const int[5..5] c1 = 5;
+const int[6..6] c2 = c1 + 1;
+type t = bool;
+plant automaton def D():
+  location l:
+    initial;
+end
+group def E(D d):
+  marked p.l;
+  invariant d.l;
+end
+group def F():
+  type t = int[2..2];
+  automaton g:
+    type t = int[3..3];
+    disc t v1 = 3;
+    disc .t v2 = 2;
+    disc t v3 = 3;
+    disc ^t v4 = true;
+    invariant v2 + v3 > 0 and v4;
+    location l:
+      initial;
+  end
+  invariant g.l or g.v1 = 3;
+  invariant d1.l;
+end
+plant automaton p:
+  location l:
+    initial;
+end
+d1: D();
+d2: D();
+e1: E(d1);
+e2: E(d2);
+f: F();
+invariant c2 > 0;

@@ -1,0 +1,23 @@
+event e;
+automaton a1:
+  alg int x = 1;
+  svgcopy id "txt" + <string>x pre "abc" file "../pprint_elim_cdef/text.svg";
+  svgmove id "txt" + <string>x to x, x + 1 file "../pprint_elim_cdef/text.svg";
+  svgout id "txt" + <string>x text value "abc" file "../pprint_elim_cdef/text.svg";
+  location:
+    initial;
+end
+automaton a2:
+  alg int x = 2;
+  svgcopy id "txt" + <string>x pre "abc" file "../pprint_elim_cdef/text.svg";
+  svgmove id "txt" + <string>x to x, x + 1 file "../pprint_elim_cdef/text.svg";
+  svgout id "txt" + <string>x text value "abc" file "../pprint_elim_cdef/text.svg";
+  location:
+    initial;
+end
+group g:
+  svgin id "V" event e file "../simulator/svgviz/tank.svg";
+end
+svgin id "box" event e file "../tchecker/small.svg";
+svgin id "grp" event e file "../tchecker/small.svg";
+svgin id "root" event e file "../tchecker/small.svg";

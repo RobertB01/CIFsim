@@ -1,0 +1,1 @@
+Error: File "spec/expr/dict-literal-keytype.chi": Semantic error at line 14, column 25: All keys of a dictionary must have the same type (expected "int", found "real").

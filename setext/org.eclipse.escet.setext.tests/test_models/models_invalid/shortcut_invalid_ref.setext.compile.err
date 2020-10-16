@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/shortcut_invalid_ref.setext": Semantic error at line 15, column 4: Definition "a" does not define a shortcut.
+ERROR: Failed to load SeText file "models_invalid/shortcut_invalid_ref.setext": the file has errors.

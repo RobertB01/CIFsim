@@ -1,0 +1,46 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+bool? b_ = null;
+
+fmt("%b", true);
+fmt("%b", b_);
+fmt("%b", <bool?>null);
+fmt("%b", null);
+fmt("%b", 1);
+
+long l;
+
+fmt("%d", 1);
+fmt("%d", 1234567890123456789);
+fmt("%d", l);
+fmt("%d", <int?>null);
+fmt("%d", true);
+
+double d;
+
+fmt("%f", 1);
+fmt("%f", 1234567890123456789);
+fmt("%f", 1.0);
+fmt("%f", d);
+fmt("%f", <double?>null);
+fmt("%f", true);
+
+string s;
+
+fmt("%s", 1);
+fmt("%s", 1.0);
+fmt("%s", "a");
+fmt("%s", s);
+fmt("%s", null);
+fmt("%s", true);

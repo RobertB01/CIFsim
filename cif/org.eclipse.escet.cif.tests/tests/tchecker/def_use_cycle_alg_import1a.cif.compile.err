@@ -1,0 +1,4 @@
+ERROR: File "tchecker/def_use_cycle_alg_import1a.cif": Semantic error at line 14, column 8: File "def_use_cycle_alg_import1b.cif": Definition/use cycle detected: "a.p" is recursively defined in terms of itself: a.p -> a.v -> a.p.
+ERROR: File "tchecker/def_use_cycle_alg_import1a.cif": Semantic error at line 14, column 8: File "def_use_cycle_alg_import1b.cif": Definition/use cycle detected: "a.v" is recursively defined in terms of itself: a.v -> a.p -> a.v.
+ERROR: File "tchecker/def_use_cycle_alg_import1a.cif": Semantic error at line 14, column 8: File "def_use_cycle_alg_import1b.cif": Definition/use cycle detected: "a.z" is recursively defined in terms of itself: a.z -> a.z.
+ERROR: Failed to load CIF file "tchecker/def_use_cycle_alg_import1a.cif": the file has errors.

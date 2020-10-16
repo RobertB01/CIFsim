@@ -1,0 +1,48 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[performance,console output]
+indexterm:[performance,reduce output]
+indexterm:[console,output]
+indexterm:[console,performance]
+indexterm:[console,reduce output]
+
+[[performance-reduce-console-output]]
+== Reducing console output
+
+Console output is expensive. Not only because of the amount of memory the
+generated console output uses, but also because the console output itself needs
+to be generated, and displayed on the console. Reducing console output can
+significantly increase the performance of our tools.
+
+Therefore, instead of <<performance-clear-console,clearing the console>>, it
+may be better to prevent that much output from being written to the console
+in the first place. If your model itself generates a lot of console output,
+consider letting it generate less output. Alternatively, if the tool you use
+generates a lot of console output, consider checking its options to see if
+you can disable certain console output.
+
+indexterm:[output,mode]
+indexterm:[output,normal]
+indexterm:[output,debug]
+indexterm:[output,warning]
+indexterm:[output,amount]
+All Eclipse ESCET applications have an _Output mode_ option (_General_
+category). Changing the value of this option from _Debug_ to _Normal_,
+or from _Normal_ to _Warning_ may significantly reduce the amount of output
+that is written to the console. Note however that this is mostly an all or
+nothing approach. It is often much better to use application specific
+settings, or change your model, to reduce the amount of output that is
+generated, as it allows for more control over what output is or isn't
+generated.

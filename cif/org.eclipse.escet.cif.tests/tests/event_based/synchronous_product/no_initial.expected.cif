@@ -1,0 +1,5 @@
+controllable step;
+plant automaton product:
+  alphabet step;
+  location;
+end

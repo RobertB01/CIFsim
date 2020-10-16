@@ -1,0 +1,62 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// eSRC, with 'S' for send, 'R' for receive, and 'C' for sync.
+event int e000;
+event int e001;
+event int e010;
+event int e011;
+event int e100;
+event int e101;
+event int e110;
+event int e110b;
+event int e111;
+
+automaton send:
+  location l1:
+    initial;
+    edge e100 !100 goto l2;
+    edge e101 !101 goto l2;
+    edge e110 !110 goto l2;
+    edge e110b!110 goto l2;
+    edge e111 !111 goto l2;
+
+  location l2:
+    urgent;
+end
+
+automaton recv:
+  location:
+    initial;
+    edge e010 ?;
+    edge e011 ?;
+    edge e110 ?;
+    edge e110b?;
+    edge e111 ?;
+end
+
+automaton sync1:
+  location:
+    initial;
+    edge e001;
+    edge e011;
+    edge e101;
+    edge e111;
+end
+
+automaton sync2:
+  alphabet e110b;
+  location:
+    initial;
+    urgent;
+end

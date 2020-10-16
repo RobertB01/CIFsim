@@ -1,0 +1,1 @@
+Error: File "spec/type/matrix-zero-row.chi": Semantic error at line 14, column 12: Row expression must be a non-zero positive number (found "0").

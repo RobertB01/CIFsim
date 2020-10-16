@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const bool x = true;
+equation x = true;
+invariant x;
+
+group g:
+  cont y der 1.0;
+  automaton p:
+    equation y' = 1.0;
+    location:
+      initial;
+      equation y' = 1.0;
+  end
+  invariant y > 0.0;
+
+  group def q(alg bool param):
+    equation param = true;
+    invariant param;
+  end
+end
+
+automaton a:
+  alg int x;
+
+  location l1:
+    initial;
+    equation x = "a"; // Fails, but checking continues.
+    edge when true goto l2;
+
+  location l2:
+    equation x = 5; // Equation not checked, but 'x' IS declared in this scope.
+end
+
+group g2:
+  alg int x;
+  equation x = "a"; // Fails, but checking continues.
+  equation x = 5; // Equation not checked, but 'x' IS declared in this scope.
+end

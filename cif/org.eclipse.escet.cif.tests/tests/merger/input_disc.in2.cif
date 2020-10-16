@@ -1,0 +1,24 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t2 = real;
+
+plant a:
+  disc t2 inp1;
+  disc t2 inp2 = 1.23;
+  disc t2 inp3 in {2.3, 3.4};
+  plant invariant inp1 + inp2 + inp3 > 1;
+
+  location:
+    initial;
+end

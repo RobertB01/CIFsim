@@ -1,0 +1,48 @@
+event e1;
+func real expm1(real x): "java:java.util.math.exp1m|../../empty.txt";
+event e2;
+func real expm2(real x): "java:java.util.math.exp1m|../../empty.txt";
+group g1:
+  event e1;
+  func real expm1(real x): "java:java.util.math.exp1m|../../empty.txt";
+  svgout id "box" attr "y" value 5 file "../../tchecker/small.svg";
+  svgin id "grp" event e1 file "../../tchecker/small.svg";
+  print "c1" file "../../tchecker/out1a.txt";
+  print "d1" file "../../tchecker/out1d.txt";
+end
+group h1:
+  event e1;
+  func real expm1(real x): "java:java.util.math.exp1m|../../empty.txt";
+  svgout id "box" attr "width" value 5 file "../../tchecker/small.svg";
+  svgin id "root" event e1 file "../../tchecker/small.svg";
+  print "e1" file "../../tchecker/out1a.txt";
+  print "f1" file "../../tchecker/out1f.txt";
+end
+group g2:
+  event e2;
+  func real expm2(real x): "java:java.util.math.exp1m|../../empty.txt";
+  svgout id "layer1" attr "visibility" value 5 file "../../pprint_elim_cdef/text.svg";
+  svgin id "layer1" event e2 file "../../pprint_elim_cdef/text.svg";
+  print "c2" file "../../pprint_elim_cdef/out2a.txt";
+  print "d2" file "../../pprint_elim_cdef/out2d.txt";
+end
+group h2:
+  event e2;
+  func real expm2(real x): "java:java.util.math.exp1m|../../empty.txt";
+  svgout id "layer1" attr "display" value 5 file "../../pprint_elim_cdef/text.svg";
+  svgin id "tspan2819" event e2 file "../../pprint_elim_cdef/text.svg";
+  print "e2" file "../../pprint_elim_cdef/out2a.txt";
+  print "f2" file "../../pprint_elim_cdef/out2f.txt";
+end
+svgout id "grp" attr "transform" value 5 file "../../tchecker/small.svg";
+svgout id "box" attr "x" value 5 file "../../tchecker/small.svg";
+svgin id "box" event e1 file "../../tchecker/small.svg";
+print "a1" file "../../tchecker/out1a.txt";
+print "b1" file "../../tchecker/out1b.txt";
+svgcopy id "txt1" post "abc" file "../../pprint_elim_cdef/text.svg";
+svgmove id "txt1" to 1, 2 file "../../pprint_elim_cdef/text.svg";
+svgout id "txt1" text value 5 file "../../pprint_elim_cdef/text.svg";
+svgout id "txt2" text value 5 file "../../pprint_elim_cdef/text.svg";
+svgin id "txt1" event e2 file "../../pprint_elim_cdef/text.svg";
+print "a2" file "../../pprint_elim_cdef/out2a.txt";
+print "b2" file "../../pprint_elim_cdef/out2b.txt";

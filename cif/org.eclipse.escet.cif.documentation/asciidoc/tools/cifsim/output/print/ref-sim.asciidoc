@@ -1,0 +1,99 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-print-chapter-ref-sim]]
+== Simulation with print output
+
+indexterm:[print output,simulation]
+Once a CIF specification with print declarations is available, the simulator
+can be used to generate textual output. This page discusses the following
+simulation related topics:
+
+* <<tools-cifsim-output-print-ref-sim-overwrite>>
+
+* <<tools-cifsim-output-print-ref-sim-line-based>>
+
+* <<tools-cifsim-output-print-ref-sim-order>>
+
+* <<tools-cifsim-output-print-ref-sim-enable-disable>>
+
+indexterm:[print output,overwrite]
+
+[[tools-cifsim-output-print-ref-sim-overwrite]]
+=== Overwriting files
+
+If output is printed to files, those files are always overwritten for each
+simulation. That is, at the start of the simulation, the output file is removed
+if present. A new empty file is then created, to which the output is printed
+during the simulation.
+
+indexterm:[print output,line-based]
+
+[[tools-cifsim-output-print-ref-sim-line-based]]
+=== Line-based output
+
+Output is printed in a line-based fashion. That is, every time text is printed
+for a <<tools-cifsim-output-print-chapter-ref-printdecl,print declaration>>, the
+text is printed on a new line. If a single print declaration has two texts, one
+for the pre/source state and one for the post/target state, both texts are
+printed on new lines.
+
+indexterm:[print output,order]
+
+[[tools-cifsim-output-print-ref-sim-order]]
+=== Output order
+
+The simulator guarantees that once text is printed for a certain state, no text
+shall ever be printed during that same simulation, for previous states. That
+is, output text is ordered by 'increasing' states. This guarantee holds for
+file output. For the special targets
+link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream]
+(stdout) and
+link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream]
+(stderr), the output may get mixed, for instance on the Eclipse console.
+
+The order in which text is printed for different print declarations that print
+text for the same state, is determined by the order in which the print
+declarations are specified in the CIF specification, from top to bottom. The
+order is determined per file or special target, after elimination of imports,
+component definition/instantiation, etc. A depth-first traversal of the
+component hierarchy is used, where the print declarations of components are
+considered before the print declarations of their children.
+
+indexterm:[print output,enable]
+indexterm:[print output,disable]
+
+[[tools-cifsim-output-print-ref-sim-enable-disable]]
+=== Enabling/disabling print output
+
+Print output is enabled by default. It can be disabled by reducing the
+types of <<tools-cifsim-output-chapter-normal,normal console output>> using the
+menu:Normal output[]
+option (menu:Output[]
+category). Using that
+option it is also possible to disable all other forms of normal output, to be
+able to see only the print output on the console. Print output can also be
+disabled by changing the <<tools-cifsim-output-mode,output mode>> to
+_Error_ or to _Warning_, instead of _Normal_.
+
+indexterm:[print output,undo]
+indexterm:[print output,reset]
+
+=== Undo/reset
+
+By <<tools-cifsim-input-history-reset-undo,undoing>> one or more transitions,
+or by <<tools-cifsim-input-history-reset-undo,resetting>> the simulation, the
+state may change. However, only previously taken transitions are undone. No new
+transitions are taken by undoing transitions, or by resetting the simulation.
+As such, no new print output is generated.

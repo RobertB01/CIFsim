@@ -1,0 +1,4 @@
+Error: File "spec/expr/dict-literal-keytype-bad.chi": Semantic error at line 14, column 45: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan? int : int)".
+Error: File "spec/expr/dict-literal-keytype-bad.chi": Semantic error at line 17, column 45: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan! int : int)".
+Error: File "spec/expr/dict-literal-keytype-bad.chi": Semantic error at line 21, column 46: Cannot assign value with type "dict(chan? int : int)" to variables with type "dict(chan!? int : int)".
+Error: File "spec/expr/dict-literal-keytype-bad.chi": Semantic error at line 22, column 46: Cannot assign value with type "dict(chan! int : int)" to variables with type "dict(chan!? int : int)".

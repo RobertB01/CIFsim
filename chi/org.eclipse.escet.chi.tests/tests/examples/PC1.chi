@@ -1,0 +1,35 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc P(chan! int a):
+    for i in range(5):
+        a!i
+    end
+end
+
+proc C(chan? int a):
+    int x;
+    while true:
+        delay 5.0;
+        a?x;
+        # write(time);
+        # write(x);
+        # write("\n")
+    end
+    # writeln(time, x)
+end
+
+model M():
+    chan int a;
+    run
+        P(a), C(a)
+end

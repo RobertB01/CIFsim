@@ -1,0 +1,15 @@
+Initial state: time=0.0, buffer=*, buffer.count=0
+
+Transition: event buffer.c_add
+State: time=0.0, buffer=*, buffer.count=1
+
+Transition: event buffer.c_add
+State: time=0.0, buffer=*, buffer.count=2
+
+Transition: event buffer.c_add
+State: time=0.0, buffer=*, buffer.count=3
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, buffer=*, buffer.count=3
+
+Simulation ended due to reaching the user-provided simulation end time.

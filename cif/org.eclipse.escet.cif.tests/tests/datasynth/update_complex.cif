@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Initial situations that lead to an error due to marking when going to
+// location l2 are defined by:
+//
+// x y z | sum
+// - - - | ---
+// 2 2 3 | 7
+// 3 1 3 | 7
+// 3 2 2 | 7
+
+uncontrollable error;
+
+plant p:
+  disc int[0..3] x in any;
+  disc int[1..2] y in any;
+  disc int[2..3] z in any;
+
+  disc int[3..8] sum = 3;
+
+  location l1:
+    initial;
+    edge error do sum := x + y + z goto l2;
+
+  location l2:
+    marked sum = 7;
+end

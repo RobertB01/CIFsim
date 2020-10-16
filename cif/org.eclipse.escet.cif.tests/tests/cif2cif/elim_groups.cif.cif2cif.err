@@ -1,0 +1,6 @@
+WARNING: Automaton "g4_A" is renamed to "g4_A2".
+WARNING: Automaton "x_y_z" is renamed to "x_y_z2".
+WARNING: Declaration "g2_c" is renamed to "g2_c2".
+WARNING: Declaration "g3_E" is renamed to "g3_E2".
+WARNING: Enumeration literal "A" is renamed to "A2". This may have changed the semantics of the specification. It may also cause the specification to be become invalid. It is highly recommended to avoid this renaming!
+WARNING: Enumeration literal "B" is renamed to "B2". This may have changed the semantics of the specification. It may also cause the specification to be become invalid. It is highly recommended to avoid this renaming!

@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "small.svg";
+
+svgout id "box" attr "a1" value "a";
+svgout id "box" attr "a2" value 1;
+svgout id "box" attr "a3" value true;
+svgout id "box" attr "a4" value (1, {1:2}, [3]);
+svgout id "box" attr "a5" value 1.23456e7;
+svgout id "box" attr "a6" value <string>1.23456e7;
+svgout id "box" attr "a7" value ["a", "b"];
+
+automaton a:
+  location:
+    initial;
+    urgent;
+end

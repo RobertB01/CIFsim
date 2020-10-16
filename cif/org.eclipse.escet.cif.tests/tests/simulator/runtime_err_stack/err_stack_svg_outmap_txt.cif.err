@@ -1,0 +1,5 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.5, x=-1.5265566588595902e-16.
+CAUSE: Simulation resulted in a runtime error during application of SVG output mappings.
+CAUSE: Evaluation of the SVG output mapping ("err_stack_svg_outmap_txt.svg") for the text of the SVG element with id "txt1" failed.
+CAUSE: Evaluation of SVG output mapping value "sqrt(x)" failed.
+CAUSE: Invalid operation: sqrt(-1.5265566588595902e-16).

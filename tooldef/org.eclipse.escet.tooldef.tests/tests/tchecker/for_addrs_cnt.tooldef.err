@@ -1,0 +1,5 @@
+ERROR: File "tchecker/for_addrs_cnt.tooldef": Semantic error at line 15, column 9: Found 3 addressables, but expected 1 or 2 addressables (for type "tuple(int, int)").
+ERROR: File "tchecker/for_addrs_cnt.tooldef": Semantic error at line 19, column 9: Found 3 addressables, but expected 1 or 2 addressables (for type "tuple(int, int)").
+ERROR: File "tchecker/for_addrs_cnt.tooldef": Semantic error at line 23, column 9: Found 3 addressables, but expected 1 or 2 addressables (for type "tuple(int, int)").
+ERROR: File "tchecker/for_addrs_cnt.tooldef": Semantic error at line 27, column 9: Found 3 addressables, but expected 1 or 2 addressables (for type "tuple(int, int)").
+ERROR: Failed to load ToolDef file "tchecker/for_addrs_cnt.tooldef": the file has errors.

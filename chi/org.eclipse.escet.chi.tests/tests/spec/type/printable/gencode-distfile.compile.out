@@ -1,0 +1,1 @@
+Error: File "spec/type/printable/gencode-distfile.chi": Semantic error at line 14, column 10: Incorrect distribution element type "file" found (expected bool, int, or real type).

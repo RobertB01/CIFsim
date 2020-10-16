@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable a, b;
+
+// chains g, h and v, w are the same.
+automaton A:
+    location p:
+        initial;
+        marked;
+        edge a goto v;
+        edge b goto g;
+
+    location g:
+        edge a goto h;
+
+    location h:
+        edge a goto p;
+
+    location v:
+        edge a goto w;
+
+    location w:
+        edge a goto p;
+end

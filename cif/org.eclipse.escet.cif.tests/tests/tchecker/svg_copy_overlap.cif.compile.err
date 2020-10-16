@@ -1,0 +1,15 @@
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 16, column 1: Copying the SVG element with id "ga" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "gb".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 16, column 1: Copying the SVG element with id "ga" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ra".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 16, column 1: Copying the SVG element with id "ga" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "rb".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 19, column 1: Copying the SVG element with id "gb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ga".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 19, column 1: Copying the SVG element with id "gb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ra".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 19, column 1: Copying the SVG element with id "gb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "rb".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 20, column 1: Copying the SVG element with id "gb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ga".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 22, column 1: Copying the SVG element with id "ra" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ga".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 22, column 1: Copying the SVG element with id "ra" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "gb".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 23, column 1: Copying the SVG element with id "ra" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ga".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 23, column 1: Copying the SVG element with id "ra" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "gb".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 25, column 1: Copying the SVG element with id "rb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ga".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 25, column 1: Copying the SVG element with id "rb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "gb".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 26, column 1: Copying the SVG element with id "rb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "ga".
+WARNING: File "tchecker/svg_copy_overlap.cif": Semantic warning at line 26, column 1: Copying the SVG element with id "rb" in SVG file "svg_copy_overlap.svg" overlaps with copying the SVG element with id "gb".

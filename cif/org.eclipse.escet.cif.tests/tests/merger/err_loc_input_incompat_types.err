@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_loc_input_incompat_types.in1.cif" with CIF specification "merger/err_loc_input_incompat_types.in2.cif" failed.
+CAUSE: Merging a location and input variable with name "a.b" failed: type "int[1..3]" of the input variable is not a boolean type.

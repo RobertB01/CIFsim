@@ -1,0 +1,2 @@
+ERROR: File "tchecker/unop_negate_overflow.cif": Semantic error at line 15, column 16: Unary operator "-" is applied to a value of type "int[-2,147,483,648..-2,147,483,648]" and this could result in integer overflow.
+ERROR: Failed to load CIF file "tchecker/unop_negate_overflow.cif": the file has errors.

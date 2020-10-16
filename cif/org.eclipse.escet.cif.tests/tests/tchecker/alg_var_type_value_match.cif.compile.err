@@ -1,0 +1,5 @@
+ERROR: File "tchecker/alg_var_type_value_match.cif": Semantic error at line 15, column 12: The type "int[5..5]" of the value of algebraic variable "g.x" is incompatible with the type "bool" of the algebraic variable.
+ERROR: File "tchecker/alg_var_type_value_match.cif": Semantic error at line 19, column 15: The type "int[1..2]" of the value of algebraic variable "x2" is incompatible with the type "int[1..1]" of the algebraic variable.
+ERROR: File "tchecker/alg_var_type_value_match.cif": Semantic error at line 22, column 12: The type "int[5..5]" of the value of algebraic variable "x" is incompatible with the type "bool" of the algebraic variable.
+ERROR: File "tchecker/alg_var_type_value_match.cif": Semantic error at line 31, column 16: The type "int[5..5]" of the value of algebraic variable "p.x" is incompatible with the type "bool" of the algebraic variable.
+ERROR: Failed to load CIF file "tchecker/alg_var_type_value_match.cif": the file has errors.

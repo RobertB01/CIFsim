@@ -1,0 +1,7 @@
+ERROR: File "tchecker/fmt_pat_wrong_type.tooldef": Semantic error at line 19, column 6: Invalid "%b" format specifier: a value of type "bool" or "bool?" is required, but the 1st value of type "object?" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.tooldef": Semantic error at line 20, column 6: Invalid "%b" format specifier: a value of type "bool" or "bool?" is required, but the 1st value of type "int" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.tooldef": Semantic error at line 27, column 6: Invalid "%d" format specifier: a value of type "int" or "long" is required, but the 1st value of type "int?" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.tooldef": Semantic error at line 28, column 6: Invalid "%d" format specifier: a value of type "int" or "long" is required, but the 1st value of type "bool" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.tooldef": Semantic error at line 36, column 6: Invalid "%f" format specifier: a value of type "int", "long", or "double" is required, but the 1st value of type "double?" is used.
+ERROR: File "tchecker/fmt_pat_wrong_type.tooldef": Semantic error at line 37, column 6: Invalid "%f" format specifier: a value of type "int", "long", or "double" is required, but the 1st value of type "bool" is used.
+ERROR: Failed to load ToolDef file "tchecker/fmt_pat_wrong_type.tooldef": the file has errors.

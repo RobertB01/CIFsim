@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Actual tests disabled, as this tool can't be tested using platform and
+// machine independent tests.
+
+// setup
+chdir("interpreter");
+
+// exec
+outln("=== exec ===");
+// outln("1:");
+// outln("%s", exec("/.../java", ["-version"], errToOut=true));
+// outln();
+
+// outln("2:");
+// outln("%s", exec("/usr/bin/env", ["ls"]));
+// outln();
+
+// outln("3:");
+// outln("%s", exec("ls"));
+// outln();

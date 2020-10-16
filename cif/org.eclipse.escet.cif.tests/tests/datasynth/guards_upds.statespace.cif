@@ -1,0 +1,8 @@
+controllable a;
+controllable b;
+automaton statespace:
+  alphabet a, b;
+  location loc1:
+    initial;
+    marked;
+end

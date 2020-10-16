@@ -1,0 +1,84 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+input real inp;
+
+cont c der c;
+alg real a = c + c';                  // cont + deriv refs
+
+func bool f1(bool p):
+  return p and if f1(true): true
+               else         true
+               end;                   // 'if' expr -> func without params
+end
+
+func bool f2(bool p):
+  return if p: true else true end;    // 'if' expr -> func param forwarding
+end
+
+automaton aut:
+  event e;
+
+  disc real r;
+  disc bool b;
+  disc int i;
+  disc tuple(int a,b) tii;
+  disc int[1..5] i2, i3;
+
+  location l1:
+    initial;
+    edge do r := inp;                 // input var ref
+    edge do r := a + c + c' goto l2;  // alg + cont + deriv refs
+    edge do r := <real>i;             // cast int to real
+    edge do b := not b;               // not
+    edge do b := b => b;              // =>
+    edge do r := i / i;               // division on integers
+    edge do b := f1(b);               // function call, no params
+    edge do b := f2(b);               // function call, params
+    edge do b := if b: b else b end;  // 'if' expr -> func over state
+    edge do i := tii[0];              // tuple proj
+
+    edge do r := abs(r);              // abs
+    edge do r := cbrt(r);             // cbrt
+    edge do r := exp(r);              // exp
+    edge do r := ln(r);               // ln
+    edge do r := log(r);              // log
+    edge do i := min(i, i);           // min
+    edge do r := min(i, r);           // min
+    edge do r := min(r, i);           // min
+    edge do r := min(r, r);           // min
+    edge do i := max(i, i);           // max
+    edge do r := max(i, r);           // max
+    edge do r := max(r, i);           // max
+    edge do r := max(r, r);           // max
+    edge do i := pow(i2, i3);         // pow
+    edge do r := pow(i, i);           // pow
+    edge do r := pow(i, r);           // pow
+    edge do r := pow(r, i);           // pow
+    edge do r := pow(r, r);           // pow
+    edge do r := sqrt(r);             // sqrt
+    edge do r := asin(r);             // asin
+    edge do r := acos(r);             // acos
+    edge do r := atan(r);             // atan
+    edge do r := sin(r);              // sin
+    edge do r := cos(r);              // cos
+    edge do r := tan(r);              // tan
+
+    edge do tii := (i, i + 1);        // tuple literal
+    edge do (r, i) := (r * 2, i + 1); // tuple addressable
+
+    edge e when b or b;               // disjunction in guard
+    edge e when b;                    // disjunction between guards of 'e'
+
+  location l2;
+end

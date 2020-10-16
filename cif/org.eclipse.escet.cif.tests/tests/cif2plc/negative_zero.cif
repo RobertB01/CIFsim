@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type tr = tuple(real x00, x01, x02, x03, x04, x05, x06, x07, x08, x09,
+                     x10, x11, x12, x14);
+
+plant p:
+  disc real v0  = 0.0;
+  disc int  v1  = 1;
+  disc int  v2  = 2;
+  disc int  v3  = 3;
+  disc real v99 = 1e99;
+  disc real vx  = 1e-9999999;
+  disc tr   vr  = (1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+                   1.0, 1.0, 1.0, 1.0);
+
+  location m1:
+    initial;
+    edge do vr := (-v0, ---v0, +--+-++--v0,
+                   v0 * -1, v0 / -1, -4.9E-324 / v99,
+                   cbrt(-v0),
+                   ln(v1 - 1e-18), ln(v1 - 1e-17), ln(v1 - 1e-16),
+                   pow(-1e-300, v1), pow(-1e-300, v2), pow(-1e-300, v3),
+                   -vx) goto m2;
+
+  location m2;
+end

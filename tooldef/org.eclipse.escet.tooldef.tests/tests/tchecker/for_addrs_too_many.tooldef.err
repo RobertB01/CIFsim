@@ -1,0 +1,5 @@
+ERROR: File "tchecker/for_addrs_too_many.tooldef": Semantic error at line 15, column 9: Found 2 addressables, but expected only a single one (for type "int").
+ERROR: File "tchecker/for_addrs_too_many.tooldef": Semantic error at line 19, column 9: Found 2 addressables, but expected only a single one (for type "int").
+ERROR: File "tchecker/for_addrs_too_many.tooldef": Semantic error at line 23, column 9: Found 2 addressables, but expected only a single one (for type "int").
+ERROR: File "tchecker/for_addrs_too_many.tooldef": Semantic error at line 27, column 10: Found 2 addressables, but expected only a single one (for type "int").
+ERROR: Failed to load ToolDef file "tchecker/for_addrs_too_many.tooldef": the file has errors.

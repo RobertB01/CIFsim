@@ -1,0 +1,36 @@
+plant automaton machine1:
+  controllable c_start;
+  uncontrollable u_waiting;
+  uncontrollable u_finished;
+  location Idle:
+    initial;
+    marked;
+    edge c_start goto Producing;
+  location Producing:
+    edge u_waiting goto CoolDown;
+  location CoolDown:
+    edge u_finished goto Idle;
+end
+plant automaton machine2:
+  controllable c_start;
+  uncontrollable u_waiting;
+  uncontrollable u_finished;
+  location Idle:
+    initial;
+    marked;
+    edge c_start goto Producing;
+  location Producing:
+    edge u_waiting goto CoolDown;
+  location CoolDown:
+    edge u_finished goto Idle;
+end
+group mutual_exclusion:
+end
+supervisor automaton sup:
+  alphabet machine1.c_start, machine2.c_start;
+  location:
+    initial;
+    marked;
+    edge machine1.c_start when not machine2.Producing;
+    edge machine2.c_start when not machine1.Producing;
+end

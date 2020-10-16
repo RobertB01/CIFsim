@@ -1,0 +1,289 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[ref-chapter-distributions]]
+== Distributions
+
+indexterm:[distribution,stdlib functions]
+indexterm:[stdlib functions,distribution]
+The Chi language has three kinds of distributions:
+
+* <<ref-constant-distributions>>, distributions returning always the same value
+
+* <<ref-discrete-distributions>>, distributions returning a boolean or integer value
+
+* <<ref-continuous-distributions>>, distributions returning a real number value
+
+The constant distributions are used during creation of the Chi program.
+Before adding stochastic behavior, you want to make sure the program itself
+is correct. It is much easier to verify correctness without stochastic
+behavior, but if you have to change the program again after the verification,
+you may introduce new errors in the process.
+
+The constant distributions solve this by allowing you to program with
+stochastic sampling in the code, but it is not doing anything (since you get
+the same predictable value on each sample operation). After verifying
+correctness of the program, you only need to modify the distributions that you
+use to get proper stochastic behavior.
+
+indexterm:[constant distribution]
+
+[[ref-constant-distributions]]
+=== Constant distributions
+
+The constant distributions have very predictable samples, which makes them
+ideal for testing functioning of the program before adding stochastic
+behavior.
+
+* `dist` `bool` *constant*`(bool b)`
++
+Distribution always returning `b`.
++
+[horizontal]
+Range:: `b`
+Mean:: `b`
+Variance:: -
+
+* `dist` `int` *constant*`(int i)`
++
+Distribution always returning `i`.
++
+[horizontal]
+Range:: `i`
+Mean:: `i`
+Variance:: -
+
+* `dist` `real` *constant*`(real r)`
++
+Distribution always returning `r`.
++
+[horizontal]
+Range:: `r`
+Mean:: `r`
+Variance:: -
+
+
+indexterm:[discrete distribution]
+indexterm:[poisson]
+indexterm:[geometric]
+indexterm:[binomial]
+indexterm:[bernoulli]
+indexterm:[discrete,uniform]
+indexterm:[uniform,discrete distribution]
+
+[[ref-discrete-distributions]]
+=== Discrete distributions
+
+The discrete distributions return integer or boolean sample values.
+
+* `dist` `bool` *bernoulli*`(real p)`
++
+Outcome of an experiment with chance `p` `+(0 <= p <= 1)+`.
++
+image::{ref-imgsdir}/distribution_plots/bernoulli.svg[]
++
+[horizontal]
+Range:: `{false, true}`
+Mean:: `p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
+Variance:: `1 - p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
+See also:: Bernoulli(p), <<law-ref>>, page 302
+
+* `dist` `int` *binomial*`(int n, real p)`
++
+Number of successes when performing `n` experiments `(n > 0)` with chance `p` `+(0 <= p <= 1)+`.
++
+[horizontal]
+Range:: `+{0, 1, ..., n}+`
+Mean:: `n * p`
+Variance:: `n * p * (1 - p)`
+See also:: bin(n, p), <<law-ref>>, page 304
+
+* `dist` `int` *geometric*`(real p)`
++
+Geometric distribution, number of failures before success for an experiment with chance `p` `+(0 < p <= 1)+`.
++
+[horizontal]
+Range:: `+{0, 1, ...}+`
+Mean:: `(1 - p) / p`
+Variance:: `+(1 - p) / p^2+`
+See also:: geom(p), <<law-ref>>, page 305
+
+* `dist` `int` *poisson*`(real lambda)`
++
+Poisson distribution.
++
+image::{ref-imgsdir}/distribution_plots/poisson.svg[]
++
+[horizontal]
+Range:: `+{0, 1, ...}+`
+Mean:: `lambda`
+Variance:: `lambda`
+See also:: Poison(lambda), <<law-ref>>, page 308
+
+* `dist` `int` *uniform*`(int a, b)`
++
+Integer uniform distribution from `a` to `b` excluding the upper bound.
++
+image::{ref-imgsdir}/distribution_plots/disc_uni.svg[]
++
+[horizontal]
+Range:: `+{a, a+1, ..., b-1}+`
+Mean:: `+(a + b - 1) / 2+`
+Variance:: `+((b - a)^2 - 1) / 12+`
+See also:: DU(a, b - 1), <<law-ref>>, page 303
+
+
+indexterm:[continuous distribution]
+indexterm:[beta]
+indexterm:[erlang]
+indexterm:[exponential]
+indexterm:[gamma]
+indexterm:[lognormal]
+indexterm:[normal]
+indexterm:[triangle]
+indexterm:[weibull]
+indexterm:[continuous,uniform]
+indexterm:[uniform,continuous distribution]
+
+[[ref-continuous-distributions]]
+=== Continuous distributions
+
+* `dist` `real` *beta*`(real p, q)`
++
+Beta distribution with shape parameters `p` and `q`, with `p > 0` and `q > 0`.
++
+image::{ref-imgsdir}/distribution_plots/beta.svg[]
++
+[horizontal]
+Range:: `[0, 1]`
+Mean:: `+p / (p + q)+`
+Variance:: `+p * q / ((p + q)^2 * (p + q + 1))+`
+See also:: Beta(p, q), <<law-ref>>, page 291
+
+* `dist` `real` *erlang*`(double m, int k)`
++
+Erlang distribution with `k` a positive integer and `m > 0`.
+Equivalent to `gamma(k, m / k)`.
++
+[horizontal]
+Mean:: `m`
+Variance:: `m * m / k`
+See also:: ERL(m, k), <<banks-ref>>, page 153
+
+* `dist` `real` *exponential*`(real m)`
++
+(Negative) exponential distribution with mean `m`, with `m > 0`.
++
+image::{ref-imgsdir}/distribution_plots/exponential.svg[]
++
+[horizontal]
+Range:: `[0, infinite)`
+Mean:: `m`
+Variance:: `m * m`
+See also:: expo(m), <<law-ref>>, page 283
+
+* `dist` `real` *gamma*`(real a, b)`
++
+Gamma distribution, with shape parameter `a > 0` and scale parameter `b > 0`.
++
+image::{ref-imgsdir}/distribution_plots/gamma.svg[]
++
+[horizontal]
+Mean:: `a * b`
+Variance:: `+a * b^2+`
+
+* `dist` `real` *lognormal*`(real m, v2)`
++
+Log-normal distribution.
++
+image::{ref-imgsdir}/distribution_plots/lognormal.svg[]
++
+[horizontal]
+Range:: `[0, infinite)`
+Mean:: `+exp(m + v2/2)+`
+Variance:: `+exp(2*m + v2) * (exp(v2) - 1)+`
+See also:: N(m, v2), <<law-ref>>, page 290
+
+* `dist` `real` *normal*`(real m, v2)`
++
+Normal distribution.
++
+image::{ref-imgsdir}/distribution_plots/normal.svg[]
++
+[horizontal]
+Range:: `(-infinite, infinite)`
+Mean:: `m`
+Variance:: `v2`
+See also:: N(m, v2), <<law-ref>>, page 288
+
+* `dist` `real` *random*`()`
++
+Random number generator.
++
+[horizontal]
+Range:: `[0, 1)`
+Mean:: `0.5`
+Variance:: `1 / 12`
+
+* `dist` `real` *triangle*`(real a, b, c)`
++
+Triangle distribution, with `a < b < c`.
++
+image::{ref-imgsdir}/distribution_plots/triangle.svg[]
++
+[horizontal]
+Range:: `[a, c]`
+Mean:: `+(a + b + c) /3+`
+Variance:: `+(a^2 + c^2 + b^2 - a*b - a*c - b*c) / 18+`
+See also:: Triangle(a, c, b), <<law-ref>>, page 300
+
+
+* `dist` `real` *uniform*`(real a, b)`
++
+Real uniform distribution from `a` to `b`, excluding upper bound.
++
+image::{ref-imgsdir}/distribution_plots/cont_uni.svg[]
++
+[horizontal]
+Range:: `[a, b)`
+Mean:: `+(a + b) / 2+`
+Variance:: `+(b - a)^2 / 12+`
+See also:: U(a,b), <<law-ref>>, page 282, except that distribution has an inclusive upper bound.
+
+
+* `dist` `real` *weibull*`(real a, b)`
++
+Weibull distribution with shape parameter `a` and scale parameter `b`, with `a > 0` and `b > 0`.
++
+image::{ref-imgsdir}/distribution_plots/weibull.svg[]
++
+[horizontal]
+Range:: `[0, infinite)`
+Mean:: `(b / a) * G(1 / a)`
+Variance:: `+(b^2 / a) * (2 * G(2 / a) - (1 / a) * G(1 / a)^2)+` with `G(x)` the Gamma function,
+`G(x)` `=` integral over `t` from `0` to `infinity`, for `+t^(x - 1) * exp(-t)+`
+See also:: Weibull(a, b), <<law-ref>>, page 284
+
+[bibliography]
+=== References
+
+- [[[banks-ref]]] Handbook of Simulation,
+Principles, Methodology, Advances, Applications, and Practice,
+editor Jerry Banks,
+publisher John Wiley & Sons, inc, 1998
+
+- [[[law-ref]]] Simulation Modeling & Analysis, fourth edition,
+by Averill M. Law,
+publisher McGraw-Hill, International Edition, 2007,
+ISBN 978-007-125519-6

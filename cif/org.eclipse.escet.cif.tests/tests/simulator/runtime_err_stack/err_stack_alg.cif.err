@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "x > 0" of the top level scope of the specification failed.
+CAUSE: Evaluation of algebraic variable "x" failed.
+CAUSE: Division by zero: 1.0 / 0.0.

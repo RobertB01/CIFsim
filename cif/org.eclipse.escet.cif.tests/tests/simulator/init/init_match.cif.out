@@ -1,0 +1,6 @@
+Initial state: time=0.0, p0=*, p0.x=0, p1=*, p1.x=4, p2=*, p2.x=2, p3=*, p3.x=3, q0=l0, q1=l1, q2=l0
+
+Transition: event tau
+State: time=0.0, p0=*, p0.x=0, p1=*, p1.x=4, p2=*, p2.x=2, p3=*, p3.x=3, q0=l1, q1=l1, q2=l0
+
+Simulation resulted in deadlock.

@@ -1,0 +1,3 @@
+Problems detected in merged CIF specification:
+ - ERROR: Duplicate text output for SVG elements with ids "txt2" and "txt1" in SVG file "../tchecker/svg_dupl_output_text.svg".
+ERROR: Merging CIF specifications "merger/err_post_svg_dupl_output_text.in1.cif", "merger/err_post_svg_dupl_output_text.in2.cif" failed.

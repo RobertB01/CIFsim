@@ -1,0 +1,8 @@
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 14, column 15: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 15, column 13: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 19, column 8: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 26, column 15: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 34, column 12: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 43, column 22: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: File "tchecker/rcvd_value_occurrence.cif": Semantic error at line 51, column 15: The received value of a communication is only available in updates of edges that receive a value.
+ERROR: Failed to load CIF file "tchecker/rcvd_value_occurrence.cif": the file has errors.

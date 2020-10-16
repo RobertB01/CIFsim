@@ -1,0 +1,286 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// short circuit and/or
+outln("=== short circuit and/or ===");
+list bool lb = [];
+outln("%s", true or lb[0]);
+outln("%s", false and lb[0]);
+outln();
+
+// and/or
+outln("=== and/or ===");
+outln("%s", true  and true);
+outln("%s", true  and false);
+outln("%s", false and true);
+outln("%s", false and false);
+outln();
+outln("%s", true  or true);
+outln("%s", true  or false);
+outln("%s", false or true);
+outln("%s", false or false);
+outln();
+outln("%s", {1, 2} and {2, 3});
+outln("%s", {1, 2} or  {2, 3});
+outln();
+
+// + (unary)
+outln("=== + (unary) ===");
+outln("%s", +1);
+outln("%s", ++1);
+outln("%s", +123456789012345);
+outln("%s", ++123456789012345);
+outln("%s", +2.0);
+outln("%s", ++2.0);
+outln();
+
+// + (binary)
+outln("=== + (binary) ===");
+outln("%s",  1 +  3);
+outln("%s", -1 +  3);
+outln("%s",  1 + -3);
+outln("%s", -1 + -3);
+outln("%s", 123456789012345 + 987654321098765); // 1111111110111110
+outln("%s", 2.0 + 3.0);
+outln("%s", "a" + "b");
+outln("%s", [1, 2] + [2, 3]);
+outln("%s", {1:2, 2:3} + {2:4, 3:5});
+outln();
+
+int i = <int>1;
+long l = <long>2;
+double d = <double>3.0;
+
+outln("%s", i + i);
+
+outln("%s", i + i);
+outln("%s", i + l);
+outln("%s", l + i);
+outln("%s", l + l);
+
+outln("%s", i + i);
+outln("%s", i + l);
+outln("%s", i + d);
+outln("%s", l + i);
+outln("%s", l + l);
+outln("%s", l + d);
+outln("%s", d + i);
+outln("%s", d + l);
+outln("%s", d + d);
+outln();
+
+// - (unary)
+outln("=== - (unary) ===");
+outln("%s", -1);
+outln("%s", --1);
+outln("%s", -123456789012345);
+outln("%s", --123456789012345);
+outln("%s", -2.0);
+outln("%s", --2.0);
+outln();
+
+// - (binary)
+outln("=== - (binary) ===");
+outln("%s",  1 -  3);
+outln("%s", -1 -  3);
+outln("%s",  1 - -3);
+outln("%s", -1 - -3);
+outln("%s", 123456789012345 - 987654321098765); // -864197532086420
+outln("%s", 2.0 - 3.0);
+outln("%s", {1, 2} - {2, 3});
+outln("%s", {1:2, 2:3} - [2, 3]);
+outln("%s", {1:2, 2:3} - {2, 3});
+outln("%s", {1:2, 2:3} - {2:4, 3:5});
+outln();
+
+// *
+outln("=== * ===");
+outln("%s",  1 *  3);
+outln("%s", -1 *  3);
+outln("%s",  1 * -3);
+outln("%s", -1 * -3);
+outln("%s", 2147483648 * 2147483648); // 4611686018427387904
+outln("%s", 2.0 * 3.0);
+outln();
+
+// /
+outln("=== / ===");
+outln("%s",  1 /  3);
+outln("%s", -1 /  3);
+outln("%s",  1 / -3);
+outln("%s", -1 / -3);
+outln("%s", 2147483648 / 2147483648); // 4611686018427387904
+outln("%s", 2.0 / 3.0);
+outln();
+
+// div/mod
+outln("=== div/mod ===");
+outln("%s",  7 div  4);
+outln("%s",  7 div -4);
+outln("%s", -7 div  4);
+outln("%s", -7 div -4);
+outln("%s", (2147483648 * 7 + 13) div 2147483648);
+outln();
+outln("%s",  7 mod  4);
+outln("%s",  7 mod -4);
+outln("%s", -7 mod  4);
+outln("%s", -7 mod -4);
+outln("%s", (2147483648 * 7 + 13) mod 2147483648);
+outln();
+
+// <
+outln("=== < ===");
+outln("%s", 1 < 1);
+outln("%s", 1 < 2);
+outln("%s", 2 < 1);
+outln("%s", 2 < 2);
+outln();
+outln("%s", 2147483648 < 2147483648);
+outln("%s", 2147483648 < 2147483649);
+outln("%s", 2147483649 < 2147483648);
+outln("%s", 2147483649 < 2147483649);
+outln();
+outln("%s", 1.0 < 1.0);
+outln("%s", 1.0 < 2.0);
+outln("%s", 2.0 < 1.0);
+outln("%s", 2.0 < 2.0);
+outln();
+
+// <=
+outln("=== <= ===");
+outln("%s", 1 <= 1);
+outln("%s", 1 <= 2);
+outln("%s", 2 <= 1);
+outln("%s", 2 <= 2);
+outln();
+outln("%s", 2147483648 <= 2147483648);
+outln("%s", 2147483648 <= 2147483649);
+outln("%s", 2147483649 <= 2147483648);
+outln("%s", 2147483649 <= 2147483649);
+outln();
+outln("%s", 1.0 <= 1.0);
+outln("%s", 1.0 <= 2.0);
+outln("%s", 2.0 <= 1.0);
+outln("%s", 2.0 <= 2.0);
+outln();
+
+// >
+outln("=== > ===");
+outln("%s", 1 > 1);
+outln("%s", 1 > 2);
+outln("%s", 2 > 1);
+outln("%s", 2 > 2);
+outln();
+outln("%s", 2147483648 > 2147483648);
+outln("%s", 2147483648 > 2147483649);
+outln("%s", 2147483649 > 2147483648);
+outln("%s", 2147483649 > 2147483649);
+outln();
+outln("%s", 1.0 > 1.0);
+outln("%s", 1.0 > 2.0);
+outln("%s", 2.0 > 1.0);
+outln("%s", 2.0 > 2.0);
+outln();
+
+// >=
+outln("=== >= ===");
+outln("%s", 1 >= 1);
+outln("%s", 1 >= 2);
+outln("%s", 2 >= 1);
+outln("%s", 2 >= 2);
+outln();
+outln("%s", 2147483648 >= 2147483648);
+outln("%s", 2147483648 >= 2147483649);
+outln("%s", 2147483649 >= 2147483648);
+outln("%s", 2147483649 >= 2147483649);
+outln();
+outln("%s", 1.0 >= 1.0);
+outln("%s", 1.0 >= 2.0);
+outln("%s", 2.0 >= 1.0);
+outln("%s", 2.0 >= 2.0);
+outln();
+
+// ==
+outln("=== == ===");
+outln("%s", 1 == 1);
+outln("%s", 1 == 2);
+outln("%s", 2 == 1);
+outln("%s", 2 == 2);
+outln();
+outln("%s", 2147483648 == 2147483648);
+outln("%s", 2147483648 == 2147483649);
+outln("%s", 2147483649 == 2147483648);
+outln("%s", 2147483649 == 2147483649);
+outln();
+outln("%s", 1.0 == 1.0);
+outln("%s", 1.0 == 2.0);
+outln("%s", 2.0 == 1.0);
+outln("%s", 2.0 == 2.0);
+outln();
+outln("%s", 1.0 == 1);
+outln("%s", 1.0 == 2147483649 - 2147483648);
+outln("%s", [1.0] == [1]);
+outln("%s", [1.0] == [2147483649 - 2147483648]);
+outln();
+outln("%s", "a" == "a");
+outln("%s", "a" == "b");
+outln("%s", "b" == "a");
+outln("%s", "b" == "b");
+outln();
+outln("%s", [0] == [0]);
+outln("%s", [0] == [1]);
+outln("%s", [1] == [0]);
+outln("%s", [1] == [1]);
+outln();
+
+// !=
+outln("=== != ===");
+outln("%s", 1 != 1);
+outln("%s", 1 != 2);
+outln("%s", 2 != 1);
+outln("%s", 2 != 2);
+outln();
+outln("%s", 2147483648 != 2147483648);
+outln("%s", 2147483648 != 2147483649);
+outln("%s", 2147483649 != 2147483648);
+outln("%s", 2147483649 != 2147483649);
+outln();
+outln("%s", 1.0 != 1.0);
+outln("%s", 1.0 != 2.0);
+outln("%s", 2.0 != 1.0);
+outln("%s", 2.0 != 2.0);
+outln();
+outln("%s", 1.0 != 1);
+outln("%s", 1.0 != 2147483649 - 2147483648);
+outln("%s", [1.0] != [1]);
+outln("%s", [1.0] != [2147483649 - 2147483648]);
+outln();
+outln("%s", "a" != "a");
+outln("%s", "a" != "b");
+outln("%s", "b" != "a");
+outln("%s", "b" != "b");
+outln();
+outln("%s", [0] != [0]);
+outln("%s", [0] != [1]);
+outln("%s", [1] != [0]);
+outln("%s", [1] != [1]);
+outln();
+
+// not
+outln("=== not ===");
+outln("%s", not true);
+outln("%s", not false);
+outln("%s", not not true);
+outln("%s", not not false);
+outln("%s", not not not true);
+outln("%s", not not not false);

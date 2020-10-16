@@ -1,0 +1,3 @@
+WARNING: File "event_based/controllability_check/all_disable.cif": Semantic warning at line 27, column 12: The alphabet of automaton "s" globally disables event "u", as the event is not used on any of the edges of the automaton.
+WARNING: File "event_based/controllability_check/all_disable.cif": Semantic warning at line 27, column 15: The alphabet of automaton "s" globally disables event "c", as the event is not used on any of the edges of the automaton.
+ERROR: Controllability check FAILS in file "event_based/controllability_check/all_disable.cif". See "event_based/controllability_check/all_disable.real.txt" for details.

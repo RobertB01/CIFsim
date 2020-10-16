@@ -1,0 +1,97 @@
+Reading CIF file "datasynth/initial2.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..3]  p.x   1      2 * 2     4 * 2       4 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      6         12          12          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 0
+
+  Skipping automatic ordering: no hyperedges.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 1):         true
+Initial   (discrete variables):          true
+Initial   (component init predicate):    p.x != 1
+Initial   (component init predicate):    p.x != 2
+Initial   (components init predicate):   p.x != 2 and p.x != 1
+Initial   (aut/locs init predicate):     (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+Initial   (auts/locs init predicate):    (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+Initial   (uncontrolled system):         p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial   (system, combined init/inv):   p.l1 and p.x = 3 or p.l2 and p.x = 0
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [initialization predicate]
+Forward reachability: iteration 1.
+Controlled behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0.
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (p.l2 or p.x != 3) and (p.l1 or p.x != 0) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0)
+
+Controlled system:                     exactly 2 states.
+
+Initial (synthesis result):            p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (uncontrolled system):         p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (controlled system):           p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/initial2.ctrlsys.real.cif".

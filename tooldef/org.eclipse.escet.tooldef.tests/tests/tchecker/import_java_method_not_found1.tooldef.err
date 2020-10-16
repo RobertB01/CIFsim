@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_java_method_not_found1.tooldef": Semantic error at line 14, column 8: Cannot find a method named "methodDoesNotExist" in class "java.lang.String".
+ERROR: Failed to load ToolDef file "tchecker/import_java_method_not_found1.tooldef": the file has errors.

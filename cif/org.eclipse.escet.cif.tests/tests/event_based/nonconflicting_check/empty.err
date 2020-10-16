@@ -1,0 +1,2 @@
+ERROR: Failed to apply nonconflicting check for CIF file "event_based/nonconflicting_check/empty.cif".
+CAUSE: CIF input file contains 0 automata, while the nonconflicting check expects a file with at least 2 automata.

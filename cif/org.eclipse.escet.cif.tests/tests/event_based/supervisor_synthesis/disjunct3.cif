@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable p, q, r;
+controllable x, y;
+
+requirement R:
+    location:
+        initial;
+        marked;
+        edge p;
+end
+
+plant P1:
+    location A:
+        initial;
+        marked;
+        edge p goto B;
+    location B:
+        edge p goto A;
+end
+
+plant P2:
+    location A:
+        initial;
+        marked;
+        edge q goto B;
+    location B:
+        edge q goto A;
+end
+
+plant P3:
+    location A:
+        initial;
+        marked;
+        edge r goto B;
+    location B:
+        edge r goto A;
+        edge x, y;
+end

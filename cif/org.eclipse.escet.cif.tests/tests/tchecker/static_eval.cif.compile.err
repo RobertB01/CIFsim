@@ -1,0 +1,18 @@
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 16, column 23: Cannot statically evaluate algebraic variable "alg_var.x".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 21, column 18: Cannot statically evaluate continuous variable "cont_var.x".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 26, column 18: Cannot statically evaluate the derivative of continuous variable "deriv.x".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 31, column 18: Cannot statically evaluate discrete variable "disc_var.v".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 36, column 29: Cannot statically evaluate distribution standard library function "random".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 36, column 29: Distribution standard library function "random" may only be used in the initial values of discrete variables, declared in automata.
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 40, column 20: Cannot statically evaluate variable "f_var.x".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 44, column 20: Cannot statically evaluate function parameter "f_param.x".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 49, column 23: Cannot statically evaluate input variable "input_var.x".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 53, column 18: Cannot statically evaluate location "loc.l".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 71, column 26: Cannot statically evaluate the value received by a communication.
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 79, column 34: Cannot statically evaluate the value received by a communication.
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 82, column 48: Cannot statically evaluate unary operator "sample".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 90, column 23: Cannot statically evaluate variable "time".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 92, column 48: Cannot statically evaluate user-defined function "user_def_func.f".
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 101, column 29: Cannot statically evaluate an automaton "self" reference.
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 102, column 29: Cannot statically evaluate automaton "aut_ref" to its active location.
+ERROR: Failed to load CIF file "tchecker/static_eval.cif": the file has errors.

@@ -1,0 +1,18 @@
+controllable c;
+uncontrollable u;
+plant automaton p:
+  disc int[0..7] x = 0;
+  location l1:
+    initial;
+    edge c do x := x + 2;
+    edge u do x := x + 1 goto l2;
+  location l2:
+    marked x < 5;
+end
+supervisor automaton sup:
+  alphabet c;
+  location:
+    initial;
+    marked;
+    edge c when p.x = 0;
+end

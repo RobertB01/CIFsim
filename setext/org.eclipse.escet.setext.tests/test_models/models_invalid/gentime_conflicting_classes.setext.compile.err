@@ -1,0 +1,1 @@
+ERROR: Conflicting class names: "java.io.IOException" and "my.IOException".

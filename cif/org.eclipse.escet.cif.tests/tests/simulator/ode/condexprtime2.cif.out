@@ -1,0 +1,60 @@
+Initial state: time=0.0, p=*, p.t=0.0, p.t'=1.0, p.x=0.0, V=10.0, V'=-2.0, X=3.1622776601683795
+
+Transition: delaying for 1.0000000000000002 time units at time 0.0
+State: time=1.0000000000000002, p=*, p.t=1.0000000000000004, p.t'=1.0, p.x=0.0, V=8.0, V'=-2.0, X=2.8284271247461903
+
+Transition: event tau
+State: time=1.0000000000000002, p=*, p.t=0.0, p.t'=1.0, p.x=2.8284271247461903, V=8.0, V'=-2.0, X=2.8284271247461903
+
+Transition: delaying for 0.9999999999999998 time units at time 1.0000000000000002
+State: time=2.0, p=*, p.t=1.0000000000000004, p.t'=1.0, p.x=2.8284271247461903, V=6.0, V'=-2.0, X=2.449489742783178
+
+Transition: event tau
+State: time=2.0, p=*, p.t=0.0, p.t'=1.0, p.x=2.449489742783178, V=6.0, V'=-2.0, X=2.449489742783178
+
+Transition: delaying for 1.0000000000000004 time units at time 2.0
+State: time=3.0000000000000004, p=*, p.t=1.0000000000000004, p.t'=1.0, p.x=2.449489742783178, V=3.999999999999999, V'=-2.0, X=1.9999999999999998
+
+Transition: event tau
+State: time=3.0000000000000004, p=*, p.t=0.0, p.t'=1.0, p.x=1.9999999999999998, V=3.999999999999999, V'=-2.0, X=1.9999999999999998
+
+Transition: delaying for 1.0000000000000013 time units at time 3.0000000000000004
+State: time=4.000000000000002, p=*, p.t=1.0000000000000018, p.t'=1.0, p.x=1.9999999999999998, V=1.9999999999999958, V'=-2.0, X=1.4142135623730936
+
+Transition: event tau
+State: time=4.000000000000002, p=*, p.t=0.0, p.t'=1.0, p.x=1.4142135623730936, V=1.9999999999999958, V'=-2.0, X=1.4142135623730936
+
+Transition: delaying for 1.0000000000000009 time units at time 4.000000000000002
+State: time=5.000000000000003, p=*, p.t=1.0000000000000018, p.t'=1.0, p.x=1.4142135623730936, V=-7.327471962526033e-15, V'=-2.0, X=0.0
+
+Transition: event tau
+State: time=5.000000000000003, p=*, p.t=0.0, p.t'=1.0, p.x=0.0, V=-7.327471962526033e-15, V'=-2.0, X=0.0
+
+Transition: delaying for 1.0000000000000027 time units at time 5.000000000000003
+State: time=6.000000000000005, p=*, p.t=1.0000000000000033, p.t'=1.0, p.x=0.0, V=-2.000000000000014, V'=-2.0, X=0.0
+
+Transition: event tau
+State: time=6.000000000000005, p=*, p.t=0.0, p.t'=1.0, p.x=0.0, V=-2.000000000000014, V'=-2.0, X=0.0
+
+Transition: delaying for 1.0000000000000009 time units at time 6.000000000000005
+State: time=7.000000000000006, p=*, p.t=1.0000000000000018, p.t'=1.0, p.x=0.0, V=-4.000000000000018, V'=-2.0, X=0.0
+
+Transition: event tau
+State: time=7.000000000000006, p=*, p.t=0.0, p.t'=1.0, p.x=0.0, V=-4.000000000000018, V'=-2.0, X=0.0
+
+Transition: delaying for 1.0000000000000044 time units at time 7.000000000000006
+State: time=8.00000000000001, p=*, p.t=1.0000000000000053, p.t'=1.0, p.x=0.0, V=-6.000000000000028, V'=-2.0, X=0.0
+
+Transition: event tau
+State: time=8.00000000000001, p=*, p.t=0.0, p.t'=1.0, p.x=0.0, V=-6.000000000000028, V'=-2.0, X=0.0
+
+Transition: delaying for 1.0 time units at time 8.00000000000001
+State: time=9.00000000000001, p=*, p.t=1.0000000000000009, p.t'=1.0, p.x=0.0, V=-8.00000000000003, V'=-2.0, X=0.0
+
+Transition: event tau
+State: time=9.00000000000001, p=*, p.t=0.0, p.t'=1.0, p.x=0.0, V=-8.00000000000003, V'=-2.0, X=0.0
+
+Transition: delaying for 0.9999999999999893 time units at time 9.00000000000001
+State: time=10.0, p=*, p.t=0.9999999999999898, p.t'=1.0, p.x=0.0, V=-10.000000000000009, V'=-2.0, X=0.0
+
+Simulation ended due to reaching the user-provided simulation end time.

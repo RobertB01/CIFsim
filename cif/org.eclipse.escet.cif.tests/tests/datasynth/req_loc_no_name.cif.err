@@ -1,0 +1,5 @@
+ERROR: Data-based supervisory controller synthesis failed due to unsatisfied preconditions:
+ - Unsupported assignment: unsupported part "(r.x + 1) mod 8 * 2" of assignment "r.x := (r.x + 1) mod 8 * 2": value is too complex to be statically evaluated.
+ - Unsupported automaton "r": unsupported part "(r.x + 1) mod 8 * 2" of combined guard "true and p.v = (r.x + 1) mod 8 * 2": value is too complex to be statically evaluated.
+ - Unsupported linearized guard: unsupported part "(r.x + 1) mod 8 * 2" of guard(s) "not(p.v = (r.x + 1) mod 8 * 2)": value is too complex to be statically evaluated.
+ - Unsupported linearized guard: unsupported part "(r.x + 1) mod 8 * 2" of guard(s) "p.v = (r.x + 1) mod 8 * 2": value is too complex to be statically evaluated.

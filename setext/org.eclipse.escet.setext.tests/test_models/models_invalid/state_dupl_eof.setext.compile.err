@@ -1,0 +1,5 @@
+ERROR: File "models_invalid/state_dupl_eof.setext": Semantic error at line 16, column 4: Duplicate end-of-file acceptance for scanner state "".
+ERROR: File "models_invalid/state_dupl_eof.setext": Semantic error at line 17, column 4: Duplicate end-of-file acceptance for scanner state "".
+ERROR: File "models_invalid/state_dupl_eof.setext": Semantic error at line 22, column 4: Duplicate end-of-file acceptance for scanner state "A".
+ERROR: File "models_invalid/state_dupl_eof.setext": Semantic error at line 26, column 4: Duplicate end-of-file acceptance for scanner state "A".
+ERROR: Failed to load SeText file "models_invalid/state_dupl_eof.setext": the file has errors.

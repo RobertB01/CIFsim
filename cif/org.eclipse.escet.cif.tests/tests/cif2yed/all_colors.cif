@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group grp1:
+  automaton aut1:
+    event evt1;
+
+    location loc:
+      initial;
+      edge evt1;
+  end
+
+  automaton aut1b:
+    location:
+      initial;
+      edge aut1.evt1;
+  end
+end
+
+group defs2:
+  group def Grp2():
+    automaton def Aut2(event param2; location param3):
+      location:
+        initial param3;
+        edge param2;
+    end
+
+    aut2: Aut2(grp1.aut1.evt1, grp1.aut1.loc);
+
+    automaton aut2b:
+      location:
+        initial;
+        edge grp1.aut1.evt1;
+    end
+  end
+  grp2: Grp2();
+end

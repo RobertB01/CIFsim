@@ -1,0 +1,187 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-reuse2-chapter-input-variables]]
+== Input variables
+
+indexterm:[input variable]
+indexterm:[variable,input]
+_Input variables_ can be used to model that some data exists, without
+specifying the value or how or when the value changes. Input variables are used
+in cases where the CIF model is to be connected something else that provides
+the values.
+
+indexterm:[input variable,hardware example]
+
+=== Hardware example
+
+The CIF model may for instance be a controller that is to be connected to a
+piece of physical hardware. The input variables then model sensors, for which
+the behavior is not modeled in the CIF model. As an example, consider the
+following CIF specification:
+
+
+[source, cif]
+----
+input bool sensor;
+
+automaton controller:
+  cont t der 1;
+  alg bool actuator = on;
+
+  location off:
+    initial;
+    edge when sensor do t := 0 goto waiting;
+
+  location waiting:
+    edge when not sensor goto off;
+    edge when t > 1.5 goto on;
+
+  location on:
+    edge when not sensor goto off;
+end
+----
+
+Input variable `sensor` models a digital sensor. When the sensor is on, the
+variable has value `true` and when the sensor is off, the variable has value
+`false`. When the sensor is on and when it is off is not known, and thus not
+modeled in the CIF specification.
+
+The `controller` waits (in location `off`) for the sensor to go on, and
+then resets continuous variable `t` to start measuring `1.5` time units
+(in location `waiting`). If that much time has passed, it goes to location
+`on`. If the sensor goes off then, or while it is waiting, it goes back to
+location `off`. Thus, the `controller` is only `on` if the sensor goes
+on, `1.5` time units have passed, and the sensor remains on.
+
+The `actuator` algebraic variable models that an actuator is only on if the
+`controller` is in its on location. The `actuator` is then on if the sensor
+is one, and `1.5` time units have passed. The actuator is always turned off
+when the sensor is off.
+
+Without a physical hardware system, the CIF specification is incomplete, as the
+value of the sensor is not known. The input variable acts as a placeholder for
+the actual sensor. If the CIF specification were to be coupled to a physical
+hardware system with a sensor and an actuator, the CIF model would then control
+the actuator based on the sensor values.
+
+indexterm:[input variable,co-simulation example]
+
+=== Co-simulation example
+
+A CIF specification could model a part of a system, while another part of that
+same system is modeled in another system or language, such as
+link:http://www.mathworks.nl/products/simulink/[Simulink]. Consider for instance
+a tank filled with water. Water flows out of the tank constantly. By opening a
+value, water also flows in to the tank. Consider the following CIF
+specification:
+
+
+[source, cif]
+----
+input real level;
+
+automaton valve:
+  disc bool open = true;
+
+  location:
+    initial;
+    edge when     open and level >= 10 do open := false;
+    edge when not open and level <=  2 do open := true;
+end
+----
+
+The water `level` is modeled as an input variable, meaning it is obtained
+from the Simulink model. The CIF specification models the valve, and the
+controller that opens and closes the value, based on the water level. It keeps
+the level between `2` and `10`.
+
+The CIF model obtains the water level from Simulink by means of input variable
+`level`. It also provides the `open` variable of the `valve` automaton to
+Simulink. This variable can be used in Simulink to model how the water level
+changes over time.
+
+Without the Simulink model, the CIF specification is incomplete, as the water
+level is not known. The input variable acts as a placeholder for the actual
+water level. If the CIF specification were to be coupled to a Simulink model
+that models the water level, the CIF specification would control the valve
+based on the water level.
+
+indexterm:[input variable,merging CIF models]
+
+=== CIF models example
+
+Input variables can also be used to couple CIF models. Consider again the above
+water level controller example. It models the valve and controls the valve, but
+does not model the water level. The following CIF specification could be used
+to model the water level:
+
+
+[source, cif]
+----
+cont level der if valve.open: 1 else -1 end;
+
+group valve:
+  input bool open;
+end
+----
+
+Continuous variable `level` models the water level. The water level increases
+(derivative `1`) if the valve is open, and decreases (derivative `-1`)
+otherwise. The `open` variable from the `valve` is used, but this variable
+is an input variable, and the value is not known in this specification. Input
+variable `open` acts as a placeholder for a value, and group `valve` acts
+as a placeholder for automaton `valve`.
+
+The two CIF specifications both model a part of the system. One specification
+models the water level, and has a placeholder for the variable that indicates
+whether the valve is open. The other specification models the valve and
+controls it, but has a placeholder for the water level. If we couple the two
+CIF specifications, they provide each other with actual variables for each
+others input variables.
+
+The two specifications can be coupled or _merged_ together:
+
+
+[source, cif]
+----
+cont level = 0.0 der if valve.open: 1 else -1 end;
+
+automaton valve:
+  disc bool open = true;
+
+  location:
+    initial;
+    edge when     open and level >= 10 do open := false;
+    edge when not open and level <=  2 do open := true;
+end
+----
+
+Using input variables to couple CIF specifications is somewhat similar to using
+<<tut-reuse2-chapter-imports,imports>> to split a CIF specification over
+multiple files. There are however important differences.
+
+The first difference is that when using imports, one CIF specification is
+coupled to another CIF specification. The coupling is hard-coded in the CIF
+specification, and can not be changed without changing the import. When using
+input variables and merging, it is possible to couple a CIF specification
+to a second CIF specification, and later couple it with a third, different
+specification instead. The decision about which models to merge can thus be
+postponed, and does not require changes to any of the CIF specifications.
+
+Another difference is that with imports it is not allowed to have declarations
+with the same name in different CIF specifications (except for groups), while
+with the merger this is allowed in many situations. See the documentation of
+the <<tools-chapter-mergecif,CIF merger>> tool for further details on what can
+be merged using that tool.

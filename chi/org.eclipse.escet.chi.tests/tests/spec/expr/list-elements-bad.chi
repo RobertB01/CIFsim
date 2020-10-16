@@ -1,0 +1,85 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc A1(chan? int a):  list chan? int s = [a]; pass end
+proc A2(chan! int a):  list chan? int s = [a]; pass end
+proc A3(chan!? int a): list chan? int s = [a]; pass end
+
+proc B1(chan? int a):  list chan! int s = [a]; pass end
+proc B2(chan! int a):  list chan! int s = [a]; pass end
+proc B3(chan!? int a): list chan! int s = [a]; pass end
+
+proc C1(chan? int a):  list chan!? int s = [a]; pass end
+proc C2(chan! int a):  list chan!? int s = [a]; pass end
+proc C3(chan!? int a): list chan!? int s = [a]; pass end
+
+
+proc R1(chan!? int a; chan!? int b): list chan? int s = [a,b]; pass end
+proc R2(chan!? int a; chan!? int b): list chan? int s = [b,a]; pass end
+
+proc R3(chan!? int a; chan!? int b): list chan! int s = [a,b]; pass end
+proc R4(chan!? int a; chan!? int b): list chan! int s = [b,a]; pass end
+
+proc R5(chan!? int a; chan!? int b): list chan!? int s = [a,b]; pass end
+proc R6(chan!? int a; chan!? int b): list chan!? int s = [b,a]; pass end
+
+proc S1(chan! int a; chan!? int b): list chan? int s = [a,b]; pass end
+proc S2(chan! int a; chan!? int b): list chan? int s = [b,a]; pass end
+
+proc S3(chan! int a; chan!? int b): list chan! int s = [a,b]; pass end
+proc S4(chan! int a; chan!? int b): list chan! int s = [b,a]; pass end
+
+proc S5(chan! int a; chan!? int b): list chan!? int s = [a,b]; pass end
+proc S6(chan! int a; chan!? int b): list chan!? int s = [b,a]; pass end
+
+
+proc T1(chan? int a; chan!? int b): list chan? int s = [a,b]; pass end
+proc T2(chan? int a; chan!? int b): list chan? int s = [b,a]; pass end
+
+proc T3(chan? int a; chan!? int b): list chan! int s = [a,b]; pass end
+proc T4(chan? int a; chan!? int b): list chan! int s = [b,a]; pass end
+
+proc T5(chan? int a; chan!? int b): list chan!? int s = [a,b]; pass end
+proc T6(chan? int a; chan!? int b): list chan!? int s = [b,a]; pass end
+
+
+proc U1(chan? int a; chan! int b): list chan? int s = [a,b]; pass end
+proc U2(chan? int a; chan! int b): list chan? int s = [b,a]; pass end
+
+proc U3(chan? int a; chan! int b): list chan! int s = [a,b]; pass end
+proc U4(chan? int a; chan! int b): list chan! int s = [b,a]; pass end
+
+proc U5(chan? int a; chan! int b): list chan!? int s = [a,b]; pass end
+proc U6(chan? int a; chan! int b): list chan!? int s = [b,a]; pass end
+
+
+proc V1(chan? int a; chan! int b; chan!? int c): list chan? int s = [a,b,c]; pass end
+proc V2(chan? int a; chan! int b; chan!? int c): list chan? int s = [a,c,b]; pass end
+proc V3(chan? int a; chan! int b; chan!? int c): list chan? int s = [b,a,c]; pass end
+proc V4(chan? int a; chan! int b; chan!? int c): list chan? int s = [b,c,a]; pass end
+proc V5(chan? int a; chan! int b; chan!? int c): list chan? int s = [c,a,b]; pass end
+proc V6(chan? int a; chan! int b; chan!? int c): list chan? int s = [c,b,a]; pass end
+
+proc W1(chan? int a; chan! int b; chan!? int c): list chan! int s = [a,b,c]; pass end
+proc W2(chan? int a; chan! int b; chan!? int c): list chan! int s = [a,c,b]; pass end
+proc W3(chan? int a; chan! int b; chan!? int c): list chan! int s = [b,a,c]; pass end
+proc W4(chan? int a; chan! int b; chan!? int c): list chan! int s = [b,c,a]; pass end
+proc W5(chan? int a; chan! int b; chan!? int c): list chan! int s = [c,a,b]; pass end
+proc W6(chan? int a; chan! int b; chan!? int c): list chan! int s = [c,b,a]; pass end
+
+proc X1(chan? int a; chan! int b; chan!? int c): list chan!? int s = [a,b,c]; pass end
+proc X2(chan? int a; chan! int b; chan!? int c): list chan!? int s = [a,c,b]; pass end
+proc X3(chan? int a; chan! int b; chan!? int c): list chan!? int s = [b,a,c]; pass end
+proc X4(chan? int a; chan! int b; chan!? int c): list chan!? int s = [b,c,a]; pass end
+proc X5(chan? int a; chan! int b; chan!? int c): list chan!? int s = [c,a,b]; pass end
+proc X6(chan? int a; chan! int b; chan!? int c): list chan!? int s = [c,b,a]; pass end
+

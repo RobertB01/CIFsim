@@ -1,0 +1,4 @@
+ERROR: File "tchecker/fmt_pat_idx_out_of_range.cif": Semantic error at line 14, column 12: Invalid format specifier: flag "0" requires a width.
+ERROR: File "tchecker/fmt_pat_idx_out_of_range.cif": Semantic error at line 15, column 12: Invalid format specifier: the 2nd value is used, which does not exist.
+ERROR: File "tchecker/fmt_pat_idx_out_of_range.cif": Semantic error at line 16, column 15: Invalid format specifier: the 2nd value is used, which does not exist.
+ERROR: Failed to load CIF file "tchecker/fmt_pat_idx_out_of_range.cif": the file has errors.

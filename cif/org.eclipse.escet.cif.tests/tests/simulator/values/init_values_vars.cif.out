@@ -1,0 +1,3 @@
+Initial state: time=0.0, p=*, p.a1=true, p.a2=false, p.b1=true, p.b2=false, p.c1=true, p.c2=false, p.d=1.23, p.d'=1.23, p.d0=1.23
+
+Simulation resulted in deadlock.

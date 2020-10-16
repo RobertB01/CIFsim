@@ -1,0 +1,2 @@
+ERROR: Trace file "simulator/trace/err_opt_after_non_opt.trace" is invalid.
+CAUSE: Option after non-option: "option strict off".

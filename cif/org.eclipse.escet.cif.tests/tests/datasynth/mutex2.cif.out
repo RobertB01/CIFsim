@@ -1,0 +1,134 @@
+Reading CIF file "datasynth/mutex2.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   machine1  0      2 * 2     3 * 2       4 * 2       75%
+  2      location pointer  n/a   machine2  1      2 * 2     3 * 2       4 * 2       75%
+  -----  ----------------  ----  --------  -----  --------  ----------  ----------  -----------
+  Total                                    2      8         12          16          75%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 7
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    1 (total)                 0.14 (avg/edge) [before]
+    Total span:                    1 (total)                 0.14 (avg/edge) [iteration 1]
+    Total span:                    1 (total)                 0.14 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    1 (total)                 0.14 (avg/edge) [before]
+    Total span:                    1 (total)                 0.14 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (component state invariant):   not machine1.Producing or not machine2.Producing
+Invariant (components state invariant):  not machine1.Producing or not machine2.Producing
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      not machine1.Producing or not machine2.Producing
+
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     machine1.Idle
+Initial   (aut/locs init predicate):     machine2.Idle
+Initial   (auts/locs init predicate):    machine1.Idle and machine2.Idle
+Initial   (uncontrolled system):         machine1.Idle and machine2.Idle
+Initial   (system, combined init/inv):   machine1.Idle and machine2.Idle
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   machine1.Idle
+Marked    (aut/locs marker predicate):   machine2.Idle
+Marked    (auts/locs marker predicate):  machine1.Idle and machine2.Idle
+Marked    (uncontrolled system):         machine1.Idle and machine2.Idle
+Marked    (system, combined marked/inv): machine1.Idle and machine2.Idle
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing)
+    Edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown)
+    Edge: (event: machine1.u_finished) (guard: machine1.CoolDown) (assignments: machine1 := machine1.Idle)
+    Edge: (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing)
+    Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown)
+    Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
+
+Initialized controlled-behavior predicate using invariants: not machine1.Producing or not machine2.Producing.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: not machine1.Producing or not machine2.Producing -> not machine1.Producing or not machine2.Producing [range: true, variable: location pointer for automaton "machine1" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: not machine1.Producing or not machine2.Producing -> not machine1.Producing or not machine2.Producing [range: true, variable: location pointer for automaton "machine2" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+
+Extended controlled-behavior predicate using variable ranges: not machine1.Producing or not machine2.Producing.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: machine1.Idle and machine2.Idle [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: machine1.Idle and machine2.Idle -> not machine1.Producing and machine2.Idle [backward reach with edge: (event: machine1.u_finished) (guard: machine1.CoolDown) (assignments: machine1 := machine1.Idle), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Backward controlled-behavior: not machine1.Producing and machine2.Idle -> not machine1.Producing and not machine2.Producing [backward reach with edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not machine1.Producing and not machine2.Producing -> (machine1.Producing or not machine2.Producing) and (not machine1.Producing or not machine2.Producing) [backward reach with edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Backward controlled-behavior: (machine1.Producing or not machine2.Producing) and (not machine1.Producing or not machine2.Producing) -> not machine1.Producing or not machine2.Producing [backward reach with edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Backward reachability: iteration 3.
+Backward controlled-behavior: not machine1.Producing or not machine2.Producing [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: machine1.Producing and machine2.Producing [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: machine1.Idle and machine2.Idle [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: machine1.Idle and machine2.Idle -> not machine1.CoolDown and machine2.Idle [forward reach with edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Forward controlled-behavior: not machine1.CoolDown and machine2.Idle -> not machine1.Producing and machine2.Idle or machine1.Producing and machine2.Idle [forward reach with edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Forward controlled-behavior: not machine1.Producing and machine2.Idle or machine1.Producing and machine2.Idle -> not machine1.Producing and not machine2.CoolDown or machine1.Producing and machine2.Idle [forward reach with edge: (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Forward controlled-behavior: not machine1.Producing and not machine2.CoolDown or machine1.Producing and machine2.Idle -> (not machine1.Producing or not machine2.CoolDown) and (not machine1.Producing or not machine2.Producing) [forward reach with edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Forward reachability: iteration 2.
+Forward controlled-behavior: (not machine1.Producing or not machine2.CoolDown) and (not machine1.Producing or not machine2.Producing) -> not machine1.Producing or not machine2.Producing [forward reach with edge: (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing), restricted to current/previous controlled-behavior predicate: not machine1.Producing or not machine2.Producing]
+Forward reachability: iteration 3.
+Forward controlled-behavior: not machine1.Producing or not machine2.Producing [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: machine1.c_start) (guard: machine1.Idle) (assignments: machine1 := machine1.Producing): guard: machine1.Idle -> machine1.Idle and not machine2.Producing.
+Edge (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing): guard: machine2.Idle -> not machine1.Producing and machine2.Idle.
+
+Final synthesis result:
+  State: (controlled-behavior: not machine1.Producing or not machine2.Producing)
+    Edge: (event: machine1.c_start) (guard: machine1.Idle -> machine1.Idle and not machine2.Producing) (assignments: machine1 := machine1.Producing)
+    Edge: (event: machine1.u_waiting) (guard: machine1.Producing) (assignments: machine1 := machine1.CoolDown)
+    Edge: (event: machine1.u_finished) (guard: machine1.CoolDown) (assignments: machine1 := machine1.Idle)
+    Edge: (event: machine2.c_start) (guard: machine2.Idle -> not machine1.Producing and machine2.Idle) (assignments: machine2 := machine2.Producing)
+    Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown)
+    Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
+
+Controlled system:                     exactly 8 states.
+
+Initial (synthesis result):            not machine1.Producing or not machine2.Producing
+Initial (uncontrolled system):         machine1.Idle and machine2.Idle
+Initial (controlled system):           machine1.Idle and machine2.Idle
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event machine1.c_start: guard: machine1.Idle and not machine2.Producing -> not machine2.Producing [assume machine1.Idle].
+  Event machine2.c_start: guard: not machine1.Producing and machine2.Idle -> not machine1.Producing [assume machine2.Idle].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/mutex2.ctrlsys.real.cif".

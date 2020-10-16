@@ -1,0 +1,12 @@
+plant automaton p:
+  disc int[0..1024] x = 5;
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end

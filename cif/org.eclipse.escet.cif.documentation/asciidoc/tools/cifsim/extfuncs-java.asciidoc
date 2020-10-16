@@ -1,0 +1,228 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-extfuncs-java]]
+== External user-defined Java functions
+
+indexterm:[external user-defined functions,Java]
+External user-defined Java functions allow the use of static Java methods from
+CIF specifications. This page explains how to use such Java methods, how the
+simulator loads and invokes them, what is allowed, etc. It explicitly does not
+explain how to write or compile Java code.
+
+indexterm:[external user-defined Java functions,implementation reference]
+
+=== External implementation reference
+
+Consider the following examples of external user-defined Java function:
+
+
+[source, cif]
+----
+func real f1(real x): "java:java.lang.Math.expm1";
+
+func int f2(bool x): "java:pkg.Cls.method|../some.jar;bin";
+----
+
+Two external user-defined functions are given as examples. Both have a string
+literal as external implementation reference. For Java functions, the string
+literal must start with `java:`. Then the absolute name of the Java method
+that is to be invoked is given. That is, the package name, class name, and
+method name are given, separated by dots (`.`).
+
+Optionally, a Java class path may be given at the end, preceded by a bar
+(`|`) character. The class path entries must be separated by semicolons
+(`;`) regardless of the operating system. The class path entries are absolute
+or relative local file system paths to Jar files or directories with Java class
+files. Relative paths are resolved against the directory that contains the
+CIF specification in which the external user-defined function is declared. Both
+Linux/Mac path separators (`/`) and Windows path separators (`\`) may be
+used in class path entries. However, `\` must be escaped as `\\` in CIF
+string literals, and thus it is recommended to always use `/` as path
+separator. A discussion of the Java class path concept is beyond the scope of
+this documentation.
+
+indexterm:[external user-defined Java functions,supported types]
+indexterm:[external user-defined Java functions,supported values]
+
+=== Supported types and values
+
+Not all CIF data types are supported for the parameters and return values of
+external user-defined Java functions. The following table lists the allowed
+CIF types, and their corresponding Java types.
+
+[cols=2*,options="header"]
+|===
+| CIF type
+| Java type
+
+| `bool`
+| `java.lang.Boolean` / `boolean`
+
+| `int`
+| `java.lang.Integer` / `int`
+
+| `int[a..b]`
+| `java.lang.Integer` / `int`
+
+| `real`
+| `java.lang.Double` / `double`
+
+| `string`
+| `java.lang.String`
+
+| `list t`
+| `java.util.List<t>`
+
+| `set t`
+| `java.util.List<t>`
+
+| `dict(k: v)`
+| `java.util.Map<k, v>`
+
+| `+tuple(t1, t2, ..., tn)+`
+| `java.util.List<java.lang.Object>`
+|===
+
+Unless otherwise specified, the primitive Java types (`boolean`, `int`,
+and `double`) can be used interchangeably with their class variants
+(`java.lang.Boolean`, `java.lang.Integer`, and `java.lang.Double`).
+For lists and sets, the element type recursively affects the type parameters of
+the Java types. Similarly, for dictionaries, the key and value types affect
+the type parameters of the Java `Map` type. Since Java doesn't have tuples,
+and there is no way in Java to define a type with a variable number of type
+parameters, CIF tuples are passed to Java as a list of objects. It may be
+assumed that such lists have the same number of elements as there are fields in
+the original tuple, and that the elements have types that correspond to the
+types of the field of the tuple. The following table shows a few examples:
+
+[cols=2*,options="header"]
+|===
+| CIF type
+| Java type
+
+| `bool`
+| `boolean`
+
+| `int`
+| `int`
+
+| `list int`
+| `java.util.List<java.lang.Integer>`
+
+| `set tuple(int a, b)`
+| `java.util.Set<java.util.List<java.lang.Object>>`
+|===
+
+For parameters, no `null` values are ever passed, not even as elements of
+lists, etc. Furthermore, for `real` typed values, `NaN`, positive infinity,
+and negative infinity are never passed along.
+
+For return values, `null` values, as well as `NaN`, positive infinity, and
+negative infinity are considered runtime errors. Furthermore, integer values
+outside their CIF integer type range bounds are considered runtime errors as
+well.
+
+indexterm:[external user-defined Java functions,method resolution]
+indexterm:[external user-defined Java functions,class loader]
+indexterm:[external user-defined Java functions,static method]
+indexterm:[external user-defined Java functions,method modifier]
+indexterm:[external user-defined Java functions,Java Virtual Machine]
+indexterm:[external user-defined Java functions,lazy loading]
+
+=== Method resolution
+
+The class as specified in the external implementation reference is loaded using
+a Java class loader. By default, the system class loader is used. If additional
+class path entries are specified in the external implementation reference, an
+extended class loader is used that searches in the additional class path
+entries before deferring to the system class loader. The class is loaded using
+the
+link:http://docs.oracle.com/javase/7/docs/api/java/lang/ClassLoader.html#name[binary name]
+of the class.
+
+The method that is resolved must be a static method. The access modifier of the
+static method is irrelevant. That is, it doesn't matter whether the method is
+`private`, `protected`, `public`, etc.
+
+The method is resolved in the Java Virtual Machine (JVM) that runs the
+simulator. The method is resolved by name, and parameter types. The parameter
+types only include the top level type. That is, for CIF type `list int`, the
+Java type `java.util.List` is used as the type of the parameter. If more than
+one method with the same parameter types is declared in the class, and one of
+these methods has a return type that is more specific than any of the others,
+that method is used. Otherwise one of the methods is chosen arbitrarily.
+
+For parameters that have primitive Java types as their type, the primitive
+types are used to resolve the method instead of their classes. In other words,
+when resolving the method, or the proper overload of the method, `int` and
+`java.lang.Integer` are considered incompatible.
+
+The CIF simulator employs lazy loading. That is, if the external Java
+function is never called, it is also never loaded.
+
+indexterm:[external user-defined Java functions,method invocation]
+indexterm:[external user-defined Java functions,runtime errors]
+
+=== Method invocation
+
+The method is invoked in the Java Virtual Machine (JVM) that runs the
+simulator, using reflection. By default, it is invoked
+<<tools-cifsim-extfuncs-async,asynchronously>>.
+
+Since the parameter types are not checked recursively when the method is
+resolved, methods may fail to execute properly if the type signatures don't
+match exactly. Similarly, for the return type only the top level type is
+checked. If a return value does not match the CIF type (wrong element type,
+wrong tuple length, etc), simulation will fail with a runtime error.
+
+Any exceptions that occur during execution of the Java method are caught by
+the simulator. When the simulator catches such an exception, it will print the
+Java stack trace of the exception to the console, and simulation will be
+<<tools-cifsim-chapter-termination,terminated>>.
+
+indexterm:[external user-defined Java functions,side effects]
+indexterm:[external user-defined Java functions,stdout]
+indexterm:[external user-defined Java functions,stderr]
+indexterm:[external user-defined Java functions,Java Virtual Machine]
+indexterm:[external user-defined Java functions,state]
+indexterm:[external user-defined Java functions,class loader]
+indexterm:[external user-defined Java functions,static data]
+
+=== Side effects
+
+As all functions in CIF, external user-defined Java functions should not have
+any <<tools-cifsim-extfuncs-side-effects,side effects>>. That is, if
+called with the same arguments, it should return the same value each time.
+More concretely, maintaining state information should be avoided, as should
+file I/O, and reading from stdin.
+
+Writing to stdout and stderr should not affect the result of the method. It
+should however be avoided as well, as such writes are associated with the
+streams of the Java Virtual Machine (JVM), and not the simulator. The output
+will not end up on the Eclipse console of the simulator.
+
+By default, the Java methods are invoked <<tools-cifsim-extfuncs-async,asynchronously>>,
+on a freshly created thread. That is, there
+is no guarantee that an invocation uses the same thread as the previous
+invocation. If static fields (class variables) are used to maintain state, this
+may cause problems if thread safety is not ensured by the Java method. If
+synchronous execution is used, all external function calls are invoked from the
+simulation thread, and such thread safety issues should not be a problem.
+
+You should assume that each external function is loaded using a different
+class loader. As such, multiple Java methods from the same class, from the
+same external library, may be loaded using different class loaders as
+well. As such, shared static fields (class variables) of those classes can in
+general not be shared by different external functions.

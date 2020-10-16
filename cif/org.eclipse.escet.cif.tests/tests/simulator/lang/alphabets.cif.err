@@ -1,0 +1,6 @@
+WARNING: File "simulator/lang/alphabets.cif": Semantic warning at line 18, column 12: Duplicate event "e1" in alphabet of automaton "p".
+WARNING: File "simulator/lang/alphabets.cif": Semantic warning at line 18, column 16: Duplicate event "e1" in alphabet of automaton "p".
+WARNING: File "simulator/lang/alphabets.cif": Semantic warning at line 18, column 24: The alphabet of automaton "p" globally disables event "e3", as the event is not used on any of the edges of the automaton.
+WARNING: File "simulator/lang/alphabets.cif": Semantic warning at line 38, column 12: Duplicate event "f1" in alphabet of automaton "r".
+WARNING: File "simulator/lang/alphabets.cif": Semantic warning at line 38, column 16: Duplicate event "f1" in alphabet of automaton "r".
+WARNING: File "simulator/lang/alphabets.cif": Semantic warning at line 38, column 24: The alphabet of automaton "r" globally disables event "f3", as the event is not used on any of the edges of the automaton.

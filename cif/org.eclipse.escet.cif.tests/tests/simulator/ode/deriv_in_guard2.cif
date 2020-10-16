@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+automaton p:
+  cont x = 1.0 der x;
+
+  location l1:
+    initial;
+    edge e when x' >= 5 goto l2;
+
+  location l2:
+    urgent;
+end
+
+// http://www.wolframalpha.com/input/?i=x%27%3Dx%2C+x%280%29%3D1
+// {x'(t) = x(t), x(0) = 1}
+// x(t) = e^t
+
+// http://www.wolframalpha.com/input/?i=E^t+%3D+5
+// t = 1.60943791243410

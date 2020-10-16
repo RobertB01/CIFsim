@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable e1a, e1b;
+
+plant p1:
+  disc int[0..5] x in any;
+
+  location:
+    initial;
+    marked;
+    edge e1a when x >= 3;
+    edge e1b when x >= 3;
+end
+
+requirement r1:
+  location:
+    initial;
+    marked;
+    edge e1a when p1.x >= 2; // No restriction.
+    edge e1b when p1.x >= 4; // Disallow p1.x = 3.
+end

@@ -1,0 +1,76 @@
+controllable add;
+controllable remove;
+alg int[1..2] x = 1;
+controllable move;
+plant automaton p:
+  disc int[0..3] c in any;
+  alg int[0..3] y;
+  equation y = x;
+  location:
+    initial;
+    marked;
+    edge add do c := c + x;
+    edge remove do c := c - y;
+end
+plant automaton q:
+  alg bool z;
+  location l1:
+    initial;
+    marked;
+    equation z = true;
+    edge move goto l2;
+  location l2:
+    equation z = false;
+    edge move goto l1;
+end
+plant automaton r1:
+  alg int cost = if active: active_count else 0 end;
+  controllable activate;
+  controllable deactivate;
+  alg int active_count = 3;
+  location inactive:
+    initial;
+    marked;
+    edge activate goto active;
+  location active:
+    edge deactivate goto inactive;
+end
+plant automaton r2:
+  alg int cost = if active: active_count else 0 end;
+  controllable activate;
+  controllable deactivate;
+  alg int active_count = 2;
+  location inactive:
+    initial;
+    marked;
+    edge activate goto active;
+  location active:
+    edge deactivate goto inactive;
+end
+plant automaton r3:
+  alg int cost = if active: active_count else 0 end;
+  controllable activate;
+  controllable deactivate;
+  alg int active_count = 4;
+  location inactive:
+    initial;
+    marked;
+    edge activate goto active;
+  location active:
+    edge deactivate goto inactive;
+end
+supervisor automaton sup:
+  alphabet add, remove, move, r1.activate, r1.deactivate, r2.activate, r2.deactivate, r3.activate, r3.deactivate;
+  location:
+    initial;
+    marked;
+    edge add when (p.c = 1 or p.c = 3 or (q.l2 or (r1.inactive or r3.inactive))) and (p.c = 1 or (p.c = 3 or q.l1)) and ((p.c != 1 or q.l2 or (r1.inactive or r3.inactive)) and ((p.c != 1 or q.l1) and p.c != 3));
+    edge move when r1.inactive or r3.inactive;
+    edge r1.activate when r3.inactive;
+    edge r1.deactivate when true;
+    edge r2.activate when r1.inactive or r3.inactive;
+    edge r2.deactivate when r1.inactive or r3.inactive;
+    edge r3.activate when r1.inactive;
+    edge r3.deactivate when true;
+    edge remove when p.c != 0 and ((p.c != 2 or (r1.inactive or r3.inactive)) and (p.c = 0 or p.c = 2 or (r1.inactive or r3.inactive)));
+end

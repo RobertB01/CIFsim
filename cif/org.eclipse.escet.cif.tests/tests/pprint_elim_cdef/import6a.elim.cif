@@ -1,0 +1,40 @@
+cont cv11 der 4.0;
+cont cv12;
+cont cv21 der 44.0;
+cont cv22;
+group a:
+  cont cv11 der 4.1;
+  cont cv12;
+  cont cv21 der 44.1;
+  cont cv22;
+  group b:
+    cont cv11 der 4.2;
+    cont cv12;
+    cont cv21 der 44.2;
+    cont cv22;
+    initial 2.2 = 2.2,
+            22.2 = 22.2;
+    marked 3.2 = 3.2,
+           33.2 = 33.2;
+    invariant 1.2 = 1.2;
+    invariant 11.2 = 11.2;
+    equation cv12' = 5.2,
+             cv22' = 55.2;
+  end
+  initial 2.1 = 2.1,
+          22.1 = 22.1;
+  marked 3.1 = 3.1,
+         33.1 = 33.1;
+  invariant 1.1 = 1.1;
+  invariant 11.1 = 11.1;
+  equation cv12' = 5.1,
+           cv22' = 55.1;
+end
+initial 2.0 = 2.0,
+        22.0 = 22.0;
+marked 3.0 = 3.0,
+       33.0 = 33.0;
+invariant 1.0 = 1.0;
+invariant 11.0 = 11.0;
+equation cv12' = 5.0,
+         cv22' = 55.0;

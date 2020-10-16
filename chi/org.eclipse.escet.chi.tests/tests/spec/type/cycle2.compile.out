@@ -1,0 +1,2 @@
+Error: File "spec/type/cycle2.chi": Semantic error at line 13, column 6: Declaration "x" uses itself in its definition.
+Error: File "spec/type/cycle2.chi": Semantic error at line 14, column 6: Declaration "y" uses itself in its definition.

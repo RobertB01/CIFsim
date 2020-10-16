@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cif" nsURI="http://eclipse.org/escet/cif" nsPrefix="cif">
+  <eClassifiers xsi:type="ecore:EClass" name="Component" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="#//CifIdentifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="CifIdentifier" instanceClassName="java.lang.String">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="CifIdentifier"/>
+      <details key="baseType" value="string"/>
+      <details key="pattern" value="[A-Za-z_][A-Za-z0-9_]*"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Group" eSuperTypes="#//ComplexComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definitions" upperBound="-1"
+        eType="#//ComponentDef" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//Component" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentDef" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//ComplexComponent"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentInst" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
+        eType="#//types/CifType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//expressions/Expression" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexComponent" abstract="true" eSuperTypes="#//Component">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declarations" upperBound="-1"
+        eType="#//declarations/Declaration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="markeds" upperBound="-1"
+        eType="#//expressions/Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invariants" upperBound="-1"
+        eType="#//Invariant" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initials" upperBound="-1"
+        eType="#//expressions/Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equations" upperBound="-1"
+        eType="#//Equation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ioDecls" upperBound="-1"
+        eType="#//IoDecl" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Specification" eSuperTypes="#//Group"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EventParameter" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1" eType="#//declarations/Event"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sendFlag" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recvFlag" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="syncFlag" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LocationParameter" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="location" lowerBound="1"
+        eType="#//automata/Location" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AlgParameter" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//declarations/AlgVariable" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComponentParameter" eSuperTypes="#//Parameter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//types/CifType"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="#//CifIdentifier"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Equation" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="derivative" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="#//expressions/Expression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//declarations/Declaration"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IoDecl" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Invariant" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="supKind" lowerBound="1"
+        eType="#//SupKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
+        eType="#//expressions/Expression" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="invKind" lowerBound="1"
+        eType="#//InvKind"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//expressions/Expression"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SupKind">
+    <eLiterals name="None"/>
+    <eLiterals name="Plant" value="1"/>
+    <eLiterals name="Requirement" value="2"/>
+    <eLiterals name="Supervisor" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="InvKind">
+    <eLiterals name="State"/>
+    <eLiterals name="EventNeeds" value="1"/>
+    <eLiterals name="EventDisables" value="2"/>
+  </eClassifiers>
+  <eSubpackages name="declarations" nsURI="http://eclipse.org/escet/cif/declarations"
+      nsPrefix="declarations">
+    <eClassifiers xsi:type="ecore:EClass" name="Declaration" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="#//CifIdentifier"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AlgVariable" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="controllable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//types/CifType"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumDecl" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="literals" lowerBound="1"
+          upperBound="-1" eType="#//declarations/EnumLiteral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeDecl" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumLiteral" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+          eType="#//CifIdentifier"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DiscVariable" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//declarations/VariableValue"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableValue" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContVariable" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="derivative" eType="#//expressions/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputVariable" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="automata" nsURI="http://eclipse.org/escet/cif/automata" nsPrefix="automata">
+    <eClassifiers xsi:type="ecore:EClass" name="Automaton" eSuperTypes="#//ComplexComponent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="locations" lowerBound="1"
+          upperBound="-1" eType="#//automata/Location" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="alphabet" eType="#//automata/Alphabet"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="monitors" eType="#//automata/Monitors"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
+          eType="#//SupKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Location" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//CifIdentifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initials" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="invariants" upperBound="-1"
+          eType="#//Invariant" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+          eType="#//automata/Edge" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="markeds" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="urgent" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="equations" upperBound="-1"
+          eType="#//Equation" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Edge" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//automata/Location"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+          eType="#//automata/EdgeEvent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="updates" upperBound="-1"
+          eType="#//automata/Update" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="urgent" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Update" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//automata/Update">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="addressable" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfUpdate" eSuperTypes="#//automata/Update">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thens" lowerBound="1"
+          upperBound="-1" eType="#//automata/Update" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elifs" upperBound="-1"
+          eType="#//automata/ElifUpdate" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elses" upperBound="-1"
+          eType="#//automata/Update" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ElifUpdate" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thens" lowerBound="1"
+          upperBound="-1" eType="#//automata/Update" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Alphabet" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EdgeEvent" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Monitors" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EdgeSend" eSuperTypes="#//automata/EdgeEvent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="#//expressions/Expression"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EdgeReceive" eSuperTypes="#//automata/EdgeEvent"/>
+  </eSubpackages>
+  <eSubpackages name="types" nsURI="http://eclipse.org/escet/cif/types" nsPrefix="types">
+    <eClassifiers xsi:type="ecore:EClass" name="CifType" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BoolType" eSuperTypes="#//types/CifType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IntType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lower" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="upper" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeRef" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//declarations/TypeDecl"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="enum" lowerBound="1"
+          eType="#//declarations/EnumDecl"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CompParamWrapType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+          eType="#//ComponentParameter"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reference" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CompInstWrapType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="instantiation" lowerBound="1"
+          eType="#//ComponentInst"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reference" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
+          eType="#//Component"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentDefType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="definition" lowerBound="1"
+          eType="#//ComponentDef"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RealType" eSuperTypes="#//types/CifType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StringType" eSuperTypes="#//types/CifType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ListType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lower" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="upper" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DictType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="keyType" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TupleType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="2"
+          upperBound="-1" eType="#//types/Field" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Field" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//CifIdentifier"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FuncType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="paramTypes" upperBound="-1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DistType" eSuperTypes="#//types/CifType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sampleType" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VoidType" eSuperTypes="#//types/CifType"/>
+  </eSubpackages>
+  <eSubpackages name="expressions" nsURI="http://eclipse.org/escet/cif/expressions"
+      nsPrefix="expressions">
+    <eClassifiers xsi:type="ecore:EClass" name="Expression" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="#//types/CifType" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BinaryExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="#//expressions/BinaryOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UnaryExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operator" lowerBound="1"
+          eType="#//expressions/UnaryOperator"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BoolExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IntExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionCallExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="function" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="then" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="else" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elifs" upperBound="-1"
+          eType="#//expressions/ElifExpression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DiscVariableExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+          eType="#//declarations/DiscVariable"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AlgVariableExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+          eType="#//declarations/AlgVariable"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
+          eType="#//declarations/Event"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EnumLiteralExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="literal" lowerBound="1"
+          eType="#//declarations/EnumLiteral"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LocationExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="location" lowerBound="1"
+          eType="#//automata/Location"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="UnaryOperator">
+      <eLiterals name="Inverse"/>
+      <eLiterals name="Negate" value="1"/>
+      <eLiterals name="Plus" value="2"/>
+      <eLiterals name="Sample" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="BinaryOperator">
+      <eLiterals name="Disjunction"/>
+      <eLiterals name="Implication" value="1"/>
+      <eLiterals name="BiConditional" value="2"/>
+      <eLiterals name="Conjunction" value="3"/>
+      <eLiterals name="LessThan" value="4"/>
+      <eLiterals name="LessEqual" value="5"/>
+      <eLiterals name="GreaterThan" value="6"/>
+      <eLiterals name="GreaterEqual" value="7"/>
+      <eLiterals name="Equal" value="8"/>
+      <eLiterals name="Unequal" value="9"/>
+      <eLiterals name="Modulus" value="11"/>
+      <eLiterals name="IntegerDivision" value="12"/>
+      <eLiterals name="Multiplication" value="14"/>
+      <eLiterals name="Subtraction" value="15"/>
+      <eLiterals name="Addition" value="16"/>
+      <eLiterals name="Subset" value="10"/>
+      <eLiterals name="ElementOf" value="13"/>
+      <eLiterals name="Division" value="17"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="StdLibFunction">
+      <eLiterals name="Minimum" value="1"/>
+      <eLiterals name="Maximum" value="2"/>
+      <eLiterals name="Power" value="3"/>
+      <eLiterals name="Sign" value="4"/>
+      <eLiterals name="Cbrt" value="5"/>
+      <eLiterals name="Ceil" value="6"/>
+      <eLiterals name="Delete" value="7"/>
+      <eLiterals name="Empty" value="8"/>
+      <eLiterals name="Exp" value="9"/>
+      <eLiterals name="Floor" value="10"/>
+      <eLiterals name="Ln" value="15"/>
+      <eLiterals name="Log" value="16"/>
+      <eLiterals name="Pop" value="17"/>
+      <eLiterals name="Round" value="19"/>
+      <eLiterals name="Size" value="13"/>
+      <eLiterals name="Sqrt" value="22"/>
+      <eLiterals name="Acosh" value="23"/>
+      <eLiterals name="Acos" value="24"/>
+      <eLiterals name="Asinh" value="25"/>
+      <eLiterals name="Asin" value="26"/>
+      <eLiterals name="Atanh" value="27"/>
+      <eLiterals name="Atan" value="28"/>
+      <eLiterals name="Cosh" value="29"/>
+      <eLiterals name="Cos" value="30"/>
+      <eLiterals name="Sinh" value="31"/>
+      <eLiterals name="Sin" value="32"/>
+      <eLiterals name="Tanh" value="33"/>
+      <eLiterals name="Tan" value="34"/>
+      <eLiterals name="Abs"/>
+      <eLiterals name="Bernoulli" value="35"/>
+      <eLiterals name="Beta" value="36"/>
+      <eLiterals name="Binomial" value="37"/>
+      <eLiterals name="Constant" value="38"/>
+      <eLiterals name="Erlang" value="39"/>
+      <eLiterals name="Exponential" value="40"/>
+      <eLiterals name="Gamma" value="41"/>
+      <eLiterals name="Geometric" value="42"/>
+      <eLiterals name="LogNormal" value="43"/>
+      <eLiterals name="Normal" value="44"/>
+      <eLiterals name="Poisson" value="45"/>
+      <eLiterals name="Random" value="46"/>
+      <eLiterals name="Triangle" value="47"/>
+      <eLiterals name="Uniform" value="48"/>
+      <eLiterals name="Weibull" value="49"/>
+      <eLiterals name="Format" value="11"/>
+      <eLiterals name="Scale" value="12"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ElifExpression" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="then" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CompParamWrapExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reference" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+          eType="#//ComponentParameter"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CompInstWrapExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reference" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="instantiation" lowerBound="1"
+          eType="#//ComponentInst"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" lowerBound="1"
+          eType="#//Component"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConstantExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="constant" lowerBound="1"
+          eType="#//declarations/Constant"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TauExpression" eSuperTypes="#//expressions/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ProjectionExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="index" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SliceExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="begin" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="end" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BaseFunctionExpression" abstract="true"
+        eSuperTypes="#//expressions/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StdLibFunctionExpression" eSuperTypes="#//expressions/BaseFunctionExpression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" lowerBound="1"
+          eType="#//expressions/StdLibFunction"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RealExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TimeExpression" eSuperTypes="#//expressions/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ListExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DictExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pairs" upperBound="-1"
+          eType="#//expressions/DictPair" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DictPair" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TupleExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fields" lowerBound="2"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CastExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="child" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StringExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FieldExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="field" lowerBound="1"
+          eType="#//types/Field"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionExpression" eSuperTypes="#//expressions/BaseFunctionExpression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="function" lowerBound="1"
+          eType="#//functions/Function"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContVariableExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+          eType="#//declarations/ContVariable"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="derivative" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InputVariableExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+          eType="#//declarations/InputVariable"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReceivedExpression" eSuperTypes="#//expressions/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SelfExpression" eSuperTypes="#//expressions/Expression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SwitchExpression" eSuperTypes="#//expressions/Expression">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cases" lowerBound="1"
+          upperBound="-1" eType="#//expressions/SwitchCase" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SwitchCase" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="functions" nsURI="http://eclipse.org/escet/cif/functions" nsPrefix="functions">
+    <eClassifiers xsi:type="ecore:EClass" name="Function" abstract="true" eSuperTypes="#//declarations/Declaration">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="returnTypes" lowerBound="1"
+          upperBound="-1" eType="#//types/CifType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+          eType="#//functions/FunctionParameter" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionParameter" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
+          eType="#//declarations/DiscVariable" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InternalFunction" eSuperTypes="#//functions/Function">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1"
+          eType="#//declarations/DiscVariable" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statements" lowerBound="1"
+          upperBound="-1" eType="#//functions/FunctionStatement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExternalFunction" eSuperTypes="#//functions/Function">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionStatement" abstract="true"
+        eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="BreakFuncStatement" eSuperTypes="#//functions/FunctionStatement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ContinueFuncStatement" eSuperTypes="#//functions/FunctionStatement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AssignmentFuncStatement" eSuperTypes="#//functions/FunctionStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="addressable" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="WhileFuncStatement" eSuperTypes="#//functions/FunctionStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statements" lowerBound="1"
+          upperBound="-1" eType="#//functions/FunctionStatement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IfFuncStatement" eSuperTypes="#//functions/FunctionStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thens" lowerBound="1"
+          upperBound="-1" eType="#//functions/FunctionStatement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elses" upperBound="-1"
+          eType="#//functions/FunctionStatement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="elifs" upperBound="-1"
+          eType="#//functions/ElifFuncStatement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ElifFuncStatement" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="thens" lowerBound="1"
+          upperBound="-1" eType="#//functions/FunctionStatement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReturnFuncStatement" eSuperTypes="#//functions/FunctionStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="values" lowerBound="1"
+          upperBound="-1" eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="cifsvg" nsURI="http://eclipse.org/escet/cif/cifsvg" nsPrefix="cifsvg">
+    <eClassifiers xsi:type="ecore:EClass" name="SvgFile" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgOut" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="svgFile" eType="#//cifsvg/SvgFile"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="attrTextPos" lowerBound="1"
+          eType="ecore:EClass platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//Position"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgIn" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="svgFile" eType="#//cifsvg/SvgFile"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
+          eType="#//cifsvg/SvgInEvent" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgInEventSingle" eSuperTypes="#//cifsvg/SvgInEvent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgInEventIf" eSuperTypes="#//cifsvg/SvgInEvent">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entries" lowerBound="2"
+          upperBound="-1" eType="#//cifsvg/SvgInEventIfEntry" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgInEventIfEntry" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
+          eType="#//expressions/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgCopy" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="pre" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="post" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="svgFile" eType="#//cifsvg/SvgFile"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgMove" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="id" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="x" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="y" lowerBound="1" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="svgFile" eType="#//cifsvg/SvgFile"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SvgInEvent" abstract="true" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject"/>
+  </eSubpackages>
+  <eSubpackages name="print" nsURI="http://eclipse.org/escet/cif/print" nsPrefix="print">
+    <eClassifiers xsi:type="ecore:EClass" name="PrintFile" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Print" eSuperTypes="#//IoDecl">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="txtPre" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="txtPost" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="whenPre" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="whenPost" eType="#//expressions/Expression"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="file" eType="#//print/PrintFile"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fors" upperBound="-1"
+          eType="#//print/PrintFor" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="PrintForKind">
+      <eLiterals name="Event"/>
+      <eLiterals name="Time" value="1"/>
+      <eLiterals name="Name" value="2"/>
+      <eLiterals name="Initial" value="3"/>
+      <eLiterals name="Final" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PrintFor" eSuperTypes="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.ecore#//PositionObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
+          eType="#//print/PrintForKind"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//expressions/Expression"
+          containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

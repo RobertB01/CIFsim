@@ -1,0 +1,1 @@
+Error: File "spec/statements/run-int.chi": Semantic error at line 18, column 9: Assigning a process to an instance variable in a 'run' statement is not allowed.

@@ -1,0 +1,3 @@
+ERROR: File "tchecker/comp_inst_def_not_in_scope.cif": Semantic error at line 21, column 5: Component definition "X.Y" is not in scope.
+ERROR: File "tchecker/comp_inst_def_not_in_scope.cif": Semantic error at line 32, column 7: Component definition "A.B" is not in scope.
+ERROR: Failed to load CIF file "tchecker/comp_inst_def_not_in_scope.cif": the file has errors.

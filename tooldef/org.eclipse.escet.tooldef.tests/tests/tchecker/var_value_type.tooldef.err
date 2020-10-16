@@ -1,0 +1,4 @@
+ERROR: File "tchecker/var_value_type.tooldef": Semantic error at line 14, column 9: The value of variable "x" is of type "bool", which doesn't fit in the type "int" of the variable.
+ERROR: File "tchecker/var_value_type.tooldef": Semantic error at line 15, column 9: The value of variable "y" is of type "int?", which doesn't fit in the type "int" of the variable.
+ERROR: File "tchecker/var_value_type.tooldef": Semantic error at line 21, column 13: The value of variable "v" is of type "list int", which doesn't fit in the type "list list bool" of the variable.
+ERROR: Failed to load ToolDef file "tchecker/var_value_type.tooldef": the file has errors.

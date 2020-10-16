@@ -1,0 +1,105 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+int x, y = 5;
+outln("%d %d", x, y);
+x = 6;
+outln("%d %d", x, y);
+y = 7;
+outln("%d %d", x, y);
+outln();
+
+list int p, q;
+outln("%s %s", p, q);
+p = [1, 2, 3];
+outln("%s %s", p, q);
+q = p;
+outln("%s %s", p, q);
+q[0] = 5;
+outln("%s %s", p, q);
+outln();
+
+///
+
+double d;
+d = 5;
+outln("%s", d);
+outln();
+
+///
+
+int i = 3, j = 5;
+outln("%s %s", i, j);
+i, j = j, i;
+outln("%s %s", i, j);
+j = i;
+outln("%s %s", i, j);
+outln();
+
+bool b = true;
+tuple(int, bool) tib = (8, false);
+outln("%s %s %s", i, b, tib);
+i, b = tib;
+outln("%s %s %s", i, b, tib);
+tib = i + 1, not b;
+outln("%s %s %s", i, b, tib);
+(i, b) = tib;
+outln("%s %s %s", i, b, tib);
+tib = (i + 3, not b);
+outln("%s %s %s", i, b, tib);
+outln();
+
+///
+
+list list list int llli = [ [[1]], [[2]] ];
+outln("%s", llli);
+llli[1] = [[3], [4]];
+outln("%s", llli);
+llli[0][0] = [5];
+outln("%s", llli);
+llli[1][0][0] = 7;
+outln("%s", llli);
+outln();
+
+///
+
+map(int:map(bool:string)) mimbs;
+outln("%s", mimbs);
+mimbs[0] = {true: "a"};
+outln("%s", mimbs);
+mimbs[0] = {false: "b"};
+outln("%s", mimbs);
+mimbs[1] = {};
+outln("%s", mimbs);
+mimbs[1][true] = "e";
+outln("%s", mimbs);
+mimbs[1][false] = "f";
+outln("%s", mimbs);
+mimbs[1][false] = "g";
+outln("%s", mimbs);
+outln();
+
+///
+
+tuple(tuple(int, int), tuple(bool, bool)) ttiitbb;
+outln("%s", ttiitbb);
+ttiitbb = ((1, 2), (true, false));
+outln("%s", ttiitbb);
+ttiitbb[0] = (3, 4);
+outln("%s", ttiitbb);
+ttiitbb[0] = (ttiitbb[0][0] + 1, ttiitbb[0][1] + 2);
+outln("%s", ttiitbb);
+ttiitbb[1][0] = false;
+outln("%s", ttiitbb);
+ttiitbb[0][1] = 9;
+outln("%s", ttiitbb);

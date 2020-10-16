@@ -1,0 +1,16 @@
+automaton q1:
+  invariant l;
+  invariant q2.l;
+  invariant l;
+  location l:
+    initial;
+end
+automaton q2:
+  invariant q1.l;
+  invariant l;
+  invariant l;
+  location l:
+    initial;
+end
+invariant q1.l;
+invariant q2.l;

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_shortest_path1c.cif": Semantic error at line 14, column 11: The type "bool" of the value of constant "x" is incompatible with the type "int" of the constant.
+ERROR: Failed to load CIF file "tchecker/import_shortest_path1c.cif": the file has errors.

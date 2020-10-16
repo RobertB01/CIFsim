@@ -1,0 +1,198 @@
+Reading CIF file "datasynth/updates.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..5]  p.v   0      3 * 2     6 * 2       8 * 2       75%
+  2      discrete variable  int[0..5]  p.w   1      3 * 2     6 * 2       8 * 2       75%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      12        24          32          75%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 51
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    2 (total)                 0.04 (avg/edge) [before]
+    Total span:                    2 (total)                 0.04 (avg/edge) [iteration 1]
+    Total span:                    2 (total)                 0.04 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    2 (total)                 0.04 (avg/edge) [before]
+    Total span:                    2 (total)                 0.04 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         p.v = 3
+Initial   (discrete variable 1):         true
+Initial   (discrete variables):          (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial   (system, combined init/inv):   (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e) (guard: p.v = 1) (assignments: p.v := p.v + 0)
+    Edge: (event: e) (guard: p.v = 2) (assignments: p.v := p.v - 0)
+    Edge: (event: e) (guard: p.v = 3) (assignments: p.v := p.v - 0)
+    Edge: (event: e) (guard: p.v = 4) (assignments: p.v := p.v + 0)
+    Edge: (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1)
+    Edge: (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1)
+    Edge: (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2)
+    Edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2)
+    Edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2)
+    Edge: (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2)
+    Edge: (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2)
+    Edge: (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c))
+    Edge: (event: i) (guard: p.v = 1) (assignments: p.v := 1)
+    Edge: (event: i) (guard: p.v = 2) (assignments: p.v := 2)
+    Edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5)
+    Edge: (event: i) (guard: p.v = 4) (assignments: p.v := c - 13)
+    Edge: (event: j) (guard: p.v = 1) (assignments: p.v := p.v)
+    Edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w)
+    Edge: (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1)
+    Edge: (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.v" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.w" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4) -> p.v = 2 or p.v = 3 [forward reach with edge: (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v = 2 or p.v = 3 -> p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) [forward reach with edge: (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v != 4 and (p.v = 0 or 2 <= p.v and p.v <= 4) -> 0 <= p.v and p.v <= 3 [forward reach with edge: (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: 0 <= p.v and p.v <= 3 -> p.v != 4 [forward reach with edge: (event: i) (guard: p.v = 3) (assignments: p.v := 5), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: p.v != 4 -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [forward reach with edge: (event: j) (guard: p.v = 2) (assignments: p.v := p.w), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [fixed point].
+Controlled behavior: true -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [restricted to current/previous controlled-behavior predicate: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))]
+Backward reachability: iteration 1.
+Backward controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.v = 4 and p.w = 0 or (p.v = 4 and p.w = 2 or p.v = 4 and (p.w = 1 or (p.w = 3 or p.w = 5))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: e) (guard: p.v = 1) (assignments: p.v := p.v + 0): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: e) (guard: p.v = 2) (assignments: p.v := p.v - 0): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: e) (guard: p.v = 3) (assignments: p.v := p.v - 0): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+Edge (event: e) (guard: p.v = 4) (assignments: p.v := p.v + 0): guard: p.v = 4 -> p.v = 4 and p.w = 4.
+Edge (event: f) (guard: p.v = 1) (assignments: p.v := p.v + 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: f) (guard: p.v = 2) (assignments: p.v := p.v - 1): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: f) (guard: p.v = 3) (assignments: p.v := p.v - 1): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+Edge (event: f) (guard: p.v = 4) (assignments: p.v := p.v + 1): guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))).
+Edge (event: g) (guard: p.v = 1) (assignments: p.v := p.v + 2): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: g) (guard: p.v = 2) (assignments: p.v := p.v - 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: g) (guard: p.v = 3) (assignments: p.v := p.v - 2): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+Edge (event: g) (guard: p.v = 4) (assignments: p.v := p.v + 2): guard: p.v = 4 -> false.
+Edge (event: h) (guard: p.v = 1) (assignments: p.v := p.v - 2): guard: p.v = 1 -> false.
+Edge (event: h) (guard: p.v = 2) (assignments: p.v := p.v - (9 * 2 - c)): guard: p.v = 2 -> false.
+Edge (event: i) (guard: p.v = 1) (assignments: p.v := 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: i) (guard: p.v = 2) (assignments: p.v := 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: i) (guard: p.v = 3) (assignments: p.v := 5): guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4).
+Edge (event: i) (guard: p.v = 4) (assignments: p.v := c - 13): guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4))).
+Edge (event: j) (guard: p.v = 1) (assignments: p.v := p.v): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: j) (guard: p.v = 2) (assignments: p.v := p.w): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+Edge (event: k) (guard: p.v = 1) (assignments: p.v := p.v div 1): guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3).
+Edge (event: k) (guard: p.v = 2) (assignments: p.v := p.v mod 2): guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4)).
+
+Final synthesis result:
+  State: (controlled-behavior: (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4))))
+    Edge: (event: e) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 0)
+    Edge: (event: e) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 0)
+    Edge: (event: e) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 0)
+    Edge: (event: e) (guard: p.v = 4 -> p.v = 4 and p.w = 4) (assignments: p.v := p.v + 0)
+    Edge: (event: f) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 1)
+    Edge: (event: f) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 1)
+    Edge: (event: f) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4)))) (assignments: p.v := p.v + 1)
+    Edge: (event: g) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v + 2)
+    Edge: (event: g) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v - 2)
+    Edge: (event: g) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := p.v - 2)
+    Edge: (event: g) (guard: p.v = 4 -> false) (assignments: p.v := p.v + 2)
+    Edge: (event: h) (guard: p.v = 1 -> false) (assignments: p.v := p.v - 2)
+    Edge: (event: h) (guard: p.v = 2 -> false) (assignments: p.v := p.v - (9 * 2 - c))
+    Edge: (event: i) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := 1)
+    Edge: (event: i) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := 2)
+    Edge: (event: i) (guard: p.v = 3 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)) (assignments: p.v := 5)
+    Edge: (event: i) (guard: p.v = 4 -> p.v != 0 and (p.v != 2 and (p.v = 0 or (p.v = 2 or p.v = 4)))) (assignments: p.v := c - 13)
+    Edge: (event: j) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v)
+    Edge: (event: j) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.w)
+    Edge: (event: k) (guard: p.v = 1 -> (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v != 5 and p.v != 3)) (assignments: p.v := p.v div 1)
+    Edge: (event: k) (guard: p.v = 2 -> (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v = 0 or (p.v = 2 or p.v = 4))) (assignments: p.v := p.v mod 2)
+
+Controlled system:                     exactly 31 states.
+
+Initial (synthesis result):            (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and (p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)))
+Initial (uncontrolled system):         (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial (controlled system):           (p.v = 1 or (p.v = 3 or p.v = 5)) and (p.v = 0 or 2 <= p.v and p.v <= 4)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event e: guard: p.v != 0 and (p.v != 4 or p.w != 0) and ((p.v != 4 or p.w != 2) and ((p.v != 4 or p.w = 0 or (p.w = 2 or p.w = 4)) and p.v != 5)) -> (1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 0)) and ((1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 2)) and (1 <= p.v and p.v <= 3 or p.v = 5 or (p.w = 0 or (p.w = 2 or p.w = 4)))) [assume p.v != 0 and p.v != 5].
+  Event f: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
+  Event g: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and p.v != 5 -> 1 <= p.v and p.v <= 3 or p.v = 5 [assume p.v != 0 and p.v != 5].
+  Event i: guard: p.v != 0 and p.v != 5 -> true [assume p.v != 0 and p.v != 5].
+  Event j: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
+  Event k: guard: (1 <= p.v and p.v <= 3 or p.v = 5) and (p.v != 5 and p.v != 3) -> true [assume p.v = 2 or p.v = 1].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/updates.ctrlsys.real.cif".

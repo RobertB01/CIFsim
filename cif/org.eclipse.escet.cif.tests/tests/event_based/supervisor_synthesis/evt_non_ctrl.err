@@ -1,0 +1,2 @@
+ERROR: Failed to create supervisor for CIF file "event_based/supervisor_synthesis/evt_non_ctrl.cif".
+CAUSE: Unsupported event "e": event is not controllable or uncontrollable.

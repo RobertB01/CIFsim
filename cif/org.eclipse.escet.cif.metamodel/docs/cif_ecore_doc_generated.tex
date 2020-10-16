@@ -1,0 +1,2770 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\newcommand{\cifpkg}[1]{\textit{#1} (Section~\ref{cifpkg:#1})}
+%\newcommand{\cifclass}[1]{\textit{#1} (Section~\ref{cifclass:#1})}
+%\newcommand{\cifattr}[1]{\textit{#1} (Section~\ref{cifattr:#1})}
+%\newcommand{\cifenumlit}[1]{\textit{#1} (Section~\ref{cifenumlit:#1})}
+%\newcommand{\cifclassDetail}[7]{\item {#1} \textbf{#2} {#3} :
+%    {\textit{#4}} {#5} {#6} \hfill \\ {#7}}
+%\newcommand{\cifenumlitDetail}[4]{\item literal \textbf{#1} {#2} {#3}
+%    \hfill \\ {#4}}
+%\newcommand{\hook}{\hspace*{5pt}\raisebox{2.5pt}{$\llcorner$}}
+%\newcommand{\hookindent}{\hspace*{15pt}}
+
+\section{Package cif}\label{cifpkg:cif}
+\pkgdocucif
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif
+\item[Namespace prefix] cif
+\item[Sub-packages] \cifpkg{declarations}, \cifpkg{automata}, \cifpkg{types}, \cifpkg{expressions}, \cifpkg{functions}, \cifpkg{cifsvg}, \cifpkg{print}
+\end{description}
+
+\subsection{CifIdentifier (datatype)}\label{cifclass:CifIdentifier}
+\dtypedocuCifIdentifier
+
+\begin{description}
+\item[Name] CifIdentifier
+\item[Instance class name] java.lang.String
+\item[Basetype] string
+\item[Pattern] \verb@[A-Za-z_][A-Za-z0-9_]*@
+\end{description}
+
+\subsection{InvKind (enumeration)}\label{cifclass:InvKind}
+\enumdocuInvKind
+
+\begin{description}
+\cifenumlitDetail{EventDisables}{}{\label{cifenumlit:InvKind.EventDisables}}{\enumlitdocuInvKindEventDisables}
+\cifenumlitDetail{EventNeeds}{}{\label{cifenumlit:InvKind.EventNeeds}}{\enumlitdocuInvKindEventNeeds}
+\cifenumlitDetail{State}{(default)}{\label{cifenumlit:InvKind.State}}{\enumlitdocuInvKindState}
+\end{description}
+
+\subsection{SupKind (enumeration)}\label{cifclass:SupKind}
+\enumdocuSupKind
+
+\begin{description}
+\cifenumlitDetail{None}{(default)}{\label{cifenumlit:SupKind.None}}{\enumlitdocuSupKindNone}
+\cifenumlitDetail{Plant}{}{\label{cifenumlit:SupKind.Plant}}{\enumlitdocuSupKindPlant}
+\cifenumlitDetail{Requirement}{}{\label{cifenumlit:SupKind.Requirement}}{\enumlitdocuSupKindRequirement}
+\cifenumlitDetail{Supervisor}{}{\label{cifenumlit:SupKind.Supervisor}}{\enumlitdocuSupKindSupervisor}
+\end{description}
+
+\subsection{AlgParameter (class)}\label{cifclass:AlgParameter}
+\clsdocuAlgParameter
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Parameter} \\
+\hookindent\hookindent\hook~\emph{AlgParameter}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AlgParameter.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{variable}{{[1]}}{AlgVariable}{}{\label{cifattr:AlgParameter.variable}}
+{\featdocuAlgParametervariable}
+\end{description}
+
+
+\subsection{ComplexComponent (abstract class)}\label{cifclass:ComplexComponent}
+\clsdocuComplexComponent
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Component} \\
+\hookindent\hookindent\hook~\emph{ComplexComponent}
+
+~\\ \noindent Direct derived classes:
+\cifclass{Automaton}, \cifclass{Group}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComplexComponent.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Component})}{\label{cifattr:ComplexComponent.name}}
+{\featdocuComponentname}
+\cifclassDetail{cont}{declarations}{{[0..*]}}{Declaration}{}{\label{cifattr:ComplexComponent.declarations}}
+{\featdocuComplexComponentdeclarations}
+\cifclassDetail{cont}{equations}{{[0..*]}}{Equation}{}{\label{cifattr:ComplexComponent.equations}}
+{\featdocuComplexComponentequations}
+\cifclassDetail{cont}{initials}{{[0..*]}}{Expression}{}{\label{cifattr:ComplexComponent.initials}}
+{\featdocuComplexComponentinitials}
+\cifclassDetail{cont}{invariants}{{[0..*]}}{Invariant}{}{\label{cifattr:ComplexComponent.invariants}}
+{\featdocuComplexComponentinvariants}
+\cifclassDetail{cont}{ioDecls}{{[0..*]}}{IoDecl}{}{\label{cifattr:ComplexComponent.ioDecls}}
+{\featdocuComplexComponentioDecls}
+\cifclassDetail{cont}{markeds}{{[0..*]}}{Expression}{}{\label{cifattr:ComplexComponent.markeds}}
+{\featdocuComplexComponentmarkeds}
+\end{description}
+
+
+\subsection{Component (abstract class)}\label{cifclass:Component}
+\clsdocuComponent
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Component}
+
+~\\ \noindent Direct derived classes:
+\cifclass{ComplexComponent}, \cifclass{ComponentInst}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Component.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{}{\label{cifattr:Component.name}}
+{\featdocuComponentname}
+\end{description}
+
+
+\subsection{ComponentDef (class)}\label{cifclass:ComponentDef}
+\clsdocuComponentDef
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{ComponentDef}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComponentDef.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{body}{{[1]}}{ComplexComponent}{}{\label{cifattr:ComponentDef.body}}
+{\featdocuComponentDefbody}
+\cifclassDetail{cont}{parameters}{{[0..*]}}{Parameter}{}{\label{cifattr:ComponentDef.parameters}}
+{\featdocuComponentDefparameters}
+\end{description}
+
+
+\subsection{ComponentInst (class)}\label{cifclass:ComponentInst}
+\clsdocuComponentInst
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Component} \\
+\hookindent\hookindent\hook~\emph{ComponentInst}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComponentInst.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Component})}{\label{cifattr:ComponentInst.name}}
+{\featdocuComponentname}
+\cifclassDetail{cont}{definition}{{[1]}}{CifType}{}{\label{cifattr:ComponentInst.definition}}
+{\featdocuComponentInstdefinition}
+\cifclassDetail{cont}{parameters}{{[0..*]}}{Expression}{}{\label{cifattr:ComponentInst.parameters}}
+{\featdocuComponentInstparameters}
+\end{description}
+
+
+\subsection{ComponentParameter (class)}\label{cifclass:ComponentParameter}
+\clsdocuComponentParameter
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Parameter} \\
+\hookindent\hookindent\hook~\emph{ComponentParameter}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComponentParameter.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{}{\label{cifattr:ComponentParameter.name}}
+{\featdocuComponentParametername}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:ComponentParameter.type}}
+{\featdocuComponentParametertype}
+\end{description}
+
+
+\subsection{Equation (class)}\label{cifclass:Equation}
+\clsdocuEquation
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Equation}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Equation.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{derivative}{{[1]}}{EBoolean}{}{\label{cifattr:Equation.derivative}}
+{\featdocuEquationderivative}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:Equation.value}}
+{\featdocuEquationvalue}
+\cifclassDetail{ref}{variable}{{[1]}}{Declaration}{}{\label{cifattr:Equation.variable}}
+{\featdocuEquationvariable}
+\end{description}
+
+
+\subsection{EventParameter (class)}\label{cifclass:EventParameter}
+\clsdocuEventParameter
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Parameter} \\
+\hookindent\hookindent\hook~\emph{EventParameter}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EventParameter.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{Event}{}{\label{cifattr:EventParameter.event}}
+{\featdocuEventParameterevent}
+\cifclassDetail{attr}{recvFlag}{{[1]}}{EBoolean}{}{\label{cifattr:EventParameter.recvFlag}}
+{\featdocuEventParameterrecvFlag}
+\cifclassDetail{attr}{sendFlag}{{[1]}}{EBoolean}{}{\label{cifattr:EventParameter.sendFlag}}
+{\featdocuEventParametersendFlag}
+\cifclassDetail{attr}{syncFlag}{{[1]}}{EBoolean}{}{\label{cifattr:EventParameter.syncFlag}}
+{\featdocuEventParametersyncFlag}
+\end{description}
+
+
+\subsection{Group (class)}\label{cifclass:Group}
+\clsdocuGroup
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Component} \\
+\hookindent\hookindent\hook~\cifclass{ComplexComponent} \\
+\hookindent\hookindent\hookindent\hook~\emph{Group}
+
+~\\ \noindent Direct derived classes:
+\cifclass{Specification}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Group.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Component})}{\label{cifattr:Group.name}}
+{\featdocuComponentname}
+\cifclassDetail{cont}{declarations}{{[0..*]}}{Declaration}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Group.declarations}}
+{\featdocuComplexComponentdeclarations}
+\cifclassDetail{cont}{equations}{{[0..*]}}{Equation}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Group.equations}}
+{\featdocuComplexComponentequations}
+\cifclassDetail{cont}{initials}{{[0..*]}}{Expression}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Group.initials}}
+{\featdocuComplexComponentinitials}
+\cifclassDetail{cont}{invariants}{{[0..*]}}{Invariant}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Group.invariants}}
+{\featdocuComplexComponentinvariants}
+\cifclassDetail{cont}{ioDecls}{{[0..*]}}{IoDecl}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Group.ioDecls}}
+{\featdocuComplexComponentioDecls}
+\cifclassDetail{cont}{markeds}{{[0..*]}}{Expression}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Group.markeds}}
+{\featdocuComplexComponentmarkeds}
+\cifclassDetail{cont}{components}{{[0..*]}}{Component}{}{\label{cifattr:Group.components}}
+{\featdocuGroupcomponents}
+\cifclassDetail{cont}{definitions}{{[0..*]}}{ComponentDef}{}{\label{cifattr:Group.definitions}}
+{\featdocuGroupdefinitions}
+\end{description}
+
+
+\subsection{Invariant (class)}\label{cifclass:Invariant}
+\clsdocuInvariant
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Invariant}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Invariant.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[0..1]}}{Expression}{}{\label{cifattr:Invariant.event}}
+{\featdocuInvariantevent}
+\cifclassDetail{attr}{invKind}{{[1]}}{InvKind}{}{\label{cifattr:Invariant.invKind}}
+{\featdocuInvariantinvKind}
+\cifclassDetail{cont}{predicate}{{[1]}}{Expression}{}{\label{cifattr:Invariant.predicate}}
+{\featdocuInvariantpredicate}
+\cifclassDetail{attr}{supKind}{{[1]}}{SupKind}{}{\label{cifattr:Invariant.supKind}}
+{\featdocuInvariantsupKind}
+\end{description}
+
+
+\subsection{IoDecl (abstract class)}\label{cifclass:IoDecl}
+\clsdocuIoDecl
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{IoDecl}
+
+~\\ \noindent Direct derived classes:
+\cifclass{Print}, \cifclass{PrintFile}, \cifclass{SvgCopy}, \cifclass{SvgFile}, \cifclass{SvgIn}, \cifclass{SvgMove}, \cifclass{SvgOut}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:IoDecl.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{LocationParameter (class)}\label{cifclass:LocationParameter}
+\clsdocuLocationParameter
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Parameter} \\
+\hookindent\hookindent\hook~\emph{LocationParameter}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:LocationParameter.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{location}{{[1]}}{Location}{}{\label{cifattr:LocationParameter.location}}
+{\featdocuLocationParameterlocation}
+\end{description}
+
+
+\subsection{Parameter (abstract class)}\label{cifclass:Parameter}
+\clsdocuParameter
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Parameter}
+
+~\\ \noindent Direct derived classes:
+\cifclass{AlgParameter}, \cifclass{ComponentParameter}, \cifclass{EventParameter}, \cifclass{LocationParameter}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Parameter.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{Specification (class)}\label{cifclass:Specification}
+\clsdocuSpecification
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Component} \\
+\hookindent\hookindent\hook~\cifclass{ComplexComponent} \\
+\hookindent\hookindent\hookindent\hook~\cifclass{Group} \\
+\hookindent\hookindent\hookindent\hookindent\hook~\emph{Specification}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Specification.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Component})}{\label{cifattr:Specification.name}}
+{\featdocuComponentname}
+\cifclassDetail{cont}{declarations}{{[0..*]}}{Declaration}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Specification.declarations}}
+{\featdocuComplexComponentdeclarations}
+\cifclassDetail{cont}{equations}{{[0..*]}}{Equation}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Specification.equations}}
+{\featdocuComplexComponentequations}
+\cifclassDetail{cont}{initials}{{[0..*]}}{Expression}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Specification.initials}}
+{\featdocuComplexComponentinitials}
+\cifclassDetail{cont}{invariants}{{[0..*]}}{Invariant}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Specification.invariants}}
+{\featdocuComplexComponentinvariants}
+\cifclassDetail{cont}{ioDecls}{{[0..*]}}{IoDecl}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Specification.ioDecls}}
+{\featdocuComplexComponentioDecls}
+\cifclassDetail{cont}{markeds}{{[0..*]}}{Expression}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Specification.markeds}}
+{\featdocuComplexComponentmarkeds}
+\cifclassDetail{cont}{components}{{[0..*]}}{Component}{(inherited from \textit{Group})}{\label{cifattr:Specification.components}}
+{\featdocuGroupcomponents}
+\cifclassDetail{cont}{definitions}{{[0..*]}}{ComponentDef}{(inherited from \textit{Group})}{\label{cifattr:Specification.definitions}}
+{\featdocuGroupdefinitions}
+\end{description}
+
+
+
+\section{Package declarations}\label{cifpkg:declarations}
+\pkgdocudeclarations
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/declarations
+\item[Namespace prefix] declarations
+\item[Sub-packages] none
+\end{description}
+
+\subsection{AlgVariable (class)}\label{cifclass:AlgVariable}
+\clsdocuAlgVariable
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{AlgVariable}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AlgVariable.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:AlgVariable.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:AlgVariable.type}}
+{\featdocuAlgVariabletype}
+\cifclassDetail{cont}{value}{{[0..1]}}{Expression}{}{\label{cifattr:AlgVariable.value}}
+{\featdocuAlgVariablevalue}
+\end{description}
+
+
+\subsection{Constant (class)}\label{cifclass:Constant}
+\clsdocuConstant
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{Constant}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Constant.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:Constant.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:Constant.type}}
+{\featdocuConstanttype}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:Constant.value}}
+{\featdocuConstantvalue}
+\end{description}
+
+
+\subsection{ContVariable (class)}\label{cifclass:ContVariable}
+\clsdocuContVariable
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{ContVariable}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ContVariable.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:ContVariable.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{derivative}{{[0..1]}}{Expression}{}{\label{cifattr:ContVariable.derivative}}
+{\featdocuContVariablederivative}
+\cifclassDetail{cont}{value}{{[0..1]}}{Expression}{}{\label{cifattr:ContVariable.value}}
+{\featdocuContVariablevalue}
+\end{description}
+
+
+\subsection{Declaration (abstract class)}\label{cifclass:Declaration}
+\clsdocuDeclaration
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Declaration}
+
+~\\ \noindent Direct derived classes:
+\cifclass{AlgVariable}, \cifclass{Constant}, \cifclass{ContVariable}, \cifclass{DiscVariable}, \cifclass{EnumDecl}, \cifclass{Event}, \cifclass{Function}, \cifclass{InputVariable}, \cifclass{TypeDecl}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Declaration.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{}{\label{cifattr:Declaration.name}}
+{\featdocuDeclarationname}
+\end{description}
+
+
+\subsection{DiscVariable (class)}\label{cifclass:DiscVariable}
+\clsdocuDiscVariable
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{DiscVariable}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DiscVariable.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:DiscVariable.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:DiscVariable.type}}
+{\featdocuDiscVariabletype}
+\cifclassDetail{cont}{value}{{[0..1]}}{VariableValue}{}{\label{cifattr:DiscVariable.value}}
+{\featdocuDiscVariablevalue}
+\end{description}
+
+
+\subsection{EnumDecl (class)}\label{cifclass:EnumDecl}
+\clsdocuEnumDecl
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{EnumDecl}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EnumDecl.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:EnumDecl.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{literals}{{[1..*]}}{EnumLiteral}{}{\label{cifattr:EnumDecl.literals}}
+{\featdocuEnumDeclliterals}
+\end{description}
+
+
+\subsection{EnumLiteral (class)}\label{cifclass:EnumLiteral}
+\clsdocuEnumLiteral
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{EnumLiteral}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EnumLiteral.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{}{\label{cifattr:EnumLiteral.name}}
+{\featdocuEnumLiteralname}
+\end{description}
+
+
+\subsection{Event (class)}\label{cifclass:Event}
+\clsdocuEvent
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{Event}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Event.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:Event.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{attr}{controllable}{{[0..1]}}{EBooleanObject}{}{\label{cifattr:Event.controllable}}
+{\featdocuEventcontrollable}
+\cifclassDetail{cont}{type}{{[0..1]}}{CifType}{}{\label{cifattr:Event.type}}
+{\featdocuEventtype}
+\end{description}
+
+
+\subsection{InputVariable (class)}\label{cifclass:InputVariable}
+\clsdocuInputVariable
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{InputVariable}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:InputVariable.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:InputVariable.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:InputVariable.type}}
+{\featdocuInputVariabletype}
+\end{description}
+
+
+\subsection{TypeDecl (class)}\label{cifclass:TypeDecl}
+\clsdocuTypeDecl
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{TypeDecl}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TypeDecl.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:TypeDecl.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:TypeDecl.type}}
+{\featdocuTypeDecltype}
+\end{description}
+
+
+\subsection{VariableValue (class)}\label{cifclass:VariableValue}
+\clsdocuVariableValue
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{VariableValue}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:VariableValue.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{values}{{[0..*]}}{Expression}{}{\label{cifattr:VariableValue.values}}
+{\featdocuVariableValuevalues}
+\end{description}
+
+
+
+\section{Package automata}\label{cifpkg:automata}
+\pkgdocuautomata
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/automata
+\item[Namespace prefix] automata
+\item[Sub-packages] none
+\end{description}
+
+\subsection{Alphabet (class)}\label{cifclass:Alphabet}
+\clsdocuAlphabet
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Alphabet}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Alphabet.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{events}{{[0..*]}}{Expression}{}{\label{cifattr:Alphabet.events}}
+{\featdocuAlphabetevents}
+\end{description}
+
+
+\subsection{Assignment (class)}\label{cifclass:Assignment}
+\clsdocuAssignment
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Update} \\
+\hookindent\hookindent\hook~\emph{Assignment}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Assignment.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{addressable}{{[1]}}{Expression}{}{\label{cifattr:Assignment.addressable}}
+{\featdocuAssignmentaddressable}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:Assignment.value}}
+{\featdocuAssignmentvalue}
+\end{description}
+
+
+\subsection{Automaton (class)}\label{cifclass:Automaton}
+\clsdocuAutomaton
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Component} \\
+\hookindent\hookindent\hook~\cifclass{ComplexComponent} \\
+\hookindent\hookindent\hookindent\hook~\emph{Automaton}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Automaton.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Component})}{\label{cifattr:Automaton.name}}
+{\featdocuComponentname}
+\cifclassDetail{cont}{declarations}{{[0..*]}}{Declaration}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Automaton.declarations}}
+{\featdocuComplexComponentdeclarations}
+\cifclassDetail{cont}{equations}{{[0..*]}}{Equation}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Automaton.equations}}
+{\featdocuComplexComponentequations}
+\cifclassDetail{cont}{initials}{{[0..*]}}{Expression}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Automaton.initials}}
+{\featdocuComplexComponentinitials}
+\cifclassDetail{cont}{invariants}{{[0..*]}}{Invariant}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Automaton.invariants}}
+{\featdocuComplexComponentinvariants}
+\cifclassDetail{cont}{ioDecls}{{[0..*]}}{IoDecl}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Automaton.ioDecls}}
+{\featdocuComplexComponentioDecls}
+\cifclassDetail{cont}{markeds}{{[0..*]}}{Expression}{(inherited from \textit{ComplexComponent})}{\label{cifattr:Automaton.markeds}}
+{\featdocuComplexComponentmarkeds}
+\cifclassDetail{cont}{alphabet}{{[0..1]}}{Alphabet}{}{\label{cifattr:Automaton.alphabet}}
+{\featdocuAutomatonalphabet}
+\cifclassDetail{attr}{kind}{{[1]}}{SupKind}{}{\label{cifattr:Automaton.kind}}
+{\featdocuAutomatonkind}
+\cifclassDetail{cont}{locations}{{[1..*]}}{Location}{}{\label{cifattr:Automaton.locations}}
+{\featdocuAutomatonlocations}
+\cifclassDetail{cont}{monitors}{{[0..1]}}{Monitors}{}{\label{cifattr:Automaton.monitors}}
+{\featdocuAutomatonmonitors}
+\end{description}
+
+
+\subsection{Edge (class)}\label{cifclass:Edge}
+\clsdocuEdge
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Edge}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Edge.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{events}{{[0..*]}}{EdgeEvent}{}{\label{cifattr:Edge.events}}
+{\featdocuEdgeevents}
+\cifclassDetail{cont}{guards}{{[0..*]}}{Expression}{}{\label{cifattr:Edge.guards}}
+{\featdocuEdgeguards}
+\cifclassDetail{ref}{target}{{[0..1]}}{Location}{}{\label{cifattr:Edge.target}}
+{\featdocuEdgetarget}
+\cifclassDetail{cont}{updates}{{[0..*]}}{Update}{}{\label{cifattr:Edge.updates}}
+{\featdocuEdgeupdates}
+\cifclassDetail{attr}{urgent}{{[1]}}{EBoolean}{}{\label{cifattr:Edge.urgent}}
+{\featdocuEdgeurgent}
+\end{description}
+
+
+\subsection{EdgeEvent (class)}\label{cifclass:EdgeEvent}
+\clsdocuEdgeEvent
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{EdgeEvent}
+
+~\\ \noindent Direct derived classes:
+\cifclass{EdgeReceive}, \cifclass{EdgeSend}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EdgeEvent.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{Expression}{}{\label{cifattr:EdgeEvent.event}}
+{\featdocuEdgeEventevent}
+\end{description}
+
+
+\subsection{EdgeReceive (class)}\label{cifclass:EdgeReceive}
+\clsdocuEdgeReceive
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{EdgeEvent} \\
+\hookindent\hookindent\hook~\emph{EdgeReceive}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EdgeReceive.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{Expression}{(inherited from \textit{EdgeEvent})}{\label{cifattr:EdgeReceive.event}}
+{\featdocuEdgeEventevent}
+\end{description}
+
+
+\subsection{EdgeSend (class)}\label{cifclass:EdgeSend}
+\clsdocuEdgeSend
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{EdgeEvent} \\
+\hookindent\hookindent\hook~\emph{EdgeSend}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EdgeSend.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{Expression}{(inherited from \textit{EdgeEvent})}{\label{cifattr:EdgeSend.event}}
+{\featdocuEdgeEventevent}
+\cifclassDetail{cont}{value}{{[0..1]}}{Expression}{}{\label{cifattr:EdgeSend.value}}
+{\featdocuEdgeSendvalue}
+\end{description}
+
+
+\subsection{ElifUpdate (class)}\label{cifclass:ElifUpdate}
+\clsdocuElifUpdate
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{ElifUpdate}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ElifUpdate.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:ElifUpdate.guards}}
+{\featdocuElifUpdateguards}
+\cifclassDetail{cont}{thens}{{[1..*]}}{Update}{}{\label{cifattr:ElifUpdate.thens}}
+{\featdocuElifUpdatethens}
+\end{description}
+
+
+\subsection{IfUpdate (class)}\label{cifclass:IfUpdate}
+\clsdocuIfUpdate
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Update} \\
+\hookindent\hookindent\hook~\emph{IfUpdate}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:IfUpdate.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{elifs}{{[0..*]}}{ElifUpdate}{}{\label{cifattr:IfUpdate.elifs}}
+{\featdocuIfUpdateelifs}
+\cifclassDetail{cont}{elses}{{[0..*]}}{Update}{}{\label{cifattr:IfUpdate.elses}}
+{\featdocuIfUpdateelses}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:IfUpdate.guards}}
+{\featdocuIfUpdateguards}
+\cifclassDetail{cont}{thens}{{[1..*]}}{Update}{}{\label{cifattr:IfUpdate.thens}}
+{\featdocuIfUpdatethens}
+\end{description}
+
+
+\subsection{Location (class)}\label{cifclass:Location}
+\clsdocuLocation
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Location}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Location.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{edges}{{[0..*]}}{Edge}{}{\label{cifattr:Location.edges}}
+{\featdocuLocationedges}
+\cifclassDetail{cont}{equations}{{[0..*]}}{Equation}{}{\label{cifattr:Location.equations}}
+{\featdocuLocationequations}
+\cifclassDetail{cont}{initials}{{[0..*]}}{Expression}{}{\label{cifattr:Location.initials}}
+{\featdocuLocationinitials}
+\cifclassDetail{cont}{invariants}{{[0..*]}}{Invariant}{}{\label{cifattr:Location.invariants}}
+{\featdocuLocationinvariants}
+\cifclassDetail{cont}{markeds}{{[0..*]}}{Expression}{}{\label{cifattr:Location.markeds}}
+{\featdocuLocationmarkeds}
+\cifclassDetail{attr}{name}{{[0..1]}}{CifIdentifier}{}{\label{cifattr:Location.name}}
+{\featdocuLocationname}
+\cifclassDetail{attr}{urgent}{{[1]}}{EBoolean}{}{\label{cifattr:Location.urgent}}
+{\featdocuLocationurgent}
+\end{description}
+
+
+\subsection{Monitors (class)}\label{cifclass:Monitors}
+\clsdocuMonitors
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Monitors}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Monitors.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{events}{{[0..*]}}{Expression}{}{\label{cifattr:Monitors.events}}
+{\featdocuMonitorsevents}
+\end{description}
+
+
+\subsection{Update (abstract class)}\label{cifclass:Update}
+\clsdocuUpdate
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Update}
+
+~\\ \noindent Direct derived classes:
+\cifclass{Assignment}, \cifclass{IfUpdate}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Update.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+
+\section{Package types}\label{cifpkg:types}
+\pkgdocutypes
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/types
+\item[Namespace prefix] types
+\item[Sub-packages] none
+\end{description}
+
+\subsection{BoolType (class)}\label{cifclass:BoolType}
+\clsdocuBoolType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{BoolType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:BoolType.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{CifType (abstract class)}\label{cifclass:CifType}
+\clsdocuCifType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{CifType}
+
+~\\ \noindent Direct derived classes:
+\cifclass{BoolType}, \cifclass{CompInstWrapType}, \cifclass{CompParamWrapType}, \cifclass{ComponentDefType}, \cifclass{ComponentType}, \cifclass{DictType}, \cifclass{DistType}, \cifclass{EnumType}, \cifclass{FuncType}, \cifclass{IntType}, \cifclass{ListType}, \cifclass{RealType}, \cifclass{SetType}, \cifclass{StringType}, \cifclass{TupleType}, \cifclass{TypeRef}, \cifclass{VoidType}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CifType.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{CompInstWrapType (class)}\label{cifclass:CompInstWrapType}
+\clsdocuCompInstWrapType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{CompInstWrapType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CompInstWrapType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{ref}{instantiation}{{[1]}}{ComponentInst}{}{\label{cifattr:CompInstWrapType.instantiation}}
+{\featdocuCompInstWrapTypeinstantiation}
+\cifclassDetail{cont}{reference}{{[1]}}{CifType}{}{\label{cifattr:CompInstWrapType.reference}}
+{\featdocuCompInstWrapTypereference}
+\end{description}
+
+
+\subsection{CompParamWrapType (class)}\label{cifclass:CompParamWrapType}
+\clsdocuCompParamWrapType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{CompParamWrapType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CompParamWrapType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{ref}{parameter}{{[1]}}{ComponentParameter}{}{\label{cifattr:CompParamWrapType.parameter}}
+{\featdocuCompParamWrapTypeparameter}
+\cifclassDetail{cont}{reference}{{[1]}}{CifType}{}{\label{cifattr:CompParamWrapType.reference}}
+{\featdocuCompParamWrapTypereference}
+\end{description}
+
+
+\subsection{ComponentDefType (class)}\label{cifclass:ComponentDefType}
+\clsdocuComponentDefType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{ComponentDefType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComponentDefType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{ref}{definition}{{[1]}}{ComponentDef}{}{\label{cifattr:ComponentDefType.definition}}
+{\featdocuComponentDefTypedefinition}
+\end{description}
+
+
+\subsection{ComponentType (class)}\label{cifclass:ComponentType}
+\clsdocuComponentType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{ComponentType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComponentType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{ref}{component}{{[1]}}{Component}{}{\label{cifattr:ComponentType.component}}
+{\featdocuComponentTypecomponent}
+\end{description}
+
+
+\subsection{DictType (class)}\label{cifclass:DictType}
+\clsdocuDictType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{DictType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DictType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{keyType}{{[1]}}{CifType}{}{\label{cifattr:DictType.keyType}}
+{\featdocuDictTypekeyType}
+\cifclassDetail{cont}{valueType}{{[1]}}{CifType}{}{\label{cifattr:DictType.valueType}}
+{\featdocuDictTypevalueType}
+\end{description}
+
+
+\subsection{DistType (class)}\label{cifclass:DistType}
+\clsdocuDistType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{DistType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DistType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{sampleType}{{[1]}}{CifType}{}{\label{cifattr:DistType.sampleType}}
+{\featdocuDistTypesampleType}
+\end{description}
+
+
+\subsection{EnumType (class)}\label{cifclass:EnumType}
+\clsdocuEnumType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{EnumType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EnumType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{ref}{enum}{{[1]}}{EnumDecl}{}{\label{cifattr:EnumType.enum}}
+{\featdocuEnumTypeenum}
+\end{description}
+
+
+\subsection{Field (class)}\label{cifclass:Field}
+\clsdocuField
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Field}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Field.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[0..1]}}{CifIdentifier}{}{\label{cifattr:Field.name}}
+{\featdocuFieldname}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:Field.type}}
+{\featdocuFieldtype}
+\end{description}
+
+
+\subsection{FuncType (class)}\label{cifclass:FuncType}
+\clsdocuFuncType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{FuncType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:FuncType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{paramTypes}{{[0..*]}}{CifType}{}{\label{cifattr:FuncType.paramTypes}}
+{\featdocuFuncTypeparamTypes}
+\cifclassDetail{cont}{returnType}{{[1]}}{CifType}{}{\label{cifattr:FuncType.returnType}}
+{\featdocuFuncTypereturnType}
+\end{description}
+
+
+\subsection{IntType (class)}\label{cifclass:IntType}
+\clsdocuIntType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{IntType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:IntType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{lower}{{[0..1]}}{EIntegerObject}{}{\label{cifattr:IntType.lower}}
+{\featdocuIntTypelower}
+\cifclassDetail{attr}{upper}{{[0..1]}}{EIntegerObject}{}{\label{cifattr:IntType.upper}}
+{\featdocuIntTypeupper}
+\end{description}
+
+
+\subsection{ListType (class)}\label{cifclass:ListType}
+\clsdocuListType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{ListType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ListType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{elementType}{{[1]}}{CifType}{}{\label{cifattr:ListType.elementType}}
+{\featdocuListTypeelementType}
+\cifclassDetail{attr}{lower}{{[0..1]}}{EIntegerObject}{}{\label{cifattr:ListType.lower}}
+{\featdocuListTypelower}
+\cifclassDetail{attr}{upper}{{[0..1]}}{EIntegerObject}{}{\label{cifattr:ListType.upper}}
+{\featdocuListTypeupper}
+\end{description}
+
+
+\subsection{RealType (class)}\label{cifclass:RealType}
+\clsdocuRealType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{RealType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:RealType.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{SetType (class)}\label{cifclass:SetType}
+\clsdocuSetType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{SetType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SetType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{elementType}{{[1]}}{CifType}{}{\label{cifattr:SetType.elementType}}
+{\featdocuSetTypeelementType}
+\end{description}
+
+
+\subsection{StringType (class)}\label{cifclass:StringType}
+\clsdocuStringType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{StringType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:StringType.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{TupleType (class)}\label{cifclass:TupleType}
+\clsdocuTupleType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{TupleType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TupleType.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{fields}{{[2..*]}}{Field}{}{\label{cifattr:TupleType.fields}}
+{\featdocuTupleTypefields}
+\end{description}
+
+
+\subsection{TypeRef (class)}\label{cifclass:TypeRef}
+\clsdocuTypeRef
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{TypeRef}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TypeRef.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{ref}{type}{{[1]}}{TypeDecl}{}{\label{cifattr:TypeRef.type}}
+{\featdocuTypeReftype}
+\end{description}
+
+
+\subsection{VoidType (class)}\label{cifclass:VoidType}
+\clsdocuVoidType
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{CifType} \\
+\hookindent\hookindent\hook~\emph{VoidType}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:VoidType.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+
+\section{Package expressions}\label{cifpkg:expressions}
+\pkgdocuexpressions
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/expressions
+\item[Namespace prefix] expressions
+\item[Sub-packages] none
+\end{description}
+
+\subsection{BinaryOperator (enumeration)}\label{cifclass:BinaryOperator}
+\enumdocuBinaryOperator
+
+\begin{description}
+\cifenumlitDetail{Addition}{}{\label{cifenumlit:BinaryOperator.Addition}}{\enumlitdocuBinaryOperatorAddition}
+\cifenumlitDetail{BiConditional}{}{\label{cifenumlit:BinaryOperator.BiConditional}}{\enumlitdocuBinaryOperatorBiConditional}
+\cifenumlitDetail{Conjunction}{}{\label{cifenumlit:BinaryOperator.Conjunction}}{\enumlitdocuBinaryOperatorConjunction}
+\cifenumlitDetail{Disjunction}{(default)}{\label{cifenumlit:BinaryOperator.Disjunction}}{\enumlitdocuBinaryOperatorDisjunction}
+\cifenumlitDetail{Division}{}{\label{cifenumlit:BinaryOperator.Division}}{\enumlitdocuBinaryOperatorDivision}
+\cifenumlitDetail{ElementOf}{}{\label{cifenumlit:BinaryOperator.ElementOf}}{\enumlitdocuBinaryOperatorElementOf}
+\cifenumlitDetail{Equal}{}{\label{cifenumlit:BinaryOperator.Equal}}{\enumlitdocuBinaryOperatorEqual}
+\cifenumlitDetail{GreaterEqual}{}{\label{cifenumlit:BinaryOperator.GreaterEqual}}{\enumlitdocuBinaryOperatorGreaterEqual}
+\cifenumlitDetail{GreaterThan}{}{\label{cifenumlit:BinaryOperator.GreaterThan}}{\enumlitdocuBinaryOperatorGreaterThan}
+\cifenumlitDetail{Implication}{}{\label{cifenumlit:BinaryOperator.Implication}}{\enumlitdocuBinaryOperatorImplication}
+\cifenumlitDetail{IntegerDivision}{}{\label{cifenumlit:BinaryOperator.IntegerDivision}}{\enumlitdocuBinaryOperatorIntegerDivision}
+\cifenumlitDetail{LessEqual}{}{\label{cifenumlit:BinaryOperator.LessEqual}}{\enumlitdocuBinaryOperatorLessEqual}
+\cifenumlitDetail{LessThan}{}{\label{cifenumlit:BinaryOperator.LessThan}}{\enumlitdocuBinaryOperatorLessThan}
+\cifenumlitDetail{Modulus}{}{\label{cifenumlit:BinaryOperator.Modulus}}{\enumlitdocuBinaryOperatorModulus}
+\cifenumlitDetail{Multiplication}{}{\label{cifenumlit:BinaryOperator.Multiplication}}{\enumlitdocuBinaryOperatorMultiplication}
+\cifenumlitDetail{Subset}{}{\label{cifenumlit:BinaryOperator.Subset}}{\enumlitdocuBinaryOperatorSubset}
+\cifenumlitDetail{Subtraction}{}{\label{cifenumlit:BinaryOperator.Subtraction}}{\enumlitdocuBinaryOperatorSubtraction}
+\cifenumlitDetail{Unequal}{}{\label{cifenumlit:BinaryOperator.Unequal}}{\enumlitdocuBinaryOperatorUnequal}
+\end{description}
+
+\subsection{StdLibFunction (enumeration)}\label{cifclass:StdLibFunction}
+\enumdocuStdLibFunction
+
+\begin{description}
+\cifenumlitDetail{Abs}{}{\label{cifenumlit:StdLibFunction.Abs}}{\enumlitdocuStdLibFunctionAbs}
+\cifenumlitDetail{Acos}{}{\label{cifenumlit:StdLibFunction.Acos}}{\enumlitdocuStdLibFunctionAcos}
+\cifenumlitDetail{Acosh}{}{\label{cifenumlit:StdLibFunction.Acosh}}{\enumlitdocuStdLibFunctionAcosh}
+\cifenumlitDetail{Asin}{}{\label{cifenumlit:StdLibFunction.Asin}}{\enumlitdocuStdLibFunctionAsin}
+\cifenumlitDetail{Asinh}{}{\label{cifenumlit:StdLibFunction.Asinh}}{\enumlitdocuStdLibFunctionAsinh}
+\cifenumlitDetail{Atan}{}{\label{cifenumlit:StdLibFunction.Atan}}{\enumlitdocuStdLibFunctionAtan}
+\cifenumlitDetail{Atanh}{}{\label{cifenumlit:StdLibFunction.Atanh}}{\enumlitdocuStdLibFunctionAtanh}
+\cifenumlitDetail{Bernoulli}{}{\label{cifenumlit:StdLibFunction.Bernoulli}}{\enumlitdocuStdLibFunctionBernoulli}
+\cifenumlitDetail{Beta}{}{\label{cifenumlit:StdLibFunction.Beta}}{\enumlitdocuStdLibFunctionBeta}
+\cifenumlitDetail{Binomial}{}{\label{cifenumlit:StdLibFunction.Binomial}}{\enumlitdocuStdLibFunctionBinomial}
+\cifenumlitDetail{Cbrt}{}{\label{cifenumlit:StdLibFunction.Cbrt}}{\enumlitdocuStdLibFunctionCbrt}
+\cifenumlitDetail{Ceil}{}{\label{cifenumlit:StdLibFunction.Ceil}}{\enumlitdocuStdLibFunctionCeil}
+\cifenumlitDetail{Constant}{}{\label{cifenumlit:StdLibFunction.Constant}}{\enumlitdocuStdLibFunctionConstant}
+\cifenumlitDetail{Cos}{}{\label{cifenumlit:StdLibFunction.Cos}}{\enumlitdocuStdLibFunctionCos}
+\cifenumlitDetail{Cosh}{}{\label{cifenumlit:StdLibFunction.Cosh}}{\enumlitdocuStdLibFunctionCosh}
+\cifenumlitDetail{Delete}{}{\label{cifenumlit:StdLibFunction.Delete}}{\enumlitdocuStdLibFunctionDelete}
+\cifenumlitDetail{Empty}{}{\label{cifenumlit:StdLibFunction.Empty}}{\enumlitdocuStdLibFunctionEmpty}
+\cifenumlitDetail{Erlang}{}{\label{cifenumlit:StdLibFunction.Erlang}}{\enumlitdocuStdLibFunctionErlang}
+\cifenumlitDetail{Exp}{}{\label{cifenumlit:StdLibFunction.Exp}}{\enumlitdocuStdLibFunctionExp}
+\cifenumlitDetail{Exponential}{}{\label{cifenumlit:StdLibFunction.Exponential}}{\enumlitdocuStdLibFunctionExponential}
+\cifenumlitDetail{Floor}{}{\label{cifenumlit:StdLibFunction.Floor}}{\enumlitdocuStdLibFunctionFloor}
+\cifenumlitDetail{Format}{}{\label{cifenumlit:StdLibFunction.Format}}{\enumlitdocuStdLibFunctionFormat}
+\cifenumlitDetail{Gamma}{}{\label{cifenumlit:StdLibFunction.Gamma}}{\enumlitdocuStdLibFunctionGamma}
+\cifenumlitDetail{Geometric}{}{\label{cifenumlit:StdLibFunction.Geometric}}{\enumlitdocuStdLibFunctionGeometric}
+\cifenumlitDetail{Ln}{}{\label{cifenumlit:StdLibFunction.Ln}}{\enumlitdocuStdLibFunctionLn}
+\cifenumlitDetail{Log}{}{\label{cifenumlit:StdLibFunction.Log}}{\enumlitdocuStdLibFunctionLog}
+\cifenumlitDetail{LogNormal}{}{\label{cifenumlit:StdLibFunction.LogNormal}}{\enumlitdocuStdLibFunctionLogNormal}
+\cifenumlitDetail{Maximum}{}{\label{cifenumlit:StdLibFunction.Maximum}}{\enumlitdocuStdLibFunctionMaximum}
+\cifenumlitDetail{Minimum}{(default)}{\label{cifenumlit:StdLibFunction.Minimum}}{\enumlitdocuStdLibFunctionMinimum}
+\cifenumlitDetail{Normal}{}{\label{cifenumlit:StdLibFunction.Normal}}{\enumlitdocuStdLibFunctionNormal}
+\cifenumlitDetail{Poisson}{}{\label{cifenumlit:StdLibFunction.Poisson}}{\enumlitdocuStdLibFunctionPoisson}
+\cifenumlitDetail{Pop}{}{\label{cifenumlit:StdLibFunction.Pop}}{\enumlitdocuStdLibFunctionPop}
+\cifenumlitDetail{Power}{}{\label{cifenumlit:StdLibFunction.Power}}{\enumlitdocuStdLibFunctionPower}
+\cifenumlitDetail{Random}{}{\label{cifenumlit:StdLibFunction.Random}}{\enumlitdocuStdLibFunctionRandom}
+\cifenumlitDetail{Round}{}{\label{cifenumlit:StdLibFunction.Round}}{\enumlitdocuStdLibFunctionRound}
+\cifenumlitDetail{Scale}{}{\label{cifenumlit:StdLibFunction.Scale}}{\enumlitdocuStdLibFunctionScale}
+\cifenumlitDetail{Sign}{}{\label{cifenumlit:StdLibFunction.Sign}}{\enumlitdocuStdLibFunctionSign}
+\cifenumlitDetail{Sin}{}{\label{cifenumlit:StdLibFunction.Sin}}{\enumlitdocuStdLibFunctionSin}
+\cifenumlitDetail{Sinh}{}{\label{cifenumlit:StdLibFunction.Sinh}}{\enumlitdocuStdLibFunctionSinh}
+\cifenumlitDetail{Size}{}{\label{cifenumlit:StdLibFunction.Size}}{\enumlitdocuStdLibFunctionSize}
+\cifenumlitDetail{Sqrt}{}{\label{cifenumlit:StdLibFunction.Sqrt}}{\enumlitdocuStdLibFunctionSqrt}
+\cifenumlitDetail{Tan}{}{\label{cifenumlit:StdLibFunction.Tan}}{\enumlitdocuStdLibFunctionTan}
+\cifenumlitDetail{Tanh}{}{\label{cifenumlit:StdLibFunction.Tanh}}{\enumlitdocuStdLibFunctionTanh}
+\cifenumlitDetail{Triangle}{}{\label{cifenumlit:StdLibFunction.Triangle}}{\enumlitdocuStdLibFunctionTriangle}
+\cifenumlitDetail{Uniform}{}{\label{cifenumlit:StdLibFunction.Uniform}}{\enumlitdocuStdLibFunctionUniform}
+\cifenumlitDetail{Weibull}{}{\label{cifenumlit:StdLibFunction.Weibull}}{\enumlitdocuStdLibFunctionWeibull}
+\end{description}
+
+\subsection{UnaryOperator (enumeration)}\label{cifclass:UnaryOperator}
+\enumdocuUnaryOperator
+
+\begin{description}
+\cifenumlitDetail{Inverse}{(default)}{\label{cifenumlit:UnaryOperator.Inverse}}{\enumlitdocuUnaryOperatorInverse}
+\cifenumlitDetail{Negate}{}{\label{cifenumlit:UnaryOperator.Negate}}{\enumlitdocuUnaryOperatorNegate}
+\cifenumlitDetail{Plus}{}{\label{cifenumlit:UnaryOperator.Plus}}{\enumlitdocuUnaryOperatorPlus}
+\cifenumlitDetail{Sample}{}{\label{cifenumlit:UnaryOperator.Sample}}{\enumlitdocuUnaryOperatorSample}
+\end{description}
+
+\subsection{AlgVariableExpression (class)}\label{cifclass:AlgVariableExpression}
+\clsdocuAlgVariableExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{AlgVariableExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AlgVariableExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:AlgVariableExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{variable}{{[1]}}{AlgVariable}{}{\label{cifattr:AlgVariableExpression.variable}}
+{\featdocuAlgVariableExpressionvariable}
+\end{description}
+
+
+\subsection{BaseFunctionExpression (abstract class)}\label{cifclass:BaseFunctionExpression}
+\clsdocuBaseFunctionExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{BaseFunctionExpression}
+
+~\\ \noindent Direct derived classes:
+\cifclass{FunctionExpression}, \cifclass{StdLibFunctionExpression}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:BaseFunctionExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:BaseFunctionExpression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{BinaryExpression (class)}\label{cifclass:BinaryExpression}
+\clsdocuBinaryExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{BinaryExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:BinaryExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:BinaryExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{left}{{[1]}}{Expression}{}{\label{cifattr:BinaryExpression.left}}
+{\featdocuBinaryExpressionleft}
+\cifclassDetail{attr}{operator}{{[1]}}{BinaryOperator}{}{\label{cifattr:BinaryExpression.operator}}
+{\featdocuBinaryExpressionoperator}
+\cifclassDetail{cont}{right}{{[1]}}{Expression}{}{\label{cifattr:BinaryExpression.right}}
+{\featdocuBinaryExpressionright}
+\end{description}
+
+
+\subsection{BoolExpression (class)}\label{cifclass:BoolExpression}
+\clsdocuBoolExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{BoolExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:BoolExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:BoolExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{attr}{value}{{[1]}}{EBoolean}{}{\label{cifattr:BoolExpression.value}}
+{\featdocuBoolExpressionvalue}
+\end{description}
+
+
+\subsection{CastExpression (class)}\label{cifclass:CastExpression}
+\clsdocuCastExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{CastExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CastExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:CastExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{child}{{[1]}}{Expression}{}{\label{cifattr:CastExpression.child}}
+{\featdocuCastExpressionchild}
+\end{description}
+
+
+\subsection{CompInstWrapExpression (class)}\label{cifclass:CompInstWrapExpression}
+\clsdocuCompInstWrapExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{CompInstWrapExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CompInstWrapExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:CompInstWrapExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{instantiation}{{[1]}}{ComponentInst}{}{\label{cifattr:CompInstWrapExpression.instantiation}}
+{\featdocuCompInstWrapExpressioninstantiation}
+\cifclassDetail{cont}{reference}{{[1]}}{Expression}{}{\label{cifattr:CompInstWrapExpression.reference}}
+{\featdocuCompInstWrapExpressionreference}
+\end{description}
+
+
+\subsection{CompParamWrapExpression (class)}\label{cifclass:CompParamWrapExpression}
+\clsdocuCompParamWrapExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{CompParamWrapExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CompParamWrapExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:CompParamWrapExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{parameter}{{[1]}}{ComponentParameter}{}{\label{cifattr:CompParamWrapExpression.parameter}}
+{\featdocuCompParamWrapExpressionparameter}
+\cifclassDetail{cont}{reference}{{[1]}}{Expression}{}{\label{cifattr:CompParamWrapExpression.reference}}
+{\featdocuCompParamWrapExpressionreference}
+\end{description}
+
+
+\subsection{ComponentExpression (class)}\label{cifclass:ComponentExpression}
+\clsdocuComponentExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{ComponentExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ComponentExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:ComponentExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{component}{{[1]}}{Component}{}{\label{cifattr:ComponentExpression.component}}
+{\featdocuComponentExpressioncomponent}
+\end{description}
+
+
+\subsection{ConstantExpression (class)}\label{cifclass:ConstantExpression}
+\clsdocuConstantExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{ConstantExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ConstantExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:ConstantExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{constant}{{[1]}}{Constant}{}{\label{cifattr:ConstantExpression.constant}}
+{\featdocuConstantExpressionconstant}
+\end{description}
+
+
+\subsection{ContVariableExpression (class)}\label{cifclass:ContVariableExpression}
+\clsdocuContVariableExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{ContVariableExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ContVariableExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:ContVariableExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{attr}{derivative}{{[1]}}{EBoolean}{}{\label{cifattr:ContVariableExpression.derivative}}
+{\featdocuContVariableExpressionderivative}
+\cifclassDetail{ref}{variable}{{[1]}}{ContVariable}{}{\label{cifattr:ContVariableExpression.variable}}
+{\featdocuContVariableExpressionvariable}
+\end{description}
+
+
+\subsection{DictExpression (class)}\label{cifclass:DictExpression}
+\clsdocuDictExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{DictExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DictExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:DictExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{pairs}{{[0..*]}}{DictPair}{}{\label{cifattr:DictExpression.pairs}}
+{\featdocuDictExpressionpairs}
+\end{description}
+
+
+\subsection{DictPair (class)}\label{cifclass:DictPair}
+\clsdocuDictPair
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{DictPair}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DictPair.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{key}{{[1]}}{Expression}{}{\label{cifattr:DictPair.key}}
+{\featdocuDictPairkey}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:DictPair.value}}
+{\featdocuDictPairvalue}
+\end{description}
+
+
+\subsection{DiscVariableExpression (class)}\label{cifclass:DiscVariableExpression}
+\clsdocuDiscVariableExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{DiscVariableExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:DiscVariableExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:DiscVariableExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{variable}{{[1]}}{DiscVariable}{}{\label{cifattr:DiscVariableExpression.variable}}
+{\featdocuDiscVariableExpressionvariable}
+\end{description}
+
+
+\subsection{ElifExpression (class)}\label{cifclass:ElifExpression}
+\clsdocuElifExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{ElifExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ElifExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:ElifExpression.guards}}
+{\featdocuElifExpressionguards}
+\cifclassDetail{cont}{then}{{[1]}}{Expression}{}{\label{cifattr:ElifExpression.then}}
+{\featdocuElifExpressionthen}
+\end{description}
+
+
+\subsection{EnumLiteralExpression (class)}\label{cifclass:EnumLiteralExpression}
+\clsdocuEnumLiteralExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{EnumLiteralExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EnumLiteralExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:EnumLiteralExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{literal}{{[1]}}{EnumLiteral}{}{\label{cifattr:EnumLiteralExpression.literal}}
+{\featdocuEnumLiteralExpressionliteral}
+\end{description}
+
+
+\subsection{EventExpression (class)}\label{cifclass:EventExpression}
+\clsdocuEventExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{EventExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:EventExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:EventExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{event}{{[1]}}{Event}{}{\label{cifattr:EventExpression.event}}
+{\featdocuEventExpressionevent}
+\end{description}
+
+
+\subsection{Expression (abstract class)}\label{cifclass:Expression}
+\clsdocuExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{Expression}
+
+~\\ \noindent Direct derived classes:
+\cifclass{AlgVariableExpression}, \cifclass{BaseFunctionExpression}, \cifclass{BinaryExpression}, \cifclass{BoolExpression}, \cifclass{CastExpression}, \cifclass{CompInstWrapExpression}, \cifclass{CompParamWrapExpression}, \cifclass{ComponentExpression}, \cifclass{ConstantExpression}, \cifclass{ContVariableExpression}, \cifclass{DictExpression}, \cifclass{DiscVariableExpression}, \cifclass{EnumLiteralExpression}, \cifclass{EventExpression}, \cifclass{FieldExpression}, \cifclass{FunctionCallExpression}, \cifclass{IfExpression}, \cifclass{InputVariableExpression}, \cifclass{IntExpression}, \cifclass{ListExpression}, \cifclass{LocationExpression}, \cifclass{ProjectionExpression}, \cifclass{RealExpression}, \cifclass{ReceivedExpression}, \cifclass{SelfExpression}, \cifclass{SetExpression}, \cifclass{SliceExpression}, \cifclass{StringExpression}, \cifclass{SwitchExpression}, \cifclass{TauExpression}, \cifclass{TimeExpression}, \cifclass{TupleExpression}, \cifclass{UnaryExpression}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Expression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{}{\label{cifattr:Expression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{FieldExpression (class)}\label{cifclass:FieldExpression}
+\clsdocuFieldExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{FieldExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:FieldExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:FieldExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{field}{{[1]}}{Field}{}{\label{cifattr:FieldExpression.field}}
+{\featdocuFieldExpressionfield}
+\end{description}
+
+
+\subsection{FunctionCallExpression (class)}\label{cifclass:FunctionCallExpression}
+\clsdocuFunctionCallExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{FunctionCallExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:FunctionCallExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:FunctionCallExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{function}{{[1]}}{Expression}{}{\label{cifattr:FunctionCallExpression.function}}
+{\featdocuFunctionCallExpressionfunction}
+\cifclassDetail{cont}{params}{{[0..*]}}{Expression}{}{\label{cifattr:FunctionCallExpression.params}}
+{\featdocuFunctionCallExpressionparams}
+\end{description}
+
+
+\subsection{FunctionExpression (class)}\label{cifclass:FunctionExpression}
+\clsdocuFunctionExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\cifclass{BaseFunctionExpression} \\
+\hookindent\hookindent\hookindent\hook~\emph{FunctionExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:FunctionExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:FunctionExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{function}{{[1]}}{Function}{}{\label{cifattr:FunctionExpression.function}}
+{\featdocuFunctionExpressionfunction}
+\end{description}
+
+
+\subsection{IfExpression (class)}\label{cifclass:IfExpression}
+\clsdocuIfExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{IfExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:IfExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:IfExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{elifs}{{[0..*]}}{ElifExpression}{}{\label{cifattr:IfExpression.elifs}}
+{\featdocuIfExpressionelifs}
+\cifclassDetail{cont}{else}{{[1]}}{Expression}{}{\label{cifattr:IfExpression.else}}
+{\featdocuIfExpressionelse}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:IfExpression.guards}}
+{\featdocuIfExpressionguards}
+\cifclassDetail{cont}{then}{{[1]}}{Expression}{}{\label{cifattr:IfExpression.then}}
+{\featdocuIfExpressionthen}
+\end{description}
+
+
+\subsection{InputVariableExpression (class)}\label{cifclass:InputVariableExpression}
+\clsdocuInputVariableExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{InputVariableExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:InputVariableExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:InputVariableExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{variable}{{[1]}}{InputVariable}{}{\label{cifattr:InputVariableExpression.variable}}
+{\featdocuInputVariableExpressionvariable}
+\end{description}
+
+
+\subsection{IntExpression (class)}\label{cifclass:IntExpression}
+\clsdocuIntExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{IntExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:IntExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:IntExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{attr}{value}{{[1]}}{EInt}{}{\label{cifattr:IntExpression.value}}
+{\featdocuIntExpressionvalue}
+\end{description}
+
+
+\subsection{ListExpression (class)}\label{cifclass:ListExpression}
+\clsdocuListExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{ListExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ListExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:ListExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{elements}{{[0..*]}}{Expression}{}{\label{cifattr:ListExpression.elements}}
+{\featdocuListExpressionelements}
+\end{description}
+
+
+\subsection{LocationExpression (class)}\label{cifclass:LocationExpression}
+\clsdocuLocationExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{LocationExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:LocationExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:LocationExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{location}{{[1]}}{Location}{}{\label{cifattr:LocationExpression.location}}
+{\featdocuLocationExpressionlocation}
+\end{description}
+
+
+\subsection{ProjectionExpression (class)}\label{cifclass:ProjectionExpression}
+\clsdocuProjectionExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{ProjectionExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ProjectionExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:ProjectionExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{child}{{[1]}}{Expression}{}{\label{cifattr:ProjectionExpression.child}}
+{\featdocuProjectionExpressionchild}
+\cifclassDetail{cont}{index}{{[1]}}{Expression}{}{\label{cifattr:ProjectionExpression.index}}
+{\featdocuProjectionExpressionindex}
+\end{description}
+
+
+\subsection{RealExpression (class)}\label{cifclass:RealExpression}
+\clsdocuRealExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{RealExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:RealExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:RealExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{attr}{value}{{[1]}}{EString}{}{\label{cifattr:RealExpression.value}}
+{\featdocuRealExpressionvalue}
+\end{description}
+
+
+\subsection{ReceivedExpression (class)}\label{cifclass:ReceivedExpression}
+\clsdocuReceivedExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{ReceivedExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ReceivedExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:ReceivedExpression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{SelfExpression (class)}\label{cifclass:SelfExpression}
+\clsdocuSelfExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{SelfExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SelfExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:SelfExpression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{SetExpression (class)}\label{cifclass:SetExpression}
+\clsdocuSetExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{SetExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SetExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:SetExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{elements}{{[0..*]}}{Expression}{}{\label{cifattr:SetExpression.elements}}
+{\featdocuSetExpressionelements}
+\end{description}
+
+
+\subsection{SliceExpression (class)}\label{cifclass:SliceExpression}
+\clsdocuSliceExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{SliceExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SliceExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:SliceExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{begin}{{[0..1]}}{Expression}{}{\label{cifattr:SliceExpression.begin}}
+{\featdocuSliceExpressionbegin}
+\cifclassDetail{cont}{child}{{[1]}}{Expression}{}{\label{cifattr:SliceExpression.child}}
+{\featdocuSliceExpressionchild}
+\cifclassDetail{cont}{end}{{[0..1]}}{Expression}{}{\label{cifattr:SliceExpression.end}}
+{\featdocuSliceExpressionend}
+\end{description}
+
+
+\subsection{StdLibFunctionExpression (class)}\label{cifclass:StdLibFunctionExpression}
+\clsdocuStdLibFunctionExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\cifclass{BaseFunctionExpression} \\
+\hookindent\hookindent\hookindent\hook~\emph{StdLibFunctionExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:StdLibFunctionExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:StdLibFunctionExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{attr}{function}{{[1]}}{StdLibFunction}{}{\label{cifattr:StdLibFunctionExpression.function}}
+{\featdocuStdLibFunctionExpressionfunction}
+\end{description}
+
+
+\subsection{StringExpression (class)}\label{cifclass:StringExpression}
+\clsdocuStringExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{StringExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:StringExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:StringExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{attr}{value}{{[1]}}{EString}{}{\label{cifattr:StringExpression.value}}
+{\featdocuStringExpressionvalue}
+\end{description}
+
+
+\subsection{SwitchCase (class)}\label{cifclass:SwitchCase}
+\clsdocuSwitchCase
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{SwitchCase}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SwitchCase.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{key}{{[0..1]}}{Expression}{}{\label{cifattr:SwitchCase.key}}
+{\featdocuSwitchCasekey}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:SwitchCase.value}}
+{\featdocuSwitchCasevalue}
+\end{description}
+
+
+\subsection{SwitchExpression (class)}\label{cifclass:SwitchExpression}
+\clsdocuSwitchExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{SwitchExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SwitchExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:SwitchExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{cases}{{[1..*]}}{SwitchCase}{}{\label{cifattr:SwitchExpression.cases}}
+{\featdocuSwitchExpressioncases}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:SwitchExpression.value}}
+{\featdocuSwitchExpressionvalue}
+\end{description}
+
+
+\subsection{TauExpression (class)}\label{cifclass:TauExpression}
+\clsdocuTauExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{TauExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TauExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:TauExpression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{TimeExpression (class)}\label{cifclass:TimeExpression}
+\clsdocuTimeExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{TimeExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TimeExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:TimeExpression.type}}
+{\featdocuExpressiontype}
+\end{description}
+
+
+\subsection{TupleExpression (class)}\label{cifclass:TupleExpression}
+\clsdocuTupleExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{TupleExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:TupleExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:TupleExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{fields}{{[2..*]}}{Expression}{}{\label{cifattr:TupleExpression.fields}}
+{\featdocuTupleExpressionfields}
+\end{description}
+
+
+\subsection{UnaryExpression (class)}\label{cifclass:UnaryExpression}
+\clsdocuUnaryExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{UnaryExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:UnaryExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:UnaryExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{cont}{child}{{[1]}}{Expression}{}{\label{cifattr:UnaryExpression.child}}
+{\featdocuUnaryExpressionchild}
+\cifclassDetail{attr}{operator}{{[1]}}{UnaryOperator}{}{\label{cifattr:UnaryExpression.operator}}
+{\featdocuUnaryExpressionoperator}
+\end{description}
+
+
+
+\section{Package functions}\label{cifpkg:functions}
+\pkgdocufunctions
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/functions
+\item[Namespace prefix] functions
+\item[Sub-packages] none
+\end{description}
+
+\subsection{AssignmentFuncStatement (class)}\label{cifclass:AssignmentFuncStatement}
+\clsdocuAssignmentFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{FunctionStatement} \\
+\hookindent\hookindent\hook~\emph{AssignmentFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:AssignmentFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{addressable}{{[1]}}{Expression}{}{\label{cifattr:AssignmentFuncStatement.addressable}}
+{\featdocuAssignmentFuncStatementaddressable}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:AssignmentFuncStatement.value}}
+{\featdocuAssignmentFuncStatementvalue}
+\end{description}
+
+
+\subsection{BreakFuncStatement (class)}\label{cifclass:BreakFuncStatement}
+\clsdocuBreakFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{FunctionStatement} \\
+\hookindent\hookindent\hook~\emph{BreakFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:BreakFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{ContinueFuncStatement (class)}\label{cifclass:ContinueFuncStatement}
+\clsdocuContinueFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{FunctionStatement} \\
+\hookindent\hookindent\hook~\emph{ContinueFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ContinueFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{ElifFuncStatement (class)}\label{cifclass:ElifFuncStatement}
+\clsdocuElifFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{ElifFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ElifFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:ElifFuncStatement.guards}}
+{\featdocuElifFuncStatementguards}
+\cifclassDetail{cont}{thens}{{[1..*]}}{FunctionStatement}{}{\label{cifattr:ElifFuncStatement.thens}}
+{\featdocuElifFuncStatementthens}
+\end{description}
+
+
+\subsection{ExternalFunction (class)}\label{cifclass:ExternalFunction}
+\clsdocuExternalFunction
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\cifclass{Function} \\
+\hookindent\hookindent\hookindent\hook~\emph{ExternalFunction}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ExternalFunction.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:ExternalFunction.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{parameters}{{[0..*]}}{FunctionParameter}{(inherited from \textit{Function})}{\label{cifattr:ExternalFunction.parameters}}
+{\featdocuFunctionparameters}
+\cifclassDetail{cont}{returnTypes}{{[1..*]}}{CifType}{(inherited from \textit{Function})}{\label{cifattr:ExternalFunction.returnTypes}}
+{\featdocuFunctionreturnTypes}
+\cifclassDetail{attr}{function}{{[1]}}{EString}{}{\label{cifattr:ExternalFunction.function}}
+{\featdocuExternalFunctionfunction}
+\end{description}
+
+
+\subsection{Function (abstract class)}\label{cifclass:Function}
+\clsdocuFunction
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\emph{Function}
+
+~\\ \noindent Direct derived classes:
+\cifclass{ExternalFunction}, \cifclass{InternalFunction}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Function.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:Function.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{parameters}{{[0..*]}}{FunctionParameter}{}{\label{cifattr:Function.parameters}}
+{\featdocuFunctionparameters}
+\cifclassDetail{cont}{returnTypes}{{[1..*]}}{CifType}{}{\label{cifattr:Function.returnTypes}}
+{\featdocuFunctionreturnTypes}
+\end{description}
+
+
+\subsection{FunctionParameter (class)}\label{cifclass:FunctionParameter}
+\clsdocuFunctionParameter
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{FunctionParameter}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:FunctionParameter.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{parameter}{{[1]}}{DiscVariable}{}{\label{cifattr:FunctionParameter.parameter}}
+{\featdocuFunctionParameterparameter}
+\end{description}
+
+
+\subsection{FunctionStatement (abstract class)}\label{cifclass:FunctionStatement}
+\clsdocuFunctionStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{FunctionStatement}
+
+~\\ \noindent Direct derived classes:
+\cifclass{AssignmentFuncStatement}, \cifclass{BreakFuncStatement}, \cifclass{ContinueFuncStatement}, \cifclass{IfFuncStatement}, \cifclass{ReturnFuncStatement}, \cifclass{WhileFuncStatement}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:FunctionStatement.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{IfFuncStatement (class)}\label{cifclass:IfFuncStatement}
+\clsdocuIfFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{FunctionStatement} \\
+\hookindent\hookindent\hook~\emph{IfFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:IfFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{elifs}{{[0..*]}}{ElifFuncStatement}{}{\label{cifattr:IfFuncStatement.elifs}}
+{\featdocuIfFuncStatementelifs}
+\cifclassDetail{cont}{elses}{{[0..*]}}{FunctionStatement}{}{\label{cifattr:IfFuncStatement.elses}}
+{\featdocuIfFuncStatementelses}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:IfFuncStatement.guards}}
+{\featdocuIfFuncStatementguards}
+\cifclassDetail{cont}{thens}{{[1..*]}}{FunctionStatement}{}{\label{cifattr:IfFuncStatement.thens}}
+{\featdocuIfFuncStatementthens}
+\end{description}
+
+
+\subsection{InternalFunction (class)}\label{cifclass:InternalFunction}
+\clsdocuInternalFunction
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Declaration} \\
+\hookindent\hookindent\hook~\cifclass{Function} \\
+\hookindent\hookindent\hookindent\hook~\emph{InternalFunction}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:InternalFunction.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{name}{{[1]}}{CifIdentifier}{(inherited from \textit{Declaration})}{\label{cifattr:InternalFunction.name}}
+{\featdocuDeclarationname}
+\cifclassDetail{cont}{parameters}{{[0..*]}}{FunctionParameter}{(inherited from \textit{Function})}{\label{cifattr:InternalFunction.parameters}}
+{\featdocuFunctionparameters}
+\cifclassDetail{cont}{returnTypes}{{[1..*]}}{CifType}{(inherited from \textit{Function})}{\label{cifattr:InternalFunction.returnTypes}}
+{\featdocuFunctionreturnTypes}
+\cifclassDetail{cont}{statements}{{[1..*]}}{FunctionStatement}{}{\label{cifattr:InternalFunction.statements}}
+{\featdocuInternalFunctionstatements}
+\cifclassDetail{cont}{variables}{{[0..*]}}{DiscVariable}{}{\label{cifattr:InternalFunction.variables}}
+{\featdocuInternalFunctionvariables}
+\end{description}
+
+
+\subsection{ReturnFuncStatement (class)}\label{cifclass:ReturnFuncStatement}
+\clsdocuReturnFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{FunctionStatement} \\
+\hookindent\hookindent\hook~\emph{ReturnFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:ReturnFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{values}{{[1..*]}}{Expression}{}{\label{cifattr:ReturnFuncStatement.values}}
+{\featdocuReturnFuncStatementvalues}
+\end{description}
+
+
+\subsection{WhileFuncStatement (class)}\label{cifclass:WhileFuncStatement}
+\clsdocuWhileFuncStatement
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{FunctionStatement} \\
+\hookindent\hookindent\hook~\emph{WhileFuncStatement}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:WhileFuncStatement.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{guards}{{[1..*]}}{Expression}{}{\label{cifattr:WhileFuncStatement.guards}}
+{\featdocuWhileFuncStatementguards}
+\cifclassDetail{cont}{statements}{{[1..*]}}{FunctionStatement}{}{\label{cifattr:WhileFuncStatement.statements}}
+{\featdocuWhileFuncStatementstatements}
+\end{description}
+
+
+
+\section{Package cifsvg}\label{cifpkg:cifsvg}
+\pkgdocucifsvg
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/cifsvg
+\item[Namespace prefix] cifsvg
+\item[Sub-packages] none
+\end{description}
+
+\subsection{SvgCopy (class)}\label{cifclass:SvgCopy}
+\clsdocuSvgCopy
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{SvgCopy}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgCopy.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{id}{{[1]}}{Expression}{}{\label{cifattr:SvgCopy.id}}
+{\featdocuSvgCopyid}
+\cifclassDetail{cont}{post}{{[0..1]}}{Expression}{}{\label{cifattr:SvgCopy.post}}
+{\featdocuSvgCopypost}
+\cifclassDetail{cont}{pre}{{[0..1]}}{Expression}{}{\label{cifattr:SvgCopy.pre}}
+{\featdocuSvgCopypre}
+\cifclassDetail{cont}{svgFile}{{[0..1]}}{SvgFile}{}{\label{cifattr:SvgCopy.svgFile}}
+{\featdocuSvgCopysvgFile}
+\end{description}
+
+
+\subsection{SvgFile (class)}\label{cifclass:SvgFile}
+\clsdocuSvgFile
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{SvgFile}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgFile.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{path}{{[1]}}{EString}{}{\label{cifattr:SvgFile.path}}
+{\featdocuSvgFilepath}
+\end{description}
+
+
+\subsection{SvgIn (class)}\label{cifclass:SvgIn}
+\clsdocuSvgIn
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{SvgIn}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgIn.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{SvgInEvent}{}{\label{cifattr:SvgIn.event}}
+{\featdocuSvgInevent}
+\cifclassDetail{cont}{id}{{[1]}}{Expression}{}{\label{cifattr:SvgIn.id}}
+{\featdocuSvgInid}
+\cifclassDetail{cont}{svgFile}{{[0..1]}}{SvgFile}{}{\label{cifattr:SvgIn.svgFile}}
+{\featdocuSvgInsvgFile}
+\end{description}
+
+
+\subsection{SvgInEvent (abstract class)}\label{cifclass:SvgInEvent}
+\clsdocuSvgInEvent
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{SvgInEvent}
+
+~\\ \noindent Direct derived classes:
+\cifclass{SvgInEventIf}, \cifclass{SvgInEventSingle}
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgInEvent.position}}
+{\featdocuPositionObjectposition}
+\end{description}
+
+
+\subsection{SvgInEventIf (class)}\label{cifclass:SvgInEventIf}
+\clsdocuSvgInEventIf
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{SvgInEvent} \\
+\hookindent\hookindent\hook~\emph{SvgInEventIf}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgInEventIf.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{entries}{{[2..*]}}{SvgInEventIfEntry}{}{\label{cifattr:SvgInEventIf.entries}}
+{\featdocuSvgInEventIfentries}
+\end{description}
+
+
+\subsection{SvgInEventIfEntry (class)}\label{cifclass:SvgInEventIfEntry}
+\clsdocuSvgInEventIfEntry
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{SvgInEventIfEntry}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgInEventIfEntry.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{Expression}{}{\label{cifattr:SvgInEventIfEntry.event}}
+{\featdocuSvgInEventIfEntryevent}
+\cifclassDetail{cont}{guard}{{[0..1]}}{Expression}{}{\label{cifattr:SvgInEventIfEntry.guard}}
+{\featdocuSvgInEventIfEntryguard}
+\end{description}
+
+
+\subsection{SvgInEventSingle (class)}\label{cifclass:SvgInEventSingle}
+\clsdocuSvgInEventSingle
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{SvgInEvent} \\
+\hookindent\hookindent\hook~\emph{SvgInEventSingle}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgInEventSingle.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[1]}}{Expression}{}{\label{cifattr:SvgInEventSingle.event}}
+{\featdocuSvgInEventSingleevent}
+\end{description}
+
+
+\subsection{SvgMove (class)}\label{cifclass:SvgMove}
+\clsdocuSvgMove
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{SvgMove}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgMove.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{id}{{[1]}}{Expression}{}{\label{cifattr:SvgMove.id}}
+{\featdocuSvgMoveid}
+\cifclassDetail{cont}{svgFile}{{[0..1]}}{SvgFile}{}{\label{cifattr:SvgMove.svgFile}}
+{\featdocuSvgMovesvgFile}
+\cifclassDetail{cont}{x}{{[1]}}{Expression}{}{\label{cifattr:SvgMove.x}}
+{\featdocuSvgMovex}
+\cifclassDetail{cont}{y}{{[1]}}{Expression}{}{\label{cifattr:SvgMove.y}}
+{\featdocuSvgMovey}
+\end{description}
+
+
+\subsection{SvgOut (class)}\label{cifclass:SvgOut}
+\clsdocuSvgOut
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{SvgOut}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:SvgOut.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{attr}{{[0..1]}}{EString}{}{\label{cifattr:SvgOut.attr}}
+{\featdocuSvgOutattr}
+\cifclassDetail{cont}{attrTextPos}{{[1]}}{Position}{}{\label{cifattr:SvgOut.attrTextPos}}
+{\featdocuSvgOutattrTextPos}
+\cifclassDetail{cont}{id}{{[1]}}{Expression}{}{\label{cifattr:SvgOut.id}}
+{\featdocuSvgOutid}
+\cifclassDetail{cont}{svgFile}{{[0..1]}}{SvgFile}{}{\label{cifattr:SvgOut.svgFile}}
+{\featdocuSvgOutsvgFile}
+\cifclassDetail{cont}{value}{{[1]}}{Expression}{}{\label{cifattr:SvgOut.value}}
+{\featdocuSvgOutvalue}
+\end{description}
+
+
+
+\section{Package print}\label{cifpkg:print}
+\pkgdocuprint
+
+\begin{description}
+\item[Package URI] http://eclipse.org/escet/cif/print
+\item[Namespace prefix] print
+\item[Sub-packages] none
+\end{description}
+
+\subsection{PrintForKind (enumeration)}\label{cifclass:PrintForKind}
+\enumdocuPrintForKind
+
+\begin{description}
+\cifenumlitDetail{Event}{(default)}{\label{cifenumlit:PrintForKind.Event}}{\enumlitdocuPrintForKindEvent}
+\cifenumlitDetail{Final}{}{\label{cifenumlit:PrintForKind.Final}}{\enumlitdocuPrintForKindFinal}
+\cifenumlitDetail{Initial}{}{\label{cifenumlit:PrintForKind.Initial}}{\enumlitdocuPrintForKindInitial}
+\cifenumlitDetail{Name}{}{\label{cifenumlit:PrintForKind.Name}}{\enumlitdocuPrintForKindName}
+\cifenumlitDetail{Time}{}{\label{cifenumlit:PrintForKind.Time}}{\enumlitdocuPrintForKindTime}
+\end{description}
+
+\subsection{Print (class)}\label{cifclass:Print}
+\clsdocuPrint
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{Print}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Print.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{file}{{[0..1]}}{PrintFile}{}{\label{cifattr:Print.file}}
+{\featdocuPrintfile}
+\cifclassDetail{cont}{fors}{{[0..*]}}{PrintFor}{}{\label{cifattr:Print.fors}}
+{\featdocuPrintfors}
+\cifclassDetail{cont}{txtPost}{{[0..1]}}{Expression}{}{\label{cifattr:Print.txtPost}}
+{\featdocuPrinttxtPost}
+\cifclassDetail{cont}{txtPre}{{[0..1]}}{Expression}{}{\label{cifattr:Print.txtPre}}
+{\featdocuPrinttxtPre}
+\cifclassDetail{cont}{whenPost}{{[0..1]}}{Expression}{}{\label{cifattr:Print.whenPost}}
+{\featdocuPrintwhenPost}
+\cifclassDetail{cont}{whenPre}{{[0..1]}}{Expression}{}{\label{cifattr:Print.whenPre}}
+{\featdocuPrintwhenPre}
+\end{description}
+
+
+\subsection{PrintFile (class)}\label{cifclass:PrintFile}
+\clsdocuPrintFile
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{IoDecl} \\
+\hookindent\hookindent\hook~\emph{PrintFile}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:PrintFile.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{attr}{path}{{[1]}}{EString}{}{\label{cifattr:PrintFile.path}}
+{\featdocuPrintFilepath}
+\end{description}
+
+
+\subsection{PrintFor (class)}\label{cifclass:PrintFor}
+\clsdocuPrintFor
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\emph{PrintFor}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:PrintFor.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{event}{{[0..1]}}{Expression}{}{\label{cifattr:PrintFor.event}}
+{\featdocuPrintForevent}
+\cifclassDetail{attr}{kind}{{[1]}}{PrintForKind}{}{\label{cifattr:PrintFor.kind}}
+{\featdocuPrintForkind}
+\end{description}
+
+
+

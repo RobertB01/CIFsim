@@ -1,0 +1,7 @@
+ERROR: File "tchecker/channel_rcvs_type_mismatch.cif": Semantic error at line 22, column 12: Incompatible types "bool" and "int[1..2]" for received values of channel communications on a single edge.
+ERROR: File "tchecker/channel_rcvs_type_mismatch.cif": Semantic error at line 22, column 17: Incompatible types "bool" and "int[1..2]" for received values of channel communications on a single edge.
+ERROR: File "tchecker/channel_rcvs_type_mismatch.cif": Semantic error at line 28, column 12: Incompatible types "int[1..2]" and "int[3..4]" for received values of channel communications on a single edge.
+ERROR: File "tchecker/channel_rcvs_type_mismatch.cif": Semantic error at line 28, column 12: Incompatible types "int[1..2]" and "real" for received values of channel communications on a single edge.
+ERROR: File "tchecker/channel_rcvs_type_mismatch.cif": Semantic error at line 28, column 17: Incompatible types "int[1..2]" and "int[3..4]" for received values of channel communications on a single edge.
+ERROR: File "tchecker/channel_rcvs_type_mismatch.cif": Semantic error at line 28, column 22: Incompatible types "int[1..2]" and "real" for received values of channel communications on a single edge.
+ERROR: Failed to load CIF file "tchecker/channel_rcvs_type_mismatch.cif": the file has errors.

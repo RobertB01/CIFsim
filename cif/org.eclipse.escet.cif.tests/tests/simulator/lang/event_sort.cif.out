@@ -1,0 +1,14 @@
+Initial state: time=0.0, p=*, p.x=true
+
+Possible transitions:
+  #1: event e1
+  #2: event e2
+  #3: event E3
+  #4: event E4
+  #5: event z
+  #6: event tau
+
+Transition: event e1
+State: time=0.0, p=*, p.x=false
+
+Simulation resulted in deadlock.

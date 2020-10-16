@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "bernoulli(-1e-15)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: bernoulli(-1.0e-15).
+CAUSE: The chance parameter is not in the range [0.0 .. 1.0].

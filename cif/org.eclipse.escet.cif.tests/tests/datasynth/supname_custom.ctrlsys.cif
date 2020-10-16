@@ -1,0 +1,18 @@
+group g:
+  group h:
+    controllable c;
+  end
+end
+plant automaton p:
+  location:
+    initial;
+    marked;
+    edge g.h.c;
+end
+supervisor automaton g2:
+  alphabet g.h.c;
+  location:
+    initial;
+    marked;
+    edge g.h.c when true;
+end

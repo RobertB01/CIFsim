@@ -1,0 +1,29 @@
+const bool E = true;
+const bool E2 = true;
+const bool UP = true;
+type t = E3;
+enum E3 = BLUE, DOWN, GREEN, RED, UP2;
+automaton p:
+  disc E3 v1 = UP2;
+  disc E3 v2 = DOWN;
+  invariant v2 = UP2;
+  location:
+    initial;
+end
+automaton a:
+  disc t x = BLUE;
+  invariant x = BLUE;
+  location:
+    initial;
+end
+automaton q:
+  disc E3 d = DOWN;
+  invariant d = UP2;
+  location:
+    initial;
+end
+invariant RED = GREEN;
+invariant RED = RED;
+invariant p.v1 = UP2;
+invariant UP2 = UP2 and DOWN = DOWN;
+invariant E or E2 or UP;

@@ -1,0 +1,1213 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="CONTROLLABLE" Name="p:c_e"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <VariableComponent Name="p:bt">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:bt"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:bt"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:bf">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:bf"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:bf"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:b1">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b1"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b1"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:b2">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b2"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b2"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:b3">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b3"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b3"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:b4">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b4"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:b4"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i1">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="-40"/>
+          <IntConstant Value="40"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i1"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i1"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i2">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="-40"/>
+          <IntConstant Value="40"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i2"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i2"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i3">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="-40"/>
+          <IntConstant Value="40"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i3"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i3"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i4">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="-40"/>
+          <IntConstant Value="40"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i4"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i4"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i5">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="5"/>
+          <IntConstant Value="8"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i5"/>
+          <IntConstant Value="5"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i5"/>
+          <IntConstant Value="5"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i6">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="5"/>
+          <IntConstant Value="8"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i6"/>
+          <IntConstant Value="6"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i6"/>
+          <IntConstant Value="5"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i7">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="5"/>
+          <IntConstant Value="8"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i7"/>
+          <IntConstant Value="7"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i7"/>
+          <IntConstant Value="5"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:i8">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="5"/>
+          <IntConstant Value="8"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i8"/>
+          <IntConstant Value="8"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:i8"/>
+          <IntConstant Value="5"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <SimpleComponent Kind="PLANT" Name="p">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="loc1">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+          <SimpleNode Name="loc2"/>
+          <SimpleNode Name="loc3"/>
+          <SimpleNode Name="loc4"/>
+          <SimpleNode Name="loc5"/>
+          <SimpleNode Name="loc6"/>
+          <SimpleNode Name="loc7"/>
+          <SimpleNode Name="loc8"/>
+          <SimpleNode Name="loc9"/>
+          <SimpleNode Name="loc10"/>
+          <SimpleNode Name="loc11"/>
+          <SimpleNode Name="loc12"/>
+          <SimpleNode Name="loc13"/>
+          <SimpleNode Name="loc14"/>
+          <SimpleNode Name="loc15"/>
+          <SimpleNode Name="loc16"/>
+          <SimpleNode Name="loc17"/>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="loc1" Target="loc2">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="==">
+                    <SimpleIdentifier Name="p:bf"/>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="==">
+                    <SimpleIdentifier Name="p:bf"/>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="==">
+                    <SimpleIdentifier Name="p:bt"/>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="==">
+                    <SimpleIdentifier Name="p:bt"/>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc2" Target="loc3">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="|">
+                    <UnaryExpression Operator="!">
+                      <SimpleIdentifier Name="p:bf"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="|">
+                    <UnaryExpression Operator="!">
+                      <SimpleIdentifier Name="p:bf"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="|">
+                    <UnaryExpression Operator="!">
+                      <SimpleIdentifier Name="p:bt"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="|">
+                    <UnaryExpression Operator="!">
+                      <SimpleIdentifier Name="p:bt"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc3" Target="loc4">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="&amp;">
+                    <SimpleIdentifier Name="p:bf"/>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="&amp;">
+                    <SimpleIdentifier Name="p:bf"/>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="&amp;">
+                    <SimpleIdentifier Name="p:bt"/>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="&amp;">
+                    <SimpleIdentifier Name="p:bt"/>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc4" Target="loc5">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="|">
+                    <SimpleIdentifier Name="p:bf"/>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="|">
+                    <SimpleIdentifier Name="p:bf"/>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="|">
+                    <SimpleIdentifier Name="p:bt"/>
+                    <SimpleIdentifier Name="p:bf"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="|">
+                    <SimpleIdentifier Name="p:bt"/>
+                    <SimpleIdentifier Name="p:bt"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc5" Target="loc6">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <BinaryExpression Operator="+">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <BinaryExpression Operator="+">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <BinaryExpression Operator="+">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <BinaryExpression Operator="+">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <SimpleIdentifier Name="p:b1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <SimpleIdentifier Name="p:b2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc6" Target="loc7">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <BinaryExpression Operator="-">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <BinaryExpression Operator="-">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <BinaryExpression Operator="-">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <BinaryExpression Operator="-">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <SimpleIdentifier Name="p:b1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <SimpleIdentifier Name="p:b2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc7" Target="loc8">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <BinaryExpression Operator="*">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <BinaryExpression Operator="*">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <BinaryExpression Operator="*">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <BinaryExpression Operator="*">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <SimpleIdentifier Name="p:b1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <SimpleIdentifier Name="p:b2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc8" Target="loc9">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <BinaryExpression Operator="/">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <BinaryExpression Operator="/">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <BinaryExpression Operator="/">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <BinaryExpression Operator="/">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <SimpleIdentifier Name="p:b1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <SimpleIdentifier Name="p:b2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc9" Target="loc10">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <BinaryExpression Operator="%">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <BinaryExpression Operator="%">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <BinaryExpression Operator="%">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <BinaryExpression Operator="%">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i7"/>
+                    </UnaryExpression>
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <SimpleIdentifier Name="p:b1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <SimpleIdentifier Name="p:b2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc10" Target="loc11">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="==">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="==">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i7"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="!=">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="!=">
+                    <SimpleIdentifier Name="p:i7"/>
+                    <SimpleIdentifier Name="p:i7"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc11" Target="loc12">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="&lt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="&lt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i6"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="&lt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i7"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="&lt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i8"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc12" Target="loc13">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="&lt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="&lt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i6"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="&lt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i7"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="&lt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i8"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc13" Target="loc14">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="&gt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="&gt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i6"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="&gt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i7"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="&gt;">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i8"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc14" Target="loc15">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <BinaryExpression Operator="&gt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i5"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <BinaryExpression Operator="&gt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i6"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <BinaryExpression Operator="&gt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i7"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <BinaryExpression Operator="&gt;=">
+                    <SimpleIdentifier Name="p:i6"/>
+                    <SimpleIdentifier Name="p:i8"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc15" Target="loc16">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <UnaryExpression Operator="!">
+                    <SimpleIdentifier Name="p:bt"/>
+                  </UnaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <UnaryExpression Operator="!">
+                    <SimpleIdentifier Name="p:bf"/>
+                  </UnaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <UnaryExpression Operator="-">
+                    <SimpleIdentifier Name="p:i5"/>
+                  </UnaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <UnaryExpression Operator="-">
+                    <UnaryExpression Operator="-">
+                      <SimpleIdentifier Name="p:i5"/>
+                    </UnaryExpression>
+                  </UnaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <SimpleIdentifier Name="p:i1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="loc16" Target="loc17">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i1"/>
+                  <IntConstant Value="39"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b1"/>
+                  <SimpleIdentifier Name="p:b1"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b2"/>
+                  <SimpleIdentifier Name="p:b2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b3"/>
+                  <SimpleIdentifier Name="p:b3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:b4"/>
+                  <SimpleIdentifier Name="p:b4"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i2"/>
+                  <SimpleIdentifier Name="p:i2"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i3"/>
+                  <SimpleIdentifier Name="p:i3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:i4"/>
+                  <SimpleIdentifier Name="p:i4"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

@@ -1,0 +1,397 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+from "lib:cif" import cifdatasynth, cifmerge, cifexplorer;
+
+// Configuration.
+string test_path = "datasynth";
+string test_pattern = "*.cif";
+list string default_options = [
+    "--devmode=1",
+    "-m debug",
+    "-r model",
+    "--bdd-dbg-maxnodes=20",
+    "--bdd-dbg-maxpaths=20",
+    "--bdd-simplify=guards-plants,initial-unctrl",
+    "--forward-reach=on",
+];
+
+string opt_simplify_all = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl";
+
+map(string:list string) test_options = {
+    "datasynth/bdd_dbg_maxnodes.cif":               ["--bdd-dbg-maxnodes=2"],
+    "datasynth/bdd_dbg_maxpaths.cif":               ["--bdd-dbg-maxpaths=2"],
+    "datasynth/bdd_out_nodes.cif":                  ["-t nodes -p n"],
+    "datasynth/dining_philosophers4.cif":           [opt_simplify_all],
+    "datasynth/forward_reach_off.cif":              ["--forward-reach=off --bdd-simplify="],
+    "datasynth/forward_reach_on.cif":               ["--forward-reach=on  --bdd-simplify="],
+    "datasynth/namespace.cif":                      ["-n a.b.c"],
+    "datasynth/namespace_conflict.cif":             ["-n g.h.c.n"],
+    "datasynth/namespace_invalid.cif":              ["-n a.b."],
+    "datasynth/namespace_non_empty.cif":            ["-n g.h"],
+    "datasynth/order_custom_force_off.cif":         ["-r *c*;*3,*1;*2 --force-order=off --sliding-window-order=off " + opt_simplify_all],
+    "datasynth/order_custom_force_on.cif":          ["-r *c*;*3,*1;*2 --force-order=on --sliding-window-order=on " + opt_simplify_all],
+    "datasynth/order_dupl_match.cif":               ["-r p.x;*"],
+    "datasynth/order_missing.cif":                  ["-r q"],
+    "datasynth/order_model_force_off.cif":          ["-r model --force-order=off --sliding-window-order=off " + opt_simplify_all],
+    "datasynth/order_model_force_on.cif":           ["-r model --force-order=on --sliding-window-order=on " + opt_simplify_all],
+    "datasynth/order_no_match.cif":                 ["-r *3"],
+    "datasynth/order_random_force_off.cif":         ["-r random:88 --force-order=off --sliding-window-order=off " + opt_simplify_all],
+    "datasynth/order_random_force_on.cif":          ["-r random:88 --force-order=on --sliding-window-order=on " + opt_simplify_all],
+    "datasynth/order_random_invalid_seed.cif":      ["-r random:x"],
+    "datasynth/order_reverse_model_force_off.cif":  ["-r reverse-model --force-order=off --sliding-window-order=off " + opt_simplify_all],
+    "datasynth/order_reverse_model_force_on.cif":   ["-r reverse-model --force-order=on --sliding-window-order=on " + opt_simplify_all],
+    "datasynth/order_reverse_sorted_force_off.cif": ["-r reverse-sorted --force-order=off --sliding-window-order=off " + opt_simplify_all],
+    "datasynth/order_reverse_sorted_force_on.cif":  ["-r reverse-sorted --force-order=on --sliding-window-order=on " + opt_simplify_all],
+    "datasynth/order_sorted_force_off.cif":         ["-r sorted --force-order=off --sliding-window-order=off " + opt_simplify_all],
+    "datasynth/order_sorted_force_on.cif":          ["-r sorted --force-order=on --sliding-window-order=on " + opt_simplify_all],
+    "datasynth/simplify_ctrl_beh_off.cif":          ["--bdd-simplify="],
+    "datasynth/simplify_ctrl_beh_on.cif":           ["--bdd-simplify=guards-ctrl-beh"],
+    "datasynth/simplify_initial_unctrl_off.cif":    ["--bdd-simplify="],
+    "datasynth/simplify_initial_unctrl_on.cif":     ["--bdd-simplify=initial-unctrl"],
+    "datasynth/simplify_plants_off.cif":            ["--bdd-simplify="],
+    "datasynth/simplify_plants_on.cif":             ["--bdd-simplify=guards-plants"],
+    "datasynth/simplify_propagation_all.cif":       ["--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl"],
+    "datasynth/simplify_propagation_none.cif":      ["--bdd-simplify="],
+    "datasynth/simplify_range_invs_off.cif":        ["--bdd-simplify="],
+    "datasynth/simplify_range_invs_on.cif":         ["--bdd-simplify=guards-state-req-invs"],
+    "datasynth/simplify_req_auts_off.cif":          ["--bdd-simplify="],
+    "datasynth/simplify_req_auts_on.cif":           ["--bdd-simplify=guards-req-auts"],
+    "datasynth/simplify_se_excl_req_invs_off.cif":  ["--bdd-simplify="],
+    "datasynth/simplify_se_excl_req_invs_on.cif":   ["--bdd-simplify=guards-se-excl-req-invs"],
+    "datasynth/simplify_state_req_invs_off.cif":    ["--bdd-simplify="],
+    "datasynth/simplify_state_req_invs_on.cif":     ["--bdd-simplify=guards-state-req-invs"],
+    "datasynth/supname_custom.cif":                 ["-s g"],
+    "datasynth/supname_invalid.cif":                ["-s b@"],
+};
+set string test_skip = {};
+
+// Initialize counts.
+int synth_count = 0;
+int synth_successes = 0;
+int synth_failures = 0;
+int synth_skipped = 0;
+
+int merge_count = 0;
+int merge_successes = 0;
+int merge_failures = 0;
+
+int space_count = 0;
+int space_successes = 0;
+int space_failures = 0;
+int space_skipped = 0;
+
+int nr_count = 0;
+int nr_successes = 0;
+int nr_failures = 0;
+
+// Find tests.
+list string tests = find(test_path, test_pattern);
+for i in range(tests):: tests[i] = replace(pathjoin(test_path, tests[i]), "\\", "/");
+for i in reverse(range(tests)):
+    if contains(tests[i], ".ctrlsys.cif") or
+       contains(tests[i], ".ctrlsys.extra.cif") or
+       contains(tests[i], ".ctrlsys.merged.cif") or
+       contains(tests[i], ".statespace.cif") or
+       contains(tests[i], ".real.cif"):
+        tests = delidx(tests, i);
+        continue;
+    end
+    if contains(test_skip, tests[i]):
+        tests = delidx(tests, i);
+        synth_count = synth_count + 1;
+        space_count = space_count + 1;
+        synth_skipped = synth_skipped + 1;
+        space_skipped = space_skipped + 1;
+    end
+end
+
+// Test all tests.
+for test in tests:
+    // ====================
+    // Data-based synthesis
+    // ====================
+
+    // Get test specific options.
+    list string options = default_options;
+    list string extra_options;
+    if contains(test_options, test):: extra_options = test_options[test];
+    options = options + extra_options;
+
+    // Print what we are testing.
+    outln("Testing \"%s\" (datasynth) using options \"%s\"...", test, join(extra_options, " "));
+
+    // Get paths.
+    string test1_out_exp  = chfileext(test, newext="out");
+    string test1_err_exp  = chfileext(test, newext="err");
+    string test1_out_real = chfileext(test, newext="out.real");
+    string test1_err_real = chfileext(test, newext="err.real");
+
+    string rslt1_exp  = chfileext(test, oldext="cif", newext="ctrlsys.cif");
+    string rslt1_real = chfileext(test, oldext="cif", newext="ctrlsys.real.cif");
+
+    // Execute.
+    list string options1 = options + ["-o", rslt1_real];
+    int exit_code1 = cifdatasynth([test] + options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
+
+    // Compare output.
+    bool stderr1_diff = diff(test1_err_exp, test1_err_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stdout1_diff = diff(test1_out_exp, test1_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool rslt1_diff   = diff(rslt1_exp, rslt1_real, missingAsEmpty=true, warnOnDiff=true);
+    if not stderr1_diff:: rmfile(test1_err_real);
+    // don't remove test1_out_real here, as we need it to get the number of states...
+    // don't remove rslt1_real here, as we need to generate a state space from it...
+
+    // Update counts.
+    int synth_diff_count = 0;
+    if stderr1_diff:: synth_diff_count = synth_diff_count + 1;
+    if stdout1_diff:: synth_diff_count = synth_diff_count + 1;
+    if rslt1_diff::   synth_diff_count = synth_diff_count + 1;
+
+    synth_count = synth_count + 1;
+    if synth_diff_count == 0:: synth_successes = synth_successes + 1;
+    if synth_diff_count > 0:: synth_failures = synth_failures + 1;
+
+    // ===============================================================
+    // Merge extra model, for controlled system state space generation
+    // ===============================================================
+
+    // Get paths.
+    string test2 = rslt1_real;
+    string test2_extra    = chfileext(test, oldext="cif", newext="ctrlsys.extra.cif");
+    string test2_out_exp  = chfileext(test, oldext="cif", newext="ctrlsys.merged.out");
+    string test2_err_exp  = chfileext(test, oldext="cif", newext="ctrlsys.merged.err");
+    string test2_out_real = chfileext(test, oldext="cif", newext="ctrlsys.merged.out.real");
+    string test2_err_real = chfileext(test, oldext="cif", newext="ctrlsys.merged.err.real");
+
+    string rslt2_exp  = chfileext(test, oldext="cif", newext="ctrlsys.merged.cif");
+    string rslt2_real = chfileext(test, oldext="cif", newext="ctrlsys.merged.real.cif");
+
+    bool rslt2_diff = false;
+    bool did_merge = false;
+    bool do_state_explore = exit_code1 == 0 or isfile(rslt1_exp) or isfile(rslt1_real);
+    if do_state_explore and isfile(test2_extra):
+        // Print what we are testing.
+        outln("Testing \"%s\" (ctrl system merging)...", test);
+
+        // Execute.
+        list string options2 = ["--devmode=1", "-o", rslt2_real];
+        cifmerge([test2, test2_extra] + options2, stdout=test2_out_real, stderr=test2_err_real, ignoreNonZeroExitCode=true);
+
+        // Compare output.
+        bool stderr2_diff = diff(test2_err_exp, test2_err_real, missingAsEmpty=true, warnOnDiff=true);
+        bool stdout2_diff = diff(test2_out_exp, test2_out_real, missingAsEmpty=true, warnOnDiff=true);
+             rslt2_diff   = diff(rslt2_exp, rslt2_real, missingAsEmpty=true, warnOnDiff=true);
+        if not stderr2_diff:: rmfile(test2_err_real);
+        if not stdout2_diff:: rmfile(test2_out_real);
+        // don't remove rslt2_real here, as we need to generate a state space from it...
+
+        // Update counts.
+        int merge_diff_count = 0;
+        if stderr2_diff:: merge_diff_count = merge_diff_count + 1;
+        if stdout2_diff:: merge_diff_count = merge_diff_count + 1;
+        if rslt2_diff::   merge_diff_count = merge_diff_count + 1;
+
+        merge_count = merge_count + 1;
+        if merge_diff_count == 0:: merge_successes = merge_successes + 1;
+        if merge_diff_count > 0:: merge_failures = merge_failures + 1;
+
+        // Did do a merge.
+        did_merge = true;
+    end
+
+    // ========================================
+    // Controlled system state space generation
+    // ========================================
+
+    // Get paths.
+    string test3 = rslt1_real;
+    if did_merge:: test3 = rslt2_real;
+    string test3_out_exp  = chfileext(test, oldext="cif", newext="statespace.out");
+    string test3_err_exp  = chfileext(test, oldext="cif", newext="statespace.err");
+    string test3_out_real = chfileext(test, oldext="cif", newext="statespace.out.real");
+    string test3_err_real = chfileext(test, oldext="cif", newext="statespace.err.real");
+
+    string rslt3_exp  = chfileext(test, oldext="cif", newext="statespace.cif");
+    string rslt3_real = chfileext(test, oldext="cif", newext="statespace.real.cif");
+
+    if do_state_explore:
+        // Print what we are testing.
+        outln("Testing \"%s\" (ctrl system state space)...", test);
+
+        // Execute.
+        list string options3 = ["--devmode=1", "-z1", "-s0", "-c1", "-e0", "-p off", "-o", rslt3_real];
+        cifexplorer([test3] + options3, stdout=test3_out_real, stderr=test3_err_real, ignoreNonZeroExitCode=true);
+
+        // Compare output.
+        bool stderr3_diff = diff(test3_err_exp, test3_err_real, missingAsEmpty=true, warnOnDiff=true);
+        bool stdout3_diff = diff(test3_out_exp, test3_out_real, missingAsEmpty=true, warnOnDiff=true);
+        bool rslt3_diff   = diff(rslt3_exp, rslt3_real, missingAsEmpty=true, warnOnDiff=true);
+        if not stderr3_diff:: rmfile(test3_err_real);
+        if not stdout3_diff:: rmfile(test3_out_real);
+        // don't remove rslt3_real here, as we need it to get the number of states...
+
+        // Update counts.
+        int space_diff_count = 0;
+        if stderr3_diff:: space_diff_count = space_diff_count + 1;
+        if stdout3_diff:: space_diff_count = space_diff_count + 1;
+        if rslt3_diff::   space_diff_count = space_diff_count + 1;
+
+        space_count = space_count + 1;
+        if space_diff_count == 0:: space_successes = space_successes + 1;
+        if space_diff_count > 0:: space_failures = space_failures + 1;
+
+        // Print what we are testing.
+        outln("Testing \"%s\" (state space size compare)...", test);
+
+        // Get number of states in controlled system, from debug output.
+        bool synth_states_exact = false;
+        long synth_states_nr = -1;
+        if isfile(test1_out_real):
+            // Get debug output lines.
+            list string lines = readlines(test1_out_real);
+
+            // Find number of states, and exactness.
+            for line in lines:
+                // Find line with useful information.
+                string pre_exact  = "Controlled system:                     exactly";
+                string pre_atmost = "Controlled system:                     at most";
+                bool line_exact  = startswith(line, pre_exact);
+                bool line_atmost = startswith(line, pre_atmost);
+                if not line_exact and not line_atmost:: continue;
+
+                // Extract information.
+                line = line[size(pre_exact):];
+                line = trim(line);
+                if endswith(line, "states."):: line = line[:-size("states.")];
+                if endswith(line, "state.")::  line = line[:-size("state.")];
+                line = trim(line);
+                line = replace(line, ",", "");
+                line = replace(line, ".", "");
+
+                synth_states_exact = line_exact;
+                synth_states_nr = <long>line;
+                break;
+            end
+        end
+
+        // Get number of states in controlled system, from state space.
+        bool space_states_exact = false;
+        long space_states_nr = -1;
+        if isfile(rslt3_real):
+            // Get debug output lines.
+            list string lines = readlines(rslt3_real);
+
+            // Find number of states, and exactness.
+            for line in lines:
+                // Find line with useful information.
+                string pre = "  location loc";
+                bool match = startswith(line, pre);
+                if not match:: continue;
+
+                // Update information. Overwrite previous one if already has
+                // information, to ensure information for last location is
+                // kept.
+                line = line[size(pre):];
+                line = trim(line);
+                if endswith(line, ":"):: line = line[:-1];
+                line = trim(line);
+
+                space_states_exact = true;
+                space_states_nr = <long>line;
+            end
+        end
+
+        // Check controlled system state space counts.
+        bool nr_match;
+        if synth_states_exact and space_states_exact:
+            nr_match = (synth_states_nr == space_states_nr);
+
+        elif not synth_states_exact and space_states_exact:
+            nr_match = (synth_states_nr >= space_states_nr);
+
+        else
+            nr_match = false;
+        end
+
+        if not nr_match:
+            string synth_exact_txt;
+            string space_exact_txt;
+            if synth_states_exact: synth_exact_txt = "exactly"; else synth_exact_txt = "at most"; end
+            if space_states_exact: space_exact_txt = "exactly"; else space_exact_txt = "at most"; end
+            errln("WARNING: Controlled system state space size mismatch:");
+            errln(" - Synthesis output: %s %s states (%s)", synth_exact_txt, synth_states_nr, test1_out_real);
+            errln(" - State space:      %s %s states (%s)", space_exact_txt, space_states_nr, rslt3_real);
+        end
+
+        nr_count = nr_count + 1;
+        if     nr_match:: nr_successes = nr_successes + 1;
+        if not nr_match:: nr_failures  = nr_failures  + 1;
+
+        // Remove result from synthesis.
+        if not rslt3_diff:: if exists(rslt3_real):: rmfile(rslt3_real);
+    end
+
+    // Remove result from synthesis.
+    if not stdout1_diff:: rmfile(test1_out_real);
+    if not rslt1_diff::   if exists(rslt1_real):: rmfile(rslt1_real);
+    if not rslt2_diff::   if exists(rslt2_real):: rmfile(rslt2_real);
+end
+
+// Get result message.
+string synth_rslt;
+string merge_rslt;
+string space_rslt;
+string nr_rslt;
+if synth_failures == 0: synth_rslt = "SUCCESS"; else synth_rslt = "FAILURE"; end
+if merge_failures == 0: merge_rslt = "SUCCESS"; else merge_rslt = "FAILURE"; end
+if space_failures == 0: space_rslt = "SUCCESS"; else space_rslt = "FAILURE"; end
+if nr_failures    == 0: nr_rslt    = "SUCCESS"; else nr_rslt    = "FAILURE"; end
+
+string synth_msg = fmt("Test %s (%s, actual synthesis):         %d tests, %d successes, %d failures, %d skipped.",
+                       synth_rslt, test_path, synth_count, synth_successes, synth_failures, synth_skipped);
+string merge_msg = fmt("Test %s (%s, ctrl system merging):      %d tests, %d successes, %d failures.",
+                       merge_rslt, test_path, merge_count, merge_successes, merge_failures);
+string space_msg = fmt("Test %s (%s, ctrl system state space):  %d tests, %d successes, %d failures, %d skipped.",
+                       space_rslt, test_path, space_count, space_successes, space_failures, space_skipped);
+string nr_msg    = fmt("Test %s (%s, state space size compare): %d tests, %d successes, %d failures.",
+                       nr_rslt, test_path, nr_count, nr_successes, nr_failures);
+
+// Output result message.
+if synth_failures == 0:
+    outln(synth_msg);
+else
+    errln(synth_msg);
+end
+
+if merge_failures == 0:
+    outln(merge_msg);
+else
+    errln(merge_msg);
+end
+
+if space_failures == 0:
+    outln(space_msg);
+else
+    errln(space_msg);
+end
+
+if nr_failures == 0:
+    outln(nr_msg);
+else
+    errln(nr_msg);
+end
+
+// Return number of failures as exit code. No failures means zero exit code,
+// any failures means non-zero exit code.
+exit synth_failures + merge_failures + space_failures + nr_failures;

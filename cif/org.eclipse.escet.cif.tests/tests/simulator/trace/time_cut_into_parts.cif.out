@@ -1,0 +1,57 @@
+Initial state: time=0.0, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000004 time units at time 0.0
+State: time=0.5000000000000004, a=*, a.t1=0.5000000000000004, a.t1'=1.0, a.t2=1.0000000000000009, a.t2'=2.0
+
+Transition: delaying for 0.4999999999999998 time units at time 0.5000000000000004
+State: time=1.0000000000000002, a=*, a.t1=1.0000000000000004, a.t1'=1.0, a.t2=2.000000000000001, a.t2'=2.0
+
+Transition: event e
+State: time=1.0000000000000002, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000002 time units at time 1.0000000000000002
+State: time=1.5000000000000004, a=*, a.t1=0.5000000000000002, a.t1'=1.0, a.t2=1.0000000000000004, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 1.5000000000000004
+State: time=2.0000000000000013, a=*, a.t1=1.0000000000000013, a.t1'=1.0, a.t2=2.0000000000000027, a.t2'=2.0
+
+Transition: event e
+State: time=2.0000000000000013, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 2.0000000000000013
+State: time=2.500000000000002, a=*, a.t1=0.5000000000000009, a.t1'=1.0, a.t2=1.0000000000000018, a.t2'=2.0
+
+Transition: delaying for 0.5 time units at time 2.500000000000002
+State: time=3.000000000000002, a=*, a.t1=1.0000000000000009, a.t1'=1.0, a.t2=2.0000000000000018, a.t2'=2.0
+
+Transition: event e
+State: time=3.000000000000002, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 3.000000000000002
+State: time=3.500000000000003, a=*, a.t1=0.5000000000000009, a.t1'=1.0, a.t2=1.0000000000000018, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000013 time units at time 3.500000000000003
+State: time=4.000000000000004, a=*, a.t1=1.0000000000000022, a.t1'=1.0, a.t2=2.0000000000000044, a.t2'=2.0
+
+Transition: event e
+State: time=4.000000000000004, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000009 time units at time 4.000000000000004
+State: time=4.500000000000005, a=*, a.t1=0.5000000000000013, a.t1'=1.0, a.t2=1.0000000000000027, a.t2'=2.0
+
+Transition: delaying for 0.4999999999999991 time units at time 4.500000000000005
+State: time=5.000000000000004, a=*, a.t1=1.0000000000000009, a.t1'=1.0, a.t2=2.0000000000000018, a.t2'=2.0
+
+Transition: event e
+State: time=5.000000000000004, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Transition: delaying for 0.5000000000000027 time units at time 5.000000000000004
+State: time=5.500000000000007, a=*, a.t1=0.5000000000000031, a.t1'=1.0, a.t2=1.0000000000000062, a.t2'=2.0
+
+Transition: delaying for 0.49999999999999645 time units at time 5.500000000000007
+State: time=6.0000000000000036, a=*, a.t1=1.0, a.t1'=1.0, a.t2=2.0, a.t2'=2.0
+
+Transition: event e
+State: time=6.0000000000000036, a=*, a.t1=0.0, a.t1'=1.0, a.t2=0.0, a.t2'=2.0
+
+Simulation resulted in deadlock.

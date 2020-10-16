@@ -1,0 +1,2 @@
+ERROR: Failed to compute projection for CIF file "event_based/projection/determinization4.cif".
+CAUSE: Event "z" not found in the alphabet.

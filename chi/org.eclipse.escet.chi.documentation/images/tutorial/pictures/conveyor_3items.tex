@@ -1,0 +1,39 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+{\ttfamily
+\begin{tikzpicture}[x=1ex,y=1ex,thin,>=triangle 45,auto]
+\path
+          node[circle,minimum size= 4ex,draw]    (G){}
+++ (60,0) node[circle,minimum size= 4ex,draw]    (H){};
+\draw (0,2) -- (60,2);
+\draw (0,-2) -- (60,-2);
+\draw (12.5,2) rectangle (17.5,7);
+\draw (27.5,2) rectangle (32.5,7);
+\draw (47.5,2) rectangle (52.5,7);
+\draw (50.0,5) node {0};
+\draw (30.0,5) node {1};
+\draw (15.0,5) node {2};
+\draw (15.0,2) -- (15.0,-12);
+\draw (30.0,2) -- (30.0,-8);
+\draw (50.0,2) -- (50.0,-4);
+\draw [help lines](60.0,0) -- (60.0,-2);
+\draw (60.0,-2) -- (60.0,-12);
+\draw [<->] (50.0,-4) -- (60.0,-4);
+\draw (55.0,-4) node [anchor = north] {10.0};
+\draw [<->] (30.0,-8) -- (60.0,-8);
+\draw (45.0,-8) node [anchor = north] {30.0};
+\draw [<->] (15.0,-12) -- (60.0,-12);
+\draw (35.0,-12) node [anchor = north] {45.0};
+\draw [->] (4,1) -- (10,1);
+\draw [->] (40,1) -- (46,1);
+\end{tikzpicture}
+}

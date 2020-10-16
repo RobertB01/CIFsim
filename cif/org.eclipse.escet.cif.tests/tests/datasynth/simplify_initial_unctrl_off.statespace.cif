@@ -1,0 +1,16 @@
+uncontrollable e;
+automaton statespace:
+  alphabet e;
+  location loc1:
+    initial;
+    marked;
+    edge e;
+  location loc2:
+    initial;
+    marked;
+    edge e;
+  location loc3:
+    initial;
+    marked;
+    edge e;
+end

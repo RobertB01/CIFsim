@@ -1,0 +1,1 @@
+Error: File "spec/expr/bad-file-read.chi": Semantic error at line 14, column 18: File type expected (found "int").

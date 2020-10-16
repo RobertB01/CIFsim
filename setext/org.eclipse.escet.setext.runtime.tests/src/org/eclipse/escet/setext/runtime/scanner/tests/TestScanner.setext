@@ -1,0 +1,29 @@
+// ------------------------------------------------------------------------------
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+// ------------------------------------------------------------------------------
+
+@scanner org.eclipse.escet.setext.runtime.scanner.tests.TestScanner;
+
+@hooks org.eclipse.escet.setext.runtime.scanner.tests.TestScannerHooks;
+
+@terminals:
+  TERM1 = "a*b" [descr1];
+  TERM2 = "a*bc" {changeCtoZ} [descr2];
+  "\n+";
+  "/\*" -> BLOCK_COMMENT;
+  @eof;
+end
+
+@terminals BLOCK_COMMENT:
+  "\*/" ->;
+  ".";
+  "\n";
+end

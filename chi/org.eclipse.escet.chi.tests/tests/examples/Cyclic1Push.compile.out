@@ -1,0 +1,3 @@
+Warning: File "examples/Cyclic1Push.chi": Semantic warning at line 35, column 22: Unused variable "k".
+Warning: File "examples/Cyclic1Push.chi": Semantic warning at line 35, column 25: Unused variable "N".
+Warning: File "examples/Cyclic1Push.chi": Semantic warning at line 40, column 17: Unused variable "cs2".

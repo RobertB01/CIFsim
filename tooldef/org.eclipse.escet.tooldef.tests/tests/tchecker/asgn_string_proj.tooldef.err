@@ -1,0 +1,6 @@
+ERROR: File "tchecker/asgn_string_proj.tooldef": Semantic error at line 18, column 16: Cannot assign a part of variable "s", as partial updates of "string" typed variables are not supported.
+ERROR: File "tchecker/asgn_string_proj.tooldef": Semantic error at line 19, column 19: Cannot assign a part of variable "ls", as partial updates of "string" typed variables are not supported.
+ERROR: File "tchecker/asgn_string_proj.tooldef": Semantic error at line 20, column 22: Cannot assign a part of variable "lls", as partial updates of "string" typed variables are not supported.
+ERROR: File "tchecker/asgn_string_proj.tooldef": Semantic error at line 20, column 25: Cannot assign a part of variable "lls", as partial updates of "string" typed variables are not supported.
+ERROR: File "tchecker/asgn_string_proj.tooldef": Semantic error at line 20, column 28: Cannot assign a part of variable "lls", as partial updates of "string" typed variables are not supported.
+ERROR: Failed to load ToolDef file "tchecker/asgn_string_proj.tooldef": the file has errors.

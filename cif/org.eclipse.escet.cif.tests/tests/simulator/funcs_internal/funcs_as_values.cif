@@ -1,0 +1,59 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int f1():
+  return 246;
+end
+
+func int f2():
+  func int() x = f1;
+  return x();
+end
+
+automaton p:
+  disc int y = x();
+  disc func int() x = f2;
+
+  invariant y = 246;
+
+  location:
+    initial;
+    urgent;
+end
+
+///
+
+func real g1():
+  return 1.0;
+end
+
+func real g2():
+  return 2.0;
+end
+
+automaton q:
+  disc func real() g;
+  disc real v = 9.0;
+
+  location l1:
+    initial;
+    edge do v := g(), g := g1 goto l2;
+
+  location l2:
+    edge do v := g(), g := g2 goto l3;
+
+  location l3:
+    edge do v := g() goto l4;
+
+  location l4;
+end

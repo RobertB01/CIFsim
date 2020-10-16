@@ -1,0 +1,36 @@
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 15, column 15: Duplicate print declaration "for" filter: "event".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 15, column 22: Duplicate print declaration "for" filter: "event".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 16, column 15: Duplicate print declaration "for" filter: "time".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 16, column 21: Duplicate print declaration "for" filter: "time".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 17, column 15: Duplicate print declaration "for" filter: "time".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 17, column 21: Duplicate print declaration "for" filter: "time".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 17, column 27: Duplicate print declaration "for" filter: "time".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 18, column 15: Duplicate print declaration "for" filter: "initial".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 18, column 24: Duplicate print declaration "for" filter: "initial".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 19, column 15: Duplicate print declaration "for" filter: "final".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 19, column 22: Duplicate print declaration "for" filter: "final".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 20, column 15: Duplicate print declaration "for" filter: "initial".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 20, column 24: Duplicate print declaration "for" filter: "final".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 20, column 31: Duplicate print declaration "for" filter: "final".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 20, column 38: Duplicate print declaration "for" filter: "initial".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 21, column 15: Duplicate print declaration "for" filter: "initial".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 21, column 24: Duplicate print declaration "for" filter: "final".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 21, column 37: Duplicate print declaration "for" filter: "final".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 21, column 44: Duplicate print declaration "for" filter: "initial".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 25, column 15: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 25, column 18: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 26, column 15: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 26, column 18: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 26, column 21: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 27, column 15: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 27, column 18: Duplicate print declaration "for" filter: event "f".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 27, column 21: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 27, column 24: Duplicate print declaration "for" filter: event "f".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 30, column 22: Duplicate print declaration "for" filter: "event" (all events) and "e" (specific event).
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 31, column 15: Duplicate print declaration "for" filter: "event" (all events) and "e" (specific event).
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 31, column 25: Duplicate print declaration "for" filter: "event" (all events) and "f" (specific event).
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 32, column 22: Duplicate print declaration "for" filter: "event" (all events) and "e" (specific event).
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 32, column 22: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 32, column 25: Duplicate print declaration "for" filter: "event" (all events) and "e" (specific event).
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 32, column 25: Duplicate print declaration "for" filter: event "e".
+WARNING: File "tchecker/print_dupl_for.cif": Semantic warning at line 32, column 28: Duplicate print declaration "for" filter: "event" (all events) and "f" (specific event).

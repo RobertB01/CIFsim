@@ -1,0 +1,12 @@
+func real f(): "java:a.b|ext_func_importing.cif";
+plant automaton p:
+  disc list real l = [f(), g2.f()];
+  initial size(l) > 0;
+  location:
+    initial;
+    urgent;
+end
+group g2:
+  func real f(): "java:c.d|subdir";
+  initial f() > 0;
+end

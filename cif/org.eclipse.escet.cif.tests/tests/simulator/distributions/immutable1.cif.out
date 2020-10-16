@@ -1,0 +1,18 @@
+Initial state: time=0.0, p=l1, p.a=[], p.b=[], p.d1=random(), p.d2=random()
+
+Transition: event tau
+State: time=0.0, p=l2, p.a=[0.29921108692873366], p.b=[0.6432364967213056], p.d1=random(), p.d2=random()
+
+Transition: event tau
+State: time=0.0, p=l3, p.a=[0.29921108692873366, 0.29921108692873366], p.b=[0.6432364967213056, 0.6432364967213056], p.d1=random(), p.d2=random()
+
+Transition: event tau
+State: time=0.0, p=l4, p.a=[0.29921108692873366, 0.29921108692873366], p.b=[0.6432364967213056, 0.6432364967213056], p.d1=random(), p.d2=random()
+
+Transition: event tau
+State: time=0.0, p=l5, p.a=[0.29921108692873366, 0.29921108692873366, 0.9690650734994797], p.b=[0.6432364967213056, 0.6432364967213056, 0.839763418269512], p.d1=random(), p.d2=random()
+
+Transition: event tau
+State: time=0.0, p=l6, p.a=[0.29921108692873366, 0.29921108692873366, 0.9690650734994797, 0.9690650734994797], p.b=[0.6432364967213056, 0.6432364967213056, 0.839763418269512, 0.839763418269512], p.d1=random(), p.d2=random()
+
+Simulation resulted in deadlock.

@@ -1,0 +1,83 @@
+controllable b;
+controllable e;
+controllable f;
+controllable g;
+controllable h;
+automaton statespace:
+  alphabet e, f, g, h, b;
+  location loc1:
+    initial;
+    edge e goto loc2;
+    edge h;
+  location loc2:
+    edge e goto loc3;
+    edge h;
+  location loc3:
+    edge e goto loc4;
+    edge h;
+  location loc4:
+    edge e goto loc5;
+    edge h;
+  location loc5:
+    edge h;
+    edge b goto loc6;
+  location loc6:
+    marked;
+    edge e goto loc7;
+  location loc7:
+    marked;
+    edge e goto loc8;
+  location loc8:
+    marked;
+    edge e goto loc9;
+  location loc9:
+    marked;
+    edge e goto loc10;
+  location loc10:
+    marked;
+    edge e goto loc11;
+  location loc11:
+    marked;
+    edge e goto loc12;
+    edge f;
+  location loc12:
+    marked;
+    edge e goto loc13;
+    edge f;
+    edge g;
+  location loc13:
+    marked;
+    edge e goto loc14;
+    edge f;
+    edge g;
+    edge h;
+  location loc14:
+    marked;
+    edge e goto loc15;
+    edge f;
+    edge g;
+    edge h;
+  location loc15:
+    marked;
+    edge e goto loc16;
+    edge f;
+    edge g;
+  location loc16:
+    marked;
+    edge e goto loc17;
+    edge f;
+  location loc17:
+    marked;
+    edge e goto loc18;
+  location loc18:
+    marked;
+    edge e goto loc19;
+  location loc19:
+    marked;
+    edge e goto loc20;
+  location loc20:
+    marked;
+    edge e goto loc21;
+  location loc21:
+    marked;
+end

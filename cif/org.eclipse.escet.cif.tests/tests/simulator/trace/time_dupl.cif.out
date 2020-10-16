@@ -1,0 +1,39 @@
+Initial state: time=0.0, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0 time units at time 0.0
+State: time=1.0, a=*, a.t=1.0000000000000002, a.t'=1.0
+
+Transition: event e
+State: time=1.0, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0000000000000009 time units at time 1.0
+State: time=2.000000000000001, a=*, a.t=1.000000000000001, a.t'=1.0
+
+Transition: event e
+State: time=2.000000000000001, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0 time units at time 2.000000000000001
+State: time=3.000000000000001, a=*, a.t=1.0000000000000002, a.t'=1.0
+
+Transition: event e
+State: time=3.000000000000001, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0000000000000009 time units at time 3.000000000000001
+State: time=4.000000000000002, a=*, a.t=1.0000000000000016, a.t'=1.0
+
+Transition: event e
+State: time=4.000000000000002, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0000000000000018 time units at time 4.000000000000002
+State: time=5.0000000000000036, a=*, a.t=1.0000000000000024, a.t'=1.0
+
+Transition: event e
+State: time=5.0000000000000036, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0000000000000036 time units at time 5.0000000000000036
+State: time=6.000000000000007, a=*, a.t=1.0000000000000042, a.t'=1.0
+
+Transition: event e
+State: time=6.000000000000007, a=*, a.t=0.0, a.t'=1.0
+
+Simulation resulted in deadlock.

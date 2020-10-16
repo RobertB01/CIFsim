@@ -1,0 +1,24 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    int a=1;
+    tuple (int x; int y) t=(5, 8);
+
+    write("%s %s\n", a, t);
+    t.x = a;
+    write("%s %s\n", a, t);
+    a = t.y;
+    write("%s %s\n", a, t);
+    t.x = t.x + 1;
+    write("%s %s\n", a, t);
+end

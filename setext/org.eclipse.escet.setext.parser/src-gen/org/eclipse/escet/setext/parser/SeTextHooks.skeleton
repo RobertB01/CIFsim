@@ -1,0 +1,454 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+package org.eclipse.escet.setext.parser;
+
+import java.util.List;
+
+import org.eclipse.escet.setext.parser.ast.Decl;
+import org.eclipse.escet.setext.parser.ast.HooksDecl;
+import org.eclipse.escet.setext.parser.ast.Identifier;
+import org.eclipse.escet.setext.parser.ast.Name;
+import org.eclipse.escet.setext.parser.ast.Specification;
+import org.eclipse.escet.setext.parser.ast.Symbol;
+import org.eclipse.escet.setext.parser.ast.TerminalDescription;
+import org.eclipse.escet.setext.parser.ast.parser.ImportDecl;
+import org.eclipse.escet.setext.parser.ast.parser.JavaType;
+import org.eclipse.escet.setext.parser.ast.parser.NonTerminal;
+import org.eclipse.escet.setext.parser.ast.parser.ParserRule;
+import org.eclipse.escet.setext.parser.ast.parser.StartSymbol;
+import org.eclipse.escet.setext.parser.ast.regex.RegEx;
+import org.eclipse.escet.setext.parser.ast.regex.RegExChar;
+import org.eclipse.escet.setext.parser.ast.regex.RegExChars;
+import org.eclipse.escet.setext.parser.ast.scanner.KeywordsIdentifier;
+import org.eclipse.escet.setext.parser.ast.scanner.KeywordsTerminal;
+import org.eclipse.escet.setext.parser.ast.scanner.ScannerDecl;
+import org.eclipse.escet.setext.parser.ast.scanner.ShortcutDecl;
+import org.eclipse.escet.setext.parser.ast.scanner.Terminal;
+import org.eclipse.escet.setext.parser.ast.scanner.TerminalsDecl;
+import org.eclipse.escet.setext.runtime.Parser;
+import org.eclipse.escet.setext.runtime.Token;
+
+/**
+ * Call back hook methods for:
+ * <ul>
+ *  <li>{@link SeTextScanner}</li>
+ *  <li>{@link SeTextParser}</li>
+ * </ul>
+ */
+public final class SeTextHooks
+implements SeTextScanner.Hooks,
+           SeTextParser.Hooks
+{
+    @Override
+    public void setParser(Parser<?> parser) {
+    }
+
+    @Override
+    public void scanRegExEscapedChar(Token token) {
+    }
+
+    @Override
+    public void scanRegExShortcutName(Token token) {
+    }
+
+    @Override // Specification : ;
+    public Specification parseSpecification1() {
+        // return null;
+    }
+
+    @Override // Specification : Decls;
+    public Specification parseSpecification2(List<Decl> l1) {
+        // return null;
+    }
+
+    @Override // Decls : Decl;
+    public List<Decl> parseDecls1(Decl d1) {
+        // return null;
+    }
+
+    @Override // Decls : Decls Decl;
+    public List<Decl> parseDecls2(List<Decl> l1, Decl d2) {
+        // return null;
+    }
+
+    @Override // Decl : TerminalsDecl;
+    public Decl parseDecl1(TerminalsDecl t1) {
+        // return null;
+    }
+
+    @Override // Decl : ShortcutDecl;
+    public Decl parseDecl2(ShortcutDecl s1) {
+        // return null;
+    }
+
+    @Override // Decl : MainDecl;
+    public Decl parseDecl3(StartSymbol s1) {
+        // return null;
+    }
+
+    @Override // Decl : StartDecl;
+    public Decl parseDecl4(StartSymbol s1) {
+        // return null;
+    }
+
+    @Override // Decl : HooksDecl;
+    public Decl parseDecl5(HooksDecl h1) {
+        // return null;
+    }
+
+    @Override // Decl : ScannerDecl;
+    public Decl parseDecl6(ScannerDecl s1) {
+        // return null;
+    }
+
+    @Override // Decl : ImportDecl;
+    public Decl parseDecl7(ImportDecl i1) {
+        // return null;
+    }
+
+    @Override // Decl : RuleDecl;
+    public Decl parseDecl8(NonTerminal n1) {
+        // return null;
+    }
+
+    @Override // TerminalsDecl : @ATTK @TERMINALSKW OptIdentifier COLONTK Terminals @ENDKW;
+    public TerminalsDecl parseTerminalsDecl1(Token t1, Token t2, Identifier i3, List<Symbol> l5, Token t6) {
+        // return null;
+    }
+
+    @Override // Terminals : Terminal;
+    public List<Symbol> parseTerminals1(Symbol s1) {
+        // return null;
+    }
+
+    @Override // Terminals : Terminals Terminal;
+    public List<Symbol> parseTerminals2(List<Symbol> l1, Symbol s2) {
+        // return null;
+    }
+
+    @Override // Terminal : KeywordsTerminal;
+    public Symbol parseTerminal1(KeywordsTerminal k1) {
+        // return null;
+    }
+
+    @Override // Terminal : RegExTerminal;
+    public Symbol parseTerminal2(Terminal t1) {
+        // return null;
+    }
+
+    @Override // Terminal : ATTK @EOFKW SEMICOLTK;
+    public Symbol parseTerminal3(Token t2) {
+        // return null;
+    }
+
+    @Override // KeywordsTerminal : @ATTK KEYWORDSKW Identifier EQTK KeywordsIdentifiers @SEMICOLTK;
+    public KeywordsTerminal parseKeywordsTerminal1(Token t1, Identifier i3, List<KeywordsIdentifier> l5, Token t6) {
+        // return null;
+    }
+
+    @Override // KeywordsIdentifiers : Identifier OptFunc OptTermDescr;
+    public List<KeywordsIdentifier> parseKeywordsIdentifiers1(Identifier i1, Identifier i2, TerminalDescription t3) {
+        // return null;
+    }
+
+    @Override // KeywordsIdentifiers : KeywordsIdentifiers Identifier OptFunc OptTermDescr;
+    public List<KeywordsIdentifier> parseKeywordsIdentifiers2(List<KeywordsIdentifier> l1, Identifier i2, Identifier i3, TerminalDescription t4) {
+        // return null;
+    }
+
+    @Override // RegExTerminal : OptRegExId RegExString OptFunc OptNewState OptTermDescr SEMICOLTK;
+    public Terminal parseRegExTerminal1(Identifier i1, RegEx r2, Identifier i3, Identifier i4, TerminalDescription t5) {
+        // return null;
+    }
+
+    @Override // OptRegExId : ;
+    public Identifier parseOptRegExId1() {
+        // return null;
+    }
+
+    @Override // OptRegExId : Identifier EQTK;
+    public Identifier parseOptRegExId2(Identifier i1) {
+        // return null;
+    }
+
+    @Override // Identifier : @IDENTIFIERTK;
+    public Identifier parseIdentifier1(Token t1) {
+        // return null;
+    }
+
+    @Override // OptTermDescr : ;
+    public TerminalDescription parseOptTermDescr1() {
+        // return null;
+    }
+
+    @Override // OptTermDescr : @DESCRIPTIONTK;
+    public TerminalDescription parseOptTermDescr2(Token t1) {
+        // return null;
+    }
+
+    @Override // OptFunc : ;
+    public Identifier parseOptFunc1() {
+        // return null;
+    }
+
+    @Override // OptFunc : CUROPENTK Identifier CURCLOSETK;
+    public Identifier parseOptFunc2(Identifier i2) {
+        // return null;
+    }
+
+    @Override // OptNewState : ;
+    public Identifier parseOptNewState1() {
+        // return null;
+    }
+
+    @Override // OptNewState : @ARROWTK;
+    public Identifier parseOptNewState2(Token t1) {
+        // return null;
+    }
+
+    @Override // OptNewState : ARROWTK Identifier;
+    public Identifier parseOptNewState3(Identifier i2) {
+        // return null;
+    }
+
+    @Override // ShortcutDecl : ATTK SHORTCUTKW Identifier EQTK RegExString SEMICOLTK;
+    public ShortcutDecl parseShortcutDecl1(Identifier i3, RegEx r5) {
+        // return null;
+    }
+
+    @Override // MainDecl : ATTK MAINKW Identifier COLONTK JavaType SEMICOLTK;
+    public StartSymbol parseMainDecl1(Identifier i3, JavaType j5) {
+        // return null;
+    }
+
+    @Override // StartDecl : ATTK STARTKW Identifier COLONTK JavaType SEMICOLTK;
+    public StartSymbol parseStartDecl1(Identifier i3, JavaType j5) {
+        // return null;
+    }
+
+    @Override // HooksDecl : ATTK HOOKSKW JavaType SEMICOLTK;
+    public HooksDecl parseHooksDecl1(JavaType j3) {
+        // return null;
+    }
+
+    @Override // ScannerDecl : ATTK SCANNERKW JavaType SEMICOLTK;
+    public ScannerDecl parseScannerDecl1(JavaType j3) {
+        // return null;
+    }
+
+    @Override // ImportDecl : ATTK IMPORTKW JavaType SEMICOLTK;
+    public ImportDecl parseImportDecl1(JavaType j3) {
+        // return null;
+    }
+
+    @Override // ImportDecl : ATTK IMPORTKW JavaType ASKW Identifier SEMICOLTK;
+    public ImportDecl parseImportDecl2(JavaType j3, Identifier i5) {
+        // return null;
+    }
+
+    @Override // RuleDecl : CUROPENTK JavaType CURCLOSETK Identifier COLONTK RuleAlts @SEMICOLTK;
+    public NonTerminal parseRuleDecl1(JavaType j2, Identifier i4, List<ParserRule> l6, Token t7) {
+        // return null;
+    }
+
+    @Override // RuleAlts : ;
+    public List<ParserRule> parseRuleAlts1() {
+        // return null;
+    }
+
+    @Override // RuleAlts : RuleAlt;
+    public List<ParserRule> parseRuleAlts2(ParserRule p1) {
+        // return null;
+    }
+
+    @Override // RuleAlts : RuleAlts BARTK RuleAlt;
+    public List<ParserRule> parseRuleAlts3(List<ParserRule> l1, ParserRule p3) {
+        // return null;
+    }
+
+    @Override // RuleAlt : Identifier;
+    public ParserRule parseRuleAlt1(Identifier i1) {
+        // return null;
+    }
+
+    @Override // RuleAlt : ATTK Identifier;
+    public ParserRule parseRuleAlt2(Identifier i2) {
+        // return null;
+    }
+
+    @Override // RuleAlt : RuleAlt Identifier;
+    public ParserRule parseRuleAlt3(ParserRule p1, Identifier i2) {
+        // return null;
+    }
+
+    @Override // RuleAlt : RuleAlt ATTK Identifier;
+    public ParserRule parseRuleAlt4(ParserRule p1, Identifier i3) {
+        // return null;
+    }
+
+    @Override // JavaTypes : JavaType;
+    public List<JavaType> parseJavaTypes1(JavaType j1) {
+        // return null;
+    }
+
+    @Override // JavaTypes : JavaTypes COMMATK JavaType;
+    public List<JavaType> parseJavaTypes2(List<JavaType> l1, JavaType j3) {
+        // return null;
+    }
+
+    @Override // JavaType : Identifier;
+    public JavaType parseJavaType1(Identifier i1) {
+        // return null;
+    }
+
+    @Override // JavaType : Identifier LTTK JavaTypes GTTK;
+    public JavaType parseJavaType2(Identifier i1, List<JavaType> l3) {
+        // return null;
+    }
+
+    @Override // JavaType : Name;
+    public JavaType parseJavaType3(Name n1) {
+        // return null;
+    }
+
+    @Override // JavaType : Name LTTK JavaTypes GTTK;
+    public JavaType parseJavaType4(Name n1, List<JavaType> l3) {
+        // return null;
+    }
+
+    @Override // Name : @NAMETK;
+    public Name parseName1(Token t1) {
+        // return null;
+    }
+
+    @Override // OptIdentifier : ;
+    public Identifier parseOptIdentifier1() {
+        // return null;
+    }
+
+    @Override // OptIdentifier : Identifier;
+    public Identifier parseOptIdentifier2(Identifier i1) {
+        // return null;
+    }
+
+    @Override // RegExString : @REGEXSTARTTK RegEx @REGEXENDTK;
+    public RegEx parseRegExString1(Token t1, RegEx r2, Token t3) {
+        // return null;
+    }
+
+    @Override // RegEx : RegExBranch;
+    public RegEx parseRegEx1(RegEx r1) {
+        // return null;
+    }
+
+    @Override // RegEx : RegEx REGEXBARTK RegExBranch;
+    public RegEx parseRegEx2(RegEx r1, RegEx r3) {
+        // return null;
+    }
+
+    @Override // RegExBranch : RegExPiece;
+    public RegEx parseRegExBranch1(RegEx r1) {
+        // return null;
+    }
+
+    @Override // RegExBranch : RegExBranch RegExPiece;
+    public RegEx parseRegExBranch2(RegEx r1, RegEx r2) {
+        // return null;
+    }
+
+    @Override // RegExPiece : RegExAtom;
+    public RegEx parseRegExPiece1(RegEx r1) {
+        // return null;
+    }
+
+    @Override // RegExPiece : RegExPiece @ASTERISKTK;
+    public RegEx parseRegExPiece2(RegEx r1, Token t2) {
+        // return null;
+    }
+
+    @Override // RegExPiece : RegExPiece @PLUSTK;
+    public RegEx parseRegExPiece3(RegEx r1, Token t2) {
+        // return null;
+    }
+
+    @Override // RegExPiece : RegExPiece @QUESTIONTK;
+    public RegEx parseRegExPiece4(RegEx r1, Token t2) {
+        // return null;
+    }
+
+    @Override // RegExAtom : PAROPENTK RegEx PARCLOSETK;
+    public RegEx parseRegExAtom1(RegEx r2) {
+        // return null;
+    }
+
+    @Override // RegExAtom : @REGEXSHORTCUTTK;
+    public RegEx parseRegExAtom2(Token t1) {
+        // return null;
+    }
+
+    @Override // RegExAtom : RegExCharClass;
+    public RegEx parseRegExAtom3(RegEx r1) {
+        // return null;
+    }
+
+    @Override // RegExAtom : RegExChar;
+    public RegEx parseRegExAtom4(RegExChar r1) {
+        // return null;
+    }
+
+    @Override // RegExAtom : @DOTTK;
+    public RegEx parseRegExAtom5(Token t1) {
+        // return null;
+    }
+
+    @Override // RegExCharClass : @SQOPENTK RegExCharsList SQCLOSETK;
+    public RegEx parseRegExCharClass1(Token t1, List<RegExChars> l2) {
+        // return null;
+    }
+
+    @Override // RegExCharClass : @SQOPENTK CARETTK RegExCharsList SQCLOSETK;
+    public RegEx parseRegExCharClass2(Token t1, List<RegExChars> l3) {
+        // return null;
+    }
+
+    @Override // RegExCharsList : RegExChars;
+    public List<RegExChars> parseRegExCharsList1(RegExChars r1) {
+        // return null;
+    }
+
+    @Override // RegExCharsList : RegExCharsList RegExChars;
+    public List<RegExChars> parseRegExCharsList2(List<RegExChars> l1, RegExChars r2) {
+        // return null;
+    }
+
+    @Override // RegExChars : RegExChar;
+    public RegExChars parseRegExChars1(RegExChar r1) {
+        // return null;
+    }
+
+    @Override // RegExChars : RegExChar @DASHTK RegExChar;
+    public RegExChars parseRegExChars2(RegExChar r1, Token t2, RegExChar r3) {
+        // return null;
+    }
+
+    @Override // RegExChar : @REGEXCHARTK;
+    public RegExChar parseRegExChar1(Token t1) {
+        // return null;
+    }
+
+    @Override // RegExChar : @REGEXESCTK;
+    public RegExChar parseRegExChar2(Token t1) {
+        // return null;
+    }
+}

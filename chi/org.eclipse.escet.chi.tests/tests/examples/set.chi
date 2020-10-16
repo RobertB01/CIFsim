@@ -1,0 +1,26 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+   set int xr = {0,1,2,3}, yr; int N, x;
+   N = size(xr);
+   for i in range(N):
+      xr = xr - {i};
+      write("%d\t", i)
+   end;
+   xr = {0,1,2,3,4}; N = size(xr);
+   for i in range(N):
+      pass;
+      x, yr = pop(xr);
+      write("%d\t", x)
+   end
+end

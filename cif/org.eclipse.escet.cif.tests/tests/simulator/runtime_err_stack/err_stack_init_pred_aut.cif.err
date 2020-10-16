@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=*.
+CAUSE: Evaluation of initialization predicate "1 / 0 > 0" of automaton "p" failed.
+CAUSE: Division by zero: 1.0 / 0.0.

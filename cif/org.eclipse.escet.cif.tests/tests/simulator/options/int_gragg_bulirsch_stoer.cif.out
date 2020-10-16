@@ -1,0 +1,6 @@
+Initial state: time=0.0, x=0.0, x'=1.0
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, x=15.000003766424644, x'=2.0
+
+Simulation ended due to reaching the user-provided simulation end time.

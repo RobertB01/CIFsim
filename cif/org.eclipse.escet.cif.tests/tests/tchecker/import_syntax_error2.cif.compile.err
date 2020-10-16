@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_syntax_error2.cif": Semantic error at line 14, column 8: File "import_syntax_error1.cif": Imported CIF specification "syntax_error_scan.cif" has a syntax error.
+ERROR: Failed to load CIF file "tchecker/import_syntax_error2.cif": the file has errors.

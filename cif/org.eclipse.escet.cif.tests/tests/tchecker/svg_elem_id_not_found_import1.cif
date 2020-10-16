@@ -1,0 +1,20 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "subdir/svg_elem_id_not_found_import2.cif";
+
+svgout id "does_not_exist1" attr "x" value 1;
+
+event e;
+
+svgin id "does_not_exist2" event e;

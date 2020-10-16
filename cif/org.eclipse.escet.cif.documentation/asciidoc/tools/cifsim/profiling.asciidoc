@@ -1,0 +1,41 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-profiling]]
+== Profiling
+
+indexterm:[CIF simulator,profiling]
+indexterm:[profiling]
+indexterm:[see: profiling,CIF simulator]
+The CIF simulator has a
+menu:Profiling[]
+option (menu:Simulator[]
+category). If the option is enabled, information about the number of
+transitions taken per second, is printed to the console. Enabling profiling
+disables most other types of console
+<<tools-cifsim-output-chapter-index,output>>. By default, profiling is disabled.
+
+The profiling output looks somewhat like this:
+
+
+[source, console]
+----
+750431.42 transitions/second
+640589.87 transitions/second
+890939.01 transitions/second
+887228.57 transitions/second
+890143.25 transitions/second
+893674.44 transitions/second
+891812.69 transitions/second
+----

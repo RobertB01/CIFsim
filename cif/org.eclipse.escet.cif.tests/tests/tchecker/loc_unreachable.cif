@@ -1,0 +1,71 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p1:
+  location;
+end
+
+automaton def p2():
+  location l1:
+    initial;
+  location l2;
+end
+
+automaton p3:
+  location l1:
+    initial;
+    edge when true goto l2;
+  location l2:
+    edge when true goto l3;
+  location l3;
+
+  location l4;
+
+  location l5:
+    initial;
+    edge when true goto l6;
+  location l6:
+    edge when true goto l7;
+    edge when true goto l8;
+  location l7;
+  location l8;
+
+  location l9:
+    initial false;
+
+  location l10:
+    initial true, false, true;
+
+  location l11;
+end
+
+group g:
+  automaton p4:
+    disc bool v; // initial value is 'false'
+    location l1:
+      initial;
+    location l2:
+      initial v; // not initial, but discrete variables are ignored, to avoid
+                 // evaluating cycles
+    location l3: // 'false' before a discrete variable
+      initial false, v;
+    location l4:
+      initial true, v;
+  end
+end
+
+automaton p4:
+  location l1:
+    initial l2;
+  location l2;
+end

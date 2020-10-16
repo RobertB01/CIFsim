@@ -1,0 +1,26 @@
+controllable a;
+controllable b;
+controllable p;
+controllable c;
+controllable q;
+automaton product:
+  alphabet a, b, p, c, q;
+  location s1:
+    initial;
+    edge a goto s2;
+  location s2:
+    edge p goto s3;
+  location s3:
+    edge q goto s4;
+  location s4:
+    edge b goto s5;
+  location s5:
+    edge q goto s6;
+    edge c goto s7;
+  location s6:
+    edge c goto s8;
+  location s7:
+    edge q goto s8;
+  location s8:
+    marked;
+end

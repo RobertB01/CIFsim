@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  automaton a:
+    location:
+      initial;
+  end
+end
+
+print fmt("%b", g);
+print fmt("%B", g);
+print fmt("%d", g);
+print fmt("%x", g);
+print fmt("%X", g);
+print fmt("%e", g);
+print fmt("%E", g);
+print fmt("%f", g);
+print fmt("%g", g);
+print fmt("%G", g);
+print fmt("%s", g);
+print fmt("%S", g);
+
+print fmt("%b", g.a);
+print fmt("%B", g.a);
+print fmt("%d", g.a);
+print fmt("%x", g.a);
+print fmt("%X", g.a);
+print fmt("%e", g.a);
+print fmt("%E", g.a);
+print fmt("%f", g.a);
+print fmt("%g", g.a);
+print fmt("%G", g.a);
+print fmt("%s", g.a);
+print fmt("%S", g.a);

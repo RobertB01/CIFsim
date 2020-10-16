@@ -1,0 +1,7 @@
+ERROR: File "tchecker/resolve_not_found.tooldef": Semantic error at line 17, column 5: Could not find a declaration with name "t" in tool "a" or at a higher level.
+ERROR: File "tchecker/resolve_not_found.tooldef": Semantic error at line 21, column 5: Could not find a declaration with name "t" in while statement or at a higher level.
+ERROR: File "tchecker/resolve_not_found.tooldef": Semantic error at line 27, column 5: Could not find a declaration with name "t" in imported script "i".
+ERROR: File "tchecker/resolve_not_found.tooldef": Semantic error at line 33, column 13: Could not find a declaration with name "v" in tool "b".
+ERROR: File "tchecker/resolve_not_found.tooldef": Semantic error at line 39, column 13: Could not find a declaration with name "x" in imported script "imp".
+ERROR: File "tchecker/resolve_not_found.tooldef": Semantic error at line 44, column 1: Could not find a declaration with name "t" in the top level scope of the script.
+ERROR: Failed to load ToolDef file "tchecker/resolve_not_found.tooldef": the file has errors.

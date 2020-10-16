@@ -1,0 +1,81 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton aut:
+  disc bool v01 in any;
+  disc bool v02 in any;
+  disc bool v03 in any;
+  disc bool v04 in any;
+  disc bool v05 in any;
+  disc bool v06 in any;
+  disc bool v07 in any;
+  disc bool v08 in any;
+  disc bool v09 in any;
+  disc bool v10 in any;
+  disc bool v11 in any;
+  disc bool v12 in any;
+  disc bool v13 in any;
+  disc bool v14 in any;
+  disc bool v15 in any;
+  disc bool v16 in any;
+  disc bool v17 in any;
+  disc bool v18 in any;
+  disc bool v19 in any;
+  disc bool v20 in any;
+  disc bool v21 in any;
+  disc bool v22 in any;
+  disc bool v23 in any;
+  disc bool v24 in any;
+  disc bool v25 in any;
+  disc bool v26 in any;
+  disc bool v27 in any;
+  disc bool v28 in any;
+  disc bool v29 in any;
+  disc bool v30 in any;
+  disc bool v31 in any;
+
+  invariant v01 or not v01;
+  invariant v02 or not v02;
+  invariant v03 or not v03;
+  invariant v04 or not v04;
+  invariant v05 or not v05;
+  invariant v06 or not v06;
+  invariant v07 or not v07;
+  invariant v08 or not v08;
+  invariant v09 or not v09;
+  invariant v10 or not v10;
+  invariant v11 or not v11;
+  invariant v12 or not v12;
+  invariant v13 or not v13;
+  invariant v14 or not v14;
+  invariant v15 or not v15;
+  invariant v16 or not v16;
+  invariant v17 or not v17;
+  invariant v18 or not v18;
+  invariant v19 or not v19;
+  invariant v20 or not v20;
+  invariant v21 or not v21;
+  invariant v22 or not v22;
+  invariant v23 or not v23;
+  invariant v24 or not v24;
+  invariant v25 or not v25;
+  invariant v26 or not v26;
+  invariant v27 or not v27;
+  invariant v28 or not v28;
+  invariant v29 or not v29;
+  invariant v30 or not v30;
+  invariant v31 or not v31;
+
+  location:
+    initial;
+end

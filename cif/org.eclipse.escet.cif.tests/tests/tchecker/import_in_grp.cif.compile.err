@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_in_grp.cif": Semantic error at line 15, column 3: Invalid import: imports in groups are not allowed.
+ERROR: Failed to load CIF file "tchecker/import_in_grp.cif": the file has errors.

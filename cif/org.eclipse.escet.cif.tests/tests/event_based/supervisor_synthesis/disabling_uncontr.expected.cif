@@ -1,0 +1,11 @@
+controllable c;
+controllable d;
+uncontrollable u;
+supervisor automaton sup:
+  alphabet c, d, u;
+  location s1:
+    initial;
+    edge c goto s2;
+  location s2:
+    marked;
+end

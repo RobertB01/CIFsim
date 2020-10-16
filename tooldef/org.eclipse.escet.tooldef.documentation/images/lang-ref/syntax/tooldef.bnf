@@ -1,0 +1,328 @@
+Script : /* empty */
+       | Decls
+       ;
+
+Decls : Decl
+      | Decls Decl
+      ;
+
+Decl : Import
+     | "type" TypeDecls ";"
+     | "tool" IDENTIFIERTK OptTypeParams ToolParameters ":" OptStatements "end"
+     | "tool" Types IDENTIFIERTK OptTypeParams ToolParameters ":" OptStatements "end"
+     | Statement
+     ;
+
+Import : "import" STRINGTK ";"
+       | "import" STRINGTK "as" IDENTIFIERTK ";"
+       | "import" Name ";"
+       | "import" Name "as" IDENTIFIERTK ";"
+       | "import" Name ":" Name ";"
+       | "import" Name ":" Name "as" IDENTIFIERTK ";"
+       | "from" STRINGTK "import" ImportParts ";"
+       ;
+
+ImportParts : "*"
+            | IDENTIFIERTK
+            | IDENTIFIERTK "as" IDENTIFIERTK
+            | ImportParts "," "*"
+            | ImportParts "," IDENTIFIERTK
+            | ImportParts "," IDENTIFIERTK "as" IDENTIFIERTK
+            ;
+
+TypeDecls : TypeDecl
+          | TypeDecls "," TypeDecl
+          ;
+
+TypeDecl : IDENTIFIERTK "=" Type
+         ;
+
+OptTypeParams : /* empty */
+              | "<" Names ">"
+              ;
+
+ToolParameters : "(" ")"
+               | "(" ToolParams ")"
+               ;
+
+ToolParams : Type ToolParam
+           | Type "..." ToolParam
+           | ToolParams "," Type ToolParam
+           | ToolParams "," Type "..." ToolParam
+           ;
+
+ToolParam : IDENTIFIERTK
+          | IDENTIFIERTK "=" Expression
+          ;
+
+OptStatements : /* empty */
+              | OptStatements Statement
+              ;
+
+Statement : Type VarDecls ";"
+          | "while" Expression ":" OptStatements "end"
+          | "while" Expression "::" Statement
+          | "for" AddressableDecls "in" Expression ":" OptStatements "end"
+          | "for" AddressableDecls "in" Expression "::" Statement
+          | "if" Expression ":" OptStatements OptElifStatements OptElseStatement "end"
+          | "if" Expression "::" Statement
+          | "break" ";"
+          | "continue" ";"
+          | Addressables "=" Expressions ";"
+          | "return" ";"
+          | "return" Expressions ";"
+          | ToolInvokeExpression ";"
+          | "exit" ";"
+          | "exit" Expression ";"
+          ;
+
+VarDecls : VarDecl
+         | VarDecls "," VarDecl
+         ;
+
+VarDecl : IDENTIFIERTK
+        | IDENTIFIERTK "=" Expression
+        ;
+
+OptElifStatements : /* empty */
+                  | OptElifStatements "elif" Expression ":" OptStatements
+                  ;
+
+OptElseStatement : /* empty */
+                 | "else" OptStatements
+                 ;
+
+AddressableDecls : AddressableDecl
+                 | AddressableDecls "," AddressableDecl
+                 ;
+
+AddressableDecl : IDENTIFIERTK
+                | "(" AddressableDecl "," AddressableDecls ")"
+                ;
+
+Addressables : Addressable
+             | Addressables "," Addressable
+             ;
+
+Addressable : IDENTIFIERTK
+            | IDENTIFIERTK Projections
+            | "(" Addressable "," Addressables ")"
+            ;
+
+Projections : Projection
+            | Projections Projection
+            ;
+
+Projection : "[" Expression "]"
+           ;
+
+Types : Type
+      | Types "," Type
+      ;
+
+Type : "bool"
+     | "bool" "?"
+     | "int"
+     | "int" "?"
+     | "long"
+     | "long" "?"
+     | "double"
+     | "double" "?"
+     | "string"
+     | "string" "?"
+     | "list" Type
+     | "list" "?" Type
+     | "set" Type
+     | "set" "?" Type
+     | "map" "(" Type ":" Type ")"
+     | "map" "?" "(" Type ":" Type ")"
+     | "tuple" "(" Type "," Types ")"
+     | "tuple" "?" "(" Type "," Types ")"
+     | "object"
+     | "object" "?"
+     | Name
+     ;
+
+Expressions : Expression
+            | Expressions "," Expression
+            ;
+
+OptExpression : /* empty */
+              | Expression
+              ;
+
+Expression : AndExpression
+           | Expression "or" AndExpression
+           ;
+
+AndExpression : CompareExpression
+              | AndExpression "and" CompareExpression
+              ;
+
+CompareExpression : AddExpression
+                  | CompareExpression "<" AddExpression
+                  | CompareExpression "<=" AddExpression
+                  | CompareExpression "==" AddExpression
+                  | CompareExpression "!=" AddExpression
+                  | CompareExpression ">=" AddExpression
+                  | CompareExpression ">" AddExpression
+                  ;
+
+AddExpression : MulExpression
+              | AddExpression "-" MulExpression
+              | AddExpression "+" MulExpression
+              ;
+
+MulExpression : UnaryExpression
+              | MulExpression "*" UnaryExpression
+              | MulExpression "/" UnaryExpression
+              | MulExpression "div" UnaryExpression
+              | MulExpression "mod" UnaryExpression
+              ;
+
+UnaryExpression : ProjExpression
+                | "-" UnaryExpression
+                | "+" UnaryExpression
+                | "not" UnaryExpression
+                ;
+
+ProjExpression : ExpressionFactor
+               | ProjExpression "[" Expression "]"
+               | ProjExpression "[" OptExpression ":" OptExpression "]"
+               ;
+
+ExpressionFactor : "true"
+                 | "false"
+                 | NUMBERTK
+                 | DOUBLETK
+                 | "null"
+                 | STRINGTK
+                 | "<" Type ">" ExpressionFactor
+                 | "[" "]"
+                 | "[" Expressions OptComma "]"
+                 | "{" "}"
+                 | "{" Expressions OptComma "}"
+                 | "{" MapEntries OptComma "}"
+                 | "(" Expression "," Expressions OptComma ")"
+                 | "(" Expression ")"
+                 | ToolInvokeExpression
+                 | Name
+                 ;
+
+MapEntries : Expression ":" Expression
+           | MapEntries "," Expression ":" Expression
+           ;
+
+ToolInvokeExpression : ToolRef "(" ToolArgs OptComma ")"
+                     | ToolRef "(" ")"
+                     ;
+
+ToolRef : BuiltInTool
+        | Name
+        ;
+
+BuiltInTool : BuiltInIoTool
+            | BuiltInGenericTool
+            | BuiltInPathTool
+            | BuiltInFileTool
+            | BuiltInDataTool
+            ;
+
+ToolArgs : Expression
+         | IDENTIFIERTK "=" Expression
+         | ToolArgs "," Expression
+         | ToolArgs "," IDENTIFIERTK "=" Expression
+         ;
+
+Names : Name
+      | Names "," Name
+      ;
+
+Name : IDENTIFIERTK
+     | RELATIVENAMETK
+     ;
+
+OptComma : /* empty */
+         | ","
+         ;
+
+BuiltInIoTool : "err"
+              | "errln"
+              | "out"
+              | "outln"
+              ;
+
+BuiltInGenericTool : "app"
+                   | "exec"
+                   | "tooldef"
+                   ;
+
+BuiltInPathTool : "abspath"
+                | "basename"
+                | "chdir"
+                | "chfileext"
+                | "curdir"
+                | "dirname"
+                | "fileext"
+                | "hasfileext"
+                | "pathjoin"
+                | "scriptpath"
+                ;
+
+BuiltInFileTool : "cpdir"
+                | "cpfile"
+                | "diff"
+                | "exists"
+                | "filenewer"
+                | "filesize"
+                | "find"
+                | "isdir"
+                | "isfile"
+                | "mkdir"
+                | "mvdir"
+                | "mvfile"
+                | "readlines"
+                | "rmdir"
+                | "rmfile"
+                | "writefile"
+                ;
+
+BuiltInDataTool : "abs"
+                | "ceil"
+                | "contains"
+                | "del"
+                | "delidx"
+                | "empty"
+                | "endswith"
+                | "entries"
+                | "enumerate"
+                | "floor"
+                | "fmt"
+                | "indexof"
+                | "join"
+                | "keys"
+                | "lastindexof"
+                | "ln"
+                | "log"
+                | "lower"
+                | "ltrim"
+                | "max"
+                | "min"
+                | "pow"
+                | "range"
+                | "replace"
+                | "reverse"
+                | "round"
+                | "rtrim"
+                | "size"
+                | "sorted"
+                | "split"
+                | "sqrt"
+                | "startswith"
+                | "str"
+                | "strdup"
+                | "subset"
+                | "trim"
+                | "upper"
+                | "values"
+                ;

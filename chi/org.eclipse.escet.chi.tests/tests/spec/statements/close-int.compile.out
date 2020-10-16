@@ -1,0 +1,1 @@
+Error: File "spec/statements/close-int.chi": Semantic error at line 14, column 5: File type expected (found "int").

@@ -1,0 +1,20 @@
+Input/output report of the ${prefix}.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+${mode-report}
+
+Continuous states
+-----------------
+${cstate-report}
+
+Inputs
+------
+${input-report}
+
+Outputs
+-------
+${output-report}

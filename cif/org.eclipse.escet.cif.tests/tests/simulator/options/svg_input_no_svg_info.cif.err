@@ -1,0 +1,1 @@
+ERROR: The SVG input mode requires the use of SVG visualization, but the CIF specification being simulated has no CIF/SVG declarations.

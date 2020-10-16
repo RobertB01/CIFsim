@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<graphml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd" xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key for="node" id="ng" yfiles.type="nodegraphics"/>
+  <key for="edge" id="eg" yfiles.type="edgegraphics"/>
+  <key attr.name="description" attr.type="string" for="node" id="dn"/>
+  <graph edgedefault="directed" id="cif:">
+    <node id="cif:A" yfiles.foldertype="group">
+      <data key="dn">automaton def A(event e)</data>
+      <data key="ng">
+        <y:ProxyAutoBoundsNode>
+          <y:Realizers active="0">
+            <y:GroupNode>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;A&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;)&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#eeeeee"/>
+              <y:Shape type="rectangle"/>
+              <y:State closed="false"/>
+            </y:GroupNode>
+            <y:GroupNode>
+              <y:Geometry height="30.0" width="186.0"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;A&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;)&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#cccccc"/>
+              <y:Shape type="rectangle"/>
+              <y:State closed="true"/>
+            </y:GroupNode>
+          </y:Realizers>
+        </y:ProxyAutoBoundsNode>
+      </data>
+      <graph edgedefault="directed" id="cif:A:">
+        <node id="cif:A::code" yfiles.foldertype="group">
+          <data key="dn">Declarations</data>
+          <data key="ng">
+            <y:ProxyAutoBoundsNode>
+              <y:Realizers active="0">
+                <y:GroupNode>
+                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;ea&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+                  <y:BorderStyle lineType="dashed"/>
+                  <y:Fill color="#ffffcc"/>
+                  <y:Shape type="rectangle"/>
+                  <y:State closed="false"/>
+                </y:GroupNode>
+                <y:GroupNode>
+                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
+                  <y:BorderStyle lineType="dashed"/>
+                  <y:Fill color="#ffffcc"/>
+                  <y:Shape type="rectangle"/>
+                  <y:State closed="true"/>
+                </y:GroupNode>
+              </y:Realizers>
+            </y:ProxyAutoBoundsNode>
+          </data>
+        </node>
+        <node id="cif:A::loc0">
+          <data key="dn">location</data>
+          <data key="ng">
+            <y:ShapeNode>
+              <y:Geometry height="30.0" width="60.0"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#ccccff"/>
+              <y:Shape type="roundrectangle"/>
+            </y:ShapeNode>
+          </data>
+        </node>
+        <node id="cif:A::loc0::init">
+          <data key="dn">&lt;init&gt;</data>
+          <data key="ng">
+            <y:ShapeNode>
+              <y:Geometry height="1" width="1"/>
+              <y:BorderStyle hasColor="false"/>
+              <y:Fill transparent="true"/>
+            </y:ShapeNode>
+          </data>
+        </node>
+        <edge source="cif:A::loc0::init" target="cif:A::loc0">
+          <data key="eg">
+            <y:PolyLineEdge>
+              <y:Arrows source="none" target="arrow"/>
+              <y:BendStyle smoothed="true"/>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+        <edge source="cif:A::loc0" target="cif:A::loc0">
+          <data key="eg">
+            <y:PolyLineEdge>
+              <y:Arrows source="none" target="arrow"/>
+              <y:BendStyle smoothed="true"/>
+              <y:EdgeLabel alignment="center" backgroundColor="#eeeeee">&lt;html&gt;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;/html&gt;</y:EdgeLabel>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+      </graph>
+    </node>
+    <node id="cif:B" yfiles.foldertype="group">
+      <data key="dn">automaton def B(event e)</data>
+      <data key="ng">
+        <y:ProxyAutoBoundsNode>
+          <y:Realizers active="0">
+            <y:GroupNode>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;B&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;)&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#eeeeee"/>
+              <y:Shape type="rectangle"/>
+              <y:State closed="false"/>
+            </y:GroupNode>
+            <y:GroupNode>
+              <y:Geometry height="30.0" width="187.0"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;B&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;)&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#cccccc"/>
+              <y:Shape type="rectangle"/>
+              <y:State closed="true"/>
+            </y:GroupNode>
+          </y:Realizers>
+        </y:ProxyAutoBoundsNode>
+      </data>
+      <graph edgedefault="directed" id="cif:B:">
+        <node id="cif:B::code" yfiles.foldertype="group">
+          <data key="dn">Declarations</data>
+          <data key="ng">
+            <y:ProxyAutoBoundsNode>
+              <y:Realizers active="0">
+                <y:GroupNode>
+                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;eb&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+                  <y:BorderStyle lineType="dashed"/>
+                  <y:Fill color="#ffffcc"/>
+                  <y:Shape type="rectangle"/>
+                  <y:State closed="false"/>
+                </y:GroupNode>
+                <y:GroupNode>
+                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
+                  <y:BorderStyle lineType="dashed"/>
+                  <y:Fill color="#ffffcc"/>
+                  <y:Shape type="rectangle"/>
+                  <y:State closed="true"/>
+                </y:GroupNode>
+              </y:Realizers>
+            </y:ProxyAutoBoundsNode>
+          </data>
+        </node>
+        <node id="cif:B::loc0">
+          <data key="dn">location</data>
+          <data key="ng">
+            <y:ShapeNode>
+              <y:Geometry height="30.0" width="60.0"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#ccccff"/>
+              <y:Shape type="roundrectangle"/>
+            </y:ShapeNode>
+          </data>
+        </node>
+        <node id="cif:B::loc0::init">
+          <data key="dn">&lt;init&gt;</data>
+          <data key="ng">
+            <y:ShapeNode>
+              <y:Geometry height="1" width="1"/>
+              <y:BorderStyle hasColor="false"/>
+              <y:Fill transparent="true"/>
+            </y:ShapeNode>
+          </data>
+        </node>
+        <edge source="cif:B::loc0::init" target="cif:B::loc0">
+          <data key="eg">
+            <y:PolyLineEdge>
+              <y:Arrows source="none" target="arrow"/>
+              <y:BendStyle smoothed="true"/>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+        <edge source="cif:B::loc0" target="cif:B::loc0">
+          <data key="eg">
+            <y:PolyLineEdge>
+              <y:Arrows source="none" target="arrow"/>
+              <y:BendStyle smoothed="true"/>
+              <y:EdgeLabel alignment="center" backgroundColor="#eeeeee">&lt;html&gt;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;/html&gt;</y:EdgeLabel>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+      </graph>
+    </node>
+    <node id="cif::insts" yfiles.foldertype="group">
+      <data key="dn">Instantiations</data>
+      <data key="ng">
+        <y:ProxyAutoBoundsNode>
+          <y:Realizers active="0">
+            <y:GroupNode>
+              <y:Geometry height="98.375" width="99.0"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" modelName="internal" modelPosition="t">     Instantiations</y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">&lt;html&gt;&lt;span style="color:#000000;"&gt;a1&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;A&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#000000;"&gt;a1.ea&lt;/span&gt;&lt;span style="color:#402020;"&gt;);&lt;/span&gt;&lt;br&gt;&lt;span style="color:#000000;"&gt;b1&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;B&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#000000;"&gt;b1.eb&lt;/span&gt;&lt;span style="color:#402020;"&gt;);&lt;/span&gt;&lt;br&gt;&lt;span style="color:#000000;"&gt;a2&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;A&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#000000;"&gt;b2.eb&lt;/span&gt;&lt;span style="color:#402020;"&gt;);&lt;/span&gt;&lt;br&gt;&lt;span style="color:#000000;"&gt;b2&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;B&lt;/span&gt;&lt;span style="color:#402020;"&gt;(&lt;/span&gt;&lt;span style="color:#000000;"&gt;a2.ea&lt;/span&gt;&lt;span style="color:#402020;"&gt;);&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
+              <y:Fill color="#eeeeee"/>
+              <y:Shape type="rectangle"/>
+              <y:State closed="false"/>
+            </y:GroupNode>
+            <y:GroupNode>
+              <y:Geometry height="54.0" width="99.0"/>
+              <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" modelName="internal" modelPosition="t">     Instantiations</y:NodeLabel>
+              <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
+              <y:Fill color="#cccccc"/>
+              <y:Shape type="rectangle"/>
+              <y:State closed="true"/>
+            </y:GroupNode>
+          </y:Realizers>
+        </y:ProxyAutoBoundsNode>
+      </data>
+    </node>
+  </graph>
+</graphml>

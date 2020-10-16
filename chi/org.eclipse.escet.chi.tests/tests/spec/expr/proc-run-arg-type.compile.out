@@ -1,0 +1,1 @@
+Error: File "spec/expr/proc-run-arg-type.chi": Semantic error at line 19, column 14: Type mismatch in argument 2 (expected type "int", found type "real").

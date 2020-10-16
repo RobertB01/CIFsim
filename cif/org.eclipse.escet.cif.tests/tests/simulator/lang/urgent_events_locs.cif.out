@@ -1,0 +1,12 @@
+Initial state: time=0.0, p=*, p.b=true, q=l1
+
+Transition: event p.e
+State: time=0.0, p=*, p.b=false, q=l1
+
+Transition: delaying for 5.000000000000002 time units at time 0.0
+State: time=5.000000000000002, p=*, p.b=false, q=l1
+
+Transition: event tau
+State: time=5.000000000000002, p=*, p.b=false, q=l2
+
+Simulation resulted in deadlock.

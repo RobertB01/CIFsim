@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// All 4 events possible, but e1 and e3 are environment events, and only
+// urgent events are automatically chosen. So, the choice is between e2 and e4.
+// So, e2 is chosen, as the automatic input component is configured to choose
+// the first event.
+
+event e1, e2, e3, e4;
+
+automaton p:
+  location l1:
+    initial;
+    edge e1, e2, e3, e4 goto l2;
+
+  location l2:
+    urgent;
+end

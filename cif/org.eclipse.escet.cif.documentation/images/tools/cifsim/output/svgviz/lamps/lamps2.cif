@@ -1,0 +1,21 @@
+// Behavior.
+automaton def Lamp():
+  event toggle;
+  disc bool on = false;
+
+  location:
+    initial;
+    edge toggle do on := not on;
+end
+
+lamp1: Lamp();
+lamp2: Lamp();
+
+// Visualization.
+svgfile "lamps2.svg";
+
+svgout id "lamp1" attr "fill" value if lamp1.on: "yellow" else "silver" end;
+svgout id "lamp2" attr "fill" value if lamp2.on: "yellow" else "silver" end;
+
+svgout id "lamp1" attr "stroke-width" value if lamp1.on: 5 else 2 end;
+svgout id "lamp2" attr "stroke-width" value if lamp2.on: 5 else 2 end;

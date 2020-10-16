@@ -1,0 +1,8 @@
+automaton def P(P p):
+  invariant p.x;
+  invariant x;
+  location x:
+    initial;
+end
+p1: P(p1);
+invariant p1.x;

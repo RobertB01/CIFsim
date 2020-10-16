@@ -1,0 +1,107 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type item = int,
+     info = tuple(item it; int state),
+     yell = tuple(item it; real t);
+
+
+proc G(chan item a):
+   for i in range(10): a!i end
+end
+
+proc B(chan? item a; chan! item b; chan! info c):
+   list item xs; item x;
+   while true:
+      select
+         a?x:
+            xs = xs + [x]; c!(x,1)
+      alt
+         not empty(xs), b!xs[0]:
+            xs = xs[1:]
+      end
+   end
+end
+
+proc S(chan? item a; chan! item b; chan! info c; real r):
+   dist real u = exponential(r);
+   item x;
+   while true:
+      a?x;
+      delay sample u;
+      b!x; c!(x,-1)
+   end
+end
+
+proc W(chan? item a; chan! item b; chan! info c; real t):
+   chan item d;
+   run
+      B(a,d,c), S(d,b,c,t)
+end
+
+func bool pred(yell x, y):
+   return x.t <= y.t
+end
+
+proc T(chan? item a; chan! item b, c; chan! info d; real r):
+   dist real u = exponential(r);
+   dist bool q = bernoulli(0.45);
+   list yell xst; item x; # timer tim;
+   while true:
+      if empty(xst):
+            a?x;
+            xst = xst + [(x, time + sample u)];
+            d!(x, 1)
+      else:
+#         tim = xst[0].t - time;
+         select
+            a?x:
+               xst = insert(xst, (x, time + sample u), pred)
+         alt
+            true: #ready(tim):
+               if sample q:
+                  b!xst[0].it
+               else:
+                  c!xst[0].it
+               end;
+               d!(xst[0].it, -1); xst = xst[1:]
+         end
+      end
+   end
+end
+
+proc R(list chan info a; int N):
+   item it; int state, n;
+   while n < N:
+      select
+         unwind i in range(4):
+            a[i]?(it, state):
+            if i == 0 and state == -1: # leaving W0
+               n = n + 1
+            end
+         end
+      end;
+      write("%f\t%f\n", time, n / time)
+   end
+end
+
+model M(int N):
+   chan item a, b, c, d;
+   list(4) chan info f;
+   run
+      R(f, N),
+      G(a),
+      W(a, b,    f[0], 0.125), # W0
+      T(b, c, d, f[1], 0.1  ), # T1
+      W(c, a,    f[2], 0.25 ), # W2
+      W(d, a,    f[3], 0.2  )  # W3
+end

@@ -1,0 +1,5 @@
+ERROR: File "tchecker/svg_out_value_comp_type.cif": Semantic error at line 21, column 40: The SVG output mapping value is of type "a", which is a component or component definition.
+ERROR: File "tchecker/svg_out_value_comp_type.cif": Semantic error at line 25, column 32: The SVG output mapping value is of type "a", which is a component or component definition.
+ERROR: File "tchecker/svg_out_value_comp_type.cif": Semantic error at line 27, column 32: The SVG output mapping value is of type "a.b", which is a component or component definition.
+ERROR: File "tchecker/svg_out_value_comp_type.cif": Semantic error at line 36, column 37: The SVG output mapping value is of type "c", which is a component or component definition.
+ERROR: Failed to load CIF file "tchecker/svg_out_value_comp_type.cif": the file has errors.

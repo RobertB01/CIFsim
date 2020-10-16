@@ -1,0 +1,3 @@
+ERROR: File "tchecker/unsupported_ext_func_lang.cif": Semantic error at line 14, column 17: Language "xyz" is not supported for external user-defined functions.
+ERROR: File "tchecker/unsupported_ext_func_lang.cif": Semantic error at line 15, column 17: Language "" is not supported for external user-defined functions.
+ERROR: Failed to load CIF file "tchecker/unsupported_ext_func_lang.cif": the file has errors.

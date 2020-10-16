@@ -1,0 +1,26 @@
+===============================================================
+Node 1
+
+Available variable processes:
+    buff.cnt
+
+Variable use by behavior processes ordered by event:
+    buff.c_e:
+        buff.cnt  read:ALWAYS  write:ALWAYS
+
+Children:
+    node 1.1
+    node 1.2
+
+===============================================================
+Node 1.1 (automaton buff)
+
+Variable use by behavior processes ordered by event:
+    buff.c_e:
+        buff.cnt  read:ALWAYS  write:ALWAYS
+
+===============================================================
+Node 1.2 (variable buff.cnt)
+
+Available variable processes:
+    buff.cnt

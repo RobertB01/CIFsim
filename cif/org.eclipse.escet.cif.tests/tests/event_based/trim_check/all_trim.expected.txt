@@ -1,0 +1,1 @@
+Trim check HOLDS in file "event_based/trim_check/all_trim.cif".

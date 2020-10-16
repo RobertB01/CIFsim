@@ -1,0 +1,2 @@
+ERROR: File "tchecker/compdef_ref_in_expr.cif": Semantic error at line 19, column 18: Cannot use "g.P" as a value, as it is a component definition.
+ERROR: Failed to load CIF file "tchecker/compdef_ref_in_expr.cif": the file has errors.

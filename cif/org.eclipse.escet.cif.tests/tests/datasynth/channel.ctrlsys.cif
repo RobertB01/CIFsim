@@ -1,0 +1,43 @@
+controllable int e;
+plant automaton cnt:
+  controllable next;
+  disc int[0..3] c = 0;
+  location:
+    initial;
+    marked;
+    edge next when c < 3 do c := c + 1;
+end
+plant automaton snd1:
+  location:
+    initial;
+    marked;
+    edge e!1 when cnt.c = 1;
+end
+plant automaton snd2:
+  location:
+    initial;
+    marked;
+    edge e!2 when cnt.c = 2;
+end
+plant automaton rcv1:
+  disc int[0..3] x;
+  location:
+    initial;
+    marked;
+    edge e? when cnt.c = 1 do x := ?;
+end
+plant automaton rcv2:
+  disc int[0..3] x;
+  location:
+    initial;
+    marked;
+    edge e? when cnt.c = 2 do x := ?;
+end
+supervisor automaton sup:
+  alphabet cnt.next, e;
+  location:
+    initial;
+    marked;
+    edge cnt.next when cnt.c = 0 and ((rcv1.x = 0 or rcv1.x = 1) and rcv2.x = 0) or cnt.c = 2 and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 2 and (rcv1.x = 1 and rcv2.x = 0) or ((cnt.c = 1 or cnt.c = 3) and (rcv1.x = 0 and (rcv2.x = 0 or rcv2.x = 2)) or (cnt.c = 1 or cnt.c = 3) and (rcv1.x = 1 and rcv2.x = 0)));
+    edge e when (cnt.c = 0 or cnt.c = 2) and rcv1.x = 0 or (cnt.c = 1 or cnt.c = 3) and (rcv1.x = 0 and rcv2.x = 0);
+end

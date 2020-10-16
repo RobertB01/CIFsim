@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan e1;
+broadcast chan e2;
+int[0,0] LP_a1 = 0;
+meta int[0,0] OLDLP_a1 = 0;
+int[0,0] LP_a2 = 0;
+meta int[0,0] OLDLP_a2 = 0;</declaration>
+  <template>
+    <name>Template_a1</name>
+    <location id="id0"/>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">e1?</label>
+      <label kind="assignment">LP_a1 = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_a2</name>
+    <location id="id1"/>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">e1?</label>
+      <label kind="assignment">LP_a2 = 0</label>
+    </transition>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">e2?</label>
+      <label kind="assignment">LP_a2 = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id2"/>
+    <init ref="id2"/>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id2"/>
+      <label kind="guard">((true) &amp;&amp; (true)) &amp;&amp; ((true) &amp;&amp; (true))</label>
+      <label kind="synchronisation">e1!</label>
+      <label kind="assignment">OLDLP_a1 = LP_a1, OLDLP_a2 = LP_a2</label>
+    </transition>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id2"/>
+      <label kind="guard">((true) &amp;&amp; (false)) &amp;&amp; ((true) &amp;&amp; (true))</label>
+      <label kind="synchronisation">e2!</label>
+      <label kind="assignment">OLDLP_a1 = LP_a1, OLDLP_a2 = LP_a2</label>
+    </transition>
+  </template>
+  <system>a1 = Template_a1();
+a2 = Template_a2();
+SendAut = Template_SendAut();
+
+system a1, a2, SendAut;</system>
+</nta>

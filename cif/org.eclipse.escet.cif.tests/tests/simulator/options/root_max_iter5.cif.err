@@ -1,0 +1,2 @@
+ERROR: ODE solver failed to compute the trajectories of the continuous variables. The problem (your specification) may be too complicated. You could try modifying the ODE solver options.
+CAUSE: (TooManyEvaluationsException) illegal state: maximal count (5) exceeded: evaluations

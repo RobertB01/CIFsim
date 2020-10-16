@@ -1,0 +1,364 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[CIF code generator]
+indexterm:[tools,CIF code generator]
+
+[[tools-codegen-chapter-index]]
+== CIF code generator
+
+The CIF code generator can be used to generate implementation code for
+various languages/platforms. The generated code is complete, and can be used as
+is, without any CIF related library or runtime.
+
+The remainder of this page explains general information about the tool, that
+applies to all target languages/platforms. Specific information is available
+for each of the target languages/platforms, on separate pages:
+
+* <<tools-codegen-chapter-c89,C89>> (if there is no `C99` compiler)
+* <<tools-codegen-chapter-c99,C99>>
+* <<tools-codegen-chapter-java,Java>>
+* <<tools-codegen-chapter-simulink,Simulink>>, with an example of
+<<tools-codegen-chapter-simulink-example,controlling a tank>>
+
+
+indexterm:[CIF code generator,start]
+
+=== Starting the generator
+
+The generator can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the menu:Project Explorer[]
+or menu:Package Explorer[] and choose
+menu:CIF implementation tools[Generate code for CIF specification...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF implementation tools[Generate code for CIF specification...].
+
+* Use the `cifcodegen` tool in a ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifcodegen` command line tool.
+
+
+indexterm:[CIF code generator,options]
+
+[[tools-codegen-options]]
+=== Options
+
+Besides the general application options, this application has the following
+options that apply to all target languages/platforms:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Output directory_: The absolute or relative local file system path to the
+output directory. This is the directory to which the generated code files
+will be written. If the directory does not yet exist, it is automatically
+created. By default, the current directory is used.
+
+* _Target language_: Specifies the target language/platform for which to
+generate code. By default, C99 code is generated. The following
+languages/platforms are supported:
++
+[cols=2*,options="header"]
+|===
+| Target language/platform
+| Command line value
+
+| <<tools-codegen-chapter-c89,C89>>
+| `c89`
+
+| <<tools-codegen-chapter-c99,C99>>
+| `c99`
+
+| <<tools-codegen-chapter-java,Java>>
+| `java`
+
+| <<tools-codegen-chapter-simulink,Simulink>>
+| `simulink`
+|===
++
+The first column indicates the target language/platform, and is linked to a
+page with more information for that specific language/platform. The second
+column indicates the command line value to use for the option, to select that
+target language/platform.
+
+* _Code prefix_: The code prefix, used to prefix file names, identifiers in
+the code, etc. If no prefix is given, the prefix is derived from the input
+filename, by removing the `.cif` file extension, if present. This is also
+the default. The prefix must be a valid CIF identifier, i.e. consist of only
+letters (`a` to `z`, `A` to `Z`), numbers (`0` to `9`), and
+underscores (`+_+`), and not start with a number.
+
+
+indexterm:[CIF code generator,supported specifications]
+
+[[tools-codegen-supported]]
+=== Supported specifications
+
+The CIF code generator supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Specifications without automata are not supported.
+
+* Initialization predicates in components are not supported, except if it
+can be determined statically that they are trivially `true`.
+
+* State invariants in components are not supported, except if it can be
+determined statically that they are trivially `true`.
+
+* State/event exclusion invariants (in components as well as locations) are not
+supported. To allow state/event exclusion invariants to be used in the input,
+manually eliminate them first using the
+<<tools-cif2cif-chapter-elim-state-event-excl-invs,CIF to CIF transformation>>.
+
+* Discrete variables with multiple initial values (including `any`) are not
+supported.
+
+* External user-defined functions are not supported.
+
+* Urgent locations are not supported.
+
+* Initialization predicates in locations that can not be statically evaluated
+are not supported.
+
+* State invariants in locations are not supported, except if it can be
+determined statically that they are trivially `true`.
+
+* Automata that do not have exactly one initial location are not supported.
+
+* Urgent edges are not supported.
+
+* Data types other than `bool`, `int` (with or without range), `real`,
+`string`, enumerations, tuples, and arrays, are not supported. This applies
+to the data types of variables, parameters of functions, return types of
+functions, etc.
+
+* Sampling of distributions is not supported.
+
+* The use of the conjunction and disjunction binary operators on anything other
+than boolean values is not supported.
+
+* The use of the equality and inequality binary operators on anything other
+than boolean, integer, real, string, or enumeration values is not supported.
+
+* The use of the addition binary operators on anything other than numeric or
+string values is not supported.
+
+* The use of the subtraction binary operators on anything other than numeric
+values is not supported.
+
+* The use of the element test and subset binary operators is not supported.
+
+* Projection on anything other than tuples, arrays, and strings is not
+supported. This applies to expressions as well as addressables (the left hand
+sides of assignments). For arrays, both 0-based indices (counting from the
+left) as well as negative indices (counting from the right) are supported.
+
+* Slicing is not supported.
+
+* Function calls on anything other than standard library functions and internal
+user-defined functions is not supported.
+
+* The `del`, `pop`, `acosh`, `asinh`, `atanh`, `cosh`, `sinh`,
+and `tanh` standard library functions are not supported.
+
+* The `empty` standard library function on anything other than arrays is not
+supported.
+
+* The `size` standard library function on anything other than strings and
+arrays is not supported.
+
+* The distribution standard library functions are not supported.
+
+* Lists (except for arrays), sets, and dictionaries are not supported.
+
+* The use of functions as values is not supported. That is, functions may only
+be used in function calls, and may for instance not be stored in variables,
+or passed to other functions.
+
+* Print declarations with pre/source state text and post/target state filtering
+(`when`) are not supported.
+
+* Print declarations with post/target state text and pre/source state filtering
+(`when`) are not supported.
+
+
+indexterm:[CIF code generator,preprocessing]
+
+=== Preprocessing
+
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
+applied as preprocessing (in the given order), to increase the subset of CIF
+specifications that can be transformed:
+
+* <<tools-cif2cif-chapter-remove-cif-svg-decls>>
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+* <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
+* <<tools-cif2cif-chapter-simplify-others>>
+
+After these preprocessing steps, the generator checks whether the specification
+is supported. It then applies the following additional
+<<tools-cif2cif-chapter-index,CIF to CIF transformations>>:
+
+* <<tools-cif2cif-chapter-linearize-merge>>
+* <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
+* <<tools-cif2cif-chapter-add-default-init-values>>
+
+
+=== Generated code
+
+This section explains the basics behind the generated code, as they apply to
+all target languages. The specific pages that explain the code generated for
+specific target languages provide further details.
+
+
+==== Code overview
+
+The code that executes the edges of the CIF model is called the _event loop_
+code. The event loop is not the only code that is executed. Before the loop,
+the values of the input variables are obtained from the environment, the
+initial state is initialized (for the first execution only), and the values of
+the continuous variables are updated to account for the amount of time that has
+passed (for all but the first execution). Then the event loop is executed.
+Finally, output values may be supplied to the environment.
+
+
+==== Repeated execution
+
+During the execution of the code, variable `time` from the CIF model is
+not updated. Execution of the code takes time. After the code is executed,
+potentially more time passes. Then, the code can be executed again. The time
+(in seconds) between the first execution and the current execution is the
+total time that has passed since execution started, and this becomes the new
+value of variable `time`.
+
+How often the code is executed, and whether this is done with a fixed cycle
+time (periodic task scheduling) or with a variable cycle times (non-periodic
+tasks) can be influenced by the end user. The details differ per target
+language, and can be found on their respective pages.
+
+
+==== Event loop
+
+The CIF model is first <<tools-cif2cif-chapter-linearize-merge,linearized>> to
+eliminate parallel composition. The result is self loop edges with guards and
+updates. The main part of the generated code essentially consists of update
+code that is conditionally executed. This code executes edges. This is done
+repeatedly, until no more events are enabled. The loop in the generated code
+that repeatedly executes event code until no more events are possible, is
+called the _event loop_. Once no more events are enabled, the event loop
+terminates.
+
+
+==== Event order
+
+The order in which the code is generated for the different edges (in the
+_event loop_), is done in such a way that it matches the order in which
+transitions are chosen by the simulator. Assuming the simulator is used to
+simulate by always automatically choosing the
+<<tools-cifsim-input-chapter-automatic,first transition>> that is enabled, the
+generated code will choose that same transition. That is, for each iteration of
+the event loop, the code is executed for the first event with an enabled guard.
+Then, a new iteration of the loop is started, from the top, to ensure that the
+first enabled event is always executed, similar to simulation. If during an
+iteration of the loop none of the events is enabled, the event loop terminates.
+
+
+==== Termination
+
+If in the CIF model always at least one event is enabled, the generated code
+will run forever, and will never terminate. Time will not pass. Code generation
+should be avoided for such models. It is the responsibility of the modeler to
+ensure this is taken into account.
+
+
+==== Predictability of execution time
+
+If at least one event is enabled, the event loop is executed again. If during
+an iteration of the loop none of the edges is enabled, the loop terminates.
+This approach generally does not result in predictable execution times of the
+program body. That is, if a certain edge keeps being enabled, the loop is
+executed over an over again. In that case, the execution time of the body
+may exceed the fixed cycle time, and the controller is no longer guaranteed to
+work correctly. Even if the loop is only executed a finite number of times,
+the execution time of the body may exceed the fixed cycle time. One may
+consider monitoring the execution times to detect such issues. All
+implementations provide a way to obtain execution time statistics. The details
+differ per target language, and can be found on their respective pages.
+
+
+==== Optional execution feedback
+
+Several implementations provide additional information during simulation, such as
+which events have been executed, timing information, and what new print output
+has been generated. Such information can generally be enabled and disabled in
+the implementations. The details differ per target language, and can be found
+on their respective pages.
+
+
+==== Correct handling of I/O
+
+The generated code cannot guarantee its correct behavior if the inputs from the
+external I/O change more rapidly than the generated code is executed. That is,
+if an input changes during a single execution of the code, the change is not
+noticed until the next execution. If an input changes during an execution and
+changes back during that same execution, the change is not noticed at all.
+Therefore, executing the code often enough per second, is essential. In other
+words, choosing an appropriate cycle time is essential for the correct
+functioning of the generated code.
+
+
+[[tools-codegen-accuracy-over-time]]
+==== Accuracy over time
+
+The generated C89, C99 and Java code maintains the running time in seconds.
+Due to the finite
+representation of numeric values, this results in numeric overflow after
+execution for a long time. Running the code continuously for longer than 100
+years should be avoided.
+
+The continuous variables from the CIF specification in the generated code
+are updated each execution
+using the link:http://en.wikipedia.org/wiki/Euler_method[Euler method] for
+integration. That is, each execution the time that has elapsed since the
+previous execution is multiplied by the derivative of the continuous variable
+in the state of the previous execution. This value is added to the value of the
+continuous variable. Essentially, a linear approximation of the derivative is
+used, calculated using the state of the previous execution.
+
+The Euler method can be
+link:http://en.wikipedia.org/wiki/Numerical_stability[numerically unstable], it
+can suffer from rounding
+errors due to the use finite binary representations of real values, and has
+some other issues as well. The effects are likely to be limited if linear
+continuous variable (continuous variables with constant derivatives) are used.
+Especially clocks (derivative +1 or -1) generally don't suffer too much from
+these issues. However, even clocks may suffer from loss of accuracy over time.
+As such, clocks should not be used to measure over long periods of time.
+Instead they should be reset, rendering the past loss of accuracy irrelevant
+for any future measurements.
+
+
+==== Enumerations
+
+The <<tools-cif2cif-chapter-linearize-merge,linearization>> that is used as
+preprocessing, also <<tools-cif2cif-chapter-merge-enums,merges all enumerations>>
+into a single enumeration. This is done in such a way that the behavior of the
+original CIF model is left intact. However, it is up to the implementer that
+connects the inputs from the environment to the generated code, to ensure that
+only valid enumeration literals are assigned to the input variables of the
+generated code.

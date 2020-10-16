@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/no_state_eof.setext": Semantic error at line 1, column 1: No scanner state accepts end-of-file.
+ERROR: Failed to load SeText file "models_invalid/no_state_eof.setext": the file has errors.

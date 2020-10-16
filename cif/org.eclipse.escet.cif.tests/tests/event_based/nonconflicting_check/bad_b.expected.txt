@@ -1,0 +1,4 @@
+Nonconflicting check FAILS in file "event_based/nonconflicting_check/bad_b.cif".
+
+Found 1 conflict:
+  state "p.s3", "s.s3"

@@ -1,0 +1,1 @@
+ERROR: Code prefix "option_code_prefix_invalid-2" derived from the input filename of the CIF code generator is not a valid CIF identifier. Please provide a custom code prefix using the appropriate option.

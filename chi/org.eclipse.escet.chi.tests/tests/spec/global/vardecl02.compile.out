@@ -1,0 +1,1 @@
+Error: File "spec/global/vardecl02.chi": Semantic error at line 14, column 10: Cannot assign value with type "int" to variables with type "bool".

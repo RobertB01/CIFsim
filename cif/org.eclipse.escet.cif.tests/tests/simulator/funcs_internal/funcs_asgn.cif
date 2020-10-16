@@ -1,0 +1,150 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// See also: lang/updates.cif
+
+type TII = tuple(int a, b);
+type LI = list int;
+type LLLI = list list list int;
+type DIR = dict(int:real);
+type LTILDIR = list tuple(int c; list dict(int:real) d);
+
+func int f1():
+  int x;
+  x := x + 1;
+  return x; // 1
+end
+
+func int f2():
+  int x, y = 3;
+  x, y := y, x;
+  x, y := x + 1, y + 1;
+  return x + y; // 5
+end
+
+func int, int, TII f3():
+  int i, j;
+  TII tii;
+
+  tii := (1, 2);
+  i, j := tii;
+  return i, j, tii; // (1, 2, (1, 2))
+end
+
+func int, int, int, int, int, TII, TII, TII f4():
+  int i, j, k, l, m;
+  TII tii1, tii2, tii3;
+
+  i, tii1 := 5, (6, 7);
+  tii2, (j, k) := (1, 2), (3, 4);
+  tii3, (l, m) := (8, 9), tii2;
+  return i, j, k, l, m, tii1, tii2, tii3; // (5, 3, 4, 1, 2, (6, 7), (1, 2), (8, 9))
+end
+
+func TII, TII, TII f5():
+  TII tii1 = (5, 6), tii2 = tii1, tii3 = tii2;
+
+  tii2[b] := 9;
+  tii3[1] := 8;
+
+  return tii1, tii2, tii3; // ((5, 6), (5, 9), (5, 8))
+end
+
+func LI, LI, LI f6():
+  list int li1 = [1, 2], li2 = li1, li3 = li2;
+
+  li2[ 0] := 3;
+  li3[-1] := 4;
+
+  return li1, li2, li3; // ([1, 2], [3, 2], [1, 4])
+end
+
+func DIR, DIR, DIR f7():
+  dict(int:real) dir1 = {1: 2.0, 3: 4.0}, dir2 = dir1, dir3 = dir2;
+
+  dir2[1] := 8.0;
+  dir3 := dir2;
+  dir3[2] := 6.0;
+
+  return dir1, dir2, dir3; // ({1: 2.0, 3: 4.0},
+                           //  {1: 8.0, 3: 4.0},
+                           //  {1: 8.0, 3: 4.0, 2: 6.0})
+end
+
+func LLLI, LLLI, LLLI f8():
+  LLLI llli1 = [[[1], [2]], [[3], [4]], [[5]]], llli2 = llli1, llli3 = llli2;
+
+  llli2[0][0][0], llli3 := 8, llli2;
+  llli3 := llli2;
+  llli3[1][1][0] := 9;
+
+  return llli1, llli2, llli3; // ([[[1], [2]], [[3], [4]], [[5]]],
+                              //  [[[8], [2]], [[3], [4]], [[5]]],
+                              //  [[[8], [2]], [[3], [9]], [[5]]])
+end
+
+func LTILDIR, LTILDIR, LTILDIR f9():
+  LTILDIR v1 = [(1, [{2:3.0}])], v2 = v1, v3 = v2;
+
+  v2[0][1][0][2] := 4.0;       // v to [(1, [{2:4.0}])]
+  v3 := v2;
+  v3[0][1][0][3] := 5.0;       // v to [(1, [{2:4.0, 3:5.0}])]
+
+  return v1, v2, v3; // ([(1, [{2:3.0}])],
+                     //  [(1, [{2:4.0}])],
+                     //  [(1, [{2:4.0, 3:5.0}])])
+end
+
+func LI, LI, TII, int f10():
+  LI li1 = [1, 2, 3], li2 = li1;
+  TII tii = (4, 5);
+  int i;
+
+  i, li2[2] := tii;
+
+  return li1, li2, tii, i; // ([1, 2, 3], [1, 2, 5], (4, 5), 4)
+end
+
+automaton p:
+  disc int                                   v1  = f1();
+  disc int                                   v2  = f2();
+  disc tuple(int a, b; TII c)                v3  = f3();
+  disc tuple(int a, b, c, d, e; TII f, g, h) v4  = f4();
+  disc tuple(TII a, b, c)                    v5  = f5();
+  disc tuple(LI a, b, c)                     v6  = f6();
+  disc tuple(DIR a, b, c)                    v7  = f7();
+  disc tuple(LLLI a, b, c)                   v8  = f8();
+  disc tuple(LTILDIR a, b, c)                v9  = f9();
+  disc tuple(LI a, b; TII c; int d)          v10 = f10();
+
+  invariant v1  = 1;
+  invariant v2  = 5;
+  invariant v3  = (1, 2, (1, 2));
+  invariant v4  = (5, 3, 4, 1, 2, (6, 7), (1, 2), (8, 9));
+  invariant v5  = ((5, 6), (5, 9), (5, 8));
+  invariant v6  = ([1, 2], [3, 2], [1, 4]);
+  invariant v7  = ({1: 2.0, 3: 4.0},
+                   {1: 8.0, 3: 4.0},
+                   {1: 8.0, 3: 4.0, 2: 6.0});
+  invariant v8  = ([[[1], [2]], [[3], [4]], [[5]]],
+                   [[[8], [2]], [[3], [4]], [[5]]],
+                   [[[8], [2]], [[3], [9]], [[5]]]);
+  invariant v9  = ([(1, [{2:3.0}])],
+                   [(1, [{2:4.0}])],
+                   [(1, [{2:4.0, 3:5.0}])]);
+  invariant v10 = ([1, 2, 3], [1, 2, 5], (4, 5), 4);
+
+  location:
+    initial;
+    urgent;
+end

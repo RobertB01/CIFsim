@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int, bool, list int f1():
+  return 1, true, [0];
+end
+
+func int, bool, list int f2():
+  return (1, true, [0]);
+end
+
+func tuple(int a; bool b; list int c) f3():
+  return 1, true, [0];
+end
+
+func tuple(int a; bool b; list int c) f4():
+  return (1, true, [0]);
+end
+
+automaton p:
+  disc tuple(int a; bool b; list int c) x1 = f1();
+  disc tuple(int a; bool b; list int c) x2 = f2();
+  disc tuple(int a; bool b; list int c) x3 = f3();
+  disc tuple(int a; bool b; list int c) x4 = f4();
+
+  invariant x1 = x2, x2 = x3, x3 = x4;
+
+  location:
+    initial;
+    urgent;
+end

@@ -1,0 +1,68 @@
+WARNING: File "codegen/unsupported1.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
+ERROR: Code generation to Java failed for CIF file "codegen/unsupported1.cif".
+CAUSE: CIF code generator failed due to unsatisfied preconditions:
+ - Unsupported automaton "g2.aut": state/event exclusion invariants are currently not supported.
+ - Unsupported automaton "g2.aut": state/event exclusion invariants are currently not supported.
+ - Unsupported automaton "p": initialization predicates in components are currently not supported.
+ - Unsupported automaton "p": state invariants in components are currently not supported.
+ - Unsupported automaton "p2": automata without an initial location are currently not supported.
+ - Unsupported automaton "p3": automata with multiple initial locations are currently not supported.
+ - Unsupported discrete variable "p.x": the variable has multiple potential initial values.
+ - Unsupported discrete variable "p.y": the variable has multiple potential initial values.
+ - Unsupported discrete variable "q.v7": the variable has multiple potential initial values.
+ - Unsupported expression "1 in q.v6": binary operator "in" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "[f2][q.i]()": function calls on anything other than standard library functions and internal user-defined functions is currently not supported.
+ - Unsupported expression "acosh(q.r)": standard  library function "acosh" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "asinh(q.r)": standard  library function "asinh" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "atanh(q.r)": standard  library function "atanh" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "constant(true)": standard  library function "constant" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "cosh(q.r)": standard  library function "cosh" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "del(q.v7, 0)": standard  library function "del" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "empty(q.v5 + [1])": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "empty(q.v6 - {1})": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "empty(q.v6 and q.v6)": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "empty(q.v6 or q.v6)": standard  library function "empty" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "f1": the use of functions as values is currently not supported.
+ - Unsupported expression "f2": the use of functions as values is currently not supported.
+ - Unsupported expression "pop(q.v5)": standard  library function "pop" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "q.v4(1)": function calls on anything other than standard library functions and internal user-defined functions is currently not supported.
+ - Unsupported expression "q.v5 + [1]": binary operator "+" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "q.v5 = q.v5": binary operator "=" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "q.v5[:]": slicing is currently not supported.
+ - Unsupported expression "q.v5[:][0]": projections on anything other than tuples, arrays, and strings is currently not supported.
+ - Unsupported expression "q.v6 != q.v6": binary operator "!=" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "q.v6 - {1}": binary operator "-" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "q.v6 and q.v6": binary operator "and" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "q.v6 or q.v6": binary operator "or" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "sample q.v3": unary operator "sample" is currently not supported.
+ - Unsupported expression "sinh(q.r)": standard  library function "sinh" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "size(q.v2)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "size(q.v5)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "size(q.v6)": standard  library function "size" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "tanh(q.r)": standard  library function "tanh" is currently not supported, or is not supported for the arguments that are used.
+ - Unsupported expression "{1: true}": dictionaries are currently not supported.
+ - Unsupported expression "{1} sub q.v6": binary operator "sub" is currently not supported, or is not supported for the operands that are used.
+ - Unsupported expression "{1}": sets are currently not supported.
+ - Unsupported expression "{1}": sets are currently not supported.
+ - Unsupported expression "{1}": sets are currently not supported.
+ - Unsupported function "f1": external user-defined functions are currently not supported.
+ - Unsupported group "g": initialization predicates in components are currently not supported.
+ - Unsupported group "g": state invariants in components are currently not supported.
+ - Unsupported group "g2": state/event exclusion invariants are currently not supported.
+ - Unsupported group "g2": state/event exclusion invariants are currently not supported.
+ - Unsupported location "a" of automaton "p": state invariants in locations are currently not supported.
+ - Unsupported location "a" of automaton "p": urgent locations are currently not supported.
+ - Unsupported location "b" of automaton "p": urgent edges are currently not supported.
+ - Unsupported location of automaton "g2.aut": state/event exclusion invariants are currently not supported.
+ - Unsupported location of automaton "g2.aut": state/event exclusion invariants are currently not supported.
+ - Unsupported print declaration: print declarations with post/target state text and pre/source state filtering ("when") are currently not supported.
+ - Unsupported print declaration: print declarations with pre/source state text and post/target state filtering ("when") are currently not supported.
+ - Unsupported specification: initialization predicates in components are currently not supported.
+ - Unsupported specification: state invariants in components are currently not supported.
+ - Unsupported specification: state/event exclusion invariants are currently not supported.
+ - Unsupported specification: state/event exclusion invariants are currently not supported.
+ - Unsupported type "dict(int:bool)": dictionary types are currently not supported.
+ - Unsupported type "dist bool": distribution types are currently not supported.
+ - Unsupported type "func int(int)": function types are currently not supported. That is, calling functions is supported, but using them as data is not supported.
+ - Unsupported type "list int": non-array list types are currently not supported.
+ - Unsupported type "set int": set types are currently not supported.

@@ -1,0 +1,7 @@
+controllable a;
+plant automaton trim:
+  alphabet a;
+  location s1:
+    initial;
+    marked;
+end

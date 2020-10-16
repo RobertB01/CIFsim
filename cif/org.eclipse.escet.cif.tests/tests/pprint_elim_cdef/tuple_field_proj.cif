@@ -1,0 +1,34 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type tt = tuple(int a; bool b; string c; real d);
+
+const bool a = true;
+const string b = "b";
+
+automaton p:
+  disc list int c;
+  disc tt tv;
+
+  alg int    pa = tv[a];
+  alg bool   pb = tv[b];
+  alg string pc = tv[c];
+  alg real   pd = tv[d];
+
+  invariant pa > 0 or pb or pc = "" or pd = 0.0;
+
+  location:
+    initial;
+end
+
+invariant a or b = "" or size(p.c) > 0;

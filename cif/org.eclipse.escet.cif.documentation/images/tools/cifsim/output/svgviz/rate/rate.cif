@@ -1,0 +1,23 @@
+// Behavior.
+const real MARGIN = 0.01;
+
+automaton machine:
+  cont rate der if rate < target_rate:  1.0
+                else                   -1.0
+                end;
+  disc real target_rate = 0.5;
+  disc dist real rate_sampler = uniform(0.0, 1.0);
+
+  location:
+    initial;
+    edge when rate - MARGIN <= target_rate and target_rate <= rate + MARGIN
+         do (target_rate, rate_sampler) := sample rate_sampler;
+end
+
+// Visualization.
+svgfile "rate.svg";
+
+svgout id "circle_bg_rect" attr "height"
+  value scale(machine.rate, 0, 1, 58, 0);
+
+svgout id "circle_bg_rect" attr "fill" value "white";

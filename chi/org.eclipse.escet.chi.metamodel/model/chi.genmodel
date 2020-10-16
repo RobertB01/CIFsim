@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation&#xA;&#xA;See the NOTICE file(s) distributed with this work for additional&#xA;information regarding copyright ownership.&#xA;&#xA;This program and the accompanying materials are made available under the terms&#xA;of the MIT License which is available at https://opensource.org/licenses/MIT&#xA;&#xA;SPDX-License-Identifier: MIT&#xA;&#xA;Disable Eclipse Java formatter for generated code file:&#xA;@formatter:off"
+    modelDirectory="/org.eclipse.escet.chi.metamodel/src-gen" editDirectory="" editorDirectory=""
+    modelPluginID="org.eclipse.escet.chi.metamodel" modelName="Chi" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    testsDirectory="" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.genmodel#//position">
+  <foreignModel>chi.ecore</foreignModel>
+  <genPackages prefix="Chi" basePackage="org.eclipse.escet.chi.metamodel" disposableProviderFactory="true"
+      fileExtensions="chix" ecorePackage="chi.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="chi.ecore#//ChannelOps">
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//ChannelOps/Receive"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//ChannelOps/Send"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//ChannelOps/SendReceive"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="chi.ecore#//UnaryOperators">
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//UnaryOperators/Inverse"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//UnaryOperators/Negate"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//UnaryOperators/Sample"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//UnaryOperators/Plus"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="chi.ecore#//BinaryOperators">
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Addition"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Conjunction"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Disjunction"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Division"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/ElementTest"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Equal"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/FieldProjection"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/FloorDivision"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/GreaterEqual"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/GreaterThan"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/LessThan"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/LessEqual"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Modulus"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Multiplication"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/NotEqual"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Power"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Projection"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Subset"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//BinaryOperators/Subtraction"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="chi.ecore#//StdLibFunctions">
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Abs"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Acos"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Acosh"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Asin"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Asinh"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Atan"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Atanh"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Bernoulli"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Empty"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Enumerate"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Eof"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Eol"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Erlang"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Exp"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Exponential"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Finished"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Floor"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Gamma"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Geometric"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Insert"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Ln"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Log"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/LogNormal"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Max"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Min"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Newlines"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Normal"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Open"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Poisson"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Pop"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Random"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Range"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Ready"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Round"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Sign"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Sin"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Sinh"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Size"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Sort"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Sqrt"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Tan"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Tanh"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Triangle"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Uniform"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Weibull"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Beta"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Binomial"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Cbrt"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Ceil"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Constant"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Cos"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Cosh"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/Delete"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/DictKeys"/>
+      <genEnumLiterals ecoreEnumLiteral="chi.ecore#//StdLibFunctions/DictValues"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="chi.ecore#//ChiIdentifier"/>
+    <genDataTypes ecoreDataType="chi.ecore#//ChiRealNumber"/>
+    <genDataTypes ecoreDataType="chi.ecore#//ChiNumber"/>
+    <genClasses image="false" ecoreClass="chi.ecore#//Type"/>
+    <genClasses ecoreClass="chi.ecore#//VoidType"/>
+    <genClasses ecoreClass="chi.ecore#//BoolType"/>
+    <genClasses ecoreClass="chi.ecore#//InstanceType"/>
+    <genClasses ecoreClass="chi.ecore#//IntType"/>
+    <genClasses ecoreClass="chi.ecore#//StringType"/>
+    <genClasses ecoreClass="chi.ecore#//RealType"/>
+    <genClasses ecoreClass="chi.ecore#//FileType"/>
+    <genClasses ecoreClass="chi.ecore#//SetType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SetType/elementType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ListType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ListType/elementType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ListType/initialLength"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//DictType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DictType/keyType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DictType/valueType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//MatrixType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//MatrixType/rowSize"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//MatrixType/columnSize"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TupleType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//TupleType/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TupleField">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//TupleField/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//TupleField/name"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//DistributionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DistributionType/resultType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//EnumTypeReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//EnumTypeReference/type"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ChannelType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ChannelType/elementType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//ChannelType/ops"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//FunctionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//FunctionType/resultType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//FunctionType/parameterTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TypeReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//TypeReference/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//Expression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//Expression/type"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//BoolLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//BoolLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//IntNumber">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//IntNumber/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//RealNumber">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//RealNumber/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//StringLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//StringLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TupleExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//TupleExpression/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ListExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ListExpression/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//SetExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SetExpression/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//MatrixExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//MatrixExpression/rows"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//MatrixRow">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//MatrixRow/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//DictionaryExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DictionaryExpression/pairs"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//DictionaryPair">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DictionaryPair/key"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DictionaryPair/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//VariableReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//VariableReference/variable"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ConstantReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//ConstantReference/constant"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TimeLiteral"/>
+    <genClasses ecoreClass="chi.ecore#//UnaryExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//UnaryExpression/child"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//UnaryExpression/op"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//BinaryExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//BinaryExpression/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//BinaryExpression/right"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//BinaryExpression/op"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//CallExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CallExpression/function"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CallExpression/arguments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CallExpression/name"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//FunctionReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//FunctionReference/function"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//BaseFunctionReference"/>
+    <genClasses ecoreClass="chi.ecore#//StdLibFunctionReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//StdLibFunctionReference/function"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//SliceExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SliceExpression/start"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SliceExpression/end"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SliceExpression/step"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SliceExpression/source"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//FieldReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//FieldReference/field"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//Statement"/>
+    <genClasses ecoreClass="chi.ecore#//BreakStatement"/>
+    <genClasses ecoreClass="chi.ecore#//ContinueStatement"/>
+    <genClasses ecoreClass="chi.ecore#//PassStatement"/>
+    <genClasses ecoreClass="chi.ecore#//ExitStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ExitStatement/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ReturnStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ReturnStatement/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//DelayStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//DelayStatement/length"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//WhileStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//WhileStatement/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//WhileStatement/body"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//IfStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//IfStatement/cases"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//IfCase">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//IfCase/condition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//IfCase/body"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//WriteStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//WriteStatement/values"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//WriteStatement/addNewline"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//AssignmentStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//AssignmentStatement/lhs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//AssignmentStatement/rhs"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//CommunicationStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CommunicationStatement/channel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CommunicationStatement/data"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ForStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ForStatement/body"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ForStatement/unwinds"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//CreateCase"/>
+    <genClasses ecoreClass="chi.ecore#//RunStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//RunStatement/cases"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//RunStatement/startOnly"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//SelectStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SelectStatement/cases"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//SelectCase">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SelectCase/body"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//SelectCase/guard"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//IteratedCreateCase">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//IteratedCreateCase/unwinds"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//IteratedCreateCase/instances"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//IteratedSelectCase">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//IteratedSelectCase/unwinds"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//Specification">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//Specification/declarations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//Declaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//Declaration/name"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TypeDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//TypeDeclaration/type"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ConstantDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ConstantDeclaration/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ConstantDeclaration/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ProcessDeclaration"/>
+    <genClasses ecoreClass="chi.ecore#//FunctionDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//FunctionDeclaration/returnType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ModelDeclaration"/>
+    <genClasses ecoreClass="chi.ecore#//VariableDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//VariableDeclaration/initialValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//VariableDeclaration/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//VariableDeclaration/parameter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//VariableDeclaration/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//BehaviourDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//BehaviourDeclaration/variables"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//BehaviourDeclaration/statements"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ReceiveStatement"/>
+    <genClasses ecoreClass="chi.ecore#//SendStatement"/>
+    <genClasses ecoreClass="chi.ecore#//EnumValueReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//EnumValueReference/value"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ReadCallExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ReadCallExpression/file"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ReadCallExpression/loadType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//Unwind">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//Unwind/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//Unwind/variables"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ProcessInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ProcessInstance/call"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ProcessInstance/var"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ProcessType"/>
+    <genClasses ecoreClass="chi.ecore#//ProcessReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//ProcessReference/process"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//UnresolvedReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//UnresolvedReference/name"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//UnresolvedType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//UnresolvedType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//TimerType"/>
+    <genClasses ecoreClass="chi.ecore#//EnumDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//EnumDeclaration/values"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//EnumValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute chi.ecore#//EnumValue/name"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ChannelExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ChannelExpression/elementType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//CastExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CastExpression/expression"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CastExpression/castType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//CloseStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//CloseStatement/handle"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//FinishStatement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//FinishStatement/instances"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ModelReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference chi.ecore#//ModelReference/model"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//XperDeclaration"/>
+    <genClasses image="false" ecoreClass="chi.ecore#//ComputeDeclaration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ComputeDeclaration/returnType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="chi.ecore#//ComputeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ComputeType/parameterTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference chi.ecore#//ComputeType/exitType"/>
+    </genClasses>
+    <genClasses ecoreClass="chi.ecore#//ModelType"/>
+  </genPackages>
+</genmodel:GenModel>

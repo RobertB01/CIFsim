@@ -1,0 +1,76 @@
+group a:
+  group b:
+    alg real alg2 = 1.23;
+    const real const2 = 2.34;
+    cont cont2 der 3.45;
+    enum enum2 = lit2a, lit2b;
+    event event2a;
+    event bool event2b;
+    input bool input2;
+    type type2 = bool;
+    func real func2(int funcparam2):
+      real funcvar2 = 2.0;
+      return funcparam2 * funcvar2;
+    end
+    alg real alg1 = 1.23;
+    const real const1 = 2.34;
+    cont cont1 der 3.45;
+    enum enum1 = lit1a, lit1b;
+    event event1a;
+    event bool event1b;
+    input bool input1;
+    type type1 = bool;
+    func real func1(int funcparam1):
+      real funcvar1 = 2.0;
+      return funcparam1 * funcvar1;
+    end
+    automaton aut2a:
+      disc bool disc2a = true;
+      location loc2a:
+        initial;
+        edge event2a do disc2a := false;
+        edge event2b!true;
+    end
+    automaton inst2a:
+      location loc2b:
+        initial;
+    end
+    group inst2b:
+      alg real algparam2 = const2;
+      automaton aut2b:
+        disc bool disc2b;
+        location:
+          initial;
+          edge event2a;
+          edge event2b? do disc2b := ?;
+      end
+      invariant algparam2 > 0 or aut2a.loc2a or inst2a.loc2b;
+    end
+    group group2:
+    end
+    automaton aut1a:
+      disc bool disc1a = true;
+      location loc1a:
+        initial;
+        edge event1a do disc1a := false;
+        edge event1b!true;
+    end
+    automaton inst1a:
+      location loc1b:
+        initial;
+    end
+    group inst1b:
+      alg real algparam1 = const1;
+      automaton aut1b:
+        disc bool disc1b;
+        location:
+          initial;
+          edge event1a;
+          edge event1b? do disc1b := ?;
+      end
+      invariant algparam1 > 0 or aut1a.loc1a or inst1a.loc1b;
+    end
+    group group1:
+    end
+  end
+end

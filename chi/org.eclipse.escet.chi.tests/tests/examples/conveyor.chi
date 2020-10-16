@@ -1,0 +1,54 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type conv_item = tuple(item x; timer t);
+type item = int;
+
+proc T(chan? item a; chan! item b; real convey_time):
+   list conv_item xst; item x;
+   while true:
+      select
+         a?x:
+            xst = xst + [(x, timer(convey_time))];
+            writeln("%d entered at %s", x, time)
+      alt
+         not empty(xst) and ready(xst[0].t), b!xst[0].x:
+            writeln("%d left at %s", xst[0].x, time);
+            xst = xst[1:]
+      end
+   end
+end
+
+proc G(chan! item a):
+    dist real d = exponential(4.0);
+    int n = 0;
+    while true:
+        a!n;
+        n = n + 1;
+        delay sample d
+    end
+end
+
+proc void E(chan? item a):
+    item x;
+    int c = 0;
+    while c < 10:
+        a?x;
+        c = c + 1;
+    end
+    exit
+end
+
+model void M():
+    chan item gt, te;
+    run G(gt), T(gt, te, 20.0), E(te)
+end

@@ -1,0 +1,79 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  controllable e1, e2, e3, e4, e5, e6, e7, e8;
+  disc int[0..5] x1, x2;
+
+  location:
+    initial;
+    marked;
+
+    // Overlap.
+    edge e1 when x1 > 2;
+    edge e1 when x1 <= 3;
+
+    // Overlap.
+    edge e2 when true;
+    edge e2;
+
+    // Overlap
+    edge e3, e3;
+
+    // Overlap.
+    edge e4;
+    edge e4;
+    edge e4 when false;
+
+    // Overlap.
+    edge e5 when x1 = 1 or x2 > 2;
+    edge e5 when x1 = 2 or x2 <= 3;
+
+    // Overlap.
+    edge e6 when x1 = 1;
+    edge e6 when x1 = 2;
+    edge e6 when x1 = 3;
+    edge e6 when x1 = 2;
+
+    // No overlap.
+    edge e7 when x1 = 1;
+    edge e7 when x1 = 2;
+    edge e7 when x1 = 3;
+
+    // No overlap.
+    edge e8 when x1 = 1 or x1 = 3;
+    edge e8 when x1 = 2;
+end
+
+// Overlap in requirement with single location. Leads to product with edges
+// from plant, 2 * 2 = 4 combinations.
+requirement r1:
+  location:
+    initial;
+    marked;
+    edge p.e1;
+    edge p.e1;
+end
+
+// Overlap in requirement with multiple locations.
+requirement r2:
+  location l1:
+    initial;
+    marked;
+    edge p.e2;
+    edge p.e2 goto l2;
+
+  location l2:
+    edge p.e3;
+    edge p.e3;
+end

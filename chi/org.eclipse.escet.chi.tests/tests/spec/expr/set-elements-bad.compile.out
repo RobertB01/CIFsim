@@ -1,0 +1,36 @@
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 14, column 38: Cannot assign value with type "set chan! int" to variables with type "set chan? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 17, column 38: Cannot assign value with type "set chan? int" to variables with type "set chan! int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 21, column 39: Cannot assign value with type "set chan? int" to variables with type "set chan!? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 22, column 39: Cannot assign value with type "set chan! int" to variables with type "set chan!? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 36, column 51: Cannot assign value with type "set chan! int" to variables with type "set chan? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 37, column 51: Cannot assign value with type "set chan! int" to variables with type "set chan? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 42, column 52: Cannot assign value with type "set chan! int" to variables with type "set chan!? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 43, column 52: Cannot assign value with type "set chan! int" to variables with type "set chan!? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 49, column 51: Cannot assign value with type "set chan? int" to variables with type "set chan! int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 50, column 51: Cannot assign value with type "set chan? int" to variables with type "set chan! int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 52, column 52: Cannot assign value with type "set chan? int" to variables with type "set chan!? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 53, column 52: Cannot assign value with type "set chan? int" to variables with type "set chan!? int".
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 56, column 57: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 57, column 57: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 59, column 57: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 60, column 57: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 62, column 58: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 63, column 58: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 66, column 71: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 67, column 73: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 68, column 71: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 69, column 73: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 70, column 73: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 71, column 73: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 73, column 71: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 74, column 73: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 75, column 71: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 76, column 73: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 77, column 73: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 78, column 73: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 80, column 72: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 81, column 74: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 82, column 72: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 83, column 74: All elements of a set must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 84, column 74: All elements of a set must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/set-elements-bad.chi": Semantic error at line 85, column 74: All elements of a set must have the same type (expected "chan! int", found "chan? int").

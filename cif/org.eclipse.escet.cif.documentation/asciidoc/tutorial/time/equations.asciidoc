@@ -1,0 +1,58 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-time-chapter-equations]]
+== Equations
+
+indexterm:[equation,benefit]
+Consider the following
+link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
+
+image::{tut-imgsdir}/time/tank.png[]
+
+Variable `V` models the water volume of a tank. The water volume of the tank
+changes based on the incoming flow of water `Qi` and outgoing flow of water
+`Qo`. The tank can be modeled using the following CIF specification:
+
+
+[source, cif]
+----
+cont V = 5 der Qi - Qo;
+alg real Qi = 1;
+alg real Qo = sqrt(V);
+----
+
+Initially, the tank is filled with `5` liters of water. The incoming flow is
+constant at `1` liter per second. The outgoing flow increases as the water
+volume of the tank increases.
+
+By separating the declarations of the three variables from their equations, the
+specification becomes more readable:
+
+// Copied to: reuse2/groups
+
+[source,cif]
+----
+cont V = 5;
+alg real Qi;
+alg real Qo;
+
+equation V' = Qi - Qo;
+equation Qi = 1;
+equation Qo = sqrt(V);
+----
+
+The values of the variables as time passes are shown in the following figure:
+
+image::{tut-imgsdir}/time/tank_plot.png[]

@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func int fac1(int x):
+  return if x <= 1: 1 else fac1(x - 1) * x end;
+end
+
+func int fac2(int[0..12] x):
+  int[-1..12] y = x - 1;
+  int[ 0..12] z = max(2, y);
+  return if   x <= 1: 1
+         elif x = 2:  2
+         else         fac2(z) * x
+         end;
+end
+
+automaton p:
+  disc list int x1, x2;
+  disc int[0..12] i = 0;
+
+  location:
+    initial;
+    urgent;
+    edge when i < 12 do x1 := x1 + [fac1(i)], x2 := x2 + [fac2(i)], i := i + 1;
+end

@@ -1,0 +1,25 @@
+controllable c1;
+controllable c2;
+plant automaton p1:
+  location l0:
+    initial;
+    marked;
+    edge c1 goto l1;
+  location l1:
+    edge c2 goto l0;
+end
+plant automaton p2:
+  alphabet c1, c2;
+  location l0:
+    initial;
+    marked;
+    edge c1;
+end
+supervisor automaton sup:
+  alphabet c1, c2;
+  location:
+    initial;
+    marked;
+    edge c1 when false;
+    edge c2 when false;
+end

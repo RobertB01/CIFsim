@@ -1,0 +1,21 @@
+svgfile "sun_moon.svg";
+
+automaton sun_moon:
+  cont t der 1.0;
+
+  location Day:
+    initial;
+    edge when t >= 12.0 do t := 0.0 goto Night;
+
+  location Night:
+    edge when t >= 12.0 do t := 0.0 goto Day;
+
+  svgout id "sun" attr "visibility"
+    value if Day: "visible" else "hidden" end;
+
+  svgout id "moon" attr "visibility"
+    value switch self:
+      case Day:   "hidden"
+      case Night: "visible"
+    end;
+end

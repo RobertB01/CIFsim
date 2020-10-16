@@ -1,0 +1,1 @@
+Error: File "spec/expr/bad-cast.chi": Semantic error at line 17, column 12: Cannot cast from real to an integer, use a "floor", "round", or "ceil" function instead.

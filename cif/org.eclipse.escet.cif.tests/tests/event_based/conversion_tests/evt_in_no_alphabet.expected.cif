@@ -1,0 +1,7 @@
+controllable b;
+plant automaton product:
+  alphabet b;
+  location s1:
+    initial;
+    edge b;
+end

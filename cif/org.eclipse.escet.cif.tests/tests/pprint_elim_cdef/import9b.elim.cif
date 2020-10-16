@@ -1,0 +1,2 @@
+printfile "a.txt";
+svgfile "text.svg";

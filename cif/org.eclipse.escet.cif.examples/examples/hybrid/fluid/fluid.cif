@@ -1,0 +1,90 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Hybrid fluid model with 3 buffers and 2 servers.
+
+svgfile "fluid.svg";
+
+const real MAX_RATE = 1.0;
+
+automaton def S(alg string nr; alg real pred_fh, succ_eh):
+  alg real rate = min(MAX_RATE, min(pred_fh, succ_eh)) * p;
+  disc int p = 1; // 0 when broken, 1 when producing.
+  disc dist real d_up = uniform(0.1, 15.0);
+  disc dist real d_down = uniform(0.1, 3.0);
+  cont t der -1.0;
+
+  location Initialize:
+    initial;
+    edge do (t, d_up) := sample d_up goto Up;
+
+  location Up:
+    edge when t <= 0 do (t, d_down) := sample d_down, p := 0 goto Down;
+
+  location Down:
+    edge when t <= 0 do (t, d_up) := sample d_up, p := 1 goto Up;
+
+  svgout id "s" + nr + "_circle_bg" attr "fill"
+    value if p = 0: "#ff4040" else "#40ff40" end;
+
+  svgout id "s" + nr + "_circle_bg_rect" attr "height"
+    value scale(if p = 1: rate else MAX_RATE end, 0, MAX_RATE, 58, 0);
+
+  svgout id "s" + nr + "_circle_bg_rect" attr "fill" value "white";
+
+  svgout id "s" + nr + "_rate_txt" text value fmt("Rate: %.2f", rate);
+
+  svgout id "s" + nr + "_up_down_txt" text value fmt("Time: %.2f", t);
+end
+
+const real H = 5.0; // Buffer height.
+
+group def B(alg string nr; alg real pred_rate, succ_rate):
+  cont fh = H / 2 der pred_rate - succ_rate; // Filled height.
+  alg real eh = H - fh;                      // Empty height.
+
+  svgout id "b" + nr + "_fh" attr "height" value scale(fh, 0, H, 0, 100);
+
+  svgout id "b" + nr + "_fh_txt" text value fmt("Height: %.2f", fh);
+end
+
+alg real gen_rate = min(MAX_RATE, b1.eh);
+
+svgout id "g_circle_bg_rect" attr "height"
+  value scale(gen_rate, 0, MAX_RATE, 58, 0);
+
+svgout id "g_circle_bg_rect" attr "fill" value "white";
+
+svgout id "g_rate_txt" text value fmt("Rate: %.2f", gen_rate);
+
+b1: B("1", gen_rate, s1.rate);
+
+s1: S("1", b1.fh, b2.eh);
+b2: B("2", s1.rate, s2.rate);
+
+s2: S("2", b2.fh, b3.eh);
+b3: B("3", s2.rate, exit_rate);
+
+alg real exit_rate = min(MAX_RATE, b3.fh);
+cont exit_volume = 0.0 der exit_rate;
+
+svgout id "e_circle_bg_rect" attr "height"
+  value scale(exit_rate, 0, MAX_RATE, 58, 0);
+
+svgout id "e_volume_txt" text value fmt("Volume: %.2f", exit_volume);
+
+svgout id "e_circle_bg_rect" attr "fill" value "white";
+
+svgout id "e_rate_txt" text value fmt("Rate: %.2f", exit_rate);
+
+svgout id "time_txt" text value fmt("Time: %.2f", time);

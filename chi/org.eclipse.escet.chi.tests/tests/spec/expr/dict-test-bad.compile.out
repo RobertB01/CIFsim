@@ -1,0 +1,4 @@
+Error: File "spec/expr/dict-test-bad.chi": Semantic error at line 15, column 60: Expression does not match with key type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/dict-test-bad.chi": Semantic error at line 18, column 60: Expression does not match with key type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/dict-test-bad.chi": Semantic error at line 22, column 61: Expression does not match with key type (expected "chan!? int", found "chan? int").
+Error: File "spec/expr/dict-test-bad.chi": Semantic error at line 23, column 61: Expression does not match with key type (expected "chan!? int", found "chan! int").

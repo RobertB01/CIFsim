@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Test for bug 'Wrapping expressions need wrapping types', with 2 levels of component instantiations.
+enum E1 = X, Y;
+
+group def G():
+  automaton aa:
+    enum E2 = Q, R;
+
+    disc bool v;
+
+    disc E1 v1 = X;
+    disc E2 v2 = Q;
+
+    disc list E1 w1 = [Y];
+    disc list E2 w2 = [R];
+
+    location l:
+      initial;
+      urgent;
+  end
+end
+
+group def H():
+  g: G();
+end
+
+h1: H();
+
+print h1.g.aa.v;
+print h1.g.aa.v1;
+print h1.g.aa.v2;
+print h1.g.aa.w1;
+print h1.g.aa.w2;

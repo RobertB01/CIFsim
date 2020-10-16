@@ -1,0 +1,12 @@
+event e;
+group g:
+  event $plant;
+  event $automaton;
+  event $requirement;
+end
+automaton event_disabler:
+  alphabet e, g.$plant, g.$automaton, g.$requirement;
+  location:
+    initial;
+    edge e, g.$plant, g.$automaton, g.$requirement when false;
+end

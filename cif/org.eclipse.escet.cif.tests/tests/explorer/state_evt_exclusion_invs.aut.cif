@@ -1,0 +1,79 @@
+event e;
+event f;
+event g;
+event h;
+automaton statespace:
+  alphabet e, f, g, h;
+  location loc1:
+    initial;
+    edge e goto loc2;
+    edge e goto loc3;
+  location loc2:
+    edge e goto loc3;
+    edge e goto loc4;
+  location loc3:
+    edge e goto loc4;
+    edge e goto loc5;
+  location loc4:
+    edge e goto loc5;
+    edge e goto loc6;
+  location loc5:
+    edge e goto loc6;
+    edge e goto loc7;
+  location loc6:
+    edge e goto loc7;
+    edge e goto loc8;
+  location loc7:
+    edge e goto loc8;
+    edge e goto loc9;
+  location loc8:
+    edge e goto loc9;
+    edge e goto loc10;
+  location loc9:
+    edge e goto loc10;
+    edge e goto loc11;
+  location loc10:
+    edge e goto loc11;
+    edge e goto loc12;
+    edge f;
+  location loc11:
+    edge e goto loc12;
+    edge e goto loc13;
+    edge f;
+    edge g;
+  location loc12:
+    edge e goto loc13;
+    edge e goto loc14;
+    edge f;
+    edge g;
+    edge h;
+  location loc13:
+    edge e goto loc14;
+    edge e goto loc15;
+    edge f;
+    edge g;
+    edge h;
+  location loc14:
+    edge e goto loc15;
+    edge e goto loc16;
+    edge f;
+    edge g;
+  location loc15:
+    edge e goto loc16;
+    edge e goto loc17;
+    edge f;
+  location loc16:
+    edge e goto loc17;
+    edge e goto loc18;
+  location loc17:
+    edge e goto loc18;
+    edge e goto loc19;
+  location loc18:
+    edge e goto loc19;
+    edge e goto loc20;
+  location loc19:
+    edge e goto loc20;
+    edge e goto loc21;
+  location loc20;
+  location loc21;
+end

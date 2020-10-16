@@ -1,0 +1,81 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "svg_dupl_file2.cif";
+
+svgfile "small.svg";
+svgfile "small.svg";
+
+group x_x:
+  svgfile "small.svg";
+end
+
+group x_xx:
+  svgfile "small.svg";
+end
+
+group xx_x:
+  svgfile "small.svg";
+  svgfile "small.svg";
+end
+
+group xx_xx:
+  svgfile "small.svg";
+  svgfile "small.svg";
+end
+
+// ---
+
+group x_y:
+  svgfile "small.svg";
+end
+
+group y_xx:
+  svgfile "../pprint_elim_cdef/text.svg";
+end
+
+group xx_y:
+  svgfile "small.svg";
+  svgfile "small.svg";
+end
+
+group y_xy:
+  svgfile "../pprint_elim_cdef/text.svg";
+end
+
+group xy_x:
+  svgfile "small.svg";
+  svgfile "../pprint_elim_cdef/text.svg";
+end
+
+group xy_xy:
+  svgfile "small.svg";
+  svgfile "../pprint_elim_cdef/text.svg";
+end
+
+// ---
+
+group x_:
+  svgfile "small.svg";
+end
+
+group _xx:
+end
+
+group xx_:
+  svgfile "small.svg";
+  svgfile "small.svg";
+end
+
+group _x:
+end

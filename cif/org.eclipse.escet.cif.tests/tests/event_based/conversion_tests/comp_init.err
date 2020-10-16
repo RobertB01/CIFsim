@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/comp_init.cif".
+CAUSE: Unsupported group "g.h": initialization predicates in components are currently not supported.

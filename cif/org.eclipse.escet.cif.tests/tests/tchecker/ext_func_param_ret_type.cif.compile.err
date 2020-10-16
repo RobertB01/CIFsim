@@ -1,0 +1,8 @@
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 15, column 14: The 1st parameter of function "f1" has type "dist bool", which is not supported for external user-defined Java functions.
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 25, column 6: The 1st return value of function "f2" has type "dist bool", which is not supported for external user-defined Java functions.
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 34, column 15: The 1st parameter of function "f3a" has type "tuple(int a; list set dict(g.e:bool) b)", which is not supported for external user-defined Java functions.
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 35, column 15: The 1st parameter of function "f3b" has type "tuple(int a; list set dict(bool:g.e) b)", which is not supported for external user-defined Java functions.
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 41, column 6: The 1st return value of function "f4" has type "list e", which is not supported for external user-defined Java functions.
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 50, column 23: The 2nd parameter of function "g2.f5" has type "func bool()", which is not supported for external user-defined Java functions.
+ERROR: File "tchecker/ext_func_param_ret_type.cif": Semantic error at line 56, column 8: The 1st return value of function "g3.f6" has type "func bool()", which is not supported for external user-defined Java functions.
+ERROR: Failed to load CIF file "tchecker/ext_func_param_ret_type.cif": the file has errors.

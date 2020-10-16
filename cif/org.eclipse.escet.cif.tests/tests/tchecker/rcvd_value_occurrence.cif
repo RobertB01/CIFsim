@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const int x = ? * 2;
+alg int y = ? + 1;
+
+func int f():
+  int x;
+  x := ?;
+  return x;
+end
+
+automaton a1:
+  location:
+    initial;
+    edge when ?;
+end
+
+automaton a2:
+  event int e;
+
+  location:
+    initial;
+    edge e!?;
+end
+
+automaton a3:
+  event int e;
+  disc int x;
+
+  location:
+    initial;
+    edge e!1 do x := ?;
+end
+
+automaton a4:
+  disc tuple(int a, b) x;
+
+  location:
+    initial;
+    edge do x[?] := 1;
+end

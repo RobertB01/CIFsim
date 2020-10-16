@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_invalid_name.tooldef": Semantic error at line 14, column 8: Import name "1_starts_with_number", derived from "subdir/1_starts_with_number.tooldef" is not a valid ToolDef identifier.
+ERROR: Failed to load ToolDef file "tchecker/import_file_invalid_name.tooldef": the file has errors.

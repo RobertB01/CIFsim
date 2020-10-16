@@ -1,0 +1,79 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// See also: lang/old_new_edges.cif
+
+func int, list int, dict(int:int) f1():
+  int x = 1;
+  list int li = [3, 4];
+  dict(int:int) d = {5:6};
+
+  x, li[x], d[x] := 7, 8, 9;
+
+  return x, li, d; // (7, [3, 8], {5: 6, 1: 9})
+end
+
+func int, int f2():
+  int x = 1, y = 2;
+  x := y; y := x;
+  return x, y; // (2, 2)
+end
+
+func int, int f3():
+  int x = 1, y = 2;
+  x, y := y, x;
+  return x, y; // (2, 1)
+end
+
+func int, int f4():
+  int x = 1, y = 2;
+  x := x + 1; y := x + 1;
+  return x, y; // (2, 3)
+end
+
+func int, int f5():
+  int x = 1, y = 2;
+  x, y := x + 1, x + 1;
+  return x, y; // (2, 2)
+end
+
+func list int, list int f6():
+  list int x = [1, 2], y = [3, 4];
+
+  x[0], y[x[0]] := 5, 6;
+
+  x[1], y[x[0] - 5] := 7, 8;
+
+  return x, y; // ([5, 7], [8, 6])
+end
+
+automaton p:
+  disc tuple(int a; list int b; dict(int:int) c) v1 = f1();
+  disc tuple(int a, b) v2 = f2();
+  disc tuple(int a, b) v3 = f3();
+  disc tuple(int a, b) v4 = f4();
+  disc tuple(int a, b) v5 = f5();
+  disc tuple(list int a, b) v6 = f6();
+
+  invariant v1 = (7, [3, 8], {5: 6, 1: 9});
+  invariant v2 = (2, 2);
+  invariant v3 = (2, 1);
+  invariant v4 = (2, 3);
+  invariant v5 = (2, 2);
+  invariant v6 = ([5, 7], [8, 6]);
+
+  location:
+    initial;
+    urgent;
+end
+

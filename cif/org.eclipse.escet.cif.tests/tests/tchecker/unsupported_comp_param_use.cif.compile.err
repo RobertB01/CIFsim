@@ -1,0 +1,3 @@
+ERROR: File "tchecker/unsupported_comp_param_use.cif": Semantic error at line 20, column 13: Use of a component parameter as a value is currently not supported.
+ERROR: File "tchecker/unsupported_comp_param_use.cif": Semantic error at line 35, column 10: Use of a component parameter as a value is currently not supported.
+ERROR: Failed to load CIF file "tchecker/unsupported_comp_param_use.cif": the file has errors.

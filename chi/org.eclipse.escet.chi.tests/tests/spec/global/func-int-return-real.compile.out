@@ -1,0 +1,1 @@
+Error: File "spec/global/func-int-return-real.chi": Semantic error at line 14, column 5: Type of returned data does not match with return type of the function (returned "real", return type "int").

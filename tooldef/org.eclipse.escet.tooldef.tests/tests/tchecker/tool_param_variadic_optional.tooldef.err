@@ -1,0 +1,2 @@
+ERROR: File "tchecker/tool_param_variadic_optional.tooldef": Semantic error at line 14, column 15: Tool parameter "a.b" may not be both variadic and optional.
+ERROR: Failed to load ToolDef file "tchecker/tool_param_variadic_optional.tooldef": the file has errors.

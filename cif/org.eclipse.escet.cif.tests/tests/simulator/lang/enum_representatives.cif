@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton def A():
+  enum e = x, y;
+  disc e v1 = x;
+  disc e v2 = y;
+  location:
+    initial;
+end
+
+a1: A();
+a2: A();
+
+automaton b:
+  disc bool b11 = a1.v1 = a2.v1;
+  disc bool b12 = a1.v1 = a2.v2;
+  disc bool b21 = a1.v2 = a2.v1;
+  disc bool b22 = a1.v2 = a2.v2;
+
+  invariant b11 or b12 or b21 or b22;
+
+  location:
+    initial;
+    urgent;
+end

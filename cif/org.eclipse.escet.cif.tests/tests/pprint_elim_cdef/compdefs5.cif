@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton def P(Q qq):
+  invariant qq.ql, pl;
+  location pl:
+    initial;
+end
+
+automaton def Q(P pp):
+  invariant pp.pl, ql;
+  location ql:
+    initial;
+end
+
+p1: P(q1);
+q1: Q(p1);
+
+invariant p1.pl, q1.ql;

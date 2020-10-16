@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "1e199 * 1e199 > 0" of the top level scope of the specification failed.
+CAUSE: Real overflow: 1.0e199 * 1.0e199.

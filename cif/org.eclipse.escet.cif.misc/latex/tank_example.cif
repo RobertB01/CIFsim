@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group tank:
+  cont V = 10.0;
+  alg real Qi = controller.n * 5.0;
+  alg real Qo = sqrt(V);
+  equation V' = Qi - Qo;
+end
+
+automaton controller:
+  alg int n;
+
+  location closed:
+    initial;
+    equation n = 0;
+    when tank.V <= 2  goto opened;
+
+  location opened:
+    equation n = 1;
+    when tank.V >= 10 goto closed;
+end
+
+string test: "some \n \t \\ \" string"
+
+operator test: 9 div 4
+
+
+79 line length:
+1234567890123456789012345678901234567890123456789012345678901234567890123456789
+123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789
+a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a

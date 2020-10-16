@@ -1,0 +1,79 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "button_lamp_timer.svg";
+
+// Time label.
+svgout id "time" text value fmt("Time: %.2f", time);
+
+// Button plant (timing does not play a role).
+plant Button:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+
+  location Released:
+    initial;
+    marked;
+    edge u_pushed goto Pushed;
+
+  location Pushed:
+    edge u_released goto Released;
+
+  svgout id "button" attr "width" value if Pushed: 12 else 36 end;
+  svgout id "button_state_txt" text value <string>self;
+
+  svgin id "button" event if Released: u_pushed else u_released end;
+end
+
+// Lamp plant (timing does not play a role).
+plant Lamp:
+  controllable c_on;
+  controllable c_off;
+
+  location Off:
+    initial;
+    marked;
+    edge c_on goto On;
+
+  location On:
+    edge c_off goto Off;
+
+  svgout id "lamp" attr "fill" value if On: "yellow" else "silver" end;
+  svgout id "lamp_state_txt" text value <string>self;
+end
+
+// Timer plant (includes the timing behavior).
+plant Timer:
+  controllable c_start;
+  uncontrollable u_timeout;
+  cont t der 1.0;
+  const real duration = 3.0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_start do t := 0.0 goto Running;
+
+  location Running:
+    edge u_timeout when t >= duration goto Idle;
+
+  svgout id "timer_back" attr "fill" value if Idle: "silver" else "white" end;
+
+  svgout id "timer_front" attr "width"
+    value scale(min(t, duration), 0, duration, 0, 129);
+
+  svgout id "timer_front" attr "visibility"
+    value if Idle: "hidden" else "visible" end;
+
+  svgout id "timer_state_txt" text value <string>self;
+end

@@ -1,0 +1,1 @@
+WARNING: File "simulator/svgviz/id_attr_chars.cif": Semantic warning at line 18, column 32: The SVG element with id ":ABZ_abz-.019" in SVG file "id_attr_chars.svg" has name "rect", which according to the SVG 1.1 standard does not have a ":ACZ_acz-.029" attribute.

@@ -1,0 +1,16 @@
+Read text 123
+
+EOL count: 3
+Read text 234
+
+Found 0 EOL (extra test 0)
+Read text 345
+
+Found EOF false
+Found 1 EOL
+Read text 456
+
+Counted EOL -1
+Found EOF true
+Counted EOL -1
+All processes finished at time 0.00 (initial seed was 135).

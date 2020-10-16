@@ -1,0 +1,1 @@
+WARNING: File "datasynth/multi_req_invs2.ctrlsys.real.cif": Semantic warning at line 15, column 12: The alphabet of automaton "r" globally disables event "d", as the event is not used on any of the edges of the automaton.

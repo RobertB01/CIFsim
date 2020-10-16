@@ -1,0 +1,40 @@
+group g:
+  controllable e1;
+  controllable e2;
+  enum E1 = A, B, C, D, E;
+  enum E2 = F, G, H;
+  plant automaton p:
+    disc E1 x0;
+    disc E1 x1 = A;
+    disc E1 x2 = B;
+    disc E1 x3 in {A, B, D};
+    disc E1 x4 in {A, B, C, D, E};
+    disc E1 x5 in any;
+    disc E2 x6 = G;
+    marked x1 = A,
+           x2 = B,
+           x3 = D,
+           x4 != C,
+           x4 != D,
+           x4 != E,
+           x5 != C;
+    location:
+      initial;
+      marked x0 = E;
+      edge e1 when x0 = A do x0 := B;
+      edge e1 when x0 = B do x0 := C;
+      edge e1 when x0 = C do x0 := D;
+      edge e1 when x0 = D do x0 := E;
+      edge e2 when x6 = G;
+      edge e2 when x6 != G;
+  end
+end
+supervisor automaton sup:
+  alphabet g.e1, g.e2;
+  initial g.p.x3 = g.D and ((g.p.x4 = g.A or g.p.x4 = g.B) and (g.p.x5 = g.A or g.p.x5 = g.E)) or g.p.x3 = g.D and ((g.p.x4 = g.A or g.p.x4 = g.B) and (g.p.x5 = g.B or g.p.x5 = g.D));
+  location:
+    initial;
+    marked;
+    edge g.e1 when g.p.x1 = g.A and (g.p.x2 = g.B and g.p.x3 = g.D) and ((g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x1 = g.A and (g.p.x2 = g.B and g.p.x3 = g.D) and ((g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G));
+    edge g.e2 when (g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or ((g.p.x0 = g.A or g.p.x0 = g.E) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.C and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or ((g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.B or g.p.x0 = g.D) and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A or g.p.x4 = g.B) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))));
+end

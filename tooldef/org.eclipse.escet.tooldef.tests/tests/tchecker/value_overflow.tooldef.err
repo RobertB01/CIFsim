@@ -1,0 +1,2 @@
+ERROR: File "tchecker/value_overflow.tooldef": Semantic error at line 16, column 10: Integer/long value overflow (9,223,372,036,854,775,808 > 2^63 - 1).
+ERROR: Failed to load ToolDef file "tchecker/value_overflow.tooldef": the file has errors.

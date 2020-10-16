@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Variables may not be initialized with other variables, so that needs to be
+// evaluated away.
+
+event e;
+
+const int c = 5;
+
+plant p:
+  disc int x1 = x3 * 2;  // 16
+  disc int x2 = c;       // 5
+  disc int x3 = x2 + 3;  // 8
+
+  disc int[0..20] v;
+
+  location:
+    initial;
+    edge e do v := x1;
+end

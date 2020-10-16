@@ -1,0 +1,23 @@
+// Behavior.
+const real CAPACITY   = 10.0;
+const real MAX_LEVEL  =  8.0;
+const real INIT_LEVEL =  5.0;
+const real MIN_LEVEL  =  2.0;
+
+automaton tank:
+  cont level = INIT_LEVEL;
+
+  location open:
+    initial;
+    equation level' =  1.0;
+    edge when level >= MAX_LEVEL goto closed;
+
+  location closed:
+    equation level' = -1.0;
+    edge when level <= MIN_LEVEL goto open;
+end
+
+// Visualization.
+svgfile "tank.svg";
+
+svgout id "water" attr "height" value scale(tank.level, 0, CAPACITY, 0, 80);

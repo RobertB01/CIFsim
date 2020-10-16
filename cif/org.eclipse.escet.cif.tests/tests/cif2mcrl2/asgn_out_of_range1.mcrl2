@@ -1,0 +1,11 @@
+sort LocSort_buff = struct loc_buff;
+
+act value_cnt : Int;
+
+proc BehProc_buff(Locvar_buff : LocSort_buff, cnt : Int) =
+  value_cnt(cnt) . BehProc_buff(Locvar_buff, cnt) +
+  ((Locvar_buff == loc_buff) && ((cnt + 1) >= 0) && ((cnt + 1) <= 3)) -> c_e . BehProc_buff(Locvar_buff, (cnt + 1));
+
+act c_e, renamed_c_e;
+
+init BehProc_buff(loc_buff, 0);

@@ -1,0 +1,18 @@
+controllable c;
+plant automaton p:
+  disc int[1..2] x;
+  disc int[1..2] y;
+  location l0:
+    initial;
+    marked x = 1;
+    edge c goto l1;
+  location l1:
+    marked (x = 1 or y = 2) and y = 1;
+end
+supervisor automaton sup:
+  alphabet c;
+  location:
+    initial;
+    marked;
+    edge c when p.x = 1 and p.y = 1;
+end

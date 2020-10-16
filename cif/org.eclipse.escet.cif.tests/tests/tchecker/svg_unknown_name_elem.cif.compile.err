@@ -1,0 +1,1 @@
+WARNING: File "tchecker/svg_unknown_name_elem.cif": Semantic warning at line 16, column 11: The SVG element with id "perspective13" in SVG file "svg_unknown_name_elem.svg" has name "inkscape:perspective", which is not part of the SVG 1.1 standard.

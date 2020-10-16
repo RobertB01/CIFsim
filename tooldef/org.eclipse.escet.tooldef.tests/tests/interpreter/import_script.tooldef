@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "../interpreter/invoke_tooldef.tooldef" as s;
+from "../interpreter/invoke_tooldef.tooldef" import t1, t2 as t;
+
+for x in range(5):: outln("%s %s", x, s.inc(x));
+outln();
+
+outln("%s", t1(1, 2, 3));
+outln("%s", t(1, 2, 3));
+
+from "../interpreter/type_decls.tooldef" import t as tp;
+
+type t2 = tp;
+
+int x1 = 5;
+tp x2 = 6;
+t2 x3 = 7;
+outln("%s %s %s", x1, x2, x3);
+
+x1 = x2;
+x1 = x3;
+x2 = x1;
+x2 = x3;
+x3 = x1;
+x3 = x2;
+outln("%s %s %s", x1, x2, x3);

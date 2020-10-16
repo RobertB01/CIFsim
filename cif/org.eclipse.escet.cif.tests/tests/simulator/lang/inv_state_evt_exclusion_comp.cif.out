@@ -1,0 +1,148 @@
+Initial state: time=0.0, a=*, a.x=1
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=2
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=3
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=4
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=5
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=6
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=7
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=8
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=9
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=10
+
+Possible transitions:
+  #1: event e
+  #2: event e
+  #3: event f
+
+Transition: event e
+State: time=0.0, a=*, a.x=11
+
+Possible transitions:
+  #1: event e
+  #2: event e
+  #3: event f
+  #4: event g
+
+Transition: event e
+State: time=0.0, a=*, a.x=12
+
+Possible transitions:
+  #1: event e
+  #2: event e
+  #3: event f
+  #4: event g
+  #5: event h
+
+Transition: event e
+State: time=0.0, a=*, a.x=13
+
+Possible transitions:
+  #1: event e
+  #2: event e
+  #3: event f
+  #4: event g
+  #5: event h
+
+Transition: event e
+State: time=0.0, a=*, a.x=14
+
+Possible transitions:
+  #1: event e
+  #2: event e
+  #3: event f
+  #4: event g
+
+Transition: event e
+State: time=0.0, a=*, a.x=15
+
+Possible transitions:
+  #1: event e
+  #2: event e
+  #3: event f
+
+Transition: event e
+State: time=0.0, a=*, a.x=16
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=17
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=18
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=19
+
+Possible transitions:
+  #1: event e
+  #2: event e
+
+Transition: event e
+State: time=0.0, a=*, a.x=20
+
+Simulation resulted in deadlock.

@@ -1,0 +1,11 @@
+SVG copy ("tank.svg") id "water" post "1".
+SVG copy ("tank.svg") id "water" post "2".
+
+SVG move ("tank.svg") id "water1" to 12.0, 21.0.
+SVG move ("tank.svg") id "water2" to 12.0, 21.0.
+
+Initial state: time=0.0, a=*
+
+SVG output ("tank.svg") id "water" attr "height" (SVG attr): "10"
+
+Simulation resulted in deadlock.

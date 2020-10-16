@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+initial 0;
+
+group x1:
+  initial 1;
+end
+
+group def x2():
+  initial 2;
+end
+
+plant x3:
+  initial 3;
+  location:
+    initial;
+end
+
+plant def x4():
+  initial 4;
+  location:
+    initial;
+end
+
+plant x5:
+  location:
+    initial 5;
+end
+
+plant x6:
+  location:
+    initial x5;
+end

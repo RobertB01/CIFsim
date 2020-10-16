@@ -1,0 +1,257 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+indexterm:[grammar]
+indexterm:[syntax,lexical]
+
+[[lang-ref-syntax-lexical]]
+== Lexical syntax
+
+This page describes the ToolDef lexical syntax.
+
+
+indexterm:[keywords]
+indexterm:[syntax,keywords]
+
+=== Keywords
+
+_General_
+
+[source, tooldef]
+----
+as          else        if          map         tool
+bool        end         import      null        true
+break       exit        in          object      tuple
+continue    false       int         return      type
+double      for         list        set         while
+elif        from        long        string
+----
+
+_Operators_
+
+[source, tooldef]
+----
+and         div         mod         not         or
+----
+
+_Built-in data tools_
+
+[source, tooldef]
+----
+abs         enumerate      log         reverse       str
+ceil        floor          lower       round         strdup
+contains    fmt            ltrim       rtrim         subset
+del         indexof        max         size          trim
+delidx      join           min         sorted        upper
+empty       keys           pow         split         values
+endswith    lastindexof    range       sqrt
+entries     ln             replace     startswith
+----
+
+_Built-in I/O tools_
+
+[source, tooldef]
+----
+err         errln       out         outln
+----
+
+_Built-in generic tools_
+
+[source, tooldef]
+----
+app         exec        tooldef
+----
+
+_Built-in path tools_
+
+[source, tooldef]
+----
+abspath     dirname
+basename    fileext
+chdir       hasfileext
+chfileext   pathjoin
+curdir      scriptpath
+----
+
+_Built-in file tools_
+
+[source, tooldef]
+----
+cpdir       filenewer   isfile      readlines
+cpfile      filesize    mkdir       rmdir
+diff        find        mvdir       rmfile
+exists      isdir       mvfile      writefile
+----
+
+indexterm:[terminals]
+indexterm:[syntax,terminals]
+
+=== Terminals
+
+Besides the keyword terminals listed above, ToolDef features several other
+terminals:
+
+indexterm:[identifiers]
+indexterm:[syntax,identifier]
+indexterm:[$]
+indexterm:[syntax,keyword escaping]
+indexterm:[keyword,escaping]
+
+`IDENTIFIERTK`::
+An identifier. Defined by the regular expression:
+`+[$]?[a-zA-Z_][a-zA-Z0-9_]*+`. They thus consist of letters, numbers
+and underscore characters (`+_+`). Identifiers may not start with a
+numeric digit. Keywords take priority over identifiers. To use a
+keyword as an identifier, prefix it with a `$` character.
+The `$` is not part of the identifier name.
+
++
+Examples:
++
+[source, tooldef]
+----
+apple       // identifier
+bear        // identifier
+int         // keyword
+$int        // identifier 'int' (override keyword priority with $)
+----
+
+indexterm:[names]
+indexterm:[syntax,name]
+
+`RELATIVENAMETK`::
+A name. Defined by the regular expression:
+`+[$]?[a-zA-Z_][a-zA-Z0-9_]*(\.[$]?[a-zA-Z_][a-zA-Z0-9_]*)++`.
+It thus consists of two or more `IDENTIFIERTK` joined together
+with periods (`.`).
++
+Examples:
++
+[source, tooldef]
+----
+some_library.some_tool
+----
+
+indexterm:[int,literal]
+indexterm:[long,literal]
+indexterm:[number,literal]
+indexterm:[syntax,number]
+
+`NUMBERTK`::
+An integer literal. Defined by the regular expression: `+0|[1-9][0-9]*+`.
+Integers thus consist of numeric digits. Only for the number `0` may an
+integer literal start with `0`. E.g. `02` is invalid.
++
+Examples:
++
+[source, tooldef]
+----
+0
+1
+123
+----
+
+indexterm:[double,literal]
+indexterm:[syntax,double]
+
+`DOUBLETK`::
+A double literal. Defined by the regular expression:
+`+(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)+`.
+Simple double literals consist of an integer literal followed by
+a period (`.`) and some numeric digits. Double literals using scientific
+notation start with either an integer literal or a simple double literal.
+They then contain either an `e` or `E`, followed by the exponent.
+The exponent consists of numeric digits, optionally preceded by `+` or `-`.
++
+Examples:
++
+[source, tooldef]
+----
+0.0
+1e5
+1E+03
+1.05e-78
+----
+
+indexterm:[string,literal]
+indexterm:[syntax,string]
+
+`STRINGTK`::
+A string literal. Defined by the regular expression:
+`+\"([^\\\"\n]|\\[nt\\\"])*\"+`. String literals are enclosed in double
+quotes (`+"+`). String literals must be on a single line and must thus not
+include new line characters (`\n`, Unicode U+0A). To include a double quote
+(`+"+`) in a string literal, it must be escaped as `+\"+`. Since a
+backslash (`\`) serves as escape character, to include a backslash in a string
+literal it must be escaped as `\\`. To include a tab character in a string
+literal, use `\t`. To include a newline in a string literal, use `\n`.
++
+Examples:
++
+[source, tooldef]
+----
+"hello world"
+"first line\nsecond line"
+----
+
+
+indexterm:[whitespace]
+indexterm:[syntax,whitespace]
+
+=== Whitespace
+
+ToolDef supports spaces, tabs, and new line characters as whitespace.
+Whitespace is ignored (except in string literals), but can be used to separate
+tokens as well as for layout purposes. The use of tab characters is allowed,
+but should be avoided if possible, as layout will be different for text
+editors with different tab settings. You may generally format a ToolDef
+script as you see fit, and start on a new line when desired.
+
+Examples:
+
+[source, tooldef]
+----
+// Normal layout.
+int x = 5;
+
+// Alternative layout.
+int
+  x    =
+    5
+  ;
+----
+
+
+indexterm:[comments]
+indexterm:[comments,single line]
+indexterm:[comments,multi line]
+indexterm:[syntax,comments]
+
+=== Comments
+
+ToolDef features two types of comments. Single line comments start with
+`//` and end at end of the line. Multi line comments start with `+/*+` and
+end at `+*/+`. Comments are ignored.
+
+Examples:
+
+[source, tooldef]
+----
+int x = 5; // Single line comment.
+
+int /* some comment */ x = /* some
+  more comments
+  and some more
+ end of the multi line comment */ 5;
+----

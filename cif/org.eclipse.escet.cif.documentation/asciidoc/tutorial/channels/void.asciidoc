@@ -1,0 +1,67 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-channels-chapter-void]]
+== Dataless channels
+
+indexterm:[void]
+indexterm:[channel,dataless]
+indexterm:[channel,void]
+indexterm:[void,channel]
+Besides channels that communicate data, it is also possible to use dataless
+channels. A channel that does not communicate any data, is declared with the
+`void` type. Dataless channels are also called `void` channels. When using
+dataless channels, the sender does not provide a value to send over the
+channel. Also, the receiver cannot use the received value (variable `?`)
+since no data is communicated.
+
+Dataless channels are used in the same situations as 'normal' channels,
+for instance when physical product flow is modeled. If products don't
+have an identification number, and can not be distinguished based on color or
+some other property, all products are essentially equal. It is then sufficient
+to communicate that a product is being 'transferred'. No further data is
+needed. While it is possible to communicate dummy values, dataless channels
+provide a better solution in such cases.
+
+Consider again the producer/consumer example from the
+<<tut-channels-chapter-intro,previous lesson>>, with one producer and two
+consumers, but without identification numbers for the products:
+
+// Copied and adapted from: channels/intro
+
+[source,cif]
+----
+event void provide;
+
+automaton producer:
+  location:
+    initial;
+    edge provide!;
+end
+
+automaton consumer1:
+  location:
+    initial;
+    edge provide?;
+end
+
+automaton consumer2:
+  location:
+    initial;
+    edge provide?;
+end
+----
+
+The `producer` still produces products and provides them to either the first
+or the second consumer.

@@ -1,0 +1,43 @@
+controllable e5a;
+uncontrollable e5b;
+controllable e6a;
+controllable e6b;
+plant automaton p5:
+  disc int[0..5] x in any;
+  location loc1:
+    initial;
+    marked;
+    edge e5a when x >= 3 goto loc2;
+  location loc2:
+    marked;
+    edge e5b goto loc3;
+  location loc3;
+end
+plant automaton p6:
+  location loc1:
+    initial;
+    marked;
+    edge e6a goto loc2;
+    edge e6b goto loc2;
+  location loc2:
+    edge e6a goto loc3;
+  location loc3:
+    edge e6b goto loc4;
+  location loc4:
+    edge e6a goto loc1;
+    edge e6b goto loc5;
+  location loc5:
+    edge e6a goto loc6;
+  location loc6:
+    edge e6b goto loc7;
+  location loc7;
+end
+supervisor automaton sup:
+  alphabet e5a, e6a, e6b;
+  location:
+    initial;
+    marked;
+    edge e5a when false;
+    edge e6a when true;
+    edge e6b when not p6.loc2 and (not p6.loc4 and not p6.loc6);
+end

@@ -1,0 +1,54 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+print "virtual" for initial, final;
+print "initial" for initial;
+print "initial2" for initial, initial;
+print "final" for final;
+print "time" for time;
+print "all" for initial, final, event, time;
+print "event" for event;
+print "f,g" for a.f, a.g;
+print "event,e" for event, a.e;
+print "default";
+
+automaton a:
+  cont t der 1.0;
+
+  event e, f, g;
+
+  location loc1:
+    initial;
+    edge e goto loc2;
+
+  location loc2:
+    edge when true goto loc3;
+
+  location loc3:
+    edge f goto loc4;
+
+  location loc4:
+    edge g goto loc5;
+
+  location loc5:
+    edge g goto loc6;
+
+  location loc6:
+    edge do t := 0.0 goto loc7;
+
+  location loc7:
+    edge when t >= 1.0 goto loc8;
+
+  location loc8:
+    urgent;
+end

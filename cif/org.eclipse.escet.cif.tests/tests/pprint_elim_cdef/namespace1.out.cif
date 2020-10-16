@@ -1,0 +1,3 @@
+group a:
+  type t = bool;
+end

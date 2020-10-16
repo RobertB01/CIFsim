@@ -1,0 +1,2 @@
+ERROR: Failed to apply controllability check for CIF file "event_based/controllability_check/no_supervisor.cif".
+CAUSE: No supervisor automaton found in the input for the controllability check.

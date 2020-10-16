@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  controllable e1, e2;
+  location l:
+    initial;
+    marked;
+    edge e1, e2;
+end
+
+requirement r1:
+  controllable e3;
+  location l:
+    initial;
+    marked;
+    edge p.e1, e3;
+end
+
+requirement r2:
+  controllable e4;
+  location l:
+    initial;
+    marked;
+    edge p.e2, e4;
+end

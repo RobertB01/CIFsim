@@ -1,0 +1,433 @@
+Parser automaton for main state "Program":
+
+initial state 0:
+  + S' : . Program {¶}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - Expression : . Expression MINUS TimesExpression {MINUS, PLUS, SEMICOL}
+  - Expression : . Expression PLUS TimesExpression {MINUS, PLUS, SEMICOL}
+  - Expression : . TimesExpression {MINUS, PLUS, SEMICOL}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - Program : . Statements {¶}
+  - Program : . {¶}
+  - Statement : . Expression {SEMICOL}
+  - Statement : . NAME EQUALS Expression {SEMICOL}
+  - Statement : . {SEMICOL}
+  - Statements : . Statement SEMICOL {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+  - Statements : . Statements Statement SEMICOL {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+  - TimesExpression : . MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression TIMES MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+
+  LPAREN  -> shift to state 5
+  MINUS   -> shift to state 4
+  NAME    -> shift to state 2
+  NUMBER  -> shift to state 3
+  PIKW    -> shift to state 1
+
+  SEMICOL -> reduce Statement : ;
+  ¶       -> reduce Program : ;
+
+  BaseExpression  -> goto state 6
+  Expression      -> goto state 7
+  MinusExpression -> goto state 8
+  Program         -> goto state 9
+  Statement       -> goto state 10
+  Statements      -> goto state 11
+  TimesExpression -> goto state 12
+
+state 1:
+  + BaseExpression : PIKW . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce BaseExpression : PIKW;
+  MINUS   -> reduce BaseExpression : PIKW;
+  PLUS    -> reduce BaseExpression : PIKW;
+  RPAREN  -> reduce BaseExpression : PIKW;
+  SEMICOL -> reduce BaseExpression : PIKW;
+  TIMES   -> reduce BaseExpression : PIKW;
+
+state 2:
+  + BaseExpression : NAME . {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  + Statement : NAME . EQUALS Expression {SEMICOL}
+
+  EQUALS  -> shift to state 28
+
+  DIVIDE  -> reduce BaseExpression : NAME;
+  MINUS   -> reduce BaseExpression : NAME;
+  PLUS    -> reduce BaseExpression : NAME;
+  SEMICOL -> reduce BaseExpression : NAME;
+  TIMES   -> reduce BaseExpression : NAME;
+
+state 3:
+  + BaseExpression : NUMBER . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce BaseExpression : NUMBER;
+  MINUS   -> reduce BaseExpression : NUMBER;
+  PLUS    -> reduce BaseExpression : NUMBER;
+  RPAREN  -> reduce BaseExpression : NUMBER;
+  SEMICOL -> reduce BaseExpression : NUMBER;
+  TIMES   -> reduce BaseExpression : NUMBER;
+
+state 4:
+  + MinusExpression : MINUS . MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  MinusExpression -> goto state 27
+
+state 5:
+  + BaseExpression : LPAREN . Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - Expression : . Expression MINUS TimesExpression {MINUS, PLUS, RPAREN}
+  - Expression : . Expression PLUS TimesExpression {MINUS, PLUS, RPAREN}
+  - Expression : . TimesExpression {MINUS, PLUS, RPAREN}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - TimesExpression : . MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - TimesExpression : . TimesExpression DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+  - TimesExpression : . TimesExpression TIMES MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  Expression      -> goto state 25
+  MinusExpression -> goto state 8
+  TimesExpression -> goto state 12
+
+state 6:
+  + MinusExpression : BaseExpression . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce MinusExpression : BaseExpression;
+  MINUS   -> reduce MinusExpression : BaseExpression;
+  PLUS    -> reduce MinusExpression : BaseExpression;
+  RPAREN  -> reduce MinusExpression : BaseExpression;
+  SEMICOL -> reduce MinusExpression : BaseExpression;
+  TIMES   -> reduce MinusExpression : BaseExpression;
+
+state 7:
+  + Expression : Expression . MINUS TimesExpression {MINUS, PLUS, SEMICOL}
+  + Expression : Expression . PLUS TimesExpression {MINUS, PLUS, SEMICOL}
+  + Statement : Expression . {SEMICOL}
+
+  MINUS   -> shift to state 22
+  PLUS    -> shift to state 21
+
+  SEMICOL -> reduce Statement : Expression;
+
+state 8:
+  + TimesExpression : MinusExpression . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce TimesExpression : MinusExpression;
+  MINUS   -> reduce TimesExpression : MinusExpression;
+  PLUS    -> reduce TimesExpression : MinusExpression;
+  RPAREN  -> reduce TimesExpression : MinusExpression;
+  SEMICOL -> reduce TimesExpression : MinusExpression;
+  TIMES   -> reduce TimesExpression : MinusExpression;
+
+state 9:
+  + S' : Program . {¶}
+
+  ¶ -> accept
+
+state 10:
+  + Statements : Statement . SEMICOL {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+
+  SEMICOL -> shift to state 20
+
+state 11:
+  + Program : Statements . {¶}
+  + Statements : Statements . Statement SEMICOL {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - Expression : . Expression MINUS TimesExpression {MINUS, PLUS, SEMICOL}
+  - Expression : . Expression PLUS TimesExpression {MINUS, PLUS, SEMICOL}
+  - Expression : . TimesExpression {MINUS, PLUS, SEMICOL}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - Statement : . Expression {SEMICOL}
+  - Statement : . NAME EQUALS Expression {SEMICOL}
+  - Statement : . {SEMICOL}
+  - TimesExpression : . MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression TIMES MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+
+  LPAREN  -> shift to state 5
+  MINUS   -> shift to state 4
+  NAME    -> shift to state 2
+  NUMBER  -> shift to state 3
+  PIKW    -> shift to state 1
+
+  SEMICOL -> reduce Statement : ;
+  ¶       -> reduce Program : Statements;
+
+  BaseExpression  -> goto state 6
+  Expression      -> goto state 7
+  MinusExpression -> goto state 8
+  Statement       -> goto state 18
+  TimesExpression -> goto state 12
+
+state 12:
+  + Expression : TimesExpression . {MINUS, PLUS, RPAREN, SEMICOL}
+  + TimesExpression : TimesExpression . DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  + TimesExpression : TimesExpression . TIMES MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> shift to state 14
+  TIMES   -> shift to state 13
+
+  MINUS   -> reduce Expression : TimesExpression;
+  PLUS    -> reduce Expression : TimesExpression;
+  RPAREN  -> reduce Expression : TimesExpression;
+  SEMICOL -> reduce Expression : TimesExpression;
+
+state 13:
+  + TimesExpression : TimesExpression TIMES . MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  MinusExpression -> goto state 17
+
+state 14:
+  + TimesExpression : TimesExpression DIVIDE . MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  MinusExpression -> goto state 16
+
+state 15:
+  + BaseExpression : NAME . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce BaseExpression : NAME;
+  MINUS   -> reduce BaseExpression : NAME;
+  PLUS    -> reduce BaseExpression : NAME;
+  RPAREN  -> reduce BaseExpression : NAME;
+  SEMICOL -> reduce BaseExpression : NAME;
+  TIMES   -> reduce BaseExpression : NAME;
+
+state 16:
+  + TimesExpression : TimesExpression DIVIDE MinusExpression . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce TimesExpression : TimesExpression DIVIDE MinusExpression;
+  MINUS   -> reduce TimesExpression : TimesExpression DIVIDE MinusExpression;
+  PLUS    -> reduce TimesExpression : TimesExpression DIVIDE MinusExpression;
+  RPAREN  -> reduce TimesExpression : TimesExpression DIVIDE MinusExpression;
+  SEMICOL -> reduce TimesExpression : TimesExpression DIVIDE MinusExpression;
+  TIMES   -> reduce TimesExpression : TimesExpression DIVIDE MinusExpression;
+
+state 17:
+  + TimesExpression : TimesExpression TIMES MinusExpression . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce TimesExpression : TimesExpression TIMES MinusExpression;
+  MINUS   -> reduce TimesExpression : TimesExpression TIMES MinusExpression;
+  PLUS    -> reduce TimesExpression : TimesExpression TIMES MinusExpression;
+  RPAREN  -> reduce TimesExpression : TimesExpression TIMES MinusExpression;
+  SEMICOL -> reduce TimesExpression : TimesExpression TIMES MinusExpression;
+  TIMES   -> reduce TimesExpression : TimesExpression TIMES MinusExpression;
+
+state 18:
+  + Statements : Statements Statement . SEMICOL {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+
+  SEMICOL -> shift to state 19
+
+state 19:
+  + Statements : Statements Statement SEMICOL . {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+
+  LPAREN  -> reduce Statements : Statements Statement SEMICOL;
+  MINUS   -> reduce Statements : Statements Statement SEMICOL;
+  NAME    -> reduce Statements : Statements Statement SEMICOL;
+  NUMBER  -> reduce Statements : Statements Statement SEMICOL;
+  PIKW    -> reduce Statements : Statements Statement SEMICOL;
+  SEMICOL -> reduce Statements : Statements Statement SEMICOL;
+  ¶       -> reduce Statements : Statements Statement SEMICOL;
+
+state 20:
+  + Statements : Statement SEMICOL . {LPAREN, MINUS, NAME, NUMBER, PIKW, SEMICOL, ¶}
+
+  LPAREN  -> reduce Statements : Statement SEMICOL;
+  MINUS   -> reduce Statements : Statement SEMICOL;
+  NAME    -> reduce Statements : Statement SEMICOL;
+  NUMBER  -> reduce Statements : Statement SEMICOL;
+  PIKW    -> reduce Statements : Statement SEMICOL;
+  SEMICOL -> reduce Statements : Statement SEMICOL;
+  ¶       -> reduce Statements : Statement SEMICOL;
+
+state 21:
+  + Expression : Expression PLUS . TimesExpression {MINUS, PLUS, RPAREN, SEMICOL}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - TimesExpression : . MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression TIMES MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  MinusExpression -> goto state 8
+  TimesExpression -> goto state 24
+
+state 22:
+  + Expression : Expression MINUS . TimesExpression {MINUS, PLUS, RPAREN, SEMICOL}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - TimesExpression : . MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression TIMES MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  MinusExpression -> goto state 8
+  TimesExpression -> goto state 23
+
+state 23:
+  + Expression : Expression MINUS TimesExpression . {MINUS, PLUS, RPAREN, SEMICOL}
+  + TimesExpression : TimesExpression . DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  + TimesExpression : TimesExpression . TIMES MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> shift to state 14
+  TIMES   -> shift to state 13
+
+  MINUS   -> reduce Expression : Expression MINUS TimesExpression;
+  PLUS    -> reduce Expression : Expression MINUS TimesExpression;
+  RPAREN  -> reduce Expression : Expression MINUS TimesExpression;
+  SEMICOL -> reduce Expression : Expression MINUS TimesExpression;
+
+state 24:
+  + Expression : Expression PLUS TimesExpression . {MINUS, PLUS, RPAREN, SEMICOL}
+  + TimesExpression : TimesExpression . DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  + TimesExpression : TimesExpression . TIMES MinusExpression {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> shift to state 14
+  TIMES   -> shift to state 13
+
+  MINUS   -> reduce Expression : Expression PLUS TimesExpression;
+  PLUS    -> reduce Expression : Expression PLUS TimesExpression;
+  RPAREN  -> reduce Expression : Expression PLUS TimesExpression;
+  SEMICOL -> reduce Expression : Expression PLUS TimesExpression;
+
+state 25:
+  + BaseExpression : LPAREN Expression . RPAREN {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+  + Expression : Expression . MINUS TimesExpression {MINUS, PLUS, RPAREN}
+  + Expression : Expression . PLUS TimesExpression {MINUS, PLUS, RPAREN}
+
+  MINUS  -> shift to state 22
+  PLUS   -> shift to state 21
+  RPAREN -> shift to state 26
+
+state 26:
+  + BaseExpression : LPAREN Expression RPAREN . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce BaseExpression : LPAREN Expression RPAREN;
+  MINUS   -> reduce BaseExpression : LPAREN Expression RPAREN;
+  PLUS    -> reduce BaseExpression : LPAREN Expression RPAREN;
+  RPAREN  -> reduce BaseExpression : LPAREN Expression RPAREN;
+  SEMICOL -> reduce BaseExpression : LPAREN Expression RPAREN;
+  TIMES   -> reduce BaseExpression : LPAREN Expression RPAREN;
+
+state 27:
+  + MinusExpression : MINUS MinusExpression . {DIVIDE, MINUS, PLUS, RPAREN, SEMICOL, TIMES}
+
+  DIVIDE  -> reduce MinusExpression : MINUS MinusExpression;
+  MINUS   -> reduce MinusExpression : MINUS MinusExpression;
+  PLUS    -> reduce MinusExpression : MINUS MinusExpression;
+  RPAREN  -> reduce MinusExpression : MINUS MinusExpression;
+  SEMICOL -> reduce MinusExpression : MINUS MinusExpression;
+  TIMES   -> reduce MinusExpression : MINUS MinusExpression;
+
+state 28:
+  + Statement : NAME EQUALS . Expression {SEMICOL}
+  - BaseExpression : . LPAREN Expression RPAREN {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . NAME {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . NUMBER {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - BaseExpression : . PIKW {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - Expression : . Expression MINUS TimesExpression {MINUS, PLUS, SEMICOL}
+  - Expression : . Expression PLUS TimesExpression {MINUS, PLUS, SEMICOL}
+  - Expression : . TimesExpression {MINUS, PLUS, SEMICOL}
+  - MinusExpression : . BaseExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - MinusExpression : . MINUS MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression DIVIDE MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+  - TimesExpression : . TimesExpression TIMES MinusExpression {DIVIDE, MINUS, PLUS, SEMICOL, TIMES}
+
+  LPAREN -> shift to state 5
+  MINUS  -> shift to state 4
+  NAME   -> shift to state 15
+  NUMBER -> shift to state 3
+  PIKW   -> shift to state 1
+
+  BaseExpression  -> goto state 6
+  Expression      -> goto state 29
+  MinusExpression -> goto state 8
+  TimesExpression -> goto state 12
+
+state 29:
+  + Expression : Expression . MINUS TimesExpression {MINUS, PLUS, SEMICOL}
+  + Expression : Expression . PLUS TimesExpression {MINUS, PLUS, SEMICOL}
+  + Statement : NAME EQUALS Expression . {SEMICOL}
+
+  MINUS   -> shift to state 22
+  PLUS    -> shift to state 21
+
+  SEMICOL -> reduce Statement : NAME EQUALS Expression;
+
+0 conflict(s) in total.

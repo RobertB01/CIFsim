@@ -1,0 +1,2 @@
+Error: File "spec/expr/element-bad.chi": Semantic error at line 14, column 49: Type of left operand does not match with the elements of the right operand (expected "chan? int", found "chan! int").
+Error: File "spec/expr/element-bad.chi": Semantic error at line 16, column 49: Type of left operand does not match with the elements of the right operand (expected "chan! int", found "chan? int").

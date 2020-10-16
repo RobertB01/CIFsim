@@ -1,0 +1,101 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Constant, and ordering.
+
+const real c1 = sqrt(5);
+const real c2 = c3;
+const real c3 = c5;
+const real c4 = c1 + 2;
+const real c5 = c4;
+
+// Function.
+
+func int inc(int x):
+  return x + 1;
+end
+
+// Function with local variables, and ordering.
+
+func real f1(int x):
+  real v1 = sqrt(6);
+  real v2 = v3;
+  real v3 = v5;
+  real v4 = v1 + 2;
+  real v5 = v4;
+
+  return v1 + v2 + v3 + (v4 * v5) + x;
+end
+
+// State variables, and ordering.
+
+automaton aut1:
+  disc real v1 = sqrt(7);
+  disc real v2 = v3;
+  cont v3 = v5 der v6;
+  disc real v4 = v1 + 2;
+  disc real v5 = v4;
+  disc real v6 = v8;
+  disc real v7 = v2 + aut2.v1;
+  disc real v8 = v7;
+
+  location:
+    initial;
+end
+
+automaton aut2:
+  disc real v1 = v2;
+  cont v2 der aut1.v5;
+
+  location:
+    initial;
+end
+
+// Input variables.
+
+input int i1;
+input real i2;
+input tuple(int a, b; real c) i3;
+
+// Algebraic variables.
+
+alg real a1 = i1 + a3 + c1;
+alg int a2 = floor(a4);
+alg real a3 = a2 * 3;
+alg real a4 = 123.4 + i2;
+
+// Events
+
+event e_e1, e_e2;
+controllable c_e1, c_e2;
+uncontrollable u_e1, u_e2;
+
+group g1:
+  automaton a1:
+    location loc1:
+      initial;
+      edge e_e1 goto loc2;
+
+    location loc2:
+      edge e_e2 goto loc1;
+  end
+end
+
+automaton aut3:
+  monitor;
+
+  location loc1:
+    initial;
+    edge e_e1, e_e2, c_e1, c_e2;
+    edge u_e1, u_e2 when i1 = 5;
+end

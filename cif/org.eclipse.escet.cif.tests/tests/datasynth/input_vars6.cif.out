@@ -1,0 +1,96 @@
+Reading CIF file "datasynth/input_vars6.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind            Type  Name        Group  BDD vars  CIF values  BDD values  Values used
+  -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
+  1      input variable  bool  io.sensor1  0      1 * 2     2 * 2       2 * 2       100%
+  2      input variable  bool  io.sensor2  1      1 * 2     2 * 2       2 * 2       100%
+  3      input variable  bool  io.sensor3  2      1 * 2     2 * 2       2 * 2       100%
+  -----  --------------  ----  ----------  -----  --------  ----------  ----------  -----------
+  Total                                    3      6         12          12          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 0
+
+  Skipping automatic ordering: no hyperedges.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variables):          true
+Initial   (component init predicate):    io.sensor1
+Initial   (component init predicate):    io.sensor2
+Initial   (components init predicate):   io.sensor1 and io.sensor2
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         io.sensor1 and io.sensor2
+Initial   (system, combined init/inv):   io.sensor1 and io.sensor2
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   not io.sensor2 and not io.sensor3
+Marked    (auts/locs marker predicate):  not io.sensor2 and not io.sensor3
+Marked    (uncontrolled system):         not io.sensor2 and not io.sensor3
+Marked    (system, combined marked/inv): not io.sensor2 and not io.sensor3
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
+    Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
+    Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: not io.sensor2 and not io.sensor3 [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: not io.sensor2 and not io.sensor3 -> not io.sensor3 [backward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: not io.sensor3 -> true [backward reach with edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: io.sensor1 and io.sensor2 [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: io.sensor1 and io.sensor2 -> io.sensor2 [forward reach with edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: io.sensor2 -> true [forward reach with edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
+    Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
+    Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+
+Controlled system:                     exactly 8 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         io.sensor1 and io.sensor2
+Initial (controlled system):           io.sensor1 and io.sensor2
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/input_vars6.ctrlsys.real.cif".

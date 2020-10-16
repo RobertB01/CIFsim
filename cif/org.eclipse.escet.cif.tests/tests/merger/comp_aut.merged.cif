@@ -1,0 +1,18 @@
+group g:
+  event e1;
+  group a:
+    event e2;
+  end
+end
+plant automaton b:
+  event e3;
+  location:
+    initial;
+    edge g.e1, g.a.e2, e3, c.e4;
+end
+plant automaton c:
+  event e4;
+  location:
+    initial;
+    edge g.e1, g.a.e2, b.e3, e4;
+end

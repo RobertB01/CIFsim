@@ -1,0 +1,50 @@
+controllable e;
+controllable f;
+controllable g;
+controllable h;
+controllable i;
+controllable j;
+controllable k;
+const int[15..15] c = 15;
+plant automaton p:
+  disc int[0..5] v = 3;
+  disc int[0..5] w in any;
+  location:
+    initial;
+    marked;
+    edge e when v = 1 do v := v + 0;
+    edge e when v = 2 do v := v - 0;
+    edge e when v = 3 do v := v - 0;
+    edge e when v = 4 do v := v + 0;
+    edge f when v = 1 do v := v + 1;
+    edge f when v = 2 do v := v - 1;
+    edge f when v = 3 do v := v - 1;
+    edge f when v = 4 do v := v + 1;
+    edge g when v = 1 do v := v + 2;
+    edge g when v = 2 do v := v - 2;
+    edge g when v = 3 do v := v - 2;
+    edge g when v = 4 do v := v + 2;
+    edge h when v = 1 do v := v - 2;
+    edge h when v = 2 do v := v - (9 * 2 - c);
+    edge i when v = 1 do v := 1;
+    edge i when v = 2 do v := 2;
+    edge i when v = 3 do v := 5;
+    edge i when v = 4 do v := c - 13;
+    edge j when v = 1 do v := v;
+    edge j when v = 2 do v := w;
+    edge k when v = 1 do v := v div 1;
+    edge k when v = 2 do v := v mod 2;
+end
+supervisor automaton sup:
+  alphabet e, f, g, h, i, j, k;
+  location:
+    initial;
+    marked;
+    edge e when (1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 0)) and ((1 <= p.v and p.v <= 3 or (p.v = 5 or p.w != 2)) and (1 <= p.v and p.v <= 3 or p.v = 5 or (p.w = 0 or (p.w = 2 or p.w = 4))));
+    edge f when true;
+    edge g when 1 <= p.v and p.v <= 3 or p.v = 5;
+    edge h when false;
+    edge i when true;
+    edge j when true;
+    edge k when true;
+end

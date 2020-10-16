@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p1:
+  event e;
+  location l:
+    initial;
+    edge e goto l;              // Remove target location for this self-loop.
+    edge e;
+end
+
+plant p2:
+  alphabet e1, e2, e2, e1, e2;  // Remove duplicate events from alphabet.
+  monitor e1, e2, e2, e1, e2;   // Remove duplicate events from monitors.
+  event e1, e2;
+  location:
+    initial;
+    edge e1, e1, e1, e1;        // Remove duplicate events from edge.
+    edge e2;
+end
+
+plant p3:
+  event bool eb;
+  location:
+    initial;
+    edge eb!true, eb!false;     // Keep duplicate sends.
+end
+
+plant p3b:
+  location:
+    initial;
+    edge p3.eb?, p3.eb?;        // Remove duplicate receives from edge.
+end
+
+plant p4:
+  event e;
+  monitor;                      // Ignore this monitor (no event refs).
+
+  location:
+    initial;
+    edge e;
+end

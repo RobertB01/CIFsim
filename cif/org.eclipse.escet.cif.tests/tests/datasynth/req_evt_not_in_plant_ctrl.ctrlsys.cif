@@ -1,0 +1,28 @@
+plant automaton p:
+  disc int[0..3] x;
+  controllable inc;
+  controllable dec;
+  location:
+    initial;
+    marked;
+    edge inc do x := x + 1;
+    edge dec do x := x - 1;
+end
+supervisor automaton r:
+  controllable trace;
+  location loc1:
+    initial;
+    marked;
+    edge trace goto loc2;
+  location loc2:
+    edge trace when p.x >= 2 goto loc1;
+end
+supervisor automaton sup:
+  alphabet p.inc, p.dec, r.trace;
+  location:
+    initial;
+    marked;
+    edge p.dec when p.x != 0 and ((p.x != 2 or r.loc1) and (p.x != 1 or r.loc1));
+    edge p.inc when (p.x = 0 or p.x = 2) and r.loc1 or p.x = 1 and r.loc1;
+    edge r.trace when p.x = 2 or p.x = 3;
+end

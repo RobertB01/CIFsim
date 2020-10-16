@@ -1,0 +1,165 @@
+Initial state: time=0.0, p=l1, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.0, p.r2=0.0, p.r3=0.0, p.r4=0.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l2, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.479425538604203, p.r2=0.5210953054937474, p.r3=0.8775825618903728, p.r4=1.1276259652063807, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l3, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.5463024898437905, p.r2=0.46211715726000974, p.r3=0.8775825618903728, p.r4=1.1276259652063807, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l4, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.5235987755982989, p.r2=0.48121182505960347, p.r3=1.0471975511965979, p.r4=1.8115262724608532, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l5, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=0.4636476090008061, p.r2=0.5493061443340549, p.r3=1.0471975511965979, p.r4=1.8115262724608532, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l6, p.b1=false, p.b2=false, p.b3=false, p.i1=2, p.i2=1, p.i3=0, p.i4=1, p.li=[], p.r1=0.4636476090008061, p.r2=0.5493061443340549, p.r3=1.0471975511965979, p.r4=1.8115262724608532, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l7, p.b1=false, p.b2=false, p.b3=false, p.i1=5, p.i2=1, p.i3=0, p.i4=1, p.li=[], p.r1=0.4636476090008061, p.r2=0.5493061443340549, p.r3=1.0471975511965979, p.r4=1.8115262724608532, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l8, p.b1=false, p.b2=false, p.b3=false, p.i1=5, p.i2=1, p.i3=0, p.i4=1, p.li=[], p.r1=2.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l9, p.b1=false, p.b2=false, p.b3=false, p.i1=5, p.i2=1, p.i3=0, p.i4=1, p.li=[], p.r1=5.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l10, p.b1=false, p.b2=false, p.b3=false, p.i1=5, p.i2=1, p.i3=0, p.i4=1, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l11, p.b1=false, p.b2=false, p.b3=false, p.i1=-1, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l12, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=1, p.i4=1, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13a, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13b, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[2, 3], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13c, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[1, 3], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13d, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[1, 2], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13e, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[1, 2], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13f, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[1, 3], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l13g, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[2, 3], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l14, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l15, p.b1=true, p.b2=true, p.b3=true, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l16, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l17, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=1, p.li=[], p.r1=2.718281828459045, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l18, p.b1=false, p.b2=false, p.b3=false, p.i1=-1, p.i2=-1, p.i3=-1, p.i4=-1, p.li=[], p.r1=2.718281828459045, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l19, p.b1=false, p.b2=false, p.b3=false, p.i1=-1, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=2.718281828459045, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l20, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=2.718281828459045, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l21, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=1.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l22, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=0.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l23, p.b1=false, p.b2=false, p.b3=false, p.i1=2, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=2.0, p.r3=2.0, p.r4=2.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l24a, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(0, [])
+
+Transition: event tau
+State: time=0.0, p=l24b, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(1, [2, 3])
+
+Transition: event tau
+State: time=0.0, p=l24c, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(2, [3])
+
+Transition: event tau
+State: time=0.0, p=l25, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l26, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l27, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l28, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=1.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l29, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=1.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l30, p.b1=false, p.b2=false, p.b3=false, p.i1=256, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=1.0, p.r2=256.0, p.r3=256.0, p.r4=256.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l31, p.b1=false, p.b2=false, p.b3=false, p.i1=256, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=256.0, p.r3=256.0, p.r4=256.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l32, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l33, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=0, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l34, p.b1=false, p.b2=false, p.b3=false, p.i1=-1, p.i2=-1, p.i3=0, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l35, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=0, p.i3=0, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l36, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=0, p.li=[], p.r1=3.0, p.r2=1.0, p.r3=1.0, p.r4=1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l37, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=1, p.i3=1, p.i4=0, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l38, p.b1=false, p.b2=false, p.b3=false, p.i1=-1, p.i2=-1, p.i3=0, p.i4=1, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l39, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=-1, p.i3=0, p.i4=1, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l40, p.b1=false, p.b2=false, p.b3=false, p.i1=-1, p.i2=-1, p.i3=0, p.i4=1, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l41, p.b1=false, p.b2=false, p.b3=false, p.i1=1, p.i2=-1, p.i3=0, p.i4=1, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l42, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=1, p.i3=2, p.i4=4, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l43, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=1, p.i3=2, p.i4=4, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l44, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=1, p.i3=2, p.i4=1, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l45, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=1, p.i3=2, p.i4=1, p.li=[], p.r1=0.30000000000000004, p.r2=5.300000000000001, p.r3=9.5, p.r4=-1.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l46, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=1, p.i3=2, p.i4=1, p.li=[], p.r1=0.0, p.r2=1.0, p.r3=2.0, p.r4=3.0, p.tili=(3, [])
+
+Transition: event tau
+State: time=0.0, p=l47, p.b1=false, p.b2=false, p.b3=false, p.i1=0, p.i2=1, p.i3=2, p.i4=1, p.li=[], p.r1=4.0, p.r2=1.0, p.r3=2.0, p.r4=3.0, p.tili=(3, [])
+
+Simulation resulted in deadlock.

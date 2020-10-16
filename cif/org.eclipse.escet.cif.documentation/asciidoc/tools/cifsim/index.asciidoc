@@ -1,0 +1,59 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-index]]
+== CIF simulator
+
+indexterm:[CIF simulator]
+indexterm:[tools,CIF simulator]
+The CIF simulator can be used to explore the
+<<tools-cifsim-traces-state-space,state space>> of CIF specifications, either
+interactively, or using a more automated approach. Powerful visualization
+features allow for interactive visualization-based validation of the CIF
+specification.
+
+*Basics*
+
+* <<tools-cifsim-chapter-supported>>
+* <<tools-cifsim-chapter-start>>
+* <<tools-cifsim-chapter-init>>
+* <<tools-cifsim-chapter-termination>>
+* <<tools-cifsim-chapter-traces>>
+* <<tools-cifsim-chapter-repeated-simulation>>
+
+*Input/Output*
+
+* <<tools-cifsim-input-chapter-index>>
+* <<tools-cifsim-chapter-env-events>> (non-urgent events)
+* <<tools-cifsim-output-chapter-index>>
+
+*Advanced*
+
+* <<tools-cifsim-chapter-options>>
+* <<tools-cifsim-chapter-performance>>
+* <<tools-cifsim-solver-chapter-index>> (integration and guard/event detection)
+* <<tools-cifsim-chapter-java-compiler>>
+
+*Miscellaneous*
+
+* <<tools-cifsim-chapter-complete-mode>>
+* <<tools-cifsim-chapter-extfuncs>>
+* <<tools-cifsim-chapter-profiling>>
+* <<tools-cifsim-chapter-distr-seeds>>
+
+*Developers*
+
+* <<tools-cifsim-chapter-max-time-point-tol>>
+* <<tools-cifsim-chapter-debug-gen-code>>
+* <<tools-cifsim-chapter-test-mode>>

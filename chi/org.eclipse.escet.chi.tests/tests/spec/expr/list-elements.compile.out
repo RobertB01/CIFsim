@@ -1,0 +1,1 @@
+Error: File "spec/expr/list-elements.chi": Semantic error at line 14, column 24: All elements of a list must have the same type (expected "int", found "real").

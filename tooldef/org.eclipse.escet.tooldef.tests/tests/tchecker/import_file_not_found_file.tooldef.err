@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_not_found_file.tooldef": Semantic error at line 14, column 8: Imported ToolDef script "does_not_exist.tooldef" could not be found, is a directory, or for some other reason could not be opened for reading.
+ERROR: Failed to load ToolDef file "tchecker/import_file_not_found_file.tooldef": the file has errors.

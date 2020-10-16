@@ -1,0 +1,2 @@
+ERROR: Trace file "simulator/trace/err_evt_not_exist.trace" is invalid.
+CAUSE: Event "does_not_exist" not found.

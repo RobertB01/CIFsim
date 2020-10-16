@@ -1,0 +1,10 @@
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 34, column 11: Event parameter "S.q" does not allow receive (?) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 35, column 10: Event parameter "S.r" does not allow synchronization (~) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 41, column 11: Event parameter "R.p" does not allow send (!) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 43, column 10: Event parameter "R.r" does not allow synchronization (~) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 49, column 11: Event parameter "C.p" does not allow send (!) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 50, column 11: Event parameter "C.q" does not allow receive (?) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 59, column 10: Event parameter "SR.r" does not allow synchronization (~) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 66, column 11: Event parameter "SC.q" does not allow receive (?) usage.
+ERROR: File "tchecker/edge_evt_param_illegal_use.cif": Semantic error at line 73, column 11: Event parameter "RC.p" does not allow send (!) usage.
+ERROR: Failed to load CIF file "tchecker/edge_evt_param_illegal_use.cif": the file has errors.

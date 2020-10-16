@@ -1,0 +1,2 @@
+Error: File "spec/enum/invalid_1.chi": Semantic error at line 15, column 12: There is more than one enumeration value named "Q".
+Error: File "spec/enum/invalid_1.chi": Semantic error at line 15, column 15: There is more than one enumeration value named "Q".

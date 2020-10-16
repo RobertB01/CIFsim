@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable e, f;
+
+plant y:
+  monitor e;
+
+  location l1:
+    initial;
+    edge e, f when true goto l2;
+
+  location l2:
+    edge e, f goto l3;
+
+  location l3:
+    edge e, f when false goto l1;
+end

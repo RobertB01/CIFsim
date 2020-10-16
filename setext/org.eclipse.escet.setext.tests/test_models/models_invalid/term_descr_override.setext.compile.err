@@ -1,0 +1,3 @@
+WARNING: File "models_invalid/term_descr_override.setext": Semantic warning at line 16, column 11: Description for terminal "X" overrides default description "a".
+WARNING: File "models_invalid/term_descr_override.setext": Semantic warning at line 19, column 21: Description for terminal "CKW" overrides default description "c".
+WARNING: File "models_invalid/term_descr_override.setext": Semantic warning at line 20, column 21: Description for terminal "EKW" overrides default description "e".

@@ -1,0 +1,4 @@
+ERROR: SVG image rendering failed for file "small.svg".
+CAUSE: Problem for SVG "rect" element with id "box".
+CAUSE: Problem details: attribute.malformed[transform, transform(1,2)]
+CAUSE: Problem message: The attribute "transform" of the element <rect> is invalid

@@ -1,0 +1,113 @@
+automaton p1:
+  event e1;
+  event e2;
+  disc int[0..5] v1 in {1, 2};
+  disc int[0..5] v2 in any;
+  disc int[0..5] v3 = 3;
+  cont v der 1.0;
+  initial v1 > 2;
+  marked v1 > 2;
+  invariant v1 > 1;
+  location l:
+    initial;
+    edge when true;
+    edge do v1 := 3;
+    edge e1, e2;
+    edge e1;
+    edge tau;
+    edge tau, e1;
+    edge e1 goto l;
+    edge e1 when v1 > 3, v2 != 1;
+    edge e1 do v1 := 3;
+    edge e1 do v := 1.0;
+    edge e1 do if true: v1 := 1 else v2 := 1 end;
+    edge e2 do if true: v1 := 1 elif true, true: v2 := 1 else v3 := 1 end;
+    edge now;
+    edge e1 now;
+    edge when 1 = 1 now;
+    edge now goto l;
+    edge now do v1 := 4;
+    edge e1 when 2 = 2 now do v1 := 5;
+end
+automaton p2:
+  invariant p1.v > 0 or p1.v3 = 3;
+  location:
+    initial;
+end
+plant automaton p3:
+  alphabet e;
+  monitor e;
+  event e;
+  location:
+    initial;
+    marked;
+    edge e;
+end
+automaton p4:
+  location:
+    initial;
+    marked;
+    invariant true;
+end
+automaton p5:
+  location l1:
+    initial false;
+    marked false;
+    invariant false;
+  location l2:
+    initial;
+    edge when l2 goto l1;
+end
+automaton p6:
+  location l1:
+    initial;
+    edge tau goto l2;
+  location l2;
+end
+automaton p7:
+  monitor e;
+  event e;
+  location:
+    initial;
+    edge e;
+    edge e;
+end
+automaton p8:
+  monitor e;
+  event e;
+  location:
+    initial;
+    edge e;
+end
+automaton p9:
+  alphabet;
+  location:
+    initial;
+end
+plant automaton p10:
+  location:
+    initial;
+end
+requirement automaton r:
+  location:
+    initial;
+end
+supervisor automaton s:
+  location:
+    initial;
+end
+plant automaton pp:
+  location:
+    initial;
+end
+requirement automaton rr:
+  location:
+    initial;
+end
+supervisor automaton ss:
+  location:
+    initial;
+end
+initial p1.v1 > 2;
+marked p1.v1 > 2;
+invariant p1.v1 > 1;

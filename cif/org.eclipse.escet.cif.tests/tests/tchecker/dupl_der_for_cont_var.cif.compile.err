@@ -1,0 +1,16 @@
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 15, column 6: Duplicate derivative for "x1".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 16, column 14: Duplicate derivative for "x1".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 21, column 14: Duplicate derivative for "x2".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 22, column 14: Duplicate derivative for "x2".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 27, column 8: Duplicate derivative for "p3.x3".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 30, column 18: Duplicate derivative for "p3.x3".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 37, column 16: Duplicate derivative for "p4.x4".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 40, column 18: Duplicate derivative for "p4.x4".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 49, column 18: Duplicate derivative for "p5.x5".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 50, column 18: Duplicate derivative for "p5.x5".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 56, column 8: Duplicate derivative for "p6.x6".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 57, column 16: Duplicate derivative for "p6.x6".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 58, column 16: Duplicate derivative for "p6.x6".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 61, column 18: Duplicate derivative for "p6.x6".
+ERROR: File "tchecker/dupl_der_for_cont_var.cif": Semantic error at line 62, column 18: Duplicate derivative for "p6.x6".
+ERROR: Failed to load CIF file "tchecker/dupl_der_for_cont_var.cif": the file has errors.

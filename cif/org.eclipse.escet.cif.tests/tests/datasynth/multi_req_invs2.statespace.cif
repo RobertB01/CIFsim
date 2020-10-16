@@ -1,0 +1,29 @@
+controllable a;
+controllable b;
+controllable c;
+controllable d;
+controllable e;
+automaton statespace:
+  alphabet a, b, c, d, e;
+  location loc1:
+    initial;
+    marked;
+    edge b goto loc2;
+    edge c goto loc2;
+    edge e goto loc2;
+  location loc2:
+    marked;
+    edge a goto loc3;
+    edge e goto loc3;
+  location loc3:
+    marked;
+    edge a goto loc4;
+    edge c goto loc4;
+    edge e goto loc4;
+  location loc4:
+    marked;
+    edge c goto loc5;
+    edge e goto loc5;
+  location loc5:
+    marked;
+end

@@ -1,0 +1,1 @@
+Error: File "spec/expr/func-call-arg-count.chi": Semantic error at line 18, column 20: Number of arguments does not match (expected 2, found 1).

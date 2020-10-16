@@ -1,0 +1,42 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location "l0" of automaton "p"
+        location "l0" of automaton "q"
+
+    Edges:
+        edge e goto state 1
+        edge e goto state 2
+        edge e goto state 3
+        edge e goto state 4
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "l0" of automaton "p"
+        location "l1" of automaton "q"
+
+State 3:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "l1" of automaton "p"
+        location "l0" of automaton "q"
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location "l1" of automaton "p"
+        location "l1" of automaton "q"
+
+    Edges:
+        edge f goto state 1
+        edge g goto state 4
+        edge g goto state 2

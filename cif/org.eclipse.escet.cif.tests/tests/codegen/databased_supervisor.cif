@@ -1,0 +1,90 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type bdd_node_type = tuple(int var; int low; int high);
+type bdd_nodes_type = list[12] bdd_node_type;
+const bdd_nodes_type bdd_nodes = [(1, -2, 1), (2, 2, -2), (3, 3, -2), (4, 4, -2), (5, -1, -2), (1, 6, -2), (2, 7, -2), (3, -2, 8), (4, -2, 4), (1, 10, -2), (2, -2, 11), (3, 8, -2)];
+alg bool bdd_value0 = Button.Pushed;
+alg bool bdd_value1 = Cycle.TurnLampOn or Cycle.WaitForTimeout;
+alg bool bdd_value2 = Cycle.StartTimer or Cycle.WaitForTimeout;
+alg bool bdd_value3 = Cycle.TurnLampOff;
+alg bool bdd_value4 = Lamp.On;
+alg bool bdd_value5 = Timer.Running;
+alg list[6] bool bdd_values = [bdd_value0, bdd_value1, bdd_value2, bdd_value3, bdd_value4, bdd_value5];
+func bool bdd_eval(int idx; list[6] bool values):
+  bdd_node_type node;
+  bool val;
+  while idx >= 0:
+    node := bdd_nodes[idx];
+    val := values[node[var]];
+    idx := if val: node[high] else node[low] end;
+  end
+  return idx = -1;
+end
+plant automaton Button:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+  location Released:
+    initial;
+    marked;
+    edge u_pushed goto Pushed;
+  location Pushed:
+    edge u_released goto Released;
+end
+plant automaton Lamp:
+  controllable c_on;
+  controllable c_off;
+  location Off:
+    initial;
+    marked;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+plant automaton Timer:
+  controllable c_start;
+  uncontrollable u_timeout;
+  location Idle:
+    initial;
+    marked;
+    edge c_start goto Running;
+  location Running:
+    edge u_timeout goto Idle;
+end
+supervisor automaton Cycle:
+  location WaitForButtonPush:
+    initial;
+    marked;
+    edge Button.u_pushed goto TurnLampOn;
+  location TurnLampOn:
+    edge Lamp.c_on goto StartTimer;
+    edge Button.u_pushed;
+  location StartTimer:
+    edge Timer.c_start goto WaitForTimeout;
+    edge Button.u_pushed;
+  location WaitForTimeout:
+    edge Timer.u_timeout goto TurnLampOff;
+    edge Button.u_pushed;
+  location TurnLampOff:
+    edge Lamp.c_off goto WaitForButtonPush;
+    edge Button.u_pushed;
+end
+supervisor automaton sup:
+  alphabet Lamp.c_on, Lamp.c_off, Timer.c_start;
+  location:
+    initial;
+    marked;
+    edge Lamp.c_off when bdd_eval(5, bdd_values);
+    edge Lamp.c_on when bdd_eval(0, bdd_values);
+    edge Timer.c_start when bdd_eval(9, bdd_values);
+end

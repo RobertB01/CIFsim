@@ -1,0 +1,9 @@
+Initial state: time=0.0, p=l1, p.tii1=(1, 2), p.tii2=(3, 4)
+
+Transition: event tau
+State: time=0.0, p=l2, p.tii1=(3, 4), p.tii2=(1, 2)
+
+Transition: event tau
+State: time=0.0, p=l3, p.tii1=(3, 1), p.tii2=(1, 2)
+
+Simulation resulted in deadlock.

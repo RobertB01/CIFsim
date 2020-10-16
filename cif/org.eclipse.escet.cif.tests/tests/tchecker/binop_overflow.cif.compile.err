@@ -1,0 +1,5 @@
+ERROR: File "tchecker/binop_overflow.cif": Semantic error at line 14, column 26: Binary operator "+" is applied to values of type "int[2,147,483,647..2,147,483,647]" and "int[1..1]", and this could result in integer overflow.
+ERROR: File "tchecker/binop_overflow.cif": Semantic error at line 16, column 27: Binary operator "*" is applied to values of type "int[1,073,741,824..1,073,741,824]" and "int[2..2]", and this could result in integer overflow.
+ERROR: File "tchecker/binop_overflow.cif": Semantic error at line 19, column 19: Binary operator "-" is applied to values of type "int[-2,147,483,648..-2,147,483,648]" and "int[1..1]", and this could result in integer overflow.
+ERROR: File "tchecker/binop_overflow.cif": Semantic error at line 24, column 18: Binary operator "+" is applied to values of type "list[2,147,000,000] int" and "list[2,147,000,000] int", and this could result in integer overflow.
+ERROR: Failed to load CIF file "tchecker/binop_overflow.cif": the file has errors.

@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event c;
+
+plant p1:
+  alphabet a, b;
+  event a, b;
+  monitor a, b, c;
+  location:
+    initial;
+    edge a, b;
+end
+
+plant p2:
+  event a, b;
+  monitor a, b, c;
+  location:
+    initial;
+    edge a, b;
+end
+
+///
+
+group def P():
+  event e;
+end
+
+group g:
+  plant def Q(P p1, p2):
+    alphabet p1.e;
+    // May be false positive, depending on instantiations.
+    monitor p2.e;
+    location:
+      initial;
+      edge p1.e;
+  end
+end
+
+///
+
+automaton a:
+  event int e1, e2;
+  monitor e1, e2;
+  location:
+    initial;
+    edge e1!5;
+    edge e2?;
+    edge tau;
+end

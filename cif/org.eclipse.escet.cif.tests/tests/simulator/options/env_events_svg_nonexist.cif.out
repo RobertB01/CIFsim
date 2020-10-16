@@ -1,0 +1,23 @@
+Initial state: time=0.0, a=l1, b=loc1
+
+Possible transitions:
+  #1: event e1
+  #2: delay for (0 .. 10.0]
+
+Transition: event e1
+State: time=0.0, a=l1, b=loc2
+
+Possible transitions:
+  #1: event e2
+  #2: delay for (0 .. 10.0]
+
+Transition: event e2
+State: time=0.0, a=l1, b=loc3
+
+Transition: event e3
+State: time=0.0, a=l1, b=loc4
+
+Transition: event e4
+State: time=0.0, a=l2, b=loc5
+
+Simulation resulted in deadlock.

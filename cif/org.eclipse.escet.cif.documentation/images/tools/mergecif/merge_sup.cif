@@ -1,0 +1,35 @@
+group button:
+  uncontrollable u_pushed, u_released;
+end
+
+group lamp:
+  controllable c_on, c_off;
+end
+
+group timer:
+  controllable c_start;
+  uncontrollable u_timeout;
+end
+
+supervisor automaton timed_lamp:
+  location s0:
+    initial;
+    edge button.u_pushed goto s1;
+    edge button.u_released;
+
+  location s1:
+    edge lamp.c_on goto s2;
+    edge button.u_pushed, button.u_released;
+
+  location s2:
+    edge timer.c_start goto s3;
+    edge button.u_pushed, button.u_released;
+
+  location s3:
+    edge timer.u_timeout goto s4;
+    edge button.u_pushed, button.u_released;
+
+  location s4:
+    edge lamp.c_off goto s0;
+    edge button.u_pushed, button.u_released;
+end

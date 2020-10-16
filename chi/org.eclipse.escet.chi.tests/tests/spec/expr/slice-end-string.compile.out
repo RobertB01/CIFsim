@@ -1,0 +1,1 @@
+Error: File "spec/expr/slice-end-string.chi": Semantic error at line 15, column 23: End expression must have int type (found "string").

@@ -1,0 +1,19 @@
+uncontrollable error;
+automaton statespace:
+  alphabet error;
+  location loc1:
+    initial;
+    edge error goto loc4;
+  location loc2:
+    initial;
+    edge error goto loc5;
+  location loc3:
+    initial;
+    edge error goto loc6;
+  location loc4:
+    marked;
+  location loc5:
+    marked;
+  location loc6:
+    marked;
+end

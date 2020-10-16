@@ -1,0 +1,8 @@
+Initial state: time=0.0, p=*, p.x=[]
+
+Transition: event tau
+State: time=0.0, p=*, p.x=[5]
+
+Transition: event tau
+State: time=0.0, p=*, p.x=[5, 5]
+

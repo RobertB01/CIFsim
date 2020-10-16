@@ -1,0 +1,2 @@
+ERROR: File "tchecker/svg_copy_dupl_id.cif": Semantic error at line 16, column 1: Copying the SVG element with id "grp" in SVG file "svg_copy_dupl_id.svg" resulted in a copy of the SVG element with id "a" to id "a1", which already exists.
+ERROR: Failed to load CIF file "tchecker/svg_copy_dupl_id.cif": the file has errors.

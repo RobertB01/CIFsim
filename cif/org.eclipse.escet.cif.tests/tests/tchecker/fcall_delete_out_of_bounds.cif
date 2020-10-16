@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+func bool f():
+  list int x1 = del([1, 2, 3], 3);
+  list int x2 = del([1, 2, 3], 4);
+
+  int a;
+  int[0..5] b;
+  int[-3..3] c;
+  int[3..4] d;
+
+  list int y1 = del([1, 2, 3], a);
+  list int y2 = del([1, 2, 3], b);
+  list int y3 = del([1, 2, 3], c);
+  list int y4 = del([1, 2, 3], d);
+
+  return true;
+end

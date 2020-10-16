@@ -1,0 +1,26 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[dev-chapter-index]]
+== Developers
+
+The CIF developers manual is intended only for those who develop or extend
+the CIF language or tools. It is not intended for end users.
+
+This manual only contains CIF specific information. For general developers
+information, see the Eclipse ESCET developers manual.
+
+The following information is available for developers:
+
+* <<dev-lang-modify>>

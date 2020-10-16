@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e1;
+
+group a:
+  event e2;
+
+  group b:
+  end
+end
+
+group c:
+  requirement d2:
+    event e3;
+    location:
+      initial;
+      edge e1, a.e2, e3;
+  end
+end

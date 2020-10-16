@@ -1,0 +1,96 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_root_attributes.asciidoc[]
+
+[[introduction-chapter-index]]
+== Introduction
+
+indexterm:[language,features]
+
+The ToolDef language features the following concepts:
+
+* Simple and intuitive syntax makes it easy to writing scripts.
+
+* A large number of built-in data types, including booleans, integers, longs,
+doubles, strings, lists, sets, maps, tuples, and objects.
+
+* Static typing allows to catch simple mistakes.
+
+* The type system is compatible with link:http://oracle.com/java[Java],
+allowing easy integration with existing Java code.
+
+* A large library of useful built-in operators and tools, including tools to
+write to the console, to start applications or execute other ToolDef scripts,
+to manipulate paths, to interact with files and directories, and to
+manipulate data of the various supported data types.
+
+* Easy to extend with new tools, written in ToolDef itself, or in
+link:http://oracle.com/java[Java].
+
+* Tools can be parameterized with types.
+
+* Tools can be overloaded.
+
+* Tools can have optional parameters.
+
+* Tools can have a variable number of arguments.
+
+* Tool invocations can use both positional and named arguments.
+
+* Tools can return a single value, multiple values, or no values at all.
+
+* Automatic type widening.
+
+* Type declarations allow for reuse.
+
+* Value semantics for ease of use.
+
+* The usual imperative statements, including assignments, tool invocation,
+`if` statement, `for` statement, `while` statement, `return`
+statement, `exit` statement, `break` statement, and `continue`
+statement.
+
+* Powerful assignment statement, including partial variable assignment, and
+multi-assignments.
+
+* Variable declarations as statements, allowing variables to be declared in
+the middle of scripts, or in scopes, such as in bodies of `for` statements.
+
+* Powerful `for` statement, allowing tuple unpacking, and iteration over
+values of various data types.
+
+* A powerful import mechanism, allowing reuse of scripts, tools, and code.
+
+* A registered library mechanism, allowing easy importing of libraries of
+tools.
+
+* Platform independent path handling, allowing a single script with relative
+paths to be executed on Window, Linux, and Mac OS X.
+
+For more information, see also the <<lang-ref-chapter-index,language reference>> documentation.
+
+
+indexterm:[tooling,features]
+
+The ToolDef tooling features:
+
+* Platform and machine independent execution of ToolDef scripts, on Microsoft
+Windows, Linux, and Mac OS X.
+
+* Command line execution.
+
+* Tight integration with the link:https://eclipse.org[Eclipse] IDE.
+
+* User-friendly error messages.
+
+For more information, see also the <<tools-chapter-index,tool>> documentation.

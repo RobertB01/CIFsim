@@ -1,0 +1,3 @@
+ERROR: Runtime error while executing "M".
+at model "M" near line 15.
+CAUSE: Process variable not initialized.

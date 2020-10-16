@@ -1,0 +1,102 @@
+alg int[5..5] x = 5;
+alg bool b1 = true;
+alg bool b2 = b1;
+alg real a = 1.0;
+group q1:
+  alg real a = 1.0;
+end
+automaton q2:
+  alg int[1..3] a = if l1: 1 else 3 end;
+  alg real alg_var = if l1: 2.0 else 4.0 end;
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+automaton q3_1:
+  alg real x = 1.0;
+  location l1:
+    initial;
+end
+automaton q3_2:
+  alg real x = if l1: 1.0 else 2.0 end;
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+automaton q3_3:
+  alg real x = if l1: 1.0 elif l2: 2.0 else 3.0 end;
+  location l1:
+    initial;
+  location l2:
+    initial;
+  location l3:
+    initial;
+end
+automaton q3_4:
+  alg real x = if l1: 1.0 elif l2: 2.0 elif l3: 3.0 else 4.0 end;
+  location l1:
+    initial;
+  location l2:
+    initial;
+  location l3:
+    initial;
+  location l4:
+    initial;
+end
+group c:
+  cont x1 der 5.0;
+  cont x2 der x1;
+  cont x3 der 1.0;
+  group q1:
+    cont x der 1.0;
+  end
+  automaton q2:
+    cont x1 der if l1: 1.0 else 1.0 end;
+    cont x2 der if l1: 2.0 else 2.0 end;
+    location l1:
+      initial;
+    location l2:
+      initial;
+  end
+  automaton q3_1:
+    cont x der 1.0;
+    location l1:
+      initial;
+  end
+  automaton q3_2:
+    cont x der if l1: 1.0 else 2.0 end;
+    location l1:
+      initial;
+    location l2:
+      initial;
+  end
+  automaton q3_3:
+    cont x der if l1: 1.0 elif l2: 2.0 else 3.0 end;
+    location l1:
+      initial;
+    location l2:
+      initial;
+    location l3:
+      initial;
+  end
+  automaton q3_4:
+    cont x der if l1: 1.0 elif l2: 2.0 elif l3: 3.0 else 4.0 end;
+    location l1:
+      initial;
+    location l2:
+      initial;
+    location l3:
+      initial;
+    location l4:
+      initial;
+  end
+  invariant x1 + x2 + x3 > 0;
+  invariant q1.x + q2.x1 + q2.x2 + q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;
+end
+invariant x > 1;
+invariant b1;
+invariant b2;
+invariant a + q1.a + q2.a + q2.alg_var > 0;
+invariant q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;

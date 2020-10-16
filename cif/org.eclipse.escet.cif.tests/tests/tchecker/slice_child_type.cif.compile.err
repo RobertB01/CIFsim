@@ -1,0 +1,2 @@
+ERROR: File "tchecker/slice_child_type.cif": Semantic error at line 14, column 24: Can't slice a value of type "bool".
+ERROR: Failed to load CIF file "tchecker/slice_child_type.cif": the file has errors.

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+   <!-- Commands. -->
+   <extension point="org.eclipse.ui.commands">
+      <category
+         id="org.eclipse.escet.tooldef.commands.category"
+         name="ToolDef commands">
+      </category>
+      <command
+         categoryId="org.eclipse.escet.tooldef.commands.category"
+         id="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDefaultCommand"
+         name="Execute ToolDef"
+         description="Execute ToolDef script.">
+      </command>
+      <command
+         categoryId="org.eclipse.escet.tooldef.commands.category"
+         id="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDebugCommand"
+         name="Execute ToolDef (with dialog)"
+         description="Execute ToolDef script, with option dialog to allow enabling debug output.">
+      </command>
+   </extension>
+
+   <!-- Single file definition. -->
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.tooldef.interpreter.singleFile">
+         <and>
+            <iterate>
+               <adapt type="org.eclipse.core.resources.IFile">
+                  <test property="org.eclipse.core.resources.name"
+                        value="*.tooldef"/>
+               </adapt>
+            </iterate>
+            <count value="1"/>
+         </and>
+      </definition>
+   </extension>
+
+   <!-- Popup visible definition. -->
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.tooldef.interpreter.popupVisible">
+         <or>
+            <with variable="activeMenuSelection">
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.singleFile"/>
+            </with>
+            <with variable="activeMenuEditorInput">
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.singleFile"/>
+            </with>
+         </or>
+      </definition>
+   </extension>
+
+   <!-- Command enabled definition. -->
+   <extension point="org.eclipse.core.expressions.definitions">
+      <definition id="org.eclipse.escet.tooldef.interpreter.commandEnabled">
+         <or>
+            <with variable="selection">
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.singleFile"/>
+            </with>
+            <with variable="activeMenuSelection">
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.singleFile"/>
+            </with>
+            <with variable="activeMenuEditorInput">
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.singleFile"/>
+            </with>
+            <and>
+               <with variable="selection">
+                  <count value="1"/>
+                  <iterate>
+                     <adapt type="org.eclipse.jface.text.ITextSelection"/>
+                  </iterate>
+               </with>
+               <with variable="activePartId">
+                  <equals value="org.eclipse.escet.tooldef.texteditor.ToolDefTextEditor"/>
+               </with>
+            </and>
+         </or>
+      </definition>
+   </extension>
+
+   <!-- Command handlers. -->
+   <extension point="org.eclipse.ui.handlers">
+      <handler
+         commandId="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDefaultCommand"
+         class="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDefaultCommandHandler">
+         <enabledWhen>
+            <reference definitionId="org.eclipse.escet.tooldef.interpreter.commandEnabled"/>
+         </enabledWhen>
+      </handler>
+      <handler
+         commandId="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDebugCommand"
+         class="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDebugCommandHandler">
+         <enabledWhen>
+            <reference definitionId="org.eclipse.escet.tooldef.interpreter.commandEnabled"/>
+         </enabledWhen>
+      </handler>
+   </extension>
+
+   <!-- Command menu and toolbar items -->
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDefaultCommand"
+               icon="icons/tooldef_interpreter.png"
+               label="&amp;Execute ToolDef">
+            <visibleWhen>
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.popupVisible"/>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDebugCommand"
+               icon="icons/tooldef_interpreter.png"
+               label="Exe&amp;cute ToolDef...">
+            <visibleWhen>
+               <reference definitionId="org.eclipse.escet.tooldef.interpreter.popupVisible"/>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="org.eclipse.escet.tooldef.interpreter.ToolDefToolbar"
+               label="ToolDef commands toolbar">
+            <command
+                  commandId="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDefaultCommand"
+                  icon="icons/tooldef_interpreter.png"
+                  label="Execute ToolDef script"
+                  style="push"
+                  tooltip="Execute ToolDef script">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+
+   <!-- Shortcut key bindings. -->
+   <extension point="org.eclipse.ui.bindings">
+      <key commandId="org.eclipse.escet.tooldef.interpreter.ExecuteToolDefDefaultCommand"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+           sequence="F10">
+      </key>
+   </extension>
+</plugin>

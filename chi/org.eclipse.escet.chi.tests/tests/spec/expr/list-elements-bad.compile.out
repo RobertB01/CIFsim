@@ -1,0 +1,36 @@
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 14, column 39: Cannot assign value with type "list chan! int" to variables with type "list chan? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 17, column 39: Cannot assign value with type "list chan? int" to variables with type "list chan! int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 21, column 40: Cannot assign value with type "list chan? int" to variables with type "list chan!? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 22, column 40: Cannot assign value with type "list chan! int" to variables with type "list chan!? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 35, column 52: Cannot assign value with type "list chan! int" to variables with type "list chan? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 36, column 52: Cannot assign value with type "list chan! int" to variables with type "list chan? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 41, column 53: Cannot assign value with type "list chan! int" to variables with type "list chan!? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 42, column 53: Cannot assign value with type "list chan! int" to variables with type "list chan!? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 48, column 52: Cannot assign value with type "list chan? int" to variables with type "list chan! int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 49, column 52: Cannot assign value with type "list chan? int" to variables with type "list chan! int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 51, column 53: Cannot assign value with type "list chan? int" to variables with type "list chan!? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 52, column 53: Cannot assign value with type "list chan? int" to variables with type "list chan!? int".
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 55, column 58: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 56, column 58: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 58, column 58: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 59, column 58: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 61, column 59: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 62, column 59: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 65, column 72: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 66, column 74: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 67, column 72: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 68, column 74: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 69, column 74: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 70, column 74: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 72, column 72: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 73, column 74: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 74, column 72: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 75, column 74: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 76, column 74: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 77, column 74: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 79, column 73: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 80, column 75: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 81, column 73: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 82, column 75: All elements of a list must have the same type (expected "chan! int", found "chan? int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 83, column 75: All elements of a list must have the same type (expected "chan? int", found "chan! int").
+Error: File "spec/expr/list-elements-bad.chi": Semantic error at line 84, column 75: All elements of a list must have the same type (expected "chan! int", found "chan? int").

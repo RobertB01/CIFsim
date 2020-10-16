@@ -1,0 +1,16 @@
+const int[5..5] count = 5;
+controllable next;
+plant automaton p:
+  disc int[0..4] x = 2;
+  location:
+    initial;
+    marked;
+    edge next do x := (x + 1) mod count;
+end
+supervisor automaton sup:
+  alphabet next;
+  location:
+    initial;
+    marked;
+    edge next when p.x = 1;
+end

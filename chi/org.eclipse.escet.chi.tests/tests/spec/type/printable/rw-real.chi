@@ -1,0 +1,24 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model void M():
+    real v;
+
+    writeln("%f#%6f#%-6f%%%6.2f", v, v, v, v);
+    writeln("%g#%6g#%-6g%%%6.2g", v, v, v, v);
+    writeln("%G#%6G#%-6G%%%6.2G", v, v, v, v);
+    writeln("%e#%6e#%-6e%%%6.2e", v, v, v, v);
+    writeln("%E#%6E#%-6E%%%6.2E", v, v, v, v);
+    writeln("%s#%6s", v, v);
+    exit;
+    v = read(real);
+end

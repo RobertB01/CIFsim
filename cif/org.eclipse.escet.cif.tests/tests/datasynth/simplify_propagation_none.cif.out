@@ -1,0 +1,164 @@
+Reading CIF file "datasynth/simplify_propagation_none.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        p5    0      2 * 2     3 * 2       4 * 2       75%
+  2      discrete variable  int[0..5]  p5.x  1      3 * 2     6 * 2       8 * 2       75%
+  3      location pointer   n/a        p6    2      3 * 2     7 * 2       8 * 2       ~88%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      3      16        32          40          80%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 5
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    1 (total)                 0.20 (avg/edge) [before]
+    Total span:                    1 (total)                 0.20 (avg/edge) [iteration 1]
+    Total span:                    1 (total)                 0.20 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    1 (total)                 0.20 (avg/edge) [before]
+    Total span:                    1 (total)                 0.20 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 1):         true
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     p5.loc1
+Initial   (aut/locs init predicate):     p6.loc1
+Initial   (auts/locs init predicate):    p5.loc1 and p6.loc1
+Initial   (uncontrolled system):         p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
+Initial   (system, combined init/inv):   p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   not p5.loc3
+Marked    (aut/locs marker predicate):   p6.loc1
+Marked    (auts/locs marker predicate):  not p5.loc3 and p6.loc1
+Marked    (uncontrolled system):         not p5.loc3 and p6.loc1
+Marked    (system, combined marked/inv): not p5.loc3 and p6.loc1
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e5a) (guard: p5.loc1 and p5.x = 4 or (p5.loc1 and p5.x = 5 or p5.loc1 and p5.x = 3)) (assignments: p5 := p5.loc2)
+    Edge: (event: e5b) (guard: p5.loc2) (assignments: p5 := p5.loc3)
+    Edge: (event: e6a) (guard: p6.loc1) (assignments: p6 := p6.loc2)
+    Edge: (event: e6a) (guard: p6.loc2) (assignments: p6 := p6.loc3)
+    Edge: (event: e6a) (guard: p6.loc4) (assignments: p6 := p6.loc1)
+    Edge: (event: e6a) (guard: p6.loc5) (assignments: p6 := p6.loc6)
+    Edge: (event: e6b) (guard: p6.loc1) (assignments: p6 := p6.loc2)
+    Edge: (event: e6b) (guard: p6.loc3) (assignments: p6 := p6.loc4)
+    Edge: (event: e6b) (guard: p6.loc4) (assignments: p6 := p6.loc5)
+    Edge: (event: e6b) (guard: p6.loc6) (assignments: p6 := p6.loc7)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p5" (group: 0, domain: 0+1, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "p5.x" of type "int[0..5]" (group: 1, domain: 2+3, BDD variables: 3, CIF/BDD values: 6/8)].
+Controlled behavior: true -> true [range: true, variable: location pointer for automaton "p6" (group: 2, domain: 4+5, BDD variables: 3, CIF/BDD values: 7/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: not p5.loc3 and p6.loc1 [marker predicate]
+Backward controlled-behavior: not p5.loc3 and p6.loc1 -> not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc1) [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc1) -> not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc1) or not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) [backward reach with edge: (event: e6a) (guard: p6.loc4) (assignments: p6 := p6.loc1), restricted to current/previous controlled-behavior predicate: true]
+Backward controlled-behavior: not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc1) or not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) -> not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (not p5.loc3 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) [backward reach with edge: (event: e6b) (guard: p6.loc3) (assignments: p6 := p6.loc4), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or not p5.loc3 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (not p5.loc3 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or not p5.loc3 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) -> not p5.loc3 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or not p5.loc3 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) [backward reach with edge: (event: e6a) (guard: p6.loc2) (assignments: p6 := p6.loc3), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 3.
+Backward controlled-behavior: not p5.loc3 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or not p5.loc3 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) [fixed point].
+Controlled behavior: true -> not p5.loc3 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or not p5.loc3 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)).
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (p5.loc3 or (p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) and (p5.loc3 or not(p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+Backward uncontrolled bad-state: (p5.loc3 or (p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) and (p5.loc3 or not(p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) -> (not p5.loc1 or (p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) and (not p5.loc1 or not(p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) [backward reach with edge: (event: e5b) (guard: p5.loc2) (assignments: p5 := p5.loc3)]
+Backward reachability: iteration 2.
+Backward uncontrolled bad-state: (not p5.loc1 or (p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) and (not p5.loc1 or not(p5.x = 2 or p5.x = 3) or (p6.loc5 or (p6.loc6 or p6.loc7))) [fixed point].
+Controlled behavior: not p5.loc3 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or not p5.loc3 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) -> p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)).
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1) -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc2)) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc2)) [forward reach with edge: (event: e6a) (guard: p6.loc1) (assignments: p6 := p6.loc2), restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Forward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc2)) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc2)) -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc2) or (p5.loc1 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc2)) [forward reach with edge: (event: e6a) (guard: p6.loc2) (assignments: p6 := p6.loc3), restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Forward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc2) or (p5.loc1 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc2)) -> p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) [forward reach with edge: (event: e6b) (guard: p6.loc3) (assignments: p6 := p6.loc4), restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Forward reachability: iteration 2.
+Forward controlled-behavior: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) [fixed point].
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: not p5.loc3 and p6.loc1 [marker predicate]
+Backward controlled-behavior: not p5.loc3 and p6.loc1 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1) [restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1) -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) [backward reach with edge: (event: e6a) (guard: p6.loc4) (assignments: p6 := p6.loc1), restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Backward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (p5.loc1 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) [backward reach with edge: (event: e6b) (guard: p6.loc3) (assignments: p6 := p6.loc4), restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Backward reachability: iteration 2.
+Backward controlled-behavior: p5.loc1 and (not(p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or (p5.loc1 and ((p5.x = 2 or p5.x = 3) and (p6.loc1 or p6.loc3)) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) -> p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) [backward reach with edge: (event: e6a) (guard: p6.loc2) (assignments: p6 := p6.loc3), restricted to current/previous controlled-behavior predicate: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))]
+Backward reachability: iteration 3.
+Backward controlled-behavior: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) [fixed point].
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: e5a) (guard: p5.loc1 and p5.x = 4 or (p5.loc1 and p5.x = 5 or p5.loc1 and p5.x = 3)) (assignments: p5 := p5.loc2): guard: p5.loc1 and p5.x = 4 or (p5.loc1 and p5.x = 5 or p5.loc1 and p5.x = 3) -> false.
+Edge (event: e6a) (guard: p6.loc1) (assignments: p6 := p6.loc2): guard: p6.loc1 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1).
+Edge (event: e6a) (guard: p6.loc2) (assignments: p6 := p6.loc3): guard: p6.loc2 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc2) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc2).
+Edge (event: e6a) (guard: p6.loc4) (assignments: p6 := p6.loc1): guard: p6.loc4 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc4).
+Edge (event: e6a) (guard: p6.loc5) (assignments: p6 := p6.loc6): guard: p6.loc5 -> false.
+Edge (event: e6b) (guard: p6.loc1) (assignments: p6 := p6.loc2): guard: p6.loc1 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1).
+Edge (event: e6b) (guard: p6.loc3) (assignments: p6 := p6.loc4): guard: p6.loc3 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc3) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc3).
+Edge (event: e6b) (guard: p6.loc4) (assignments: p6 := p6.loc5): guard: p6.loc4 -> false.
+Edge (event: e6b) (guard: p6.loc6) (assignments: p6 := p6.loc7): guard: p6.loc6 -> false.
+
+Final synthesis result:
+  State: (controlled-behavior: p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)))
+    Edge: (event: e5a) (guard: p5.loc1 and p5.x = 4 or (p5.loc1 and p5.x = 5 or p5.loc1 and p5.x = 3) -> false) (assignments: p5 := p5.loc2)
+    Edge: (event: e5b) (guard: p5.loc2) (assignments: p5 := p5.loc3)
+    Edge: (event: e6a) (guard: p6.loc1 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)) (assignments: p6 := p6.loc2)
+    Edge: (event: e6a) (guard: p6.loc2 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc2) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc2)) (assignments: p6 := p6.loc3)
+    Edge: (event: e6a) (guard: p6.loc4 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc4) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc4)) (assignments: p6 := p6.loc1)
+    Edge: (event: e6a) (guard: p6.loc5 -> false) (assignments: p6 := p6.loc6)
+    Edge: (event: e6b) (guard: p6.loc1 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)) (assignments: p6 := p6.loc2)
+    Edge: (event: e6b) (guard: p6.loc3 -> p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc3) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc3)) (assignments: p6 := p6.loc4)
+    Edge: (event: e6b) (guard: p6.loc4 -> false) (assignments: p6 := p6.loc5)
+    Edge: (event: e6b) (guard: p6.loc6 -> false) (assignments: p6 := p6.loc7)
+
+Controlled system:                     exactly 24 states.
+
+Initial (synthesis result):            p5.loc1 and not(p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7)) or p5.loc1 and (p5.x = 2 or p5.x = 3) and (not p6.loc5 and (not p6.loc6 and not p6.loc7))
+Initial (uncontrolled system):         p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
+Initial (controlled system):           p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/simplify_propagation_none.ctrlsys.real.cif".

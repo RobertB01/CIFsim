@@ -1,0 +1,14 @@
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 20, column 21: Algebraic parameter "alg_param.g.p.a" is of type "alg_param.g.C", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 29, column 19: Algebraic parameter "alg_param.G.x" is of type "alg_param.G", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 29, column 28: Algebraic parameter "alg_param.G.y" is of type "alg_param.G", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 29, column 37: Algebraic parameter "alg_param.G.z" is of type "alg_param.G", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 40, column 9: Algebraic variable "alg_var.g.a" is of type "alg_var.g.C", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 50, column 11: Constant "const_decl.g.a" is of type "const_decl.g.C", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 61, column 12: Discrete variable "disc_var.g.p.a" is of type "disc_var.g.C", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 70, column 23: Event parameter "event_param.g.P.e" is of type "event_param.g.P", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 80, column 11: Event "event_decl.g.e" is of type "event_decl.g.P", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 86, column 17: Function parameter "func_param.g.f.x" is of type "func_param.g.P", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 100, column 7: "func_var.g.P" may not be used inside function "func_var.g.f".
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 115, column 11: Input variable "input_var.g.i" is of type "input_var.g.C", which is a component or component definition.
+ERROR: File "tchecker/decl_invalid_type.cif": Semantic error at line 125, column 14: Type declaration "type_decl.g.a" is of type "type_decl.g.C", which is a component or component definition.
+ERROR: Failed to load CIF file "tchecker/decl_invalid_type.cif": the file has errors.

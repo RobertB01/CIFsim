@@ -1,0 +1,42 @@
+sort LocSort_A = struct loc_A_AS0 | loc_A_AS1;
+
+proc BehProc_A(Locvar_A : LocSort_A) =
+  (Locvar_A == loc_A_AS0) -> a | awrite_x(0) . BehProc_A(loc_A_AS1) +
+  sum x : Int . ((x >= 0) && (x <= 6) && (Locvar_A == loc_A_AS1) && (x < 5)) -> b | aread_x(x) | awrite_x((x + 1)) . BehProc_A(loc_A_AS1) +
+  sum x : Int . ((x >= 0) && (x <= 6) && (Locvar_A == loc_A_AS1) && (x == 5)) -> c | aread_x(x) | awrite_x(0) . BehProc_A(loc_A_AS0);
+
+sort LocSort_B = struct loc_B_BS0;
+
+proc BehProc_B(Locvar_B : LocSort_B) =
+  sum x : Int . ((x >= 0) && (x <= 6) && (Locvar_B == loc_B_BS0) && (x == 5)) -> c | aread_x(x) . BehProc_B(Locvar_B);
+
+act value_x, vread_x, vwrite_x, sync_x, aread_x, awrite_x : Int;
+
+proc VarProc_x(v:Int) =
+  value_x(v) . VarProc_x(v) +
+  vread_x(v) . VarProc_x(v) +
+  sum m:Int . ((m >= 0) && (m <= 6)) -> vwrite_x(m) . VarProc_x(m) +
+  sum m:Int . ((m >= 0) && (m <= 6)) -> vread_x(v) | vwrite_x(m) . VarProc_x(m);
+
+act a, renamed_a, b, renamed_b, c, renamed_c;
+
+init block({aread_x, awrite_x, vread_x, vwrite_x},
+     hide({sync_x},
+     comm({aread_x | vread_x -> sync_x,
+           awrite_x | vwrite_x -> sync_x},
+     (
+       allow({a | awrite_x,
+              b | awrite_x | aread_x,
+              c | awrite_x | aread_x},
+       comm({aread_x | aread_x -> aread_x},
+       rename({renamed_c -> c},
+       block({c},
+       comm({c | c -> renamed_c},
+       (
+         BehProc_A(loc_A_AS0)
+       ||
+         BehProc_B(loc_B_BS0)
+       ))))))
+     ||
+       VarProc_x(0)
+     ))));

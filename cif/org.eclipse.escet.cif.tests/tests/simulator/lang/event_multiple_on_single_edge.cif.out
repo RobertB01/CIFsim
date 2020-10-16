@@ -1,0 +1,44 @@
+Initial state: time=0.0, p=*, p.x=0, q=l1
+
+Possible transitions:
+  #1: event p.e
+  #2: event p.e
+  #3: event q.q1
+  #4: event q.q1
+  #5: event q.q2
+
+Transition: event p.e
+State: time=0.0, p=*, p.x=1, q=l1
+
+Possible transitions:
+  #1: event q.q1
+  #2: event q.q1
+  #3: event q.q2
+  #4: event tau
+  #5: event tau
+
+Transition: event q.q1
+State: time=0.0, p=*, p.x=1, q=l2
+
+Possible transitions:
+  #1: event tau
+  #2: event tau
+
+Transition: event tau
+State: time=0.0, p=*, p.x=2, q=l2
+
+Possible transitions:
+  #1: event p.e
+  #2: event tau
+
+Transition: event p.e
+State: time=0.0, p=*, p.x=3, q=l2
+
+Possible transitions:
+  #1: event p.e
+  #2: event tau
+
+Transition: event p.e
+State: time=0.0, p=*, p.x=4, q=l2
+
+Simulation resulted in deadlock.

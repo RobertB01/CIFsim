@@ -1,0 +1,1 @@
+WARNING: File "event_based/lang_equiv/deadlock_loop.cif": Semantic warning at line 15, column 14: The alphabet of automaton "A" globally disables event "evt", as the event is not used on any of the edges of the automaton.

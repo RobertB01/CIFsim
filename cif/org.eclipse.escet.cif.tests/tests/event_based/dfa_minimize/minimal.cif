@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable a, b;
+
+automaton A:
+    location p:
+        initial;
+        edge a goto m;
+        edge b goto v;
+
+    location m: // Location m and v are the same, except for the marked property.
+        marked;
+        edge a goto p;
+        edge b goto p;
+
+    location v:
+        edge a goto p;
+        edge b goto p;
+end

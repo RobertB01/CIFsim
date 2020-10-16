@@ -1,0 +1,6 @@
+automaton a:
+  const int[5..5] x = 5;
+  const int[6..6] y = 6;
+  location b:
+    initial;
+end

@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant automaton2:
+  location:
+    initial;
+end
+
+plant $automaton:
+  location:
+    initial;
+end
+
+plant plant2:
+  location:
+    initial;
+end
+
+group $group:
+  func bool $func():
+    return true;
+  end
+
+  invariant $func();
+end
+
+plant $plant:
+  const bool $const = false;
+  disc bool $disc;
+  disc func bool() $disc2 = $group.$func;
+  disc $type $disc3;
+  cont $cont der 1.0;
+  alg bool $alg = true;
+  event $event;
+  enum $enum = a, b;
+  type $type = $enum;
+
+  plant invariant not $const;
+  plant invariant not $disc;
+  plant invariant $disc3 = a;
+  plant invariant $disc2();
+  initial $cont >= 0;
+  plant invariant $alg;
+  plant invariant a != b;
+
+  location $location:
+    initial;
+    urgent;
+    edge $event when $const;
+end

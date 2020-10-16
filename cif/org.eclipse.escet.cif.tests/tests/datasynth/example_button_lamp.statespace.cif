@@ -1,0 +1,23 @@
+group Button1:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+end
+group Lamp1:
+  controllable c_on;
+  controllable c_off;
+end
+automaton statespace:
+  alphabet Button1.u_pushed, Button1.u_released, Lamp1.c_on, Lamp1.c_off;
+  location loc1:
+    initial;
+    marked;
+    edge Button1.u_pushed goto loc2;
+  location loc2:
+    edge Button1.u_released goto loc1;
+    edge Lamp1.c_on goto loc3;
+  location loc3:
+    edge Button1.u_released goto loc4;
+  location loc4:
+    edge Button1.u_pushed goto loc3;
+    edge Lamp1.c_off goto loc1;
+end

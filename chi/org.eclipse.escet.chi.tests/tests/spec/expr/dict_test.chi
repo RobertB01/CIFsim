@@ -1,0 +1,24 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    dict(int : string) dis;
+    dis = {1:"a", 2:"b"+"b"};
+    dis = dis + dis;
+    writeln("%s[1]=%s", dis, dis[1]);
+    dis[8] = "acht";
+    writeln("%s+%s", dictkeys(dis), dictvalues(dis));
+    dis = del(dis, 2);
+    writeln("Dict after del(2): %s", dis);
+
+    dis = {1:"a", 1:"b", 2:"a"}   # Fails on duplicate keys
+end

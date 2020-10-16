@@ -1,0 +1,69 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-eventbased-chapter-observer-check]]
+== Event-based observer check
+
+indexterm:[event-based observer check]
+indexterm:[tools,event-based observer check]
+indexterm:[event-based synthesis toolset,event-based observer check]
+indexterm:[event-based observer check,event-based synthesis toolset]
+The event-based observer check takes an automaton, and a subset of the events
+of its alphabet that are observable. The check verifies whether the automaton
+after projection (see <<tools-eventbased-chapter-projection>>) can derive the
+(abstracted) state of another component by synchronizing only on the
+observable events.
+
+The tool takes a `.cif` file containing a single automaton, and the names
+of the events that are observable. The output is a report file that indicates
+whether the observer check property holds. If it fails, the events causing
+failure are also listed.
+
+indexterm:[event-based observer check,start]
+
+=== Starting the observer check tool
+
+The tool can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply observer check...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply observer check...].
+
+* Use the `cifobschk` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifobschk` command line tool.
+
+indexterm:[event-based observer check,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Observable events_: Comma and/or whitespace separated absolute names of
+events that are observable.
+
+* _Report file_: The absolute or relative local file system path to the
+output report file. If not specified, defaults to the input file
+path, where the `.cif` file extension is removed (if present), and a
+`+_observation.txt+` file extension is added.

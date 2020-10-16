@@ -1,0 +1,4 @@
+ERROR: File "tchecker/fcall_delete_out_of_bounds.cif": Semantic error at line 15, column 17: The "del" function is applied to values of type "list[3] int[1..3]" and "int[3..3]", and this results in an index out of bounds error.
+ERROR: File "tchecker/fcall_delete_out_of_bounds.cif": Semantic error at line 16, column 17: The "del" function is applied to values of type "list[3] int[1..3]" and "int[4..4]", and this results in an index out of bounds error.
+ERROR: File "tchecker/fcall_delete_out_of_bounds.cif": Semantic error at line 26, column 17: The "del" function is applied to values of type "list[3] int[1..3]" and "int[3..4]", and this results in an index out of bounds error.
+ERROR: Failed to load CIF file "tchecker/fcall_delete_out_of_bounds.cif": the file has errors.

@@ -1,0 +1,30 @@
+group buffer:
+  controllable add;
+  controllable remove;
+end
+automaton statespace:
+  alphabet buffer.add, buffer.remove;
+  location loc1:
+    initial;
+    marked;
+    edge buffer.add goto loc2;
+    edge buffer.remove goto loc3;
+  location loc2:
+    marked;
+    edge buffer.add goto loc4;
+    edge buffer.remove goto loc1;
+  location loc3:
+    marked;
+    edge buffer.add goto loc1;
+    edge buffer.remove goto loc5;
+  location loc4:
+    marked;
+    edge buffer.add goto loc6;
+    edge buffer.remove goto loc2;
+  location loc5:
+    marked;
+    edge buffer.add goto loc3;
+  location loc6:
+    marked;
+    edge buffer.remove goto loc4;
+end

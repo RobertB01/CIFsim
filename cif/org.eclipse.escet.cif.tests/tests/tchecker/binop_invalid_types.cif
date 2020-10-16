@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// division by zero
+const int x1 = 1 div 0;
+const int x2 = 1 mod 0;
+
+// conjunction, left
+const bool x3 = 1 and true;
+
+// equals, left
+group p:
+  invariant true;
+end
+
+const bool x4 = p = true;
+const bool x5 = 1 = true;
+
+// less or equal, right
+const bool x6 = 1 <= true;
+
+// enums incompatible due to different order of literals
+group g1:
+  enum e = a, b;
+end
+
+group g2:
+  enum e = b, a;
+end
+
+invariant g1.a = g2.a;

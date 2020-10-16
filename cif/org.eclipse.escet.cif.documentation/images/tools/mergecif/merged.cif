@@ -1,0 +1,46 @@
+plant automaton button:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+  location released:
+    initial;
+    edge u_pushed goto pushed;
+  location pushed:
+    edge u_released goto released;
+end
+plant automaton lamp:
+  controllable c_on;
+  controllable c_off;
+  location off:
+    initial;
+    edge c_on goto on;
+  location on:
+    edge c_off goto off;
+end
+plant automaton timer:
+  controllable c_start;
+  uncontrollable u_timeout;
+  cont t der 1.0;
+  location idle:
+    initial;
+    edge c_start do t := 0.0 goto running;
+  location running:
+    edge u_timeout when t >= 2.0 goto idle;
+end
+supervisor automaton timed_lamp:
+  location s0:
+    initial;
+    edge button.u_pushed goto s1;
+    edge button.u_released;
+  location s1:
+    edge lamp.c_on goto s2;
+    edge button.u_pushed, button.u_released;
+  location s2:
+    edge timer.c_start goto s3;
+    edge button.u_pushed, button.u_released;
+  location s3:
+    edge timer.u_timeout goto s4;
+    edge button.u_pushed, button.u_released;
+  location s4:
+    edge lamp.c_off goto s0;
+    edge button.u_pushed, button.u_released;
+end

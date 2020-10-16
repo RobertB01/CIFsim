@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import "import6b.cif";
+
+invariant 1.0 = 1.0;
+initial 2.0 = 2.0;
+marked 3.0 = 3.0;
+
+cont cv11 der 4.0;
+cont cv12;
+equation cv12' = 5.0;
+
+group a:
+  invariant 1.1 = 1.1;
+  initial 2.1 = 2.1;
+  marked 3.1 = 3.1;
+
+  cont cv11 der 4.1;
+  cont cv12;
+  equation cv12' = 5.1;
+
+  group b:
+    invariant 1.2 = 1.2;
+    initial 2.2 = 2.2;
+    marked 3.2 = 3.2;
+
+    cont cv11 der 4.2;
+    cont cv12;
+    equation cv12' = 5.2;
+  end
+end

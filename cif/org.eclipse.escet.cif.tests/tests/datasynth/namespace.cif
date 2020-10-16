@@ -1,0 +1,44 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c;
+
+plant p:
+  uncontrollable u;
+  controllable c2;
+
+  location:
+    initial;
+    marked;
+
+    edge c;
+    edge u;
+    edge c2;
+end
+
+group g:
+  requirement r:
+    disc int[0..3] x in any;
+    disc int[0..3] y in any;
+
+    location loc1:
+      initial;
+      marked;
+
+      edge p.u do x := (x + 1) mod 4;
+      edge c when x mod 2 = 1;
+      edge p.c2 when y = 0 goto loc2;
+
+    location loc2;
+  end
+end

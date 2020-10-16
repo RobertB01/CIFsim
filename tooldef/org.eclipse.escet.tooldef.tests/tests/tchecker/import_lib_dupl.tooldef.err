@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_lib_dupl.tooldef": Semantic error at line 14, column 8: Multiple libraries with name "duplicate_test_library" found, in plug-ins (OSGi bundles) "org.eclipse.escet.tooldef.runtime" and "org.eclipse.escet.tooldef.tests".
+ERROR: Failed to load ToolDef file "tchecker/import_lib_dupl.tooldef": the file has errors.

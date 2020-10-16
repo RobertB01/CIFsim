@@ -1,0 +1,23 @@
+controllable c1;
+group g:
+  controllable c2;
+  group p:
+    controllable c3;
+  end
+end
+automaton statespace:
+  alphabet c1, g.c2, g.p.c3;
+  location loc1:
+    initial;
+    marked;
+    edge c1 goto loc2;
+    edge g.c2 goto loc2;
+    edge g.p.c3 goto loc2;
+  location loc2:
+    marked;
+    edge c1 goto loc3;
+    edge g.c2 goto loc3;
+    edge g.p.c3 goto loc3;
+  location loc3:
+    marked;
+end

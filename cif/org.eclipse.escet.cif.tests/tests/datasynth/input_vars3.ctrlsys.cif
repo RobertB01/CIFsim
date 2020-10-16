@@ -1,0 +1,33 @@
+uncontrollable u_on;
+uncontrollable u_off;
+controllable c_on;
+controllable c_off;
+group io:
+  input bool sensor;
+  alg bool act = p_act.on;
+end
+plant automaton p_sensor:
+  location off:
+    initial not io.sensor;
+    marked;
+    edge u_on when io.sensor goto on;
+  location on:
+    initial io.sensor;
+    edge u_off when not io.sensor goto off;
+end
+plant automaton p_act:
+  location off:
+    initial;
+    marked;
+    edge c_on goto on;
+  location on:
+    edge c_off goto off;
+end
+supervisor automaton sup:
+  alphabet c_on, c_off;
+  location:
+    initial;
+    marked;
+    edge c_off when true;
+    edge c_on when true;
+end

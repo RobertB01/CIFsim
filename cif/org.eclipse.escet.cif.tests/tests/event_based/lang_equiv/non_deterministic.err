@@ -1,0 +1,2 @@
+ERROR: Failed to apply language equivalence check for CIF file "event_based/lang_equiv/non_deterministic.cif".
+CAUSE: Unsupported automaton "Y": location "Y.y2" has several outgoing edges for event "a", only deterministic automata are supported.

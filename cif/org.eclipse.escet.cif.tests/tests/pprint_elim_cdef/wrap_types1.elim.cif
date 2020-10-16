@@ -1,0 +1,77 @@
+group q1:
+  enum e = A, B;
+  type t1 = bool;
+  type t2 = e;
+  invariant A = B;
+end
+group q2:
+  enum e = A, B;
+  type t1 = bool;
+  type t2 = e;
+  invariant A = B;
+end
+automaton p11:
+  disc q1.e v1;
+  disc q1.e v2;
+  disc q1.t1 w1;
+  disc q1.t1 w2;
+  disc q1.t2 x1;
+  disc q1.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end
+automaton p12:
+  disc q1.e v1;
+  disc q2.e v2;
+  disc q1.t1 w1;
+  disc q2.t1 w2;
+  disc q1.t2 x1;
+  disc q2.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end
+automaton p21:
+  disc q2.e v1;
+  disc q1.e v2;
+  disc q2.t1 w1;
+  disc q1.t1 w2;
+  disc q2.t2 x1;
+  disc q1.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end
+automaton p22:
+  disc q2.e v1;
+  disc q2.e v2;
+  disc q2.t1 w1;
+  disc q2.t1 w2;
+  disc q2.t2 x1;
+  disc q2.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end
+automaton aut:
+  disc q1.e v1;
+  disc q2.e v2;
+  disc q1.t1 w1;
+  disc q2.t1 w2;
+  disc q1.t2 x1;
+  disc q2.t2 x2;
+  invariant v1 = v2;
+  invariant w1 = w2;
+  invariant x1 = x2;
+  location:
+    initial;
+end

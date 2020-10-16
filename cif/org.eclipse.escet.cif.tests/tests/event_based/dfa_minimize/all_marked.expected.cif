@@ -1,0 +1,10 @@
+controllable a;
+controllable b;
+automaton minimal:
+  alphabet a, b;
+  location s1:
+    initial;
+    marked;
+    edge b;
+    edge a;
+end

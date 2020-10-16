@@ -1,0 +1,3 @@
+ERROR: File "tchecker/switch_key_type.cif": Semantic error at line 14, column 36: The switch "case" key is of type "bool", which is not compatible with type "int[1..1]" of the control value of the switch.
+ERROR: File "tchecker/switch_key_type.cif": Semantic error at line 15, column 36: The switch "case" key is of type "real", which is not compatible with type "string" of the control value of the switch.
+ERROR: Failed to load CIF file "tchecker/switch_key_type.cif": the file has errors.

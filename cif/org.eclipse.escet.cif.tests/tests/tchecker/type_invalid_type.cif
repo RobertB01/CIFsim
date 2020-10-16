@@ -1,0 +1,63 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type dt = dist int;
+
+group def P():
+end
+
+p: P();
+
+plant a:
+  disc dict(p:int)         x01;
+  disc dict(P:int)         x02;
+  disc dict(dt:int)        x03;
+
+  disc dict(int:p)         x04;
+  disc dict(int:P)         x05;
+  disc dict(int:dt)        x06;
+
+  disc func real (p)       x07;
+  disc func real (P)       x08;
+  disc func real (dt)      x09;
+
+  disc func p ()           x10;
+  disc func P ()           x11;
+  disc func dt ()          x12;
+
+  disc list p              x13;
+  disc list P              x14;
+  disc list dt             x15;
+
+  disc set p               x16;
+  disc set P               x17;
+  disc set dt              x18;
+
+  disc tuple(int a; p b)   x19;
+  disc tuple(int a; P b)   x20;
+  disc tuple(int a; dt b)  x21;
+
+  disc dist int[1..2]      x22;
+  disc dist string         x23;
+
+  location:
+    initial;
+end
+
+func p  f0(): return true; end
+func P  f1(): return true; end
+func dt f2(): return true; end
+
+func bool f3(p  z): return true; end
+func bool f4(P  z): return true; end
+func bool f5(dt z): return true; end

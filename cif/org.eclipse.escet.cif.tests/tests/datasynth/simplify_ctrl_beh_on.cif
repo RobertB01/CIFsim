@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c1, c2;
+uncontrollable u1, u2;
+
+plant def P(controllable c; uncontrollable u):
+  disc int[0..3] x;
+
+  location a:
+    initial;
+    marked;
+    edge c goto b;
+
+  location b:
+    edge u when x < 2 do x := x + 1 goto a;
+end
+
+p1: P(c1, u1);
+p2: P(c2, u2);

@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[compiler]
+
+[[app-framework-compiler-framework]]
+== The compiler framework
+
+For performance reasons, it can be better to generate and compile code at
+runtime, than to use an interpreter. The Java compiler supports this. However,
+in an Eclipse/OSGi environment, some additional effort is required to make it
+all work. The application framework contains a compiler framework in the
+`org.eclipse.escet.common.app.framework.javacompiler` package. It supports
+in-memory compilation of in-memory code, with full transparent OSGi support.
+That is, whether used from inside the Eclipse IDE, or from a stand-alone
+application, the compiler framework takes care of the details. The framework
+supports various representations of in-memory code, and can be extended with
+additional representations.
+
+The compiler framework requires the use of a Java Development Kit (JDK). A
+Java Runtime Environment (JRE) is not sufficient.

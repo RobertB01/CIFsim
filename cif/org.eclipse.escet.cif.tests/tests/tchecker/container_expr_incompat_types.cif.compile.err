@@ -1,0 +1,9 @@
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 14, column 21: Incompatible types "int[1..1]" and "bool" for keys of a dictionary.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 14, column 26: Incompatible types "int[1..1]" and "bool" for keys of a dictionary.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 15, column 23: Incompatible types "int[1..1]" and "bool" for values of a dictionary.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 15, column 28: Incompatible types "int[1..1]" and "bool" for values of a dictionary.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 16, column 21: Incompatible types "int[1..1]" and "bool" for elements of a list.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 16, column 24: Incompatible types "int[1..1]" and "bool" for elements of a list.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 17, column 21: Incompatible types "int[1..1]" and "bool" for elements of a set.
+ERROR: File "tchecker/container_expr_incompat_types.cif": Semantic error at line 17, column 24: Incompatible types "int[1..1]" and "bool" for elements of a set.
+ERROR: Failed to load CIF file "tchecker/container_expr_incompat_types.cif": the file has errors.

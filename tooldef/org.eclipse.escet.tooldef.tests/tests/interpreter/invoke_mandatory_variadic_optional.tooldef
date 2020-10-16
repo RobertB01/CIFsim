@@ -1,0 +1,106 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// 0
+tool int t0(): return 0; end
+
+outln("%s", t0());
+outln();
+
+// 1
+
+tool int t1_m(int    a    ): return      a;  end
+tool int t1_o(int    a = 3): return      a;  end
+tool int t1_v(int... a    ): return size(a); end
+
+outln("%s", t1_m(1));
+outln("%s", t1_o());
+outln("%s", t1_v());
+outln();
+
+// 2
+
+tool int t2_mm(int    a,     int    b    ): return      a  +      b ; end
+tool int t2_mv(int    a,     int... b    ): return      a  + size(b); end
+tool int t2_mo(int    a,     int    b = 4): return      a  +      b ; end
+tool int t2_oo(int    a = 3, int    b = 4): return      a  +      b ; end
+tool int t2_ov(int    a = 3, int... b    ): return      a  + size(b); end
+tool int t2_vo(int... a,     int    b = 4): return size(a) +      b ; end
+
+outln("%s", t2_mm(1, 2));
+outln("%s", t2_mv(1));
+outln("%s", t2_mo(1));
+outln("%s", t2_oo());
+outln("%s", t2_ov());
+outln("%s", t2_vo());
+outln();
+
+// 3
+
+tool int t3_mmm(int    a,     int    b,     int    c    ): return      a  +      b  +      c ; end
+tool int t3_mmo(int    a,     int    b,     int    c = 5): return      a  +      b  +      c ; end
+tool int t3_mmv(int    a,     int    b,     int... c    ): return      a  +      b  + size(c); end
+tool int t3_moo(int    a,     int    b = 4, int    c = 5): return      a  +      b  +      c ; end
+tool int t3_mov(int    a,     int    b = 4, int... c    ): return      a  +      b  + size(c); end
+tool int t3_mvo(int    a,     int... b,     int    c = 5): return      a  + size(b) +      c ; end
+tool int t3_ooo(int    a = 3, int    b = 4, int    c = 5): return      a  +      b  +      c ; end
+tool int t3_oov(int    a = 3, int    b = 4, int... c    ): return      a  +      b  + size(c); end
+tool int t3_ovo(int    a = 3, int... b,     int    c = 5): return      a  + size(b) +      c ; end
+tool int t3_voo(int... a,     int    b = 4, int    c = 5): return size(a) +      b  +      c ; end
+
+outln("%s", t3_mmm(1, 2, 3));
+outln("%s", t3_mmo(1, 2));
+outln("%s", t3_mmv(1, 2));
+outln("%s", t3_moo(1));
+outln("%s", t3_mov(1));
+outln("%s", t3_mvo(1));
+outln("%s", t3_ooo());
+outln("%s", t3_oov());
+outln("%s", t3_ovo());
+outln("%s", t3_voo());
+outln();
+
+// 4
+
+tool int t4_mmmm(int    a,     int    b,     int    c,     int    d    ): return      a  +      b  +      c  +      d ; end
+tool int t4_mmmo(int    a,     int    b,     int    c,     int    d = 6): return      a  +      b  +      c  +      d ; end
+tool int t4_mmmv(int    a,     int    b,     int    c,     int... d    ): return      a  +      b  +      c  + size(d); end
+tool int t4_mmoo(int    a,     int    b,     int    c = 5, int    d = 6): return      a  +      b  +      c  +      d ; end
+tool int t4_mmov(int    a,     int    b,     int    c = 5, int... d    ): return      a  +      b  +      c  + size(d); end
+tool int t4_mmvo(int    a,     int    b,     int... c,     int    d = 6): return      a  +      b  + size(c) +      d ; end
+tool int t4_mooo(int    a,     int    b = 4, int    c = 5, int    d = 6): return      a  +      b  +      c  +      d ; end
+tool int t4_moov(int    a,     int    b = 4, int    c = 5, int... d    ): return      a  +      b  +      c  + size(d); end
+tool int t4_movo(int    a,     int    b = 4, int... c,     int    d = 6): return      a  +      b  + size(c) +      d ; end
+tool int t4_mvoo(int    a,     int... b,     int    c = 5, int    d = 6): return      a  + size(b) +      c  +      d ; end
+tool int t4_oooo(int    a = 3, int    b = 4, int    c = 5, int    d = 6): return      a  +      b  +      c  +      d ; end
+tool int t4_ooov(int    a = 3, int    b = 4, int    c = 5, int... d    ): return      a  +      b  +      c  + size(d); end
+tool int t4_oovo(int    a = 3, int    b = 4, int... c,     int    d = 6): return      a  +      b  + size(c) +      d ; end
+tool int t4_ovoo(int    a = 3, int... b,     int    c = 5, int    d = 6): return      a  + size(b) +      c  +      d ; end
+tool int t4_vooo(int... a,     int    b = 4, int    c = 5, int    d = 6): return size(a) +      b  +      c  +      d ; end
+
+outln("%s", t4_mmmm(1, 2, 3, 4));
+outln("%s", t4_mmmo(1, 2, 3));
+outln("%s", t4_mmmv(1, 2, 3));
+outln("%s", t4_mmoo(1, 2));
+outln("%s", t4_mmov(1, 2));
+outln("%s", t4_mmvo(1, 2));
+outln("%s", t4_mooo(1));
+outln("%s", t4_moov(1));
+outln("%s", t4_movo(1));
+outln("%s", t4_mvoo(1));
+outln("%s", t4_oooo());
+outln("%s", t4_ooov());
+outln("%s", t4_oovo());
+outln("%s", t4_ovoo());
+outln("%s", t4_vooo());
+outln();

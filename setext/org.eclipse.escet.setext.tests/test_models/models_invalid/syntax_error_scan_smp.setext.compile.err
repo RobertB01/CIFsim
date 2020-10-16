@@ -1,0 +1,1 @@
+ERROR: File "models_invalid/syntax_error_scan_smp.setext": Scanning failed for character "🂱" (Unicode U+1F0B1) at line 16, column 4.

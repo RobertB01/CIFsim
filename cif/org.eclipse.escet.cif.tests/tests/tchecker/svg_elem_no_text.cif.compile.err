@@ -1,0 +1,2 @@
+ERROR: File "tchecker/svg_elem_no_text.cif": Semantic error at line 16, column 17: The SVG element with id "box" in SVG file "small.svg" is not an element for which text can be set.
+ERROR: Failed to load CIF file "tchecker/svg_elem_no_text.cif": the file has errors.

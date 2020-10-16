@@ -1,0 +1,14 @@
+automaton p1:
+  invariant q1.ql;
+  invariant pl;
+  location pl:
+    initial;
+end
+automaton q1:
+  invariant p1.pl;
+  invariant ql;
+  location ql:
+    initial;
+end
+invariant p1.pl;
+invariant q1.ql;

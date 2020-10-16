@@ -1,0 +1,198 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// From resources1.cif (see below) and resources2.cif (see below), each
+// synthesize a supervisor, with names sup1 and sup2 respectively. Then merge
+// those supervisors. The result is:
+controllable a1;
+controllable b1;
+uncontrollable r1;
+controllable a2;
+controllable b2;
+uncontrollable r2;
+supervisor sup1:
+  alphabet a1, b1, r1, a2, b2, r2;
+  location s1:
+    initial;
+    marked;
+    edge b2 goto s2;
+    edge a2 goto s3;
+    edge b1 goto s4;
+    edge a1 goto s5;
+  location s2:
+    edge a2 goto s10;
+    edge b1 goto s8;
+    edge a1 goto s6;
+  location s3:
+    edge b2 goto s10;
+    edge b1 goto s9;
+  location s4:
+    edge b2 goto s8;
+    edge a2 goto s9;
+    edge a1 goto s7;
+  location s5:
+    edge b2 goto s6;
+    edge b1 goto s7;
+  location s6:
+    edge b1 goto s11;
+  location s7:
+    edge b2 goto s11;
+    edge r1 goto s1;
+  location s8:
+    edge a2 goto s12;
+    edge a1 goto s11;
+  location s9:
+    edge b2 goto s12;
+  location s10:
+    edge r2 goto s1;
+    edge b1 goto s12;
+  location s11:
+    edge r1 goto s2;
+  location s12:
+    edge r2 goto s4;
+end
+supervisor sup2:
+  alphabet a1, b1, r1, a2, b2, r2;
+  location s1:
+    initial;
+    marked;
+    edge b2 goto s2;
+    edge a2 goto s3;
+    edge b1 goto s4;
+    edge a1 goto s5;
+  location s2:
+    edge a2 goto s10;
+    edge a1 goto s6;
+  location s3:
+    edge b2 goto s10;
+    edge b1 goto s9;
+    edge a1 goto s7;
+  location s4:
+    edge a2 goto s9;
+    edge a1 goto s8;
+  location s5:
+    edge b2 goto s6;
+    edge a2 goto s7;
+    edge b1 goto s8;
+  location s6:
+    edge a2 goto s12;
+  location s7:
+    edge b2 goto s12;
+    edge b1 goto s11;
+  location s8:
+    edge a2 goto s11;
+    edge r1 goto s1;
+  location s9:
+    edge a1 goto s11;
+  location s10:
+    edge r2 goto s1;
+    edge a1 goto s12;
+  location s11:
+    edge r1 goto s3;
+  location s12:
+    edge r2 goto s5;
+end
+
+// resources1.cif
+/*
+controllable a1, a2, b1, b2;
+uncontrollable r1, r2;
+
+plant user1:
+  location l1:
+    initial; marked;
+    edge a1 goto l2;
+    edge b1 goto l3;
+
+  location l2:
+    edge b1 goto l4;
+
+  location l3:
+    edge a1 goto l4;
+
+  location l4:
+    edge r1 goto l1;
+end
+
+plant user2:
+  location l1:
+    initial; marked;
+    edge a2 goto l2;
+    edge b2 goto l3;
+
+  location l2:
+    edge b2 goto l4;
+
+  location l3:
+    edge a2 goto l4;
+
+  location l4:
+    edge r2 goto l1;
+end
+
+requirement r:
+  location l1:
+    initial; marked;
+    edge a1, a2 goto l2;
+
+  location l2:
+    edge r1, r2 goto l1;
+end
+*/
+
+// resources2.cif
+/*
+controllable a1, a2, b1, b2;
+uncontrollable r1, r2;
+
+plant user1:
+  location l1:
+    initial; marked;
+    edge a1 goto l2;
+    edge b1 goto l3;
+
+  location l2:
+    edge b1 goto l4;
+
+  location l3:
+    edge a1 goto l4;
+
+  location l4:
+    edge r1 goto l1;
+end
+
+plant user2:
+  location l1:
+    initial; marked;
+    edge a2 goto l2;
+    edge b2 goto l3;
+
+  location l2:
+    edge b2 goto l4;
+
+  location l3:
+    edge a2 goto l4;
+
+  location l4:
+    edge r2 goto l1;
+end
+
+requirement r:
+  location l1:
+    initial; marked;
+    edge b1, b2 goto l2;
+
+  location l2:
+    edge r1, r2 goto l1;
+end
+*/

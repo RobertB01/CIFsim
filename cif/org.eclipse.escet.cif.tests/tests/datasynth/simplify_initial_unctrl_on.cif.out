@@ -1,0 +1,109 @@
+Reading CIF file "datasynth/simplify_initial_unctrl_on.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..9]  p.x   0      4 * 2     10 * 2      16 * 2      ~63%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      1      8         20          32          ~63%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         true
+Initial   (discrete variables):          true
+Initial   (component init predicate):    p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))
+Initial   (components init predicate):   p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))
+Initial   (system, combined init/inv):   p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  Event "e" needs:
+    p.x = 8 or p.x = 6 or (p.x = 9 or (p.x = 5 or p.x = 7))
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e) (guard: true)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..9]" (group: 0, domain: 0+1, BDD variables: 4, CIF/BDD values: 10/16)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Controlled behavior: true -> p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)) [requirement: p.x = 8 or p.x = 6 or (p.x = 9 or (p.x = 5 or p.x = 7)), edge: (event: e) (guard: true)].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)))
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)) [restricted to current/previous controlled-behavior predicate: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3))]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)) [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.x != 8 and p.x != 6 and (p.x != 9 and (p.x != 5 and p.x != 7)) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9)) [initialization predicate]
+Forward controlled-behavior: p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9)) -> p.x = 9 or (p.x = 5 or p.x = 7) [restricted to current/previous controlled-behavior predicate: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3))]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p.x = 9 or (p.x = 5 or p.x = 7) [fixed point].
+Controlled behavior: p.x != 0 and p.x != 4 and (p.x != 2 and (p.x != 1 and p.x != 3)) -> p.x = 9 or (p.x = 5 or p.x = 7).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> p.x = 9 or (p.x = 5 or p.x = 7) [restricted to current/previous controlled-behavior predicate: p.x = 9 or (p.x = 5 or p.x = 7)]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.x = 9 or (p.x = 5 or p.x = 7) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: p.x != 9 and (p.x != 5 and p.x != 7) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: p.x = 9 or (p.x = 5 or p.x = 7))
+    Edge: (event: e) (guard: true)
+
+Controlled system:                     exactly 3 states.
+
+Initial (synthesis result):            p.x = 9 or (p.x = 5 or p.x = 7)
+Initial (uncontrolled system):         p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))
+Initial (controlled system):           p.x = 9 or (p.x = 5 or p.x = 7)
+Initial (removed by supervisor):       p.x = 1 or p.x = 3
+Initial (added by supervisor):         not(p.x = 1 or p.x = 3)
+
+Simplification of controlled system under the assumption of the uncontrolled system:
+  Initial: p.x = 9 or (p.x = 5 or p.x = 7) -> 2 <= p.x and (p.x <= 9 and not(p.x = 2 or p.x = 3)) [assume p.x = 1 or p.x = 3 or (p.x = 5 or (p.x = 7 or p.x = 9))].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/simplify_initial_unctrl_on.ctrlsys.real.cif".

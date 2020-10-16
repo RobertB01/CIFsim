@@ -1,0 +1,2 @@
+svgout id "box" attr "x" value 1 file "../tchecker/small.svg";
+svgout id "txt1" text value "abc" file "../pprint_elim_cdef/text.svg";

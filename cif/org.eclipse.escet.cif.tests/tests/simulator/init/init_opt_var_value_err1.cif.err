@@ -1,0 +1,7 @@
+ERROR: Initial value "[true]" for discrete variable "a.x" is invalid, for initialization "a.x:[true]".
+CAUSE: Failed to read value of type "list int[1..2]".
+CAUSE: Failed to read literal of type "list int[1..2]".
+CAUSE: Failed to read literal of type "list int[1..2]".
+CAUSE: Failed to read literal of type "int[1..2]".
+CAUSE: Failed to read literal of type "int".
+CAUSE: Expected integer number but found no digits, at line 1 column 2.

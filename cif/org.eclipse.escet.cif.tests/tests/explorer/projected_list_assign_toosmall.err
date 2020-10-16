@@ -1,0 +1,1 @@
+ERROR: List index -10 is too small, smallest allowed index is "-3", while assigning a value to projected variable "A.xs[-10]" in state "A: X, A.xs: [1, 2, 3]".

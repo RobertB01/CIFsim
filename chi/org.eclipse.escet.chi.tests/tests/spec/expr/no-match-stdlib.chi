@@ -1,0 +1,37 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    int x = pop(1, 2, 3);
+    pass
+end
+
+model TooFew1():
+    real d = sqrt();
+    pass
+end
+
+model TooMany1():
+    real d = sqrt(1.0, 3.5, 15);
+    pass
+end
+
+model TooFew2():
+    real d = size();
+    pass
+end
+
+model TooMany2():
+    list int xs;
+    real d = size(xs, 1.0, 3.5, 15);
+    pass
+end

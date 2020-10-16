@@ -1,0 +1,1 @@
+Error: File "spec/expr/matrix-column-length1.chi": Semantic error at line 14, column 32: Every row should have the same length (expected "2", found "3").

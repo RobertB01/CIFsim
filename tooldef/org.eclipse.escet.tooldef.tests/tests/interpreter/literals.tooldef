@@ -1,0 +1,63 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+bool bt = true;
+bool bf = false;
+outln("%s %s", bt, bf);
+
+int i0 = 0;
+int i1 = 1234;
+outln("%s %s", i0, i1);
+
+long l0 = 2148000000;
+long l1 = 1234567890123456789;
+outln("%s %s", l0, l1);
+
+double d0 = 0.0;
+double d1 = 1.5;
+double d2 = 1.2e34;
+double d3 = 1e-308;
+double d4 = 1e-999;
+outln("%s %s %s %s %s", d0, d1, d2, d3, d4);
+
+string s0 = "";
+string s1 = "a \\ \" b";
+string s2 = "a\nb";
+string s3 = "a\tb";
+outln("/%s/ /%s/ /%s/ /%s/", s0, s1, s2, s3);
+
+object? n0 = null;
+int? n1 = null;
+outln("%s %s", n0, n1);
+
+list int lst0 = [];
+list int lst1 = [1, 2, 3];
+list int lst2 = [4, ];
+list int lst3 = [1, 1 * 2, 5 - 2];
+outln("%s %s %s %s", lst0, lst1, lst2, lst3);
+
+set int set0 = {};
+set int set1 = {1, 2, 3, 2, 3, 1};
+set int set2 = {4, 5, };
+set int set3 = {1, 1 * 2, 5 - 2};
+outln("%s %s %s %s", set0, set1, set2, set3);
+
+map(int:bool) m0 = {};
+map(int:bool) m1 = {1:true, 2:false, 3:false, 3:true};
+map(int:bool) m2 = {0:true, };
+outln("%s %s %s", m0, m1, m2);
+
+tuple(bool, int) t0 = (true, 0);
+tuple(bool, int) t1 = (false, 1);
+tuple(bool, int) t2 = (true, 2, );
+outln("%s %s %s", t0, t1, t2);

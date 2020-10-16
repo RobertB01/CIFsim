@@ -1,0 +1,2 @@
+WARNING: Terminal "a" (priority=2) is not used (it is not accepted in any of the states of the scanner DFA).
+WARNING: Terminal TERM2="a" (priority=1) is not used (it is not accepted in any of the states of the scanner DFA).

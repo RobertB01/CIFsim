@@ -1,0 +1,6 @@
+Controllability check HOLDS in file "event_based/controllability_check/ctrl_disable.cif".
+
+No disabled uncontrollable event found.
+
+Disabled controllable events:
+  event "c" at state "p.s1", "s.s1"

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET SeText Documentation (Incubation)
+Bundle-SymbolicName: org.eclipse.escet.setext.documentation;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Eclipse ESCET
+Require-Bundle: org.eclipse.help

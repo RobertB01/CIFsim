@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg int a0 = a1;                         // 1
+
+alg int a1 = 1;
+
+alg int a2;
+equation a2 = p.v1 + a1;                 // p.v1 + 1
+
+automaton p:
+  disc int v1 = a0 + 1;                  // 2
+
+  location:
+    initial;
+    urgent;
+
+    edge when a2 > 0 do v1 := v1 - 1;    // 3 times, v1 becomes: 1, 0, -1
+end

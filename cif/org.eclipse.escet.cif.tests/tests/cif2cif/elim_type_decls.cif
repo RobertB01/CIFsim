@@ -1,0 +1,55 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t = int[3..4];
+
+automaton p:
+  type t = bool;
+  type t2 = int[1..2];
+  disc t v1 = true;
+  disc t2 v2 = 1;
+  disc ^t v3 = 3;
+  disc p2.t v4 = 5;
+  invariant v1 or v2 = 1 or v3 = 3 or v4 = 5 or a;
+  location:
+    initial;
+end
+
+group p2:
+  type t = int[5..6];
+end
+
+alg p.t a = true;
+
+///
+
+enum e = A;
+
+type te = e;
+
+automaton b:
+  type te2 = te;
+  disc te v1;
+  disc te2 v2;
+  invariant v1 = v2 or v1 = A;
+  location:
+    initial;
+end
+
+///
+
+type lt = list tuple(t x; p.t2 y);
+
+const lt c1 = [(3, 1), (4, 2)];
+
+invariant size(c1) > 0;

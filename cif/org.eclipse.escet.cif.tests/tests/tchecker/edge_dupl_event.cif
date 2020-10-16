@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant x:
+  event a, b;
+  location:
+    initial;
+    edge a, b, a;
+    edge tau, tau;
+end
+
+group def P():
+  event e;
+end
+
+plant def Q(P p1, p2):
+  // May be false positive, depending on instantiations.
+  alphabet p1.e, p2.e;
+  location:
+    initial;
+    // May be false positive, depending on instantiations.
+    edge p1.e, p2.e;
+end
+
+plant snd:
+  event int e;
+  location:
+    initial;
+    edge e!1, e!2;     // Duplicate send is useful, so is not reported.
+end
+
+plant rcv:
+  event int e;
+  location:
+    initial;
+    edge e?, e?;       // Duplicate receive is not useful, so is reported.
+end

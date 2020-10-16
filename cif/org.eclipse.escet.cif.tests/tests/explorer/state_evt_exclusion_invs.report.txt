@@ -1,0 +1,297 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 1
+
+    Edges:
+        edge e goto state 2
+        edge e goto state 3
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 2
+
+    Edges:
+        edge e goto state 3
+        edge e goto state 4
+
+State 3:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 3
+
+    Edges:
+        edge e goto state 4
+        edge e goto state 5
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 4
+
+    Edges:
+        edge e goto state 5
+        edge e goto state 6
+
+State 5:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 5
+
+    Edges:
+        edge e goto state 6
+        edge e goto state 7
+
+State 6:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 6
+
+    Edges:
+        edge e goto state 7
+        edge e goto state 8
+
+State 7:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 7
+
+    Edges:
+        edge e goto state 8
+        edge e goto state 9
+
+State 8:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 8
+
+    Edges:
+        edge e goto state 9
+        edge e goto state 10
+
+State 9:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 9
+
+    Edges:
+        edge e goto state 10
+        edge e goto state 11
+
+State 10:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 10
+
+    Edges:
+        edge e goto state 11
+        edge e goto state 12
+        edge f goto state 10
+
+State 11:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 11
+
+    Edges:
+        edge e goto state 12
+        edge e goto state 13
+        edge f goto state 11
+        edge g goto state 11
+
+State 12:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 12
+
+    Edges:
+        edge e goto state 13
+        edge e goto state 14
+        edge f goto state 12
+        edge g goto state 12
+        edge h goto state 12
+
+State 13:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 13
+
+    Edges:
+        edge e goto state 14
+        edge e goto state 15
+        edge f goto state 13
+        edge g goto state 13
+        edge h goto state 13
+
+State 14:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 14
+
+    Edges:
+        edge e goto state 15
+        edge e goto state 16
+        edge f goto state 14
+        edge g goto state 14
+
+State 15:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 15
+
+    Edges:
+        edge e goto state 16
+        edge e goto state 17
+        edge f goto state 15
+
+State 16:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 16
+
+    Edges:
+        edge e goto state 17
+        edge e goto state 18
+
+State 17:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 17
+
+    Edges:
+        edge e goto state 18
+        edge e goto state 19
+
+State 18:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 18
+
+    Edges:
+        edge e goto state 19
+        edge e goto state 20
+
+State 19:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 19
+
+    Edges:
+        edge e goto state 20
+        edge e goto state 21
+
+State 20:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 20
+
+State 21:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Valuation:
+        a.x = 21

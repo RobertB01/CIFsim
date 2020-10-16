@@ -1,0 +1,23 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc P1(chan? int a):  dict(chan? int: int) d = {a:1}; pass end
+proc P2(chan! int a):  dict(chan? int: int) d = {a:1}; pass end
+proc P3(chan!? int a): dict(chan? int: int) d = {a:1}; pass end
+
+proc P4(chan? int a):  dict(chan! int: int) d = {a:1}; pass end
+proc P5(chan! int a):  dict(chan! int: int) d = {a:1}; pass end
+proc P6(chan!? int a): dict(chan! int: int) d = {a:1}; pass end
+
+proc P7(chan? int a):  dict(chan!? int: int) d = {a:1}; pass end
+proc P8(chan! int a):  dict(chan!? int: int) d = {a:1}; pass end
+proc P9(chan!? int a): dict(chan!? int: int) d = {a:1}; pass end

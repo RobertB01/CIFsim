@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+enum E1 = A, B;
+
+controllable c_e1;
+
+plant p:
+  disc E1 v;
+  marked v = B;
+  location:
+    initial;
+    marked;
+    edge c_e1 when v = A or q1.v = q2.v;    // Compare compatible enums.
+end
+
+plant def Q():
+  controllable c_e2;
+
+  enum E = B, A;
+  disc E v;
+  marked v = A;
+
+  location:                                 // Nameless location.
+    initial;
+    marked;
+    edge c_e2 do v := A;                    // Assign enum, ref literal.
+end
+
+q1: Q();
+q2: Q();

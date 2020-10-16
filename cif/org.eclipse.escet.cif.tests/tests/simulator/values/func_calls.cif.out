@@ -1,0 +1,12 @@
+Initial state: time=0.0, p=l1, p.ffr=f_ffr, p.ffrr=f_ffrr, p.fi1r=f_fi1r, p.fr0=f_fr0, p.frr=f_frr, p.i=123, p.r=234.0
+
+Transition: event tau
+State: time=0.0, p=l2, p.ffr=f_ffr, p.ffrr=f_ffrr, p.fi1r=f_fi1r, p.fr0=f_fr0, p.frr=f_frr, p.i=123, p.r=1.01
+
+Transition: event tau
+State: time=0.0, p=l3, p.ffr=f_ffr, p.ffrr=f_ffrr, p.fi1r=f_fi1r, p.fr0=f_fr0, p.frr=f_frr, p.i=123, p.r=1.01
+
+Transition: event tau
+State: time=0.0, p=l4, p.ffr=f_ffr, p.ffrr=f_ffrr, p.fi1r=f_fi1r, p.fr0=f_fr0, p.frr=f_frr, p.i=101, p.r=8.89
+
+Simulation resulted in deadlock.

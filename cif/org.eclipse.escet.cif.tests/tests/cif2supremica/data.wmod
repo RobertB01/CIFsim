@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="CONTROLLABLE" Name="buf:c1"/>
+    <EventDecl Kind="CONTROLLABLE" Name="buf:c2"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <VariableComponent Name="buf:v">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="10"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="buf:v"/>
+          <IntConstant Value="5"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="buf:v"/>
+          <IntConstant Value="2"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="buf:z">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="0"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="buf:z"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="buf:z"/>
+          <IntConstant Value="0"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <SimpleComponent Kind="PLANT" Name="buf">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="buf:c1"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <BinaryExpression Operator="&lt;">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <IntConstant Value="7"/>
+                </BinaryExpression>
+              </Guards>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <BinaryExpression Operator="+">
+                    <SimpleIdentifier Name="buf:v"/>
+                    <IntConstant Value="1"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="buf:c2"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <BinaryExpression Operator="&gt;">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <IntConstant Value="3"/>
+                </BinaryExpression>
+              </Guards>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <BinaryExpression Operator="-">
+                    <SimpleIdentifier Name="buf:v"/>
+                    <IntConstant Value="1"/>
+                  </BinaryExpression>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:z"/>
+                  <SimpleIdentifier Name="buf:z"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="buf:c2"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <IntConstant Value="10"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:z"/>
+                  <IntConstant Value="0"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="buf:c2"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <BinaryExpression Operator="&gt;">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <IntConstant Value="3"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="&lt;">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <IntConstant Value="7"/>
+                </BinaryExpression>
+              </Guards>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:v"/>
+                  <IntConstant Value="10"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="buf:z"/>
+                  <SimpleIdentifier Name="buf:z"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

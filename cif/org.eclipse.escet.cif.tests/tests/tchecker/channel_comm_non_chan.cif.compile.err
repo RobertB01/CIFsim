@@ -1,0 +1,4 @@
+ERROR: File "tchecker/channel_comm_non_chan.cif": Semantic error at line 19, column 11: Can't send over event "e", as the event is not a channel (it has no data type).
+ERROR: File "tchecker/channel_comm_non_chan.cif": Semantic error at line 25, column 11: Can't send over event "e", as the event is not a channel (it has no data type).
+ERROR: File "tchecker/channel_comm_non_chan.cif": Semantic error at line 31, column 11: Can't receive over event "e", as the event is not a channel (it has no data type).
+ERROR: Failed to load CIF file "tchecker/channel_comm_non_chan.cif": the file has errors.

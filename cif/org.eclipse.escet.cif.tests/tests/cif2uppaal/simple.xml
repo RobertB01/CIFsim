@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan e1;
+broadcast chan p_e2;
+int[0,2] p_v = 0;
+meta int[0,2] OLD_p_v = 0;
+int[0,1] LP_p = 1;
+meta int[0,1] OLDLP_p = 1;
+int[0,0] LP_r = 0;
+meta int[0,0] OLDLP_r = 0;
+int[0,0] LP_s = 0;
+meta int[0,0] OLDLP_s = 0;</declaration>
+  <template>
+    <name>Template_p</name>
+    <location id="id0">
+      <name>loc1</name>
+    </location>
+    <location id="id1">
+      <name>loc2</name>
+    </location>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id1"/>
+      <label kind="synchronisation">p_e2?</label>
+      <label kind="assignment">LP_p = 1</label>
+    </transition>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">e1?</label>
+      <label kind="assignment">p_v = 1, LP_p = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_r</name>
+    <location id="id2"/>
+    <init ref="id2"/>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id2"/>
+      <label kind="synchronisation">e1?</label>
+      <label kind="assignment">LP_r = 0</label>
+    </transition>
+    <transition>
+      <source ref="id2"/>
+      <target ref="id2"/>
+      <label kind="synchronisation">p_e2?</label>
+      <label kind="assignment">LP_r = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_s</name>
+    <location id="id3"/>
+    <init ref="id3"/>
+    <transition>
+      <source ref="id3"/>
+      <target ref="id3"/>
+      <label kind="synchronisation">e1?</label>
+      <label kind="assignment">LP_s = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id4"/>
+    <init ref="id4"/>
+    <transition>
+      <source ref="id4"/>
+      <target ref="id4"/>
+      <label kind="guard">((((LP_p == 0) &amp;&amp; (false)) || ((LP_p == 1) &amp;&amp; (true))) &amp;&amp; (true)) &amp;&amp; ((true) &amp;&amp; ((true) &amp;&amp; (true)))</label>
+      <label kind="synchronisation">e1!</label>
+      <label kind="assignment">OLD_p_v = p_v, OLDLP_p = LP_p, OLDLP_r = LP_r, OLDLP_s = LP_s</label>
+    </transition>
+    <transition>
+      <source ref="id4"/>
+      <target ref="id4"/>
+      <label kind="guard">(((LP_p == 0) &amp;&amp; (true)) || ((LP_p == 1) &amp;&amp; (false))) &amp;&amp; ((true) &amp;&amp; (true))</label>
+      <label kind="synchronisation">p_e2!</label>
+      <label kind="assignment">OLD_p_v = p_v, OLDLP_p = LP_p, OLDLP_r = LP_r, OLDLP_s = LP_s</label>
+    </transition>
+  </template>
+  <system>p = Template_p();
+r = Template_r();
+s = Template_s();
+SendAut = Template_SendAut();
+
+system p, r, s, SendAut;</system>
+</nta>

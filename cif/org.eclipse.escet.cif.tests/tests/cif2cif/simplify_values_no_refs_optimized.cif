@@ -1,0 +1,1355 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const real E = 2.718281828459045;  // Same as Java's Math.E
+const real PI = 3.141592653589793; // Same as Java's Math.PI
+
+const tuple(int a; bool b; real c) ctibr = (123, false, 234.0);
+
+plant p1:
+  location X:
+    initial;
+  location Y:
+    initial;
+end
+
+type ft1 = func real();
+type ft2 = func real(real);
+
+automaton p2:
+  type T = EE;
+  enum EE = ABC;
+  event e;
+  const int c = 1;
+  alg int a1 = 1;
+  alg real aa;
+  equation aa = 1.0;
+  alg bool a2 = p1.X;
+  input real input_var1;
+  input int[9..9] input_var2;
+  disc bool b;
+  disc int[0..10] i;
+  disc int[1..1] j;
+  disc int k;
+  disc real r;
+  disc string g;
+  disc list int li;
+  disc set int si;
+  disc tuple(int a; bool b; real c) tibr;
+  disc tuple(list int a; set real b) tlisr;
+  disc tuple(int e; list int l) tili;
+  disc dict(int:real) dir;
+  disc func real() fr0;
+  disc func int(real) fi1r;
+  disc func ft1  () ffr;
+  disc ft2          frr;
+  disc func ft2  () ffrr;
+  disc T z;
+
+  disc bool tb;
+  disc int ti;
+  disc int[3..5] ti_3_5;
+  disc int[99..99] ti_99_99;
+  disc real tr;
+  disc string tg;
+  disc list int[1..1] tl;
+  disc list[0] int[2..2] tl0;
+  disc list[1] int[3..3] tl1;
+  disc list[2] int[4..4] tl2;
+  disc list[1..1] int[5..5] tl11;
+  disc list[2..2] int[6..6] tl22;
+  disc list[3..5] int[7..7] tl35;
+  disc set int[1..1] ts;
+  disc tuple(int[1..1] a; int[2..2] b) ttii;
+  disc dict(int[3..3]:int[4..4]) tdii;
+  disc EE te;
+  disc func int[1..1] () tf_i;
+  disc dist bool tdb;
+
+  disc dist bool d01 = bernoulli(1.0);
+  disc dist real d02 = beta(1.0, 2.0);
+  disc dist int  d03 = binomial(1.0, 2);
+  disc dist bool d04 = constant(true);
+  disc dist int  d05 = constant(1);
+  disc dist real d06 = constant(1.23);
+  disc dist real d07 = erlang(1, 2.0);
+  disc dist real d08 = exponential(1.0);
+  disc dist real d09 = gamma(1.0, 2.0);
+  disc dist int  d10 = geometric(1.0);
+  disc dist real d11 = lognormal(1.0, 2.0);
+  disc dist real d12 = normal(1.0, 2.0);
+  disc dist int  d13 = poisson(1.0);
+  disc dist real d14 = random();
+  disc dist real d15 = triangle(1.0, 2.0, 3.0);
+  disc dist int  d16 = uniform(1, 2);
+  disc dist real d17 = uniform(1.0, 2.0);
+  disc dist real d18 = weibull(1.0, 2.0);
+
+  cont cont_var der 1.0;
+
+  invariant ABC = ABC or i > 0, k > 0;
+
+  location X:
+    initial;
+    edge e;
+
+    // Types.
+    edge do tb       := tb;
+    edge do ti       := ti;
+    edge do ti_3_5   := ti_3_5;
+    edge do ti_99_99 := ti_99_99;                       // 99
+    edge do tr       := tr;
+    edge do tg       := tg;
+    edge do tl       := tl;
+    edge do tl0      := tl0;                            // <list[0] int[2..2]>[]
+    edge do tl1      := tl1;                            // [3]
+    edge do tl2      := tl2;                            // [4, 4]
+    edge do tl11     := tl11;                           // [5]
+    edge do tl22     := tl22;                           // [6, 6]
+    edge do tl35     := tl35;
+    edge do ts       := ts;
+    edge do ttii     := ttii;                           // (1, 2)
+    edge do tdii     := tdii;
+    edge do te       := te;                             // ABC
+    edge do tf_i     := tf_i;
+    edge do tdb      := tdb;
+
+    // Literals.
+    edge do b := true;
+
+    edge do j := 1;
+    edge do k := -1;
+
+    edge do r := 1.0;
+    edge do r := -1.0;
+    edge do r := -1e5;
+    edge do r := -1e+5;
+    edge do r := -1E-05;
+    edge do r := -1.0e3;
+    edge do r := -12.34e-9;
+
+    edge do g := "a\nb\tc\\d\"e";
+
+    edge do li := [];
+    edge do li := [1];
+    edge do li := [1, 2];
+
+    edge do si := {};
+    edge do si := {1};
+    edge do si := {1, 2};
+    edge do si := {2, 2, 2};
+    edge do si := {2, 1, 4, 3, 4};
+
+    edge do tibr := (1, true, 1.0);
+    edge do tlisr := ([1], {-1.0});
+
+    edge do dir := {};
+    edge do dir := {1: 5.0};
+    edge do dir := {1: 5.0, 2: 6.0};
+    edge do dir := {3: 5.0, 1: 6.0, 2: 6.0, 4: 5.0};
+
+    // Boolean literals, binary operator.
+    edge do b := true and true;                         // true
+
+    // Boolean literals, single location, binary operator.
+    edge do b := true and X;                            // true
+
+    // Integer literals, binary operator.
+    edge do i := 1 + 1;                                 // 2
+
+    // Partial expression evaluation.
+    edge do i := 1 + 1 + i;                             // 2 + i
+
+    // Boolean literals, partial expression evaluation, multi location.
+    edge do b := (true and true) and p1.X;              // p1.X
+
+    // Binary expression with 'true' side, depending on whether we take
+    // references into account.
+    edge do b := c = 1 and i = 2;                       // i = 2
+
+    // Function call, multi-valued variable.
+    edge do i := abs(-5) + abs(i);                      // 5 + abs(i)
+
+    // Function call, single-valued variable.
+    edge do i := abs(-5) + abs(j);                      // 6
+
+    // Single valued variable.
+    edge do i := j;                                     // 1
+
+    // If update simple guards.
+    edge do if true, true, 1 = 1: i := 1                // if   true: i := 1
+            else                  i := 2                // else       i := 2
+            end;                                        // end
+
+    // If expression simple guards.
+    edge do i := if true, true, 1 = 1: 1                // 1
+                 else                  2
+                 end;
+
+    // If update complex guards, guard simplification.
+    edge do if true, p1.X, 1 = 1: i := 1                // if   p1.X:  i := 1
+            elif true, true:      i := 2                // elif true:  i := 2
+            elif false, p1.X:     i := 3                // elif false: i := 3
+            else                  i := 4                // else        i := 4
+            end;                                        // end
+
+    // If expression complex guards, guard simplification.
+    edge do i := if true, p1.X, 1 = 1: 1                // if   p1.X:  1
+                 elif true, true:      2                // elif true:  2
+                 elif false, p1.X:     3                // elif false: 3
+                 else                  4                // else        4
+                 end;                                   // end
+
+    // If expression false guard, ignore complex then.
+    edge do b := if false:   p1.X                       // false
+                 elif false: p1.X
+                 else        false
+                 end;
+
+    // Switch expressions.
+    edge do i := switch 1.0:                            // 2
+                   case 1.0: 2
+                   else 3
+                 end;
+
+    edge do i := switch 1.0:                            // 3
+                   case 2.0: 2
+                   case 1.0: 3
+                   else      4
+                 end;
+
+    edge do i := switch 2.0:                            // 6
+                   case 1.0: 5
+                   else      6
+                 end;
+
+    edge do r := switch true:                           // 1.23
+                   else 1.23
+                 end;
+
+    edge do r := switch p1.X:                           // switch p1.X
+                   else 2.34                            //   else 2.34
+                 end;                                   // end
+
+    edge do r := switch true:                           // switch true:
+                   case p1.X: 3.45                      //   case p1.X: 3.45
+                   else       4.56                      //   else       4.56
+                 end;                                   // end
+
+    edge do b := switch 1:                              // switch 1:
+                   case 1: p1.X                         //   case 1: p1.X
+                   else    false                        //   else    false
+                 end;                                   // end
+
+    edge do b := switch 2:                              // switch 2:
+                   case 2: true                         //   case 2: true
+                   else    p1.X                         //   else    p1.X
+                 end;                                   // end
+
+    edge do r := switch p1:                             // switch p1:
+                   case X: 5.67                         //   case X: 5.67
+                   else    6.78                         //   else    6.78
+                 end;                                   // end
+
+    edge do r := switch p1:                             // switch p1:
+                   case X: 7.89                         //   case X: 7.89
+                   case Y: 8.91                         //   case Y: 8.91
+                 end;                                   // end
+
+    edge do g := switch self:                           // "a"
+                   case X: "a"
+                 end;
+
+    edge do g := switch self:                           // "b"
+                   else "b"
+                 end;
+
+    // Time expression.
+    edge do r := time;
+
+    // Cast expressions.
+    edge do r := <real>1;
+    edge do g := <string>1;
+    edge do g := <string>12.34e-9;
+    edge do g := <string>true;
+    edge do k := <int>"132";
+    edge do r := <real>"12.34e-9";
+    edge do b := <bool>"true";
+    edge do g := <string>p1;
+    edge do g := <string>p2;
+    edge do g := <string>self;
+    edge do g := <string>q;
+    edge do li := <list[2] int[1..2]>[1, 2];
+
+    // Unary expressions.
+    edge do b := not true;                              // false
+    edge do b := not false;                             // true
+    edge do k := -j;                                    // -1
+    edge do i := --j;                                   // 1
+    edge do r := -5.0;                                  // -5.0
+    edge do r := --5.0;                                 // 5.0
+    edge do i := +1;                                    // 1
+    edge do r := +1.0;                                  // 1.0
+    edge do r := -+--+1.2;                              // -1.2
+    edge do b := (sample d01)[0];                       // (sample d01)[0]
+    edge do r := (sample d02)[0];                       // (sample d02)[0]
+    edge do k := (sample d03)[0];                       // (sample d03)[0]
+    edge do b := (sample d04)[0];                       // (sample d04)[0]
+    edge do k := (sample d05)[0];                       // (sample d05)[0]
+    edge do r := (sample d06)[0];                       // (sample d06)[0]
+    edge do r := (sample d07)[0];                       // (sample d07)[0]
+    edge do r := (sample d08)[0];                       // (sample d08)[0]
+    edge do r := (sample d09)[0];                       // (sample d09)[0]
+    edge do k := (sample d10)[0];                       // (sample d10)[0]
+    edge do r := (sample d11)[0];                       // (sample d11)[0]
+    edge do r := (sample d12)[0];                       // (sample d12)[0]
+    edge do k := (sample d13)[0];                       // (sample d13)[0]
+    edge do r := (sample d14)[0];                       // (sample d14)[0]
+    edge do r := (sample d15)[0];                       // (sample d15)[0]
+    edge do k := (sample d16)[0];                       // (sample d16)[0]
+    edge do r := (sample d17)[0];                       // (sample d17)[0]
+    edge do r := (sample d18)[0];                       // (sample d18)[0]
+
+    // Binary expressions.
+    edge do b := false => false;                        // true
+    edge do b := false => true;                         // true
+    edge do b := true  => false;                        // false
+    edge do b := true  => true;                         // true
+
+    edge do b := false <=> false;                       // true
+    edge do b := false <=> true;                        // false
+    edge do b := true  <=> false;                       // false
+    edge do b := true  <=> true;                        // true
+
+    edge do b := false and false;                       // false
+    edge do b := false and true;                        // false
+    edge do b := true  and false;                       // false
+    edge do b := true  and true;                        // true
+
+    edge do si := {1, 2, 3} and {2, 3, 4};              // {2, 3}
+
+    edge do b := false or false;                        // false
+    edge do b := false or true;                         // true
+    edge do b := true  or false;                        // true
+    edge do b := true  or true;                         // true
+
+    edge do si := {1, 2, 3} or {2, 3, 4};               // {1, 2, 3, 4}
+
+    edge do b := 1   < 2;                               // true
+    edge do b := 1   < 1;                               // false
+    edge do b := 2   < 1;                               // false
+    edge do b := 1   < 2.0;                             // true
+    edge do b := 1   < 1.0;                             // false
+    edge do b := 2   < 1.0;                             // false
+    edge do b := 1.0 < 2;                               // true
+    edge do b := 1.0 < 1;                               // false
+    edge do b := 2.0 < 1;                               // false
+    edge do b := 1.0 < 2.0;                             // true
+    edge do b := 1.0 < 1.0;                             // false
+    edge do b := 2.0 < 1.0;                             // false
+
+    edge do b := 1   > 2;                               // false
+    edge do b := 1   > 1;                               // false
+    edge do b := 2   > 1;                               // true
+    edge do b := 1   > 2.0;                             // false
+    edge do b := 1   > 1.0;                             // false
+    edge do b := 2   > 1.0;                             // true
+    edge do b := 1.0 > 2;                               // false
+    edge do b := 1.0 > 1;                               // false
+    edge do b := 2.0 > 1;                               // true
+    edge do b := 1.0 > 2.0;                             // false
+    edge do b := 1.0 > 1.0;                             // false
+    edge do b := 2.0 > 1.0;                             // true
+
+    edge do b := 1   <= 2;                              // true
+    edge do b := 1   <= 1;                              // true
+    edge do b := 2   <= 1;                              // false
+    edge do b := 1   <= 2.0;                            // true
+    edge do b := 1   <= 1.0;                            // true
+    edge do b := 2   <= 1.0;                            // false
+    edge do b := 1.0 <= 2;                              // true
+    edge do b := 1.0 <= 1;                              // true
+    edge do b := 2.0 <= 1;                              // false
+    edge do b := 1.0 <= 2.0;                            // true
+    edge do b := 1.0 <= 1.0;                            // true
+    edge do b := 2.0 <= 1.0;                            // false
+
+    edge do b := 1   >= 2;                              // false
+    edge do b := 1   >= 1;                              // true
+    edge do b := 2   >= 1;                              // true
+    edge do b := 1   >= 2.0;                            // false
+    edge do b := 1   >= 1.0;                            // true
+    edge do b := 2   >= 1.0;                            // true
+    edge do b := 1.0 >= 2;                              // false
+    edge do b := 1.0 >= 1;                              // true
+    edge do b := 2.0 >= 1;                              // true
+    edge do b := 1.0 >= 2.0;                            // false
+    edge do b := 1.0 >= 1.0;                            // true
+    edge do b := 2.0 >= 1.0;                            // true
+
+    edge do b := true       = true;                     // true
+    edge do b := true       = false;                    // false
+    edge do b := 1          = 1;                        // true
+    edge do b := 1          = 2;                        // false
+    edge do b := 1.0        = 1.0;                      // true
+    edge do b := 1.0        = 2.0;                      // false
+    edge do b := [1]        = [1];                      // true
+    edge do b := [1]        = [2];                      // false
+    edge do b := {1}        = {1};                      // true
+    edge do b := {1}        = {2};                      // false
+    edge do b := {1, 2}     = {2, 1, 2};                // true
+    edge do b := {1:2}      = {1:3};                    // false
+    edge do b := {1:2}      = {1:2};                    // true
+    edge do b := {2:1}      = {1:2};                    // false
+    edge do b := {1:2, 2:1} = {2:1, 1:2};               // true
+
+    edge do b := true       != true;                    // false
+    edge do b := true       != false;                   // true
+    edge do b := 1          != 1;                       // false
+    edge do b := 1          != 2;                       // true
+    edge do b := 1.0        != 1.0;                     // false
+    edge do b := 1.0        != 2.0;                     // true
+    edge do b := [1]        != [1];                     // false
+    edge do b := [1]        != [2];                     // true
+    edge do b := {1}        != {1};                     // false
+    edge do b := {1}        != {2};                     // true
+    edge do b := {1, 2}     != {2, 1, 2};               // false
+    edge do b := {1:2}      != {1:3};                   // true
+    edge do b := {1:2}      != {1:2};                   // false
+    edge do b := {2:1}      != {1:2};                   // true
+    edge do b := {1:2, 2:1} != {2:1, 1:2};              // false
+
+    edge do k   := 1   + 2;                             // 3
+    edge do r   := 1   + 2.0;                           // 3.0
+    edge do r   := 1.0 + 2;                             // 3.0
+    edge do r   := 1.0 + 2.0;                           // 3.0
+    edge do li  := [1, 2] + [3, 4];                     // [1, 2, 3, 4]
+    edge do g   := "abc" + "def";                       // "abcdef";
+    edge do dir := {1: 4.0, 2: 5.0} + {1: 6.0, 3: 7.0};  // {1: 6.0, 2: 5.0, 3: 7.0}
+
+    edge do k   := 6   - 2;                             // 4
+    edge do r   := 6   - 2.0;                           // 4.0
+    edge do r   := 6.0 - 2;                             // 4.0
+    edge do r   := 6.0 - 2.0;                           // 4.0
+    edge do si  := {1, 2, 3} - {2, 3, 4};               // {1}
+    edge do dir := {1: 4.0, 2: 5.0} - {1: 6.0, 3: 7.0}; // {2: 5.0}
+    edge do dir := {1: 4.0, 2: 5.0} - {1, 3};           // {2: 5.0}
+    edge do dir := {1: 4.0, 2: 5.0} - [1, 3];           // {2: 5.0}
+
+    edge do k := 2   * 3;                               // 6
+    edge do r := 2   * 3.0;                             // 6.0
+    edge do r := 2.0 * 3;                               // 6.0
+    edge do r := 2.0 * 3.0;                             // 6.0
+
+    edge do r := 8   / 2;                               // 4.0
+    edge do r := 8   / 2.0;                             // 4.0
+    edge do r := 8.0 / 2;                               // 4.0
+    edge do r := 8.0 / 2.0;                             // 4.0
+
+    edge do k :=  7 div  4;                             // 1
+    edge do k :=  7 div -4;                             // -1
+    edge do k := -7 div  4;                             // -1
+    edge do k := -7 div -4;                             // 1
+
+    edge do k :=  7 mod  4;                             // 3
+    edge do k :=  7 mod -4;                             // 3
+    edge do k := -7 mod  4;                             // -3
+    edge do k := -7 mod -4;                             // -3
+
+    edge do b := 1 in [1, 2];                           // true
+    edge do b := 3 in [1, 2];                           // false
+    edge do b := 1 in {1, 2};                           // true
+    edge do b := 3 in {1, 2};                           // false
+    edge do b := 1 in {1: 3, 2: 4};                     // true
+    edge do b := 3 in {1: 3, 2: 4};                     // false
+
+    edge do b := {1, 2} sub {1, 2};                     // true
+    edge do b := {1, 2} sub {1, 2, 3};                  // true
+    edge do b := {1, 3} sub {1, 2, 3};                  // true
+    edge do b := {3, 4} sub {1, 2, 3};                  // false
+    edge do b := {4}    sub {1, 2, 3};                  // false
+
+    // Boolean binary expressions.
+    edge do b := true  and p1.X;                        // p1.X
+    edge do b := p1.X  and true;                        // p1.X
+    edge do b := false and p1.X;                        // false
+    edge do b := p1.X  and false;                       // false
+
+    edge do b := true  or  p1.X;                        // true
+    edge do b := p1.X  or  true;                        // true
+    edge do b := false or  p1.X;                        // p1.X
+    edge do b := p1.X  or  false;                       // p1.X
+
+    edge do b := true  =>  p1.X;                        // p1.X
+    edge do b := p1.X  =>  true;                        // true
+    edge do b := false =>  p1.X;                        // true
+    edge do b := p1.X  =>  false;                       // not p1.X
+
+    edge do b := true  <=> p1.X;                        // p1.X
+    edge do b := p1.X  <=> true;                        // p1.X
+    edge do b := false <=> p1.X;                        // not p1.X
+    edge do b := p1.X  <=> false;                       // not p1.X
+
+    // Boolean unary expressions.
+    edge do b := not                 p1.X;              // not p1.X
+    edge do b := not not             p1.X;              //     p1.X
+    edge do b := not not not         p1.X;              // not p1.X
+    edge do b := not not not not     p1.X;              //     p1.X
+    edge do b := not not not not not p1.X;              // not p1.X
+
+    // Boolean unary/binary expressions.
+    edge do b := not(p1.X => b);                        // p1.X and not b
+    edge do b := not(i <  k);                           // i >= k
+    edge do b := not(i <= k);                           // i >  k
+    edge do b := not(i =  k);                           // i != k
+    edge do b := not(i != k);                           // i =  k
+    edge do b := not(i >  k);                           // i <= k
+    edge do b := not(i >= k);                           // i <  k
+    edge do b := not not not(i >= k);                   // i <  k
+
+    // Projection expressions.
+    edge do k := [1, 2, 3][0];                          // 1
+    edge do k := [1, 2, 3][1];                          // 2
+    edge do k := [1, 2, 3][2];                          // 3
+    edge do k := [1, 2, 3][-1];                         // 3
+    edge do k := [1, 2, 3][-2];                         // 2
+    edge do k := [1, 2, 3][-3];                         // 1
+
+    edge do k := [[1, 2], [3, 4, 5]][0][0];             // 1
+    edge do k := [[1, 2], [3, 4, 5]][0][1];             // 2
+    edge do k := [[1, 2], [3, 4, 5]][1][0];             // 3
+    edge do k := [[1, 2], [3, 4, 5]][1][1];             // 4
+    edge do k := [[1, 2], [3, 4, 5]][1][2];             // 5
+
+    edge do k := {1: 2, 3: 4}[1];                       // 2
+    edge do k := {1: 2, 3: 4}[3];                       // 4
+
+    edge do g := "abc"[0];                              // "a"
+    edge do g := "abc"[1];                              // "b"
+    edge do g := "abc"[2];                              // "c"
+    edge do g := "abc"[-1];                             // "c"
+    edge do g := "abc"[-2];                             // "b"
+    edge do g := "abc"[-3];                             // "a"
+
+    edge do k := (9, true, "x")[0];                     // 9
+    edge do b := (9, true, "x")[1];                     // true
+    edge do g := (9, true, "x")[2];                     // "x"
+
+    edge do tibr := (8, false, 123.0);                  // (8, false, 123.0)
+    edge do k := ctibr[a];                              // 123
+    edge do b := ctibr[b];                              // false
+    edge do r := ctibr[c];                              // 234.0
+
+    // Slice expressions.
+    edge do li := [1, 2, 3][  :  ];                     // [1, 2, 3]
+
+    edge do li := [1, 2, 3][  : 0];                     // []
+    edge do li := [1, 2, 3][  : 1];                     // [1]
+    edge do li := [1, 2, 3][  : 2];                     // [1, 2]
+    edge do li := [1, 2, 3][  : 3];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][  : 4];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][  :-1];                     // [1, 2]
+    edge do li := [1, 2, 3][  :-2];                     // [1]
+    edge do li := [1, 2, 3][  :-3];                     // []
+    edge do li := [1, 2, 3][  :-4];                     // []
+
+    edge do li := [1, 2, 3][ 0:  ];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][ 1:  ];                     // [2, 3]
+    edge do li := [1, 2, 3][ 2:  ];                     // [3]
+    edge do li := [1, 2, 3][ 3:  ];                     // []
+    edge do li := [1, 2, 3][ 4:  ];                     // []
+    edge do li := [1, 2, 3][-1:  ];                     // [3]
+    edge do li := [1, 2, 3][-2:  ];                     // [2, 3]
+    edge do li := [1, 2, 3][-3:  ];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][-4:  ];                     // [1, 2, 3]
+
+    edge do li := [1, 2, 3][ 0: 0];                     // []
+    edge do li := [1, 2, 3][ 0: 1];                     // [1]
+    edge do li := [1, 2, 3][ 0: 2];                     // [1, 2]
+    edge do li := [1, 2, 3][ 0: 3];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][ 0: 4];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][ 0:-1];                     // [1, 2]
+    edge do li := [1, 2, 3][ 0:-2];                     // [1]
+    edge do li := [1, 2, 3][ 0:-3];                     // []
+    edge do li := [1, 2, 3][ 0:-4];                     // []
+
+    edge do li := [1, 2, 3][ 1: 0];                     // []
+    edge do li := [1, 2, 3][ 1: 1];                     // []
+    edge do li := [1, 2, 3][ 1: 2];                     // [2]
+    edge do li := [1, 2, 3][ 1: 3];                     // [2, 3]
+    edge do li := [1, 2, 3][ 1: 4];                     // [2, 3]
+    edge do li := [1, 2, 3][ 1:-1];                     // [2]
+    edge do li := [1, 2, 3][ 1:-2];                     // []
+    edge do li := [1, 2, 3][ 1:-3];                     // []
+    edge do li := [1, 2, 3][ 1:-4];                     // []
+
+    edge do li := [1, 2, 3][ 2: 0];                     // []
+    edge do li := [1, 2, 3][ 2: 1];                     // []
+    edge do li := [1, 2, 3][ 2: 2];                     // []
+    edge do li := [1, 2, 3][ 2: 3];                     // [3]
+    edge do li := [1, 2, 3][ 2: 4];                     // [3]
+    edge do li := [1, 2, 3][ 2:-1];                     // []
+    edge do li := [1, 2, 3][ 2:-2];                     // []
+    edge do li := [1, 2, 3][ 2:-3];                     // []
+    edge do li := [1, 2, 3][ 2:-4];                     // []
+
+    edge do li := [1, 2, 3][ 3: 0];                     // []
+    edge do li := [1, 2, 3][ 3: 1];                     // []
+    edge do li := [1, 2, 3][ 3: 2];                     // []
+    edge do li := [1, 2, 3][ 3: 3];                     // []
+    edge do li := [1, 2, 3][ 3: 4];                     // []
+    edge do li := [1, 2, 3][ 3:-1];                     // []
+    edge do li := [1, 2, 3][ 3:-2];                     // []
+    edge do li := [1, 2, 3][ 3:-3];                     // []
+    edge do li := [1, 2, 3][ 3:-4];                     // []
+
+    edge do li := [1, 2, 3][ 4: 0];                     // []
+    edge do li := [1, 2, 3][ 4: 1];                     // []
+    edge do li := [1, 2, 3][ 4: 2];                     // []
+    edge do li := [1, 2, 3][ 4: 3];                     // []
+    edge do li := [1, 2, 3][ 4: 4];                     // []
+    edge do li := [1, 2, 3][ 4:-1];                     // []
+    edge do li := [1, 2, 3][ 4:-2];                     // []
+    edge do li := [1, 2, 3][ 4:-3];                     // []
+    edge do li := [1, 2, 3][ 4:-4];                     // []
+
+    edge do li := [1, 2, 3][-1: 0];                     // []
+    edge do li := [1, 2, 3][-1: 1];                     // []
+    edge do li := [1, 2, 3][-1: 2];                     // []
+    edge do li := [1, 2, 3][-1: 3];                     // [3]
+    edge do li := [1, 2, 3][-1: 4];                     // [3]
+    edge do li := [1, 2, 3][-1:-1];                     // []
+    edge do li := [1, 2, 3][-1:-2];                     // []
+    edge do li := [1, 2, 3][-1:-3];                     // []
+    edge do li := [1, 2, 3][-1:-4];                     // []
+
+    edge do li := [1, 2, 3][-2: 0];                     // []
+    edge do li := [1, 2, 3][-2: 1];                     // []
+    edge do li := [1, 2, 3][-2: 2];                     // [2]
+    edge do li := [1, 2, 3][-2: 3];                     // [2, 3]
+    edge do li := [1, 2, 3][-2: 4];                     // [2, 3]
+    edge do li := [1, 2, 3][-2:-1];                     // [2]
+    edge do li := [1, 2, 3][-2:-2];                     // []
+    edge do li := [1, 2, 3][-2:-3];                     // []
+    edge do li := [1, 2, 3][-2:-4];                     // []
+
+    edge do li := [1, 2, 3][-3: 0];                     // []
+    edge do li := [1, 2, 3][-3: 1];                     // [1]
+    edge do li := [1, 2, 3][-3: 2];                     // [1, 2]
+    edge do li := [1, 2, 3][-3: 3];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][-3: 4];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][-3:-1];                     // [1, 2]
+    edge do li := [1, 2, 3][-3:-2];                     // [1]
+    edge do li := [1, 2, 3][-3:-3];                     // []
+    edge do li := [1, 2, 3][-3:-4];                     // []
+
+    edge do li := [1, 2, 3][-4: 0];                     // []
+    edge do li := [1, 2, 3][-4: 1];                     // [1]
+    edge do li := [1, 2, 3][-4: 2];                     // [1, 2]
+    edge do li := [1, 2, 3][-4: 3];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][-4: 4];                     // [1, 2, 3]
+    edge do li := [1, 2, 3][-4:-1];                     // [1, 2]
+    edge do li := [1, 2, 3][-4:-2];                     // [1]
+    edge do li := [1, 2, 3][-4:-3];                     // []
+    edge do li := [1, 2, 3][-4:-4];                     // []
+
+    edge do g := "ghi"[  :  ];                          // "ghi"
+
+    edge do g := "ghi"[  : 0];                          // ""
+    edge do g := "ghi"[  : 1];                          // "g"
+    edge do g := "ghi"[  : 2];                          // "gh"
+    edge do g := "ghi"[  : 3];                          // "ghi"
+    edge do g := "ghi"[  : 4];                          // "ghi"
+    edge do g := "ghi"[  :-1];                          // "gh"
+    edge do g := "ghi"[  :-2];                          // "g"
+    edge do g := "ghi"[  :-3];                          // ""
+    edge do g := "ghi"[  :-4];                          // ""
+
+    edge do g := "ghi"[ 0:  ];                          // "ghi"
+    edge do g := "ghi"[ 1:  ];                          // "hi"
+    edge do g := "ghi"[ 2:  ];                          // "i"
+    edge do g := "ghi"[ 3:  ];                          // ""
+    edge do g := "ghi"[ 4:  ];                          // ""
+    edge do g := "ghi"[-1:  ];                          // "i"
+    edge do g := "ghi"[-2:  ];                          // "hi"
+    edge do g := "ghi"[-3:  ];                          // "ghi"
+    edge do g := "ghi"[-4:  ];                          // "ghi"
+
+    edge do g := "ghi"[ 0: 0];                          // ""
+    edge do g := "ghi"[ 0: 1];                          // "g"
+    edge do g := "ghi"[ 0: 2];                          // "gh"
+    edge do g := "ghi"[ 0: 3];                          // "ghi"
+    edge do g := "ghi"[ 0: 4];                          // "ghi"
+    edge do g := "ghi"[ 0:-1];                          // "gh"
+    edge do g := "ghi"[ 0:-2];                          // "g"
+    edge do g := "ghi"[ 0:-3];                          // ""
+    edge do g := "ghi"[ 0:-4];                          // ""
+
+    edge do g := "ghi"[ 1: 0];                          // ""
+    edge do g := "ghi"[ 1: 1];                          // ""
+    edge do g := "ghi"[ 1: 2];                          // "h"
+    edge do g := "ghi"[ 1: 3];                          // "hi"
+    edge do g := "ghi"[ 1: 4];                          // "hi"
+    edge do g := "ghi"[ 1:-1];                          // "h"
+    edge do g := "ghi"[ 1:-2];                          // ""
+    edge do g := "ghi"[ 1:-3];                          // ""
+    edge do g := "ghi"[ 1:-4];                          // ""
+
+    edge do g := "ghi"[ 2: 0];                          // ""
+    edge do g := "ghi"[ 2: 1];                          // ""
+    edge do g := "ghi"[ 2: 2];                          // ""
+    edge do g := "ghi"[ 2: 3];                          // "i"
+    edge do g := "ghi"[ 2: 4];                          // "i"
+    edge do g := "ghi"[ 2:-1];                          // ""
+    edge do g := "ghi"[ 2:-2];                          // ""
+    edge do g := "ghi"[ 2:-3];                          // ""
+    edge do g := "ghi"[ 2:-4];                          // ""
+
+    edge do g := "ghi"[ 3: 0];                          // ""
+    edge do g := "ghi"[ 3: 1];                          // ""
+    edge do g := "ghi"[ 3: 2];                          // ""
+    edge do g := "ghi"[ 3: 3];                          // ""
+    edge do g := "ghi"[ 3: 4];                          // ""
+    edge do g := "ghi"[ 3:-1];                          // ""
+    edge do g := "ghi"[ 3:-2];                          // ""
+    edge do g := "ghi"[ 3:-3];                          // ""
+    edge do g := "ghi"[ 3:-4];                          // ""
+
+    edge do g := "ghi"[ 4: 0];                          // ""
+    edge do g := "ghi"[ 4: 1];                          // ""
+    edge do g := "ghi"[ 4: 2];                          // ""
+    edge do g := "ghi"[ 4: 3];                          // ""
+    edge do g := "ghi"[ 4: 4];                          // ""
+    edge do g := "ghi"[ 4:-1];                          // ""
+    edge do g := "ghi"[ 4:-2];                          // ""
+    edge do g := "ghi"[ 4:-3];                          // ""
+    edge do g := "ghi"[ 4:-4];                          // ""
+
+    edge do g := "ghi"[-1: 0];                          // ""
+    edge do g := "ghi"[-1: 1];                          // ""
+    edge do g := "ghi"[-1: 2];                          // ""
+    edge do g := "ghi"[-1: 3];                          // "i"
+    edge do g := "ghi"[-1: 4];                          // "i"
+    edge do g := "ghi"[-1:-1];                          // ""
+    edge do g := "ghi"[-1:-2];                          // ""
+    edge do g := "ghi"[-1:-3];                          // ""
+    edge do g := "ghi"[-1:-4];                          // ""
+
+    edge do g := "ghi"[-2: 0];                          // ""
+    edge do g := "ghi"[-2: 1];                          // ""
+    edge do g := "ghi"[-2: 2];                          // "h"
+    edge do g := "ghi"[-2: 3];                          // "hi"
+    edge do g := "ghi"[-2: 4];                          // "hi"
+    edge do g := "ghi"[-2:-1];                          // "h"
+    edge do g := "ghi"[-2:-2];                          // ""
+    edge do g := "ghi"[-2:-3];                          // ""
+    edge do g := "ghi"[-2:-4];                          // ""
+
+    edge do g := "ghi"[-3: 0];                          // ""
+    edge do g := "ghi"[-3: 1];                          // "g"
+    edge do g := "ghi"[-3: 2];                          // "gh"
+    edge do g := "ghi"[-3: 3];                          // "ghi"
+    edge do g := "ghi"[-3: 4];                          // "ghi"
+    edge do g := "ghi"[-3:-1];                          // "gh"
+    edge do g := "ghi"[-3:-2];                          // "g"
+    edge do g := "ghi"[-3:-3];                          // ""
+    edge do g := "ghi"[-3:-4];                          // ""
+
+    edge do g := "ghi"[-4: 0];                          // ""
+    edge do g := "ghi"[-4: 1];                          // "g"
+    edge do g := "ghi"[-4: 2];                          // "gh"
+    edge do g := "ghi"[-4: 3];                          // "ghi"
+    edge do g := "ghi"[-4: 4];                          // "ghi"
+    edge do g := "ghi"[-4:-1];                          // "gh"
+    edge do g := "ghi"[-4:-2];                          // "g"
+    edge do g := "ghi"[-4:-3];                          // ""
+    edge do g := "ghi"[-4:-4];                          // ""
+
+    // Function call expressions.
+    edge do fr0  := fr0;                                // fr0
+    edge do fi1r := fi1r;                               // fi1r
+    edge do fr0  := ffr();                              // ffr()
+    edge do r    := ffr()();                            // ffr()()
+    edge do k    := fi1r(1.0);                          // fi1r(1.0)
+    edge do frr  := ffrr();                             // ffrr()
+    edge do r    := ffrr()(1.0);                        // ffrr()(1.0)
+
+    // Standard library function expressions.
+    edge do r := sin (0.5);                             // 0.479425538604
+    edge do r := sinh(0.5);                             // 0.521095305494
+    edge do r := cos (0.5);                             // 0.87758256189
+    edge do r := cosh(0.5);                             // 1.12762596521
+    edge do r := tan (0.5);                             // 0.546302489844
+    edge do r := tanh(0.5);                             // 0.46211715726
+
+    edge do r := asin(0.5);                             // 0.523598775598
+    edge do r := asinh(0.5);                            // 0.48121182506
+    edge do r := acos(0.5);                             // 1.0471975512
+    edge do r := acosh(PI);                             // 1.81152627246
+    edge do r := atan(0.5);                             // 0.463647609001
+    edge do r := atanh(0.5);                            // 0.549306144334
+
+    edge do k := abs(-2);                               // 2
+    edge do k := abs(-1);                               // 1
+    edge do k := abs( 0);                               // 0
+    edge do k := abs( 1);                               // 1
+    edge do k := abs( 2);                               // 2
+
+    edge do r := abs(-2.0);                             // 2.0
+    edge do r := abs(-1.0);                             // 1.0
+    edge do r := abs( 0.0);                             // 0.0
+    edge do r := abs( 1.0);                             // 1.0
+    edge do r := abs( 2.0);                             // 2.0
+
+    edge do r := cbrt(3.0 * 3.0 * 3.0);                 // 3.0
+
+    edge do k := ceil(-1.0);                            // -1
+    edge do k := ceil(-0.6);                            // 0
+    edge do k := ceil(-0.5);                            // 0
+    edge do k := ceil(-0.4);                            // 0
+    edge do k := ceil(-0.1);                            // 0
+    edge do k := ceil( 0.0);                            // 0
+    edge do k := ceil( 0.1);                            // 1
+    edge do k := ceil( 0.4);                            // 1
+    edge do k := ceil( 0.5);                            // 1
+    edge do k := ceil( 0.6);                            // 1
+    edge do k := ceil( 1.0);                            // 1
+
+    edge do li := del([1, 2, 3],  0);                   // [2, 3]
+    edge do li := del([1, 2, 3],  1);                   // [1, 3]
+    edge do li := del([1, 2, 3],  2);                   // [1, 2]
+    edge do li := del([1, 2, 3], -1);                   // [1, 2]
+    edge do li := del([1, 2, 3], -2);                   // [1, 3]
+    edge do li := del([1, 2, 3], -3);                   // [2, 3]
+
+    edge do b := empty(<list[0] int>[]);                // true
+    edge do b := empty(<set int>{});                    // true
+    edge do b := empty(<dict(int:int)>{});              // true
+
+    edge do b := empty([1]);                            // false
+    edge do b := empty({1});                            // false
+    edge do b := empty({1:2});                          // false
+
+    edge do r := exp(1.0);                              // 2.718281828459045
+
+    edge do k := floor(-1.0);                           // -1
+    edge do k := floor(-0.6);                           // -1
+    edge do k := floor(-0.5);                           // -1
+    edge do k := floor(-0.4);                           // -1
+    edge do k := floor(-0.1);                           // -1
+    edge do k := floor( 0.0);                           // 0
+    edge do k := floor( 0.1);                           // 0
+    edge do k := floor( 0.4);                           // 0
+    edge do k := floor( 0.5);                           // 0
+    edge do k := floor( 0.6);                           // 0
+    edge do k := floor( 1.0);                           // 1
+
+    edge do g := fmt("a\tb%sc%fd", 1, 2.34);            // "a\tb1c2.340000d"
+    edge do g := fmt("a%%b%%c");                        // "a%b%c"
+    edge do g := fmt("a%db%.1fc%1$dd%2$.3ge", 1, 2.34); // "a1b2.3c1d2.34e"
+    edge do g := fmt("a%s %1$sz", 3.45);                // "a3.45 3.45z"
+    edge do g := fmt("a%1$ez", 3.45);                   // "a3.450000e+00z"
+    edge do g := fmt("a%1$Ez", 3.45);                   // "a3.450000E+00z"
+    edge do g := fmt("a%1$fz", 3.45);                   // "a3.450000z"
+    edge do g := fmt("a%1$gz", 3.45);                   // "a3.45000z"
+    edge do g := fmt("a%1$Gz", 3.45);                   // "a3.45000z"
+    edge do g := fmt("a%1$s %1$.1gz", 3e9);             // "a3.0e9 3e+09z"
+    edge do g := fmt("a%1$s %1$.1Gz", 3e9);             // "a3.0e9 3E+09z"
+    edge do g := fmt("a%s %sz", "x", ["y"]);            // "ax [\"y\"]z"
+    edge do g := fmt("a%3s_%9Sz", "x", ["y"]);          // "a  x_    [\"Y\"]z"
+    edge do g := fmt("a%sz", p2.ABC);                   // "aABCz"
+
+    edge do r := ln(E);                                 // 1.0
+
+    edge do r := log(1000.0);                           // 3.0
+
+    edge do i := max(1,   2);                           // 2
+    edge do r := max(1,   2.0);                         // 2.0
+    edge do r := max(1.0, 2);                           // 2.0
+    edge do r := max(1.0, 2.0);                         // 2.0
+
+    edge do i := min(1,   2);                           // 1
+    edge do r := min(1,   2.0);                         // 1.0
+    edge do r := min(1.0, 2);                           // 1.0
+    edge do r := min(1.0, 2.0);                         // 1.0
+
+    edge do tili := pop([1, 2, 3]);                     // (1, [2, 3])
+    edge do tili := pop(pop([1, 2, 3])[1]);             // (2, [3])
+    edge do tili := pop(pop(pop([1, 2, 3])[1])[1]);     // (3, [])
+
+    edge do i := pow( 1,    2);                         // 1
+    edge do r := pow( 1,    2.0);                       // 1.0
+    edge do r := pow( 1.0,  2);                         // 1.0
+    edge do r := pow( 1.0,  2.0);                       // 1.0
+
+    edge do i := pow(-1,    2);                         // 1
+    edge do r := pow(-1,    2.0);                       // 1.0
+    edge do r := pow(-1.0,  2);                         // 1.0
+    edge do r := pow(-1.0,  2.0);                       // 1.0
+
+    edge do r := pow( 1,   -2);                         // 1.0
+    edge do r := pow( 1,   -2.0);                       // 1.0
+    edge do r := pow( 1.0, -2);                         // 1.0
+    edge do r := pow( 1.0, -2.0);                       // 1.0
+
+    edge do r := pow(-1,   -2);                         // 1.0
+    edge do r := pow(-1,   -2.0);                       // 1.0
+    edge do r := pow(-1.0, -2);                         // 1.0
+    edge do r := pow(-1.0, -2.0);                       // 1.0
+
+    edge do k := pow( 2,    8);                         // 256
+    edge do r := pow( 2,    8.0);                       // 256.0
+    edge do r := pow( 2.0,  8);                         // 256.0
+    edge do r := pow( 2.0,  8.0);                       // 256.0
+
+    edge do r := pow( 9.0,  0.5);                       // 3.0
+
+    edge do k := pow( 5,    0);                         // 1
+    edge do r := pow( 5.0,  0);                         // 1.0
+    edge do r := pow( 5,    0.0);                       // 1.0
+    edge do r := pow( 5.0,  0.0);                       // 1.0
+
+    edge do k := pow( 0,    0);                         // 1
+    edge do r := pow( 0.0,  0);                         // 1.0
+    edge do r := pow( 0,    0.0);                       // 1.0
+    edge do r := pow( 0.0,  0.0);                       // 1.0
+
+    edge do k := round(-1.0);                           // -1
+    edge do k := round(-0.6);                           // -1
+    edge do k := round(-0.5);                           // 0
+    edge do k := round(-0.4);                           // 0
+    edge do k := round(-0.1);                           // 0
+    edge do k := round( 0.0);                           // 0
+    edge do k := round( 0.1);                           // 0
+    edge do k := round( 0.4);                           // 0
+    edge do k := round( 0.5);                           // 1
+    edge do k := round( 0.6);                           // 1
+    edge do k := round( 1.0);                           // 1
+
+    edge do r := scale(0.1,  0, 1, 0,  3);              // 0.3
+    edge do r := scale(1.1,  1, 2, 5,  8);              // 5.3
+    edge do r := scale(1.25, 1, 2, 10, 8);              // 9.5
+    edge do r := scale(0,    1, 2, 3,  7);              // -1.0
+
+    edge do k := sign(-5);                              // -1
+    edge do k := sign(-1);                              // -1
+    edge do k := sign( 0);                              // 0
+    edge do k := sign( 1);                              // 1
+    edge do k := sign( 5);                              // 1
+
+    edge do k := sign(-5.0);                            // -1
+    edge do k := sign(-1.0);                            // -1
+    edge do k := sign( 0.0);                            // 0
+    edge do k := sign( 1.0);                            // 1
+    edge do k := sign( 5.0);                            // 1
+
+    edge do k := size("");                              // 0
+    edge do k := size("a");                             // 1
+    edge do k := size("ab");                            // 2
+    edge do k := size("\n\t\\\"");                      // 4
+
+    edge do k := size(<list[0] int>[]);                 // 0
+    edge do k := size([1]);                             // 1
+    edge do k := size([1, 2]);                          // 2
+
+    edge do k := size(<set int>{});                     // 0
+    edge do k := size({1});                             // 1
+    edge do k := size({1, 2});                          // 2
+    edge do k := size({2, 2});                          // 1
+
+    edge do k := size(<dict(int:int)>{});               // 0
+    edge do k := size({1: 2});                          // 1
+    edge do k := size({1: 2, 3: 4});                    // 2
+
+    edge do r := sqrt( 0.0);                            // 0.0
+    edge do r := sqrt( 1.0);                            // 1.0
+    edge do r := sqrt( 4.0);                            // 2.0
+    edge do r := sqrt( 9.0);                            // 3.0
+    edge do r := sqrt(16.0);                            // 4.0
+
+    // References.
+    edge do i   := a1;                                  // 1
+    edge do b   := a2;                                  // a2
+    edge do i   := c;                                   // 1
+    edge do b   := X;                                   // true
+    edge do b   := p1.X;                                // p1.X
+    edge do i   := i;                                   // i
+    edge do i   := j;                                   // 1
+    edge do z   := z;                                   // ABC
+    edge do fr0 := f;                                   // f
+    edge do k   := ctibr[a];                            // 123
+    edge do r   := cont_var;                            // cont_var
+    edge do r   := input_var1;                          // input_var1
+    edge do i   := input_var2;                          // 9
+    edge do r   := aa;                                  // 1.0
+
+    // Guards simplification.
+    edge when true, true;                               // no 'when'
+    edge when true, false;                              // when false
+    edge when false, true;                              // when false
+    edge when false, false;                             // when false
+    edge when true, p1.X;                               // when p1.X
+    edge when p1.X, false;                              // when false
+    edge when X, true;                                  // no 'when'
+
+    // Tau expressions.
+    edge tau;
+end
+
+func real f():
+  return 1.0;
+end
+
+group ff:
+  func real f1(real p):
+    real p2;
+    p2 := p;
+    return p + p2;
+  end
+
+  func real f2(real p):
+    list int l;
+    int[4..4] c = 4;
+    int[5..5] v;
+
+    l[c] := 23;
+    l[v] := 23;
+    v := 5;
+    (l[c], v) := (c, 5);
+    (l[v], v) := (5, v);
+
+    return p;
+  end
+
+  invariant f1(1.0) > f2(1.0);
+end
+
+plant pp:
+  disc list int l;
+  const int c = 4;
+  disc int[5..5] v;
+  location:
+    initial;
+
+    edge do l[c] := 23;
+    edge do l[v] := 23;
+    edge do v := 5;
+    edge do (l[c], v) := (c, 5);
+    edge do (l[v], v) := (5, v);
+end
+
+automaton q:
+  // Test for bug 'simplify values transformation crashes if expression complex but simple after post processing'.
+  disc bool v1;
+  disc bool v2;
+  location:
+    initial;
+    edge do v2 := v1 or true or true;                   // true
+    edge do v2 := not (v1 or true);                     // false
+end
+
+plant init1:
+  // Initial values of variables, and initialization predicates in components.
+  disc bool b;
+  disc bool c = b;                                      // false
+  initial c;                                            // false
+  location:
+    initial;
+end
+
+automaton init2:
+  // Initial values of variables.
+  type x = bool;
+  enum E = L1, L2;
+  disc bool            b1,  b2  = b1;                   // false
+  disc int             i1a, i2a = i1a;                  // 0
+  disc int[-5..-3]     i1b, i2b = i1b;                  // -3
+  disc int[3..5]       i1c, i2c = i1c;                  // 3
+  disc x               x1,  x2  = x1;                   // false
+  disc E               e1,  e2  = e1;                   // L1;
+  disc real            r1,  r2  = r1;                   // 0.0
+  disc string          g1,  g2  = g1;                   // ""
+  disc list int        l1,  l2  = l1;                   // <int>[]
+  disc set int         s1,  s2  = s1;                   // <int>{}
+  disc func int ()     f1,  f2  = f1;                   // f1
+  disc dict(int:bool)  d1,  d2  = d1;                   // <int:bool>{}
+  disc tuple(int a, b) t1,  t2  = t1;                   // (0, 0)
+  disc dist bool       z1b, z2b = z1b;
+  disc dist int        z1i, z2i = z1i;
+  disc dist real       z1r, z2r = z1r;
+
+  invariant e2 = L1 or e2 = L2;
+  invariant b2 or x2 or i2a + i2b + i2c + r2 + t2[0] + f2() > 0;
+  invariant size(g2) + size(l2) + size(s2) + size(d2) > 0;
+  invariant (sample z2b)[0] or (sample z2i)[0] + (sample z2r)[0] > 0;
+
+  location:
+    initial;
+end
+
+automaton init3:
+  // Initialization predicates in location.
+  disc bool b;
+  location l1:
+    initial;
+    edge when true goto l2;
+  location l2:
+    initial b;                                          // removed
+end
+
+automaton init4:
+  // Binary expression in initial values.
+  disc bool b1 in any;
+  disc bool b2;
+  disc bool combi_and = b1 and b2;                      // false
+  disc bool combi_or = b1 or b2;                        // b1
+  invariant combi_and or combi_or;
+  location:
+    initial;
+end
+
+automaton init5:
+  // Initial values of all types of variables.
+  disc bool a1 = b1;                                    // true
+  alg bool b1 = c1;
+  disc bool c1 = d' > 1.2;                              // true
+
+  disc bool a2 = b2;                                    // false
+  alg bool b2;
+  equation b2 = c2;
+  disc bool c2 = d' > 1.3;                              // false
+
+  const real d0c = 1.23;
+  disc real d0 = d0c;                                   // 1.23
+  cont d = d0 der d;                                    // 1.23 der d
+
+  invariant a1 or a2;
+
+  location:
+    initial;
+end
+
+plant init6:
+  // Initial value of 'time'.
+  disc real d1 = time;                                  // 0.0;
+  disc real d2 = d1;                                    // 0.0;
+  location:
+    initial d2 >= 0;                                    // initial;
+end
+
+event real      comm_multi;
+event int[0..0] comm_single;
+
+plant snd:
+  location:
+    initial;
+    edge comm_multi!1.23;
+    edge comm_single!0;
+end
+
+plant rcv:
+  disc real x;
+  disc int y;
+  location:
+    initial;
+    edge comm_multi? do x := ?;
+    edge comm_single? do y := ?;
+end
+
+automaton p3:
+  initial   true;
+  marked    true;
+  invariant true;
+  location X:
+    initial   true;
+    marked    true;
+    invariant true;
+end
+
+automaton p4:
+  initial   false;
+  marked    false;
+  invariant false;
+  location X:
+    initial   false;
+    marked    false;
+    invariant false;
+  location Y:
+    initial;
+    edge when Y goto X;
+end
+
+automaton p5:
+  initial   false, true;
+  marked    false, true;
+  invariant false, true;
+  location X:
+    initial   false, true;
+    marked    false, true;
+    invariant false, true;
+  location Y:
+    initial;
+    edge when Y goto X;
+end
+
+automaton p6:
+  initial   false, p1.X;
+  marked    false, p1.X;
+  invariant false, p1.X;
+  location X:
+    initial   false, p1.X;
+    marked    false, p1.X;
+    invariant false, p1.X;
+  location Y:
+    initial;
+    edge when Y goto X;
+end
+
+automaton p7:
+  initial   true, p1.X;
+  marked    true, p1.X;
+  invariant true, p1.X;
+  location X:
+    initial   true, p1.X;
+    marked    true, p1.X;
+    invariant true, p1.X;
+end
+
+group p8:
+  const int i = 5;
+  invariant i > 3;
+end
+
+automaton p9:
+  alg real x1 = switch self:
+                  case abc: 1.0
+                end;
+  alg bool x2 = switch p9:
+                  case abc: abc
+                end;
+  alg real x3 = switch p6:
+                  case X: if abc: 3.0 else 4.0 end
+                  case Y: 5.0
+                end;
+  location abc:
+    initial;
+end
+
+initial   true, false, p1.X, p2.X;
+marked    true, false, p1.X, p2.X;
+invariant true, false, p1.X, p2.X;
+
+plant p10:
+              invariant p1.X, true, true, true, p2.X;
+  plant       invariant true, p3.X, true, true, p1.X;
+  requirement invariant true, true, p4.X, true, p1.X;
+  supervisor  invariant true, true, true, p4.X, p4.Y;
+
+  location:
+    initial;
+
+                invariant p1.X, true, true, true, p2.X;
+    plant       invariant true, p3.X, true, true, p1.X;
+    requirement invariant true, true, p4.X, true, p1.X;
+    supervisor  invariant true, true, true, p4.X, p4.Y;
+end
+
+plant p11:
+              invariant p1.X, true, true, true, p2.X;
+  plant       invariant true, p3.X, false, true, p1.X;
+  requirement invariant true, true, p4.X, true, p1.X;
+  supervisor  invariant true, true, true, p4.X, p4.Y;
+
+  location:
+    initial;
+
+                invariant p1.X, true, true, true, p2.X;
+    plant       invariant true, p3.X, false, true, p1.X;
+    requirement invariant true, true, p4.X, true, p1.X;
+    supervisor  invariant true, true, true, p4.X, p4.Y;
+end
+
+automaton p12:
+              invariant p1.X, false;
+  plant       invariant p2.X, false;
+  requirement invariant p3.X, false;
+  supervisor  invariant p4.X, false;
+
+  location:
+    initial;
+
+                invariant p1.X, false;
+    plant       invariant p2.X, false;
+    requirement invariant p3.X, false;
+    supervisor  invariant p4.X, false;
+end
+
+group type_hints:
+  alg bool x = <list[1] list[0] bool>[[]] = [[p1.X]];
+end
+
+group p13:
+  event e1, e2, e3, e4;
+
+              invariant e1 needs p1.X;
+  plant       invariant e2 needs p4.X;
+  requirement invariant e3 needs p5.X;
+  supervisor  invariant e4 needs p6.X;
+
+              invariant p1.X disables e1;
+  plant       invariant p4.X disables e2;
+  requirement invariant p5.X disables e3;
+  supervisor  invariant p6.X disables e4;
+end
+
+group p14:
+  event e1, e2, e3, e4;
+
+              invariant e1 needs true;
+  plant       invariant e2 needs true;
+  requirement invariant e3 needs true;
+  supervisor  invariant e4 needs true;
+
+              invariant false disables e1;
+  plant       invariant false disables e2;
+  requirement invariant false disables e3;
+  supervisor  invariant false disables e4;
+end
+
+group p15:
+  event e1, e2, e3, e4;
+
+              invariant e1 needs false;
+  plant       invariant e2 needs false;
+  requirement invariant e3 needs not p5.X;
+  supervisor  invariant e4 needs false;
+
+              invariant p1.X disables e1;
+  plant       invariant p4.X disables e2;
+  requirement invariant p5.X disables e3;
+  supervisor  invariant p6.X disables e4;
+end
+
+group p16:
+  event e1, e2, e3, e4;
+
+              invariant e1 needs p1.X;
+  plant       invariant e2 needs p4.X;
+  requirement invariant e3 needs p5.X;
+  supervisor  invariant e4 needs p6.X;
+
+              invariant true     disables e1;
+  plant       invariant true     disables e2;
+  requirement invariant not p5.X disables e3;
+  supervisor  invariant true     disables e4;
+end

@@ -1,0 +1,48 @@
+% ------------------------------------------------------------------------------
+% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%
+% See the NOTICE file(s) distributed with this work for additional
+% information regarding copyright ownership.
+%
+% This program and the accompanying materials are made available under the terms
+% of the MIT License which is available at https://opensource.org/licenses/MIT
+%
+% SPDX-License-Identifier: MIT
+% ------------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{verbatim}
+
+\usepackage[paperwidth=40in, paperheight=20in]{geometry}
+
+\usetikzlibrary{arrows, automata, positioning}
+\begin{document}
+\pagestyle{empty}
+
+\definecolor{se-blue}{HTML}{D0D5FF}
+
+\newcommand{\state}[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+
+\begin{tikzpicture}[
+  ->,>=stealth',auto,node distance=2.5cm,thick,
+  every node/.style={font=\sffamily\small},
+  every state/.style={draw=se-blue,thick,top color=white,
+                      bottom color=se-blue!75,initial text=},
+  accepting/.style={accepting by arrow,accepting text=\ldots},
+  every edge/.style={draw=black!50}]
+
+  \node[state, initial]   (hu)                                {h/u};
+  \node[state]            (au) [                 right of=hu] {a/u};
+  \node[state]            (gh) [above =1cm of au,right of=au] {g/h};
+  \node[state]            (gt) [below =1cm of au,right of=au] {g/t};
+
+  \path[every node/.style={font=\sffamily\normalsize,outer sep=0pt}]
+    (hu) edge[]           node[]                    {toss}     (au)
+    (au) edge[]           node[sloped,anchor=south] {land}     (gh)
+    (au) edge[]           node[sloped,anchor=north] {land}     (gt)
+    (gh) edge[bend right] node[sloped,anchor=north] {pick\_up} (hu)
+    (gt) edge[bend left]  node[sloped,anchor=south] {pick\_up} (hu)
+  ;
+
+\end{tikzpicture}
+\end{document}

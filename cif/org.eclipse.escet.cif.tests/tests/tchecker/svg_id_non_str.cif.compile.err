@@ -1,0 +1,7 @@
+ERROR: File "tchecker/svg_id_non_str.cif": Semantic error at line 18, column 12: SVG element id must be of type "string", but is of type "bool".
+ERROR: File "tchecker/svg_id_non_str.cif": Semantic error at line 20, column 12: SVG element id must be of type "string", but is of type "bool".
+ERROR: File "tchecker/svg_id_non_str.cif": Semantic error at line 22, column 11: SVG element id must be of type "string", but is of type "bool".
+ERROR: File "tchecker/svg_id_non_str.cif": Semantic error at line 24, column 11: SVG element id must be of type "string", but is of type "int[5..5]".
+ERROR: File "tchecker/svg_id_non_str.cif": Semantic error at line 26, column 10: SVG element id must be of type "string", but is of type "real".
+ERROR: File "tchecker/svg_id_non_str.cif": Semantic error at line 28, column 10: SVG element id must be of type "string", but is of type "list[1] int[1..1]".
+ERROR: Failed to load CIF file "tchecker/svg_id_non_str.cif": the file has errors.

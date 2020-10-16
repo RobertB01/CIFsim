@@ -1,0 +1,1 @@
+Error: File "spec/statements/delay-string.chi": Semantic error at line 14, column 5: Numeric type expected (either int or real, found "string").

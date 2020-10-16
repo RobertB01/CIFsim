@@ -1,0 +1,21 @@
+group g:
+  automaton a1:
+    alg int x = 1;
+    print x file "out2.txt";
+    location:
+      initial;
+  end
+  automaton a2:
+    alg int x = 2;
+    print x file "out2.txt";
+    location:
+      initial;
+  end
+  group g:
+    print "d" file "out3.txt";
+  end
+  print "a" file "out1.txt";
+  print "b" file "out1.txt";
+  print "c" file "out1.txt";
+end
+print "s" file ":stdout";

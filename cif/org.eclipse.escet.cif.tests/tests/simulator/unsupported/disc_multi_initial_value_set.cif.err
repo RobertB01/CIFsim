@@ -1,0 +1,1 @@
+ERROR: Discrete variable "p.x" has multiple possible initial values, which is currently not supported by the CIF simulator. Restrict the initialization using the appropriate simulation option.

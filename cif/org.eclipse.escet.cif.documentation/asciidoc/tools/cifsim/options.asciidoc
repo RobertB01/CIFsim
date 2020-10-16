@@ -1,0 +1,121 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-options]]
+== Simulator options
+
+indexterm:[CIF simulator,options]
+The CIF simulator can be configured via various options. The available
+options are listed below, per category.
+
+*General*
+
+* _Help_: Prints the help text of the application to the console.
+
+* <<tools-cifsim-output-mode,Output mode>>
+
+* _License_: Prints the license text of the application to the console.
+
+* _Developer mode_: Option to control whether exceptional situations return
+limited and user-friendly information (the default), or extended developer
+oriented information. This option is primarily intended for the developers of
+the CIF simulator, and should not be used by end users.
+
+*Simulation*
+
+* _CIF specification_: The absolute or relative local file system path to the
+CIF specification (`.cif` file) to simulate. May also be a
+<<tools-cifsim-chapter-repeated-simulation,compiled code file>> (`.cifcode`
+file).
+
+* <<tools-cifsim-chapter-init,CIF specification initialization>>
+* <<tools-cifsim-termination-endtime,Simulation end time>>
+* <<tools-cifsim-solver-chapter-endtime-maxdelay,Maximum delay>>
+* <<tools-cifsim-chapter-distr-seeds,Initial seed for stochastic distributions>>
+* <<tools-cifsim-chapter-complete-mode,Complete mode>>
+* <<tools-cifsim-extfuncs-async,External functions asynchronous execution>>
+* <<tools-cifsim-chapter-profiling,Profiling>>
+* <<tools-cifsim-termination-confirm,Ask to confirm simulator termination>>
+* <<tools-cifsim-chapter-max-time-point-tol,Maximum time point tolerance>>
+* <<tools-cifsim-chapter-debug-gen-code,Load debug code>>
+
+*Compiler*
+
+* <<tools-cifsim-repeated-sim-compile-once,Compile only>>
+* <<tools-cifsim-repeated-sim-compile-once,Compiled code file>>
+* <<tools-cifsim-chapter-java-compiler,Java compiler>>
+
+*Input*
+
+* <<tools-cifsim-input-chapter-index,Input mode>>
+* <<tools-cifsim-input-automatic-trans,Automatic mode choice algorithm>>
+* <<tools-cifsim-input-automatic-time,Automatic mode time transition duration>>
+* <<tools-cifsim-input-trace-file,Trace input file>>
+* <<tools-cifsim-input-chapter-semi-automatic,Interactive mode automatic transition choice>>
+* <<tools-cifsim-chapter-env-events,Environment events>>
+* <<tools-cifsim-input-history-enable,History>>
+* <<tools-cifsim-input-history-size,History size>>
+
+*Output*
+
+* <<tools-cifsim-output-chapter-normal,Normal output>>
+* <<tools-cifsim-output-normal-state-filter,Normal output state filters>>
+* <<tools-cifsim-output-chapter-debug,Debug output>>
+* <<tools-cifsim-output-realtime-framerate,Frame rate>>
+* <<tools-cifsim-output-realtime-simspeed,Simulation speed>>
+* <<tools-cifsim-chapter-test-mode,Test mode>>
+
+*Output: SVG visualization*
+
+* <<tools-cifsim-output-svgviz-simulation-option,SVG visualization>>
+
+*Output: Trajectory data*
+
+* <<tools-cifsim-output-trajdata-option,Trajectory data>>
+* <<tools-cifsim-output-trajdata-file,Trajectory data file>>
+* <<tools-cifsim-output-trajdata-filters,Trajectory data filters>>
+* <<tools-cifsim-output-trajdata-sep,Trajectory data separation amount>>
+
+*Output: Plot visualization*
+
+* <<tools-cifsim-output-plotviz-option,Plot visualization>>
+* <<tools-cifsim-output-plotviz-mode,Plot visualization mode>>
+* <<tools-cifsim-output-plotviz-filtering,Plot visualization filters>>
+* <<tools-cifsim-output-plotviz-range,Plot visualization range>>
+
+*Output: State visualization*
+
+* <<tools-cifsim-output-stateviz-option,State visualization>>
+* <<tools-cifsim-output-stateviz-filtering,State visualization filters>>
+
+*ODE solver*
+
+* <<tools-cifsim-solver-chapter-options-outstep,ODE solver fixed output step size>>
+
+*ODE solver: ODE integrator*
+
+* <<tools-cifsim-solver-options-int-algo,ODE solver integrator algorithm>>
+* <<tools-cifsim-solver-options-int-tol,ODE solver integrator absolute tolerance>>
+* <<tools-cifsim-solver-options-int-tol,ODE solver integrator relative tolerance>>
+* <<tools-cifsim-solver-options-int-step,ODE solver integrator minimum step size>>
+* <<tools-cifsim-solver-options-int-step,ODE solver integrator maximum step size>>
+* <<tools-cifsim-solver-options-int-numstep,ODE solver integrator number of steps>>
+
+*ODE solver: ODE root finder*
+
+* <<tools-cifsim-solver-options-root-maxcheck,ODE solver root finder maximum check interval>>
+* <<tools-cifsim-solver-options-root-algo,ODE solver root finding algorithm>>
+* <<tools-cifsim-solver-options-root-tol,ODE solver root finder absolute tolerance>>
+* <<tools-cifsim-solver-options-root-tol,ODE solver root finder relative tolerance>>
+* <<tools-cifsim-solver-options-root-maxiter,ODE solver root finder maximum iterations>>

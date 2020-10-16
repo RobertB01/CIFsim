@@ -1,0 +1,27 @@
+group def K():
+  group k:
+    svgout id "box" attr "x" value "7";
+    svgout id "box" attr "y" value "8";
+  end
+  svgout id "box" attr "width" value "5";
+  svgout id "box" attr "height" value "6";
+end
+group g:
+  group def H():
+    group g3:
+    end
+  end
+  automaton def B():
+    location:
+      initial;
+  end
+  group g2:
+  end
+  automaton a:
+    location:
+      initial;
+  end
+  h: H();
+  b: B();
+end
+svgfile "../tchecker/small.svg";

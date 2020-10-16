@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "binomial(1.0 + 1e-6, 1)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: binomial(1.000001, 1).
+CAUSE: The chance parameter (the first parameter) is not in the range [0.0 .. 1.0].

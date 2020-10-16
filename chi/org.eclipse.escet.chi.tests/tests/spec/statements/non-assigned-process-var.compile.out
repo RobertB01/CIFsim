@@ -1,0 +1,2 @@
+Warning: File "spec/statements/non-assigned-process-var.chi": Semantic warning at line 13, column 6: Unused process "P".
+Warning: File "spec/statements/non-assigned-process-var.chi": Semantic warning at line 13, column 12: Unused variable "x".

@@ -1,0 +1,56 @@
+type n_node_type = tuple(int var; int low; int high);
+type n_nodes_type = list[15] n_node_type;
+const n_nodes_type n_nodes = [(2, -2, 1), (7, 2, 6), (8, 3, 5), (9, -2, 4), (3, -1, -2), (9, 4, -2), (8, -2, 5), (2, -2, 8), (5, 9, -2), (6, -2, 10), (0, 4, 1), (2, -2, 12), (5, 13, -2), (7, 4, 14), (8, -2, 4)];
+alg bool n_value0 = io.i div 1 mod 2 > 0;
+alg bool n_value1 = p.L2;
+alg bool n_value2 = p.b;
+alg bool n_value3 = p.v = p.Q;
+alg bool n_value4 = p.v = p.R;
+alg bool n_value5 = p.x div 1 mod 2 > 0;
+alg bool n_value6 = p.x div 2 mod 2 > 0;
+alg bool n_value7 = p.y div 1 mod 2 > 0;
+alg bool n_value8 = p.y div 2 mod 2 > 0;
+alg bool n_value9 = p.y div 4 mod 2 > 0;
+alg list[10] bool n_values = [n_value0, n_value1, n_value2, n_value3, n_value4, n_value5, n_value6, n_value7, n_value8, n_value9];
+func bool n_eval(int idx; list[10] bool values):
+  n_node_type node;
+  bool val;
+  while idx >= 0:
+    node := n_nodes[idx];
+    val := values[node[var]];
+    idx := if val: node[high] else node[low] end;
+  end
+  return idx = -1;
+end
+automaton io:
+  disc int[0..1] i in any;
+  uncontrollable u_i;
+  location:
+    initial;
+    marked;
+    edge u_i do i := 1 - i;
+end
+plant automaton p:
+  controllable e1;
+  controllable e2;
+  enum E = P, Q, R;
+  disc bool b in any;
+  disc int[0..3] x in any;
+  disc int[2..5] y in any;
+  disc E v in any;
+  location L1:
+    initial x >= 2;
+    edge e1 when x = 2 goto L2;
+  location L2:
+    marked y != 5;
+    edge e2 when y = 2 or io.i = 1 goto L1;
+end
+supervisor automaton sup:
+  alphabet p.e1, p.e2;
+  initial n_eval(11, n_values);
+  location:
+    initial;
+    marked;
+    edge p.e1 when n_eval(0, n_values);
+    edge p.e2 when n_eval(7, n_values);
+end

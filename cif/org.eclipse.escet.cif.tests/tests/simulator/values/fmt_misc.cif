@@ -1,0 +1,59 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Flag order.
+print fmt("_%-+,8d_", -12345);
+print fmt("_%-,+8d_", -12345);
+print fmt("_%+-,8d_", -12345);
+print fmt("_%+,-8d_", -12345);
+print fmt("_%,+-8d_", -12345);
+print fmt("_%,-+8d_", -12345);
+
+// Precision zero.
+print fmt("#%.0f#", 4.56);
+print fmt("#%.00f#", 4.56);
+print fmt("#%.000f#", 4.56);
+print fmt("#%.1f#", 4.56);
+print fmt("#%.01f#", 4.56);
+print fmt("#%.2f#", 4.56);
+
+// Precision zero for all conversions.
+print fmt("@%.0e@", 4.56);
+print fmt("@%.0E@", 4.56);
+print fmt("@%.0f@", 4.56);
+print fmt("@%.0g@", 4.56);
+print fmt("@%.0G@", 4.56);
+
+// Significant digits and g/G: uses %f if in [0.0001 .. 10000), %e otherwise.
+// 6 times %e, then 8 times %f, then 1 time %e.
+print fmt("%.4g", 1234.5678e+6); // 1234567800.0            -> %e
+print fmt("%.4g", 1234.5678e+5); //  123456780.0            -> %e
+print fmt("%.4g", 1234.5678e+4); //   12345678.0            -> %e
+print fmt("%.4g", 1234.5678e+3); //    1234567.8            -> %e
+print fmt("%.4g", 1234.5678e+2); //     123456.78           -> %e
+print fmt("%.4g", 1234.5678e+1); //      12345.678          -> %e
+print fmt("%.4g", 1234.5678e+0); //       1234.5678         -> %f
+print fmt("%.4g", 1234.5678e-1); //        123.45678        -> %f
+print fmt("%.4g", 1234.5678e-2); //         12.345678       -> %f
+print fmt("%.4g", 1234.5678e-3); //          1.2345678      -> %f
+print fmt("%.4g", 1234.5678e-4); //          0.12345678     -> %f
+print fmt("%.4g", 1234.5678e-5); //          0.012345678    -> %f
+print fmt("%.4g", 1234.5678e-6); //          0.0012345678   -> %f
+print fmt("%.4g", 1234.5678e-7); //          0.00012345678  -> %f
+print fmt("%.4g", 1234.5678e-8); //          0.000012345678 -> %e
+
+automaton a:
+  location:
+    initial;
+    urgent;
+end

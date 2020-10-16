@@ -1,0 +1,61 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc bool b = false;
+  disc int i = 0;
+  disc real r = 0.0;
+  disc string s = "";
+
+  location l1:
+    initial;
+    edge do b := <bool>"true",
+            i := <int>"132",
+            r := <real>"12.34e-9",
+            s := <string>true
+    goto l2;
+
+  location l2:
+    edge do s := <string>1,
+            r := <real>1
+    goto l3;
+
+  location l3:
+    edge do s := <string>12.34e-9
+    goto l4;
+
+  location l4:
+    edge do s := <string>self
+    goto l5;
+
+  location l5:
+    edge do s := <string>p
+    goto l6;
+
+  location l6:
+    edge do b := <bool>false,
+            i := <int[127..127]>127,
+            r := <real>12.7,
+            s := <string>"a"
+    goto l7;
+
+  location l7:
+    urgent;
+end
+
+automaton q:
+  location:
+    initial;
+end
+
+alg string vq = <string>q;

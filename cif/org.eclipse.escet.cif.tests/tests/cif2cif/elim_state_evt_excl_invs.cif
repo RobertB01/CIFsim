@@ -1,0 +1,192 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+// All different supervisory and invariant kinds, in top level scope.
+            invariant         101 = 101;
+            invariant         102 = 102;
+            invariant e needs 103 = 103;
+            invariant e needs 104 = 104;
+            invariant         105 = 105 disables e;
+            invariant         106 = 106 disables e;
+
+plant       invariant         111 = 111;
+plant       invariant         112 = 112;
+plant       invariant e needs 113 = 113;
+plant       invariant e needs 114 = 114;
+plant       invariant         115 = 115 disables e;
+plant       invariant         116 = 116 disables e;
+
+requirement invariant         121 = 121;
+requirement invariant         122 = 122;
+requirement invariant e needs 123 = 123;
+requirement invariant e needs 124 = 124;
+requirement invariant         125 = 125 disables e;
+requirement invariant         126 = 126 disables e;
+
+supervisor  invariant         131 = 131;
+supervisor  invariant         132 = 132;
+supervisor  invariant e needs 133 = 133;
+supervisor  invariant e needs 134 = 134;
+supervisor  invariant         135 = 135 disables e;
+supervisor  invariant         136 = 136 disables e;
+
+// All different supervisory and invariant kinds, in group.
+group g:
+              invariant         201 = 201;
+              invariant         202 = 202;
+              invariant e needs 203 = 203;
+              invariant e needs 204 = 204;
+              invariant         205 = 205 disables e;
+              invariant         206 = 206 disables e;
+
+  plant       invariant         211 = 211;
+  plant       invariant         212 = 212;
+  plant       invariant e needs 213 = 213;
+  plant       invariant e needs 214 = 214;
+  plant       invariant         215 = 215 disables e;
+  plant       invariant         216 = 216 disables e;
+
+  requirement invariant         221 = 221;
+  requirement invariant         222 = 222;
+  requirement invariant e needs 223 = 223;
+  requirement invariant e needs 224 = 224;
+  requirement invariant         225 = 225 disables e;
+  requirement invariant         226 = 226 disables e;
+
+  supervisor  invariant         231 = 231;
+  supervisor  invariant         232 = 232;
+  supervisor  invariant e needs 233 = 233;
+  supervisor  invariant e needs 234 = 234;
+  supervisor  invariant         235 = 235 disables e;
+  supervisor  invariant         236 = 236 disables e;
+end
+
+// All different supervisory and invariant kinds, in automaton and locations.
+// Single nameless location with invariants.
+automaton a:
+              invariant         301 = 301;
+              invariant         302 = 302;
+              invariant e needs 303 = 303;
+              invariant e needs 304 = 304;
+              invariant         305 = 305 disables e;
+              invariant         306 = 306 disables e;
+
+  plant       invariant         311 = 311;
+  plant       invariant         312 = 312;
+  plant       invariant e needs 313 = 313;
+  plant       invariant e needs 314 = 314;
+  plant       invariant         315 = 315 disables e;
+  plant       invariant         316 = 316 disables e;
+
+  requirement invariant         321 = 321;
+  requirement invariant         322 = 322;
+  requirement invariant e needs 323 = 323;
+  requirement invariant e needs 324 = 324;
+  requirement invariant         325 = 325 disables e;
+  requirement invariant         326 = 326 disables e;
+
+  supervisor  invariant         331 = 331;
+  supervisor  invariant         332 = 332;
+  supervisor  invariant e needs 333 = 333;
+  supervisor  invariant e needs 334 = 334;
+  supervisor  invariant         335 = 335 disables e;
+  supervisor  invariant         336 = 336 disables e;
+
+  location:
+    initial;
+
+                invariant         401 = 401;
+                invariant         402 = 402;
+                invariant e needs 403 = 403;
+                invariant e needs 404 = 404;
+                invariant         405 = 405 disables e;
+                invariant         406 = 406 disables e;
+
+    plant       invariant         411 = 411;
+    plant       invariant         412 = 412;
+    plant       invariant e needs 413 = 413;
+    plant       invariant e needs 414 = 414;
+    plant       invariant         415 = 415 disables e;
+    plant       invariant         416 = 416 disables e;
+
+    requirement invariant         421 = 421;
+    requirement invariant         422 = 422;
+    requirement invariant e needs 423 = 423;
+    requirement invariant e needs 424 = 424;
+    requirement invariant         425 = 425 disables e;
+    requirement invariant         426 = 426 disables e;
+
+    supervisor  invariant         431 = 431;
+    supervisor  invariant         432 = 432;
+    supervisor  invariant e needs 433 = 433;
+    supervisor  invariant e needs 434 = 434;
+    supervisor  invariant         435 = 435 disables e;
+    supervisor  invariant         436 = 436 disables e;
+end
+
+// Single named location with invariants.
+automaton a2:
+  location x:
+    initial;
+    invariant e needs 501 = 501;
+end
+
+// Multiple locations with invariants.
+automaton a3:
+  location x1:
+    initial;
+    invariant 601 = 601;
+
+  location x2:
+    initial;
+    invariant e needs 602 = 602;
+
+  location x3:
+    initial;
+    invariant 603 = 603 disables e;
+end
+
+// Multiple events.
+automaton a4:
+  event e1;
+  event e2;
+
+  location x1:
+    initial;
+    invariant e1 needs 701 = 701;
+    invariant e1 needs 702 = 702;
+    invariant e2 needs 703 = 703;
+
+  location x2:
+    initial;
+    invariant 711 = 711 disables e1;
+    invariant 712 = 712 disables e1;
+    invariant 713 = 713 disables e2;
+
+  location x3:
+    initial;
+    invariant e1 needs 721 = 721;
+    invariant e1 needs 722 = 722;
+    invariant e2 needs 723 = 723;
+    invariant e2 needs 724 = 724;
+    invariant 725 = 725 disables e1;
+    invariant 726 = 726 disables e1;
+    invariant 727 = 727 disables e2;
+    invariant 728 = 728 disables e2;
+end
+
+// Naming conflict for invariants from 'a2', without supervisory kind.
+const int a2StateEvtExcls = 5;
+const int a2StateEvtExcls2 = 6;

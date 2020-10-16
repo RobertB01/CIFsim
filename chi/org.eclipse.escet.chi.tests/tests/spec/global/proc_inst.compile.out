@@ -1,0 +1,4 @@
+Error: File "spec/global/proc_inst.chi": Semantic error at line 20, column 57: Type mismatch in argument 1 (expected type "chan? int", found type "chan! int").
+Error: File "spec/global/proc_inst.chi": Semantic error at line 23, column 59: Type mismatch in argument 2 (expected type "chan! int", found type "chan? int").
+Error: File "spec/global/proc_inst.chi": Semantic error at line 26, column 61: Type mismatch in argument 3 (expected type "chan!? int", found type "chan? int").
+Error: File "spec/global/proc_inst.chi": Semantic error at line 27, column 61: Type mismatch in argument 3 (expected type "chan!? int", found type "chan! int").

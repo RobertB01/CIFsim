@@ -1,0 +1,2 @@
+Error: File "spec/global/vardecl03.chi": Semantic error at line 14, column 10: There is more than one declaration named "x".
+Error: File "spec/global/vardecl03.chi": Semantic error at line 15, column 10: There is more than one declaration named "x".

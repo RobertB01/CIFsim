@@ -1,0 +1,117 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-performance]]
+== Simulation performance
+
+indexterm:[CIF simulator,performance]
+indexterm:[performance,simulation]
+General performance information about Java or Eclipse typically applies to the
+CIF simulator as well. This page provides additional information specific to
+the CIF simulator.
+// Removed the previously present link to documentation about 'Java and Eclipse performance'.
+
+
+=== Closing the simulator
+
+Closing the simulator ensures that all its resources are freed, and become
+available for other applications.
+The CIF simulator however, may ask you to press kbd:[ENTER] to
+<<tools-cifsim-termination-confirm,confirm termination>> of the
+simulator. If asked, as long as you haven't pressed kbd:[ENTER] yet, the
+status of the console will still show it's running, and the application can't
+release its resources.
+// Removed the previously present link to documentation about 'closing running applications'.
+
+
+=== Slow starting of the simulator
+
+If simulation is slow to start, you can try a different
+<<tools-cifsim-chapter-java-compiler,Java compiler>>. You can also try to
+<<tools-cifsim-repeated-sim-compile-once,compile the model once>>,
+reducing the start time of the simulator for
+<<tools-cifsim-chapter-repeated-simulation,repeated simulations>>.
+
+
+=== Slow termination of the simulator
+
+If termination of the simulator is slow, this may be related to
+the <<tools-cifsim-output-chapter-trajdata,trajectory data output component>>.
+If its <<tools-cifsim-output-trajdata-prettify,prettifying>> option is
+enabled, it will read the trajectory data file after the simulation terminates,
+and write the whole file again in a prettier from. This may take some time,
+especially on slow remote/network file systems or storage devices. Disabling
+the option or the trajectory data output may solve this problem, as may
+switching to a faster file system or storage device.
+
+
+=== Value simplification
+
+By applying the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF transformation
+before simulation, you may be able to simplify the specification, and thus
+improve the performance of both starting up the simulator, as well as the
+actual simulation.
+
+
+=== Simulation options
+
+Various simulation options can be tweaked to increase the simulation
+performance:
+
+* <<tools-cifsim-output-console,Console output>>
++
+Reducing the amount of console output significantly improves simulation
+performance.
+
+* <<tools-cifsim-output-components,Output components>>
++
+By disabling certain output components, the simulator needs to do less work,
+and this may improve the performance of the simulation.
+
+* <<tools-cifsim-output-chapter-realtime,Real-time simulation>>
++
+The performance and perceived 'smoothness' or 'fluency' of visualizations can
+be influenced via the
+<<tools-cifsim-output-realtime-framerate,frame rate>> and
+<<tools-cifsim-output-realtime-simspeed,simulation speed>>.
+
+* <<tools-cifsim-solver-chapter-endtime-maxdelay,Maximum delay>>
++
+By decreasing the maximum allowed length of a single time transition, shorter
+time transitions are calculated, which takes less time. After the shorter
+time delay, the simulator will calculate the remainder of the time
+transition. Essentially, the time transitions are cut into parts, which are
+calculated separately, over time. As such, the calculation time is spread
+out over time as well. This can make
+<<tools-cifsim-output-svgviz-chapter-index,SVG visualizations>> feel more fluent. However, each time
+transition calculation has a certain amount of overhead, so reducing the
+maximum delay too much is not a good idea.
+
+* <<tools-cifsim-chapter-complete-mode,Complete mode>>
++
+By disabling the complete mode, the simulator has to perform less work to
+calculate the possible transitions, improving the simulation performance.
+
+* <<tools-cifsim-solver-chapter-index,Solver>>
++
+The ODE solver options can be used to make the ODE solver faster, usually at
+the expense of accuracy. For instance, increasing the various tolerances
+reduces the number of calculations needed by the ODE solver, but makes the
+calculated trajectories less accurate. Switching algorithms may also improve
+the performance, as may increasing the maximum check interval.
+
+* <<tools-cifsim-extfuncs-async,External functions synchronous execution>>
++
+Using synchronous execution for external user-defined functions reduces
+their execution overhead.

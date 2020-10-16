@@ -1,0 +1,28 @@
+automaton a:
+  alg string v1 = <string>a;
+  alg string v2 = <string>a;
+  alg real v3 = switch a: case l1: 1.0 end;
+  alg real v4 = switch a: else 2.0 end;
+  location l1:
+    initial;
+end
+automaton b1:
+  alg string x1 = <string>b1;
+  alg string x2 = <string>b2;
+  alg real x3 = switch b1: case l1: 3.0 case l2: 4.0 end;
+  alg real x4 = switch b2: case l1: 5.0 else 6.0 end;
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+automaton b2:
+  alg string x1 = <string>b2;
+  alg string x2 = <string>b2;
+  alg real x3 = switch b2: case l1: 3.0 case l2: 4.0 end;
+  alg real x4 = switch b2: case l1: 5.0 else 6.0 end;
+  location l1:
+    initial;
+  location l2:
+    initial;
+end

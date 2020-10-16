@@ -1,0 +1,138 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group alg_int:
+  alg int a = a + 1;
+  alg int[1..2] b = a;
+end
+
+group comp_inst1:
+  a: a.B();
+end
+
+group comp_inst2:
+  a: g.b.C();
+
+  group g:
+    b: a.C();
+  end
+end
+
+group consts:
+  const bool x = y;
+  const bool y = x;
+end
+
+group const_func:
+  const bool c = f();
+
+  func bool f():
+    return c;
+  end
+end
+
+group const_self:
+  const bool x = x;
+end
+
+group consts_typedecls:
+  type t1 = d.t2;
+
+  group def B():
+    type t3 = int[1 .. e.c4];
+  end
+
+  b: B();
+
+  group def D(B bb):
+    type t2 = bb.t3;
+  end
+
+  d: D(b);
+
+  group def E():
+    const int[1..1] c4 = f.c5;
+  end
+
+  e: E();
+
+  group def F(E ee):
+    const int[1..1] c5 = a.c6;
+  end
+
+  f: F(e);
+
+  group a:
+    const int[1..1] c6 = c7;
+    const t1 c7 = 1;
+  end
+end
+
+group order:
+  const bool c1 = c3;
+  const bool c2 = c1;
+  const bool c3 = c5;
+  const bool c4 = c8;
+  const bool c5 = c7;
+  const bool c6 = c2;
+  const bool c7 = c4;
+  const bool c8 = c6;
+end
+
+group type_decl:
+  type t1 = t2;
+  type t2 = t1;
+end
+
+group decl_type_decl:
+  automaton aut:
+    disc int[0..d] d;
+
+    location:
+      initial;
+  end
+
+  const int[0..c] c = 1;
+  alg int[0..a] a = 2;
+  event int[0..e] e;
+  input int[0..i] i;
+
+  alg int[0..d] b = 1;
+  alg int[b..3] d = 2;
+
+  func int[f..3] f():
+    return 3;
+  end
+
+  func int f2():
+    list[v..3] int v;
+    return v;
+  end
+
+  func int f3(list[0..f3] int p):
+    return 1;
+  end
+
+  // Can't refer to a function parameter from its type.
+  // func int f3(list[0..p] int p):
+  //   return 0;
+  // end
+
+  // Can't refer to an algebraic parameter from its type.
+  // group def A(alg int[0..p] p):
+  // end
+
+  // Can't refer to an event parameter from its type.
+  // group def A(event int[0..p] p):
+  // end
+end

@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+bool b;
+bool? b_;
+outln("%s %s", b, b_);
+
+int i;
+int? i_;
+outln("%s %s", i, i_);
+
+long l;
+long? l_;
+outln("%s %s", l, l_);
+
+double d;
+double? d_;
+outln("%s %s", d, d_);
+
+string g;
+string? g_;
+outln("/%s/ /%s/", g, g_);
+
+//object i;
+object? o_;
+outln("%s", o_);
+
+list int li;
+list? int li_;
+outln("%s %s", li, li_);
+
+set int si;
+set? int si_;
+outln("%s %s", si, si_);
+
+map(int:int) mii;
+map?(int:int) mii_;
+outln("%s %s", mii, mii_);
+
+tuple(int, bool) tib;
+tuple?(int, bool) tib_;
+outln("%s %s", tib, tib_);

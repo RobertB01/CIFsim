@@ -1,0 +1,9 @@
+Error: File "examples/v4.chi": Semantic error at line 23, column 14: Channel transports type "int", but no data provided to send.
+Error: File "examples/v4.chi": Semantic error at line 38, column 28: Name "ta" does not refer to a value.
+Error: File "examples/v4.chi": Semantic error at line 49, column 20: Name "ta" does not refer to a value.
+Error: File "examples/v4.chi": Semantic error at line 64, column 28: Name "ta" does not refer to a value.
+Error: File "examples/v4.chi": Semantic error at line 74, column 20: Name "ta" does not refer to a value.
+Error: File "examples/v4.chi": Semantic error at line 80, column 19: There is more than one declaration named "w".
+Error: File "examples/v4.chi": Semantic error at line 81, column 22: There is more than one declaration named "w".
+Error: File "examples/v4.chi": Semantic error at line 102, column 10: Type of received data does not match with type of channel data (received "list int", channel transports "int").
+Error: File "examples/v4.chi": Semantic error at line 115, column 15: Name "v" does not refer to a value.

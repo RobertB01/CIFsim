@@ -1,0 +1,10 @@
+type t2 = real;
+const t2 inp1 = 1.23;
+type t1 = real;
+group g:
+  const t2 inp2 = 2.34;
+  invariant inp2 > 1;
+  invariant inp2 > 0;
+end
+invariant inp1 > 1;
+invariant inp1 > 0;

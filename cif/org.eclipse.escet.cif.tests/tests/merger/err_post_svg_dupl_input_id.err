@@ -1,0 +1,3 @@
+Problems detected in merged CIF specification:
+ - ERROR: Duplicate input mapping for SVG element with id "box" in SVG file "../tchecker/small.svg".
+ERROR: Merging CIF specifications "merger/err_post_svg_dupl_input_id.in1.cif", "merger/err_post_svg_dupl_input_id.in2.cif" failed.

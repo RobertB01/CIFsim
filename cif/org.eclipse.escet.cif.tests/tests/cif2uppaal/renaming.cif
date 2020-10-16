@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event a_b1;                             // a_b1
+const bool a_b2 = true;                 // a_b2
+
+group a:
+  event b1;                             // a_b1 -> a_b12
+  const bool b2 = true;                 // a_b2 -> a_b22
+end
+
+automaton d_e:                          // Template_d_e, d_e, LP_d_e, OLDLP_d_e
+  disc bool b = true;                   // d_e_b, OLD_d_e_b
+  invariant b;
+
+  location:
+    initial;
+    edge a_b1;
+end
+
+group d:
+  automaton e:                          // Template_d_e, d_e, LP_d_e, OLDLP_d_e -> Template_d_e2, d_e2, LP_d_e2, OLDLP_d_e2
+    disc bool b = true;                 // d_e_b, OLD_d_e_b -> d_e_b2, OLD_d_e_b2
+    invariant b;
+
+    location:
+      initial;
+      edge a.b1;
+  end
+end
+
+automaton Template_d_e:                 // Template_Template_d_e, Template_d_e -> (keep), Template_d_e3
+  location:
+    initial;
+end
+
+const bool SendAut = true;              // SendAut
+const bool Template_SendAut = true;     // Template_SendAut
+
+// SendAut -> SendAut2
+// Template_SendAut -> Template_SendAut2

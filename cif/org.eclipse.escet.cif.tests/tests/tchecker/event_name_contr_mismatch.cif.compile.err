@@ -1,0 +1,20 @@
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 14, column 7: Name of event "c_e1" starts with "c_", which is a prefix reserved for controllable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 14, column 13: Name of event "u_e2" starts with "u_", which is a prefix reserved for uncontrollable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 15, column 14: Name of event "e_e3" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 15, column 20: Name of event "u_e4" starts with "u_", which is a prefix reserved for uncontrollable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 16, column 16: Name of event "e_e5" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 16, column 22: Name of event "c_e6" starts with "c_", which is a prefix reserved for controllable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 17, column 20: Name of event "e_e7" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 17, column 26: Name of event "u_e8" starts with "u_", which is a prefix reserved for uncontrollable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 18, column 22: Name of event "e_e9" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 18, column 28: Name of event "c_e10" starts with "c_", which is a prefix reserved for controllable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 20, column 24: Name of event "P1.c_e1" starts with "c_", which is a prefix reserved for controllable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 20, column 30: Name of event "P1.u_e2" starts with "u_", which is a prefix reserved for uncontrollable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 26, column 31: Name of event "P2.e_e3" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 26, column 37: Name of event "P2.u_e4" starts with "u_", which is a prefix reserved for uncontrollable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 32, column 33: Name of event "P3.e_e5" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 32, column 39: Name of event "P3.c_e6" starts with "c_", which is a prefix reserved for controllable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 38, column 37: Name of event "P4.e_e7" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 38, column 43: Name of event "P4.u_e8" starts with "u_", which is a prefix reserved for uncontrollable events.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 44, column 39: Name of event "P5.e_e9" starts with "e_", which is a prefix reserved for events not declared as controllable or uncontrollable.
+WARNING: File "tchecker/event_name_contr_mismatch.cif": Semantic warning at line 44, column 45: Name of event "P5.c_e10" starts with "c_", which is a prefix reserved for controllable events.

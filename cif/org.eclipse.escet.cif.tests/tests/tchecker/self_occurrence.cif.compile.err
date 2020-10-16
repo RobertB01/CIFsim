@@ -1,0 +1,4 @@
+ERROR: File "tchecker/self_occurrence.cif": Semantic error at line 14, column 15: Using "self" to refer to the automaton itself is not allowed in the top level scope of the specification, as it's not an automaton or automaton definition.
+ERROR: File "tchecker/self_occurrence.cif": Semantic error at line 32, column 19: Using "self" to refer to the automaton itself is not allowed in group "g.g", as it's not an automaton or automaton definition.
+ERROR: File "tchecker/self_occurrence.cif": Semantic error at line 36, column 19: Using "self" to refer to the automaton itself is not allowed in group definition "g.G", as it's not an automaton or automaton definition.
+ERROR: Failed to load CIF file "tchecker/self_occurrence.cif": the file has errors.

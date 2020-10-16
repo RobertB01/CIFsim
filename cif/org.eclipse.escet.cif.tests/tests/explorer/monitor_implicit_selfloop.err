@@ -1,0 +1,1 @@
+WARNING: File "explorer/monitor_implicit_selfloop.cif": Semantic warning at line 16, column 12: Automaton "A" monitors event "A.e", but the event is not used on any of the edges of the automaton.

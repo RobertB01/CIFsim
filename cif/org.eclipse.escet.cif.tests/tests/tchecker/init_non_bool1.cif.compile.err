@@ -1,0 +1,10 @@
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 14, column 9: Initialization predicate must be of type "bool", but is of type "int[0..0]".
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 17, column 11: Initialization predicate must be of type "bool", but is of type "int[1..1]".
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 21, column 11: Initialization predicate must be of type "bool", but is of type "int[2..2]".
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 25, column 11: Initialization predicate must be of type "bool", but is of type "int[3..3]".
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 31, column 11: Initialization predicate must be of type "bool", but is of type "int[4..4]".
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 38, column 13: Initialization predicate must be of type "bool", but is of type "int[5..5]".
+ERROR: File "tchecker/init_non_bool1.cif": Semantic error at line 43, column 13: Initialization predicate must be of type "bool", but is of type "x5".
+WARNING: File "tchecker/init_non_bool1.cif": Semantic warning at line 36, column 7: Automaton "x5" has no initial location.
+WARNING: File "tchecker/init_non_bool1.cif": Semantic warning at line 41, column 7: Automaton "x6" has no initial location.
+ERROR: Failed to load CIF file "tchecker/init_non_bool1.cif": the file has errors.

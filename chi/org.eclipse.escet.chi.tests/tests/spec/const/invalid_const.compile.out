@@ -1,0 +1,1 @@
+Error: File "spec/const/invalid_const.chi": Semantic error at line 13, column 11: Value of constant "x" has type "bool" instead of the expected type "int".

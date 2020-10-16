@@ -1,0 +1,294 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-ref-builtins-path]]
+== Built-in path tools
+
+This page describes the built-in I/O tools:
+
+* <<lang-ref-builtins-path-abspath,abspath>>
+* <<lang-ref-builtins-path-basename,basename>>
+* <<lang-ref-builtins-path-chdir,chdir>>
+* <<lang-ref-builtins-path-chfileext,chfileext>>
+* <<lang-ref-builtins-path-curdir,curdir>>
+* <<lang-ref-builtins-path-dirname,dirname>>
+* <<lang-ref-builtins-path-fileext,fileext>>
+* <<lang-ref-builtins-path-hasfileext,hasfileext>>
+* <<lang-ref-builtins-path-pathjoin,pathjoin>>
+* <<lang-ref-builtins-path-scriptpath,scriptpath>>
+
+
+indexterm:[abspath]
+
+[[lang-ref-builtins-path-abspath]]
+=== abspath tool
+
+[source, tooldef]
+----
+tool string abspath(string path)
+tool string abspath(string path, string workdir)
+----
+
+Returns an absolute local file system path, given an absolute or relative local
+file system path.
+
+_Parameters_
+
+`path`::
+The absolute or relative local file system path. May contain both `\` and
+`/` as path separators.
+
+`workdir`::
+The optional absolute local file system path of the working directory against
+which to resolve relative paths. May contain both `\` and `/` as path
+separators. If not specified, relative paths are resolved against the
+<<lang-ref-builtins-path-curdir,current working directory>>.
+
+_Returns_
+
+The absolute local file system path. The path contains separators for the
+current platform.
+
+
+indexterm:[basename]
+
+[[lang-ref-builtins-path-basename]]
+=== basename tool
+
+[source, tooldef]
+----
+tool string basename(string path)
+----
+
+Returns the base name of the given absolute or relative local file system path.
+The base name of a file or directory is the name of that file or directory. In
+other words, returns the last part of the given path.
+
+_Parameters_
+
+`path`::
+The absolute or relative local file system path to the file or directory for
+which to return the base name. May contain both `\` and `/` as path
+separators. Must not end with `\` or `/`.
+
+_Returns_
+
+The base name.
+
+_Runtime errors_
+
+* If the path ends with `\` or `/`.
+
+
+indexterm:[chdir]
+
+[[lang-ref-builtins-path-chdir]]
+=== chdir tool
+
+[source, tooldef]
+----
+tool chdir(string path)
+----
+
+Changes the <<lang-ref-builtins-path-curdir,current working directory>> to
+the directory referred to by the given path.
+
+_Parameters_
+
+`path`::
+The absolute or relative local file system path to the new current working
+directory. Relative paths are resolved against the
+<<lang-ref-builtins-path-curdir,current working directory>>. May contain
+both `\` and `/` as path separators.
+
+_Runtime errors_
+
+* If the given path does not exist.
+* If the given path refers to a file rather than a directory.
+* If it can not be determined whether the given path refers to a file or a
+directory.
+
+
+indexterm:[chfileext]
+
+[[lang-ref-builtins-path-chfileext]]
+=== chfileext tool
+
+[source, tooldef]
+----
+tool string chfileext(string path, string? oldext = null, string? newext = null)
+----
+
+Modifies a path such that it ends with a new extension, removing an old
+extension if it exists.
+
+_Parameters_
+
+`path`::
+The absolute or relative local file system path to modify. May contain both
+`\` and `/` as path separators.
+
+`oldext`::
+The old extension that can be removed (case insensitive, no . at the
+start). Use `null` to not remove an old extension.
+
+`newext`::
+The new extension to use (case sensitive, no . at the start). Use
+`null` to not add a new extension.
+
+_Returns_
+
+The changed path, ending with the new extension (if any).
+
+
+indexterm:[curdir]
+
+[[lang-ref-builtins-path-curdir]]
+=== curdir tool
+
+[source, tooldef]
+----
+tool string curdir()
+----
+
+Returns the script execution's current working directory, as an absolute local
+file system path. The path contains separators for the current platform.
+
+_Returns_
+
+The script execution's current working directory.
+
+
+indexterm:[dirname]
+
+[[lang-ref-builtins-path-dirname]]
+=== dirname tool
+
+[source, tooldef]
+----
+tool string dirname(string path)
+----
+
+Returns the absolute directory path of the directory that contains the given
+file or directory.
+
+_Parameters_
+
+`path`::
+The absolute local file system path that refers to a file or directory. May
+contain both `\` and `/` as path separators. Must not end with `\` or `/`.
+
+_Returns_
+
+The absolute directory path of the directory that contains the given file or
+directory. May contain both `\` and `/` as path separators.
+
+_Runtime errors_
+
+* If the given path is not an absolute local file system path.
+* If the given path ends with `\` or `/`.
+
+
+indexterm:[fileext]
+
+[[lang-ref-builtins-path-fileext]]
+=== fileext tool
+
+[source, tooldef]
+----
+tool string fileext(string path)
+----
+
+Returns the file extension of the given file, or `+""+` if the file has no file
+extension.
+
+_Parameters_
+
+`path`::
+The absolute or relative local file system path to the file. May contain both
+`\` and `/` as path separators.
+
+_Returns_
+
+The file extension, or `+""+`.
+
+
+indexterm:[hasfileext]
+
+[[lang-ref-builtins-path-hasfileext]]
+=== hasfileext tool
+
+[source, tooldef]
+----
+tool bool hasfileext(string path, string ext)
+----
+
+Does the given file have the given file extension?
+
+_Parameters_
+
+`path`::
+The absolute or relative local file system path to the file. May contain both
+`\` and `/` as path separators.
+
+`ext`::
+The file extension to check for (case sensitive, no `.` at the start).
+
+_Returns_
+
+`true` if the  file has the given file extension, `false` otherwise.
+
+
+indexterm:[pathjoin]
+
+[[lang-ref-builtins-path-pathjoin]]
+=== pathjoin tool
+
+[source, tooldef]
+----
+tool string pathjoin(string... paths)
+tool string pathjoin(list string paths)
+----
+
+Joins paths together. If no paths are given, an empty string is returned. If
+one path is given, the path is returned.
+
+_Parameters_
+
+`paths`::
+The paths to join together. The first path may be an absolute or relative
+local file system path. The remaining paths must be relative local file
+system paths. All paths may contain both `\` and `/` as path separators.
+
+_Returns_
+
+The joined path. The path contains separators for the current platform.
+
+
+indexterm:[scriptpath]
+
+[[lang-ref-builtins-path-scriptpath]]
+=== scriptpath tool
+
+[source, tooldef]
+----
+tool string scriptpath()
+----
+
+Returns the absolute local file system path to the script being executed. The
+path contains separators for the current platform.
+
+_Returns_
+
+The absolute local file system path to the script being executed.

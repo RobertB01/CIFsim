@@ -1,0 +1,155 @@
+event e;
+const int[5..5] a2StateEvtExcls = 5;
+const int[6..6] a2StateEvtExcls2 = 6;
+group g:
+  invariant 201 = 201;
+  invariant 202 = 202;
+  plant invariant 211 = 211;
+  plant invariant 212 = 212;
+  requirement invariant 221 = 221;
+  requirement invariant 222 = 222;
+  supervisor invariant 231 = 231;
+  supervisor invariant 232 = 232;
+end
+automaton a:
+  invariant 301 = 301;
+  invariant 302 = 302;
+  plant invariant 311 = 311;
+  plant invariant 312 = 312;
+  requirement invariant 321 = 321;
+  requirement invariant 322 = 322;
+  supervisor invariant 331 = 331;
+  supervisor invariant 332 = 332;
+  location:
+    initial;
+    invariant 401 = 401;
+    invariant 402 = 402;
+    plant invariant 411 = 411;
+    plant invariant 412 = 412;
+    requirement invariant 421 = 421;
+    requirement invariant 422 = 422;
+    supervisor invariant 431 = 431;
+    supervisor invariant 432 = 432;
+end
+automaton a2:
+  location x:
+    initial;
+end
+automaton a3:
+  location x1:
+    initial;
+    invariant 601 = 601;
+  location x2:
+    initial;
+  location x3:
+    initial;
+end
+automaton a4:
+  event e1;
+  event e2;
+  location x1:
+    initial;
+  location x2:
+    initial;
+  location x3:
+    initial;
+end
+automaton StateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 103 = 103, 104 = 104, not(105 = 105), not(106 = 106);
+end
+plant automaton PlantStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 113 = 113, 114 = 114, not(115 = 115), not(116 = 116);
+end
+requirement automaton RequirementStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 123 = 123, 124 = 124, not(125 = 125), not(126 = 126);
+end
+supervisor automaton SupervisorStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 133 = 133, 134 = 134, not(135 = 135), not(136 = 136);
+end
+automaton gStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 203 = 203, 204 = 204, not(205 = 205), not(206 = 206);
+end
+plant automaton gPlantStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 213 = 213, 214 = 214, not(215 = 215), not(216 = 216);
+end
+requirement automaton gRequirementStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 223 = 223, 224 = 224, not(225 = 225), not(226 = 226);
+end
+supervisor automaton gSupervisorStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 233 = 233, 234 = 234, not(235 = 235), not(236 = 236);
+end
+automaton aStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 303 = 303, 304 = 304, not(305 = 305), not(306 = 306), 403 = 403, 404 = 404, not(405 = 405), not(406 = 406);
+end
+plant automaton aPlantStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 313 = 313, 314 = 314, not(315 = 315), not(316 = 316), 413 = 413, 414 = 414, not(415 = 415), not(416 = 416);
+end
+requirement automaton aRequirementStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 323 = 323, 324 = 324, not(325 = 325), not(326 = 326), 423 = 423, 424 = 424, not(425 = 425), not(426 = 426);
+end
+supervisor automaton aSupervisorStateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when 333 = 333, 334 = 334, not(335 = 335), not(336 = 336), 433 = 433, 434 = 434, not(435 = 435), not(436 = 436);
+end
+automaton a2StateEvtExcls3:
+  location:
+    initial;
+    marked;
+    edge e when 501 = 501;
+end
+automaton a3StateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge e when a3.x2 => 602 = 602, not(a3.x3 => 603 = 603);
+end
+automaton a4StateEvtExcls:
+  location:
+    initial;
+    marked;
+    edge a4.e1 when a4.x1 => 701 = 701, a4.x1 => 702 = 702, not(a4.x2 => 711 = 711), not(a4.x2 => 712 = 712), a4.x3 => 721 = 721, a4.x3 => 722 = 722, not(a4.x3 => 725 = 725), not(a4.x3 => 726 = 726);
+    edge a4.e2 when a4.x1 => 703 = 703, not(a4.x2 => 713 = 713), a4.x3 => 723 = 723, a4.x3 => 724 = 724, not(a4.x3 => 727 = 727), not(a4.x3 => 728 = 728);
+end
+invariant 101 = 101;
+invariant 102 = 102;
+plant invariant 111 = 111;
+plant invariant 112 = 112;
+requirement invariant 121 = 121;
+requirement invariant 122 = 122;
+supervisor invariant 131 = 131;
+supervisor invariant 132 = 132;

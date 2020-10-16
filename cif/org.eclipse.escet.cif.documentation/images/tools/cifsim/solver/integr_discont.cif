@@ -1,0 +1,4 @@
+cont x = 1.0;
+equation x' = if x < 2: 1.0
+              else      3.0
+              end;

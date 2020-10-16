@@ -1,0 +1,32 @@
+controllable a;
+controllable b;
+controllable c;
+plant automaton p1:
+  disc int[0..5] x;
+  location l0:
+    initial;
+    marked;
+    edge a goto l1;
+  location l1:
+    edge b do x := x + 1 goto l0;
+end
+plant automaton p2:
+  location l0:
+    initial;
+    marked;
+    edge a when p1.x = 1 goto l1;
+    edge a when p1.x != 1 goto l2;
+  location l1:
+    edge c goto l2;
+  location l2:
+    edge b goto l0;
+end
+supervisor automaton sup:
+  alphabet a, b, c;
+  location:
+    initial;
+    marked;
+    edge a when p1.x != 5;
+    edge b when p1.x != 5;
+    edge c when p1.l1 and (p1.l0 or p1.x != 5);
+end

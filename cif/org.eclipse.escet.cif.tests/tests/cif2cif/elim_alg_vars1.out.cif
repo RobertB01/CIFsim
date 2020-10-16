@@ -1,0 +1,41 @@
+group q1:
+end
+automaton q2:
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+automaton q3_1:
+  location l1:
+    initial;
+end
+automaton q3_2:
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+automaton q3_3:
+  location l1:
+    initial;
+  location l2:
+    initial;
+  location l3:
+    initial;
+end
+automaton q3_4:
+  location l1:
+    initial;
+  location l2:
+    initial;
+  location l3:
+    initial;
+  location l4:
+    initial;
+end
+invariant 5 > 1;
+invariant true;
+invariant true;
+invariant 1.0 + 1.0 + if q2.l1: 1 else 3 end + if q2.l1: 2.0 else 4.0 end > 0;
+invariant 1.0 + if q3_2.l1: 1.0 else 2.0 end + if q3_3.l1: 1.0 elif q3_3.l2: 2.0 else 3.0 end + if q3_4.l1: 1.0 elif q3_4.l2: 2.0 elif q3_4.l3: 3.0 else 4.0 end > 0;

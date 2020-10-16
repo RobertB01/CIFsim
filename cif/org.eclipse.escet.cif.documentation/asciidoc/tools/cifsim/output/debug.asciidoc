@@ -1,0 +1,83 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-chapter-debug]]
+== Debug console output
+
+indexterm:[CIF simulator,debug output]
+indexterm:[simulation output,debug console output]
+indexterm:[debug,simulator debug console output]
+The following types of debug output are available:
+
+* _Debug the CIF/SVG declarations_ [`svg`]
++
+Prints debugging information to the console, for the
+<<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declarations>>. For more
+information on this kind of debugging output, see the page on
+<<tools-cifsim-output-svgviz-debugging-console,console debugging>> for
+CIF/SVG declarations.
+
+* _Debug the parser_ [`parser`]
++
+Prints debugging information to the console, for the parser. This information
+is primarily intended for the developers of the simulator, and not for end
+users.
+
+* _Debug the generated code (by writing it to disk)_ [`gen-code`]
++
+The simulator generates highly optimized code for the specification. Enabling
+this debugging output, writes the generated code to disk, for
+<<tools-cifsim-chapter-debug-gen-code,further debugging>>. This information is primarily
+intended for the developers of the simulator, and not for end users.
+
+* _Debug the ODE solver_ [`ode`]
++
+Prints debugging information to the console, for the
+<<tools-cifsim-solver-chapter-index,ODE solver>>. This information can for
+instance be used to figure out why a state event (guard change)
+<<tools-cifsim-solver-chapter-root-problems,was missed>>.
+
+indexterm:[debug console output,option]
+
+=== Debug output option
+
+In the option dialog, each of the different types of output can be enabled and
+disabled individually
+(menu:Debug output[]
+option,
+menu:Output[]
+category).
+
+From the command line, using the `-d` or `--debug` option, the names of
+the different types of debug output, as specified between square brackets,
+should be used, separated by commas. By default, i.e. when not using the
+`-d` or `--debug` option, all debug output is disabled. As an example,
+consider `-d parser,svg` or `--debug=parser,svg`. Debug output is printed
+for the parser (due to `parser`) and CIF/SVG declarations (due to `svg`).
+
+// Replacement vs addition/removal not explained, as it is useless here, due to
+// empty default. See also normal output.
+
+Specifying an output type twice leads to a warning being printed to the
+console.
+
+Enabling any debug output, automatically changes the <<tools-cifsim-output-chapter-index,output mode>>
+to 'debug mode'.
+
+indexterm:[profiling,debug console output]
+
+=== Profiling
+
+If <<tools-cifsim-chapter-profiling,profiling>> is enabled, all debug output is
+automatically disabled. That is, profiling suppresses all debug output.

@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+alg bool a = true;
+const bool c = true;
+cont x = 1.0 der 2.0;
+enum e = L1, L2;
+event f;
+input bool i;
+type t = bool;
+
+group def P(C cp; location lp; event ep; alg bool ap):
+end
+
+plant def C():
+  disc int[1..2] v;
+  location l:
+    initial;
+end
+
+func bool f1():
+  return true;
+end
+
+func bool f2(int z): "java:a.b"; // Parameter is not unused.
+
+func int f3(int x, y):
+  int v;
+  return if x = 0: 0 else f3(x - 1, 0) end;
+end
+
+plant p:
+  cont z;
+  location l1:
+    initial;
+    equation z' = 1.0;
+  location l2:
+    initial;
+    equation z' = 2.0;
+end

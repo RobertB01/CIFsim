@@ -1,0 +1,2 @@
+ERROR: File "tchecker/resolve_non_func_var.cif": Semantic error at line 17, column 5: "g.c" is not a variable or parameter of function "g.f".
+ERROR: Failed to load CIF file "tchecker/resolve_non_func_var.cif": the file has errors.

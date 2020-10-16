@@ -1,0 +1,461 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[ref-chapter-types]]
+== Types
+
+indexterm:[type]
+A type defines the set of possible values of an expression or a variable.
+Its syntax is
+
+image::{ref-imgsdir}/rail_diagrams/type.png[]
+
+* The `ElementaryType` block contains types that do not build on other types.
+They are explained further in <<ref-elementary-type>>.
+
+* The `ContainerType` block contains types that can store values of a single
+other type, the 'list', 'set', and 'dictionary' type. These types are further
+explained in <<ref-container-type>>.
+
+* The `TupleType` block describes 'tuples', a type that can hold values of
+several other types.
+
+* The `ChannelType` blocks describes communication channels that connect
+processes with each other, see <<ref-channel-type>> for more explanation.
+
+* The `DistributionType` block contains the stochastic distribution type,
+explained in <<ref-distribution-type>>.
+
+* The `FunctionType` can hold a function definition. It allows you to pass
+a function to a process or another function. It is further explained in
+<<ref-function-type>>.
+
+* The `ProcessType` can hold a process definition. It allows you to pass
+a process definition to a another process. It is further explained in
+<<ref-process-type>>.
+
+The `TypeName` is the name of a type defined with a `type` definition
+(explained in <<ref-type-definitions>>). For example:
+
+
+[source, chi]
+----
+type lot = real;
+
+model M():
+    lot x;
+
+    ...
+end
+----
+
+The `lot x` variable declaration (explained in <<ref-variable-declarations>>)
+uses the type definition of `lot` at the first line to define the type of
+variable `x`.
+
+The `EnumTypeName` is similar, except it uses an enumeration definition (see
+<<ref-enum-definitions>>) as type. For example:
+
+
+[source, chi]
+----
+enum FlagColours = {red, white, blue};
+
+model M():
+    FlagColours x = white;
+
+    ...
+end
+----
+
+The `FlagColours x` variable declaration defines that variable `x` has the
+type of the enumeration, and can hold its values.
+
+
+
+indexterm:[elementary,type]
+indexterm:[type,elementary]
+
+[[ref-elementary-type]]
+=== Elementary types
+
+The elementary types do not depend on other types to define their set of
+allowed values. Their syntax is
+
+image::{ref-imgsdir}/rail_diagrams/elementary_type.png[]
+
+As you can see, they are mostly just a single keyword. The
+`ConstantExpression` nodes in the `matrix` type line are integer
+expressions with a fixed (and known) value before execution of the program.
+More information about the elementary types is provided below.
+
+
+
+indexterm:[boolean,type]
+indexterm:[type,boolean]
+
+[[ref-boolean-type]]
+==== Boolean type
+
+The `bool` keyword denotes the boolean data type. The allowed values are
+`false` and `true`. While it is allowed to store boolean values in other
+data types, their most frequent use is in expressions of statements that
+decide what to do, for example, the condition in the `while`, `if` or
+select statement (see <<ref-while-loop-statement>>,
+<<ref-choice-statement>> and <<ref-select-statement>>).
+Expressions with booleans are explained in <<ref-boolean-expression>>.
+
+
+
+indexterm:[integer,type]
+indexterm:[type,integer]
+
+[[ref-integer-type]]
+==== Integer type
+
+The `int` keyword denotes the integer data type, integer numbers from
+`2147483647` to `-2147483648` (a standard signed 32 bit number). Values outside
+that range give undefined behavior.
+Expressions with integers are explained in <<ref-integer-expression>>.
+
+
+
+indexterm:[real,type]
+indexterm:[type,real]
+
+[[ref-real-type]]
+==== Real type
+
+The `real` keyword denotes the real number data type, real numbers between
+`4.94065645841246544e-324` to `1.79769313486231570e+308` positive or negative (a
+standard 8 bytes IEEE 754 number). As normal with floating point numbers in
+computer systems, many  values are missing from the above range. Expect
+rounding errors with each calculation.
+Expressions with real numbers are explained in <<ref-real-expression>>.
+
+
+
+indexterm:[string,type]
+indexterm:[type,string]
+
+[[ref-string-type]]
+==== String type
+
+The `string` keyword denotes strings, sequences of characters. It contains
+all printable ASCII characters U+0020 to U+007E, and 'tab' (U+0009) and
+'new line' (U+000A).
+Expressions with strings are explained in <<ref-string-expression>>.
+
+
+
+indexterm:[file,type]
+indexterm:[type,file]
+
+[[ref-file-type]]
+==== File type
+
+The `file` keyword denotes a file at the file system of the computer. It
+allows reading and writing values of many data types (not all data types can
+be read or written). Expressions with files are explained in
+<<ref-file-expression>>.
+How to work with files is explained in <<tut-chapter-input-and-output>>.
+
+
+
+indexterm:[instance,type]
+indexterm:[type,instance]
+
+[[ref-inst-type]]
+==== Instance type
+
+The `inst` keyword denotes an instance type, it can store a running
+process. Its use is to check whether the stored process has ended.
+The <<ref-finish-statement>> gives more details and provides an example.
+
+
+
+indexterm:[timer,type]
+indexterm:[type,timer]
+
+[[ref-timer-type]]
+==== Timer type
+
+The `timer` keyword denotes a count-down timer. Variables of this type
+measure time that has passed since their initialization. Expressions with
+timers are given in <<ref-timer-expression>>, a tutorial about using
+timers can be found in <<tut-using-timers>>.
+
+
+
+indexterm:[matrix,type]
+indexterm:[type,matrix]
+
+[[ref-matrix-type]]
+==== Matrix type
+
+The `matrix` type takes two constant expressions that define the number of
+rows and the number of columns of the matrix. The main purpose of the data
+type is to allow temporary storage of matrices so they can be passed on to
+other software. The Chi language also has expressions to write literal
+matrices, see <<ref-matrix-expression>> for details.
+
+
+
+indexterm:[void,type]
+indexterm:[type,void]
+
+[[ref-void-type]]
+==== Void type
+
+The `void` type denotes that no data is involved. Values of type `void` do
+not exist. The type is allowed at two places in the Chi specification, namely
+
+* As data type of synchronization channels. Further explanation can be found
+at <<ref-communication-statements>> and <<ref-channel-type>>.
+
+* As exit type of <<ref-model-definitions>> and
+<<ref-process-definitions>>, to express that it may return an exit value
+from an <<ref-exit-statement>> without arguments.
+
+
+
+indexterm:[container,type]
+indexterm:[type,container]
+
+[[ref-container-type]]
+=== Container types
+
+The main function of container types is to organize and hold a collection of
+values of another type (the _element type_).
+The syntax diagram of the container types is
+
+image::{ref-imgsdir}/rail_diagrams/container_type.png[]
+
+The language has three container types, _lists_ (explained in
+<<ref-list-type>>), _sets_ (explained in <<ref-set-type>>), and
+_dictionaries_ (explained in <<ref-dictionary-type>>).
+
+
+
+indexterm:[list,type]
+indexterm:[type,list]
+
+[[ref-list-type]]
+==== List type
+
+The list type has an ordered collection of values from its element type as its
+value. Duplicate element values are allowed.
+
+The syntax of a list type is given below.
+
+image::{ref-imgsdir}/rail_diagrams/list_type.png[]
+
+It starts with the keyword `list`, optionally followed by a parenthesized
+(non-negative) integer expression denoting the initial number of element
+values in the collection, and finally the type of the element values.
+
+The default size of the collection is the value of the integer expression, or
+0 if there is no such expression. The value of the elements in the initial
+list value depends on the type of the elements.
+
+A few examples:
+
+
+[source, chi]
+----
+list bool    # A list of boolean values, initial value is <bool>[]
+list (2) int # A list of integer values, initial value is [0, 0]
+----
+
+For a discussion of operations on values of this type,
+see <<ref-list-expression>>.
+
+
+
+indexterm:[set,type]
+indexterm:[type,set]
+
+[[ref-set-type]]
+==== Set type
+
+The set type has an unordered collection of values from its element type as
+its value. Duplicate element values are silently discarded.
+
+The syntax of the set type is given below.
+
+image::{ref-imgsdir}/rail_diagrams/set_type.png[]
+
+The set type starts with a `set` keyword, followed by the type of its
+elements. Its initial value is the empty set.
+An example:
+
+
+[source, chi]
+----
+set real  # A set of real numbers, initial value <real>{}.
+----
+
+For a discussion of operations on values of this type, see
+<<ref-set-expression>>.
+
+
+
+indexterm:[dictionary,type]
+indexterm:[type,dictionary]
+
+[[ref-dictionary-type]]
+==== Dictionary type
+
+The dictionary type has an unordered collection of values of its key type, so
+called keys. The keys are unique in the collection. In addition,
+the dictionary has a value of its value type associated with each key.
+
+The syntax of a dictionary type is given below.
+
+image::{ref-imgsdir}/rail_diagrams/dictionary_type.png[]
+
+The syntax starts with a `dict` keyword, and the key type and value type
+between parentheses, separated by a colon.
+The initial value of a dictionary type is the empty dictionary. An example:
+
+
+[source, chi]
+----
+dict (bool : int)  # A dictionary with boolean keys, and integer values.
+                   # Initial value <bool:int>{}.
+----
+
+For a discussion of operations on values of this type, see
+<<ref-dictionary-expression>>.
+
+
+
+indexterm:[tuple,type]
+indexterm:[type,tuple]
+
+[[ref-tuple-type]]
+=== Tuple type
+
+A tuple contains a fixed number of values of (possibly) different types. Its
+syntax is
+
+image::{ref-imgsdir}/rail_diagrams/tuple_type.png[]
+
+A tuple type starts with the keyword `tuple`, followed by the list of its
+fields between parentheses. Each field has a name and a type. Sequences of
+fields with the same type can share their type description, which reduces the
+amount of text of the tuple type.
+Tuple types must have at least two fields.
+
+Examples:
+
+
+[source, chi]
+----
+tuple(int a, b)      # A tuple containing fields 'a' and 'b', both of type int
+tuple(int a; int b)  # A tuple containing fields 'a' and 'b', both of type int
+
+tuple(lot x; real start) # A tuple with a 'lot' and a 'real' type.
+----
+
+The first two examples are equivalent, the first form is just a bit shorter in
+notation. The third example is more common fields of different types that are
+kept together in the modeled system.
+Expressions with tuples are discussed in <<ref-tuple-expression>>.
+
+
+
+indexterm:[channel,type]
+indexterm:[type,channel]
+
+[[ref-channel-type]]
+=== Channel type
+
+The channel type defines the direction and the type of values transported.
+The syntax of the channel type is
+
+image::{ref-imgsdir}/rail_diagrams/channel_type.png[]
+
+The `chan` keyword denotes a channel type is being created. It may be
+followed by allowed directions of transport, a `!` means that sending values
+is allowed but not for receiving, and a `?` means that receiving values is
+allowed and sending is not allowed. Finally `!?` means
+both sending and receiving is allowed. The latter is also selected when no
+direction is specified.
+The language silently discards allowed directions. A channel usable for both
+sending and receiving may be used as a channel for sending only (dropping
+the ability to receive at that point). It does not allow adding directions, a
+receive-only channel cannot be used for sending. It can also not be used as a
+channel for sending and receiving, even if then latter is only used for
+receiving values (that is, sending is never done).
+
+The type of data that is transported with a communication is given by the
+`Type` block. Signalling channels (that only synchronize without
+transporting data) are indicated by the `void` keyword.
+The only expressions available for channels are the equality tests, and a
+function to create new channels, see
+<<ref-channel-expression>> for details.
+
+
+
+indexterm:[distribution,type]
+indexterm:[type,distribution]
+
+[[ref-distribution-type]]
+=== Distribution type
+
+The distribution type represents a stochastic distribution. The syntax is
+
+image::{ref-imgsdir}/rail_diagrams/distribution_type.png[]
+
+A stochastic distribution allows modeling of random behavior, but with a known
+chance distribution. The `Type` block in the `DistributionType` diagram
+defines the type of values drawn. For a discussion of expressions for the
+distribution type, see <<ref-distribution-expression>>.
+
+
+
+indexterm:[function,type]
+indexterm:[type,function]
+
+[[ref-function-type]]
+=== Function type
+
+The function type can hold a function. Its syntax is
+
+image::{ref-imgsdir}/rail_diagrams/function_type.png[]
+
+A function type starts with the keyword `func` followed by the return type
+of the function and the type of the formal parameters.
+The purpose of the function type is to pass functions to processes or other
+functions, for example, the predicate function in `sort` and `insert`, see
+<<ref-list-stdlib>>.
+
+
+
+indexterm:[process,type]
+indexterm:[type,process]
+
+[[ref-process-type]]
+=== Process type
+
+The process type is similar to the function type (discussed in
+<<ref-function-type>>), except this type can hold a process definition.
+The syntax is
+
+image::{ref-imgsdir}/rail_diagrams/process_type.png[]
+
+The type starts with the keyword `proc` followed by the formal parameters of
+the process definition to store between parentheses.
+Expressions with process types are explained in <<ref-process-expression>>.

@@ -1,0 +1,104 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// if expr
+const int[0..1] x = if true, 5: 0
+                    else 0
+                    end;
+
+// elif expr
+const int[0..1] y = if true: 0
+                    elif true, 6: 0
+                    else 0
+                    end;
+
+// if stat
+func bool f():
+  int x;
+  if true, 5: x := 0; end
+  return true;
+end
+
+invariant f();
+
+// elif stat
+func bool g():
+  int x;
+  if   true:    x := 0;
+  elif true, 5: x := 1;
+  end
+  return true;
+end
+
+invariant g();
+
+// while stat
+func bool w():
+  int x;
+  while true, 5: x := 0; end
+  return true;
+end
+
+invariant w();
+
+// edge
+plant p:
+  event e;
+  disc int[0..3] x = 0;
+  location:
+    initial;
+    edge e when true, 1 do if true, 6:   x := 0
+                           elif true, 7: x := 1
+                           elif 8:       x := 2
+                           else          x := 3
+                           end;
+end
+
+// if update
+automaton q:
+  disc int x;
+  location:
+    initial;
+    edge do if true, 5: x := 0 end;
+end
+
+// elif update
+automaton r:
+  disc int x;
+  location:
+    initial;
+    edge do if true:      x := 0
+            elif true, 5: x := 1
+            end;
+end
+
+// svgin map key
+group svgin_map_key:
+  svgfile "small.svg";
+
+  event e;
+
+  automaton a:
+    location:
+      initial;
+      edge e;
+  end
+
+  svgin id "box" event
+    if   123: e
+    elif 1.0: e
+    elif "a": e
+    elif [1]: e
+    elif 1=1: e
+    end;
+end

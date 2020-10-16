@@ -1,0 +1,21 @@
+controllable c;
+uncontrollable u;
+group g:
+  plant automaton p:
+    disc int[0..10] x in any;
+    location l0:
+      initial;
+      marked;
+      edge c do x := x + 1 goto l1;
+    location l1:
+      edge u do x := x - 1 goto l0;
+  end
+end
+supervisor automaton sup:
+  alphabet c;
+  initial g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7));
+  location:
+    initial;
+    marked;
+    edge c when g.p.x = 4 or g.p.x = 3;
+end

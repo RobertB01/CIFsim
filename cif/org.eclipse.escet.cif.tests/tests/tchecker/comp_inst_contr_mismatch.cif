@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  group def X(event e_f; controllable c_f; uncontrollable u_f; controllable event c_f2; uncontrollable event u_f2):
+  end
+
+  event e_a;
+  controllable c_a;
+  uncontrollable u_a;
+  controllable event c_b;
+  uncontrollable event u_b;
+
+  x_e: X(e_a, e_a, e_a, e_a, e_a);
+  x_c: X(c_a, c_a, c_a, c_a, c_a);
+  x_u: X(u_a, u_a, u_a, u_a, u_a);
+  y_c: X(c_b, c_b, c_b, c_b, c_b);
+  y_u: X(u_b, u_b, u_b, u_b, u_b);
+end

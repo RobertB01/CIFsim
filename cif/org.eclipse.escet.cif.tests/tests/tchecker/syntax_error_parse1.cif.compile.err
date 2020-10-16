@@ -1,0 +1,1 @@
+ERROR: File "tchecker/syntax_error_parse1.cif": Parsing failed at line 14, column 7, at or near "const" (found "const", expected "bool", "dict", "dist", "func", "int", "list", "real", "set", "string", "tuple", a name, or an identifier).

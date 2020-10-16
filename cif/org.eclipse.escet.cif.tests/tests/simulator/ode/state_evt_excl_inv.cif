@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+
+invariant e needs time > 2;
+invariant time <= 5 disables e;
+
+automaton a:
+  disc bool x;
+
+  invariant e needs time > 3;
+  invariant time <= 6 disables e;
+
+  location:
+    initial;
+
+    invariant e needs time > 4;
+    invariant time <= 7 disables e;
+
+    edge e when not x do x := true;
+end

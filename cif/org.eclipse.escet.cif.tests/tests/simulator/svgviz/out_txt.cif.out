@@ -1,0 +1,13 @@
+Initial state: time=0.0, a=*
+
+SVG output ("out_txt.svg") id "txt" text: "a"
+SVG output ("out_txt.svg") id "txt2" text: "a
+b	c\d"e f%g%%h%si%fj"
+SVG output ("out_txt.svg") id "tspan3" text: "a"
+SVG output ("out_txt.svg") id "tspan4" text: "a
+b	c\d"e f%g%%h%si%fj"
+SVG output ("out_txt.svg") id "txt5" text: "a
+b	c\d"e f%g%%h%si%fj # 1
+2	3\4"5 6%7"
+
+Simulation resulted in deadlock.

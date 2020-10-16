@@ -1,0 +1,105 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.cpfile;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.cpdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.diff;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.exists;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.filenewer;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.filesize;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.find;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.isdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.isfile;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.mkdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.mvfile;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.mvdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.readlines;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.rmfile;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.rmdir;
+import org.eclipse.escet.tooldef.runtime:org.eclipse.escet.tooldef.runtime.builtins.BuiltInFileTools.writefile;
+
+tool _cpfile(string source, string target, bool overwrite = false):
+    $cpfile(source, target, overwrite);
+end
+
+tool _cpdir(string source, string target):
+    $cpdir(source, target);
+end
+
+tool bool _diff(string file1, string file2, string output = "-", bool missingAsEmpty = false, bool warnOnDiff = false, bool failOnDiff = false):
+    return $diff(file1, file2, output, missingAsEmpty, warnOnDiff, failOnDiff);
+end
+
+tool bool _exists(string path):
+    return $exists(path);
+end
+
+tool bool _filenewer(string path, string refpath, bool allowNonExisting = false, bool sameAsNewer = true):
+    return $filenewer(path, refpath, allowNonExisting, sameAsNewer);
+end
+
+tool bool _filenewer(string path, string... refpaths, bool allowNonExisting = false, bool sameAsNewer = true):
+    return $filenewer(path, refpaths, allowNonExisting, sameAsNewer);
+end
+
+tool bool _filenewer(string path, list string refpaths, bool allowNonExisting = false, bool sameAsNewer = true):
+    return $filenewer(path, refpaths, allowNonExisting, sameAsNewer);
+end
+
+tool long _filesize(string path, bool missingAsZero = false):
+    return $filesize(path, missingAsZero);
+end
+
+tool list string _find(string path, string pattern = "*", bool recursive = true, bool files = true, bool dirs = true):
+    return <list string>$find(path, pattern, recursive, files, dirs);
+end
+
+tool bool _isdir(string path):
+    return $isdir(path);
+end
+
+tool bool _isfile(string path):
+    return $isfile(path);
+end
+
+tool _mkdir(string path, bool force = false, bool parents = true):
+    $mkdir(path, force, parents);
+end
+
+tool _mvfile(string source, string target, bool overwrite = false):
+    $mvfile(source, target, overwrite);
+end
+
+tool _mvdir(string source, string target):
+    $mvdir(source, target);
+end
+
+tool list string _readlines(string path):
+    return <list string>$readlines(path);
+end
+
+tool bool _rmfile(string path, bool force = false):
+    return $rmfile(path, force);
+end
+
+tool bool _rmdir(string path, bool force = false):
+    return $rmdir(path, force);
+end
+
+tool _writefile(string path, string text, bool append = false):
+    $writefile(path, text, append);
+end
+
+tool _writefile(string path, list string lines, bool append = false):
+    $writefile(path, lines, append);
+end

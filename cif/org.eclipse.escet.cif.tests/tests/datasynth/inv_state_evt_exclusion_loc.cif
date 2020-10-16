@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable b;
+controllable e;
+controllable f;
+controllable g;
+controllable h;
+
+plant a:
+  disc int[0..25] x = 1;
+
+  requirement invariant f needs x >= 10;            // f enabled for 10 <= x <= 15
+  requirement invariant f needs x <= 15;
+
+  requirement invariant x < 11 disables g;          // g enabled for 11 <= x <= 14
+  requirement invariant x > 14 disables g;
+
+  requirement invariant x > 13 disables h;          // in l1, h enabled for x <= 13
+
+  location l1:
+    initial;
+
+    edge e when x < 20 do x := x + 1;
+    edge f;
+    edge g;
+    edge h;
+
+    edge b when x = 5 goto l2;
+
+  location l2:
+    marked;
+
+    requirement invariant h needs x >= 12;          // h enabled for 12 <= x <= 13
+
+    edge e when x < 20 do x := x + 1;
+    edge f;
+    edge g;
+    edge h;
+end

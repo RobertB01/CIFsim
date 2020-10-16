@@ -1,0 +1,93 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  event e1;                         // Not (un)controllable.
+  controllable int[0..5] e2;        // Event with data type.
+
+  automaton a:                      // Automaton with 'automaton' kind.
+    location:
+      initial;
+      edge e1, e2, tau;             // Explicit 'tau'.
+      edge when true;               // Implicit 'tau'.
+  end
+
+  plant snd:
+    location:
+      initial;
+      edge e2!5 now;                // Urgent edge.
+  end
+
+  plant p0:                         // Automaton without initial location.
+    disc int[1..2] x1 in {1,2};     // Non-deterministic variable init.
+    disc int[1..2] x2 in any;       // Non-deterministic variable init.
+    cont cnt der 1.0;               // Continuous variable, real type/value.
+    input bool inp;                 // Input variable.
+    disc list bool lb = [true];     // List type/expr.
+
+    location:
+      urgent;                       // Urgent location.
+
+      edge e1
+      do x1 := 1, x2 := 2;
+
+      edge e1
+      do (x1, x2) := (1, 2);        // Multi-assignment, tuple expr/type.
+
+      edge e1
+      do if true: x1 := 2 end;      // 'if' update.
+
+      edge e1
+      do lb[0] := true;             // Partial var asgn, proj expr, list type.
+  end
+
+  plant p1:
+    location:
+      initial sqrt(-1.0) > 0;       // Eval/idx fail, real expr/type, -/>/sqrt.
+      marked sqrt(-2.0) > 0;        // Eval/idx fail, real expr/type, -/>/sqrt.
+
+      plant invariant 7 = 7;        // Invariant in location (regardless kind).
+  end
+
+  plant p2:                         // Automaton with two initial locations.
+    location l1:
+      initial;
+    location l2:
+      initial;
+  end
+
+  initial 1=1;                      // Initial in component.
+
+  marked not false;                 // Marker in component: not bin expr.
+  marked 1 > 2;                     // Marked in component: not '=' bin expr.
+  marked 2 = 2;                     // Marked in component: not 'dvar = value'.
+  marked p0.cnt = 1.2;              // Marked in component: not 'dvar = value'.
+
+  marked p0.x1 = 1;                 // Duplicate marker predicate.
+  marked p0.x1 = 1;                 // Duplicate marker predicate.
+
+  marked p0.lb = [true];            // Duplicate marker predicate.
+  marked p0.lb = [false];           // Duplicate marker predicate.
+  marked p0.lb = [false, true];     // Duplicate marker predicate.
+
+             invariant 8 = 8;       // Non-requirement invariant in component.
+  plant      invariant 9 = 9;       // Non-requirement invariant in component.
+  supervisor invariant 10 = 10;     // Non-requirement invariant in component.
+
+  requirement invariant e1 needs p0.x1 > 0;    // State/event exclusion invariant.
+  requirement invariant p0.x1 > 0 disables e1; // State/event exclusion invariant.
+
+  func bool f(bool p):              // User defined function.
+    return p;
+  end
+end

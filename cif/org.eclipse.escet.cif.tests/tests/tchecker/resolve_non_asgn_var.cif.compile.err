@@ -1,0 +1,3 @@
+ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 18, column 13: "x.i" is not a discrete or continuous variable.
+ERROR: File "tchecker/resolve_non_asgn_var.cif": Semantic error at line 25, column 15: "y.c" is not a discrete or continuous variable.
+ERROR: Failed to load CIF file "tchecker/resolve_non_asgn_var.cif": the file has errors.

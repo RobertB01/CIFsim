@@ -1,0 +1,8 @@
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 14, column 19: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 15, column 46: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 17, column 19: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 18, column 19: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 19, column 19: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 20, column 21: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.tooldef": Semantic error at line 21, column 21: Invalid format specifier: unknown "%a" formatting conversion.
+ERROR: Failed to load ToolDef file "tchecker/fmt_pat_decode_err.tooldef": the file has errors.

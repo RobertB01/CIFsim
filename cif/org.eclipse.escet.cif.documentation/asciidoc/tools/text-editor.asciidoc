@@ -1,0 +1,52 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tools-chapter-text-editor]]
+== CIF text editor
+
+indexterm:[tools,text editor]
+Part of the CIF tooling is a textual editor for CIF specifications. This
+editor is part of the Eclipse IDE. Below is a list of some of the more
+notable features of this text editor:
+
+* continuous background validation (integrated parsing and type checking), with
+error markings directly in the source
+
+* comment spell checking
+
+* code folding
+
+* commands to comment/uncomment the (partially) selected line or lines
+
+* block selection mode
+
+* detection of external changes to files
+
+* shows line numbers
+
+* drag-and-drop editing
+
+* optionally can show whitespace characters
+
+* configurable tab key settings
+
+* automatic removal of trailing whitespace from all lines on save
+
+* automatic addition of a new line character at the end of the file on save,
+if none is present (includes smart detection of the platform dependent new
+line characters that are used in the file)
+
+// Removed the previously present link to documentation about 'text editors and text editing in Eclipse'.
+
+image::{tools-imgsdir}/../screenshot_ide.png[Screenshot CIF text editor]

@@ -1,0 +1,8 @@
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 17, column 8: The type "bool" of the value of the assignment is incompatible with type "int" of the addressable.
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 18, column 8: The type "bool" of the value of the assignment is incompatible with type "tuple(int, int)" of the addressable.
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 19, column 8: The type "bool" of the value of the assignment is incompatible with type "tuple(int, int)" of the addressable.
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 21, column 3: The type "int" of the value of the assignment is incompatible with type "bool" of the addressable.
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 22, column 3: The type "tuple(int, int)" of the value of the assignment is incompatible with type "bool" of the addressable.
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 23, column 3: The type "tuple(int, int)" of the value of the assignment is incompatible with type "bool" of the addressable.
+ERROR: File "tchecker/asgn_type_value_mismatch.tooldef": Semantic error at line 38, column 3: The type "long" of the value of the assignment is incompatible with type "int" of the addressable.
+ERROR: Failed to load ToolDef file "tchecker/asgn_type_value_mismatch.tooldef": the file has errors.

@@ -1,0 +1,8 @@
+false
+X
+Q
+[Y]
+[R]
+Initial state: time=0.0, g1.aa=l, g1.aa.v=false, g1.aa.v1=X, g1.aa.v2=Q, g1.aa.w1=[Y], g1.aa.w2=[R]
+
+Simulation resulted in deadlock.

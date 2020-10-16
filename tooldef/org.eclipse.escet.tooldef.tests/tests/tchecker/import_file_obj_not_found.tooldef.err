@@ -1,0 +1,4 @@
+ERROR: File "tchecker/import_file_obj_not_found.tooldef": Semantic error at line 14, column 51: Cannot find a declaration with name "a" in the imported ToolDef script.
+ERROR: File "tchecker/import_file_obj_not_found.tooldef": Semantic error at line 14, column 54: Cannot find a declaration with name "b" in the imported ToolDef script.
+ERROR: File "tchecker/import_file_obj_not_found.tooldef": Semantic error at line 14, column 57: Cannot find a declaration with name "c" in the imported ToolDef script.
+ERROR: Failed to load ToolDef file "tchecker/import_file_obj_not_found.tooldef": the file has errors.

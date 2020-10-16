@@ -1,0 +1,35 @@
+plant automaton p1:
+  event e;
+  location l:
+    initial;
+    edge e;
+    edge e;
+end
+plant automaton p2:
+  alphabet e1, e2;
+  monitor e1, e2;
+  event e1;
+  event e2;
+  location:
+    initial;
+    edge e1;
+    edge e2;
+end
+plant automaton p3:
+  event bool eb;
+  location:
+    initial;
+    edge eb!true, eb!false;
+end
+plant automaton p3b:
+  location:
+    initial;
+    edge p3.eb?;
+end
+plant automaton p4:
+  monitor;
+  event e;
+  location:
+    initial;
+    edge e;
+end

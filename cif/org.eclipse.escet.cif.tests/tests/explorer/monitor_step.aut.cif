@@ -1,0 +1,13 @@
+event a;
+automaton statespace:
+  alphabet a;
+  location loc1:
+    initial;
+    edge a goto loc2;
+  location loc2:
+    marked;
+    edge a goto loc3;
+  location loc3:
+    edge a goto loc4;
+  location loc4;
+end

@@ -1,0 +1,2 @@
+ERROR: Failed to compute trim for CIF file "event_based/trim/empty_result.cif".
+CAUSE: Initial state is not coreachable, trimming results in an empty automaton.

@@ -1,0 +1,11 @@
+controllable z;
+uncontrollable bla;
+plant automaton product:
+  alphabet z, bla;
+  location s1:
+    initial;
+    edge bla goto s2;
+    edge z goto s2;
+  location s2:
+    edge bla;
+end

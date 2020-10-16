@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_semantic_error1.tooldef": Semantic error at line 14, column 8: Imported ToolDef script "import_file_semantic_error2.tooldef" has an error: The value of variable "v" is of type "bool", which doesn't fit in the type "int" of the variable.
+ERROR: Failed to load ToolDef file "tchecker/import_file_semantic_error1.tooldef": the file has errors.

@@ -1,0 +1,122 @@
+plant automaton f1:
+  location available:
+    initial;
+    marked;
+    edge p1.take_left goto taken;
+    edge p4.take_right goto taken;
+  location taken:
+    edge p1.release_both goto available;
+    edge p4.release_both goto available;
+end
+plant automaton f2:
+  location available:
+    initial;
+    marked;
+    edge p2.take_left goto taken;
+    edge p1.take_right goto taken;
+  location taken:
+    edge p2.release_both goto available;
+    edge p1.release_both goto available;
+end
+plant automaton f3:
+  location available:
+    initial;
+    marked;
+    edge p3.take_left goto taken;
+    edge p2.take_right goto taken;
+  location taken:
+    edge p3.release_both goto available;
+    edge p2.release_both goto available;
+end
+plant automaton f4:
+  location available:
+    initial;
+    marked;
+    edge p4.take_left goto taken;
+    edge p3.take_right goto taken;
+  location taken:
+    edge p4.release_both goto available;
+    edge p3.release_both goto available;
+end
+plant automaton p1:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+  location neither:
+    initial;
+    marked;
+    edge take_left goto left;
+    edge take_right goto right;
+  location left:
+    edge take_right goto both;
+  location right:
+    edge take_left goto both;
+  location both:
+    edge release_both goto neither;
+end
+plant automaton p2:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+  location neither:
+    initial;
+    marked;
+    edge take_left goto left;
+    edge take_right goto right;
+  location left:
+    edge take_right goto both;
+  location right:
+    edge take_left goto both;
+  location both:
+    edge release_both goto neither;
+end
+plant automaton p3:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+  location neither:
+    initial;
+    marked;
+    edge take_left goto left;
+    edge take_right goto right;
+  location left:
+    edge take_right goto both;
+  location right:
+    edge take_left goto both;
+  location both:
+    edge release_both goto neither;
+end
+plant automaton p4:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+  location neither:
+    initial;
+    marked;
+    edge take_left goto left;
+    edge take_right goto right;
+  location left:
+    edge take_right goto both;
+  location right:
+    edge take_left goto both;
+  location both:
+    edge release_both goto neither;
+end
+supervisor automaton sup:
+  alphabet p1.take_left, p4.take_right, p1.release_both, p4.release_both, p2.take_left, p1.take_right, p2.release_both, p3.take_left, p2.take_right, p3.release_both, p4.take_left, p3.take_right;
+  location:
+    initial;
+    marked;
+    edge p1.release_both when true;
+    edge p1.take_left when p1.right or p1.both or (f2.available or p2.right) or (p2.both or f3.available or (p4.neither or p4.right));
+    edge p1.take_right when p1.left or p1.both or (f1.available or p2.neither) or (p2.left or p4.left or (p4.both or f4.available));
+    edge p2.release_both when true;
+    edge p2.take_left when p1.neither or (p1.right or p2.right) or (p2.both or f3.available or (p4.neither or p4.right));
+    edge p2.take_right when not p1.right or f1.available or (p4.left or (p4.both or f4.available));
+    edge p3.release_both when true;
+    edge p3.take_left when not p1.left or f2.available or (p4.neither or p4.right);
+    edge p3.take_right when not p1.right or f1.available or (p2.neither or p2.left);
+    edge p4.release_both when true;
+    edge p4.take_left when not p1.left or f2.available or (p2.right or (p2.both or f3.available));
+    edge p4.take_right when p1.neither or (p1.left or p2.neither) or (p2.left or p4.left or (p4.both or f4.available));
+end

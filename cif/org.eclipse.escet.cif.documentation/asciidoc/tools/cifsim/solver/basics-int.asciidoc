@@ -1,0 +1,134 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+include::_local_attributes.asciidoc[]
+
+[[tools-cifsim-solver-chapter-basics-int]]
+== The basics of numeric integration
+
+indexterm:[ODE,integration]
+indexterm:[ODE,numeric integration]
+indexterm:[ODE,IVP]
+indexterm:[ODE,step size]
+During time transitions, the values of the continuous variables and their
+derivatives change. The derivatives have explicit equations, the continuous
+variables change according to the value of their derivatives. Using the
+equations for the derivatives as a system of
+link:http://en.wikipedia.org/wiki/Ordinary_differential_equation[ordinary differential equations]
+(ODEs),
+together with the initial values of the continuous variables as the _initial
+conditions_, this essentially comes down to solving an
+link:http://en.wikipedia.org/wiki/Initial_value_problem[initial value problem]
+(IVP).
+
+Such problems can be solved through
+link:http://en.wikipedia.org/wiki/Integral[integration].
+For some problems it is possible to do this
+link:http://en.wikipedia.org/wiki/Symbolic_integration[symbolically].
+For more complex systems of ODEs however,
+link:http://en.wikipedia.org/wiki/Numerical_ordinary_differential_equations[numerical methods]
+are used. The CIF simulator uses
+link:http://commons.apache.org/proper/commons-math/[The Apache Commons Mathematics Library],
+which contains several numerical integrators.
+
+indexterm:[ODE,linear ODE]
+
+=== Linear ODE
+
+Consider the following CIF specification, with a linear ODE:
+
+[source,cif]
+----
+include::{incdir-tools-cifsim-solver}/integr_linear.cif[]
+----
+
+The solution to this IVP, is the values of continuous variable `x` and its
+derivative `x'`, as function of variable `time`:
+
+image::{tools-imgsdir}/cifsim/solver/integr_linear.png[]
+Here, the numerical integrator start with the initial value of continuous
+variable `x`, which is `0.0`. For the initial value of variable `time`,
+which is also `0.0`, it computes `x'`, which is `1.0`. It then slightly
+increases the value of variable `time` to say `1e-6`. Assuming a linear
+continuous variable `x`, the value of variable `x` at that time is `1e-6`
+as well.
+
+The numerical integrator tries to predict the values of the derivative as time
+progresses. It gradually increases the value of variable `time`, predicting
+the value of the derivative at the next time point. If the next prediction
+closely matches the actual calculated value, the integrator moves on to the
+next time point. If the next prediction is not close enough to the actual
+calculated value of the derivative for that time point, more intermediate
+values are calculated. That is, the integrator tries to approximate the
+derivative as time progresses, while increasing the time between two
+consecutive time points. As long as the predictions match the actual
+calculated value of the derivative at the next time point, it keeps increasing
+the step size even further. If the predictions are not good enough (the
+difference with the actual calculated value is above a certain tolerance), more
+intermediate time points are investigated. The values calculated for those
+time points can then be used to come up with a better approximation, that
+better predicts the value of the derivative at future time points.
+
+For the linear ODE given above, the <<tools-cifsim-output-chapter-trajdata,trajectory data>>
+calculated by the integrator is:
+
+[source]
+----
+include::{incdir-tools-cifsim-solver}/integr_linear.png.dat[]
+----
+
+Note that the time points for which the values were calculated, are indicated
+in the figure above by small plus signs (`pass:c[+]`).
+
+indexterm:[ODE,nonlinear ODE]
+
+=== Nonlinear ODE
+
+The approximations of the integrator don't need to be linear. Some integrators
+for instance support
+link:http://en.wikipedia.org/wiki/Nonlinear#Nonlinear_differential_equations[nonlinear differential equations].
+Consider the following CIF specification, with such a nonlinear ODE:
+
+The solution calculated by the numerical integrator is:
+
+[source,cif]
+----
+include::{incdir-tools-cifsim-solver}/integr_nonlinear.cif[]
+----
+
+image::{tools-imgsdir}/cifsim/solver/integr_nonlinear.png[]
+
+Here, we see how the step size is increased initially, as the linear
+approximation is good enough. As soon as we get to the bend, the step size is
+reduced to better approximate the actual values. After the bend, the step size
+is slowly increased again. The integrator internally uses a polynomial of a
+higher degree to approximate this differential equation.
+
+indexterm:[ODE,discontinuity]
+
+=== Discontinuities
+
+If the derivative has a
+link:http://en.wikipedia.org/wiki/Discontinuity_%28mathematics%29[discontinuity],
+such as in the following CIF specification:
+
+[source,cif]
+----
+include::{incdir-tools-cifsim-solver}/integr_discont.cif[]
+----
+
+The integrator will try to figure out the time point at which the discontinuity
+occurs, by decreasing the step size as it nears the discontinuity. After the
+discontinuity, the step size is gradually increased, as integration continues:
+
+image::{tools-imgsdir}/cifsim/solver/integr_discont.png[]

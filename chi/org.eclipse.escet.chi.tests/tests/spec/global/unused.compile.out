@@ -1,0 +1,14 @@
+Warning: File "spec/global/unused.chi": Semantic warning at line 13, column 6: Unused type "lot".
+Warning: File "spec/global/unused.chi": Semantic warning at line 14, column 6: Unused type "E".
+Warning: File "spec/global/unused.chi": Semantic warning at line 14, column 11: Unused enum value "A".
+Warning: File "spec/global/unused.chi": Semantic warning at line 16, column 10: Unused function "f".
+Warning: File "spec/global/unused.chi": Semantic warning at line 16, column 16: Unused variable "v".
+Warning: File "spec/global/unused.chi": Semantic warning at line 17, column 9: Unused variable "w".
+Warning: File "spec/global/unused.chi": Semantic warning at line 21, column 12: Unused variable "v".
+Warning: File "spec/global/unused.chi": Semantic warning at line 22, column 9: Unused variable "w".
+Warning: File "spec/global/unused.chi": Semantic warning at line 25, column 6: Unused process "Q".
+Warning: File "spec/global/unused.chi": Semantic warning at line 25, column 12: Unused variable "v".
+Warning: File "spec/global/unused.chi": Semantic warning at line 26, column 9: Unused variable "w".
+Warning: File "spec/global/unused.chi": Semantic warning at line 31, column 18: Unused variable "x".
+Warning: File "spec/global/unused.chi": Semantic warning at line 38, column 13: Unused variable "v".
+Warning: File "spec/global/unused.chi": Semantic warning at line 39, column 9: Unused variable "w".

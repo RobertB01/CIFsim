@@ -1,0 +1,2 @@
+ERROR: File "tchecker/invoke_pos_arg_after_named_arg.tooldef": Semantic error at line 22, column 10: Positional argument may not follow named argument "a".
+ERROR: Failed to load ToolDef file "tchecker/invoke_pos_arg_after_named_arg.tooldef": the file has errors.

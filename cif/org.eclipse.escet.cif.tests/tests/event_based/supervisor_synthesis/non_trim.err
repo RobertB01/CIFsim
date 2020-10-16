@@ -1,0 +1,10 @@
+WARNING: File "event_based/supervisor_synthesis/non_trim.cif": Semantic warning at line 28, column 12: Location "l2" is not reachable from any of the initial locations of automaton "r".
+WARNING: Automaton "p" is not trim.
+WARNING: Automaton "r" is not trim.
+WARNING: The alphabet of automaton "r" is empty.
+WARNING: Location "r.l1" is a marked deadlock location.
+WARNING: Controllable event "p.u1" is only used by automaton "p".
+WARNING: Controllable event "p.u2" is only used by automaton "p".
+WARNING: Found 2 disjunct groups of automata that do not share events between the groups:
+ - Group 1 consists of automaton "r".
+ - Group 2 consists of automaton "p".

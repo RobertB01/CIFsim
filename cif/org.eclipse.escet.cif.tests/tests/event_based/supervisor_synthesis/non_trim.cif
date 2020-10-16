@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  controllable u1, u2;
+  location l1:
+    initial; marked;
+    edge u1 goto l2;
+  location l2:
+    edge u2 goto l3; // not coreachable
+  location l3:
+    edge u2 goto l2; // not coreachable
+end
+
+requirement r:
+  location l1:
+    initial; marked;
+  location l2;       // not reachable
+end

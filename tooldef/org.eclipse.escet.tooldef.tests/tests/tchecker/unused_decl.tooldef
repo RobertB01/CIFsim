@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Ignore unused declarations that can be imported.
+tool a():
+end
+
+type tt = bool;
+
+from "stat_unreachable.tooldef" import t as t2;
+
+import java.lang.Integer.valueOf;
+
+from "stat_unreachable.tooldef" import *;
+
+// Warn about unused declarations that can not be imported.
+int x, y;
+
+x = 1;
+
+tool b<T, U>(int v, T w):
+    v = 1;
+end
+
+import "stat_unreachable.tooldef" as imp;
+import "stat_unreachable.tooldef" as imp2;
+
+imp2.f();

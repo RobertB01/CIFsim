@@ -1,0 +1,36 @@
+Initial state: time=0.0, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 2.654838936883285 time units at time 0.0
+State: time=2.654838936883285, a=*, a.t=2.6548389368832863, a.t'=1.0
+
+Transition: delaying for 0.34516106311671546 time units at time 2.654838936883285
+State: time=3.0000000000000004, a=*, a.t=3.000000000000001, a.t'=1.0
+
+Transition: event tau
+State: time=3.0000000000000004, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 0.8575210152407138 time units at time 3.0000000000000004
+State: time=3.8575210152407142, a=*, a.t=0.8575210152407142, a.t'=1.0
+
+Transition: delaying for 2.1424789847592858 time units at time 3.8575210152407142
+State: time=6.0, a=*, a.t=3.000000000000001, a.t'=1.0
+
+Transition: event tau
+State: time=6.0, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 1.0446081419912554 time units at time 6.0
+State: time=7.044608141991255, a=*, a.t=1.0446081419912563, a.t'=1.0
+
+Transition: delaying for 1.9553918580087517 time units at time 7.044608141991255
+State: time=9.000000000000007, a=*, a.t=3.0000000000000067, a.t'=1.0
+
+Transition: event tau
+State: time=9.000000000000007, a=*, a.t=0.0, a.t'=1.0
+
+Transition: delaying for 0.796793167579418 time units at time 9.000000000000007
+State: time=9.796793167579425, a=*, a.t=0.7967931675794198, a.t'=1.0
+
+Transition: delaying for 0.2032068324205749 time units at time 9.796793167579425
+State: time=10.0, a=*, a.t=0.999999999999994, a.t'=1.0
+
+Simulation ended due to reaching the user-provided simulation end time.

@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "poisson(0.0)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: poisson(0.0).
+CAUSE: The rate parameter is not positive.

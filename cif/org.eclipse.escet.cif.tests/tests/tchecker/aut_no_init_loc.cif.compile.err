@@ -1,0 +1,7 @@
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 14, column 11: Automaton "p1" has no initial location.
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 18, column 11: Automaton "p2" has no initial location.
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 19, column 12: Location "l1" is not reachable from any of the initial locations of automaton "p2".
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 20, column 12: Location "l2" is not reachable from any of the initial locations of automaton "p2".
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 21, column 12: Location "l3" is not reachable from any of the initial locations of automaton "p2".
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 34, column 11: Automaton "p4" has no initial location.
+WARNING: File "tchecker/aut_no_init_loc.cif": Semantic warning at line 45, column 17: Automaton "a.B" has no initial location.

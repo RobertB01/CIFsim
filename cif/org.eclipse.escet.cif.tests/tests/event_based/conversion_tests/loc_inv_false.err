@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/loc_inv_false.cif".
+CAUSE: Unsupported location of automaton "p": the state invariants are not trivially true.

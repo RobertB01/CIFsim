@@ -1,0 +1,129 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  type trr = tuple(real a, b);              // type decl
+  type ttrrr = tuple(trr c; real d);        // tuple in tuple
+  const int con = 5;                        // constant
+  input int inp;                            // input var
+  alg real algeb1 = time + 1;               // alg over state
+  alg trr algeb2 = (time, time + 1);        // alg tuple type, over state
+  enum E = LIT1, LIT2;                      // enum decl
+end
+
+plant p:
+  disc bool b = g.algeb1 > 0;               // true
+  disc int x;                               // disc var
+  disc real y = 1.23;                       // disc var with init
+  disc g.E ve = g.LIT1;                     // disc var enum type
+  disc int v1;
+  disc g.trr v2;
+  disc g.ttrrr v3;
+  disc tuple(int a,b) tv;
+  disc int j;
+  disc real r = 1e+6;                       // 1e6 -> 1.0e+6
+
+  cont t der 1.0;                           // clock
+  cont t2 = 1.0 der 2.0;                    // cont init/deriv
+  cont t3 der t3;                           // deriv over state
+
+  initial t + t2 = 1.0;                     // Get rid of unused warning.
+
+  location l1:
+    initial;
+    edge do v1 := f1(x) goto l2;            // v1 from 0 to 1
+
+  location l2:
+    edge do v2 := g.algeb2 goto l3;         // v2 from (0.0, 0.0) to (0.0, 1.0)
+
+  location l3:
+    edge do y := f2(0.0) + f2(y) goto l4;   // y from 1.23 to 2.23
+
+  location l4:
+    edge do x := fac(4) + fac2(4) + fac3(4) goto l5; // x from 0 to 72
+
+  location l5:
+    edge do tv := (1, 2) goto l6;           // tv from (0, 0) to (1, 2)
+
+  location l6:
+    edge do (x, j) := (3, 4) goto l7;       // x from 72 to 3, j from 0 to 4
+
+  location l7:
+    edge do (x, j) := tv goto l8;           // x from 3 to 1, j from 4 to 2
+
+  location l8:
+    edge do tv[0] := 5 goto l9;             // tv from (1, 2) to (5, 2)
+
+  location l9:
+    edge do (tv[1], j) := (6, 7) goto l10;  // tv from (5, 2) to (5, 6), j from 2 to 7
+
+  location l10:
+    edge do v3[c][b] := 7.8 goto l11;       // v3 from ((0.0, 0.0), 0.0) to ((0.0, 7.8), 0.0)
+
+  location l11:
+    edge do v3 := ((1.2, 3.4), 5.6) goto l12; // v3 from ((0.0, 7.8), 0.0) to ((1.2, 3.4), 5.6)
+
+  location l12:
+    edge do j := j + 1 goto l13;            // j from 7 to 8
+
+  location l13:
+    edge do b := false goto l14;            // b from true to false
+
+  location l14:
+    edge do if not b:
+              ve := g.LIT2                  // ve from LIT1 to LIT2
+            end goto l15;
+
+  location l15:
+    edge do r := g.inp + g.con * 2.0 goto l16; // r to ???
+
+  location l16;
+end
+
+func int f1(int x):
+  return x + 1;
+end
+
+func real f2(real y):
+  real z = y;
+  if y > 0:
+    return z;
+  else
+    return z + 1;
+  end
+end
+
+func int fac(int a):
+  return if a = 0: 1 else fac(a - 1) * a end;
+end
+
+func int fac2(int a):
+  int rslt = 1;
+  while a > 0:
+    rslt := rslt * a;
+    a := a - 1;
+  end
+  return rslt;
+end
+
+func int fac3(int a):
+  int rslt = 1;
+  while true:
+    if a < 1:
+      break;
+    end
+    rslt := rslt * a;
+    a := a - 1;
+  end
+  return rslt;
+end

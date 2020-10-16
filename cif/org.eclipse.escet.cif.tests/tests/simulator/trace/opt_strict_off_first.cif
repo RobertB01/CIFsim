@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e, f, g, h;
+
+automaton a:
+  location l1:
+    initial;
+    edge e goto l2;
+
+  location l2:
+    edge f goto l3;
+    edge f goto l4;
+
+  location l3:
+    edge g goto l1;
+
+  location l4:
+    edge h goto l1;
+end

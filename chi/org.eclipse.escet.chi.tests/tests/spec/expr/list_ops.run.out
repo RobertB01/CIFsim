@@ -1,0 +1,7 @@
+[1, 2, 4] == [1,2,4]
+
+[1, 2, 3, 4] contains 5: false == false
+
+[1, 2, 3, 4] contains 1: true == true
+
+All processes finished at time 0.00 (initial seed was 135).

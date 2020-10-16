@@ -1,0 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g1:
+  enum e1 = A, B;
+end
+group g2:
+  enum e2 = B, A;
+end
+plant p:
+  disc g1.e1 v1;
+  disc g2.e2 v2;
+  initial v1 = g1.A or v2 = g2.A or v1 = g1.B or v2 = g2.B;
+  location:
+    initial;
+end

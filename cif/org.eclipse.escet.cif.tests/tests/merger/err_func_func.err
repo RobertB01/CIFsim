@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_func_func.in1.cif" with CIF specification "merger/err_func_func.in2.cif" failed.
+CAUSE: Merging objects with name "f" failed: merging two functions is not supported.

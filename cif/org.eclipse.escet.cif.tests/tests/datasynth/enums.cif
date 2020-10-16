@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  controllable e1, e2;
+
+  enum E1 = A, B, C, D, E;
+  enum E2 = F, G, H;
+
+  plant p:
+    disc E1 x0;
+    disc E1 x1 = A;
+    disc E1 x2 = B;
+    disc E1 x3 in {A, B, D};
+    disc E1 x4 in {A, B, C, D, E};
+    disc E1 x5 in any;
+    disc E2 x6 = G;
+
+    marked x1 = A, x2 = B, x3 = D, x4 != C, x4 != D, x4 != E, x5 != C;
+
+    location:
+      initial;
+      marked x0 = E;
+      edge e1 when x0 = A do x0 := B;
+      edge e1 when x0 = B do x0 := C;
+      edge e1 when x0 = C do x0 := D;
+      edge e1 when x0 = D do x0 := E;
+      edge e2 when x6 = G;
+      edge e2 when x6 != G;
+  end
+end

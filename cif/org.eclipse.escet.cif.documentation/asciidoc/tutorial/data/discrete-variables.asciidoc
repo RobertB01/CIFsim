@@ -1,0 +1,77 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-data-chapter-discrete-variables]]
+== Discrete variables
+
+This lesson introduces discrete variables. Consider the following
+specification:
+
+// Copied to: data/loc-var-duality1
+// Copied to: data/invariants
+[source,cif]
+----
+automaton counter:
+  event increment, decrement;
+
+  disc int count = 3;
+
+  location:
+    edge decrement when count > 0 do count := count - 1;
+    edge increment when count < 5 do count := count + 1;
+end
+----
+indexterm:[discrete variable]
+indexterm:[variable,discrete]
+The `counter` automaton can be used to count certain things. The
+`increment` and `decrement` events are used to change the count. The count
+itself is stored in a variable named `count`. CIF has several different types
+of variables. Here, we use a discrete variable, as indicated by the `disc`
+keyword. The variable has an `int` data type, meaning it can have integer
+numbers as its value. It is initialized to value `3`.
+
+indexterm:[guard]
+indexterm:[when]
+indexterm:[edge,guard]
+indexterm:[edge,when]
+The automaton has two edges, one for the `increment` event, and one for the
+`decrement` event. The edge for the `decrement` event has a _guard_ that
+indicates under which circumstances the event can take place. The condition is
+indicated using the `when` keyword. In this case, the guard ensures that the
+count can only be decremented if it is currently positive. The guard of the
+edge for the `increment` event indicates that the count can only be
+incremented as long as it is less than five. In general, a guard must hold in
+the source location of the edge, for the edge to be enabled, and a transition
+to be possible. If the guard is not specified, it defaults to `true`, which
+always holds and does not restrict the edge in any way.
+
+indexterm:[update]
+indexterm:[assignment]
+indexterm:[do]
+indexterm:[edge,update]
+indexterm:[edge,assignment]
+indexterm:[edge,do]
+Both edges also have _updates_, indicated using the `do` keyword. Updates can
+be used to specify the effect of the transition on variables. In this case, the
+updates _assign_ a new value to the `count` variable that is one less or one
+more than the current value. That is the value of the `count` variable is
+decremented or incremented by one.
+
+This specification represents a counter that can be repeatedly incremented and
+decremented by one, and ensures that the value of variable `count` is always
+at least zero and at most five.
+
+The state space of the `counter` automaton is as follows:
+
+image::{tut-imgsdir}/data/counter_state_space.png[]

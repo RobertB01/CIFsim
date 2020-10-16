@@ -1,0 +1,48 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v = 0
+
+    Edges:
+        edge tau goto state 3
+
+State 2:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v = 2
+
+    Edges:
+        edge tau goto state 4
+
+State 3:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v = 1
+
+    Edges:
+        edge tau goto state 2
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "aut"
+
+    Valuation:
+        aut.v = 3

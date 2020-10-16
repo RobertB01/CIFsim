@@ -1,0 +1,60 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "B"
+        location "Full" of automaton "m1"
+        location "Full" of automaton "m2"
+
+    Valuation:
+        B.c = 0
+
+    Edges:
+        edge mb goto state 2
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "B"
+        location "Full" of automaton "m1"
+        location "Empty" of automaton "m2"
+
+    Valuation:
+        B.c = 1
+
+    Edges:
+        edge mm goto state 3
+
+State 3:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "B"
+        location "Empty" of automaton "m1"
+        location "Full" of automaton "m2"
+
+    Valuation:
+        B.c = 1
+
+    Edges:
+        edge bm goto state 1
+        edge mb goto state 4
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "B"
+        location "Empty" of automaton "m1"
+        location "Empty" of automaton "m2"
+
+    Valuation:
+        B.c = 2
+
+    Edges:
+        edge bm goto state 2

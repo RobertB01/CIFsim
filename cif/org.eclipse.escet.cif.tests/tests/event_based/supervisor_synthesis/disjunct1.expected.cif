@@ -1,0 +1,32 @@
+uncontrollable p;
+controllable y;
+uncontrollable q;
+controllable x;
+uncontrollable r;
+supervisor automaton sup:
+  alphabet p, y, q, x, r;
+  location s1:
+    initial;
+    marked;
+    edge q goto s2;
+  location s2:
+    edge r goto s3;
+    edge x;
+    edge p goto s4;
+  location s3:
+    edge p goto s5;
+  location s4:
+    edge r goto s5;
+    edge y;
+  location s5:
+    edge q goto s6;
+  location s6:
+    edge r goto s7;
+    edge x;
+    edge y;
+    edge p goto s8;
+  location s7:
+    edge p goto s1;
+  location s8:
+    edge r goto s1;
+end

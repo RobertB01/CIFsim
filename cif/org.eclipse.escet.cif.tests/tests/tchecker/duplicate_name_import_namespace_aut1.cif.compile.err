@@ -1,0 +1,3 @@
+ERROR: File "tchecker/duplicate_name_import_namespace_aut1.cif": Semantic error at line 14, column 8: File "duplicate_name_import_namespace_aut2.cif": Duplicate name "b" in group "a".
+ERROR: File "tchecker/duplicate_name_import_namespace_aut1.cif": Semantic error at line 16, column 13: Duplicate name "b" in group "a".
+ERROR: Failed to load CIF file "tchecker/duplicate_name_import_namespace_aut1.cif": the file has errors.

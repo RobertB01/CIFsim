@@ -1,0 +1,150 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-svg-file-into-decls]]
+== Push SVG file declarations into other CIF/SVG declarations
+
+indexterm:[CIF to CIF transformer,push SVG file declarations into other CIF/SVG declarations]
+indexterm:[push SVG file declarations into other CIF/SVG declarations]
+indexterm:[SVG file declaration,push]
+indexterm:[SVG declaration,push]
+This CIF to CIF transformation pushes
+<<tools-cifsim-output-svgviz-chapter-svgfile,SVG file declarations>> inwards into
+the other <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declarations>>.
+
+indexterm:[push SVG file declarations into other CIF/SVG declarations,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[push SVG file declarations into other CIF/SVG declarations,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[push SVG file declarations into other CIF/SVG declarations,implementation]
+
+=== Implementation details
+
+All <<tools-cifsim-output-svgviz-chapter-svgfile,SVG file declarations>>
+specified in the top level scope of the specification, in groups, and in
+automata, are removed. The other
+<<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declarations>> to which they
+apply, each get a local SVG file declaration instead. If they already had a
+local SVG file declaration, the CIF/SVG declaration is not changed.
+
+For instance, this specification:
+
+
+[source, cif]
+----
+svgfile "file1.svg";
+
+svgout id "a" attr "b" value 5;
+
+svgout id "c" attr "d" value 6 file "file2.svg";
+
+group g:
+  svgfile "file3.svg";
+
+  svgout id "e" attr "f" value 7;
+
+  svgout id "g" attr "h" value 8;
+
+  svgout id "i" attr "j" value 9 file "file4.svg";
+
+  group h:
+    svgfile "file5.svg";
+  end
+
+  group i:
+    svgout id "k" attr "l" value 10;
+  end
+end
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+svgout id "a" attr "b" value 5 file "file1.svg";
+
+svgout id "c" attr "d" value 6 file "file2.svg";
+
+group g:
+  svgout id "e" attr "f" value 7 file "file3.svg";
+
+  svgout id "g" attr "h" value 8 file "file3.svg";
+
+  svgout id "i" attr "j" value 9 file "file4.svg";
+
+  group h:
+  end
+
+  group i:
+    svgout id "k" attr "l" value 10 file "file3.svg";
+  end
+end
+----
+
+The mapping for the SVG element with id `a` is declared in the top level
+scope of the specification, and does not have a local SVG file declaration.
+As such, the SVG file declaration from the top level scope (`file1.svg`) is
+pushed inwards into the mapping. The mapping for the SVG element with id `b`
+is declared in the same scope, but already has a local SVG file declaration
+(`file2.svg`), and is thus not changed.
+
+Group `g` also has an SVG file declaration (`file3.svg`). This is pushed
+inwards to the mappings for ids `e` and `g`, as they are declared in the
+same scope, and don't have local SVG file declarations. The mapping for SVG
+element id `i` is not changed, as it already has a local SVG file declaration
+(`file4.svg`).
+
+The SVG file declaration (`file5.svg`) from group `g.h` does not apply to
+any mappings, and thus gets lost.
+
+Group `g.i` does not have an SVG file declaration, so the mapping for SVG
+element id `k`, which is declared in that group, gets the SVG file
+declaration from group `g` (the parent scope of group `g.i`) instead.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[push SVG file declarations into other CIF/SVG declarations,size considerations]
+
+=== Size considerations
+
+As SVG file declarations may apply to multiple other CIF/SVG declarations, this
+transformation may increase the number of SVG file declarations in the
+specification. The number of SVG file declarations after the transformation is
+at most the number of 'other' CIF/SVG declarations, and as such the increase is
+at most linear in the number of 'other' CIF/SVG declarations as well.
+
+
+=== Optimality
+
+n/a

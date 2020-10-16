@@ -1,0 +1,26 @@
+svgfile "buffers_products.svg";
+
+buffer0: Buffer(0);
+buffer1: Buffer(1);
+
+group def Buffer(alg int nr):
+  svgcopy id "buffer" post <string>nr;
+
+  svgmove id "buffer" + <string>nr to 10 + nr * 110, 10;
+
+  product0: Product(nr, 0);
+  product1: Product(nr, 1);
+  product2: Product(nr, 2);
+end
+
+group def Product(alg int bufferNr, productNr):
+  svgcopy id "product" + <string>bufferNr post "_" + <string>productNr;
+
+  svgout id fmt("product%d_%d", bufferNr, productNr)
+         attr "transform"
+         value fmt("translate(%d,0)", productNr * 20);
+
+  svgout id fmt("product%d_%d", bufferNr, productNr)
+         attr "visibility"
+         value "visible";
+end

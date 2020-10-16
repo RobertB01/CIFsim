@@ -1,0 +1,3 @@
+ERROR: File "tchecker/for_source_null.tooldef": Semantic error at line 15, column 14: Cannot iterate over a value of type "object?", as a non-nullable type is expected.
+ERROR: File "tchecker/for_source_null.tooldef": Semantic error at line 20, column 12: Cannot iterate over a value of type "list? int", as a non-nullable type is expected.
+ERROR: Failed to load ToolDef file "tchecker/for_source_null.tooldef": the file has errors.

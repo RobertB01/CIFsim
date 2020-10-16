@@ -1,0 +1,271 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Whole variables, simple.
+plant x:
+  event e;
+  disc bool x;
+  location:
+    initial;
+    edge e do x := true, x := false;
+end
+
+// Whole variables, 'if' branches.
+plant y:
+  event e;
+  disc bool x1, x2, x3;
+  location:
+    initial;
+    edge e do x1 := true,
+              if true: x2 := true else x3 := true end,
+              x2 := false;
+    edge e do x1 := true,
+              if true: x2 := true else x3 := true end,
+              if false: x3 := true else x2 := false end;
+end
+
+// Whole variables, multi-assignment.
+plant z:
+  disc bool v, w;
+  location:
+    initial;
+    edge do (v, (w, v)) := (true, (false, true));
+end
+
+// Partial variables, different types of containers.
+plant a:
+  disc tuple(int a, b) x;
+  disc list[1] int y;
+  disc tuple(int a, b) z;
+  disc dict(bool:real) d;
+
+  location:
+    initial;
+    // Same tuple field, normalized.
+    edge do x[1] := 5, x[b] := 6;
+
+    // Same list element, normalized.
+    edge do y[0] := 5, y[-1] := 6;
+
+    // Same dictionary element.
+    edge do d[true] := 1.0, d[not false] := 2.0;
+
+    // Whole variable and part of it, even though they assign the same value.
+    edge do z := (5, 6), z[0] := 5;
+    edge do (z, z[0]) := ((5, 6), 5);
+    edge do z := (5, 6), z[0] := 5, z[1] := 6;
+end
+
+// Index evaluation failure.
+plant b:
+  disc tuple(int a, b) x;
+
+  location:
+    initial;
+      edge do x[floor(sqrt(-1))] := 5;
+end
+
+// Multiple variables, multiple times, part/whole variable.
+plant c:
+  disc list int x;
+  disc list int y;
+
+  location:
+    initial;
+    edge do x[0] := 5, y[0] := 5, y[1] := 5, y[0] := 5, x[0] := 6, y := [5];
+end
+
+// Can't statically evaluate or normalize.
+plant d:
+  disc list int x;
+  disc int i;
+
+  location:
+    initial;
+    edge do x[-1] := 1, x[-2] := 2, x[0] := 5, x := [5];
+    edge do x := [5], x[i] := 6;
+end
+
+// Multiple projection levels, all evaluated/normalized.
+plant e:
+  disc list list list int x;
+
+  location:
+    initial;
+    // 0 levels.
+    edge do x       := [], x       := [];
+
+    // 0 vs 1 levels.
+    edge do x       := [], x[0]    := [];
+    edge do x[0]    := [], x       := [];
+
+    // 1 level.
+    edge do x[0]    := [], x[0]    := [];
+    edge do x[0]    := [], x[1]    := [];
+    edge do x[1]    := [], x[0]    := [];
+    edge do x[1]    := [], x[1]    := [];
+
+    // 1 vs 2 levels.
+    edge do x[0]    := [], x[0][0] := [];
+    edge do x[0]    := [], x[0][1] := [];
+    edge do x[0]    := [], x[1][0] := [];
+    edge do x[0]    := [], x[1][1] := [];
+    edge do x[1]    := [], x[0][0] := [];
+    edge do x[1]    := [], x[0][1] := [];
+    edge do x[1]    := [], x[1][0] := [];
+    edge do x[1]    := [], x[1][1] := [];
+
+    edge do x[0][0] := [], x[0]    := [];
+    edge do x[0][1] := [], x[0]    := [];
+    edge do x[1][0] := [], x[0]    := [];
+    edge do x[1][1] := [], x[0]    := [];
+    edge do x[0][0] := [], x[1]    := [];
+    edge do x[0][1] := [], x[1]    := [];
+    edge do x[1][0] := [], x[1]    := [];
+    edge do x[1][1] := [], x[1]    := [];
+
+    // 2 levels.
+    edge do x[0][0] := [], x[0][0] := [];
+    edge do x[0][0] := [], x[0][1] := [];
+    edge do x[0][0] := [], x[1][0] := [];
+    edge do x[0][0] := [], x[1][1] := [];
+
+    edge do x[0][1] := [], x[0][0] := [];
+    edge do x[0][1] := [], x[0][1] := [];
+    edge do x[0][1] := [], x[1][0] := [];
+    edge do x[0][1] := [], x[1][1] := [];
+
+    edge do x[1][0] := [], x[0][0] := [];
+    edge do x[1][0] := [], x[0][1] := [];
+    edge do x[1][0] := [], x[1][0] := [];
+    edge do x[1][0] := [], x[1][1] := [];
+
+    edge do x[1][1] := [], x[0][0] := [];
+    edge do x[1][1] := [], x[0][1] := [];
+    edge do x[1][1] := [], x[1][0] := [];
+    edge do x[1][1] := [], x[1][1] := [];
+
+    edge do x[0][0] := [], x[0][0] := [];
+    edge do x[0][1] := [], x[0][0] := [];
+    edge do x[1][0] := [], x[0][0] := [];
+    edge do x[1][1] := [], x[0][0] := [];
+
+    edge do x[0][0] := [], x[0][1] := [];
+    edge do x[0][1] := [], x[0][1] := [];
+    edge do x[1][0] := [], x[0][1] := [];
+    edge do x[1][1] := [], x[0][1] := [];
+
+    edge do x[0][0] := [], x[1][0] := [];
+    edge do x[0][1] := [], x[1][0] := [];
+    edge do x[1][0] := [], x[1][0] := [];
+    edge do x[1][1] := [], x[1][0] := [];
+
+    edge do x[0][0] := [], x[1][1] := [];
+    edge do x[0][1] := [], x[1][1] := [];
+    edge do x[1][0] := [], x[1][1] := [];
+    edge do x[1][1] := [], x[1][1] := [];
+end
+
+// Multiple projection levels, including non-evaluated.
+plant f:
+  disc list list list int x;
+  disc int i;
+
+  location:
+    initial;
+    // 0 vs 1 levels.
+    edge do x       := [], x[i]    := [];
+    edge do x[i]    := [], x       := [];
+
+    // 1 level.
+    edge do x[0]    := [], x[i]    := [];
+    edge do x[i]    := [], x[0]    := [];
+    edge do x[i]    := [], x[i]    := [];
+
+    // 1 vs 2 levels.
+    edge do x[0]    := [], x[0][0] := [];
+    edge do x[0]    := [], x[0][i] := [];
+    edge do x[0]    := [], x[i][0] := [];
+    edge do x[0]    := [], x[i][i] := [];
+    edge do x[1]    := [], x[0][0] := [];
+    edge do x[1]    := [], x[0][i] := [];
+    edge do x[1]    := [], x[i][0] := [];
+    edge do x[1]    := [], x[i][1] := [];
+
+    edge do x[0][0] := [], x[0]    := [];
+    edge do x[0][i] := [], x[0]    := [];
+    edge do x[i][0] := [], x[0]    := [];
+    edge do x[i][i] := [], x[0]    := [];
+    edge do x[0][0] := [], x[1]    := [];
+    edge do x[0][i] := [], x[1]    := [];
+    edge do x[i][0] := [], x[1]    := [];
+    edge do x[i][i] := [], x[1]    := [];
+
+    // 2 levels.
+    edge do x[0][0] := [], x[0][0] := [];
+    edge do x[0][0] := [], x[0][i] := [];
+    edge do x[0][0] := [], x[i][0] := [];
+    edge do x[0][0] := [], x[i][i] := [];
+
+    edge do x[0][i] := [], x[0][0] := [];
+    edge do x[0][i] := [], x[0][i] := [];
+    edge do x[0][i] := [], x[i][0] := [];
+    edge do x[0][i] := [], x[i][i] := [];
+
+    edge do x[i][0] := [], x[0][0] := [];
+    edge do x[i][0] := [], x[0][i] := [];
+    edge do x[i][0] := [], x[i][0] := [];
+    edge do x[i][0] := [], x[i][i] := [];
+
+    edge do x[i][i] := [], x[0][0] := [];
+    edge do x[i][i] := [], x[0][i] := [];
+    edge do x[i][i] := [], x[i][0] := [];
+    edge do x[i][i] := [], x[i][i] := [];
+
+    edge do x[0][0] := [], x[0][0] := [];
+    edge do x[0][i] := [], x[0][0] := [];
+    edge do x[i][0] := [], x[0][0] := [];
+    edge do x[i][i] := [], x[0][0] := [];
+
+    edge do x[0][0] := [], x[0][i] := [];
+    edge do x[0][i] := [], x[0][i] := [];
+    edge do x[i][0] := [], x[0][i] := [];
+    edge do x[i][i] := [], x[0][i] := [];
+
+    edge do x[0][0] := [], x[i][0] := [];
+    edge do x[0][i] := [], x[i][0] := [];
+    edge do x[i][0] := [], x[i][0] := [];
+    edge do x[i][i] := [], x[i][0] := [];
+
+    edge do x[0][0] := [], x[i][i] := [];
+    edge do x[0][i] := [], x[i][i] := [];
+    edge do x[i][0] := [], x[i][i] := [];
+    edge do x[i][i] := [], x[i][i] := [];
+end
+
+// Received value as index.
+event int ei;
+
+plant g_snd:
+  location:
+    initial;
+    edge ei!1;
+end
+
+plant g_rcv:
+  disc list int x;
+
+  location:
+    initial;
+    edge ei? do x[0] := 5, x[?] := 5;
+end

@@ -1,0 +1,77 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-data-chapter-loc-var-duality1]]
+== Location/variable duality (1/2)
+
+indexterm:[location,versus variable]
+indexterm:[variable,versus location]
+The lesson that
+<<tut-data-chapter-discrete-variables,introduces discrete variables>>, uses
+an example of a counter. The actual count was modeled using a variable:
+
+
+[source, cif]
+----
+automaton counter:
+  event increment, decrement;
+
+  disc int count = 3;
+
+  location:
+    edge decrement when count > 0 do count := count - 1;
+    edge increment when count < 5 do count := count + 1;
+end
+----
+
+It is also possible to use multiple locations instead of a variable:
+
+
+[source, cif]
+----
+automaton counter:
+  event increment, decrement;
+
+  location zero:
+    edge increment goto one;
+
+  location one:
+    edge decrement goto zero;
+    edge increment goto two;
+
+  location two:
+    edge decrement goto one;
+    edge increment goto three;
+
+  location three:
+    initial;
+
+    edge decrement goto two;
+    edge increment goto four;
+
+  location four:
+    edge decrement goto three;
+    edge increment goto five;
+
+  location five:
+    edge decrement goto four;
+end
+----
+
+This alternate model has the same behavior, in that it models a counter that
+can be incremented an decremented in steps of one, and the value is kept at
+least zero, and at most five. The variant with the variable however, is shorter
+and more intuitive. It is also easier to change to the `count < 5` guard to
+`count < 100` than it is to add dozens of additional locations and edges. In
+this case, using a variable is preferable to using multiple locations.

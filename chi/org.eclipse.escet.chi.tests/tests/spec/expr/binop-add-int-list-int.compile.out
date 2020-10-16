@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-add-int-list-int.chi": Semantic error at line 18, column 21: Incorrectly typed addition (cannot add types "int" and "list int").

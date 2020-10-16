@@ -1,0 +1,8 @@
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 23, column 14: Cannot start a process with exit type "void" in a process or model without exit type declaration.
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 27, column 14: Cannot start a process with exit type "bool" in a process or model without exit type declaration.
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 39, column 14: Cannot start a process with exit type "bool" in a process or model with exit type "void".
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 47, column 14: Cannot start a process with exit type "void" in a process or model with exit type "bool".
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 59, column 14: Cannot start a process with exit type "void" in a process or model without exit type declaration.
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 63, column 14: Cannot start a process with exit type "bool" in a process or model without exit type declaration.
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 75, column 14: Cannot start a process with exit type "bool" in a process or model with exit type "void".
+Error: File "spec/exit/exit_run_checks.chi": Semantic error at line 83, column 14: Cannot start a process with exit type "void" in a process or model with exit type "bool".

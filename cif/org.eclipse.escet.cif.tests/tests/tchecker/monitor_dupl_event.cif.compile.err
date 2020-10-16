@@ -1,0 +1,6 @@
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 17, column 13: Duplicate monitor event "g.x.a" in automaton "g.x".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 17, column 16: Duplicate monitor event "g.x.a" in automaton "g.x".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 32, column 11: Duplicate monitor event "P.e" in automaton "Q".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 32, column 17: Duplicate monitor event "P.e" in automaton "Q".
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 36, column 10: Duplicate event "P.e" on a single edge.
+WARNING: File "tchecker/monitor_dupl_event.cif": Semantic warning at line 36, column 16: Duplicate event "P.e" on a single edge.

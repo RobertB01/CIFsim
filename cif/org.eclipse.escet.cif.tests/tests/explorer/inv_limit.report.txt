@@ -1,0 +1,53 @@
+State 1:
+    Initial: true
+    Marked: true
+
+    Locations:
+        location of automaton "A"
+
+    Valuation:
+        A.c = 0
+
+    Edges:
+        edge up goto state 2
+        edge down goto state 3
+
+State 2:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "A"
+
+    Valuation:
+        A.c = 1
+
+    Edges:
+        edge up goto state 4
+        edge down goto state 1
+
+State 3:
+    Initial: false
+    Marked: true
+
+    Locations:
+        location of automaton "A"
+
+    Valuation:
+        A.c = -1
+
+    Edges:
+        edge up goto state 1
+
+State 4:
+    Initial: false
+    Marked: false
+
+    Locations:
+        location of automaton "A"
+
+    Valuation:
+        A.c = 2
+
+    Edges:
+        edge down goto state 2

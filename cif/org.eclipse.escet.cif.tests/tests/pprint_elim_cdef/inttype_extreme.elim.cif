@@ -1,0 +1,30 @@
+type rangeless = int;
+type min_max = int[-2147483647-1..2147483647];
+type min1_max = int[-2147483647..2147483647];
+type min_max1 = int[-2147483647-1..2147483646];
+type min1_max1 = int[-2147483647..2147483646];
+group q1:
+  alg rangeless r = p.rangeless;
+  alg min_max mm = p.mm;
+  alg min1_max m1m = p.m1m;
+  alg min_max1 mm1 = p.mm1;
+  alg min1_max1 m1m1 = p.m1m1;
+  invariant size([r, mm, m1m, mm1, m1m1]) > 0;
+end
+group q2:
+  alg rangeless r = p.mm;
+  alg min_max mm = p.rangeless;
+  alg min1_max m1m = p.m1m;
+  alg min_max1 mm1 = p.mm1;
+  alg min1_max1 m1m1 = p.m1m1;
+  invariant size([r, mm, m1m, mm1, m1m1]) > 0;
+end
+automaton p:
+  disc int rangeless;
+  disc int[-2147483647-1..2147483647] mm;
+  disc int[-2147483647..2147483647] m1m;
+  disc int[-2147483647-1..2147483646] mm1;
+  disc int[-2147483647..2147483646] m1m1;
+  location:
+    initial;
+end

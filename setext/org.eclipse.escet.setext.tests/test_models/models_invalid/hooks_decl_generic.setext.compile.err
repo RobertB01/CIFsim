@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/hooks_decl_generic.setext": Semantic error at line 19, column 8: Generic types are currently not supported for hooks classes.
+ERROR: Failed to load SeText file "models_invalid/hooks_decl_generic.setext": the file has errors.

@@ -1,0 +1,81 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-tuple-field-projs]]
+== Eliminate tuple field projections
+
+indexterm:[CIF to CIF transformer,eliminate tuple field projections]
+indexterm:[eliminate tuple field projections]
+indexterm:[tuple,eliminate field projections]
+This CIF to CIF transformation eliminates tuple field projections by replacing
+them with tuple index projections.
+
+=== Supported specifications
+
+This transformation supports all CIF specifications.
+
+
+=== Preprocessing
+
+n/a
+
+indexterm:[eliminate tuple field projections,implementation]
+
+=== Implementation details
+
+Obtaining the value of a field of a tuple is called tuple projection.
+There are two ways to project a tuple. That is, there are two ways to indicate
+from which field to obtain the value. The first way is to use the name of the
+field, the second way is to use the 0-based index of the field into the fields
+of the tuple's type. For instance:
+
+
+[source, cif]
+----
+const tuple(int a; real b) t = (1, 2.0);
+const int x = t[a];
+const int y = t[0];
+----
+
+Here, both constants `x` and `y` have value `1`, obtained from field
+`a` of the tuple value of constant `t`.
+
+This transformation replaces tuple field projections (using the name of the
+field), by tuple index projections (using the 0-based index of the field). For
+instance, for the example above, the result of this transformation is:
+
+
+[source, cif]
+----
+const tuple(int a; real b) t = (1, 2.0);
+const int x = t[0];
+const int y = t[0];
+----
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate tuple field projections,size considerations]
+
+=== Size considerations
+
+Since both field references and integer values are single expression nodes,
+this transformation does not increase the size of the specification.
+
+
+=== Optimality
+
+n/a

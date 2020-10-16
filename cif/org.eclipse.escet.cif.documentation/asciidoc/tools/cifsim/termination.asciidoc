@@ -1,0 +1,164 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cifsim-chapter-termination]]
+== Terminating the simulator
+
+indexterm:[CIF simulator,termination]
+The CIF simulator can terminate for various reasons. This page explains each
+of them, as well as some other information related to termination of the
+simulator.
+
+=== Initialization failure
+
+If <<tools-cifsim-chapter-init,initialization>> of the specification fails,
+the simulation will terminate immediately.
+
+indexterm:[CIF simulator,deadlock]
+
+=== Deadlock
+
+If simulation results in deadlock, no more transitions are possible, and the
+simulation will terminate.
+
+Simulation does not immediately terminate when deadlock occurs, if an
+interactive <<tools-cifsim-input-chapter-index,input mode>> is used and
+<<tools-cifsim-input-chapter-history,history>> is enabled. Instead, the user is
+asked whether to terminate the simulation,
+<<tools-cifsim-input-history-reset-undo,undo>> one or more transitions, or
+<<tools-cifsim-input-history-reset-undo,reset>> the simulation.
+
+indexterm:[CIF simulator,simulation end time]
+
+[[tools-cifsim-termination-endtime]]
+=== Simulation end time
+
+Using the
+menu:Simulation end time[]
+option (menu:Simulator[]
+category), the end time of the simulation can be configured. By setting a
+simulation end time, you ensure that when the value of variable `time`
+reaches that value, the simulation terminates.
+
+By default the simulation end time is set to 'infinite', which means that
+simulation termination is not limited by a simulation end time. Settings a
+simulation end time also limits the <<tools-cifsim-solver-chapter-endtime-maxdelay,maximum duration of a time transition>>.
+
+Simulation does not immediately terminate when the configured end time is
+reached, if an interactive <<tools-cifsim-input-chapter-index,input mode>> is
+used and <<tools-cifsim-input-chapter-history,history>> is enabled. Instead, the
+user is asked whether to terminate the simulation,
+<<tools-cifsim-input-history-reset-undo,undo>> one or more transitions, or
+<<tools-cifsim-input-history-reset-undo,reset>> the simulation.
+
+indexterm:[CIF simulator,runtime error]
+
+=== Runtime error
+
+If simulation results in a runtime error, the simulation will terminate
+immediately.
+
+
+=== End of trace file
+
+If the <<tools-cifsim-input-chapter-trace,trace input mode>> is used, and no
+more commands are available in the trace file, the simulation will terminate
+immediately.
+
+
+=== User-requested termination
+
+The user can manually request termination of the simulation in several ways.
+
+Termination requests have no effect while the simulator interactively asks
+for input from the <<tools-cifsim-input-chapter-console,console>> or via the GUI
+of the <<tools-cifsim-input-chapter-gui,interactive GUI input component>>.
+However, once input is provided via the console and kbd:[ENTER] is pressed, or
+a choice is made via the GUI, the termination request will be processed.
+
+Termination requests issued between
+<<tools-cifsim-output-realtime-frames,intermediate frames>> are delayed
+until the next intermediate frame.
+
+==== Interactive console input
+
+Termination of the simulation can be requested, when using the interactive
+<<tools-cifsim-input-chapter-console,console>> input mode, by typing `q`
+and pressing kbd:[ENTER], whenever the simulator interactively asks for input
+via the console.
+
+
+==== Interactive GUI input
+
+Termination of the simulation can be requested, when using the interactive
+<<tools-cifsim-input-chapter-gui,interactive GUI input mode>>, by closing the
+GUI of the interactive GUI input component, when the simulator asks for input
+via that GUI.
+
+
+==== Applications view
+
+// Removed the previously present link to documentation about 'Applications view'.
+The _Applications_ view has several termination features that may terminate
+any application, including the CIF simulator. See the documentation for
+that view, for details.
+
+
+==== Console termination button
+
+Simulation can be terminated at any time, by using the menu:Terminate[]
+button (image:{tools-imgsdir}/cifsim/terminate_button.png[]), located at the upper right corner of the console.
+
+Note however that if the console does not have the focus, this button may not
+be visible. If the button is not visible, click somewhere in the console to
+make the button appear. If even then the button is still not available, it may
+still appear if you menu:Maximize[] the console. Due to these issues, use
+of the termination features of the _Applications_ view is recommended over
+using the menu:Terminate[] button of the console. See the documentation for
+that view, for details.
+// Removed the previously present link to documentation about 'Applications view'.
+// Removed the previously present link to documentation about 'Applications view termination features'.
+
+
+==== Closing last real-time visualizer
+
+If the last remaining
+<<tools-cifsim-output-realtime-outcomp,real-time output component>>
+(visualizer) is closed by the user, the simulator will be asked to terminate as
+soon as possible.
+
+[[tools-cifsim-termination-confirm]]
+=== Confirming termination
+
+When simulating within Eclipse, all
+<<tools-cifsim-output-components,visualizers>> remain open, after the
+simulation has terminated. This allows you to observe the final state of the
+simulation, before manually closing the visualizers.
+
+When simulating on the command line (outside of Eclipse), termination of the
+simulator means that the visualizers are also closed. To allow you to observe
+the final state of the simulation, you are asked to confirm termination of the
+simulator, and therefore closing of the visualizers, by pressing kbd:[ENTER]
+at the console.
+
+By default, you are only asked to confirm termination of the simulator when
+simulating on the command line (outside of Eclipse), at least one visualizer
+is visible at the end of the simulation, simulation did not result in a runtime
+error, and <<tools-cifsim-chapter-test-mode,test mode>> is disabled. The
+menu:Ask to confirm simulator termination[]
+option (menu:Simulator[]
+category) can be used to configure whether the simulator asks the user to
+confirm termination of the simulator, terminate automatically, or decides by
+itself whether to ask the user for confirmation or terminate automatically. The
+latter (letting the simulator decide by itself) is the default.

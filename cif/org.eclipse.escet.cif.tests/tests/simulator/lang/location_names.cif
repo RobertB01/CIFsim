@@ -1,0 +1,56 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e, f;
+
+// 'Normal' automata.
+automaton p1:
+  location:                 // Nameless single location
+    initial;
+    edge e when false;
+end
+
+automaton q1:
+  location l:               // Named single location
+    initial;
+    edge e when false;
+end
+
+automaton r1:
+  location l1:              // Named multiple locations.
+    initial;
+    edge tau goto l2;
+
+  location l2:              // Named multiple locations.
+    urgent;
+end
+
+// 'Simple' automata.
+automaton p2:
+  location:                 // Nameless single location
+    initial;
+end
+
+automaton q2:
+  location l:               // Named single location
+    initial;
+end
+
+automaton r2:
+  location l1:              // Named multiple locations.
+    initial;
+    edge f goto l2;
+
+  location l2:              // Named multiple locations.
+    urgent;
+end

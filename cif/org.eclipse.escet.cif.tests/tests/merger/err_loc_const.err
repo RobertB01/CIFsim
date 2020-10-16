@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_loc_const.in1.cif" with CIF specification "merger/err_loc_const.in2.cif" failed.
+CAUSE: Merging objects with name "a.b" failed: the objects are incompatible.

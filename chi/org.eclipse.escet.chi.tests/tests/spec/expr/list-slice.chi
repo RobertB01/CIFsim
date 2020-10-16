@@ -1,0 +1,32 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    list int xs = [4, 7, 18];
+
+    writeln("%s", xs[0:2]);  # assigns [4, 7]
+    writeln("%s", xs[:2]);   # == xs[0:2]
+    writeln("%s", xs[1:]);   # == xs[1:3], assigns [7, 18]
+    writeln("%s", xs[:]);    # == xs[0:3] == xs
+    writeln("%s", xs[-2:]);  # [7, 18]
+    writeln("");
+    writeln("%s", xs[1:2]);  # assigns [7] (note, it is a list!)
+    writeln("%s", xs[0:0]);  # assigns <int>[]
+    writeln("%s", xs[2:1]);  # assigns <int>[], lower bound too high
+    writeln("%s", xs[0:-1]); # == xs[0:2]
+    writeln("");
+    writeln("%s",  xs[::2]);  # == xs[0:3:2], assigns [4, 18]
+    writeln("%s", xs[::-1]);  # == xs[2:-1:-1], assigns [18, 7, 4]
+    writeln("");
+    xs = range(7);
+    writeln("%s", xs[:-3]);
+end

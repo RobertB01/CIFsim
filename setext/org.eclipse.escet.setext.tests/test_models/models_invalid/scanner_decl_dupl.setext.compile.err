@@ -1,0 +1,3 @@
+ERROR: File "models_invalid/scanner_decl_dupl.setext": Semantic error at line 13, column 10: Duplicate scanner class.
+ERROR: File "models_invalid/scanner_decl_dupl.setext": Semantic error at line 14, column 10: Duplicate scanner class.
+ERROR: Failed to load SeText file "models_invalid/scanner_decl_dupl.setext": the file has errors.

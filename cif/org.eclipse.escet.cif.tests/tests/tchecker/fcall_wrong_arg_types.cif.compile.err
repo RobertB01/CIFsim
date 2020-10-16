@@ -1,0 +1,4 @@
+ERROR: File "tchecker/fcall_wrong_arg_types.cif": Semantic error at line 14, column 15: Function "abs" can not be called with arguments of types "bool".
+ERROR: File "tchecker/fcall_wrong_arg_types.cif": Semantic error at line 15, column 15: Function "pow" can not be called with arguments of types "bool", "int[1..1]".
+ERROR: File "tchecker/fcall_wrong_arg_types.cif": Semantic error at line 19, column 18: Function of type "func real(int, real)" can not be called with arguments of types "real", "real".
+ERROR: Failed to load CIF file "tchecker/fcall_wrong_arg_types.cif": the file has errors.

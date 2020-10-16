@@ -1,0 +1,348 @@
+group p1:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+end
+group p2:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+end
+group p3:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+end
+group p4:
+  controllable take_left;
+  controllable take_right;
+  controllable release_both;
+end
+automaton statespace:
+  alphabet p1.take_left, p4.take_right, p1.release_both, p4.release_both, p2.take_left, p1.take_right, p2.release_both, p3.take_left, p2.take_right, p3.release_both, p4.take_left, p3.take_right;
+  location loc1:
+    initial;
+    marked;
+    edge p1.take_left goto loc2;
+    edge p4.take_right goto loc3;
+    edge p2.take_left goto loc4;
+    edge p1.take_right goto loc5;
+    edge p3.take_left goto loc6;
+    edge p2.take_right goto loc7;
+    edge p4.take_left goto loc8;
+    edge p3.take_right goto loc9;
+  location loc2:
+    edge p2.take_left goto loc10;
+    edge p1.take_right goto loc11;
+    edge p3.take_left goto loc12;
+    edge p2.take_right goto loc13;
+    edge p4.take_left goto loc14;
+    edge p3.take_right goto loc15;
+  location loc3:
+    edge p2.take_left goto loc16;
+    edge p1.take_right goto loc17;
+    edge p3.take_left goto loc18;
+    edge p2.take_right goto loc19;
+    edge p4.take_left goto loc20;
+    edge p3.take_right goto loc21;
+  location loc4:
+    edge p1.take_left goto loc10;
+    edge p4.take_right goto loc16;
+    edge p3.take_left goto loc22;
+    edge p2.take_right goto loc23;
+    edge p4.take_left goto loc24;
+    edge p3.take_right goto loc25;
+  location loc5:
+    edge p1.take_left goto loc11;
+    edge p4.take_right goto loc17;
+    edge p3.take_left goto loc26;
+    edge p2.take_right goto loc27;
+    edge p4.take_left goto loc28;
+    edge p3.take_right goto loc29;
+  location loc6:
+    edge p1.take_left goto loc12;
+    edge p4.take_right goto loc18;
+    edge p2.take_left goto loc22;
+    edge p1.take_right goto loc26;
+    edge p4.take_left goto loc30;
+    edge p3.take_right goto loc31;
+  location loc7:
+    edge p1.take_left goto loc13;
+    edge p4.take_right goto loc19;
+    edge p2.take_left goto loc23;
+    edge p1.take_right goto loc27;
+    edge p4.take_left goto loc32;
+    edge p3.take_right goto loc33;
+  location loc8:
+    edge p1.take_left goto loc14;
+    edge p4.take_right goto loc20;
+    edge p2.take_left goto loc24;
+    edge p1.take_right goto loc28;
+    edge p3.take_left goto loc30;
+    edge p2.take_right goto loc32;
+  location loc9:
+    edge p1.take_left goto loc15;
+    edge p4.take_right goto loc21;
+    edge p2.take_left goto loc25;
+    edge p1.take_right goto loc29;
+    edge p3.take_left goto loc31;
+    edge p2.take_right goto loc33;
+  location loc10:
+    edge p3.take_left goto loc34;
+    edge p2.take_right goto loc35;
+    edge p4.take_left goto loc36;
+    edge p3.take_right goto loc37;
+  location loc11:
+    edge p1.release_both goto loc1;
+    edge p3.take_left goto loc38;
+    edge p2.take_right goto loc39;
+    edge p4.take_left goto loc40;
+    edge p3.take_right goto loc41;
+  location loc12:
+    edge p2.take_left goto loc34;
+    edge p1.take_right goto loc38;
+    edge p4.take_left goto loc42;
+    edge p3.take_right goto loc43;
+  location loc13:
+    edge p2.take_left goto loc35;
+    edge p1.take_right goto loc39;
+    edge p4.take_left goto loc44;
+    edge p3.take_right goto loc45;
+  location loc14:
+    edge p2.take_left goto loc36;
+    edge p1.take_right goto loc40;
+    edge p3.take_left goto loc42;
+    edge p2.take_right goto loc44;
+  location loc15:
+    edge p2.take_left goto loc37;
+    edge p1.take_right goto loc41;
+    edge p3.take_left goto loc43;
+    edge p2.take_right goto loc45;
+  location loc16:
+    edge p3.take_left goto loc46;
+    edge p2.take_right goto loc47;
+    edge p4.take_left goto loc48;
+    edge p3.take_right goto loc49;
+  location loc17:
+    edge p3.take_left goto loc50;
+    edge p2.take_right goto loc51;
+    edge p4.take_left goto loc52;
+    edge p3.take_right goto loc53;
+  location loc18:
+    edge p2.take_left goto loc46;
+    edge p1.take_right goto loc50;
+    edge p4.take_left goto loc54;
+    edge p3.take_right goto loc55;
+  location loc19:
+    edge p2.take_left goto loc47;
+    edge p1.take_right goto loc51;
+    edge p4.take_left goto loc56;
+    edge p3.take_right goto loc57;
+  location loc20:
+    edge p4.release_both goto loc1;
+    edge p2.take_left goto loc48;
+    edge p1.take_right goto loc52;
+    edge p3.take_left goto loc54;
+    edge p2.take_right goto loc56;
+  location loc21:
+    edge p2.take_left goto loc49;
+    edge p1.take_right goto loc53;
+    edge p3.take_left goto loc55;
+    edge p2.take_right goto loc57;
+  location loc22:
+    edge p1.take_left goto loc34;
+    edge p4.take_right goto loc46;
+    edge p4.take_left goto loc58;
+    edge p3.take_right goto loc59;
+  location loc23:
+    edge p1.take_left goto loc35;
+    edge p4.take_right goto loc47;
+    edge p2.release_both goto loc1;
+    edge p4.take_left goto loc60;
+    edge p3.take_right goto loc61;
+  location loc24:
+    edge p1.take_left goto loc36;
+    edge p4.take_right goto loc48;
+    edge p3.take_left goto loc58;
+    edge p2.take_right goto loc60;
+  location loc25:
+    edge p1.take_left goto loc37;
+    edge p4.take_right goto loc49;
+    edge p3.take_left goto loc59;
+    edge p2.take_right goto loc61;
+  location loc26:
+    edge p1.take_left goto loc38;
+    edge p4.take_right goto loc50;
+    edge p4.take_left goto loc62;
+    edge p3.take_right goto loc63;
+  location loc27:
+    edge p1.take_left goto loc39;
+    edge p4.take_right goto loc51;
+    edge p4.take_left goto loc64;
+    edge p3.take_right goto loc65;
+  location loc28:
+    edge p1.take_left goto loc40;
+    edge p4.take_right goto loc52;
+    edge p3.take_left goto loc62;
+    edge p2.take_right goto loc64;
+  location loc29:
+    edge p1.take_left goto loc41;
+    edge p4.take_right goto loc53;
+    edge p3.take_left goto loc63;
+    edge p2.take_right goto loc65;
+  location loc30:
+    edge p1.take_left goto loc42;
+    edge p4.take_right goto loc54;
+    edge p2.take_left goto loc58;
+    edge p1.take_right goto loc62;
+  location loc31:
+    edge p1.take_left goto loc43;
+    edge p4.take_right goto loc55;
+    edge p2.take_left goto loc59;
+    edge p1.take_right goto loc63;
+    edge p3.release_both goto loc1;
+  location loc32:
+    edge p1.take_left goto loc44;
+    edge p4.take_right goto loc56;
+    edge p2.take_left goto loc60;
+    edge p1.take_right goto loc64;
+  location loc33:
+    edge p1.take_left goto loc45;
+    edge p4.take_right goto loc57;
+    edge p2.take_left goto loc61;
+    edge p1.take_right goto loc65;
+  location loc34:
+    edge p3.take_right goto loc66;
+  location loc35:
+    edge p2.release_both goto loc2;
+    edge p4.take_left goto loc67;
+    edge p3.take_right goto loc68;
+  location loc36:
+    edge p2.take_right goto loc67;
+  location loc37:
+    edge p3.take_left goto loc66;
+    edge p2.take_right goto loc68;
+  location loc38:
+    edge p1.release_both goto loc6;
+    edge p4.take_left goto loc69;
+    edge p3.take_right goto loc70;
+  location loc39:
+    edge p1.release_both goto loc7;
+    edge p4.take_left goto loc71;
+    edge p3.take_right goto loc72;
+  location loc40:
+    edge p1.release_both goto loc8;
+    edge p3.take_left goto loc69;
+    edge p2.take_right goto loc71;
+  location loc41:
+    edge p1.release_both goto loc9;
+    edge p3.take_left goto loc70;
+    edge p2.take_right goto loc72;
+  location loc42:
+    edge p1.take_right goto loc69;
+  location loc43:
+    edge p2.take_left goto loc66;
+    edge p1.take_right goto loc70;
+    edge p3.release_both goto loc2;
+  location loc44:
+    edge p2.take_left goto loc67;
+    edge p1.take_right goto loc71;
+  location loc45:
+    edge p2.take_left goto loc68;
+    edge p1.take_right goto loc72;
+  location loc46:
+    edge p4.take_left goto loc73;
+    edge p3.take_right goto loc74;
+  location loc47:
+    edge p2.release_both goto loc3;
+    edge p4.take_left goto loc75;
+    edge p3.take_right goto loc76;
+  location loc48:
+    edge p4.release_both goto loc4;
+    edge p3.take_left goto loc73;
+    edge p2.take_right goto loc75;
+  location loc49:
+    edge p3.take_left goto loc74;
+    edge p2.take_right goto loc76;
+  location loc50:
+    edge p4.take_left goto loc77;
+    edge p3.take_right goto loc78;
+  location loc51:
+    edge p4.take_left goto loc79;
+  location loc52:
+    edge p4.release_both goto loc5;
+    edge p3.take_left goto loc77;
+    edge p2.take_right goto loc79;
+  location loc53:
+    edge p3.take_left goto loc78;
+  location loc54:
+    edge p4.release_both goto loc6;
+    edge p2.take_left goto loc73;
+    edge p1.take_right goto loc77;
+  location loc55:
+    edge p2.take_left goto loc74;
+    edge p1.take_right goto loc78;
+    edge p3.release_both goto loc3;
+  location loc56:
+    edge p4.release_both goto loc7;
+    edge p2.take_left goto loc75;
+    edge p1.take_right goto loc79;
+  location loc57:
+    edge p2.take_left goto loc76;
+  location loc58:
+    edge p4.take_right goto loc73;
+  location loc59:
+    edge p1.take_left goto loc66;
+    edge p4.take_right goto loc74;
+    edge p3.release_both goto loc4;
+  location loc60:
+    edge p1.take_left goto loc67;
+    edge p4.take_right goto loc75;
+    edge p2.release_both goto loc8;
+  location loc61:
+    edge p1.take_left goto loc68;
+    edge p4.take_right goto loc76;
+    edge p2.release_both goto loc9;
+  location loc62:
+    edge p1.take_left goto loc69;
+    edge p4.take_right goto loc77;
+  location loc63:
+    edge p1.take_left goto loc70;
+    edge p4.take_right goto loc78;
+    edge p3.release_both goto loc5;
+  location loc64:
+    edge p1.take_left goto loc71;
+    edge p4.take_right goto loc79;
+  location loc65:
+    edge p1.take_left goto loc72;
+  location loc66:
+    edge p3.release_both goto loc10;
+  location loc67:
+    edge p2.release_both goto loc14;
+  location loc68:
+    edge p2.release_both goto loc15;
+  location loc69:
+    edge p1.release_both goto loc30;
+  location loc70:
+    edge p1.release_both goto loc31;
+    edge p3.release_both goto loc11;
+  location loc71:
+    edge p1.release_both goto loc32;
+  location loc72:
+    edge p1.release_both goto loc33;
+  location loc73:
+    edge p4.release_both goto loc22;
+  location loc74:
+    edge p3.release_both goto loc16;
+  location loc75:
+    edge p4.release_both goto loc23;
+    edge p2.release_both goto loc20;
+  location loc76:
+    edge p2.release_both goto loc21;
+  location loc77:
+    edge p4.release_both goto loc26;
+  location loc78:
+    edge p3.release_both goto loc17;
+  location loc79:
+    edge p4.release_both goto loc27;
+end

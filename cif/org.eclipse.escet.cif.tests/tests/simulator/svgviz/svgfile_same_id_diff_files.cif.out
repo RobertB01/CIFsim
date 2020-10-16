@@ -1,0 +1,18 @@
+Initial state: time=0.0
+
+SVG output ("small.svg") id "box" attr "x" (SVG attr): "0.0"
+SVG output ("small.svg") id "box" attr "width" (SVG attr): "100"
+
+SVG output ("../../tchecker/small.svg") id "box" attr "x" (SVG attr): "0.0"
+SVG output ("../../tchecker/small.svg") id "box" attr "height" (SVG attr): "200"
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0
+
+SVG output ("small.svg") id "box" attr "x" (SVG attr): "10.0"
+SVG output ("small.svg") id "box" attr "width" (SVG attr): "100"
+
+SVG output ("../../tchecker/small.svg") id "box" attr "x" (SVG attr): "20.0"
+SVG output ("../../tchecker/small.svg") id "box" attr "height" (SVG attr): "200"
+
+Simulation ended due to reaching the user-provided simulation end time.

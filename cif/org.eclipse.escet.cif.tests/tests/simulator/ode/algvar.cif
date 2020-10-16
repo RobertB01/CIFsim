@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Copied and adapted from Chi 1 and CIF 2 test set models.
+
+automaton m:
+  cont x = 0.0, y = 0.0, z der zz;
+  alg real zz;
+
+  location m0:
+    initial;
+    equation x' = y, y' = 1.0, zz = x;
+    edge when x >= 5.0 do x := 0.0 goto m1;
+
+  location m1:
+    equation x' = y, y' = 1.0, zz = x + y;
+    edge when y >= 2.0 do (x, y) := (0.0, 0.0) goto m0;
+end

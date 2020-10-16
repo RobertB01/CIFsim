@@ -1,0 +1,69 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+event void ev1;
+event void ev2;
+event int ei1;
+event int ei2;
+
+automaton as:
+  location l1:
+    initial;
+    urgent;
+    edge ev1!, ev2!, ei1!1, ei2!2, e;
+end
+
+automaton ae:
+  location l1:
+    initial;
+    edge e goto l2;
+
+  location l2;
+end
+
+automaton arv1:
+  location l1:
+    initial;
+    edge ev1? goto l2;
+
+  location l2;
+end
+
+automaton arv2:
+  location l1:
+    initial;
+    edge ev2? goto l2;
+
+  location l2;
+end
+
+automaton ari1:
+  disc int x;
+
+  location l1:
+    initial;
+    edge ei1? do x := ? goto l2;
+
+  location l2;
+end
+
+automaton ari2:
+  disc int x;
+
+  location l1:
+    initial;
+    edge ei2? do x := ? goto l2;
+
+  location l2;
+end

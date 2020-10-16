@@ -1,0 +1,7 @@
+ERROR: File "tchecker/asgn_dupl_var.tooldef": Semantic error at line 16, column 14: Duplicate assignment to variable "x" in a single multi-assignment.
+ERROR: File "tchecker/asgn_dupl_var.tooldef": Semantic error at line 16, column 17: Duplicate assignment to variable "x" in a single multi-assignment.
+ERROR: File "tchecker/asgn_dupl_var.tooldef": Semantic error at line 18, column 15: Duplicate assignment to variable "x" in a single multi-assignment.
+ERROR: File "tchecker/asgn_dupl_var.tooldef": Semantic error at line 18, column 18: Duplicate assignment to variable "y" in a single multi-assignment.
+ERROR: File "tchecker/asgn_dupl_var.tooldef": Semantic error at line 18, column 25: Duplicate assignment to variable "x" in a single multi-assignment.
+ERROR: File "tchecker/asgn_dupl_var.tooldef": Semantic error at line 18, column 28: Duplicate assignment to variable "y" in a single multi-assignment.
+ERROR: Failed to load ToolDef file "tchecker/asgn_dupl_var.tooldef": the file has errors.

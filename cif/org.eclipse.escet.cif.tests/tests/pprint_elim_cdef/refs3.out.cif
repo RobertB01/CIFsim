@@ -1,0 +1,13 @@
+group i:
+  plant automaton def Q():
+    location l:
+      initial;
+  end
+end
+q: i.Q();
+plant automaton $plant:
+  location $location:
+    initial;
+end
+invariant q.l;
+invariant $plant.$location;

@@ -1,0 +1,39 @@
+Initial state: time=0.0, a=l1, b=*, b.x=0, m=*, m.x=2, m.y=2, p=*, p.x=2, p.y=2
+
+Possible transitions:
+  #1: event e
+  #2: event f
+  #3: event g
+  #4: event h
+
+Transition: event e
+State: time=0.0, a=l1, b=*, b.x=0, m=*, m.x=1, m.y=2, p=*, p.x=1, p.y=2
+
+Possible transitions:
+  #1: event e
+  #2: event f
+  #3: event g
+  #4: event h
+
+Transition: event e
+State: time=0.0, a=l1, b=*, b.x=0, m=*, m.x=1, m.y=2, p=*, p.x=0, p.y=2
+
+Possible transitions:
+  #1: event f
+  #2: event g
+  #3: event h
+
+Transition: event f
+State: time=0.0, a=l1, b=*, b.x=0, m=*, m.x=1, m.y=1, p=*, p.x=0, p.y=1
+
+Possible transitions:
+  #1: event g
+  #2: event h
+
+Transition: event g
+State: time=0.0, a=l2, b=*, b.x=0, m=*, m.x=1, m.y=1, p=*, p.x=0, p.y=1
+
+Transition: event h
+State: time=0.0, a=l3, b=*, b.x=1, m=*, m.x=1, m.y=1, p=*, p.x=0, p.y=1
+
+Simulation resulted in deadlock.

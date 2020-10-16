@@ -1,0 +1,10 @@
+controllable a;
+plant automaton trim:
+  alphabet a;
+  location s1:
+    initial;
+    marked;
+    edge a goto s2;
+  location s2:
+    edge a goto s1;
+end

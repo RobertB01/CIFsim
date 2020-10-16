@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group a:
+  group def X(location l):
+    invariant l;
+  end
+
+  x1: X(p.m);
+
+  automaton p:
+    location m:
+      initial;
+  end
+
+  invariant x1.l;
+end
+
+//
+
+group b:
+  automaton def Y():
+    location z:
+      initial;
+  end
+
+  y1: Y();
+
+  group def X(Y y):
+    invariant y.z;
+  end
+
+  x1: X(y1);
+
+  invariant x1.y.z;
+end
+
+//
+
+group c:
+  group def Y():
+    type t = bool;
+  end
+
+  y1: Y();
+
+  group def X(Y y):
+    type t = y.t;
+  end
+
+  x1: X(y1);
+
+  type t2 = x1.y.t;
+end

@@ -1,0 +1,11 @@
+const bool b1 = true;
+const bool b2 = b1;
+const int[0..0] i1 = 0;
+const int[0..0] i2 = 0;
+const int[1..1] i3 = 1;
+const int[-1..-1] i4 = -1;
+const int[0..1] i5 = 1;
+const int[1..1] i6 = 1;
+const int i7 = round(1.0);
+const list int li = [1];
+invariant b1 or b2 or i1 + i2 + i3 + i4 + i5 + i6 + i7 > 0 or size(li) > 0;

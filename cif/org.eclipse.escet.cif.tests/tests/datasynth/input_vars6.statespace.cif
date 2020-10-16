@@ -1,0 +1,44 @@
+group io:
+  uncontrollable u_sensor1;
+  uncontrollable u_sensor2;
+  uncontrollable u_sensor3;
+end
+automaton statespace:
+  alphabet io.u_sensor1, io.u_sensor2, io.u_sensor3;
+  location loc1:
+    initial;
+    edge io.u_sensor1 goto loc3;
+    edge io.u_sensor2 goto loc4;
+    edge io.u_sensor3 goto loc2;
+  location loc2:
+    initial;
+    edge io.u_sensor1 goto loc5;
+    edge io.u_sensor2 goto loc6;
+    edge io.u_sensor3 goto loc1;
+  location loc3:
+    edge io.u_sensor1 goto loc1;
+    edge io.u_sensor2 goto loc7;
+    edge io.u_sensor3 goto loc5;
+  location loc4:
+    marked;
+    edge io.u_sensor1 goto loc7;
+    edge io.u_sensor2 goto loc1;
+    edge io.u_sensor3 goto loc6;
+  location loc5:
+    edge io.u_sensor1 goto loc2;
+    edge io.u_sensor2 goto loc8;
+    edge io.u_sensor3 goto loc3;
+  location loc6:
+    edge io.u_sensor1 goto loc8;
+    edge io.u_sensor2 goto loc2;
+    edge io.u_sensor3 goto loc4;
+  location loc7:
+    marked;
+    edge io.u_sensor1 goto loc4;
+    edge io.u_sensor2 goto loc3;
+    edge io.u_sensor3 goto loc8;
+  location loc8:
+    edge io.u_sensor1 goto loc6;
+    edge io.u_sensor2 goto loc5;
+    edge io.u_sensor3 goto loc7;
+end

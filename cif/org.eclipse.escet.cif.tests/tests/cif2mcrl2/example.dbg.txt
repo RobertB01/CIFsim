@@ -1,0 +1,90 @@
+===============================================================
+Node 1
+
+Available variable processes:
+    P.x
+    Q.y
+
+Variable use by behavior processes ordered by event:
+    a:
+        P.x  read:SOMETIMES  write:ALWAYS
+        Q.y  read:ALWAYS     write:NEVER
+    c:
+        Q.y  read:ALWAYS  write:NEVER
+        P.x  read:NEVER   write:NEVER
+    b:
+        Q.y  read:ALWAYS  write:NEVER
+        P.x  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1
+    node 1.2
+
+===============================================================
+Node 1.1
+
+Available variable processes:
+    P.x
+
+Variable use by behavior processes ordered by event:
+    a:
+        P.x  read:SOMETIMES  write:ALWAYS
+        Q.y  read:ALWAYS     write:NEVER
+    c:
+        Q.y  read:ALWAYS  write:NEVER
+        P.x  read:NEVER   write:NEVER
+    b:
+        Q.y  read:ALWAYS  write:NEVER
+        P.x  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1.1
+    node 1.1.2
+
+===============================================================
+Node 1.1.1
+
+Variable use by behavior processes ordered by event:
+    a:
+        P.x  read:SOMETIMES  write:ALWAYS
+        Q.y  read:ALWAYS     write:NEVER
+    c:
+        Q.y  read:ALWAYS  write:NEVER
+    b:
+        Q.y  read:ALWAYS  write:NEVER
+        P.x  read:ALWAYS  write:NEVER
+
+Children:
+    node 1.1.1.1
+    node 1.1.1.2
+
+===============================================================
+Node 1.1.1.1 (automaton P)
+
+Variable use by behavior processes ordered by event:
+    a:
+        P.x  read:SOMETIMES  write:ALWAYS
+    c:
+        Q.y  read:ALWAYS  write:NEVER
+
+===============================================================
+Node 1.1.1.2 (automaton Q)
+
+Variable use by behavior processes ordered by event:
+    a:
+        Q.y  read:ALWAYS  write:NEVER
+    b:
+        Q.y  read:ALWAYS  write:NEVER
+        P.x  read:ALWAYS  write:NEVER
+
+===============================================================
+Node 1.1.2 (variable P.x)
+
+Available variable processes:
+    P.x
+
+===============================================================
+Node 1.2 (variable Q.y)
+
+Available variable processes:
+    Q.y

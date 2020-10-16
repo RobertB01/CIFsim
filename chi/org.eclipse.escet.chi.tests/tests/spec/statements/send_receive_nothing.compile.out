@@ -1,0 +1,4 @@
+Error: File "spec/statements/send_receive_nothing.chi": Semantic error at line 14, column 6: Channel transports type "int", but no data provided to send.
+Error: File "spec/statements/send_receive_nothing.chi": Semantic error at line 18, column 6: Channel transports type "int", but no variables provided to receive.
+Error: File "spec/statements/send_receive_nothing.chi": Semantic error at line 24, column 6: Synchronisation channels do not transport data.
+Error: File "spec/statements/send_receive_nothing.chi": Semantic error at line 30, column 6: Synchronisation channels do not transport data.

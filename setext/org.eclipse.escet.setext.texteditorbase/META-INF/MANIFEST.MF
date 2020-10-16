@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET SeText Generic Text Editor Base (Incubation)
+Bundle-SymbolicName: org.eclipse.escet.setext.texteditorbase;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Eclipse ESCET
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.escet.setext.texteditorbase,
+ org.eclipse.escet.setext.texteditorbase.commands,
+ org.eclipse.escet.setext.texteditorbase.detectors,
+ org.eclipse.escet.setext.texteditorbase.highlight,
+ org.eclipse.escet.setext.texteditorbase.rules,
+ org.eclipse.escet.setext.texteditorbase.scanners
+Require-Bundle: org.eclipse.swt;bundle-version="3.113.0",
+ org.eclipse.jface;bundle-version="3.18.0",
+ org.eclipse.jface.text;bundle-version="3.16.100",
+ org.eclipse.escet.common.java;bundle-version="0.1.0",
+ org.eclipse.escet.setext.runtime;bundle-version="0.1.0",
+ org.eclipse.escet.common.position.metamodel;bundle-version="0.1.0",
+ org.eclipse.ui;bundle-version="3.115.0",
+ org.eclipse.ui.editors;bundle-version="3.13.0",
+ org.eclipse.escet.common.typechecker;bundle-version="0.1.0",
+ org.eclipse.core.resources;bundle-version="3.13.600",
+ org.eclipse.core.runtime;bundle-version="3.17.0",
+ org.eclipse.ui.ide;bundle-version="3.16.100",
+ org.eclipse.escet.common.app.framework;bundle-version="0.1.0",
+ org.eclipse.ui.workbench.texteditor;bundle-version="3.14.0",
+ org.eclipse.core.commands;bundle-version="3.9.600",
+ org.eclipse.ui.workbench;bundle-version="3.117.0",
+ org.apache.commons.lang;bundle-version="2.6.0"
+Automatic-Module-Name: org.eclipse.escet.setext.texteditorbase

@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/multiple_invs.cif".
+CAUSE: Unsupported location "a" of automaton "a": multiple invariant predicates are currently not supported.

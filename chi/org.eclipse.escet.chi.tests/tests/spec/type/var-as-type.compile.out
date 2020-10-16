@@ -1,0 +1,1 @@
+Error: File "spec/type/var-as-type.chi": Semantic error at line 15, column 3: Name "x" does not refer to a type.

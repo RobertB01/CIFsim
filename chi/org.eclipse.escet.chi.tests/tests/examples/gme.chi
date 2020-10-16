@@ -1,0 +1,61 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+#begin display 1
+
+type lot = int;
+
+proc G(chan! lot a):
+   lot x;
+   while true:
+      a!x;
+      delay 4.0;
+      x = x + 1
+   end
+end
+
+#end display 1
+
+#begin display 2
+
+proc M(chan? lot a; chan! lot b):
+   lot x;
+   while true:
+      a?x;
+      delay 3.0;
+      b!x
+   end
+end
+
+#end display 2
+
+#begin display 3
+
+proc E(chan? lot a):
+   lot x;
+   for i in range(7):
+      a?x;
+       write("%10.1f\tE\treceived lot %5d\n", time, x)
+#      write("%10.1f\tE\treceived lot %10.1f\n", time, x)
+   end
+end
+
+#end display 3
+
+#begin display 4
+
+model GME():
+   chan lot a, b;
+   run G(a), M(a,b), E(b)
+end
+
+#end display 4

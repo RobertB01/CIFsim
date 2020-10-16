@@ -1,0 +1,1 @@
+ERROR: Can't create supervisor namespace "g.h.c.n": an event named "c" already exists in group "g.h".

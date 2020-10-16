@@ -1,0 +1,2 @@
+ERROR: File "tchecker/return_value_type.tooldef": Semantic error at line 23, column 5: Cannot return values of type "tuple(int, int)", as tool "c" expects values of type "tuple(int, bool)".
+ERROR: Failed to load ToolDef file "tchecker/return_value_type.tooldef": the file has errors.

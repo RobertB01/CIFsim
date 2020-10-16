@@ -1,0 +1,76 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group x_x:
+  printfile "x.txt";
+end
+
+group x_xx:
+  printfile "x.txt";
+  printfile "x.txt";
+end
+
+group xx_x:
+  printfile "x.txt";
+end
+
+group xx_xx:
+  printfile "x.txt";
+  printfile "x.txt";
+end
+
+// ---
+
+group x_y:
+  printfile "y.txt";
+end
+
+group y_xx:
+  printfile "x.txt";
+  printfile "x.txt";
+end
+
+group xx_y:
+  printfile "y.txt";
+end
+
+group y_xy:
+  printfile "x.txt";
+  printfile "y.txt";
+end
+
+group xy_x:
+  printfile "x.txt";
+end
+
+group xy_xy:
+  printfile "x.txt";
+  printfile "y.txt";
+end
+
+// ---
+
+group x_:
+end
+
+group _xx:
+  printfile "x.txt";
+  printfile "x.txt";
+end
+
+group xx_:
+end
+
+group _x:
+  printfile "x.txt";
+end

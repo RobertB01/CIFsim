@@ -1,0 +1,32 @@
+Program : /* empty */
+        | Statements
+        ;
+
+Statements : Statement ";"
+           | Statements Statement ";"
+           ;
+
+Statement : /* empty */
+          | NAME "=" Expression
+          | Expression
+          ;
+
+Expression : TimesExpression
+           | Expression "+" TimesExpression
+           | Expression "-" TimesExpression
+           ;
+
+TimesExpression : MinusExpression
+                | TimesExpression "*" MinusExpression
+                | TimesExpression "/" MinusExpression
+                ;
+
+MinusExpression : BaseExpression
+                | "-" MinusExpression
+                ;
+
+BaseExpression : NUMBER
+               | NAME
+               | "pi"
+               | "(" Expression ")"
+               ;

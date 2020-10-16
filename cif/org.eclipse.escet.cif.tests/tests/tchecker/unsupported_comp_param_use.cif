@@ -1,0 +1,36 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant def P():
+  location l:
+    initial;
+end
+
+group def X(P p):
+  invariant p;
+end
+
+///
+
+plant def Q():
+  location l:
+    initial;
+end
+
+group def X1(Q p):
+  group def X2(Q p):
+    invariant true;
+  end
+
+  x2: X2(p);
+end

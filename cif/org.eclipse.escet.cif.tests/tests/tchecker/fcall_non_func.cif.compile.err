@@ -1,0 +1,2 @@
+ERROR: File "tchecker/fcall_non_func.cif": Semantic error at line 14, column 15: Can't call a value of type "bool", as it is not a function.
+ERROR: Failed to load CIF file "tchecker/fcall_non_func.cif": the file has errors.

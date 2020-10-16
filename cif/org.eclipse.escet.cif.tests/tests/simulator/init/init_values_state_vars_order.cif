@@ -1,0 +1,48 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc int x1 = 1;
+  disc int x2 = x3;
+  disc int x3 = x1;
+  disc int x4 = q.y1;
+
+  location:
+    initial;
+    urgent;
+end
+
+automaton q:
+  disc int y3 = y2;
+  disc int y1 = p.x2;
+  disc int y2 = y1;
+  disc int y4 = r.a;
+
+  location:
+    initial;
+    urgent;
+end
+
+automaton r:
+  alg int a;
+  location l1:
+    initial;
+    equation a = q.y3 + 1;
+    edge when true goto l2;
+
+  location l2:
+    equation a = q.y3 + 2;
+end
+
+invariant p.x4 > 0;
+invariant q.y4 > 0;

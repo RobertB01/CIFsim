@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable u1, u2;
+
+plant p:
+  disc int[0..20] x in any;
+
+  location l0:
+    initial;
+    marked x <= 10;
+    edge u1 goto l1;
+
+  location l1:
+    marked x = 13;
+    edge u2 goto l2;
+
+  location l2:
+    marked x = 16;
+end
+
+requirement u1 needs p.x != 3;
+requirement u2 needs p.x != 6;

@@ -1,0 +1,64 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Button skeleton.
+group Button:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+end
+
+// Lamp skeleton.
+group Lamp:
+  controllable c_on;
+  controllable c_off;
+end
+
+// Mapping from button hardware input port to button events.
+plant ButtonHW:
+  input bool bit;
+
+  location Released:
+    initial;
+    edge Button.u_pushed when bit goto Pushed;
+
+  location Pushed:
+    edge Button.u_released when not bit goto Released;
+end
+
+// Mapping from lamp events to hardware output port.
+plant LampHW:
+  disc bool bit = false;
+
+  location Off:
+    initial;
+    edge Lamp.c_on do bit := true goto On;
+
+  location On:
+    edge Lamp.c_off do bit := false goto Off;
+end
+
+// Software timer plant implementation.
+plant Timer:
+  controllable c_start;
+  uncontrollable u_timeout;
+  cont t der 1.0;
+  const real duration = 3.0;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_start do t := 0.0 goto Running;
+
+  location Running:
+    edge u_timeout when t >= duration goto Idle;
+end

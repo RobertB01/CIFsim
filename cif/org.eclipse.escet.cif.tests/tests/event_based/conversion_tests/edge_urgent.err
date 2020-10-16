@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/edge_urgent.cif".
+CAUSE: Unsupported location of automaton "p": urgent edges are currently not supported.

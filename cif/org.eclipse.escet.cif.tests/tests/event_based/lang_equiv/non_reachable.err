@@ -1,0 +1,1 @@
+WARNING: File "event_based/lang_equiv/non_reachable.cif": Semantic warning at line 27, column 14: Location "y2" is not reachable from any of the initial locations of automaton "Y".

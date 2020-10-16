@@ -1,0 +1,156 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[terminology]
+
+[[use-terminology]]
+== Eclipse terminology
+
+The Eclipse ESCET IDE is based on the _Eclipse IDE_, a cross platform
+Integrated Development Environment (IDE). There is quite a bit of terminology
+that is used within the IDE. If you are not familiar with Eclipse terminology,
+it may be difficult to use the Eclipse ESCET IDE. Here we'll explain some
+basic Eclipse terminology:
+
+* <<use-terminology-workspace>>
+* <<use-terminology-view>>
+* <<use-terminology-project>>
+
+indexterm:[workspace]
+indexterm:[workspace,settings]
+indexterm:[settings,workspace]
+indexterm:[workspace,directory]
+indexterm:[directory,workspace]
+
+[[use-terminology-workspace]]
+=== Eclipse workspace
+
+Eclipse stores all its settings in a so-called _workspace_. The workspace is
+simply a directory on your computer. You can choose any directory you like to
+serve as a workspace, as long as you have write access to that directory. It is
+usually best to choose an empty directory or a directory that does not yet
+exist as your workspace.
+
+Typically, and by default, a directory named `workspace` inside your Eclipse
+ESCET installation directory is used. Eclipse will ask you to choose a
+workspace directory when you start the Eclipse ESCET IDE for the
+<<download-install-first-start,first time>>.
+
+indexterm:[workspace,metadata]
+indexterm:[metadata,workspace]
+indexterm:[Eclipse,metadata]
+indexterm:[metadata,Eclipse]
+indexterm:[settings,metadata]
+indexterm:[metadata,settings]
+The actual settings are stored in a sub-directory of the workspace directory,
+called `.metadata`. You should avoid manually manipulating this directory.
+Note that because the name of the directory starts with a dot (`.`),
+depending on your operating system, file browser, and settings, the directory
+may be hidden.
+
+indexterm:[workspace,change]
+indexterm:[workspace,switch]
+[[use-terminology-workspace-change]]
+You can easily change your workspace directory from within Eclipse, by
+selecting menu:File[Switch workspace]. Select one of the workspaces
+from the list of last used workspaces, or select menu:Other...[]  to freely
+select any directory on your system to use as a workspace directory.
+
+indexterm:[workspace,multiple]
+It is possible to run multiple instances of Eclipse at the same time, but each
+instance must use its own workspace.
+
+indexterm:[workspace,new projects]
+indexterm:[project,default location]
+The workspace is also the default directory for
+<<use-create-project,new projects>>. However,
+<<use-terminology-project,projects>> don't have to be physically located
+inside your workspace directory. They can be stored in any directory on
+your system. Whenever you <<use-create-project,create a project>> and store
+it outside of your workspace, or whenever you
+<<use-import-project,import an existing project>> from outside your
+workspace, it is _linked_ to the workspace, but remains physically stored in
+a directory outside of the workspace.
+
+Having projects stored outside of the workspace has some benefits. The most
+important benefit is that you can remove the workspace directory, without
+losing your files.
+
+
+indexterm:[view]
+indexterm:[view,Project Explorer]
+indexterm:[Project Explorer,view]
+indexterm:[view,Package Explorer]
+indexterm:[Package Explorer,view]
+
+[[use-terminology-view]]
+=== Eclipse views
+
+Eclipse is an Integrated Development Environment (IDE) with a lot of
+functionality. Most of the functionality is available through _views_. A view
+is a part of the Eclipse graphical user interface. Views can be thought of as
+'sub-windows'. When you start Eclipse you are likely to see the
+_Project Explorer_ or _Package Explorer_ view on the left, and
+the _Problems_ view at the bottom.
+
+
+indexterm:[view,open]
+indexterm:[view,show]
+
+[[use-terminology-view-open]]
+==== Opening a view
+
+To open/show a view, select menu:Window[Show view] and then
+choose the view that you wish to open.
+
+If the particular view that you wish to open is not in that menu, choose
+menu:Other...[] instead. A new dialog opens, in which you can find all
+available views. The views are organized into categories. Expand a category,
+select the desired view, and click btn:[OK].
+
+Alternatively, in the menu:Show view[] dialog, enter the name of the view
+(or the first part of it) in the filter box at the top of the dialog, and
+observe how views that don't match the filter are no longer displayed. This
+makes it easier to find the desired view.
+
+
+indexterm:[project]
+indexterm:[Eclipse,project]
+indexterm:[project,workspace]
+indexterm:[workspace,project]
+indexterm:[project,file]
+indexterm:[file,project]
+
+[[use-terminology-project]]
+=== Eclipse projects
+
+Eclipse, being an Integrated Development Environment (IDE), does not
+only allow you to <<use-edit,edit>> a single file, and
+<<use-commands,simulate>> it, but also allows you to _manage_ your files.
+
+Eclipse works with so-called _projects_. A project is a collection of files
+and directories. A project may be located anywhere on your system, even though
+by default project are <<use-create-project,created>> in your
+<<use-terminology-workspace,workspace>> directory.
+
+A project is essentially a directory on your computer, with a special file
+named `.project`. This special file stores the information about your
+project, such as the name of the project. It is recommended to keep the name
+of the project as Eclipse sees it, the same as the name of the directory in
+which the project is stored on your hard disk.
+
+You can see the projects that Eclipse knows about in the
+_Project Explorer_ or _Package Explorer_ <use-terminology-view,view>>.
+
+For more information on projects, see the <<use-projects>> section.

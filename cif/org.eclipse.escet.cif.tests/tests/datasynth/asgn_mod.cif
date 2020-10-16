@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  controllable em1, em2, em3, em4, em5;
+
+  disc int[0..4] m1 in any;
+  disc int[0..4] m2 in any;
+  disc int[0..4] m3 in any;
+  disc int[0..4] m4 in any;
+  disc int[0..4] m5 in any;
+
+  location loc1:
+    initial;
+
+    edge em1 do m1 := m1 mod 1 goto loc2; // false
+    edge em2 do m2 := m2 mod 2 goto loc2; // m2 = 1 or m2 = 3
+    edge em3 do m3 := m3 mod 3 goto loc2; // m3 = 1 or m3 = 4
+    edge em4 do m4 := m4 mod 4 goto loc2; // m4 = 1
+    edge em5 do m5 := m5 mod 5 goto loc2; // m5 = 1
+
+  location loc2:
+    marked m1 = 1;
+    marked m2 = 1;
+    marked m3 = 1;
+    marked m4 = 1;
+    marked m5 = 1;
+end

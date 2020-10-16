@@ -1,0 +1,1 @@
+Error: File "spec/statements/wrong-distribution.chi": Semantic error at line 14, column 10: Incorrect distribution element type "string" found (expected bool, int, or real type).

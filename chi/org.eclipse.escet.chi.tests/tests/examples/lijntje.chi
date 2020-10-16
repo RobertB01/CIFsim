@@ -1,0 +1,39 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model MM():
+  chan void gm, mm, mm2, me;
+  run G(gm), M(gm, mm), M(mm, mm2),
+      M(mm2, me),
+      E(me);
+end
+
+proc G(chan void gm):
+  int c;
+  while c < 5000:
+    gm!;
+    c = c + 1
+  end
+end
+
+proc M(chan void gm, me):
+  dist real d = exponential(1.0);
+  while true:
+    gm?; delay sample d; me!
+  end
+end
+
+proc E(chan void me):
+  while true:
+    me?
+  end
+end

@@ -1,0 +1,2 @@
+Error: File "spec/statements/channel-non-deterministic.chi": Semantic error at line 17, column 15: It is not allowed to sample distributions here.
+Error: File "spec/statements/channel-non-deterministic.chi": Semantic error at line 25, column 8: It is not allowed to sample distributions here.

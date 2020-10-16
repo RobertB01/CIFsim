@@ -1,0 +1,2 @@
+ERROR: File "tchecker/invoke_no_match_multi_overloads.tooldef": Semantic error at line 28, column 15: Cannot invoke tool "a" (3 overloads) for the given arguments: no "c" parameter found (2 overloads), type "int" doesn't fit parameter "c".
+ERROR: Failed to load ToolDef file "tchecker/invoke_no_match_multi_overloads.tooldef": the file has errors.

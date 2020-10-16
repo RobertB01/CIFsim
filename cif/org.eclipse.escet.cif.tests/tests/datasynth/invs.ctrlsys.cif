@@ -1,0 +1,16 @@
+plant automaton p:
+  disc int[0..3] x in any;
+  location l1:
+    initial;
+    marked;
+  location l2:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.l1 and p.x = 3 or p.l2 and p.x = 0;
+  location:
+    initial;
+    marked;
+end

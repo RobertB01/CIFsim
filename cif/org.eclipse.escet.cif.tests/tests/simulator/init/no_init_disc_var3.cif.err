@@ -1,0 +1,1 @@
+WARNING: Discrete variable "p.x" could not be initialized, due to conflicting initial values being provided by the declaration of the variable and the simulation option.

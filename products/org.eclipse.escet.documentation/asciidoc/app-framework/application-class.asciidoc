@@ -1,0 +1,27 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[Application]
+
+[[app-framework-application-class]]
+== The Application class
+
+The `org.eclipse.escet.common.app.framework.Application<T>` class is the main
+class of the application framework. All application should inherit from this
+abstract class. The generic parameter `<T>` is further explained in the section
+about the <<app-framework-io-framework,I/O framework>>.
+
+The next sections introduce the specific parts of the application framework.
+After that, you'll find a section on how to implement your own application,
+using the application framework.

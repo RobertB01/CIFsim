@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "tank.svg";
+
+group tank:
+  cont V = 10.0;
+  alg real Qi = controller.n * 5.0;
+  alg real Qo = sqrt(V);
+  equation V' = Qi - Qo;
+
+  svgout id "water" attr "height" value 7.5 * V;
+  svgout id "V"     text          value fmt("V = %.1f", V);
+  svgout id "Qi"    text          value fmt("Qi = %.1f", Qi);
+  svgout id "Qo"    text          value fmt("Qo = %.1f", Qo);
+end
+
+automaton controller:
+  alg int n;
+
+  location closed:
+    initial;
+    equation n = 0;
+    edge when tank.V <= 2  goto opened;
+
+  location opened:
+    equation n = 1;
+    edge when tank.V >= 10 goto closed;
+
+  svgout id "n" attr "fill" value if n = 0: "red" else "lime" end;
+end

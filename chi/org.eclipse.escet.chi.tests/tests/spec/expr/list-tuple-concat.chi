@@ -1,0 +1,24 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+type A = list tuple(chan! int a; chan !? int b),
+     B = list tuple(chan!? int a; chan ? int b);
+
+proc P1(A a; B b): list tuple(chan? int a; chan? int b)  x = a + b; pass end
+proc P2(A a; B b): list tuple(chan? int a; chan! int b)  x = a + b; pass end
+proc P3(A a; B b): list tuple(chan? int a; chan!? int b) x = a + b; pass end
+proc P4(A a; B b): list tuple(chan! int a; chan? int b)  x = a + b; pass end
+proc P5(A a; B b): list tuple(chan! int a; chan! int b)  x = a + b; pass end
+proc P6(A a; B b): list tuple(chan! int a; chan!? int b) x = a + b; pass end
+proc P7(A a; B b): list tuple(chan!? int a; chan? int b)  x = a + b; pass end
+proc P8(A a; B b): list tuple(chan!? int a; chan! int b)  x = a + b; pass end
+proc P9(A a; B b): list tuple(chan!? int a; chan!? int b) x = a + b; pass end

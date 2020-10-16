@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  automaton a1:
+    monitor;
+    location:
+      initial;
+  end
+
+  automaton a2:
+    alphabet;
+    monitor;
+    location:
+      initial;
+  end
+
+  automaton a3:
+    event int e1, e2;
+    monitor;
+    location:
+      initial;
+      edge e1!5;
+      edge e2?;
+      edge tau;
+  end
+end

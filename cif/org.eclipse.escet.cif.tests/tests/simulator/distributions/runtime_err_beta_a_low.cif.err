@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error.
+CAUSE: Evaluation of initial value "beta(0.0, 1.0)" of discrete variable "p.d" failed.
+CAUSE: Invalid operation: beta(0.0, 1.0).
+CAUSE: The first shape parameter is not positive.

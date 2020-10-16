@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan buffer_e;
+int[0,3] buffer_cnt = 0;
+meta int[0,3] OLD_buffer_cnt = 0;
+int[0,0] LP_buffer = 0;
+meta int[0,0] OLDLP_buffer = 0;</declaration>
+  <template>
+    <name>Template_buffer</name>
+    <location id="id0"/>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">buffer_e?</label>
+      <label kind="assignment">buffer_cnt = (OLD_buffer_cnt) + (1), LP_buffer = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id1"/>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">buffer_e!</label>
+      <label kind="assignment">OLD_buffer_cnt = buffer_cnt, OLDLP_buffer = LP_buffer</label>
+    </transition>
+  </template>
+  <system>buffer = Template_buffer();
+SendAut = Template_SendAut();
+
+system buffer, SendAut;</system>
+</nta>

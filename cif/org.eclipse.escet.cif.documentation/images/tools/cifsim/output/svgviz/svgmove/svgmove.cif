@@ -1,0 +1,4 @@
+svgfile "svgmove.svg";
+
+svgmove id "rect1" to 10, 10;
+svgmove id "rect2" to 10, 50;

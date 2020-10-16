@@ -1,0 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  cont x1 = 1.0 der 2.0;
+  cont x2 = 3.0 der 4.0;
+
+  automaton p:
+    location:
+      initial;
+      edge do (x1, x2) := (3.0, 4.0);
+  end
+end

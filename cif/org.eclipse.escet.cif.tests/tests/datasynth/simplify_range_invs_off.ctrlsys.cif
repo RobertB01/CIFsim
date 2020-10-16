@@ -1,0 +1,46 @@
+controllable v01_inc;
+controllable v01_dec;
+controllable v02_inc;
+controllable v02_dec;
+controllable v03_inc;
+controllable v03_dec;
+controllable v13_inc;
+controllable v13_dec;
+controllable v23_inc;
+controllable v23_dec;
+plant automaton aut:
+  disc int[0..1] v01;
+  disc int[0..2] v02;
+  disc int[0..3] v03;
+  disc int[1..3] v13;
+  disc int[2..3] v23;
+  location:
+    initial;
+    marked;
+    edge v01_inc do v01 := v01 + 1;
+    edge v02_inc do v02 := v02 + 1;
+    edge v03_inc do v03 := v03 + 1;
+    edge v13_inc do v13 := v13 + 1;
+    edge v23_inc do v23 := v23 + 1;
+    edge v01_dec do v01 := v01 - 1;
+    edge v02_dec do v02 := v02 - 1;
+    edge v03_dec do v03 := v03 - 1;
+    edge v13_dec do v13 := v13 - 1;
+    edge v23_dec do v23 := v23 - 1;
+end
+supervisor automaton sup:
+  alphabet v01_inc, v02_inc, v03_inc, v13_inc, v23_inc, v01_dec, v02_dec, v03_dec, v13_dec, v23_dec;
+  location:
+    initial;
+    marked;
+    edge v01_dec when aut.v01 = 1;
+    edge v01_inc when aut.v01 = 0;
+    edge v02_dec when aut.v02 != 0;
+    edge v02_inc when aut.v02 != 2;
+    edge v03_dec when (aut.v02 = 1 or aut.v03 != 0) and (aut.v02 != 1 or aut.v03 != 0);
+    edge v03_inc when (aut.v02 = 1 or aut.v03 != 3) and (aut.v02 != 1 or aut.v03 != 3);
+    edge v13_dec when (aut.v02 = 1 or aut.v13 != 1) and (aut.v02 != 1 or aut.v13 != 1);
+    edge v13_inc when (aut.v02 = 1 or aut.v13 != 3) and (aut.v02 != 1 or aut.v13 != 3);
+    edge v23_dec when (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 3)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 3)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 3)));
+    edge v23_inc when (aut.v02 = 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 = 1 or (aut.v13 = 2 or aut.v23 = 2)) and ((aut.v02 != 1 or (aut.v13 != 2 or aut.v23 = 2)) and (aut.v02 != 1 or (aut.v13 = 2 or aut.v23 = 2)));
+end

@@ -1,0 +1,35 @@
+automaton statespace:
+  alphabet;
+  location loc1:
+    initial;
+  location loc2:
+    initial;
+  location loc3:
+    initial;
+  location loc4:
+    initial;
+  location loc5:
+    initial;
+  location loc6:
+    initial;
+  location loc7:
+    initial;
+  location loc8:
+    initial;
+  location loc9:
+    initial;
+  location loc10:
+    initial;
+  location loc11:
+    initial;
+  location loc12:
+    initial;
+  location loc13:
+    initial;
+  location loc14:
+    initial;
+  location loc15:
+    initial;
+  location loc16:
+    initial;
+end

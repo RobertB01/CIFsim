@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/escet/tooldef"
+            class="org.eclipse.escet.tooldef.metamodel.tooldef.TooldefPackage"
+            genModel="model/tooldef.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/escet/tooldef/expressions"
+            class="org.eclipse.escet.tooldef.metamodel.tooldef.expressions.ExpressionsPackage"
+            genModel="model/tooldef.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/escet/tooldef/statements"
+            class="org.eclipse.escet.tooldef.metamodel.tooldef.statements.StatementsPackage"
+            genModel="model/tooldef.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://eclipse.org/escet/tooldef/types"
+            class="org.eclipse.escet.tooldef.metamodel.tooldef.types.TypesPackage"
+            genModel="model/tooldef.genmodel"/>
+   </extension>
+
+   <!-- Extension parser added to force xmi:id in serialization. -->
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="tooldefx"
+            class="org.eclipse.escet.common.emf.ecore.xmi.RealXMIResourceFactory">
+      </parser>
+   </extension>
+
+</plugin>

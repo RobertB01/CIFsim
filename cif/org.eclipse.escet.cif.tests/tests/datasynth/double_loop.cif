@@ -1,0 +1,62 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c1, c2;
+uncontrollable u;
+
+plant p:
+  disc int[0..20] x in any;
+  disc int[0..20] y in any;
+
+  location m0:
+    initial;
+    edge u goto m1;
+
+  location m1:
+    edge u do x := x + 1 goto m2;
+
+  location m2:
+    edge u do x := x + 1 goto m3;
+    edge c1 do x := x + 1 goto t1;
+    edge c2 do x := x + 1, y := y - 1 goto b1;
+
+  location m3:
+    marked x < 15, y > 5;
+
+  location t1:
+    edge u do x := x + 1, y := y + 1 goto t2;
+
+  location t2:
+    edge u do y := y - 1 goto t3;
+
+  location t3:
+    edge u do x := x + 1, y := y - 1 goto t4;
+
+  location t4:
+    edge u do x := x - 1, y := y - 1 goto t5;
+
+  location t5:
+    edge u do y := y - 1 goto m1;
+
+  location b1:
+    edge u do x := x + 1, y := y - 1 goto b2;
+
+  location b2:
+    edge u do x := x + 1 goto b3;
+
+  location b3:
+    edge u do y := y - 1 goto b4;
+
+  location b4:
+    edge u do x := x - 4, y := y + 3 goto m1;
+end

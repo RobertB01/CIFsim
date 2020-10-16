@@ -1,0 +1,1 @@
+WARNING: File "cif2uppaal/alphabet_disabling.cif": Semantic warning at line 17, column 16: The alphabet of automaton "a1" globally disables event "e2", as the event is not used on any of the edges of the automaton.

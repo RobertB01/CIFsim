@@ -1,0 +1,96 @@
+Reading CIF file "datasynth/range.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..5]  buffer.x  0      3 * 2     6 * 2       8 * 2       75%
+  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+  Total                                          1      6         12          16          75%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         buffer.x = 2
+Initial   (discrete variables):          buffer.x = 2
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         buffer.x = 2
+Initial   (system, combined init/inv):   buffer.x = 2
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1)
+    Edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.x" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: buffer.x = 2 [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: buffer.x = 2 -> buffer.x = 2 or buffer.x = 3 [forward reach with edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x = 2 or buffer.x = 3 -> buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) [forward reach with edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: buffer.x = 2 or (buffer.x = 1 or buffer.x = 3) -> buffer.x != 0 and buffer.x != 5 [forward reach with edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: buffer.x != 0 and buffer.x != 5 -> buffer.x != 5 [forward reach with edge: (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 3.
+Forward controlled-behavior: buffer.x != 5 -> true [forward reach with edge: (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 4.
+Forward controlled-behavior: true [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: buffer.add) (guard: true) (assignments: buffer.x := buffer.x + 1): guard: true -> buffer.x != 5.
+Edge (event: buffer.remove) (guard: true) (assignments: buffer.x := buffer.x - 1): guard: true -> buffer.x != 0.
+
+Final synthesis result:
+  State: (controlled-behavior: true)
+    Edge: (event: buffer.add) (guard: true -> buffer.x != 5) (assignments: buffer.x := buffer.x + 1)
+    Edge: (event: buffer.remove) (guard: true -> buffer.x != 0) (assignments: buffer.x := buffer.x - 1)
+
+Controlled system:                     exactly 6 states.
+
+Initial (synthesis result):            true
+Initial (uncontrolled system):         buffer.x = 2
+Initial (controlled system):           buffer.x = 2
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/range.ctrlsys.real.cif".

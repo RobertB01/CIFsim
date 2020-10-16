@@ -1,0 +1,2 @@
+const bool c3 = true;
+invariant c3;

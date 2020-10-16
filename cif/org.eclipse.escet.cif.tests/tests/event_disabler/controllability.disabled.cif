@@ -1,0 +1,22 @@
+event e;
+event e_e;
+event c;
+controllable c_c;
+event u;
+uncontrollable u_u;
+group g:
+  group a:
+    event e;
+    event e_e;
+    controllable c;
+    controllable c_c;
+    uncontrollable u;
+    uncontrollable u_u;
+  end
+end
+automaton event_disabler:
+  alphabet e, e_e, c, c_c, u, u_u, g.a.e, g.a.e_e, g.a.c, g.a.c_c, g.a.u, g.a.u_u;
+  location:
+    initial;
+    edge e, e_e, c, c_c, u, u_u, g.a.e, g.a.e_e, g.a.c, g.a.c_c, g.a.u, g.a.u_u when false;
+end

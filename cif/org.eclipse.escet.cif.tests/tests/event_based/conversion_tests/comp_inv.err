@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/comp_inv.cif".
+CAUSE: Unsupported specification: invariants in components are currently not supported.

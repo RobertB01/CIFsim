@@ -1,0 +1,249 @@
+Initial state: time=0.0, p=l1, p.c=0.0, p.c'=1.0
+
+ODE solver: ODE solver started.
+ODE solver: initial state: time=0.0, p=l1, p.c=0.0
+ODE solver: 1 continuous variable(s).
+ODE solver: add to trajectories: time=0.0, p.c=0.0
+ODE solver: integrator algorithm: Dormand-Prince 8(5,3) integrator.
+ODE solver: integrator minimum step size: 1.0e-15.
+ODE solver: integrator maximum step size: 0.5.
+ODE solver: integrator absolute tolerance: 1.0e-7.
+ODE solver: integrator relative tolerance: 1.0e-7.
+ODE solver: integrator number of steps: 5.
+ODE solver: fixed output step size: disabled.
+ODE solver: root finder algorithm: Pegasus method.
+ODE solver: root finder maximum check interval: 0.5.
+ODE solver: root finder maximum iterations: 1000.
+ODE solver: root finder absolute tolerance: 1.0e-15.
+ODE solver: root finder relative tolerance: 1.0e-15.
+ODE solver: state event guard predicates: 1.
+ODE solver: state event guard predicate (1/1): p.c >= 0.567 and p.c <= 0.568.
+ODE solver: maximum end time (original): 1.0.
+ODE solver: maximum end time (corrected): 1.0.
+ODE solver: trajectories calculation started.
+ODE solver: computing derivatives: time=0.0, p.c=0.0
+ODE solver: computed derivatives: time=0.0, p.c'=0.0
+ODE solver: computing derivatives: time=1.0e-6, p.c=1.0e-6
+ODE solver: computed derivatives: time=1.0e-6, p.c'=1.0e-6
+ODE solver: computing derivatives: time=5.260015195876773e-6, p.c=5.260015195876773e-6
+ODE solver: computed derivatives: time=5.260015195876773e-6, p.c'=5.260015195876773e-6
+ODE solver: computing derivatives: time=7.890022793815159e-6, p.c=7.890022793815159e-6
+ODE solver: computed derivatives: time=7.890022793815159e-6, p.c'=7.890022793815159e-6
+ODE solver: computing derivatives: time=1.1835034190722738e-5, p.c=1.1835034190722738e-5
+ODE solver: computed derivatives: time=1.1835034190722738e-5, p.c'=1.1835034190722738e-5
+ODE solver: computing derivatives: time=2.8164965809277263e-5, p.c=2.816496580927725e-5
+ODE solver: computed derivatives: time=2.8164965809277263e-5, p.c'=2.816496580927725e-5
+ODE solver: computing derivatives: time=3.333333333333333e-5, p.c=3.3333333333333335e-5
+ODE solver: computed derivatives: time=3.333333333333333e-5, p.c'=3.3333333333333335e-5
+ODE solver: computing derivatives: time=2.4999999999999998e-5, p.c=2.4999999999999998e-5
+ODE solver: computed derivatives: time=2.4999999999999998e-5, p.c'=2.4999999999999998e-5
+ODE solver: computing derivatives: time=3.076923076923077e-5, p.c=3.076923076923077e-5
+ODE solver: computed derivatives: time=3.076923076923077e-5, p.c'=3.076923076923077e-5
+ODE solver: computing derivatives: time=6.512820512820513e-5, p.c=6.512820512820525e-5
+ODE solver: computed derivatives: time=6.512820512820513e-5, p.c'=6.512820512820525e-5
+ODE solver: computing derivatives: time=5.9999999999999995e-5, p.c=5.9999999999999385e-5
+ODE solver: computed derivatives: time=5.9999999999999995e-5, p.c'=5.9999999999999385e-5
+ODE solver: computing derivatives: time=8.57142857142857e-5, p.c=8.571428571428581e-5
+ODE solver: computed derivatives: time=8.57142857142857e-5, p.c'=8.571428571428581e-5
+ODE solver: computing derivatives: time=9.999999999999999e-5, p.c=1.000000000000002e-4
+ODE solver: computed derivatives: time=9.999999999999999e-5, p.c'=1.000000000000002e-4
+ODE solver: computing derivatives: time=9.999999999999999e-5, p.c=1.0000000000000003e-4
+ODE solver: computed derivatives: time=9.999999999999999e-5, p.c'=1.0000000000000003e-4
+ODE solver: computing derivatives: time=9.999999999999999e-6, p.c=1.0000000000000067e-5
+ODE solver: computed derivatives: time=9.999999999999999e-6, p.c'=1.0000000000000067e-5
+ODE solver: computing derivatives: time=1.9999999999999998e-5, p.c=1.9999999999999985e-5
+ODE solver: computed derivatives: time=1.9999999999999998e-5, p.c'=1.9999999999999985e-5
+ODE solver: computing derivatives: time=7.777777777777777e-5, p.c=7.777777777777789e-5
+ODE solver: computed derivatives: time=7.777777777777777e-5, p.c'=7.777777777777789e-5
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.0, p.c=0.0
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=9.999999999999999e-5, p.c=1.0000000000000003e-4
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=9.999999999999999e-5, p.c=1.0000000000000003e-4
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: add to trajectories: time=9.999999999999999e-5, p.c=1.0000000000000003e-4
+ODE solver: computing derivatives: time=1.5260015195876772e-4, p.c=1.5260015195876778e-4
+ODE solver: computed derivatives: time=1.5260015195876772e-4, p.c'=1.5260015195876778e-4
+ODE solver: computing derivatives: time=1.789002279381516e-4, p.c=1.7890022793815166e-4
+ODE solver: computed derivatives: time=1.789002279381516e-4, p.c'=1.7890022793815166e-4
+ODE solver: computing derivatives: time=2.1835034190722738e-4, p.c=2.1835034190722743e-4
+ODE solver: computed derivatives: time=2.1835034190722738e-4, p.c'=2.1835034190722743e-4
+ODE solver: computing derivatives: time=3.816496580927726e-4, p.c=3.8164965809277257e-4
+ODE solver: computed derivatives: time=3.816496580927726e-4, p.c'=3.8164965809277257e-4
+ODE solver: computing derivatives: time=4.333333333333333e-4, p.c=4.333333333333334e-4
+ODE solver: computed derivatives: time=4.333333333333333e-4, p.c'=4.333333333333334e-4
+ODE solver: computing derivatives: time=3.5e-4, p.c=3.5000000000000005e-4
+ODE solver: computed derivatives: time=3.5e-4, p.c'=3.5000000000000005e-4
+ODE solver: computing derivatives: time=4.076923076923077e-4, p.c=4.0769230769230775e-4
+ODE solver: computed derivatives: time=4.076923076923077e-4, p.c'=4.0769230769230775e-4
+ODE solver: computing derivatives: time=7.512820512820513e-4, p.c=7.512820512820525e-4
+ODE solver: computed derivatives: time=7.512820512820513e-4, p.c'=7.512820512820525e-4
+ODE solver: computing derivatives: time=6.999999999999999e-4, p.c=6.999999999999939e-4
+ODE solver: computed derivatives: time=6.999999999999999e-4, p.c'=6.999999999999939e-4
+ODE solver: computing derivatives: time=9.571428571428571e-4, p.c=9.571428571428581e-4
+ODE solver: computed derivatives: time=9.571428571428571e-4, p.c'=9.571428571428581e-4
+ODE solver: computing derivatives: time=0.0011, p.c=0.001100000000000002
+ODE solver: computed derivatives: time=0.0011, p.c'=0.001100000000000002
+ODE solver: computing derivatives: time=0.0011, p.c=0.0011000000000000005
+ODE solver: computed derivatives: time=0.0011, p.c'=0.0011000000000000005
+ODE solver: computing derivatives: time=1.9999999999999998e-4, p.c=2.0000000000000074e-4
+ODE solver: computed derivatives: time=1.9999999999999998e-4, p.c'=2.0000000000000074e-4
+ODE solver: computing derivatives: time=3.0000000000000003e-4, p.c=2.999999999999999e-4
+ODE solver: computed derivatives: time=3.0000000000000003e-4, p.c'=2.999999999999999e-4
+ODE solver: computing derivatives: time=8.777777777777779e-4, p.c=8.777777777777791e-4
+ODE solver: computed derivatives: time=8.777777777777779e-4, p.c'=8.777777777777791e-4
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.0011, p.c=0.0011000000000000005
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.0011, p.c=0.0011000000000000005
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: add to trajectories: time=0.0011, p.c=0.0011000000000000005
+ODE solver: computing derivatives: time=0.0016260015195876773, p.c=0.0016260015195876778
+ODE solver: computed derivatives: time=0.0016260015195876773, p.c'=0.0016260015195876778
+ODE solver: computing derivatives: time=0.001889002279381516, p.c=0.0018890022793815165
+ODE solver: computed derivatives: time=0.001889002279381516, p.c'=0.0018890022793815165
+ODE solver: computing derivatives: time=0.0022835034190722744, p.c=0.0022835034190722744
+ODE solver: computed derivatives: time=0.0022835034190722744, p.c'=0.0022835034190722744
+ODE solver: computing derivatives: time=0.003916496580927726, p.c=0.003916496580927726
+ODE solver: computed derivatives: time=0.003916496580927726, p.c'=0.003916496580927726
+ODE solver: computing derivatives: time=0.004433333333333333, p.c=0.004433333333333334
+ODE solver: computed derivatives: time=0.004433333333333333, p.c'=0.004433333333333334
+ODE solver: computing derivatives: time=0.0036, p.c=0.0036000000000000008
+ODE solver: computed derivatives: time=0.0036, p.c'=0.0036000000000000008
+ODE solver: computing derivatives: time=0.004176923076923077, p.c=0.004176923076923078
+ODE solver: computed derivatives: time=0.004176923076923077, p.c'=0.004176923076923078
+ODE solver: computing derivatives: time=0.007612820512820514, p.c=0.007612820512820526
+ODE solver: computed derivatives: time=0.007612820512820514, p.c'=0.007612820512820526
+ODE solver: computing derivatives: time=0.0071, p.c=0.007099999999999939
+ODE solver: computed derivatives: time=0.0071, p.c'=0.007099999999999939
+ODE solver: computing derivatives: time=0.009671428571428572, p.c=0.00967142857142858
+ODE solver: computed derivatives: time=0.009671428571428572, p.c'=0.00967142857142858
+ODE solver: computing derivatives: time=0.0111, p.c=0.011100000000000021
+ODE solver: computed derivatives: time=0.0111, p.c'=0.011100000000000021
+ODE solver: computing derivatives: time=0.0111, p.c=0.011100000000000006
+ODE solver: computed derivatives: time=0.0111, p.c'=0.011100000000000006
+ODE solver: computing derivatives: time=0.0021000000000000003, p.c=0.002100000000000008
+ODE solver: computed derivatives: time=0.0021000000000000003, p.c'=0.002100000000000008
+ODE solver: computing derivatives: time=0.0031000000000000003, p.c=0.0031000000000000003
+ODE solver: computed derivatives: time=0.0031000000000000003, p.c'=0.0031000000000000003
+ODE solver: computing derivatives: time=0.008877777777777778, p.c=0.008877777777777792
+ODE solver: computed derivatives: time=0.008877777777777778, p.c'=0.008877777777777792
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.0111, p.c=0.011100000000000006
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.0111, p.c=0.011100000000000006
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: add to trajectories: time=0.0111, p.c=0.011100000000000006
+ODE solver: computing derivatives: time=0.016360015195876775, p.c=0.01636001519587678
+ODE solver: computed derivatives: time=0.016360015195876775, p.c'=0.01636001519587678
+ODE solver: computing derivatives: time=0.01899002279381516, p.c=0.01899002279381517
+ODE solver: computed derivatives: time=0.01899002279381516, p.c'=0.01899002279381517
+ODE solver: computing derivatives: time=0.022935034190722743, p.c=0.022935034190722747
+ODE solver: computed derivatives: time=0.022935034190722743, p.c'=0.022935034190722747
+ODE solver: computing derivatives: time=0.03926496580927727, p.c=0.03926496580927726
+ODE solver: computed derivatives: time=0.03926496580927727, p.c'=0.03926496580927726
+ODE solver: computing derivatives: time=0.04443333333333333, p.c=0.044433333333333346
+ODE solver: computed derivatives: time=0.04443333333333333, p.c'=0.044433333333333346
+ODE solver: computing derivatives: time=0.0361, p.c=0.03610000000000001
+ODE solver: computed derivatives: time=0.0361, p.c'=0.03610000000000001
+ODE solver: computing derivatives: time=0.04186923076923077, p.c=0.04186923076923078
+ODE solver: computed derivatives: time=0.04186923076923077, p.c'=0.04186923076923078
+ODE solver: computing derivatives: time=0.07622820512820513, p.c=0.07622820512820527
+ODE solver: computed derivatives: time=0.07622820512820513, p.c'=0.07622820512820527
+ODE solver: computing derivatives: time=0.0711, p.c=0.07109999999999939
+ODE solver: computed derivatives: time=0.0711, p.c'=0.07109999999999939
+ODE solver: computing derivatives: time=0.09681428571428571, p.c=0.09681428571428582
+ODE solver: computed derivatives: time=0.09681428571428571, p.c'=0.09681428571428582
+ODE solver: computing derivatives: time=0.1111, p.c=0.1111000000000002
+ODE solver: computed derivatives: time=0.1111, p.c'=0.1111000000000002
+ODE solver: computing derivatives: time=0.1111, p.c=0.11110000000000006
+ODE solver: computed derivatives: time=0.1111, p.c'=0.11110000000000006
+ODE solver: computing derivatives: time=0.0211, p.c=0.02110000000000009
+ODE solver: computed derivatives: time=0.0211, p.c'=0.02110000000000009
+ODE solver: computing derivatives: time=0.031100000000000003, p.c=0.03109999999999999
+ODE solver: computed derivatives: time=0.031100000000000003, p.c'=0.03109999999999999
+ODE solver: computing derivatives: time=0.08887777777777778, p.c=0.08887777777777792
+ODE solver: computed derivatives: time=0.08887777777777778, p.c'=0.08887777777777792
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.1111, p.c=0.11110000000000006
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.1111, p.c=0.11110000000000006
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: add to trajectories: time=0.1111, p.c=0.11110000000000006
+ODE solver: computing derivatives: time=0.13740007597938386, p.c=0.13740007597938392
+ODE solver: computed derivatives: time=0.13740007597938386, p.c'=0.13740007597938392
+ODE solver: computing derivatives: time=0.1505501139690758, p.c=0.15055011396907586
+ODE solver: computed derivatives: time=0.1505501139690758, p.c'=0.15055011396907586
+ODE solver: computing derivatives: time=0.17027517095361372, p.c=0.17027517095361377
+ODE solver: computed derivatives: time=0.17027517095361372, p.c'=0.17027517095361377
+ODE solver: computing derivatives: time=0.25192482904638636, p.c=0.25192482904638636
+ODE solver: computed derivatives: time=0.25192482904638636, p.c'=0.25192482904638636
+ODE solver: computing derivatives: time=0.27776666666666666, p.c=0.2777666666666667
+ODE solver: computed derivatives: time=0.27776666666666666, p.c'=0.2777666666666667
+ODE solver: computing derivatives: time=0.2361, p.c=0.23610000000000006
+ODE solver: computed derivatives: time=0.2361, p.c'=0.23610000000000006
+ODE solver: computing derivatives: time=0.26494615384615383, p.c=0.26494615384615394
+ODE solver: computed derivatives: time=0.26494615384615383, p.c'=0.26494615384615394
+ODE solver: computing derivatives: time=0.4367410256410257, p.c=0.43674102564102635
+ODE solver: computed derivatives: time=0.4367410256410257, p.c'=0.43674102564102635
+ODE solver: computing derivatives: time=0.4111, p.c=0.411099999999997
+ODE solver: computed derivatives: time=0.4111, p.c'=0.411099999999997
+ODE solver: computing derivatives: time=0.5396714285714286, p.c=0.5396714285714291
+ODE solver: computed derivatives: time=0.5396714285714286, p.c'=0.5396714285714291
+ODE solver: computing derivatives: time=0.6111, p.c=0.6111000000000011
+ODE solver: computed derivatives: time=0.6111, p.c'=0.6111000000000011
+ODE solver: computing derivatives: time=0.6111, p.c=0.6111000000000003
+ODE solver: computed derivatives: time=0.6111, p.c'=0.6111000000000003
+ODE solver: computing derivatives: time=0.16110000000000002, p.c=0.16110000000000047
+ODE solver: computed derivatives: time=0.16110000000000002, p.c'=0.16110000000000047
+ODE solver: computing derivatives: time=0.2111, p.c=0.2111
+ODE solver: computed derivatives: time=0.2111, p.c'=0.2111
+ODE solver: computing derivatives: time=0.4999888888888889, p.c=0.4999888888888896
+ODE solver: computed derivatives: time=0.4999888888888889, p.c'=0.4999888888888896
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.6111, p.c=0.6111000000000003
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=0.6111, p.c=0.6111000000000003
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: add to trajectories: time=0.6111, p.c=0.6111000000000003
+ODE solver: computing derivatives: time=0.6315561990967647, p.c=0.6315561990967651
+ODE solver: computed derivatives: time=0.6315561990967647, p.c'=0.6315561990967651
+ODE solver: computing derivatives: time=0.6417842986451472, p.c=0.6417842986451475
+ODE solver: computed derivatives: time=0.6417842986451472, p.c'=0.6417842986451475
+ODE solver: computing derivatives: time=0.6571264479677207, p.c=0.657126447967721
+ODE solver: computed derivatives: time=0.6571264479677207, p.c'=0.657126447967721
+ODE solver: computing derivatives: time=0.7206335520322793, p.c=0.7206335520322795
+ODE solver: computed derivatives: time=0.7206335520322793, p.c'=0.7206335520322795
+ODE solver: computing derivatives: time=0.7407333333333332, p.c=0.7407333333333337
+ODE solver: computed derivatives: time=0.7407333333333332, p.c'=0.7407333333333337
+ODE solver: computing derivatives: time=0.708325, p.c=0.7083250000000003
+ODE solver: computed derivatives: time=0.708325, p.c'=0.7083250000000003
+ODE solver: computing derivatives: time=0.7307615384615385, p.c=0.7307615384615388
+ODE solver: computed derivatives: time=0.7307615384615385, p.c'=0.7307615384615388
+ODE solver: computing derivatives: time=0.8643835897435898, p.c=0.8643835897435905
+ODE solver: computed derivatives: time=0.8643835897435898, p.c'=0.8643835897435905
+ODE solver: computing derivatives: time=0.84444, p.c=0.844439999999998
+ODE solver: computed derivatives: time=0.84444, p.c'=0.844439999999998
+ODE solver: computing derivatives: time=0.9444428571428571, p.c=0.9444428571428578
+ODE solver: computed derivatives: time=0.9444428571428571, p.c'=0.9444428571428578
+ODE solver: computing derivatives: time=1.0, p.c=1.000000000000001
+ODE solver: computed derivatives: time=1.0, p.c'=1.000000000000001
+ODE solver: computing derivatives: time=1.0, p.c=1.0000000000000004
+ODE solver: computed derivatives: time=1.0, p.c'=1.0000000000000004
+ODE solver: computing derivatives: time=0.64999, p.c=0.6499900000000005
+ODE solver: computed derivatives: time=0.64999, p.c'=0.6499900000000005
+ODE solver: computing derivatives: time=0.6888799999999999, p.c=0.6888800000000002
+ODE solver: computed derivatives: time=0.6888799999999999, p.c'=0.6888800000000002
+ODE solver: computing derivatives: time=0.9135777777777778, p.c=0.9135777777777785
+ODE solver: computed derivatives: time=0.9135777777777778, p.c'=0.9135777777777785
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=1.0, p.c=1.0000000000000004
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: evaluating guard "p.c >= 0.567 and p.c <= 0.568": time=1.0, p.c=1.0000000000000004
+ODE solver: evaluated guard "p.c >= 0.567 and p.c <= 0.568": false.
+ODE solver: add to trajectories: time=1.0, p.c=1.0000000000000004
+ODE solver: trajectories calculation finished.
+ODE solver: trajectories end time: 1.0.
+ODE solver: trajectories contain 7 time point(s).
+ODE solver: a time transition is possible.
+ODE solver: ODE solver finished.
+
+Transition: delaying for 1.0 time units at time 0.0
+State: time=1.0, p=l1, p.c=1.0000000000000004, p.c'=1.0
+
+Simulation ended due to reaching the user-provided simulation end time.

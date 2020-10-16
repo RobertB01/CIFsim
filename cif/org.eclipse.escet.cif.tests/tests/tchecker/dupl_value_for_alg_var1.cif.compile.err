@@ -1,0 +1,16 @@
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 15, column 10: Duplicate value for "x1".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 16, column 13: Duplicate value for "x1".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 21, column 13: Duplicate value for "x2".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 22, column 13: Duplicate value for "x2".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 27, column 12: Duplicate value for "p3.x3".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 30, column 17: Duplicate value for "p3.x3".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 37, column 15: Duplicate value for "p4.x4".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 40, column 17: Duplicate value for "p4.x4".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 49, column 17: Duplicate value for "p5.x5".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 50, column 17: Duplicate value for "p5.x5".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 56, column 12: Duplicate value for "p6.x6".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 57, column 15: Duplicate value for "p6.x6".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 58, column 15: Duplicate value for "p6.x6".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 61, column 17: Duplicate value for "p6.x6".
+ERROR: File "tchecker/dupl_value_for_alg_var1.cif": Semantic error at line 62, column 17: Duplicate value for "p6.x6".
+ERROR: Failed to load CIF file "tchecker/dupl_value_for_alg_var1.cif": the file has errors.

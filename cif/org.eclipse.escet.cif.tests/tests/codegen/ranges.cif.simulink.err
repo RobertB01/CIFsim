@@ -1,0 +1,3 @@
+WARNING: Unsupported output type "list[3] tuple(int[0..7] a; int[0..7] b)" found in discrete variable "v1", variable will be omitted from the output.
+WARNING: Unsupported output type "list[3] tuple(int[0..7] a; int[0..7] b)" found in discrete variable "v2", variable will be omitted from the output.
+WARNING: Unsupported output type "list[3] tuple(int[1..8] a; int[1..8] b)" found in discrete variable "w1", variable will be omitted from the output.

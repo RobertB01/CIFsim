@@ -1,0 +1,7 @@
+automaton p1:
+  invariant x;
+  invariant x;
+  location x:
+    initial;
+end
+invariant p1.x;

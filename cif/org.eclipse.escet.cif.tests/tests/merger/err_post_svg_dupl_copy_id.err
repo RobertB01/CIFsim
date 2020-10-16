@@ -1,0 +1,3 @@
+Problems detected in merged CIF specification:
+ - ERROR: Copying the SVG element with id "box" in SVG file "../tchecker/small.svg" resulted in a copy of the SVG element with id "box" to id "box2", which already exists.
+ERROR: Merging CIF specifications "merger/err_post_svg_dupl_copy_id.in1.cif", "merger/err_post_svg_dupl_copy_id.in2.cif" failed.

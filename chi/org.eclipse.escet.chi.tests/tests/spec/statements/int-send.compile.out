@@ -1,0 +1,1 @@
+Error: File "spec/statements/int-send.chi": Semantic error at line 14, column 5: Channel type expected (found "int").

@@ -1,0 +1,1 @@
+Error: File "spec/expr/set-elements.chi": Semantic error at line 14, column 23: All elements of a set must have the same type (expected "int", found "real").

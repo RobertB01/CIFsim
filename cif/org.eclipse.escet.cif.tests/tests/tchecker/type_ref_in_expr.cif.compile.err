@@ -1,0 +1,2 @@
+ERROR: File "tchecker/type_ref_in_expr.cif": Semantic error at line 16, column 13: Cannot use "g.t" as a value, as it is a type.
+ERROR: Failed to load CIF file "tchecker/type_ref_in_expr.cif": the file has errors.

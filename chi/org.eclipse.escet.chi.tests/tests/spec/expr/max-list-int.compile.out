@@ -1,0 +1,1 @@
+Error: File "spec/expr/max-list-int.chi": Semantic error at line 14, column 23: Expected an numeric type or string type in "min" or "max" (found type "list int").

@@ -1,0 +1,30 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t = bool;
+input t i;
+
+group g:
+  input bool i;
+
+  plant p:
+    input real i;
+    disc real d;
+    location:
+      initial i > 0;
+      edge when i > 0;
+      edge do d := i;
+  end
+end
+
+invariant i or g.i or g.p.i > 0;

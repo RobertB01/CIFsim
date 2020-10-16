@@ -1,0 +1,1 @@
+Error: File "spec/expr/matrix-int.chi": Semantic error at line 14, column 22: Matrix elements must have real type (found "int").

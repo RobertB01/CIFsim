@@ -1,0 +1,45 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+tool copy_files(string dirpath, string old_ext, string new_ext):
+    list string paths = find(dirpath, "*." + old_ext, dirs=false);
+    for i in range(paths):: paths[i] = replace(pathjoin(dirpath, paths[i]), "\\", "/");
+    for path in paths:
+        string path2 = chfileext(path, old_ext, new_ext);
+        mvfile(path, path2, overwrite=true);
+    end
+end
+
+copy_files("event_based", "real.cif",     "expected.cif");
+copy_files(".",           "out.real",     "out");
+copy_files(".",           "err.real",     "err");
+copy_files(".",           "real.cif",     "cif");
+copy_files(".",           "cif.real",     "cif");
+copy_files(".",           "xml.real",     "xml");
+copy_files(".",           "txt.real",     "txt");
+copy_files(".",           "graphml.real", "graphml");
+copy_files(".",           "wmod.real",    "wmod");
+copy_files(".",           "trajdata",     "trajdata.expected");
+
+tool copy_dirs(string dirpath, string old_postfix, string new_postfix):
+    list string paths = find(dirpath, "*" + old_postfix, files=false);
+    for i in range(paths):: paths[i] = replace(pathjoin(dirpath, paths[i]), "\\", "/");
+    for path in paths:
+        string path2 = path[:-size(old_postfix)] + new_postfix;
+        rmdir(path2, force=true);
+        cpdir(path, path2);
+        rmdir(path, force=true);
+    end
+end
+
+copy_dirs("codegen", "_real", "");

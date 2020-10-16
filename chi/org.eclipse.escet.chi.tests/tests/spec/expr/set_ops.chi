@@ -1,0 +1,33 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+    set int xr, yr;
+
+    xr = {1,2,3,4};
+
+    writeln("3 in %s = %s == true",  xr, 3 in xr);
+    writeln("8 in %s = %s == false", xr, 8 in xr);
+    writeln("<int>{} sub %s = %s == true", xr, <int>{} sub xr);
+    writeln("{2,4} sub %s = %s == true", xr, {2,4} sub xr);
+    writeln("{2,9} sub %s = %s == false", xr, {2,9} sub xr);
+
+    xr = {1,2,3};
+    write("%s\n", xr);
+    xr = xr + {4};
+    write("%s\n", xr);
+    xr = xr - {4,5};
+    write("%s\n", xr);
+    xr = xr * {1,2};
+    write("%s\n", xr);
+end
+

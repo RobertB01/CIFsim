@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><Module xmlns="http://waters.sourceforge.net/xsd/module" xmlns:ns2="http://waters.sourceforge.net/xsd/base" Name="module_name">
+  <EventDeclList>
+    <EventDecl Kind="CONTROLLABLE" Name="p:c_e"/>
+    <EventDecl Kind="PROPOSITION" Name=":accepting"/>
+  </EventDeclList>
+  <ComponentList>
+    <VariableComponent Name="p:v">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="3"/>
+          <IntConstant Value="4"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:v"/>
+          <IntConstant Value="3"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:v"/>
+          <IntConstant Value="1"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <VariableComponent Name="p:V">
+      <VariableRange>
+        <BinaryExpression Operator="..">
+          <IntConstant Value="3"/>
+          <IntConstant Value="4"/>
+        </BinaryExpression>
+      </VariableRange>
+      <VariableInitial>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:V"/>
+          <IntConstant Value="4"/>
+        </BinaryExpression>
+      </VariableInitial>
+      <VariableMarking>
+        <SimpleIdentifier Name=":accepting"/>
+        <BinaryExpression Operator="==">
+          <SimpleIdentifier Name="p:V"/>
+          <IntConstant Value="2"/>
+        </BinaryExpression>
+      </VariableMarking>
+    </VariableComponent>
+    <SimpleComponent Kind="PLANT" Name="p">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="p:c_e"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Actions>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:v"/>
+                  <SimpleIdentifier Name="p:V"/>
+                </BinaryExpression>
+                <BinaryExpression Operator="=">
+                  <SimpleIdentifier Name="p:V"/>
+                  <SimpleIdentifier Name="p:v"/>
+                </BinaryExpression>
+              </Actions>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
+  </ComponentList>
+</Module>

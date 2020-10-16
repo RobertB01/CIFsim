@@ -1,0 +1,9 @@
+Initial state: time=0.0, p=l1, p.v1=[{{(true, 1, 2.0, "abc"): true}}], p.v2=[], p.v3=[]
+
+Transition: event tau
+State: time=0.0, p=l2, p.v1=[{{(true, 1, 2.0, "abc"): true}}], p.v2=[{{(false, 2, 4.0, "abcx"): false}}], p.v3=[]
+
+Transition: event tau
+State: time=0.0, p=l3, p.v1=[{{(true, 1, 2.0, "abc"): true}}], p.v2=[{{(false, 2, 4.0, "abcx"): false}}], p.v3=[{{(true, 3, 8.0, "abcxx"): true}}]
+
+Simulation resulted in deadlock.

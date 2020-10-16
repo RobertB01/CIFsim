@@ -1,0 +1,6 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of initialization predicate "f()" of the top level scope of the specification failed.
+CAUSE: Evaluation of function "f" failed.
+CAUSE: Failed to load external user-defined function "f".
+CAUSE: Class "java.lang.Math" has no method "methodDoesNotExist", or the arguments of the method are incompatible.
+CAUSE: (NoSuchMethodException) java.lang.Math.methodDoesNotExist()

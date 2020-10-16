@@ -1,0 +1,337 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// NOTE: distributions have separate tests.
+
+const real E = 2.718281828459045;  // Same as Java's Math.E
+const real PI = 3.141592653589793; // Same as Java's Math.PI
+
+automaton p:
+  disc bool b1, b2, b3;
+  disc int i1, i2, i3, i4;
+  disc real r1, r2, r3, r4;
+  disc list int li;
+  disc tuple(int e; list int l) tili;
+
+  location l1:
+    initial;
+
+    edge do r1 := sin (0.5),                                  // 0.479425538604
+            r2 := sinh(0.5),                                  // 0.521095305494
+            r3 := cos (0.5),                                  // 0.87758256189
+            r4 := cosh(0.5)                                   // 1.12762596521
+    goto l2;
+
+  location l2:
+    edge do r1 := tan (0.5),                                  // 0.546302489844
+            r2 := tanh(0.5)                                   // 0.46211715726
+    goto l3;
+
+  location l3:
+    edge do r1 := asin(0.5),                                  // 0.523598775598
+            r2 := asinh(0.5),                                 // 0.48121182506
+            r3 := acos(0.5),                                  // 1.0471975512
+            r4 := acosh(PI)                                   // 1.81152627246
+    goto l4;
+
+  location l4:
+    edge do r1 := atan(0.5),                                  // 0.463647609001
+            r2 := atanh(0.5)                                  // 0.549306144334
+    goto l5;
+
+  location l5:
+    edge do i1 := abs(-2),                                    // 2
+            i2 := abs(-1),                                    // 1
+            i3 := abs( 0),                                    // 0
+            i4 := abs( 1)                                     // 1
+    goto l6;
+
+  location l6:
+    edge do i1 := abs( 5)                                     // 5
+    goto l7;
+
+  location l7:
+    edge do r1 := abs(-2.0),                                  // 2.0
+            r2 := abs(-1.0),                                  // 1.0
+            r3 := abs( 0.0),                                  // 0.0
+            r4 := abs( 1.0)                                   // 1.0
+    goto l8;
+
+  location l8:
+    edge do r1 := abs( 5.0)                                   // 5.0
+    goto l9;
+
+  location l9:
+    edge do r1 := cbrt(3.0 * 3.0 * 3.0)                       // 3.0
+    goto l10;
+
+  location l10:
+    edge do i1 := ceil(-1.0),                                 // -1
+            i2 := ceil(-0.6),                                 // 0
+            i3 := ceil(-0.5),                                 // 0
+            i4 := ceil(-0.4)                                  // 0
+    goto l11;
+
+  location l11:
+    edge do i1 := ceil(-0.1),                                 // 0
+            i2 := ceil( 0.0),                                 // 0
+            i3 := ceil( 0.1),                                 // 1
+            i4 := ceil( 0.4)                                  // 1
+    goto l12;
+
+  location l12:
+    edge do i1 := ceil( 0.5),                                 // 1
+            i2 := ceil( 0.6),                                 // 1
+            i3 := ceil( 1.0)                                  // 1
+    goto l13a;
+
+  location l13a:
+    edge do li := del([1, 2, 3],  0)                          // [2, 3]
+    goto l13b;
+
+  location l13b:
+    edge do li := del([1, 2, 3],  1)                          // [1, 3]
+    goto l13c;
+
+  location l13c:
+    edge do li := del([1, 2, 3],  2)                          // [1, 2]
+    goto l13d;
+
+  location l13d:
+    edge do li := del([1, 2, 3], -1)                          // [1, 2]
+    goto l13e;
+
+  location l13e:
+    edge do li := del([1, 2, 3], -2)                          // [1, 3]
+    goto l13f;
+
+  location l13f:
+    edge do li := del([1, 2, 3], -3)                          // [2, 3]
+    goto l13g;
+
+  location l13g:
+    edge do li := <list[0] int>[]                             // []
+    goto l14;
+
+  location l14:
+    edge do b1 := empty(<list[0] int>[]),                     // true
+            b2 := empty(<set int>{}),                         // true
+            b3 := empty(<dict(int:int)>{})                    // true
+    goto l15;
+
+  location l15:
+    edge do b1 := empty([1]),                                 // false
+            b2 := empty({1}),                                 // false
+            b3 := empty({1:2})                                // false
+    goto l16;
+
+  location l16:
+    edge do r1 := exp(1.0)                                    // 2.718281828459045
+    goto l17;
+
+  location l17:
+    edge do i1 := floor(-1.0),                                // -1
+            i2 := floor(-0.6),                                // -1
+            i3 := floor(-0.5),                                // -1
+            i4 := floor(-0.4)                                 // -1
+    goto l18;
+
+  location l18:
+    edge do i1 := floor(-0.1),                                // -1
+            i2 := floor( 0.0),                                // 0
+            i3 := floor( 0.1),                                // 0
+            i4 := floor( 0.4)                                 // 0
+    goto l19;
+
+  location l19:
+    edge do i1 := floor( 0.5),                                // 0
+            i2 := floor( 0.6),                                // 0
+            i3 := floor( 1.0)                                 // 1
+    goto l20;
+
+  location l20:
+    edge do r1 := ln(E)                                       // 1.0
+    goto l21;
+
+  location l21:
+    edge do r1 := log(1000.0)                                 // 3.0
+    goto l22;
+
+  location l22:
+    edge do i1 := max(1,   2),                                // 2
+            r2 := max(1,   2.0),                              // 2.0
+            r3 := max(1.0, 2),                                // 2.0
+            r4 := max(1.0, 2.0)                               // 2.0
+    goto l23;
+
+  location l23:
+    edge do i1 := min(1,   2),                                // 1
+            r2 := min(1,   2.0),                              // 1.0
+            r3 := min(1.0, 2),                                // 1.0
+            r4 := min(1.0, 2.0)                               // 1.0
+    goto l24a;
+
+  location l24a:
+    edge do tili := pop([1, 2, 3])                            // (1, [2, 3])
+    goto l24b;
+
+  location l24b:
+    edge do tili := pop(pop([1, 2, 3])[1])                    // (2, [3])
+    goto l24c;
+
+  location l24c:
+    edge do tili := pop(pop(pop([1, 2, 3])[1])[1])            // (3, [])
+    goto l25;
+
+  location l25:
+    edge do i1 := pow( 1,    2),                              // 1
+            r2 := pow( 1,    2.0),                            // 1.0
+            r3 := pow( 1.0,  2),                              // 1.0
+            r4 := pow( 1.0,  2.0)                             // 1.0
+    goto l26;
+
+  location l26:
+    edge do i1 := pow(-1,    2),                              // 1
+            r2 := pow(-1,    2.0),                            // 1.0
+            r3 := pow(-1.0,  2),                              // 1.0
+            r4 := pow(-1.0,  2.0)                             // 1.0
+    goto l27;
+
+  location l27:
+    edge do r1 := pow( 1,   -2),                              // 1.0
+            r2 := pow( 1,   -2.0),                            // 1.0
+            r3 := pow( 1.0, -2),                              // 1.0
+            r4 := pow( 1.0, -2.0)                             // 1.0
+    goto l28;
+
+  location l28:
+    edge do r1 := pow(-1,   -2),                              // 1.0
+            r2 := pow(-1,   -2.0),                            // 1.0
+            r3 := pow(-1.0, -2),                              // 1.0
+            r4 := pow(-1.0, -2.0)                             // 1.0
+    goto l29;
+
+  location l29:
+    edge do i1 := pow( 2,    8),                              // 256
+            r2 := pow( 2,    8.0),                            // 256.0
+            r3 := pow( 2.0,  8),                              // 256.0
+            r4 := pow( 2.0,  8.0)                             // 256.0
+    goto l30;
+
+  location l30:
+    edge do r1 := pow( 9.0,  0.5)                             // 3.0
+    goto l31;
+
+  location l31:
+    edge do i1 := pow( 5,    0),                              // 1
+            r2 := pow( 5.0,  0),                              // 1.0
+            r3 := pow( 5,    0.0),                            // 1.0
+            r4 := pow( 5.0,  0.0)                             // 1.0
+    goto l32;
+
+  location l32:
+    edge do i1 := pow( 0,    0),                              // 1
+            r2 := pow( 0.0,  0),                              // 1.0
+            r3 := pow( 0,    0.0),                            // 1.0
+            r4 := pow( 0.0,  0.0)                             // 1.0
+    goto l33;
+
+  location l33:
+    edge do i1 := round(-1.0),                                // -1
+            i2 := round(-0.6),                                // -1
+            i3 := round(-0.5),                                // 0
+            i4 := round(-0.4)                                 // 0
+    goto l34;
+
+  location l34:
+    edge do i1 := round(-0.1),                                // 0
+            i2 := round( 0.0),                                // 0
+            i3 := round( 0.1),                                // 0
+            i4 := round( 0.4)                                 // 0
+    goto l35;
+
+  location l35:
+    edge do i1 := round( 0.5),                                // 1
+            i2 := round( 0.6),                                // 1
+            i3 := round( 1.0)                                 // 1
+    goto l36;
+
+  location l36:
+    edge do r1 := scale(0.1,  0, 1, 0,  3),                   // 0.3
+            r2 := scale(1.1,  1, 2, 5,  8),                   // 5.3
+            r3 := scale(1.25, 1, 2, 10, 8),                   // 9.5
+            r4 := scale(0,    1, 2, 3,  7)                    // -1.0
+    goto l37;
+
+  location l37:
+    edge do i1 := sign(-5),                                   // -1
+            i2 := sign(-1),                                   // -1
+            i3 := sign( 0),                                   // 0
+            i4 := sign( 1)                                    // 1
+    goto l38;
+
+  location l38:
+    edge do i1 := sign( 5)                                    // 1
+    goto l39;
+
+  location l39:
+    edge do i1 := sign(-5.0),                                 // -1
+            i2 := sign(-1.0),                                 // -1
+            i3 := sign( 0.0),                                 // 0
+            i4 := sign( 1.0)                                  // 1
+    goto l40;
+
+  location l40:
+    edge do i1 := sign( 5.0)                                  // 1
+    goto l41;
+
+  location l41:
+    edge do i1 := size(""),                                   // 0
+            i2 := size("a"),                                  // 1
+            i3 := size("ab"),                                 // 2
+            i4 := size("\n\t\\\"")                            // 4
+    goto l42;
+
+  location l42:
+    edge do i1 := size(<list[0] int>[]),                      // 0
+            i2 := size([1]),                                  // 1
+            i3 := size([1, 2])                                // 2
+    goto l43;
+
+  location l43:
+    edge do i1 := size(<set int>{}),                          // 0
+            i2 := size({1}),                                  // 1
+            i3 := size({1, 2}),                               // 2
+            i4 := size({2, 2})                                // 1
+    goto l44;
+
+  location l44:
+    edge do i1 := size(<dict(int:int)>{}),                    // 0
+            i2 := size({1: 2}),                               // 1
+            i3 := size({1: 2, 3: 4})                          // 2
+    goto l45;
+
+  location l45:
+    edge do r1 := sqrt( 0.0),                                 // 0.0
+            r2 := sqrt( 1.0),                                 // 1.0
+            r3 := sqrt( 4.0),                                 // 2.0
+            r4 := sqrt( 9.0)                                  // 3.0
+    goto l46;
+
+  location l46:
+    edge do r1 := sqrt(16.0)                                  // 4.0
+    goto l47;
+
+  location l47:
+    urgent;
+end

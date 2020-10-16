@@ -1,0 +1,20 @@
+group z:
+  group a:
+    controllable x;
+  end
+end
+group product:
+  controllable x;
+end
+plant automaton product2:
+  alphabet z.a.x, product.x;
+  location s1:
+    initial;
+    edge product.x goto s2;
+    edge z.a.x goto s3;
+  location s2:
+    edge z.a.x goto s4;
+  location s3:
+    edge product.x goto s4;
+  location s4;
+end

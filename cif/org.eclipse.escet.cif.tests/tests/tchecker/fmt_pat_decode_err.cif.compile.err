@@ -1,0 +1,64 @@
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 15, column 12: Invalid format specifier: duplicate "-" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 16, column 12: Invalid format specifier: duplicate "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 17, column 12: Invalid format specifier: duplicate " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 18, column 12: Invalid format specifier: duplicate "0" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 19, column 12: Invalid format specifier: duplicate "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 20, column 12: Invalid format specifier: duplicate "-" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 23, column 12: Invalid format specifier: a "%%" specifier can not have an index.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 24, column 12: Invalid format specifier: a "%%" specifier can not have a formatting flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 25, column 12: Invalid format specifier: a "%%" specifier can not have a formatting width.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 26, column 12: Invalid format specifier: a "%%" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 29, column 12: Invalid format specifier: missing explicit index before "$".
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 30, column 12: Invalid format specifier: missing explicit index before "$".
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 31, column 12: Invalid format specifier: missing format precision after ".".
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 32, column 12: Invalid format specifier: missing format precision after ".".
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 35, column 12: Invalid format specifier: flags "+" and " " (space) cannot be combined.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 36, column 12: Invalid format specifier: flags "+" and " " (space) cannot be combined.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 37, column 12: Invalid format specifier: flags "-" and "0" cannot be combined.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 38, column 12: Invalid format specifier: flags "-" and "0" cannot be combined.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 41, column 12: Invalid format specifier: flag "-" requires a width.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 42, column 12: Invalid format specifier: flag "0" requires a width.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 45, column 12: Invalid format specifier: unknown "%z" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 46, column 12: Invalid format specifier: unknown "%z" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 47, column 12: Invalid format specifier: unknown "%z" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 48, column 12: Invalid format specifier: unknown "%z" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 49, column 12: Invalid format specifier: unknown "%z" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 50, column 12: Invalid format specifier: unknown "%z" formatting conversion.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 53, column 12: Invalid format specifier: the specifier is incomplete.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 54, column 12: Invalid format specifier: the specifier is incomplete.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 55, column 12: Invalid format specifier: the specifier is incomplete.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 56, column 12: Invalid format specifier: the specifier is incomplete.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 57, column 12: Invalid format specifier: the specifier is incomplete.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 60, column 25: Invalid format specifier: the 2nd value is used, which does not exist.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 65, column 12: Invalid format specifier: a "%b" specifier can not have a "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 66, column 12: Invalid format specifier: a "%b" specifier can not have a " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 67, column 12: Invalid format specifier: a "%b" specifier can not have a "0" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 68, column 12: Invalid format specifier: a "%b" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 69, column 12: Invalid format specifier: a "%b" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 73, column 12: Invalid format specifier: a "%B" specifier can not have a "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 74, column 12: Invalid format specifier: a "%B" specifier can not have a " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 75, column 12: Invalid format specifier: a "%B" specifier can not have a "0" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 76, column 12: Invalid format specifier: a "%B" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 77, column 12: Invalid format specifier: a "%B" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 85, column 12: Invalid format specifier: a "%d" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 89, column 12: Invalid format specifier: a "%x" specifier can not have a "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 90, column 12: Invalid format specifier: a "%x" specifier can not have a " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 92, column 12: Invalid format specifier: a "%x" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 93, column 12: Invalid format specifier: a "%x" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 97, column 12: Invalid format specifier: a "%X" specifier can not have a "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 98, column 12: Invalid format specifier: a "%X" specifier can not have a " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 100, column 12: Invalid format specifier: a "%X" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 101, column 12: Invalid format specifier: a "%X" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 108, column 12: Invalid format specifier: a "%e" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 116, column 12: Invalid format specifier: a "%E" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 145, column 12: Invalid format specifier: a "%s" specifier can not have a "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 146, column 12: Invalid format specifier: a "%s" specifier can not have a " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 147, column 12: Invalid format specifier: a "%s" specifier can not have a "0" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 148, column 12: Invalid format specifier: a "%s" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 149, column 12: Invalid format specifier: a "%s" specifier can not have a formatting precision.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 153, column 12: Invalid format specifier: a "%S" specifier can not have a "+" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 154, column 12: Invalid format specifier: a "%S" specifier can not have a " " flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 155, column 12: Invalid format specifier: a "%S" specifier can not have a "0" flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 156, column 12: Invalid format specifier: a "%S" specifier can not have a "," flag.
+ERROR: File "tchecker/fmt_pat_decode_err.cif": Semantic error at line 157, column 12: Invalid format specifier: a "%S" specifier can not have a formatting precision.
+ERROR: Failed to load CIF file "tchecker/fmt_pat_decode_err.cif": the file has errors.

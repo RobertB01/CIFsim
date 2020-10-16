@@ -1,0 +1,59 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Various types of referable objects.
+
+tool bool tool_(bool x):
+    return x;
+end
+
+tool int tool_(int x):
+    return x;
+end
+
+int var;
+
+type type_ = bool;
+
+import "../empty.txt" as imp;
+
+// Not a tool.
+while true:: tool_(5);
+while true:: var();
+while true:: type_();
+while true:: imp();
+tool tool2<type_param>(int param):
+    while true:: type_param();
+    while true:: param();
+end
+
+// Not a value.
+while true:: var = tool_;
+while true:: var = var;
+while true:: var = type_;
+while true:: var = imp;
+tool tool3<type_param>(int param):
+    int var2;
+    while true:: var2 = type_param;
+    while true:: var2 = param;
+end
+
+// Not a type.
+while true:: tool_ tmp;
+while true:: var tmp;
+while true:: type_ tmp;
+while true:: imp tmp;
+tool tool4<type_param>(int param, type_param param2):
+    while true:: type_param tmp = param2;
+    while true:: param tmp;
+end

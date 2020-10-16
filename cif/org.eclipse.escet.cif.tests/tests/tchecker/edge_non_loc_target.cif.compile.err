@@ -1,0 +1,2 @@
+ERROR: File "tchecker/edge_non_loc_target.cif": Semantic error at line 18, column 19: "g.x" is not a location.
+ERROR: Failed to load CIF file "tchecker/edge_non_loc_target.cif": the file has errors.

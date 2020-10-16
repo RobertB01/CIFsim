@@ -1,0 +1,90 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a:
+  location:
+    initial;
+end
+
+automaton def B():
+  location:
+    initial;
+end
+
+b: B();
+
+group g1:
+end
+
+group g2:
+  group g3:
+    group g4:
+    end
+  end
+  group g5:
+  end
+end
+
+group g6:
+  group g7:
+    event e;
+  end
+  group g8:
+  end
+  group g9:
+    automaton a:
+      location:
+        initial;
+        edge g7.e;
+    end
+    group g10:
+      const int x = 5;
+      invariant x = 5;
+    end
+  end
+end
+
+group def C(alg int y):
+  group g:
+    const int x = 5;
+    invariant x = y;
+  end
+end
+
+c: C(5);
+
+group def D(event e):
+  group g:
+    const int x = 5;
+    invariant x = 5;
+  end
+  group h:
+  end
+  automaton a:
+    location:
+      initial;
+      edge e;
+  end
+end
+
+event ee;
+
+d1: D(g6.g7.e);
+d2: D(ee);
+
+group def E():
+  group i:
+  end
+end
+
+e: E();

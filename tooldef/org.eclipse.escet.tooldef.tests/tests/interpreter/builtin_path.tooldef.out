@@ -1,0 +1,111 @@
+=== abspath ===
+true
+<curdir>/a/b
+
+c/d/a/b
+
+=== basename ===
+!!
+!a!
+!b!
+!b!
+!b!
+!b!
+
+=== chdir ===
+true
+<curdir>/subdir
+
+=== chfileext ===
+!!
+!a/b.c!
+!a\b.c!
+
+!!
+!a/b!
+!a\b!
+
+!.d!
+!a/b.c.d!
+!a\b.c.d!
+
+!!
+!a/b!
+!a\b!
+
+!.d!
+!a/b.c.d!
+!a\b.c.d!
+
+!.d!
+!a/b.d!
+!a\b.d!
+
+!.d!
+!a/b.d!
+!a\b.d!
+
+=== curdir ===
+true
+<curdir>/subdir
+
+=== dirname ===
+a
+a
+/a/b
+\a\b
+
+=== fileext ===
+!!
+!e!
+
+!!
+!!
+!!
+!!
+
+!e!
+!e!
+!e!
+!e!
+
+=== hasfileext ===
+!false!
+!true!
+
+!false!
+!false!
+!false!
+!false!
+
+!true!
+!true!
+!true!
+!true!
+
+!false!
+!false!
+
+!false!
+!false!
+!false!
+!false!
+
+!false!
+!false!
+!false!
+!false!
+
+=== pathjoin ===
+!!
+!a/b!
+!a/b!
+!a/b!
+!a/b!
+!a/b/c/d!
+!a/b/c/d!
+!a/b/c/d!
+
+=== scriptpath ===
+!true!
+

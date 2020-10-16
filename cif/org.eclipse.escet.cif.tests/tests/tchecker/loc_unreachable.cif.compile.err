@@ -1,0 +1,8 @@
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 14, column 11: Automaton "p1" has no initial location.
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 21, column 12: Location "l2" is not reachable from any of the initial locations of automaton "p2".
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 32, column 12: Location "l4" is not reachable from any of the initial locations of automaton "p3".
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 43, column 12: Location "l9" is not reachable from any of the initial locations of automaton "p3".
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 46, column 12: Location "l10" is not reachable from any of the initial locations of automaton "p3".
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 49, column 12: Location "l11" is not reachable from any of the initial locations of automaton "p3".
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 60, column 14: Location "l3" is not reachable from any of the initial locations of automaton "g.p4".
+WARNING: File "tchecker/loc_unreachable.cif": Semantic warning at line 70, column 12: Location "l2" is not reachable from any of the initial locations of automaton "p4".

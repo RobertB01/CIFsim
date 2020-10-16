@@ -1,0 +1,293 @@
+// ------------------------------------------------------------------------------
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+// ------------------------------------------------------------------------------
+
+// SeText syntax definition for SeText.
+
+@hooks org.eclipse.escet.setext.parser.SeTextHooks;
+
+@scanner org.eclipse.escet.setext.parser.SeTextScanner;
+
+@terminals:
+  // Keywords.
+  @keywords Keywords = $as
+                       $end
+                       $eof
+                       $hooks
+                       $import
+                       $keywords
+                       $main
+                       $scanner
+                       $shortcut
+                       $start
+                       $terminals;
+
+  // Symbols.
+  ARROWTK       = "\->";
+  ATTK          = "@";
+  BARTK         = "\|";
+  COMMATK       = ",";
+  COLONTK       = ":";
+  EQTK          = "=";
+  SEMICOLTK     = ";";
+
+  CUROPENTK     = "\{";
+  CURCLOSETK    = "\}";
+  LTTK          = "<";
+  GTTK          = ">";
+end
+
+@shortcut identifier = "[$]?[a-zA-Z_][a-zA-Z0-9_]*";
+
+@terminals:
+  // Literals.
+  IDENTIFIERTK    = "{identifier}"                  [an identifier];
+  NAMETK          = "{identifier}(\.{identifier})+" [a Java name];
+  DESCRIPTIONTK   = "\[[^\]]+\]"                    [a terminal description];
+
+  // Regular expressions.
+  REGEXSTARTTK = "\"" -> REGEX;
+
+  // Comments.
+  "//.*";
+  "/\*" -> BLOCK_COMMENT;
+
+  // Whitespace and EOF.
+  "[ \t\r\n]+";
+  @eof;
+end
+
+@terminals BLOCK_COMMENT:
+  "\*/" ->;
+  ".";
+  "\n";
+end
+
+@terminals REGEX:
+  REGEXENDTK = "\"" -> ;
+  REGEXESCTK = "\\." {scanRegExEscapedChar}
+               [an escaped regular expression character];
+  REGEXSHORTCUTTK = "\{{identifier}\}" {scanRegExShortcutName}
+                    [a regular expression shortcut];
+
+  PAROPENTK = "\(";
+  PARCLOSETK = "\)";
+  ASTERISKTK = "\*";
+  PLUSTK = "\+";
+  QUESTIONTK = "\?";
+  DOTTK = "\.";
+  SQOPENTK = "\[";
+  SQCLOSETK = "\]";
+  CARETTK = "\^";
+  DASHTK = "\-";
+  REGEXBARTK = "\|";
+end
+
+@terminals REGEX:
+  REGEXCHARTK = "." [an arbitrary character];
+end
+
+@main Specification : org.eclipse.escet.setext.parser.SeTextParser;
+
+@import java.util.List;
+@import org.eclipse.escet.setext.parser.ast;
+@import org.eclipse.escet.setext.parser.ast.parser;
+@import org.eclipse.escet.setext.parser.ast.regex;
+@import org.eclipse.escet.setext.parser.ast.scanner;
+
+{ast.Specification}
+Specification : /* empty */
+              | Decls
+              ;
+
+{List<ast.Decl>}
+Decls : Decl
+      | Decls Decl
+      ;
+
+{ast.Decl}
+Decl : TerminalsDecl
+     | ShortcutDecl
+     | MainDecl
+     | StartDecl
+     | HooksDecl
+     | ScannerDecl
+     | ImportDecl
+     | RuleDecl
+     ;
+
+{$scanner.TerminalsDecl}
+TerminalsDecl : @ATTK @TERMINALSKW OptIdentifier COLONTK Terminals @ENDKW
+              ;
+
+{List<ast.Symbol>}
+Terminals : Terminal
+          | Terminals Terminal
+          ;
+
+{ast.Symbol}
+Terminal : KeywordsTerminal
+         | RegExTerminal
+         | ATTK @EOFKW SEMICOLTK
+         ;
+
+{$scanner.KeywordsTerminal}
+KeywordsTerminal : @ATTK KEYWORDSKW Identifier EQTK KeywordsIdentifiers
+                   @SEMICOLTK
+                 ;
+
+{List<$scanner.KeywordsIdentifier>}
+KeywordsIdentifiers : Identifier OptFunc OptTermDescr
+                    | KeywordsIdentifiers Identifier OptFunc OptTermDescr
+                    ;
+
+{$scanner.Terminal}
+RegExTerminal : OptRegExId RegExString OptFunc OptNewState OptTermDescr
+                SEMICOLTK
+              ;
+
+{ast.Identifier}
+OptRegExId : /* empty */
+           | Identifier EQTK
+           ;
+
+{ast.Identifier}
+Identifier : @IDENTIFIERTK
+           ;
+
+{ast.TerminalDescription}
+OptTermDescr : /* empty */
+             | @DESCRIPTIONTK
+             ;
+
+{ast.Identifier}
+OptFunc : /* empty */
+        | CUROPENTK Identifier CURCLOSETK
+        ;
+
+{ast.Identifier}
+OptNewState : /* empty */
+            | @ARROWTK
+            | ARROWTK Identifier
+            ;
+
+{$scanner.ShortcutDecl}
+ShortcutDecl : ATTK SHORTCUTKW Identifier EQTK RegExString SEMICOLTK
+             ;
+
+{parser.StartSymbol}
+MainDecl : ATTK MAINKW Identifier COLONTK JavaType SEMICOLTK
+         ;
+
+{parser.StartSymbol}
+StartDecl : ATTK STARTKW Identifier COLONTK JavaType SEMICOLTK
+          ;
+
+{ast.HooksDecl}
+HooksDecl : ATTK HOOKSKW JavaType SEMICOLTK
+          ;
+
+{$scanner.ScannerDecl}
+ScannerDecl : ATTK SCANNERKW JavaType SEMICOLTK
+            ;
+
+{parser.ImportDecl}
+ImportDecl : ATTK IMPORTKW JavaType SEMICOLTK
+           | ATTK IMPORTKW JavaType ASKW Identifier SEMICOLTK
+           ;
+
+{parser.NonTerminal}
+RuleDecl : CUROPENTK JavaType CURCLOSETK
+           Identifier COLONTK RuleAlts @SEMICOLTK
+         ;
+
+{List<parser.ParserRule>}
+RuleAlts : /* empty */
+         | RuleAlt
+         | RuleAlts BARTK RuleAlt
+         ;
+
+{parser.ParserRule}
+RuleAlt : Identifier
+        | ATTK Identifier
+        | RuleAlt Identifier
+        | RuleAlt ATTK Identifier
+        ;
+
+{List<parser.JavaType>}
+JavaTypes : JavaType
+          | JavaTypes COMMATK JavaType
+          ;
+
+{parser.JavaType}
+JavaType : Identifier
+         | Identifier LTTK JavaTypes GTTK
+         | Name
+         | Name LTTK JavaTypes GTTK
+         ;
+
+{ast.Name}
+Name : @NAMETK
+     ;
+
+{ast.Identifier}
+OptIdentifier : /* empty */
+              | Identifier
+              ;
+
+{regex.RegEx}
+RegExString : @REGEXSTARTTK RegEx @REGEXENDTK
+            ;
+
+{regex.RegEx}
+RegEx : RegExBranch
+      | RegEx REGEXBARTK RegExBranch
+      ;
+
+{regex.RegEx}
+RegExBranch : RegExPiece
+            | RegExBranch RegExPiece
+            ;
+
+{regex.RegEx}
+RegExPiece : RegExAtom
+           | RegExPiece @ASTERISKTK
+           | RegExPiece @PLUSTK
+           | RegExPiece @QUESTIONTK
+           ;
+
+{regex.RegEx}
+RegExAtom : PAROPENTK RegEx PARCLOSETK
+          | @REGEXSHORTCUTTK
+          | RegExCharClass
+          | RegExChar
+          | @DOTTK
+          ;
+
+{regex.RegEx}
+RegExCharClass : @SQOPENTK RegExCharsList SQCLOSETK
+               | @SQOPENTK CARETTK RegExCharsList SQCLOSETK
+               ;
+
+{List<regex.RegExChars>}
+RegExCharsList : RegExChars
+               | RegExCharsList RegExChars
+               ;
+
+{regex.RegExChars}
+RegExChars : RegExChar
+           | RegExChar @DASHTK RegExChar
+           ;
+
+{regex.RegExChar}
+RegExChar : @REGEXCHARTK
+          | @REGEXESCTK
+          ;

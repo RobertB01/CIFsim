@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation See the NOTICE file(s) distributed with this work for 
+    additional information regarding copyright ownership. This program and the accompanying materials are made available under 
+    the terms of the MIT License which is available at https://opensource.org/licenses/MIT SPDX-License-Identifier: MIT -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.escet</groupId>
+    <artifactId>org.eclipse.escet.configuration</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- Format to use for bundle qualifiers. -->
+        <!-- Git only supplies seconds resolution, so no milliseconds in format. -->
+        <!-- String compare is used for this type of qualifier format. -->
+        <maven.build.timestamp.format>yyyyMMdd'-'HHmmss</maven.build.timestamp.format>
+
+        <!-- Ensure platform independent build by fixing encoding. Prevents warnings. -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+
+        <!-- Tycho version to use. -->
+        <tycho.version>1.7.0</tycho.version>
+        <tycho.extras.version>${tycho.version}</tycho.extras.version>
+
+        <!-- Documentation plug-in versions. -->
+        <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
+        <asciidoctorj.version>2.2.0</asciidoctorj.version>
+        <asciidoctorj.diagram.version>2.0.1</asciidoctorj.diagram.version>
+        <asciidoctorj.pdf.version>1.5.2</asciidoctorj.pdf.version>
+        <jruby.version>9.2.9.0</jruby.version>
+        <geneclipsetoc.version>1.0.2</geneclipsetoc.version>
+    </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>bintray.jmini.maven</id>
+            <url>http://dl.bintray.com/jmini/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!-- Configure Maven/Tycho plugins/versions, and enable them. -->
+    <build>
+        <plugins>
+            <!-- Enable Tycho. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho.version}</version>
+
+                <!-- Enable extensions. -->
+                <extensions>true</extensions>
+            </plugin>
+
+            <!-- Configure Java compiler. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-compiler-plugin</artifactId>
+                <version>${tycho.version}</version>
+            </plugin>
+
+            <!-- Configure packaging of JARs. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-packaging-plugin</artifactId>
+                <version>${tycho.version}</version>
+
+                <!-- When packaging bundles, derive qualifiers from Git timestamps. -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.tycho.extras</groupId>
+                        <artifactId>tycho-buildtimestamp-jgit</artifactId>
+                        <version>${tycho.extras.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.jgit</groupId>
+                        <artifactId>org.eclipse.jgit</artifactId>
+                        <version>[4.3.0,)</version>
+                    </dependency>
+                </dependencies>
+
+                <configuration>
+                    <!-- Qualifier replacement format to use. -->
+                    <format>${maven.build.timestamp.format}</format>
+
+                    <!-- Derive qualifier from Git timestamps. -->
+                    <!-- Based on timestamps of last commits for files in the bundle. -->
+                    <!-- Requires that all generated code/documentation etc is committed (warnings enabled below). -->
+                    <!-- Requires that only files from the bundle itself are used/packaged (not checked by build). -->
+                    <!-- If requirements violated, version may not be increased while contents are changed! -->
+                    <!-- However, the Git last change date of dependencies (recursively) are taken into account. -->
+                    <!-- So only new files generated during the build, and taken from other bundles, cause issues. -->
+                    <timestampProvider>jgit</timestampProvider>
+
+                    <!-- Warn if dirty Git working tree, with local changes. -->
+                    <!-- In such cases, timestamps not up-to-date for local code changes. -->
+                    <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
+
+                    <!-- Disable Maven descriptors in JAR bundles. -->
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Enable and configure target platform. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho.version}</version>
+                <configuration>
+                    <!-- Configure bundle that contains the target platform. -->
+                    <target>
+                        <artifact>
+                            <groupId>org.eclipse.escet</groupId>
+                            <artifactId>org.eclipse.escet.target</artifactId>
+                            <version>0.1.0-SNAPSHOT</version>
+                        </artifact>
+                    </target>
+
+                    <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
+                    <dependency-resolution>
+                        <extraRequirements>
+                            <requirement>
+                                <type>eclipse-plugin</type>
+                                <id>org.eclipse.jdt.compiler.tool</id>
+                                <versionRange>1.0.0</versionRange>
+                            </requirement>
+                        </extraRequirements>
+                    </dependency-resolution>
+
+                    <!-- Configure environments. -->
+                    <!-- Determines which environment specific bundles will be in target platform. -->
+                    <!-- Also determines the products to build. -->
+                    <environments>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                    </environments>
+                </configuration>
+            </plugin>
+
+            <!-- Enable unit testing. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
+                <version>${tycho.version}</version>
+            </plugin>
+
+        </plugins>
+
+        <!-- Documentation generation configuration. -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <version>${asciidoctor.maven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj</artifactId>
+                            <version>${asciidoctorj.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj-diagram</artifactId>
+                            <version>${asciidoctorj.diagram.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj-pdf</artifactId>
+                            <version>${asciidoctorj.pdf.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.jruby</groupId>
+                            <artifactId>jruby-complete</artifactId>
+                            <version>${jruby.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <requires>
+                            <require>asciidoctor-diagram</require>
+                        </requires>
+                        <!-- Attributes common to all documents. -->
+                        <attributes>
+                            <baseDir>${project.basedir}</baseDir>
+                            <attribute-missing>error</attribute-missing>
+                            <attribute-undefined>error</attribute-undefined>
+                            <asciimath />
+                            <revnumber>${qualifiedVersion}</revnumber>
+                            <last-update-label>false</last-update-label>
+                        </attributes>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>com.bsiag.geneclipsetoc</groupId>
+                    <artifactId>geneclipsetoc-maven-plugin</artifactId>
+                    <version>${geneclipsetoc.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <!-- Enable source bundles. -->
+        <profile>
+            <id>create-plugin-source</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/META-INF/MANIFEST.MF</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-source-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <executions>
+                            <execution>
+                                <id>plugin-source</id>
+                                <goals>
+                                    <goal>plugin-source</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Enable source features. -->
+        <profile>
+            <id>create-feature-source</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/feature.xml</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho.extras</groupId>
+                        <artifactId>tycho-source-feature-plugin</artifactId>
+                        <version>${tycho.extras.version}</version>
+                        <configuration>
+                            <archive>
+                                <addMavenDescriptor>false</addMavenDescriptor>
+                            </archive>
+                            <skip>false</skip>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>source-feature</id>
+                                <goals>
+                                    <goal>source-feature</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-p2-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <executions>
+                            <execution>
+                                <!-- Don't attach (default) metadata before the "generate-source-feature" execution. -->
+                                <id>default-p2-metadata-default</id>
+                                <configuration>
+                                    <attachP2Metadata>false</attachP2Metadata>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- Do attach metadata after the "generate-source-feature" execution. -->
+                                <id>attach-p2-metadata</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>p2-metadata</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Add default about.html to (source) bundles if not already present. -->
+        <profile>
+            <id>add-plugin-default-abouts</id>
+            <activation>
+                <file>
+                    <missing>${basedir}/about.html</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-packaging-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <configuration>
+                            <additionalFileSets>
+                                <fileSet>
+                                    <directory>${session.executionRootDirectory}/releng/legal-defaults</directory>
+                                    <includes>
+                                        <include>about.html</include>
+                                    </includes>
+                                </fileSet>
+                            </additionalFileSets>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-source-plugin</artifactId>
+                        <version>${tycho.version}</version>
+                        <configuration>
+                            <additionalFileSets>
+                                <fileSet>
+                                    <directory>${session.executionRootDirectory}/releng/legal-defaults</directory>
+                                    <includes>
+                                        <include>about.html</include>
+                                    </includes>
+                                </fileSet>
+                            </additionalFileSets>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+</project>

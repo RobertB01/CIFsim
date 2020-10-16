@@ -1,0 +1,742 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// No edges, no initial location, nameless location.
+automaton p1:
+  location;
+end
+
+// No edges, single location, initial.
+automaton p2:
+  location:
+    initial;
+end
+
+// Single self loop, no initial location.
+automaton p3:
+  event e3;
+
+  location:
+    edge e3;
+end
+
+// Single self loop, in initial location.
+automaton p4:
+  event e4;
+
+  location:
+    initial;
+    edge e4;
+end
+
+// Two locations, cross edges, single event. Single initial.
+automaton p5:
+  event e5;
+
+  location l1:
+    initial;
+    edge e5 goto l2;
+
+  location l2:
+    edge e5 goto l1;
+end
+
+// Two locations, cross edges, two events. Multiple initial.
+automaton p6:
+  event e6a, e6b;
+
+  location l1:
+    initial;
+    edge e6b goto l2;
+
+  location l2:
+    initial;
+    edge e6a goto l1;
+end
+
+// Non-deterministic outgoing edges in single location.
+automaton p7:
+  event e7;
+
+  location l1:
+    initial;
+    edge e7 goto l2;
+    edge e7 goto l1;
+
+  location l2:
+    initial;
+    edge e7 goto l1;
+end
+
+// Alphabet.
+automaton p8:
+  event e8a, e8b;
+  alphabet e8a, e8b;
+
+  location:
+    initial;
+    edge e8a;
+end
+
+// Location references.
+automaton p9:
+  disc bool b = l1;
+  alg bool a = l2;
+  event e9;
+  invariant a or b;
+
+  location l1:
+    initial;
+    edge e9 goto l2;
+
+  location l2;
+end
+
+// Tau event self loop.
+automaton p10:
+  location:
+    initial;
+    edge tau when true;
+end
+
+// Tau with guards at all levels (with p10).
+automaton p11:
+  location l1:
+    initial;
+    edge when 11.1 = 11.1, 11.2 = 11.2 goto l2;
+    edge when 11.3 = 11.3;
+
+  location l2:
+    edge when 11.4 = 11.4 goto l1;
+end
+
+// Event with guards at all levels.
+event e12;
+
+automaton p12a:
+  location:
+    initial;
+    edge e12;
+end
+
+automaton p12b:
+  location l1:
+    initial;
+    edge e12 when 12.1 = 12.1, 12.2 = 12.2 goto l2;
+    edge e12 when 12.3 = 12.3;
+
+  location l2:
+    edge e12 when 12.4 = 12.4 goto l1;
+end
+
+// Event not in any alphabet.
+event e13;
+
+// Event with guards at all levels, and updates.
+event e14;
+
+automaton p14a:
+  disc real v;
+
+  location:
+    initial;
+    edge e14 do v := 14.1;
+end
+
+automaton p14b:
+  disc real v;
+
+  location l1:
+    initial;
+    edge e14 when 14.1 = 14.1, 14.2 = 14.2  do v := 14.7 goto l2;
+    edge e14 when 14.3 = 14.3               do v := 14.8;
+
+  location l2:
+    edge e14 when 14.4 = 14.4               do v := 14.9 goto l1;
+end
+
+// Updates only on some of the non-deterministic edges (normal edges and self
+// loops).
+automaton p15a:
+  disc real v;
+  event e15a;
+
+  location l1:
+    initial;
+    edge e15a do v := 15.1 goto l2;
+    edge e15a              goto l3;
+
+  location l2:
+    edge e15a              goto l1;
+    edge e15a do v := 15.2 goto l3;
+
+  location l3:
+    edge e15a do v := 15.3 goto l1;
+    edge e15a do v := 15.4 goto l2;
+end
+
+automaton p15b:
+  disc real v;
+  event e15b;
+
+  location l1:
+    initial;
+    edge e15b do v := 15.1;
+    edge e15b;
+
+  location l2:
+    initial;
+    edge e15b;
+    edge e15b do v := 15.2;
+
+  location l3:
+    initial;
+    edge e15b do v := 15.3;
+    edge e15b do v := 15.4;
+end
+
+// Multiple events on and edge, including tau, with all guard features (deep
+// clone testing).
+automaton p16:
+  disc real v;
+  event e16;
+
+  location l1:
+    initial;
+    edge e16, tau when 16 = 16 do v := 16.1 goto l2;
+
+  location l2;
+end
+
+// Discrete and continuous variable assignments.
+automaton p17:
+  disc real dv;
+  cont cv der 1.0;
+
+  location:
+    initial;
+    edge do dv := 17.0, cv := 17.1;
+    edge do (dv, cv) := (17.2, 17.3);
+end
+
+// Simple send/receive/sync with real, single send edge.
+event real e18;
+
+automaton p18a:
+  location:
+    initial;
+    edge e18!18.1;
+end
+
+automaton p18b:
+  disc real v;
+
+  location:
+    initial;
+    edge e18? do v := ?;
+end
+
+automaton p18c:
+  location:
+    initial;
+    edge e18;
+end
+
+// Send/receive/sync with real, two send edges.
+event real e19;
+
+automaton p19a:
+  location l1:
+    initial;
+    edge e19!19.1 goto l2;
+
+  location l2:
+    edge e19!19.2;
+end
+
+automaton p19b:
+  disc real v;
+
+  location:
+    initial;
+    edge e19? do v := ?;
+end
+
+automaton p19c:
+  location:
+    initial;
+    edge e19 when 19.3 = 19.3;
+    edge e19 when 19.4 = 19.4;
+end
+
+// Send/receive with real, four send edges.
+event real e20;
+
+automaton p20a:
+  location l1:
+    initial;
+    edge e20!20.1 goto l2;
+    edge e20!20.2 goto l1;
+
+  location l2:
+    edge e20!20.3;
+    edge e20!20.4;
+end
+
+automaton p20b:
+  disc real v;
+
+  location:
+    initial;
+    edge e20? do v := ?;
+end
+
+// 2 sender automata, 2 receiver automata, and 2 sync automata.
+event int e20c;
+
+automaton send20c_1:
+  disc int x;
+
+  location:
+    initial;
+    edge e20c!x + 1 do x := x + 11;
+    edge e20c!x + 2 do x := x + 22;
+end
+
+automaton send20c_2:
+  disc int y;
+
+  location l1:
+    initial;
+    edge e20c!y + 3 do y := y + 33 goto l2;
+    edge e20c!y + 4;
+
+  location l2:
+    edge e20c!y + 5 do y := y + 55;
+end
+
+automaton recv20c_1:
+  disc int a;
+
+  location:
+    initial;
+    edge e20c? do a := ? + 6;
+    edge e20c? do a := ? + 7;
+end
+
+automaton recv20c_2:
+  disc int b;
+
+  location l1:
+    initial;
+    edge e20c? do b := ? + 8 goto l2;
+    edge e20c?;
+
+  location l2:
+    edge e20c? do b := ? + 9;
+end
+
+automaton sync20c_1:
+  disc int a;
+
+  location:
+    initial;
+    edge e20c do a := 15;
+    edge e20c do a := 16;
+end
+
+automaton sync20c_2:
+  disc int b;
+
+  location l1:
+    initial;
+    edge e20c do b := 8 goto l2;
+    edge e20c;
+
+  location l2:
+    edge e20c do b := 9;
+end
+
+// Simple send/receive/sync without data type.
+event void e21;
+
+automaton p21a:
+  location l1:
+    initial;
+    edge e21! goto l2;
+
+  location l2:
+    edge e21!;
+end
+
+automaton p21b:
+  location:
+    initial;
+    edge e21?, e21?;
+    edge e21?;
+end
+
+// Send/receive with updates (old vs new).
+event real e22;
+
+automaton p22a:
+  location l1:
+    initial;
+    edge e22!22.1 goto l2;
+
+  location l2:
+    edge e22!22.2;
+end
+
+automaton p22b:
+  disc real v1, v2;
+
+  location:
+    initial;
+    edge e22? do (v1, v2) := (?, v1 + v2 + 22.3);
+    edge e22? do v2 := v1 + v2 + 22.4;
+end
+
+// Updates only on some of the non-deterministic edges, with send/receive.
+event real e23;
+
+automaton p23a:
+  location:
+    initial;
+    edge e23!23.0;
+end
+
+automaton p23b:
+  disc real v1, v2;
+
+  location l1:
+    initial;
+    edge e23? do (v1, v2) := (?,  ? + v2 + 23.1);
+    edge e23?;
+
+  location l2:
+    initial;
+    edge e23?;
+    edge e23? do (v1, v2) := (?,  ? + v2 + 23.2);
+
+  location l3:
+    initial;
+    edge e23? do (v1, v2) := (?,  ? + v2 + 23.3);
+    edge e23? do (v1, v2) := (?, v1 + v2 + 23.4);
+end
+
+// Updates only on some of the non-deterministic edges, without data type.
+event void e24;
+
+automaton p24a:
+  location:
+    initial;
+    edge e24!;
+end
+
+automaton p24b:
+  disc real v1;
+
+  location l1:
+    initial;
+    edge e24? do v1 := v1 + 24.1;
+    edge e24?;
+
+  location l2:
+    initial;
+    edge e24?;
+    edge e24? do v1 := v1 + 24.2;
+
+  location l3:
+    initial;
+    edge e24? do v1 := v1 + 24.3;
+    edge e24? do v1 := v1 + 24.4;
+end
+
+// Tau events with updates.
+automaton p25:
+  disc real v;
+
+  location:
+    initial;
+    edge     do v := 25.1;
+    edge tau do v := 25.2;
+end
+
+// Received value in projection of addressable of assignment.
+event int e26;
+
+automaton p26a:
+  location:
+    initial;
+    edge e26!(26 - 25);
+end
+
+automaton p26b:
+  disc tuple(int a, b) v;
+  disc list int l = [261, 262];
+  location:
+    initial;
+    edge e26? do v[a] := ?;
+    edge e26? do v[b] := ?;
+    edge e26? do v    := (?, ?);
+    edge e26? do l[?] := ?;
+end
+
+// Received value in double projections of addressable of assignment.
+event real e27a;
+event int e27b;
+
+automaton p27a:
+  location:
+    initial;
+    edge e27a!27.0;
+    edge e27b!2;
+end
+
+automaton p27b:
+  disc tuple(tuple(real a, b) c; real d) v1;
+  disc list list int v2;
+
+  location:
+    initial;
+    edge e27a? do v1[d]    := ?;
+    edge e27a? do v1[c][a] := ?;
+    edge e27a? do v1[c][b] := ?;
+    edge e27a? do v1       := ((?, ?), ?);
+
+    edge e27b? do v2[?][?]               := ?;
+    edge e27b? do v2[floor(v1[c][b])][?] := ?;
+end
+
+// Projections in right hand side of assignment.
+event real f27;
+
+automaton q27a:
+  location:
+    initial;
+    edge f27!27.1;
+end
+
+automaton q27b:
+  disc tuple(real a, b) v;
+  location:
+    initial;
+    edge f27? do v    := (v[a], v[b]);
+    edge f27? do v    := (v[a], ?);
+    edge f27? do v[a] := v[a] + v[b] + ?;
+end
+
+// Receive in continuous variable.
+event real e28;
+
+automaton p28a:
+  location:
+    initial;
+    edge e28!28.0;
+end
+
+automaton p28b:
+  cont v1 der 28.1;
+  cont v2 der 28.2;
+
+  location:
+    initial;
+    edge e28? do (v1, v2) := (?, ? + v1 + v2 + 28.3);
+end
+
+// Enumerations in the input model, being merged.
+enum e29 = l1, l2, ABC, DEF;
+automaton p29:
+  disc e29 v29;
+  invariant v29 = l1 or v29 = l2;
+
+  location:
+    initial;
+    edge when v29 = ABC do v29 := DEF;
+end
+
+// Monitor all.
+event e30;
+
+automaton p30a:
+  monitor;
+  location:
+    initial;
+    edge e30 when 30.1 = 30.1;
+    edge tau when 30.2 = 30.2;
+end
+
+automaton p30b:
+  location:
+    initial;
+    edge e30 when 30.3 = 30.3;
+end
+
+// Monitor specific events.
+event e31a, e31b;
+
+automaton p31a:
+  monitor e31a;
+
+  location:
+    initial;
+    edge e31a when 31.1 = 31.1;
+    edge e31b when 31.2 = 31.2;
+    edge tau  when 31.3 = 31.3;
+end
+
+automaton p31b:
+  location:
+    initial;
+    edge e31a when 31.3 = 31.3;
+end
+
+// Invariants.
+invariant 32.0 = 32.0;
+
+automaton p32:
+  invariant 32.3 = 32.3;
+
+  location l1:
+    initial;
+    invariant 32.1 = 32.1;
+
+  location l2:
+    initial;
+    invariant 32.2 = 32.2;
+end
+
+// Marked.
+marked 33.0 = 33.0;
+
+automaton p33:
+  marked 33.1 = 33.1;
+
+  location l1:
+    initial;
+
+  location l2:
+    initial;
+    marked;
+
+  location l3:
+    initial;
+    marked 33.3 = 33.3;
+
+  location l4:
+    initial;
+    marked 33.4 = 33.4;
+end
+
+// Initial.
+initial 34.0 = 34.0;
+
+event e34;
+
+automaton p34:
+  initial 34.1 = 34.1;
+
+  location l1;
+
+  location l2:
+    initial;
+    edge e34 goto l1;
+
+  location l3:
+    initial 34.3 = 34.3;
+
+  location l4:
+    initial 34.4 = 34.4;
+end
+
+// Location reference in initial of the location of other automaton.
+automaton p35:
+  location l1:
+    initial p36.l1;
+end
+
+// Urgent locations.
+automaton p36:
+  location l1:
+    initial;
+    urgent;
+
+  location l2:
+    initial;
+    urgent;
+end
+
+// Urgent edges.
+automaton p37:
+  event e37;
+
+  location l1:
+    initial;
+    edge e37 when 37.1 = 37.1 now;
+    edge e37 when 37.2 = 37.2 now;
+
+  location l2:
+    initial;
+    edge e37 when 37.3 = 37.3 now;
+end
+
+// Monitor with(out) (non-)overlapping guards, and with(out) updates.
+automaton p38:
+  event e38;
+  monitor e38;
+  disc real v;
+
+  location l1:
+    initial;
+    edge e38 do v := v + 38.1;
+    edge e38;
+
+  location l2:
+    initial;
+    edge e38 when v = 38.2;
+    edge e38 when v = 38.3 do v := v + 38.4;
+
+  location l3:
+    initial;
+    edge e38 when v >= 10.0 do v := v + 38.5;
+    edge e38 when v <= 15.0 do v := v + 38.6;
+
+  location l4:
+    initial;
+    edge e38 when v >= 10.0;
+    edge e38 when v <= 15.0 do v := v + 38.7;
+
+  location l5:
+    initial;
+    edge e38 when v >= 10.0 do v := v + 38.8;
+    edge e38 when v <= 15.0;
+
+  location l6:
+    initial;
+    edge e38 do v := v + 38.9;
+    edge e38 do v := v + 38.11 goto l4;
+end
+
+// Monitor event, with single edge, with guard and update.
+automaton p40:
+  event e40;
+  monitor e40;
+  disc real v;
+
+  location l1:
+    initial;
+    edge e40 when v > 40.0 do v := 40.1 goto l2;
+
+  location l2;
+end

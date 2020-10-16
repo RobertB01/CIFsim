@@ -1,0 +1,74 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton p:
+  disc bool b = true;
+  disc int i = 1;
+  disc int[2..5] i25 = 2;
+  disc real r = 1.25;
+  disc string g = "";
+  disc list int li = [];
+  disc list[1..3] int li2 = [2];
+  disc set int si = {};
+  disc tuple(int a; bool b; real c) tibr = (0, false, 1.2);
+  disc tuple(list int a; set real b) tlisr = ([0], {1.2});
+  disc dict(int:real) dir = {};
+
+  location l1:
+    initial;
+
+    edge do b := false,
+            i := -123,
+            i25 := 5,
+            r := 1.0,
+            g := "a\nb\tc\\d\"e",
+            li := [1],
+            li2 := [1, 3],
+            si := {1},
+            tibr := (1, true, 1.0),
+            tlisr := ([1], {-1.0}),
+            dir := {1: 5.0}
+    goto l2;
+
+  location l2:
+    edge do r := 0.0,
+            li := [1, 2],
+            li2 := [4, 5, 6],
+            si := {1, 2},
+            dir := {1: 5.0, 2: 6.0}
+    goto l3;
+
+  location l3:
+    edge do r := 1e5,
+            li := [1, 1],
+            si := {1, 1},
+            dir := {3: 5.0, 1: 6.0, 2: 6.0, 4: 5.0}
+    goto l4;
+
+  location l4:
+    edge do r := 1e+5,
+            si := {2, 1, 4, 3, 4}
+    goto l5;
+
+  location l5:
+    edge do r := 1E-05 goto l6;
+
+  location l6:
+    edge do r := 1.0e3 goto l7;
+
+  location l7:
+    edge do r := 12.34e-9 goto l8;
+
+  location l8:
+    urgent;
+end

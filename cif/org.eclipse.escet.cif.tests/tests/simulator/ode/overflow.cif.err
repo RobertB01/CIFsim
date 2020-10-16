@@ -1,0 +1,1 @@
+ERROR: The value of variable "x" has become "NaN", which is not supported. This may indicate an overflow. It might be possible to prevent this by setting a maximum delay for time transitions, or by shortening it. Alternatively, try restricting passage of time in the CIF specification itself.

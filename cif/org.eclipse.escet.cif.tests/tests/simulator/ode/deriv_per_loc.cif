@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton m:
+  cont x = 0.0;
+
+  location m1:
+    initial;
+    equation x' = 1.0;
+    edge when x >= 2.0 goto m2;
+
+  location m2:
+    equation x' = 2.0;
+    edge when x >= 4.0 goto m3;
+
+  location m3:
+    equation x' = 3.0;
+end

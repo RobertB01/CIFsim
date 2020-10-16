@@ -1,0 +1,4 @@
+const bool c2 = true;
+const bool c3 = true;
+invariant c2;
+invariant c3;

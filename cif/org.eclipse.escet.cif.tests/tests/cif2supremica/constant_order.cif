@@ -1,0 +1,33 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Constants must be declared before they are used. The transformation thus
+// orders them. However, preprocessing simplifies values, and thus the whole
+// problem evaporates.
+
+const int c1 = c3 * 2;  // 16
+const int c2 = 5;       // 5
+const int c3 = c2 + 3;  // 8
+
+uncontrollable u;
+
+plant p:
+  disc int[0..20] v;
+
+  marked v = 12;
+
+  location:
+    initial;
+    marked;
+    edge u do v := c1;         // Constant reference.
+end

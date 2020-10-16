@@ -1,0 +1,26 @@
+controllable c;
+uncontrollable u;
+automaton statespace:
+  alphabet c, u;
+  location loc1:
+    initial;
+    marked;
+    edge c goto loc6;
+  location loc2:
+    initial;
+    marked;
+    edge c goto loc7;
+  location loc3:
+    initial;
+    marked;
+  location loc4:
+    initial;
+    marked;
+  location loc5:
+    initial;
+    marked;
+  location loc6:
+    edge u goto loc1;
+  location loc7:
+    edge u goto loc2;
+end

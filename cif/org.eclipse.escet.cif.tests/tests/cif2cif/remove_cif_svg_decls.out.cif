@@ -1,0 +1,29 @@
+group def K():
+  group k:
+  end
+end
+group g:
+  group def H():
+    group g3:
+      print "f";
+    end
+    print "e";
+  end
+  automaton def B():
+    print "g";
+    location:
+      initial;
+  end
+  group g2:
+    print "c";
+  end
+  automaton a:
+    print "d";
+    location:
+      initial;
+  end
+  h: H();
+  b: B();
+  print "b";
+end
+print "a";

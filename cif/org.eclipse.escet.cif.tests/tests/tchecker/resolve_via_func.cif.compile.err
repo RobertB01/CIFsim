@@ -1,0 +1,2 @@
+ERROR: File "tchecker/resolve_via_func.cif": Semantic error at line 20, column 13: Could not resolve "x" via function "g.f", as declarations in functions are local to the function itself.
+ERROR: Failed to load CIF file "tchecker/resolve_via_func.cif": the file has errors.

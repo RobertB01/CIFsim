@@ -1,0 +1,4 @@
+ERROR: Simulation resulted in a runtime error, for state: time=2.0001392927754966, x=-1.3929277549773467e-4, y=1.8863693549260443.
+CAUSE: Evaluation of a derivative at time 2.0001392927754966 failed.
+CAUSE: Evaluation of the derivative of continuous variable "y" failed.
+CAUSE: Invalid operation: sqrt(-1.3929277549773467e-4).

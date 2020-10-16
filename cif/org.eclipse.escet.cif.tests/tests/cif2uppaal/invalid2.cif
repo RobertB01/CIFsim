@@ -1,0 +1,77 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event int[0..5] chan;                   // Channel.
+initial 1 = 1;                          // Init predicate in component.
+
+group g:
+  initial 3 = 3;                        // Init predicate in component.
+
+  automaton a1:                         // No initial location.
+    initial 5 = 5;                      // Init predicate in component.
+
+    location:
+      edge chan!1;                      // Send ignored (event decl reported).
+  end
+
+  automaton a2:                         // Multiple initial locations.
+    location l0:
+      initial;
+
+    location l1:
+      initial;
+  end
+
+  automaton a3:
+    disc int[0..3] x1 in {1, 2};        // Multiple initial values.
+    disc int[0..3] x2 in any;           // initial value.
+    disc int[0..3] x3 = x2;             // Too complex initial value.
+    disc int[0..3] x4 = (3, sqrt(-1.0))[0];
+                                        // Eval fail, real expr/type, -/sqrt,
+                                        // tuple type/expr, proj, func type.
+
+    location:
+      initial x1 + x2 + x3 + x4 = 1;    // Too complex init pred in location.
+  end
+
+  enum enm = lit1, lit2;                // Enumeration.
+  cont c der 1.0;                       // Continuous variable, real expr/type.
+  alg bool x = true;                    // Algebraic variable.
+  input bool i;                         // Input variable.
+
+  func bool f(bool p):                  // User-defined function.
+    return p;
+  end
+
+  automaton a4:
+    location:
+      initial sqrt(-1.0) > 0;           // Eval fail, real expr/type, -/>/sqrt.
+  end
+
+  event evt;
+
+  automaton a5:
+    disc int[0..5] x, y;
+    disc list int[0..5] li;             // List type.
+
+    location:
+      initial;
+      edge evt now;                     // Urgent edge.
+      edge do (x, y) := (1, 2);         // Multi-asgn, tuple expr/type (2x);
+      edge do li[0] := 3;               // Partial asgn, proj, list type.
+      edge do if true: x := 1 end;      // 'if' update.
+  end
+
+  invariant evt needs a5.x > 0;         // State/event exclusion invariant.
+  invariant a5.x > 0 disables evt;      // State/event exclusion invariant.
+end

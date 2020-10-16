@@ -1,0 +1,410 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-output-svgviz-chapter-svgout]]
+== CIF/SVG output mappings
+
+indexterm:[SVG output mapping]
+indexterm:[SVG,output mapping]
+indexterm:[SVG declaration,SVG output mapping]
+indexterm:[I/O declaration,SVG output mapping]
+indexterm:[see: svgout,SVG output mapping]
+For each update of a single attribute of an element in the SVG image, an
+_output mapping_ is needed. An output mapping essentially defines a connection
+between the CIF specification and the SVG image, for updating that specific
+attribute of that specific element.
+
+indexterm:[SVG output mapping,example]
+
+[[tools-cifsim-output-svgviz-svgout-simple]]
+=== A simple output mapping
+
+Assume we have the following CIF specification:
+
+
+[source, cif]
+----
+cont pos der 1.0;
+----
+
+Where variable `pos` is the position of some object, say a box. Then the
+following output mapping:
+
+
+[source, cif]
+----
+svgout id "box" attr "x" value pos;
+----
+
+Keeps the value of the `x` attribute of the SVG element with id `box` equal
+to the value of continuous variable `pos`.
+
+indexterm:[SVG output mapping,syntax]
+indexterm:[SVG output mapping,file]
+
+[[tools-cifsim-output-svgviz-svgout-syntax]]
+=== Syntax
+
+The general syntax of CIF/SVG output mappings is:
+
+
+[source, cif]
+----
+svgout id <id> attr <attr> value <value>;
+svgout id <id> attr <attr> value <value> file <file>;
+svgout id <id> text        value <value>;
+svgout id <id> text        value <value> file <file>;
+----
+
+The `svgout` keyword is followed by a specification of an SVG element
+<<tools-cifsim-output-svgviz-svg-id,id>>. Every output mapping must
+<<tools-cifsim-output-svgviz-svgout-id,specify the id>> of an SVG
+element, and an SVG element with that id must exist in the SVG image. The
+`id` indicates the element for which an attribute or text is to be updated.
+
+The `id` is followed by a specification of what part of the SVG element is to
+updated. That is, either an
+<<tools-cifsim-output-svgviz-svgout-attr,attribute>> or
+<<tools-cifsim-output-svgviz-svgout-text,text>> (label) is updated.
+
+After that, the <<tools-cifsim-output-svgviz-svgout-value,value>> of the
+attribute or text (label) is specified.
+
+In the syntax examples above, we see that it is also allowed to declare an
+optional local
+<<tools-cifsim-output-svgviz-chapter-svgfile,SVG file declaration>>, that only
+applies to that specific output declaration.
+
+indexterm:[SVG output mapping,id]
+
+[[tools-cifsim-output-svgviz-svgout-id]]
+=== SVG element id
+
+Every output mapping needs to specify the
+<<tools-cifsim-output-svgviz-svg-id,id>> of the SVG element to update.
+The id is checked, to make sure an SVG element with that id actually exists in
+the SVG image.
+
+Only valid SVG names may be used as ids. Valid SVG names start with a letter
+(`a` to `z`, `A` to `Z`), an underscore (`+_+`), or a colon (`:`),
+and may be followed by more of the same characters, as well as dashes (`-`),
+dots (`.`), and numbers (`0` to `9`).
+
+Ids must be put between double quotes. For instance, to use `some-name` as
+id, it must be written as `"some-name"`.
+
+Instead of using a hard coded SVG element id, it is also allowed to use an
+expression that when evaluated results in the SVG element id. Such an
+expression must evaluate to a `string` typed value, and must be statically
+evaluable (must not refer to variables that can change value during simulation,
+etc). For instance:
+
+
+[source, cif]
+----
+// Hard coded SVG element id.
+svgout id "box" attr "width" value ...;
+
+// Computed SVG element id.
+const string c = "bo";
+svgout id c + "x" attr "width" value ...;
+----
+
+The first output mapping applies to the SVG element with the id `box`. The
+`box` id is hard coded into the output mapping. The second
+output mapping uses the expression `c + "x"` to specify the SVG element id.
+Once the expression is evaluated (its value is computed), this results in the
+`string` typed value `"box"`. As such, the second mapping applies to the
+SVG element with id `box` as well.
+
+The expressions may also refer to for instance algebraic parameters of
+automaton definitions. Since different values can be given to the parameters
+for each instantiation, this allows the SVG element id to vary for the
+different instantiations of the automaton definition. This particular usage
+allows for reuse and scalable solutions. The
+<<tools-cifsim-output-svgviz-chapter-example-lamps,lamps example>> and
+<<tools-cifsim-output-svgviz-chapter-example-workstation,workstation example>>
+are good examples of this usage. This usage is often combined with
+<<tools-cifsim-output-svgviz-chapter-svgcopy,CIF/SVG copy declarations>> and
+<<tools-cifsim-output-svgviz-chapter-svgmove,CIF/SVG move declarations>>.
+
+indexterm:[SVG output mapping,attribute]
+
+[[tools-cifsim-output-svgviz-svgout-attr]]
+=== SVG attribute name
+
+Every output mapping needs to specify the name of the attribute of the SVG
+element to update (or `text`, see the
+<<tools-cifsim-output-svgviz-svgout-text>> section).
+Similarly to specifying ids, attribute names must be valid SVG names. They also
+need to be put between double quotes. Unlike SVG element ids, it is not
+possible to use expressions to specify attribute names. That is, only hard
+coded names can be used to specify attribute names.
+
+It is not allowed to change the ids of SVG elements, as it could lead to
+duplicate or missing ids. As such, output mappings for the `id` attribute
+(in any casing) are explicitly not supported. Similarly, changing the `style`
+attribute (in any casing) using an output mapping is explicitly not supported,
+to avoid conflicting style changes. See also the
+<<tools-cifsim-output-svgviz-svgout-svgcss>> section for more
+information about the `style` attribute.
+
+The supported attributes for an SVG element depend on what kind of element it
+is. For instance, a `rect` element can have an `x` and `y` position, a
+`width` and `height`, a `fill` color, etc. A `g` element (a group)
+however, does not support those position attributes. It is beyond the scope of
+this document to go into more detail. The software however, will warn about
+using attribute names that are not supported according to the SVG standard (to
+catch simple spelling mistakes), and specifying attributes on elements that
+don't support them. Consult the official
+link:http://www.w3.org/TR/SVG11/[SVG specification]
+for further details. The
+<<tools-cifsim-output-svgviz-examples,examples>> showcase several
+commonly used attributes as well.
+
+indexterm:[SVG output mapping,CSS style attributes]
+indexterm:[SVG output mapping,SVG presentation attributes]
+
+[[tools-cifsim-output-svgviz-svgout-svgcss]]
+=== SVG presentation attributes vs CSS style attributes
+
+SVG uses two kinds of attributes: SVG presentation attributes, and CSS style
+attributes. For instance, in the following partial SVG image:
+
+
+[source, svg]
+----
+<rect fill="red"        id="rect1" width="25" height="25" x="65" y="5"/>
+<rect style="fill:red;" id="rect2" width="25" height="25" x="15" y="5"/>
+----
+
+Rectangle `rect1` uses the SVG presentation attribute `fill` to specify the
+fill color the rectangle. Rectangle `rect2` uses the CSS style attribute
+`fill` to specify the fill color the rectangle. The SVG presentation
+attributes are all direct attributes of the SVG element. CSS style attributes
+on the other hand, are always part of the SVG presentation attribute `style`.
+
+link:https://en.wikipedia.org/wiki/Cascading_Style_Sheets[CSS]
+stands for
+_Cascading Style Sheets_, and it is a style sheet language used
+for describing the look and formatting of a document. It's best known for its
+use in styling web pages written in
+link:https://en.wikipedia.org/wiki/HTML[HTML].
+Like SVG, CSS is an international
+standard developed and maintained by the
+link:http://www.w3.org/[World Wide Web Consortium]
+(W3C). SVG reuses the CSS standard for its CSS style
+attributes. The most commonly used attributes for certain elements are also
+available in the SVG standard as SVG presentation attributes. Furthermore, SVG
+adds additional presentation attributes not found in CSS.
+
+If an attribute is specified on an element using both an SVG presentation
+attribute, and a CSS style attribute, the CSS style attribute usually takes
+precedence. The output mappings handle all of this automatically and
+transparently. That is, you just specify the attribute name in the header of
+the output mapping, and the simulator makes sure the proper attribute is
+update, regardless of whether it is an SVG presentation attribute, or a CSS
+style attribute. It is explicitly not supported to change the `style`
+attribute directly (using an output mapping), in order to avoid conflicting
+style changes when other output mappings update CSS style attributes that are
+part of that same `style` SVG presentation attribute.
+
+indexterm:[SVG output mapping,text]
+indexterm:[SVG output mapping,text labels]
+indexterm:[SVG,text]
+indexterm:[SVG,tspan]
+
+[[tools-cifsim-output-svgviz-svgout-text]]
+=== Text labels
+
+Changing the text of text labels is a special case, as text is not stored in
+attributes. Consider the following partial SVG image, which contains a text
+label (created using <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>,
+and with some of the irrelevant details omitted):
+
+
+[source, svg]
+----
+<text x="5" y="5" id="text1" style="font-size:16px;">
+  <tspan x="5" y="5" id="tspan2">
+    The actual text.
+  </tspan>
+</text>
+----
+
+Here we see a `text` element with id `text1`, which contains a `tspan`
+element with id `tspan2`. The `tspan` element contains some text. To change
+the text of this text label, use one of the following mappings:
+
+
+[source, cif]
+----
+svgout id "text1" text value ...;
+
+svgout id "tspan2" text value ...;
+----
+
+Here, instead of the `attr` keyword followed by the name of the attribute, we
+simply specify the `text` keyword. We can either use the id of the `text`
+element, or the id of the `tspan` element. More precisely, we can use the id
+of an element that contains text (such as the `tspan` element in our
+example), or an element (such as the `text` element in our example) that has
+a single child, which contains text, or an element that has a single child,
+which has an single child, which contains text, etc.
+
+In practice, it is usually the easiest to use the
+menu:Object Properties[]
+dialog of <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>, to get the
+properties of the text label. The
+menu:Id[]
+that is then shown, is the id of the `text` element.
+
+Note that Inkscape can create
+<<tools-cifsim-output-svgviz-inkscape-textarea,text areas>> (SVG `flowRoot` elements),
+which are not supported by the CIF tooling.
+
+indexterm:[SVG output mapping,value]
+indexterm:[SVG output mapping,type]
+
+[[tools-cifsim-output-svgviz-svgout-value]]
+=== Output mapping value
+
+In order for an output mapping to be able to update attributes or text labels,
+it needs a value. The
+<<tools-cifsim-output-svgviz-svgout-simple,simple output mapping>> example
+already showed how
+a value can be specified. This section further explains the details of the
+specification of such values.
+
+The `value` keyword is followed by an expression. This expression may
+for instance be a literal value, such as `1`, `true`, `1.0`,
+`"some text"`, or `[1, 2]`. At first, it might not seem useful to use a
+literal as a value for an output mapping, since the mapping will then produce
+the same value every time it is applied. However, the
+<<tools-cifsim-output-svgviz-chapter-example-rate,rate example>> shows why this can in fact be
+very useful.
+
+The expressions however, may also contain references to variables (discrete,
+continuous, or algebraic), functions, constants, locations, etc. For instance,
+we could use the value of a continuous variable and multiply it by two, by
+using `x * 2` as expression, assuming that the continuous variable is named
+`x`. Since we may refer to the <<tools-cifsim-traces-state,state>> of
+the CIF specification, the value of the expression can change as the simulation
+continues, resulting in different values being mapped to the image.
+
+The expressions can also include `if` expressions, which are particularly
+powerful in this context. Using `if` expressions, a different value can be
+used for several different conditions. See the
+<<tools-cifsim-output-svgviz-chapter-example-workstation,workstation example>> for an example of using
+`if` expressions in an output mapping.
+
+indexterm:[SVG output mapping,quoting]
+indexterm:[SVG output mapping,escaping]
+
+[[tools-cifsim-output-svgviz-svgout-quote-escape]]
+=== Quoting and escaping
+
+The value expression of an output mapping may be of any type. The result of
+evaluating the expression is converted to a textual representation that closely
+resembles the textual syntax of CIF, before using it to set the value of an
+attribute, or the text of a text label. For string literals this means that the
+text is escaped, and double quotes are added. If however the result of the
+expression is a `string` typed value, then that string is used 'as is'
+(without quoting, and without escaping). Thus, consider the following examples:
+
+
+[source, cif]
+----
+svgout id "..." attr "..." value ["a\"b"];
+svgout id "..." attr "..." value "a\"b";
+----
+
+The value of the first output mapping is a list that contains a single string
+value, while the value of the second output mapping is a string value directly.
+This results in the following texts being used as values of the attributes:
+
+
+[source, console]
+----
+["a\"b"]
+a"b
+----
+
+That is, in general string values are quoted and escaped, as is the case for
+the first example, where the result is a list. However, if the entire result
+is a string, as is the case with the second example, the string value is used
+'as is', without quoting and without escaping.
+
+indexterm:[SVG output mapping,whitespace]
+indexterm:[SVG output mapping,tabs]
+indexterm:[SVG output mapping,spaces]
+
+[[tools-cifsim-output-svgviz-svgout-whitespace]]
+=== Whitespace handling
+
+If the textual result of an output mapping contains a new line character (for
+instance due to including `\n` in a string literal or
+<<tools-cifsim-output-print-ref-fmt-pattern,format pattern>>), the new
+line character is ignored by SVG. Furthermore, tabs (`\t`) are replaced by a
+single space character. Finally,
+link:http://www.w3.org/TR/SVG/text.html#WhiteSpace[by default]
+consecutive
+spaces (including tabs) are merged together into a single space, and spaces at
+the beginning and end of the output of a mapping are discarded by SVG.
+
+This essentially renders `\n` and `\t` useless, as the first is ignored,
+and for the second spaces can be used instead.
+
+This also means that it is not possible to set multiple lines of text using a
+single output mapping. This is a fundamental restriction of SVG, not of CIF/SVG
+output mappings. In order to set multiple lines of text, multiple output
+mappings are needed, where each mapping sets a different text label (a
+different line).
+
+Note that if you enter multiple lines of text in
+<<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>, this results in a
+single `text` element, with multiple `tspan` child elements. The actual
+text of such `tspan` elements can then be updated using an output mapping
+for each `tspan` element. The benefit over multiple text labels (multiple
+`text` elements with a single `tspan` child element each) is that the one
+`text` element can be moved, making all the `tspan` child elements
+automatically move with it. That is, the lines of text are kept together by
+Inkscape.
+
+indexterm:[SVG output mapping,uniqueness]
+
+[[tools-cifsim-output-svgviz-svgout-unique]]
+=== Uniqueness of output mappings
+
+All output mappings must be unique, per SVG image. That is, no two mappings may
+use the exact same SVG element id and attribute name. Similarly, no two
+mappings may update the same text. That is, for the example above, it is not
+allowed to specify two mappings for the text of the SVG element with id
+`text1`. However, since both elements `text1` and `tspan1` have the same
+text, it is also not allowed to specify output mappings for the text of those
+two elements.
+
+indexterm:[SVG output mapping,application]
+indexterm:[SVG output mapping,order]
+
+[[tools-cifsim-output-svgviz-svgout-appl]]
+=== Application
+
+SVG output mappings are applied for <<tools-cifsim-traces-state,states>>
+<<tools-cifsim-output-realtime-frames,frames>>, throughout simulation.
+Their first application is after
+<<tools-cifsim-output-svgviz-chapter-svgcopy,copy declarations>> and
+<<tools-cifsim-output-svgviz-chapter-svgmove,move declarations>> declarations
+have been applied. For more information, see the
+<<tools-cifsim-output-svgviz-simulation-order>> section.

@@ -1,0 +1,170 @@
+Reading CIF file "datasynth/alg_vars.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..3]  p.c   0      2 * 2     4 * 2       4 * 2       100%
+  2      location pointer   n/a        q     1      1 * 2     2 * 2       2 * 2       100%
+  3      location pointer   n/a        r1    2      1 * 2     2 * 2       2 * 2       100%
+  4      location pointer   n/a        r2    3      1 * 2     2 * 2       2 * 2       100%
+  5      location pointer   n/a        r3    4      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      5      12        24          24          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 13
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    2 (total)                 0.15 (avg/edge) [before]
+    Total span:                    2 (total)                 0.15 (avg/edge) [iteration 1]
+    Total span:                    2 (total)                 0.15 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 4
+
+    Total span:                    2 (total)                 0.15 (avg/edge) [before]
+    Total span:                    2 (total)                 0.15 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (component state invariant):   r1.inactive or r3.inactive
+Invariant (components state invariant):  r1.inactive or r3.inactive
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      r1.inactive or r3.inactive
+
+Initial   (discrete variable 0):         true
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (aut/locs init predicate):     q.l1
+Initial   (aut/locs init predicate):     r1.inactive
+Initial   (aut/locs init predicate):     r2.inactive
+Initial   (aut/locs init predicate):     r3.inactive
+Initial   (auts/locs init predicate):    q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (uncontrolled system):         q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (system, combined init/inv):   q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (aut/locs marker predicate):   q.l1
+Marked    (aut/locs marker predicate):   r1.inactive
+Marked    (aut/locs marker predicate):   r2.inactive
+Marked    (aut/locs marker predicate):   r3.inactive
+Marked    (auts/locs marker predicate):  q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (uncontrolled system):         q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (system, combined marked/inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+
+State/event exclusion requirements:
+  Event "add" needs:
+    q.l1
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: add) (guard: true) (assignments: p.c := p.c + x)
+    Edge: (event: remove) (guard: true) (assignments: p.c := p.c - p.y)
+    Edge: (event: move) (guard: q.l1) (assignments: q := q.l2)
+    Edge: (event: move) (guard: q.l2) (assignments: q := q.l1)
+    Edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active)
+    Edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive)
+    Edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active)
+    Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
+    Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
+    Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+
+Initialized controlled-behavior predicate using invariants: r1.inactive or r3.inactive.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: add) (guard: true) (assignments: p.c := p.c + x): guard: true -> q.l1 [requirement: q.l1].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: r1.inactive or r3.inactive)
+    Edge: (event: add) (guard: true -> q.l1) (assignments: p.c := p.c + x)
+    Edge: (event: remove) (guard: true) (assignments: p.c := p.c - p.y)
+    Edge: (event: move) (guard: q.l1) (assignments: q := q.l2)
+    Edge: (event: move) (guard: q.l2) (assignments: q := q.l1)
+    Edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active)
+    Edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive)
+    Edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active)
+    Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
+    Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
+    Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: q.l1 and r1.inactive and (r2.inactive and r3.inactive) [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: q.l1 and r1.inactive and (r2.inactive and r3.inactive) -> r1.inactive and (r2.inactive and r3.inactive) [backward reach with edge: (event: move) (guard: q.l2) (assignments: q := q.l1), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Backward controlled-behavior: r1.inactive and (r2.inactive and r3.inactive) -> r2.inactive and r3.inactive [backward reach with edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Backward controlled-behavior: r2.inactive and r3.inactive -> r3.inactive [backward reach with edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Backward controlled-behavior: r3.inactive -> r1.inactive or r3.inactive [backward reach with edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Backward reachability: iteration 2.
+Backward controlled-behavior: r1.inactive or r3.inactive [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: r1.active and r3.active [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: q.l1 and r1.inactive and (r2.inactive and r3.inactive) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: q.l1 and r1.inactive and (r2.inactive and r3.inactive) -> r1.inactive and (r2.inactive and r3.inactive) [forward reach with edge: (event: move) (guard: q.l1) (assignments: q := q.l2), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Forward controlled-behavior: r1.inactive and (r2.inactive and r3.inactive) -> r2.inactive and r3.inactive [forward reach with edge: (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Forward controlled-behavior: r2.inactive and r3.inactive -> r3.inactive [forward reach with edge: (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Forward controlled-behavior: r3.inactive -> r1.inactive or r3.inactive [forward reach with edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active), restricted to current/previous controlled-behavior predicate: r1.inactive or r3.inactive]
+Forward reachability: iteration 2.
+Forward controlled-behavior: r1.inactive or r3.inactive [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: add) (guard: true -> q.l1) (assignments: p.c := p.c + x): guard: q.l1 -> (p.c = 1 or p.c = 3 or (q.l2 or (r1.inactive or r3.inactive))) and (p.c = 1 or (p.c = 3 or q.l1)) and ((p.c != 1 or q.l2 or (r1.inactive or r3.inactive)) and ((p.c != 1 or q.l1) and p.c != 3)).
+Edge (event: remove) (guard: true) (assignments: p.c := p.c - p.y): guard: true -> p.c != 0 and ((p.c != 2 or (r1.inactive or r3.inactive)) and (p.c = 0 or p.c = 2 or (r1.inactive or r3.inactive))).
+Edge (event: move) (guard: q.l1) (assignments: q := q.l2): guard: q.l1 -> (q.l2 or (r1.inactive or r3.inactive)) and q.l1.
+Edge (event: move) (guard: q.l2) (assignments: q := q.l1): guard: q.l2 -> q.l2 and (q.l1 or (r1.inactive or r3.inactive)).
+Edge (event: r1.activate) (guard: r1.inactive) (assignments: r1 := r1.active): guard: r1.inactive -> r1.inactive and r3.inactive.
+Edge (event: r2.activate) (guard: r2.inactive) (assignments: r2 := r2.active): guard: r2.inactive -> r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive).
+Edge (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive): guard: r2.active -> r1.inactive and r2.active or r1.active and (r2.active and r3.inactive).
+Edge (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active): guard: r3.inactive -> r1.inactive and r3.inactive.
+
+Final synthesis result:
+  State: (controlled-behavior: r1.inactive or r3.inactive)
+    Edge: (event: add) (guard: true -> (p.c = 1 or p.c = 3 or (q.l2 or (r1.inactive or r3.inactive))) and (p.c = 1 or (p.c = 3 or q.l1)) and ((p.c != 1 or q.l2 or (r1.inactive or r3.inactive)) and ((p.c != 1 or q.l1) and p.c != 3))) (assignments: p.c := p.c + x)
+    Edge: (event: remove) (guard: true -> p.c != 0 and ((p.c != 2 or (r1.inactive or r3.inactive)) and (p.c = 0 or p.c = 2 or (r1.inactive or r3.inactive)))) (assignments: p.c := p.c - p.y)
+    Edge: (event: move) (guard: q.l1 -> (q.l2 or (r1.inactive or r3.inactive)) and q.l1) (assignments: q := q.l2)
+    Edge: (event: move) (guard: q.l2 -> q.l2 and (q.l1 or (r1.inactive or r3.inactive))) (assignments: q := q.l1)
+    Edge: (event: r1.activate) (guard: r1.inactive -> r1.inactive and r3.inactive) (assignments: r1 := r1.active)
+    Edge: (event: r1.deactivate) (guard: r1.active) (assignments: r1 := r1.inactive)
+    Edge: (event: r2.activate) (guard: r2.inactive -> r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive)) (assignments: r2 := r2.active)
+    Edge: (event: r2.deactivate) (guard: r2.active -> r1.inactive and r2.active or r1.active and (r2.active and r3.inactive)) (assignments: r2 := r2.inactive)
+    Edge: (event: r3.activate) (guard: r3.inactive -> r1.inactive and r3.inactive) (assignments: r3 := r3.active)
+    Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+
+Controlled system:                     exactly 48 states.
+
+Initial (synthesis result):            r1.inactive or r3.inactive
+Initial (uncontrolled system):         q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial (controlled system):           q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event r1.activate: guard: r1.inactive and r3.inactive -> r3.inactive [assume r1.inactive].
+  Event r1.deactivate: guard: r1.active -> true [assume r1.active].
+  Event r2.activate: guard: r1.inactive and r2.inactive or r1.active and (r2.inactive and r3.inactive) -> r1.inactive or r3.inactive [assume r2.inactive].
+  Event r2.deactivate: guard: r1.inactive and r2.active or r1.active and (r2.active and r3.inactive) -> r1.inactive or r3.inactive [assume r2.active].
+  Event r3.activate: guard: r1.inactive and r3.inactive -> r1.inactive [assume r3.inactive].
+  Event r3.deactivate: guard: r3.active -> true [assume r3.active].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/alg_vars.ctrlsys.real.cif".

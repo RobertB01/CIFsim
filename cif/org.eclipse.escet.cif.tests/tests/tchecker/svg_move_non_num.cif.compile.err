@@ -1,0 +1,3 @@
+ERROR: File "tchecker/svg_move_non_num.cif": Semantic error at line 16, column 21: The SVG move declaration x coordinate must have a numeric type, but is of type "bool".
+ERROR: File "tchecker/svg_move_non_num.cif": Semantic error at line 17, column 24: The SVG move declaration y coordinate must have a numeric type, but is of type "bool".
+ERROR: Failed to load CIF file "tchecker/svg_move_non_num.cif": the file has errors.

@@ -1,0 +1,2 @@
+ERROR: Failed to apply language equivalence check for CIF file "event_based/lang_equiv/different_alphabet.cif".
+CAUSE: Automaton "X" has a different alphabet than automaton "Y".

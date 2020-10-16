@@ -1,0 +1,24 @@
+Input/output report of the ranges.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+aut1 1
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+No variables are available here.
+
+Outputs
+-------
+aut1    1
+aut1.x1 2
+aut1.x2 3
+aut1.x3 4
+aut1.x4 5

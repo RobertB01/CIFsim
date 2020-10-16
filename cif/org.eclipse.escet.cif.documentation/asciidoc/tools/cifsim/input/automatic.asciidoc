@@ -1,0 +1,190 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-chapter-automatic]]
+== Automatic input mode
+
+indexterm:[input mode,automatic input mode]
+indexterm:[automatic input mode]
+In the automatic input mode, the simulator automatically chooses transitions
+as well time transition durations. How the simulator chooses however, can be
+influenced using options. These options are explained below. The final section
+of this page explains the
+<<tools-cifsim-input-automatic-limitations,limitations>> of using these
+options.
+
+indexterm:[automatic input mode,automatic mode choice algorithm option]
+
+[[tools-cifsim-input-automatic-trans]]
+=== Automatic mode choice algorithm option
+
+In the automatic input mode, the simulator automatically chooses the
+transitions to take, without any user interaction. The choice that is made
+can however be influenced using the
+menu:Automatic mode choice algorithm[]
+option (menu:Input[]
+category). The following choices are available:
+
+* First transition.
+
+* Last transition.
+
+* Random transition (random seed).
+
+* Random transition (specific seed).
+
+The options to choose the first or last transition do exactly what they state,
+i.e. they choose the first respectively the last transition from the list of
+possible transitions. Note that event transitions are always listed before
+time transitions, but event transitions can only be listed together with time
+transitions if <<tools-cifsim-chapter-env-events,environment events>> are
+present. Also note that if transitions for the `tau` event are present, they
+are listed after the transitions for all other events.
+
+indexterm:[seed,automatic mode choice algorithm option]
+The other two options randomly choose a transition from the possible
+transitions. If a random seed (for the random number generator) is used, each
+simulation will potentially choose a different trace. In this case, the seed
+that is used, is <<tools-cifsim-output-chapter-normal,printed>> to the console
+at the start of the simulation. If a specific seed is used, then the choices
+are still random, but can be reproduced. Each simulation, using random
+automatic input mode, with the same seed, for the same specification, should
+lead to the same <<tools-cifsim-chapter-traces,trace>>. Seeds are integer
+numbers from the range [0 .. 2^30^].
+
+indexterm:[automatic input mode,automatic mode transition duration option]
+
+[[tools-cifsim-input-automatic-time]]
+=== Automatic mode time transition duration option
+
+In the automatic input mode, the simulator automatically chooses the durations
+of the time transitions, without any user interaction. The choice that is made
+can however be influenced using the
+menu:Automatic mode time transition duration[]
+option (menu:Input[]
+category). The following choices are
+available:
+
+* Maximum allowed duration.
+
+* Random duration (random seed).
+
+* Random duration (specific seed).
+
+The option to choose the maximum allowed duration does exactly what it states,
+i.e. it chooses the maximum allowed duration for each time transition, until
+the next potential state event.
+
+indexterm:[seed,automatic mode transition duration option]
+The other two options randomly choose a duration for the time transitions.
+For both options, a uniform random distribution is used, which is sampled to
+obtain the time at which time transitions are to be 'interrupted' or 'cut off'.
+The upper bound (exclusive) of the uniform random distribution is to be
+provided by the user. You can think of these random options as adding an extra
+automaton to the specification, that could look as follows:
+
+
+[source, cif]
+----
+automaton auto_time_trans_duration:
+  const real UPPER = ...;
+  disc dist real d = uniform(0.0, UPPER);
+  disc real timeToWait;
+  cont t der 1.0;
+
+  location sampling:
+    initial;
+    edge do (timeToWait, d) := sample d goto waiting;
+
+  location waiting:
+    edge when t >= timeToWait do t := 0.0 goto sampling;
+end
+----
+
+The upper bound of the uniform real distribution (`UPPER` > 0), is provided
+by the user. A sample is taken from the distribution, indicating the time to
+wait before the time transition is to be interrupted. Once that much time has
+elapsed, a new sample is taken, and the process repeats itself. The actual
+implementation is slightly different, in that no actual automaton is added,
+no additional `tau` transitions result from using this option, and no zero
+length time transitions are chosen. However, the effect is very similar.
+
+So, say the user wants to use a uniform distribution over interval [0 .. 10).
+The simulator takes a sample, say 3.0. Assume we then get a time transition for
+at most 0.5 time units. We take that entire transition and are left with 2.5
+remaining time units (3.0 - 0.5). If we then get another time transition for at
+most 1.2 time units, we take that one entirely as well. We are left with 1.3
+(2.5 - 1.2) time units. If we would then get a time transition for at most 5.0
+time units, the automatic input component ensures that we instead get a time
+transition for at most 1.3 time units, instead of one for at most 5.0 time
+units. Since we choose to interrupt after 1.3 time units anyway, there is no
+reason to compute the remainder of the time transition after those 1.3 time
+units. We choose the entire time transition of 1.3 time units, and compute a
+new sample. The simulator then once again calculates new transitions, and the
+process repeats. The next time transition that is calculated will be for the
+remaining 3.7 (5.0 - 1.3) time units, unless it is interrupted again before
+that time, i.e. if the new sample is smaller than 3.7.
+
+If a random seed (for the random number generator) is used, each simulation
+will potentially choose a different trace. In this case, the seed that is used,
+is <<tools-cifsim-output-chapter-normal,printed>> to the console at the start of
+the simulation. If a specific seed is used, then the choices are still random,
+but can be reproduced. Each simulation, using random automatic time transition
+duration, with the same seed, for the same specification, should lead to the
+same <<tools-cifsim-chapter-traces,trace>>. Seeds are integer numbers from the
+range [0 .. 2^30^].
+
+The random durations are particularly useful in combination with
+<<tools-cifsim-chapter-env-events,environment events>>, as it allows the
+environment events to be chosen at the time the time transition is interrupted.
+That is, it allows the environment events to occur at random times.
+Using this option, the user can specify the distribution used for 'cutting up'
+the time transitions, and thus the possible moments when environment events can
+potentially take place. This is in addition to the state events, at which the
+environment events can also be chosen. These new additional possibilities
+however, are not influenced by the occurrence rate of the events of the system,
+and allow more control for the user. In particular for cases where the
+simulation allows infinite time transitions (no state events), the infinite
+time transitions can then be interrupted to allow environment events to take
+place.
+
+indexterm:[automatic input mode,limitations]
+
+[[tools-cifsim-input-automatic-limitations]]
+=== Limitations
+
+Using the two options described above, and choosing random for each of them,
+introduces a certain degree of randomness to the
+<<tools-cifsim-chapter-traces,trace>> that the simulator will explore. This
+randomness however, is rather limited. For one, the distributions that are
+used are mostly fixed, as the options don't allow using for instance an
+exponential distribution. Furthermore, there is no way to specify the
+distribution for events individually, and it is not possible to specify the
+distribution between event transitions and time transitions. Concretely, the
+options for instance don't enforce that environment events get chosen. They
+_may_ be chosen when the time transitions are interrupted, or at state events,
+but that is not guaranteed, as the simulator may choose the time transition
+again, after the interruption.
+
+The options provide a lightweight, quick, and easy to use approach to adding
+some randomness. If more control is needed, the environment can instead be
+modeled explicitly in the CIF model, thus defining when the environment events
+may or will occur. One way to accomplish this, is by adding a use case.
+
+
+=== Undo/reset
+
+The automatic input mode does not support
+<<tools-cifsim-input-history-reset-undo,undo>> and
+<<tools-cifsim-input-history-reset-undo,reset>>.

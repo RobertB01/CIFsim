@@ -1,0 +1,34 @@
+group g:
+  controllable e1;
+  controllable e2;
+  controllable e3;
+  controllable e4;
+  plant automaton p:
+    disc bool b0;
+    disc bool b1 = true;
+    disc bool b2 = false;
+    disc bool b3 in {true, false};
+    disc bool b4 in any;
+    initial b1,
+            b3,
+            b4;
+    location:
+      initial;
+      marked b0;
+      edge e1 do b0 := not b0;
+      edge e2 when not b2 do b0 := 1 = 1;
+      edge e3 when b4;
+      edge e4 when b3 = true;
+      edge e4 when b3 = false;
+  end
+end
+supervisor automaton sup:
+  alphabet g.e1, g.e2, g.e3, g.e4;
+  location:
+    initial;
+    marked;
+    edge g.e1 when not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1);
+    edge g.e2 when g.p.b3 and (g.p.b4 and g.p.b1);
+    edge g.e3 when not g.p.b2 and (g.p.b3 and g.p.b1);
+    edge g.e4 when not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1);
+end

@@ -1,0 +1,16 @@
+event mm;
+event bm;
+event mb;
+automaton statespace:
+  alphabet bm, mb, mm;
+  location loc1:
+    initial;
+    edge mb goto loc2;
+  location loc2:
+    edge mm goto loc3;
+  location loc3:
+    edge bm goto loc1;
+    edge mb goto loc4;
+  location loc4:
+    edge bm goto loc2;
+end

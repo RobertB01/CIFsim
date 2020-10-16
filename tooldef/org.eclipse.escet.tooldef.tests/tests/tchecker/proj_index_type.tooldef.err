@@ -1,0 +1,9 @@
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 14, column 25: Cannot project a value of type "list int", with an index value of type "bool", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 15, column 27: Cannot project a value of type "map(int:int)", with an index value of type "bool", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 16, column 28: Cannot project a value of type "string", with an index value of type "bool", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 17, column 28: Cannot project a value of type "tuple(int, int)", with an index value of type "bool", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 19, column 25: Cannot project a value of type "list int", with an index value of type "int?", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 20, column 27: Cannot project a value of type "map(int:int)", with an index value of type "int?", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 21, column 28: Cannot project a value of type "string", with an index value of type "int?", as an index value of type "int" is expected.
+ERROR: File "tchecker/proj_index_type.tooldef": Semantic error at line 22, column 28: Cannot project a value of type "tuple(int, int)", with an index value of type "int?", as an index value of type "int" is expected.
+ERROR: Failed to load ToolDef file "tchecker/proj_index_type.tooldef": the file has errors.

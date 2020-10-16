@@ -1,0 +1,1 @@
+ERROR: File "models_invalid/unsupported_non_ascii_char.setext": Scanning failed for character "ë" (Unicode U+EB) at line 13, column 12.

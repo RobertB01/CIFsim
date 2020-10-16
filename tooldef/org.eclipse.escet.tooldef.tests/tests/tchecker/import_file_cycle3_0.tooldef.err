@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_cycle3_0.tooldef": Semantic error at line 14, column 8: Imported ToolDef script "import_file_cycle3_1.tooldef" has an error: Import cycle detected: "import_file_cycle3_2.tooldef" -> "import_file_cycle3_3.tooldef" -> "import_file_cycle3_1.tooldef".
+ERROR: Failed to load ToolDef file "tchecker/import_file_cycle3_0.tooldef": the file has errors.

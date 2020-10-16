@@ -1,0 +1,27 @@
+controllable a;
+controllable b;
+controllable c;
+plant automaton p:
+  disc int[0..10] x = 5;
+  disc int[0..10] y = 12 - 6;
+  location:
+    initial;
+    marked;
+    edge a do x := x + 1;
+    edge b do x := x - 1, y := y + 1;
+    edge c do y := y - 1;
+end
+supervisor automaton r:
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet a, b, c;
+  location:
+    initial;
+    marked;
+    edge a when not(p.x = 0 or p.x = 8) and ((p.x != 4 or (0 <= p.y and p.y <= 7 or p.y = 9)) and (p.x != 4 or p.y != 9)) and ((p.x != 4 or p.y != 7) and ((not(p.x = 2 or p.x = 6) or (0 <= p.y and p.y <= 7 or p.y = 9)) and (not(p.x = 2 or p.x = 6) or p.y != 9))) and ((not(p.x = 2 or p.x = 6) or p.y != 7) and (p.x != 10 and (not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or (0 <= p.y and p.y <= 7 or p.y = 9))) and ((not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or p.y != 9) and ((not(p.x = 1 or p.x = 3 or (p.x = 5 or p.x = 7)) or p.y != 7) and p.x != 9)));
+    edge b when p.x = 8 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 8 and (p.y = 2 or p.y = 3) or p.x = 4 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 4 and (p.y = 2 or p.y = 3) or (p.x = 6 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or p.x = 6 and (p.y = 2 or p.y = 3))) or (p.x = 9 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 9 and (p.y = 2 or p.y = 3) or p.x = 5 and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5))) or (p.x = 5 and (p.y = 2 or p.y = 3) or ((p.x = 3 or p.x = 7) and (p.y = 0 or p.y = 1 or (p.y = 4 or p.y = 5)) or (p.x = 3 or p.x = 7) and (p.y = 2 or p.y = 3))));
+    edge c when p.x != 0 and (p.x != 8 or not(p.y = 0 or p.y = 8)) and ((p.x != 8 or p.y != 10) and (p.x != 8 or p.y != 9)) and ((p.x != 4 or not(p.y = 0 or p.y = 8)) and (p.x != 4 or p.y != 10) and ((p.x != 4 or p.y != 9) and ((not(p.x = 2 or p.x = 6) or not(p.y = 0 or p.y = 8)) and (not(p.x = 2 or p.x = 6) or p.y != 10)))) and ((not(p.x = 2 or p.x = 6) or p.y != 9) and p.x != 10 and (not(p.x = 1 or p.x = 9) and (p.x != 5 or not(p.y = 0 or p.y = 8))) and ((p.x != 5 or p.y != 10) and (p.x != 5 or p.y != 9) and ((not(p.x = 3 or p.x = 7) or not(p.y = 0 or p.y = 8)) and ((not(p.x = 3 or p.x = 7) or p.y != 10) and (not(p.x = 3 or p.x = 7) or p.y != 9)))));
+end

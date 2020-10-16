@@ -1,0 +1,7 @@
+ERROR: File "tchecker/not_in_tool.tooldef": Semantic error at line 16, column 5: A "return" statement can only be used inside a tool definition.
+ERROR: File "tchecker/not_in_tool.tooldef": Semantic error at line 19, column 5: A "return" statement can only be used inside a tool definition.
+ERROR: File "tchecker/not_in_tool.tooldef": Semantic error at line 24, column 3: A "return" statement can only be used inside a tool definition.
+ERROR: File "tchecker/not_in_tool.tooldef": Semantic error at line 26, column 3: A "return" statement can only be used inside a tool definition.
+ERROR: File "tchecker/not_in_tool.tooldef": Semantic error at line 28, column 3: A "return" statement can only be used inside a tool definition.
+ERROR: File "tchecker/not_in_tool.tooldef": Semantic error at line 35, column 1: A "return" statement can only be used inside a tool definition.
+ERROR: Failed to load ToolDef file "tchecker/not_in_tool.tooldef": the file has errors.

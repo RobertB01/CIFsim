@@ -1,0 +1,5 @@
+ERROR: File "tchecker/cls_path_not_found.cif": Semantic error at line 14, column 17: Class path entry "does_not_exist.jar" could not be found.
+ERROR: File "tchecker/cls_path_not_found.cif": Semantic error at line 15, column 17: Class path entry "does_not_exist\does_not_exist.jar" could not be found.
+ERROR: File "tchecker/cls_path_not_found.cif": Semantic error at line 16, column 17: Class path entry "does_not_exist1.jar" could not be found.
+ERROR: File "tchecker/cls_path_not_found.cif": Semantic error at line 16, column 17: Class path entry "does_not_exist2.jar" could not be found.
+ERROR: Failed to load CIF file "tchecker/cls_path_not_found.cif": the file has errors.

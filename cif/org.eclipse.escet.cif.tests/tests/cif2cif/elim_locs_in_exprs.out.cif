@@ -1,0 +1,105 @@
+automaton p1:
+  disc bool x;
+  disc LOCS_p1 LP_p1 = LOC_l1;
+  enum LOCS_p1 = LOC_l1, LOC_l2;
+  invariant LP_p1 = LOC_l1 or LP_p1 = LOC_l2;
+  location l1:
+    initial;
+    edge when LP_p1 = LOC_l1 do x := LP_p1 = LOC_l1, LP_p1 := LOC_l2 goto l2;
+  location l2:
+    edge when LP_p1 = LOC_l1 or LP_p1 = LOC_l2 do LP_p1 := LOC_l1 goto l1;
+end
+automaton p2:
+  disc bool LP_p2;
+  disc bool LOCS_p2;
+  disc bool LOC_l1;
+  disc bool LOC_l12;
+  disc LOCS_p22 LP_p22 = LOC_l13;
+  enum LOCS_p22 = LOC_l13;
+  invariant LP_p2 or LOCS_p2 or LOC_l1 or LOC_l12;
+  location l1:
+    initial;
+    edge when LP_p2 or LP_p22 = LOC_l13;
+end
+automaton p3:
+  location l:
+    initial;
+end
+automaton p4a:
+  disc LOCS_p4a LP_p4a = LOC_l1;
+  enum LOCS_p4a = LOC_l1, LOC_l2;
+  location l1:
+    initial;
+    edge when p4b.LP_p4b = p4b.LOC_l do LP_p4a := LOC_l2 goto l2;
+  location l2;
+end
+automaton p4b:
+  disc LOCS_p4b LP_p4b = LOC_l;
+  enum LOCS_p4b = LOC_l;
+  invariant p4a.LP_p4a = p4a.LOC_l2;
+  location l:
+    initial;
+end
+automaton p5:
+  disc bool x in {true, false};
+  disc bool x2;
+  disc LOCS_p5 LP_p5 in any;
+  enum LOCS_p5 = LOC_l1, LOC_l2, LOC_l3, LOC_l4, LOC_l5, LOC_l6, LOC_l7;
+  location l1;
+  location l2:
+    initial true,
+            LP_p5 = LOC_l2;
+    edge when true do LP_p5 := LOC_l1 goto l1;
+  location l3:
+    initial false;
+  location l4:
+    initial true,
+            LP_p5 = LOC_l4;
+    edge when true do LP_p5 := LOC_l3 goto l3;
+  location l5:
+    initial LP_p5 = LOC_l3,
+            LP_p5 = LOC_l5;
+  location l6:
+    initial x,
+            LP_p5 = LOC_l6;
+    edge when true do LP_p5 := LOC_l7 goto l7;
+  location l7:
+    initial x2;
+end
+automaton p6:
+  disc bool x;
+  disc int y;
+  disc LOCS_p6 LP_p6 in any;
+  enum LOCS_p6 = LOC_l1, LOC_l2;
+  location l1:
+    initial true,
+            LP_p6 = LOC_l1;
+    edge do y := 5, LP_p6 := LOC_l2 goto l2;
+    edge do y := 5, x := LP_p6 = LOC_l1 goto l1;
+  location l2:
+    initial true,
+            LP_p6 = LOC_l2;
+    edge do if x: y := 0 else y := 1 end, x := false, LP_p6 := LOC_l1 goto l1;
+end
+automaton p_switch1:
+  alg real x1 = switch LP_p_switch1: else 1.0 end;
+  disc LOCS_p_switch1 LP_p_switch1 = LOC_l1;
+  enum LOCS_p_switch1 = LOC_l1;
+  location l1:
+    initial;
+end
+automaton p_switch2:
+  alg real x1 = switch 5: case 5: 1.0 else 2.0 end;
+  alg real x2 = switch true: case LP_p_switch2 = LOC_l1: 3.0 else 4.0 end;
+  alg real x3 = switch LP_p_switch2: case LOC_l1: 5.0 else 6.0 end;
+  alg real x4 = switch LP_p_switch2: case LOC_l1: 7.0 else 8.0 end;
+  alg real x5 = switch LP_p_switch2: case LOC_l1: 9.0 else 10.0 end;
+  alg real x6 = switch LP_p_switch2: case LOC_l1: 11.0 else 12.0 end;
+  alg bool x7 = switch true: case LP_p_switch2 = LOC_l1: LP_p_switch2 = LOC_l1 case LP_p_switch2 = LOC_l2: LP_p_switch2 = LOC_l2 else false end;
+  disc LOCS_p_switch2 LP_p_switch2 = LOC_l1;
+  enum LOCS_p_switch2 = LOC_l1, LOC_l2;
+  location l1:
+    initial;
+    edge tau do LP_p_switch2 := LOC_l2 goto l2;
+  location l2;
+end

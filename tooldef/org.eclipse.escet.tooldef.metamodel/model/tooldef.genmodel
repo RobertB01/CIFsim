@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation&#xA;&#xA;See the NOTICE file(s) distributed with this work for additional&#xA;information regarding copyright ownership.&#xA;&#xA;This program and the accompanying materials are made available under the terms&#xA;of the MIT License which is available at https://opensource.org/licenses/MIT&#xA;&#xA;SPDX-License-Identifier: MIT&#xA;&#xA;Disable Eclipse Java formatter for generated code file:&#xA;@formatter:off"
+    modelDirectory="/org.eclipse.escet.tooldef.metamodel/src-gen" editDirectory=""
+    editorDirectory="" modelPluginID="org.eclipse.escet.tooldef.metamodel" modelName="Tooldef"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory=""
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="platform:/plugin/org.eclipse.escet.common.position.metamodel/model/position.genmodel#//position"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>tooldef.ecore</foreignModel>
+  <genPackages prefix="Tooldef" basePackage="org.eclipse.escet.tooldef.metamodel"
+      disposableProviderFactory="true" fileExtensions="tooldefx" ecorePackage="tooldef.ecore#/">
+    <genDataTypes ecoreDataType="tooldef.ecore#//Token"/>
+    <genDataTypes ecoreDataType="tooldef.ecore#//Method"/>
+    <genClasses ecoreClass="tooldef.ecore#//Script">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//Script/declarations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//Script/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tooldef.ecore#//Declaration"/>
+    <genClasses image="false" ecoreClass="tooldef.ecore#//Import"/>
+    <genClasses ecoreClass="tooldef.ecore#//TypeDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//TypeDecl/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//TypeDecl/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tooldef.ecore#//Tool">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//Tool/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//Tool/returnTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//Tool/typeParams"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//Tool/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="tooldef.ecore#//TypeParam">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//TypeParam/name"/>
+    </genClasses>
+    <genClasses ecoreClass="tooldef.ecore#//ToolParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//ToolParameter/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//ToolParameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//ToolParameter/variadic"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//ToolParameter/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tooldef.ecore#//ToolDefImport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//ToolDefImport/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//ToolDefImport/origName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//ToolDefImport/asName"/>
+    </genClasses>
+    <genClasses ecoreClass="tooldef.ecore#//JavaImport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//JavaImport/pluginName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//JavaImport/methodName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//JavaImport/asName"/>
+    </genClasses>
+    <genClasses ecoreClass="tooldef.ecore#//ToolDefTool">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//ToolDefTool/statements"/>
+    </genClasses>
+    <genClasses ecoreClass="tooldef.ecore#//JavaTool">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//JavaTool/pluginName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//JavaTool/methodName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//JavaTool/method"/>
+    </genClasses>
+    <nestedGenPackages prefix="Expressions" disposableProviderFactory="true" ecorePackage="tooldef.ecore#//expressions">
+      <genClasses image="false" ecoreClass="tooldef.ecore#//expressions/Expression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/Expression/type"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/ToolInvokeExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ToolInvokeExpression/arguments"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ToolInvokeExpression/tool"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/ToolRef">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/ToolRef/builtin"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/ToolRef/name"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ToolRef/tool"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/BoolExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/BoolExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/NumberExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/NumberExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/NullExpression"/>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/DoubleExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/DoubleExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/CastExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/CastExpression/child"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/ListExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ListExpression/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/SetExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/SetExpression/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/MapExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/MapExpression/entries"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/MapEntry">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/MapEntry/key"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/MapEntry/value"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/EmptySetMapExpression"/>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/UnresolvedRefExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/UnresolvedRefExpression/name"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/ToolArgument">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ToolArgument/value"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/ToolArgument/name"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/VariableExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tooldef.ecore#//expressions/VariableExpression/variable"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/StringExpression">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//expressions/StringExpression/value"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/ProjectionExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ProjectionExpression/child"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ProjectionExpression/index"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/SliceExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/SliceExpression/child"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/SliceExpression/begin"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/SliceExpression/end"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/TupleExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//expressions/TupleExpression/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//expressions/ToolParamExpression">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tooldef.ecore#//expressions/ToolParamExpression/param"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Statements" disposableProviderFactory="true" ecorePackage="tooldef.ecore#//statements">
+      <genClasses image="false" ecoreClass="tooldef.ecore#//statements/Statement"/>
+      <genClasses ecoreClass="tooldef.ecore#//statements/Variable">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//statements/Variable/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/Variable/type"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/Variable/value"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/WhileStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/WhileStatement/condition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/WhileStatement/statements"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/BreakStatement"/>
+      <genClasses ecoreClass="tooldef.ecore#//statements/ContinueStatement"/>
+      <genClasses ecoreClass="tooldef.ecore#//statements/ReturnStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ReturnStatement/values"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/ExitStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ExitStatement/exitCode"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/ForStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ForStatement/statements"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ForStatement/source"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ForStatement/addressables"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/IfStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/IfStatement/condition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/IfStatement/thens"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/IfStatement/elifs"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/IfStatement/elses"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/AssignmentStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/AssignmentStatement/addressables"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/AssignmentStatement/values"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/ToolInvokeStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ToolInvokeStatement/invocation"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/ElifStatement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ElifStatement/condition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/ElifStatement/thens"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="tooldef.ecore#//statements/AddressableDecl"/>
+      <genClasses ecoreClass="tooldef.ecore#//statements/TupleAddressableDecl">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/TupleAddressableDecl/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//statements/VariableAddressableDecl">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//statements/VariableAddressableDecl/variable"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Types" disposableProviderFactory="true" ecorePackage="tooldef.ecore#//types">
+      <genClasses image="false" ecoreClass="tooldef.ecore#//types/ToolDefType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//types/ToolDefType/nullable"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/BoolType"/>
+      <genClasses ecoreClass="tooldef.ecore#//types/IntType"/>
+      <genClasses ecoreClass="tooldef.ecore#//types/LongType"/>
+      <genClasses ecoreClass="tooldef.ecore#//types/DoubleType"/>
+      <genClasses ecoreClass="tooldef.ecore#//types/StringType"/>
+      <genClasses ecoreClass="tooldef.ecore#//types/ObjectType"/>
+      <genClasses ecoreClass="tooldef.ecore#//types/ListType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//types/ListType/elemType"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/SetType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//types/SetType/elemType"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/MapType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//types/MapType/keyType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//types/MapType/valueType"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/TupleType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tooldef.ecore#//types/TupleType/fields"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/TypeRef">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tooldef.ecore#//types/TypeRef/type"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/TypeParamRef">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference tooldef.ecore#//types/TypeParamRef/type"/>
+      </genClasses>
+      <genClasses ecoreClass="tooldef.ecore#//types/UnresolvedType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tooldef.ecore#//types/UnresolvedType/name"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

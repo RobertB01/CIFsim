@@ -1,0 +1,158 @@
+Reading CIF file "datasynth/booleans.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  bool  g.p.b0  0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  bool  g.p.b1  1      1 * 2     2 * 2       2 * 2       100%
+  3      discrete variable  bool  g.p.b2  2      1 * 2     2 * 2       2 * 2       100%
+  4      discrete variable  bool  g.p.b3  3      1 * 2     2 * 2       2 * 2       100%
+  5      discrete variable  bool  g.p.b4  4      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                   5      10        20          20          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 8
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    2 (total)                 0.25 (avg/edge) [before]
+    Total span:                    1 (total)                 0.13 (avg/edge) [iteration 1]
+    Total span:                    1 (total)                 0.13 (avg/edge) [iteration 2]
+    Total span:                    1 (total)                 0.13 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 4
+
+    Total span:                    1 (total)                 0.13 (avg/edge) [before]
+    Total span:                    1 (total)                 0.13 (avg/edge) [after]
+
+  Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type  Name    Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  bool  g.p.b0  0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  bool  g.p.b2  1      1 * 2     2 * 2       2 * 2       100%
+  3      discrete variable  bool  g.p.b3  2      1 * 2     2 * 2       2 * 2       100%
+  4      discrete variable  bool  g.p.b4  3      1 * 2     2 * 2       2 * 2       100%
+  5      discrete variable  bool  g.p.b1  4      1 * 2     2 * 2       2 * 2       100%
+  -----  -----------------  ----  ------  -----  --------  ----------  ----------  -----------
+  Total                                   5      10        20          20          100%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         not g.p.b0
+Initial   (discrete variable 1):         not g.p.b2
+Initial   (discrete variable 2):         true
+Initial   (discrete variable 3):         true
+Initial   (discrete variable 4):         g.p.b1
+Initial   (discrete variables):          not g.p.b0 and (not g.p.b2 and g.p.b1)
+Initial   (component init predicate):    g.p.b1
+Initial   (component init predicate):    g.p.b3
+Initial   (component init predicate):    g.p.b4
+Initial   (components init predicate):   g.p.b3 and (g.p.b4 and g.p.b1)
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         not g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1))
+Initial   (system, combined init/inv):   not g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1))
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   g.p.b0
+Marked    (auts/locs marker predicate):  g.p.b0
+Marked    (uncontrolled system):         g.p.b0
+Marked    (system, combined marked/inv): g.p.b0
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0)
+    Edge: (event: g.e2) (guard: not g.p.b2) (assignments: g.p.b0 := 1 = 1)
+    Edge: (event: g.e3) (guard: g.p.b4)
+    Edge: (event: g.e4) (guard: g.p.b3)
+    Edge: (event: g.e4) (guard: not g.p.b3)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: g.p.b0 [marker predicate]
+Backward reachability: iteration 1.
+Backward controlled-behavior: g.p.b0 -> true [backward reach with edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0), restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 2.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: not g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1)) [initialization predicate]
+Forward reachability: iteration 1.
+Forward controlled-behavior: not g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1)) -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1) [forward reach with edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 2.
+Forward controlled-behavior: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1) [fixed point].
+Controlled behavior: true -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1).
+
+Round 1: finished, need another round.
+
+Round 2: started.
+
+Round 2: computing backward controlled-behavior predicate.
+Backward controlled-behavior: g.p.b0 [marker predicate]
+Backward controlled-behavior: g.p.b0 -> g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1)) [restricted to current/previous controlled-behavior predicate: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1)]
+Backward reachability: iteration 1.
+Backward controlled-behavior: g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1)) -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1) [backward reach with edge: (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0), restricted to current/previous controlled-behavior predicate: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1)]
+Backward reachability: iteration 2.
+Backward controlled-behavior: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1) [fixed point].
+
+Round 2: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: g.p.b2 or not g.p.b3 or (not g.p.b4 or not g.p.b1) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 2: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: g.e1) (guard: true) (assignments: g.p.b0 := not g.p.b0): guard: true -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1).
+Edge (event: g.e2) (guard: not g.p.b2) (assignments: g.p.b0 := 1 = 1): guard: not g.p.b2 -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1).
+Edge (event: g.e3) (guard: g.p.b4): guard: g.p.b4 -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1).
+Edge (event: g.e4) (guard: g.p.b3): guard: g.p.b3 -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1).
+Edge (event: g.e4) (guard: not g.p.b3): guard: not g.p.b3 -> false.
+
+Final synthesis result:
+  State: (controlled-behavior: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1))
+    Edge: (event: g.e1) (guard: true -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1)) (assignments: g.p.b0 := not g.p.b0)
+    Edge: (event: g.e2) (guard: not g.p.b2 -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1)) (assignments: g.p.b0 := 1 = 1)
+    Edge: (event: g.e3) (guard: g.p.b4 -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1))
+    Edge: (event: g.e4) (guard: g.p.b3 -> not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1))
+    Edge: (event: g.e4) (guard: not g.p.b3 -> false)
+
+Controlled system:                     exactly 2 states.
+
+Initial (synthesis result):            not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1)
+Initial (uncontrolled system):         not g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1))
+Initial (controlled system):           not g.p.b0 and not g.p.b2 and (g.p.b3 and (g.p.b4 and g.p.b1))
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Simplification of controlled system under the assumption of the plants:
+  Event g.e2: guard: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1) -> g.p.b3 and (g.p.b4 and g.p.b1) [assume not g.p.b2].
+  Event g.e3: guard: not g.p.b2 and g.p.b3 and (g.p.b4 and g.p.b1) -> not g.p.b2 and (g.p.b3 and g.p.b1) [assume g.p.b4].
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/booleans.ctrlsys.real.cif".

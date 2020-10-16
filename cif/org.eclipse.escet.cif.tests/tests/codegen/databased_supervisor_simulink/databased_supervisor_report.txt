@@ -1,0 +1,35 @@
+Input/output report of the databased_supervisor.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+Button 1
+Lamp   2
+Timer  3
+Cycle  4
+sup    5
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+No variables are available here.
+
+Outputs
+-------
+Button     1
+Cycle      2
+Lamp       3
+Timer      4
+sup        5
+bdd_value0 6
+bdd_value1 7
+bdd_value2 8
+bdd_value3 9
+bdd_value4 10
+bdd_value5 11
+bdd_values 12

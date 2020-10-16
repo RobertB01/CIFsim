@@ -1,0 +1,1 @@
+WARNING: File "event_based/conversion_tests/evt_in_no_alphabet.cif": Semantic warning at line 14, column 14: Event "a" is not used anywhere in the specification.

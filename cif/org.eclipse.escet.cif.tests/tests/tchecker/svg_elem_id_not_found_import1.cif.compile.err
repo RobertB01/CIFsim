@@ -1,0 +1,3 @@
+ERROR: File "tchecker/svg_elem_id_not_found_import1.cif": Semantic error at line 16, column 11: Could not find an SVG element with id "does_not_exist1" in SVG file "small.svg".
+ERROR: File "tchecker/svg_elem_id_not_found_import1.cif": Semantic error at line 20, column 10: Could not find an SVG element with id "does_not_exist2" in SVG file "small.svg".
+ERROR: Failed to load CIF file "tchecker/svg_elem_id_not_found_import1.cif": the file has errors.

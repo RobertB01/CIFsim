@@ -1,0 +1,26 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+func bool pred(int x, y):
+   return x <= y
+end
+
+model M():
+   list int xs;
+   xs = insert(xs, 5, pred); write("%s\n", xs);
+   xs = insert(xs, 2, pred); write("%s\n", xs);
+   xs = insert(xs, 8, pred); write("%s\n", xs);
+   xs = insert(xs, 7, pred); write("%s\n", xs);
+   xs = insert(xs, 0, pred); write("%s\n", xs);
+   xs = insert(xs, 8, pred); write("%s\n", xs);
+   xs = insert(xs, 1, pred); write("%s\n", xs);
+end

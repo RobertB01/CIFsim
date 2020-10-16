@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0, p=*, p.x=111111.
+CAUSE: Evaluation of invariant "p.x * 222222 > 0" of automaton "p" failed.
+CAUSE: Integer overflow: 111111 * 222222.

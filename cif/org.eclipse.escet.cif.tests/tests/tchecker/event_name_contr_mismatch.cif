@@ -1,0 +1,54 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event c_e1, u_e2;
+controllable e_e3, u_e4;
+uncontrollable e_e5, c_e6;
+controllable event e_e7, u_e8;
+uncontrollable event e_e9, c_e10;
+
+automaton def P1(event c_e1, u_e2):
+  location:
+    initial;
+    edge c_e1, u_e2;
+end
+
+automaton def P2(controllable e_e3, u_e4):
+  location:
+    initial;
+    edge e_e3, u_e4;
+end
+
+automaton def P3(uncontrollable e_e5, c_e6):
+  location:
+    initial;
+    edge e_e5, c_e6;
+end
+
+automaton def P4(controllable event e_e7, u_e8):
+  location:
+    initial;
+    edge e_e7, u_e8;
+end
+
+automaton def P5(uncontrollable event e_e9, c_e10):
+  location:
+    initial;
+    edge e_e9, c_e10;
+end
+
+automaton aut:
+  location:
+    initial;
+    edge  c_e1, u_e2, e_e3, u_e4, e_e5, c_e6, e_e7, u_e8, e_e9, c_e10;
+end

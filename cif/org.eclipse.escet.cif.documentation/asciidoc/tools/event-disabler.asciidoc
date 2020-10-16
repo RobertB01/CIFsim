@@ -1,0 +1,264 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tools-chapter-event-disabler]]
+== CIF event disabler
+
+indexterm:[CIF event disabler]
+indexterm:[tools,CIF event disabler]
+The CIF event disabler tool can be used to disable certain events of a CIF
+specification, or even to disable events not currently present in a CIF
+specification. The tool has various <<tools-event-disabler-options,options>> that can be used to control the working of the
+tool, and influence its output.
+
+indexterm:[CIF event disabler,usage scenario]
+
+[[tools-event-disabler-usage-scenario]]
+=== Usage scenario
+
+Assume a system with some sensors and actuators. From the view of the
+supervisor (or controller in general), the sensors are uncontrollable, and the
+actuators are controllable. Now assume a controller is being designed for this
+system, and it is to be merged with a simulation model of the uncontrolled
+system, that is being designed as well.
+
+The situation may arise that the controller only controls a part of the
+uncontrolled system. This may for instance be the case if the designer of the
+controller starts with a small controller and incrementally extends it to cover
+more and more functionality of the system. The designer may have already made
+a full simulation model of the uncontrolled system beforehand. Alternatively,
+if one designer develops the controller and another develops the simulation
+model of the uncontrolled system, the simulation model may be finished well
+before the controller for the entire system is finished.
+
+A problem arises when a controller that controls only part of the system, is
+merged with a simulation model of the entire uncontrolled system. In the
+uncontrolled system, the actuators can usually be turned on and off
+arbitrarily, as they are not yet controlled in any way. If the controller
+doesn't control certain actuators, the behavior of those actuators is not
+restricted, and during simulation the events to turn the actuators on and off
+can happen at any time. Events are urgent, that is, they take precedence over
+passage of time, and thus happen 'immediately'. Events that are always enabled
+thus prevent passage of time. The simulation will turn the actuators on, off,
+on again, off again, etc.
+
+To solve this problem, the controllable events of the uncontrolled system that
+are not restricted in any way by the controller need to be disabled. The CIF
+event disabler tool makes this possible.
+
+This is however not the only usage scenario. The same controller may be used
+for implementation. For the implementation, a mapping from events to variables
+that represent the I/O ports may be needed. This mapping could be a CIF
+specification, with an automaton that performs the mapping. Similar to having
+a complete simulation model, a complete mapping specification for the
+implementation may be available. If in such mappings the actuator events are
+always enabled, this may lead to similar problems as for the simulation, if
+the controller only controls part of the system. Here too, the event disabler
+can be used to restrict such actuator events from causing trouble.
+
+indexterm:[CIF event disabler,start]
+
+=== Starting the tool
+
+The tool can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF miscellaneous tools[Disable events of CIF specification...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF miscellaneous tools[Disable events of CIF specification...].
+
+* Use the `cifevtdis` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifevtdis` command line tool.
+
+indexterm:[CIF event disabler,supported specifications]
+
+=== Supported specifications
+
+The event disabler supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[CIF event disabler,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[CIF event disabler,options]
+
+[[tools-event-disabler-options]]
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification. If we relate this to the above
+<<tools-event-disabler-usage-scenario,usage scenario>>, the input file should be the
+controller that only controls part of the system.
+
+* _Output file_: The absolute or relative local file system path to the
+output CIF specification. If not specified, defaults to the input file
+path, where the `.cif` file extension is removed (if present), and a
+`.disabled.cif` file extension is added.
+
+* _Event names_: The absolute names of the events. How these supplied events
+are used depends on the _Event usage_ option. Multiple events may be
+specified, separated by commas and/or spaces.
+
+* _Event names file_: The absolute or relative local file system path of a file
+with the absolute names of the events. How these supplied events are used
+depends on the _Event usage_ option. Multiple events may be specified in the
+file, on separate lines. Empty lines are ignored. Lines starting with a `#`
+character are ignored as well, and can thus be used to add comments.
+
+* _SVG input events_: Enable this option to use the SVG input events. How the
+events are used depends on the _Event usage_ option.
+
+* _Event usage_: This option can be used to specify how the supplied events are
+to be used. That is, it specifies which events to disable. See the
+<<tools-event-disabler-spec-evts-to-disable>> section for more
+information.
+
+* _Include input specification_: Should the output file contain only the new
+automaton that is created to disable the events, or should it include the
+input specification as well? See the
+<<tools-event-disabler-output>> section for more information.
+
+At least one of the _Event names_, _Event names file_, or _SVG input events_
+options must be used to supply events to the tool. It is allowed to use
+multiple of these options, to combine events from multiple sources, and supply
+all of them to the tool.
+
+indexterm:[CIF event disabler,specifying events]
+
+[[tools-event-disabler-spec-evts-to-disable]]
+=== Specifying the events to disable
+
+The _Event names_, _Event names file_, and _SVG input events_ options can be
+used to supply events to the tool. How these events are used (or interpreted)
+depends on the _Event usage_ option. Several alternatives are available:
+
+* Disable the supplied events, regardless of the alphabet of the input
+specification (`disable`)
+
+* Disable all supplied events, that are not in the alphabet of the input
+specification (`alphabet`)
+
+The texts between parentheses at the end of the alternatives indicate the
+command line option values that correspond with the alternatives. The default
+is `alphabet`.
+
+The most straightforward alternative is to manually specify the events to
+`disable` (the first alternative in the above list). The supplied events are
+then disabled.
+
+Manually specifying the events to disable can be cumbersome. Especially if the
+controller is developed incrementally, this can be a burden. The more events
+the controller does restrict, the less events should be disabled using the
+event disabler. In this case it may be easier to list the controllable events
+of the uncontrolled system that the controller may or may not restrict. That
+is, the `alphabet` (the second alternative in the above list) of controllable
+events of the uncontrolled system is specified. Supplied events that are not
+in the alphabet of any of the automata of the input specification, are
+disabled.
+
+The following table summarizes which events get disabled by the tool:
+
+[cols=4*,options="header"]
+|===
+| Event usage
+| Event supplied
+| Event in alphabet
+| Event is disabled by tool
+
+| disable
+| yes
+| yes/no
+| yes
+
+| disable
+| no
+| yes/no
+| no
+
+| alphabet
+| yes
+| yes
+| no
+
+| alphabet
+| yes
+| no
+| yes
+
+| alphabet
+| no
+| yes/no
+| no
+|===
+
+indexterm:[CIF event disabler,output]
+
+[[tools-event-disabler-output]]
+=== Output
+
+If the _Include input specification_ option is enabled, the output
+specification is a copy of the input specification, which is then modified to
+disable certain events. For events that are disabled by the tool, but did not
+exist in the input specification, an event declaration is added. If the option
+is disabled, the output specification starts empty. For all events are
+disabled, an event declaration is added. Event declarations are added in
+their proper scopes, based on their absolute names, by adding groups around
+them as needed.
+
+indexterm:[performance,CIF event disabler]
+indexterm:[CIF event disabler,performance]
+By default, the _Include input specification_ option is disabled. This ensures
+that the output specification is small. The typical scenario is to merge the
+input specification, event disabler output specification, and simulation model
+together using the <<tools-chapter-mergecif>> tool. Disabling the _Include input
+specification_ specification option then gives the best performance for the
+tool chain.
+
+If any events are disabled by the tool, a new automaton is created, and this
+automaton is added to the output specification. The automaton is named
+`+event_disabler+`, but may be renamed if it conflicts with an already existing
+object with the same name. The automaton has no supervisory kind, and has the
+disabled events as alphabet. It has a single nameless location, with a single
+self loop for all of the events that are disabled. The guard of the self
+loop is `false`, which results in the events being globally disabled.
+
+If the _Include input specification_ option is enabled, and events are disabled
+that did not exist in the input specification, event declarations are added to
+the output specification for those events. If the _Include input specification_
+option is disabled, event declarations are added for all events that are
+disabled. Event declarations that are added and existed in the input
+specification (in case the _Include input specification_ option is disabled),
+inherit their controllability from the input specification. All other events
+that are added are declared as controllable events if their name starts with
+`+c_+`, are declared as uncontrollable events if their name starts with `+u_+`,
+and are declared as neither controllable nor uncontrollable otherwise.

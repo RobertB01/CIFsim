@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+print "a";
+
+group g:
+  print "b";
+
+  group g2:
+    print "c";
+  end
+
+  automaton a:
+    print "d";
+
+    location:
+      initial;
+  end
+
+  group def H():
+    print "e";
+
+    group g3:
+      print "f";
+    end
+  end
+
+  h: H();
+
+  automaton def B():
+    print "g";
+
+    location:
+      initial;
+  end
+
+  b: B();
+end
+
+svgfile "../tchecker/small.svg";
+
+group def K():
+  svgout id "box" attr "width" value "5";
+  svgout id "box" attr "height" value "6";
+
+  group k:
+    svgout id "box" attr "x" value "7";
+    svgout id "box" attr "y" value "8";
+  end
+end

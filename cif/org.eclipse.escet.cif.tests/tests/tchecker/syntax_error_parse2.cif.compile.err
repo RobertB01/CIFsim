@@ -1,0 +1,1 @@
+ERROR: File "tchecker/syntax_error_parse2.cif": Parsing failed at line 15, column 1, most likely due to premature end of input (found end-of-file, expected "!=", "(", "*", "+", ",", "-", "/", ";", "<", "<=", "<=>", "=", "=>", ">", ">=", "[", "and", "div", "in", "mod", "or", or "sub").

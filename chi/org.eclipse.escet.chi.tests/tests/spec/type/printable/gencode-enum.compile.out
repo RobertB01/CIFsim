@@ -1,0 +1,6 @@
+Warning: File "spec/type/printable/gencode-enum.chi": Semantic warning at line 13, column 14: Unused enum value "wie".
+Warning: File "spec/type/printable/gencode-enum.chi": Semantic warning at line 13, column 19: Unused enum value "ba".
+Warning: File "spec/type/printable/gencode-enum.chi": Semantic warning at line 13, column 23: Unused enum value "bie".
+Warning: File "spec/type/printable/gencode-enum.chi": Semantic warning at line 13, column 28: Unused enum value "doe".
+Warning: File "spec/type/printable/gencode-enum.chi": Semantic warning at line 13, column 33: Unused enum value "da".
+Warning: File "spec/type/printable/gencode-enum.chi": Semantic warning at line 16, column 10: Unused variable "v".

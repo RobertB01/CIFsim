@@ -1,0 +1,2 @@
+ERROR: Merging CIF specification "merger/err_evt_evt_type_diff.in1.cif" with CIF specification "merger/err_evt_evt_type_diff.in2.cif" failed.
+CAUSE: Merging events with name "g.e" failed: types "void" and "int" are not compatible.

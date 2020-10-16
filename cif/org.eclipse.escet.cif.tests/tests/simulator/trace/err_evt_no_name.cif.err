@@ -1,0 +1,2 @@
+ERROR: Trace file "simulator/trace/err_evt_no_name.trace" is invalid.
+CAUSE: Invalid event command: "event".

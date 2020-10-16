@@ -1,0 +1,54 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../../_part_attributes.asciidoc[]
+
+[[tools-cifsim-input-chapter-index]]
+== Input modes
+
+indexterm:[CIF simulator,input modes]
+indexterm:[CIF simulator,input components]
+indexterm:[input mode]
+indexterm:[see: input component,input mode]
+The CIF simulator simulates <<tools-cifsim-chapter-traces,traces>> through the
+<<tools-cifsim-traces-state-space,state space>> of a specification. If
+multiple transitions are possible, a choice must be made. The simulator defers
+this choice to an _input component_.
+
+The primary responsibility or an input component is to choose the transition to
+take, from the given possible transitions, calculated for the current
+<<tools-cifsim-traces-state,state>>. If the chosen transition is a time
+transition, the input component must also decide the amount of time to delay.
+
+The input component to use for the simulation, depends on the _input mode_,
+which can be configured via the
+menu:Input mode[]
+option
+(menu:Input[]
+category). The simulator has several input modes:
+
+indexterm:[input mode,overview]
+
+* <<tools-cifsim-input-chapter-console>>
+* <<tools-cifsim-input-chapter-gui>>
+* <<tools-cifsim-input-chapter-automatic>>
+* <<tools-cifsim-input-chapter-trace>>
+* <<tools-cifsim-input-svg-chapter-index>>
+
+Only one input mode, and thus one input component, can be used for each
+simulation. By default, the _GUI input mode_ is used.
+
+The following information on other topics, related to input modes, is
+available:
+
+* <<tools-cifsim-input-chapter-semi-automatic>>
+* <<tools-cifsim-input-chapter-history>> (reset, undo)

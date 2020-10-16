@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  enum E = A;
+end
+
+print fmt("%s", "a");
+print fmt("%s", 1);
+print fmt("%s", true);
+print fmt("%s", (1, {1:2}, [3]));
+print fmt("%s", 1.23456e7);
+print fmt("%s", <string>1.23456e7);
+print fmt("%s", ["a", "b"]);
+print fmt("%s", g.A);
+
+automaton a:
+  location:
+    initial;
+    urgent;
+end

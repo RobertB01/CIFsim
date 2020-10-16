@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c;
+
+plant p1:
+  disc int[0..5] x;
+
+  marked x > 2, x < 2;
+
+  location l0:
+    initial;
+    marked;
+    edge c goto l1;
+
+  location l1:
+    edge c goto l0;
+end
+
+plant p2:
+  location l0:
+    initial;
+    edge c goto l1;
+
+  location l1:
+    marked;
+    edge c goto l0;
+end

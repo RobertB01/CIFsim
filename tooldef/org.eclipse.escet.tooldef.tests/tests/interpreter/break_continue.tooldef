@@ -1,0 +1,28 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+for x in range(20):
+    if x mod 2 == 1:: continue;
+    if x > 10:: break;
+    outln("%d", x);
+end
+outln();
+
+for x in range(10):
+    for y in range(10):
+        if y mod 2 == 1:: continue;
+        if y > 3:: break;
+        outln("%d %d", x, y);
+    end
+end
+outln();

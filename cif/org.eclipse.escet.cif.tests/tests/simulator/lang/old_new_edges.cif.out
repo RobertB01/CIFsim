@@ -1,0 +1,54 @@
+Initial state: time=0.0, p1a=*, p1a.x=1, p1b=*, p1b.y=2, p2=*, p2.d={5: 6}, p2.li=[3, 4], p2.x=1, p3=l1, p3.x=1, p3.y=2, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Possible transitions:
+  #1: event e1
+  #2: event p2.e2
+  #3: event p3.e3
+  #4: event p4.e4
+
+Transition: event e1
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6}, p2.li=[3, 4], p2.x=1, p3=l1, p3.x=1, p3.y=2, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Possible transitions:
+  #1: event p2.e2
+  #2: event p3.e3
+  #3: event p4.e4
+
+Transition: event p2.e2
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l1, p3.x=1, p3.y=2, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Possible transitions:
+  #1: event p3.e3
+  #2: event p4.e4
+
+Transition: event p3.e3
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l2, p3.x=2, p3.y=1, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Possible transitions:
+  #1: event p3.e3
+  #2: event p4.e4
+
+Transition: event p3.e3
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l3, p3.x=1, p3.y=2, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Possible transitions:
+  #1: event p3.e3
+  #2: event p4.e4
+
+Transition: event p3.e3
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l4, p3.x=2, p3.y=3, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Possible transitions:
+  #1: event p3.e3
+  #2: event p4.e4
+
+Transition: event p3.e3
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l5, p3.x=3, p3.y=4, p4=l1, p4.x=[1, 2], p4.y=[3, 4]
+
+Transition: event p4.e4
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l5, p3.x=3, p3.y=4, p4=l2, p4.x=[5, 2], p4.y=[3, 6]
+
+Transition: event p4.e4
+State: time=0.0, p1a=*, p1a.x=5, p1b=*, p1b.y=7, p2=*, p2.d={5: 6, 1: 9}, p2.li=[3, 8], p2.x=7, p3=l5, p3.x=3, p3.y=4, p4=l3, p4.x=[5, 7], p4.y=[8, 6]
+
+Simulation resulted in deadlock.

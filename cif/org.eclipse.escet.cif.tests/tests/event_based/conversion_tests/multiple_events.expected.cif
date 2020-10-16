@@ -1,0 +1,23 @@
+group p:
+  controllable e1;
+  controllable e2;
+  group q:
+    controllable e3;
+    controllable e4;
+  end
+  group r:
+    controllable e5;
+    controllable e6;
+  end
+end
+plant automaton product:
+  alphabet p.e1, p.e2, p.q.e3, p.q.e4, p.r.e5, p.r.e6;
+  location s1:
+    initial;
+    edge p.r.e6;
+    edge p.r.e5;
+    edge p.q.e4;
+    edge p.q.e3;
+    edge p.e2;
+    edge p.e1;
+end

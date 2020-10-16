@@ -1,0 +1,2 @@
+ERROR: File "tchecker/resolve_not_found3_importing.cif": Semantic error at line 18, column 11: Could not find a declaration with name "does_not_exist" in group definition "g.C".
+ERROR: Failed to load CIF file "tchecker/resolve_not_found3_importing.cif": the file has errors.

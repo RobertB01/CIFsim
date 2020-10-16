@@ -1,0 +1,76 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Simple tool.
+
+tool int inc(int x):
+    return x + 1;
+end
+
+for x in range(5):: outln("%s %s", x, inc(x));
+outln();
+
+// Optional arguments.
+
+tool int t1(int a, int b, int c = 5, int d = 6):
+    return a + b + c + d;
+end
+
+outln("%s", t1(1, 2, 3, 4));
+outln("%s", t1(1, 2, 3));
+outln("%s", t1(1, 2));
+
+outln("%s", t1(1, 2, c = 7));
+outln("%s", t1(1, 2, d = 8));
+outln("%s", t1(1, 2, c = 7, d = 8));
+
+outln("%s", t1(c = 3, b = 5, d = 1, a = 2));
+outln("%s", t1(c = 3, b = 5, a = 2));
+outln();
+
+// Variadic parameter.
+
+tool int t2(int a, int b, int... c):
+    int rslt = a + b;
+    for x in c:: rslt = rslt + x;
+    return rslt;
+end
+
+outln("%s", t2(1, 2));
+outln("%s", t2(1, 2));
+outln("%s", t2(1, 2, 3));
+outln("%s", t2(1, 2, 3, 4));
+outln("%s", t2(1, 2, 3, 4, 5));
+
+outln("%s", t2(1, 2, c = []));
+outln("%s", t2(1, 2, c = [3]));
+outln("%s", t2(1, 2, c = [3, 4]));
+outln("%s", t2(1, 2, c = [3, 4, 5]));
+
+outln("%s", t2(a = 1, b = 2, c = [3]));
+outln("%s", t2(b = 2, c = [3], a = 1));
+outln();
+
+// Variadic vs non-variadic.
+
+tool int f(int a):
+    return 2 + a;
+end
+
+tool int f(int a, int... b):
+    int rslt = 1 + a;
+    for x in b:: rslt = rslt + x;
+    return rslt;
+end
+
+outln("%s", f(1));

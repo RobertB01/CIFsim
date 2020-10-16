@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const int c = 1;
+
+automaton a:
+  alg int v = 5;
+
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+alg int c1 = switch a: case v: 1 else 2 end;
+alg int c2 = switch a: case c: 1 else 2 end;
+
+automaton def B(location l):
+  alg int x = switch b1: case l: 1 else 2 end;
+
+  location:
+    initial;
+end
+
+b1: B(a.l1);

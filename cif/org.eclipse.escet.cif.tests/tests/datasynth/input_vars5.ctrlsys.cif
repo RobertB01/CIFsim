@@ -1,0 +1,15 @@
+group io:
+  input int[0..2] sensor;
+end
+plant automaton p:
+  location:
+    initial;
+    marked io.sensor = 2;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end
+initial io.sensor = 1;

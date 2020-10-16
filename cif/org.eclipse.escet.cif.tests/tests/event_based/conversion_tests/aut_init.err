@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/aut_init.cif".
+CAUSE: Unsupported automaton "g.h": initialization predicates in components are currently not supported.

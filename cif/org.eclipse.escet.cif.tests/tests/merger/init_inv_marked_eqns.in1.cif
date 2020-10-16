@@ -1,0 +1,57 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+initial 1 = 1;
+invariant 2 = 2;
+invariant 3 = 3;
+marked 4 = 4;
+
+cont x1;
+equation x1' = 5.0;
+initial x1 > 0;
+
+group a:
+  initial 1 = 1;
+  invariant 2 = 2;
+  invariant 3 = 3;
+  marked 4 = 4;
+
+  cont x1;
+  equation x1' = 5.0;
+  initial x1 > 0;
+end
+
+plant b:
+  initial 1 = 1;
+  plant invariant 2 = 2;
+  plant invariant 3 = 3;
+  marked 4 = 4;
+
+  cont x1;
+  equation x1' = 5.0;
+  initial x1 > 0;
+
+  location:
+    initial;
+end
+
+group c:
+  initial 1 = 1;
+  plant invariant 2 = 2;
+  plant invariant 3 = 3;
+  marked 4 = 4;
+
+  cont x1;
+  equation x1' = 5.0;
+  initial x1 > 0;
+end

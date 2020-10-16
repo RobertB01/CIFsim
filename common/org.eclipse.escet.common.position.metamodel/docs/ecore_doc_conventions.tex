@@ -1,0 +1,50 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+%%
+%% See the NOTICE file(s) distributed with this work for additional
+%% information regarding copyright ownership.
+%%
+%% This program and the accompanying materials are made available under the terms
+%% of the MIT License which is available at https://opensource.org/licenses/MIT
+%%
+%% SPDX-License-Identifier: MIT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Each (sub-)package is described in a separate section. An informal description
+of the package is followed by the Uniform Resource Identifier (URI) of the
+package, the namespace prefix, and a list of all the direct sub-packages. All
+classifiers defined in the package are described in sub-sections. First the
+data types are described, then the enumerations, and finally the classes. The
+data types are ordered lexicographically, as are the enumerations and classes.
+
+For data types, an informal description of the data type is followed by the
+name of the data type, the instance class name, basetype, and the (regular
+expression) pattern.
+
+For enumerations, an informal description of the enumeration is followed by
+information about the enumeration literals, which are ordered
+lexicographically. For each enumeration literal, a short informal description
+is included. The default value of the enumeration (the default literal), is
+indicated as well.
+
+For classes, an informal description of the class is followed by the
+inheritance hierarchy. Note that all classes that do not have an explicit
+supertype in the Ecore, implicitly inherit from
+\emph{EObject}\footnote{Actually, in the implementation,
+\emph{org.eclipse.emf.ecore.EObject} and all classes from metamodels are
+interfaces. Implementation classes implement the interfaces and have names
+ending in \emph{Impl}. E.g. \emph{org.eclipse.emf.ecore.impl.EObjectImpl}
+implements \emph{org.eclipse.emf.ecore.EObject}.}. Therefore, all the
+inheritance hierarchies start in \emph{EObject}. The inheritance hierarchies
+are followed by a listing of all the directly derived classes of the class.
+Finally, all the structural features of the class are listed, including the
+inherited ones. The structural features of the supermost type are listed
+first, and the ones of the actual class are listed last. Secondary ordering
+is lexicographical.
+
+For each structural feature, the type is indicated (`attr' for attributes,
+`ref' for references, and `cont' for containment references). This is followed
+by the name of the structural feature, the multiplicity, a colon, and the
+type. If the structural feature is inherited from a supertype, that is
+indicated as well. Finally, an informal description of the structural feature
+is provided.

@@ -1,0 +1,85 @@
+sort LocSort_A = struct loc_A_U;
+
+act value_locx : Int;
+
+proc BehProc_A(Locvar_A : LocSort_A, locx : Int) =
+  value_locx(locx) . BehProc_A(Locvar_A, locx) +
+  ((Locvar_A == loc_A_U) && (1 >= 0) && (1 <= 4)) -> a1 . BehProc_A(Locvar_A, 1) +
+  ((Locvar_A == loc_A_U) && ((locx + 1) >= 0) && ((locx + 1) <= 4)) -> b1 . BehProc_A(Locvar_A, (locx + 1)) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && ((y + 1) >= 0) && ((y + 1) <= 4)) -> c1 | aread_y(y) . BehProc_A(Locvar_A, (y + 1)) +
+  ((Locvar_A == loc_A_U) && (locx > 1) && (2 >= 0) && (2 <= 4)) -> a2 . BehProc_A(Locvar_A, 2) +
+  ((Locvar_A == loc_A_U) && (locx > 1) && ((locx - 1) >= 0) && ((locx - 1) <= 4)) -> b2 . BehProc_A(Locvar_A, (locx - 1)) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (locx > 1) && ((y + 1) >= 0) && ((y + 1) <= 4)) -> c2 | aread_y(y) . BehProc_A(Locvar_A, (y + 1)) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (y > 1) && (2 >= 0) && (2 <= 4)) -> a3 | aread_y(y) . BehProc_A(Locvar_A, 2) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (y > 1) && ((locx - 1) >= 0) && ((locx - 1) <= 4)) -> b3 | aread_y(y) . BehProc_A(Locvar_A, (locx - 1)) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (y > 1) && ((y + 1) >= 0) && ((y + 1) <= 4)) -> c3 | aread_y(y) . BehProc_A(Locvar_A, (y + 1)) +
+  (Locvar_A == loc_A_U) -> a4 | awrite_y(1) . BehProc_A(Locvar_A, locx) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U)) -> b4 | aread_y(y) | awrite_y((y + 1)) . BehProc_A(Locvar_A, locx) +
+  (Locvar_A == loc_A_U) -> c4 | awrite_y((locx + 1)) . BehProc_A(Locvar_A, locx) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (y > 1)) -> a5 | aread_y(y) | awrite_y(2) . BehProc_A(Locvar_A, locx) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (y > 1)) -> b5 | aread_y(y) | awrite_y((y - 1)) . BehProc_A(Locvar_A, locx) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_A == loc_A_U) && (y > 1)) -> c5 | aread_y(y) | awrite_y((locx + 1)) . BehProc_A(Locvar_A, locx);
+
+sort LocSort_B = struct loc_B_V;
+
+proc BehProc_B(Locvar_B : LocSort_B) =
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_B == loc_B_V) && (y == 2)) -> a1 | aread_y(y) . BehProc_B(Locvar_B) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_B == loc_B_V) && (y == 2)) -> b1 | aread_y(y) . BehProc_B(Locvar_B) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_B == loc_B_V) && (y == 2)) -> c1 | aread_y(y) . BehProc_B(Locvar_B) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_B == loc_B_V) && (y == 2)) -> a2 | aread_y(y) . BehProc_B(Locvar_B) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_B == loc_B_V) && (y == 2)) -> b2 | aread_y(y) . BehProc_B(Locvar_B) +
+  sum y : Int . ((y >= 0) && (y <= 4) && (Locvar_B == loc_B_V) && (y == 2)) -> c2 | aread_y(y) . BehProc_B(Locvar_B);
+
+act value_y, vread_y, vwrite_y, sync_y, aread_y, awrite_y : Int;
+
+proc VarProc_y(v:Int) =
+  value_y(v) . VarProc_y(v) +
+  vread_y(v) . VarProc_y(v) +
+  sum m:Int . ((m >= 0) && (m <= 4)) -> vwrite_y(m) . VarProc_y(m) +
+  sum m:Int . ((m >= 0) && (m <= 4)) -> vread_y(v) | vwrite_y(m) . VarProc_y(m);
+
+act a1, renamed_a1, b1, renamed_b1, c1, renamed_c1, a2, renamed_a2, b2, renamed_b2, c2, renamed_c2, a3, renamed_a3, b3, renamed_b3, c3, renamed_c3, a4, renamed_a4, b4, renamed_b4, c4, renamed_c4, a5, renamed_a5, b5, renamed_b5, c5, renamed_c5;
+
+init block({aread_y, awrite_y, vread_y, vwrite_y},
+     hide({sync_y},
+     comm({aread_y | vread_y -> sync_y,
+           awrite_y | vwrite_y -> sync_y},
+     (
+       allow({value_locx,
+              a1 | aread_y,
+              b1 | aread_y,
+              c1 | aread_y,
+              a2 | aread_y,
+              b2 | aread_y,
+              c2 | aread_y,
+              a3 | aread_y,
+              b3 | aread_y,
+              c3 | aread_y,
+              a4 | awrite_y,
+              b4 | awrite_y | aread_y,
+              c4 | awrite_y,
+              a5 | awrite_y | aread_y,
+              b5 | awrite_y | aread_y,
+              c5 | awrite_y | aread_y},
+       comm({aread_y | aread_y -> aread_y},
+       rename({renamed_a1 -> a1,
+               renamed_b1 -> b1,
+               renamed_c1 -> c1,
+               renamed_a2 -> a2,
+               renamed_b2 -> b2,
+               renamed_c2 -> c2},
+       block({a1, b1, c1, a2, b2, c2},
+       comm({a1 | a1 -> renamed_a1,
+             b1 | b1 -> renamed_b1,
+             c1 | c1 -> renamed_c1,
+             a2 | a2 -> renamed_a2,
+             b2 | b2 -> renamed_b2,
+             c2 | c2 -> renamed_c2},
+       (
+         BehProc_A(loc_A_U, 0)
+       ||
+         BehProc_B(loc_B_V)
+       ))))))
+     ||
+       VarProc_y(0)
+     ))));

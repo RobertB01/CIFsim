@@ -1,0 +1,107 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group alg_var:
+  alg int x = 1;
+  const int[1..1] y = x;
+end
+
+group cont_var:
+  cont x der 1.0;
+  const real c = x;
+end
+
+group deriv:
+  cont x der 1.0;
+  const real c = x';
+end
+
+plant disc_var:
+  disc bool v = true;
+  const bool y = v;
+  location l:
+    initial;
+end
+
+const dist real dist_call = random();
+
+func bool f_var():
+  int x;
+  return (true, 5)[x];
+end
+
+func bool f_param(int x):
+  return (true, 5)[x];
+end
+
+group input_var:
+  input int[1..1] x;
+  const int[1..1] y = x;
+end
+
+plant loc:
+  const bool y = l;
+  location l:
+    initial;
+end
+
+event int rcv_var_e;
+
+plant rcv_var_sender:
+  location:
+    initial;
+    edge rcv_var_e!5;
+end
+
+plant rcv_var_receiver1:
+  disc tuple(int a, b) c;
+
+  location:
+    initial;
+    edge rcv_var_e? do c[?] := 5;
+end
+
+plant rcv_var_receiver2:
+  disc tuple(int a, b) c;
+
+  location:
+    initial;
+    edge rcv_var_e? do c[a] := c[?];
+end
+
+const tuple(real s; dist real d) sample_call = sample(sample_call_aut.d);
+
+automaton sample_call_aut:
+  disc dist real d = random();
+  location:
+    initial;
+end
+
+const real time_var = time;
+
+const real user_def_func_call = user_def_func.f();
+
+group user_def_func:
+  func real f():
+    return 1.0;
+  end
+end
+
+automaton aut_ref:
+  const string c1 = <string>self;
+  const string c2 = <string>aut_ref;
+
+  location:
+    initial;
+end
+

@@ -1,0 +1,77 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-eventbased-chapter-nonconflicting-check]]
+== Event-based nonconflicting check
+
+indexterm:[event-based nonconflicting check]
+indexterm:[tools,event-based nonconflicting check]
+indexterm:[event-based synthesis toolset,event-based nonconflicting check]
+indexterm:[event-based nonconflicting check,event-based synthesis toolset]
+The nonconflicting check verifies whether two or more automata are conflicting,
+that is, whether they together could result in non-coreachable states.
+
+One practical application is to check a supervisor, either synthesized or
+manually created, against a plant. That is, when the supervisor is used to
+control the plant, will it always stay in the safe coreachable area? If not, at
+what point does it fail to do so?
+
+Another practical application is to check several supervisors synthesized for
+parts of a system. That is, when the supervisors are used together to control
+a system, could that result in non-coreachable states? If so, which states are
+conflicting?
+
+The tool takes a `.cif` file containing two or more automata, that must be
+both deterministic and trim. Besides those restrictions, the general
+event-based restrictions listed at
+<<tools-eventbased-supported-specifications>> apply as well.
+
+The nonconflicting check tool produces a text file, listing the traces that
+lead to a conflicting state. If no such traces are found, the automata are
+nonconflicting.
+
+indexterm:[event-based nonconflicting check,start]
+
+=== Starting the nonconflicting check tool
+
+The tool can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
+or 'Package Explorer' tab and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply nonconflicting check...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose
+menu:CIF synthesis tools[Event-based synthesis tools > Apply nonconflicting check...].
+
+* Use the `cifncchk` tool in a
+ToolDef script. See the
+<<tools-scripting-chapter-intro,scripting documentation>> and
+<<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifncchk` command line tool.
+
+indexterm:[event-based nonconflicting check,options]
+
+=== Options
+
+Besides the general application options, this application has the following
+options:
+
+* _Input file_: The absolute or relative local file system path to the
+input CIF specification.
+
+* _Report file_: The absolute or relative local file system path to the
+output report file with conflicts. If not specified, defaults to the input
+file path, where the `.cif` file extension is removed (if present), and a
+`+_conflicts.txt+` file extension is added.

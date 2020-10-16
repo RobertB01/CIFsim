@@ -1,0 +1,1 @@
+WARNING: File "tchecker/import_file_no_importable_objs.tooldef": Semantic warning at line 14, column 28: No tools or type declarations found in imported ToolDef script.

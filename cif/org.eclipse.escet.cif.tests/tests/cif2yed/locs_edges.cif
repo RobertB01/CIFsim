@@ -1,0 +1,41 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton aut:
+  controllable c_add, c_remove;
+  uncontrollable u_added, u_removed;
+  event e_update;
+
+  event int e_snd;
+  event int e_rcv;
+
+  disc int[0..10] x;
+  disc int[0..10] y;
+  disc int[0..10] z;
+
+  location loc1:
+    initial;
+    edge c_add when x > 0 goto loc2;
+    edge c_remove goto loc3;
+
+  location loc2:
+    edge e_update;
+    edge e_snd!x when x > 0 now do y := x;
+    edge e_rcv? when y = 5 do x := ? goto loc3;
+
+  location loc3:
+    edge u_added, u_removed do z := y + 1 goto loc4;
+
+  location loc4:
+    marked;
+end

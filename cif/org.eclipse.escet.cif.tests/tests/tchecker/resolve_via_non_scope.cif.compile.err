@@ -1,0 +1,2 @@
+ERROR: File "tchecker/resolve_via_non_scope.cif": Semantic error at line 19, column 18: Could not resolve "a.b" via "g.p.x", as the latter is not a scope.
+ERROR: Failed to load CIF file "tchecker/resolve_via_non_scope.cif": the file has errors.

@@ -1,0 +1,10 @@
+initial state 0 ([[L : . ID], [L : . STAR R], [R : . L], [S : . L EQUALS R], [S : . R], [S' : . S]]):
+state 1 ([[L : ID .]]):
+state 2 ([[L : . ID], [L : . STAR R], [L : STAR . R], [R : . L]]):
+state 3 ([[S' : S .]]):
+state 4 ([[R : L .], [S : L . EQUALS R]]):
+state 5 ([[S : R .]]):
+state 6 ([[L : . ID], [L : . STAR R], [R : . L], [S : L EQUALS . R]]):
+state 7 ([[R : L .]]):
+state 8 ([[S : L EQUALS R .]]):
+state 9 ([[L : STAR R .]]):

@@ -1,0 +1,116 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-if-updates]]
+== Eliminate `if` updates
+
+indexterm:[CIF to CIF transformer,eliminate if updates]
+indexterm:[eliminate if updates]
+indexterm:[if update,eliminate]
+This CIF to CIF transformation eliminates 'if' updates on edges.
+
+indexterm:[eliminate if updates,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Multi-assignments and partial variable assignments are not supported. That
+is, the left hand sides of the assignments on edges (the addressables) must
+be single variables without projections.
+
+indexterm:[eliminate if updates,preprocessing]
+
+=== Preprocessing
+
+No preprocessing, to increase the subset of CIF specifications that can be
+transformed, is currently performed by this CIF to CIF transformation.
+
+indexterm:[eliminate if updates,implementation]
+
+[[tools-cif2cif-elim-if-updates-impl]]
+=== Implementation details
+
+This transformation ensures that each variable that is assigned, gets
+a single explicit assignment. Simply put, the 'if' update structure is
+replicated by an 'if' expression. For instance, the following edge updates:
+
+
+[source, cif]
+----
+if g:
+  if g2:
+    x := 5
+  else
+    y := 6
+  end
+end,
+z := 7
+----
+
+are transformed to the following edge updates:
+
+
+[source, cif]
+----
+x := if g:
+       if g2:
+         5
+       else
+         x
+       end
+     else
+       x
+     end,
+y := if g:
+       if g2:
+         y
+       else
+         6
+       end
+     else
+       y
+     end,
+z := 7
+----
+
+Observe how variables `x` and `y` are assigned inside two `if` updates.
+These `if` updates are replicated by two `if` expressions.
+
+Since for `if` expressions the `else` part is not optional, dummy
+`x := x` assignments are sometimes performed in cases where the original
+specification would not have assigned variable `x` at all. That is, variables
+may be assigned their old values, resulting in superfluous assignments.
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate if updates,size considerations]
+
+=== Size considerations
+
+The 'if' structure may be replicated for multiple variables, which may result
+in an increase of the specification size. The increase amount is influenced
+by the size of the guard expressions, and the number of levels of nesting 'if'
+updates.
+
+indexterm:[eliminate if updates,optimality]
+
+=== Optimality
+
+The superfluous assignments (see the <<tools-cif2cif-elim-if-updates-impl>>
+section above), are obviously not optimal. The language however requires them.

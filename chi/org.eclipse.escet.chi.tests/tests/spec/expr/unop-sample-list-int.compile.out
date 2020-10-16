@@ -1,0 +1,1 @@
+Error: File "spec/expr/unop-sample-list-int.chi": Semantic error at line 17, column 26: Distribution type expected (found "list int").

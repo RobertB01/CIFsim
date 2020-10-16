@@ -1,0 +1,30 @@
+controllable a;
+controllable b;
+controllable c;
+controllable d;
+controllable e;
+plant automaton p:
+  disc int[0..7] x = 3;
+  disc int[0..7] y = 6;
+  location:
+    initial;
+    marked;
+    edge a, b, c, d, e do x := x + 1, y := y - 1;
+end
+supervisor automaton r:
+  alphabet d;
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet a, b, c, d, e;
+  location:
+    initial;
+    marked;
+    edge a when p.x = 4 and p.y = 5 or p.x = 5 and p.y = 4;
+    edge b when p.x = 2 and p.y = 7 or p.x = 3 and p.y = 6;
+    edge c when p.x = 2 and p.y = 7 or p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6);
+    edge d when false;
+    edge e when p.x = 4 and p.y = 5 or p.x = 2 and p.y = 7 or (p.x = 6 and p.y = 3 or (p.x = 5 and p.y = 4 or p.x = 3 and p.y = 6));
+end

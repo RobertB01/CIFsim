@@ -1,0 +1,3 @@
+Problems detected in merged CIF specification:
+ - ERROR: The SVG element with id "box" in SVG file "../tchecker/small.svg" is moved, and must therefore not also have an output mapping for its "transform" attribute.
+ERROR: Merging CIF specifications "merger/err_post_svg_dupl_move_transform.in1.cif", "merger/err_post_svg_dupl_move_transform.in2.cif" failed.

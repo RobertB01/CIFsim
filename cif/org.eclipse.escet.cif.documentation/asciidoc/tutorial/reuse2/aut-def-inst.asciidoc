@@ -1,0 +1,122 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tut-reuse2-chapter-aut-def-inst]]
+== Automaton definition/instantiation
+
+indexterm:[automaton definition]
+indexterm:[automaton instantiation]
+indexterm:[automaton,definition]
+indexterm:[automaton,instantiation]
+indexterm:[component,automaton instantiation]
+indexterm:[component definition]
+indexterm:[component instantiation]
+Parts of a system that are nearly identical, are often modeled as nearly
+identical automata. Having to specify them multiple times can be burdensome.
+It can also hinder scalability, as changes to one of them usually need to be
+applied to the others as well. Consider again the producer/consumer
+example from the <<tut-channels-chapter-intro,lesson that introduced channels>>:
+
+// Copied from: channels/intro
+
+[source,cif]
+----
+event int provide;
+
+automaton producer:
+  disc int nr = 0;
+
+  location:
+    initial;
+    edge provide!nr do nr := nr + 1;
+end
+
+automaton consumer1:
+  disc int nr = -1;
+
+  location:
+    initial;
+    edge provide? do nr := ?;
+end
+
+automaton consumer2:
+  disc int nr = -1;
+
+  location:
+    initial;
+    edge provide? do nr := ?;
+end
+----
+
+The producer provides products either to the first consumer or to the second
+consumer. The consumers are modeled using identical automata. Only the names of
+the `consumer1` and `consumer2` automata differ. Ideally, we would have a
+sort of consumer template, and use that template twice, once for each of the
+actual consumers. This can be achieved in CIF using an _automaton definition_
+(the template) and two _automaton instantiations_ (the uses of the template):
+
+
+[source, cif]
+----
+event int provide;
+
+automaton producer:
+  disc int nr = 0;
+
+  location:
+    initial;
+    edge provide!nr do nr := nr + 1;
+end
+
+automaton def Consumer():
+  disc int nr = -1;
+
+  location:
+    initial;
+    edge provide? do nr := ?;
+end
+
+consumer1: Consumer();
+consumer2: Consumer();
+----
+
+The `Consumer` automaton definition is identical to the original consumers,
+except that it is an automaton definition rather than an automaton. An
+automaton definition can be identified by the `def` keyword between the
+`automaton` keyword and the name of the automaton definition, as well as by
+the parentheses after its name. As a convention, names of automaton definitions
+start with an upper case letter (`Consumer` rather than `consumer`).
+
+An automaton definition by itself is not an automaton. The instantiations of
+the automaton definition (`consumer1` and `consumer2`) however, _are_
+automata. Before the colon (`:`), the name of the instantiation is given.
+This name is also the name of the actual automaton. After the colon, the name
+of the automaton definition that is instantiated is given.
+
+Using an automaton definition, the above example models the behavior of a
+consumer only once. Adding a third consumer is as easy as adding another
+automaton instantiation, which takes only one line of code
+(`consumer3: Consumer();`). Changing the behavior of all consumers only
+requires changes to the common automaton definition. Automaton
+definition/instantiation allows for scalability and reuse, and also improves
+maintainability.
+
+Automaton definition/instantiation can be eliminated, by replacing all
+automaton instantiations by the automaton definitions that they instantiate,
+and changing the automaton definition header (`automaton def Consumer():`) by
+an automaton header (`automaton consumer1:`). If we do that for the example
+above, we obtain the original specification from the beginning of this lesson.
+The two specifications are functionally equivalent. Automaton instantiation
+`consumer1` is also often referred to as automaton `consumer1`, when there
+is no confusion.

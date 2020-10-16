@@ -1,0 +1,3 @@
+Warning: File "spec/type/printable/rw-enum.chi": Semantic warning at line 13, column 14: Unused enum value "red".
+Warning: File "spec/type/printable/rw-enum.chi": Semantic warning at line 13, column 19: Unused enum value "yellow".
+Warning: File "spec/type/printable/rw-enum.chi": Semantic warning at line 13, column 27: Unused enum value "brown".

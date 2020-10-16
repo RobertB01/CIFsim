@@ -1,0 +1,106 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+#begin display 1
+
+type lot = tuple(int num; real t; int k);
+
+proc G(chan! lot a):
+   int i;
+   dist int d = uniform(0, 2);
+   while true:
+      a!(i, time, sample d);
+      i = i + 1;
+      delay 4.0
+   end
+end
+
+#end display 1
+
+#begin display 3
+
+proc B(chan? lot a; chan! lot b):
+   list lot xs; lot x;
+   while true:
+      select
+         a?x:
+            xs = xs + [x]
+      alt
+         not empty(xs), b!xs[0]:
+            xs = xs[1:]
+      end
+   end
+end
+
+
+#end display 3
+
+#begin display 2
+
+proc Bs(chan? lot a; chan! lot b, c):
+   list lot xs; lot x;
+   while true:
+      select
+         a?x:
+            xs = xs + [x]
+      alt
+         checktype(xs, 0), b!xs[0]:
+            xs = xs[1:]
+      alt
+         checktype(xs, 1), c!xs[0]:
+            xs = xs[1:]
+      end
+   end
+end
+
+func bool checktype(list lot xs; int n):
+   if empty(xs):
+      return false
+   else:
+      return xs[0].k == n
+   end
+end
+
+#end display 2
+
+#begin display 4
+
+proc M(chan? lot a; chan! lot b; real t):
+   lot x;
+   while true:
+      a?x; delay t; b!x
+   end
+end
+
+#end display 4
+
+proc E (chan? lot a):
+   lot x;
+   for j in range(1000):
+      a?x;
+      write("%10.2f\tE\treceived lot %5d\n", time, x.num)
+   end
+end
+
+#begin display 5
+
+model Bypass():
+   chan lot a, b, c, d, e, f, g;
+   run
+      G(a),
+      B(a, b),     M(b, c, 3.0),
+      Bs(c, d, e), M(d, e, 6.0),
+      B(e, f),     M(f, g, 3.0),
+      E(g)
+end
+
+#end display 5

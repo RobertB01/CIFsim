@@ -1,0 +1,139 @@
+Reading CIF file "datasynth/namespace.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        g.r    0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..3]  g.r.x  1      2 * 2     4 * 2       4 * 2       100%
+  3      discrete variable  int[0..3]  g.r.y  2      2 * 2     4 * 2       4 * 2       100%
+  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+  Total                                       3      10        20          20          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 6
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    4 (total)                 0.67 (avg/edge) [before]
+    Total span:                    4 (total)                 0.67 (avg/edge) [iteration 1]
+    Total span:                    4 (total)                 0.67 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 3
+
+    Total span:                    4 (total)                 0.67 (avg/edge) [before]
+    Total span:                    3 (total)                 0.50 (avg/edge) [window 0..2]
+    Total span:                    3 (total)                 0.50 (avg/edge) [after]
+
+  Variable order changed.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name   Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..3]  g.r.x  0      2 * 2     4 * 2       4 * 2       100%
+  2      location pointer   n/a        g.r    1      1 * 2     2 * 2       2 * 2       100%
+  3      discrete variable  int[0..3]  g.r.y  2      2 * 2     4 * 2       4 * 2       100%
+  -----  -----------------  ---------  -----  -----  --------  ----------  ----------  -----------
+  Total                                       3      10        20          20          100%
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         true
+Initial   (discrete variable 2):         true
+Initial   (discrete variables):          true
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (aut/locs init predicate):     g.r.loc1
+Initial   (auts/locs init predicate):    g.r.loc1
+Initial   (uncontrolled system):         g.r.loc1
+Initial   (system, combined init/inv):   g.r.loc1
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (aut/locs marker predicate):   g.r.loc1
+Marked    (auts/locs marker predicate):  g.r.loc1
+Marked    (uncontrolled system):         g.r.loc1
+Marked    (system, combined marked/inv): g.r.loc1
+
+State/event exclusion requirements:
+  Event "p.u" needs:
+    g.r.loc1
+  Event "c" needs:
+    (g.r.x = 1 or g.r.x = 3) and g.r.loc1
+  Event "p.c2" needs:
+    g.r.loc1 and g.r.y = 0
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
+    Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2))
+    Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
+    Edge: (event: p.u) (guard: g.r.loc2)
+    Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
+    Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Edge (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2)): guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false [requirement: (g.r.x = 1 or g.r.x = 3) and g.r.loc1].
+Controlled behavior: true -> g.r.loc1 [requirement: g.r.loc1, edge: (event: p.u) (guard: g.r.loc2)].
+Edge (event: p.c2) (guard: g.r.loc2 or g.r.y != 0): guard: g.r.loc2 or g.r.y != 0 -> false [requirement: g.r.loc1 and g.r.y = 0].
+
+Restricted behavior using state/event exclusion requirements:
+  State: (controlled-behavior: g.r.loc1)
+    Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
+    Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false)
+    Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
+    Edge: (event: p.u) (guard: g.r.loc2)
+    Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2)
+    Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0 -> false)
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: g.r.loc1 [marker predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: g.r.loc2 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: g.r.loc1 [initialization predicate]
+Forward reachability: iteration 1.
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Edge (event: p.c2) (guard: g.r.loc1 and g.r.y = 0) (assignments: g.r := g.r.loc2): guard: g.r.loc1 and g.r.y = 0 -> false.
+
+Final synthesis result:
+  State: (controlled-behavior: g.r.loc1)
+    Edge: (event: c) (guard: (g.r.x = 1 or g.r.x = 3) and g.r.loc1)
+    Edge: (event: c) (guard: g.r.x = 0 or (g.r.x = 2 or g.r.loc2) -> false)
+    Edge: (event: p.u) (guard: g.r.loc1) (assignments: g.r.x := (g.r.x + 1) mod 4)
+    Edge: (event: p.u) (guard: g.r.loc2)
+    Edge: (event: p.c2) (guard: g.r.loc1 and g.r.y = 0 -> false) (assignments: g.r := g.r.loc2)
+    Edge: (event: p.c2) (guard: g.r.loc2 or g.r.y != 0 -> false)
+
+Controlled system:                     exactly 16 states.
+
+Initial (synthesis result):            g.r.loc1
+Initial (uncontrolled system):         g.r.loc1
+Initial (controlled system):           g.r.loc1
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/namespace.ctrlsys.real.cif".

@@ -1,0 +1,1 @@
+WARNING: File "cif2supremica/alphabet_disabling.cif": Semantic warning at line 17, column 18: The alphabet of automaton "p" globally disables event "c_e2", as the event is not used on any of the edges of the automaton.

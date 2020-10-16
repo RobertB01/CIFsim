@@ -1,0 +1,1 @@
+Error: File "spec/statements/write-int-real.chi": Semantic error at line 14, column 12: Argument 1 is of type "real" (expected "int").

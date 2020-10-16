@@ -1,0 +1,85 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// setup
+chdir("interpreter");
+
+// app
+outln("=== app ===");
+outln("1a:");
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", "0"));
+outln();
+
+outln("1b:");
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["0"]));
+outln();
+
+outln("2:");
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["1"], ignoreNonZeroExitCode=true));
+outln();
+
+outln("3:");
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["0"], stdout="", stderr=""));
+outln();
+
+outln("4a:");
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["0"], stdout="subdir/app.out", stderr="subdir/app.err"));
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("%s %s", readlines("subdir/app.out"), readlines("subdir/app.err"));
+outln();
+
+outln("4b:");
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["0"], stdout="subdir/app.out", stderr="subdir/app.err"));
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("%s %s", readlines("subdir/app.out"), readlines("subdir/app.err"));
+outln();
+
+outln("5a:");
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["0"], stdout="subdir/app.out", stderr="subdir/app.err", appendOut=true));
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("%s %s", readlines("subdir/app.out"), readlines("subdir/app.err"));
+outln();
+
+outln("5b:");
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["0"], stdout="subdir/app.out", stderr="subdir/app.err", appendOut=true, appendErr=true));
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("%s %s", readlines("subdir/app.out"), readlines("subdir/app.err"));
+outln();
+
+rmfile("subdir/app.out");
+rmfile("subdir/app.err");
+
+outln("6:");
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["2"], stdout="subdir/app.out", stderr="subdir/app.err", errToOut=true, ignoreNonZeroExitCode=true));
+outln("%s %s", exists("subdir/app.out"), exists("subdir/app.err"));
+outln("%s", readlines("subdir/app.out"));
+outln();
+
+rmfile("subdir/app.out");
+
+outln("7:");
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["10"], stdin="", ignoreNonZeroExitCode=true));
+outln();
+
+outln("8:");
+outln("exit code = %s", app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp", ["10"], stdin="subdir/data.txt", ignoreNonZeroExitCode=true));
+outln();
+
+outln("9:");
+app("org.eclipse.escet.tooldef.tests", "org.eclipse.escet.tooldef.tests.TestApp");
+outln();

@@ -1,0 +1,22 @@
+automaton io:
+  disc int[0..2] sensor in any;
+  uncontrollable u_sensor;
+  location:
+    initial;
+    marked;
+    edge u_sensor when sensor != 0 do sensor := 0;
+    edge u_sensor when sensor != 1 do sensor := 1;
+    edge u_sensor when sensor != 2 do sensor := 2;
+end
+plant automaton p:
+  location:
+    initial;
+    marked io.sensor = 2;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end
+initial io.sensor = 1;

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/fmt_pat_idx_overflow.cif": Semantic error at line 14, column 12: Invalid format specifier: the explicit index causes integer overflow.
+ERROR: Failed to load CIF file "tchecker/fmt_pat_idx_overflow.cif": the file has errors.

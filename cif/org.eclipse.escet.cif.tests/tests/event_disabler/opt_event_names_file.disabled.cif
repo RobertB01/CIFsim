@@ -1,0 +1,12 @@
+event a;
+event b;
+event c;
+group d:
+  event e;
+end
+automaton event_disabler:
+  alphabet a, b, c, d.e;
+  location:
+    initial;
+    edge a, b, c, d.e when false;
+end

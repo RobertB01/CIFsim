@@ -1,0 +1,3 @@
+Warning: File "spec/enum/model_parms.chi": Semantic warning at line 13, column 11: Unused enum value "A".
+Warning: File "spec/enum/model_parms.chi": Semantic warning at line 13, column 14: Unused enum value "b".
+Warning: File "spec/enum/model_parms.chi": Semantic warning at line 13, column 17: Unused enum value "CdefG".

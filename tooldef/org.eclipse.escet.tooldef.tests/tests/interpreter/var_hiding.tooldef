@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+int a = 5;
+outln("%s", a);
+
+if true:
+    int a = 6;
+    outln("%s", a);
+
+    while true:
+        int a = 7;
+        outln("%s", a);
+
+        for x in [300]:
+            int a = 8 + x;
+            outln("%s", a);
+
+            if false:
+                // skip
+            elif true:
+                int a = 9;
+                outln("%s", a);
+            end
+            outln("%s", a);
+
+            if false:
+                // skip
+            elif false:
+                // skip
+            else
+                int a = 10;
+                outln("%s", a);
+            end
+            outln("%s", a);
+
+            for a in [11]:
+                outln("%s", a);
+            end
+            outln("%s", a);
+
+            break;
+        end
+        outln("%s", a);
+
+        break;
+    end
+    outln("%s", a);
+end
+outln("%s", a);

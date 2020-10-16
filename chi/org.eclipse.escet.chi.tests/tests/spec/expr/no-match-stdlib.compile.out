@@ -1,0 +1,5 @@
+Error: File "spec/expr/no-match-stdlib.chi": Semantic error at line 14, column 13: Type mismatch at the 1st argument (found type "int", expected a list, set, or dictionary argument).
+Error: File "spec/expr/no-match-stdlib.chi": Semantic error at line 19, column 14: Calling a function with too few arguments (found 0, need 1 to call "func real (real)").
+Error: File "spec/expr/no-match-stdlib.chi": Semantic error at line 24, column 14: Calling a function with too many arguments (found 3, need 1 to call "func real (real)").
+Error: File "spec/expr/no-match-stdlib.chi": Semantic error at line 29, column 14: Calling a function without arguments, this function needs a list, set, or dictionary argument.
+Error: File "spec/expr/no-match-stdlib.chi": Semantic error at line 35, column 14: Calling a function with too many arguments (found 4, need 1 to call "func int (list int)").

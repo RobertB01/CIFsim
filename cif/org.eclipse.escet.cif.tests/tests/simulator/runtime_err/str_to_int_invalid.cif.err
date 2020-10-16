@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=0.0.
+CAUSE: Evaluation of invariant "<int>"abc" > 0" of the top level scope of the specification failed.
+CAUSE: Cast from type "string" to type "int" failed: the string value does not represent an integer value, or the integer value resulted in integer overflow: "abc".

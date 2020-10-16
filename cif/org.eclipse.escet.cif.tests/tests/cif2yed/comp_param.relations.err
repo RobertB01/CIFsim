@@ -1,0 +1,2 @@
+ERROR: Failed to generate a yEd relations diagram for CIF file "cif2yed/comp_param.cif".
+CAUSE: Component parameter "g1.G2.p3" is not supported.

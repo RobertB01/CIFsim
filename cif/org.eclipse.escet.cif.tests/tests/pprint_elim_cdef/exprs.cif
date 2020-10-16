@@ -1,0 +1,839 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Booleans.
+const bool c1  = true;
+const bool c2  = false;
+
+// Integers.
+const int n1 = -1;
+const int p0 =  0;
+const int p1 =  1;
+const int p2 =  2;
+
+invariant n1 + p0 + p1 + p2 > 0;
+
+// Enumerations.
+// (see enums.cif)
+
+// Reals.
+const real r1 = 1.0;
+const real r2 = -1.0;
+const real r3 = 1e5;
+const real r4 = 1e+5;
+const real r5 = 1E-05;
+const real r6 = 1.0e3;
+const real r7 = -(1.0 + 2.0);
+
+invariant r1 + r2 + r3 + r4 + r5 + r6 + r7 > 0;
+
+// Strings.
+const string g1 = "";
+const string g2 = "abc";
+const string g3 = "a\nb\tc\"d\\e";
+const string g4 = "abcdef";
+
+invariant g1 + g2 + g3 + g4 = "";
+
+// Lists.
+const list int l1 = <list[0] int>[];
+const list int l2 = [1];
+const list int l3 = [1, 2];
+const list int l4 = [1, 2, 3, 4, 5];
+
+const list list int ll1 = [[1, 2], [3, 4, 5]];
+
+const list[3] int l5 = [1, 2, 3];
+const list[0..4] int l6 = [1, 2];
+
+invariant l1 + l2 + l3 + l4 + l5 + l6 = <list[0] int>[];
+
+// Sets.
+const set int s1 = <set int>{};
+const set int s2 = {1};
+const set int s3 = {1, 2};
+const set int s4 = {2, 2, 2};
+const set int s5 = {2, 1, 3, 5, 6, 4, 3, 5, -1};
+
+invariant (s1 or s2 or s3 or s4 or s5) = <set int>{};
+
+// Functions.
+type ft1 = func real();
+type ft2 = func real(real);
+
+func real f():
+  return 1.0;
+end
+
+automaton func_aut:
+  disc func real () x1a;
+  disc func ft1  () x1b;
+  disc ft2          x2a;
+  disc func ft2  () x2b;
+
+  location:
+    initial;
+end
+
+// Dictionaries.
+const dict(int:bool) d1 = <dict(int:bool)>{};
+const dict(int:bool) d2 = {1:true};
+const dict(int:bool) d3 = {1:true, 2:false};
+
+invariant d1 + d2 + d3 = <dict(int:bool)>{};
+
+// Tuples.
+const tuple(int a, b) u1a = (1, 2);
+const tuple(int a, b) u1b = (2, 3);
+const tuple(int a, b, c) u2 = (1, 2, 3);
+const tuple(int a, b; bool c; real d) u3 = (1, 2, true, 1.23);
+
+invariant u1a[a] + u1b[a] + u2[a] + u3[a] > 0;
+
+// Distributions.
+automaton dist_aut:
+  disc dist bool d01 = bernoulli(1.0);
+  disc dist real d02 = beta(1.0, 2.0);
+  disc dist int  d03 = binomial(1.0, 2);
+  disc dist bool d04 = constant(true);
+  disc dist int  d05 = constant(1);
+  disc dist real d06 = constant(1.23);
+  disc dist real d07 = erlang(1, 2.0);
+  disc dist real d08 = exponential(1.0);
+  disc dist real d09 = gamma(1.0, 2.0);
+  disc dist int  d10 = geometric(1.0);
+  disc dist real d11 = lognormal(1.0, 2.0);
+  disc dist real d12 = normal(1.0, 2.0);
+  disc dist int  d13 = poisson(1.0);
+  disc dist real d14 = random();
+  disc dist real d15 = triangle(1.0, 2.0, 3.0);
+  disc dist int  d16 = uniform(1, 2);
+  disc dist real d17 = uniform(1.0, 2.0);
+  disc dist real d18 = weibull(1.0, 2.0);
+  location:
+    initial;
+end
+
+// Time.
+alg real time1 = time;
+
+invariant time1 > 0;
+
+// Casts.
+const real   cast_i2r = <real>1;
+const string cast_i2s = <string>1;
+const string cast_r2s = <string>1.0;
+const string cast_b2s = <string>true;
+const int    cast_s2i = <int>"1";
+const real   cast_s2r = <real>"1.0";
+const bool   cast_s2b = <bool>"true";
+const bool   cast_b2b = <bool>true;
+const int    cast_i2i = <int[12..12]>12;
+const real   cast_r2r = <real>1.0;
+const bool   cast_b2b2b = <bool><bool>false;
+
+invariant cast_i2r > 0 and cast_i2s + cast_r2s + cast_b2s = "";
+invariant cast_s2i + cast_s2r + cast_i2i + cast_r2r > 0;
+invariant cast_s2b and cast_b2b;
+
+automaton cast_aut:
+  alg string cast_a2s_1 = <string>self;
+  alg string cast_a2s_2 = <string>cast_aut;
+
+  invariant cast_a2s_1 + cast_a2s_2 = "";
+
+  location:
+    initial;
+end
+
+automaton def cast_aut_def():
+  alg string cast_a2s_1 = <string>self;
+  alg string cast_a2s_2 = <string>cast_aut;
+
+  invariant cast_a2s_1 + cast_a2s_2 = "";
+
+  location:
+    initial;
+end
+
+cast_aut1: cast_aut_def();
+cast_aut2: cast_aut_def();
+
+// Unary operators.
+const bool un_inv1 = not c1;
+const bool un_inv2 = not not c1;
+
+invariant un_inv1 and un_inv2;
+
+const int  un_neg1 = -5;
+const int  un_neg2 = --5;
+alg   int  un_neg3 = -un_aut.ivar;
+const real un_neg4 = -1.0;
+const real un_neg5 = --1.0;
+
+invariant un_neg1 + un_neg2 + un_neg3 + un_neg4 + un_neg5 > 0;
+
+const int  un_plus1 = +1;
+const int  un_plus2 = ++5;
+alg   int  un_plus3 = +un_aut.ivar;
+const real un_plus4 = +1.0;
+const real un_plus5 = ++5.0;
+
+invariant un_plus1 + un_plus2 + un_plus3 + un_plus4 + un_plus5 > 0;
+
+alg tuple(bool s; dist bool d) un_sample01 = sample dist_aut.d01;
+alg tuple(real s; dist real d) un_sample02 = sample dist_aut.d02;
+alg tuple(int  s; dist int  d) un_sample03 = sample dist_aut.d03;
+alg tuple(bool s; dist bool d) un_sample04 = sample dist_aut.d04;
+alg tuple(int  s; dist int  d) un_sample05 = sample dist_aut.d05;
+alg tuple(real s; dist real d) un_sample06 = sample dist_aut.d06;
+alg tuple(real s; dist real d) un_sample07 = sample dist_aut.d07;
+alg tuple(real s; dist real d) un_sample08 = sample dist_aut.d08;
+alg tuple(real s; dist real d) un_sample09 = sample dist_aut.d09;
+alg tuple(int  s; dist int  d) un_sample10 = sample dist_aut.d10;
+alg tuple(real s; dist real d) un_sample11 = sample dist_aut.d11;
+alg tuple(real s; dist real d) un_sample12 = sample dist_aut.d12;
+alg tuple(int  s; dist int  d) un_sample13 = sample dist_aut.d13;
+alg tuple(real s; dist real d) un_sample14 = sample dist_aut.d14;
+alg tuple(real s; dist real d) un_sample15 = sample dist_aut.d15;
+alg tuple(int  s; dist int  d) un_sample16 = sample dist_aut.d16;
+alg tuple(real s; dist real d) un_sample17 = sample dist_aut.d17;
+alg tuple(real s; dist real d) un_sample18 = sample dist_aut.d18;
+
+invariant un_sample01[s] or un_sample04[s];
+invariant un_sample02[s] + un_sample03[s] + un_sample05[s] > 0;
+invariant un_sample06[s] + un_sample07[s] + un_sample08[s] > 0;
+invariant un_sample09[s] + un_sample10[s] + un_sample11[s] > 0;
+invariant un_sample12[s] + un_sample13[s] + un_sample14[s] > 0;
+invariant un_sample15[s] + un_sample16[s] + un_sample17[s] > 0;
+invariant un_sample18[s] > 0;
+
+const int un1 = +-+-5;
+alg bool  un2 = (sample dist_aut.d01)[0];
+
+invariant un1 > 0 and un2;
+
+automaton un_aut:
+  disc int ivar;
+  location:
+    initial;
+end
+
+// Binary operators (short circuit).
+const bool short1 = false => [true, false][1];
+const bool short2 = false and [true, false][1];
+const bool short3 = true or [true, false][1];
+
+invariant short1 or short2 or short3;
+
+// Binary operators.
+const bool bin_impl1 = true => false;
+
+const bool bin_bicon1 = true <=> false;
+
+invariant bin_impl1 and bin_bicon1;
+
+const bool    bin_disj1 = true   or false;
+const set int bin_disj2 = {1, 2} or {2, 3};
+
+const bool    bin_conj1 = true   and false;
+const set int bin_conj2 = {1, 2} and {2, 3};
+
+invariant bin_disj1 and bin_conj1 and bin_disj2 = bin_conj2;
+
+const bool bin_lt1 = 1   < 2;
+const bool bin_lt2 = 1   < 2.0;
+const bool bin_lt3 = 1.0 < 2;
+const bool bin_lt4 = 1.0 < 2.0;
+
+const bool bin_gt1 = 1   > 2;
+const bool bin_gt2 = 1   > 2.0;
+const bool bin_gt3 = 1.0 > 2;
+const bool bin_gt4 = 1.0 > 2.0;
+
+const bool bin_le1 = 1   <= 2;
+const bool bin_le2 = 1   <= 2.0;
+const bool bin_le3 = 1.0 <= 2;
+const bool bin_le4 = 1.0 <= 2.0;
+
+const bool bin_ge1 = 1   >= 2;
+const bool bin_ge2 = 1   >= 2.0;
+const bool bin_ge3 = 1.0 >= 2;
+const bool bin_ge4 = 1.0 >= 2.0;
+
+invariant bin_lt1 and bin_lt2 and bin_lt3 and bin_lt4;
+invariant bin_gt1 and bin_gt2 and bin_gt3 and bin_gt4;
+invariant bin_le1 and bin_le2 and bin_le3 and bin_le4;
+invariant bin_ge1 and bin_ge2 and bin_ge3 and bin_ge4;
+
+const bool bin_eq1 = true   = false;
+const bool bin_eq2 = 1      = 2;
+const bool bin_eq3 = 1.0    = 2.0;
+const bool bin_eq4 = "a"    = "b";
+const bool bin_eq5 = [1]    = [2];
+const bool bin_eq6 = {1}    = {2};
+const bool bin_eq7 = {1:2}  = {2:3};
+const bool bin_eq8 = (1, 2) = (2, 3);
+
+invariant bin_eq1 and bin_eq2 and bin_eq3 and bin_eq4;
+invariant bin_eq5 and bin_eq6 and bin_eq7 and bin_eq8;
+
+const bool bin_uneq1 = true   != false;
+const bool bin_uneq2 = 1      != 2;
+const bool bin_uneq3 = 1.0    != 2.0;
+const bool bin_uneq4 = "a"    != "b";
+const bool bin_uneq5 = [1]    != [2];
+const bool bin_uneq6 = {1}    != {2};
+const bool bin_uneq7 = {1:2}  != {2:3};
+const bool bin_uneq8 = (1, 2) != (2, 3);
+
+invariant bin_uneq1 and bin_uneq2 and bin_uneq3 and bin_uneq4;
+invariant bin_uneq5 and bin_uneq6 and bin_uneq7 and bin_uneq8;
+
+const int            bin_add1  = 1            + 2;
+const real           bin_add2  = <int[1..1]>1 + 2.0;
+const real           bin_add3  = 1.0          + <int[2..2]>2;
+const real           bin_add4  = 1.0          + 2.0;
+alg   int            bin_add5  = bin_aut.ivar + 1;
+const list int       bin_add6  = [1] + [2];
+const string         bin_add7  = "a" + "b";
+const dict(int:int)  bin_add8  = {1:2} + {1:3, 4:5};
+const list[3] int    bin_add9  = [1] + [2, 3];
+const list[0..3] int bin_add10 = [1] + [2];
+
+invariant bin_add1 + bin_add2 + bin_add3 + bin_add4 + bin_add5 > 0;
+invariant size(bin_add6) + size(bin_add7) + size(bin_add8) > 0;
+
+const int           bin_subtr1  = 1            - 2;
+const real          bin_subtr2  = <int[1..1]>1 - 2.0;
+const real          bin_subtr3  = 1.0          - <int[2..2]>2;
+const real          bin_subtr4  = 1.0          - 2.0;
+alg   int           bin_subtr5  = bin_aut.ivar - 1;
+const set int       bin_subtr6  = {1,2,3} - {2,3,4};
+const dict(int:int) bin_subtr7  = {1:2, 3:4, 5:6} - {1:3, 7:8};
+const dict(int:int) bin_subtr8  = {1:2, 3:4, 5:6} - {1, 7};
+const dict(int:int) bin_subtr9  = {1:2, 3:4, 5:6} - [1, 7];
+
+invariant bin_subtr1 + bin_subtr2 + bin_subtr3 + bin_subtr4 + bin_subtr5 > 0;
+invariant size(bin_subtr6) + size(bin_subtr7) > 0;
+invariant size(bin_subtr8) + size(bin_subtr9) > 0;
+
+const int  bin_mul1 = 1            * 2;
+const real bin_mul2 = <int[1..1]>1 * 2.0;
+const real bin_mul3 = 1.0          * <int[2..2]>2;
+const real bin_mul4 = 1.0          * 2.0;
+alg   int  bin_mul5 = bin_aut.ivar * 1;
+
+invariant bin_mul1 + bin_mul2 + bin_mul3 + bin_mul4 + bin_mul5 > 0;
+
+const real bin_division1 = 1   / 2;
+const real bin_division2 = 1   / 2.0;
+const real bin_division3 = 1.0 / 2;
+const real bin_division4 = 1.0 / 2.0;
+alg   real bin_division5 = bin_aut.ivar / 2;
+
+invariant bin_division1 + bin_division2 + bin_division3 > 0;
+invariant bin_division4 + bin_division5 > 0;
+
+const int bin_div1 =  7 div  4;
+const int bin_div2 = -7 div  4;
+const int bin_div3 =  7 div -4;
+const int bin_div4 = -7 div -4;
+alg   int bin_div5 =  bin_aut.ivar div  3;
+alg   int bin_div6 = -bin_aut.ivar div  3;
+alg   int bin_div7 =  bin_aut.ivar div -3;
+alg   int bin_div8 = -bin_aut.ivar div -3;
+
+invariant bin_div1 + bin_div2 + bin_div3 + bin_div4 > 0;
+invariant bin_div5 + bin_div6 + bin_div7 + bin_div8 > 0;
+
+const int bin_mod1 =  7 mod  4;
+const int bin_mod2 = -7 mod  4;
+const int bin_mod3 =  7 mod -4;
+const int bin_mod4 = -7 mod -4;
+alg   int bin_mod5 =  bin_aut.ivar mod  3;
+alg   int bin_mod6 = -bin_aut.ivar mod  3;
+alg   int bin_mod7 =  bin_aut.ivar mod -3;
+alg   int bin_mod8 = -bin_aut.ivar mod -3;
+
+invariant bin_mod1 + bin_mod2 + bin_mod3 + bin_mod4 > 0;
+invariant bin_mod5 + bin_mod6 + bin_mod7 + bin_mod8 > 0;
+
+const bool bin_in1 = 4 in [1, 2];
+const bool bin_in2 = 4 in {1, 2};
+const bool bin_in3 = 4 in {1:2, 3:4};
+
+const bool bin_sub1 = {1,2} sub {1,2,3};
+
+invariant bin_in1 and bin_in2 and bin_in3 and bin_sub1;
+
+automaton bin_aut:
+  disc int ivar;
+  location:
+    initial;
+end
+
+// Ifs.
+const int if1 = if c1: +1 else 2 end;
+
+const int if2 = if   c1:                  +1
+                elif c2:                   3
+                elif c1 and c2, c1 or c2: -1
+                else                       2
+                end;
+
+invariant if1 + if2 > 0;
+
+// Switches.
+
+const int[1..5] switch0 = 2;
+
+const int switch1 = switch switch0:
+                      case 1: 3
+                      case 2: 4
+                      else    5
+                    end;
+
+alg int switch2 = switch switch_aut1:
+                    else 6
+                  end;
+
+alg int switch3 = switch switch_aut2:
+                    case l1: 7
+                    else     8
+                  end;
+
+alg int switch4 = switch switch_aut2:
+                    case l1: 9
+                    case l2: 10
+                  end;
+
+alg int switch5 = switch switch_def1:
+                    case l1: 11
+                    case l2: 12
+                  end;
+
+invariant switch1 + switch2 + switch3 + switch4 + switch5 > 0;
+
+automaton switch_aut1:
+  alg int x = switch self: else 123 end;
+
+  location:
+    initial;
+end
+
+automaton switch_aut2:
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+automaton def switch_def():
+  location l1:
+    initial;
+  location l2:
+    initial;
+end
+
+switch_def1: switch_def();
+
+automaton def switch_aut_def():
+  location m:
+    initial;
+end
+
+group def switch_grp_def():
+  a: switch_aut_def();
+end
+
+switch_g: switch_grp_def();
+
+alg real switch6 = switch switch_g.a:
+                     case m: 1.0
+                   end;
+
+invariant switch6 > 0;
+
+// Projections.
+const int proj1l = l4[0];
+const int proj2l = l4[3];
+const int proj3l = l4[-1];
+
+const int projll00 = ll1[0][0];
+const int projll01 = ll1[0][1];
+const int projll10 = ll1[1][0];
+const int projll11 = ll1[1][1];
+const int projll12 = ll1[1][2];
+
+invariant proj1l + proj2l + proj3l > 0;
+invariant projll00 + projll01 + projll10 + projll11 + projll12 > 0;
+
+const string proj1g = g4[0];
+const string proj2g = g4[3];
+const string proj3g = g4[-1];
+
+automaton proj_aut:
+  disc int x;
+  location:
+    initial;
+end
+
+const string projl_1 = ["a", "b", "c"][1];
+const int projl_2 = [1, 2, 3][1];
+const int projl_3 = [1, 2][1];
+const int projl_4 = [1][0];
+alg   int projl_5 = (<list[0] int>[])[proj_aut.x];
+
+invariant proj1g + proj2g + proj3g = "";
+
+const bool proj1d = d2[1];
+
+const int  proj1t1 = u3[0];
+const int  proj2t1 = u3[1];
+const bool proj3t1 = u3[2];
+const real proj4t1 = u3[3];
+
+const int  proj1t2 = u3[a];
+const int  proj2t2 = u3[b];
+const bool proj3t2 = u3[c];
+const real proj4t2 = u3[d];
+
+invariant proj1d and proj3t1 and proj3t2;
+invariant proj1t1 + proj2t1 + proj4t1 > 0;
+invariant proj1t2 + proj2t2 + proj4t2 > 0;
+
+// Slices.
+const list int slice1l = l4[:];
+const list int slice2l = l4[1:];
+const list int slice3l = l4[:1];
+const list int slice4l = l4[1:2];
+
+invariant slice1l + slice2l + slice3l + slice4l = [1];
+
+const string slice1g = g4[:];
+const string slice2g = g4[1:];
+const string slice3g = g4[:1];
+const string slice4g = g4[1:2];
+
+invariant slice1g + slice2g + slice3g + slice4g = "a";
+
+const list       int slicel_x = [1, 2, 3, 4, 5];
+const list[5]    int slicel_y = [2, 3, 4, 5, 6];
+const list[0..7] int slicel_z = [5, 6, 7, 8, 9];
+
+automaton slice_aut:
+  disc int       n;
+  disc int[1..4] r;
+  disc int[4..4] s;
+
+  location:
+    initial;
+end
+
+alg int slicel_xee = size(slicel_x[           :           ]);
+alg int slicel_xen = size(slicel_x[           :slice_aut.n]);
+alg int slicel_xer = size(slicel_x[           :slice_aut.r]);
+alg int slicel_xes = size(slicel_x[           :slice_aut.s]);
+alg int slicel_xne = size(slicel_x[slice_aut.n:           ]);
+alg int slicel_xnn = size(slicel_x[slice_aut.n:slice_aut.n]);
+alg int slicel_xnr = size(slicel_x[slice_aut.n:slice_aut.r]);
+alg int slicel_xns = size(slicel_x[slice_aut.n:slice_aut.s]);
+alg int slicel_xre = size(slicel_x[slice_aut.r:           ]);
+alg int slicel_xrn = size(slicel_x[slice_aut.r:slice_aut.n]);
+alg int slicel_xrr = size(slicel_x[slice_aut.r:slice_aut.r]);
+alg int slicel_xrs = size(slicel_x[slice_aut.r:slice_aut.s]);
+alg int slicel_xse = size(slicel_x[slice_aut.s:           ]);
+alg int slicel_xsn = size(slicel_x[slice_aut.s:slice_aut.n]);
+alg int slicel_xsr = size(slicel_x[slice_aut.s:slice_aut.r]);
+alg int slicel_xss = size(slicel_x[slice_aut.s:slice_aut.s]);
+
+alg int slicel_yee = size(slicel_y[           :           ]);
+alg int slicel_yen = size(slicel_y[           :slice_aut.n]);
+alg int slicel_yer = size(slicel_y[           :slice_aut.r]);
+alg int slicel_yes = size(slicel_y[           :slice_aut.s]);
+alg int slicel_yne = size(slicel_y[slice_aut.n:           ]);
+alg int slicel_ynn = size(slicel_y[slice_aut.n:slice_aut.n]);
+alg int slicel_ynr = size(slicel_y[slice_aut.n:slice_aut.r]);
+alg int slicel_yns = size(slicel_y[slice_aut.n:slice_aut.s]);
+alg int slicel_yre = size(slicel_y[slice_aut.r:           ]);
+alg int slicel_yrn = size(slicel_y[slice_aut.r:slice_aut.n]);
+alg int slicel_yrr = size(slicel_y[slice_aut.r:slice_aut.r]);
+alg int slicel_yrs = size(slicel_y[slice_aut.r:slice_aut.s]);
+alg int slicel_yse = size(slicel_y[slice_aut.s:           ]);
+alg int slicel_ysn = size(slicel_y[slice_aut.s:slice_aut.n]);
+alg int slicel_ysr = size(slicel_y[slice_aut.s:slice_aut.r]);
+alg int slicel_yss = size(slicel_y[slice_aut.s:slice_aut.s]);
+
+alg int slicel_zee = size(slicel_z[           :           ]);
+alg int slicel_zen = size(slicel_z[           :slice_aut.n]);
+alg int slicel_zer = size(slicel_z[           :slice_aut.r]);
+alg int slicel_zes = size(slicel_z[           :slice_aut.s]);
+alg int slicel_zne = size(slicel_z[slice_aut.n:           ]);
+alg int slicel_znn = size(slicel_z[slice_aut.n:slice_aut.n]);
+alg int slicel_znr = size(slicel_z[slice_aut.n:slice_aut.r]);
+alg int slicel_zns = size(slicel_z[slice_aut.n:slice_aut.s]);
+alg int slicel_zre = size(slicel_z[slice_aut.r:           ]);
+alg int slicel_zrn = size(slicel_z[slice_aut.r:slice_aut.n]);
+alg int slicel_zrr = size(slicel_z[slice_aut.r:slice_aut.r]);
+alg int slicel_zrs = size(slicel_z[slice_aut.r:slice_aut.s]);
+alg int slicel_zse = size(slicel_z[slice_aut.s:           ]);
+alg int slicel_zsn = size(slicel_z[slice_aut.s:slice_aut.n]);
+alg int slicel_zsr = size(slicel_z[slice_aut.s:slice_aut.r]);
+alg int slicel_zss = size(slicel_z[slice_aut.s:slice_aut.s]);
+
+// Function calls.
+alg ft1 f1a = func_aut.x1a;
+alg func ft1 () f1b = func_aut.x1b;
+alg real fcall1a = f1a();
+alg ft1 fcall1b = f1b();
+alg real fcall1c = fcall1b();
+
+alg ft2 f2a = func_aut.x2a;
+alg func ft2 () f2b = func_aut.x2b;
+alg real fcall2a = f2a(1.0);
+alg ft2 fcall2b = f2b();
+alg real fcall2c = fcall2b(2.0);
+
+alg real fcall3 = f();
+
+invariant fcall1a + fcall1c + fcall2a + fcall2c + fcall3 > 0;
+
+// Standard library functions (distributions already tested above).
+const real sl_acosh = acosh(1.0);
+const real sl_acos  = acos (1.0);
+const real sl_asinh = asinh(1.0);
+const real sl_asin  = asin (1.0);
+const real sl_atanh = atanh(0.5);
+const real sl_atan  = atan (1.0);
+const real sl_cosh  = cosh (1.0);
+const real sl_cos   = cos  (1.0);
+const real sl_sinh  = sinh (1.0);
+const real sl_sin   = sin  (1.0);
+const real sl_tanh  = tanh (1.0);
+const real sl_tan   = tan  (1.0);
+
+invariant sl_acosh + sl_acos + sl_asinh + sl_asin + sl_atanh + sl_atan > 0;
+invariant sl_cosh + sl_cos + sl_sinh + sl_sin + sl_tanh + sl_tan > 0;
+
+const int  sl_abs1 = abs(n1);
+const int  sl_abs2 = abs(p0);
+const int  sl_abs3 = abs(p1);
+alg   int  sl_abs4 = abs(sl_aut.ivar);
+const real sl_abs5 = abs(0.0);
+const real sl_abs6 = abs(1.0);
+const real sl_abs7 = abs(-1.0);
+
+invariant sl_abs1 + sl_abs2 + sl_abs3 + sl_abs4 > 0;
+invariant sl_abs5 + sl_abs6 + sl_abs7 > 0;
+
+const real sl_cbrt = cbrt(3.0 * 3.0 * 3.0);
+
+const int sl_ceil = ceil(1.1);
+
+invariant sl_cbrt + sl_ceil > 0;
+
+automaton delete_aut:
+  disc int x;
+  location:
+    initial;
+end
+
+const list string sl_delete = del(["a", "b", "c"], 1);
+
+const list[2] int delete1 = del([1, 2, 3], 1);
+const list[1] int delete2 = del([1, 2], 1);
+const list[0] int delete3 = del([1], 0);
+alg   list[0] int delete4 = del(<list[0] int>[], delete_aut.x);
+
+invariant size(sl_delete) > 0;
+
+const bool sl_empty0 = empty(<list[0] int>[]);
+const bool sl_empty1 = empty([1]);
+const bool sl_empty2 = empty({1});
+const bool sl_empty3 = empty({1:2});
+
+invariant sl_empty1 and sl_empty2 and sl_empty3;
+
+const real sl_exp = exp(1.0);
+
+const int sl_floor = floor(1.1);
+
+const string sl_fmt = fmt("a\tb%sc%fd%%e%2$-+3.2f", 1, 2.34);
+
+const real sl_ln = ln(1.0);
+
+const real sl_log = log(100.0);
+
+invariant sl_exp + sl_floor + sl_ln + sl_log > 0;
+
+const int  sl_max1 = max(1,            2);
+const real sl_max2 = max(<int[1..1]>1, 2.0);
+const real sl_max3 = max(1.0,          <int[2..2]>2);
+const real sl_max4 = max(1.0,          2.0);
+alg   int  sl_max5 = max(sl_aut.ivar, 2);
+
+const int  sl_min1 = min(1,            2);
+const real sl_min2 = min(<int[1..1]>1, 2.0);
+const real sl_min3 = min(1.0,          <int[2..2]>2);
+const real sl_min4 = min(1.0,          2.0);
+alg   int  sl_min5 = min(sl_aut.ivar, 2);
+
+invariant sl_max1 + sl_max2 + sl_max3 + sl_max4 + sl_max5 > 0;
+invariant sl_min1 + sl_min2 + sl_min3 + sl_min4 + sl_min5 > 0;
+
+const tuple(int e; list int l) sl_pop = pop([1, 2, 3]);
+
+const tuple(string a; list string b) pop1 = pop(["a", "b", "c"]);
+const tuple(int a; list[2] int b) pop2 = pop([1, 2, 3]);
+const tuple(int a; list[1] int b) pop3 = pop([1, 2]);
+const tuple(int a; list[0] int b) pop4 = pop([1]);
+alg   tuple(int a; list[0] int b) pop5 = pop(<list[0] int>[]);
+
+invariant sl_pop[0] > 0;
+
+const int  sl_pow01 = pow( 1,             2);
+const real sl_pow02 = pow( <int[1..1]>1,  2.0);
+const real sl_pow03 = pow( 1.0,           <int[2..2]>2);
+const real sl_pow04 = pow( 1.0,           2.0);
+
+const int  sl_pow05 = pow(-1,             2);
+const real sl_pow06 = pow(-<int[1..1]>1,  2.0);
+const real sl_pow07 = pow(-1.0,           <int[2..2]>2);
+const real sl_pow08 = pow(-1.0,           2.0);
+
+const real sl_pow09 = pow( <int[1..1]>1, -<int[2..2]>2);
+const real sl_pow10 = pow( <int[1..1]>1, -2.0);
+const real sl_pow11 = pow( 1.0,          -<int[2..2]>2);
+const real sl_pow12 = pow( 1.0,          -2.0);
+
+const real sl_pow13 = pow(-<int[1..1]>1, -<int[2..2]>2);
+const real sl_pow14 = pow(-<int[1..1]>1, -2.0);
+const real sl_pow15 = pow(-1.0,          -<int[2..2]>2);
+const real sl_pow16 = pow(-1.0,          -2.0);
+
+const int  sl_pow17 = pow( 2,    8);
+alg   real sl_pow18 = pow(sl_aut.ivar, <int[2..2]>2);
+
+invariant sl_pow01 + sl_pow02 + sl_pow03 + sl_pow04 > 0;
+invariant sl_pow05 + sl_pow06 + sl_pow07 + sl_pow08 > 0;
+invariant sl_pow09 + sl_pow10 + sl_pow11 + sl_pow12 > 0;
+invariant sl_pow13 + sl_pow14 + sl_pow15 + sl_pow16 > 0;
+invariant sl_pow17 + sl_pow18 > 0;
+
+const int sl_round1 = round(1.1);
+
+invariant sl_round1 > 0;
+
+const real sl_scale1 = scale(1,   2.0, 3,   4.0, 5);
+const real sl_scale2 = scale(1.0, 2,   3.0, 4,   5.0);
+const real sl_scale3 = scale(1.0, 2.0, 3.0, 4.0, 5.0);
+const real sl_scale4 = scale(1,   2,   3,   4,   5);
+alg   real sl_scale5 = scale(sl_aut.ivar, 2, 3, 4, 5);
+
+invariant sl_scale1 + sl_scale2 + sl_scale3 + sl_scale4 + sl_scale5 > 0;
+
+const int sl_sign1 = sign(-5);
+const int sl_sign2 = sign( 0);
+const int sl_sign3 = sign( 5);
+const int sl_sign4 = sign(-5.0);
+const int sl_sign5 = sign( 0.0);
+const int sl_sign6 = sign( 5.0);
+alg   int sl_sign7 = sign(sl_aut.ivar);
+
+invariant sl_sign1 + sl_sign2 + sl_sign3 + sl_sign4 > 0;
+invariant sl_sign5 + sl_sign6 + sl_sign7 > 0;
+
+const int sl_size1 = size("a");
+const int sl_size2 = size([1]);
+const int sl_size3 = size({1});
+const int sl_size4 = size({1:2});
+
+const int size1 = size(["a", "b", "c"]);
+const int size2 = size([1, 2, 3]);
+const int size3 = size([1, 2]);
+const int size4 = size([1]);
+const int size5 = size(<list[0] int>[]);
+
+invariant sl_size1 + sl_size2 + sl_size3 + sl_size4 > 0;
+
+const real sl_sqrt1 = sqrt(3.0 * 3.0);
+
+invariant sl_sqrt1 > 0;
+
+automaton sl_aut:
+  disc int ivar;
+  location:
+    initial;
+end
+
+// References.
+const bool const1 = true;
+alg bool const_ref = const1;
+alg bool disc_ref = ref_aut.disc_var;
+alg bool alg_ref = const_ref;
+alg bool loc_ref = ref_aut.l;
+alg ref_aut.enum1 lit_ref = ref_aut.LIT1;
+alg bool field_ref = ref_aut.tuple_var[a];
+alg int stdlib_ref = round(0.0);
+alg func real() func_ref = f;
+alg real cont_ref = ref_aut.cont_var;
+
+invariant const1 and const_ref and disc_ref and alg_ref and loc_ref;
+invariant lit_ref = ref_aut.LIT2 and field_ref;
+invariant stdlib_ref + func_ref() + cont_ref > 0;
+invariant ref_aut.event1 needs true;
+invariant false disables ref_aut.event1;
+
+automaton ref_aut:
+  enum enum1 = LIT1, LIT2;
+  event event1;
+  disc bool disc_var;
+  disc tuple(bool a,b) tuple_var;
+  cont cont_var der 1.0;
+  location l:
+    initial;
+    edge do cont_var := cont_var';
+end
+
+// Operator priorities.
+const bool z1 = true and true and true;
+const bool z2 = (true and true) and true;
+const bool z3 = true and (true and true);
+
+const bool z4 = true or true and true;
+const bool z5 = (true or true) and true;
+const bool z6 = true or (true and true);
+
+const int  z7 = -5 + 1;
+const int  z8 = (-5) + 1;
+const int  z9 = -(5 + 1);
+
+invariant z1 or z2 or z3 or z4 or z5 or z6;
+invariant z7 + z8 + z9 > 0;
+
+invariant not(z1 or z2);
+invariant not(z1) or not(z2);
+invariant not(1 = 2);
+
+// Type hints: widening.
+const      real widen1 = 1;
+const list real widen2 = [1];
+const list real widen3 = [1, 2.0];
+const list real widen4 = [1.0, 2];
+const list real widen5 = [1.0, 2.0];
+
+// Type hints: empty containers.
+const list int       empty_container1 = [];
+const set int        empty_container2 = {};
+const dict(int:real) empty_container3 = {};

@@ -1,0 +1,7 @@
+ERROR: File "tchecker/event_param_dupl_flag.cif": Semantic error at line 14, column 29: Duplicate "!" flag for event parameter "A.e".
+ERROR: File "tchecker/event_param_dupl_flag.cif": Semantic error at line 14, column 34: Duplicate "?" flag for event parameter "A.f".
+ERROR: File "tchecker/event_param_dupl_flag.cif": Semantic error at line 14, column 39: Duplicate "~" flag for event parameter "A.g".
+ERROR: File "tchecker/event_param_dupl_flag.cif": Semantic error at line 14, column 45: Duplicate "?" flag for event parameter "A.h".
+ERROR: File "tchecker/event_param_dupl_flag.cif": Semantic error at line 14, column 50: Duplicate "?" flag for event parameter "A.i".
+ERROR: File "tchecker/event_param_dupl_flag.cif": Semantic error at line 14, column 57: Duplicate "?" flag for event parameter "A.j".
+ERROR: Failed to load CIF file "tchecker/event_param_dupl_flag.cif": the file has errors.

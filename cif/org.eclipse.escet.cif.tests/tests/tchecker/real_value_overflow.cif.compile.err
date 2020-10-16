@@ -1,0 +1,2 @@
+ERROR: File "tchecker/real_value_overflow.cif": Semantic error at line 15, column 17: Real value overflow (1e309).
+ERROR: Failed to load CIF file "tchecker/real_value_overflow.cif": the file has errors.

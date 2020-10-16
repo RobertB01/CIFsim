@@ -1,0 +1,1 @@
+Error: File "spec/expr/min-string-int.chi": Semantic error at line 14, column 23: Expected an argument with "string" type (found type "int").

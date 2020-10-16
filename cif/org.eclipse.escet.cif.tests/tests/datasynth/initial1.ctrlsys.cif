@@ -1,0 +1,30 @@
+plant automaton p:
+  disc int[0..9] x1;
+  disc int[0..9] x2 = 2;
+  disc int[0..9] x3 in {2, 1 + 1, x2};
+  disc int[0..9] x4 in any;
+  disc int[0..9] x5 in any;
+  disc int[0..9] x6 in {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  disc int[0..9] x7 in {0, 2, 4, 6, 8};
+  initial x1 = 0,
+          x2 = 2,
+          x3 = 2,
+          x4 >= 0,
+          x5 != 5,
+          x6 != 6,
+          x6 != 7,
+          x7 != 8;
+  marked x5 != 1,
+         x6 != 2,
+         x7 != 6;
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  initial (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or p.x5 = 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7)))) and (p.x5 = 1 or (p.x5 = 3 or p.x5 = 5) or (p.x5 = 7 or (p.x5 = 9 or not(p.x6 = 2 or p.x6 = 6)))) and ((p.x5 = 1 or p.x5 = 3 or (p.x5 = 5 or (p.x5 = 7 or p.x5 = 9)) or (p.x6 = 0 or (p.x6 = 2 or p.x6 = 4) or (p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7))))) and (not(p.x5 = 1 or p.x5 = 5) and (p.x5 != 9 or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))))) and ((p.x5 != 9 or not(p.x6 = 2 or p.x6 = 6)) and (p.x5 != 9 or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7)))) and ((not(p.x5 = 3 or p.x5 = 7) or (not(p.x6 = 0 or (p.x6 = 4 or p.x6 = 8)) or not(p.x7 = 6 or p.x7 = 7))) and ((not(p.x5 = 3 or p.x5 = 7) or not(p.x6 = 2 or p.x6 = 6)) and (not(p.x5 = 3 or p.x5 = 7) or (p.x6 = 0 or p.x6 = 2) or (p.x6 = 4 or p.x6 = 6 or (p.x6 = 8 or not(p.x7 = 6 or p.x7 = 7)))))));
+  location:
+    initial;
+    marked;
+end

@@ -1,0 +1,103 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc LP1(chan? int a;  chan?  int b): list chan? int x = [a] + [b]; pass end
+proc LP2(chan! int a;  chan?  int b): list chan? int x = [a] + [b]; pass end
+proc LP3(chan!? int a; chan?  int b): list chan? int x = [a] + [b]; pass end
+proc LP4(chan? int a;  chan!  int b): list chan? int x = [a] + [b]; pass end
+proc LP5(chan! int a;  chan!  int b): list chan? int x = [a] + [b]; pass end
+proc LP6(chan!? int a; chan!  int b): list chan? int x = [a] + [b]; pass end
+proc LP7(chan? int a;  chan!? int b): list chan? int x = [a] + [b]; pass end
+proc LP8(chan! int a;  chan!? int b): list chan? int x = [a] + [b]; pass end
+proc LP9(chan!? int a; chan!? int b): list chan? int x = [a] + [b]; pass end
+
+proc LQ1(chan? int a;  chan?  int b): list chan! int x = [a] + [b]; pass end
+proc LQ2(chan! int a;  chan?  int b): list chan! int x = [a] + [b]; pass end
+proc LQ3(chan!? int a; chan?  int b): list chan! int x = [a] + [b]; pass end
+proc LQ4(chan? int a;  chan!  int b): list chan! int x = [a] + [b]; pass end
+proc LQ5(chan! int a;  chan!  int b): list chan! int x = [a] + [b]; pass end
+proc LQ6(chan!? int a; chan!  int b): list chan! int x = [a] + [b]; pass end
+proc LQ7(chan? int a;  chan!? int b): list chan! int x = [a] + [b]; pass end
+proc LQ8(chan! int a;  chan!? int b): list chan! int x = [a] + [b]; pass end
+proc LQ9(chan!? int a; chan!? int b): list chan! int x = [a] + [b]; pass end
+
+proc LR1(chan? int a;  chan?  int b): list chan!? int x = [a] + [b]; pass end
+proc LR2(chan! int a;  chan?  int b): list chan!? int x = [a] + [b]; pass end
+proc LR3(chan!? int a; chan?  int b): list chan!? int x = [a] + [b]; pass end
+proc LR4(chan? int a;  chan!  int b): list chan!? int x = [a] + [b]; pass end
+proc LR5(chan! int a;  chan!  int b): list chan!? int x = [a] + [b]; pass end
+proc LR6(chan!? int a; chan!  int b): list chan!? int x = [a] + [b]; pass end
+proc LR7(chan? int a;  chan!? int b): list chan!? int x = [a] + [b]; pass end
+proc LR8(chan! int a;  chan!? int b): list chan!? int x = [a] + [b]; pass end
+proc LR9(chan!? int a; chan!? int b): list chan!? int x = [a] + [b]; pass end
+
+
+proc SP1(chan? int a;  chan?  int b): set chan? int x = {a} + {b}; pass end
+proc SP2(chan! int a;  chan?  int b): set chan? int x = {a} + {b}; pass end
+proc SP3(chan!? int a; chan?  int b): set chan? int x = {a} + {b}; pass end
+proc SP4(chan? int a;  chan!  int b): set chan? int x = {a} + {b}; pass end
+proc SP5(chan! int a;  chan!  int b): set chan? int x = {a} + {b}; pass end
+proc SP6(chan!? int a; chan!  int b): set chan? int x = {a} + {b}; pass end
+proc SP7(chan? int a;  chan!? int b): set chan? int x = {a} + {b}; pass end
+proc SP8(chan! int a;  chan!? int b): set chan? int x = {a} + {b}; pass end
+proc SP9(chan!? int a; chan!? int b): set chan? int x = {a} + {b}; pass end
+
+proc SQ1(chan? int a;  chan?  int b): set chan! int x = {a} + {b}; pass end
+proc SQ2(chan! int a;  chan?  int b): set chan! int x = {a} + {b}; pass end
+proc SQ3(chan!? int a; chan?  int b): set chan! int x = {a} + {b}; pass end
+proc SQ4(chan? int a;  chan!  int b): set chan! int x = {a} + {b}; pass end
+proc SQ5(chan! int a;  chan!  int b): set chan! int x = {a} + {b}; pass end
+proc SQ6(chan!? int a; chan!  int b): set chan! int x = {a} + {b}; pass end
+proc SQ7(chan? int a;  chan!? int b): set chan! int x = {a} + {b}; pass end
+proc SQ8(chan! int a;  chan!? int b): set chan! int x = {a} + {b}; pass end
+proc SQ9(chan!? int a; chan!? int b): set chan! int x = {a} + {b}; pass end
+
+proc SR1(chan? int a;  chan?  int b): set chan!? int x = {a} + {b}; pass end
+proc SR2(chan! int a;  chan?  int b): set chan!? int x = {a} + {b}; pass end
+proc SR3(chan!? int a; chan?  int b): set chan!? int x = {a} + {b}; pass end
+proc SR4(chan? int a;  chan!  int b): set chan!? int x = {a} + {b}; pass end
+proc SR5(chan! int a;  chan!  int b): set chan!? int x = {a} + {b}; pass end
+proc SR6(chan!? int a; chan!  int b): set chan!? int x = {a} + {b}; pass end
+proc SR7(chan? int a;  chan!? int b): set chan!? int x = {a} + {b}; pass end
+proc SR8(chan! int a;  chan!? int b): set chan!? int x = {a} + {b}; pass end
+proc SR9(chan!? int a; chan!? int b): set chan!? int x = {a} + {b}; pass end
+
+
+proc DP1(chan? int a;  chan?  int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP2(chan! int a;  chan?  int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP3(chan!? int a; chan?  int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP4(chan? int a;  chan!  int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP5(chan! int a;  chan!  int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP6(chan!? int a; chan!  int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP7(chan? int a;  chan!? int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP8(chan! int a;  chan!? int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+proc DP9(chan!? int a; chan!? int b): dict(chan? int:int) x = {a:1} + {b:1}; pass end
+
+proc DQ1(chan? int a;  chan?  int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ2(chan! int a;  chan?  int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ3(chan!? int a; chan?  int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ4(chan? int a;  chan!  int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ5(chan! int a;  chan!  int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ6(chan!? int a; chan!  int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ7(chan? int a;  chan!? int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ8(chan! int a;  chan!? int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+proc DQ9(chan!? int a; chan!? int b): dict(chan! int:int) x = {a:1} + {b:1}; pass end
+
+proc DR1(chan? int a;  chan?  int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR2(chan! int a;  chan?  int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR3(chan!? int a; chan?  int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR4(chan? int a;  chan!  int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR5(chan! int a;  chan!  int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR6(chan!? int a; chan!  int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR7(chan? int a;  chan!? int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR8(chan! int a;  chan!? int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end
+proc DR9(chan!? int a; chan!? int b): dict(chan!? int:int) x = {a:1} + {b:1}; pass end

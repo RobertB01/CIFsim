@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE nta PUBLIC "-//Uppaal Team//DTD Flat System 1.1//EN" "http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd">
+<nta>
+  <declaration>broadcast chan e;
+const int[5,5] c = 5;
+int[-2147483648,2147483647] p_x1 = 16;
+meta int[-2147483648,2147483647] OLD_p_x1 = 16;
+int[-2147483648,2147483647] p_x2 = 5;
+meta int[-2147483648,2147483647] OLD_p_x2 = 5;
+int[-2147483648,2147483647] p_x3 = 8;
+meta int[-2147483648,2147483647] OLD_p_x3 = 8;
+int[0,20] p_v = 0;
+meta int[0,20] OLD_p_v = 0;
+int[0,0] LP_p = 0;
+meta int[0,0] OLDLP_p = 0;</declaration>
+  <template>
+    <name>Template_p</name>
+    <location id="id0"/>
+    <init ref="id0"/>
+    <transition>
+      <source ref="id0"/>
+      <target ref="id0"/>
+      <label kind="synchronisation">e?</label>
+      <label kind="assignment">p_v = OLD_p_x1, LP_p = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id1"/>
+    <init ref="id1"/>
+    <transition>
+      <source ref="id1"/>
+      <target ref="id1"/>
+      <label kind="guard">(true) &amp;&amp; (true)</label>
+      <label kind="synchronisation">e!</label>
+      <label kind="assignment">OLD_p_x1 = p_x1, OLD_p_x2 = p_x2, OLD_p_x3 = p_x3, OLD_p_v = p_v, OLDLP_p = LP_p</label>
+    </transition>
+  </template>
+  <system>p = Template_p();
+SendAut = Template_SendAut();
+
+system p, SendAut;</system>
+</nta>

@@ -1,0 +1,16 @@
+Trim check FAILS in file "event_based/trim_check/not_trim.cif".
+
+Trim check FAILS for automaton "p".
+- The following 2 locations are not reachable:
+  location "p.unreachable1".
+  location "p.unreachable2".
+- All locations are coreachable.
+
+Trim check FAILS for automaton "q".
+- All locations are reachable.
+- The following location is not coreachable:
+  location "q.nonco".
+
+Trim check HOLDS for automaton "r".
+- All locations are reachable.
+- All locations are coreachable.

@@ -1,0 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t1 = real;
+
+const t1 c1 = 1.23;
+invariant c1 > 0;
+
+const real c2 = 0.23 + 1.0;
+invariant c2 > 0;
+
+group g:
+  const t1 c3 = 2.34;
+  invariant c3 > 0;
+end

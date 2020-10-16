@@ -1,0 +1,26 @@
+plant automaton p:
+  controllable c1;
+  controllable c2;
+  uncontrollable u;
+  disc bool x1 = false;
+  disc bool x2 = false;
+  location l0:
+    initial;
+    marked;
+    edge c1 do x1 := true;
+    edge c2 do x2 := true;
+    edge u when x1 goto l1;
+    edge u when x2 goto l2;
+  location l1:
+    edge u goto l0;
+  location l2:
+    edge u goto l0;
+end
+supervisor automaton sup:
+  alphabet p.c1, p.c2;
+  location:
+    initial;
+    marked;
+    edge p.c1 when false;
+    edge p.c2 when not p.x1;
+end

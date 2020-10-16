@@ -1,0 +1,2 @@
+ERROR: File "tchecker/svg_copy_no_pre_post.cif": Semantic error at line 16, column 1: The SVG copy declaration must specify a prefix, a postfix, or both.
+ERROR: Failed to load CIF file "tchecker/svg_copy_no_pre_post.cif": the file has errors.

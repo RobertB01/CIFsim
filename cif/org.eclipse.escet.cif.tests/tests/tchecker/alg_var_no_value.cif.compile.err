@@ -1,0 +1,4 @@
+ERROR: File "tchecker/alg_var_no_value.cif": Semantic error at line 16, column 12: Missing value for algebraic variable "g.x".
+ERROR: File "tchecker/alg_var_no_value.cif": Semantic error at line 29, column 3: Missing value for algebraic variable "p.x".
+ERROR: File "tchecker/alg_var_no_value.cif": Semantic error at line 40, column 3: Missing value for algebraic variable "p.x".
+ERROR: Failed to load CIF file "tchecker/alg_var_no_value.cif": the file has errors.

@@ -1,0 +1,2 @@
+ERROR: File "tchecker/switch_missing_else.cif": Semantic error at line 14, column 15: The switch is missing an "else".
+ERROR: Failed to load CIF file "tchecker/switch_missing_else.cif": the file has errors.

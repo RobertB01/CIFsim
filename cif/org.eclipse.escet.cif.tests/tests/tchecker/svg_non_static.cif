@@ -1,0 +1,48 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+svgfile "small.svg";
+
+// ---
+
+alg string a = aut.d;
+
+automaton aut:
+  disc string d = "grp";
+  location:
+    initial;
+end
+
+svgcopy id a post "x";
+svgcopy id "box" pre a;
+svgcopy id "box" post a;
+
+svgmove id a to 1, 2;
+svgmove id "box" to <int>a, 2;
+svgmove id "box" to 1, <int>a;
+
+svgout id a attr "x" value 1;
+
+// ---
+
+func string f():
+  return "box";
+end
+
+svgout id f() attr "y" value 1;
+
+// ---
+
+event e;
+
+svgin id f() event e;

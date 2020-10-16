@@ -1,0 +1,1 @@
+Error: File "spec/statements/return-process.chi": Semantic error at line 14, column 5: The "return" statement is not allowed outside a function.

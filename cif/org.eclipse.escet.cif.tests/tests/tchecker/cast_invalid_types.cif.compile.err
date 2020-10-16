@@ -1,0 +1,4 @@
+ERROR: File "tchecker/cast_invalid_types.cif": Semantic error at line 14, column 15: Invalid cast from type "real" to type "int".
+ERROR: File "tchecker/cast_invalid_types.cif": Semantic error at line 16, column 21: Invalid cast from type "string" to type "int[1..5]".
+ERROR: File "tchecker/cast_invalid_types.cif": Semantic error at line 19, column 16: Invalid cast from type "a" to type "bool".
+ERROR: Failed to load CIF file "tchecker/cast_invalid_types.cif": the file has errors.

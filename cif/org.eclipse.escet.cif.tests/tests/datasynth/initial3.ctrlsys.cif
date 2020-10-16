@@ -1,0 +1,16 @@
+plant automaton p:
+  disc int[0..3] x1 in any;
+  disc int[0..3] x2 = x1;
+  disc int[0..3] x3 in {x2, x2};
+  marked x3 = 1 or x3 = 3;
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.x1 = 1 or p.x1 = 3;
+  location:
+    initial;
+    marked;
+end

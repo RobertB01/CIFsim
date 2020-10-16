@@ -1,0 +1,11 @@
+Initial state: time=0.0, a=*
+
+SVG output ("small.svg") id "box" attr "a1" (SVG attr): "a"
+SVG output ("small.svg") id "box" attr "a2" (SVG attr): "1"
+SVG output ("small.svg") id "box" attr "a3" (SVG attr): "true"
+SVG output ("small.svg") id "box" attr "a4" (SVG attr): "(1, {1: 2}, [3])"
+SVG output ("small.svg") id "box" attr "a5" (SVG attr): "1.23456e7"
+SVG output ("small.svg") id "box" attr "a6" (SVG attr): "1.23456e7"
+SVG output ("small.svg") id "box" attr "a7" (SVG attr): "["a", "b"]"
+
+Simulation resulted in deadlock.

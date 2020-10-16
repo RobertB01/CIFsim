@@ -1,0 +1,17 @@
+event name1;
+event name2;
+event all;
+event file1;
+event e;
+event f;
+group g:
+  event name3;
+  event file2;
+  event $plant;
+end
+automaton event_disabler:
+  alphabet name1, name2, g.name3, all, file1, g.file2, g.$plant, e, f;
+  location:
+    initial;
+    edge name1, name2, g.name3, all, file1, g.file2, g.$plant, e, f when false;
+end

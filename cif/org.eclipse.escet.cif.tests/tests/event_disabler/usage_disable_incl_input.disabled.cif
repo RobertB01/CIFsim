@@ -1,0 +1,28 @@
+event is;
+event iu;
+event ns;
+event nu;
+event new;
+group g:
+  event is;
+  event iu;
+  event ns;
+  event nu;
+  event new;
+  automaton a:
+    event is;
+    event iu;
+    event ns;
+    event nu;
+    event new;
+    location:
+      initial;
+      edge .is, .iu, .g.is, .g.iu, is, iu;
+  end
+end
+automaton event_disabler:
+  alphabet is, ns, new, g.is, g.ns, g.new, g.a.is, g.a.ns, g.a.new;
+  location:
+    initial;
+    edge is, ns, new, g.is, g.ns, g.new, g.a.is, g.a.ns, g.a.new when false;
+end

@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET Common Application Framework (Incubation)
+Bundle-SymbolicName: org.eclipse.escet.common.app.framework;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Eclipse ESCET
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.1.0",
+ org.eclipse.swt;bundle-version="3.113.0";visibility:=reexport,
+ org.eclipse.core.runtime;bundle-version="3.17.0",
+ org.eclipse.core.resources;bundle-version="3.13.600",
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.eclipse.emf.common;bundle-version="2.17.0",
+ org.eclipse.emf.ecore;bundle-version="2.20.0",
+ org.eclipse.jface;bundle-version="3.18.0",
+ org.eclipse.ui.console;bundle-version="3.9.0",
+ org.eclipse.ui;bundle-version="3.115.0",
+ org.apache.commons.io;bundle-version="2.6.0",
+ org.eclipse.jdt.core;bundle-version="3.20.0"
+Export-Package: org.eclipse.escet.common.app.framework,
+ org.eclipse.escet.common.app.framework.console,
+ org.eclipse.escet.common.app.framework.exceptions,
+ org.eclipse.escet.common.app.framework.io,
+ org.eclipse.escet.common.app.framework.javacompiler,
+ org.eclipse.escet.common.app.framework.management,
+ org.eclipse.escet.common.app.framework.options,
+ org.eclipse.escet.common.app.framework.options.processing,
+ org.eclipse.escet.common.app.framework.output
+Bundle-Activator: org.eclipse.escet.common.app.framework.Activator
+Automatic-Module-Name: org.eclipse.escet.common.app.framework

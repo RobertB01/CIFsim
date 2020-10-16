@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-index-dict-real-int.chi": Semantic error at line 18, column 22: Expression does not match with key type (expected "real", found "int").

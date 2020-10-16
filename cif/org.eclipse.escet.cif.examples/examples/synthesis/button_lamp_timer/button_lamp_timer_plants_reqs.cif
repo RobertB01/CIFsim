@@ -1,0 +1,83 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Uncontrolled button.
+plant Button:
+  uncontrollable u_pushed;
+  uncontrollable u_released;
+
+  location Released:
+    initial;
+    marked;
+    edge u_pushed goto Pushed;
+
+  location Pushed:
+    edge u_released goto Released;
+end
+
+// Uncontrolled lamp.
+plant Lamp:
+  controllable c_on;
+  controllable c_off;
+
+  location Off:
+    initial;
+    marked;
+    edge c_on goto On;
+
+  location On:
+    edge c_off goto Off;
+end
+
+// Uncontrolled timer.
+plant Timer:
+  controllable c_start;
+  uncontrollable u_timeout;
+
+  location Idle:
+    initial;
+    marked;
+    edge c_start goto Running;
+
+  location Running:
+    edge u_timeout goto Idle;
+end
+
+// Cycle requirement. A push of the button turns the lamp for a few seconds.
+// The timer is started as soon as the button is pushed. Once the timer gives
+// a timeout, the lamp is turned off. Pushing and releasing the button while
+// the lamp is on has no effect. If the button is still pushed when the lamp
+// goes off, the button has to be released and pushed again, for the lamp to
+// go on again.
+requirement Cycle:
+  location WaitForButtonPush:
+    initial;
+    marked;
+    edge Button.u_pushed goto TurnLampOn;
+
+  location TurnLampOn:
+    edge Lamp.c_on goto StartTimer;
+    edge Button.u_pushed;
+
+  location StartTimer:
+    edge Timer.c_start goto WaitForTimeout;
+    edge Button.u_pushed;
+
+  location WaitForTimeout:
+    edge Timer.u_timeout goto TurnLampOff;
+    edge Button.u_pushed;
+
+  location TurnLampOff:
+    edge Lamp.c_off goto WaitForButtonPush;
+    edge Button.u_pushed;
+end

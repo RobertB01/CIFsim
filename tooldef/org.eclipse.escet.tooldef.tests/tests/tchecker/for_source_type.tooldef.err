@@ -1,0 +1,4 @@
+ERROR: File "tchecker/for_source_type.tooldef": Semantic error at line 15, column 14: Cannot iterate over a value of type "bool", as a list, set, or map type is expected.
+ERROR: File "tchecker/for_source_type.tooldef": Semantic error at line 19, column 14: Cannot iterate over a value of type "string", as a list, set, or map type is expected.
+ERROR: File "tchecker/for_source_type.tooldef": Semantic error at line 23, column 14: Cannot iterate over a value of type "tuple(int, bool)", as a list, set, or map type is expected.
+ERROR: Failed to load ToolDef file "tchecker/for_source_type.tooldef": the file has errors.

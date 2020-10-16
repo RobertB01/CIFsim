@@ -1,0 +1,16 @@
+Initial state: time=0.0, aut=*, aut_b=l1, aut_d=*, aut_d.vd=0, aut_e=*, aut_f=l1, aut_f.b=true, g.a=*, g.a.b=false
+
+SVG output ("svg_input.svg") id "vd" text: "vd = 0"
+SVG output ("svg_input.svg") id "x9" attr "visibility" (CSS attr): "visible"
+
+SVG output ("small.svg") id "box" attr "fill" (CSS attr): "red"
+
+Transition: delaying for 10.0 time units at time 0.0
+State: time=10.0, aut=*, aut_b=l1, aut_d=*, aut_d.vd=0, aut_e=*, aut_f=l1, aut_f.b=true, g.a=*, g.a.b=false
+
+SVG output ("svg_input.svg") id "vd" text: "vd = 0"
+SVG output ("svg_input.svg") id "x9" attr "visibility" (CSS attr): "visible"
+
+SVG output ("small.svg") id "box" attr "fill" (CSS attr): "red"
+
+Simulation ended due to reaching the user-provided simulation end time.

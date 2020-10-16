@@ -1,0 +1,192 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type tb = tuple(bool x000, x001, x002, x003, x004, x005, x006, x007, x008, x009,
+                     x010, x011, x012, x013, x014, x015, x016, x017, x018, x019,
+                     x020, x021, x022, x023, x024, x025, x026, x027, x028, x029,
+                     x030, x031, x032, x033, x034, x035, x036, x037, x038, x039,
+                     x040, x041, x042, x043, x044, x045, x046, x047, x048, x049,
+                     x050, x051, x052, x053, x054, x055, x056, x057, x058, x059,
+                     x060, x061, x062, x063, x064, x065, x066, x067, x068, x069,
+                     x070, x071, x072, x073, x074, x075, x076, x077, x078, x079,
+                     x080, x081, x082, x083, x084, x085, x086, x087, x088, x089,
+                     x090, x091, x092, x093, x094, x095, x096, x097, x098, x099);
+type ti = tuple(int  x00, x01, x02, x03, x04, x05, x06, x07, x08, x09,
+                     x10, x11, x12, x13, x14, x15, x16, x17, x18, x19,
+                     x20, x21, x22, x23, x24, x25, x26, x27, x28, x29,
+                     x30, x31, x32, x33, x34);
+type tr = tuple(real x00, x01, x02, x03, x04, x05, x06, x07, x08, x09,
+                     x10, x11, x12, x13, x14, x15, x16, x17, x18, x19,
+                     x20, x21, x22, x23, x24, x25, x26, x27, x28, x29,
+                     x30, x31, x32, x33, x34, x35, x36, x37, x38, x39,
+                     x40, x41, x42, x43, x44, x45, x46, x47, x48, x49,
+                     x50, x51, x52, x53, x54, x55, x56, x57, x58);
+type tbir = tuple(bool b; int i; real r);
+
+enum e1 = l1, l2;
+enum e2 = l3, l4;
+
+plant p:
+  disc bool vt = true, vf = false;
+  disc int[2..3] vr2 = 2, vr3 = 3;
+  disc int v0 = 0, v1 = 1, v2 = 2, v3 = 3, v123 = 123,
+           vn1 = -1, vn2 = -2;
+  disc real v00 = 0.0, v01 = 0.1, v05 = 0.5, v10 = 1.0, v20 = 2.0, v30 = 3.0,
+            v270 = 27.0,
+            vn01 = -0.1, vn10 = -1.0;
+  disc real e = 2.71828182846;
+  disc e1 ve1 = l1, ve2 = l2;
+  disc e2 ve3 = l3, ve4 = l4;
+  disc tbir vbir;
+
+  disc tb vb;
+  disc ti vi;
+  disc tr vr;
+
+  location m1:
+    initial;
+    edge do vb := (not vf, not vt,                               // unary not
+
+                   vf => vf, vf => vt, vt => vf, vt => vt,       // =>
+                   //vf => (sqrt(vn10) > 0),                       // short circuit
+
+                   vf <=> vf, vf <=> vt,                         // <=>
+                   vt <=> vf, vt <=> vt,                         // <=>
+
+                   vf and vf, vf and vt,                         // and
+                   vt and vf, vt and vt,                         // and
+                   //vf and (sqrt(vn10) > 0),                      // short circuit
+
+                   vf or vf, vf or vt, vt or vf, vt or vt,       // or
+                   //vt or (sqrt(vn10) > 0),                       // short circuit
+
+                   v0  <  v1,  v1  <  v1,  v2 <   v1,            // binary <
+                   v0  <= v1,  v1  <= v1,  v2 <=  v1,            // binary <=
+                   v0  >  v1,  v1  >  v1,  v2 >   v1,            // binary >
+                   v0  >= v1,  v1  >= v1,  v2 >=  v1,            // binary >=
+
+                   v0  <  v10, v1  <  v10, v2  <  v10,           // binary <
+                   v0  <= v10, v1  <= v10, v2  <= v10,           // binary <=
+                   v0  >  v10, v1  >  v10, v2  >  v10,           // binary >
+                   v0  >= v10, v1  >= v10, v2  >= v10,           // binary >=
+
+                   v00 <  v1,  v10 <  v1,  v20 <  v1,            // binary <
+                   v00 <= v1,  v10 <= v1,  v20 <= v1,            // binary <=
+                   v00 >  v1,  v10 >  v1,  v20 >  v1,            // binary >
+                   v00 >= v1,  v10 >= v1,  v20 >= v1,            // binary >=
+
+                   v00 <  v10, v10 <  v10, v20 <  v10,           // binary <
+                   v00 <= v10, v10 <= v10, v20 <= v10,           // binary <=
+                   v00 >  v10, v10 >  v10, v20 >  v10,           // binary >
+                   v00 >= v10, v10 >= v10, v20 >= v10,           // binary >=
+
+                   vt = true, vt = false,                        // binary =
+                   vf = true, vf = false,                        // binary =
+
+                   v0 = 0, v0 = 1, v1 = 0, v1 = 1,               // binary =
+
+                   v00 = 0.0, v00 = 1.0,                         // binary =
+                   v10 = 0.0, v10 = 1.0,                         // binary =
+
+                   ve1 = l2, ve1 = l1,                           // binary =
+                   ve2 = l2, ve2 = l1,                           // binary =
+                   ve3 = l3, ve3 = l4,                           // binary =
+                   ve4 = l3, ve4 = l4,                           // binary =
+
+                   vt != true, vt != false,                      // binary !=
+                   vf != true, vf != false,                      // binary !=
+
+                   v0 != 0, v0 != 1, v1 != 0, v1 != 1,           // binary !=
+
+                   v00 != 0.0, v00 != 1.0,                       // binary !=
+                   v10 != 0.0, v10 != 1.0,                       // binary !=
+
+                   ve1 != l2, ve1 != l1                          // binary !=
+                  ),
+
+            vi := (-vn1, --vn2, -v3, +v2, +vn2,                  // unary +/-
+                   <int>v123,                                    // cast int to int
+
+                   v2 + v3,                                      // binary +
+                   v2 - v3,                                      // binary -
+                   v2 * v3,                                      // binary *
+                   7 div 4, 7 div -4, -7 div 4, -7 div -4,       // binary div
+                   7 mod 4, 7 mod -4, -7 mod 4, -7 mod -4,       // binary mod
+                   v1 mod v0,                                    // binary mod
+                                                                 // (0, err in CIF)
+
+                   if vt: 8 else 9 end,                          // if expr
+                   if vf: 8 else 9 end,                          // if expr
+
+                   if vf: 8 elif vf: 9 else 10 end,              // if expr
+                   if vf: 8 elif vt: 9 else 10 end,              // if expr
+                   if vt: 8 elif vf: 9 else 10 end,              // if expr
+                   if vt: 8 elif vt: 9 else 10 end,              // if expr
+
+                   if vf: 4 elif vf: 5 elif vf: 6 else 7 end,    // if expr
+
+                   abs(vn1), abs(vn2),                           // stdlib abs
+                   min(v0, v1), min(v1, v1), min(v2, v1),        // stdlib min
+                   max(v0, v1), max(v1, v1), max(v2, v1),        // stdlib max
+                   pow(vr2, vr3),                                // stdlib pow
+
+                   dup(234)[0]                                   // proj fcall rslt
+                  ),
+
+            vr := (<real>v123,                                   // cast int to real
+                   <real>v00,                                    // cast real to real
+
+                   -vn01, --vn10, -v05, +v01, +vn01,             // unary +/-
+
+                   v20 + v3, v2 + v30, v20 + v30,                // binary +
+                   v20 - v3, v2 - v30, v20 - v30,                // binary -
+                   v20 * v3, v2 * v30, v20 * v30,                // binary *
+                   v2 / v3,                                      // binary /
+                   v20 / v3, v2 / v30, v20 / v30,                // binary /
+
+                   abs(vn01), abs(vn10),                         // stdlib abs
+                   cbrt(v270),                                   // stdlib cbrt
+                   exp(ln(ln(e))),                               // stdlib exp/ln
+                   log(pow(10, v3)),                             // stdlib log/pow
+                   min(v0,  v10), min(v1,  v10), min(v2,  v10),  // stdlib min
+                   min(v00, v1),  min(v10, v1),  min(v20, v1),   // stdlib min
+                   min(v00, v10), min(v10, v10), min(v20, v10),  // stdlib min
+                   max(v0,  v10), max(v1,  v10), max(v2,  v10),  // stdlib max
+                   max(v00, v1),  max(v10, v1),  max(v20, v1),   // stdlib max
+                   max(v00, v10), max(v10, v10), max(v20, v10),  // stdlib max
+                   pow(v00, v00),                                // stdlib pow
+                   pow(v2, v3), pow(v2, v30),                    // stdlib pow
+                   pow(v20, v3), pow(v20, v30),                  // stdlib pow
+                   sqrt(v00), sqrt(v01), sqrt(v10), sqrt(v20),   // stdlib sqrt
+                   sin(v05), cos(v05), tan(v05),                 // stdlib sin/c/t
+                   asin(v05), acos(v05), atan(v05),              // stdlib asin/c/t
+
+                   add3(v1, v2, v3)                              // fcall, params
+                  ),
+            vbir := (vt, v123, v10)                              // tuple value
+    goto m2;
+
+  location m2:
+    edge do vbir[i] := vbir[i] + v1                              // tuple field proj
+    goto m3;
+
+  location m3;
+end
+
+func real add3(int a, b, c):
+  return a + <real>b + c;
+end
+
+func int, int dup(int a):
+  return a, a;
+end

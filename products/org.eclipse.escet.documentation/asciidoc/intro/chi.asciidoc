@@ -1,0 +1,70 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[Chi]
+
+[[intro-chapter-chi]]
+== Chi
+
+The Chi language is a modeling language for describing and analyzing the
+performance of discrete event systems by means of simulation. The language
+design is based on decades of successful analyses of various (industrial)
+systems, aiming to be powerful for advanced users, and easy to use for
+non-experts.
+
+The language uses a process-based view. A system (and its control) is
+modeled as a collection of parallel running processes, communicating with
+each other using point-to-point communication channels. Processes do not
+share data with other processes, and channels are synchronous (sending and
+receiving is always done together at the same time), making reasoning about
+process behavior easier. Processes and channels are dynamic, new processes
+can be created as needed, and communication channels can be created or
+rerouted, making for a powerful specification language.
+
+The language is designed to be formal and easily extensible. Models are
+written as an imperative program, with an intuitive syntax, making it easy
+to read and write models. A small generic set of statements can be used to
+describe algorithms, including assignments, _if_, _while_ and _for_
+statements. This set is relatively easy to explain to non-experts, allowing
+them to understand the model, and participate in the discussions.
+
+The data of the system can be modeled using both basic data types, such as
+_booleans_ and _integer_ and _real_ numbers, as well as high level structured
+collections of data like _lists_, _sets_ and _dictionaries_. If desired,
+processes and channels can also be part of that data. Furthermore, timers and
+(quasi-)random number generation distributions are available for modeling
+timed and stochastic systems. Features to easily specify repeated experiments,
+e.g. for stochastic simulation, or simulation for various inputs obtained
+from files, exist to support large simulation experiments.
+
+While the language is generic, the main application area is modeling of
+the operation of (manufacturing) systems. During the design process,
+engineers can make use of analytical models, to get answers about the
+operation of the system. Simulation studies can provide insights into
+e.g. the throughput of the system, the effect of set-up time in a
+machine, or how the batch size of an order will influence the flow time
+of the product-items.
+
+The Chi toolset allows verification of properties of the actual system by
+means of simulation, e.g. to optimize the supervisory (logic) control of
+the system. The Chi language has features that allow for easy
+specification of . Chi aims to make the process of verifying properties for large
+systems effortless.
+
+Tutorials and manuals demonstrate the use of the language for effective
+modeling of system processes. More detailed modeling of the processes and
+e.g performance indicators, or custom tailoring them to the real situation,
+has no inherent limits.
+
+See the separate Chi documentation for more information.

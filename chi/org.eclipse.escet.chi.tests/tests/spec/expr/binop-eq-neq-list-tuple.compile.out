@@ -1,0 +1,1 @@
+Error: File "spec/expr/binop-eq-neq-list-tuple.chi": Semantic error at line 18, column 22: Operands should have the same type, or be both numeric (found "list bool" and "tuple(int, int)").

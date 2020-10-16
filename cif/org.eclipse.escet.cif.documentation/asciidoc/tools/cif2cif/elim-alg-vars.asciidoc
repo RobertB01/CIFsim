@@ -1,0 +1,127 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-alg-vars]]
+== Eliminate algebraic variables
+
+indexterm:[CIF to CIF transformer,eliminate algebraic variables]
+indexterm:[eliminate algebraic variables]
+indexterm:[algebraic variable,eliminate]
+This CIF to CIF transformation eliminates algebraic variables and their
+equations.
+
+See also: <<tools-cif2cif-chapter-equations>>.
+
+indexterm:[eliminate algebraic variables,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+* Automaton `self` references are not supported.
+
+indexterm:[eliminate algebraic variables,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+* <<tools-cif2cif-chapter-elim-self>>
+
+indexterm:[eliminate algebraic variables,implementation]
+
+=== Implementation details
+
+For each algebraic variable with a single equation in a component or automaton,
+all uses of the variable (for instance in guards, invariants, etc) are
+replaced by the value of the variable (the right hand side of its equation).
+For algebraic variables with equations specified in the locations of an
+automaton, an 'if' expression is created. This 'if' expression uses the
+locations of the automaton as guards, and the right hand sides of the equations
+as values for each of the alternatives. The last alternative is an 'else', and
+thus has no guard. If the automaton has only one location, generation of the
+'if' expression is suppressed.
+
+The algebraic variables and their equations are removed.
+
+For instance, the following specification:
+
+
+[source, cif]
+----
+alg bool b1 = true;
+alg bool b2;
+equation b2 = false;
+
+automaton aut:
+  alg int a;
+  location l1:
+    equation a = 1;
+  location l2:
+    equation a = 2;
+end
+
+invariant b1 or b2 or p.a > 0;
+----
+
+is transformed to the following specification:
+
+
+[source, cif]
+----
+automaton aut:
+  location l1;
+  location l2;
+end
+
+invariant true or false or if p.l1: 1 else 2 end > 0;
+----
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate algebraic variables,size considerations]
+
+=== Size considerations
+
+Since algebraic variables are shortcuts for expressions, eliminating them
+could result in an increase of the size of the specification. Algebraic
+variables may be defined in terms of other algebraic variables. Therefore, in
+the worst case, the increase is exponential.
+
+indexterm:[eliminate algebraic variables,optimality]
+
+=== Optimality
+
+For an assignment `x := 1 + y`, where `y` is an algebraic variable that is
+eliminated, and where `y` has value `5`, the resulting assignment is
+`x := 1 + 5`. The result is not simplified any further. To further simplify
+the result, apply additional CIF to CIF transformations, such as
+<<tools-cif2cif-chapter-simplify-values>>.
+
+This transformation introduces 'if' expressions for algebraic variables
+that have an equation per location, for automata with at least two locations.
+The guards of such 'if' expressions refer to the locations of the automata.
+To eliminate such location references, apply the
+<<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation.

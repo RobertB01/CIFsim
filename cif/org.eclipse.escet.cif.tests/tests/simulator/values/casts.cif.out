@@ -1,0 +1,21 @@
+Initial state: time=0.0, p=l1, p.b=false, p.i=0, p.r=0.0, p.s="", q=*, vq="*"
+
+Transition: event tau
+State: time=0.0, p=l2, p.b=true, p.i=132, p.r=1.234e-8, p.s="true", q=*, vq="*"
+
+Transition: event tau
+State: time=0.0, p=l3, p.b=true, p.i=132, p.r=1.0, p.s="1", q=*, vq="*"
+
+Transition: event tau
+State: time=0.0, p=l4, p.b=true, p.i=132, p.r=1.0, p.s="1.234e-8", q=*, vq="*"
+
+Transition: event tau
+State: time=0.0, p=l5, p.b=true, p.i=132, p.r=1.0, p.s="l4", q=*, vq="*"
+
+Transition: event tau
+State: time=0.0, p=l6, p.b=true, p.i=132, p.r=1.0, p.s="l5", q=*, vq="*"
+
+Transition: event tau
+State: time=0.0, p=l7, p.b=false, p.i=127, p.r=12.7, p.s="a", q=*, vq="*"
+
+Simulation resulted in deadlock.

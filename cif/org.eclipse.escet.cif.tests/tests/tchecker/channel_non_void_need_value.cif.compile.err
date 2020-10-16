@@ -1,0 +1,2 @@
+ERROR: File "tchecker/channel_non_void_need_value.cif": Semantic error at line 19, column 11: A value to send over the channel is required for channel "a.e" of type "int".
+ERROR: Failed to load CIF file "tchecker/channel_non_void_need_value.cif": the file has errors.

@@ -1,0 +1,2 @@
+ERROR: Failed to compute projection for CIF file "event_based/projection/empty_file.cif".
+CAUSE: CIF input file contains 0 automata, while projection requires exactly one automaton.

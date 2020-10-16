@@ -1,0 +1,37 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+type t1 = real;
+
+input t1 inp1;
+invariant inp1 > 0;
+
+input t1 inp2;
+invariant inp2 > 0;
+
+group g:
+  input t1 inp3;
+  invariant inp3 > 0;
+end
+
+group p:
+  input t1 inp4;
+  plant invariant inp4 > 0;
+end
+
+plant q:
+  input t1 inp5;
+  plant invariant inp5 > 1;
+  location:
+    initial;
+end

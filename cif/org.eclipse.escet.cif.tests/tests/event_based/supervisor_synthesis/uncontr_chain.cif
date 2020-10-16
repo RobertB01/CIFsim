@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+uncontrollable u, v;
+controllable c, d, e;
+
+plant p:
+  location p1:
+    initial;
+    edge e goto p2;
+    edge c goto p3;
+    edge d goto p4;
+
+  location p2:
+    edge v goto p3;   // Uncontrollable edge leads to an unsafe location.
+
+  location p3:
+    edge u,c goto p4; // Requirement disables 'u'
+
+  location p4:
+    marked;
+end
+
+requirement r:
+  alphabet u,v,c,d,e;
+  location r1:
+    initial;
+    edge c, d, e goto r2;
+
+  location r2:
+    marked;
+    edge c, v;
+end

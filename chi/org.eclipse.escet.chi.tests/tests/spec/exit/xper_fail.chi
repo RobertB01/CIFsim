@@ -1,0 +1,27 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+xper X():
+    int m1 = M(1);
+    int m2 = M(2);
+    writeln("Total: %d", m1 + m2);
+end
+
+model int M(int n):
+    start P(n);
+end
+
+proc int P(int n):
+    delay 5.3 + n;
+    writeln("Time: %.1f", time);
+    if n == 1: exit n + 1; end
+end

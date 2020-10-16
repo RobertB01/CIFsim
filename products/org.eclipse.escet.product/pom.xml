@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+ 
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+ 
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+ 
+  SPDX-License-Identifier: MIT
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.eclipse.escet</groupId>
+        <artifactId>org.eclipse.escet.root</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+        <relativePath>../../</relativePath>
+    </parent>
+
+    <artifactId>org.eclipse.escet.product</artifactId>
+    <packaging>eclipse-repository</packaging>
+
+    <build>
+        <plugins>
+            <!-- Customize update site. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-repository-plugin</artifactId>
+                <version>${tycho.version}</version>
+
+                <configuration>
+                    <!-- Custom update site name. -->
+                    <repositoryName>Eclipse ESCET Update Site (Incubation)</repositoryName>
+
+                    <!-- Custom archive file name (excluding file extension). -->
+                    <finalName>eclipse-escet-incubation-updatesite-${qualifiedVersion}</finalName>
+                </configuration>
+            </plugin>
+
+            <!-- Customize products. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-director-plugin</artifactId>
+                <version>${tycho.version}</version>
+
+                <configuration>
+                    <!-- Set archive format to use, per platform. -->
+                    <formats>
+                        <linux>tar.gz</linux>
+                        <macosx>tar.gz</macosx>
+                        <win32>zip</win32>
+                    </formats>
+
+                    <!-- Set archive file name to use. -->
+                    <products>
+                        <product>
+                            <!-- Product UID to which this configuration applies. -->
+                            <id>org.eclipse.escet.product</id>
+
+                            <!-- Custom archive file name prefix. -->
+                            <!-- Undocumented, see https://dev.eclipse.org/mhonarc/lists/tycho-user/msg05560.html -->
+                            <!-- But available, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=357503 -->
+                            <!-- The 'os', 'ws' and 'arch' values are automatically added, as is the file extension. -->
+                            <archiveFileName>eclipse-escet-incubation-${qualifiedVersion}</archiveFileName>
+                        </product>
+                    </products>
+
+                </configuration>
+
+                <!-- Enable additional building of products. -->
+                <!-- The update site and product are combined in a single bundle. -->
+                <!-- The update site has the binary parts of the product. -->
+                <!-- Combining them ensures that the product can be updated. -->
+                <!-- However, the Maven packaging type is 'eclipse-repository'. -->
+                <!-- So, by default the build only creates an update site. -->
+                <!-- The configuration below ensures the build also creates products. -->
+                <executions>
+                    <execution>
+                        <id>materialize-products</id>
+                        <goals>
+                            <goal>materialize-products</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>archive-products</id>
+                        <goals>
+                            <goal>archive-products</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

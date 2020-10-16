@@ -1,0 +1,2 @@
+ERROR: File "tchecker/import_file_obj_unsupported_import1.tooldef": Semantic error at line 14, column 59: Cannot import imported script "i" from the imported ToolDef script, as only tools and type declarations can be imported.
+ERROR: Failed to load ToolDef file "tchecker/import_file_obj_unsupported_import1.tooldef": the file has errors.

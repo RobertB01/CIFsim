@@ -1,0 +1,1 @@
+ERROR: Cannot index into an empty list while assigning a value to projected variable "A.xs[0]" in state "A: X, A.xs: []".

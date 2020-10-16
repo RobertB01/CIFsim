@@ -1,0 +1,2 @@
+ERROR: File "tchecker/eqn_cont_non_der.cif": Semantic error at line 16, column 14: Specifying the value of continuous variable "g.x" using an equation is not allowed.
+ERROR: Failed to load CIF file "tchecker/eqn_cont_non_der.cif": the file has errors.

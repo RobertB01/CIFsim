@@ -1,0 +1,32 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const tuple(int a, b) c1 = (1, 2);
+const int c1a = c1[a];
+const int c1b = c1[b];
+
+const tuple(int d; tuple(int e, f) g) c2 = (3, (4, 5));
+const int c2d = c2[d];
+const tuple(int x, y) c2g = c2[g];
+const int c2ge = c2[g][e];
+const int c2gf = c2[g][f];
+
+invariant c1a + c1b + c2d + c2g[x] + c2g[y] + c2ge + c2gf > 0;
+
+automaton p:
+  disc tuple(int k, l) d;
+  location:
+    initial;
+    edge do d[k] := 6;
+    edge when d[k] = 6 do d[l] := 7;
+end

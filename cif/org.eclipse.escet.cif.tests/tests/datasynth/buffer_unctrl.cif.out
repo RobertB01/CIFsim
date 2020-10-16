@@ -1,0 +1,149 @@
+Reading CIF file "datasynth/buffer_unctrl.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name      Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..3]  buffer.a  0      2 * 2     4 * 2       4 * 2       100%
+  2      discrete variable  int[1..3]  buffer.b  1      2 * 2     3 * 2       4 * 2       75%
+  3      discrete variable  int[0..2]  buffer.c  2      2 * 2     3 * 2       4 * 2       75%
+  4      discrete variable  int[1..2]  buffer.d  3      2 * 2     2 * 2       4 * 2       50%
+  5      discrete variable  int[0..3]  buffer.e  4      2 * 2     4 * 2       4 * 2       100%
+  6      discrete variable  int[1..3]  buffer.f  5      2 * 2     3 * 2       4 * 2       75%
+  7      discrete variable  int[0..2]  buffer.g  6      2 * 2     3 * 2       4 * 2       75%
+  -----  -----------------  ---------  --------  -----  --------  ----------  ----------  -----------
+  Total                                          7      28        44          56          ~79%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 28
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 20
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [iteration 1]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 4
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (components state invariant):  true
+Invariant (locations state invariant):   true
+Invariant (system state invariant):      true
+
+Initial   (discrete variable 0):         true
+Initial   (discrete variable 1):         true
+Initial   (discrete variable 2):         true
+Initial   (discrete variable 3):         true
+Initial   (discrete variable 4):         true
+Initial   (discrete variable 5):         true
+Initial   (discrete variable 6):         true
+Initial   (discrete variables):          <bdd 11n 32p>
+Initial   (components init predicate):   true
+Initial   (aut/locs init predicate):     true
+Initial   (auts/locs init predicate):    true
+Initial   (uncontrolled system):         <bdd 11n 32p>
+Initial   (system, combined init/inv):   <bdd 11n 32p>
+
+Marked    (components marker predicate): true
+Marked    (aut/locs marker predicate):   true
+Marked    (auts/locs marker predicate):  true
+Marked    (uncontrolled system):         true
+Marked    (system, combined marked/inv): true
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: add_a) (guard: true) (assignments: buffer.a := buffer.a + 1)
+    Edge: (event: add_b) (guard: true) (assignments: buffer.b := buffer.b + 1)
+    Edge: (event: add_c) (guard: true) (assignments: buffer.c := buffer.c + 1)
+    Edge: (event: add_d) (guard: true) (assignments: buffer.d := buffer.d + 1)
+    Edge: (event: add_e) (guard: true) (assignments: buffer.e := buffer.e + 2)
+    Edge: (event: add_f) (guard: true) (assignments: buffer.f := buffer.f + 2)
+    Edge: (event: add_g) (guard: true) (assignments: buffer.g := buffer.g + 2)
+    Edge: (event: remove_a) (guard: true) (assignments: buffer.a := buffer.a - 1)
+    Edge: (event: remove_b) (guard: true) (assignments: buffer.b := buffer.b - 1)
+    Edge: (event: remove_c) (guard: true) (assignments: buffer.c := buffer.c - 1)
+    Edge: (event: remove_d) (guard: true) (assignments: buffer.d := buffer.d - 1)
+    Edge: (event: remove_e) (guard: true) (assignments: buffer.e := buffer.e - 2)
+    Edge: (event: remove_f) (guard: true) (assignments: buffer.f := buffer.f - 2)
+    Edge: (event: remove_g) (guard: true) (assignments: buffer.g := buffer.g - 2)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.b" of type "int[1..3]" (group: 1, domain: 2+3, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.c" of type "int[0..2]" (group: 2, domain: 4+5, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.d" of type "int[1..2]" (group: 3, domain: 6+7, BDD variables: 2, CIF/BDD values: 2/4)].
+Controlled behavior: true -> true [range: true, variable: discrete variable "buffer.f" of type "int[1..3]" (group: 5, domain: 10+11, BDD variables: 2, CIF/BDD values: 3/4)].
+Controlled behavior: true -> <bdd 11n 32p> [range: true, variable: discrete variable "buffer.g" of type "int[0..2]" (group: 6, domain: 12+13, BDD variables: 2, CIF/BDD values: 3/4)].
+
+Extended controlled-behavior predicate using variable ranges: <bdd 11n 32p>.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> <bdd 11n 32p> [restricted to current/previous controlled-behavior predicate: <bdd 11n 32p>]
+Backward reachability: iteration 1.
+Backward controlled-behavior: <bdd 11n 32p> [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: <bdd 11n 35p> [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+Backward uncontrolled bad-state: <bdd 11n 35p> -> <bdd 13n 71p> [backward reach with edge: (event: add_a) (guard: true) (assignments: buffer.a := buffer.a + 1)]
+Backward uncontrolled bad-state: <bdd 13n 71p> -> <bdd 14n 73p> [backward reach with edge: (event: add_b) (guard: true) (assignments: buffer.b := buffer.b + 1)]
+Backward uncontrolled bad-state: <bdd 14n 73p> -> <bdd 13n 41p> [backward reach with edge: (event: add_c) (guard: true) (assignments: buffer.c := buffer.c + 1)]
+Backward uncontrolled bad-state: <bdd 13n 41p> -> <bdd 12n 29p> [backward reach with edge: (event: add_d) (guard: true) (assignments: buffer.d := buffer.d + 1)]
+Backward uncontrolled bad-state: <bdd 12n 29p> -> <bdd 13n 33p> [backward reach with edge: (event: add_e) (guard: true) (assignments: buffer.e := buffer.e + 2)]
+Backward uncontrolled bad-state: <bdd 13n 33p> -> <bdd 13n 33p> [backward reach with edge: (event: add_f) (guard: true) (assignments: buffer.f := buffer.f + 2)]
+Backward uncontrolled bad-state: <bdd 13n 33p> -> <bdd 13n 37p> [backward reach with edge: (event: add_g) (guard: true) (assignments: buffer.g := buffer.g + 2)]
+Backward uncontrolled bad-state: <bdd 13n 37p> -> <bdd 14n 38p> [backward reach with edge: (event: remove_a) (guard: true) (assignments: buffer.a := buffer.a - 1)]
+Backward uncontrolled bad-state: <bdd 14n 38p> -> <bdd 13n 22p> [backward reach with edge: (event: remove_b) (guard: true) (assignments: buffer.b := buffer.b - 1)]
+Backward uncontrolled bad-state: <bdd 13n 22p> -> <bdd 14n 24p> [backward reach with edge: (event: remove_c) (guard: true) (assignments: buffer.c := buffer.c - 1)]
+Backward uncontrolled bad-state: <bdd 14n 24p> -> true [backward reach with edge: (event: remove_d) (guard: true) (assignments: buffer.d := buffer.d - 1)]
+Backward reachability: iteration 2.
+Backward uncontrolled bad-state: true [fixed point].
+Controlled behavior: <bdd 11n 32p> -> false.
+
+Round 1: finished, all states are bad.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: false)
+    Edge: (event: add_a) (guard: true) (assignments: buffer.a := buffer.a + 1)
+    Edge: (event: add_b) (guard: true) (assignments: buffer.b := buffer.b + 1)
+    Edge: (event: add_c) (guard: true) (assignments: buffer.c := buffer.c + 1)
+    Edge: (event: add_d) (guard: true) (assignments: buffer.d := buffer.d + 1)
+    Edge: (event: add_e) (guard: true) (assignments: buffer.e := buffer.e + 2)
+    Edge: (event: add_f) (guard: true) (assignments: buffer.f := buffer.f + 2)
+    Edge: (event: add_g) (guard: true) (assignments: buffer.g := buffer.g + 2)
+    Edge: (event: remove_a) (guard: true) (assignments: buffer.a := buffer.a - 1)
+    Edge: (event: remove_b) (guard: true) (assignments: buffer.b := buffer.b - 1)
+    Edge: (event: remove_c) (guard: true) (assignments: buffer.c := buffer.c - 1)
+    Edge: (event: remove_d) (guard: true) (assignments: buffer.d := buffer.d - 1)
+    Edge: (event: remove_e) (guard: true) (assignments: buffer.e := buffer.e - 2)
+    Edge: (event: remove_f) (guard: true) (assignments: buffer.f := buffer.f - 2)
+    Edge: (event: remove_g) (guard: true) (assignments: buffer.g := buffer.g - 2)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            false
+Initial (uncontrolled system):         <bdd 11n 32p>
+Initial (controlled system):           false
+Initial (removed by supervisor):       <bdd 11n 32p>
+Initial (added by supervisor):         <bdd 11n 35p>

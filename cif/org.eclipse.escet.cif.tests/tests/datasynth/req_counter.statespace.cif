@@ -1,0 +1,24 @@
+group adder:
+  controllable c_add;
+  uncontrollable u_remove;
+end
+automaton statespace:
+  alphabet adder.c_add, adder.u_remove;
+  location loc1:
+    initial;
+    marked;
+    edge adder.c_add goto loc2;
+  location loc2:
+    edge adder.c_add goto loc3;
+  location loc3:
+    edge adder.u_remove goto loc4;
+  location loc4:
+    marked;
+    edge adder.c_add goto loc5;
+  location loc5:
+    edge adder.c_add goto loc6;
+  location loc6:
+    edge adder.u_remove goto loc7;
+  location loc7:
+    marked;
+end

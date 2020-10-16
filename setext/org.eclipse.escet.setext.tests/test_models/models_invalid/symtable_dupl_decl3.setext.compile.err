@@ -1,0 +1,3 @@
+ERROR: File "models_invalid/symtable_dupl_decl3.setext": Semantic error at line 14, column 13: Duplicate declaration of "Types".
+ERROR: File "models_invalid/symtable_dupl_decl3.setext": Semantic error at line 16, column 3: Duplicate declaration of "Types".
+ERROR: Failed to load SeText file "models_invalid/symtable_dupl_decl3.setext": the file has errors.

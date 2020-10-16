@@ -1,0 +1,5 @@
+Nonconflicting check FAILS in file "event_based/nonconflicting_check/resources.cif".
+
+Found 2 conflicts:
+  state "sup1.s6", "sup2.s6"
+  state "sup1.s9", "sup2.s9"

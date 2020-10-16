@@ -1,0 +1,23 @@
+uncontrollable Load_AGV_At_M1;
+uncontrollable Load_AGV_At_M2;
+controllable Load_M1;
+uncontrollable Unload_AGV_At_B;
+controllable Unload_AGV_At_M2;
+supervisor automaton sup:
+  alphabet Load_AGV_At_M1, Load_AGV_At_M2, Load_M1, Unload_AGV_At_B, Unload_AGV_At_M2;
+  location s1:
+    initial;
+    marked;
+    edge Load_M1 goto s2;
+  location s2:
+    edge Load_AGV_At_M1 goto s3;
+  location s3:
+    edge Unload_AGV_At_M2 goto s4;
+  location s4:
+    edge Load_AGV_At_M2 goto s5;
+  location s5:
+    edge Unload_AGV_At_B goto s1;
+    edge Load_M1 goto s6;
+  location s6:
+    edge Unload_AGV_At_B goto s2;
+end

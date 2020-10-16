@@ -1,0 +1,7 @@
+ERROR: File "tchecker/cond_non_bool.tooldef": Semantic error at line 16, column 4: Condition must be of type "bool", but is of type "bool?".
+ERROR: File "tchecker/cond_non_bool.tooldef": Semantic error at line 17, column 6: Condition must be of type "bool", but is of type "bool?".
+ERROR: File "tchecker/cond_non_bool.tooldef": Semantic error at line 19, column 6: Condition must be of type "bool", but is of type "bool?".
+ERROR: File "tchecker/cond_non_bool.tooldef": Semantic error at line 27, column 7: Condition must be of type "bool", but is of type "bool?".
+ERROR: File "tchecker/cond_non_bool.tooldef": Semantic error at line 30, column 7: Condition must be of type "bool", but is of type "string".
+ERROR: File "tchecker/cond_non_bool.tooldef": Semantic error at line 33, column 7: Condition must be of type "bool", but is of type "bool?".
+ERROR: Failed to load ToolDef file "tchecker/cond_non_bool.tooldef": the file has errors.

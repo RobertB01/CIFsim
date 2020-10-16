@@ -1,0 +1,3 @@
+ERROR: Simulation resulted in a runtime error, for state: time=2.081776543395794, p=*, p.x=-0.08177654339579521.
+CAUSE: Evaluation of timed guard "sqrt(p.x) > time" at time 2.081776543395794 failed.
+CAUSE: Invalid operation: sqrt(-0.08177654339579521).

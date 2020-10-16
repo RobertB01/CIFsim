@@ -1,0 +1,105 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c_evt1;
+controllable c_evt2;
+
+const int[0..2] zero = 0;
+
+plant p1:
+  disc int[1..9] v;
+  disc int[0..9] w;
+  disc tuple(int a,b) v2;           // Unsupported variable type.
+  cont z der 1;
+
+  location:
+    initial;
+    marked;
+
+    edge c_evt1 when v = 1
+      do if true: v := 1 end;       // Conditional/if update.
+
+    edge c_evt1 when v = 2
+      do (v, v2) := (v, v2);        // Multi-assignment.
+
+    edge c_evt2 when v = 1
+      do v2[0] := 1;                // Partial variable assignment.
+
+    edge c_evt2 when v = 2
+      do z := 2.0;                  // Continuous variable assignment.
+
+    edge c_evt2 when v = 6
+      do w := w div zero;           // Division by zero.
+
+    edge c_evt2 when v = 7
+      do w := w mod zero;           // Modulus by zero.
+
+    edge c_evt2 when v = 8
+      do w := (w + 1) mod zero;     // Modulus by zero.
+
+    edge c_evt2 when v = 9
+      do w := w div -2;             // Division by negative number.
+
+    edge c_evt2 when v = 10
+      do w := w mod -3;             // Modulus by negative number.
+
+    edge c_evt2 when v = 11
+      do w := (w + 1) mod -3;       // Modulus by negative number.
+
+    edge c_evt2 when v = 13
+      do w := (w - 1) mod 10;       // Subtract not at top level.
+end
+
+plant p2:
+  disc int[0..5] a;
+  disc int[0..5] b;
+
+  disc int[0..5] x;
+
+  const int c = 1;
+
+  location:
+    initial;
+    marked;
+
+    // OK
+    edge c_evt1 when a = 0 do a := 0;
+    edge c_evt1 when a = 1 do a := a + 1;
+    edge c_evt1 when a = 2 do a := a - 1;
+    edge c_evt1 when a = 3 do b := b - (2 * c);
+
+    // Wrong operator.
+    edge c_evt2 when a = 1 do x := x * 2;
+end
+
+plant p3:
+  controllable e;
+
+  location:
+    initial;
+    marked true and [true][0];      // Unsupported in plant location marked.
+    edge e when true and [true][0]; // Unsupported in plant edge guard.
+end
+
+plant p4:
+  controllable e;
+
+  disc int[-1..1] x;                // Integer range with negative values.
+  disc int[0..2] y;
+
+  location:
+    initial;
+    marked;
+    edge e when x = 0;
+    edge e when y = -1;             // Negative integer value in predicate/binop.
+end

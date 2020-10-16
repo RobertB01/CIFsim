@@ -1,0 +1,2 @@
+Automata have a different language!
+From location "s2" of automaton "B", event "evt" can be performed, but from the equivalent location "s1" of automaton "A", the event cannot be performed.

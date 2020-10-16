@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  printfile "out1.txt"; // Used twice: "a", "b".
+
+  automaton def A(alg int x):
+    printfile "out2.txt"; // Two instances: local decl.
+    print x;
+
+    location:
+      initial;
+  end
+
+  a1: A(1);
+  a2: A(2);
+
+  print "a";
+  print "b";
+  print "c" file "out1.txt"; // Local file, same as global one.
+
+  group g:
+    printfile "unused.txt"; // Unused.
+    print "d" file "out3.txt"; // Used, local.
+  end
+end
+
+print "s"; // No file declaration (local/global), so default.

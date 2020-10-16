@@ -1,0 +1,2 @@
+ERROR: Failed to compute synchronous product for CIF file "event_based/conversion_tests/nontriv_marked.cif".
+CAUSE: Unsupported location "a" of automaton "a": a marker predicate is not trivially true or false.

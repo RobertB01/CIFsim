@@ -1,0 +1,11 @@
+WARNING: Using "a_b12" in UPPAAL for "a.b1" instead of "a_b1".
+WARNING: Using "a_b22" in UPPAAL for "a.b2" instead of "a_b2".
+WARNING: Using "d_e_b2" in UPPAAL for "d.e.b" instead of "d_e_b".
+WARNING: Using "OLD_d_e_b2" in UPPAAL for "d.e.b" instead of "OLD_d_e_b".
+WARNING: Using "LP_d_e2" in UPPAAL for "d.e" instead of "LP_d_e".
+WARNING: Using "OLDLP_d_e2" in UPPAAL for "d.e" instead of "OLDLP_d_e".
+WARNING: Using "Template_d_e2" in UPPAAL for "d.e" instead of "Template_d_e".
+WARNING: Using "Template_SendAut2" in UPPAAL for "SendAut" instead of "Template_SendAut".
+WARNING: Using "d_e2" in UPPAAL for "d.e" instead of "d_e".
+WARNING: Using "Template_d_e3" in UPPAAL for "Template_d_e" instead of "Template_d_e".
+WARNING: Using "SendAut2" in UPPAAL for "SendAut" instead of "SendAut".

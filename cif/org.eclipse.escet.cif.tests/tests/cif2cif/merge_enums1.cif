@@ -1,0 +1,49 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+const bool E = true;
+const bool E2 = true;
+
+const bool UP = true;
+
+automaton p:
+  enum DIRECTION = UP, DOWN;
+  disc DIRECTION v1 = UP;
+  disc DIRECTION v2 = DOWN;
+  invariant v2 = UP;
+  location:
+    initial;
+end
+
+enum COLOR = RED, GREEN, BLUE;
+type t = COLOR;
+
+invariant RED = GREEN, RED = RED, p.v1 = p.UP;
+
+automaton a:
+  disc t x = BLUE;
+  invariant x = BLUE;
+  location:
+    initial;
+end
+
+automaton q:
+  enum DIRECTION = UP, DOWN;
+  disc DIRECTION d = DOWN;
+  invariant d = UP;
+  location:
+    initial;
+end
+
+invariant p.UP = q.UP and p.DOWN = q.DOWN;
+invariant E or E2 or UP;

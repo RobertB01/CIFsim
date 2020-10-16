@@ -1,0 +1,2 @@
+ERROR: File "models_invalid/rel_ref_on_complete_type.setext": Semantic error at line 25, column 2: Invalid relative name "b.c" for non-package import "b".
+ERROR: Failed to load SeText file "models_invalid/rel_ref_on_complete_type.setext": the file has errors.

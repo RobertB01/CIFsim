@@ -1,0 +1,3 @@
+WARNING: File "simulator/print/fors.cif": Semantic warning at line 16, column 22: Duplicate print declaration "for" filter: "initial".
+WARNING: File "simulator/print/fors.cif": Semantic warning at line 16, column 31: Duplicate print declaration "for" filter: "initial".
+WARNING: File "simulator/print/fors.cif": Semantic warning at line 22, column 28: Duplicate print declaration "for" filter: "event" (all events) and "a.e" (specific event).

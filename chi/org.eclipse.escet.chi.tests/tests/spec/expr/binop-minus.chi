@@ -1,0 +1,32 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+model M():
+
+    int i;
+    real r;
+
+    set int si;
+    list int li;
+    dict(int: real) di;
+
+    i = i - i;
+    r = i - r;
+    r = r - i;
+    r = r - r;
+
+    si = si - si;
+    li = li - li;
+    di = di - di;
+    di = di - si;
+    di = di - li;
+end

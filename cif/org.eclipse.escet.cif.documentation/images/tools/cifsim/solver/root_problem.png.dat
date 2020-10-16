@@ -1,0 +1,28 @@
+################################################################################
+# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+################################################################################
+
+# time                 p.x                     p.x'
+0.0                    0.0                     1.0
+9.999999999999999e-5   1.0000000000000003e-4   1.0
+0.0011                 0.0011000000000000005   1.0
+0.0111                 0.011100000000000006    1.0
+0.1111                 0.11110000000000006     1.0
+0.6111                 0.6111000000000003      1.0
+1.1111                 1.1111000000000004      1.0
+1.6111                 1.6111000000000006      1.0
+2.1111                 2.111100000000001       1.0
+2.6111                 2.6111000000000013      1.0
+3.1111                 3.1111000000000013      1.0
+3.6111                 3.6111000000000013      1.0
+4.1111                 4.111100000000001       1.0
+4.6111                 4.611100000000001       1.0
+5.0                    5.000000000000001       1.0

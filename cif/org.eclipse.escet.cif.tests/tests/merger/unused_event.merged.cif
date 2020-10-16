@@ -1,0 +1,22 @@
+event e10;
+event e11;
+event e12;
+event e20;
+event e21;
+event e22;
+event e01;
+event e02;
+plant automaton p1:
+  location:
+    initial;
+    edge e20;
+    edge e21;
+    edge e22;
+end
+plant automaton p2:
+  location:
+    initial;
+    edge e02;
+    edge e12;
+    edge e22;
+end

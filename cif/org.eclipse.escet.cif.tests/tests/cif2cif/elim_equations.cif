@@ -1,0 +1,167 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Copy of "elim_alg_vars".
+
+alg int x = 5;
+alg bool b1 = true;
+alg bool b2 = b1;
+
+invariant x > 1, b1, b2;
+
+alg real a;
+equation a = 1.0;
+
+group q1:
+  alg real a;
+  equation a = 1.0;
+end
+
+automaton q2:
+  alg int a;
+  alg real alg_var;
+  location l1:
+    initial;
+    equation a       = 1,
+             alg_var = 2.0;
+  location l2:
+    initial;
+    equation a       = 3,
+             alg_var = 4.0;
+end
+
+automaton q3_1:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+end
+
+automaton q3_2:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+  location l2:
+    initial;
+    equation x = 2.0;
+end
+
+automaton q3_3:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+  location l2:
+    initial;
+    equation x = 2.0;
+  location l3:
+    initial;
+    equation x = 3.0;
+end
+
+automaton q3_4:
+  alg real x;
+  location l1:
+    initial;
+    equation x = 1.0;
+  location l2:
+    initial;
+    equation x = 2.0;
+  location l3:
+    initial;
+    equation x = 3.0;
+  location l4:
+    initial;
+    equation x = 4.0;
+end
+
+invariant a + q1.a + q2.a + q2.alg_var > 0;
+invariant q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;
+
+// Elimination of derivatives of continuous variables.
+
+group c:
+  cont x1 der 5.0;
+  cont x2 der x1;
+
+  cont x3;
+  equation x3' = 1.0;
+
+  invariant x1 + x2 + x3 > 0;
+
+  group q1:
+    cont x;
+    equation x' = 1.0;
+  end
+
+  automaton q2:
+    cont x1, x2;
+    location l1:
+      initial;
+      equation x1' = 1.0,
+               x2' = 2.0;
+    location l2:
+      initial;
+      equation x1' = 1.0,
+               x2' = 2.0;
+  end
+
+  automaton q3_1:
+    cont x;
+    location l1:
+      initial;
+      equation x' = 1.0;
+  end
+
+  automaton q3_2:
+    cont x;
+    location l1:
+      initial;
+      equation x' = 1.0;
+    location l2:
+      initial;
+      equation x' = 2.0;
+  end
+
+  automaton q3_3:
+    cont x;
+    location l1:
+      initial;
+      equation x' = 1.0;
+    location l2:
+      initial;
+      equation x' = 2.0;
+    location l3:
+      initial;
+      equation x' = 3.0;
+  end
+
+  automaton q3_4:
+    cont x;
+    location l1:
+      initial;
+      equation x' = 1.0;
+    location l2:
+      initial;
+      equation x' = 2.0;
+    location l3:
+      initial;
+      equation x' = 3.0;
+    location l4:
+      initial;
+      equation x' = 4.0;
+  end
+
+  invariant q1.x + q2.x1 + q2.x2 + q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;
+end

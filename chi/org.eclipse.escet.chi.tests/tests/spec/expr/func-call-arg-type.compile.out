@@ -1,0 +1,1 @@
+Error: File "spec/expr/func-call-arg-type.chi": Semantic error at line 18, column 24: Type mismatch in argument 2 (expected type "int", found type "real").

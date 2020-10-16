@@ -1,0 +1,90 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[tools-cif2cif-chapter-elim-self]]
+== Eliminate automaton `self` references
+
+indexterm:[CIF to CIF transformer,eliminate automaton self references]
+indexterm:[eliminate automaton self references]
+indexterm:[automaton self reference,eliminate]
+This CIF to CIF transformation replaces implicit automaton `self` references
+by explicit automaton references.
+
+indexterm:[eliminate automaton self references,supported specifications]
+
+=== Supported specifications
+
+This transformation supports a subset of CIF specifications. The following
+restrictions apply:
+
+* Component definitions and component instantiations are not supported.
+
+indexterm:[eliminate automaton self references,preprocessing]
+
+=== Preprocessing
+
+No preprocessing is currently performed by this CIF to CIF transformation. To
+increase the subset of specifications that can be transformed, apply the
+following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
+given order):
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+indexterm:[eliminate automaton self references,implementation]
+
+=== Implementation details
+
+All implicit automaton `self` references are replaced by explicit automaton
+references. For instance, consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton a:
+  alg string x = <string>self;
+
+  location:
+    initial;
+end
+----
+
+This is transformed to the following CIF specification:
+
+
+[source, cif]
+----
+automaton a:
+  alg string x = <string>a;
+
+  location:
+    initial;
+end
+----
+
+
+=== Renaming
+
+n/a
+
+indexterm:[eliminate automaton self references,size considerations]
+
+=== Size considerations
+
+Since both references are single expression nodes, this transformation does not
+increase the size of the specification.
+
+
+=== Optimality
+
+n/a

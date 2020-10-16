@@ -1,0 +1,3 @@
+Error: File "spec/expr/projection_fail.chi": Semantic error at line 17, column 7: Name "a" does not refer to a value.
+Error: File "spec/expr/projection_fail.chi": Semantic error at line 25, column 13: Name "b" does not refer to a value.
+Error: File "spec/expr/projection_fail.chi": Semantic error at line 32, column 9: Left side of tuple projection (.) is not a tuple type (found type "list int").
