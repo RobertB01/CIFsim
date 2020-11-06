@@ -28,6 +28,10 @@
       value="3.8"/>
   <setupTask
       xsi:type="setup:VariableTask"
+      name="eclipse-checkstyle.version"
+      value="8.35.0"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
       name="m2eclipse-tycho.version"
       value="0.9.0"/>
   <setupTask
@@ -227,7 +231,7 @@
     <repository
         url="https://dl.bintray.com/de-jcup/asciidoctoreditor/"/>
     <repository
-        url="http://eclipse-cs.sf.net/update"/>
+        url="https://dl.bintray.com/eclipse-cs/eclipse-cs/${eclipse-checkstyle.version}/"/>
     <repository
         url="http://www.jvmmonitor.org/updates/${jvm-monitor.version}"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
