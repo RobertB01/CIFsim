@@ -28,12 +28,12 @@ documentation, etc of your contribution. Discussions can take place via an
 the project's <<developer-chapter-index,'dev' list>>.
 
 To contribute your actual contribution, e.g. code, documentation, examples,
-or anything else to the project, please first create an issue in the issue
-tracker.
+or anything else to the project, please first create an issue in the
+<<developer-issue-tracking-chapter-index,issue tracker>>.
 
-To contribute the actual contribution, please use Gerrit:
+To contribute the actual contribution, please use GitLab:
 
-* link:https://git.eclipse.org/r/#/q/project:escet/escet[Eclipse ESCET Gerrit]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/merge_requests[Eclipse ESCET GitLab merge requests]
 
 indexterm:[ECA]
 
@@ -58,10 +58,13 @@ A contribution by a non-committer will be reviewed by the project committers.
 This includes adherence to the project's
 <<developer-coding-standards-chapter-index,coding standards>>. Discussions
 regarding the contribution will take place in the associated issue and/or
-Gerrit. If the committers agree with the contribution, they will commit the
-contribution into the project's Git repository.
+pull request. If the committers agree with the contribution, they will commit
+the contribution into the project's Git repository.
 
 Remember that contributions are always welcome, and contributions don't have
 to be perfect. The project's developers can help to improve your contribution.
 If you need any help, just ask the project's developers using the issue or the
-project's 'dev' list.
+project's <<develop-dev-list,'dev' list>>.
+
+See for more information our
+<<developer-development-process-chapter-index,development process>>.

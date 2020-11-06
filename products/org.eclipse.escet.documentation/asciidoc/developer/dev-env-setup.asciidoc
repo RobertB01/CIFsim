@@ -28,11 +28,7 @@ Get the Eclipse Installer:
 button.
 
 indexterm:[oomph, setup]
-
-Get the Oomph setup:
-
-* Download the Oomph setup (`org.eclipse.escet.setup`) from the root of the
-Git repository, and save it to your computer.
+indexterm:[development, environment]
 
 To create a development environment for the first time:
 
@@ -59,13 +55,12 @@ To create a development environment for a non-first time:
 * In the second wizard window:
 ** Use the green '+' icon at the top right to add the Oomph setup.
 *** For 'Catalog', choose 'Eclipse Projects'.
-*** Use the btn:[Browse File System...] button to select the
-`org.eclipse.escet.setup` file that you previously downloaded.
-*** Eclipse will turn the path into a 'file' URI.
+*** For 'Resource URIs', enter
+`https://gitlab.eclipse.org/eclipse/escet/escet/-/raw/develop/org.eclipse.escet.setup`.
 *** Click btn:[OK].
-** Select 'Supervisory Control Toolkit' in the big list. It is under 'Eclipse
+** Check the checkbox for 'Eclipse ESCET', from the big list. It is under 'Eclipse
 Projects' / '<User>'.
-** At the bottom, select the 'eclipse-move' stream.
+** At the bottom right, select the 'develop' stream.
 ** Click btn:[Next].
 * In the third wizard window:
 ** Choose a 'Root install folder' and 'Installation folder name'.

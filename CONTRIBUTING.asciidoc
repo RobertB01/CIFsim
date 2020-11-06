@@ -28,19 +28,23 @@ developer environment, coding standards, how to contribute, and more, see:
 
 The project maintains the following source code repositories:
 
- * https://git.eclipse.org/c/escet/escet.git
+ * https://gitlab.eclipse.org/eclipse/escet/escet.git
 
-This project uses Bugzilla to track ongoing development and issues:
+These can also be accessed via a web interface:
 
- * Search for issues: https://bugs.eclipse.org/bugs/buglist.cgi?product=ESCET
- * Create a new report: https://bugs.eclipse.org/bugs/enter_bug.cgi?product=ESCET
+ * https://gitlab.eclipse.org/eclipse/escet/escet
+
+This project uses GitLab to track ongoing development and issues:
+
+ * https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones
+ * https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
 
 Be sure to search for existing issues before you create another one. Remember
 that contributions are always welcome!
 
-To contribute source code (e.g. patches), please use Gerrit:
+To contribute source code (e.g. patches), please use GitLab:
 
- * https://git.eclipse.org/r/#/q/project:escet/escet
+ * https://gitlab.eclipse.org/eclipse/escet/escet/-/merge_requests
 
 
 ## Eclipse Contributor Agreement
