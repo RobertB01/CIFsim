@@ -24,7 +24,7 @@ indexterm:[JUnit]
 
 The Eclipse ESCET software can be built using Maven/Tycho. The build will
 build every individual plugin and feature, as well as the update site,
-product and all documentation. Run it in one of the following ways:
+product and all documentation. Manually run it in one of the following ways:
 
 * In an Eclipse-based
 <<developer-dev-env-setup-chapter-index,development environment>>,
@@ -44,9 +44,9 @@ This requires Maven to be available on your system (to be on your `PATH`).
 current directory, enter `./build.sh` and press kbd:[ENTER].
 This requires Maven to be available on your system (to be on your `PATH`).
 
-* On our build server:
-+
-link:https://ci.eclipse.org/escet/[Eclipse ESCET Jenkins server]
+Builds are in certain cases also automatically executed on our build server:
+
+* link:https://ci.eclipse.org/escet/[Eclipse ESCET Jenkins server]
 
 Run tests in one of the following ways:
 

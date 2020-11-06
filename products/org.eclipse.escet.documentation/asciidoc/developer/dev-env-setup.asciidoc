@@ -68,7 +68,7 @@ Projects' / '<User>'.
 '<root_installation_folder>/<installation_folder_name>'.
 ** Click btn:[Next].
 * In the fourth wizard window:
-** Select Finish.
+** Select btn:[Finish].
 * Wait for the setup to complete and the development environment to be
 launched.
 ** If asked, accept any licenses and certificates.

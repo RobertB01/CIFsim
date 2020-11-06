@@ -147,17 +147,19 @@ include::developer/index.asciidoc[]
 
 :leveloffset: +1
 
-include::developer/issue-tracking.asciidoc[]
+include::developer/development-process.asciidoc[]
 
 include::developer/contributing.asciidoc[]
 
-include::developer/git-repo.asciidoc[]
+include::developer/issue-tracking.asciidoc[]
 
 include::developer/dev-env-setup.asciidoc[]
 
-include::developer/building-and-testing.asciidoc[]
+include::developer/git-repo.asciidoc[]
 
 include::developer/coding-standards.asciidoc[]
+
+include::developer/building-and-testing.asciidoc[]
 
 include::developer/third-party-tools.asciidoc[]
 

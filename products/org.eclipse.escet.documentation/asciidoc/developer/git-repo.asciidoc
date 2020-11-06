@@ -19,7 +19,7 @@ indexterm:[Git, repository]
 
 The Eclipse ESCET project maintains the following source code repositories:
 
-* `https://gitlab.eclipse.org/eclipse/escet/escet.git`
+* `+https://gitlab.eclipse.org/eclipse/escet/escet.git+`
 
 These can also be accessed via a web interface:
 

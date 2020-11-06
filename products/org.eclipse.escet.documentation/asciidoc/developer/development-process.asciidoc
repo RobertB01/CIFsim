@@ -20,7 +20,7 @@ indexterm:[development, process]
 NOTE: If you want to contribute to the Eclipse ESCET project, please refer to
 the specific <<developer-contributing-chapter-index,contributing>> information.
 
-The Eclipse ESCET project primarily uses GitLab for its development.
+The Eclipse ESCET project primarily uses GitLab for its development:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
 
