@@ -12,4 +12,5 @@
 :: SPDX-License-Identifier: MIT
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,tooldef,products %*
+:: Remove project exclusions once JavaBDD is in Orbit.
+mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,tooldef,products -pl !cif/org.eclipse.escet.cif.datasynth,!cif/org.eclipse.escet.cif.datasynth.tests %*
