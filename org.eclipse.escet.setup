@@ -416,8 +416,6 @@
   </setupTask>
   <stream name="develop"
       label="develop"/>
-  <stream name="10-update-developer-documentation-etc"
-      label="10-update-developer-documentation-etc"/>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
