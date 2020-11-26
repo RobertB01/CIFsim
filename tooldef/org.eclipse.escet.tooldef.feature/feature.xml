@@ -33,7 +33,7 @@
    <requires>
       <import feature="org.eclipse.escet.common.feature" version="0.1.0.qualifier"/>
       <import feature="org.eclipse.escet.setext.feature" version="0.1.0.qualifier"/>
-      <import feature="com.github.difflib.feature" version="4.7.0.qualifier"/>
+      <import plugin="io.github.java-diff-utils"/>
       <import plugin="org.apache.commons.exec"/>
    </requires>
 
