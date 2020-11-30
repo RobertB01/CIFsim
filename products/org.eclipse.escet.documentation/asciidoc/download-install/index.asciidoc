@@ -21,6 +21,11 @@ indexterm:[installation]
 WARNING: The Eclipse ESCET project and all its tools are currently in the
 link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
 
+You can download Eclipse ESCET from the following locations:
+
+* link:https://download.eclipse.org/escet[Eclipse ESCET downloads] (for recent versions)
+* link:https://archive.eclipse.org/escet[Eclipse ESCET archived downloads] (for older versions)
+
 Downloads for Eclipse ESCET tools are available for the following platforms:
 
 * Windows, x64 (64-bit)

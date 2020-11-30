@@ -1,0 +1,207 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[development, process]
+
+[[developer-development-process-chapter-index]]
+== Development process
+
+NOTE: If you want to contribute to the Eclipse ESCET project, please refer to
+the specific <<developer-contributing-chapter-index,contributing>> information.
+
+The Eclipse ESCET project primarily uses GitLab for its development:
+
+* link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
+
+
+=== Discussion
+
+It is often a good idea to first discuss new ideas and features with the rest
+of the project developers, i.e. the project committers and the project
+community. Discussions can take place on the project's
+<<developer-chapter-index,'dev' list>>, especially for radical
+new ideas and new features that have not been discussed before.
+
+
+indexterm:[issue]
+
+=== Issue tracking
+
+If the project committers and the community agree that it is a good idea
+to have the new feature, an issue should be created in the
+<<developer-issue-tracking-chapter-index,issue tracker>>. For improvements
+where extensive discussion is not expected, as well as for obvious bugs, an
+issue can be created directly, without first discussing it on the 'dev' list.
+The discussion can also continue in the issue itself, once the issue is
+created.
+
+When creating an issue, take the following into account:
+
+* An issue must be created in the issue tracker for all development, however
+small. This ensures we can link issues can commits to keep track of
+everything.
+
+* Issues are ideally kept relatively small in scope. Bigger tasks can be split
+up into multiple issues, and follow-up issues can be created as needed. This
+allows to separate concerns, and also to work in a more agile way, e.g.:
+
+** Issues can be addressed more quickly.
+** Merge requests can be reviewed more easily as they are not as big.
+** Merge issues are less likely to occur, as branches have a shorter lifespan.
+
+* If a new feature is split up into multiple issues, these can be related
+together using an epic. In such cases, add the issues to the epic to track
+the progress of the new feature using the epic.
+
+* Attach the appropriate
+link:https://gitlab.eclipse.org/eclipse/escet/escet/-/labels[predefined labels]
+to the issue:
+
+** Either something is broken ('Bug' label) or we want something more,
+different, better, etc ('Enhancement' label).
+
+** Add all relevant component labels (e.g. 'Chi' and 'CIF' labels). Typically
+at least one such label should be present, but it is also possible to add
+multiple labels if the issue involves multiple components. The components
+correspond to the directories in the root of our
+<<developer-git-repo-chapter-index,Git repository>>.
+
+** The Eclipse ESCET project committers can add the 'Help Wanted' label to an
+issue to indicate that they don't have the time to work on the issue, and that
+help from the community is wanted.
+
+* Link the issue to any other issues, as relevant, e.g. if an issue requires
+that another issue is addressed first.
+
+
+indexterm:[release]
+indexterm:[milestone]
+
+=== Releases and milestones
+
+For every release a GitLab milestone is created, to track the scope and
+progress of the release. Milestones are created for public releases as well
+as for e.g. release candidates.
+
+For every release, first the scope is discussed and agreed upon. Then, a
+GitLab milestone is created, the relevant issues are created if not yet
+present, and the issues are associated with the milestone. The issues can
+then be picked up to be addressed.
+
+See also:
+
+* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET milestones]
+
+
+=== Working on issues
+
+The process to work on issues is as follows:
+
+* Unassigned issues can be picked up.
+
+* Assign yourself to the issue when you are working on an issue, such
+that others won't start working on it as well.
+
+* Unassign yourself if you are no longer working on an issue, don't plan to
+continue, and the issue is not finished.
+
+* Don't unassign yourself after finishing the work, just close the issue.
+
+
+indexterm:[branch]
+indexterm:[GitFlow]
+
+=== Working with branches
+
+The Eclipse ESCET project roughly follows the
+link:https://nvie.com/posts/a-successful-git-branching-model/[GitFlow branching model].
+The `master` branch is thus for released content only, and the current development
+status is captured in the `develop` branch.
+
+If possible, we approach the somewhat heavy GitFlow branching model in a
+practical way, reducing overhead.
+
+When creating and working with branches, consider the following:
+
+* Always work in a branch for the issue. That is, never commit directly to the
+`develop` branch, but always use a merge request from a feature branch.
+
+* Branches for work on issues (feature branches) should be relatively short
+lived. This makes it easier to keep the overview, allows for more agile
+development, and reduces the chance for merge conflicts.
+
+* The GitFlow branching model allows for sub teams that share work but don't
+push that to 'origin' (yet). It also allows feature branches that live only
+locally on a developer's PC and not on 'origin'. To be transparent, Eclipse
+Foundation open source projects don't do this. We push to our GitLab server
+regularly, to ensure that the community can see what the project is working on.
+
+* We have no strict branch naming rules. You can Let GitLab create the branch
+for the issue. For an issue with number #2 named 'Test', it will create a
+branch named `2-test`. This includes the issue number, which makes it easy to
+relate a branch to an issue, without having to look inside the branch for
+commits (if there even are any). It also includes the issue name, which is
+convenient as it indicates what the branch is about, without having to look
+up the issue.
+
+
+indexterm:[commit]
+
+=== Commits
+
+As is standard for Git commits, the first line of the commit message must be
+a short summary, and must not exceed 72 characters.
+
+For the Eclipse ESCET project, this line must start with the issue number,
+to allow GitLab to link commits to issues. For instance: `#1 commit summary`.
+In case a commit relates to multiple issues, list each of them, e.g.
+`#1 #2 commit summary`.
+
+Furthermore, all commits must adhere to the requirements as defined by the
+Eclipse Foundation:
+
+* link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records]
+(Eclipse Foundation Project Handbook)
+
+If you are not an Eclipse ESCET project committer, with write access to our
+Git repository, see the information on
+<<developer-contributing-chapter-index,contributing>> to the Eclipse ESCET
+project.
+
+
+indexterm:[merge request]
+
+=== Merge requests
+
+Once the work on an issue is done and pushed to a branch, it must be reviewed
+before it is merged back. Reviews are done via merge requests. The process is
+as follows:
+
+* Create a merge request for merging the branch. Typically a branch is created
+from and merged back to the `develop` branch.
+
+* The merge request is reviewed by the Eclipse ESCET project committers.
+
+* Improvements are made as necessary, reviewed again, etc, until the branch
+is considered to be ready to merge.
+
+* The branch is merged and removed.
+
+* If the branch fully addressed the associated issue or issues, it/they
+  should be closed.
+
+If you are not an Eclipse ESCET project committer, with write access to our
+Git repository, see the information on
+<<developer-contributing-chapter-index,contributing>> to the Eclipse ESCET
+project.

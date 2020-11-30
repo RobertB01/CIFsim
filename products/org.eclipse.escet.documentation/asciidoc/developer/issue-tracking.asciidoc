@@ -14,19 +14,22 @@ include::_part_attributes.asciidoc[]
 
 indexterm:[issues]
 indexterm:[issue, create]
-indexterm:[Bugzilla]
+indexterm:[GitLab]
 
 [[developer-issue-tracking-chapter-index]]
 == Issue tracking
 
-The Eclipse ESCET project uses Bugzilla to track ongoing development and
+The Eclipse ESCET project uses GitLab to track ongoing development and
 issues:
 
-* link:https://bugs.eclipse.org/bugs/buglist.cgi?product=ESCET[Search for issues]
-* link:https://bugs.eclipse.org/bugs/enter_bug.cgi?product=ESCET[Create a new issue]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET milestones]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[Eclipse ESCET issues]
 
 Be sure to search for existing issues before you create another one. Remember
 that contributions are always welcome!
 
 To contribute code (e.g. patches), documentation, or anything else, see the
 <<developer-contributing-chapter-index,contributing>> section.
+
+To understand how we work with issues, see our
+<<developer-development-process-chapter-index, development process>>.

@@ -19,7 +19,11 @@ indexterm:[Git, repository]
 
 The Eclipse ESCET project maintains the following source code repositories:
 
-* link:https://git.eclipse.org/c/escet/escet.git[Eclipse ESCET Git repository]
+* `+https://gitlab.eclipse.org/eclipse/escet/escet.git+`
+
+These can also be accessed via a web interface:
+
+ * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
 
 indexterm:[EMF]
 indexterm:[Java]
@@ -35,6 +39,9 @@ See also the section on
 
 To contribute code (e.g. patches), documentation, or anything else, see the
 <<developer-contributing-chapter-index,contributing>> section.
+
+The way we work with our Git repository is explained as part of our
+<<developer-development-process-chapter-index,development process>>.
 
 
 === Repository structure

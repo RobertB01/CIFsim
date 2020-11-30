@@ -5,17 +5,20 @@ Engineering Toolkit (Eclipse ESCET) project.
 
  * Project home: https://projects.eclipse.org/projects/technology.escet
  * Website: https://eclipse.org/escet
- * Issue tracker: https://bugs.eclipse.org/bugs/describecomponents.cgi?product=escet
+ * Issue tracker: https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
  * Downloads: https://download.eclipse.org/escet
  * Archived downloads: https://archive.eclipse.org/escet
  * Forum: https://www.eclipse.org/forums/index.php/f/527/
  * Developers mailing list: https://accounts.eclipse.org/mailing-list/escet-dev
+ * GitLab development server: https://gitlab.eclipse.org/eclipse/escet/escet
+ * Jenkins build server: https://ci.eclipse.org/escet/
 
 
 ## Trademarks
 
 Eclipse ESCET and ESCET are trademarks of the Eclipse Foundation. Eclipse,
 and the Eclipse Logo are registered trademarks of the Eclipse Foundation.
+Other names may be trademarks of their respective owners.
 
 
 ## Copyright
@@ -38,22 +41,26 @@ SPDX-License-Identifier: MIT
 
 The project maintains the following source code repositories:
 
- * https://git.eclipse.org/c/escet/escet.git
+ * https://gitlab.eclipse.org/eclipse/escet/escet.git
+
+These can also be accessed via a web interface:
+
+ * https://gitlab.eclipse.org/eclipse/escet/escet
 
 
 ## Third-party Content
-
-com.github.difflib
-
- * Project: https://github.com/java-diff-utils/java-diff-utils
- * Source: https://github.com/java-diff-utils/java-diff-utils
- * License: Apache License 2.0
 
 com.github.javabdd
 
  * Project: https://github.com/com-github-javabdd/com.github.javabdd
  * Source: https://github.com/com-github-javabdd/com.github.javabdd
  * License: GNU Library General Public License v2 (LGPLv2) or later
+
+io.github.java-diff-utils
+
+ * Project: https://github.com/java-diff-utils/java-diff-utils
+ * Source: https://github.com/java-diff-utils/java-diff-utils
+ * License: Apache License 2.0
 
 javax.inject
 

@@ -660,7 +660,7 @@ indexterm:[JVisualVM,plugins]
 Via menu:Tools[Plugins] you can access the _Plugins_ window, where you manage
 the plugins. Various plugins are available. The _Visual GC_ plugin is of
 particular interest. After installing it, restart JVisualVM, or close the
-tabs of the JVMs your monitoring and open them again. You'll get an extra tab
+tabs of the JVMs you're monitoring and open them again. You'll get an extra tab
 for monitored JVMs, the _Visual GC_ tab. This tab is somewhat similar to the
 _Monitor_ tab, but shows more detailed information about the garbage collector,
 its various generations, etc.

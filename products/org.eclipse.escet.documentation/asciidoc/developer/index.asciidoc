@@ -18,10 +18,12 @@ include::_part_attributes.asciidoc[]
 Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit
 (Eclipse ESCET) project.
 
-For more about the project information, see:
+For more information about the project, see:
 
 * link:https://projects.eclipse.org/projects/technology.escet[Eclipse ESCET project home]
 * link:https://eclipse.org/escet[Eclipse ESCET website]
+
+[[develop-dev-list]]
 
 Contact the project developers via the project's 'dev' list.
 
@@ -32,11 +34,12 @@ developers, see the <<contact-chapter-index,contact>> section.
 
 Further topics:
 
-* <<developer-issue-tracking-chapter-index>>
+* <<developer-development-process-chapter-index>>
 * <<developer-contributing-chapter-index>>
-* <<developer-git-repo-chapter-index>>
+* <<developer-issue-tracking-chapter-index>>
 * <<developer-dev-env-setup-chapter-index>>
-* <<developer-building-and-testing-chapter-index>>
+* <<developer-git-repo-chapter-index>>
 * <<developer-coding-standards-chapter-index>>
+* <<developer-building-and-testing-chapter-index>>
 * <<developer-third-party-tools-chapter-index>>
 * <<developer-upgrade-instructions-chapter-index>>

@@ -24,8 +24,8 @@
       value="R20200529191137"/>
   <setupTask
       xsi:type="setup:VariableTask"
-      name="jvm-monitor.version"
-      value="3.8"/>
+      name="eclipse-checkstyle.version"
+      value="8.35.0"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="m2eclipse-tycho.version"
@@ -219,24 +219,27 @@
     <requirement
         name="net.sf.eclipsecs.feature.group"/>
     <requirement
-        name="org.jvmmonitor.feature.group"/>
-    <requirement
         name="org.sonatype.tycho.m2e.feature.feature.group"/>
     <repository
         url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/${m2eclipse-tycho.version}/N/LATEST/"/>
     <repository
         url="https://dl.bintray.com/de-jcup/asciidoctoreditor/"/>
     <repository
-        url="http://eclipse-cs.sf.net/update"/>
-    <repository
-        url="http://www.jvmmonitor.org/updates/${jvm-monitor.version}"/>
+        url="https://dl.bintray.com/eclipse-cs/eclipse-cs/${eclipse-checkstyle.version}/"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
       id="org.eclipse.escet.git.clone"
-      remoteURI="https://git.eclipse.org/c/escet/escet.git">
+      remoteURI="https://gitlab.eclipse.org/eclipse/escet/escet.git">
     <description>${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Doomph.redirection.org.eclipse.escet.git"
+      value="=https://gitlab.eclipse.org/eclipse/escet/escet/-/raw/${scope.project.stream.name}/org.eclipse.escet.setup->${org.eclipse.escet.git.clone.location|uri}/org.eclipse.escet.setup"
+      vm="true">
+    <description>Set an Oomph redirection system property to redirect the bootstrap location of this setup to its location in the Git clone.</description>
   </setupTask>
   <setupTask
       xsi:type="projects:ProjectsImportTask">
@@ -411,8 +414,8 @@
           pattern="org\.eclipse\.escet(\..*)?\.root"/>
     </workingSet>
   </setupTask>
-  <stream name="master"
-      label="master"/>
+  <stream name="develop"
+      label="develop"/>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
