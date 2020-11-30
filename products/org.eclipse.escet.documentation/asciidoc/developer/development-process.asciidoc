@@ -57,7 +57,7 @@ up into multiple issues, and follow-up issues can be created as needed. This
 allows to separate concerns, and also to work in a more agile way, e.g.:
 
 ** Issues can be addressed more quickly.
-** Pull requests can be reviewed more easily as they are not as big.
+** Merge requests can be reviewed more easily as they are not as big.
 ** Merge issues are less likely to occur, as branches have a shorter lifespan.
 
 * If a new feature is split up into multiple issues, these can be related
@@ -135,7 +135,7 @@ practical way, reducing overhead.
 When creating and working with branches, consider the following:
 
 * Always work in a branch for the issue. That is, never commit directly to the
-`develop` branch, but always use a pull request from a feature branch.
+`develop` branch, but always use a merge request from a feature branch.
 
 * Branches for work on issues (feature branches) should be relatively short
 lived. This makes it easier to keep the overview, allows for more agile
@@ -180,18 +180,18 @@ Git repository, see the information on
 project.
 
 
-indexterm:[pull request]
+indexterm:[merge request]
 
-=== Pull requests
+=== Merge requests
 
 Once the work on an issue is done and pushed to a branch, it must be reviewed
-before it is merged back. Reviews are done via pull requests. The process is
+before it is merged back. Reviews are done via merge requests. The process is
 as follows:
 
-* Create a pull request for merging the branch. Typically a branch is created
+* Create a merge request for merging the branch. Typically a branch is created
 from and merged back to the `develop` branch.
 
-* The pull request is reviewed by the Eclipse ESCET project committers.
+* The merge request is reviewed by the Eclipse ESCET project committers.
 
 * Improvements are made as necessary, reviewed again, etc, until the branch
 is considered to be ready to merge.
