@@ -92,6 +92,7 @@ public class PlotVisualizer extends ControlEditor {
     /** The plot visualizer update thread. {@code null} until initialized by the {@link #createContents} method. */
     private PlotVisualizerUpdateThread thread;
 
+    @SuppressWarnings("restriction")
     @Override
     protected Control createContents(Composite parent) {
         // Create chart.

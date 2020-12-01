@@ -21,7 +21,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.orbit.version"
-      value="R20200529191137"/>
+      value="S20201124213957"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version"
@@ -288,9 +288,7 @@
         </detail>
       </annotation>
       <requirement
-          name="org.eclipse.sdk.feature.group"/>
-      <requirement
-          name="org.eclipse.emf.feature.group"/>
+          name="io.github.java-diff-utils"/>
       <requirement
           name="javax.inject"/>
       <requirement
@@ -344,10 +342,15 @@
       <requirement
           name="org.apache.xalan"/>
       <requirement
-          name="*"/>
-      <sourceLocator
-          rootFolder="${org.eclipse.escet.git.clone.location}"
-          locateNestedProjects="true"/>
+          name="org.apache.xerces"/>
+      <requirement
+          name="org.eclipse.emf.feature.group"/>
+      <requirement
+          name="org.eclipse.emf.validation"/>
+      <requirement
+          name="org.eclipse.sdk.feature.group"/>
+      <requirement
+          name="org.knowm.xchart"/>
       <repositoryList
           name="Eclipse ESCET">
         <repository

@@ -36,6 +36,6 @@ Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.1.0",
  org.apache.batik.xml;bundle-version="[1.9.1,1.10.0)",
  org.apache.batik.ext.awt;bundle-version="[1.9.1,1.10.0)",
  org.apache.batik.parser;bundle-version="[1.9.1,1.10.0)",
- org.knowm.xchart;bundle-version="3.6.3",
+ org.knowm.xchart;bundle-version="3.6.5",
  org.eclipse.escet.cif.simulator;bundle-version="0.1.0"
 Automatic-Module-Name: org.eclipse.escet.cif.simulator.debug

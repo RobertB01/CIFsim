@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.tests;
 
 import org.eclipse.escet.tooldef.interpreter.ToolDefBasedPluginUnitTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /** CIF integration and regression tests. */
@@ -151,6 +152,7 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
     }
 
     /** Data synthesis tests. */
+    @Ignore("Ignore for now, until JavaBDD is in Orbit.")
     @Test
     public void testDataSynth() {
         test("tests/test_datasynth.tooldef");

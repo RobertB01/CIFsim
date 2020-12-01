@@ -31,8 +31,6 @@
 <stringAttribute key="productFile" value="\org.eclipse.escet.product\escet.product"/>
 <booleanAttribute key="restart" value="true"/>
 <setAttribute key="selected_features">
-<setEntry value="com.github.difflib.feature:default"/>
-<setEntry value="com.github.javabdd.feature:default"/>
 <setEntry value="org.eclipse.e4.rcp:default"/>
 <setEntry value="org.eclipse.ecf.core.feature:default"/>
 <setEntry value="org.eclipse.ecf.core.ssl.feature:default"/>
@@ -55,7 +53,6 @@
 <setEntry value="org.eclipse.jdt:default"/>
 <setEntry value="org.eclipse.platform:default"/>
 <setEntry value="org.eclipse.rcp:default"/>
-<setEntry value="org.knowm.xchart.feature:default"/>
 </setAttribute>
 <booleanAttribute key="show_selected_only" value="false"/>
 <booleanAttribute key="tracing" value="false"/>

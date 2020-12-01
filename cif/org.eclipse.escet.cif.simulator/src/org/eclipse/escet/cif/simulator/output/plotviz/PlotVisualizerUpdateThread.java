@@ -55,6 +55,7 @@ public class PlotVisualizerUpdateThread extends Thread {
         setName(getClass().getName());
     }
 
+    @SuppressWarnings("restriction")
     @Override
     public void run() {
         while (true) {
