@@ -32,6 +32,9 @@
         <asciidoctorj.pdf.version>1.5.2</asciidoctorj.pdf.version>
         <jruby.version>9.2.9.0</jruby.version>
         <geneclipsetoc.version>1.0.2</geneclipsetoc.version>
+
+        <!-- Checkstyle version. -->
+        <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
     </properties>
 
     <pluginRepositories>
@@ -298,6 +301,40 @@
                                 <phase>package</phase>
                                 <goals>
                                     <goal>p2-metadata</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Enable Checkstyle code analysis. -->
+        <profile>
+            <id>checkstyle-check</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/.checkstyle</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>${maven.checkstyle.version}</version>
+                        <executions>
+                            <execution>
+                                <id>checkstyle-validate</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <configLocation>checkstyle.xml</configLocation>
+                                    <consoleOutput>false</consoleOutput>
+                                    <failOnViolation>true</failOnViolation>
+                                    <violationSeverity>info</violationSeverity>
+                                </configuration>
+                                <goals>
+                                    <goal>check</goal>
                                 </goals>
                             </execution>
                         </executions>
