@@ -14,11 +14,12 @@
 pipeline {
     agent any
     tools {
-        maven 'apache-maven-latest'
         jdk 'adoptopenjdk-hotspot-jdk8-latest'
+        maven 'apache-maven-latest'
     }
     options {
         timeout(time: 60, unit: 'MINUTES')
+        timestamps()
     }
     stages {
         stage('Info') {
