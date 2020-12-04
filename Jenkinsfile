@@ -18,7 +18,7 @@ pipeline {
         maven 'apache-maven-latest'
     }
     options {
-        timeout(time: 60, unit: 'MINUTES')
+        timeout(time: 5, unit: 'HOURS')
         timestamps()
     }
     stages {
