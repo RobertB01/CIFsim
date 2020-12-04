@@ -18,7 +18,7 @@ pipeline {
         jdk 'adoptopenjdk-hotspot-jdk8-latest'
     }
     options {
-        timeout(time: 60, unit: 'MINUTES') 
+        timeout(time: 60, unit: 'MINUTES')
     }
     stages {
         stage('Info') {
@@ -47,13 +47,13 @@ pipeline {
     post {
         // Send an e-mail on unsuccessful builds (unstable, failure, aborted).
         unsuccessful {
-            emailext subject: 'Build $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!', 
+            emailext subject: 'Build $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!',
             body: '''Check console output at $BUILD_URL to view the results.''',
             recipientProviders: [culprits(), requestor()]
         }
         // Send an e-mail on fixed builds (back to normal).
         fixed {
-            emailext subject: 'Build $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!', 
+            emailext subject: 'Build $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!',
             body: '''Check console output at $BUILD_URL to view the results.''',
             recipientProviders: [culprits(), requestor()]
         }
