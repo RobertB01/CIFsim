@@ -12,7 +12,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 pipeline {
-    agent any
+    agent {
+        // The 'centos-7' pod template allows UI tests.
+        kubernetes {
+            label 'centos-7'
+        }
+    }
     tools {
         jdk 'adoptopenjdk-hotspot-jdk8-latest'
         maven 'apache-maven-latest'
