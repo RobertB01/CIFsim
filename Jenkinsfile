@@ -44,9 +44,11 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh '''
-                    mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,tooldef,products -pl !cif/org.eclipse.escet.cif.datasynth,!cif/org.eclipse.escet.cif.datasynth.tests verify
-                '''
+                wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
+                    sh '''
+                        mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,tooldef,products -pl !cif/org.eclipse.escet.cif.datasynth,!cif/org.eclipse.escet.cif.datasynth.tests verify
+                    '''
+                }
             }
         }
     }
