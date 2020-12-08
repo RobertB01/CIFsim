@@ -19,36 +19,26 @@ pipeline {
         }
     }
     tools {
-        jdk 'adoptopenjdk-hotspot-jdk8-latest'
-        maven 'apache-maven-latest'
+        jdk 'oracle-jdk8-latest'
+        maven 'apache-maven-3.6.3'
     }
     options {
         timeout(time: 1, unit: 'HOURS')
         timestamps()
     }
     stages {
-        stage('Info') {
+        stage('Build') {
             steps {
                 sh '''
                     java -version
                     mvn -version
                 '''
             }
-        }
-        stage('Build') {
-            steps {
-                sh '''
-                    mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,tooldef,products -pl !cif/org.eclipse.escet.cif.datasynth,!cif/org.eclipse.escet.cif.datasynth.tests clean package
-                '''
-            }
-        }
-        stage('Test') {
             steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
-                        mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,tooldef,products -pl !cif/org.eclipse.escet.cif.datasynth,!cif/org.eclipse.escet.cif.datasynth.tests verify
+                        ./build.sh
                     '''
-                }
             }
         }
     }
