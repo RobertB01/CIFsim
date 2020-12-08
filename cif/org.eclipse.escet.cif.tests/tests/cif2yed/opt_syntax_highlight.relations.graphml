@@ -24,7 +24,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">     automaton a</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -38,7 +38,7 @@
           <data key="dn">e</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:Fill color="#ffc080"/>
               <y:Shape type="ellipse"/>
             </y:ShapeNode>

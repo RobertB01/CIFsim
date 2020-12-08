@@ -18,7 +18,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;X&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -44,7 +44,7 @@
               <data key="dn">p</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -65,7 +65,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;N&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -91,7 +91,7 @@
               <data key="dn">p</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -112,7 +112,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;S&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -138,7 +138,7 @@
               <data key="dn">p !</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#402020;"&gt;!&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -159,7 +159,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;R&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -185,7 +185,7 @@
               <data key="dn">p ?</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#402020;"&gt;?&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -206,7 +206,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;C&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -232,7 +232,7 @@
               <data key="dn">p</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -253,7 +253,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;SR&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -279,7 +279,7 @@
               <data key="dn">p ?</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;span style="color:#402020;"&gt;?&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -300,7 +300,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;SC&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -326,7 +326,7 @@
               <data key="dn">p</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -347,7 +347,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;RC&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -373,7 +373,7 @@
               <data key="dn">p</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -394,7 +394,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#40c0ff" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;def&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;SRC&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -420,7 +420,7 @@
               <data key="dn">p</data>
               <data key="ng">
                 <y:ShapeNode>
-                  <y:Geometry height="30" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#ffc080"/>
                   <y:Shape type="ellipse"/>
@@ -441,7 +441,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#80ff40" modelName="internal" modelPosition="t">     Component definitions</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -465,7 +465,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;X&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -501,7 +501,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;n&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;N&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -537,7 +537,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;s&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;S&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -573,7 +573,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;r&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;R&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -609,7 +609,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;c&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;C&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -645,7 +645,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;sr&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;SR&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -681,7 +681,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;sc&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;SC&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -717,7 +717,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;rc&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;RC&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -753,7 +753,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="30.0" width="<width>"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff8000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#000000;"&gt;src&lt;/span&gt;&lt;span style="color:#402020;"&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;SRC&lt;/span&gt;&lt;span style="color:#402020;"&gt;()&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:Fill color="#cccccc"/>
                   <y:Shape type="rectangle"/>
@@ -801,7 +801,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#80ff40" modelName="internal" modelPosition="t">     Components</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>

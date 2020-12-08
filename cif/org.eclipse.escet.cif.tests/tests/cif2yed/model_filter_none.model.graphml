@@ -16,7 +16,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;a&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -30,7 +30,7 @@
           <data key="dn">location</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
@@ -41,7 +41,7 @@
           <data key="dn">&lt;init&gt;</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="1" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:BorderStyle hasColor="false"/>
               <y:Fill transparent="true"/>
             </y:ShapeNode>
@@ -78,7 +78,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;b&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -92,7 +92,7 @@
           <data key="dn">location loc1</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;span style="color:#000000;"&gt;loc1&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
@@ -112,7 +112,7 @@
           <data key="dn">location loc2</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30.0" width="<width>"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;span style="color:#000000;"&gt;loc2&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
