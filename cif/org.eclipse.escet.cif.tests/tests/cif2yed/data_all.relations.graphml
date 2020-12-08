@@ -88,7 +88,7 @@
       <data key="dn">cont z</data>
       <data key="ng">
         <y:ShapeNode>
-          <y:Geometry width="41.0"/>
+          <y:Geometry width="<width>"/>
           <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;cont&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;z&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
           <y:BorderStyle width="2.0"/>
           <y:Fill color="#00c0ff"/>
@@ -100,7 +100,7 @@
       <data key="dn">input y</data>
       <data key="ng">
         <y:ShapeNode>
-          <y:Geometry width="45.0"/>
+          <y:Geometry width="<width>"/>
           <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;input&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;y&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
           <y:BorderStyle width="2.0"/>
           <y:Fill color="#00c0ff"/>
@@ -112,7 +112,7 @@
       <data key="dn">alg x</data>
       <data key="ng">
         <y:ShapeNode>
-          <y:Geometry width="35.0"/>
+          <y:Geometry width="<width>"/>
           <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;alg&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
           <y:BorderStyle width="2.0"/>
           <y:Fill color="#00c0ff"/>
@@ -132,7 +132,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="119.0"/>
+              <y:Geometry height="30.0" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;b&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -146,7 +146,7 @@
           <data key="dn">location l2</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry width="66.0"/>
+              <y:Geometry width="<width>"/>
               <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;location&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;l2&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:BorderStyle width="2.0"/>
               <y:Fill color="#00c0ff"/>
@@ -158,7 +158,7 @@
           <data key="dn">location l1</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry width="66.0"/>
+              <y:Geometry width="<width>"/>
               <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;location&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;l1&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:BorderStyle width="2.0"/>
               <y:Fill color="#00c0ff"/>
@@ -180,7 +180,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="119.0"/>
+              <y:Geometry height="30.0" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;a&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -194,7 +194,7 @@
           <data key="dn">v</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30" width="30"/>
+              <y:Geometry height="30" width="<width>"/>
               <y:Fill color="#80c0ff"/>
               <y:Shape type="ellipse"/>
             </y:ShapeNode>
@@ -204,7 +204,7 @@
           <data key="dn">e</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30" width="30"/>
+              <y:Geometry height="30" width="<width>"/>
               <y:NodeLabel alignment="center" fontSize="20">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ffc080"/>
               <y:Shape type="ellipse"/>
@@ -215,7 +215,7 @@
           <data key="dn">event e</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry width="49.0"/>
+              <y:Geometry width="<width>"/>
               <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:BorderStyle width="2.0"/>
               <y:Fill color="#ffc000"/>
@@ -227,7 +227,7 @@
           <data key="dn">disc v</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry width="41.0"/>
+              <y:Geometry width="<width>"/>
               <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;disc&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;v&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:BorderStyle width="2.0"/>
               <y:Fill color="#00c0ff"/>

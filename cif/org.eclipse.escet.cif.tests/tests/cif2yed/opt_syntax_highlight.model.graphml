@@ -16,7 +16,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="119.0"/>
+              <y:Geometry height="30.0" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">     automaton a</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -32,7 +32,7 @@
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:Geometry height="54.0" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">event e;</y:NodeLabel>
                   <y:BorderStyle lineType="dashed"/>
@@ -41,7 +41,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:Geometry height="54.0" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
                   <y:BorderStyle lineType="dashed"/>
@@ -57,7 +57,7 @@
           <data key="dn">location</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30.0" width="85.0"/>
+              <y:Geometry height="30.0" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">marked;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
@@ -68,7 +68,7 @@
           <data key="dn">&lt;init&gt;</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="1" width="1"/>
+              <y:Geometry height="1" width="<width>"/>
               <y:BorderStyle hasColor="false"/>
               <y:Fill transparent="true"/>
             </y:ShapeNode>
