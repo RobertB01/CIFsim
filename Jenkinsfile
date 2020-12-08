@@ -29,14 +29,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''
-                    java -version
-                    mvn -version
-                '''
-            }
-            steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
+                        java -version
+                        mvn -version
                         ./build.sh
                     '''
                 }
