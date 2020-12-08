@@ -39,6 +39,7 @@ pipeline {
                     sh '''
                         ./build.sh
                     '''
+                }
             }
         }
     }
