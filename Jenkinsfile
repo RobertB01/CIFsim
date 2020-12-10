@@ -44,17 +44,8 @@ pipeline {
 
             post {
                 success {
-                    // Chi documentation.
-                    archiveArtifacts 'chi/org.eclipse.escet.chi.documentation/target/*.jar'
-                    archiveArtifacts 'chi/org.eclipse.escet.chi.documentation/target/*.zip'
-
-                    // CIF documentation.
-                    archiveArtifacts 'cif/org.eclipse.escet.cif.documentation/target/*.jar'
-                    archiveArtifacts 'cif/org.eclipse.escet.cif.documentation/target/*.zip'
-
-                    // Project/product documentation.
-                    archiveArtifacts 'products/org.eclipse.escet.documentation/target/*.jar'
-                    archiveArtifacts 'products/org.eclipse.escet.documentation/target/*.zip'
+                    // Documentation.
+                    archiveArtifacts '*/org.eclipse.escet.*documentation/target/*.zip'
 
                     // Update site.
                     archiveArtifacts 'products/org.eclipse.escet.product/target/*.zip'
@@ -62,14 +53,6 @@ pipeline {
                     // Product.
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*.tar.gz'
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*.zip'
-
-                    // SeText documentation.
-                    archiveArtifacts 'setext/org.eclipse.escet.setext.documentation/target/*.jar'
-                    archiveArtifacts 'setext/org.eclipse.escet.setext.documentation/target/*.zip'
-
-                    // ToolDef documentation.
-                    archiveArtifacts 'tooldef/org.eclipse.escet.setext.documentation/target/*.jar'
-                    archiveArtifacts 'tooldef/org.eclipse.escet.setext.documentation/target/*.zip'
                 }
             }
         }
