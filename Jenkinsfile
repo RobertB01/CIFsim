@@ -57,7 +57,6 @@ pipeline {
                     archiveArtifacts 'products/org.eclipse.escet.documentation/target/*.zip'
 
                     // Update site.
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/*.jar'
                     archiveArtifacts 'products/org.eclipse.escet.product/target/*.zip'
 
                     // Product.
