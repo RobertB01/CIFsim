@@ -573,4 +573,21 @@ public final class Strings {
     public static String str(Object obj) {
         return String.valueOf(obj);
     }
+
+    /**
+     * Replaces all occurrences of a regular expression pattern in the given input string by the given replacement.
+     *
+     * <p>
+     * Is equal to {@code input.}{@link String#replaceAll replaceAll}{@code (pattern, replacement)}. This method thus
+     * provides the same functionality, but as a static method.
+     * </p>
+     *
+     * @param input The input string.
+     * @param regex The regular expression pattern to find.
+     * @param replacement The replacement. May contain references to captured subsequences.
+     * @return The string with replacements performed.
+     */
+    public static String replaceRegex(String input, String regex, String replacement) {
+        return input.replaceAll(regex, replacement);
+    }
 }

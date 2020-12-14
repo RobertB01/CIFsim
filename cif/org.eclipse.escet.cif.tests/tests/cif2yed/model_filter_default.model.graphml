@@ -16,7 +16,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="119.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;a&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -32,7 +32,7 @@
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="178.84375" width="113.0"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;alphabet&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;monitor&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;disc&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;int&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;const&lt;/span&gt;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;int&lt;/span&gt;&lt;span style="color:#402020;"&gt;[&lt;/span&gt;&lt;span style="color:#006100;"&gt;1&lt;/span&gt;&lt;span style="color:#402020;"&gt;..&lt;/span&gt;&lt;span style="color:#006100;"&gt;1&lt;/span&gt;&lt;span style="color:#402020;"&gt;]&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;y&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;=&lt;/span&gt;&amp;nbsp;&lt;span style="color:#006100;"&gt;1&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;initial&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;span style="color:#006100;"&gt;2&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;marked&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;span style="color:#006100;"&gt;2&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;invariant&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;span style="color:#006100;"&gt;2&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:BorderStyle lineType="dashed"/>
@@ -41,7 +41,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
                   <y:BorderStyle lineType="dashed"/>
@@ -57,7 +57,7 @@
           <data key="dn">location</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="30.0" width="60.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
@@ -68,7 +68,7 @@
           <data key="dn">&lt;init&gt;</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="1" width="1"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:BorderStyle hasColor="false"/>
               <y:Fill transparent="true"/>
             </y:ShapeNode>
@@ -105,7 +105,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="30.0" width="119.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#ff0000" fontStyle="plain" modelName="internal" modelPosition="t">&lt;html&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style="color:#0000ff;"&gt;automaton&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;b&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#cccccc"/>
               <y:Shape type="rectangle"/>
@@ -121,7 +121,7 @@
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;cont&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;c&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
                   <y:BorderStyle lineType="dashed"/>
@@ -130,7 +130,7 @@
                   <y:State closed="false"/>
                 </y:GroupNode>
                 <y:GroupNode>
-                  <y:Geometry height="54.0" width="95.0"/>
+                  <y:Geometry height="<height>" width="<width>"/>
                   <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
                   <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
                   <y:BorderStyle lineType="dashed"/>
@@ -146,7 +146,7 @@
           <data key="dn">location loc1</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="58.28125" width="132.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;span style="color:#000000;"&gt;loc1&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;equation&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;c&lt;/span&gt;&lt;span style="color:#402020;"&gt;'&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;=&lt;/span&gt;&amp;nbsp;&lt;span style="color:#006100;"&gt;5.0&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
@@ -166,7 +166,7 @@
           <data key="dn">location loc2</data>
           <data key="ng">
             <y:ShapeNode>
-              <y:Geometry height="90.46875" width="132.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="content" modelName="internal" modelPosition="c">&lt;html&gt;&lt;span style="color:#000000;"&gt;loc2&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;invariant&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;a.x&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;c&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;equation&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;c&lt;/span&gt;&lt;span style="color:#402020;"&gt;'&lt;/span&gt;&amp;nbsp;&lt;span style="color:#402020;"&gt;=&lt;/span&gt;&amp;nbsp;&lt;span style="color:#006100;"&gt;6.0&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;br&gt;&lt;span style="color:#0000ff;"&gt;urgent&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:Fill color="#ccccff"/>
               <y:Shape type="roundrectangle"/>
@@ -181,7 +181,7 @@
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="54.0" width="95.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
               <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;event&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;e&lt;/span&gt;&lt;span style="color:#402020;"&gt;;&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
               <y:BorderStyle lineType="dashed"/>
@@ -190,7 +190,7 @@
               <y:State closed="false"/>
             </y:GroupNode>
             <y:GroupNode>
-              <y:Geometry height="54.0" width="95.0"/>
+              <y:Geometry height="<height>" width="<width>"/>
               <y:NodeLabel alignment="left" autoSizePolicy="node_width" backgroundColor="#eeee80" modelName="internal" modelPosition="t">     Declarations</y:NodeLabel>
               <y:NodeLabel alignment="left" autoSizePolicy="content" borderDistance="18" bottomInset="3" leftInset="3" modelName="internal" modelPosition="t" rightInset="3" topInset="3">...</y:NodeLabel>
               <y:BorderStyle lineType="dashed"/>

@@ -16,7 +16,7 @@
       <data key="dn">cont x</data>
       <data key="ng">
         <y:ShapeNode>
-          <y:Geometry width="41.0"/>
+          <y:Geometry width="<width>"/>
           <y:NodeLabel alignment="center">&lt;html&gt;&lt;span style="color:#0000ff;"&gt;cont&lt;/span&gt;&amp;nbsp;&lt;span style="color:#000000;"&gt;x&lt;/span&gt;&lt;/html&gt;</y:NodeLabel>
           <y:BorderStyle width="2.0"/>
           <y:Fill color="#00c0ff"/>

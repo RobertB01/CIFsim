@@ -12,6 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 from "lib:cif" import cif2yed;
+import org.eclipse.escet.common.java:org.eclipse.escet.common.java.Strings.replaceRegex;
 
 // Configuration.
 string test_path = "cif2yed";
@@ -66,6 +67,20 @@ for test in tests:
         // Execute.
         options = options + ["-o", yed_real, "-k", out_type];
         cif2yed([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+
+        // Replace layout information in yEd files, as it may differ for different platforms.
+        if isfile(yed_real):
+            list string yed_real_lines = readlines(yed_real);
+            for i in range(yed_real_lines):
+                yed_real_lines[i] = <string>replaceRegex(yed_real_lines[i],
+                                                         "<y:Geometry width=\"[^\"]+\"/>",
+                                                         "<y:Geometry width=\"<width>\"/>");
+                yed_real_lines[i] = <string>replaceRegex(yed_real_lines[i],
+                                                         "<y:Geometry height=\"([^\"]+)\" width=\"[^\"]+\"/>",
+                                                         "<y:Geometry height=\"<height>\" width=\"<width>\"/>");
+            end
+            writefile(yed_real, yed_real_lines);
+        end
 
         // Compare output.
         bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);

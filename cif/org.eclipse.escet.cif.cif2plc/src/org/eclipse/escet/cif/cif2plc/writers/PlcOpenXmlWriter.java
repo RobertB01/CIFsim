@@ -23,8 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -126,9 +126,9 @@ public class PlcOpenXmlWriter {
         fileHeader.setAttribute("companyName", "Eclipse Foundation");
         fileHeader.setAttribute("productName", "CIF to Structured Text");
         fileHeader.setAttribute("productVersion", "0.0"); // Dummy version.
-        Date date = new Date(0); // Dummy date, to allow for automated testing.
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        fileHeader.setAttribute("creationDateTime", sdf.format(date));
+        Instant instant = Instant.ofEpochMilli(0); // Dummy instant, to allow for automated testing.
+        String formattedDateTime = DateTimeFormatter.ISO_INSTANT.format(instant);
+        fileHeader.setAttribute("creationDateTime", formattedDateTime);
 
         Element contentHeader = doc.createElement("contentHeader");
         root.appendChild(contentHeader);
