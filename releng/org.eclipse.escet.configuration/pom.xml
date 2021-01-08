@@ -45,10 +45,17 @@ SPDX-License-Identifier: MIT
         <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
 
         <!-- Eclipse Common Build Infrastructure version. -->
-        <eclipse.cbi.version>1.1.5</eclipse.cbi.version>
+        <eclipse.cbi.version>1.1.7</eclipse.cbi.version>
     </properties>
 
     <pluginRepositories>
+        <!-- Eclipse CBI releases. For CBI signing plugins. -->
+        <pluginRepository>
+            <id>eclipse.cbi</id>
+            <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+        </pluginRepository>
+
+        <!-- Bintray jmini maven plugins. For geneclipsetoc plugin. -->
         <pluginRepository>
             <id>bintray.jmini.maven</id>
             <url>http://dl.bintray.com/jmini/maven/</url>
