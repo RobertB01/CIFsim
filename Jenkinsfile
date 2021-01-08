@@ -37,7 +37,7 @@ pipeline {
                     sh '''
                         java -version
                         mvn -version
-                        ./build.sh
+                        ./build.sh -Psign
                     '''
                 }
             }
