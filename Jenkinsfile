@@ -33,14 +33,13 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
-                sh 'printenv'
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
                         java -version
                         mvn -version
 
                         BUILD_ARGS=
-                        if [ "$GIT_BRANCH" == "5-add-jar-signing-to-build2" ]; then
+                        if [ "$GIT_BRANCH" == "master" ]; then
                             BUILD_ARGS="-Psign"
                         fi
 
