@@ -90,6 +90,10 @@
                         <goals>
                             <goal>archive-products</goal>
                         </goals>
+                        <!-- Archive after signing. -->
+                        <!-- By default, all are in 'package' phase, leading to signing after archiving. -->
+                        <!-- Declare archiving to occur in later phase. -->
+                        <phase>pre-integration-test</phase> <!-- Changed from default 'package' phase. -->
                     </execution>
                 </executions>
             </plugin>
@@ -145,24 +149,6 @@
                                     <continueOnFail>${macSigner.forceContinue}</continueOnFail>
                                     <entitlements>${project.basedir}/application.entitlement</entitlements>
                                 </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!-- Archive after signing. -->
-                    <!-- By default, all are in 'package' phase, leading to signing after archiving. -->
-                    <!-- Declare archiving to occur in later phase. -->
-                    <plugin>
-                        <groupId>org.eclipse.tycho</groupId>
-                        <artifactId>tycho-p2-director-plugin</artifactId>
-                        <version>${tycho-version}</version>
-                        <executions>
-                            <execution>
-                                <id>archive-products</id>
-                                <goals>
-                                    <goal>archive-products</goal>
-                                </goals>
-                                <phase>pre-integration-test</phase> <!-- Changed from default 'package' phase. -->
                             </execution>
                         </executions>
                     </plugin>
