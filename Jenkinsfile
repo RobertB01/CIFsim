@@ -34,21 +34,17 @@ pipeline {
         stage('Build & Test') {
             steps {
                 sh 'printenv'
-                script {
-                    switch(env.GIT_BRANCH) {
-                        case "5-add-jar-signing-to-build":
-                            env.BUILD_ARGS = '-Psign'
-                            break
-                        default:
-                            env.BUILD_ARGS = ''
-                    }
-                }
-                sh 'printenv'
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
                         java -version
                         mvn -version
-                        ./build.sh ${env.BUILD_ARGS}
+
+                        BUILD_ARGS=
+                        if [ "$GIT_BRANCH" == "5-add-jar-signing-to-build" ]; then
+                            BUILD_ARGS = -Psign
+                        fi
+
+                        ./build.sh $BUILD_ARGS
                     '''
                 }
             }
