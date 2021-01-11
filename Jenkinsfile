@@ -35,19 +35,20 @@ pipeline {
             steps {
                 sh 'printenv'
                 script {
-                    switch(env.BRANCH_NAME) {
+                    switch(env.GIT_BRANCH) {
                         case "5-add-jar-signing-to-build":
-                            BUILD_ARGS = '-Psign'
+                            env.BUILD_ARGS = '-Psign'
                             break
                         default:
-                            BUILD_ARGS = ''
+                            env.BUILD_ARGS = ''
                     }
                 }
+                sh 'printenv'
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
                         java -version
                         mvn -version
-                        ./build.sh ${BUILD_ARGS}
+                        ./build.sh ${env.BUILD_ARGS}
                     '''
                 }
             }
