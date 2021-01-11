@@ -40,7 +40,7 @@ pipeline {
                         mvn -version
 
                         BUILD_ARGS=
-                        if [ "$GIT_BRANCH" == "5-add-jar-signing-to-build" ]; then
+                        if [ "$GIT_BRANCH" == "5-add-jar-signing-to-build2" ]; then
                             BUILD_ARGS="-Psign"
                         fi
 
