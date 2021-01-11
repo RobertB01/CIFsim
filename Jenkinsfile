@@ -52,6 +52,7 @@ pipeline {
                 success {
                     // Documentation.
                     archiveArtifacts '*/org.eclipse.escet.*documentation/target/*.zip'
+                    archiveArtifacts '*/org.eclipse.escet.*.metamodel/docs/*.pdf'
 
                     // Update site.
                     archiveArtifacts 'products/org.eclipse.escet.product/target/*.zip'
