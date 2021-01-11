@@ -33,11 +33,23 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
+                script {
+                    switch(branch) {
+                        case "5-add-jar-signing-to-build":
+                            BUILD_ARGS = '-Psign'
+                            break
+                        default:
+                            BUILD_ARGS = ''
+                    }
+                }
+            }
+
+            steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
                         java -version
                         mvn -version
-                        ./build.sh -Psign
+                        ./build.sh ${BUILD_ARGS}
                     '''
                 }
             }
