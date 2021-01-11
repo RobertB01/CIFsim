@@ -44,7 +44,7 @@ pipeline {
                             BUILD_ARGS = -Psign
                         fi
 
-                        ./build.sh $BUILD_ARGS
+                        ./build.sh "$BUILD_ARGS"
                     '''
                 }
             }
