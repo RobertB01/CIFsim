@@ -42,9 +42,6 @@ pipeline {
                             BUILD_ARGS = ''
                     }
                 }
-            }
-
-            steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
                         java -version
