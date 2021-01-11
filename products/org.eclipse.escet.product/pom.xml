@@ -150,7 +150,7 @@
                     </plugin>
 
                     <!-- Archive after signing. -->
-                    <!-- By default, all are in 'package' phase, leading to signing after packaging. -->
+                    <!-- By default, all are in 'package' phase, leading to signing after archiving. -->
                     <!-- Declare archiving to occur in later phase. -->
                     <plugin>
                         <groupId>org.eclipse.tycho</groupId>
