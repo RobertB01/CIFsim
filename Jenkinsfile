@@ -34,7 +34,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 script {
-                    switch(branch) {
+                    switch(env.BRANCH_NAME) {
                         case "5-add-jar-signing-to-build":
                             BUILD_ARGS = '-Psign'
                             break
