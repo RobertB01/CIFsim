@@ -41,7 +41,7 @@ pipeline {
 
                         BUILD_ARGS=
                         if [ "$GIT_BRANCH" == "5-add-jar-signing-to-build" ]; then
-                            BUILD_ARGS = -Psign
+                            BUILD_ARGS="-Psign"
                         fi
 
                         ./build.sh "$BUILD_ARGS"
