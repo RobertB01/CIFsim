@@ -149,6 +149,24 @@
                         </executions>
                     </plugin>
 
+                    <!-- Archive after signing. -->
+                    <!-- By default, all are in 'package' phase, leading to signing after packaging. -->
+                    <!-- Declare archiving to occur in later phase. -->
+                    <plugin>
+                        <groupId>org.eclipse.tycho</groupId>
+                        <artifactId>tycho-p2-director-plugin</artifactId>
+                        <version>${tycho-version}</version>
+                        <executions>
+                            <execution>
+                                <id>archive-products</id>
+                                <goals>
+                                    <goal>archive-products</goal>
+                                </goals>
+                                <phase>pre-integration-test</phase> <!-- Changed from default 'package' phase. -->
+                            </execution>
+                        </executions>
+                    </plugin>
+
                 </plugins>
             </build>
         </profile>
