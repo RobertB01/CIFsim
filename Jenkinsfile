@@ -33,6 +33,7 @@ pipeline {
     stages {
         stage('Build & Test') {
             steps {
+                sh 'printenv'
                 script {
                     switch(env.BRANCH_NAME) {
                         case "5-add-jar-signing-to-build":
