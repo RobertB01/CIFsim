@@ -40,6 +40,7 @@ pipeline {
 
                         BUILD_ARGS=
                         if [ "$GIT_BRANCH" == "master" ]; then
+                            # Sign only for releases, on 'master' branch.
                             BUILD_ARGS="-Psign"
                         fi
 
