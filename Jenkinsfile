@@ -106,7 +106,7 @@ pipeline {
                 // Deploy websites.
                 sh '''
                     mkdir deploy/www
-                    git clone git://git.eclipse.org/gitroot/www.eclipse.org/escet.git deploy/www
+                    git clone git://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
 
                     mkdir deploy/www/${RELEASE_VERSION}
                     unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
@@ -119,10 +119,10 @@ pipeline {
                 dir('deploy/www') {
                     sshagent(['git.eclipse.org-bot-ssh']) {
                         sh '''
-                            git add -A
                             git config user.email "genie.escet@eclipse.org"
                             git config user.name "genie.escet"
                             git config push.default simple # Required to silence Git push warning.
+                            git add -A
                             git commit -q -m "Website release test ${RELEASE_VERSION}."
                             git push
                         '''
