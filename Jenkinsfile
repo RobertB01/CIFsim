@@ -104,20 +104,20 @@ pipeline {
                 }
 
                 // Deploy websites.
-                sh '''
-                    mkdir deploy/www
-                    git clone ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
+                sshagent(['git.eclipse.org-bot-ssh']) {
+                    sh '''
+                        mkdir deploy/www
+                        git clone ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
 
-                    mkdir deploy/www/${RELEASE_VERSION}
-                    unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
-                    unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
-                    unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
-                    unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
-                    unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
-                '''
-                // XXX remove all 'test' words.
-                dir('deploy/www') {
-                    sshagent(['git.eclipse.org-bot-ssh']) {
+                        mkdir deploy/www/${RELEASE_VERSION}
+                        unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
+                        unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
+                        unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
+                        unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
+                        unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
+                    '''
+                    // XXX remove all 'test' words.
+                    dir('deploy/www') {
                         sh '''
                             git config user.email "genie.escet@eclipse.org"
                             git config user.name "genie.escet"
