@@ -77,7 +77,7 @@ pipeline {
                 // Deploy downloads.
                 sh '''
                     mkdir -p deploy/update-site/
-                    unzip products/org.eclipse.escet.product/target/*.zip -d deploy/update-site/
+                    unzip -q products/org.eclipse.escet.product/target/*.zip -d deploy/update-site/
                 '''
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                     // Remove any existing directory for this release.
@@ -96,7 +96,7 @@ pipeline {
 
                     // Update site (extracted).
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/update-site/'
-                    sh 'scp -r deploy/update-site/ ${DOWNLOADS_URL}/${RELEASE_VERSION}/update-site/'
+                    sh 'scp -r deploy/update-site/* ${DOWNLOADS_URL}/${RELEASE_VERSION}/update-site/'
 
                     // Product.
                     sh 'scp -r products/org.eclipse.escet.product/target/products/*.tar.gz ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
@@ -109,11 +109,11 @@ pipeline {
                     git clone git://git.eclipse.org/gitroot/www.eclipse.org/escet.git deploy/www
 
                     mkdir deploy/www/${RELEASE_VERSION}
-                    unzip products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
-                    unzip chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
-                    unzip cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
-                    unzip setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
-                    unzip tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
+                    unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
+                    unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
+                    unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
+                    unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
+                    unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
                 '''
                 // XXX remove all 'test' words.
                 dir('deploy/www') {
@@ -122,7 +122,8 @@ pipeline {
                             git add -A
                             git config user.email "escet-bot@eclipse.org"
                             git config user.name "escet-bot"
-                            git commit -m "Website release test ${RELEASE_VERSION}."
+                            git config push.default simple # Required to silence Git push warning.
+                            git commit -q -m "Website release test ${RELEASE_VERSION}."
                             git push
                         '''
                     }
