@@ -120,8 +120,8 @@ pipeline {
                     sshagent(['git.eclipse.org-bot-ssh']) {
                         sh '''
                             git add -A
-                            git config user.email "escet-bot@eclipse.org"
-                            git config user.name "escet-bot"
+                            git config user.email "genie.escet@eclipse.org"
+                            git config user.name "genie.escet"
                             git config push.default simple # Required to silence Git push warning.
                             git commit -q -m "Website release test ${RELEASE_VERSION}."
                             git push
