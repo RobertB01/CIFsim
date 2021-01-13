@@ -71,7 +71,7 @@ pipeline {
             environment {
                 DOWNLOADS_PATH = "/home/data/httpd/download.eclipse.org/escet"
                 DOWNLOADS_URL = "genie.escet@projects-storage.eclipse.org:${DOWNLOADS_PATH}"
-                RELEASE_VERSION = "test"
+                RELEASE_VERSION = "test" //XXX determine actual release version
             }
             steps {
                 // Deploy downloads.
@@ -106,7 +106,7 @@ pipeline {
                 // Deploy websites.
                 sh '''
                     mkdir deploy/www
-                    git clone git://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
+                    git clone ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
 
                     mkdir deploy/www/${RELEASE_VERSION}
                     unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
