@@ -52,7 +52,7 @@ pipeline {
             post {
                 success {
                     // Documentation/websites.
-                    archiveArtifacts '*/org.eclipse.escet.*documentation/target/*.zip'
+                    archiveArtifacts '*/org.eclipse.escet.*documentation/target/*-website.zip'
 
                     // Update site.
                     archiveArtifacts 'products/org.eclipse.escet.product/target/*.zip'
@@ -74,6 +74,11 @@ pipeline {
                 RELEASE_VERSION = "test"
             }
             steps {
+                // Deploy downloads.
+                sh '''
+                    mkdir -p deploy/update-site/
+                    unzip products/org.eclipse.escet.product/target/*.zip -d deploy/update-site/
+                '''
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                     // Remove any existing directory for this release.
                     sh 'ssh genie.escet@projects-storage.eclipse.org rm -rf ${DOWNLOADS_PATH}/${RELEASE_VERSION}/'
@@ -84,17 +89,43 @@ pipeline {
                     // Documentation/websites.
                     //XXX artifacts don't have a qualifier, just SNAPSHOT
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/websites/'
-                    sh 'scp -r */org.eclipse.escet.*documentation/target/*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/websites/'
+                    sh 'scp -r */org.eclipse.escet.*documentation/target/*-website.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/websites/'
 
-                    // Update site.
+                    // Update site (archive).
                     sh 'scp -r products/org.eclipse.escet.product/target/*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
+                    // Update site (extracted).
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/update-site/'
-                    sh 'scp -r products/org.eclipse.escet.product/target/repository/ ${DOWNLOADS_URL}/${RELEASE_VERSION}/update-site/'
+                    sh 'scp -r deploy/update-site/ ${DOWNLOADS_URL}/${RELEASE_VERSION}/update-site/'
 
                     // Product.
                     sh 'scp -r products/org.eclipse.escet.product/target/products/*.tar.gz ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
                     sh 'scp -r products/org.eclipse.escet.product/target/products/*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                }
+
+                // Deploy websites.
+                sh '''
+                    mkdir deploy/www
+                    git clone git://git.eclipse.org/gitroot/www.eclipse.org/escet.git deploy/www
+
+                    mkdir deploy/www/${RELEASE_VERSION}
+                    unzip products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
+                    unzip chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
+                    unzip cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
+                    unzip setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
+                    unzip tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
+                '''
+                // XXX remove all 'test' words.
+                dir('deploy/www') {
+                    sshagent(['git.eclipse.org-bot-ssh']) {
+                        sh '''
+                            git add -A
+                            git config user.email "escet-bot@eclipse.org"
+                            git config user.name "escet-bot"
+                            git commit -m "Website release test ${RELEASE_VERSION}."
+                            git push
+                        '''
+                    }
                 }
             }
         }
