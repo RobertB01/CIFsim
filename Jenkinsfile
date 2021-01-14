@@ -119,7 +119,7 @@ pipeline {
                     // XXX remove all 'test' words.
                     dir('deploy/www') {
                         sh '''
-                            git config user.email "genie.escet@eclipse.org"
+                            git config user.email "escet-bot@eclipse.org"
                             git config user.name "genie.escet"
                             git config push.default simple # Required to silence Git push warning.
                             git add -A
