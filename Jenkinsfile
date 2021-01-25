@@ -116,7 +116,7 @@ pipeline {
                         unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
                         unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
                     '''
-                    // XXX remove all 'test' words.
+                    //  XXX remove all 'test' words.
                     dir('deploy/www') {
                         sh '''
                             git config user.email "escet-bot@eclipse.org"
