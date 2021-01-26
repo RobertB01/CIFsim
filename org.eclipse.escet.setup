@@ -351,6 +351,11 @@
           name="org.eclipse.sdk.feature.group"/>
       <requirement
           name="org.knowm.xchart"/>
+      <requirement
+          name="*"/>
+      <sourceLocator
+          rootFolder="${org.eclipse.escet.git.clone.location}"
+          locateNestedProjects="true"/>
       <repositoryList
           name="Eclipse ESCET">
         <repository
@@ -397,6 +402,12 @@
       <predicate
           xsi:type="predicates:NamePredicate"
           pattern="org\.eclipse\.escet\.setext\..*"/>
+    </workingSet>
+    <workingSet
+        name="ESCET Third Party">
+      <predicate
+          xsi:type="predicates:LocationPredicate"
+          pattern="${org.eclipse.escet.git.clone.location|path}/thirdparty/.*"/>
     </workingSet>
     <workingSet
         name="ESCET ToolDef">
