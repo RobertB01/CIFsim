@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation See the NOTICE file(s) distributed with this work for 
-    additional information regarding copyright ownership. This program and the accompanying materials are made available under 
-    the terms of the MIT License which is available at https://opensource.org/licenses/MIT SPDX-License-Identifier: MIT -->
+<!--
+Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the terms
+of the MIT License which is available at https://opensource.org/licenses/MIT
+
+SPDX-License-Identifier: MIT
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -35,9 +43,19 @@
 
         <!-- Checkstyle version. -->
         <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
+
+        <!-- Eclipse Common Build Infrastructure version. -->
+        <eclipse.cbi.version>1.1.7</eclipse.cbi.version>
     </properties>
 
     <pluginRepositories>
+        <!-- Eclipse CBI releases. For CBI signing plugins. -->
+        <pluginRepository>
+            <id>eclipse.cbi</id>
+            <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+        </pluginRepository>
+
+        <!-- Bintray jmini maven plugins. For geneclipsetoc plugin. -->
         <pluginRepository>
             <id>bintray.jmini.maven</id>
             <url>http://dl.bintray.com/jmini/maven/</url>
@@ -383,6 +401,30 @@
                                 </fileSet>
                             </additionalFileSets>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Signing. -->
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <!-- Sign JARs. -->
+                    <plugin>
+                        <groupId>org.eclipse.cbi.maven.plugins</groupId>
+                        <artifactId>eclipse-jarsigner-plugin</artifactId>
+                        <version>${eclipse.cbi.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

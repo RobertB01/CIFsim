@@ -37,7 +37,14 @@ pipeline {
                     sh '''
                         java -version
                         mvn -version
-                        ./build.sh
+
+                        BUILD_ARGS=
+                        if [ "$GIT_BRANCH" == "master" ]; then
+                            # Sign only for releases, on 'master' branch.
+                            BUILD_ARGS="-Psign"
+                        fi
+
+                        ./build.sh "$BUILD_ARGS"
                     '''
                 }
             }
