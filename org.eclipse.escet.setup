@@ -418,8 +418,14 @@
     <workingSet
         name="ESCET Features">
       <predicate
-          xsi:type="predicates:NamePredicate"
-          pattern="org\.eclipse\.escet(\..*)?\.feature"/>
+          xsi:type="predicates:OrPredicate">
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="org\.eclipse\.escet(\..*)?\.feature"/>
+        <operand
+            xsi:type="predicates:LocationPredicate"
+            pattern="${org.eclipse.escet.git.clone.location|path}/thirdparty/.*\.feature"/>
+      </predicate>
     </workingSet>
     <workingSet
         name="ESCET Roots">
