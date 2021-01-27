@@ -193,6 +193,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef
 # Exclude third party dependencies.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.properties:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.xml:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\lgpl-.*.html:0$"
 
 # Get license header count per file, using copyright statement from license header.
 # Exclude ones with exactly one match, as that is the expected/desired situation.
