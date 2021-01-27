@@ -37,6 +37,7 @@ pipeline {
                     sh '''
                         java -version
                         mvn -version
+                        printenv
 
                         BUILD_ARGS=
                         if [ "$GIT_BRANCH" == "master" ]; then
@@ -106,10 +107,11 @@ pipeline {
                 // Deploy websites.
                 sshagent(['git.eclipse.org-bot-ssh']) {
                     sh '''
-                        mkdir deploy/www
+                        mkdir -p deploy/www
                         git clone ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
 
-                        mkdir deploy/www/${RELEASE_VERSION}
+                        rm -rf deploy/www/${RELEASE_VERSION}
+                        mkdir -p deploy/www/${RELEASE_VERSION}
                         unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
                         unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
                         unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
