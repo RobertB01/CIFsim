@@ -125,7 +125,7 @@ pipeline {
                             git config user.name "genie.escet"
                             git config push.default simple # Required to silence Git push warning.
                             git add -A
-                            git commit -q -m "Website release test ${RELEASE_VERSION}."
+                            git commit -q -m "Website release test ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}"
                             git push
                         '''
                     }
