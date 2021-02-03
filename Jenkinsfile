@@ -88,7 +88,7 @@ pipeline {
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/'
 
                     // Documentation/websites.
-                    //XXX artifacts don't have a qualifier, just SNAPSHOT
+                    // NOTE: for these artifacts the qualifier is 'SNAPSHOT' rather than the actual version.
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/websites/'
                     sh 'scp -r */org.eclipse.escet.*documentation/target/*-website.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/websites/'
 
@@ -112,6 +112,7 @@ pipeline {
 
                         rm -rf deploy/www/${RELEASE_VERSION}
                         mkdir -p deploy/www/${RELEASE_VERSION}
+                        cp releng/website/index.html deploy/www/${RELEASE_VERSION}
                         unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
                         unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
                         unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
