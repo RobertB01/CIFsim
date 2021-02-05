@@ -32,6 +32,7 @@
         <module>cif</module>
         <module>common</module>
         <module>setext</module>
+        <module>thirdparty</module>
         <module>tooldef</module>
         <module>products</module>
     </modules>

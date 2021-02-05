@@ -38,6 +38,12 @@ do
         continue
     fi
 
+    # Exclude third party.
+    if [[ $p == ./thirdparty/* ]]
+    then
+        continue
+    fi
+
     # Exclude metamodel projects (only generated code).
     if [[ $p == *.metamodel/.project ]]
     then
