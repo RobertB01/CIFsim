@@ -31,7 +31,7 @@ pipeline {
     }
 
     environment {
-        GIT_VERSION_TAG = "${sh(script: "git tag --list "v*.*" --contains HEAD | head -1", returnStdout: true).trim()}"
+        GIT_VERSION_TAG = "${sh(script: "git tag --list 'v*.*' --contains HEAD | head -1", returnStdout: true).trim()}"
     }
 
     stages {
