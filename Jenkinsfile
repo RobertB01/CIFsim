@@ -67,7 +67,7 @@ pipeline {
 
         stage('Deploy') {
             when {
-                tag { pattern: "v\\d+\\.\\d+.*", comparator: "REGEXP" }
+                tag pattern: "v\\d+\\.\\d+.*", comparator: "REGEXP"
             }
             environment {
                 DOWNLOADS_PATH = "/home/data/httpd/download.eclipse.org/escet"
