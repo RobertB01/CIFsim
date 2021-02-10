@@ -30,10 +30,6 @@ pipeline {
         timestamps()
     }
 
-    environment {
-        GIT_VERSION_TAG = "${sh(script: "git tag --list 'v*.*' --contains HEAD | head -1", returnStdout: true).trim()}"
-    }
-
     stages {
         stage('Build & Test') {
             steps {
@@ -44,8 +40,8 @@ pipeline {
                         printenv
 
                         BUILD_ARGS=
-                        if [ "$GIT_BRANCH" == "master" ]; then
-                            # Sign only for releases, on 'master' branch.
+                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\.[0-9]+.*$ ]]; then
+                            # Sign only for releases, on 'master' branch, and for release/version tags.
                             BUILD_ARGS="-Psign"
                         fi
 
@@ -71,14 +67,13 @@ pipeline {
 
         stage('Deploy') {
             when {
-                branch '7-configure-deployment-to-eclipse-foundation-infrastructure' //XXX change to master
-                expression { GIT_VERSION_TAG ==~ /v\d+\.\d+.*/ }
+                tag { pattern: "^v\\d+\\.\\d+.*$", comparator: "REGEXP" }
             }
             environment {
                 DOWNLOADS_PATH = "/home/data/httpd/download.eclipse.org/escet"
                 DOWNLOADS_URL = "genie.escet@projects-storage.eclipse.org:${DOWNLOADS_PATH}"
                 WEBSITE_GIT_URL = "ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git"
-                RELEASE_VERSION = "${GIT_VERSION_TAG}"
+                RELEASE_VERSION = "${TAG_NAME}"
             }
             steps {
                 // Deploy downloads.
