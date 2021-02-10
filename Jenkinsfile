@@ -30,6 +30,10 @@ pipeline {
         timestamps()
     }
 
+    environment {
+        GIT_VERSION_TAG = "${sh(script: "git tag --list "v*.*" --contains HEAD | head -1", returnStdout: true).trim()}"
+    }
+
     stages {
         stage('Build & Test') {
             steps {
@@ -68,11 +72,13 @@ pipeline {
         stage('Deploy') {
             when {
                 branch '7-configure-deployment-to-eclipse-foundation-infrastructure' //XXX change to master
+                expression { GIT_VERSION_TAG ==~ /v\d+\.\d+.*/ }
             }
             environment {
                 DOWNLOADS_PATH = "/home/data/httpd/download.eclipse.org/escet"
                 DOWNLOADS_URL = "genie.escet@projects-storage.eclipse.org:${DOWNLOADS_PATH}"
-                RELEASE_VERSION = "test" //XXX determine actual release version
+                WEBSITE_GIT_URL = "ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git"
+                RELEASE_VERSION = "${GIT_VERSION_TAG}"
             }
             steps {
                 // Deploy downloads.
@@ -108,7 +114,7 @@ pipeline {
                 sshagent(['git.eclipse.org-bot-ssh']) {
                     sh '''
                         mkdir -p deploy/www
-                        git clone ssh://genie.escet@git.eclipse.org:29418/www.eclipse.org/escet.git deploy/www
+                        git clone ${WEBSITE_GIT_URL} deploy/www
 
                         rm -rf deploy/www/${RELEASE_VERSION}
                         mkdir -p deploy/www/${RELEASE_VERSION}
