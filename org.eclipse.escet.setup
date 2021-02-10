@@ -21,7 +21,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.orbit.version"
-      value="S20201124213957"/>
+      value="R20201130205003"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version"
@@ -351,6 +351,11 @@
           name="org.eclipse.sdk.feature.group"/>
       <requirement
           name="org.knowm.xchart"/>
+      <requirement
+          name="*"/>
+      <sourceLocator
+          rootFolder="${org.eclipse.escet.git.clone.location}"
+          locateNestedProjects="true"/>
       <repositoryList
           name="Eclipse ESCET">
         <repository
@@ -399,6 +404,12 @@
           pattern="org\.eclipse\.escet\.setext\..*"/>
     </workingSet>
     <workingSet
+        name="ESCET Third Party">
+      <predicate
+          xsi:type="predicates:LocationPredicate"
+          pattern="${org.eclipse.escet.git.clone.location|path}/thirdparty/.*"/>
+    </workingSet>
+    <workingSet
         name="ESCET ToolDef">
       <predicate
           xsi:type="predicates:NamePredicate"
@@ -407,8 +418,14 @@
     <workingSet
         name="ESCET Features">
       <predicate
-          xsi:type="predicates:NamePredicate"
-          pattern="org\.eclipse\.escet(\..*)?\.feature"/>
+          xsi:type="predicates:OrPredicate">
+        <operand
+            xsi:type="predicates:NamePredicate"
+            pattern="org\.eclipse\.escet(\..*)?\.feature"/>
+        <operand
+            xsi:type="predicates:LocationPredicate"
+            pattern="${org.eclipse.escet.git.clone.location|path}/thirdparty/.*\.feature"/>
+      </predicate>
     </workingSet>
     <workingSet
         name="ESCET Roots">

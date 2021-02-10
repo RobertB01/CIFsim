@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JavaBDD
+Bundle-SymbolicName: com.github.javabdd;singleton:=true
+Bundle-Version: 1.0.1.qualifier
+Bundle-Vendor: Eclipse ESCET
+Automatic-Module-Name: com.github.javabdd
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/com.github.javabdd-1.0.1.jar
+Export-Package: com.github.javabdd
