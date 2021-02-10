@@ -40,7 +40,7 @@ pipeline {
                         printenv
 
                         BUILD_ARGS=
-                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                        if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*\$ ]]; then
                             # Sign only for releases, on 'master' branch, and for release/version tags.
                             BUILD_ARGS="-Psign"
                         fi
