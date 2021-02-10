@@ -41,7 +41,8 @@ pipeline {
 
                         BUILD_ARGS=
                         if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
-                            # Sign only for releases, on 'master' branch, and for release/version tags.
+                            # Sign only for releases, based on release version tag name.
+                            # Sign also for 'master' branch, to allow checking release signing before deployment.
                             BUILD_ARGS="-Psign"
                         fi
 
@@ -89,7 +90,7 @@ pipeline {
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/'
 
                     // Documentation/websites.
-                    // NOTE: for these artifacts the qualifier is 'SNAPSHOT' rather than the actual version.
+                    // NOTE: for these artifacts the qualifier is 'SNAPSHOT' rather than the actual version qualifier.
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/websites/'
                     sh 'scp -r */org.eclipse.escet.*documentation/target/*-website.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/websites/'
 
@@ -120,14 +121,13 @@ pipeline {
                         unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/setext/
                         unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
                     '''
-                    //  XXX remove all 'test' words.
                     dir('deploy/www') {
                         sh '''
                             git config user.email "escet-bot@eclipse.org"
                             git config user.name "genie.escet"
                             git config push.default simple # Required to silence Git push warning.
                             git add -A
-                            git commit -q -m "Website release test ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}"
+                            git commit -q -m "Website release ${RELEASE_VERSION}." -m "Generated from commit ${GIT_COMMIT}"
                             git push
                         '''
                     }
