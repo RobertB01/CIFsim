@@ -1,0 +1,131 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[developer-release-process-chapter-index]]
+== Release process
+
+The process to release a new version of the Eclipse ESCET tools involves the
+following steps:
+
+* Prepare for the next release in the `develop` branch until it is ready to be
+released.
+
+* Create a GitLab merge request from `develop` to `master`, and merge it.
+Since `master` is a protected branch for the Eclipse ESCET GitLab, a GitLab
+merge request is the only way to update it.
+
+* Check that the build on `master` succeeds in Jenkins.
+
+* Add a tag on the commit in `master` that is to be released. Only version
+tags with a specific syntax will be picked up by Jenkins to be released.
+For instance, use `v0.1`, `v0.1.1`, `v2.0`, etc for releases, `v0.1-M1`
+for a milestone build, or `v0.1-RC1` for a release candidate.
+
+* Push the tag to the Eclipse ESCET GitLab.
+
+* Jenkins will automatically pick up the new tag. Log in to Jenkins and
+manually trigger a build for the tag. Jenkins will then automatically build
+and release a new version from that tag.
+
+* All releases can be downloaded at https://download.eclipse.org/escet/.
+For a version `v0.1`, the downloads will be located at
+`\https://download.eclipse.org/escet/v0.1`.
++
+Note that according to the Eclipse Foundation Wiki page
+link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc],
+"Once your files are on the `download.eclipse.org` server, they are
+immediately available to the general public. However, for release builds,
+we ask that you wait at least four hours for our mirror sites to fetch the
+new files before linking to them. It typically takes a day or two for all
+the mirror sites to synchronize with us and get new files."
++
+That same wiki page also notes that "Although you can link directly to
+`download.eclipse.org/yourfile.zip`, you can also use the _Find a Mirror_
+script [...]. Using this script allows you to view download statistics and
+allows users to pick a nearby mirror site for their download." It further
+indicates that "P2 repositories are not normally accessed via the mirror
+selection script." The _Find a Mirror_ script also transparently handles
+files moved from `download.eclipse.org` to `archive.eclipse.org`.
+
+* Jenkins will automatically push the website for the new release to the
+website Git repository, in a directory for the specific release. For a version
+`v0.1`, the website can be accessed at `\https://www.eclipse.org/escet/v0.1`.
+It may take a few minutes for the Git repository to be synced to the webserver
+and for the website for the new version to become available.
+
+* If the website for the new release is to be the standard visible website for
+the project (at `https://www.eclipse.org/escet`), it has to be manually
+replaced. This is to ensure that a bugfix release for an older version doesn't
+override the standard visible website. The following steps explain how to
+'promote' a website for a specific version to become the standard visible
+website:
+
+** Make sure you've uploaded your SSH public key to Eclipse Gerrit. This is
+a one-time only step. Go to https://git.eclipse.org/r/. Sign in using your
+Eclipse Foundation committer account. Use the gear icon at the top right to
+access your account settings. Under _SSH Keys_ add your SSH public key. Also
+make note of your _username_, _Full name_ and _Email_ address.
+
+** Clone the Eclipes ESCET website Git repository using
+`git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
+Make sure to replace `<username>` by your Eclipse Foundation committer
+account _username_.
+
+** In the cloned repository, remove all files/folders in the root of the
+Git repository pertaining to the current standard visible website.
+Be sure not to remove any of the directories with websites for specific
+releases.
+
+** Copy the files/folders from the directory with the website for the
+release that you want to make the standard visible website, and put them
+in the root of the Git repository.
+
+** Add all changes to be committed, e.g. by using `git add -A`.
+
+** Make sure to use the _Full name_ and _Email_ address of your Eclipse
+Foundation committer account. E.g. use
+`git config --local user.name "<full_name>"` and
+`git config --local user.email "<email>"`, replacing `<full_name>` and
+`<email>` by the appropriate information matching your Eclipse Foundation
+committer account.
+
+** Commit the changes. Use as commit message
+`Set standard visible website to release <version>.`, replacing `<version>`
+by the release version that will become the new standard visible website.
+Make sure to sign off the commit to pass Eclipse Foundation automatic
+commit validation. E.g. use the following to commit the changes:
+`git commit -s -m "Set standard visible website to release v0.1."`.
+
+** Push the changes to the Git server. E.g. use `git push`. If successful
+you should see the changes at the Git server's web view, at
+https://git.eclipse.org/c/www.eclipse.org/escet.git/.
+
+** It may take a few minutes for the Git repository to be synced to the
+webserver, and for the new standard visible website to become available.
+The standard visible website can be accessed at
+`https://www.eclipse.org/escet`. Depending on browser cache settings and
+other factors, it may be necessary to force refresh your browser for it
+to pick up the changes on the server.
+
+Regularly, consider the following:
+
+* Remove old non-release websites.
+* Remove old non-release downloads. Consider whether removing P2 update
+sites will lead to issues for users.
+* Move old release downloads from `downloads.eclipse.org` to
+`archive.eclipse.org`. Consider whether moving P2 update
+sites will lead to issues for users. See for more information the
+Eclipse Foundation Wiki page
+link:https://wiki.eclipse.org/Equinox/p2/p2.mirrorsURL#Moving_a_repo_to_archive.eclipse.org[Moving
+a repo to archive.eclipse.org].
