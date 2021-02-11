@@ -115,6 +115,7 @@ pipeline {
                         rm -rf deploy/www/${RELEASE_VERSION}
                         mkdir -p deploy/www/${RELEASE_VERSION}
                         cp releng/website/index.html deploy/www/${RELEASE_VERSION}
+                        sed -i -e "s/@VERSION@/${RELEASE_VERSION}/g" deploy/www/${RELEASE_VERSION}/index.html
                         unzip -q products/org.eclipse.escet.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
                         unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/chi/
                         unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website.zip -d deploy/www/${RELEASE_VERSION}/cif/
