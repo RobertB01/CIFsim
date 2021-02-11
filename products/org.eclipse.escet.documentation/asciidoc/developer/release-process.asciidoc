@@ -32,7 +32,8 @@ tags with a specific syntax will be picked up by Jenkins to be released.
 For instance, use `v0.1`, `v0.1.1`, `v2.0`, etc for releases, `v0.1-M1`
 for a milestone build, or `v0.1-RC1` for a release candidate.
 
-* Push the tag to the Eclipse ESCET GitLab.
+* Push the tag to the Eclipse ESCET GitLab. E.g. use
+`git push origin <tagname>` with `<tagname>` the name of the tag to push.
 
 * Jenkins will automatically pick up the new tag. Log in to Jenkins and
 manually trigger a build for the tag. Jenkins will then automatically build
