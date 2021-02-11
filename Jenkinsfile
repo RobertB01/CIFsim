@@ -41,8 +41,8 @@ pipeline {
 
                         BUILD_ARGS=
                         if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
-                            # Sign only for releases, based on release version tag name.
-                            # Sign also for 'master' branch, to allow checking release signing before deployment.
+                            # Sign releases, based on release version tag name.
+                            # Sign 'master' branch, to allow checking release signing before deployment.
                             BUILD_ARGS="-Psign"
                         fi
 
