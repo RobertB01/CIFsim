@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Branding (Incubation)
+Bundle-Name: Eclipse ESCET (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.product.branding;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Eclipse ESCET
