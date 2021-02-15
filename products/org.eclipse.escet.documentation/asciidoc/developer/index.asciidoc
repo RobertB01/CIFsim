@@ -41,5 +41,6 @@ Further topics:
 * <<developer-git-repo-chapter-index>>
 * <<developer-coding-standards-chapter-index>>
 * <<developer-building-and-testing-chapter-index>>
+* <<developer-release-process-chapter-index>>
 * <<developer-third-party-tools-chapter-index>>
 * <<developer-upgrade-instructions-chapter-index>>

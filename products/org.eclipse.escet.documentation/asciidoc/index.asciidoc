@@ -161,6 +161,8 @@ include::developer/coding-standards.asciidoc[]
 
 include::developer/building-and-testing.asciidoc[]
 
+include::developer/release-process.asciidoc[]
+
 include::developer/third-party-tools.asciidoc[]
 
 include::developer/upgrade-instructions.asciidoc[]
