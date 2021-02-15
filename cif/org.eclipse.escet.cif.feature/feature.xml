@@ -15,6 +15,7 @@
       label="ESCET CIF (Incubation)"
       version="0.1.0.qualifier"
       provider-name="Eclipse ESCET"
+      plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
       license-feature-version="0.1.0.qualifier">
 
