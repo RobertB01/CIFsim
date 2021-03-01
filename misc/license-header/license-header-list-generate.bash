@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ################################################################################
-# Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+# Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -197,7 +197,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\lgpl-.*.html:0$"
 
 # Get license header count per file, using copyright statement from license header.
 # Exclude ones with exactly one match, as that is the expected/desired situation.
-grep -r -c $EXCLUDE_ARGS "Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation" . | \
+grep -r -c $EXCLUDE_ARGS "Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation" . | \
     grep -v "^.*:1$" | grep -v -E $POST_EXCLUDE_PATTERN > misc/license-header/license-header-list.txt
 
 # Print license header list length.
