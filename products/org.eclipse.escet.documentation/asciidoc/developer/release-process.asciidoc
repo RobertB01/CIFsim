@@ -132,14 +132,29 @@ The standard visible website can be accessed at
 other factors, it may be necessary to force refresh your browser for it
 to pick up the changes on the server.
 
-Regularly, consider the following:
+* Remove/archive old releases:
 
-* Remove old non-release websites.
-* Remove old non-release downloads. Consider whether removing P2 update
-sites will lead to issues for users.
-* Move old release downloads from `downloads.eclipse.org` to
-`archive.eclipse.org`. Consider whether moving P2 update
-sites will lead to issues for users. See for more information the
-Eclipse Foundation Wiki page
+** For every release (not a milestone or release candidate), remove
+all milestones and release candidates of the previous version and older.
+E.g. for `v0.2`, remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc. Also archive
+all releases older than the current and previous release. E.g. for `v0.3`
+archive `v0.1` and older, but keep `v0.2`.
++
+Consider whether archiving or removing P2 update sites will lead to issues
+for users. See for more information the Eclipse Foundation Wiki page
 link:https://wiki.eclipse.org/Equinox/p2/p2.mirrorsURL#Moving_a_repo_to_archive.eclipse.org[Moving
 a repo to archive.eclipse.org].
+
+** Old websites can be removed in a similar way to the above instructions to
+change the default website. Only remove the directory for the milestone
+or release candidate.
+
+** Older downloads can be archived. Go to https://download.eclipse.org/escet/.
+Make sure you're logged in. This should make check-boxes appear. Select the
+folders to archive and click the _Archive_ button. It may take a few minutes
+for archiving to complete.
+
+** Archived downloads can be removed. Go to https://archive.eclipse.org/escet/.
+Make sure you're logged in. This should make check-boxes appear. Select the
+folders to delete and click the _Delete_ button. It may take a few minutes
+for deleting to complete.
