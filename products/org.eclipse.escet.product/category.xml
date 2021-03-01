@@ -11,6 +11,9 @@
  -->
 
 <site>
+   <feature url="features/com.github.javabdd.feature_1.0.1.qualifier.jar" id="com.github.javabdd.feature" version="1.0.1.qualifier">
+      <category name="org.eclipse.escet.thirdparty.category"/>
+   </feature>
    <feature url="features/org.eclipse.escet.chi.feature_0.1.0.qualifier.jar" id="org.eclipse.escet.chi.feature" version="0.1.0.qualifier">
       <category name="org.eclipse.escet.chi.category"/>
    </feature>
@@ -68,6 +71,12 @@
       <category name="org.eclipse.escet.category"/>
       <description>
          Eclipse ESCET tooling for the SeText language.
+      </description>
+   </category-def>
+   <category-def name="org.eclipse.escet.thirdparty.category" label="Eclipse ESCET Third Party (Incubation)">
+      <category name="org.eclipse.escet.category"/>
+      <description>
+         Eclipse ESCET third party dependencies that are distributed by the Eclipse ESCET project itself.
       </description>
    </category-def>
    <category-def name="org.eclipse.escet.tooldef.category" label="Eclipse ESCET ToolDef (Incubation)">
