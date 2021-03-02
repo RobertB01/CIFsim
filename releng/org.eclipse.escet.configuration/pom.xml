@@ -34,11 +34,11 @@ SPDX-License-Identifier: MIT
         <tycho.extras.version>${tycho.version}</tycho.extras.version>
 
         <!-- Documentation plug-in versions. -->
-        <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
-        <asciidoctorj.version>2.2.0</asciidoctorj.version>
-        <asciidoctorj.diagram.version>2.0.1</asciidoctorj.diagram.version>
-        <asciidoctorj.pdf.version>1.5.2</asciidoctorj.pdf.version>
-        <jruby.version>9.2.9.0</jruby.version>
+        <asciidoctor.maven.plugin.version>2.1.0</asciidoctor.maven.plugin.version>
+        <asciidoctorj.version>2.4.3</asciidoctorj.version>
+        <asciidoctorj.diagram.version>2.1.0</asciidoctorj.diagram.version>
+        <asciidoctorj.pdf.version>1.5.4</asciidoctorj.pdf.version>
+        <jruby.version>9.2.15.0</jruby.version>
         <geneclipsetoc.version>1.0.2</geneclipsetoc.version>
 
         <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
