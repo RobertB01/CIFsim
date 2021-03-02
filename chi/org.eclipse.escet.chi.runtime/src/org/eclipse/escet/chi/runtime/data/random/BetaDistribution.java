@@ -26,8 +26,7 @@ import org.eclipse.escet.chi.runtime.ChiSimulatorException;
  * BETA(p, q)
  * <ul>
  * <li>Mean: p / (p + q)</li>
- * <li>Variance: p * q / ((p + q) * (p + q) * (p + q + 1))
- * <li>
+ * <li>Variance: p * q / ((p + q) * (p + q) * (p + q + 1))</li>
  * </ul>
  * </p>
  */

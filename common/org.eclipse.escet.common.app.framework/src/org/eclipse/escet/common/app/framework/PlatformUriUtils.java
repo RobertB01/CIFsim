@@ -201,7 +201,7 @@ public class PlatformUriUtils {
      * <ul>
      * <li>The prefix, e.g. 'platform:/resource/'. Always ends with a '/'.</li>
      * <li>The project/bundle name, if applicable, or {@code null} otherwise.</li>
-     * <li>The path within the platform location. Always starts with a '/'.
+     * <li>The path within the platform location. Always starts with a '/'.</li>
      * </ul>
      *
      * @param uri The Eclipse platform URI.

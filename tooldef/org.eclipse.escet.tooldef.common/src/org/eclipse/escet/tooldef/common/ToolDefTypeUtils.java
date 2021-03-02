@@ -551,7 +551,7 @@ public class ToolDefTypeUtils {
      * <li>{@code t < t?} for every {@code t} in {@code [bool, int, long,
      *    double, string, tuple, list, set, map, object]}</li>
      * <li>{@code T < U} for all type parameters {@code T} and {@code U}, if {@code T} is lexicographically before
-     * {@code U}
+     * {@code U}</li>
      * </ul>
      * For types at different levels:
      * <ul>
