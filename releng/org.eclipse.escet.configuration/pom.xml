@@ -41,8 +41,9 @@ SPDX-License-Identifier: MIT
         <jruby.version>9.2.9.0</jruby.version>
         <geneclipsetoc.version>1.0.2</geneclipsetoc.version>
 
-        <!-- Checkstyle version. -->
-        <maven.checkstyle.version>3.1.1</maven.checkstyle.version>
+        <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
+        <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
+        <checkstyle.version>8.36.1</checkstyle.version>
 
         <!-- Eclipse Common Build Infrastructure version. -->
         <eclipse.cbi.version>1.1.7</eclipse.cbi.version>
@@ -341,6 +342,13 @@ SPDX-License-Identifier: MIT
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-checkstyle-plugin</artifactId>
                         <version>${maven.checkstyle.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>${checkstyle.version}</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <id>checkstyle-validate</id>
