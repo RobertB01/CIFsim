@@ -203,6 +203,8 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\lgpl-.*.html:0$"
 grep -r -c $EXCLUDE_ARGS "Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation" . | \
     grep -v "^.*:1$" | grep -v -E $POST_EXCLUDE_PATTERN > misc/license-header/license-header-list.txt
 
+set -x
+
 # Print/check results.
 cat misc/license-header/license-header-list.txt
 VIOLATION_COUNT="$(cat misc/license-header/license-header-list.txt | wc -l)"
