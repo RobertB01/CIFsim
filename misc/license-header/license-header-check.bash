@@ -207,6 +207,6 @@ grep -r -c $EXCLUDE_ARGS "Copyright (c) 2010, 2021 Contributors to the Eclipse F
 
 # Print/check results.
 cat misc/license-header/license-header-list.txt
-VIOLATION_COUNT="$(wc -l misc/license-header/license-header-list.txt)"
+VIOLATION_COUNT="$(cat misc/license-header/license-header-list.txt | wc -l)"
 echo "$VIOLATION_COUNT issue(s) found..."
 exit $VIOLATION_COUNT
