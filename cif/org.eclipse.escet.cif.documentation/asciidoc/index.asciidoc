@@ -32,8 +32,10 @@ including among others specification, supervisory controller synthesis,
 simulation-based validation and visualization, verification, real-time
 testing, and code generation.
 
-CIF is one of the tools of the
-link:https://eclipse.org/escet[Eclipse ESCET(TM) project].
+CIF is one of the tools of the Eclipse ESCET(TM) project. Visit the
+link:https://eclipse.org/escet[project website] for downloads,
+installation instructions, source code, general tool usage information,
+information on how to contribute, and more.
 
 [WARNING]
 ====

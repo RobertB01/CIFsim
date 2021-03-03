@@ -59,12 +59,13 @@ of the product-items.
 The Chi toolset allows verification of properties of the actual system by
 means of simulation, e.g. to optimize the supervisory (logic) control of
 the system. The Chi language has features that allow for easy
-specification of . Chi aims to make the process of verifying properties for large
-systems effortless.
+specification of . Chi aims to make the process of verifying properties for
+large systems effortless.
 
 Tutorials and manuals demonstrate the use of the language for effective
 modeling of system processes. More detailed modeling of the processes and
 e.g performance indicators, or custom tailoring them to the real situation,
 has no inherent limits.
 
-See the separate Chi documentation for more information.
+See the separate link:https://eclipse.org/escet/chi[Chi documentation] for more
+information.

@@ -61,13 +61,16 @@ operating system.
 experience with other JDK vendors may vary.
 ** A Java Runtime Environment (JRE) is not sufficient. A JDK is required.
 
-The following documentation is available for download:
+The tools are also available as plug-ins for the Eclipse IDE, by means of an
+Eclipse P2 update site.
+
+Furthermore, the following documentation is available for download:
 
 * Eclipse ESCET documentation (this documentation)
-* Chi documentation
-* CIF documentation
-* SeText documentation
-* ToolDef documentation
+* <<intro-chapter-chi,Chi>> documentation
+* <<intro-chapter-cif,CIF>> documentation
+* <<intro-chapter-setext,SeText>> documentation
+* <<intro-chapter-tooldef,ToolDef>> documentation
 
 The following additional information is available:
 

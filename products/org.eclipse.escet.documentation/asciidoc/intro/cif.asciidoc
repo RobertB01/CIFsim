@@ -54,4 +54,5 @@ visualization-based validation.
 * Implementation language code generation (PLC languages, Java, C, and
 Simulink) for real-time testing and implementation of the designed controller.
 
-See the separate CIF documentation for more information.
+See the separate link:https://eclipse.org/escet/cif[CIF documentation] for
+more information.

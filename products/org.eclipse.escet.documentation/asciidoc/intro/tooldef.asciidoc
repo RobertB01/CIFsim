@@ -32,4 +32,5 @@ generic scripting language, and can be used without using any of the other
 Eclipse ESCET tools. Furthermore, other tools can be made available for use
 within ToolDef scripts by defining ToolDef libraries for them.
 
-See the separate ToolDef documentation for more information.
+See the separate https://eclipse.org/escet/tooldef[ToolDef documentation] for
+more information.

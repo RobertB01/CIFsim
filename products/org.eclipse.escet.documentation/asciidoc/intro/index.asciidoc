@@ -26,15 +26,15 @@ shown to lead to less defects and reduced costs.
 
 indexterm:[MBSE]
 
-The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project is
-an link:https://eclipse.org[Eclipse] project that provides a toolkit for the
-development of supervisory controllers in the MBSE paradigm. The toolkit has
-a strong focus on model-based design, supervisory controller synthesis, and
-industrial applicability, for example to cyber physical systems. The toolkit
-supports the entire development process of (supervisory) controllers, from
-modeling, supervisory controller synthesis, simulation-based validation and
-visualization, and formal verification, to real-time testing and
-implementation.
+The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM))
+project is an link:https://eclipse.org[Eclipse Foundation] open-source project
+that provides a toolkit for the development of supervisory controllers in the
+MBSE paradigm. The toolkit has a strong focus on model-based design,
+supervisory controller synthesis, and industrial applicability, for example to
+cyber-physical systems. The toolkit supports the entire development process of
+(supervisory) controllers, from modeling, supervisory controller synthesis,
+simulation-based validation and visualization, and formal verification, to
+real-time testing and implementation.
 
 indexterm:[synthesis]
 
