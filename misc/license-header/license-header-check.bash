@@ -197,13 +197,13 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.properties:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.xml:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\lgpl-.*.html:0$"
+# Exclude files that are only present on the Jenkins build server.
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.Xauthority-*:0$"
 
 # Get license header count per file, using copyright statement from license header.
 # Exclude ones with exactly one match, as that is the expected/desired situation.
 grep -r -c $EXCLUDE_ARGS "Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation" . | \
     grep -v "^.*:1$" | grep -v -E $POST_EXCLUDE_PATTERN > misc/license-header/license-header-list.txt
-
-set -x
 
 # Print/check results.
 cat misc/license-header/license-header-list.txt
