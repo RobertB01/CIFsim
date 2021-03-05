@@ -679,7 +679,7 @@ covering those aspects that are common to the various Eclipse ESCET tools.
 
 The first release of SeText as part of the Eclipse ESCET project.
 This release is based on the initial contribution by the Eindhoven University
-of Technology (TU/e). There should be no functional changes.
+of Technology (TU/e).
 
 
 [[setext-readme-legal]]

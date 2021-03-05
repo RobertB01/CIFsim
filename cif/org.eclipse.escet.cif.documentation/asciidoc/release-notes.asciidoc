@@ -31,7 +31,7 @@ The first release of CIF as part of the Eclipse ESCET project.
 This release is based on the initial contribution by the Eindhoven University
 of Technology (TU/e).
 
-Most notable changes:
+Most notable changes compared to the last TU/e release:
 
 - The names of the CIF command line tools and tools available in ToolDef
 scripts have changed. For more information, check the list of
@@ -39,5 +39,3 @@ scripts have changed. For more information, check the list of
 - The CIF simulator no longer crashes on code generation.
 - The CIF simulator plot visualizer has been re-implemented using different
 third party libraries.
-- All TU/e course material and course-related documentation has been removed.
-- The experimental model-logic synthesis tool has been removed.

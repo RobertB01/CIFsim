@@ -34,7 +34,7 @@ The first release of the Eclipse ESCET project and toolkit.
 This release is based on the initial contribution by the Eindhoven University
 of Technology (TU/e).
 
-Most notable changes:
+Most notable changes compared to the last TU/e release:
 
 - A JDK is no longer bundled with the downloads. A JDK must be installed
 separately and manually. Future releases will again include a JDK.

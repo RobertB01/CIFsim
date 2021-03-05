@@ -31,6 +31,7 @@ The first release of ToolDef as part of the Eclipse ESCET project.
 This release is based on the initial contribution by the Eindhoven University
 of Technology (TU/e).
 
-Most notable changes:
+Most notable changes compared to the last TU/e release:
 
-- The `.tooldef2` file extension has been changed to `.tooldef`.
+- We no longer use separate language and tool versions. The `.tooldef2` file
+extension has been changed to `.tooldef` as part of this change.
