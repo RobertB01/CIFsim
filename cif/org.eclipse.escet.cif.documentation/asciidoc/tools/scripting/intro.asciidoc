@@ -21,7 +21,8 @@ ToolDef scripts. ToolDef is a
 cross-platform and machine-independent scripting language that supports command
 line execution, but is also available as plug-in for
 link:https://eclipse.org[Eclipse], providing an integrated development
-experience.
+experience. See the link:https://eclipse.org/escet/tooldef[ToolDef website] for
+more information on ToolDef.
 
 
 === Scenarios

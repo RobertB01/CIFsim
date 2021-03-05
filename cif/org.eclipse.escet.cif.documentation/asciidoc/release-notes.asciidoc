@@ -21,6 +21,21 @@ The release notes for the releases of CIF and the associated tools, as
 part of the Eclipse ESCET project, are listed below in reverse chronological
 order.
 
-=== Version 0.1 (unreleased)
+See also the Eclipse ESCET
+link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
+covering those aspects that are common to the various Eclipse ESCET tools.
+
+=== Version 0.1
 
 The first release of CIF as part of the Eclipse ESCET project.
+This release is based on the initial contribution by the Eindhoven University
+of Technology (TU/e).
+
+Most notable changes compared to the last TU/e release:
+
+- The names of the CIF command line tools and tools available in ToolDef
+scripts have changed. For more information, check the list of
+<<tools-scripting-chapter-tools,currently available tools>>.
+- The CIF simulator no longer crashes on code generation.
+- The CIF simulator plot visualizer has been re-implemented using different
+third party libraries.

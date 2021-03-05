@@ -21,6 +21,17 @@ The release notes for the releases of ToolDef and the associated tools, as
 part of the Eclipse ESCET project, are listed below in reverse chronological
 order.
 
-=== Version 0.1 (unreleased)
+See also the Eclipse ESCET
+link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
+covering those aspects that are common to the various Eclipse ESCET tools.
+
+=== Version 0.1
 
 The first release of ToolDef as part of the Eclipse ESCET project.
+This release is based on the initial contribution by the Eindhoven University
+of Technology (TU/e).
+
+Most notable changes compared to the last TU/e release:
+
+- We no longer use separate language and tool versions. The `.tooldef2` file
+extension has been changed to `.tooldef` as part of this change.

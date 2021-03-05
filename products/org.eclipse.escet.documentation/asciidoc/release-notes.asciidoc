@@ -21,6 +21,22 @@ The release notes for the releases of the Eclipse ESCET tools,
 as part of the Eclipse ESCET project, are listed below in reverse
 chronological order.
 
-=== Version 0.1 (unreleased)
+See also the release notes for the specific tools for more information:
+
+- link:https://www.eclipse.org/escet/cif/#release-notes-chapter-index[CIF release notes]
+- link:https://www.eclipse.org/escet/chi/#release-notes-chapter-index[Chi release notes]
+- link:https://www.eclipse.org/escet/tooldef/#release-notes-chapter-index[ToolDef release notes]
+- link:https://www.eclipse.org/escet/setext/#setext-readme-release-notes[SeText release notes]
+
+=== Version 0.1
 
 The first release of the Eclipse ESCET project and toolkit.
+This release is based on the initial contribution by the Eindhoven University
+of Technology (TU/e).
+
+Most notable changes compared to the last TU/e release:
+
+- A JDK is no longer bundled with the downloads. A JDK must be installed
+separately and manually. Future releases will again include a JDK.
+
+This release is based on the Eclipse IDE version 2020-06 and supports Java 8.

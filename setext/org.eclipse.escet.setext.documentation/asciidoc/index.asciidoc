@@ -28,8 +28,10 @@ SeText is a textual syntax specification language and associated scanner/parser
 generator. It can be used to specify the syntax of a language, and automatically
 generate a scanner and LALR(1) parser(s).
 
-SeText is one of the tools of the
-link:https://eclipse.org/escet[Eclipse ESCET(TM) project].
+SeText is one of the tools of the Eclipse ESCET(TM) project. Visit the
+link:https://eclipse.org/escet[project website] for downloads,
+installation instructions, source code, general tool usage information,
+information on how to contribute, and more.
 
 [WARNING]
 ====
@@ -669,9 +671,15 @@ The release notes for the releases of SeText and the associated tools, as
 part of the Eclipse ESCET project, are listed below in reverse chronological
 order.
 
-=== Version 0.1 (unreleased)
+See also the Eclipse ESCET
+link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
+covering those aspects that are common to the various Eclipse ESCET tools.
+
+=== Version 0.1
 
 The first release of SeText as part of the Eclipse ESCET project.
+This release is based on the initial contribution by the Eindhoven University
+of Technology (TU/e).
 
 
 [[setext-readme-legal]]
