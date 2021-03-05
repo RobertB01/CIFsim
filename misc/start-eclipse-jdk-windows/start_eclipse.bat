@@ -1,5 +1,5 @@
 @rem ***************************************************************************
-@rem Copyright (c) 2010, 2020 Contributors to the Eclipse Foundation
+@rem Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 @rem
 @rem See the NOTICE file(s) distributed with this work for additional
 @rem information regarding copyright ownership.
