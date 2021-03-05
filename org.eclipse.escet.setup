@@ -75,6 +75,18 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
+        name="org.eclipse.debug.ui">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.debug.ui/Console.highWaterMark"
+          value="256000000"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.debug.ui/Console.lowWaterMark"
+          value="256000000"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
         name="org.eclipse.jdt.ui">
       <setupTask
           xsi:type="setup:PreferenceTask"
@@ -108,6 +120,10 @@
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.ui/defaultPerspectiveId"
           value="org.eclipse.jdt.ui.JavaPerspective"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.ui/SHOW_MEMORY_MONITOR"
+          value="true"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
