@@ -25,7 +25,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version"
-      value="8.35.0"/>
+      value="8.36.1"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="m2eclipse-tycho.version"

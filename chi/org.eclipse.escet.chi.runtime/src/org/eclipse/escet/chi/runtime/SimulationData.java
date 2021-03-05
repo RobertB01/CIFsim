@@ -57,8 +57,7 @@ import org.eclipse.escet.common.java.removablelist.RemovableList;
  * <p>
  * For faster finding new processes to run, the blocked choices of each blocked process are examined and
  * <ul>
- * <li>Choices with a {@link GuardKind#FALSE} guard are skipped,
- * <li>
+ * <li>Choices with a {@link GuardKind#FALSE} guard are skipped,</li>
  * <li>Remaining choices without communication are added to the {@link #nocommChoices} list.</li>
  * <li>Remaining choices are added as sender or receiver choice to the channel they want to communicate on.</li>
  * </ul>

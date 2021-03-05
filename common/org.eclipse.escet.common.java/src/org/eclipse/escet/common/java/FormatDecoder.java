@@ -72,7 +72,7 @@ public class FormatDecoder {
      * <li>Scanner recognizes {@code \\}, {@code \"}, {@code \n}, and {@code \t} as backslash escaped text, and no other
      * backslash escaped text is allowed.</li>
      * <li>Scanner put unescaped form in its output, which is then provided as to this format decoder, as input
-     * {@link #text}.
+     * {@link #text}.</li>
      * <li>Format decoder calculates {@link #offset} and {@link #length} values based on the original text.</li>
      * <li>The {@link #offset} and {@link #length} values can be used to construct position information covering the
      * original text.</li>

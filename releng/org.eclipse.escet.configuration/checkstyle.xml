@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
     <module name="AtclauseOrder"/>
     <module name="JavadocStyle">
       <property name="scope" value="anoninner"/>
-      <property name="checkEmptyJavadoc" value="true"/>
       <property name="endOfSentenceFormat" value="([.?!:][ \t\n\r\f&lt;])|([.?!:]$)|(\{@inheritDoc\})"/>
+      <property name="checkEmptyJavadoc" value="true"/>
       <message key="javadoc.noperiod" value="First sentence should end with a period, question mark, exclamation mark, colon, or '{@inheritDoc}'."/>
     </module>
     <module name="NonEmptyAtclauseDescription"/>
@@ -106,7 +106,7 @@ SPDX-License-Identifier: MIT
     <module name="NoWhitespaceAfter">
       <metadata name="net.sf.eclipsecs.core.comment" value="no line breaks"/>
       <property name="allowLineBreaks" value="false"/>
-      <property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
+      <property name="tokens" value="AT,INC,DEC,UNARY_MINUS,UNARY_PLUS,BNOT,LNOT,DOT"/>
       <message key="ws.followed" value="''{0}'' is followed by whitespace. (no whitespace after check)"/>
     </module>
     <module name="NoWhitespaceBefore">
@@ -179,7 +179,7 @@ SPDX-License-Identifier: MIT
     <module name="RightCurly">
       <metadata name="net.sf.eclipsecs.core.comment" value="alone on line"/>
       <property name="option" value="alone_or_singleline"/>
-      <property name="tokens" value="CLASS_DEF,METHOD_DEF,CTOR_DEF,LITERAL_FOR,LITERAL_WHILE,STATIC_INIT,INSTANCE_INIT"/>
+      <property name="tokens" value="CLASS_DEF,METHOD_DEF,CTOR_DEF,LITERAL_FOR,LITERAL_WHILE,STATIC_INIT,INSTANCE_INIT,ENUM_DEF,INTERFACE_DEF"/>
       <message key="line.alone" value="Block end curly brace ''{0}'' should be alone on a line."/>
       <message key="line.new" value="Block end curly brace ''{0}'' should be on a new line."/>
       <message key="line.same" value="Block end curly brace ''{0}'' should be on the same line."/>
@@ -238,6 +238,16 @@ SPDX-License-Identifier: MIT
       <property name="format" value="^.*(?&lt;!Tests)$"/>
     </module>
     <module name="SingleSpaceSeparator"/>
+    <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
+    <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
+    <module name="AvoidDoubleBraceInitialization"/>
+    <module name="JavadocMissingWhitespaceAfterAsterisk">
+      <property name="violateExecutionOnNonTightHtml" value="true"/>
+    </module>
+    <module name="NoCodeInFile"/>
+    <module name="RequireEmptyLineBeforeBlockTagGroup">
+      <property name="violateExecutionOnNonTightHtml" value="true"/>
+    </module>
   </module>
   <module name="RegexpSingleline">
     <metadata name="net.sf.eclipsecs.core.comment" value="XXX -- Could be improved if Checkstyle issue #976 is fixed."/>
@@ -261,7 +271,6 @@ SPDX-License-Identifier: MIT
     <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
   </module>
   <module name="NewlineAtEndOfFile">
-    <property name="lineSeparator" value="lf_cr_crlf"/>
     <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
   </module>
   <module name="UniqueProperties"/>
