@@ -39,6 +39,8 @@ pipeline {
                         mvn -version
                         printenv
 
+                        ./misc/license-header/license-header-check.bash
+
                         BUILD_ARGS=
                         if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             # Sign releases, based on release version tag name.

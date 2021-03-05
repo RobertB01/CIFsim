@@ -17,6 +17,9 @@ SCRIPT=`readlink -f $0`
 SCRIPTPATH=`dirname $SCRIPT`
 cd $SCRIPTPATH/../..
 
+# Print what we're doing.
+echo "Checking license headers..."
+
 # Prepare excludes.
 EXCLUDE_ARGS=
 # Exclude Git ignores.
@@ -137,7 +140,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.e
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.emf.ecore.codegen/src/org/eclipse/escet/common/emf/ecore/codegen/latex/EmfLatexDocSkeletonGenerator.java:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.position.metamodel/docs/position_ecore_doc.tex:3$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.position.metamodel/model/autofix.py:2$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./misc/license-header/license-header-list-generate.bash:2$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./misc/license-header/license-header-check.bash:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/asciidoc/index.asciidoc:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/asciidoc/legal.asciidoc:2$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.product.branding/about.properties:2$"
@@ -193,12 +196,17 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./tooldef/org.eclipse.escet.tooldef
 # Exclude third party dependencies.
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.properties:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\.xml:0$"
-POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*\lgpl-.*.html:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./thirdparty/.*/lgpl-.*.html:0$"
+# Exclude files that are only present on the Jenkins build server.
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./.Xauthority-.*:0$"
 
 # Get license header count per file, using copyright statement from license header.
 # Exclude ones with exactly one match, as that is the expected/desired situation.
 grep -r -c $EXCLUDE_ARGS "Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation" . | \
     grep -v "^.*:1$" | grep -v -E $POST_EXCLUDE_PATTERN > misc/license-header/license-header-list.txt
 
-# Print license header list length.
-echo "$(cat misc/license-header/license-header-list.txt | wc -l) problem(s) found..."
+# Print/check results.
+cat misc/license-header/license-header-list.txt
+VIOLATION_COUNT="$(cat misc/license-header/license-header-list.txt | wc -l)"
+echo "$VIOLATION_COUNT issue(s) found..."
+exit $VIOLATION_COUNT
