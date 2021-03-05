@@ -68,7 +68,6 @@ IN THE SOFTWARE.
 
    <features>
       <feature id="org.eclipse.escet.product.feature" version="0.1.0.qualifier"/>
-      <feature id="org.eclipse.platform" installMode="root"/>
    </features>
 
    <configurations>
