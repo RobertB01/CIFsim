@@ -12,4 +12,6 @@
 # SPDX-License-Identifier: MIT
 ################################################################################
 
+set -x
+
 mvn -Dtycho.pomless.aggregator.names=releng,chi,cif,common,setext,thirdparty,tooldef,products $*
