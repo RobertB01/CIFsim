@@ -50,80 +50,8 @@ These can also be accessed via a web interface:
 
 ## Third-party Content
 
-com.github.javabdd
+For a complete list of all dependencies, see the `DEPENDENCIES.txt` file.
 
- * Project: https://github.com/com-github-javabdd/com.github.javabdd
- * Source: https://github.com/com-github-javabdd/com.github.javabdd
- * License: GNU Library General Public License v2 (LGPLv2) or later
-
-io.github.java-diff-utils
-
- * Project: https://github.com/java-diff-utils/java-diff-utils
- * Source: https://github.com/java-diff-utils/java-diff-utils
- * License: Apache License 2.0
-
-javax.inject
-
- * License: Apache License 2.0
-
-org.apache.batik
-
- * License: Apache License 2.0
-
-org.apache.commons.exec
-
- * License: Apache License 2.0
-
-org.apache.commons.io
-
- * License: Apache License 2.0
-
-org.apache.commons.lang
-
- * License: Apache License 2.0
-
-org.apache.commons.lang3
-
- * License: Apache License 2.0
-
-org.apache.commons.math3
-
- * License: Apache License 2.0
-
-org.apache.xalan
-
- * License: Apache License 2.0
-
-org.apache.xerces
-
- * License: Apache License 2.0
-
-org.eclipse.sdk
-
- * License: Eclipse Public License 2.0
-
-org.eclipse.emf
-
- * License: Eclipse Public License 2.0
-
-org.junit
-
- * License: Eclipse Public License 1.0
- * License: Common Public License Version 1.0
-
-org.knowm.xchart
-
- * Project: https://knowm.org/open-source/xchart/
- * Source: https://github.com/knowm/XChart
- * License: Apache License 2.0
-
-org.w3c.css.sac
-
- * License: Apache License 2.0, Public Domain, W3C
-
-org.w3c.dom.svg
-
- * License: Apache License 2.0
 
 ## Cryptography
 
