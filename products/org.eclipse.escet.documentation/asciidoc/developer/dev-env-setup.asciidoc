@@ -32,7 +32,7 @@ indexterm:[development, environment]
 
 To create a development environment for the first time:
 
-* Start Eclipse Installer x64 that you downloaded.
+* Start the Eclipse Installer that you downloaded.
 * Use the hamburger menu at the top right to switch to advanced mode.
 * For Windows:
 ** When asked to keep the installer in a permanent location, choose to do so.
@@ -47,25 +47,28 @@ environment.
 To create a development environment for a non-first time:
 
 * In the first wizard window:
-** Select 'Eclipse Platform' from the big list at the top.
-** Select '2020-06' for 'Product Version'.
-** Select a Java 8 JDK for 'Java 1.8+ VM'.
+** Select _Eclipse Platform_ from the big list at the top.
+** Select _2020-06_ for _Product Version_.
+** Select a Java 8 JDK for _Java 1.8+ VM_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:
 ** Use the green '+' icon at the top right to add the Oomph setup.
-*** For 'Catalog', choose 'Eclipse Projects'.
-*** For 'Resource URIs', enter
-`https://gitlab.eclipse.org/eclipse/escet/escet/-/raw/develop/org.eclipse.escet.setup`.
+*** For _Catalog_, choose _Eclipse Projects_.
+*** For _Resource URIs_, enter
+`+https://gitlab.eclipse.org/eclipse/escet/escet/-/raw/develop/org.eclipse.escet.setup+`
+and make sure there are no spaces before or after the URL.
 *** Click btn:[OK].
-** Check the checkbox for 'Eclipse ESCET', from the big list. It is under 'Eclipse
-Projects' / '<User>'.
-** At the bottom right, select the 'develop' stream.
+** Check the checkbox for _Eclipse ESCET_, from the big list. It is under _Eclipse
+Projects_ / _<User>_.
+** At the bottom right, select the _develop_ stream.
 ** Click btn:[Next].
 * In the third wizard window:
-** Choose a 'Root install folder' and 'Installation folder name'.
-** The development environment will be put at
-'<root_installation_folder>/<installation_folder_name>'.
+** Choose a _Root install folder_ and _Installation folder name_.
+If these options are not available, enable the _Show all variables_ option to
+make them visible.
+** The new development environment will be put at
+`<root_installation_folder>/<installation_folder_name>`.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
@@ -80,6 +83,24 @@ projects, etc).
 * Wait for the startup tasks to finish successfully.
 * NOTE: If you don't open the Oomph dialog, the status bar icon icon will
 disappear when the tasks are successfully completed.
+
+If you have any issues during setting up the development environment, consider
+the following:
+
+* Make sure to use a recent version of the Eclipse Installer. These versions
+include a recent JRE, which includes up-to-date certificates, preventing issues
+when accessing https URLs.
+* You can set the following environment variables to force the use of IPv4, in
+case of any issues accessing/downloading remote files:
++
+[source]
+----
+_JAVA_OPTIONS=-Djava.net.preferIPv4Stack=true
+_JPI_VM_OPTIONS=-Djava.net.preferIPv4Stack=true
+----
++
+After setting them, make sure to fully close the Eclipse Installer and then
+start it again, for the changes to be picked up.
 
 In your new development environment, consider changing the following settings:
 
