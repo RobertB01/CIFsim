@@ -64,11 +64,12 @@ Projects_ / _<User>_.
 ** At the bottom right, select the _develop_ stream.
 ** Click btn:[Next].
 * In the third wizard window:
+** Enable the _Show all variables_ option to show all options.
 ** Choose a _Root install folder_ and _Installation folder name_.
-If these options are not available, enable the _Show all variables_ option to
-make them visible.
-** The new development environment will be put at
+The new development environment will be put at
 `<root_installation_folder>/<installation_folder_name>`.
+** For _JRE 1.8 location_ make sure to select the same Java 8 JDK that you
+selected in the first wizard window.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
@@ -77,7 +78,7 @@ launched.
 ** If asked, accept any licenses and certificates.
 * Press btn:[Finish] in the Eclipse Installer to close the Eclipse Installer.
 * Click the rotating arrows icon in the status bar (bottom right) of the
-development environment.
+new development environment.
 * Observe Oomph executing the startup tasks (such as Git clone, importing
 projects, etc).
 * Wait for the startup tasks to finish successfully.
