@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
