@@ -90,14 +90,15 @@ indexterm:[milestone]
 
 === Releases and milestones
 
-For every release a GitLab milestone is created, to track the scope and
-progress of the release. Milestones are created for public releases as well
-as for e.g. release candidates.
-
-For every release, first the scope is discussed and agreed upon. Then, a
+For every software version a GitLab milestone is created, to track its scope and
+progress. First the scope is discussed and agreed upon. Then, a
 GitLab milestone is created, the relevant issues are created if not yet
 present, and the issues are associated with the milestone. The issues can
 then be picked up to be addressed.
+
+A single GitLab milestone is used per software version. Each software version
+has one or more milestone releases, followed by one or more release candidates,
+and is completed by a final release.
 
 See also:
 
@@ -155,6 +156,16 @@ commits (if there even are any). It also includes the issue name, which is
 convenient as it indicates what the branch is about, without having to look
 up the issue.
 
+* There are many ways to create a branch. One way is to create it from the
+GitLab issue. On the web page for a GitLab issue, there is a
+_Create merge request_ button. Select the arrow to the right of it to
+show more options. Select _Create branch_. Adapt the _Branch name_ and
+_Source_ as needed. Typically the defaults suffice. Click the
+_Create branch_ button to create the branch.
+
+* We prefer not to create a draft merge request with the creation of the
+branch, as then commits in the branch lead to commits on the merge requests,
+which lead to notification emails.
 
 indexterm:[commit]
 
@@ -166,7 +177,7 @@ a short summary, and must not exceed 72 characters.
 For the Eclipse ESCET project, this line must start with the issue number,
 to allow GitLab to link commits to issues. For instance: `#1 commit summary`.
 In case a commit relates to multiple issues, list each of them, e.g.
-`#1 #2 commit summary`.
+`#1 #2 commit summary`. Merge commits are exempt from this rule.
 
 Furthermore, all commits must adhere to the requirements as defined by the
 Eclipse Foundation:
@@ -177,7 +188,7 @@ Eclipse Foundation:
 If you are not an Eclipse ESCET project committer, with write access to our
 Git repository, see the information on
 <<developer-contributing-chapter-index,contributing>> to the Eclipse ESCET
-project.
+project. Don't forget to sign-off your Git commits.
 
 
 indexterm:[merge request]
@@ -188,8 +199,22 @@ Once the work on an issue is done and pushed to a branch, it must be reviewed
 before it is merged back. Reviews are done via merge requests. The process is
 as follows:
 
-* Create a merge request for merging the branch. Typically a branch is created
-from and merged back to the `develop` branch.
+* Create a merge request for merging the branch.
+You can create a merge request from the Eclipse ESCET Gitlab
+https://gitlab.eclipse.org/eclipse/escet/escet/-/branches[Branches page].
+Select the _Merge request_ button next to the branch to be merged.
+
+** Typically a branch is created from and merged back to the `develop` branch,
+but this can be changed if needed.
+
+** If you include `Closes #nnn` in the description of the merge request,
+with `nnn` an issue number, that issue will automatically be closed once the
+merge request is merged. Use `Addresses #nnn` instead, if the merge request
+addresses part of the issue, but work remains, to prevent the issue from
+being closed. Always include either of them to ensure the merge request is
+properly linked to the issues it addresses.
+
+** It is not mandatory to select _assignees_, _reviewers_, etc.
 
 * The merge request is reviewed by the Eclipse ESCET project committers.
 
