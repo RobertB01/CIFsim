@@ -59,7 +59,7 @@ of the product-items.
 The Chi toolset allows verification of properties of the actual system by
 means of simulation, e.g. to optimize the supervisory (logic) control of
 the system. The Chi language has features that allow for easy
-specification of . Chi aims to make the process of verifying properties for
+specification. Chi aims to make the process of verifying properties for
 large systems effortless.
 
 Tutorials and manuals demonstrate the use of the language for effective
