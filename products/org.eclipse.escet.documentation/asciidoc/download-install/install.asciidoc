@@ -120,7 +120,7 @@ For more information, see the section on starting the Eclipse ESCET IDE
 <<download-install-first-start,for the first time>>.
 
 You can now also use the command line scripts located in the `bin`
-directory. To see which
+directory. These are only available for Windows and Linux, not for macOS. To see which
 tools are available, simply look in this directory. Each of these
 tools can be started with the `-h` or `--help` option to get further
 information. You may want to add the `bin` directory to your `PATH`

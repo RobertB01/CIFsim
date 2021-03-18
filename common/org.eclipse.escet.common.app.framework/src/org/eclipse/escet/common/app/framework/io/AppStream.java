@@ -101,7 +101,7 @@ public abstract class AppStream implements Closeable {
     }
 
     /**
-     * Set the 'new line bytes' property of the stream to use Linux (or Mac OS X) new line bytes. Linux new line bytes
+     * Set the 'new line bytes' property of the stream to use Linux (or macOS) new line bytes. Linux new line bytes
      * ('\n') are used when a new line is to be written. The '\n' characters that are written as part of the user
      * provided content are written without modification.
      */

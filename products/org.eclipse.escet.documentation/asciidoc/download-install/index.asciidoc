@@ -42,7 +42,8 @@ checking.
 
 * As command line execution scripts (`bin` directory of the archives),
 allowing execution in a command line terminal or console,
-particularly useful for execution of the tools on headless clusters.
+particularly useful for execution of the tools on headless clusters. The
+command line scripts are only available for Windows and Linux, not for macOS.
 
 indexterm:[dependencies]
 
