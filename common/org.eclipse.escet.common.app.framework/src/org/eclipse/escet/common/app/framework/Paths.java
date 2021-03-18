@@ -78,7 +78,7 @@ public class Paths {
      *     local file system path.
      */
     public static boolean isAbsolute(String path) {
-        // Linux and Mac OS X absolute path, for all supported path separators.
+        // Linux and macOS absolute path, for all supported path separators.
         if (path.startsWith("\\")) {
             return true;
         }

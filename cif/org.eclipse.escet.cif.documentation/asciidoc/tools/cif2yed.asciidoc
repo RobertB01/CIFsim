@@ -29,7 +29,7 @@ link:http://www.yworks.com/en/products/yfiles/yed/[yEd Graph Editor]
 is an
 application that can be used to view, create, edit, arrange, import and export
 various kinds of diagrams. It is freely available and runs on Windows, Linux,
-and Mac OS X.
+and macOS.
 
 The yEd diagrams are generated as
 link:http://graphml.graphdrawing.org/[GraphML]

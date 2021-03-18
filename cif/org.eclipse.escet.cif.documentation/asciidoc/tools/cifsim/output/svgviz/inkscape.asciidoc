@@ -22,7 +22,7 @@ graphics. One such program is
 link:http://inkscape.org/[Inkscape],
 a free and
 open source vector graphics editor that uses SVG as its native file format, and
-is available for many platforms, including Microsoft Windows, Mac OS X, and
+is available for many platforms, including Microsoft Windows, macOS, and
 Linux. In this documentation, we'll use Inkscape to create and edit SVG images.
 
 It is beyond the scope of this document to explain how Inkscape works. For
