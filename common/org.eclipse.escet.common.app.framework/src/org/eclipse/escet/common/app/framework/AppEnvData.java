@@ -60,13 +60,13 @@ public class AppEnvData {
     /** Whether a SWT-based GUI is available. */
     private AtomicBoolean guiAvailable = new AtomicBoolean(false);
 
-//    /**
-//     * SWT display thread. Is {@code null} until created. Remains {@code null} if running in Eclipse, if already created
-//     * and maintained by a parent application framework application, or if running without GUI.
-//     *
-//     * @see GuiMode
-//     */
-//    private AtomicReference<SWTDisplayThread> swtThread = new AtomicReference<>();
+    /**
+     * SWT display thread. Is {@code null} until created. Remains {@code null} if running in Eclipse, if already created
+     * and maintained by a parent application framework application, or if running without GUI.
+     *
+     * @see GuiMode
+     */
+    private AtomicReference<SWTDisplayThread> swtThread = new AtomicReference<>();
 
     /**
      * Constructor for the {@link AppEnvData} class, with standard application streams, a new default provider (using
@@ -187,26 +187,26 @@ public class AppEnvData {
         this.console = console;
     }
 
-//    /**
-//     * Returns the SWT display thread. Is {@code null} until created. Remains {@code null} if running in Eclipse, if
-//     * already created and maintained by a parent application framework application, or if running without GUI.
-//     *
-//     * @return The SWT display thread, or {@code null}.
-//     * @see GuiMode
-//     */
-//    public SWTDisplayThread getSwtDisplayThread() {
-//        return swtThread.get();
-//    }
-//
-//    /**
-//     * Sets or unsets the SWT display thread. Must only be set or unset by the application framework.
-//     *
-//     * @param thread The SWT display thread to set, or {@code null} to unset.
-//     * @see GuiMode
-//     */
-//    public void setSwtDisplayThread(SWTDisplayThread thread) {
-//        swtThread.set(thread);
-//    }
+    /**
+     * Returns the SWT display thread. Is {@code null} until created. Remains {@code null} if running in Eclipse, if
+     * already created and maintained by a parent application framework application, or if running without GUI.
+     *
+     * @return The SWT display thread, or {@code null}.
+     * @see GuiMode
+     */
+    public SWTDisplayThread getSwtDisplayThread() {
+        return swtThread.get();
+    }
+
+    /**
+     * Sets or unsets the SWT display thread. Must only be set or unset by the application framework.
+     *
+     * @param thread The SWT display thread to set, or {@code null} to unset.
+     * @see GuiMode
+     */
+    public void setSwtDisplayThread(SWTDisplayThread thread) {
+        swtThread.set(thread);
+    }
 
     /**
      * Set a value indicating whether an SWT-based GUI is available.

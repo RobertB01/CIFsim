@@ -283,15 +283,14 @@ public abstract class Application<T extends IOutputComponent> {
 
             // Create SWT display thread, if needed. Required for everything
             // GUI related, including the option dialog, visualizers, etc.
-//            GuiMode guiMode = GuiOption.getGuiMode();
-//            if (guiMode != GuiMode.OFF) {
-//                Pair<Boolean, SWTDisplayThread> guiInfo = SWTDisplayThread.create(guiMode);
-                boolean guiAvailable = true;
-//                boolean guiAvailable = guiInfo.left;
-//                SWTDisplayThread swtThread = guiInfo.right;
+            GuiMode guiMode = GuiOption.getGuiMode();
+            if (guiMode != GuiMode.OFF) {
+                Pair<Boolean, SWTDisplayThread> guiInfo = SWTDisplayThread.create(guiMode);
+                boolean guiAvailable = guiInfo.left;
+                SWTDisplayThread swtThread = guiInfo.right;
                 appEnvData.setGuiAvailable(guiAvailable);
-//                appEnvData.setSwtDisplayThread(swtThread);
-//            }
+                appEnvData.setSwtDisplayThread(swtThread);
+            }
 
             // Process options from the option dialog. Don't show interactive
             // dialog if termination already requested.
@@ -420,10 +419,10 @@ public abstract class Application<T extends IOutputComponent> {
 
             // Close the SWT display. We do this after cleaning up the output
             // components, as the output components may own SWT components.
-//            if (appEnvData.getSwtDisplayThread() != null) {
-//                appEnvData.getSwtDisplayThread().close();
-//                appEnvData.setSwtDisplayThread(null);
-//            }
+            if (appEnvData.getSwtDisplayThread() != null) {
+                appEnvData.getSwtDisplayThread().close();
+                appEnvData.setSwtDisplayThread(null);
+            }
 
             // Unregister the application. We do this after closing the SWT
             // display, as SWT call-backs may be using application framework

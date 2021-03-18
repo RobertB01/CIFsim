@@ -18,13 +18,11 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.escet.common.app.framework.exceptions.ApplicationException;
-import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.wiring.BundleWiring;
 
@@ -122,41 +120,11 @@ public class AppEclipseApplication implements IApplication {
             throw new RuntimeException(msg, ex);
         }
 
-        // Prepare application runnable.
-        Runnable appRunnable = () -> {
-            // Construct application on the thread. Ensures proper registration in application framework.
-            Application<?> app;
-            try {
-                app = appConstructor.newInstance();
-            } catch (ReflectiveOperationException e) {
-                //XXX improve error handling. this is done on the thread!
-                //XXX should never fail for provided command line scripts.
-                throw new RuntimeException(e);
-            }
+        // Construct application.
+        Application<?> app = appConstructor.newInstance();
 
-            // Run application.
-            app.run(cmdLineArgs);
-        };
-
-        // Create display on this thread.
-        // Display must be created on main thread due to Cocoa restrictions on macOS.
-        //XXX does not consider GuiOption like SWTDisplayThread.
-        //XXX does not have error handling like SWTDisplayThread.
-        Display display = Display.getDefault();
-
-        // Start application on a new thread.
-        Thread thread = new Thread(appRunnable);
-        thread.setName(appClass.getName());
-        thread.start();
-
-        // Event loop. Keep reading and dispatching SWT events until the
-        // display is disposed. This loop spends most of its time sleeping,
-        // waiting to be notified of new events.
-        while (!display.isDisposed()) {
-            if (!display.readAndDispatch()) {
-                display.sleep();
-            }
-        }
+        // Run application.
+        app.run(cmdLineArgs);
 
         // Never reached. Needed to satisfy compiler.
         return IApplication.EXIT_OK;
