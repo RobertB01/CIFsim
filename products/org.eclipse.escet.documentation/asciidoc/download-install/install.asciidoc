@@ -27,7 +27,7 @@ experience with other JDK vendors may vary.
 * A Java Runtime Environment (JRE) is not sufficient. A JDK is required.
 
 You can download a JDK from Oracle's
-link:https://www.oracle.com/java/technologies/javase-downloads.html[Java SE Downloads]
+link:https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html[Java SE Development Kit 8 Downloads]
 page. For more information, see:
 
 * Oracle's
@@ -59,48 +59,89 @@ extracted files.
 * For Linux, execute `eclipse` from the directory that contains the
 extracted files.
 
-* For macOS, the archive contains a directory named `Eclipse.app`, which
-contains all the files of the release. The operating system recognizes this
-directory as a macOS application and displays it as _Eclipse_ with a custom
-icon.  You can now execute the application by double clicking the _Eclipse_
-application icon. A dialog may be shown with the following text:
-_"Eclipse" is an application downloaded from the Internet. Are you sure you
-want to open it?_ Click the btn:[Open] button to confirm. You may move/drag
-the _Eclipse_ application icon to the macOS _Applications_ folder, to
-make the Eclipse icon appear among the other macOS applications.
+* For macOS, installation is more complex and may also depend on the version of
+macOS. The following instructions have been tested on Big Sur. The downloaded
+archive contains the Eclipse app in the form of a directory named `Eclipse.app`,
+which contains all the files of the release. The operating system recognizes
+this directory as a macOS application and displays it as _Eclipse_ with a custom
+icon. Move/drag the _Eclipse_ application icon to the macOS _Applications_
+folder, to make the Eclipse icon appear among the other macOS applications.
+Execute the Eclipse application by double clicking it.
++
+On macOS Big Sur, you will get an error message saying either _"Eclipse.app"
+cannot be opened because it was not downloaded from the App store_ or
+_"Eclipse.app" cannot be opened because Apple cannot check it for malicious
+software_. Dismiss the popup by clicking btn:[OK]. Go to menu:Apple menu[System
+Preferences], click _Security & Privacy_, then click tab _General_. Under _Allow
+apps downloaded from:_ you should see two tick boxes: one for _App Store_ and
+one for _App Store and identified developers_. Below that, you should see an
+additional line: _"Eclipse.app"_ was blocked from use because it is not from an
+identified developer, and after that, a button btn:[Open Anyway]. Clicking that
+button will allow the Eclipse app to be executed.
++
+If executing the Eclipse app now gives an _Alert_ message saying _Failed to
+create the Java virtual machine_, you need to add a setting in Eclipse that
+points to the Java JDK as follows:
++
+In the Finder, right click the Eclipse app icon and execute _Show Package
+Contents_. In the folder `Contents`, edit the file `Info.plist`. You can do this by right
+clicking the file and execute menu:Open With[TextEdit]. Near the end of this file, look for the following lines:
++
+[source]
+----
+<key>Eclipse</key>
+        <array>
+                <!-- to use a specific ...
+                        ...
+                        ...
+                        ...
+                -->
+----
++
+Immediately after these lines, insert the following line:
++
+[source]
+----
+<string>-vm</string><string>/Library/Java/JavaVirtualMachines/jdk1.8.0_281.jdk/Contents/Home/bin/java</string>
+----
++
+where you should change the version number `0_281` to the version number of the
+JDK that you have installed on your Mac. You can find this version number in the
+name of the folder that is present in `/Library/Java/JavaVirtualMachines/`. You
+can go to this folder via the Finder menu menu:Go[Go to Folder...]. After
+saving the file, try to execute the Eclipse app.
++
+In case you now  get an _Alert_ error message saying _The JVM shared
+library "/Library/Java/JavaVirtualMachines/jdk..." does not contain the
+JNI_CreateJavaVM symbol_, click btn:[OK] and restart your Mac. After restarting, the
+Eclipse app should work.
 
 For more information, see the section on starting the Eclipse ESCET IDE
 <<download-install-first-start,for the first time>>.
 
 You can now also use the command line scripts located in the `bin`
 directory. These are only available for Windows and Linux, not for macOS. To see which
-tools are available, simply look in the `bin` directory. Each of these
+tools are available, simply look in this directory. Each of these
 tools can be started with the `-h` or `--help` option to get further
 information. You may want to add the `bin` directory to your `PATH`
 environment variable. See e.g.
 link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?]
 for how to achieve this.
 
-If the Eclipse ESCET IDE or one of the command line scripts can't be started,
-you can try the following:
+If the Eclipse ESCET IDE or one of the command line scripts cannot be started,
+the ESCET tools may not be able to correctly detect the JDK you installed. In
+such a case, edit the `eclipse.ini` file from the directory that contains the
+extracted files and add in the following lines at the beginning of the file:
 
-* The Eclipse ESCET tools may not be able to correctly detect the JDK you
-installed. In such a case, edit the `eclipse.ini` file from the directory
-that contains the extracted files and add in the following lines at the
-beginning of the file:
-+
 [source]
 ----
 -vm
 C:/Program Files/Java/jdk1.8.0_211/bin
 ----
-+
+
 Note that `-vm` and the path to the JDK need to be on separate lines.
 Obviously, change the JDK path to the actual path for your system.
 Make sure to save the file and retry starting the Eclipse ESCET IDE
 or one of the command line scripts.
 
-* For macOS, open the _System Preferences_ of the operation system. Click
-on _Security & Privacy_. Click on the lock icon to allow changing the security
-settings. For _Allow apps downloaded from_, choose _Anywhere_. Close the
-_Security & Privacy_ settings window.
+Adding the `-vm` option to the `eclipse.ini` file on macOS is of no use.
