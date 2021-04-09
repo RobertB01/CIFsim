@@ -132,7 +132,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Phase 1: find component definitions to instantiate.
             elimDefs = set();
             foundDefs = false;
-            findCompDefs(spec);
+            findEliminableCompDefs(spec);
             if (elimDefs.isEmpty()) {
                 Assert.check(!foundDefs);
                 break;
@@ -156,34 +156,47 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Find component definitions without component definitions/instantiations in them.
+     * Find component definitions without component definitions/instantiations in them. These can be eliminated in
+     * phase 2. If such component definitions are found, they are added to {@link #elimDefs}.
      *
      * @param group The group in which to search.
+     * @return {@code true} if the group does not contain definitions or instantiations, {@code false} otherwise.
      * @see #elimDefs
      * @see #foundDefs
      */
-    private void findCompDefs(Group group) {
+    private boolean findEliminableCompDefs(Group group) {
+        boolean foundDefOrInst = false;
+
         // Process child component definitions.
         for (ComponentDef cdef: group.getDefinitions()) {
-            findCompDefs(cdef);
+            findEliminableCompDefs(cdef);
+            foundDefOrInst = true;
         }
 
         // Process child groups.
         for (Component comp: group.getComponents()) {
-            if (comp instanceof Group) {
-                findCompDefs((Group)comp);
+            if (comp instanceof ComponentInst) {
+                foundDefOrInst = true;
+
+            } else if (comp instanceof Group) {
+                if (!findEliminableCompDefs((Group)comp)) {
+                    foundDefOrInst = true;
+                }
             }
         }
+
+        return !foundDefOrInst;
     }
 
     /**
-     * Find component definitions without component definitions/instantiations in them.
+     * Find component definitions without component definitions/instantiations in them. These can be eliminated in
+     * phase 2. If such component definitions are found, they are added to {@link #elimDefs}.
      *
      * @param cdef The component definition in which to search.
      * @see #elimDefs
      * @see #foundDefs
      */
-    private void findCompDefs(ComponentDef cdef) {
+    private void findEliminableCompDefs(ComponentDef cdef) {
         ComplexComponent body = cdef.getBody();
         foundDefs = true;
 
@@ -196,24 +209,29 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Group body.
         Assert.check(body instanceof Group);
         Group group = (Group)body;
-        boolean done = true;
+        boolean foundDefOrInst = false;
 
         for (ComponentDef cdef2: group.getDefinitions()) {
-            findCompDefs(cdef2);
-            done = false;
+            // Found a child definition.
+            foundDefOrInst = true;
+
+            // Search for for definitions that can be eliminated.
+            findEliminableCompDefs(cdef2);
         }
 
+        // Search child components for more definitions or instantiations.
         for (Component comp: group.getComponents()) {
-            if (done && comp instanceof ComponentInst) {
-                done = false;
-            }
+            if (comp instanceof ComponentInst) {
+                foundDefOrInst = true;
 
-            if (comp instanceof Group) {
-                findCompDefs((Group)comp);
+            } else if (comp instanceof Group) {
+                if (!findEliminableCompDefs((Group)comp)) {
+                    foundDefOrInst = true;
+                }
             }
         }
 
-        if (done) {
+        if (!foundDefOrInst) {
             elimDefs.add(cdef);
         }
     }
