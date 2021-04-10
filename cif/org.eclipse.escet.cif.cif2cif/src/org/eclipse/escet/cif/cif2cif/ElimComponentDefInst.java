@@ -173,7 +173,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             foundDefOrInst = true;
         }
 
-        // Process child groups.
+        // Process child components.
         for (Component comp: group.getComponents()) {
             if (comp instanceof ComponentInst) {
                 foundDefOrInst = true;
