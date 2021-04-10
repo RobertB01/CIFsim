@@ -132,7 +132,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Phase 1: find component definitions to instantiate.
             elimDefs = set();
             foundDefs = false;
-            findEliminableCompDefs(spec);
+            analyzeCompDefs(spec);
             if (elimDefs.isEmpty()) {
                 Assert.check(!foundDefs);
                 break;
@@ -160,16 +160,16 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
      * phase 2. If such component definitions are found, they are added to {@link #elimDefs}.
      *
      * @param group The group in which to search.
-     * @return {@code true} if the group does not contain definitions or instantiations, {@code false} otherwise.
+     * @return {@code true} if the group contains definitions or instantiations, {@code false} otherwise.
      * @see #elimDefs
      * @see #foundDefs
      */
-    private boolean findEliminableCompDefs(Group group) {
+    private boolean analyzeCompDefs(Group group) {
         boolean foundDefOrInst = false;
 
         // Process child component definitions.
         for (ComponentDef cdef: group.getDefinitions()) {
-            findEliminableCompDefs(cdef);
+            analyzeCompDefs(cdef);
             foundDefOrInst = true;
         }
 
@@ -179,13 +179,12 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 foundDefOrInst = true;
 
             } else if (comp instanceof Group) {
-                if (!findEliminableCompDefs((Group)comp)) {
-                    foundDefOrInst = true;
-                }
+                boolean foundDefOrInstInGroup = analyzeCompDefs((Group)comp);
+                foundDefOrInst |= foundDefOrInstInGroup;
             }
         }
 
-        return !foundDefOrInst;
+        return foundDefOrInst;
     }
 
     /**
@@ -196,7 +195,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
      * @see #elimDefs
      * @see #foundDefs
      */
-    private void findEliminableCompDefs(ComponentDef cdef) {
+    private void analyzeCompDefs(ComponentDef cdef) {
         ComplexComponent body = cdef.getBody();
         foundDefs = true;
 
@@ -215,8 +214,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Found a child definition.
             foundDefOrInst = true;
 
-            // Search for for definitions that can be eliminated.
-            findEliminableCompDefs(cdef2);
+            // Search for definitions that can be eliminated.
+            analyzeCompDefs(cdef2);
         }
 
         // Search child components for more definitions or instantiations.
@@ -225,9 +224,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 foundDefOrInst = true;
 
             } else if (comp instanceof Group) {
-                if (!findEliminableCompDefs((Group)comp)) {
-                    foundDefOrInst = true;
-                }
+                boolean foundDefOrInstInGroup = analyzeCompDefs((Group)comp);
+                foundDefOrInst |= foundDefOrInstInGroup;
             }
         }
 
