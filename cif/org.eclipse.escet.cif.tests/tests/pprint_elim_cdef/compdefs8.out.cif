@@ -1,0 +1,10 @@
+group def D():
+  group e:
+    group def F():
+      v: V();
+    end
+  end
+end
+group def V():
+end
+d: D();
