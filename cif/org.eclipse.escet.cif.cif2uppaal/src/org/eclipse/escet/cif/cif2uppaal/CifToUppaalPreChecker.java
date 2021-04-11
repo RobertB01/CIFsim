@@ -217,7 +217,7 @@ public class CifToUppaalPreChecker extends CifWalker {
         VariableValue values = var.getValue();
         if (values != null && values.getValues().size() != 1) {
             String msg = fmt("Unsupported declaration \"%s\": discrete variables with multiple potential initial "
-                    + "values are currently supported.", getAbsName(var));
+                    + "values are currently not supported.", getAbsName(var));
             problems.add(msg);
         }
 
