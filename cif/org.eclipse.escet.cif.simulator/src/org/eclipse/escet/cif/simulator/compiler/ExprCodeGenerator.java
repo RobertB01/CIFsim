@@ -109,6 +109,23 @@ public class ExprCodeGenerator {
     }
 
     /**
+     * Generate a Java code fragment for the conjunction of the given location initialization predicates. If no
+     * predicates are given, {@code "false"} is returned.
+     *
+     * @param preds The initialization predicates.
+     * @param ctxt The compiler context to use.
+     * @param state The name of the state variable in the context where the generated code is used. May be {@code null}
+     *     only if the context in which the expression occurs can not access the state.
+     * @return The Java code that represents the conjunction of the given initialization predicates.
+     */
+    public static String gencodeInitLocPreds(List<Expression> preds, CifCompilerContext ctxt, String state) {
+        if (preds.isEmpty()) {
+            return "false";
+        }
+        return gencodePreds(preds, ctxt, state);
+    }
+
+    /**
      * Generate a Java code fragment for the conjunction of the given predicates. If no predicates are given,
      * {@code "true"} is returned.
      *

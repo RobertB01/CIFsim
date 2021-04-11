@@ -20,7 +20,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.DefaultValueCodeGenerator.getDefaultValueCode;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
-import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodePreds;
+import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeInitLocPreds;
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -344,7 +344,7 @@ public class StateInitCodeGenerator {
         List<Expression> initials = loc.getInitials();
         c.add("try {");
         c.indent();
-        c.add("b = %s;", gencodePreds(initials, ctxt, "state"));
+        c.add("b = %s;", gencodeInitLocPreds(initials, ctxt, "state"));
         c.dedent();
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
