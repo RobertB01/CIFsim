@@ -9,8 +9,8 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported declaration "g.p0.inp": input variables are currently unsupported.
  - Unsupported declaration "g.p0.lb": discrete variables with multiple marker predicates are currently not supported.
  - Unsupported declaration "g.p0.x1": discrete variables with multiple marker predicates are currently not supported.
- - Unsupported declaration "g.p0.x1": discrete variables with multiple potential initial values are currently supported.
- - Unsupported declaration "g.p0.x2": discrete variables with multiple potential initial values are currently supported.
+ - Unsupported declaration "g.p0.x1": discrete variables with multiple potential initial values are currently not supported.
+ - Unsupported declaration "g.p0.x2": discrete variables with multiple potential initial values are currently not supported.
  - Unsupported event "g.e1": event is not declared as controllable or uncontrollable.
  - Unsupported event "g.e2": event is a channel (has a data type).
  - Unsupported event "tau": event is not controllable or uncontrollable (explicit use of "tau").
