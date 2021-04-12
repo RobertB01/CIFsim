@@ -234,18 +234,21 @@ public class Cif2Mcrl2PreChecker {
             }
         }
 
-        boolean foundInitialLocation = false;
+        // Check the number of initial locations.
+        int initLocCount = 0;
         for (Location loc: aut.getLocations()) {
             if (!loc.getInitials().isEmpty() && CifValueUtils.isTriviallyTrue(loc.getInitials(), true, true)) {
-                if (foundInitialLocation) {
-                    msg = fmt("Automaton \"%s\" has more than one initial location.", CifTextUtils.getAbsName(aut));
-                    problems.add(msg);
-                }
-                foundInitialLocation = true;
+                initLocCount++;
             }
         }
-        if (!foundInitialLocation) {
+
+        if (initLocCount == 0) {
             msg = fmt("Automaton \"%s\" has no initial location.", CifTextUtils.getAbsName(aut));
+            problems.add(msg);
+        }
+
+        if (initLocCount > 1) {
+            msg = fmt("Automaton \"%s\" has more than one initial location.", CifTextUtils.getAbsName(aut));
             problems.add(msg);
         }
     }
