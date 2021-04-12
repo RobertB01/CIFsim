@@ -234,7 +234,7 @@ public class Cif2Mcrl2PreChecker {
             }
         }
 
-        // Count the number of initial locations.
+        // Check the number of initial locations.
         int initLocCount = 0;
         for (Location loc: aut.getLocations()) {
             if (!loc.getInitials().isEmpty() && CifValueUtils.isTriviallyTrue(loc.getInitials(), true, true)) {
