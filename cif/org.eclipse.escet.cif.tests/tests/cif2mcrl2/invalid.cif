@@ -25,6 +25,15 @@ group g:
       edge when true;               // Implicit 'tau'.
   end
 
+  automaton mult_initials:          // Multiple initial locations.
+    location L0:
+      initial;
+    location L1:
+      initial;
+    location L2:
+      initial;
+  end
+
   plant p:
     disc int[1..2] x1 in {1,2};     // Non-deterministic variable init.
     disc int[1..2] x2 in any;       // Non-deterministic variable init.

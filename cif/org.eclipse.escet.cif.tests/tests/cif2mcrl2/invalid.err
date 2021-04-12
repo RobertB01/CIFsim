@@ -1,7 +1,8 @@
 WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 22, column 13: Automaton "g.no_initial" has no initial location.
-WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 30, column 20: Discrete variable "g.p.x2" is not used anywhere in the specification.
+WARNING: File "cif2mcrl2/invalid.cif": Semantic warning at line 39, column 20: Discrete variable "g.p.x2" is not used anywhere in the specification.
 ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
  - A value in the location of automaton "g.p" has an unsupported type "list bool" in expression "g.p.lb + [false]".
+ - Automaton "g.mult_initials" has more than one initial location.
  - Automaton "g.no_initial" has no initial location.
  - Continuous variable "g.p.cnt" is unsupported in the transformation.
  - Continuous variable "g.x" is unsupported in the transformation.
