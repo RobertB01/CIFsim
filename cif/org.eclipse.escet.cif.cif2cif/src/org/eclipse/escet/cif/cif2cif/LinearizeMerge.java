@@ -25,6 +25,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifUpdate
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEventExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfUpdate;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
@@ -32,6 +33,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Triple.triple;
 
 import java.util.List;
@@ -59,7 +61,6 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
 import org.eclipse.escet.common.java.Triple;
 
@@ -192,6 +193,13 @@ public class LinearizeMerge extends LinearizeBase {
         Expression sendValue = null;
         if (isChannel && !isVoid) {
             sendValue = getSendValue(sendAuts, event);
+
+            if (sendValue == null) {
+                // If there is no sender the event will never be enabled. Since there is no value for potential
+                // ReceivedExpressions, all updates are omitted.
+                warn(fmt("Event \"%s\" does not have a 'send' edge and is never enabled.", event.getName()));
+                return list();
+            }
         }
 
         // Add updates, for all send/receive alternatives.
@@ -230,7 +238,7 @@ public class LinearizeMerge extends LinearizeBase {
      * @param auts The original automata that send over the given event, sorted in ascending order based on their
      *     absolute names (without escaping). See also {@link CifSortUtils#sortCifObjects}.
      * @param event The event for which to return the 'send' value. Must be a channel.
-     * @return The 'send' value for the given event.
+     * @return The 'send' value for the given event or {@code null} if there is no sender.
      */
     private Expression getSendValue(List<Automaton> auts, Event event) {
         // Initialize condition to value pairs.
@@ -267,8 +275,10 @@ public class LinearizeMerge extends LinearizeBase {
             }
         }
 
-        // Paranoia check: we must have at least one sender.
-        Assert.check(!pairs.isEmpty());
+        // If there is no sender, there is no value to be send.
+        if (pairs.isEmpty()) {
+            return null;
+        }
 
         // If only on one edge, we have single send value.
         if (pairs.size() == 1) {
