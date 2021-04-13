@@ -344,7 +344,7 @@ public class StateInitCodeGenerator {
         List<Expression> initials = loc.getInitials();
         c.add("try {");
         c.indent();
-        c.add("b = %s;", gencodePreds(initials, ctxt, "state"));
+        c.add("b = %s;", gencodePreds(initials, ctxt, "state", "false"));
         c.dedent();
         c.add("} catch (CifSimulatorException e) {");
         c.indent();
