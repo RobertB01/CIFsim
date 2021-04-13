@@ -119,8 +119,24 @@ public class ExprCodeGenerator {
      * @return The Java code that represents the conjunction of the given predicates.
      */
     public static String gencodePreds(List<Expression> preds, CifCompilerContext ctxt, String state) {
+        return gencodePreds(preds, ctxt, state, "true");
+    }
+
+    /**
+     * Generate a Java code fragment for the conjunction of the given predicates.
+     *
+     * @param preds The predicates.
+     * @param ctxt The compiler context to use.
+     * @param state The name of the state variable in the context where the generated code is used. May be {@code null}
+     *     only if the context in which the expression occurs can not access the state.
+     * @param noPredsCode The code that is returned when no predicates are given.
+     * @return The Java code that represents the conjunction of the given predicates.
+     */
+    public static String gencodePreds(List<Expression> preds, CifCompilerContext ctxt, String state,
+            String noPredsCode)
+    {
         if (preds.isEmpty()) {
-            return "true";
+            return noPredsCode;
         }
         List<String> txts = listc(preds.size());
         for (Expression pred: preds) {
