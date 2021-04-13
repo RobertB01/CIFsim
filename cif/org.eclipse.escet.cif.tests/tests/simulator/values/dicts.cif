@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton a:
+  disc dict(string:string) q;
+  disc dict(int:int) r;
+  disc dict(bool:bool) s;
+  disc dict(real:real) t;
+  disc dict(set int:set int) v;
+  disc dict(dict(int:int):dict(int:int)) w;
+  disc dict(list int:list int) x;
+  disc dict(tuple(int y1; real y2):tuple(int y1; real y2)) y;
+  location l1:
+    initial;
+    edge do q["a"] := "b" goto l2;
+  location l2:
+    edge do r[4] := 6 goto l3;
+  location l3:
+    edge do s[true] := false goto l4;
+  location l4:
+    edge do t[4.4] := 2.6 goto l5;
+  location l5:
+    edge do v[{1, 3}] := {4, 8} goto l6;
+  location l6:
+    edge do w[{1:3}] := {5:8} goto l7;
+  location l7:
+    edge do x[[1, 2]] := [5, 6] goto l8;
+  location l8:
+    edge do y[(5, 3.0)] := (6, 1.0) goto l9;
+  location l9:
+    urgent;
+end

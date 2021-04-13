@@ -361,7 +361,8 @@ public class AssignmentCodeGenerator {
                 } else if (nctype instanceof DictType) {
                     // Generate code to compute key value, and use the local
                     // variable whenever we need it.
-                    c.add("int key%d = %s;", i, gencodeExpr(proj.getIndex(), ctxt, state));
+                    CifType keyType = ((DictType)nctype).getKeyType();
+                    c.add("%s key%d = %s;", gencodeType(keyType, ctxt), i, gencodeExpr(proj.getIndex(), ctxt, state));
                     anyIdxVars = true;
                     idxCodes.add("key" + i);
                 } else if (nctype instanceof TupleType) {
