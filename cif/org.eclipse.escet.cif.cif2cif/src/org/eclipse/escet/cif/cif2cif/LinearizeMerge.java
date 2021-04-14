@@ -275,7 +275,7 @@ public class LinearizeMerge extends LinearizeBase {
             }
         }
 
-        // If there is no sender, there is no value to be send.
+        // If there is no sender, there is no value to be sent.
         if (pairs.isEmpty()) {
             return null;
         }
