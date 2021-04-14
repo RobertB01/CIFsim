@@ -102,6 +102,8 @@ following restrictions apply:
 
 * Continuous variables are not supported.
 
+* Input variables are not supported.
+
 * Equations are not supported.
 
 * Initialization predicates are not supported, except for initialization
