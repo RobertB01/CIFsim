@@ -18,9 +18,12 @@ event e30;
 event e31a;
 event e31b;
 event e34;
+func int _f():
+  return 0;
+end
 enum E = ABC, DEF, l1, l2, l3, l4, l5, l6, X;
 automaton M:
-  alphabet e12, e14, e18, e19, e20, e20c, e21, e22, e23, e24, e26, e27a, e27b, e28, e30, e31a, e31b, e34, f27, p15a_e15a, p15b_e15b, p16_e16, p3_e3, p37_e37, p38_e38, p4_e4, p40_e40, p5_e5, p6_e6a, p6_e6b, p7_e7, p8_e8a, p8_e8b, p9_e9;
+  alphabet e12, e14, e18, e19, e20, e20c, e21, e22, e23, e24, e26, e27a, e27b, e28, e30, e31a, e31b, e34, f27, p15a_e15a, p15b_e15b, p16_e16, p3_e3, p37_e37, p38_e38, p4_e4, p40_e40, p41_e41a, p41_e41b, p5_e5, p6_e6a, p6_e6b, p7_e7, p8_e8a, p8_e8b, p9_e9;
   disc E p1 in any;
   disc E p10 = X;
   disc E p11 = l1;
@@ -104,6 +107,11 @@ automaton M:
   event p40_e40;
   disc real p40_v = 0.0;
   disc E p40 = l1;
+  event p41_e41a;
+  event p41_e41b;
+  disc int p41_a = 0;
+  disc func int() p41_b = _f;
+  disc E p41 = X;
   event p5_e5;
   disc E p5 = l1;
   event p6_e6a;
@@ -186,6 +194,7 @@ automaton M:
           p38 = l1 and true or (p38 = l2 and true or p38 = l3 and true) or (p38 = l4 and true or (p38 = l5 and true or p38 = l6 and true)),
           p4 = X and true,
           p40 = l1 and true or p40 = l2 and false,
+          p41 = X and true,
           p5 = l1 and true or p5 = l2 and false,
           p6 = l1 and true or p6 = l2 and true,
           p7 = l1 and true or p7 = l2 and true,
@@ -251,6 +260,7 @@ automaton M:
          p38 = l1 and false or (p38 = l2 and false or p38 = l3 and false) or (p38 = l4 and false or (p38 = l5 and false or p38 = l6 and false)),
          p4 = X and false,
          p40 = l1 and false or p40 = l2 and false,
+         p41 = X and false,
          p5 = l1 and false or p5 = l2 and false,
          p6 = l1 and false or p6 = l2 and false,
          p7 = l1 and false or p7 = l2 and false,
@@ -300,6 +310,8 @@ automaton M:
     edge p38_e38 when true do if p38 = l1 and true: p38_v := p38_v + 38.1 elif p38 = l1 and true: p38 := l1 elif p38 = l2 and p38_v = 38.2: p38 := l2 elif p38 = l2 and p38_v = 38.3: p38_v := p38_v + 38.4 elif p38 = l2 and (not(p38_v = 38.2) and not(p38_v = 38.3)): p38 := l2 elif p38 = l3 and p38_v >= 10.0: p38_v := p38_v + 38.5 elif p38 = l3 and p38_v <= 15.0: p38_v := p38_v + 38.6 elif p38 = l3 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := l3 elif p38 = l4 and p38_v >= 10.0: p38 := l4 elif p38 = l4 and p38_v <= 15.0: p38_v := p38_v + 38.7 elif p38 = l4 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := l4 elif p38 = l5 and p38_v >= 10.0: p38_v := p38_v + 38.8 elif p38 = l5 and p38_v <= 15.0: p38 := l5 elif p38 = l5 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := l5 elif p38 = l6 and true: p38_v := p38_v + 38.9 elif p38 = l6 and true: p38_v := p38_v + 38.11, p38 := l4 end;
     edge p4_e4 when p4 = X and true;
     edge p40_e40 when true do if p40 = l1 and p40_v > 40.0: p40_v := 40.1, p40 := l2 elif p40 = l1 and not(p40_v > 40.0): p40 := l1 elif p40 = l2 and true: p40 := l2 end;
+    edge p41_e41a when false and (p41 = X and true);
+    edge p41_e41b when false and (p41 = X and true);
     edge p5_e5 when p5 = l1 and true or p5 = l2 and true do if p5 = l1 and true: p5 := l2 elif p5 = l2 and true: p5 := l1 end;
     edge p6_e6a when p6 = l1 and false or p6 = l2 and true do p6 := l1;
     edge p6_e6b when p6 = l1 and true or p6 = l2 and false do p6 := l2;
