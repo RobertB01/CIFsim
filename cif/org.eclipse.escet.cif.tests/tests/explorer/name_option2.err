@@ -1,1 +1,1 @@
-WARNING: Resulting automaton is named "a2" instead of "a" to avoid a naming conflict.
+WARNING: Resulting statespace automaton is named "a2" instead of "a" to avoid a naming conflict.
