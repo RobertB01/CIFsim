@@ -23,6 +23,8 @@ map(string:list string) test_options = {
     "explorer/non_deterministic_no_mini.cif":   ["-z0"],
     "explorer/non_deterministic_with_mini.cif": ["-z1"],
     "explorer/no_initial_state.cif":            ["-s1"],
+    "explorer/name_option.cif":                 ["-n newName"],
+    "explorer/name_option2.cif":                ["-n a"],
 };
 set string test_skip = {};
 

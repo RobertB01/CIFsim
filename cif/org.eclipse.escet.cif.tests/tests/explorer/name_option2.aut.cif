@@ -1,0 +1,9 @@
+group a:
+  event e;
+end
+automaton a2:
+  alphabet a.e;
+  location loc1:
+    initial;
+    edge a.e;
+end
