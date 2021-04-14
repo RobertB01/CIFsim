@@ -349,8 +349,8 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     @Override
     protected OptionCategory getAllOptions() {
         List<OptionCategory> subPages = list();
-        subPages.add(getExploreOptionsCategory());
         subPages.add(getGeneralOptionCategory());
+        subPages.add(getExploreOptionsCategory());
 
         @SuppressWarnings("rawtypes")
         List<Option> options = list();
