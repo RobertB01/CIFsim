@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.explorer;
 
+import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeTrue;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlphabet;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
@@ -24,6 +25,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEventExpre
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newGroup;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocation;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -32,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
+import org.eclipse.escet.cif.explorer.app.AutomatonNameOption;
 import org.eclipse.escet.cif.explorer.runtime.BaseState;
 import org.eclipse.escet.cif.explorer.runtime.EventUsage;
 import org.eclipse.escet.cif.explorer.runtime.Explorer;
@@ -134,18 +137,29 @@ public class CifAutomatonBuilder {
     }
 
     /**
-     * Construct a name that does not exist in the top-level specification.
+     * Creates the resulting statespace automaton with the given name, in the root of the supplied specification.
      *
-     * @param name Suggested name.
+     * @param sugName Suggested name.
      * @param spec Specification to check.
-     * @return Name that does not clash with already used names at top-level.
+     * @return The newly created automaton.
      */
-    private static String makeNewName(String name, Specification spec) {
+    private static Automaton createResultAutomaton(String sugName, Specification spec) {
+        // Create automaton.
+        Automaton aut = newAutomaton();
+
+        // Give new automaton a unique name.
+        String name = sugName;
         Set<String> names = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (names.contains(name)) {
-            name = CifScopeUtils.getUniqueName(name, names, names);
+            name = CifScopeUtils.getUniqueName(name, names, EMPTY_SET);
+            warn("Resulting statespace automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name,
+                    sugName);
         }
-        return name;
+        aut.setName(name);
+
+        // Add automaton to the specification.
+        spec.getComponents().add(aut);
+        return aut;
     }
 
     /**
@@ -159,9 +173,8 @@ public class CifAutomatonBuilder {
      * @param newSpec Destination specification.
      */
     private void addAutomaton(Explorer expl, Specification newSpec) {
-        Automaton aut = newAutomaton();
-        aut.setName(makeNewName("statespace", newSpec));
-        newSpec.getComponents().add(aut);
+        String name = AutomatonNameOption.getAutomatonName("statespace");
+        Automaton aut = createResultAutomaton(name, newSpec);
 
         // Add alphabet.
         Alphabet alphabet = newAlphabet();

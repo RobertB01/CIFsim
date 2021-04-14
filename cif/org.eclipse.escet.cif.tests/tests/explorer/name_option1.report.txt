@@ -1,0 +1,6 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "a"

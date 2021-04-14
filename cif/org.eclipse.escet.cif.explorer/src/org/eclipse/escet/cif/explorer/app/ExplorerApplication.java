@@ -338,6 +338,7 @@ public class ExplorerApplication extends Application<IOutputComponent> {
         options.add(Options.getInstance(EnableStatisticsOption.class));
         options.add(Options.getInstance(EnableCifOutputOption.class));
         options.add(Options.getInstance(OutputFileOption.class));
+        options.add(Options.getInstance(AutomatonNameOption.class));
         options.add(Options.getInstance(EnableReportOption.class));
         options.add(Options.getInstance(ReportFileOption.class));
         options.add(Options.getInstance(PrintProgressOption.class));
@@ -348,8 +349,8 @@ public class ExplorerApplication extends Application<IOutputComponent> {
     @Override
     protected OptionCategory getAllOptions() {
         List<OptionCategory> subPages = list();
-        subPages.add(getExploreOptionsCategory());
         subPages.add(getGeneralOptionCategory());
+        subPages.add(getExploreOptionsCategory());
 
         @SuppressWarnings("rawtypes")
         List<Option> options = list();

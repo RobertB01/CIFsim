@@ -75,6 +75,11 @@ Enabled by default.
 * _Output file path_: The absolute or relative file system path of the output
 CIF specification with the generated state space as a CIF automaton.
 
+* _Name_: The name of the resulting statespace automaton. If not specified, it 
+defaults to `statespace`. If the resulting statespace automaton has a name 
+that conflicts with an existing declaration, it is automatically renamed to 
+have a non-conflicting name.
+
 * _Enable report_: Enable writing a detailed report on the found states.
 Disabled by default.
 

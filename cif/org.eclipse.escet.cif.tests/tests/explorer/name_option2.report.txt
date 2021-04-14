@@ -1,0 +1,9 @@
+State 1:
+    Initial: true
+    Marked: false
+
+    Locations:
+        location of automaton "a"
+
+    Edges:
+        edge a.e goto state 1
