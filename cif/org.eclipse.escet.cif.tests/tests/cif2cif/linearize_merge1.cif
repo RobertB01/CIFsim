@@ -740,3 +740,16 @@ automaton p40:
 
   location l2;
 end
+
+// Receive edge without a send edge.
+automaton p41:
+  event int e41a;
+  event func int() e41b;
+  disc int a;
+  disc func int() b;
+  location:
+    initial;
+    edge e41a? do a := ?;
+    edge e41b? do b := ?;
+end
+
