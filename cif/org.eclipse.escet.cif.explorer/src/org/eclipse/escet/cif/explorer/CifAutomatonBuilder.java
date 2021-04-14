@@ -137,7 +137,7 @@ public class CifAutomatonBuilder {
     }
 
     /**
-     * Creates the result automaton with the given name, in the root of the supplied specification.
+     * Creates the resulting statespace automaton with the given name, in the root of the supplied specification.
      *
      * @param sugName Suggested name.
      * @param spec Specification to check.
@@ -152,7 +152,8 @@ public class CifAutomatonBuilder {
         Set<String> names = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (names.contains(name)) {
             name = CifScopeUtils.getUniqueName(name, names, EMPTY_SET);
-            warn("Resulting automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name, sugName);
+            warn("Resulting statespace automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name,
+                    sugName);
         }
         aut.setName(name);
 

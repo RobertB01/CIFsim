@@ -20,19 +20,20 @@ import org.eclipse.escet.common.app.framework.exceptions.InvalidOptionException;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** Resulting automaton name option. */
+/** Resulting statespace automaton name option. */
 public class AutomatonNameOption extends StringOption {
     /** Constructor of the {@link AutomatonNameOption} class. */
     public AutomatonNameOption() {
-        super("Result automaton name", "The name of the resulting automaton. [DEFAULT=\"statespace\"]", 'n', "name",
-                "NAME", null, true, true, "The name of the resulting automaton.", "Name:");
+        super("Resulting statespace automaton name", "The name of the resulting statespace automaton. "
+                + "[DEFAULT=\"statespace\"]", 'n', "name", "NAME", null, true, true, "The name of the resulting "
+                + "statespace automaton.", "Name:");
     }
 
     /**
-     * Returns the name of the resulting automaton.
+     * Returns the name of the resulting statespace automaton.
      *
      * @param defaultName The default name to use, if no name is provided.
-     * @return The name of the resulting automaton.
+     * @return The name of the resulting statespace automaton.
      */
     public static String getAutomatonName(String defaultName) {
         // Get name, and use default if not supplied.
@@ -43,7 +44,7 @@ public class AutomatonNameOption extends StringOption {
 
         // Check name.
         if (!CifValidationUtils.isValidIdentifier(name)) {
-            String msg = fmt("Resulting automaton name \"%s\" is not a valid CIF identifier.", name);
+            String msg = fmt("Resulting statespace automaton name \"%s\" is not a valid CIF identifier.", name);
             throw new InvalidOptionException(msg);
         }
         return name;
