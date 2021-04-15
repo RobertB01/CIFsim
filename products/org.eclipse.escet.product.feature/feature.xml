@@ -17,7 +17,7 @@
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
-      license-feature-version="0.1.0.qualifier">
+      license-feature-version="0.2.0.qualifier">
 
    <description>
       Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET).
