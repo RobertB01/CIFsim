@@ -13,7 +13,7 @@
 <feature
       id="org.eclipse.escet.common.feature"
       label="ESCET Common (Incubation)"
-      version="0.1.0.qualifier"
+      version="0.2.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
