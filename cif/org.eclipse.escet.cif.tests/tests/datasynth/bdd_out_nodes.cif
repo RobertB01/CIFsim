@@ -18,7 +18,7 @@ end
 plant p:
   controllable e1, e2;
 
-  enum E = {P, Q, R};
+  enum E = P, Q, R;
 
   disc bool b in any;
   disc int[0..3] x in any;
