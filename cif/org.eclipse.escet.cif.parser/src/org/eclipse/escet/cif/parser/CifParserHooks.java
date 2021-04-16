@@ -568,6 +568,7 @@ public final class CifParserHooks implements CifParser.Hooks {
 
     @Override // Decl : ENUMKW Identifier EQTK CUROPENTK Identifiers CURCLOSETK SEMICOLTK;
     public ADecl parseDecl02(AIdentifier a2, List<AIdentifier> l5) {
+        parser.addWarning("Enumeration declaration variant with curly brackets is deprecated.", a2.position);
         return new AEnumDecl(a2.id, l5, a2.position);
     }
 
