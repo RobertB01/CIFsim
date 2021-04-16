@@ -32,6 +32,7 @@ import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.OutputStreamAppStream;
 import org.eclipse.escet.common.box.StreamCodeBox;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
+import org.eclipse.escet.setext.runtime.SyntaxWarning;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
 /** CIF resource, providing EMF loading/saving from/to CIF ASCII files. */
@@ -75,12 +76,22 @@ public class CifResource extends ResourceImpl {
         } catch (InputOutputException ex) {
             throw new IOException("Failed to read input.", ex);
         } catch (SyntaxException ex) {
+            // Report syntax error.
             Diagnostic diagnostic = new CifSyntaxDiagnostic(ex);
             if (errors == null) {
                 getErrors();
             }
             errors.add(diagnostic);
             return;
+        }
+
+        // Report syntax warnings.
+        for (SyntaxWarning warning: parser.getWarnings()) {
+            Diagnostic diagnostic = new CifSyntaxWarningDiagnostic(warning);
+            if (warnings == null) {
+                getWarnings();
+            }
+            warnings.add(diagnostic);
         }
 
         // Type check the input.
@@ -90,7 +101,7 @@ public class CifResource extends ResourceImpl {
         }
         Specification spec = tchecker.typeCheck(specAst);
 
-        // Report problems.
+        // Report semantic problems.
         for (SemanticProblem problem: tchecker.getProblems()) {
             Diagnostic diagnostic = new CifSemanticDiagnostic(problem);
             switch (problem.severity) {
@@ -127,9 +138,9 @@ public class CifResource extends ResourceImpl {
         CifPrettyPrinter.boxSpec(spec, streamBox);
     }
 
-    /** EMF diagnostic wrapping a CIF syntax problem. */
+    /** EMF diagnostic wrapping a CIF syntax error. */
     public class CifSyntaxDiagnostic implements Diagnostic {
-        /** The CIF type checker problem. */
+        /** The CIF parser error. */
         public final SyntaxException error;
 
         /**
@@ -164,6 +175,46 @@ public class CifResource extends ResourceImpl {
         @Override
         public String toString() {
             return error.toString();
+        }
+    }
+
+    /** EMF diagnostic wrapping a CIF syntax warning. */
+    public class CifSyntaxWarningDiagnostic implements Diagnostic {
+        /** The CIF parser warning. */
+        public final SyntaxWarning warning;
+
+        /**
+         * Constructor for the {@link CifSemanticDiagnostic}.
+         *
+         * @param warning The warning.
+         */
+        public CifSyntaxWarningDiagnostic(SyntaxWarning warning) {
+            this.warning = warning;
+        }
+
+        @Override
+        public String getMessage() {
+            return warning.toString();
+        }
+
+        @Override
+        public String getLocation() {
+            return (uri == null) ? null : uri.toString();
+        }
+
+        @Override
+        public int getLine() {
+            return warning.position.getStartLine();
+        }
+
+        @Override
+        public int getColumn() {
+            return warning.position.getEndLine();
+        }
+
+        @Override
+        public String toString() {
+            return warning.toString();
         }
     }
 
