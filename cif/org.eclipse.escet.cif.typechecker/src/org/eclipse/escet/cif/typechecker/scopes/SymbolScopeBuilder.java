@@ -217,6 +217,10 @@ public class SymbolScopeBuilder {
                     // Parse file, given absolute local file system path.
                     spec = parser.parseFile(sourceFile.absPath, relPath);
                 }
+
+                if (!parser.getWarnings().isEmpty()) {
+                    tchecker.addProblem(ErrMsg.IMPORT_SYNTAX_WARNING, sourceFile.importingPos, relPath);
+                }
             } catch (InvalidInputException e) {
                 tchecker.addProblem(ErrMsg.IMPORT_NOT_FOUND, sourceFile.importingPos, relPath);
                 throw new SemanticException();
