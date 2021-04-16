@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
+import static org.eclipse.escet.common.java.Sets.sortedgeneric;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -50,6 +51,9 @@ import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
  * @param <T> The type of the abstract syntax tree that results from parsing.
  */
 public abstract class Parser<T> {
+    /** The syntax warnings found so far. Is modified in-place. */
+    private final Set<SyntaxWarning> warnings = set();
+
     /** The scanner to use to read tokens from the input. */
     protected final Scanner scanner;
 
@@ -986,6 +990,25 @@ public abstract class Parser<T> {
         }
         builder.append(tokenTxt);
         return builder.toString();
+    }
+
+    /**
+     * Adds a syntax warning to the list of warnings found so far.
+     *
+     * @param message The message describing the syntax warning.
+     * @param position Position information.
+     */
+    public void addWarning(String message, Position position) {
+        warnings.add(new SyntaxWarning(message, position));
+    }
+
+    /**
+     * Returns the syntax warnings found so far. The resulting list must never be modified in-place!
+     *
+     * @return The syntax warnings found so far.
+     */
+    public List<SyntaxWarning> getWarnings() {
+        return sortedgeneric(warnings);
     }
 
     /** State stack iterator for the non-reduced state stack. */

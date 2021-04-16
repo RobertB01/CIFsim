@@ -39,6 +39,7 @@ import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.Parser;
+import org.eclipse.escet.setext.runtime.SyntaxWarning;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import org.eclipse.escet.setext.texteditorbase.scanners.GenericPartitionScanner;
 import org.eclipse.jface.text.BadLocationException;
@@ -516,12 +517,20 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
             try {
                 parseRslt = parser.parseString(text[0], absPath, debugMode);
             } catch (SyntaxException ex) {
+                // Add marker for syntax error.
                 addMarker(document, file, ex.getPosition(), ex.getMessage(), syntaxProblemMarkerId,
                         IMarker.SEVERITY_ERROR);
             } finally {
                 if (debugMode != DebugMode.NONE) {
                     AppEnv.unregisterApplication();
                 }
+            }
+
+            // Add markers for syntax warnings.
+            for (SyntaxWarning warning: parser.getWarnings()) {
+                addMarker(document, file, warning.position, warning.message, syntaxProblemMarkerId,
+                        IMarker.SEVERITY_WARNING);
+
             }
 
             // Update fold ranges.
