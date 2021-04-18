@@ -530,7 +530,6 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
             for (SyntaxWarning warning: parser.getWarnings()) {
                 addMarker(document, file, warning.position, warning.message, syntaxProblemMarkerId,
                         IMarker.SEVERITY_WARNING);
-
             }
 
             // Update fold ranges.

@@ -142,7 +142,7 @@ public class CifEmfIoTest {
     }
 
     @Test
-    public void testLoadSymanticWarning() throws IOException {
+    public void testLoadSemanticWarning() throws IOException {
         // Set input.
         String input = "controllable c;";
         byte[] bytes = input.getBytes(Charset.forName("UTF-8"));

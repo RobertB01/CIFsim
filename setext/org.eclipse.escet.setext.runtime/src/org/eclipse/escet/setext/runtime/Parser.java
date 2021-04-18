@@ -225,6 +225,25 @@ public abstract class Parser<T> {
     }
 
     /**
+     * Adds a syntax warning to the list of warnings found so far.
+     *
+     * @param message The message describing the syntax warning.
+     * @param position Position information.
+     */
+    public void addWarning(String message, Position position) {
+        warnings.add(new SyntaxWarning(message, position));
+    }
+
+    /**
+     * Returns the syntax warnings found so far. The resulting list must never be modified in-place!
+     *
+     * @return The syntax warnings found so far (sorted).
+     */
+    public List<SyntaxWarning> getWarnings() {
+        return sortedgeneric(warnings);
+    }
+
+    /**
      * Returns the object with the parser call back hooks.
      *
      * @return The object with the parser call back hooks.
@@ -990,25 +1009,6 @@ public abstract class Parser<T> {
         }
         builder.append(tokenTxt);
         return builder.toString();
-    }
-
-    /**
-     * Adds a syntax warning to the list of warnings found so far.
-     *
-     * @param message The message describing the syntax warning.
-     * @param position Position information.
-     */
-    public void addWarning(String message, Position position) {
-        warnings.add(new SyntaxWarning(message, position));
-    }
-
-    /**
-     * Returns the syntax warnings found so far. The resulting list must never be modified in-place!
-     *
-     * @return The syntax warnings found so far.
-     */
-    public List<SyntaxWarning> getWarnings() {
-        return sortedgeneric(warnings);
     }
 
     /** State stack iterator for the non-reduced state stack. */

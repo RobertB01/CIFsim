@@ -290,7 +290,7 @@ public abstract class TypeChecker<TIn, TOut> {
     /**
      * Returns the semantic problems found so far. The resulting list must never be modified in-place!
      *
-     * @return The semantic problems found so far.
+     * @return The semantic problems found so far (sorted).
      */
     public List<SemanticProblem> getProblems() {
         return sortedgeneric(problems);

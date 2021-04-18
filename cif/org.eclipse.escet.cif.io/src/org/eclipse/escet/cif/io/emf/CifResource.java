@@ -77,7 +77,7 @@ public class CifResource extends ResourceImpl {
             throw new IOException("Failed to read input.", ex);
         } catch (SyntaxException ex) {
             // Report syntax error.
-            Diagnostic diagnostic = new CifSyntaxDiagnostic(ex);
+            Diagnostic diagnostic = new CifSyntaxErrorDiagnostic(ex);
             if (errors == null) {
                 getErrors();
             }
@@ -139,16 +139,16 @@ public class CifResource extends ResourceImpl {
     }
 
     /** EMF diagnostic wrapping a CIF syntax error. */
-    public class CifSyntaxDiagnostic implements Diagnostic {
+    public class CifSyntaxErrorDiagnostic implements Diagnostic {
         /** The CIF parser error. */
         public final SyntaxException error;
 
         /**
-         * Constructor for the {@link CifSyntaxDiagnostic}.
+         * Constructor for the {@link CifSyntaxErrorDiagnostic}.
          *
          * @param error The syntax error.
          */
-        public CifSyntaxDiagnostic(SyntaxException error) {
+        public CifSyntaxErrorDiagnostic(SyntaxException error) {
             this.error = error;
         }
 
@@ -184,7 +184,7 @@ public class CifResource extends ResourceImpl {
         public final SyntaxWarning warning;
 
         /**
-         * Constructor for the {@link CifSemanticDiagnostic}.
+         * Constructor for the {@link CifSyntaxWarningDiagnostic}.
          *
          * @param warning The warning.
          */
