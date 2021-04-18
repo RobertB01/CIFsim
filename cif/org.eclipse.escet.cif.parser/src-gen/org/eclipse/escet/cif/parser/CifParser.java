@@ -71988,12 +71988,12 @@ public final class CifParser extends Parser<ASpecification> {
                 doReduce2();
                 doReduce2();
                 Object o5 = doReduce2();
-                doReduce2();
+                Object o4 = doReduce2();
                 doReduce2();
                 Object o2 = doReduce2();
                 doReduce2();
 
-                ADecl o = hooks.parseDecl02((AIdentifier)o2, (List<AIdentifier>)o5);
+                ADecl o = hooks.parseDecl02((AIdentifier)o2, (Token)o4, (List<AIdentifier>)o5);
 
                 reduce = true;
                 reduceNonTerminal = 9;
@@ -101222,13 +101222,14 @@ public final class CifParser extends Parser<ASpecification> {
         /**
          * Parser call back hook for rule/production:
          *
-         * <p>{@code Decl : ENUMKW Identifier EQTK CUROPENTK Identifiers CURCLOSETK SEMICOLTK;}</p>
+         * <p>{@code Decl : ENUMKW Identifier EQTK @CUROPENTK Identifiers CURCLOSETK SEMICOLTK;}</p>
          *
          * @param a2 Identifier.
+         * @param t4 CUROPENTK.
          * @param l5 Identifiers.
          * @return The parser call back hook result.
          */
-        public ADecl parseDecl02(AIdentifier a2, List<AIdentifier> l5);
+        public ADecl parseDecl02(AIdentifier a2, Token t4, List<AIdentifier> l5);
 
         /**
          * Parser call back hook for rule/production:
