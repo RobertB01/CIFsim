@@ -49,7 +49,8 @@ To create a development environment for a non-first time:
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
 ** Select _2021-03_ for _Product Version_.
-** Select a Java 8 JDK for _Java 1.8+ VM_.
+** For _Java 11+ VM_ select
+_JRE 11.0.2 - http://download.eclipse.org/justj/jres/11/updates/release/11.0.2_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:
@@ -68,8 +69,6 @@ Projects_ / _<User>_.
 ** Choose a _Root install folder_ and _Installation folder name_.
 The new development environment will be put at
 `<root_installation_folder>/<installation_folder_name>`.
-** For _JRE 1.8 location_ make sure to select the same Java 8 JDK that you
-selected in the first wizard window.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
