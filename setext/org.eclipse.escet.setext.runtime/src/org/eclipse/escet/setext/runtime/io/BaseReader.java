@@ -28,6 +28,7 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 import org.eclipse.escet.common.typechecker.TypeChecker;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.Parser;
+import org.eclipse.escet.setext.runtime.SyntaxWarning;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 
 /**
@@ -149,8 +150,8 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
     }
 
     /**
-     * Reads the input from the file set via the {@link #init} method. Type checking problems are printed to the
-     * console, using the application framework.
+     * Reads the input from the file set via the {@link #init} method. Parser warnings and type checking problems are
+     * printed to the console, using the application framework.
      *
      * @return The result of reading the input file, parsing it, and type checking it.
      * @throws IllegalStateException If the reader is not yet initialized.
@@ -168,13 +169,20 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
         TParser parser = createParser();
         TAst ast = parser.parseFile(absPath, path, debugMode);
 
+        // Report parser warnings.
+        if (!suppressWarnings) {
+            for (SyntaxWarning warning: parser.getWarnings()) {
+                OutputProvider.warn(warning.toString());
+            }
+        }
+
         // Type check the AST.
         return tcheck(ast);
     }
 
     /**
-     * Reads the input from a string. Type checking problems are printed to the console, using the application
-     * framework.
+     * Reads the input from a string. Parser warnings and type checking problems are printed to the console, using the
+     * application framework.
      *
      * @param fileText The input file text to read.
      * @return The result of parsing the input text, and type checking it.
@@ -193,6 +201,13 @@ public abstract class BaseReader<T extends BaseReader<?, ?, ?, ?, ?>, TAst, TRsl
         String src = fmt("File \"%s\": ", path);
         TParser parser = createParser();
         TAst ast = parser.parseString(fileText, absPath, src, debugMode);
+
+        // Report parser warnings.
+        if (!suppressWarnings) {
+            for (SyntaxWarning warning: parser.getWarnings()) {
+                OutputProvider.warn(warning.toString());
+            }
+        }
 
         // Type check the AST.
         return tcheck(ast);

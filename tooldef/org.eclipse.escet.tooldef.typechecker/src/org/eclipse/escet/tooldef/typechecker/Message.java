@@ -57,6 +57,7 @@ public enum Message {
     IMPORT_FILE_RESOURCE_NOT_FOUND("Imported ToolDef script \"%s\" could not be found %s.", ERROR),
     IMPORT_FILE_SEMANTIC_ERROR("Imported ToolDef script \"%s\" has an error: %s", ERROR),
     IMPORT_FILE_SYNTAX_ERROR("Imported ToolDef script \"%s\" has a syntax error.", ERROR),
+    IMPORT_FILE_SYNTAX_WARNING("Imported ToolDef script \"%s\" has a syntax warning.", WARNING),
     IMPORT_JAVA_CLASS_NOT_FOUND("Cannot load Java class \"%s\" as the class could not be found %s.", ERROR),
     IMPORT_JAVA_METHOD_NOT_FOUND("Cannot find a %smethod named \"%s\" in class \"%s\".", ERROR),
     IMPORT_JAVA_TYPE_ARRAY("Unsupported use of a Java array type in a %s type of a Java method.", ERROR),

@@ -119,4 +119,46 @@ public class CifEmfIoTest {
         assertEquals(1, resource.getErrors().size());
         assertEquals(0, resource.getWarnings().size());
     }
+
+    @Test
+    public void testLoadSyntaxWarning() throws IOException {
+        // Set input.
+        String input = "enum E = {x};";
+        byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
+        InputStream stream = new ByteArrayInputStream(bytes);
+
+        // Create resource.
+        ResourceSet resources = new ResourceSetImpl();
+        URI uri = URI.createURI("test.cif");
+        Resource resource = resources.createResource(uri);
+
+        // Load.
+        resource.load(stream, null);
+
+        // Check results.
+        assertEquals(1, resource.getContents().size());
+        assertEquals(0, resource.getErrors().size());
+        assertEquals(1, resource.getWarnings().size());
+    }
+
+    @Test
+    public void testLoadSemanticWarning() throws IOException {
+        // Set input.
+        String input = "controllable c;";
+        byte[] bytes = input.getBytes(Charset.forName("UTF-8"));
+        InputStream stream = new ByteArrayInputStream(bytes);
+
+        // Create resource.
+        ResourceSet resources = new ResourceSetImpl();
+        URI uri = URI.createURI("test.cif");
+        Resource resource = resources.createResource(uri);
+
+        // Load.
+        resource.load(stream, null);
+
+        // Check results.
+        assertEquals(1, resource.getContents().size());
+        assertEquals(0, resource.getErrors().size());
+        assertEquals(1, resource.getWarnings().size());
+    }
 }
