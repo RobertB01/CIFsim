@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams;
 
 import java.awt.Font;
@@ -61,9 +74,12 @@ public class FontData {
 
     /** Available styles of text. */
     public static enum FontStyle {
-        /** Italic style. */ ITALIC(Font.ITALIC),
-        /** Bold style. */   BOLD(Font.BOLD),
-        /** Plain style. */  PLAIN(Font.PLAIN);
+        /** Italic style. */
+        ITALIC(Font.ITALIC),
+        /** Bold style. */
+        BOLD(Font.BOLD),
+        /** Plain style. */
+        PLAIN(Font.PLAIN);
 
         /** Value of the style in {@link Font}. */
         public final int fontStyle;

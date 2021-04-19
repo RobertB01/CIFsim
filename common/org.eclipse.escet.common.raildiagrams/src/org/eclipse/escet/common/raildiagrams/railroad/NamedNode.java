@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
@@ -38,7 +51,9 @@ public class NamedNode extends DiagramElement {
     /**
      * Constructor of the {@link NamedNode} class.
      *
-     * <p>One of the parameters must be {@code null} and one of the parameters must be non-{@code null}.</p>
+     * <p>
+     * One of the parameters must be {@code null} and one of the parameters must be non-{@code null}.
+     * </p>
      *
      * @param name Name of the node to refer to.
      * @param text Text of the node.
@@ -72,8 +87,7 @@ public class NamedNode extends DiagramElement {
         Color textColor = config.getTextColor(nameKind);
         TextSizeOffset textSizeOffset = config.getTextSizeOffset(text, nameKind);
         Size2D textSize = textSizeOffset.size;
-        TextArea textArea = new TextArea(solver, "named-text", text, textColor, font,
-                                         textSizeOffset.offset, textSize);
+        TextArea textArea = new TextArea(solver, "named-text", text, textColor, font, textSizeOffset.offset, textSize);
         addGraphic(textArea);
         solver.addEq(textArea.top, textSize.height / 2 - railwidth / 2, connectTop);
 

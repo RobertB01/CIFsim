@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.graphics;
 
 import java.awt.Color;
@@ -7,7 +20,9 @@ import org.eclipse.escet.common.raildiagrams.solver.Solver;
 /**
  * An arc connecting horizontal with vertical.
  *
- * <p>Edge of the arc area is also edge of the line.</p>
+ * <p>
+ * Edge of the arc area is also edge of the line.
+ * </p>
  */
 public abstract class Arc extends Area {
     /** Line width of the arc. */

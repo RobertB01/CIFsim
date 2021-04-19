@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams;
 
 import org.eclipse.escet.common.app.framework.options.Options;
@@ -24,7 +37,7 @@ public class ConfigFileOption extends StringOption {
 
     /** Description of the option. */
     private static final String DESCRIPTION = "Name of the diagram generator configuration file. "
-                                                + "[DEFAULT=not specified]";
+            + "[DEFAULT=not specified]";
 
     /** Whether to show the option in a dialogue box. */
     private static final boolean SHOW_IN_DIALOG = true;
@@ -37,7 +50,7 @@ public class ConfigFileOption extends StringOption {
 
     public ConfigFileOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, EMPTY_AS_NULL, SHOW_IN_DIALOG,
-              OPT_DIALOG_DESCR, OPT_DIALOG_LABEL_TEXT);
+                OPT_DIALOG_DESCR, OPT_DIALOG_LABEL_TEXT);
     }
 
     /**

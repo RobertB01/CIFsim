@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.graphics;
 
 import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.setLineWidth;
@@ -35,7 +48,8 @@ public class HorLine extends Area {
         double center = (bottom + top + 1) / 2;
         double left = solver.getVarValue(this.left) + baseLeft;
         double right = solver.getVarValue(this.right) + baseLeft - 1;
-        if (right <= left) return;
+        if (right <= left)
+            return;
 
         gd.setColor(railColor);
         setLineWidth(gd, (int)width);

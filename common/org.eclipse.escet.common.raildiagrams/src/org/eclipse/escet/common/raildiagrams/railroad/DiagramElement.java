@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.java.Lists.list;
@@ -60,7 +73,8 @@ public abstract class DiagramElement {
      * @param graphics The graphic elements to add.
      */
     public void addGraphics(Area... graphics) {
-        for (Area graphic: graphics) this.graphics.add(graphic);
+        for (Area graphic: graphics)
+            this.graphics.add(graphic);
     }
 
     /**
@@ -68,8 +82,8 @@ public abstract class DiagramElement {
      *
      * @param element Element to add.
      * @param elemName Name of the element.
-     * @return The proxied element with variables from the element environment.
-     *      Use this for connecting the child element to other parts of the diagram here.
+     * @return The proxied element with variables from the element environment. Use this for connecting the child
+     *     element to other parts of the diagram here.
      */
     public ProxyDiagramElement addDiagramElement(DiagramElement element, String elemName) {
         ProxyDiagramElement proxyDiagram = new ProxyDiagramElement(element, elemName, solver);
@@ -94,7 +108,8 @@ public abstract class DiagramElement {
      * @param gd Graphics output handle.
      */
     public void paint(double left, double top, Graphics2D gd) {
-        for (Area graphic: graphics) graphic.paint(left, top, solver, gd);
+        for (Area graphic: graphics)
+            graphic.paint(left, top, solver, gd);
 
         for (ProxyDiagramElement childElement: childDiagramElements) {
             double childLeft = left + solver.getVarValue(childElement.left);

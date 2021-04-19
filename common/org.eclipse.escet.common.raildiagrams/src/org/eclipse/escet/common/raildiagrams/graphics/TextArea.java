@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.graphics;
 
 import java.awt.Color;
@@ -35,8 +48,8 @@ public class TextArea extends Area {
      * @param font Font information.
      * @param offset Position to print the text relative to the top-left corner of this box.
      */
-    public TextArea(Solver solver, String prefix, String text, Color color,
-                    FontData font, Position2D offset, Size2D size)
+    public TextArea(Solver solver, String prefix, String text, Color color, FontData font, Position2D offset,
+            Size2D size)
     {
         super(solver, prefix);
         this.text = text;
@@ -68,8 +81,8 @@ public class TextArea extends Area {
      * @param text Text to display.
      * @return
      */
-    public static TextArea makeTextArea(Solver solver, String prefix, Configuration config,
-                                        NameKind nameKind, String text)
+    public static TextArea makeTextArea(Solver solver, String prefix, Configuration config, NameKind nameKind,
+            String text)
     {
         FontData font = config.getFont(nameKind);
         Color textColor = config.getTextColor(nameKind);

@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
@@ -34,10 +47,10 @@ public class RailRule extends DiagramElement {
 
     @Override
     public void create(Configuration config, int direction) {
-        double leftRulePadding   = config.getRealValue("rule.padding.left");
-        double topRulePadding    = config.getRealValue("rule.padding.top");
+        double leftRulePadding = config.getRealValue("rule.padding.left");
+        double topRulePadding = config.getRealValue("rule.padding.top");
         double bottomRulePadding = config.getRealValue("rule.padding.bottom");
-        double rightRulePadding  = config.getRealValue("rule.padding.right");
+        double rightRulePadding = config.getRealValue("rule.padding.right");
         double diagramTopPadding = config.getRealValue("rule.diagram.padding.top");
         double diagramIndent = config.getRealValue("rule.diagram.padding.left");
         double leadWidth = config.getRealValue("rule.diagram.lead.width");

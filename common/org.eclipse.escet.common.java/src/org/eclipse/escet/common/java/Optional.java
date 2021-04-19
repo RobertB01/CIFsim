@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.java;
 
 /**
@@ -21,7 +34,9 @@ public class Optional<T> {
     /**
      * Get the raw value.
      *
-     * <p>No checking is done whether the value is {@code null}.</p>
+     * <p>
+     * No checking is done whether the value is {@code null}.
+     * </p>
      *
      * @return The stored value.
      * @see #isNull

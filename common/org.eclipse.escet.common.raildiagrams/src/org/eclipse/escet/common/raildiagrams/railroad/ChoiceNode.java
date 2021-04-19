@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
@@ -92,7 +105,6 @@ public class ChoiceNode extends DiagramElement {
                 addGraphic(rightArcDown);
                 solver.addEq(rightArcDown.right, 0, right);
                 solver.addEq(rightArcDown.top, 0, connectTop);
-
             } else {
                 solver.addLe(prevElement.bottom, choiceVertPadding, altProxy.top); // Min distance to previous choice.
 
@@ -100,15 +112,15 @@ public class ChoiceNode extends DiagramElement {
                 addGraphic(leftVer);
                 leftArcDown.connectLine(solver, leftVer);
                 BottomLeftArc leftConnect = new BottomLeftArc(solver, fmt("left-connect-%d", i), railColor, arcSize,
-                                                              railWidth);
+                        railWidth);
                 addGraphic(leftConnect);
                 leftConnect.connectLine(solver, leftVer);
 
                 VertLine rightVer = new VertLine(solver, fmt("right-ver-%d", i), railColor, railWidth);
                 addGraphic(rightVer);
                 rightArcDown.connectLine(solver, rightVer);
-                BottomRightArc rightConnect = new BottomRightArc(solver, fmt("right-connect-%d", i), railColor,
-                                                                 arcSize, railWidth);
+                BottomRightArc rightConnect = new BottomRightArc(solver, fmt("right-connect-%d", i), railColor, arcSize,
+                        railWidth);
                 addGraphic(rightConnect);
                 rightConnect.connectLine(solver, rightVer);
 

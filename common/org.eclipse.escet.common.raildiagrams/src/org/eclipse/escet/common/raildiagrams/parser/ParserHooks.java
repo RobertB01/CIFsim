@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.parser;
 
 import static org.eclipse.escet.common.java.Lists.copy;
@@ -23,14 +36,11 @@ import org.eclipse.escet.setext.runtime.Token;
 /**
  * Call back hook methods for:
  * <ul>
- *  <li>{@link RailRoadScanner}</li>
- *  <li>{@link RailRoadParser}</li>
+ * <li>{@link RailRoadScanner}</li>
+ * <li>{@link RailRoadParser}</li>
  * </ul>
  */
-public final class ParserHooks
-implements RailRoadScanner.Hooks,
-           RailRoadParser.Hooks
-{
+public final class ParserHooks implements RailRoadScanner.Hooks, RailRoadParser.Hooks {
     @Override
     public void setParser(Parser<?> parser) {
     }
@@ -172,16 +182,16 @@ implements RailRoadScanner.Hooks,
      * @return An object for performing one of the provided alternatives.
      */
     private DiagramElement makeChoice(List<DiagramElement> choices) {
-        if (choices.size() == 1) return choices.get(0);
+        if (choices.size() == 1)
+            return choices.get(0);
         return new ChoiceNode(choices);
     }
 
     /**
-     * Construct a possibly multi-row sequence element if there are at least two children,
-     * else return the single child.
+     * Construct a possibly multi-row sequence element if there are at least two children, else return the single child.
      *
-     * @param optElements Children to sequentially perform, some children may be {@code null} indicating a break
-     *      to the next row in the sequence.
+     * @param optElements Children to sequentially perform, some children may be {@code null} indicating a break to the
+     *     next row in the sequence.
      * @return An object for performing all provided alternatives.
      */
     private DiagramElement makeSequenceMultiRow(List<Optional<DiagramElement>> optElements) {
@@ -197,9 +207,11 @@ implements RailRoadScanner.Hooks,
                 elements.add(optVal.getValue());
             }
         }
-        if (!elements.isEmpty()) rows.add(new SequenceRow(elements));
+        if (!elements.isEmpty())
+            rows.add(new SequenceRow(elements));
 
-        if (rows.size() == 1 && rows.get(0).elements.size() == 1) return first(first(rows).elements);
+        if (rows.size() == 1 && rows.get(0).elements.size() == 1)
+            return first(first(rows).elements);
         return new SequenceNode(rows);
     }
 
@@ -210,7 +222,8 @@ implements RailRoadScanner.Hooks,
      * @return An object for performing all provided alternatives.
      */
     private DiagramElement makeSequenceRow(List<DiagramElement> sequence) {
-        if (sequence.size() == 1) return sequence.get(0);
+        if (sequence.size() == 1)
+            return sequence.get(0);
         return new SequenceNode(list(new SequenceRow(sequence)));
     }
 }

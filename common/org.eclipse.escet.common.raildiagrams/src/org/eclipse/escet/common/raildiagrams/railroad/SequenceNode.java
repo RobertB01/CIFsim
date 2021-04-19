@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
@@ -35,7 +48,8 @@ public class SequenceNode extends DiagramElement {
 
         // Initialize the {@link SequencRow#hasNextRow} field.
         SequenceRow lastRow = last(rows);
-        for (SequenceRow row: rows) row.hasNextRow = (row != lastRow);
+        for (SequenceRow row: rows)
+            row.hasNextRow = (row != lastRow);
     }
 
     @Override
@@ -63,15 +77,17 @@ public class SequenceNode extends DiagramElement {
 
             // Build the sequence graphics.
             if (direction > 0) {
-                connect = (i == 0) ? makeLeftRightFirstRow(row, railColor, railWidth, firstRowLeadPadding,
-                                                           paddingInterrow / 2, arcRadius, verticalLines)
-                                   : makeLeftRightNextRow(connect, row, railColor, railWidth, otherRowLeadPadding,
-                                                          paddingInterrow / 2, arcRadius, rowNumStr, verticalLines);
+                connect = (i == 0)
+                        ? makeLeftRightFirstRow(row, railColor, railWidth, firstRowLeadPadding, paddingInterrow / 2,
+                                arcRadius, verticalLines)
+                        : makeLeftRightNextRow(connect, row, railColor, railWidth, otherRowLeadPadding,
+                                paddingInterrow / 2, arcRadius, rowNumStr, verticalLines);
             } else {
-                    connect = (i == 0) ? makeRightLeftFirstRow(row, railColor, railWidth, firstRowLeadPadding,
-                                                               paddingInterrow / 2, arcRadius, verticalLines)
-                                       : makeRightLeftNextRow(connect, row, railColor, railWidth, otherRowLeadPadding,
-                                                              paddingInterrow / 2, arcRadius, rowNumStr, verticalLines);
+                connect = (i == 0)
+                        ? makeRightLeftFirstRow(row, railColor, railWidth, firstRowLeadPadding, paddingInterrow / 2,
+                                arcRadius, verticalLines)
+                        : makeRightLeftNextRow(connect, row, railColor, railWidth, otherRowLeadPadding,
+                                paddingInterrow / 2, arcRadius, rowNumStr, verticalLines);
             }
 
             i++;
@@ -98,7 +114,6 @@ public class SequenceNode extends DiagramElement {
                 solver.addEq(hEnd.left, 0, left);
             }
             solver.addEq(hEnd.top, 0, connectTop);
-
         } else { // More than one row, make a line upward to the top.
             Arc bottomUp; // Arc at the bottom of the 'up' line.
             Arc topUp; // Arc at the top of the 'up' line.
@@ -122,11 +137,13 @@ public class SequenceNode extends DiagramElement {
             if (direction > 0) {
                 solver.addEq(topUp.right, 0, right);
 
-                for (VertLine rowVert: verticalLines) solver.addLe(rowVert.right, paddingSuffix, upLine.left);
+                for (VertLine rowVert: verticalLines)
+                    solver.addLe(rowVert.right, paddingSuffix, upLine.left);
             } else {
                 solver.addEq(topUp.left, 0, left);
 
-                for (VertLine rowVert: verticalLines) solver.addLe(upLine.right, paddingSuffix, rowVert.left);
+                for (VertLine rowVert: verticalLines)
+                    solver.addLe(upLine.right, paddingSuffix, rowVert.left);
             }
             solver.addEq(topUp.top, 0, connectTop);
         }
@@ -146,9 +163,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeLeftRightFirstRow(SequenceRow row, Color railColor, double railWidth,
-                                          double leadPadding, double vertPadding, double arcSize,
-                                          List<VertLine> verticalLines)
+    private HorLine makeLeftRightFirstRow(SequenceRow row, Color railColor, double railWidth, double leadPadding,
+            double vertPadding, double arcSize, List<VertLine> verticalLines)
     {
         // Attach the left side.
         if (leadPadding > 0) {
@@ -181,8 +197,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeLeftRightConnect(SequenceRow row, Color railColor, double railWidth,
-                                         double vertPadding, double arcSize, List<VertLine> verticalLines)
+    private HorLine makeLeftRightConnect(SequenceRow row, Color railColor, double railWidth, double vertPadding,
+            double arcSize, List<VertLine> verticalLines)
     {
         // Add vertical line downward for the next row if needed.
         if (row.hasNextRow) {
@@ -217,9 +233,8 @@ public class SequenceNode extends DiagramElement {
      * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeRightLeftFirstRow(SequenceRow row, Color railColor, double railWidth,
-                                          double leadPadding, double vertPadding, double arcSize,
-                                          List<VertLine> verticalLines)
+    private HorLine makeRightLeftFirstRow(SequenceRow row, Color railColor, double railWidth, double leadPadding,
+            double vertPadding, double arcSize, List<VertLine> verticalLines)
     {
         // Attach the right side.
         if (leadPadding > 0) {
@@ -250,8 +265,8 @@ public class SequenceNode extends DiagramElement {
      * @param arcSize Size of the bends.
      * @return Line connecting to the next row if needed else {@code null}.
      */
-    private HorLine makeRightLeftConnect(SequenceRow row, Color railColor, double railWidth,
-                                         double vertPadding, double arcSize, List<VertLine> verticalLines)
+    private HorLine makeRightLeftConnect(SequenceRow row, Color railColor, double railWidth, double vertPadding,
+            double arcSize, List<VertLine> verticalLines)
     {
         if (row.hasNextRow) {
             HorLine endLine = new HorLine(solver, "first-trail", railColor, railWidth);

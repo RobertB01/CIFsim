@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.common.raildiagrams;
 
 import static org.eclipse.escet.common.java.Lists.list;
@@ -61,17 +74,19 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
     @Override
     protected int runInternal() {
-
         // Setup graphics object.
         // Image is needed for getting a Graphics2D instance to query text sizes.
         BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         Configuration config = new Configuration(image.createGraphics());
-        if (isTerminationRequested()) return 0;
+        if (isTerminationRequested())
+            return 0;
 
         // Load the configuration file.
         String configFilename = ConfigFileOption.getConfigFilename();
-        if (!configFilename.isEmpty()) config.loadPropertiesFile(configFilename);
-        if (isTerminationRequested()) return 0;
+        if (!configFilename.isEmpty())
+            config.loadPropertiesFile(configFilename);
+        if (isTerminationRequested())
+            return 0;
 
         // Process the provided files.
         List<String> inputFiles = FilesOption.getPaths();
@@ -80,7 +95,8 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // A file may contain several rules, which are assumed to belong together in one diagram.
             RailRoadParser parser = new RailRoadParser();
             List<RailRule> rules = parser.parseFile(Paths.resolve(inputFile), DebugMode.NONE);
-            if (isTerminationRequested()) return 0;
+            if (isTerminationRequested())
+                return 0;
 
             // Generate a graphic collection for it.
             //
@@ -94,7 +110,8 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
                 diagramWidth = Math.max(diagramWidth, size.width);
                 diagramHeight += Math.ceil(size.height);
 
-                if (isTerminationRequested()) return 0;
+                if (isTerminationRequested())
+                    return 0;
             }
 
             // Second, position everything and generate the graphic elements.
@@ -117,12 +134,14 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
                 rule.paint(0, top, gd);
                 Size2D size = rule.getSize();
                 top += Math.ceil(size.height);
-                if (isTerminationRequested()) return 0;
+                if (isTerminationRequested())
+                    return 0;
             }
 
             // Write the image.
             String imageFile = WriteImageOption.getOutputPath(inputFile);
-            if (imageFile != null) saveImage(image, imageFile);
+            if (imageFile != null)
+                saveImage(image, imageFile);
         }
 
         return 0;
@@ -151,17 +170,13 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalOpts = getGeneralOptionCategory();
 
-        OptionCategory diagramOpts = new OptionCategory(
-                "Railroad Diagram Generator Options", "Options to generate railroad diagrams", list(),
-                list(Options.getInstance(FilesOption.class),
-                     Options.getInstance(ConfigFileOption.class),
-                     Options.getInstance(WriteImageOption.class)
-                ));
+        OptionCategory diagramOpts = new OptionCategory("Railroad Diagram Generator Options",
+                "Options to generate railroad diagrams", list(), list(Options.getInstance(FilesOption.class),
+                        Options.getInstance(ConfigFileOption.class), Options.getInstance(WriteImageOption.class)));
 
         OptionCategory options;
         options = new OptionCategory("Railroad Diagram Generator Tool Options",
-                                     "All options for the Railroad Diagram Generator Tool.",
-                                     list(generalOpts, diagramOpts), list());
+                "All options for the Railroad Diagram Generator Tool.", list(generalOpts, diagramOpts), list());
         return options;
     }
 }
