@@ -1,0 +1,7 @@
+Factor: [literal1] SQUOTE_STRING
+      | [literal2] DQUOTE_STRING
+      | [sub-diagram] PAROPEN Railroad PARCLOSE
+      | [epsilon] PAROPEN PARCLOSE
+      | [sub-rule] IDENTIFIER
+      | [line-break] BSLASH_BSLASH
+      ;

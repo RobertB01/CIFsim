@@ -1,0 +1,5 @@
+Terminals : 'single'
+          | "double"
+          | OTHER
+          | Identifier
+          ;
