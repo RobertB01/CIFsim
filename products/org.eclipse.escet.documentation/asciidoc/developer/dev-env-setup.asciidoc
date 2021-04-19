@@ -48,7 +48,7 @@ To create a development environment for a non-first time:
 
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
-** Select _2020-06_ for _Product Version_.
+** Select _2021-03_ for _Product Version_.
 ** Select a Java 8 JDK for _Java 1.8+ VM_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].

@@ -17,15 +17,15 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.ide.version"
-      value="2020-06"/>
+      value="2021-03"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.orbit.version"
-      value="R20201130205003"/>
+      value="R20210223232630"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse-checkstyle.version"
-      value="8.36.1"/>
+      value="8.39.0"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="m2eclipse-tycho.version"
@@ -36,8 +36,8 @@
       value="None"/>
   <setupTask
       xsi:type="jdt:JRETask"
-      version="JavaSE-1.8"
-      location="${jre.location-1.8}">
+      version="JavaSE-11"
+      location="${jre.location-11}">
     <description>Define the JVM against which to compile and with which run the Java projects of ${scope.project.label}.</description>
   </setupTask>
   <setupTask
@@ -452,6 +452,8 @@
   </setupTask>
   <stream name="develop"
       label="develop"/>
+  <stream name="29-upgrade-to-java-11-and-eclipse-2021-03"
+      label="29-upgrade-to-java-11-and-eclipse-2021-03"/>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
