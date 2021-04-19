@@ -56,6 +56,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 import org.eclipse.escet.common.typechecker.SemanticException;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
+import org.eclipse.escet.setext.runtime.SyntaxWarning;
 import org.eclipse.escet.setext.runtime.Token;
 import org.eclipse.escet.setext.runtime.exceptions.SyntaxException;
 import org.eclipse.escet.tooldef.common.ClassLoaderObtainer;
@@ -300,6 +301,7 @@ public class ImportsChecker {
             }
 
             // URI vs local file system path.
+            List<SyntaxWarning> warnings;
             if (absSrcRef.startsWith("tooldef://")) {
                 // Split URI with 'tooldef' scheme into parts.
                 String path = absSrcRef.substring("tooldef://".length());
@@ -328,10 +330,17 @@ public class ImportsChecker {
                 ToolDefParser parser = new ToolDefParser();
                 String src = fmt("ToolDef library \"%s\": ", relSrcRef);
                 script = parser.parseStream(stream, absSrcRef, src);
+                warnings = parser.getWarnings();
             } else {
                 // Parse local file system file.
                 ToolDefParser parser = new ToolDefParser();
                 script = parser.parseFile(absSrcRef, relSrcRef);
+                warnings = parser.getWarnings();
+            }
+
+            // Report warnings.
+            if (warnings != null && !warnings.isEmpty()) {
+                ctxt.addProblem(Message.IMPORT_FILE_SYNTAX_WARNING, sourcePos, relSrcRef);
             }
         } catch (InvalidInputException e) {
             if (DEBUG) {

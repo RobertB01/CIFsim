@@ -71,6 +71,7 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.typechecker.SemanticProblem;
 import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 import org.eclipse.escet.setext.runtime.DebugMode;
+import org.eclipse.escet.setext.runtime.SyntaxWarning;
 
 /** Chi simulator application. */
 public class SimulatorApplication extends Application<OutputComponentBase> {
@@ -112,6 +113,11 @@ public class SimulatorApplication extends Application<OutputComponentBase> {
     private List<Declaration> parseChiFile(String inFile) {
         ChiParser parser = new ChiParser();
         List<Declaration> decls = parser.parseFile(inFile, DebugMode.NONE);
+
+        for (SyntaxWarning warning: parser.getWarnings()) {
+            OutputProvider.warn(warning.toString());
+        }
+
         return decls;
     }
 

@@ -37,6 +37,9 @@ public enum ErrMsg {
     IMPORT_SYNTAX_ERROR("Imported CIF specification \"%s\" has a syntax error.", 1, ERROR),
 
     // AST related constraint.
+    IMPORT_SYNTAX_WARNING("Imported CIF specification \"%s\" has a syntax warning.", 1, WARNING),
+
+    // AST related constraint.
     IMPORT_SELF("Importing a CIF specification into itself has no effect.", 0, WARNING),
 
     // AST related constraint.

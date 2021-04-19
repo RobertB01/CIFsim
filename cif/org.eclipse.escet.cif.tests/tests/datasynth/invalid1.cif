@@ -147,7 +147,7 @@ requirement r2:
     edge tau when true;             // Explicit tau, in requirement.
 end
 
-enum E = {X, Y};
+enum E = X, Y;
 
 const int[0..2] zero = 0;
 
