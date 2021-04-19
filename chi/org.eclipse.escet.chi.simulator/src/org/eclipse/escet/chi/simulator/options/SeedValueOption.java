@@ -80,7 +80,7 @@ public class SeedValueOption extends Option<Integer> {
 
     @Override
     public OptionGroup<Integer> createOptionGroup(Composite page) {
-        return new OptionGroup<Integer>(page, Options.getInstance(SeedValueOption.class)) {
+        return new OptionGroup<>(page, Options.getInstance(SeedValueOption.class)) {
             Label instanceLabel;
 
             Text instanceText;

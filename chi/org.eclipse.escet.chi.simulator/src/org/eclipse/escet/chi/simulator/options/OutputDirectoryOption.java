@@ -64,7 +64,7 @@ public class OutputDirectoryOption extends Option<String> {
 
     @Override
     public OptionGroup<String> createOptionGroup(Composite page) {
-        return new OptionGroup<String>(page, Options.getInstance(OutputDirectoryOption.class)) {
+        return new OptionGroup<>(page, Options.getInstance(OutputDirectoryOption.class)) {
             Label fileLabel;
 
             Text fileText;

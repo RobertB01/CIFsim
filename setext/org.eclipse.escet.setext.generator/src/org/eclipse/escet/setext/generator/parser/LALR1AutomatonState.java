@@ -132,7 +132,7 @@ public class LALR1AutomatonState {
         }
 
         Comparator<Pair<Symbol, LALR1AutomatonState>> cmp;
-        cmp = new Comparator<Pair<Symbol, LALR1AutomatonState>>() {
+        cmp = new Comparator<>() {
             @Override
             public int compare(Pair<Symbol, LALR1AutomatonState> t1, Pair<Symbol, LALR1AutomatonState> t2) {
                 // Ascending order by target state id.
@@ -177,7 +177,7 @@ public class LALR1AutomatonState {
         }
 
         Comparator<Pair<Terminal, ParserAction>> cmp;
-        cmp = new Comparator<Pair<Terminal, ParserAction>>() {
+        cmp = new Comparator<>() {
             @Override
             public int compare(Pair<Terminal, ParserAction> t1, Pair<Terminal, ParserAction> t2) {
                 // Ascending order by action type.

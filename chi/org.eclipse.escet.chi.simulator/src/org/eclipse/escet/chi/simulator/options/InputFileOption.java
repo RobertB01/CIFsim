@@ -86,7 +86,7 @@ public class InputFileOption extends Option<List<String>> {
 
     @Override
     public OptionGroup<List<String>> createOptionGroup(Composite page) {
-        return new OptionGroup<List<String>>(page, Options.getInstance(InputFileOption.class)) {
+        return new OptionGroup<>(page, Options.getInstance(InputFileOption.class)) {
             Label fileLabel;
 
             Text fileText;

@@ -578,7 +578,7 @@ public class CifEventUtils {
      * @see Strings#SORTER
      */
     public static List<Event> sortEvents(Set<Event> events) {
-        Comparator<Event> cmp = new Comparator<Event>() {
+        Comparator<Event> cmp = new Comparator<>() {
             @Override
             public int compare(Event e1, Event e2) {
                 return Strings.SORTER.compare(e1.getName(), e2.getName());
