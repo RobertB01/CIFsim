@@ -45,10 +45,14 @@ pipeline {
                         if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             # Sign releases, based on release version tag name.
                             # Sign 'master' branch, to allow checking release signing before deployment.
-                            BUILD_ARGS="-Psign"
+                            BUILD_ARGS="$BUILD_ARGS -Psign"
+                        fi
+                        if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                            # Only for actual releases, override the default 'dev' release version.
+                            BUILD_ARGS="$BUILD_ARGS -DreleaseVersion=$TAG_NAME"
                         fi
 
-                        ./build.sh "$BUILD_ARGS"
+                        ./build.sh $BUILD_ARGS
                     '''
                 }
             }
