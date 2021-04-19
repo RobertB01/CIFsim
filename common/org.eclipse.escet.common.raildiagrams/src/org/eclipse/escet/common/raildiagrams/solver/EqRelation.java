@@ -1,0 +1,44 @@
+package org.eclipse.escet.common.raildiagrams.solver;
+
+import static org.eclipse.escet.common.java.Strings.fmt;
+
+import org.eclipse.escet.common.java.Assert;
+
+/**
+ * Equality relation between two variables.
+ *
+ * <p>The instance represents {@link #a a} + {@link #offset offset} == {@link #b b}.</p>
+ */
+public class EqRelation extends VariableRelation {
+    /** Variable 'a'. */
+    public final Variable a;
+
+    /** Variable 'b'. */
+    public final Variable b;
+
+    /** Offset between the variables, {@link #b b} - {@link #a a}. */
+    public final double offset;
+
+    /**
+     * Constructor of the {@link EqRelation} class.
+     *
+     * <p>Instance represents equality relation {@link #a a} + {@link #offset offset} == {@link #b b}.</p>
+     *
+     * @param a Variable 'a'.
+     * @param offset Offset between the variables, {@link #b b} - {@link #a a}.
+     * @param b Variable 'b'.
+     */
+    public EqRelation(Variable a, double offset, Variable b) {
+        this.a = a;
+        this.b = b;
+        this.offset = offset;
+
+        Assert.check(a != b);
+    }
+
+    @Override
+    public String toString() {
+        if (offset == 0.0) return fmt("Eq[%s == %s]", a, b);
+        return fmt("Eq[%s + %.2f == %s]", a, offset, b);
+    }
+}
