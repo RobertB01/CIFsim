@@ -301,43 +301,58 @@
       <requirement
           name="javax.inject"/>
       <requirement
-          name="org.apache.batik.anim"/>
+          name="org.apache.batik.anim"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.bridge"/>
+          name="org.apache.batik.bridge"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.codec"/>
+          name="org.apache.batik.codec"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.constants"/>
+          name="org.apache.batik.constants"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.css"/>
+          name="org.apache.batik.css"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.dom"/>
+          name="org.apache.batik.dom"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.dom.svg"/>
+          name="org.apache.batik.dom.svg"
+          versionRange="1.13.0"/>
       <requirement
           name="org.apache.batik.ext.awt"/>
       <requirement
           name="org.apache.batik.extension"/>
       <requirement
-          name="org.apache.batik.gvt"/>
+          name="org.apache.batik.gvt"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.i18n"/>
+          name="org.apache.batik.i18n"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.parser"/>
+          name="org.apache.batik.parser"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.script"/>
+          name="org.apache.batik.script"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.svggen"/>
+          name="org.apache.batik.svggen"
+          versionRange="1.13.0"/>
       <requirement
           name="org.apache.batik.swing"/>
       <requirement
-          name="org.apache.batik.transcoder"/>
+          name="org.apache.batik.transcoder"
+          versionRange="1.13.0"/>
       <requirement
-          name="org.apache.batik.util"/>
+          name="org.apache.batik.util"
+          versionRange="1.13.0"/>
       <requirement
           name="org.apache.batik.util.gui"/>
       <requirement
-          name="org.apache.batik.xml"/>
+          name="org.apache.batik.xml"
+          versionRange="1.13.0"/>
       <requirement
           name="org.apache.commons.exec"/>
       <requirement
