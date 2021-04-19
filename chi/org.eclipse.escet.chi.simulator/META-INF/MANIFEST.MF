@@ -4,7 +4,7 @@ Bundle-Name: ESCET Chi Simulator (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.chi.simulator;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.escet.chi.simulator,
  org.eclipse.escet.chi.simulator.options
 Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.2.0",

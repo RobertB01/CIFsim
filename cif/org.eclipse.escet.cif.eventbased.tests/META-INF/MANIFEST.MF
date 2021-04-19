@@ -4,7 +4,7 @@ Bundle-Name: ESCET CIF Event-based Synthesis Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.eventbased.tests;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.2.0",
  org.junit;bundle-version="4.12.0",

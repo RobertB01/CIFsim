@@ -4,7 +4,7 @@ Bundle-Name: ESCET CIF I/O Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.io.tests;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.2.0",
  org.eclipse.escet.common.java;bundle-version="0.2.0",
