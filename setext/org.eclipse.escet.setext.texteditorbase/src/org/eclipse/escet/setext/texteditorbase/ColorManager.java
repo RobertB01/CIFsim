@@ -15,7 +15,6 @@ package org.eclipse.escet.setext.texteditorbase;
 
 import static org.eclipse.escet.common.java.Maps.map;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jface.text.TextAttribute;
@@ -23,33 +22,23 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 
 /** Color manager. Allows sharing of {@link Color} resources. */
 public class ColorManager {
     /** Internal {@link RGB} to {@link Color} mapping cache. */
     protected Map<RGB, Color> cache = map();
 
-    /** Disposes of all cached data, and releases the color resources. */
-    public void dispose() {
-        Iterator<Color> e = cache.values().iterator();
-        while (e.hasNext()) {
-            e.next().dispose();
-        }
-        cache.clear();
-    }
-
     /**
      * Obtains a {@link Color} resource representing the given {@link RGB} color description.
      *
      * @param rgb Color description to obtain a color resource for.
-     * @return The cached (shared) color resource, if known to the color manager, or a color resource freshly created on
-     *     the current display otherwise.
+     * @return The cached (shared) color resource, if known to the color manager, or a freshly created color resource
+     *     otherwise.
      */
     public Color getColor(RGB rgb) {
         Color rslt = cache.get(rgb);
         if (rslt == null) {
-            rslt = new Color(Display.getCurrent(), rgb);
+            rslt = new Color(rgb);
             cache.put(rgb, rslt);
         }
         return rslt;
