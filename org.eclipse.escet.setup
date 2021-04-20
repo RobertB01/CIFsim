@@ -301,58 +301,41 @@
       <requirement
           name="javax.inject"/>
       <requirement
-          name="org.apache.batik.anim"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.anim"/>
       <requirement
-          name="org.apache.batik.bridge"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.awt.util"/>
       <requirement
-          name="org.apache.batik.codec"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.bridge"/>
       <requirement
-          name="org.apache.batik.constants"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.codec"/>
       <requirement
-          name="org.apache.batik.css"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.constants"/>
       <requirement
-          name="org.apache.batik.dom"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.css"/>
       <requirement
-          name="org.apache.batik.dom.svg"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.dom"/>
       <requirement
-          name="org.apache.batik.ext.awt"/>
+          name="org.apache.batik.dom.svg"/>
       <requirement
-          name="org.apache.batik.extension"/>
+          name="org.apache.batik.ext"/>
       <requirement
-          name="org.apache.batik.gvt"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.gvt"/>
       <requirement
-          name="org.apache.batik.i18n"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.i18n"/>
       <requirement
-          name="org.apache.batik.parser"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.parser"/>
       <requirement
-          name="org.apache.batik.script"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.script"/>
       <requirement
-          name="org.apache.batik.svggen"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.shared.resources"/>
       <requirement
-          name="org.apache.batik.swing"/>
+          name="org.apache.batik.svggen"/>
       <requirement
-          name="org.apache.batik.transcoder"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.transcoder"/>
       <requirement
-          name="org.apache.batik.util"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.util"/>
       <requirement
-          name="org.apache.batik.util.gui"/>
-      <requirement
-          name="org.apache.batik.xml"
-          versionRange="1.13.0"/>
+          name="org.apache.batik.xml"/>
       <requirement
           name="org.apache.commons.exec"/>
       <requirement
