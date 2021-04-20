@@ -1,0 +1,39 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group def A():
+  type m = real;
+  group def Y():
+    input bool x;
+  end
+  y1 : Y();
+  y2 : Y();
+end
+
+group def B():
+  a: A();
+end
+
+b: B();
+
+group def C(B bp):
+  group def X(bp.a.Y y):
+    invariant y.x;
+    invariant y.x;
+  end
+  x1a: X(bp.a.y1);
+  x1b: X(bp.a.y1);
+  x2: X(bp.a.y2);
+end
+
+c: C(b);
