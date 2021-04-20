@@ -41,10 +41,11 @@ import javax.tools.ToolProvider;
 
 import org.eclipse.escet.common.app.framework.exceptions.DependencyException;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.app.framework.javacompiler.jdt.RuntimeJavaCompilerJdtUtil;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.jdt.internal.compiler.tool.EclipseCompiler;
 
 /** Java compiler that supports run-time in-memory compilation. */
+@SuppressWarnings("restriction")
 public class RuntimeJavaCompiler {
     /** Whether to enable debugging for the run-time Java compiler. */
     public static final boolean DEBUG = false;
@@ -146,7 +147,7 @@ public class RuntimeJavaCompiler {
      */
     public static JavaCompiler getJavaCompiler(String name) {
         if (name == null || name.equals("eclipse")) {
-            return RuntimeJavaCompilerJdtUtil.createEclipseCompiler();
+            return new EclipseCompiler();
         } else if (name.equals("jdk")) {
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             if (compiler == null) {
