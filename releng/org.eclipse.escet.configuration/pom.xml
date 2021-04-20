@@ -43,7 +43,7 @@ SPDX-License-Identifier: MIT
 
         <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
         <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
-        <checkstyle.version>8.39.0</checkstyle.version>
+        <checkstyle.version>8.39</checkstyle.version>
 
         <!-- Eclipse Common Build Infrastructure version. -->
         <eclipse.cbi.version>1.1.7</eclipse.cbi.version>
