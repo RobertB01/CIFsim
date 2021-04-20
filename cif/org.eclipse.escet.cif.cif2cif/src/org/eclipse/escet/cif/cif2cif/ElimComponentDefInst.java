@@ -156,8 +156,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Find component definitions without component definitions/instantiations in them. These can be eliminated in
-     * phase 2. If such component definitions are found, they are added to {@link #elimDefs}.
+     * Find component definitions without component definitions/instantiations in them. These can be eliminated in phase
+     * 2. If such component definitions are found, they are added to {@link #elimDefs}.
      *
      * @param group The group in which to search.
      * @return {@code true} if the group contains definitions or instantiations, {@code false} otherwise.
@@ -177,7 +177,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         for (Component comp: group.getComponents()) {
             if (comp instanceof ComponentInst) {
                 foundDefOrInst = true;
-
             } else if (comp instanceof Group) {
                 boolean foundDefOrInstInGroup = analyzeCompDefs((Group)comp);
                 foundDefOrInst |= foundDefOrInstInGroup;
@@ -188,8 +187,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     }
 
     /**
-     * Find component definitions without component definitions/instantiations in them. These can be eliminated in
-     * phase 2. If such component definitions are found, they are added to {@link #elimDefs}.
+     * Find component definitions without component definitions/instantiations in them. These can be eliminated in phase
+     * 2. If such component definitions are found, they are added to {@link #elimDefs}.
      *
      * @param cdef The component definition in which to search.
      * @see #elimDefs
@@ -222,7 +221,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         for (Component comp: group.getComponents()) {
             if (comp instanceof ComponentInst) {
                 foundDefOrInst = true;
-
             } else if (comp instanceof Group) {
                 boolean foundDefOrInstInGroup = analyzeCompDefs((Group)comp);
                 foundDefOrInst |= foundDefOrInstInGroup;
