@@ -201,7 +201,7 @@ public abstract class ClassLoaderObtainer {
             try {
                 url = path.toFile().toURI().toURL();
             } catch (MalformedURLException ex) {
-                errMalforumedUrl(proj.getName(), ex);
+                errMalformedUrl(proj.getName(), ex);
                 return null; // Never reached.
             }
             urlList.add(url);
@@ -243,7 +243,7 @@ public abstract class ClassLoaderObtainer {
      * @param name The name of the plug-in (Eclipse project). Is not {@code null}.
      * @param ex The exception that indicates what is wrong with the URL.
      */
-    protected abstract void errMalforumedUrl(String name, MalformedURLException ex);
+    protected abstract void errMalformedUrl(String name, MalformedURLException ex);
 
     /**
      * A problem occurred while getting a class loader for a plug-in: could not open an URL that is in the class path of
