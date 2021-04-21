@@ -67,14 +67,14 @@ public class StateInvPredCodeGenerator {
         // Add body.
         CodeBox c = file.body;
 
-        // Add 'evalInvPreds' method.
-        c.add("public static boolean evalStateInvPreds(State state, boolean initial) {");
-        c.indent();
-
         // Collect the non-location state invariants linked to their parent components.
         List<Pair<Invariant, ComplexComponent>> invsComps = list();
         collectInvsComps(spec, invsComps);
         int subMethodCount = (int)Math.ceil(invsComps.size() / 100d);
+
+        // Add 'evalInvPreds' method.
+        c.add("public static boolean evalStateInvPreds(State state, boolean initial) {");
+        c.indent();
 
         c.add("// Invariants not in locations of automata.");
         for (int i = 0; i < subMethodCount; i++) {
@@ -112,39 +112,47 @@ public class StateInvPredCodeGenerator {
     private static void gencodeEvalInvariants(List<Pair<Invariant, ComplexComponent>> invsComps,
             CifCompilerContext ctxt, CodeBox c)
     {
+        if (invsComps.isEmpty()) {
+            return;
+        }
+
         c.add();
         c.add("private static boolean evalStateInvPreds0(State state, boolean initial) {");
         c.indent();
 
-        if (!invsComps.isEmpty()) {
-            ComplexComponent comp = invsComps.get(0).right;
-            String absName = getAbsName(comp);
-            c.add("// Invariants for \"%s\".", absName);
+        ComplexComponent comp = invsComps.get(0).right;
+        String absName = getAbsName(comp);
+        c.add("// Invariants for \"%s\".", absName);
 
-            for (int i = 0; i < invsComps.size(); i++) {
-                // New sub method.
-                if ((i > 0) && (i % 100 == 0)) {
-                    c.add("// All invariants satisfied.");
-                    c.add("return true;");
-                    c.dedent();
-                    c.add("}");
+        for (int i = 0; i < invsComps.size(); i++) {
+            // New sub method.
+            if ((i > 0) && (i % 100 == 0)) {
+                c.add("// All invariants satisfied.");
+                c.add("return true;");
+                c.dedent();
+                c.add("}");
 
-                    c.add();
-                    c.add("private static boolean evalStateInvPreds%d(State state, boolean initial) {", i / 100);
-                    c.indent();
-                }
-                Invariant inv = invsComps.get(i).left;
+                c.add();
+                c.add("private static boolean evalStateInvPreds%d(State state, boolean initial) {", i / 100);
+                c.indent();
 
-                if (comp != invsComps.get(i).right) {
-                    // If we have a 'new' component.
-                    comp = invsComps.get(i).right;
-                    absName = getAbsName(comp);
-                    c.add("// Invariants for \"%s\".", absName);
-                }
-
-                gencodeEvalInvariant(inv, CifTextUtils.getComponentText2(comp), ctxt, c);
+                // Always print component name at the start of a new method.
+                comp = invsComps.get(i).right;
+                absName = getAbsName(comp);
+                c.add("// Invariants for \"%s\".", absName);
             }
+
+            if (comp != invsComps.get(i).right) {
+                // Print component name if we have a 'new' component.
+                comp = invsComps.get(i).right;
+                absName = getAbsName(comp);
+                c.add("// Invariants for \"%s\".", absName);
+            }
+
+            Invariant inv = invsComps.get(i).left;
+            gencodeEvalInvariant(inv, CifTextUtils.getComponentText2(comp), ctxt, c);
         }
+
         c.add("// All invariants satisfied.");
         c.add("return true;");
         c.dedent();
@@ -160,8 +168,7 @@ public class StateInvPredCodeGenerator {
      */
     private static void gencodeEvalAutLocs(Automaton aut, CifCompilerContext ctxt, CodeBox c) {
         c.add();
-        c.add("private static boolean evalStateInvPreds%s(State state, boolean initial) {",
-                ctxt.getAutClassName(aut));
+        c.add("private static boolean evalStateInvPreds%s(State state, boolean initial) {", ctxt.getAutClassName(aut));
         c.indent();
 
         c.add("// Invariants for current location.");
@@ -210,7 +217,7 @@ public class StateInvPredCodeGenerator {
      * Generates state invariant evaluation code.
      *
      * @param inv The invariant.
-     * @param parentText An end-user readable textual (reference) representation of the parent (location or automaton),
+     * @param parentText An end-user readable textual (reference) representation of the parent (location or component),
      *     used in error messages.
      * @param ctxt The compiler context to use.
      * @param c The code box to which to add the code.
