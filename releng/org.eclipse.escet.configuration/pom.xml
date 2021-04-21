@@ -20,6 +20,10 @@ SPDX-License-Identifier: MIT
     <packaging>pom</packaging>
 
     <properties>
+        <!-- Release version. -->
+        <!-- By default all builds are 'dev' builds. Jenkinsfile overrides for actual releases. -->
+        <releaseVersion>dev</releaseVersion>
+
         <!-- Format to use for bundle qualifiers. -->
         <!-- Git only supplies seconds resolution, so no milliseconds in format. -->
         <!-- String compare is used for this type of qualifier format. -->
