@@ -21,6 +21,7 @@ import static org.eclipse.escet.cif.common.CifValueUtils.isTimeConstant;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
@@ -39,6 +40,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.box.CodeBox;
+import org.eclipse.escet.common.java.Pair;
 
 /** State invariant predicate code generator. */
 public class StateInvPredCodeGenerator {
@@ -69,7 +71,17 @@ public class StateInvPredCodeGenerator {
         c.add("public static boolean evalStateInvPreds(State state, boolean initial) {");
         c.indent();
 
-        gencodeEvalComponent(spec, ctxt, c);
+        // Collect the non-location state invariants linked to their parent components.
+        List<Pair<Invariant, ComplexComponent>> invsComps = list();
+        collectInvsComps(spec, invsComps);
+        int subMethodCount = (int)Math.ceil(invsComps.size() / 100d);
+
+        c.add("// Invariants not in locations of automata.");
+        for (int i = 0; i < subMethodCount; i++) {
+            c.add("if (!evalStateInvPreds%d(state, initial)) return false;", i);
+        }
+
+        c.add();
         c.add("// Invariants for current locations of automata.");
         for (Automaton aut: ctxt.getAutomata()) {
             c.add("if (!evalStateInvPreds%s(state, initial)) return false;", ctxt.getAutClassName(aut));
@@ -81,6 +93,9 @@ public class StateInvPredCodeGenerator {
         c.dedent();
         c.add("}");
 
+        // Add methods for the evaluation of invariant predicates outside locations.
+        gencodeEvalInvariants(invsComps, ctxt, c);
+
         // Add methods for the evaluation of invariant predicates in locations.
         for (Automaton aut: ctxt.getAutomata()) {
             gencodeEvalAutLocs(aut, ctxt, c);
@@ -88,72 +103,52 @@ public class StateInvPredCodeGenerator {
     }
 
     /**
-     * Generates state invariant evaluation code for the state invariants of the component (recursively). This does not
-     * include the invariants of the locations.
+     * Generates state invariant evaluation code for the supplied state invariants.
      *
-     * @param comp The component.
+     * @param invsComps The invariants linked to their parent component.
      * @param ctxt The compiler context to use.
      * @param c The code box to which to add the code.
      */
-    private static void gencodeEvalComponent(ComplexComponent comp, CifCompilerContext ctxt, CodeBox c) {
-        // Generate locally.
-        List<Invariant> stateInvs = list();
-        for (Invariant inv: comp.getInvariants()) {
-            if (inv.getInvKind() != InvKind.STATE) {
-                continue;
-            }
-            stateInvs.add(inv);
-        }
+    private static void gencodeEvalInvariants(List<Pair<Invariant, ComplexComponent>> invsComps,
+            CifCompilerContext ctxt, CodeBox c)
+    {
+        c.add();
+        c.add("private static boolean evalStateInvPreds0(State state, boolean initial) {");
+        c.indent();
 
-        String absName = getAbsName(comp);
-        if (!stateInvs.isEmpty()) {
+        if (!invsComps.isEmpty()) {
+            ComplexComponent comp = invsComps.get(0).right;
+            String absName = getAbsName(comp);
             c.add("// Invariants for \"%s\".", absName);
-        }
 
-        String compTxt = CifTextUtils.getComponentText2(comp);
+            for (int i = 0; i < invsComps.size(); i++) {
+                // New sub method.
+                if ((i > 0) && (i % 100 == 0)) {
+                    c.add("// All invariants satisfied.");
+                    c.add("return true;");
+                    c.dedent();
+                    c.add("}");
 
-        for (Invariant inv: stateInvs) {
-            Expression pred = inv.getPredicate();
+                    c.add();
+                    c.add("private static boolean evalStateInvPreds%d(State state, boolean initial) {", i / 100);
+                    c.indent();
+                }
+                Invariant inv = invsComps.get(i).left;
 
-            // Start of 'try'.
-            c.add("try {");
-            c.indent();
+                if (comp != invsComps.get(i).right) {
+                    // If we have a 'new' component.
+                    comp = invsComps.get(i).right;
+                    absName = getAbsName(comp);
+                    c.add("// Invariants for \"%s\".", absName);
+                }
 
-            // Actual invariant predicate evaluation.
-            String predTxt = exprToStr(pred);
-            c.add("if (!(%s)) {", gencodeExpr(pred, ctxt, "state"));
-            c.indent();
-            c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");", escapeJava(predTxt),
-                    escapeJava(compTxt));
-            c.add("return false;");
-            c.dedent();
-            c.add("}");
-
-            // End of 'try'.
-            c.dedent();
-            c.add("} catch (CifSimulatorException e) {");
-            c.indent();
-            c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
-                    escapeJava(predTxt), escapeJava(compTxt));
-            c.dedent();
-            c.add("}");
-
-            // Check the invariant.
-            checkInvTimeConstant(inv);
-
-            // Warn about requirement invariants.
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind == SupKind.REQUIREMENT) {
-                warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", predTxt, compTxt);
+                gencodeEvalInvariant(inv, CifTextUtils.getComponentText2(comp), ctxt, c);
             }
         }
-
-        // Generate recursively.
-        if (comp instanceof Group) {
-            for (Component child: ((Group)comp).getComponents()) {
-                gencodeEvalComponent((ComplexComponent)child, ctxt, c);
-            }
-        }
+        c.add("// All invariants satisfied.");
+        c.add("return true;");
+        c.dedent();
+        c.add("}");
     }
 
     /**
@@ -165,7 +160,8 @@ public class StateInvPredCodeGenerator {
      */
     private static void gencodeEvalAutLocs(Automaton aut, CifCompilerContext ctxt, CodeBox c) {
         c.add();
-        c.add("private static boolean evalStateInvPreds%s(State state, boolean initial) {", ctxt.getAutClassName(aut));
+        c.add("private static boolean evalStateInvPreds%s(State state, boolean initial) {",
+                ctxt.getAutClassName(aut));
         c.indent();
 
         c.add("// Invariants for current location.");
@@ -192,43 +188,10 @@ public class StateInvPredCodeGenerator {
             c.add("case %s:", ctxt.getLocationValueText(loc, locIdx));
             c.indent();
 
-            String locTxt = CifTextUtils.getLocationText2(loc);
-
             for (Invariant inv: locInvs) {
-                Expression pred = inv.getPredicate();
-
-                // Start of 'try'.
-                c.add("try {");
-                c.indent();
-
-                // Actual invariant predicate evaluation.
-                String predTxt = exprToStr(pred);
-                c.add("if (!(%s)) {", gencodeExpr(pred, ctxt, "state"));
-                c.indent();
-                c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");", escapeJava(predTxt),
-                        escapeJava(locTxt));
-                c.add("return false;");
-                c.dedent();
-                c.add("}");
-
-                // End of 'try'.
-                c.dedent();
-                c.add("} catch (CifSimulatorException e) {");
-                c.indent();
-                c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, "
-                        + "state);", escapeJava(predTxt), escapeJava(locTxt));
-                c.dedent();
-                c.add("}");
-
-                // Check the invariant.
-                checkInvTimeConstant(inv);
-
-                // Warn about requirement invariants.
-                SupKind kind = CifInvariantUtils.getSupKind(inv);
-                if (kind == SupKind.REQUIREMENT) {
-                    warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", predTxt, locTxt);
-                }
+                gencodeEvalInvariant(inv, CifTextUtils.getLocationText2(loc), ctxt, c);
             }
+
             c.add("break;");
             c.dedent();
         }
@@ -241,6 +204,51 @@ public class StateInvPredCodeGenerator {
 
         c.dedent();
         c.add("}");
+    }
+
+    /**
+     * Generates state invariant evaluation code.
+     *
+     * @param inv The invariant.
+     * @param parentText An end-user readable textual (reference) representation of the parent (location or automaton),
+     *     used in error messages.
+     * @param ctxt The compiler context to use.
+     * @param c The code box to which to add the code.
+     */
+    private static void gencodeEvalInvariant(Invariant inv, String parentText, CifCompilerContext ctxt, CodeBox c) {
+        Expression pred = inv.getPredicate();
+
+        // Start of 'try'.
+        c.add("try {");
+        c.indent();
+
+        // Actual invariant predicate evaluation.
+        String predTxt = exprToStr(pred);
+        c.add("if (!(%s)) {", gencodeExpr(pred, ctxt, "state"));
+        c.indent();
+        c.add("if (initial) warn(\"Invariant \\\"%s\\\" of %s is not satisfied.\");", escapeJava(predTxt),
+                escapeJava(parentText));
+        c.add("return false;");
+        c.dedent();
+        c.add("}");
+
+        // End of 'try'.
+        c.dedent();
+        c.add("} catch (CifSimulatorException e) {");
+        c.indent();
+        c.add("throw new CifSimulatorException(\"Evaluation of invariant \\\"%s\\\" of %s failed.\", e, state);",
+                escapeJava(predTxt), escapeJava(parentText));
+        c.dedent();
+        c.add("}");
+
+        // Check the invariant.
+        checkInvTimeConstant(inv);
+
+        // Warn about requirement invariants.
+        SupKind kind = CifInvariantUtils.getSupKind(inv);
+        if (kind == SupKind.REQUIREMENT) {
+            warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", predTxt, parentText);
+        }
     }
 
     /**
@@ -283,5 +291,29 @@ public class StateInvPredCodeGenerator {
         String msg = fmt("Time dependent invariants are currently not supported by the CIF simulator: \"%s\".",
                 escapeJava(invToStr(inv, false)));
         throw new UnsupportedException(msg);
+    }
+
+    /**
+     * Collect the non-location state invariants linked to their parent component that are declared in the given
+     * component (recursively).
+     *
+     * @param comp The component to search.
+     * @param invsComps The state invariants and their parent component collected so far. Is modified in-place.
+     */
+    public static void collectInvsComps(ComplexComponent comp, List<Pair<Invariant, ComplexComponent>> invsComps) {
+        // Collect locally.
+        for (Invariant inv: comp.getInvariants()) {
+            if (inv.getInvKind() != InvKind.STATE) {
+                continue;
+            }
+            invsComps.add(pair(inv, comp));
+        }
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child: ((Group)comp).getComponents()) {
+                collectInvsComps((ComplexComponent)child, invsComps);
+            }
+        }
     }
 }
