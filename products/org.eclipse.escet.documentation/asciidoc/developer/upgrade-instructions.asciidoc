@@ -53,7 +53,8 @@ projects.
 
 To upgrade to a new Tycho version:
 
-* Update version in `.mvn/extensions.xml`.
-* Update version in `releng/org.eclipse.escet.configuration/pom.xml`.
-* Check release notes for changes and adapt as necessary.
+* Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
+* Update version in `org.eclipse.escet.configuration/pom.xml`.
+* Update version in `org.eclipse.escet.documentation/asciidoc/developer/release-process.asciidoc`.
+* Check Tycho release notes for changes and adapt as necessary.
 * Run a <<developer-building-and-testing-chapter-index,Maven build>>.

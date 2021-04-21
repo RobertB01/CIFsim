@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET ToolDef Parser (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.tooldef.parser;singleton:=true
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.tooldef.parser
-Require-Bundle: org.eclipse.escet.tooldef.metamodel;bundle-version="0.1.0",
- org.eclipse.escet.setext.runtime;bundle-version="0.1.0",
- org.eclipse.escet.common.java;bundle-version="0.1.0",
+Require-Bundle: org.eclipse.escet.tooldef.metamodel;bundle-version="0.2.0",
+ org.eclipse.escet.setext.runtime;bundle-version="0.2.0",
+ org.eclipse.escet.common.java;bundle-version="0.2.0",
  org.eclipse.jface.text;bundle-version="3.16.100",
- org.eclipse.escet.tooldef.metamodel.java;bundle-version="0.1.0",
- org.eclipse.escet.common.position.common;bundle-version="0.1.0",
- org.eclipse.escet.common.emf;bundle-version="0.1.0"
+ org.eclipse.escet.tooldef.metamodel.java;bundle-version="0.2.0",
+ org.eclipse.escet.common.position.common;bundle-version="0.2.0",
+ org.eclipse.escet.common.emf;bundle-version="0.2.0"
 Automatic-Module-Name: org.eclipse.escet.tooldef.parser

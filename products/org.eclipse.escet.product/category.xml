@@ -14,34 +14,34 @@
    <feature url="features/com.github.javabdd.feature_1.0.1.qualifier.jar" id="com.github.javabdd.feature" version="1.0.1.qualifier">
       <category name="org.eclipse.escet.thirdparty.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.chi.feature_0.1.0.qualifier.jar" id="org.eclipse.escet.chi.feature" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.chi.feature_0.2.0.qualifier.jar" id="org.eclipse.escet.chi.feature" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.chi.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.chi.feature.source_0.1.0.qualifier.jar" id="org.eclipse.escet.chi.feature.source" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.chi.feature.source_0.2.0.qualifier.jar" id="org.eclipse.escet.chi.feature.source" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.chi.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.cif.feature_0.1.0.qualifier.jar" id="org.eclipse.escet.cif.feature" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.cif.feature_0.2.0.qualifier.jar" id="org.eclipse.escet.cif.feature" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.cif.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.cif.feature.source_0.1.0.qualifier.jar" id="org.eclipse.escet.cif.feature.source" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.cif.feature.source_0.2.0.qualifier.jar" id="org.eclipse.escet.cif.feature.source" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.cif.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.common.feature_0.1.0.qualifier.jar" id="org.eclipse.escet.common.feature" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.common.feature_0.2.0.qualifier.jar" id="org.eclipse.escet.common.feature" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.common.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.common.feature.source_0.1.0.qualifier.jar" id="org.eclipse.escet.common.feature.source" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.common.feature.source_0.2.0.qualifier.jar" id="org.eclipse.escet.common.feature.source" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.common.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.setext.feature_0.1.0.qualifier.jar" id="org.eclipse.escet.setext.feature" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.setext.feature_0.2.0.qualifier.jar" id="org.eclipse.escet.setext.feature" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.setext.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.setext.feature.source_0.1.0.qualifier.jar" id="org.eclipse.escet.setext.feature.source" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.setext.feature.source_0.2.0.qualifier.jar" id="org.eclipse.escet.setext.feature.source" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.setext.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.tooldef.feature_0.1.0.qualifier.jar" id="org.eclipse.escet.tooldef.feature" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.tooldef.feature_0.2.0.qualifier.jar" id="org.eclipse.escet.tooldef.feature" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.tooldef.category"/>
    </feature>
-   <feature url="features/org.eclipse.escet.tooldef.feature.source_0.1.0.qualifier.jar" id="org.eclipse.escet.tooldef.feature.source" version="0.1.0.qualifier">
+   <feature url="features/org.eclipse.escet.tooldef.feature.source_0.2.0.qualifier.jar" id="org.eclipse.escet.tooldef.feature.source" version="0.2.0.qualifier">
       <category name="org.eclipse.escet.tooldef.category"/>
    </feature>
    <category-def name="org.eclipse.escet.category" label="Eclipse ESCET (Incubation)">

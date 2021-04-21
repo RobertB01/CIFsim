@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET ToolDef Runtime Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.tooldef.runtime.tests;singleton:=true
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.1.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.1.0",
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.2.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.2.0",
  org.junit;bundle-version="4.12.0",
- org.eclipse.escet.tooldef.runtime;bundle-version="0.1.0"
+ org.eclipse.escet.tooldef.runtime;bundle-version="0.2.0"
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.tooldef.runtime.tests
 Export-Package: org.eclipse.escet.tooldef.runtime.tests;x-internal:=true

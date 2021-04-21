@@ -675,6 +675,10 @@ See also the Eclipse ESCET
 link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
 covering those aspects that are common to the various Eclipse ESCET tools.
 
+=== Version 0.2
+
+TBD
+
 === Version 0.1
 
 The first release of SeText as part of the Eclipse ESCET project.

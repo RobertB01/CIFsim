@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.setext.feature"
       label="ESCET SeText (Incubation)"
-      version="0.1.0.qualifier"
+      version="0.2.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
-      license-feature-version="0.1.0.qualifier">
+      license-feature-version="0.2.0.qualifier">
 
    <description>
       Eclipse ESCET tooling for the SeText language.
@@ -32,7 +32,7 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="0.1.0.qualifier"/>
+      <import feature="org.eclipse.escet.common.feature" version="0.2.0.qualifier"/>
    </requires>
 
    <plugin
