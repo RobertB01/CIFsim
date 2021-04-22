@@ -275,7 +275,7 @@ SPDX-License-Identifier: MIT
   </module>
   <module name="UniqueProperties"/>
   <module name="RegexpHeader">
-    <property name="header" value="^//////////////////////////////////////////////////////////////////////////////$\n^// Copyright \(c\) 2010, \d\d\d\d Contributors to the Eclipse Foundation$\n^//$\n^// See the NOTICE file\(s\) distributed with this work for additional$\n^// information regarding copyright ownership.$\n^//$\n^// This program and the accompanying materials are made available$\n^// under the terms of the MIT License which is available at$\n^// https://opensource.org/licenses/MIT$\n^//$\n^// SPDX-License-Identifier: MIT$\n^//////////////////////////////////////////////////////////////////////////////$"/>
+    <property name="header" value="^//////////////////////////////////////////////////////////////////////////////$\n^// Copyright \(c\) (\d\d\d\d, )?\d\d\d\d Contributors to the Eclipse Foundation$\n^//$\n^// See the NOTICE file\(s\) distributed with this work for additional$\n^// information regarding copyright ownership.$\n^//$\n^// This program and the accompanying materials are made available$\n^// under the terms of the MIT License which is available at$\n^// https://opensource.org/licenses/MIT$\n^//$\n^// SPDX-License-Identifier: MIT$\n^//////////////////////////////////////////////////////////////////////////////$"/>
     <property name="fileExtensions" value="java"/>
   </module>
 </module>

@@ -213,7 +213,7 @@ public class BuiltInGenericTools {
             }
 
             @Override
-            protected void errMalforumedUrl(String name, MalformedURLException ex) {
+            protected void errMalformedUrl(String name, MalformedURLException ex) {
                 String exMsg = ex.getMessage();
                 if (exMsg == null) {
                     exMsg = "no additional details available.";
