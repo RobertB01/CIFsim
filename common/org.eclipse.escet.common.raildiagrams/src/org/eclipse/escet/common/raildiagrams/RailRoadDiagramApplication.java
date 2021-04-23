@@ -54,7 +54,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
     }
 
     /**
-     * Constructor for the {@link DsmApplication} class.
+     * Constructor for the {@link RailRoadDiagramApplication} class.
      *
      * @param streams The streams to use for input, output, and error streams.
      */
@@ -78,15 +78,18 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
         // Image is needed for getting a Graphics2D instance to query text sizes.
         BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
         Configuration config = new Configuration(image.createGraphics());
-        if (isTerminationRequested())
+        if (isTerminationRequested()) {
             return 0;
+        }
 
         // Load the configuration file.
         String configFilename = ConfigFileOption.getConfigFilename();
-        if (!configFilename.isEmpty())
+        if (!configFilename.isEmpty()) {
             config.loadPropertiesFile(configFilename);
-        if (isTerminationRequested())
+        }
+        if (isTerminationRequested()) {
             return 0;
+        }
 
         // Process the provided files.
         List<String> inputFiles = FilesOption.getPaths();
@@ -95,8 +98,9 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // A file may contain several rules, which are assumed to belong together in one diagram.
             RailRoadParser parser = new RailRoadParser();
             List<RailRule> rules = parser.parseFile(Paths.resolve(inputFile), DebugMode.NONE);
-            if (isTerminationRequested())
+            if (isTerminationRequested()) {
                 return 0;
+            }
 
             // Generate a graphic collection for it.
             //
@@ -110,8 +114,9 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
                 diagramWidth = Math.max(diagramWidth, size.width);
                 diagramHeight += Math.ceil(size.height);
 
-                if (isTerminationRequested())
+                if (isTerminationRequested()) {
                     return 0;
+                }
             }
 
             // Second, position everything and generate the graphic elements.
@@ -134,14 +139,16 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
                 rule.paint(0, top, gd);
                 Size2D size = rule.getSize();
                 top += Math.ceil(size.height);
-                if (isTerminationRequested())
+                if (isTerminationRequested()) {
                     return 0;
+                }
             }
 
             // Write the image.
             String imageFile = WriteImageOption.getOutputPath(inputFile);
-            if (imageFile != null)
+            if (imageFile != null) {
                 saveImage(image, imageFile);
+            }
         }
 
         return 0;
@@ -150,6 +157,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
     /**
      * Save the created image to the file system.
      *
+     * @param image Image to write.
      * @param imageFile Name of the file to write.
      */
     private void saveImage(BufferedImage image, String imageFile) {

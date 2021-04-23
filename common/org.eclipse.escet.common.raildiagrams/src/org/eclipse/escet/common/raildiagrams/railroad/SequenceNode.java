@@ -23,6 +23,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.awt.Color;
 import java.util.List;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
@@ -31,7 +32,6 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
-import org.eclipse.escet.common.java.Assert;
 
 /** Node for a sequence of child nodes. */
 public class SequenceNode extends DiagramElement {
@@ -48,10 +48,12 @@ public class SequenceNode extends DiagramElement {
 
         // Initialize the {@link SequencRow#hasNextRow} field.
         SequenceRow lastRow = last(rows);
-        for (SequenceRow row: rows)
+        for (SequenceRow row: rows) {
             row.hasNextRow = (row != lastRow);
+        }
     }
 
+    @SuppressWarnings("null") // False positives with 'verticalLines', as 'i' is larger than one on multiple rows.
     @Override
     public void create(Configuration config, int direction) {
         double railWidth = config.getRailWidth();
@@ -137,13 +139,15 @@ public class SequenceNode extends DiagramElement {
             if (direction > 0) {
                 solver.addEq(topUp.right, 0, right);
 
-                for (VertLine rowVert: verticalLines)
+                for (VertLine rowVert: verticalLines) {
                     solver.addLe(rowVert.right, paddingSuffix, upLine.left);
+                }
             } else {
                 solver.addEq(topUp.left, 0, left);
 
-                for (VertLine rowVert: verticalLines)
+                for (VertLine rowVert: verticalLines) {
                     solver.addLe(upLine.right, paddingSuffix, rowVert.left);
+                }
             }
             solver.addEq(topUp.top, 0, connectTop);
         }
@@ -263,6 +267,7 @@ public class SequenceNode extends DiagramElement {
      * @param railWidth Width of the rail.
      * @param vertPadding Amount of vertical padding between the bottom of the row and the connection line.
      * @param arcSize Size of the bends.
+     * @param verticalLines Storage of vertical lines between rows, expanded in-place.
      * @return Line connecting to the next row if needed else {@code null}.
      */
     private HorLine makeRightLeftConnect(SequenceRow row, Color railColor, double railWidth, double vertPadding,
@@ -291,6 +296,7 @@ public class SequenceNode extends DiagramElement {
     /**
      * Construct a second or later row for flow from left to right.
      *
+     * @param connection Horizontal line above the sequence from the previous row.
      * @param row Row to convert.
      * @param railColor Color of the rail.
      * @param railWidth Width of the rail.
@@ -324,6 +330,7 @@ public class SequenceNode extends DiagramElement {
     /**
      * Construct a second or later row for flow from right to left.
      *
+     * @param connection Horizontal line above the sequence from the previous row.
      * @param row Row to convert.
      * @param railColor Color of the rail.
      * @param railWidth Width of the rail.

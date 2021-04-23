@@ -73,8 +73,9 @@ public abstract class DiagramElement {
      * @param graphics The graphic elements to add.
      */
     public void addGraphics(Area... graphics) {
-        for (Area graphic: graphics)
+        for (Area graphic: graphics) {
             this.graphics.add(graphic);
+        }
     }
 
     /**
@@ -97,19 +98,19 @@ public abstract class DiagramElement {
      * @param config Configuration to use.
      * @param direction Direction of flow through the node, positive is left to right, negative is right to left.
      */
-    abstract public void create(Configuration config, int direction);
+    public abstract void create(Configuration config, int direction);
 
     /**
      * Paint the graphic elements and the child diagrams to the graphics output.
      *
      * @param left Left position of the area that may be used for painting.
      * @param top Top position of the area that may be used for painting.
-     * @param solver Solver containing variable values.
      * @param gd Graphics output handle.
      */
     public void paint(double left, double top, Graphics2D gd) {
-        for (Area graphic: graphics)
+        for (Area graphic: graphics) {
             graphic.paint(left, top, solver, gd);
+        }
 
         for (ProxyDiagramElement childElement: childDiagramElements) {
             double childLeft = left + solver.getVarValue(childElement.left);

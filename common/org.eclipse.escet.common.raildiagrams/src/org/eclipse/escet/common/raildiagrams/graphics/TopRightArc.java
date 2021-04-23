@@ -18,9 +18,9 @@ import static org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.drawAr
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.graphics.PaintSupport.ArcType;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
-import org.eclipse.escet.common.java.Assert;
 
 /** An arc running from bottom-right to top-left. */
 public class TopRightArc extends Arc {

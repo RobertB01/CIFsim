@@ -28,6 +28,7 @@ public abstract class Arc extends Area {
     /** Line width of the arc. */
     public final double lineWidth;
 
+    /** Color of the arc. */
     public final Color railColor;
 
     /**

@@ -16,11 +16,11 @@ package org.eclipse.escet.common.raildiagrams;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.eclipse.ui.MultiFileCommandHandler;
 
+/** Class for running the rail diagram program. */
 public class RailRoadDiagramCommandHandler extends MultiFileCommandHandler {
     @Override
     protected Class<? extends Application<?>> getApplicationClass() {

@@ -66,8 +66,9 @@ public class WriteImageOption extends BooleanOption {
      * @return {@code null} if the generated image should not be written, else the path to the destination.
      */
     public static String getOutputPath(String inputFile) {
-        if (!getWriteImage())
+        if (!getWriteImage()) {
             return null;
+        }
         String outPath = (inputFile.endsWith(".rr") ? Strings.slice(inputFile, 0, -3) : inputFile) + ".png";
         return Paths.resolve(outPath);
     }

@@ -19,6 +19,8 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 
+import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Optional;
 import org.eclipse.escet.common.raildiagrams.railroad.BranchLabelNode;
 import org.eclipse.escet.common.raildiagrams.railroad.ChoiceNode;
 import org.eclipse.escet.common.raildiagrams.railroad.DiagramElement;
@@ -28,8 +30,6 @@ import org.eclipse.escet.common.raildiagrams.railroad.NamedNode;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
 import org.eclipse.escet.common.raildiagrams.railroad.SequenceNode;
 import org.eclipse.escet.common.raildiagrams.railroad.SequenceRow;
-import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Optional;
 import org.eclipse.escet.setext.runtime.Parser;
 import org.eclipse.escet.setext.runtime.Token;
 
@@ -43,6 +43,7 @@ import org.eclipse.escet.setext.runtime.Token;
 public final class ParserHooks implements RailRoadScanner.Hooks, RailRoadParser.Hooks {
     @Override
     public void setParser(Parser<?> parser) {
+        // Nothing to do.
     }
 
     @Override
@@ -182,8 +183,9 @@ public final class ParserHooks implements RailRoadScanner.Hooks, RailRoadParser.
      * @return An object for performing one of the provided alternatives.
      */
     private DiagramElement makeChoice(List<DiagramElement> choices) {
-        if (choices.size() == 1)
+        if (choices.size() == 1) {
             return choices.get(0);
+        }
         return new ChoiceNode(choices);
     }
 
@@ -207,11 +209,13 @@ public final class ParserHooks implements RailRoadScanner.Hooks, RailRoadParser.
                 elements.add(optVal.getValue());
             }
         }
-        if (!elements.isEmpty())
+        if (!elements.isEmpty()) {
             rows.add(new SequenceRow(elements));
+        }
 
-        if (rows.size() == 1 && rows.get(0).elements.size() == 1)
+        if (rows.size() == 1 && rows.get(0).elements.size() == 1) {
             return first(first(rows).elements);
+        }
         return new SequenceNode(rows);
     }
 
@@ -222,8 +226,9 @@ public final class ParserHooks implements RailRoadScanner.Hooks, RailRoadParser.
      * @return An object for performing all provided alternatives.
      */
     private DiagramElement makeSequenceRow(List<DiagramElement> sequence) {
-        if (sequence.size() == 1)
+        if (sequence.size() == 1) {
             return sequence.get(0);
+        }
         return new SequenceNode(list(new SequenceRow(sequence)));
     }
 }

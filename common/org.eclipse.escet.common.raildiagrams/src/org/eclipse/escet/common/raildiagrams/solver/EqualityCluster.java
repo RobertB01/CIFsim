@@ -59,7 +59,7 @@ public class EqualityCluster {
      * Equality relations between variables of the cluster.
      *
      * <p>
-     * Managed by external code, used during the call to {@link #computeOffsets}.
+     * Managed by external code, used during the call to {@link Solver#constructEqualityClusters}.
      * </p>
      */
     public List<EqRelation> equalities;
@@ -71,13 +71,15 @@ public class EqualityCluster {
     public List<LeClusterRelation> remoteBiggers = list();
 
     /** Constructor of the {@link EqualityCluster} class. */
-    public EqualityCluster(int clusterId) {
+    public EqualityCluster() {
         variables = map();
         equalities = list();
     }
 
     /**
      * Add a variable to the cluster.
+     *
+     * @param var Variable to add.
      */
     public void add(Variable var) {
         Assert.check(!variables.containsKey(var));
@@ -121,11 +123,11 @@ public class EqualityCluster {
                     // B + offsetB = C <-> B = C - offsetB
                     //
                     // A + eqRel.offset = B
-                    // <-> C - offsetA + eqRel.offset = C - offsetB
-                    // <-> eqRel.offset - offsetA = -offsetB
+                    // . . . . <-> C - offsetA + eqRel.offset = C - offsetB
+                    // . . . . <-> eqRel.offset - offsetA = -offsetB
                     // offsetB = 0
-                    // <-> eqRel.offset - offsetA = 0
-                    // <-> eqRel.offset = offsetA
+                    // . . . . <-> eqRel.offset - offsetA = 0
+                    // . . . . <-> eqRel.offset = offsetA
                     double offsetB = 0;
                     double offsetA = eqRel.offset;
                     variables.put(eqRel.a, offsetA);
@@ -152,17 +154,17 @@ public class EqualityCluster {
                     } else {
                         // EqRel: A + eqRel.offset = B
                         // Cluster: A + offsetA = C
-                        // B + offsetB = C
+                        // . . . . .B + offsetB = C
                         //
                         // A + offsetA = A
                         // <-> A = C - offsetA
                         // B + offsetB = C
-                        // <-> B = C - offsetB
+                        // . . . <-> B = C - offsetB
                         // A + eqRel.offset = B
-                        // <-> C - offsetA + eqRel.offset = C - offsetB
-                        // <-> eqRel.offset - offsetA == -offsetB
-                        // <-> -offsetA = -offsetB - eqRel.offset
-                        // <-> offsetA = -(-offsetB - eqRel.offset)
+                        // . . . <-> C - offsetA + eqRel.offset = C - offsetB
+                        // . . . <-> eqRel.offset - offsetA == -offsetB
+                        // . . . <-> -offsetA = -offsetB - eqRel.offset
+                        // . . . <-> offsetA = -(-offsetB - eqRel.offset)
                         // = offsetB + eqRel.offset
                         offsetA = offsetB + eqRel.offset;
                         variables.put(eqRel.a, offsetA);
@@ -180,16 +182,16 @@ public class EqualityCluster {
                     if (offsetB == null) {
                         // EqRel: A + eqRel.offset = B
                         // Cluster: A + offsetA = C
-                        // B + offsetB = C
+                        // . . . . .B + offsetB = C
                         //
                         // A + offsetA = C
-                        // <-> A = C - offsetA
+                        // . . . <-> A = C - offsetA
                         // B + offsetB = C
-                        // <-> B = C - offsetB
+                        // . . . <-> B = C - offsetB
                         // A + eqRel.offset = B
-                        // <-> C - offsetA + eqRel.offset = C - offsetB
-                        // <-> eqRel.offset - offsetA = -offsetB
-                        // <-> offsetB = offsetA - eqRel.offset
+                        // . . . <-> C - offsetA + eqRel.offset = C - offsetB
+                        // . . . <-> eqRel.offset - offsetA = -offsetB
+                        // . . . <-> offsetB = offsetA - eqRel.offset
                         offsetB = offsetA - eqRel.offset;
                         variables.put(eqRel.b, offsetB);
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
@@ -229,8 +231,9 @@ public class EqualityCluster {
      * @param name Name of the node performing a solve.
      */
     public void dump(String name) {
-        if (!dodbg())
+        if (!dodbg()) {
             return;
+        }
 
         dbg("Equality cluster of %s:", name);
         idbg();
@@ -240,6 +243,11 @@ public class EqualityCluster {
         ddbg();
     }
 
+    /**
+     * Dump an equality dependency cycle to the debug output.
+     *
+     * @param eqRel Equality relation that introduced a cycle.
+     */
     private void dumpEqualityCycle(EqRelation eqRel) {
         List<Variable> addedVars = list();
         Set<EqRelation> addedRels = set();
@@ -258,24 +266,36 @@ public class EqualityCluster {
         }
     }
 
+    /**
+     * Find a cycle in the relation dependencies.
+     *
+     * @param addedVars Added variables.
+     * @param addedRels Added relations.
+     * @param relByVar Relations ordered by variables.
+     * @return Index of a variable in a cycle, or {@code -1} if no cycle was found.
+     */
     private int findCycle(List<Variable> addedVars, Set<EqRelation> addedRels, Map<Variable, EqRelation> relByVar) {
         Variable v = last(addedVars);
         for (EqRelation eqRel: equalities) {
-            if (eqRel.a != v && eqRel.b != v)
+            if (eqRel.a != v && eqRel.b != v) {
                 continue;
-            if (addedRels.contains(eqRel))
+            }
+            if (addedRels.contains(eqRel)) {
                 continue;
+            }
             Variable w = (eqRel.a == v) ? eqRel.b : eqRel.a;
             int idx = addedVars.indexOf(w);
-            if (idx >= 0)
+            if (idx >= 0) {
                 return idx;
+            }
 
             addedRels.add(eqRel);
             addedVars.add(w);
             relByVar.put(w, eqRel);
             idx = findCycle(addedVars, addedRels, relByVar);
-            if (idx >= 0)
+            if (idx >= 0) {
                 return idx;
+            }
             addedVars.remove(addedVars.size() - 1);
             addedRels.remove(eqRel);
             relByVar.remove(w);
@@ -293,8 +313,9 @@ public class EqualityCluster {
      * @param leRel Less-than relation to check.
      */
     public void checkLeRelation(LeRelation leRel) {
-        if (dodbg())
+        if (dodbg()) {
             dbg("checkLEReleation: %s", leRel);
+        }
         double offsetA = variables.get(leRel.a);
         double offsetB = variables.get(leRel.b);
         // A + offsetA = C
@@ -302,9 +323,9 @@ public class EqualityCluster {
         // A + leRel.lowBound <= B
         //
         // A + leRel.lowBound <= B
-        // <-> C - offsetA + leRel.lowBound <= C - offsetB
-        // <-> -offsetA + leRel.lowBound <= -offsetB
-        // <-> leRel.lowBound - offsetA <= -offsetB
+        // . . . <-> C - offsetA + leRel.lowBound <= C - offsetB
+        // . . . <-> -offsetA + leRel.lowBound <= -offsetB
+        // . . . <-> leRel.lowBound - offsetA <= -offsetB
         double leftSide = leRel.lowBound - offsetA;
         double rightSide = -offsetB;
         Assert.check(leftSide <= rightSide + Solver.EPSILON, fmt("Failed relation: %s", leRel));
@@ -329,20 +350,28 @@ public class EqualityCluster {
         // Dump the variables in increasing value.
         if (dodbg()) {
             List<Variable> sortedVars = listc(variables.size());
-            for (Variable v: variables.keySet())
+            for (Variable v: variables.keySet()) {
                 sortedVars.add(v);
+            }
             Collections.sort(sortedVars, new VarValueComparer(varValues));
             idbg();
-            for (Variable v: sortedVars)
+            for (Variable v: sortedVars) {
                 dbg("%s = %f", v, varValues[v.index]);
+            }
             ddbg();
         }
     }
 
     /** Comparator for sorting variables in increasing order. */
     private class VarValueComparer implements Comparator<Variable> {
+        /** Values of the variables. */
         private final double[] varValues;
 
+        /**
+         * Constructor of the {@link VarValueComparer} class.
+         *
+         * @param varValues Values of the variables.
+         */
         public VarValueComparer(double[] varValues) {
             this.varValues = varValues;
         }
@@ -351,10 +380,12 @@ public class EqualityCluster {
         public int compare(Variable v1, Variable v2) {
             double val1 = varValues[v1.index];
             double val2 = varValues[v2.index];
-            if (val1 < val2)
+            if (val1 < val2) {
                 return -1;
-            if (val1 == val2)
+            }
+            if (val1 == val2) {
                 return 0;
+            }
             return 1;
         }
     }
@@ -372,8 +403,9 @@ public class EqualityCluster {
         double maxOffset = 0;
         boolean first = true;
         for (double offset: variables.values()) {
-            if (first || maxOffset < offset)
+            if (first || maxOffset < offset) {
                 maxOffset = offset;
+            }
             first = false;
         }
         Assert.check(!first);
@@ -398,8 +430,9 @@ public class EqualityCluster {
             double biggerRelValue = varValues[leRel.a.index] + leRel.lowBound;
             double cRelValue = biggerRelValue + variables.get(leRel.b);
 
-            if (first || cRelValue > minC)
+            if (first || cRelValue > minC) {
                 minC = cRelValue;
+            }
             first = false;
         }
         Assert.check(!first);

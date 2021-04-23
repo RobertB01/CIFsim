@@ -27,7 +27,7 @@ public class Position2D {
      * Constructor of the {@link Position2D} class.
      *
      * @param x Horizontal position.
-     * @param x Vertical position.
+     * @param y Vertical position.
      */
     public Position2D(double x, double y) {
         this.x = x;

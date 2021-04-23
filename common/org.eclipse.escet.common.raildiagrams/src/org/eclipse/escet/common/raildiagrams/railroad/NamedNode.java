@@ -17,6 +17,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 
 import java.awt.Color;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.Configuration;
 import org.eclipse.escet.common.raildiagrams.FontData;
 import org.eclipse.escet.common.raildiagrams.NameKind;
@@ -29,7 +30,6 @@ import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
-import org.eclipse.escet.common.java.Assert;
 
 /** A node referring to another diagram. */
 public class NamedNode extends DiagramElement {

@@ -17,6 +17,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.awt.Graphics2D;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
@@ -25,7 +26,6 @@ import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
-import org.eclipse.escet.common.java.Assert;
 
 /** Abstract representative of a sub-diagram. */
 public class ProxyDiagramElement {
@@ -139,6 +139,13 @@ public class ProxyDiagramElement {
         }
     }
 
+    /**
+     * Paint the proxy by painting the child node.
+     *
+     * @param left Coordinate of the left edge.
+     * @param top Coordinate of the top edge.
+     * @param gd Graphics rendering handle.
+     */
     public void paint(double left, double top, Graphics2D gd) {
         child.paint(left, top, gd);
     }

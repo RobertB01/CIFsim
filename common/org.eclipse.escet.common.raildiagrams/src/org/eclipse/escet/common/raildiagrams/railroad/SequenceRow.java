@@ -21,10 +21,10 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.escet.common.java.ReverseListIterator;
 import org.eclipse.escet.common.raildiagrams.Configuration;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
-import org.eclipse.escet.common.java.ReverseListIterator;
 
 /** Row of child diagrams in a sequence. */
 public class SequenceRow {
@@ -55,12 +55,20 @@ public class SequenceRow {
     /**
      * Constructor of the {@link SequenceRow} class.
      *
-     * @param elements
+     * @param elements Elements of the row.
      */
     public SequenceRow(List<DiagramElement> elements) {
         this.elements = elements;
     }
 
+    /**
+     * Construct the row of elements.
+     *
+     * @param config Configuration settings.
+     * @param direction Direction of flow in the row, positive is left to right.
+     * @param parent Parent node containing the row.
+     * @param rowText Name of the row for creating variable names.
+     */
     public void create(Configuration config, int direction, DiagramElement parent, String rowText) {
         Solver solver = parent.solver;
 
@@ -75,7 +83,7 @@ public class SequenceRow {
         if (direction > 0) {
             childIter = elements.iterator();
         } else {
-            childIter = new ReverseListIterator<DiagramElement>(elements);
+            childIter = new ReverseListIterator<>(elements);
         }
 
         proxies = listc(elements.size());
@@ -88,8 +96,9 @@ public class SequenceRow {
             solver.addLe(top, 0, proxy.top);
             solver.addLe(proxy.bottom, 0, bottom);
 
-            if (prevProxy != null)
+            if (prevProxy != null) {
                 solver.addEq(prevProxy.right, 0, proxy.left);
+            }
             prevProxy = proxy;
 
             proxies.add(proxy);
@@ -99,12 +108,20 @@ public class SequenceRow {
         solver.addEq(right, 0, last(proxies).right);
     }
 
-    /** Get the left-most diagram proxy. */
+    /**
+     * Get the left-most diagram proxy.
+     *
+     * @return The left-most diagram proxy.
+     */
     public ProxyDiagramElement getLeftProxy() {
         return first(proxies);
     }
 
-    /** Get the right-most diagram proxy. */
+    /**
+     * Get the right-most diagram proxy.
+     *
+     * @return The right-most diagram proxy.
+     */
     public ProxyDiagramElement getRightProxy() {
         return last(proxies);
     }

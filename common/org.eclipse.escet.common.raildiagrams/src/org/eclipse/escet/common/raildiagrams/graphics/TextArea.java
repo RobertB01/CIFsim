@@ -39,7 +39,7 @@ public class TextArea extends Area {
     public final Position2D offset;
 
     /**
-     * Constructor of the {@link TextBox} class.
+     * Constructor of the {@link TextArea} class.
      *
      * @param solver Constraint solver that computes position of the text area.
      * @param prefix Name prefix for new variables, used for debugging.
@@ -47,6 +47,7 @@ public class TextArea extends Area {
      * @param color Color of the text.
      * @param font Font information.
      * @param offset Position to print the text relative to the top-left corner of this box.
+     * @param size Size of the box.
      */
     public TextArea(Solver solver, String prefix, String text, Color color, FontData font, Position2D offset,
             Size2D size)
@@ -74,12 +75,12 @@ public class TextArea extends Area {
     /**
      * Construct a text box.
      *
-     * @param problem Constraint problem solving the position of the text.
+     * @param solver Constraint problem solver for the box.
      * @param prefix Unique prefix for variables.
      * @param config Configuration of the railroad generator.
      * @param nameKind Kind of name
      * @param text Text to display.
-     * @return
+     * @return The constructed box with text.
      */
     public static TextArea makeTextArea(Solver solver, String prefix, Configuration config, NameKind nameKind,
             String text)

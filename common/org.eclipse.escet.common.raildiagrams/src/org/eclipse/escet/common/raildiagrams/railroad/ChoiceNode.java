@@ -22,6 +22,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.awt.Color;
 import java.util.List;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
@@ -29,8 +30,8 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
-import org.eclipse.escet.common.java.Assert;
 
+/** Node that builds a diagram to pick one of the child nodes. */
 public class ChoiceNode extends DiagramElement {
     /** Alternatives of the choice. */
     public final List<DiagramElement> alts;
@@ -48,6 +49,7 @@ public class ChoiceNode extends DiagramElement {
         Assert.check(alts.size() > 1);
     }
 
+    @SuppressWarnings("null") // False positives in the 'else'. since the 'if' case initializes them first.
     @Override
     public void create(Configuration config, int direction) {
         double railWidth = config.getRailWidth();

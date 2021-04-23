@@ -19,12 +19,12 @@ import static org.eclipse.escet.common.raildiagrams.graphics.TextArea.makeTextAr
 
 import java.awt.Color;
 
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.Configuration;
 import org.eclipse.escet.common.raildiagrams.NameKind;
 import org.eclipse.escet.common.raildiagrams.Size2D;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
-import org.eclipse.escet.common.java.Assert;
 
 /** Diagram of a production rule. */
 public class RailRule extends DiagramElement {
@@ -38,7 +38,7 @@ public class RailRule extends DiagramElement {
      * Constructor of the {@link RailRule} class.
      *
      * @param ruleName Optional name of the diagram.
-     * @param diagram Railroad diagram of the rule.
+     * @param rootNode Diagram to draw.
      */
     public RailRule(String ruleName, DiagramElement rootNode) {
         this.ruleName = ruleName;

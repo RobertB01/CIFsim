@@ -24,6 +24,7 @@ import org.eclipse.escet.common.raildiagrams.TextSizeOffset;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
 
+/** Node displaying the name of a branch for referral from the explanatory text. */
 public class BranchLabelNode extends DiagramElement {
     /** Text of the label. */
     public final String labelText;

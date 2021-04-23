@@ -16,6 +16,7 @@ package org.eclipse.escet.common.raildiagrams;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
+/** Option to obtain the name of the configuration file. */
 public class ConfigFileOption extends StringOption {
     /** Name of the option. */
     private static final String NAME = "Config filename";
@@ -48,6 +49,7 @@ public class ConfigFileOption extends StringOption {
     /** Label to use as prefix in the dialog box (since {@link #SHOW_IN_DIALOG} holds). */
     private static final String OPT_DIALOG_LABEL_TEXT = "Config file:";
 
+    /** Constructor of the {@link ConfigFileOption} class. */
     public ConfigFileOption() {
         super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, CMD_VALUE, DEFAULT_VALUE, EMPTY_AS_NULL, SHOW_IN_DIALOG,
                 OPT_DIALOG_DESCR, OPT_DIALOG_LABEL_TEXT);

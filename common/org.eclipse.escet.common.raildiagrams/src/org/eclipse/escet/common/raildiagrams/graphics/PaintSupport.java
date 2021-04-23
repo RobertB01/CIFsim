@@ -31,8 +31,9 @@ public class PaintSupport {
      * @param width Desired width of the stroke.
      */
     public static void setLineWidth(Graphics2D gd, int width) {
-        if (width < 1)
+        if (width < 1) {
             width = 1; // Make sure the line is shown.
+        }
         gd.setStroke(new BasicStroke(width));
     }
 
@@ -59,13 +60,17 @@ public class PaintSupport {
                 90);
     }
 
+    /** Arcs that can be painted. */
     public static enum ArcType {
         /** Bottom-left arc. */
         BL_ARC(180, 0, 0.5, -1, 1.5),
+
         /** Bottom-right arc. */
         BR_ARC(270, -1, 1.5, -1, 1.5),
+
         /** Top-left arc. */
         TL_ARC(90, 0, 0.5, 0, 0.5),
+
         /** Top-right arc. */
         TR_ARC(0, -1, 1.5, 0, 0.5);
 

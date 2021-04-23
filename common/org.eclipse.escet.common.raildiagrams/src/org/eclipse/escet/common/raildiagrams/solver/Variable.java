@@ -36,8 +36,9 @@ public class Variable {
 
     @Override
     public String toString() {
-        if (name == null)
+        if (name == null) {
             return fmt("Var(#%d)", index);
+        }
         return fmt("Var(\"%s\"#%d)", name, index);
     }
 }

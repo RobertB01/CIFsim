@@ -55,8 +55,9 @@ public class EqRelation extends VariableRelation {
 
     @Override
     public String toString() {
-        if (offset == 0.0)
+        if (offset == 0.0) {
             return fmt("Eq[%s == %s]", a, b);
+        }
         return fmt("Eq[%s + %.2f == %s]", a, offset, b);
     }
 }

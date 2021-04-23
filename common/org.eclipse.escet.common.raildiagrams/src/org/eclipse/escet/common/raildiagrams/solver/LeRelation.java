@@ -55,8 +55,9 @@ public class LeRelation extends VariableRelation {
 
     @Override
     public String toString() {
-        if (lowBound == 0.0)
+        if (lowBound == 0.0) {
             return fmt("Lt[%s <= %s]", a, b);
+        }
         return fmt("Lt[%s + %.2f <= %s]", a, lowBound, b);
     }
 }

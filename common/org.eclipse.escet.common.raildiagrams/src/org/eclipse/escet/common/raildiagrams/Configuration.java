@@ -29,8 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
-import org.eclipse.escet.common.raildiagrams.FontData.FontStyle;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.raildiagrams.FontData.FontStyle;
 
 /** Configuration data of the diagrams. */
 public class Configuration {
@@ -38,76 +38,116 @@ public class Configuration {
     private static final Pattern RGB_PATTERN = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*");
 
     /** Default properties of the diagram generator. */
-    private static final String PROPERTIES_LITERAL = "" +
-    // Background.
-            "diagram.background.color: 255 255 255\n" +
+    private static final String PROPERTIES_LITERAL;
 
-            // Rail.
-            "rail.linewidth: 1.0\n" + "rail.color:     0 0 0\n" +
+    static {
+        /** Default properties of the program. */
+        String[] defaultConfigLines = new String[] {
+                // Background.
+                "diagram.background.color: 255 255 255", //
 
-            // Diagram rule.
-            "rule.padding.top:          10\n" + "rule.padding.left:         10\n" + "rule.padding.bottom:       10\n"
-            + "rule.padding.right:        10\n" + "rule.diagram.padding.top:  10\n" + "rule.diagram.padding.left: 10\n"
-            + "rule.diagram.lead.width:   20\n" + "rule.diagram.trail.width:  20\n" +
+                // Rail.
+                "rail.linewidth: 1.0", //
+                "rail.color:     0 0 0", //
 
-            // Choice.
-            "choice.arc-radius:       10\n" + "choice.padding.vertical:  5\n" +
+                // Diagram rule.
+                "rule.padding.top:          10", //
+                "rule.padding.left:         10", //
+                "rule.padding.bottom:       10", //
+                "rule.padding.right:        10", //
+                "rule.diagram.padding.top:  10", //
+                "rule.diagram.padding.left: 10", //
+                "rule.diagram.lead.width:   20", //
+                "rule.diagram.trail.width:  20", //
 
-            // Loop.
-            "loop.arc-radius:       10\n" + "loop.padding.vertical:  5\n" + // Padding between forward and backward
-                                                                            // sequence.
-            "loop.padding.left:      5\n" + // Padding between the left-side and the left loop vertical line.
-            "loop.padding.right:     5\n" + // Padding between the right-side and the right loop vertical line.
+                // Choice.
+                "choice.arc-radius:       10", //
+                "choice.padding.vertical:  5", //
 
-            // Sequence.
-            "sequence.padding.first-row.prefix:  0\n" + "sequence.padding.other-row.prefix:  5\n"
-            + "sequence.padding.row.suffix:        5\n" + // Padding behind a row, between the vertical lines down and
-                                                          // up.
-            "sequence.padding.interrow:          8\n" + // Excludes width of horizontal line.
-            "sequence.arc-radius:               10\n" +
+                // Loop.
+                "loop.arc-radius:       10", //
+                "loop.padding.vertical:  5", // Padding between forward and backward sequence.
+                "loop.padding.left:      5", // Padding between the left-side and the left loop vertical line.
+                "loop.padding.right:     5", // Padding between the right-side and the right loop vertical line.
 
-            // Branch label.
-            "branch-label.padding.left:    5\n" + "branch-label.padding.right:   5\n"
-            + "branch-label.padding.top:     5\n" + "branch-label.padding.bottom:  5\n"
-            + "branch-label.min-width:       5\n" + "branch-label.text.color:      0 0 0\n"
-            + "branch-label.text.font:       Serif\n" + "branch-label.text.font.size:  12\n"
-            + "branch-label.text.font.style: plain\n" +
+                // Sequence.
+                "sequence.padding.first-row.prefix:  0", //
+                "sequence.padding.other-row.prefix:  5", //
+                "sequence.padding.row.suffix:        5", // Padding behind a row, between the vertical
+                                                         // lines down and up.
+                "sequence.padding.interrow:          8", // Excludes width of horizontal line.
+                "sequence.arc-radius:               10", //
 
-            // Empty node.
-            "empty.width: 10\n" +
+                // Branch label.
+                "branch-label.padding.left:    5", //
+                "branch-label.padding.right:   5", //
+                "branch-label.padding.top:     5", //
+                "branch-label.padding.bottom:  5", //
+                "branch-label.min-width:       5", //
+                "branch-label.text.color:      0 0 0", //
+                "branch-label.text.font:       Serif", //
+                "branch-label.text.font.size:  12", //
+                "branch-label.text.font.style: plain", //
 
-            // Name node, width of the entry and exit connections.
-            "name.rail.entry.width: 5\n" + "name.rail.exit.width:  5\n" +
+                // Empty node.
+                "empty.width: 10", //
 
-            // Header font and text.
-            "diagram-header.text.color:      0 0 0\n" + "diagram-header.text.font:       Serif\n"
-            + "diagram-header.text.font.size:  15\n" + "diagram-header.text.font.style: bold\n" +
+                // Name node, width of the entry and exit connections.
+                "name.rail.entry.width: 5", //
+                "name.rail.exit.width:  5", //
 
-            // 'terminal' name properties.
-            "terminal.name.padding.horizontal: 5\n" + // Horizontal padding around the name.
-            "terminal.name.padding.vertical:   5\n" + // Vertical padding around the name.
-            "terminal.corner.radius: 12\n" + "terminal.box.color:     0 0 0\n" + "terminal.box.linewidth: 1.0\n"
-            + "terminal.text.color:    0 0 0\n" + "terminal.text.font:       Monospaced\n"
-            + "terminal.text.font.size:  12\n" + "terminal.text.font.style: plain\n" +
+                // Header font and text.
+                "diagram-header.text.color:      0 0 0", //
+                "diagram-header.text.font:       Serif", //
+                "diagram-header.text.font.size:  15", //
+                "diagram-header.text.font.style: bold", //
 
-            // 'meta-terminal' name properties.
-            "meta-terminal.name.padding.horizontal: 5\n" + "meta-terminal.name.padding.vertical:   5\n"
-            + "meta-terminal.corner.radius: 12\n" + "meta-terminal.box.color:     0 0 0\n"
-            + "meta-terminal.box.linewidth: 1.0\n" + "meta-terminal.text.color:    0 0 0\n"
-            + "meta-terminal.text.font:       Serif\n" + "meta-terminal.text.font.size:  12\n"
-            + "meta-terminal.text.font.style: plain\n" +
+                // 'terminal' name properties.
+                "terminal.name.padding.horizontal: 5", // Horizontal padding around the name.
+                "terminal.name.padding.vertical:   5", // Vertical padding around the name.
+                "terminal.corner.radius: 12", //
+                "terminal.box.color:     0 0 0", //
+                "terminal.box.linewidth: 1.0", //
+                "terminal.text.color:    0 0 0", //
+                "terminal.text.font:       Monospaced", //
+                "terminal.text.font.size:  12", //
+                "terminal.text.font.style: plain", //
 
-            // 'nonterminal' name properties.
-            "nonterminal.name.padding.horizontal: 5\n" + "nonterminal.name.padding.vertical:   5\n"
-            + "nonterminal.corner.radius:   0\n" + "nonterminal.box.color:       0 0 0\n"
-            + "nonterminal.box.linewidth:   1.0\n" + "nonterminal.text.color:      0 0 0\n"
-            + "nonterminal.text.font:       Serif\n" + "nonterminal.text.font.size:  12\n"
-            + "nonterminal.text.font.style: italic\n";
+                // 'meta-terminal' name properties.
+                "meta-terminal.name.padding.horizontal: 5", //
+                "meta-terminal.name.padding.vertical:   5", //
+                "meta-terminal.corner.radius: 12", //
+                "meta-terminal.box.color:     0 0 0", //
+                "meta-terminal.box.linewidth: 1.0", //
+                "meta-terminal.text.color:    0 0 0", //
+                "meta-terminal.text.font:       Serif", //
+                "meta-terminal.text.font.size:  12", //
+                "meta-terminal.text.font.style: plain", //
 
-    // Token text properties:
-    // "terminal.token.<tokname>: <toktext>" // Should be complete.
-    // "meta-terminal.<tokname>: <toktext>" // Should be complete.
-    // "nonterminal.token.<tokname>: <toktext>" // Optional, default: tokname == toktext.
+                // 'nonterminal' name properties.
+                "nonterminal.name.padding.horizontal: 5", //
+                "nonterminal.name.padding.vertical:   5", //
+                "nonterminal.corner.radius:   0", //
+                "nonterminal.box.color:       0 0 0", //
+                "nonterminal.box.linewidth:   1.0", //
+                "nonterminal.text.color:      0 0 0", //
+                "nonterminal.text.font:       Serif", //
+                "nonterminal.text.font.size:  12", //
+                "nonterminal.text.font.style: italic", //
+
+                // Token text properties:
+                // "terminal.token.<tokname>: <toktext>", should always be fully specified.
+                // "meta-terminal.<tokname>: <toktext>", should always be fully specified.
+                // "nonterminal.token.<tokname>: <toktext>", with <toktext> optional, default value is <tokname>.
+        };
+
+        StringBuilder sb = new StringBuilder();
+        for (String line: defaultConfigLines) {
+            sb.append(line);
+            sb.append('\n');
+        }
+        PROPERTIES_LITERAL = sb.toString();
+    }
 
     /** Stored key/value pairs of the properties of the rail diagram generator. */
     private Map<String, String> defaultProperties = map();
@@ -159,6 +199,13 @@ public class Configuration {
         return getRgbColor("rail.color");
     }
 
+    /**
+     * Get both the size and the offset of a text.
+     *
+     * @param text Text to query.
+     * @param nameKind Kind of text, defines font properties to use.
+     * @return Size and offset of the formatted text.
+     */
     public TextSizeOffset getTextSizeOffset(String text, NameKind nameKind) {
         FontData fd = getFont(nameKind);
         return new TextSizeOffset(fd.getTextOffset(gd, text), fd.getTextSize(gd, text));
@@ -214,8 +261,9 @@ public class Configuration {
      */
     public FontData getFont(NameKind nameKind) {
         FontData fontData = fontdataCache.get(nameKind);
-        if (fontData != null)
+        if (fontData != null) {
             return fontData;
+        }
 
         String fontName = getPropertyValue(nameKind.configPrefix + ".text.font");
 
@@ -267,11 +315,13 @@ public class Configuration {
      */
     public NameKind getNameKind(String name) {
         String propName = "terminal.token." + name;
-        if (loadedProperties.containsKey(propName))
+        if (loadedProperties.containsKey(propName)) {
             return NameKind.TERMINAL;
+        }
         propName = "meta-terminal.token." + name;
-        if (loadedProperties.containsKey(propName))
+        if (loadedProperties.containsKey(propName)) {
             return NameKind.META_TERMINAL;
+        }
         return NameKind.NON_TERMINAL;
     }
 
@@ -286,15 +336,17 @@ public class Configuration {
         if (nameKind == null || nameKind == NameKind.TERMINAL) {
             String propName = "terminal.token." + name;
             String text = loadedProperties.get(propName);
-            if (nameKind != null || text != null)
+            if (nameKind != null || text != null) {
                 return text;
+            }
         }
 
         if (nameKind == null || nameKind == NameKind.META_TERMINAL) {
             String propName = "meta-terminal.token." + name;
             String text = loadedProperties.get(propName);
-            if (nameKind != null || text != null)
+            if (nameKind != null || text != null) {
                 return text;
+            }
         }
 
         String propName = "nonterminal.token." + name;
@@ -303,14 +355,15 @@ public class Configuration {
 
     /**
      * Get the text of a property by its name.
-     * 
+     *
      * @param key Name of the property to look for.
      * @return The text of the requested property, is never {@code null}.
      */
     private String getPropertyValue(String key) {
         String value = loadedProperties.get(key);
-        if (value == null)
+        if (value == null) {
             value = defaultProperties.get(key); // Should always have a value!
+        }
         Assert.notNull(value, fmt("Property \"%s\" not found at all.", key));
         return value;
     }
@@ -324,20 +377,24 @@ public class Configuration {
     private Color decodeColor(String colorText) {
         Color defaultColor = Color.pink;
 
-        if (colorText == null)
+        if (colorText == null) {
             return defaultColor;
+        }
 
         Matcher m = RGB_PATTERN.matcher(colorText);
-        if (!m.matches())
+        if (!m.matches()) {
             return defaultColor;
+        }
 
         int red = decodeInt(m.group(1), -1);
         int green = decodeInt(m.group(2), -1);
         int blue = decodeInt(m.group(3), -1);
-        if (red < 0 || green < 0 || blue < 0)
+        if (red < 0 || green < 0 || blue < 0) {
             return defaultColor;
-        if (red > 255 || green > 255 || blue > 255)
+        }
+        if (red > 255 || green > 255 || blue > 255) {
             return defaultColor;
+        }
         return new Color(red, green, blue);
     }
 
@@ -377,7 +434,6 @@ public class Configuration {
      * Load a properties file into the configuration.
      *
      * @param fname Name of the file to load.
-     * @return The loaded properties.
      */
     public void loadPropertiesFile(String fname) {
         Properties props = new Properties();
@@ -392,8 +448,9 @@ public class Configuration {
             throw new InputOutputException(fmt("Could not read file \"%s\".", fname), ex);
         } finally {
             try {
-                if (stream != null)
+                if (stream != null) {
                     stream.close();
+                }
             } catch (IOException ex) {
                 throw new InputOutputException(fmt("Could not close file \"%s\".", fname), ex);
             }
@@ -401,8 +458,9 @@ public class Configuration {
         // Extract the strings from the loaded properties and copy them to the global map.
         for (String propName: props.stringPropertyNames()) {
             String propValue = props.getProperty(propName);
-            if (propValue == null || propValue.isEmpty())
+            if (propValue == null || propValue.isEmpty()) {
                 propValue = "*empty*";
+            }
             loadedProperties.put(propName, propValue);
         }
     }

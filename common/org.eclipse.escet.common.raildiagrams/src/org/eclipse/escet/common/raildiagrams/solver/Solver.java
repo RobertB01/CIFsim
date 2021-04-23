@@ -36,7 +36,7 @@ import org.eclipse.escet.common.java.Assert;
 /** Solver that assigns non-negative real values to variables such that all provided relations hold. */
 public class Solver {
     /** Allowed deviation of a value due to rounding errors. */
-    public final static double EPSILON = 1e-4;
+    public static final double EPSILON = 1e-4;
 
     /** Variables to assign. */
     private List<Variable> variables = list();
@@ -111,19 +111,22 @@ public class Solver {
      * @param header Header line stating where or when the dump is coming from.
      */
     public void dumpRelations(String header) {
-        if (!dodbg())
+        if (!dodbg()) {
             return;
+        }
 
         dbg("====== " + header + "=======");
         dbg("Variables:");
         idbg();
-        for (Variable v: variables)
+        for (Variable v: variables) {
             dbg("%s", v);
+        }
         ddbg();
         dbg("Relations:");
         idbg();
-        for (VariableRelation r: relations)
+        for (VariableRelation r: relations) {
             dbg("%s", r);
+        }
         ddbg();
         dbg();
     }
@@ -144,12 +147,14 @@ public class Solver {
         varsToCluster = map();
 
         // Create equality clusters, and initialize each of them.
-        int nextClusterId = constructEqualityClusters();
-        addSingletonEqualities(nextClusterId);
-        for (EqualityCluster cluster: equalityClusters)
+        constructEqualityClusters();
+        addSingletonEqualities();
+        for (EqualityCluster cluster: equalityClusters) {
             cluster.initialize();
-        for (EqualityCluster cluster: equalityClusters)
+        }
+        for (EqualityCluster cluster: equalityClusters) {
             cluster.dump(name);
+        }
 
         // Build a cluster graph with less-equal relations, and verify it has no cycles.
         makeLessEqualGraph();
@@ -173,18 +178,14 @@ public class Solver {
         return solution[var.index];
     }
 
-    /**
-     * Create clusters of variables connected through equality relations.
-     *
-     * @return Next free cluster id
-     */
-    private int constructEqualityClusters() {
+    /** Create clusters of variables connected through equality relations. */
+    private void constructEqualityClusters() {
         int numEqRels = 0;
         int numClusters = 0;
-        int clusterId = 0;
         for (VariableRelation rel: relations) {
-            if (!(rel instanceof EqRelation))
+            if (!(rel instanceof EqRelation)) {
                 continue;
+            }
 
             numEqRels++;
             EqRelation eqRel = (EqRelation)rel;
@@ -193,8 +194,7 @@ public class Solver {
             if (clA == null) {
                 if (clB == null) { // Both not in a cluster, make a new one.
                     numClusters++;
-                    EqualityCluster cluster = new EqualityCluster(clusterId);
-                    clusterId++;
+                    EqualityCluster cluster = new EqualityCluster();
                     cluster.add(eqRel.a);
                     cluster.add(eqRel.b);
                     cluster.equalities.add(eqRel);
@@ -234,19 +234,13 @@ public class Solver {
         }
         Assert.check(countedVars == varsToCluster.size());
         Assert.check(countedEqRels == numEqRels);
-        return clusterId;
     }
 
-    /**
-     * Add equality clusters with a single variable for all variables that are not involved in an equality relation.
-     *
-     * @param clusterId Next available number for a unique cluster Id.
-     */
-    private void addSingletonEqualities(int clusterId) {
+    /** Add equality clusters with a single variable for all variables that are not involved in an equality relation. */
+    private void addSingletonEqualities() {
         for (Variable var: variables) {
             if (!varsToCluster.containsKey(var)) {
-                EqualityCluster cluster = new EqualityCluster(clusterId);
-                clusterId++;
+                EqualityCluster cluster = new EqualityCluster();
                 cluster.add(var);
                 equalityClusters.add(cluster);
                 varsToCluster.put(var, cluster);
@@ -257,8 +251,9 @@ public class Solver {
     /** Assign the {@link LeRelation}s to the found (and initialized) equality clusters. */
     private void makeLessEqualGraph() {
         for (VariableRelation rel: relations) {
-            if (!(rel instanceof LeRelation))
+            if (!(rel instanceof LeRelation)) {
                 continue;
+            }
 
             LeRelation leRel = (LeRelation)rel;
             EqualityCluster clA = varsToCluster.get(leRel.a);
@@ -276,7 +271,7 @@ public class Solver {
         }
     }
 
-    /** Verify there are no cycles in the {@link LeClusterRelations}. */
+    /** Verify there are no cycles in the {@link LeClusterRelation}. */
     private void checkNoCycles() {
         Set<EqualityCluster> safeClusters = setc(equalityClusters.size()); // Clusters that are cycle-free.
         List<EqualityCluster> stack = listc(equalityClusters.size()); // Exploration stack.
@@ -287,19 +282,17 @@ public class Solver {
         int index = 0;
         stack.add(null);
         for (EqualityCluster cluster: equalityClusters) {
-            if (safeClusters.contains(cluster))
+            if (safeClusters.contains(cluster)) {
                 continue; // Already checked.
+            }
 
             stack.set(index, cluster);
             stackIndices.put(cluster, index);
             Integer cycleStart = findCycle(stack, stackIndices, safeClusters);
             Assert.check(cycleStart == null);
             stackIndices.remove(cluster);
-            // stack.set(0, null);
-
             safeClusters.add(cluster);
         }
-        // stack.remove(index);
     }
 
     /**
@@ -309,6 +302,7 @@ public class Solver {
      *     be in the safe set.
      * @param stackIndices Mapping of clusters on the stack to their index.
      * @param safeSet Set of clusters that are known not to be part of a cycle.
+     * @return Index number of a cluster that is part of a cycle.
      */
     private Integer findCycle(List<EqualityCluster> stack, Map<EqualityCluster, Integer> stackIndices,
             Set<EqualityCluster> safeSet)
@@ -324,13 +318,15 @@ public class Solver {
         for (LeClusterRelation leRel: top.remoteSmallers) {
             EqualityCluster smallerCl = leRel.smallerCluster;
             // If the cluster safe already?
-            if (safeSet.contains(smallerCl))
+            if (safeSet.contains(smallerCl)) {
                 continue;
+            }
 
             // Check for cycle.
             Integer smallerIndex = stackIndices.get(smallerCl);
-            if (smallerIndex != null)
+            if (smallerIndex != null) {
                 return smallerIndex;
+            }
 
             // Make a call to find cycles from the descendant.
             stack.set(index, smallerCl);
@@ -338,8 +334,9 @@ public class Solver {
 
             // Explore child cluster, and exit when a cycle is found.
             smallerIndex = findCycle(stack, stackIndices, safeSet);
-            if (smallerIndex != null)
+            if (smallerIndex != null) {
                 return smallerIndex;
+            }
 
             stackIndices.remove(smallerCl);
             safeSet.add(smallerCl);
@@ -366,16 +363,18 @@ public class Solver {
         // Set of clusters that need to be assigned next.
         Set<EqualityCluster> activeClusters = set();
         for (EqualityCluster cluster: equalityClusters) {
-            if (cluster.remoteSmallers.isEmpty())
+            if (cluster.remoteSmallers.isEmpty()) {
                 activeClusters.add(cluster);
+            }
         }
 
         Set<EqualityCluster> nextActiveClusters = set(); // Active clusters of the next iteration.
         Set<EqualityCluster> assignedClusters = setc(equalityClusters.size()); // Clusters that are done.
 
         for (;;) {
-            if (activeClusters.isEmpty())
+            if (activeClusters.isEmpty()) {
                 break;
+            }
 
             nextActiveClusters.clear();
             boolean progress = false;
@@ -430,8 +429,9 @@ public class Solver {
             Set<EqualityCluster> assignedClusters)
     {
         for (LeClusterRelation leRel: remoteSmallers) {
-            if (!assignedClusters.contains(leRel.smallerCluster))
+            if (!assignedClusters.contains(leRel.smallerCluster)) {
                 return false;
+            }
         }
         return true;
     }
@@ -443,7 +443,8 @@ public class Solver {
      * @param actives Active clusters for which assignment is attempted.
      */
     private static void addSuccessorClusters(List<LeClusterRelation> nextBiggers, Set<EqualityCluster> actives) {
-        for (LeClusterRelation nextBigger: nextBiggers)
+        for (LeClusterRelation nextBigger: nextBiggers) {
             actives.add(nextBigger.biggerCluster);
+        }
     }
 }
