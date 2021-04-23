@@ -24,8 +24,9 @@
     <packaging>eclipse-plugin</packaging>
 
     <!-- Override JDK modules. -->
-    <!-- Tycho doesn't seem to honor the 'limit-modules' from '.classpath'. -->
     <!-- We need to prevent that both the JDK and JDT provide the 'javax.tools' package. -->
+    <!-- Tycho doesn't seem to honor the 'limit-modules' from '.classpath'. -->
+    <!-- See also https://github.com/eclipse/tycho/issues/93. -->
     <build>
         <plugins>
             <plugin>
