@@ -1,0 +1,69 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-readme-regular-expressions]]
+== Regular expressions
+
+Regular expressions are enclosed in double quotes. Within them, the following
+are supported:
+
+* `a` for character `a`, for any `a` (special characters need escaping).
+
+* `\n` for the new line character (Unicode U+0A).
+
+* `\r` for the carriage return character (Unicode U+0D).
+
+* `\t` for the tab character (Unicode U+09).
+
+* `\a` for character `a`, for any `a` (especially useful for escaping
+special characters).
+
+* `\\` for character `\` (escaped).
+
+* `\"` for character `"` (escaped).
+
+* `(x)` for regular expression `x` (allows for grouping).
+
+* `xy` for regular expression `x` followed by regular expression `y`.
+
+* `+x*+` for zero or more times regular expression `x`.
+
+* `pass:[x+]` for one or more times regular expression `x`.
+
+* `x?` for zero or one times regular expression `x`.
+
+* `.` for any ASCII character except `\n` (new line, Unicode U+0A).
+
+* `x|y` for either regular expression `x` or regular expression `y`
+(but not both).
+
+* `[abc]` for exactly one of the characters `a`, `b` or `c`.
+
+* `[a-z]` for exactly one of the characters `a`, `b`, ..., or `z`.
+This notation is called a character class. Note that the ranges of
+characters are based on their ASCII character codes.
+
+* `+[^a]+` for any ASCII character except for character `a`. This notation
+is called a negated character class.
+
+* `+{s}+` for the regular expression defined by shortcut `s`.
+
+To include special characters, they must always be escaped, wherever they
+occur in the regular expression. For instance, regular expression `+[a\^]+`
+recognizes either character `a` or character `+^+` (but not both). Here
+the `+^+` character is escaped, as it is a special character (it may be used
+at the beginning of a character class to invert the character class).
+
+New lines are not allowed in the regular expressions themselves. Obviously,
+it is possible to detect new lines using regular expressions.

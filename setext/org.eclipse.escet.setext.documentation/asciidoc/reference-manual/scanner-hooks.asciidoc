@@ -1,0 +1,55 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-readme-scanner-hooks]]
+== Scanner hooks
+
+As indicated above, the following SeText specification:
+
+[source, setext]
+----
+@terminals:
+  IDTK = "$?[a-zA-Z_][a-zA-Z0-9_]*" {scanID};
+end
+----
+
+defines a terminal `IDTK`, which if recognized, is passed to a `scanID`
+method for post-processing. If such a call back hook method is specified,
+a (non-generic) hooks class is required. It can be specified as follows:
+
+[source, setext]
+----
+@hooks some.package.SomeHooks;
+----
+
+As for all Java types, imports can be used. For this example, the
+`some.package.SomeHooks` class must have a default (parameterless)
+constructor, and an instance method with the following signature:
+
+[source, java]
+----
+public void scanID(Token token);
+----
+
+where the `Token` class is the `org.eclipse.escet.setext.runtime.Token` class. The
+method may perform in-place modifications to the `text` field of the
+`token` parameter.
+
+It is allowed to throw `org.eclipse.escet.setext.runtime.exceptions.SyntaxException`
+exceptions in the hooks methods.
+
+Note that each generated scanner has an inner interface named `Hooks` that
+defines all the required call back hook methods. The hooks class must implement
+the interface. This does not apply to scanners that don't have any terminals
+with call back hooks.

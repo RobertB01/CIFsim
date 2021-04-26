@@ -1,0 +1,34 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_root_attributes.asciidoc[]
+
+[[setext-readme-release-notes]]
+== SeText release notes
+
+The release notes for the releases of SeText and the associated tools, as
+part of the Eclipse ESCET project, are listed below in reverse chronological
+order.
+
+See also the Eclipse ESCET
+link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
+covering those aspects that are common to the various Eclipse ESCET tools.
+
+=== Version 0.2
+
+TBD
+
+=== Version 0.1
+
+The first release of SeText as part of the Eclipse ESCET project.
+This release is based on the initial contribution by the Eindhoven University
+of Technology (TU/e).

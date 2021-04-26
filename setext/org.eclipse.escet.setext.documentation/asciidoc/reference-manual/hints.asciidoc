@@ -1,0 +1,37 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-readme-usage-hints]]
+== Usage hints
+
+Here are some hints on using SeText:
+
+* It is recommended to name the generated and hooks classes, using the
+following convention: `XyzScanner`, `XyzParser`, `XyzHooks`, for
+the scanner, parser, and hooks classes of a language `Xyz` or `XYZ`.
+For parsers for a part of a language, it is recommended to name the
+generated parsers `XyzPartParser`, for non-terminal `Part` of language
+`Xyz` or `XYZ`. Following these naming conventions ensures consistency
+in the naming of the classes.
+
+* It is recommended to import the packages that contain the classes used
+as the types of the non-terminals. For instance, import the expressions
+package `some.long.package.name.expressions` as `expressions` or
+`exprs`, and then use `{exprs.SomeClass}` as the type for a
+non-terminal, instead of `{some.long.package.name.expressions.SomeClass}`.
+Importing the package instead of the individual classes reduces the number
+of imports, and also avoids conflicts between non-terminals names and
+class names. For standard Java types, however, it is recommended to import
+the full type. For instance, import `java.lang.String` or
+`java.util.List`.
