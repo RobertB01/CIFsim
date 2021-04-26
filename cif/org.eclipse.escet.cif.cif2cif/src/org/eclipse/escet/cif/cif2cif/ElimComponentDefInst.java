@@ -1200,11 +1200,11 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         //
         // 1) This is the leaf type and thus not a 'via' reference.
         //
-        // 2) Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-        // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
-        // 'childRef' can not reference a component instantiation or component definition reference.
-        // XXX this is similar to the reasoning for component instantiations for the expression variant of this method
-        // and doesn't make sense.
+        // 2) This is not a component definition type. These can only be used as types of component parameters.
+        // If 'x' was indeed a component parameter type, and 'p' is also a component parameter type, that means that
+        // component definition 'D' that has 'p' as a parameter also contains a component definition that has a
+        // parameter of which the type is 'x'. But that can't be the case, as we are eliminating component definition
+        // 'D' and we only eliminate component definitions that don't contain other component definitions.
         Assert.check(!(childRef instanceof ComponentType
                 && ((ComponentType)childRef).getComponent() instanceof ComponentInst));
         Assert.check(!(childRef instanceof ComponentDefType));
@@ -1228,8 +1228,11 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             EnumDecl e = (EnumDecl)newRefObj;
             ((EnumType)childRef).setEnum(e);
         } else if (childRef instanceof ComponentType) {
-            // This component reference can not reference a component instantiation. See above.
-            // XXX see 'XXX' above and similar XXX for component instantiations in expression version of this method.
+            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
+            // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
+            // 'childRef' can not reference a component instantiation.
+            // XXX this is similar to the reasoning for component instantiations for the expression variant of this
+            // method and doesn't make sense.
             Component c = (Component)newRefObj;
             ((ComponentType)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapType) {
