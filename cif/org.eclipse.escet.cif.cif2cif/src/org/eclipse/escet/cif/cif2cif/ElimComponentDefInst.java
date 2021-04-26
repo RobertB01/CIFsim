@@ -673,9 +673,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return;
         }
 
-        ////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 1
-        ////////////
+        ///////////////////////////////////////////////////////////////////////////
 
         // Task 1: Process the given argument ('a.b.c.p1') to replace the component parameter wrapping expression ('p').
 
@@ -761,9 +761,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             newBody = argLeafComplexComp;
         }
 
-        ////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 2
-        ////////////
+        ///////////////////////////////////////////////////////////////////////////
 
         // Task 2: Process the child reference expression ('q.r.x') and combine it with the result of task 1.
 
@@ -1000,9 +1000,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return;
         }
 
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 1
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////
 
         // Task 1: Process the given argument ('a.b.c.p1') to replace the component parameter wrapping type ('p').
 
@@ -1094,9 +1094,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             newBody = argLeafComplexComp;
         }
 
-        /////////////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 2
-        /////////////////////
+        ///////////////////////////////////////////////////////////////////////////
 
         // Task 2: Process the child reference type ('q.r.x') and combine it with the result of task 1.
 
