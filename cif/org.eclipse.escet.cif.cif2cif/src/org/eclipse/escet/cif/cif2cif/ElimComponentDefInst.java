@@ -825,7 +825,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 if (instComp == null) {
                     // We are not instantiating the instantiation.
                     CompInstWrapExpression newWrap = newCompInstWrapExpression();
-                    newWrap.setInstantiation(viaInst);//XXX viaInst->newViaInst?
+                    newWrap.setInstantiation(viaInst); // XXX viaInst->newViaInst?
 
                     // Add the new inner wrapper.
                     if (rsltExpr == null) {
@@ -909,8 +909,10 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // - Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
             // eliminating 'X' and 'x1', 'X' does not contain any component instantiations. As such, 'childRef' can not
             // reference a component instantiation.
-            // XXX is this true? justification makes no sense as 'wrap' is 'p' which is a component parameter reference not an instantiation and may be given either a concrete component or a component instantiation
-            //XXX if not allowed, assert it here (as code allows it). if allowed, what if component instantiation is (being) instantiated?
+            // XXX is this true? justification makes no sense as 'wrap' is 'p' which is a component parameter reference
+            // not an instantiation and may be given either a concrete component or a component instantiation
+            // XXX if not allowed, assert it here (as code allows it). if allowed, what if component instantiation is
+            // (being) instantiated?
             Component c = (Component)newRefObj;
             ((ComponentExpression)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapExpression) {
@@ -943,7 +945,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         }
 
         // See whether type needs additional processing.
-        //XXX do this after the parents have been done (swap with below).
         walkCifType(childRef.getType());
 
         // Copy processed child reference type to all the wrappers.
@@ -1157,7 +1158,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 if (instComp == null) {
                     // We are not instantiating the instantiation.
                     CompInstWrapType newWrap = newCompInstWrapType();
-                    newWrap.setInstantiation(viaInst);//XXX viaInst->newViaInst?
+                    newWrap.setInstantiation(viaInst); // XXX viaInst->newViaInst?
 
                     // Add the new inner wrap.
                     if (rsltType == null) {
@@ -1195,42 +1196,29 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
         }
 
-        // Get referenced child object ('x'). This is the leaf type and thus not a 'via' reference.
+        // Get referenced child object ('x'). We know that:
+        //
+        // 1) This is the leaf type and thus not a 'via' reference.
+        //
+        // 2) Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
+        // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
+        // 'childRef' can not reference a component instantiation or component definition reference.
+        // XXX this is similar to the reasoning for component instantiations for the expression variant of this method
+        // and doesn't make sense.
+        Assert.check(!(childRef instanceof ComponentType
+                && ((ComponentType)childRef).getComponent() instanceof ComponentInst));
+        Assert.check(!(childRef instanceof ComponentDefType));
         Assert.check(!(childRef instanceof CompInstWrapType));
         Assert.check(!(childRef instanceof CompParamWrapType));
-
-        //XXX use CifScopeUtils.getRefObjFromRef here. If we don't want some of the types to be supported, check just above with the wrapper types.
-        //XXX change refObj type to PositionObject as for expression variant of this method?
-        EObject refObj;
-        if (childRef instanceof TypeRef) {
-            refObj = ((TypeRef)childRef).getType();
-        } else if (childRef instanceof EnumType) {
-            refObj = ((EnumType)childRef).getEnum();
-        } else if (childRef instanceof ComponentType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
-            // 'childRef' can not reference a component instantiation.
-            refObj = ((ComponentType)childRef).getComponent();
-        } else if (childRef instanceof ComponentDefType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component definitions. As such,
-            // 'childRef' can not be a component definition reference.
-            throw new RuntimeException("Invalid comp def type.");
-        } else if (childRef instanceof CompInstWrapType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
-            // 'childRef' can not be a component instantiation wrapping type.
-            throw new RuntimeException("Invalid comp inst wrap type.");
-        } else if (childRef instanceof CompParamWrapType) {
-            // Due to scoping constraints, component parameters can not be referenced via other component parameters.
-            throw new RuntimeException("Invalid comp param wrap type.");
-        } else {
-            throw new RuntimeException("Unknown ref type: " + childRef);
-        }
+        PositionObject refObj = CifScopeUtils.getRefObjFromRef(childRef);
 
         // Get non-via referenced object.
-        //XXX why no case distinction here, as with expressions variant of this method?
-        Object newRefObj = getNonViaRefObj(refObj, curBody, newBody);
+        Object newRefObj;
+        if (curBody == newBody) {
+            newRefObj = refObj;
+        } else {
+            newRefObj = getNonViaRefObj(refObj, curBody, newBody);
+        }
 
         // In-place modify child reference type.
         if (childRef instanceof TypeRef) {
@@ -1240,8 +1228,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             EnumDecl e = (EnumDecl)newRefObj;
             ((EnumType)childRef).setEnum(e);
         } else if (childRef instanceof ComponentType) {
-            //XXX see 'XXX' above and similar XXX for component instantiations in the expression version of this method.
             // This component reference can not reference a component instantiation. See above.
+            // XXX see 'XXX' above and similar XXX for component instantiations in expression version of this method.
             Component c = (Component)newRefObj;
             ((ComponentType)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapType) {
