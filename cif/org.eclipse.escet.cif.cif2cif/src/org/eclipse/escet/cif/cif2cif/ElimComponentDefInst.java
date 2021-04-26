@@ -807,6 +807,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             } else {
                 // Need a new reference to the component instantiation, or the already instantiated variant of it.
                 viaComp = (Component)getNonViaRefObj(viaInst, curBody, newBody);
+                Assert.fail();// XXX never gets here in any of the tests?
             }
 
             // Process the instantiation at this level ('q' or 'r').
@@ -826,6 +827,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                     // We are not instantiating the instantiation.
                     CompInstWrapExpression newWrap = newCompInstWrapExpression();
                     newWrap.setInstantiation(viaInst); // XXX viaInst->newViaInst?
+                    Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
 
                     // Add the new inner wrapper.
                     if (rsltExpr == null) {
@@ -1140,6 +1142,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             } else {
                 // Need a new reference to the component instantiation, or the already instantiated variant of it.
                 viaComp = (Component)getNonViaRefObj(viaInst, curBody, newBody);
+                Assert.fail();// XXX never gets here in any of the tests?
             }
 
             // Process the instantiation at this level ('q' or 'r').
@@ -1159,6 +1162,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                     // We are not instantiating the instantiation.
                     CompInstWrapType newWrap = newCompInstWrapType();
                     newWrap.setInstantiation(viaInst); // XXX viaInst->newViaInst?
+                    Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
 
                     // Add the new inner wrap.
                     if (rsltType == null) {
