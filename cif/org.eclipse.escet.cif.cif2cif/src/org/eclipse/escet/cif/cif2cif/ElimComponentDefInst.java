@@ -98,7 +98,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
      */
     private Set<ComponentDef> elimDefs;
 
-    /** Whether component definitions were found in during phase 1. */
+    /** Whether component definitions were found during phase 1. */
     private boolean foundDefs;
 
     /**
@@ -588,7 +588,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         } else if (childRef instanceof CompInstWrapType) {
             // Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
             // eliminating 'X' and 'x1', 'X' does not contain any component instantiations. As such, 'childRef' can not
-            // be a component instantiation wrapping expression.
+            // be a component instantiation wrapping type.
             throw new RuntimeException("Invalid comp inst wrap type.");
         } else if (childRef instanceof CompParamWrapType) {
             // Due to scoping constraints, component parameters can not be referenced via component instantiations.
@@ -604,7 +604,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Get non-via referenced object.
         Object newRefObj = getNonViaRefObj(refObj, body, comp);
 
-        // In-place modify child reference expression.
+        // In-place modify child reference type.
         if (childRef instanceof TypeRef) {
             TypeDecl t = (TypeDecl)newRefObj;
             ((TypeRef)childRef).setType(t);
@@ -625,7 +625,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             throw new RuntimeException("Unknown ref type: " + childRef);
         }
 
-        // Replace wrapping expression in the parent.
+        // Replace wrapping type in the parent.
         EMFHelper.updateParentContainment(wrap, childRef);
     }
 
@@ -1278,8 +1278,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     /**
      * For a component parameter, get the actual argument if the component parameter is being eliminated, and return
      * {@code null} otherwise. For component parameters that are being eliminated, process the actual argument, and
-     * update all relevant mapping. This is necessary if the argument contains 'via component instantiations'
-     * expressions for components that are being instantiated. The processing of actual argument is performed only once
+     * update all relevant mappings. This is necessary if the argument contains 'via component instantiation'
+     * expressions for components that are being instantiated. The processing of actual arguments is performed only once
      * per component parameter.
      *
      * @param param The component parameter.
@@ -1300,19 +1300,19 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         }
 
         // Process actual argument. Note that we can't have 'via parameter' references in the actual argument, as that
-        // is not allowed. For example, in the example below, it is not allowed to use x as an argument for Z.
+        // is not allowed. For example, in the example below, it is not allowed to use 'x' as an argument for 'Z'.
         //
         // group def Y(X x):
         // z : Z(x);
         // end
         //
-        // Not that we can have 'via component instantiations' references in the actual argument. For example, x.y is a
-        // reference via the component instantiation x to component instantiation y.
+        // Not that we can have 'via component instantiation' references in the actual argument. For example, 'x.y' is a
+        // reference via the component instantiation x to component instantiation 'y'.
         //
         // x : X();
         // z : Z(x.y);
         //
-        // The instantiation that we are eliminate, to which the actual argument is given, is part of a component
+        // The instantiation that we are eliminating, to which the actual argument is given, is part of a component
         // (definition) that has that parameter. Since the body of that component (definition) includes the
         // instantiation that we're eliminating, that component definition itself can't be eliminated during this
         // iteration (if it is a definition). Via a parameter reference we can't get to other parameter references,
@@ -1326,13 +1326,13 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         int paramIdx = origInfo.right;
         Expression newArg = inst.getParameters().get(paramIdx);
 
-        // update mappings.
+        // Update mappings.
         if (arg != newArg) {
             compParamMap.put(param, newArg);
         }
         paramOrigMap.remove(param);
 
-        // Return potentially update argument.
+        // Return potentially updated argument.
         return newArg;
     }
 
@@ -1427,9 +1427,10 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     /**
      * Converts a wrapping expression to a wrapping type, thereby setting the leaf node to the supplied type.
      *
-     * @param wrap The wrapping to convert, either a CompParamWrapExpression or a CompInstWrapExpression.
-     * @param leafType A CifType to be set as the leaf node.
-     * @return The new wrapping type, either a CompParamWrapType or a CompInstWrapType.
+     * @param wrap The wrapping to convert, either a {@link CompParamWrapExpression} or a
+     *     {@link CompInstWrapExpression}.
+     * @param leafType A {@link CifType} to be set as the leaf node.
+     * @return The new wrapping type, either a {@link CompParamWrapType} or a {@link CompInstWrapType}.
      */
     private CifType convertWrapExprToWrapType(Expression wrap, CifType leafType) {
         Assert.check(wrap instanceof CompParamWrapExpression || wrap instanceof CompInstWrapExpression);
@@ -1450,6 +1451,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return newParamWrap;
         } else {
             CompInstWrapExpression instWrap = (CompInstWrapExpression)wrap;
+
             CompInstWrapType newInstWrap = newCompInstWrapType();
             newInstWrap.setInstantiation(instWrap.getInstantiation());
 
