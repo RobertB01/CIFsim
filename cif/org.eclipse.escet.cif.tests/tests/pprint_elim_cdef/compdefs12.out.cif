@@ -1,0 +1,26 @@
+group g6:
+  group def G7():
+    group g8:
+      a9: A9();
+    end
+  end
+  automaton def A9():
+    event e10;
+    location:
+      initial;
+  end
+end
+group g1:
+  group def G2(g6.G7 p3):
+    group g4:
+      automaton def A5():
+        location:
+          initial;
+          edge p3.g8.a9.e10;
+      end
+      a5: A5();
+    end
+  end
+end
+g2: g1.G2(g7);
+g7: g6.G7();
