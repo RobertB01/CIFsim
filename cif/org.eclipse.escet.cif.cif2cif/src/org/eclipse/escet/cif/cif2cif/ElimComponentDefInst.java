@@ -911,15 +911,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             InputVariable v = (InputVariable)newRefObj;
             ((InputVariableExpression)childRef).setVariable(v);
         } else if (childRef instanceof ComponentExpression) {
-            // 'childRef' can not be a component reference that refers to a component instantiation:
-            //
-            // - Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
-            // eliminating 'X' and 'x1', 'X' does not contain any component instantiations. As such, 'childRef' can not
-            // reference a component instantiation.
-            // XXX is this true? justification makes no sense as 'wrap' is 'p' which is a component parameter reference
-            // not an instantiation and may be given either a concrete component or a component instantiation
-            // XXX if not allowed, assert it here (as code allows it). if allowed, what if component instantiation is
-            // (being) instantiated?
             Component c = (Component)newRefObj;
             ((ComponentExpression)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapExpression) {
@@ -1242,11 +1233,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             EnumDecl e = (EnumDecl)newRefObj;
             ((EnumType)childRef).setEnum(e);
         } else if (childRef instanceof ComponentType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
-            // 'childRef' can not reference a component instantiation.
-            // XXX this is similar to the reasoning for component instantiations for the expression variant of this
-            // method and doesn't make sense.
             Component c = (Component)newRefObj;
             ((ComponentType)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapType) {
