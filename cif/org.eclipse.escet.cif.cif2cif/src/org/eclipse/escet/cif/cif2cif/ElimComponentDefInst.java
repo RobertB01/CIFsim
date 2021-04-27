@@ -826,7 +826,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 if (instComp == null) {
                     // We are not instantiating the instantiation.
                     CompInstWrapExpression newWrap = newCompInstWrapExpression();
-                    newWrap.setInstantiation(viaInst); // XXX viaInst->newViaInst?
+                    newWrap.setInstantiation(newViaInst);
                     Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
 
                     // Add the new inner wrapper.
@@ -855,7 +855,12 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                     ComponentDef newViaDef = CifTypeUtils.getCompDefFromCompInst(newViaInst);
                     newBody = newViaDef.getBody();
                 } else {
-                    // We are instantiating the instantiation, no need for wrapper.
+                    // We are instantiating the instantiation, which means the component definition to instantiate
+                    // won't contain other component instantiations (see phase 1), and this is the last component
+                    // instantiation wrapper to consider. We're done with the loop.
+                    Assert.check(!(childRef instanceof CompInstWrapExpression));
+
+                    // We are instantiating the instantiation, so no need for a wrapper.
                     ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
                     curBody = viaDef.getBody();
                     newBody = instComp;
@@ -1161,7 +1166,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 if (instComp == null) {
                     // We are not instantiating the instantiation.
                     CompInstWrapType newWrap = newCompInstWrapType();
-                    newWrap.setInstantiation(viaInst); // XXX viaInst->newViaInst?
+                    newWrap.setInstantiation(newViaInst);
                     Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
 
                     // Add the new inner wrap.
@@ -1192,7 +1197,12 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                     ComponentDef newViaDef = CifTypeUtils.getCompDefFromCompInst(newViaInst);
                     newBody = newViaDef.getBody();
                 } else {
-                    // We are instantiating the instantiation, no need for wrapper.
+                    // We are instantiating the instantiation, which means the component definition to instantiate
+                    // won't contain other component instantiations (see phase 1), and this is the last component
+                    // instantiation wrapper to consider. We're done with the loop.
+                    Assert.check(!(childRef instanceof CompInstWrapType));
+
+                    // We are instantiating the instantiation, so no need for a wrapper.
                     ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
                     curBody = viaDef.getBody();
                     newBody = instComp;
