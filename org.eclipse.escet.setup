@@ -443,8 +443,6 @@
   </setupTask>
   <stream name="develop"
       label="develop"/>
-  <stream name="29-upgrade-to-java-11-and-eclipse-2021-03"
-      label="29-upgrade-to-java-11-and-eclipse-2021-03"/>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='org.eclipse']"/>
