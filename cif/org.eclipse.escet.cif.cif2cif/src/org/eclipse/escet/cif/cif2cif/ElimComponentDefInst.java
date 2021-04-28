@@ -795,76 +795,48 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Update child reference used in the while loop to next level (e.g. from 'q' to 'r' or 'r' to 'x').
             childRef = childWrap.getReference();
 
-            // Make sure we have a valid reference to the instantiation at this level, for the new body.
-            Component viaComp;
-            if (curBody == newBody) {
-                // Reference to instantiation ('q') is already valid, as (for the first level) the argument ('p1') uses
-                // the body of the component definition ('P') that is also the type of the component parameter ('p')
-                // that we are eliminating. For later levels ('r'), similar conditions hold. That is, the already
-                // processed argument and already processed part of the reference end up in the same scope as the scope
-                // that is used for the child reference at this level.
-                viaComp = viaInst;
-            } else {
-                // Need a new reference to the component instantiation, or the already instantiated variant of it.
-                viaComp = (Component)getNonViaRefObj(viaInst, curBody, newBody);
-                Assert.fail();// XXX never gets here in any of the tests?
-            }
+            // Check whether we are instantiating the instantiation ('q' or 'r').
+            ComplexComponent instComp = instMap.get(viaInst);
+            if (instComp == null) {
+                // We are not instantiating the instantiation.
+                CompInstWrapExpression newWrap = newCompInstWrapExpression();
+                newWrap.setInstantiation(viaInst);
 
-            // Process the instantiation at this level ('q' or 'r').
-            if (viaComp instanceof ComplexComponent) {
-                // A concrete component. No need to wrap anything.
+                // Add the new inner wrapper.
+                if (rsltExpr == null) {
+                    // This means that the argument is a concrete component which is pointed at directly, without
+                    // wrapping expressions.
+                    rsltExpr = newWrap;
+                } else {
+                    // This means that either the argument is a component instantiation, or that it is a concrete
+                    // component which is pointed at 'via' at least one wrapping expression.
+                    Assert.notNull(rsltInnerWrap);
+                    if (rsltInnerWrap instanceof CompInstWrapExpression) {
+                        ((CompInstWrapExpression)rsltInnerWrap).setReference(newWrap);
+                    } else {
+                        Assert.check(rsltInnerWrap instanceof CompParamWrapExpression);
+                        ((CompParamWrapExpression)rsltInnerWrap).setReference(newWrap);
+                    }
+                }
+                // The new wrapper is now the inner wrapper.
+                rsltInnerWrap = newWrap;
+
+                // Continue from body of the component definition.
+                ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
+
+                // We are not instantiating the instantiation, the body will remain the same.
+                curBody = viaDef.getBody();
+                newBody = viaDef.getBody();
+            } else {
+                // We are instantiating the instantiation, which means the component definition to instantiate
+                // won't contain other component instantiations (see phase 1), and this is the last component
+                // instantiation wrapper to consider. We're done with the loop.
+                Assert.check(!(childRef instanceof CompInstWrapExpression));
+
+                // We are instantiating the instantiation, so no need for a wrapper.
                 ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
                 curBody = viaDef.getBody();
-                newBody = (ComplexComponent)viaComp;
-            } else {
-                // A component instantiation.
-                Assert.check(viaComp instanceof ComponentInst);
-                ComponentInst newViaInst = (ComponentInst)viaComp;
-
-                // Check whether we are instantiating the instantiation.
-                ComplexComponent instComp = instMap.get(newViaInst);
-                if (instComp == null) {
-                    // We are not instantiating the instantiation.
-                    CompInstWrapExpression newWrap = newCompInstWrapExpression();
-                    newWrap.setInstantiation(newViaInst);
-                    Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
-
-                    // Add the new inner wrapper.
-                    if (rsltExpr == null) {
-                        // This means that the argument is a concrete component which is pointed at directly, without
-                        // wrapping expressions.
-                        rsltExpr = newWrap;
-                    } else {
-                        // This means that either the argument is a component instantiation, or that it is a concrete
-                        // component which is pointed at 'via' at least one wrapping expression.
-                        Assert.notNull(rsltInnerWrap);
-                        if (rsltInnerWrap instanceof CompInstWrapExpression) {
-                            ((CompInstWrapExpression)rsltInnerWrap).setReference(newWrap);
-                        } else {
-                            Assert.check(rsltInnerWrap instanceof CompParamWrapExpression);
-                            ((CompParamWrapExpression)rsltInnerWrap).setReference(newWrap);
-                        }
-                    }
-                    // The new wrapper is now the inner wrapper.
-                    rsltInnerWrap = newWrap;
-
-                    // Continue from body of the component definition.
-                    ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
-                    curBody = viaDef.getBody();
-
-                    ComponentDef newViaDef = CifTypeUtils.getCompDefFromCompInst(newViaInst);
-                    newBody = newViaDef.getBody();
-                } else {
-                    // We are instantiating the instantiation, which means the component definition to instantiate
-                    // won't contain other component instantiations (see phase 1), and this is the last component
-                    // instantiation wrapper to consider. We're done with the loop.
-                    Assert.check(!(childRef instanceof CompInstWrapExpression));
-
-                    // We are instantiating the instantiation, so no need for a wrapper.
-                    ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
-                    curBody = viaDef.getBody();
-                    newBody = instComp;
-                }
+                newBody = instComp;
             }
         }
 
@@ -1126,78 +1098,51 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Update child reference used in the while loop to next level (e.g. from 'q' to 'r' or 'r' to 'x').
             childRef = childWrap.getReference();
 
-            // Make sure we have a valid reference to the instantiation at this level, for the new body.
-            Component viaComp;
-            if (curBody == newBody) {
-                // Reference to instantiation ('q') is already valid, as (for the first level) the argument ('p1') uses
-                // the body of the component definition ('P') that is also the type of the component parameter ('p')
-                // that we are eliminating. For later levels ('r'), similar conditions hold. That is, the already
-                // processed argument and already processed part of the reference end up in the same scope as the scope
-                // that is used for the child reference at this level.
-                viaComp = viaInst;
-            } else {
-                // Need a new reference to the component instantiation, or the already instantiated variant of it.
-                viaComp = (Component)getNonViaRefObj(viaInst, curBody, newBody);
-                Assert.fail();// XXX never gets here in any of the tests?
-            }
+            // Check whether we are instantiating the instantiation ('q' or 'r').
+            ComplexComponent instComp = instMap.get(viaInst);
 
-            // Process the instantiation at this level ('q' or 'r').
-            if (viaComp instanceof ComplexComponent) {
-                // A concrete component. No need to wrap anything.
+            if (instComp == null) {
+                // We are not instantiating the instantiation.
+                CompInstWrapType newWrap = newCompInstWrapType();
+                newWrap.setInstantiation(viaInst);
+
+                // Add the new inner wrap.
+                if (rsltType == null) {
+                    // This means that the argument is a concrete component which is pointed at directly, without
+                    // wrapping expressions.
+                    rsltType = newWrap;
+                } else {
+                    // This means that either the argument is a component instantiation, or that it is a concrete
+                    // component which is pointed at 'via' at least one wrapping expression (converted to a
+                    // wrapping type).
+                    Assert.notNull(rsltInnerWrap);
+                    if (rsltInnerWrap instanceof CompInstWrapType) {
+                        ((CompInstWrapType)rsltInnerWrap).setReference(newWrap);
+                    } else {
+                        Assert.check(rsltInnerWrap instanceof CompParamWrapType);
+                        ((CompParamWrapType)rsltInnerWrap).setReference(newWrap);
+                    }
+                }
+
+                // The new wrapper is now the inner wrapper.
+                rsltInnerWrap = newWrap;
+
+                // Continue from body of the component definition.
+                ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
+
+                // We are not instantiating the instantiation, the body will remain the same.
+                curBody = viaDef.getBody();
+                newBody = viaDef.getBody();
+            } else {
+                // We are instantiating the instantiation, which means the component definition to instantiate
+                // won't contain other component instantiations (see phase 1), and this is the last component
+                // instantiation wrapper to consider. We're done with the loop.
+                Assert.check(!(childRef instanceof CompInstWrapType));
+
+                // We are instantiating the instantiation, so no need for a wrapper.
                 ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
                 curBody = viaDef.getBody();
-                newBody = (ComplexComponent)viaComp;
-            } else {
-                // A component instantiation.
-                Assert.check(viaComp instanceof ComponentInst);
-                ComponentInst newViaInst = (ComponentInst)viaComp;
-
-                // Check whether we are instantiating the instantiation.
-                ComplexComponent instComp = instMap.get(newViaInst);
-                if (instComp == null) {
-                    // We are not instantiating the instantiation.
-                    CompInstWrapType newWrap = newCompInstWrapType();
-                    newWrap.setInstantiation(newViaInst);
-                    Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
-
-                    // Add the new inner wrap.
-                    if (rsltType == null) {
-                        // This means that the argument is a concrete component which is pointed at directly, without
-                        // wrapping expressions.
-                        rsltType = newWrap;
-                    } else {
-                        // This means that either the argument is a component instantiation, or that it is a concrete
-                        // component which is pointed at 'via' at least one wrapping expression (converted to a
-                        // wrapping type).
-                        Assert.notNull(rsltInnerWrap);
-                        if (rsltInnerWrap instanceof CompInstWrapType) {
-                            ((CompInstWrapType)rsltInnerWrap).setReference(newWrap);
-                        } else {
-                            Assert.check(rsltInnerWrap instanceof CompParamWrapType);
-                            ((CompParamWrapType)rsltInnerWrap).setReference(newWrap);
-                        }
-                    }
-
-                    // The new wrapper is now the inner wrapper.
-                    rsltInnerWrap = newWrap;
-
-                    // Continue from body of the component definition.
-                    ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
-                    curBody = viaDef.getBody();
-
-                    ComponentDef newViaDef = CifTypeUtils.getCompDefFromCompInst(newViaInst);
-                    newBody = newViaDef.getBody();
-                } else {
-                    // We are instantiating the instantiation, which means the component definition to instantiate
-                    // won't contain other component instantiations (see phase 1), and this is the last component
-                    // instantiation wrapper to consider. We're done with the loop.
-                    Assert.check(!(childRef instanceof CompInstWrapType));
-
-                    // We are instantiating the instantiation, so no need for a wrapper.
-                    ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
-                    curBody = viaDef.getBody();
-                    newBody = instComp;
-                }
+                newBody = instComp;
             }
         }
 
