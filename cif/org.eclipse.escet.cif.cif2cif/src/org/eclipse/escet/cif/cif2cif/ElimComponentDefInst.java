@@ -818,6 +818,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                         ((CompParamWrapExpression)rsltInnerWrap).setReference(newWrap);
                     }
                 }
+
                 // The new wrapper is now the inner wrapper.
                 rsltInnerWrap = newWrap;
 
@@ -840,7 +841,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
         }
 
-        // Get referenced child object ('x'). Method 'CifScopeUtils.getRefObjFromRef' does not handle wrapping
+        // Get referenced leaf object ('x'). Method 'CifScopeUtils.getRefObjFromRef' does not handle wrapping
         // expressions. However, this is the leaf expression and thus not a 'via' reference.
         Assert.check(!(childRef instanceof CompInstWrapExpression));
         Assert.check(!(childRef instanceof CompParamWrapExpression));
@@ -854,7 +855,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             newRefObj = getNonViaRefObj(refObj, curBody, newBody);
         }
 
-        // In-place modify leaf reference expression.
+        // In-place modify leaf reference expression ('x').
         if (childRef instanceof ConstantExpression) {
             Constant c = (Constant)newRefObj;
             ((ConstantExpression)childRef).setConstant(c);
@@ -895,14 +896,14 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             throw new RuntimeException("Unknown ref expr: " + childRef);
         }
 
-        // Put leaf reference into the result, and result into the model.
+        // Put leaf reference ('x') into the result, and result into the model.
         if (rsltExpr == null) {
             // This means that we have not constructed any wrappers so far.
             rsltExpr = childRef;
             EMFHelper.updateParentContainment(wrap, rsltExpr);
         } else {
-            // This means that we have constructed at least one wrapper. We put the child as the leaf (i.e., child of
-            // inner wrapper).
+            // This means that we have constructed at least one wrapper. We put the leaf reference ('x') as the leaf
+            // (i.e., child of inner wrapper).
             Assert.notNull(rsltInnerWrap);
             EMFHelper.updateParentContainment(wrap, rsltExpr);
 
@@ -917,7 +918,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // See whether type needs additional processing.
         walkCifType(childRef.getType());
 
-        // Copy processed child reference type to all the wrappers.
+        // Copy processed leaf reference type to all the wrappers.
         EObject ancestor = childRef.eContainer();
         while (ancestor instanceof CompInstWrapExpression || ancestor instanceof CompParamWrapExpression) {
             CifType newType = deepclone(childRef.getType());
@@ -1106,7 +1107,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 CompInstWrapType newWrap = newCompInstWrapType();
                 newWrap.setInstantiation(viaInst);
 
-                // Add the new inner wrap.
+                // Add the new inner wrapper.
                 if (rsltType == null) {
                     // This means that the argument is a concrete component which is pointed at directly, without
                     // wrapping expressions.
@@ -1146,7 +1147,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
         }
 
-        // Get referenced child object ('x'). We know that:
+        // Get referenced leaf object ('x'). We know that:
         //
         // 1) This is the leaf type and thus not a 'via' reference.
         //
@@ -1170,7 +1171,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             newRefObj = getNonViaRefObj(refObj, curBody, newBody);
         }
 
-        // In-place modify child reference type.
+        // In-place modify leaf reference type ('x').
         if (childRef instanceof TypeRef) {
             TypeDecl t = (TypeDecl)newRefObj;
             ((TypeRef)childRef).setType(t);
@@ -1190,14 +1191,14 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             throw new RuntimeException("Unknown ref type: " + childRef);
         }
 
-        // Put leaf reference into the result, and result into the model.
+        // Put leaf reference ('x') into the result, and result into the model.
         if (rsltType == null) {
             // This means that we have not constructed any wrappers so far.
             rsltType = childRef;
             EMFHelper.updateParentContainment(wrap, rsltType);
         } else {
-            // This means that we have constructed at least one wrapper. We put the child as the leaf (i.e., child of
-            // inner wrapper).
+            // This means that we have constructed at least one wrapper. We put the leaf reference ('x') as the leaf
+            // (i.e., child of inner wrapper).
             Assert.notNull(rsltInnerWrap);
             EMFHelper.updateParentContainment(wrap, rsltType);
 
