@@ -1,0 +1,21 @@
+group def A(B bb):
+  e: E(bb.i.d);
+end
+group def B():
+  i: I();
+end
+group def I():
+  d: D();
+end
+group def D():
+  type t = int[2..5];
+  input bool m;
+  group def T1():
+  end
+end
+group def E(D dd):
+  alg dd.t x = 3;
+  invariant dd.m;
+end
+b: B();
+a: A(b);

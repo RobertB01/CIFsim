@@ -1,0 +1,25 @@
+group b:
+  group a:
+    type m = real;
+    group y1:
+      input bool x;
+    end
+    group y2:
+      input bool x;
+    end
+  end
+end
+group c:
+  group x1a:
+    invariant b.a.y1.x;
+    invariant b.a.y1.x;
+  end
+  group x1b:
+    invariant b.a.y1.x;
+    invariant b.a.y1.x;
+  end
+  group x2:
+    invariant b.a.y2.x;
+    invariant b.a.y2.x;
+  end
+end
