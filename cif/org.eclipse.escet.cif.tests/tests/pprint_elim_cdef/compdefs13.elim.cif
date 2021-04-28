@@ -1,0 +1,14 @@
+group b:
+  group i:
+    group d:
+      type t = int[2..5];
+      input bool m;
+    end
+  end
+end
+group a:
+  group e:
+    alg b.i.d.t x = 3;
+    invariant b.i.d.m;
+  end
+end
