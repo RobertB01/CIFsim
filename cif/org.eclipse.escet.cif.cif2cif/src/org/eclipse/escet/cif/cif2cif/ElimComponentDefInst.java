@@ -98,7 +98,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
      */
     private Set<ComponentDef> elimDefs;
 
-    /** Whether component definitions were found in during phase 1. */
+    /** Whether component definitions were found during phase 1. */
     private boolean foundDefs;
 
     /**
@@ -588,7 +588,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         } else if (childRef instanceof CompInstWrapType) {
             // Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
             // eliminating 'X' and 'x1', 'X' does not contain any component instantiations. As such, 'childRef' can not
-            // be a component instantiation wrapping expression.
+            // be a component instantiation wrapping type.
             throw new RuntimeException("Invalid comp inst wrap type.");
         } else if (childRef instanceof CompParamWrapType) {
             // Due to scoping constraints, component parameters can not be referenced via component instantiations.
@@ -604,7 +604,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Get non-via referenced object.
         Object newRefObj = getNonViaRefObj(refObj, body, comp);
 
-        // In-place modify child reference expression.
+        // In-place modify child reference type.
         if (childRef instanceof TypeRef) {
             TypeDecl t = (TypeDecl)newRefObj;
             ((TypeRef)childRef).setType(t);
@@ -625,27 +625,46 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             throw new RuntimeException("Unknown ref type: " + childRef);
         }
 
-        // Replace wrapping expression in the parent.
+        // Replace wrapping type in the parent.
         EMFHelper.updateParentContainment(wrap, childRef);
     }
 
     @SuppressWarnings("null")
     @Override
     protected void walkCompParamWrapExpression(CompParamWrapExpression wrap) {
-        // Currently, we have a component parameter wrapping expression, which means that the expression object is in
-        // the parameter's body. If we instantiate the definition where the parameter is a part of, the expression
-        // object becomes part of the supplied argument's body. The supplied argument is either a concrete component or
-        // a component instantiation (CompInst). Note that it is not possible that the argument is a component parameter
-        // (CompParam), that is not allowed by Cif. Second note, in the original specification, the argument must have
-        // been a CompInst, but it might already been eliminated. Third note, even if the leaf of the argument is a
-        // concrete component, this concrete component can still be inside a CompInst or in a CompParam parameter, and
-        // we'll end up with a CompInstWrapExpression or a CompParamWrapExpression, respectively.
-        // So the task is to:
-        // 1) Process the given argument to replace the CompParam part of the wrapper.
-        // 2) process the expression part of the wrapper, and combine it with the result of 1.
+        // Consider the following running example that we'll use in comments throughout this method:
+        //
+        // group def D(P p):
+        // invariant p.q.r.x;
+        // end
+        //
+        // d: D(a.b.c.p1)
+        //
+        // We have a component definition 'D'. It has a component parameter 'p', which has component definition 'P' as
+        // is type. For expression 'p.q.r.x', 'p' is a component parameter wrapping expression (and the argument to
+        // this method), and 'q' is an object in the body of component definition 'P'. Component instantiation 'd'
+        // instantiates component definition 'D' and provides argument 'a.b.c.p1' for parameter 'p' of 'D'. The referred
+        // object 'q' will be part of 'a.b.c.p1', with 'p1' being an instance/instantiation of 'P'.
+        //
+        // We know the following regarding the component referred to by the argument ('p1'):
+        //
+        // 1) In the original specification, it ('p1') must have been a component instantiation that instantiates the
+        // component definition ('P'). However, it might have already been instantiated earlier during this
+        // transformation. Hence, it is now either a concrete component or a component instantiation.
+        //
+        // 2) It ('p1') is not a component parameter, as CIF doesn't allow a component parameter to be used as a value
+        // by itself, but only as a 'via' reference.
+        //
+        // 3) Regardless of whether it ('p1') is a concrete component or component instantiation, it can still be
+        // inside a component instantiation or referred to via a component parameter. It can thus be referred to via
+        // a component instantiation or component parameter wrapping expression, respectively ('a.b.c').
 
-        // Determine if we want to eliminate the parameter wrapping expression at all. That is, are we instantiating
-        // the definition where this parameter is a part of?
+        // So the tasks are to:
+        // 1) Process the given argument ('a.b.c.p1') to replace the component parameter wrapping expression ('p').
+        // 2) Process the child reference expression ('q.r.x') and combine it with the result of task 1.
+
+        // Determine whether we want to eliminate the parameter wrapping expression at all. That is, are we
+        // instantiating the definition (e.g. 'D' in the example) that this parameter is a part of?
         ComponentParameter param = wrap.getParameter();
         Expression arg = getActualArgument(param);
         if (arg == null) {
@@ -654,166 +673,144 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return;
         }
 
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 1
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////
 
-        // In the first part we are going to fix the wrappers from the place where we are instantiating the definition
-        // to where the supplied argument is located. For example, h.i.j.x1 below.
-        //
-        // group def D(X x):
-        // invariant x.e.f.g.m.
-        // end
-        //
-        // d : D(h.i.j.x1);
+        // Task 1: Process the given argument ('a.b.c.p1') to replace the component parameter wrapping expression ('p').
 
-        // Initialize the resulting new reference expression. We clone it as it is possible that other expressions in
-        // the definition also use this parameter.
+        // Initialize the resulting new reference expression to the argument ('a.b.c.p1'). We clone it as there may be
+        // multiple multiple references via the parameter (e.g. 'p').
         Expression rsltExpr = deepclone(arg);
 
-        // So we know that this argument either directly or indirectly points to some concrete component or component
-        // instantiation. With indirectly we mean via a component instantiation or via a component parameter. If the
-        // component is pointed to via a wrapping expression, we still want to get the actual component. We can find
-        // that component at the leaf. It is now always the next reference, as we can also have multiple nested wraps.
-        // Initially, that component must have been a component instantiation, as that is required by Cif. However, it
-        // can be that that component has already been instantiated, and is now a concrete component.
+        // The argument either directly ('p1') or indirectly ('a.b.c.p1') points to some concrete component or
+        // component instantiation ('p1'). It may be referred to by wrapping expressions ('a.b.c'). We first obtain the
+        // argument's leaf component ('p1').
         Expression argLeaf = CifTypeUtils.unwrapExpression(rsltExpr);
         Assert.check(argLeaf instanceof ComponentExpression);
         Component argLeafComp = ((ComponentExpression)argLeaf).getComponent();
 
-        // Process the component reference. Also get the body of that component, as this is will serve as the new body
-        // for the first child reference.
+        // Process the component reference ('p1'). Also get the body of that component, as the first child reference
+        // expression ('q') will refer to an object in that body.
         Expression rsltInnerWrap;
         ComplexComponent newBody;
         if (argLeafComp instanceof ComponentInst) {
-            // The actual argument is an instantiation.
+            // The actual argument leaf ('p1') is a component instantiation.
             ComponentInst argLeafInst = (ComponentInst)argLeafComp;
 
-            // Since we already processed the actual argument, we know for sure that we are not instantiating this
-            // component.
+            // Since we already processed the actual argument ('a.b.c.p1'), we know for sure that we are not
+            // instantiating this component instantiation ('p1') yet.
             Assert.check(!instMap.containsKey(argLeafInst));
 
-            // So since the reference expression is going to be placed in an instantiation, we have to create a new
-            // component instantiation wrapper. When we process the expression part we are going to put the result in
-            // this wrapper, we do that in the second part.
+            // Since the child reference expression ('q.r.x') is going to be placed in an instantiation ('p1'), we
+            // have to create a new component instantiation wrapping expression (for 'p1'), as it is currently not a
+            // 'via' reference expression. The child of the new wrapper will be set during task 2.
             CompInstWrapExpression newWrap = newCompInstWrapExpression();
             newWrap.setInstantiation(argLeafInst);
             if (argLeaf == rsltExpr) {
-                // This means there is no other 'via' expression, that is, the argument was not pointing via an
-                // CompInst or CompParam. Hence, the actual argument was a ComponentExpression and not a wrapping
-                // expression.
+                // The argument consists of only a direct reference ('p1'), and there are no other 'via' references
+                // (no 'a.b.c').
                 Assert.check(arg instanceof ComponentExpression);
 
-                // This means that the original CompParamWrapExpression that we are walking is going to be replaced
-                // directly by the new CompInstWrapExpression. Because it is the only wrapping expression it is
-                // automatically the inner wrapping expression.
+                // The result will be 'p1.q.r.x'. Thus the new 'p1' wrapper is the result and also the inner-most
+                // wrapper that will contain 'q'.
                 rsltExpr = newWrap;
                 rsltInnerWrap = newWrap;
             } else {
-                // This means that there are other 'via' expressions, either a CompInst or a CompParam. Hence, the
-                // actual argument must be a wrapping expression.
+                // The argument is an indirect reference to 'p1', through other 'via' references ('a.b.c').
                 Assert.check(arg instanceof CompInstWrapExpression || arg instanceof CompParamWrapExpression);
 
-                // The new wrap expression is going to be placed in another (existing) wrap expression. The leaf of
-                // rsltExpr is argLeaf, which is a CompInst. We substitute CompInst with the new wrap, so we don't
-                // have to recreate all the other wraps.
+                // The result will be 'a.b.c.p1.q.r.x'. Thus the new 'p1' wrapper will replace the old leaf 'p1'
+                // reference in 'c' and it will also be the inner-most wrapper that will contain 'q' as a child.
                 EMFHelper.updateParentContainment(argLeaf, newWrap);
                 rsltInnerWrap = newWrap;
             }
 
-            // Get the body of the instantiation where the reference expression is going to be placed. Because the
-            // component is an instantiation, it doesn't have its own body. Instead, the body of its definition is used.
+            // Get the body of the instantiation (body of 'p1') in which to locate 'q'. Because the component ('p1') is
+            // an instantiation, it doesn't have its own body. Instead, the body of its definition is used.
             ComponentDef argDef = CifTypeUtils.getCompDefFromCompInst(argLeafInst);
             newBody = argDef.getBody();
         } else {
-            // The actual argument is a concrete component.
+            // The actual argument leaf ('p1') is a concrete component.
             Assert.check(argLeafComp instanceof ComplexComponent);
             ComplexComponent argLeafComplexComp = (ComplexComponent)argLeafComp;
 
-            // We don't need wrapping expression for a concrete component, so we don't create any. However, it could be
-            // that the leaf component is located in another CompInst or CompParam.
+            // In the CIF metamodel, concrete components don't need a 'via' wrapping expression. However, it may have
+            // been indirectly referenced ('a.b.c').
             if (argLeaf == rsltExpr) {
-                // This means there is no other 'via' expression, the argument was not a wrapper.
+                // The argument consists of only a direct reference ('p1'), and there are no other 'via' references
+                // (no 'a.b.c').
                 Assert.check(arg instanceof ComponentExpression);
 
-                // This means that the original wrapping expression that we are walking is going to be replaced by a non
-                // wrapping expression. So the rsltExpr is not a wrapper. And there is also no inner wrap.
+                // The result will be 'q.r.x'. Thus 'q' itself will be the result and it will not have a parent
+                // wrapper expression.
                 rsltExpr = null;
                 rsltInnerWrap = null;
             } else {
-                // This means that there are other 'via' expressions, either a CompInst or a CompParam. Hence, the
-                // actual argument must be a wrapping expression.
+                // The argument is an indirect reference to 'p1', through other 'via' references ('a.b.c').
                 Assert.check(arg instanceof CompInstWrapExpression || arg instanceof CompParamWrapExpression);
 
-                // The expression is going to be placed in another (existing) wrap expression. The leaf of rsltExpr is
-                // argLeaf, which is a concrete component. We empty the leaf of that wrap, so we don't have to recreate
-                // all the other wraps.
+                // The result will be 'a.b.c.q.r.x'. Thus 'c' will be the parent of 'q' and the 'p1' reference can be
+                // removed. In this case 'a' remains the result, but in cases where there is no 'a.b.c' but only 'c',
+                // then 'c' is both the result and the parent of 'q'.
                 rsltInnerWrap = (Expression)argLeaf.eContainer();
                 EMFHelper.removeFromParentContainment(argLeaf);
-
-                // Notice that rsltExpr already is a wrapper, where we have updated its leaf argument. rsltExpr could be
-                // rsltInnerWrap, but there can also be multiple nested wraps.
             }
 
-            // The expression is going to be part of the concrete component.
+            // The first child reference ('q') will be located in the concrete component.
             newBody = argLeafComplexComp;
         }
 
-        /////////////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 2
-        /////////////////////
+        ///////////////////////////////////////////////////////////////////////////
 
-        // In the second part we are going to fix the wrappers from the supplied component to where the expression is
-        // pointing, for example, x.e.f.g.m below.
-        //
-        // group def D(X x):
-        // invariant x.e.f.g.m;
-        // end
-        //
-        // d : D(h.i.j.x1);
+        // Task 2: Process the child reference expression ('q.r.x') and combine it with the result of task 1.
 
-        // Get body of component definition used as type of the component parameter being eliminated by this method. It
-        // serves as the current body for the first child reference. We get it as the body from the CompDef type of the
-        // component parameter.
+        // Get body of component definition ('P') used as type of the component parameter ('p') being eliminated by
+        // this method. It serves as the current body for the first child reference ('q').
         CifType paramType = wrap.getParameter().getType();
         paramType = CifTypeUtils.normalizeType(paramType);
         Assert.check(paramType instanceof ComponentDefType);
         ComponentDef paramDef = ((ComponentDefType)paramType).getDefinition();
         ComplexComponent curBody = paramDef.getBody();
 
-        // Get child reference expression of the component parameter wrapping expression. This is the first child
-        // reference to process.
+        // Get child reference expression ('q') of the component parameter wrapping expression ('p'). This is the first
+        // child reference to process (from 'q.r.x').
         Expression childRef = wrap.getReference();
 
-        // Process child reference. We either have a non-wrapping expression or a CompInstWrapExpression. Note that it
-        // is impossible to have a CompParamWrapExpression due to scoping constraints. First, we'll handle all the
-        // possible component instantiation wrapping expressions (zero or more levels). Later on we'll process the leaf
-        // non-wrapping reference expression.
+        // Process child reference expressions ('q.r.x'). We either have a non-wrapping expression (no 'q.r' and only
+        // 'x' directly) or one or more component instantiation wrapping expression ('q.r' before 'x'). Given that 'p'
+        // is a 'via' component parameter reference, 'q' and 'r' can't be 'via' component parameter references, as CIF
+        // considers 'q' and 'r' to be internal and thus not in scope to be referred to via other wrapping expressions.
         Assert.check(!(childRef instanceof CompParamWrapExpression));
 
+        // First, we'll handle all the zero or more component instantiation wrapping expressions ('q.r'). Later on
+        // we'll process the leaf non-wrapping reference expression ('x').
         while (childRef instanceof CompInstWrapExpression) {
             // Get the 'via' component instantiation.
             CompInstWrapExpression childWrap = (CompInstWrapExpression)childRef;
             ComponentInst viaInst = childWrap.getInstantiation();
 
-            // Update child reference used in the while loop to next level.
+            // Update child reference used in the while loop to next level (e.g. from 'q' to 'r' or 'r' to 'x').
             childRef = childWrap.getReference();
 
             // Make sure we have a valid reference to the instantiation at this level, for the new body.
             Component viaComp;
             if (curBody == newBody) {
-                // Reference to instantiation is already valid, as (for the first level) the actual argument uses the
-                // body of the component definition that is also the type of the component parameter that we are
-                // eliminating. For later levels, similar conditions hold. That is, the already processed argument and
-                // already processed part of the reference end up in the same scope as the scope that is used for the
-                // child reference at this level.
+                // Reference to instantiation ('q') is already valid, as (for the first level) the argument ('p1') uses
+                // the body of the component definition ('P') that is also the type of the component parameter ('p')
+                // that we are eliminating. For later levels ('r'), similar conditions hold. That is, the already
+                // processed argument and already processed part of the reference end up in the same scope as the scope
+                // that is used for the child reference at this level.
                 viaComp = viaInst;
             } else {
                 // Need a new reference to the component instantiation, or the already instantiated variant of it.
                 viaComp = (Component)getNonViaRefObj(viaInst, curBody, newBody);
+                Assert.fail();// XXX never gets here in any of the tests?
             }
 
-            // Process the instantiation at this level.
+            // Process the instantiation at this level ('q' or 'r').
             if (viaComp instanceof ComplexComponent) {
                 // A concrete component. No need to wrap anything.
                 ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
@@ -824,21 +821,22 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 Assert.check(viaComp instanceof ComponentInst);
                 ComponentInst newViaInst = (ComponentInst)viaComp;
 
-                // check whether we are instantiating the instantiation.
+                // Check whether we are instantiating the instantiation.
                 ComplexComponent instComp = instMap.get(newViaInst);
                 if (instComp == null) {
                     // We are not instantiating the instantiation.
                     CompInstWrapExpression newWrap = newCompInstWrapExpression();
-                    newWrap.setInstantiation(viaInst);
+                    newWrap.setInstantiation(newViaInst);
+                    Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
 
-                    // Add the new inner wrap.
+                    // Add the new inner wrapper.
                     if (rsltExpr == null) {
-                        // This means that the supplied component is a concrete component which is pointed at directly,
-                        // without wrapping expressions.
+                        // This means that the argument is a concrete component which is pointed at directly, without
+                        // wrapping expressions.
                         rsltExpr = newWrap;
                     } else {
-                        // This means that either the supplied component is an instantiation, or that it is a concrete
-                        // component which is pointed at via a CompInst wrap or a ParamInst wrap.
+                        // This means that either the argument is a component instantiation, or that it is a concrete
+                        // component which is pointed at 'via' at least one wrapping expression.
                         Assert.notNull(rsltInnerWrap);
                         if (rsltInnerWrap instanceof CompInstWrapExpression) {
                             ((CompInstWrapExpression)rsltInnerWrap).setReference(newWrap);
@@ -847,7 +845,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                             ((CompParamWrapExpression)rsltInnerWrap).setReference(newWrap);
                         }
                     }
-                    // Since we put a new wrap in the inner wrap, it is not the inner wrap anymore.
+                    // The new wrapper is now the inner wrapper.
                     rsltInnerWrap = newWrap;
 
                     // Continue from body of the component definition.
@@ -857,7 +855,12 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                     ComponentDef newViaDef = CifTypeUtils.getCompDefFromCompInst(newViaInst);
                     newBody = newViaDef.getBody();
                 } else {
-                    // We are instantiating the instantiation, no need for wrapper.
+                    // We are instantiating the instantiation, which means the component definition to instantiate
+                    // won't contain other component instantiations (see phase 1), and this is the last component
+                    // instantiation wrapper to consider. We're done with the loop.
+                    Assert.check(!(childRef instanceof CompInstWrapExpression));
+
+                    // We are instantiating the instantiation, so no need for a wrapper.
                     ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
                     curBody = viaDef.getBody();
                     newBody = instComp;
@@ -865,18 +868,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
         }
 
-        // Get referenced child object. Method getRefObjFromRef does not handle wrapping expressions. However, they
-        // can't occur here:
-        //
-        // - CompInstWrapExpression: Handled above.
-        // - CompParamWrapExpression: Due to scoping constraints, component parameters can not be referenced via
-        // component instantiations.
-        //
-        // Also, 'childRef' can not be a component reference that refers to a component instantiation:
-        //
-        // - Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
-        // eliminating 'X' and 'x1', 'X' does not contain any component instantiations. As such, 'childRef' can not
-        // reference a component instantiation.
+        // Get referenced child object ('x'). Method 'CifScopeUtils.getRefObjFromRef' does not handle wrapping
+        // expressions. However, this is the leaf expression and thus not a 'via' reference.
+        Assert.check(!(childRef instanceof CompInstWrapExpression));
         Assert.check(!(childRef instanceof CompParamWrapExpression));
         PositionObject refObj = CifScopeUtils.getRefObjFromRef(childRef);
 
@@ -917,10 +911,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             InputVariable v = (InputVariable)newRefObj;
             ((InputVariableExpression)childRef).setVariable(v);
         } else if (childRef instanceof ComponentExpression) {
-            // This component reference can not reference a component instantiation. See above.
-            ComponentExpression compRef = (ComponentExpression)childRef;
             Component c = (Component)newRefObj;
-            compRef.setComponent(c);
+            ((ComponentExpression)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapExpression) {
             // Can't happen. See above.
             throw new RuntimeException("Should never get here...");
@@ -931,13 +923,14 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             throw new RuntimeException("Unknown ref expr: " + childRef);
         }
 
-        // Put leaf reference into the result, and result into the metamodel.
+        // Put leaf reference into the result, and result into the model.
         if (rsltExpr == null) {
             // This means that we have not constructed any wrappers so far.
             rsltExpr = childRef;
             EMFHelper.updateParentContainment(wrap, rsltExpr);
         } else {
-            // This means that we have constructed at least one wrapper. We put the child as the leaf.
+            // This means that we have constructed at least one wrapper. We put the child as the leaf (i.e., child of
+            // inner wrapper).
             Assert.notNull(rsltInnerWrap);
             EMFHelper.updateParentContainment(wrap, rsltExpr);
 
@@ -964,20 +957,39 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     @SuppressWarnings("null")
     @Override
     protected void walkCompParamWrapType(CompParamWrapType wrap) {
-        // Currently, we have a component parameter wrapping type, which means that the type object is in the
-        // parameter's body. If we instantiate the definition where the parameter is a part of, the type object becomes
-        // part of the supplied argument's body. The supplied argument is either a concrete component or a component
-        // instantiation (CompInst). Note that it is not possible that the argument is a component parameter
-        // (CompParam), that is not allowed by Cif. Second note, in the original specification, the argument must have
-        // been a CompInst, but it might already been eliminated. Third note, even if the leaf of the argument is a
-        // concrete component, this concrete component can still be inside a CompInst or in a CompParam parameter, and
-        // we'll end up with a CompInstWrapType or a CompParamWrapType, respectively.
-        // So the task is to:
-        // 1) Process the given argument to replace the CompParam part of the wrapper.
-        // 2) process the type part of the wrapper, and combine it with the result of 1.
+        // Consider the following running example that we'll use in comments throughout this method:
+        //
+        // group def D(P p):
+        // input p.q.r.x z;
+        // end
+        //
+        // d: D(a.b.c.p1)
+        //
+        // We have a component definition 'D'. It has a component parameter 'p', which has component definition 'P' as
+        // is type. For type 'p.q.r.x', 'p' is a component parameter wrapping type (and the argument to
+        // this method), and 'q' is an object in the body of component definition 'P'. Component instantiation 'd'
+        // instantiates component definition 'D' and provides argument 'a.b.c.p1' for parameter 'p' of 'D'. The referred
+        // object 'q' will be part of 'a.b.c.p1', with 'p1' being an instance/instantiation of 'P'.
+        //
+        // We know the following regarding the component referred to by the argument ('p1'):
+        //
+        // 1) In the original specification, it ('p1') must have been a component instantiation that instantiates the
+        // component definition ('P'). However, it might have already been instantiated earlier during this
+        // transformation. Hence, it is now either a concrete component or a component instantiation.
+        //
+        // 2) It ('p1') is not a component parameter, as CIF doesn't allow a component parameter to be used as a value
+        // by itself, but only as a 'via' reference.
+        //
+        // 3) Regardless of whether it ('p1') is a concrete component or component instantiation, it can still be
+        // inside a component instantiation or referred to via a component parameter. It can thus be referred to via
+        // a component instantiation or component parameter wrapping expression, respectively ('a.b.c').
 
-        // Determine if we want to eliminate the parameter wrapping expression at all. That is, are we instantiating
-        // the definition where this parameter is a part of?
+        // So the tasks are to:
+        // 1) Process the given argument ('a.b.c.p1') to replace the component parameter wrapping type ('p').
+        // 2) Process the child reference type ('q.r.x') and combine it with the result of task 1.
+
+        // Determine whether we want to eliminate the parameter wrapping type at all. That is, are we
+        // instantiating the definition (e.g. 'D' in the example) that this parameter is a part of?
         ComponentParameter param = wrap.getParameter();
         Expression arg = getActualArgument(param);
         if (arg == null) {
@@ -986,169 +998,150 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return;
         }
 
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 1
-        ////////////////
+        ///////////////////////////////////////////////////////////////////////////
 
-        // In the first part we are going to fix the wrappers from the place where we are instantiating the definition
-        // to where the supplied component argument is located, for example, h.i.j.x1 below.
-        //
-        // group def D(X x):
-        // alg x.e.f.g.m T;
-        // end
-        //
-        // d : D(h.i.j.x1);
+        // Task 1: Process the given argument ('a.b.c.p1') to replace the component parameter wrapping type ('p').
 
         // Initialize the resulting new reference type.
         CifType rsltType;
 
-        // So we know that this argument either directly or indirectly points to some concrete component or component
-        // instantiation. With indirectly we mean via a component instantiation or via a component parameter. If the
-        // component is pointed to via a wrapping expression, we still want to get the actual component. We can find
-        // that component at the leaf. It is now always the next reference, as we can also have multiple nested wraps.
-        // Initially, that component must have been a component instantiation, as that is required by Cif. However, it
-        // can be that that component has already been instantiated, and is now a concrete component.
+        // The argument either directly ('p1') or indirectly ('a.b.c.p1') points to some concrete component or
+        // component instantiation ('p1'). It may be referred to by wrapping expressions ('a.b.c'). We first obtain the
+        // argument's leaf component ('p1').
         Expression argLeaf = CifTypeUtils.unwrapExpression(arg);
         Assert.check(argLeaf instanceof ComponentExpression);
         Component argLeafComp = ((ComponentExpression)argLeaf).getComponent();
 
-        // Process the component reference. Also get the body of that component, as this is will serve as the new body
-        // for the first child reference.
+        // Process the component reference ('p1'). Also get the body of that component, as the first child reference
+        // type ('q') will refer to an object in that body.
         CifType rsltInnerWrap;
         ComplexComponent newBody;
         if (argLeafComp instanceof ComponentInst) {
-            // The actual argument is an instantiation.
+            // The actual argument leaf ('p1') is a component instantiation.
             ComponentInst argLeafInst = (ComponentInst)argLeafComp;
 
-            // Since we already processed the actual argument, we know for sure that we are not instantiating this
-            // component.
+            // Since we already processed the actual argument ('a.b.c.p1'), we know for sure that we are not
+            // instantiating this component instantiation ('p1') yet.
             Assert.check(!instMap.containsKey(argLeafInst));
 
-            // So since the reference type is going to be placed in an instantiation, we have to create a new component
-            // instantiation wrapper. When we process the type part we are going to put the result in this wrapper, we
-            // do that in the second part.
+            // Since the child reference type ('q.r.x') is going to be placed in an instantiation ('p1'), we
+            // have to create a new component instantiation wrapping type (for 'p1') for it.
+            // The child of the new wrapper will be set during task 2.
             CompInstWrapType newWrap = newCompInstWrapType();
             newWrap.setInstantiation(argLeafInst);
             if (argLeaf == arg) {
-                // This means there is no other 'via' expression, that is, the argument was not pointing via an
-                // CompInst or CompParam. Hence, the actual argument was a ComponentExpression and not a wrapping
-                // expression.
+                // The argument consists of only a direct reference ('p1'), and there are no other 'via' references
+                // (no 'a.b.c').
                 Assert.check(arg instanceof ComponentExpression);
 
-                // This means that the original CompParamWrapExpression that we are walking is going to be replaced
-                // directly by the new CompInstWrapType. Because it is the only wrapping type it is automatically the
-                // inner wrapping type.
+                // The result will be 'p1.q.r.x'. Thus the new 'p1' wrapper is the result and also the inner-most
+                // wrapper that will contain 'q'.
                 rsltType = newWrap;
                 rsltInnerWrap = newWrap;
             } else {
-                // This means that there are other 'via' expressions, either a CompInst or a CompParam. Hence, the
-                // actual argument must be a wrapping expression.
+                // The argument is an indirect reference to 'p1', through other 'via' references ('a.b.c').
                 Assert.check(arg instanceof CompInstWrapExpression || arg instanceof CompParamWrapExpression);
 
-                // The new wrap type is going to be placed in another (existing) wrap. The leaf of rsltType is argLeaf,
-                // which is a CompInst. We substitute CompInst with the new wrap, so we don't have to recreate all the
-                // other wraps. We do have to convert the wrappers from an expression wrapper to a type wrapper.
+                // The result will be 'a.b.c.p1.q.r.x'. Thus the new 'p1' wrapper will replace the old leaf 'p1'
+                // reference in 'c' and it will also be the inner-most wrapper that will contain 'q' as a child.
+                // We convert 'a.b.c' from wrapping expressions to wrapping types, setting the new 'p1' as new leaf.
                 rsltType = convertWrapExprToWrapType(arg, newWrap);
                 rsltInnerWrap = newWrap;
             }
 
-            // Get the body of the instantiation where the reference type is going to be placed. Because the component
-            // is an instantiation, it doesn't have its own body. Instead, the body of its definition is used.
+            // Get the body of the instantiation (body of 'p1') in which to locate 'q'. Because the component ('p1') is
+            // an instantiation, it doesn't have its own body. Instead, the body of its definition is used.
             ComponentDef argDef = CifTypeUtils.getCompDefFromCompInst(argLeafInst);
             newBody = argDef.getBody();
         } else {
-            // The actual argument is a concrete component.
+            // The actual argument leaf ('p1') is a concrete component.
             Assert.check(argLeafComp instanceof ComplexComponent);
             ComplexComponent argLeafComplexComp = (ComplexComponent)argLeafComp;
 
-            // We don't need a wrapping type for a concrete component, so we don't create any. However, it could be that
-            // the leaf component is located in another CompInst or CompParam.
+            // In the CIF metamodel, concrete components don't need a 'via' wrapping type. However, it may have
+            // been indirectly referenced ('a.b.c').
             if (argLeaf == arg) {
-                // This means there is no other 'via' expression, the argument was not a wrapper.
+                // The argument consists of only a direct reference ('p1'), and there are no other 'via' references
+                // (no 'a.b.c').
                 Assert.check(arg instanceof ComponentExpression);
 
-                // This means that the original wrapping expression that we are walking is going to be replaced by a non
-                // wrapping expression. So the rsltType is not a wrapper. And there is also no inner wrap.
+                // The result will be 'q.r.x'. Thus 'q' itself will be the result and it will not have a parent
+                // wrapper type.
                 rsltType = null;
                 rsltInnerWrap = null;
             } else {
-                // This means that there are other 'via' expressions, either a CompInst or a CompParam. Hence, the
-                // actual argument must be a wrapping expression.
+                // The argument is an indirect reference to 'p1', through other 'via' references ('a.b.c').
                 Assert.check(arg instanceof CompInstWrapExpression || arg instanceof CompParamWrapExpression);
 
-                // The type is going to be placed in another (existing) wrap expression. The leaf of rsltType is
-                // argLeaf, which is a concrete component. We empty the leaf of that wrap, so we don't have to recreate
-                // all the other wraps. We do have to convert the wrappers from an expression wrapper to a type wrapper.
-                // We also have to find out what the inner wrap is, we use a dummy for this.
+                // The result will be 'a.b.c.q.r.x'. Thus 'c' will be the parent of 'q'. In this case 'a' remains the
+                // result, but in cases where there is no 'a.b.c' but only 'c', then 'c' is both the result and the
+                // parent of 'q'.
+                //
+                // We convert 'a.b.c' from wrapping expressions to wrapping types. We use a dummy boolean type as the
+                // leaf (replacing 'p1'), to access the inner-most wrapping type ('c') after the conversion. We remove
+                // the dummy type at the end, as in task 2 it will be 'q' that is the child of 'c'.
                 CifType dummy = newBoolType();
                 rsltType = convertWrapExprToWrapType(arg, dummy);
                 rsltInnerWrap = (CifType)dummy.eContainer();
                 EMFHelper.removeFromParentContainment(dummy);
-
-                // Notice that rsltType already is a wrapper, where we have updated its leaf argument. rsltType could be
-                // rsltInnerWrap, but there can also be multiple nested wraps.
             }
 
-            // The type is going to be part of the concrete component.
+            // The first child reference ('q') will be located in the concrete component.
             newBody = argLeafComplexComp;
         }
 
-        /////////////////////
+        ///////////////////////////////////////////////////////////////////////////
         // Task 2
-        /////////////////////
+        ///////////////////////////////////////////////////////////////////////////
 
-        // In the second part we are going to fix the wrappers from the supplied component to where
-        // the reference type is pointing, for example, x.e.f.g.m below.
-        //
-        // group def D(X x):
-        // alg x.e.f.g.m T;
-        // end
-        //
-        // d : D(h.i.j.x1);
+        // Task 2: Process the child reference type ('q.r.x') and combine it with the result of task 1.
 
-        // Get body of component definition used as type of the component parameter being eliminated by this method. It
-        // serves as the current body for the first child reference. We get it as the body from the CompDef type of the
-        // component parameter.
-
+        // Get body of component definition ('P') used as type of the component parameter ('p') being eliminated by
+        // this method. It serves as the current body for the first child reference ('q').
         CifType paramType = wrap.getParameter().getType();
         paramType = CifTypeUtils.normalizeType(paramType);
         Assert.check(paramType instanceof ComponentDefType);
         ComponentDef paramDef = ((ComponentDefType)paramType).getDefinition();
         ComplexComponent curBody = paramDef.getBody();
 
-        // Get child reference type of the component parameter wrapping type. This is the first child reference to
-        // process.
+        // Get child reference type ('q') of the component parameter wrapping type ('p'). This is the first
+        // child reference to process (from 'q.r.x').
         CifType childRef = wrap.getReference();
 
-        // Process child reference. We either have non-wrapping type or a CompInstWrapType. Note that it is impossible
-        // to have CompParamWrapType due to scoping constraints. First, we'll handle all the possible component
-        // instantiation wrapping types (zero or more levels). Later on we'll process the leaf non-wrapping reference
-        // type.
+        // Process child reference types ('q.r.x'). We either have a non-wrapping type (no 'q.r' and only
+        // 'x' directly) or one or more component instantiation wrapping types ('q.r' before 'x'). Given that 'p'
+        // is a 'via' component parameter reference, 'q' and 'r' can't be 'via' component parameter references, as CIF
+        // considers 'q' and 'r' to be internal and thus not in scope to be referred to via other wrapping types.
         Assert.check(!(childRef instanceof CompParamWrapType));
 
+        // First, we'll handle all the zero or more component instantiation wrapping types ('q.r'). Later on
+        // we'll process the leaf non-wrapping reference type ('x').
         while (childRef instanceof CompInstWrapType) {
             // Get the 'via' component instantiation.
             CompInstWrapType childWrap = (CompInstWrapType)childRef;
             ComponentInst viaInst = childWrap.getInstantiation();
 
-            // Update child reference used in the while loop to next level.
+            // Update child reference used in the while loop to next level (e.g. from 'q' to 'r' or 'r' to 'x').
             childRef = childWrap.getReference();
 
             // Make sure we have a valid reference to the instantiation at this level, for the new body.
             Component viaComp;
             if (curBody == newBody) {
-                // Reference to instantiation is already valid, as (for the first level) the actual argument uses the
-                // body of the component definition that is also the type of the component parameter that we are
-                // eliminating. For later levels, similar conditions hold. That is, the already processed argument and
-                // already processed part of the reference end up in the same scope as the scope that is used for the
-                // child reference at this level.
+                // Reference to instantiation ('q') is already valid, as (for the first level) the argument ('p1') uses
+                // the body of the component definition ('P') that is also the type of the component parameter ('p')
+                // that we are eliminating. For later levels ('r'), similar conditions hold. That is, the already
+                // processed argument and already processed part of the reference end up in the same scope as the scope
+                // that is used for the child reference at this level.
                 viaComp = viaInst;
             } else {
                 // Need a new reference to the component instantiation, or the already instantiated variant of it.
                 viaComp = (Component)getNonViaRefObj(viaInst, curBody, newBody);
+                Assert.fail();// XXX never gets here in any of the tests?
             }
 
-            // Process the instantiation at this level.
+            // Process the instantiation at this level ('q' or 'r').
             if (viaComp instanceof ComplexComponent) {
                 // A concrete component. No need to wrap anything.
                 ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
@@ -1159,21 +1152,23 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                 Assert.check(viaComp instanceof ComponentInst);
                 ComponentInst newViaInst = (ComponentInst)viaComp;
 
-                // check whether we are instantiating the instantiation.
+                // Check whether we are instantiating the instantiation.
                 ComplexComponent instComp = instMap.get(newViaInst);
                 if (instComp == null) {
                     // We are not instantiating the instantiation.
                     CompInstWrapType newWrap = newCompInstWrapType();
-                    newWrap.setInstantiation(viaInst);
+                    newWrap.setInstantiation(newViaInst);
+                    Assert.check(viaInst == newViaInst);// XXX always the same in all tests?
 
                     // Add the new inner wrap.
                     if (rsltType == null) {
-                        // This means that the supplied component is a concrete component which is pointed at directly,
-                        // without wrappers.
+                        // This means that the argument is a concrete component which is pointed at directly, without
+                        // wrapping expressions.
                         rsltType = newWrap;
                     } else {
-                        // This means that either the supplied component is an instantiation, or that it is a concrete
-                        // component which is pointed at via a CompInst wrap or a ParamInst wrap.
+                        // This means that either the argument is a component instantiation, or that it is a concrete
+                        // component which is pointed at 'via' at least one wrapping expression (converted to a
+                        // wrapping type).
                         Assert.notNull(rsltInnerWrap);
                         if (rsltInnerWrap instanceof CompInstWrapType) {
                             ((CompInstWrapType)rsltInnerWrap).setReference(newWrap);
@@ -1183,7 +1178,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                         }
                     }
 
-                    // Since we put a new wrap in the inner wrap, it is not the inner wrap anymore.
+                    // The new wrapper is now the inner wrapper.
                     rsltInnerWrap = newWrap;
 
                     // Continue from body of the component definition.
@@ -1193,7 +1188,12 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
                     ComponentDef newViaDef = CifTypeUtils.getCompDefFromCompInst(newViaInst);
                     newBody = newViaDef.getBody();
                 } else {
-                    // We are instantiating the instantiation, no need for wrapper.
+                    // We are instantiating the instantiation, which means the component definition to instantiate
+                    // won't contain other component instantiations (see phase 1), and this is the last component
+                    // instantiation wrapper to consider. We're done with the loop.
+                    Assert.check(!(childRef instanceof CompInstWrapType));
+
+                    // We are instantiating the instantiation, so no need for a wrapper.
                     ComponentDef viaDef = CifTypeUtils.getCompDefFromCompInst(viaInst);
                     curBody = viaDef.getBody();
                     newBody = instComp;
@@ -1201,40 +1201,31 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             }
         }
 
-        // Get referenced child object.
+        // Get referenced child object ('x'). We know that:
+        //
+        // 1) This is the leaf type and thus not a 'via' reference.
+        //
+        // 2) This is not a component definition type. These can only be used as types of component parameters.
+        // If 'x' was indeed a component parameter type, and 'p' is also a component parameter type, that means that
+        // component definition 'D' that has 'p' as a parameter also contains a component definition that has a
+        // parameter of which the type is 'x'. But that can't be the case, as we are eliminating component definition
+        // 'D' and we only eliminate component definitions that don't contain other component definitions.
+        Assert.check(!(childRef instanceof ComponentType
+                && ((ComponentType)childRef).getComponent() instanceof ComponentInst));
+        Assert.check(!(childRef instanceof ComponentDefType));
+        Assert.check(!(childRef instanceof CompInstWrapType));
         Assert.check(!(childRef instanceof CompParamWrapType));
-
-        EObject refObj;
-        if (childRef instanceof TypeRef) {
-            refObj = ((TypeRef)childRef).getType();
-        } else if (childRef instanceof EnumType) {
-            refObj = ((EnumType)childRef).getEnum();
-        } else if (childRef instanceof ComponentType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
-            // 'childRef' can not reference a component instantiation.
-            refObj = ((ComponentType)childRef).getComponent();
-        } else if (childRef instanceof ComponentDefType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component definitions. As such,
-            // 'childRef' can not be a component definition reference.
-            throw new RuntimeException("Invalid comp def type.");
-        } else if (childRef instanceof CompInstWrapType) {
-            // Assume that 'wrap' is a component parameter 'x1' of type component definition 'X'. Then, since the actual
-            // argument was an already instantiated 'X', 'X' does not contain any component instantiations. As such,
-            // 'childRef' can not be a component instantiation wrapping expression.
-            throw new RuntimeException("Invalid comp inst wrap type.");
-        } else if (childRef instanceof CompParamWrapType) {
-            // Due to scoping constraints, component parameters can not be referenced via other component parameters.
-            throw new RuntimeException("Invalid comp param wrap type.");
-        } else {
-            throw new RuntimeException("Unknown ref type: " + childRef);
-        }
+        PositionObject refObj = CifScopeUtils.getRefObjFromRef(childRef);
 
         // Get non-via referenced object.
-        Object newRefObj = getNonViaRefObj(refObj, curBody, newBody);
+        Object newRefObj;
+        if (curBody == newBody) {
+            newRefObj = refObj;
+        } else {
+            newRefObj = getNonViaRefObj(refObj, curBody, newBody);
+        }
 
-        // In-place modify child reference expression.
+        // In-place modify child reference type.
         if (childRef instanceof TypeRef) {
             TypeDecl t = (TypeDecl)newRefObj;
             ((TypeRef)childRef).setType(t);
@@ -1242,7 +1233,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             EnumDecl e = (EnumDecl)newRefObj;
             ((EnumType)childRef).setEnum(e);
         } else if (childRef instanceof ComponentType) {
-            // This component reference can not reference a component instantiation. See above.
             Component c = (Component)newRefObj;
             ((ComponentType)childRef).setComponent(c);
         } else if (childRef instanceof CompInstWrapType) {
@@ -1255,7 +1245,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             throw new RuntimeException("Unknown ref type: " + childRef);
         }
 
-        // Put leaf reference into the result, and result into the metamodel.
+        // Put leaf reference into the result, and result into the model.
         if (rsltType == null) {
             // This means that we have not constructed any wrappers so far.
             rsltType = childRef;
@@ -1278,8 +1268,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     /**
      * For a component parameter, get the actual argument if the component parameter is being eliminated, and return
      * {@code null} otherwise. For component parameters that are being eliminated, process the actual argument, and
-     * update all relevant mapping. This is necessary if the argument contains 'via component instantiations'
-     * expressions for components that are being instantiated. The processing of actual argument is performed only once
+     * update all relevant mappings. This is necessary if the argument contains 'via component instantiation'
+     * expressions for components that are being instantiated. The processing of actual arguments is performed only once
      * per component parameter.
      *
      * @param param The component parameter.
@@ -1300,19 +1290,19 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         }
 
         // Process actual argument. Note that we can't have 'via parameter' references in the actual argument, as that
-        // is not allowed. For example, in the example below, it is not allowed to use x as an argument for Z.
+        // is not allowed. For example, in the example below, it is not allowed to use 'x' as an argument for 'Z'.
         //
         // group def Y(X x):
         // z : Z(x);
         // end
         //
-        // Not that we can have 'via component instantiations' references in the actual argument. For example, x.y is a
-        // reference via the component instantiation x to component instantiation y.
+        // Not that we can have 'via component instantiation' references in the actual argument. For example, 'x.y' is a
+        // reference via the component instantiation x to component instantiation 'y'.
         //
         // x : X();
         // z : Z(x.y);
         //
-        // The instantiation that we are eliminate, to which the actual argument is given, is part of a component
+        // The instantiation that we are eliminating, to which the actual argument is given, is part of a component
         // (definition) that has that parameter. Since the body of that component (definition) includes the
         // instantiation that we're eliminating, that component definition itself can't be eliminated during this
         // iteration (if it is a definition). Via a parameter reference we can't get to other parameter references,
@@ -1326,13 +1316,13 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         int paramIdx = origInfo.right;
         Expression newArg = inst.getParameters().get(paramIdx);
 
-        // update mappings.
+        // Update mappings.
         if (arg != newArg) {
             compParamMap.put(param, newArg);
         }
         paramOrigMap.remove(param);
 
-        // Return potentially update argument.
+        // Return potentially updated argument.
         return newArg;
     }
 
@@ -1427,9 +1417,10 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     /**
      * Converts a wrapping expression to a wrapping type, thereby setting the leaf node to the supplied type.
      *
-     * @param wrap The wrapping to convert, either a CompParamWrapExpression or a CompInstWrapExpression.
-     * @param leafType A CifType to be set as the leaf node.
-     * @return The new wrapping type, either a CompParamWrapType or a CompInstWrapType.
+     * @param wrap The wrapping to convert, either a {@link CompParamWrapExpression} or a
+     *     {@link CompInstWrapExpression}.
+     * @param leafType A {@link CifType} to be set as the leaf node.
+     * @return The new wrapping type, either a {@link CompParamWrapType} or a {@link CompInstWrapType}.
      */
     private CifType convertWrapExprToWrapType(Expression wrap, CifType leafType) {
         Assert.check(wrap instanceof CompParamWrapExpression || wrap instanceof CompInstWrapExpression);
@@ -1450,6 +1441,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return newParamWrap;
         } else {
             CompInstWrapExpression instWrap = (CompInstWrapExpression)wrap;
+
             CompInstWrapType newInstWrap = newCompInstWrapType();
             newInstWrap.setInstantiation(instWrap.getInstantiation());
 
