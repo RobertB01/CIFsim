@@ -886,6 +886,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         } else if (childRef instanceof ComponentExpression) {
             Component c = (Component)newRefObj;
             ((ComponentExpression)childRef).setComponent(c);
+            // Could be a component instantiation that is now instantiated, make sure to update that.
+            postprocessComponentExpression((ComponentExpression)childRef);
         } else if (childRef instanceof CompInstWrapExpression) {
             // Can't happen. See above.
             throw new RuntimeException("Should never get here...");
@@ -1156,11 +1158,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // component definition 'D' that has 'p' as a parameter also contains a component definition that has a
         // parameter of which the type is 'x'. But that can't be the case, as we are eliminating component definition
         // 'D' and we only eliminate component definitions that don't contain other component definitions.
-        Assert.check(!(childRef instanceof ComponentType
-                && ((ComponentType)childRef).getComponent() instanceof ComponentInst));
-        Assert.check(!(childRef instanceof ComponentDefType));
         Assert.check(!(childRef instanceof CompInstWrapType));
         Assert.check(!(childRef instanceof CompParamWrapType));
+        Assert.check(!(childRef instanceof ComponentDefType));
         PositionObject refObj = CifScopeUtils.getRefObjFromRef(childRef);
 
         // Get non-via referenced object.
@@ -1181,6 +1181,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         } else if (childRef instanceof ComponentType) {
             Component c = (Component)newRefObj;
             ((ComponentType)childRef).setComponent(c);
+            // Could be a component instantiation that is now instantiated, make sure to update that.
+            postprocessComponentType((ComponentType)childRef);
         } else if (childRef instanceof CompInstWrapType) {
             // Can't happen. See above.
             throw new RuntimeException("Should never get here...");
