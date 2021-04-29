@@ -70,6 +70,10 @@ The new development environment will be put at
 `<root_installation_folder>/<installation_folder_name>`.
 ** For _JRE 1.8 location_ make sure to select the same Java 8 JDK that you
 selected in the first wizard window.
+** For _Eclipse Foundation account full name_ fill in your full name (first
+and last name) matching the full name in your Eclipse Foundation account.
+** For _Eclipse Foundation account email address_ fill in the email address
+associated with your Eclipse Foundation account.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
