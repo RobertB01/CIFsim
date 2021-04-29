@@ -76,12 +76,12 @@ The new development environment will be put at
 launched.
 ** If asked, accept any licenses and certificates.
 * Press btn:[Finish] in the Eclipse Installer to close the Eclipse Installer.
-* Click the rotating arrows icon in the status bar (bottom right) of the
-new development environment.
-* Observe Oomph executing the startup tasks (such as Git clone, importing
-projects, etc).
+* In the new development environment, observe Oomph executing the startup
+tasks (such as Git clone, importing projects, etc). If this is not
+automatically shown, click the rotating arrows icon in the status bar
+(bottom right) of the new development environment.
 * Wait for the startup tasks to finish successfully.
-* NOTE: If you don't open the Oomph dialog, the status bar icon icon will
+* NOTE: If you don't open the Oomph dialog, the status bar icon icon may
 disappear when the tasks are successfully completed.
 
 If you have any issues during setting up the development environment, consider
