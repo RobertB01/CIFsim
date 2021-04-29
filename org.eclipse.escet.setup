@@ -35,6 +35,20 @@
       name="eclipse.target.platform"
       value="None"/>
   <setupTask
+      xsi:type="setup:VariableTask"
+      name="eclipse.user.name"
+      label="Eclipse Foundation account user name">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/GlobalVariable"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="eclipse.user.email"
+      label="Eclipse Foundation account email address">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/GlobalVariable"/>
+  </setupTask>
+  <setupTask
       xsi:type="jdt:JRETask"
       version="JavaSE-1.8"
       location="${jre.location-1.8}">
@@ -248,6 +262,15 @@
       xsi:type="git:GitCloneTask"
       id="org.eclipse.escet.git.clone"
       remoteURI="https://gitlab.eclipse.org/eclipse/escet/escet.git">
+    <configSections
+        name="user">
+      <properties
+          key="name"
+          value="${eclipse.user.name}"/>
+      <properties
+          key="email"
+          value="${eclipse.user.email}"/>
+    </configSections>
     <description>${scope.project.label}</description>
   </setupTask>
   <setupTask
