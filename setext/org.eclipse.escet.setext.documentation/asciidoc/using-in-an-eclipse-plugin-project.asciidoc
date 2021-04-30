@@ -1,0 +1,61 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_root_attributes.asciidoc[]
+
+[[setext-using-in-an-eclipse-plugin-project]]
+== Using SeText in an Eclipse Plug-in Project
+
+For a new language, follow these steps:
+
+* Create a _Plug-in Project_ in Eclipse.
+
+* Add the `org.eclipse.escet.common.java` and `org.eclipse.escet.setext.runtime` plug-ins to
+the _Required plug-ins_ in the project's manifest. Also add any plug-ins
+that define the classes that you will be referring to in the SeText
+specification.
+
+* Create the Java package where your scanner, parser(s) and hooks classes
+are to be stored.
+
+* Create a text file ending with `.setext` in that same package. Fill the
+specification, and save it.
+
+* Right click the file in the _Project Explorer_ or _Package Explorer_,
+and choose the _Generate Parser(s)_ action. Alternatively, right click
+the text editor for the SeText specification and choose the same action.
+
+* Observe how the files are generated. Make sure the console is free of
+warnings and errors.
+
+* Copy the hooks class skeleton (extension `.skeleton` to extension
+`.java`), and implement the hooks.
+
+* You are ready to use the scanner and parser(s).
+
+After changes to the SeText specification:
+
+* Regenerate the code, as before.
+
+* If a `Hooks` interface has changed, update the hooks class.
+
+* You are ready to use the modified scanner and parser(s).
+
+It may be a good idea to put the `.skeleton` file in a version control
+system. That way, after regeneration, you can ask for a diff. You then
+know what has changed, and how you need to update the hooks class.
+
+Also note that if a generated `Hooks` interface changes after a regeneration,
+Java will report errors for methods not yet present in the hook class.
+Similarly, Java will complain about changed method signatures, and methods that
+no longer exist in the `Hooks` interface (and thus have invalid `@Override`
+annotations in the hooks class).

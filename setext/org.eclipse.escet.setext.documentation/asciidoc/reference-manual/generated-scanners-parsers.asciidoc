@@ -1,0 +1,28 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-generated-scanners-parsers]]
+== Generated scanners/parsers
+
+The generated scanners and parsers depend on the `org.eclipse.escet.setext.runtime`
+and `org.eclipse.escet.common.java` plug-ins. Generated scanners and parsers inherit
+from the `org.eclipse.escet.setext.runtime.Scanner` class and
+`org.eclipse.escet.setext.runtime.Parser` class respectively. Look at those classes for
+the public API of generated scanners/parsers, as it should be fairly
+self-explanatory.
+
+Besides the scanner and parser(s), debug output is generated from which the
+scanner and parser(s) can be analyzed. In particular, the debug output for
+the parsers makes it possible to find out the details about conflicts in the
+grammar. Furthermore, a skeleton is generated for the hooks class.

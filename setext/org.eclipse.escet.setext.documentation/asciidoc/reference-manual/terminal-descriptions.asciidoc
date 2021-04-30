@@ -1,0 +1,49 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-terminal-descriptions]]
+== Terminal descriptions
+
+Terminals can be given an end user readable description (just before the
+semicolon), for use in parser error messages:
+
+[source, setext]
+----
+@terminals:
+  @keywords Operators = and            // "and"
+                        or;            // "or"
+  IDTK   = "[a-z]+" [an identifier];   // an identifier
+  ID2TK  = "[A-Z]+" [ an identifier ]; // an identifier
+  ASNGTK = ":=";                       // ":="
+  @eof;                                // end-of-file
+  X = "[abc]";                         // X
+  "[def]";                             // no description
+----
+
+Keyword literals (`ANDTK` and `ORTK` in the example above) have the
+keywords surrounded by double quotes as default description. Similarly,
+terminals defined by regular expressions without choice (no character classes,
+star operators, etc) and using only 'graphical' characters (no control
+characters, end-of-file, new lines, etc) also have the literal text that they
+match (surrounded by double quotes) as default description (see `ASGNTK` in
+the example above). The end-of-file token has `end-of-file` as default
+description. Keywords that don't have a description and don't have default
+descriptions as described above, get the name of the terminal as description
+(see `X` in the example above). If they don't have a name, they have no
+description.
+
+Nameless terminals are not used by the parser, and therefore do not require a
+description. The end-of-file terminal has a default description, and can not be
+given a custom description. Giving a terminal a custom description if it
+already has a default description, leads to a warning.

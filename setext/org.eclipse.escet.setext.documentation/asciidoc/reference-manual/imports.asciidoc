@@ -1,0 +1,70 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-imports]]
+== Imports
+
+Java classes/types can be specified in SeText specifications using their fully
+quantified names, optionally with generic type parameters:
+
+[source, setext]
+----
+java.util.String
+java.util.List
+java.util.List<java.util.String>
+----
+
+but it is also possible to use imports:
+
+[source, setext]
+----
+@import java.util.String;
+@import java.util.String as string;
+@import java.util;
+@import java.util as u;
+----
+
+The first import imports `java.util.String` as `String`. The second
+imports the same type as `string`. The third import imports the `java.util`
+package as `util`. The fourth import imports that same package as `u`.
+After these imports, the following all refer to the `java.util.String` Java
+type/class:
+
+[source, setext]
+----
+java.util.String
+util.String
+u.String
+String
+string
+----
+
+It is also possible to import generic types, with their type parameters
+instantiated:
+
+[source, setext]
+----
+@import java.util.List<java.util.String> as stringList
+----
+
+allowing `stringList` to be used as a short form for
+`java.util.List<java.util.String>`.
+
+Note that it is not possible to use imports to shorten other imports.
+
+Finally, note that Java types where the first part of the identifier (the
+part before any dot) does not refer to an import, are considered absolute.
+This means that any Java type name not containing a dot, and not referring to
+an import, is also considered absolute, and thus refers to a class with that
+name, in the default package.

@@ -89,13 +89,15 @@ See <<legal-chapter-index,Legal>> for copyright and licensing information.
 
 
 // Tutorial
-include::tutorial/tutorial.asciidoc[]
+
+include::tutorial/index.asciidoc[]
 
 :leveloffset: +1
 
 include::tutorial/introduction.asciidoc[]
 
 // Tutorial - Basics
+
 include::tutorial/datatypes.asciidoc[]
 
 include::tutorial/statements.asciidoc[]
@@ -105,6 +107,7 @@ include::tutorial/functions.asciidoc[]
 include::tutorial/input-output.asciidoc[]
 
 // Tutorial - Programming
+
 include::tutorial/stochastic-behavior.asciidoc[]
 
 include::tutorial/processes.asciidoc[]
@@ -112,6 +115,7 @@ include::tutorial/processes.asciidoc[]
 include::tutorial/channels.asciidoc[]
 
 // Tutorial - Modeling
+
 include::tutorial/buffers.asciidoc[]
 
 include::tutorial/servers.asciidoc[]
@@ -121,6 +125,7 @@ include::tutorial/conveyors.asciidoc[]
 include::tutorial/experiments.asciidoc[]
 
 // Tutorial - Visualization
+
 include::tutorial/svg-vis.asciidoc[]
 
 include::tutorial/svg-example.asciidoc[]
@@ -128,7 +133,8 @@ include::tutorial/svg-example.asciidoc[]
 :leveloffset: -1
 
 // Reference manual
-include::reference-manual/reference-manual.asciidoc[]
+
+include::reference-manual/index.asciidoc[]
 
 :leveloffset: +1
 
@@ -153,7 +159,8 @@ include::reference-manual/svg-ref.asciidoc[]
 :leveloffset: -1
 
 // Tool manual
-include::tool-manual/tool-manual.asciidoc[]
+
+include::tool-manual/index.asciidoc[]
 
 :leveloffset: +1
 
@@ -164,9 +171,11 @@ include::tool-manual/commandline.asciidoc[]
 :leveloffset: -1
 
 // Release notes
+
 include::release-notes.asciidoc[]
 
 // Legal
+
 include::legal.asciidoc[]
 
 

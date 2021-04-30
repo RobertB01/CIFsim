@@ -1,0 +1,133 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-parser-hooks]]
+== Parser hooks
+
+For parsers, a hooks class must always be specified. The scanner and all
+parsers share a single (non-generic) hooks class. The following specification
+(from which we omit the scanner part):
+
+[source, setext]
+----
+@hooks some.package.SomeHooks;
+
+@import some.package.ast;
+
+@main Expression : some.package.ExpressionParser;
+
+{ast.Expression}
+Expression : /* empty */
+           | Expression @PLUSTK Literal
+           | Expression MINUSTK Literal
+           ;
+
+{ast.Literal}
+Literal : @IDTK
+        | PITK
+        ;
+----
+
+requires a `some.package.SomeHooks` Java class, with a default
+(parameterless) constructor, and five methods, with the following signatures:
+
+[source, java]
+----
+public Expression parseExpression1();
+
+public Expression parseExpression2(Expression e1, Token t2, Literal l3);
+
+public Expression parseExpression3(Expression e1, Literal l3);
+
+public Literal parseLiteral1(Token t1);
+
+public Literal parseLiteral2();
+----
+
+The return types are determined by the non-terminals. The names of the methods
+are formed from the text `parse`, the name of the non-terminal, and number
+of the rule, within the non-terminal. Note that all numbers have equal length.
+For instance `01`, `02`, `03`, ..., `12`. The parameters consist of
+all the non-terminals that make up the , as well and those terminals with a
+`@` before them. The types of the non-terminal parameters are the types of
+the corresponding non-terminals. For terminals, the type is the
+`org.eclipse.escet.setext.runtime.Token` class. The parameter names are formed from
+their types (first character of the simple name of the class, in lower case),
+followed by the number of the symbol in the rule, without any `0` prefixes.
+All numbers start counting at one (`1`).
+
+Note that each generated parser has an inner interface named `Hooks` that
+defines all the required call back hook methods. The hooks class must implement
+the interface(s). This interface specifies one additional method, which all
+parser hooks classes must implement:
+
+[source, java]
+----
+public void setParser<Parser<?> parser);
+----
+
+where the `Parser<?>` class is the `org.eclipse.escet.setext.runtime.Parser` class.
+This method is provided to allow hooks classes access to the parser that
+creates the hooks class, and its source information. For more information,
+see the `getSource` method of the `Parser` class.
+
+An implementation of a hooks class for this example could look like this:
+
+[source, java]
+----
+package some.package;
+
+import org.eclipse.escet.setext.runtime.Parser;
+import org.eclipse.escet.setext.runtime.Token;
+import some.package.ast.Expression;
+import some.package.ast.Literal;
+
+public class SomeHooks implements ExpressionParser.Hooks {
+    @Override
+    public void setParser(Parser<?> parser) {
+        // No need to store this...
+    }
+
+    @Override
+    public Expression parseExpression1() {
+        return null; // Do something more useful here...
+    }
+
+    @Override
+    public Expression parseExpression2(Expression e1, Token t2, Literal l3) {
+        return null; // Do something more useful here...
+    }
+
+    @Override
+    public Expression parseExpression3(Expression e1, Literal l3) {
+        return null; // Do something more useful here...
+    }
+
+    @Override
+    public Literal parseLiteral1(Token t1) {
+        return null; // Do something more useful here...
+    }
+
+    @Override
+    public Literal parseLiteral2() {
+        return null; // Do something more useful here...
+    }
+}
+----
+
+It is allowed to throw `org.eclipse.escet.setext.runtime.exceptions.SyntaxException`
+exceptions in the hooks methods. Furthermore, it is allowed to add fold regions
+to the parser (which then needs to be stored as it is provided via the
+`setParser` hook method), using the `addFoldRange` methods of the
+`org.eclipse.escet.setext.runtime.Parser` class.
