@@ -372,9 +372,9 @@ public class SynthesisAnalysisEditor extends ControlEditor {
         setPartName(filename);
 
         // Create GUI.
-        greenColor = new Color(null, 0x9A, 0xCD, 0x32); // #9ACD32, yellowgreen.
+        greenColor = new Color(0x9A, 0xCD, 0x32); // #9ACD32, yellowgreen.
         redColor = parent.getDisplay().getSystemColor(SWT.COLOR_RED);
-        linkColor = new Color(null, 0x87, 0xCE, 0xFA); // #87CEFA, lightskyblue.
+        linkColor = new Color(0x87, 0xCE, 0xFA); // #87CEFA, lightskyblue.
 
         Composite root = buildWidgets(parent);
 
@@ -414,14 +414,5 @@ public class SynthesisAnalysisEditor extends ControlEditor {
 
         buildAutomataColumn();
         buttons.setEnableBack(searchHistory.size() > 1);
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        greenColor.dispose();
-        linkColor.dispose();
-        // 'redColor' should not be disposed, as it is a system color.
     }
 }

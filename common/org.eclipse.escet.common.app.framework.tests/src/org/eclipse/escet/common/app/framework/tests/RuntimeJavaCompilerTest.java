@@ -25,8 +25,6 @@ import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-import javax.tools.JavaCompiler;
-
 import org.eclipse.escet.common.app.framework.javacompiler.JavaCharSeqInputFileObject;
 import org.eclipse.escet.common.app.framework.javacompiler.JavaInputFileObject;
 import org.eclipse.escet.common.app.framework.javacompiler.ResourceClassLoader;
@@ -328,8 +326,7 @@ public abstract class RuntimeJavaCompilerTest {
      */
     private RuntimeJavaCompiler newCompiler(ClassLoader dependencyLoader) {
         String name = getCompilerName();
-        JavaCompiler compiler = RuntimeJavaCompiler.getJavaCompiler(name);
-        return new RuntimeJavaCompiler(compiler, dependencyLoader);
+        return new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), dependencyLoader);
     }
 
     /**

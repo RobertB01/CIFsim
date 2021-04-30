@@ -143,7 +143,7 @@ public class EventRefSet implements Iterable<Expression> {
 
     @Override
     public Iterator<Expression> iterator() {
-        return new Iterator<Expression>() {
+        return new Iterator<>() {
             private final Iterator<EventRefWrapper> iter = eventRefs.keySet().iterator();
 
             @Override

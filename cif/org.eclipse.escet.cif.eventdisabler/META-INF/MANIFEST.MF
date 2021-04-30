@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF Event Disabler (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.eventdisabler;singleton:=true
 Bundle-Version: 0.2.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.escet.common.app.framework;bundle-version="0.2.0",
  org.eclipse.escet.common.eclipse.ui;bundle-version="0.2.0",

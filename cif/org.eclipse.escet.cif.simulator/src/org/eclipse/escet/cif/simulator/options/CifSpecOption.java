@@ -116,7 +116,7 @@ public class CifSpecOption extends Option<List<String>> {
 
     @Override
     public OptionGroup<List<String>> createOptionGroup(Composite page) {
-        return new OptionGroup<List<String>>(page, Options.getInstance(CifSpecOption.class)) {
+        return new OptionGroup<>(page, Options.getInstance(CifSpecOption.class)) {
             Label specPathLabel;
 
             Text specPathText;

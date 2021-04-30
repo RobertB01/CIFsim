@@ -72,7 +72,7 @@ public class StartupInstanceOption extends Option<String> {
 
     @Override
     public OptionGroup<String> createOptionGroup(Composite page) {
-        return new OptionGroup<String>(page, Options.getInstance(StartupInstanceOption.class)) {
+        return new OptionGroup<>(page, Options.getInstance(StartupInstanceOption.class)) {
             Label instanceLabel;
 
             Text instanceText;

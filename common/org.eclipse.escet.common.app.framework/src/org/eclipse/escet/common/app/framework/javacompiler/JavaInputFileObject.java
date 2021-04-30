@@ -19,6 +19,7 @@ import javax.tools.SimpleJavaFileObject;
  * Run-time Java compiler input file object that uses in-memory data storage to store Java source files. The actual
  * storage representation is left as an implementation detail for derived classes.
  */
+@SuppressWarnings("restriction")
 public abstract class JavaInputFileObject extends SimpleJavaFileObject {
     /** The absolute Java class name. */
     protected final String absClassName;

@@ -204,7 +204,7 @@ public class CifToCifTransOption extends Option<String> {
 
     @Override
     public OptionGroup<String> createOptionGroup(Composite page) {
-        return new OptionGroup<String>(page, this) {
+        return new OptionGroup<>(page, this) {
             org.eclipse.swt.widgets.List availableList;
 
             org.eclipse.swt.widgets.List chosenList;

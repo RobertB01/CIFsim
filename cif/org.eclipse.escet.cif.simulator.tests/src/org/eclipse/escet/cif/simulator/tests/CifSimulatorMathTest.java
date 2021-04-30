@@ -39,6 +39,7 @@ import org.junit.Test;
 /** Unit tests for the {@link CifSimulatorMath} class. */
 @SuppressWarnings("javadoc")
 public class CifSimulatorMathTest {
+    @SuppressWarnings("deprecation")
     @Test
     public void testAndOr() {
         Boolean t1 = new Boolean(true);
@@ -394,6 +395,7 @@ public class CifSimulatorMathTest {
         assertEquals(false, CifSimulatorMath.empty(d23));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testEqualBool() {
         assertEquals(true, CifSimulatorMath.equal(true, true));
@@ -439,6 +441,7 @@ public class CifSimulatorMathTest {
         assertEquals(true, CifSimulatorMath.equal(t4, t3));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testEqualInt() {
         assertEquals(true, CifSimulatorMath.equal(-0, 0));
@@ -489,6 +492,7 @@ public class CifSimulatorMathTest {
         assertEquals(true, CifSimulatorMath.equal(m, l));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testEqualReal() {
         assertEquals(true, CifSimulatorMath.equal(-0.0, 0.0));

@@ -4,7 +4,7 @@ Bundle-Name: ESCET Common Eclipse UI Functionality (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.eclipse.ui;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui;bundle-version="3.115.0";visibility:=reexport,
  org.eclipse.core.resources;bundle-version="3.13.600",

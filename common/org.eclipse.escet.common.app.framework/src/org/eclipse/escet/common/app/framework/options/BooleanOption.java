@@ -116,7 +116,7 @@ public abstract class BooleanOption extends Option<Boolean> {
         Assert.check(showInDialog);
 
         // Construct option group.
-        return new OptionGroup<Boolean>(page, this) {
+        return new OptionGroup<>(page, this) {
             Button enabledButton;
 
             @Override
