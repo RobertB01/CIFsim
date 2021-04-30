@@ -79,7 +79,7 @@
       <setupTask
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.debug.ui/Console.highWaterMark"
-          value="256000000"/>
+          value="256008000"/>
       <setupTask
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.debug.ui/Console.lowWaterMark"
