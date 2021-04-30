@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-terminal-descriptions]]
+[[setext-terminal-descriptions]]
 == Terminal descriptions
 
 Terminals can be given an end user readable description (just before the

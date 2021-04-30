@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-parser-hooks]]
+[[setext-parser-hooks]]
 == Parser hooks
 
 For parsers, a hooks class must always be specified. The scanner and all

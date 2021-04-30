@@ -12,7 +12,7 @@
 
 include::_root_attributes.asciidoc[]
 
-[[setext-readme-using-in-an-eclipse-plugin-project]]
+[[setext-using-in-an-eclipse-plugin-project]]
 == Using SeText in an Eclipse Plug-in Project
 
 For a new language, follow these steps:

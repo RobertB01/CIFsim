@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-usage-hints]]
+[[setext-usage-hints]]
 == Usage hints
 
 Here are some hints on using SeText:

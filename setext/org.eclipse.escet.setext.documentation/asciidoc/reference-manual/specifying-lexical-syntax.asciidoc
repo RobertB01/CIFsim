@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-specifying-lexical-syntax]]
+[[setext-specifying-lexical-syntax]]
 == Specifying lexical syntax using SeText
 
 Terminals can be specified as follows:

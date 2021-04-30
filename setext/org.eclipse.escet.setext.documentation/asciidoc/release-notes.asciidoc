@@ -12,7 +12,7 @@
 
 include::_root_attributes.asciidoc[]
 
-[[setext-readme-release-notes]]
+[[setext-release-notes]]
 == SeText release notes
 
 The release notes for the releases of SeText and the associated tools, as

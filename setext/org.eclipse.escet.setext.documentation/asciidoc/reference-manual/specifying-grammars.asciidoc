@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-specifying-grammars]]
+[[setext-specifying-grammars]]
 == Specifying grammars using SeText
 
 All SeText grammars start with one or more start symbols:

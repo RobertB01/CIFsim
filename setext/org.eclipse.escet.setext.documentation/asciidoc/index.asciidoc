@@ -54,25 +54,26 @@ endif::website-output[]
 
 The following topics are discussed:
 
-* <<setext-readme-reference-manual>>
-* <<setext-readme-using-in-an-eclipse-plugin-project>>
-* <<setext-readme-limitations-issues>>
-* <<setext-readme-release-notes,SeText release notes>>
-* <<setext-readme-legal,Legal information>>
+* <<setext-reference-manual>>
+* <<setext-using-in-an-eclipse-plugin-project>>
+* <<setext-limitations-issues>>
+* <<setext-release-notes,SeText release notes>>
+* <<setext-legal,Legal information>>
 
 
 // Reference manual
-include::reference-manual/index.asciidoc[]
+
+include::reference-manual/reference-manual.asciidoc[]
 
 :leveloffset: +1
 
-include::reference-manual/lexical.asciidoc[]
+include::reference-manual/lexical-syntax.asciidoc[]
 
-include::reference-manual/specifying-lexical.asciidoc[]
+include::reference-manual/specifying-lexical-syntax.asciidoc[]
 
-include::reference-manual/regex.asciidoc[]
+include::reference-manual/regular-expressions.asciidoc[]
 
-include::reference-manual/terminal.asciidoc[]
+include::reference-manual/terminal-descriptions.asciidoc[]
 
 include::reference-manual/imports.asciidoc[]
 
@@ -82,20 +83,24 @@ include::reference-manual/specifying-grammars.asciidoc[]
 
 include::reference-manual/parser-hooks.asciidoc[]
 
-include::reference-manual/hints.asciidoc[]
+include::reference-manual/usage-hints.asciidoc[]
 
 include::reference-manual/generated-scanners-parsers.asciidoc[]
 
 :leveloffset: -1
 
 // Using SeText in an Eclipse Plug-in Project
-include::setext-eclipse-plug-in.asciidoc[]
 
-// Limitations ans issues
+include::using-in-an-eclipse-plugin-project.asciidoc[]
+
+// Limitations and issues
+
 include::limitations-issues.asciidoc[]
 
 // Release notes
+
 include::release-notes.asciidoc[]
 
 // Legal
+
 include::legal.asciidoc[]

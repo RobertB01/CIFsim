@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-scanner-hooks]]
+[[setext-scanner-hooks]]
 == Scanner hooks
 
 As indicated above, the following SeText specification:

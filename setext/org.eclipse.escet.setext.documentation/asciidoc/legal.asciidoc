@@ -12,7 +12,7 @@
 
 include::_root_attributes.asciidoc[]
 
-[[setext-readme-legal]]
+[[setext-legal]]
 == Legal
 
 The material in this documentation is

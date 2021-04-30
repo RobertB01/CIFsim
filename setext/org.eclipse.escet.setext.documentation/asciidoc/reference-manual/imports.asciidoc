@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-imports]]
+[[setext-imports]]
 == Imports
 
 Java classes/types can be specified in SeText specifications using their fully

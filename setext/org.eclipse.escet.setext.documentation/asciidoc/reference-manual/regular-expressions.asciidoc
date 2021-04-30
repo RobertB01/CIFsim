@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-regular-expressions]]
+[[setext-regular-expressions]]
 == Regular expressions
 
 Regular expressions are enclosed in double quotes. Within them, the following

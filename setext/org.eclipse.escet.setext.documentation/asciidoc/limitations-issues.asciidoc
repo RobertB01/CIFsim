@@ -12,7 +12,7 @@
 
 include::_root_attributes.asciidoc[]
 
-[[setext-readme-limitations-issues]]
+[[setext-limitations-issues]]
 == Limitations and issues
 
 The following limitations currently apply:

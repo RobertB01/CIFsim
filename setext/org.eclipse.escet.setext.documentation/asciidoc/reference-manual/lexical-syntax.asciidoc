@@ -12,19 +12,16 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-reference-manual]]
-== SeText Reference Manual
+[[setext-lexical-syntax]]
+== SeText lexical syntax
 
-This manual explains the SeText language.
-Topics discussed here are:
+SeText supports the following comments:
 
-* <<setext-readme-lexical-syntax>>
-* <<setext-readme-specifying-lexical-syntax>>
-* <<setext-readme-regular-expressions>>
-* <<setext-readme-terminal-descriptions>>
-* <<setext-readme-imports>>
-* <<setext-readme-scanner-hooks>>
-* <<setext-readme-specifying-grammars>>
-* <<setext-readme-parser-hooks>>
-* <<setext-readme-usage-hints>>
-* <<setext-readme-generated-scanners-parsers>>
+* Everything after `//` until the end of the line is a comment.
+
+* Everything from `+/*+` up to the next `+*/+`, possibly spanning multiple
+lines, is a comment.
+
+SeText keywords may be used by escaping them with a `$` character.
+
+Whitespace (spaces, tabs, and new lines) are essentially ignored.

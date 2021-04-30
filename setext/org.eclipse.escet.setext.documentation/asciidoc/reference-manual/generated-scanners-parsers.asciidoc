@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-readme-generated-scanners-parsers]]
+[[setext-generated-scanners-parsers]]
 == Generated scanners/parsers
 
 The generated scanners and parsers depend on the `org.eclipse.escet.setext.runtime`
