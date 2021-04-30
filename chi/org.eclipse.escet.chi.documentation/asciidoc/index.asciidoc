@@ -90,7 +90,7 @@ See <<legal-chapter-index,Legal>> for copyright and licensing information.
 
 // Tutorial
 
-include::tutorial/tutorial.asciidoc[]
+include::tutorial/index.asciidoc[]
 
 :leveloffset: +1
 
@@ -134,7 +134,7 @@ include::tutorial/svg-example.asciidoc[]
 
 // Reference manual
 
-include::reference-manual/reference-manual.asciidoc[]
+include::reference-manual/index.asciidoc[]
 
 :leveloffset: +1
 
@@ -160,7 +160,7 @@ include::reference-manual/svg-ref.asciidoc[]
 
 // Tool manual
 
-include::tool-manual/tool-manual.asciidoc[]
+include::tool-manual/index.asciidoc[]
 
 :leveloffset: +1
 

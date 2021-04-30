@@ -63,7 +63,7 @@ The following topics are discussed:
 
 // Reference manual
 
-include::reference-manual/reference-manual.asciidoc[]
+include::reference-manual/index.asciidoc[]
 
 :leveloffset: +1
 
