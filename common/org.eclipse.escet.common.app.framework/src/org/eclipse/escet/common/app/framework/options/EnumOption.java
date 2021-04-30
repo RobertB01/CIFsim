@@ -168,7 +168,7 @@ public abstract class EnumOption<T extends Enum<T>> extends Option<T> {
         Assert.check(showInDialog);
 
         // Construct option group.
-        return new OptionGroup<T>(page, this) {
+        return new OptionGroup<>(page, this) {
             Button[] buttons;
 
             T[] enumValues;

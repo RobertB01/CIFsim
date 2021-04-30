@@ -663,7 +663,7 @@ public class SetsTest {
         assertEquals("[1, 2, 3, 4, 5, 6]", list1.toString());
 
         // Custom order.
-        Comparator<Integer> cmp = new Comparator<Integer>() {
+        Comparator<Integer> cmp = new Comparator<>() {
             @Override
             public int compare(Integer i1, Integer i2) {
                 // Reverse order.

@@ -131,7 +131,7 @@ public class RuntimeJavaCompiler {
      * @return The default compiler options.
      */
     public static List<String> getDefaultCompilerOptions() {
-        return list("-nowarn", "-source", "1.8", "-target", "1.8");
+        return list("-nowarn", "-source", "11", "-target", "11");
     }
 
     /**

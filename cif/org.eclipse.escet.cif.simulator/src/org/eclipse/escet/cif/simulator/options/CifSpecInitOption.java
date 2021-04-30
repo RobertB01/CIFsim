@@ -74,7 +74,7 @@ public class CifSpecInitOption extends Option<List<String>> {
 
     @Override
     public OptionGroup<List<String>> createOptionGroup(Composite page) {
-        return new OptionGroup<List<String>>(page, Options.getInstance(CifSpecInitOption.class)) {
+        return new OptionGroup<>(page, Options.getInstance(CifSpecInitOption.class)) {
             Text initText;
 
             @Override

@@ -183,12 +183,6 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
     }
 
     @Override
-    public void dispose() {
-        colorManager.dispose();
-        super.dispose();
-    }
-
-    @Override
     protected void doSetInput(IEditorInput newInput) throws CoreException {
         // Handle moved or renamed file.
         if (input != null) {

@@ -4,7 +4,7 @@ Bundle-Name: ESCET Common EMF Ecore XMI Resource Factory (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.emf.ecore.xmi;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.emf.ecore.xmi;bundle-version="2.16.0"
 Export-Package: org.eclipse.escet.common.emf.ecore.xmi

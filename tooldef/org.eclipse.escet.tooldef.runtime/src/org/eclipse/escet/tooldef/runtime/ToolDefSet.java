@@ -150,7 +150,7 @@ public class ToolDefSet<E> implements Set<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        return new Iterator<>() {
             private final Iterator<ToolDefEqWrap<E>> iter = storage.iterator();
 
             @Override

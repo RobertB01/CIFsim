@@ -103,7 +103,7 @@ public class ToolDefEntrySet<K, V> implements Set<Entry<K, V>> {
         final Iterator<Entry<ToolDefEqWrap<K>, ToolDefEqWrap<V>>> iter;
         iter = entries.iterator();
 
-        return new Iterator<Entry<K, V>>() {
+        return new Iterator<>() {
             @Override
             public boolean hasNext() {
                 return iter.hasNext();
@@ -114,7 +114,7 @@ public class ToolDefEntrySet<K, V> implements Set<Entry<K, V>> {
                 final Entry<ToolDefEqWrap<K>, ToolDefEqWrap<V>> entry;
                 entry = iter.next();
 
-                return new Entry<K, V>() {
+                return new Entry<>() {
                     @Override
                     public boolean equals(Object obj) {
                         if (this == obj) {

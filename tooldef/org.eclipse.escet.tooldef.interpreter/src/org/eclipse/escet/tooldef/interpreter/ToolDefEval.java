@@ -826,7 +826,7 @@ public class ToolDefEval {
         }
 
         // Invoke Java method.
-        if (!method.isAccessible()) {
+        if (!method.canAccess(null)) {
             method.setAccessible(true);
         }
         if (ctxt.isTerminationRequested()) {

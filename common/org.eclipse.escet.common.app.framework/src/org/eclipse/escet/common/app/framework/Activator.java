@@ -67,8 +67,11 @@ public class Activator extends Plugin {
      */
     public static ImageDescriptor getImageDescriptor(String path) {
         Bundle bundle = getDefault().getBundle();
-        URL iconUrl = FileLocator.find(bundle, new Path(path), null);
-        Assert.notNull(iconUrl);
-        return ImageDescriptor.createFromURL(iconUrl);
+        ImageDescriptor descriptor = ImageDescriptor.createFromURLSupplier(false, () -> {
+            URL iconUrl = FileLocator.find(bundle, new Path(path));
+            Assert.notNull(iconUrl);
+            return iconUrl;
+        });
+        return descriptor;
     }
 }

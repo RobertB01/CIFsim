@@ -65,7 +65,7 @@ public final class CrashReport {
      * @param args Command line arguments.
      */
     public static void main(String[] args) {
-        final Application<?> app = new Application<IOutputComponent>() {
+        final Application<?> app = new Application<>() {
             @Override
             protected OutputProvider<IOutputComponent> getProvider() {
                 return null; // Not really valid, but suffices here.

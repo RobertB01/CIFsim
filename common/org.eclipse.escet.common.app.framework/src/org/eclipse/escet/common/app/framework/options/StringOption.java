@@ -115,7 +115,7 @@ public abstract class StringOption extends Option<String> {
         Assert.check(showInDialog);
 
         // Construct option group.
-        return new OptionGroup<String>(page, this) {
+        return new OptionGroup<>(page, this) {
             Label valueLabel;
 
             Text valueText;

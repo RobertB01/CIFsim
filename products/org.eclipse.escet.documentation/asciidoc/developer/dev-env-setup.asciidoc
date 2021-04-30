@@ -48,8 +48,9 @@ To create a development environment for a non-first time:
 
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
-** Select _2020-06_ for _Product Version_.
-** Select a Java 8 JDK for _Java 1.8+ VM_.
+** Select _2021-03_ for _Product Version_.
+** For _Java 11+ VM_ select
+_JRE 11.0.2 - \http://download.eclipse.org/justj/jres/11/updates/release/11.0.2_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:
@@ -68,8 +69,6 @@ Projects_ / _<User>_.
 ** Choose a _Root install folder_ and _Installation folder name_.
 The new development environment will be put at
 `<root_installation_folder>/<installation_folder_name>`.
-** For _JRE 1.8 location_ make sure to select the same Java 8 JDK that you
-selected in the first wizard window.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
@@ -77,12 +76,12 @@ selected in the first wizard window.
 launched.
 ** If asked, accept any licenses and certificates.
 * Press btn:[Finish] in the Eclipse Installer to close the Eclipse Installer.
-* Click the rotating arrows icon in the status bar (bottom right) of the
-new development environment.
-* Observe Oomph executing the startup tasks (such as Git clone, importing
-projects, etc).
+* In the new development environment, observe Oomph executing the startup
+tasks (such as Git clone, importing projects, etc). If this is not
+automatically shown, click the rotating arrows icon in the status bar
+(bottom right) of the new development environment.
 * Wait for the startup tasks to finish successfully.
-* NOTE: If you don't open the Oomph dialog, the status bar icon icon will
+* NOTE: If you don't open the Oomph dialog, the status bar icon icon may
 disappear when the tasks are successfully completed.
 
 If you have any issues during setting up the development environment, consider

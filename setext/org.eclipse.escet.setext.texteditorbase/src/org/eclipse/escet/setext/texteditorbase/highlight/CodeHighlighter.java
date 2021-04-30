@@ -273,7 +273,6 @@ public abstract class CodeHighlighter implements AutoCloseable {
     @Override
     public void close() {
         if (colorManager != null) {
-            colorManager.dispose();
             colorManager = null;
         }
     }

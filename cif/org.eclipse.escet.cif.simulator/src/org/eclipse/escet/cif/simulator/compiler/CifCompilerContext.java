@@ -36,8 +36,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.tools.JavaCompiler;
-
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -1512,9 +1510,8 @@ public class CifCompilerContext {
         // Make sure compiler is available.
         if (compiler == null) {
             String name = JavaCompilerOption.getCompilerName();
-            JavaCompiler javaCompiler = RuntimeJavaCompiler.getJavaCompiler(name);
             ClassLoader classLoader = getClass().getClassLoader();
-            compiler = new RuntimeJavaCompiler(javaCompiler, classLoader);
+            compiler = new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), classLoader);
         }
 
         // Get sources.

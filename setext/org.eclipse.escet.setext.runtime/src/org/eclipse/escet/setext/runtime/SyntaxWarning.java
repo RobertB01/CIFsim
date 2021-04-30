@@ -97,7 +97,7 @@ public class SyntaxWarning implements Comparable<SyntaxWarning> {
         if (src == null) {
             src = "";
         }
-        return fmt("%sSyntax warning at line %d, column %d: %s", src,
-                position.getStartLine(), position.getStartColumn(), message);
+        return fmt("%sSyntax warning at line %d, column %d: %s", src, position.getStartLine(),
+                position.getStartColumn(), message);
     }
 }

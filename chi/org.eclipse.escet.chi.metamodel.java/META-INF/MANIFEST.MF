@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Require-Bundle: org.eclipse.escet.chi.metamodel;bundle-version="0.2.0",
  org.eclipse.escet.common.position.metamodel;bundle-version="0.2.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.chi.metamodel.java
 Automatic-Module-Name: org.eclipse.escet.chi.metamodel.java

@@ -28,8 +28,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
-import javax.tools.JavaCompiler;
-
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.escet.chi.codegen.CodeGeneratorContext;
 import org.eclipse.escet.chi.codegen.java.JavaFile;
@@ -204,9 +202,8 @@ public class SimulatorApplication extends Application<OutputComponentBase> {
         // Construct run-time Java compiler. Use a class loader that can
         // resolve dependencies to the Chi runtime.
         String name = JavaCompilerOption.getCompilerName();
-        JavaCompiler javaCompiler = RuntimeJavaCompiler.getJavaCompiler(name);
         ClassLoader classLoader = SimulatorApplication.class.getClassLoader();
-        RuntimeJavaCompiler compiler = new RuntimeJavaCompiler(javaCompiler, classLoader);
+        RuntimeJavaCompiler compiler = new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), classLoader);
 
         // Prepare source file objects.
         Map<String, JavaInputFileObject> sources = map();

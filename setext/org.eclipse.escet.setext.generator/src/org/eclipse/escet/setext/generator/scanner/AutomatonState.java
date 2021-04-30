@@ -109,7 +109,7 @@ public class AutomatonState {
         }
 
         Comparator<Pair<Integer, AutomatonState>> cmp;
-        cmp = new Comparator<Pair<Integer, AutomatonState>>() {
+        cmp = new Comparator<>() {
             @Override
             public int compare(Pair<Integer, AutomatonState> t1, Pair<Integer, AutomatonState> t2) {
                 // Ascending order by target state id.

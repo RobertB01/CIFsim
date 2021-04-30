@@ -31,6 +31,11 @@ https://download.eclipse.org/tools/orbit/downloads/.
 ** Check workspace for any errors/warnings and address them if any.
 ** Check _New and Noteworthy_ (release notes) for changes and adapt as necessary.
 
+* Batik dependencies
+** Check what version of Batik is provided on the new Orbit version.
+** Update the version constraints for Batik in the Oomph setup.
+** Update the version constraints for Batik in plug-in manifests.
+
 * Java formatter profile
 ** Make a dummy change to the Eclipse ESCET Java formatter profile, and change it back.
 ** Compare the new configuration against the old configuration, to see if there are any new settings.
@@ -50,11 +55,26 @@ projects.
 
 * Validation
 ** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+** Ensure no errors or warning during Maven build.
 
 To upgrade to a new Tycho version:
 
 * Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
 * Update version in `org.eclipse.escet.configuration/pom.xml`.
-* Update version in `org.eclipse.escet.documentation/asciidoc/developer/release-process.asciidoc`.
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+* Ensure no errors or warning during Maven build.
+
+To upgrade to a new Java version:
+
+* Update `dev-env-setup.asciidoc` to match new Java version.
+* Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
+* Update `JRE_CONTAINER` in all `.classpath` files.
+* Update `JRE_CONTAINER` in all launch configurations.
+* Update Java versions in `org.eclipse.jdt.core.prefs` files.
+* Update `osgi.requiredJavaVersion` in the product.
+* Update Java `source` and `target` versions in `RuntimeJavaCompiler` class.
+* Update Java version in `Jenkinsfile`.
+* Force a rebuild in Eclipse and check for any warnings/errors, addressing them if any.
+* Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+* Ensure no errors or warning during Maven build.

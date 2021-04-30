@@ -85,7 +85,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
     /** The interactive GUI input component, if available. */
     private InteractiveGuiInputComponent<?> inputComp = null;
 
-    /** Color for non-event choices (e.g. time, history), if available (system color, don't dispose). */
+    /** Color for non-event choices (e.g. time, history), if available. */
     private Color otherColor = null;
 
     /** Color for events that are neither controllable nor uncontrollable, if available. */
@@ -163,10 +163,10 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
 
         // Get/create colors.
         otherColor = buttons.getDisplay().getSystemColor(SWT.COLOR_BLACK);
-        eventColor = new Color(parent.getDisplay(), 0, 97, 192);
-        ctrlColor = new Color(parent.getDisplay(), 0, 128, 0);
-        unctrlColor = new Color(parent.getDisplay(), 160, 0, 0);
-        disabledColor = new Color(parent.getDisplay(), 192, 192, 192);
+        eventColor = new Color(0, 97, 192);
+        ctrlColor = new Color(0, 128, 0);
+        unctrlColor = new Color(160, 0, 0);
+        disabledColor = new Color(192, 192, 192);
 
         // Get italic font.
         FontData[] fontDatas = buttons.getFont().getFontData();
@@ -1013,24 +1013,5 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
             italicFont.dispose();
         }
         italicFont = null;
-
-        // Dispose colors.
-        if (eventColor != null) {
-            eventColor.dispose();
-        }
-        if (ctrlColor != null) {
-            ctrlColor.dispose();
-        }
-        if (unctrlColor != null) {
-            unctrlColor.dispose();
-        }
-        if (disabledColor != null) {
-            disabledColor.dispose();
-        }
-        otherColor = null;
-        eventColor = null;
-        ctrlColor = null;
-        unctrlColor = null;
-        disabledColor = null;
     }
 }

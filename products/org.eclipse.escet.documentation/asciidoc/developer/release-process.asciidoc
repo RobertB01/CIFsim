@@ -22,15 +22,10 @@ following steps:
 candidate):
 
 ** Run in the root of the Git repository the command
-`./mvn_escet.sh org.eclipse.tycho:tycho-versions-plugin:1.7.0:set-version -DnewVersion=<new-version>`,
+`./mvn_escet.sh org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=<new-version>`,
 where `<new-version>` is replaced by the new version, e.g. `0.2.0.qualifier`.
 This replaces most version numbers automatically. Check all changes to ensure
 no versions are updated that should not be updated.
-// Remove the Tycho version number from the command once we're again
-// up-to-date with the latest Tycho version. Currently, we can't use
-// the latest Tycho version as it requires a more recent Java version
-// to execute. Also remove updating the Tycho version number from
-// `upgrade-instructions.asciidoc`.
 
 ** Verify that the `feature` `url` and `version` of all `org.eclipse.escet.*`
 features in `org.eclipse.escet.product/category.xml` are properly updated.

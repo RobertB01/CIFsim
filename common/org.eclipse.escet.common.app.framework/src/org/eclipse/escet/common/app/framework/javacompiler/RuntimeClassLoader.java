@@ -22,6 +22,7 @@ import javax.tools.JavaFileObject.Kind;
 import org.eclipse.escet.common.java.Assert;
 
 /** Class loader used by the {@link RuntimeJavaCompiler}. */
+@SuppressWarnings("restriction")
 public class RuntimeClassLoader extends ClassLoader {
     /**
      * Absolute class name to generated class file object mapping. A thread safe map is used, as the map may be accessed
