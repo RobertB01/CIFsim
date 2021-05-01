@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class ReverseListIterator<T> implements Iterator<T> {
     /** Elements to iterate over. */
-    private List<T> elements;
+    private final List<T> elements;
 
     /** Index of the next element to return. */
     private int nextIndex;
