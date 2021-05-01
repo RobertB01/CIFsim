@@ -27,7 +27,7 @@ full language the number of diagrams can grow to over 50 pictures.
 To reduce the effort in creating them, tools have been developed by several persons.
 The tools vary in required program environment, accepted input, and quality of the output.
 
-We are very fond of the _CTAN rail package_ <<rail>>. It is written in TeX, and
+We are very fond of the link:https://www.ctan.org/pkg/rail[CTAN rail package]. It is written in TeX, and
 uses a C program to parse its input. We used it for all our languages. It is very good
 for creating diagrams in PDF documents, but much less useful in an Eclipse environment
 with online help web pages.
@@ -41,7 +41,7 @@ package_.
 Here a number of examples are provided for those that hate reading.
 The input of the program is similar to EBNF with an extra feature for repetition.
 
-=== Diagrams and Sequences
+=== Diagrams and sequences
 
 [source,raildiagram]
 ----
@@ -60,41 +60,41 @@ a sharp turn, the resulting image is not a surprise.
 === Choices
 
 The second primitive is choice, where you pick one of the given alternatives.
-As with EBNF, this is written with the pipe symbol `|`, like
+As with EBNF, this is written with the pipe symbol `|`, like:
 
 [source,raildiagram]
 ----
 include::choice.rr[]
 ----
 
-resulting in
+This resulting in:
 
 image::choice.png[Choice]
 
 Note that as sequence has higher priority than choice, the `B` and `C`
 sequence forms one alternative.
-You can use parentheses to break the priority chain, eg
+You can use parentheses to break the priority chain, e.g.:
 
 [source,raildiagram]
 ----
 include::choice2.rr[]
 ----
 
-gives a sequence of choices, as can be seen in
+This gives a sequence of choices:
 
 image::choice2.png[Sequence of choice]
 
 
 === Repetition
 
-The core repetition primitive is alternating between two nodes, as in
+The core repetition primitive is alternating between two nodes:
 
 [source,raildiagram]
 ----
 include::alternating.rr[]
 ----
 
-resulting in
+This results in:
 
 image::alternating.png[Alternating between A and B]
 
@@ -107,26 +107,24 @@ node `B` may also be skipped.
 include::emptyalternating.rr[]
 ----
 
-giving
+This gives:
 
 image::emptyalternating.png[A+ and B*]
 
 The third repetition is an alternative for the `B` sequence. It avoids the
 caveat with repetition due to the right-to-left visiting order of the bottom
-path, made more clearly visible in the following example.
-
-The input
+path, made more clearly visible in the following example:
 
 [source,raildiagram]
 ----
 include::abcd.rr[]
 ----
 
-gives
+It results is:
 
 image::abcd.png[ABCD]
 
-as result. It describes EBNF `AB(CDAB)*`, and the tool translates it correctly,
+It describes EBNF `AB(CDAB)*`, and the tool translates it correctly,
 but the bottom path does not read nicely, as you have to read that part from
 right to left.
 
@@ -144,19 +142,19 @@ non-terminal.
 
 The program however does offer a quick fix around the problem at the cost
 of a less readable diagram.
-An example is shown below
+An example is shown below:
 
 [source,raildiagram]
 ----
 include::abcdefgh.rr[]
 ----
 
-which gives
+This gives:
 
 image::abcdefgh.png[ABCDEFGH]
 
 The double backslash breaks the '`line`' and it continues below on the next
-line. You cannot break the empty sequence, each row must have at least one
+line. You cannot break the empty sequence, and each row must have at least one
 node.
 
 
@@ -200,7 +198,7 @@ It allows the designer to attach a different layout to such tokens.
 
 The `OTHER` and `Identifier` names in the input file need a translation to
 displayed text. This translation is specified in a properties
-file like
+file like:
 
 [source, properties]
 ----
@@ -210,22 +208,23 @@ include::terminals.props[]
 The result is shown below. By default, terminals and meta-terminals are
 rendered using rounded boxes. If this behavior is not desired, layout and many
 other settings can be overridden in the properties file, see the
-<<Customizing output>> Section for details.
+<<Customizing output>> section for details.
 
 image::terminals.png[Terminals]
 
 
 == Customizing output
 
-The program can take a properties file to translate terminals, non-terminals,
-and even non-terminals. The same file can also contain settings to modify
+The program can take a properties file to translate terminals
+and non-terminals. The same file can also contain settings to modify
 shape, color, fonts, and spacing of almost everything.
 
 [[property-syntax]]
 === Syntax of the properties file
 
 The properties file used by the program is a normal Java properties file. Its
-syntax is described at https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html#load-java.io.Reader- .
+syntax is described in the
+link:https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Properties.html#load(java.io.Reader)[Java 11 API Specification].
 
 In short:
 
@@ -248,23 +247,24 @@ This table lists the used expected values, and gives some more information about
 [cols="1,1,3", options="header"]
 |===
 | Type name
-| Example
+| Examples
 | Description
 
 | RGB color
 | `151 7 230`
-| Three integer numbers between `0` and `255` inclusive, separated by space.
+| Three integer numbers between `0` and `255` inclusive, separated by spaces.
 
 | Real
-| `0.31`
+| `0.31` +
+`10`
 | Real value, usually with '`pixel`' unit. Note that as the output medium is
 limited in handling fractions, best results are usually obtained with integer
 values only.
 
 | Font name
 | `Serif`
-| Name of the font to use. The program currently supports `Dialog`,
-`DialogInput`, `Monospaced`, `Serif`, and the `SansSerif` font.
+| Name of the font to use. The program currently supports the `Dialog`,
+`DialogInput`, `Monospaced`, `Serif`, and `SansSerif` fonts.
 
 | Font height
 | `12`
@@ -687,11 +687,11 @@ here as `<token-name>`.
 All tokens must have a different name. Both terminals and meta-terminals token
 lists are assumed to be complete.
 The non-terminal list is fully optional, and the default choice if a token
-name cannot be found. All missing entries use the name as their text.
+name cannot be found. All missing entries use the token name as their text.
 
 Note that the property file reader applies some interpretation to the text as
 well so what you enter in the file may not be what you get.
-Please see <<property-syntax>> for details.
+Please check the <<property-syntax, property file syntax>> section for details.
 
 
 === Sequence
@@ -700,7 +700,7 @@ A sequence connects one or more child diagram nodes in one or more rows such
 that they are all visited in sequential order.
 
 Its configuration settings cover the elements around the child nodes.
-`
+
 [cols="2,1,1,3", options="header"]
 |===
 | Property name
@@ -740,7 +740,8 @@ between the same horizontal line and the top of the next row.
 === Choice
 
 The choice node expresses a choice between one of the child diagram nodes.
-Its configurable properties are
+
+Its configurable properties are:
 
 [cols="2,1,1,3", options="header"]
 |===
@@ -772,7 +773,7 @@ runs normally from left to right in the diagram, while the `B` child is
 referred to as _backward_ as its execution normally runs from right to left.
 The repetition is also known as _loop_ due to the circular shape of the node.
 
-Its configuration settings are
+Its configuration settings are:
 
 [cols="2,1,1,3", options="header"]
 |===
@@ -804,13 +805,14 @@ Its configuration settings are
 
 The `loop.padding.left` and `loop.padding.right` become important when a
 diagram contains a sequence of repetitions. If you set the left and right
-padding to `0`, the following may happen
+padding to `0`, the following may happen:
 
 [source,raildiagram]
 ----
 include::sequence_loops.rr[]
 ----
-results in
+
+This results in:
 
 image::sequence_loops.png[Sequence of loops]
 
@@ -821,7 +823,7 @@ those cases.
 == Grammar
 
 The toplevel grammar rule of the application is `Specification`. It is a
-sequence of rules, each terminated by a semi colon. One specification creates
+sequence of rules, each terminated by a semicolon. One specification creates
 one output file.
 
 image::spec.png[Specification]
@@ -832,7 +834,7 @@ image::rule.png[Rule]
 
 A `Railroad` is one or more choice alternatives.
 
-image:diagram.png[Railroad]
+image::diagram.png[Railroad]
 
 The `BracketedString` like `[a]` can be used to denote specific points in the diagram
 allowing you to refer to such points from the explanatory text.
@@ -846,17 +848,17 @@ parentheses are required in the second `Factor` if is it more than one node.
 image::alternative.png[Alternative]
 
 Note that together with `|` above and the empty sequence `()` below, you can
-write all loops using the `+` infix operator. The <<examples>> Section explains
+write all loops using the `+` infix operator. The <<examples>> section explains
 this as well.
 
-In an alternative, `Factor` is a single token
+In an alternative, `Factor` is a single token:
 
 image::factor.png[Factor]
 
 The `[literal1]` and `[literal2]` choices show the text of the string. Surrounding
 quotes are dropped. There are two forms of literals to simplify using single
 or double quote literals in the diagrams.
-The `sub-diagram]` choice allows nesting of sequence, choice, and repetition, enabling
+The `[sub-diagram]` choice allows nesting of sequence, choice, and repetition, enabling
 construction of more complicated diagrams.
 The `[epsilon]` choice is the empty sequence.
 The `[sub-rule]` choice enables giving the name of another diagram to process.
@@ -864,11 +866,3 @@ The `[sub-rule]` choice enables giving the name of another diagram to process.
 Finally, the `[line-break]` choice can be used to split a long sequence of
 factors into multiple rows. In general, its use should be avoided as it often
 leads to less pretty diagrams. Instead, try to re-organize rules or diagrams.
-
-
-[bibliography]
-== References
-
-- [[[rail]]] Luc Rooijakkers (inactive author) & Klaus Georg Barthelmann (maintainer).
-  Comprehensive TeX Archive Network (CTAN), *rail* – Syntax specification in EBNF.
-  https://www.ctan.org/pkg/rail
