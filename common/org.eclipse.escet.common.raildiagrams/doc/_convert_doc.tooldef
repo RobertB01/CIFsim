@@ -17,7 +17,7 @@ tool int make_rr(list string args, string stdin = "-", string stdout = "-", stri
 end
 
 string root_dir = dirname(scriptpath());
-list string files = find(root_dir, "*.rr", false, true, true);
+list string files = find(root_dir, "*.rr", recursive=false, dirs=false);
 
 for f in files:
     outln(f);
@@ -32,11 +32,11 @@ for f in files:
         opts = opts + ["--config=" + root_dir + "/" + props_file];
     end
 
-    rmfile(png_file, true);
+    rmfile(png_file, force=true);
     list string options = opts + [f];
-    make_rr(options, "", "-", "-", false, false, false, true);
+    make_rr(options, stdin="", ignoreNonZeroExitCode=true);
 
-    bool has_png = filesize(png_file, true) > 0;
+    bool has_png = filesize(png_file, missingAsZero=true) > 0;
 
     if has_png:
     	out("  ok:");
@@ -44,7 +44,7 @@ for f in files:
     	out("              FAIL:");
     end
 
-    if has_png: out(" png"); end
+    if has_png:: out(" png");
     outln(); // Terminate above list.
     outln(); // Empty line to separate from next file.
 end
