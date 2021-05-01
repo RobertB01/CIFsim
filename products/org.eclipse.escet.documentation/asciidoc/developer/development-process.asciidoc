@@ -207,12 +207,16 @@ Select the _Merge request_ button next to the branch to be merged.
 ** Typically a branch is created from and merged back to the `develop` branch,
 but this can be changed if needed.
 
+** Start the merge request title with the related issue number(s), to allow
+easier tracking of merge requests back to issues.
+
 ** If you include `Closes #nnn` in the description of the merge request,
 with `nnn` an issue number, that issue will automatically be closed once the
 merge request is merged. Use `Addresses #nnn` instead, if the merge request
 addresses part of the issue, but work remains, to prevent the issue from
 being closed. Always include either of them to ensure the merge request is
-properly linked to the issues it addresses.
+properly linked to the issues it addresses. Include multiple of them if
+appropriate.
 
 ** It is not mandatory to select _assignees_, _reviewers_, etc.
 
