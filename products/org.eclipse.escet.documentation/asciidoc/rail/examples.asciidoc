@@ -45,7 +45,7 @@ As with EBNF, this is written with the pipe symbol `|`, like:
 include::{incdir-rail}/choice.rr[]
 ----
 
-This resulting in:
+This results in:
 
 image::{rail-imgsdir}/choice.png[Choice]
 
