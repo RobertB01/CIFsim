@@ -1,0 +1,4 @@
+File: rail_diagram_generator.png
+Source: https://www.iconfinder.com/icons/211751/gear_icon
+License: MIT
+Adapted: no

@@ -22,30 +22,31 @@ public class WriteImageOption extends BooleanOption {
     /** Short name of the option. */
     static final String NAME = "Write image";
 
-    /** Description of the option. */
-    static final String DESCRIPTION = "Whether to write the generated image. [Default='no'].";
+    /** Command line description of the option. */
+    static final String DESCRIPTION_CMDLINE = "Whether to write the generated image to disk (BOOL=yes) or not "
+            + "(BOOL=no). [DEFAULT=yes]";
 
     /** Single letter command option (disabled). */
-    static final Character CMD_SHORT = null;
+    static final Character CMD_SHORT = 'w';
 
     /** Long option command. */
     static final String CMD_LONG = "write-image";
 
     /** Default value of the option. */
-    static final boolean DEFAULT_VALUE = false;
+    static final boolean DEFAULT_VALUE = true;
 
     /** Whether to show the option in a dialog. */
-    static final boolean SHOW_IN_DIALOG = false;
+    static final boolean SHOW_IN_DIALOG = true;
 
     /** Description of the option in the dialog. */
-    static final String OPT_DIALOG_DESCR = null;
+    static final String OPT_DIALOG_DESCR = "Whether to write the generated image to disk.";
 
     /** Text of the dialog. */
-    static final String OPT_DIALOG_TEXT = null;
+    static final String OPT_DIALOG_TEXT = "Write image";
 
     /** Constructor of the {@link WriteImageOption} class. */
     public WriteImageOption() {
-        super(NAME, DESCRIPTION, CMD_SHORT, CMD_LONG, "BOOL", DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR,
+        super(NAME, DESCRIPTION_CMDLINE, CMD_SHORT, CMD_LONG, "BOOL", DEFAULT_VALUE, SHOW_IN_DIALOG, OPT_DIALOG_DESCR,
                 OPT_DIALOG_TEXT);
     }
 

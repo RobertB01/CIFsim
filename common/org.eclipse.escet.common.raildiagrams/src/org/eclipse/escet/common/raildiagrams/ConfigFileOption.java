@@ -22,7 +22,7 @@ public class ConfigFileOption extends StringOption {
     private static final String NAME = "Config filename";
 
     /** Short option name. */
-    private static final Character CMD_SHORT = null;
+    private static final Character CMD_SHORT = 'c';
 
     /** Long option name. */
     private static final String CMD_LONG = "config";
@@ -38,7 +38,7 @@ public class ConfigFileOption extends StringOption {
 
     /** Description of the option. */
     private static final String DESCRIPTION = "Name of the diagram generator configuration file. "
-            + "[DEFAULT=not specified]";
+            + "Default configuration is used if no configuration file is provided.";
 
     /** Whether to show the option in a dialogue box. */
     private static final boolean SHOW_IN_DIALOG = true;
