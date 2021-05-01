@@ -1,0 +1,191 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+include::_local_attributes.asciidoc[]
+
+[[rail-examples]]
+== Examples
+
+Here a number of examples are provided for those that hate reading.
+The input of the program is similar to EBNF with an extra feature for repetition.
+
+=== Diagrams and sequences
+
+[source,raildiagram]
+----
+include::{incdir-rail}/sequence.rr[]
+----
+
+A diagram starts with its name, a colon, the syntax that should be shown (in this
+case the sequence `A`, `B`, `C`), and finally, a semicolon as terminator.
+This gives the following result.
+
+image::{rail-imgsdir}/sequence.png[Sequence]
+
+As rail diagrams are read from left to right, following a line without taking
+a sharp turn, the resulting image is not a surprise.
+
+=== Choices
+
+The second primitive is choice, where you pick one of the given alternatives.
+As with EBNF, this is written with the pipe symbol `|`, like:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/choice.rr[]
+----
+
+This resulting in:
+
+image::{rail-imgsdir}/choice.png[Choice]
+
+Note that as sequence has higher priority than choice, the `B` and `C`
+sequence forms one alternative.
+You can use parentheses to break the priority chain, e.g.:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/choice2.rr[]
+----
+
+This gives a sequence of choices:
+
+image::{rail-imgsdir}/choice2.png[Sequence of choice]
+
+
+=== Repetition
+
+The core repetition primitive is alternating between two nodes:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/alternating.rr[]
+----
+
+This results in:
+
+image::{rail-imgsdir}/alternating.png[Alternating between A and B]
+
+You can make one (or both) of the paths empty, which results in the normal
+EBNF repetition semantics. Below, node `A` must occur at least once, while
+node `B` may also be skipped.
+
+[source,raildiagram]
+----
+include::{incdir-rail}/emptyalternating.rr[]
+----
+
+This gives:
+
+image::{rail-imgsdir}/emptyalternating.png[A+ and B*]
+
+The third repetition is an alternative for the `B` sequence. It avoids the
+caveat with repetition due to the right-to-left visiting order of the bottom
+path, made more clearly visible in the following example:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/abcd.rr[]
+----
+
+It results is:
+
+image::{rail-imgsdir}/abcd.png[ABCD]
+
+It describes EBNF `AB(CDAB)*`, and the tool translates it correctly,
+but the bottom path does not read nicely, as you have to read that part from
+right to left.
+
+It is advised to avoid this case by changing the diagram. Limit
+the second part of the `+` operator to one node, possibly by introducing an
+additional non-terminal.
+
+
+=== Splitting long sequences
+
+For rules that have a long sequence, the width of the diagram grows quickly
+beyond the width of the page. The best way to deal with that is to change
+the diagram, for example by moving a part of the sequence to a new
+non-terminal.
+
+The program however does offer a quick fix around the problem at the cost
+of a less readable diagram.
+An example is shown below:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/abcdefgh.rr[]
+----
+
+This gives:
+
+image::{rail-imgsdir}/abcdefgh.png[ABCDEFGH]
+
+The double backslash breaks the '`line`' and it continues below on the next
+line. You cannot break the empty sequence, and each row must have at least one
+node.
+
+
+=== Referencing a path in the diagram
+
+When explaining a diagram, it can be useful to refer to a path in the diagram.
+The program has a bracketed string for that:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/refpath.rr[]
+----
+
+Now you can say that the `[nest]` path recursively applies the rule, while the
+`[exit]` path ends the recursion.
+
+image::{rail-imgsdir}/refpath.png[Recursion]
+
+
+=== Terminals and meta-terminals
+
+Until now, all names in the diagrams are considered to be non-terminals. This
+is the default behavior. Terminals in the diagram do not have a name, but show
+the concrete syntax instead.
+There are three ways to write terminals.
+
+[source,raildiagram]
+----
+include::{incdir-rail}/terminals.rr[]
+----
+
+The first and second option are simply writing the literal text inside single or
+double quotes. There are no escape sequences for special characters here.
+The third option is to use the name of a terminal, in this case `OTHER`.
+
+The `Identifier` alternative in the diagram is a hybrid. It represent all
+valid identifiers in the input. The diagram however does not state its exact
+syntax as with normal terminals. It is also not exactly a non-terminal.
+The program has a third class of tokens for these, known as _meta-terminals_.
+It allows the designer to attach a different layout to such tokens.
+
+The `OTHER` and `Identifier` names in the input file need a translation to
+displayed text. This translation is specified in a properties
+file like:
+
+[source, properties]
+----
+include::{incdir-rail}/terminals.props[]
+----
+
+The result is shown below. By default, terminals and meta-terminals are
+rendered using rounded boxes. If this behavior is not desired, layout and many
+other settings can be overridden in the properties file, see the
+<<rail-customizing-output>> section for details.
+
+image::{rail-imgsdir}/terminals.png[Terminals]

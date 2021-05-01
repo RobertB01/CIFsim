@@ -204,6 +204,18 @@ include::app-framework/execution.asciidoc[]
 
 include::rail/index.asciidoc[]
 
+:leveloffset: +1
+
+include::rail/introduction.asciidoc[]
+
+include::rail/examples.asciidoc[]
+
+include::rail/customizing-output.asciidoc[]
+
+include::rail/grammar.asciidoc[]
+
+:leveloffset: -1
+
 // Release notes
 
 include::release-notes.asciidoc[]

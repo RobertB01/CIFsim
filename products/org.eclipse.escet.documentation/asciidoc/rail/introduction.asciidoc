@@ -1,0 +1,39 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[rail-introduction]]
+== Introduction
+
+Making pretty syntax specifications easy.
+
+For languages, an often used specification of the grammar of the language in a
+user manual is some form of (E)BNF rules. However for people not used to
+reading them, it may be hard to understand what the rules say.
+
+An alternative is to use https://en.wikipedia.org/wiki/Syntax_diagram[syntax diagrams]
+also known as _railroad diagrams_. These diagrams are often easier to understand for
+users that do not know (E)BNF.
+
+A disadvantage of the syntax diagrams is that the diagrams have to be created. For a
+full language the number of diagrams can grow to over 50 pictures.
+To reduce the effort in creating them, tools have been developed by several persons.
+The tools vary in required program environment, accepted input, and quality of the output.
+
+We are very fond of the link:https://www.ctan.org/pkg/rail[CTAN rail package]. It is written in TeX, and
+uses a C program to parse its input. We used it for all our languages. It is very good
+for creating diagrams in PDF documents, but much less useful in an Eclipse environment
+with online help web pages.
+Competitors did not seem to fit much better either, so the decision was made to
+make a Java program that behaves in much the same way as the _CTAN rail
+package_.
