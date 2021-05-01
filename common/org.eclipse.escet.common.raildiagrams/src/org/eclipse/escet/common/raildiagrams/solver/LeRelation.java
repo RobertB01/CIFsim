@@ -21,7 +21,7 @@ import org.eclipse.escet.common.java.Assert;
  * Less or equal relation between two variables.
  *
  * <p>
- * The instance represents {@link #a a} + {@link #lowBound lowBound} &lt;= {@link #b b}.
+ * The instance represents {@link #a} + {@link #lowBound} &lt;= {@link #b}.
  * </p>
  */
 public class LeRelation extends VariableRelation {
@@ -31,18 +31,18 @@ public class LeRelation extends VariableRelation {
     /** Variable 'b'. */
     public final Variable b;
 
-    /** Lower-bound offset between the variables, at least {@link #b b} - {@link #a a}. */
+    /** Lower-bound offset between the variables, at least {@link #b} - {@link #a}. */
     public final double lowBound;
 
     /**
      * Constructor of the {@link LeRelation} class.
      *
      * <p>
-     * Instance represents equality relation {@link #a a} + {@link #lowBound lowBound} &lt;= {@link #b b}.
+     * Instance represents equality relation {@link #a} + {@link #lowBound} &lt;= {@link #b}.
      * </p>
      *
      * @param a Variable 'a'.
-     * @param lowBound Offset between the variables, is at least {@link #b b} - {@link #a a}.
+     * @param lowBound Offset between the variables, is at least {@link #b} - {@link #a}.
      * @param b Variable 'b'.
      */
     public LeRelation(Variable a, double lowBound, Variable b) {
