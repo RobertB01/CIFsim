@@ -304,13 +304,13 @@ public class EqualityCluster {
     }
 
     /**
-     * Verify that the less-than relation holds between two variables in this equality cluster.
+     * Verify that the less-equal relation holds between two variables in this equality cluster.
      *
      * <p>
      * May only be used after the cluster has been initialized.
      * </p>
      *
-     * @param leRel Less-than relation to check.
+     * @param leRel Less-equal relation to check.
      */
     public void checkLeRelation(LeRelation leRel) {
         if (dodbg()) {
