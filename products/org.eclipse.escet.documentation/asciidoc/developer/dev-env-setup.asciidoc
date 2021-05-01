@@ -71,8 +71,10 @@ The new development environment will be put at
 `<root_installation_folder>/<installation_folder_name>`.
 ** For _Eclipse Foundation account full name_ fill in your full name (first
 and last name) matching the full name in your Eclipse Foundation account.
+This will be used as name for Git commits.
 ** For _Eclipse Foundation account email address_ fill in the email address
-associated with your Eclipse Foundation account.
+associated with your Eclipse Foundation account. This will be used as email
+for Git commits.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
