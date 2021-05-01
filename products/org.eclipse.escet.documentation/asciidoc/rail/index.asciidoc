@@ -16,6 +16,19 @@ include::_local_attributes.asciidoc[]
 [[rail-chapter-index]]
 == Rail diagram generator
 
+The Eclipse ESCET rail diagram generator makes it easy to generate pretty and
+simple to understand syntax specifications. The following topics explain
+the rail diagram generator in more detail:
+
+* <<rail-introduction>>
+* <<rail-examples>>
+* <<rail-customizing-output>>
+* <<rail-grammar>>
+
+
+[[rail-introduction]]
+=== Introduction
+
 Making pretty syntax specifications easy.
 
 For languages, an often used specification of the grammar of the language in a
@@ -824,6 +837,7 @@ Other nodes all have some space at either end, making it less apparent in
 those cases.
 
 
+[[rail-grammar]]
 === Grammar
 
 The toplevel grammar rule of the application is `Specification`. It is a
