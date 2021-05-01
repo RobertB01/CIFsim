@@ -41,9 +41,7 @@ public class Solver {
     /** Variables to assign. */
     private List<Variable> variables = list();
 
-    /**
-     * Solution of the relations, value of variable {@code variables.get(i)} is in {@code solution[i]}.
-     */
+    /** Solution of the relations, value of variable {@code variables.get(i)} is in {@code solution[i]}. */
     private double[] solution;
 
     /** Relations between variables to obey. */

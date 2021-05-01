@@ -202,11 +202,9 @@ public final class RailRoadHooks implements RailRoadScanner.Hooks, RailRoadParse
         for (Optional<DiagramElement> optVal: optElements) {
             if (optVal.isPresent()) {
                 elements.add(optVal.get());
-            } else {
-                if (!elements.isEmpty()) {
-                    rows.add(new SequenceRow(elements));
-                    elements = list();
-                }
+            } else if (!elements.isEmpty()) {
+                rows.add(new SequenceRow(elements));
+                elements = list();
             }
         }
         if (!elements.isEmpty()) {

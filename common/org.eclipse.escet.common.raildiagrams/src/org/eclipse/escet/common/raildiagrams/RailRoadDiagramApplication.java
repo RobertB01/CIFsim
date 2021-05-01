@@ -149,6 +149,9 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             if (imageFile != null) {
                 saveImage(image, imageFile);
             }
+            if (isTerminationRequested()) {
+                return 0;
+            }
         }
 
         return 0;
@@ -178,9 +181,9 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalOpts = getGeneralOptionCategory();
 
-        OptionCategory diagramOpts = new OptionCategory("Railroad Diagram Generator Options",
-                "Options to generate railroad diagrams", list(), list(Options.getInstance(FilesOption.class),
-                        Options.getInstance(ConfigFileOption.class), Options.getInstance(WriteImageOption.class)));
+        OptionCategory diagramOpts = new OptionCategory("Railroad generation", "Railroad generation options.", list(),
+                list(Options.getInstance(FilesOption.class), Options.getInstance(ConfigFileOption.class),
+                        Options.getInstance(WriteImageOption.class)));
 
         OptionCategory options;
         options = new OptionCategory("Railroad Diagram Generator Tool Options",

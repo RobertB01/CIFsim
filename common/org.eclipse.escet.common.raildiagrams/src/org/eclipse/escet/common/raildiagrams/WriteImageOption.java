@@ -16,7 +16,6 @@ package org.eclipse.escet.common.raildiagrams;
 import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
-import org.eclipse.escet.common.java.Strings;
 
 /** Option for configuring whether the generated image should be written to a file. */
 public class WriteImageOption extends BooleanOption {
@@ -69,7 +68,7 @@ public class WriteImageOption extends BooleanOption {
         if (!getWriteImage()) {
             return null;
         }
-        String outPath = (inputFile.endsWith(".rr") ? Strings.slice(inputFile, 0, -3) : inputFile) + ".png";
+        String outPath = Paths.pathChangeExtension(inputFile, "rr", "png");
         return Paths.resolve(outPath);
     }
 }

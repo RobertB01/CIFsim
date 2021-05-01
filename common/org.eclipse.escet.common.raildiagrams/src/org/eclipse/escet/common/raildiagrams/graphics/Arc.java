@@ -37,7 +37,7 @@ public abstract class Arc extends Area {
      * @param solver Variable and relation storage.
      * @param prefix Name prefix of the arc line.
      * @param railColor Color of the rail in the diagram.
-     * @param size Size of the arc, from center-point upto and including the line.
+     * @param size Size of the arc, from center-point up to and including the line.
      * @param lineWidth Width of the arc line.
      */
     public Arc(Solver solver, String prefix, Color railColor, double size, double lineWidth) {

@@ -43,7 +43,7 @@ public class SequenceRow {
     /** Right-most used position of the row elements. */
     public Variable right;
 
-    /** top-most used position of the row elements. */
+    /** Top-most used position of the row elements. */
     public Variable top;
 
     /** Top of the entry and exit point at the left and right sides of the row. */

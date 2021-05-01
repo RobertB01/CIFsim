@@ -438,23 +438,14 @@ public class Configuration {
     public void loadPropertiesFile(String fname) {
         Properties props = new Properties();
 
-        FileInputStream stream = null;
-        try {
-            stream = new FileInputStream(fname);
+        try (FileInputStream stream = new FileInputStream(fname)) {
             props.load(stream);
         } catch (FileNotFoundException ex) {
             throw new InputOutputException(fmt("Could not open file \"%s\".", fname), ex);
         } catch (IOException ex) {
             throw new InputOutputException(fmt("Could not read file \"%s\".", fname), ex);
-        } finally {
-            try {
-                if (stream != null) {
-                    stream.close();
-                }
-            } catch (IOException ex) {
-                throw new InputOutputException(fmt("Could not close file \"%s\".", fname), ex);
-            }
         }
+
         // Extract the strings from the loaded properties and copy them to the global map.
         for (String propName: props.stringPropertyNames()) {
             String propValue = props.getProperty(propName);

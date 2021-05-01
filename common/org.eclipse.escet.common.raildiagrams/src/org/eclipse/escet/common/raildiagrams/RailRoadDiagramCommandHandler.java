@@ -28,9 +28,7 @@ public class RailRoadDiagramCommandHandler extends MultiFileCommandHandler {
     }
 
     @Override
-    protected String[] getCommandLineArgs(List<IFile> files, String name) {
-        String workingDir = Paths.getCurWorkingDir();
-
+    protected String[] getCommandLineArgs(List<IFile> files, String workingDir) {
         String[] args = new String[files.size() + 1];
         for (int i = 0; i < files.size(); i++) {
             IFile file = files.get(i);

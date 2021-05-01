@@ -49,7 +49,7 @@ public class ChoiceNode extends DiagramElement {
         Assert.check(alts.size() > 1);
     }
 
-    @SuppressWarnings("null") // False positives in the 'else'. since the 'if' case initializes them first.
+    @SuppressWarnings("null") // False positives in the 'else', since the 'if' case initializes them first.
     @Override
     public void create(Configuration config, int direction) {
         double railWidth = config.getRailWidth();
