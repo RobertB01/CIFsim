@@ -85,8 +85,8 @@ public class Configuration {
                 "branch-label.padding.bottom:  5", //
                 "branch-label.min-width:       5", //
                 "branch-label.text.color:      0 0 0", //
-                "branch-label.text.font:       Serif", //
-                "branch-label.text.font.size:  12", //
+                "branch-label.text.font:       SansSerif", //
+                "branch-label.text.font.size:  16", //
                 "branch-label.text.font.style: plain", //
 
                 // Empty node.
@@ -98,8 +98,8 @@ public class Configuration {
 
                 // Header font and text.
                 "diagram-header.text.color:      0 0 0", //
-                "diagram-header.text.font:       Serif", //
-                "diagram-header.text.font.size:  15", //
+                "diagram-header.text.font:       SansSerif", //
+                "diagram-header.text.font.size:  16", //
                 "diagram-header.text.font.style: bold", //
 
                 // 'terminal' name properties.
@@ -110,7 +110,7 @@ public class Configuration {
                 "terminal.box.linewidth: 1.0", //
                 "terminal.text.color:    0 0 0", //
                 "terminal.text.font:       Monospaced", //
-                "terminal.text.font.size:  12", //
+                "terminal.text.font.size:  18", //
                 "terminal.text.font.style: plain", //
 
                 // 'meta-terminal' name properties.
@@ -120,8 +120,8 @@ public class Configuration {
                 "meta-terminal.box.color:     0 0 0", //
                 "meta-terminal.box.linewidth: 1.0", //
                 "meta-terminal.text.color:    0 0 0", //
-                "meta-terminal.text.font:       Serif", //
-                "meta-terminal.text.font.size:  12", //
+                "meta-terminal.text.font:       SansSerif", //
+                "meta-terminal.text.font.size:  16", //
                 "meta-terminal.text.font.style: plain", //
 
                 // 'nonterminal' name properties.
@@ -131,8 +131,8 @@ public class Configuration {
                 "nonterminal.box.color:       0 0 0", //
                 "nonterminal.box.linewidth:   1.0", //
                 "nonterminal.text.color:      0 0 0", //
-                "nonterminal.text.font:       Serif", //
-                "nonterminal.text.font.size:  12", //
+                "nonterminal.text.font:       SansSerif", //
+                "nonterminal.text.font.size:  16", //
                 "nonterminal.text.font.style: italic", //
 
                 // Token text properties:
