@@ -17,6 +17,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -133,6 +134,8 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
 
                 image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
                 gd = image.createGraphics();
+                gd.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                gd.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
                 gd.setColor(config.getRgbColor("diagram.background.color"));
                 gd.fillRect(0, 0, width, height);
             }
