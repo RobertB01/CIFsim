@@ -198,6 +198,9 @@ _Maps_ and _Strings_ classes.
 | `org.eclipse.escet.common.position.metamodel`
 | The Ecore metamodel for (text-file) positions in source files.
 
+| `org.eclipse.escet.common.raildiagrams`
+| Rail diagram generator. Produces syntax diagrams.
+
 | `org.eclipse.escet.common.svg`
 | Common _SVG_ library for viewing and manipulating _SVG_ trees.
 
