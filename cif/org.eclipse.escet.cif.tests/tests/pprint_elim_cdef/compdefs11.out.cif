@@ -1,0 +1,22 @@
+group def A():
+  type m = real;
+  group def Y():
+    input bool x;
+  end
+  y1: Y();
+  y2: Y();
+end
+group def B():
+  a: A();
+end
+group def C(B bp):
+  group def X(bp.a.Y y):
+    invariant y.x;
+    invariant y.x;
+  end
+  x1a: X(bp.a.y1);
+  x1b: X(bp.a.y1);
+  x2: X(bp.a.y2);
+end
+b: B();
+c: C(b);

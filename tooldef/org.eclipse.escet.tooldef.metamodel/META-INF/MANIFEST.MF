@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="3.17.0",
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.escet.tooldef.metamodel.tooldef,
  org.eclipse.escet.tooldef.metamodel.tooldef.expressions,
  org.eclipse.escet.tooldef.metamodel.tooldef.expressions.impl,

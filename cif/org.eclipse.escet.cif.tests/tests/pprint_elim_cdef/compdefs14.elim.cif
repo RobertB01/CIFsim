@@ -1,0 +1,9 @@
+group b:
+  automaton a:
+    location:
+      initial;
+  end
+end
+group c:
+  alg string x = <string>b.a;
+end

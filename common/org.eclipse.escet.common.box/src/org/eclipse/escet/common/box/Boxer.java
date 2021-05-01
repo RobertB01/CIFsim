@@ -21,7 +21,7 @@ package org.eclipse.escet.common.box;
  */
 public interface Boxer<T> {
     /** Default, thread-safe {@link Boxer} that can box {@link Boxable} objects. */
-    public static Boxer<Boxable> DEFAULT = new Boxer<Boxable>() {
+    public static Boxer<Boxable> DEFAULT = new Boxer<>() {
         @Override
         public Box box(Boxable obj) {
             return obj.toBox();

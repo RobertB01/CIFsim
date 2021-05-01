@@ -37,6 +37,7 @@ import org.osgi.framework.BundleReference;
 import org.osgi.framework.wiring.BundleWiring;
 
 /** File manager used by the {@link RuntimeJavaCompiler}. */
+@SuppressWarnings("restriction")
 public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileManager> {
     /**
      * Class loader to use to resolve dependencies outside of the sources. Generated output classes will be available

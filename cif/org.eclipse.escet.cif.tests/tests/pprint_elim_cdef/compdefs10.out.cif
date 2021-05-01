@@ -1,0 +1,28 @@
+plant automaton def A():
+  type t = real;
+  location m:
+    initial;
+    marked;
+end
+group def B():
+  a: A();
+end
+requirement automaton def C(B bp):
+  disc bp.a.t X = 4.5;
+  alg bp.a.t Y = 6.0;
+  location:
+    initial;
+    edge when bp.a.m do X := Y;
+    edge when bp.a.m;
+end
+requirement automaton def V(A a):
+  alg a.t X = 4.5;
+  alg a.t Y = 6.0;
+  location:
+    initial;
+    edge when a.m;
+    edge when a.m;
+end
+b: B();
+c: C(b);
+v: V(b.a);

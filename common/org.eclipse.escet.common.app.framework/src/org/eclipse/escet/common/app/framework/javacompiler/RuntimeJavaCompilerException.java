@@ -22,6 +22,7 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
 /** Exception used by the {@link RuntimeJavaCompiler} to indicate compilation failure. */
+@SuppressWarnings("restriction")
 public class RuntimeJavaCompilerException extends Exception {
     /**
      * The run-time Java compiler used to compile the sources. Can be used to obtain the compiler output and

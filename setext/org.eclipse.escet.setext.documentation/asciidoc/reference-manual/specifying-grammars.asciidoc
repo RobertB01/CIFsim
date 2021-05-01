@@ -1,0 +1,67 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[setext-specifying-grammars]]
+== Specifying grammars using SeText
+
+All SeText grammars start with one or more start symbols:
+
+[source, setext]
+----
+@main  Program    : some.package.ProgramParser;
+@start Expression : some.package.ExpressionParser;
+----
+
+This specifies two start symbols, the non-terminals `Program` and
+`Expression`. Each start symbol further specifies the parser class that
+should be generated for that start symbol. Once again, imports are allowed,
+and the classes must be non-generic.
+
+There are two types of start symbols:
+
+* regular start symbols (`@start` keyword)
+
+* main start symbols (`@main` keyword)
+
+The main start symbols are exactly the same as the regular ones, except that
+they must cover the entire grammar. That is, all non-terminals must be
+reachable from each of the main start symbols. There is no such restriction
+for regular start symbols.
+
+The non-terminals and rules (or productions) can be specified using a BNF
+like syntax, as follows:
+
+[source, setext]
+----
+{java.util.List<some.package.SomeClass>}
+NonTerm : /* empty */
+        | NonTerm2
+        | NonTerm NonTerm2
+        | NonTerm3 @PLUSTK NonTerm3 SEMICOLTK
+        ;
+----
+
+This example specifies a non-terminal named `NonTerm`. Once reduced, the
+call back hooks for this non-terminal must result in a Java object of type
+`java.util.List<some.package.SomeClass>`. Here, both generic types and
+imports are allowed.
+
+The non-terminal is defined by four rules (or productions). The first rule
+is empty, as clarified by the comment. The comment is obviously not required.
+The second rule consists of a single non-terminal `NonTerm2`, etc.
+
+Each non-terminal rule gives rise to a call back hook method. The parameters of
+that method are determined by the symbols that make up that rule. That is,
+all non-terminal are always passed to the call back hook method. Terminals
+are only passed to the method if they are prefixed with a `@` character.

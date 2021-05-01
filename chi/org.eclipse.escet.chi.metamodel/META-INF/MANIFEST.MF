@@ -6,7 +6,7 @@ Bundle-Version: 0.2.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.escet.chi.metamodel.chi,
  org.eclipse.escet.chi.metamodel.chi.impl,
  org.eclipse.escet.chi.metamodel.chi.util

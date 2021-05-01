@@ -4,7 +4,7 @@ Bundle-Name: ESCET ToolDef Parser (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.tooldef.parser;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Eclipse ESCET
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.tooldef.parser
 Require-Bundle: org.eclipse.escet.tooldef.metamodel;bundle-version="0.2.0",

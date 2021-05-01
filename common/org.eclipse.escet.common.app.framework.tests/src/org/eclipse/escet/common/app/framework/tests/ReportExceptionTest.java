@@ -288,7 +288,7 @@ public class ReportExceptionTest {
         AppStreams streams = new AppStreams(System.in, outStream, errStream);
 
         // Create application.
-        Application<?> app = new Application<IOutputComponent>(streams) {
+        Application<?> app = new Application<>(streams) {
             @Override
             protected OutputProvider<IOutputComponent> getProvider() {
                 return new OutputProvider<>();

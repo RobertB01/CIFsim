@@ -140,7 +140,7 @@ public class LR0AutomatonState {
         }
 
         Comparator<Pair<Symbol, LR0AutomatonState>> cmp;
-        cmp = new Comparator<Pair<Symbol, LR0AutomatonState>>() {
+        cmp = new Comparator<>() {
             @Override
             public int compare(Pair<Symbol, LR0AutomatonState> t1, Pair<Symbol, LR0AutomatonState> t2) {
                 // Ascending order by target state id.

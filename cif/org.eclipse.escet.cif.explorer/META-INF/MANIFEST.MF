@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF State Space Explorer (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.explorer;singleton:=true
 Bundle-Version: 0.2.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: Eclipse ESCET
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.escet.cif.metamodel;bundle-version="0.2.0",

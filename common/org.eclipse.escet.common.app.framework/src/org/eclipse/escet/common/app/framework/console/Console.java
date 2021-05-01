@@ -39,13 +39,13 @@ import org.eclipse.ui.console.IOConsoleOutputStream;
  */
 public class Console extends IOConsole {
     /** The color to use for the input stream. */
-    private static final Color COLOR_IN = new Color(null, 0, 200, 125);
+    private static final Color COLOR_IN = new Color(0, 200, 125);
 
     /** The color to use for the output stream. */
-    private static final Color COLOR_OUT = new Color(null, 0, 0, 0);
+    private static final Color COLOR_OUT = new Color(0, 0, 0);
 
     /** The color to use for the error stream. */
-    private static final Color COLOR_ERR = new Color(null, 255, 0, 0);
+    private static final Color COLOR_ERR = new Color(255, 0, 0);
 
     /**
      * The console streams. The input stream reader uses a default buffer size, and a default character encoding. The

@@ -34,7 +34,7 @@ SPDX-License-Identifier: MIT
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
         <!-- Tycho version to use. -->
-        <tycho.version>1.7.0</tycho.version>
+        <tycho.version>2.3.0</tycho.version>
         <tycho.extras.version>${tycho.version}</tycho.extras.version>
 
         <!-- Documentation plug-in versions. -->
@@ -47,7 +47,7 @@ SPDX-License-Identifier: MIT
 
         <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
         <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
-        <checkstyle.version>8.36.1</checkstyle.version>
+        <checkstyle.version>8.39</checkstyle.version>
 
         <!-- Eclipse Common Build Infrastructure version. -->
         <eclipse.cbi.version>1.1.7</eclipse.cbi.version>
@@ -193,6 +193,50 @@ SPDX-License-Identifier: MIT
                 <version>${tycho.version}</version>
             </plugin>
 
+            <!-- Enable source bundles/features. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-source-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <missingSourcesAction>FAIL</missingSourcesAction>
+                    <skip>false</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>plugin-source</id>
+                        <goals>
+                            <goal>plugin-source</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>feature-source</id>
+                        <goals>
+                            <goal>feature-source</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- The following is needed for generated source features that are part of an update site. -->
+            <!-- Tycho will warn about this if not configured. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-p2-metadata</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>p2-metadata</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <!-- Documentation generation configuration. -->
@@ -250,88 +294,6 @@ SPDX-License-Identifier: MIT
     </build>
 
     <profiles>
-        <!-- Enable source bundles. -->
-        <profile>
-            <id>create-plugin-source</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/META-INF/MANIFEST.MF</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eclipse.tycho</groupId>
-                        <artifactId>tycho-source-plugin</artifactId>
-                        <version>${tycho.version}</version>
-                        <executions>
-                            <execution>
-                                <id>plugin-source</id>
-                                <goals>
-                                    <goal>plugin-source</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!-- Enable source features. -->
-        <profile>
-            <id>create-feature-source</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/feature.xml</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eclipse.tycho.extras</groupId>
-                        <artifactId>tycho-source-feature-plugin</artifactId>
-                        <version>${tycho.extras.version}</version>
-                        <configuration>
-                            <archive>
-                                <addMavenDescriptor>false</addMavenDescriptor>
-                            </archive>
-                            <skip>false</skip>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>source-feature</id>
-                                <goals>
-                                    <goal>source-feature</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.eclipse.tycho</groupId>
-                        <artifactId>tycho-p2-plugin</artifactId>
-                        <version>${tycho.version}</version>
-                        <executions>
-                            <execution>
-                                <!-- Don't attach (default) metadata before the "generate-source-feature" execution. -->
-                                <id>default-p2-metadata-default</id>
-                                <configuration>
-                                    <attachP2Metadata>false</attachP2Metadata>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <!-- Do attach metadata after the "generate-source-feature" execution. -->
-                                <id>attach-p2-metadata</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>p2-metadata</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <!-- Enable Checkstyle code analysis. -->
         <profile>
             <id>checkstyle-check</id>

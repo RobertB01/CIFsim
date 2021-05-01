@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.escet.chi.metamodel;bundle-version="0.2.0",
  org.eclipse.escet.chi.runtime;bundle-version="0.2.0",
  org.eclipse.escet.common.position.common;bundle-version="0.2.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.eclipse.escet.chi.codegen,
  org.eclipse.escet.chi.codegen.classes,
  org.eclipse.escet.chi.codegen.expressions,
