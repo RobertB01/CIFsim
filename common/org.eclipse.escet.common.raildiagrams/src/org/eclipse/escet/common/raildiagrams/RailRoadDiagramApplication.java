@@ -35,6 +35,7 @@ import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.raildiagrams.parser.RailRoadParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
 import org.eclipse.escet.setext.runtime.DebugMode;
+import org.eclipse.escet.setext.runtime.SyntaxWarning;
 
 /** Application to generate railroad diagram image files. */
 public class RailRoadDiagramApplication extends Application<IOutputComponent> {
@@ -98,6 +99,9 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             // A file may contain several rules, which are assumed to belong together in one diagram.
             RailRoadParser parser = new RailRoadParser();
             List<RailRule> rules = parser.parseFile(Paths.resolve(inputFile), DebugMode.NONE);
+            for (SyntaxWarning warning: parser.getWarnings()) {
+                OutputProvider.warn(warning.toString());
+            }
             if (isTerminationRequested()) {
                 return 0;
             }
