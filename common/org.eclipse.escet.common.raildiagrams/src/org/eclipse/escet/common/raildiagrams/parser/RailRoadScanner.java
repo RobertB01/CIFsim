@@ -113,7 +113,7 @@ public final class RailRoadScanner extends Scanner {
     };
 
     /** Scanner call back hook methods. */
-    public final ParserHooks hooks;
+    public final RailRoadHooks hooks;
 
     /** The current DFA state of the scanner. */
     private int state;
@@ -125,7 +125,7 @@ public final class RailRoadScanner extends Scanner {
         terminals = TERMINALS;
         terminalNames = TERMINAL_NAMES;
         terminalDescriptions = TERMINAL_DESCRIPTIONS;
-        hooks = new ParserHooks();
+        hooks = new RailRoadHooks();
     }
 
     @Override

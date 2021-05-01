@@ -45,7 +45,7 @@ end
 @import java.util.List;
 
 @main specification: org.eclipse.escet.common.raildiagrams.parser.RailRoadParser;
-@hooks org.eclipse.escet.common.raildiagrams.parser.ParserHooks;
+@hooks org.eclipse.escet.common.raildiagrams.parser.RailRoadHooks;
 
 
 {List<rr.RailRule>}

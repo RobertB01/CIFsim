@@ -40,7 +40,7 @@ import org.eclipse.escet.setext.runtime.Token;
  * <li>{@link RailRoadParser}</li>
  * </ul>
  */
-public final class ParserHooks implements RailRoadScanner.Hooks, RailRoadParser.Hooks {
+public final class RailRoadHooks implements RailRoadScanner.Hooks, RailRoadParser.Hooks {
     @Override
     public void setParser(Parser<?> parser) {
         // Nothing to do.

@@ -89,7 +89,7 @@ public final class RailRoadParser extends Parser<List<RailRule>> {
     };
 
     /** Parser call back hook methods. */
-    private final ParserHooks hooks;
+    private final RailRoadHooks hooks;
 
     /** Whether parsing has completed (final result has been accepted). */
     private boolean accept;
