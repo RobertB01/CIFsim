@@ -63,6 +63,23 @@ This gives a sequence of choices:
 image::{rail-imgsdir}/choice2.png[Sequence of choice]
 
 
+=== Optional
+
+An optional part of the syntax can be described in multiple ways:
+
+[source,raildiagram]
+----
+include::{incdir-rail}/optional.rr[]
+----
+
+This results in:
+
+image::{rail-imgsdir}/optional.png[Optional]
+
+It should be clear that using the dedicated optional syntax (`?`) is often
+more convenient than using the choice syntax.
+
+
 === Repetition
 
 The core repetition primitive is alternating between two nodes:

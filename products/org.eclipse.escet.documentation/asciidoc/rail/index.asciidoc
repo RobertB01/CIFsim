@@ -22,4 +22,5 @@ the rail diagram generator in more detail:
 * <<rail-introduction>>
 * <<rail-examples>>
 * <<rail-customizing-output>>
+* <<rail-lexical-syntax>>
 * <<rail-grammar>>

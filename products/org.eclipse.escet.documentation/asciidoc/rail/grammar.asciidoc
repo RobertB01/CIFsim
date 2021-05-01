@@ -32,7 +32,8 @@ image::{rail-imgsdir}/diagram.png[Railroad]
 The `BracketedString` like `[a]` can be used to denote specific points in the diagram
 allowing you to refer to such points from the explanatory text.
 
-An `Alternative` has a `sequence` of one or more factors. By appending the `[loop]`
+An `Alternative` has a `sequence` of one or more factors. The optional `?`
+character makes a factor optional. By appending the `[loop]`
 part, the sequence can be repeated. The `+` requires at least one sequence,
 the `*` also allows `0` repetitions, resulting in an empty sequence.
 The second `Factor` defines the syntax on the way back to the start. Note that

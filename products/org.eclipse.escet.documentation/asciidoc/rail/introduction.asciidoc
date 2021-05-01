@@ -37,3 +37,6 @@ with online help web pages.
 Competitors did not seem to fit much better either, so the decision was made to
 make a Java program that behaves in much the same way as the _CTAN rail
 package_.
+
+Files containing input for the Eclipse ESCET rail diagram generator use a
+`.rr` file extension by convention.

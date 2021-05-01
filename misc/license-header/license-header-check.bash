@@ -200,6 +200,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.docume
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/choice.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/choice2.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/emptyalternating.rr:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/optional.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/refpath.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/sequence.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/sequence_loops.rr:0$"
