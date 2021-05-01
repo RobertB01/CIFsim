@@ -16,10 +16,11 @@ tool int make_rr(list string args, string stdin = "-", string stdout = "-", stri
                args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
 
-string root_dir = dirname(scriptpath());
+string root_dir = replace(dirname(scriptpath()), "\\", "/");
 list string files = find(root_dir, "*.rr", recursive=false, dirs=false);
 
 for f in files:
+    f = replace(f, "\\", "/");
     outln(f);
     list string opts = ["--devmode=yes", "--option-dialog=no",
                         "--write-image=yes", "--output-mode=normal",
