@@ -18,9 +18,9 @@ import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Optional;
 import org.eclipse.escet.common.raildiagrams.railroad.BranchLabelNode;
 import org.eclipse.escet.common.raildiagrams.railroad.ChoiceNode;
 import org.eclipse.escet.common.raildiagrams.railroad.DiagramElement;
@@ -110,14 +110,14 @@ public final class RailRoadHooks implements RailRoadScanner.Hooks, RailRoadParse
 
     @Override // body2 : body3 STAR body5;
     public DiagramElement parsebody22(List<Optional<DiagramElement>> l1, Optional<DiagramElement> o3) {
-        DiagramElement rhs = o3.isNull() ? new EmptyNode() : o3.getValue();
+        DiagramElement rhs = o3.isPresent() ? o3.get() : new EmptyNode();
         LoopNode loop = new LoopNode(makeSequenceMultiRow(l1), rhs);
         return new ChoiceNode(list(new EmptyNode(), loop));
     }
 
     @Override // body2 : body3 PLUS body5;
     public DiagramElement parsebody23(List<Optional<DiagramElement>> l1, Optional<DiagramElement> o3) {
-        DiagramElement rhs = o3.isNull() ? new EmptyNode() : o3.getValue();
+        DiagramElement rhs = o3.isPresent() ? o3.get() : new EmptyNode();
         DiagramElement forward = makeSequenceMultiRow(l1);
         return new LoopNode(forward, rhs);
     }
@@ -141,39 +141,39 @@ public final class RailRoadHooks implements RailRoadScanner.Hooks, RailRoadParse
 
     @Override // body4 : body5 QUEST;
     public Optional<DiagramElement> parsebody42(Optional<DiagramElement> o1) {
-        DiagramElement rhs = o1.isNull() ? new EmptyNode() : o1.getValue();
+        DiagramElement rhs = o1.isPresent() ? o1.get() : new EmptyNode();
         List<DiagramElement> elms = list(new EmptyNode(), rhs);
-        return new Optional<>(new ChoiceNode(elms));
+        return Optional.of(new ChoiceNode(elms));
     }
 
     @Override // body5 : @SQUOTE_STRING;
     public Optional<DiagramElement> parsebody51(Token t1) {
-        return new Optional<>(new NamedNode(null, t1.text));
+        return Optional.of(new NamedNode(null, t1.text));
     }
 
     @Override // body5 : @DQUOTE_STRING;
     public Optional<DiagramElement> parsebody52(Token t1) {
-        return new Optional<>(new NamedNode(null, t1.text));
+        return Optional.of(new NamedNode(null, t1.text));
     }
 
     @Override // body5 : PAROPEN body1 PARCLOSE;
     public Optional<DiagramElement> parsebody53(List<DiagramElement> l2) {
-        return new Optional<>(makeChoice(l2));
+        return Optional.of(makeChoice(l2));
     }
 
     @Override // body5 : BSLASH_BSLASH;
     public Optional<DiagramElement> parsebody54() {
-        return new Optional<>(null);
+        return Optional.empty();
     }
 
     @Override // body5 : PAROPEN PARCLOSE;
     public Optional<DiagramElement> parsebody55() {
-        return new Optional<>(new EmptyNode());
+        return Optional.of(new EmptyNode());
     }
 
     @Override // body5 : @IDENTIFIER;
     public Optional<DiagramElement> parsebody56(Token t1) {
-        return new Optional<>(new NamedNode(t1.text));
+        return Optional.of(new NamedNode(t1.text));
     }
 
     /**
@@ -200,13 +200,13 @@ public final class RailRoadHooks implements RailRoadScanner.Hooks, RailRoadParse
         List<SequenceRow> rows = list();
         List<DiagramElement> elements = list();
         for (Optional<DiagramElement> optVal: optElements) {
-            if (optVal.isNull()) {
+            if (optVal.isPresent()) {
+                elements.add(optVal.get());
+            } else {
                 if (!elements.isEmpty()) {
                     rows.add(new SequenceRow(elements));
                     elements = list();
                 }
-            } else {
-                elements.add(optVal.getValue());
             }
         }
         if (!elements.isEmpty()) {

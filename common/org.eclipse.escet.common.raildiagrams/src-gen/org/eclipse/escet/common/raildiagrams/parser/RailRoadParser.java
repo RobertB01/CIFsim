@@ -20,8 +20,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-import org.eclipse.escet.common.java.Optional;
 import org.eclipse.escet.common.raildiagrams.railroad.DiagramElement;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
 import org.eclipse.escet.setext.runtime.Parser;

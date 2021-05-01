@@ -41,7 +41,7 @@ end
 end
 
 @import org.eclipse.escet.common.raildiagrams.railroad as rr;
-@import org.eclipse.escet.common.java.Optional;
+@import java.util.Optional;
 @import java.util.List;
 
 @main specification: org.eclipse.escet.common.raildiagrams.parser.RailRoadParser;
