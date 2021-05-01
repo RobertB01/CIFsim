@@ -123,20 +123,20 @@ public final class RailRoadHooks implements RailRoadScanner.Hooks, RailRoadParse
     }
 
     @Override // body3 : body4;
-    public List<Optional<DiagramElement>> parsebody31(Optional<DiagramElement> d1) {
-        return list(d1);
+    public List<Optional<DiagramElement>> parsebody31(Optional<DiagramElement> o1) {
+        return list(o1);
     }
 
     @Override // body3 : body3 body4;
-    public List<Optional<DiagramElement>> parsebody32(List<Optional<DiagramElement>> l1, Optional<DiagramElement> d2) {
+    public List<Optional<DiagramElement>> parsebody32(List<Optional<DiagramElement>> l1, Optional<DiagramElement> o2) {
         List<Optional<DiagramElement>> elms = copy(l1);
-        elms.add(d2);
+        elms.add(o2);
         return elms;
     }
 
     @Override // body4 : body5;
-    public Optional<DiagramElement> parsebody41(Optional<DiagramElement> d1) {
-        return d1;
+    public Optional<DiagramElement> parsebody41(Optional<DiagramElement> o1) {
+        return o1;
     }
 
     @Override // body4 : body5 QUEST;
