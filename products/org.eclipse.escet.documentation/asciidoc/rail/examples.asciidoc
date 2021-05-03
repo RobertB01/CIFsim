@@ -115,7 +115,7 @@ path, made more clearly visible in the following example:
 include::{incdir-rail}/abcd.rr[]
 ----
 
-It results is:
+It results in:
 
 image::{rail-imgsdir}/abcd.png[ABCD]
 

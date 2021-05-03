@@ -73,7 +73,7 @@ ABC-DEF
 
 `BracketedString`::
 A bracketed string. Defined by the regular expression:
-`\[([^\\\]\n]|\\[\\\]])*\]`. They are thus enclosed in bracket (`[` and `]`).
+`\[([^\\\]\n]|\\[\\\]])*\]`. They are thus enclosed in square brackets (`[` and `]`).
 They must be on a single line and must thus not include new line characters
 (`\n`, Unicode U+0A). To include a closing bracket (`+]+`), it must be escaped
 as `+\]+`. Since a backslash (`\`) serves as escape character, to include a
