@@ -61,6 +61,8 @@ SPDX-License-Identifier: MIT
         </pluginRepository>
 
         <!-- Bintray jmini maven plugins. For geneclipsetoc plugin. -->
+        <!-- See issue #57: Temporarily disabled this as dl.bintray.com is offline and it is only hosted there. -->
+        <!--
         <pluginRepository>
             <id>bintray.jmini.maven</id>
             <url>http://dl.bintray.com/jmini/maven/</url>
@@ -71,6 +73,7 @@ SPDX-License-Identifier: MIT
                 <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
+        -->
     </pluginRepositories>
 
     <!-- Configure Maven/Tycho plugins/versions, and enable them. -->
@@ -284,11 +287,14 @@ SPDX-License-Identifier: MIT
                     </configuration>
                 </plugin>
 
+                <!-- See issue #57: Temporarily disabled this as dl.bintray.com is offline and it is only hosted there. -->
+                <!--
                 <plugin>
                     <groupId>com.bsiag.geneclipsetoc</groupId>
                     <artifactId>geneclipsetoc-maven-plugin</artifactId>
                     <version>${geneclipsetoc.version}</version>
                 </plugin>
+                -->
             </plugins>
         </pluginManagement>
     </build>
