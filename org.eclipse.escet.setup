@@ -238,17 +238,9 @@
     <requirement
         name="org.eclipse.sirius.specifier.feature.group"/>
     <requirement
-        name="de.jcup.asciidoctoreditor.feature.group"/>
-    <requirement
-        name="net.sf.eclipsecs.feature.group"/>
-    <requirement
         name="org.sonatype.tycho.m2e.feature.feature.group"/>
     <repository
         url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/${m2eclipse-tycho.version}/N/LATEST/"/>
-    <repository
-        url="https://dl.bintray.com/de-jcup/asciidoctoreditor/"/>
-    <repository
-        url="https://dl.bintray.com/eclipse-cs/eclipse-cs/${eclipse-checkstyle.version}/"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
   </setupTask>
   <setupTask
