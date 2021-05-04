@@ -62,11 +62,11 @@ for test in tests:
         options = options + extra_options;
 
         // Print what we are testing.
-        outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+        outln("Testing \"%s\" (%s) using options \"%s\"...", test, target, join(extra_options, " "));
 
         // Get paths.
         string test_out_exp  = chfileext(test, newext=target + ".out");
-        string test_err_exp  = chfileext(test, newext="err");
+        string test_err_exp  = chfileext(test, newext=target + ".err");
         string test_out_real = chfileext(test, newext=target + ".out.real");
         string test_err_real = chfileext(test, newext=target + ".err.real");
 
@@ -77,15 +77,13 @@ for test in tests:
         string iec_dir_real = chfileext(test, oldext="cif") + "_" + target + "_real";
 
         // Execute.
-        if (target == "plcopen"):
+        if target == "plcopen":
             options = options + ["-t", "plc-open-xml", "-o", plcopen_real];
-            cif2plc([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+        elif target == "iec":
+            options = options + ["-t", "iec-61131-3", "-o", iec_dir_real];
         end
 
-        if (target == "iec"):
-            options = options + ["-t", "iec-61131-3", "-o", iec_dir_real];
-            cif2plc([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
-        end
+        cif2plc([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
         // Compare output.
         bool stderr_diff  = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
@@ -93,23 +91,23 @@ for test in tests:
         if not stderr_diff::  rmfile(test_err_real);
         if not stdout_diff::  rmfile(test_out_real);
 
-        // Compare PLC Open specific output.
+        // Compare PLCOpen XML specific output.
         bool plcopen_diff = false;
-        if (target == "plcopen"):
-             plcopen_diff = diff(plcopen_exp, plcopen_real, missingAsEmpty=true, warnOnDiff=true);
+        if target == "plcopen":
+            plcopen_diff = diff(plcopen_exp, plcopen_real, missingAsEmpty=true, warnOnDiff=true);
             if not plcopen_diff:: if exists(plcopen_real):: rmfile(plcopen_real);
         end
 
-        // Compare IEC61131-3 specific output.
+        // Compare IEC 61131-3 specific output.
         int iec_diff_count = 0;
-        if (target == "iec"):
+        if target == "iec":
             list string filenames_exp;
             if isdir(iec_dir_exp):
-                filenames_exp = find(iec_dir_exp, recursive=false, files=true, dirs=false);
+                filenames_exp = find(iec_dir_exp, recursive=true, files=true, dirs=false);
             end
             list string filenames_real;
             if isdir(iec_dir_real):
-                filenames_real = find(iec_dir_real, recursive=false, files=true, dirs=false);
+                filenames_real = find(iec_dir_real, recursive=true, files=true, dirs=false);
             end
             set string filenames;
             for filename in filenames_exp + filenames_real:: filenames = filenames or {filename};
@@ -118,7 +116,7 @@ for test in tests:
                 string filename_exp = replace(pathjoin(iec_dir_exp, filename), "\\", "/");
                 string filename_real = replace(pathjoin(iec_dir_real, filename), "\\", "/");
                 bool iec_diff = diff(filename_exp, filename_real, missingAsEmpty=true, warnOnDiff=true);
-                if not iec_diff:: if exists(filename_real):: rmfile(filename_real);
+                if not iec_diff and exists(filename_real):: rmfile(filename_real);
                 if iec_diff:: iec_diff_count = iec_diff_count + 1;
             end
             if isdir(iec_dir_real) and empty(find(iec_dir_real)):: rmdir(iec_dir_real);
