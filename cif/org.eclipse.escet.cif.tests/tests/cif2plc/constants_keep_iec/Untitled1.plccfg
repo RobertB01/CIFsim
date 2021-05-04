@@ -1,0 +1,20 @@
+CONFIGURATION Untitled1
+    VAR_GLOBAL // INPUTS
+        ivar_i AT %I*: DINT;
+    END_VAR
+    VAR_GLOBAL CONSTANT // CONSTS
+        const_d: DINT := 1;
+        const_cl: ARRAY[0..2] of LREAL := [1.0, 1.0, 2.0];
+        const_x: DINT := -1;
+        const_b: DINT := (const_d) + (1);
+        const_a: DINT := (const_b) * (2);
+        const_c: DINT := (const_a) - (1);
+    END_VAR
+    VAR_GLOBAL // TIMERS
+        timer0: TON;
+        timer1: TON;
+        curTimer: INT := 0;
+    END_VAR
+    TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
+    PROGRAM MAIN WITH PlcTask: MAIN;
+END_CONFIGURATION

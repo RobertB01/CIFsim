@@ -1,0 +1,7 @@
+FUNCTION derivcvar_M_p_t3: LREAL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+derivcvar_M_p_t3 := state.cvar_M_p_t3;
+END_FUNCTION

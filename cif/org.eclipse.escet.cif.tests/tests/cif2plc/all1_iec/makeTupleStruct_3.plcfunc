@@ -1,0 +1,13 @@
+FUNCTION makeTupleStruct_3: TupleStruct_3
+VAR_INPUT
+    field0: DINT;
+    field1: DINT;
+END_VAR
+VAR
+    rslt: TupleStruct_3;
+END_VAR
+
+rslt.field0 := field0;
+rslt.field1 := field1;
+makeTupleStruct_3 := rslt;
+END_FUNCTION

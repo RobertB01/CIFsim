@@ -1,0 +1,176 @@
+PROGRAM MAIN
+VAR_OUTPUT
+    timerValue0: TIME;
+    timerValue1: TIME;
+END_VAR
+VAR
+    cnt: LINT;
+    first: BOOL := TRUE;
+    curTimerValue: TIME;
+    state0: STATE;
+    curTime: LREAL;
+    loopsKilled: LINT;
+END_VAR
+VAR_TEMP
+    lastTimerValue: TIME;
+    curDeltaTime: TIME;
+    curDeltaSecs: LREAL;
+    state1: STATE;
+    progress: BOOL;
+    loopCount: INT;
+END_VAR
+
+
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.dvar_M_aut_i := 0;
+    state0.dvar_M_aut_j := 1;
+    state0.dvar_M_aut_l := makeArray0(1, 2, 3, 4, 5);
+    state0.dvar_M_aut_ll := makeArray1(makeArray0(1, 2, 3, 4, 5), makeArray0(1, 2, 3, 4, 5));
+    state0.dvar_M_aut_empty_arr := makeArray2();
+    state0.dvar_M_aut := elit_l1;
+ELSE
+    // Update continuous variables for time delay.
+
+    state0.curTime := curTime;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := state0.dvar_M_aut_l[normProjIdx(0, 5)];
+            state1.dvar_M_aut_j := state0.dvar_M_aut_l[normProjIdx(-1, 5)];
+            state1.dvar_M_aut := elit_l2;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l2) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_l[normProjIdx(0, 5)] := 7;
+            state1.dvar_M_aut_l[normProjIdx(-1, 5)] := 8;
+            state1.dvar_M_aut := elit_l3;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l3) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_ll[normProjIdx(-2, 2)] := func_lf(makeArray0(11, 22, 33, 44, 55), -1);
+            state1.dvar_M_aut := elit_l4;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l4) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_ll := func_llf(-1, 9);
+            state1.dvar_M_aut := elit_l5;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l5) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_ll[normProjIdx(0, 2)] := projArray1(func_llf(3, 123), 0);
+            state1.dvar_M_aut := elit_l6;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l6) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := projArray0(state0.dvar_M_aut_ll[normProjIdx(1, 2)], 2);
+            state1.dvar_M_aut := elit_l7;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l7) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_empty_arr := makeArray2();
+            state1.dvar_M_aut := elit_l8;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+
+    // Protect against events that are always enabled.
+    loopCount := loopCount + 1;
+    IF loopCount >= 100 THEN
+        loopsKilled := loopsKilled + 1;
+        EXIT;
+    END_IF;
+END_WHILE;
+END_PROGRAM

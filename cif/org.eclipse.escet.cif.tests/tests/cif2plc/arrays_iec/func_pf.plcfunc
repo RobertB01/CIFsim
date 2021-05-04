@@ -1,0 +1,8 @@
+FUNCTION func_pf: DINT
+VAR_INPUT
+    farg_pf_x: DINT;
+END_VAR
+
+func_pf := projArray0(makeArray0(1, 2, 3, 4, 5), farg_pf_x);
+RETURN;
+END_FUNCTION

@@ -1,0 +1,7 @@
+FUNCTION alg_x: LREAL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+alg_x := state.curTime;
+END_FUNCTION

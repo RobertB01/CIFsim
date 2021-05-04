@@ -1,0 +1,10 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_p_x AT %Q*: DINT;
+        dvar_M_p AT %Q*: enum_E;
+        dvar_M_q_y AT %Q*: DINT;
+        dvar_M_q_b AT %Q*: BOOL;
+        dvar_M_q AT %Q*: enum_E;
+    END_STRUCT;
+END_TYPE

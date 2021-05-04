@@ -1,0 +1,14 @@
+FUNCTION func_f: DINT
+VAR_INPUT
+    farg2_f_p: ARRAY[0..4] of DINT;
+END_VAR
+VAR
+    farg_f_p: ARRAY[0..4] of DINT;
+END_VAR
+
+farg_f_p := farg2_f_p;
+farg_f_p[normProjIdx(0, 5)] := 5;
+farg_f_p[normProjIdx(1, 5)] := 6;
+func_f := ((((farg_f_p[normProjIdx(0, 5)]) + (farg_f_p[normProjIdx(1, 5)])) + (farg_f_p[normProjIdx(2, 5)])) + (farg_f_p[normProjIdx(3, 5)])) + (farg_f_p[normProjIdx(4, 5)]);
+RETURN;
+END_FUNCTION

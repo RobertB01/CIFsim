@@ -1,0 +1,15 @@
+FUNCTION ifExprFunc7: DINT
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+IF (state.dvar_M_p_vf) THEN
+    ifExprFunc7 := 4;
+ELSIF (state.dvar_M_p_vf) THEN
+    ifExprFunc7 := 5;
+ELSIF (state.dvar_M_p_vf) THEN
+    ifExprFunc7 := 6;
+ELSE
+    ifExprFunc7 := 7;
+END_IF;
+END_FUNCTION

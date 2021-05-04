@@ -42,4 +42,5 @@ tool copy_dirs(string dirpath, string old_postfix, string new_postfix):
     end
 end
 
+copy_dirs("cif2plc", "_real", "");
 copy_dirs("codegen", "_real", "");

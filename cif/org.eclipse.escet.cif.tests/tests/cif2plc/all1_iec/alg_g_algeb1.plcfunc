@@ -1,0 +1,7 @@
+FUNCTION alg_g_algeb1: LREAL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+alg_g_algeb1 := (state.curTime) + (1.0);
+END_FUNCTION

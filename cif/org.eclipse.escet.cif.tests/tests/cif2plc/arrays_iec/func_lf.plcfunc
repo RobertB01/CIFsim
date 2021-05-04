@@ -1,0 +1,17 @@
+FUNCTION func_lf: ARRAY[0..4] of DINT
+VAR_INPUT
+    farg_lf_l: ARRAY[0..4] of DINT;
+    farg_lf_x: DINT;
+END_VAR
+VAR
+    fvar_lf_r: ARRAY[0..4] of DINT;
+END_VAR
+
+// Initialize local variables.
+fvar_lf_r := farg_lf_l;
+
+// Actual function body.
+fvar_lf_r[normProjIdx(farg_lf_x, 5)] := 6;
+func_lf := fvar_lf_r;
+RETURN;
+END_FUNCTION

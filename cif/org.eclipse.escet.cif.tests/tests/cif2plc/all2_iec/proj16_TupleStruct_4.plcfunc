@@ -1,0 +1,7 @@
+FUNCTION proj16_TupleStruct_4: DINT
+VAR_INPUT
+    tuple: TupleStruct_4;
+END_VAR
+
+proj16_TupleStruct_4 := tuple.field16;
+END_FUNCTION

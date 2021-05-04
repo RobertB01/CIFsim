@@ -1,0 +1,7 @@
+FUNCTION proj7_TupleStruct_1: LREAL
+VAR_INPUT
+    tuple: TupleStruct_1;
+END_VAR
+
+proj7_TupleStruct_1 := tuple.field7;
+END_FUNCTION

@@ -1,0 +1,8 @@
+FUNCTION projArray1: DINT
+VAR_INPUT
+    arr: ARRAY[0..1] of DINT;
+    idx: DINT;
+END_VAR
+
+projArray1 := arr[normProjIdx(idx, 2)];
+END_FUNCTION

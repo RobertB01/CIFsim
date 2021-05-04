@@ -1,0 +1,7 @@
+FUNCTION alg_a: LREAL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+alg_a := (state.cvar_c) + (derivcvar_c(state));
+END_FUNCTION

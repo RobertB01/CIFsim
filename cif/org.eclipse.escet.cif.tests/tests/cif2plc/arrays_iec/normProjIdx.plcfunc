@@ -1,0 +1,15 @@
+FUNCTION normProjIdx: DINT
+VAR_INPUT
+    idx: DINT;
+    size: DINT;
+END_VAR
+VAR
+    tmp: DINT;
+END_VAR
+
+tmp := idx;
+IF tmp < 0 THEN
+    tmp := size + tmp;
+END_IF;
+normProjIdx := tmp;
+END_FUNCTION

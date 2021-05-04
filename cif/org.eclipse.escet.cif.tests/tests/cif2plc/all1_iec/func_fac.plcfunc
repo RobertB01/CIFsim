@@ -1,0 +1,8 @@
+FUNCTION func_fac: DINT
+VAR_INPUT
+    farg_fac_a: DINT;
+END_VAR
+
+func_fac := ifExprFunc1(farg_fac_a);
+RETURN;
+END_FUNCTION

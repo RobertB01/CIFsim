@@ -1,0 +1,10 @@
+FUNCTION func_add3: LREAL
+VAR_INPUT
+    farg_add3_a: DINT;
+    farg_add3_b: DINT;
+    farg_add3_c: DINT;
+END_VAR
+
+func_add3 := ((farg_add3_a) + (DINT_TO_LREAL(farg_add3_b))) + (farg_add3_c);
+RETURN;
+END_FUNCTION

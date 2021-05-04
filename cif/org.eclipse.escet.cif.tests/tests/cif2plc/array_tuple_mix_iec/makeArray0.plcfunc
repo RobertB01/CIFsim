@@ -1,0 +1,13 @@
+FUNCTION makeArray0: ARRAY[0..1] of TupleStruct_1
+VAR_INPUT
+    elem0: TupleStruct_1;
+    elem1: TupleStruct_1;
+END_VAR
+VAR
+    rslt: ARRAY[0..1] of TupleStruct_1;
+END_VAR
+
+rslt[0] := elem0;
+rslt[1] := elem1;
+makeArray0 := rslt;
+END_FUNCTION

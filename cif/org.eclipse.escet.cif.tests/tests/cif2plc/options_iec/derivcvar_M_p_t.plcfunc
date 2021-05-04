@@ -1,0 +1,7 @@
+FUNCTION derivcvar_M_p_t: REAL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+derivcvar_M_p_t := 1.0;
+END_FUNCTION

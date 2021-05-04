@@ -53,7 +53,7 @@ for test in tests:
         options = options + extra_options;
 
         // Print what we are testing.
-        outln("Testing \"%s\" using options \"%s\"...", test, join(extra_options, " "));
+        outln("Testing \"%s\" (%s) using options \"%s\"...", test, target, join(extra_options, " "));
 
         // Get paths.
         string test_out_exp  = chfileext(test, newext=target + ".out");
@@ -81,11 +81,11 @@ for test in tests:
         // Compare output directories.
         list string filenames_exp;
         if isdir(dir_exp):
-            filenames_exp = find(dir_exp, recursive=false, files=true, dirs=false);
+            filenames_exp = find(dir_exp, recursive=true, files=true, dirs=false);
         end
         list string filenames_real;
         if isdir(dir_real):
-            filenames_real = find(dir_real, recursive=false, files=true, dirs=false);
+            filenames_real = find(dir_real, recursive=true, files=true, dirs=false);
         end
         set string filenames;
         for filename in filenames_exp + filenames_real:: filenames = filenames or {filename};
@@ -95,7 +95,7 @@ for test in tests:
             string filename_exp = replace(pathjoin(dir_exp, filename), "\\", "/");
             string filename_real = replace(pathjoin(dir_real, filename), "\\", "/");
             bool target_diff = diff(filename_exp, filename_real, missingAsEmpty=true, warnOnDiff=true);
-            if not target_diff:: if exists(filename_real):: rmfile(filename_real);
+            if not target_diff and exists(filename_real):: rmfile(filename_real);
             if target_diff:: target_diff_count = target_diff_count + 1;
         end
         if isdir(dir_real) and empty(find(dir_real)):: rmdir(dir_real);
