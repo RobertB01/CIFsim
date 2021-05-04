@@ -1,0 +1,7 @@
+FUNCTION alg_g_algeb2: TupleStruct_1
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+alg_g_algeb2 := makeTupleStruct_1(state.curTime, (state.curTime) + (1.0));
+END_FUNCTION

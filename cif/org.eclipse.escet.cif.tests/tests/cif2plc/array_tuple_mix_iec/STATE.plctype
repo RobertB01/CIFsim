@@ -1,0 +1,11 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_aut_tii AT %Q*: TupleStruct_1;
+        dvar_M_aut_ltii AT %Q*: ARRAY[0..1] of TupleStruct_1;
+        dvar_M_aut_tlili AT %Q*: TupleStruct_2;
+        dvar_M_aut_i AT %Q*: DINT;
+        dvar_M_aut_j AT %Q*: DINT;
+        dvar_M_aut AT %Q*: enum_E;
+    END_STRUCT;
+END_TYPE

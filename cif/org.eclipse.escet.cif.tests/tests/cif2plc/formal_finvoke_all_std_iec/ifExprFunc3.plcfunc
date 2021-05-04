@@ -1,0 +1,11 @@
+FUNCTION ifExprFunc3: BOOL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+IF (state.dvar_M_aut_b) THEN
+    ifExprFunc3 := state.dvar_M_aut_b;
+ELSE
+    ifExprFunc3 := state.dvar_M_aut_b;
+END_IF;
+END_FUNCTION

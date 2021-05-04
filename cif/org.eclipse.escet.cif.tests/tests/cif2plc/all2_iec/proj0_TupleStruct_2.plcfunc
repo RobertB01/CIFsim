@@ -1,0 +1,7 @@
+FUNCTION proj0_TupleStruct_2: BOOL
+VAR_INPUT
+    tuple: TupleStruct_2;
+END_VAR
+
+proj0_TupleStruct_2 := tuple.field0;
+END_FUNCTION

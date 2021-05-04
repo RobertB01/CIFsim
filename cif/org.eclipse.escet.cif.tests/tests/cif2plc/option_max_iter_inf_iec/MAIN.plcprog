@@ -1,0 +1,90 @@
+PROGRAM MAIN
+VAR_OUTPUT
+    timerValue0: TIME;
+    timerValue1: TIME;
+END_VAR
+VAR
+    cnt: LINT;
+    first: BOOL := TRUE;
+    curTimerValue: TIME;
+    state0: STATE;
+    curTime: LREAL;
+    loopsKilled: LINT;
+END_VAR
+VAR_TEMP
+    lastTimerValue: TIME;
+    curDeltaTime: TIME;
+    curDeltaSecs: LREAL;
+    state1: STATE;
+    progress: BOOL;
+    loopCount: INT;
+    b1: BOOL;
+END_VAR
+
+
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.dvar_M_p_x := 5;
+    state0.cvar_M_p_t := 0.0;
+    state0.dvar_M_p := elit_X;
+ELSE
+    // Update continuous variables for time delay.
+    state1.cvar_M_p_t := state0.cvar_M_p_t + curDeltaSecs * derivcvar_M_p_t(state0);
+
+    state0.curTime := curTime;
+    state0.cvar_M_p_t := state1.cvar_M_p_t;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "tau".
+    IF NOT progress THEN
+        b1 := (state0.cvar_M_p_t) > (1.0);
+        b1 := b1 AND ((state0.dvar_M_p_x) = (5));
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.cvar_M_p_t := ivar_M_p_i;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+END_WHILE;
+END_PROGRAM

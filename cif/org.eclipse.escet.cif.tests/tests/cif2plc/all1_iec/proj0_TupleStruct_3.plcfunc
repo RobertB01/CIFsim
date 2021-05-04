@@ -1,0 +1,7 @@
+FUNCTION proj0_TupleStruct_3: DINT
+VAR_INPUT
+    tuple: TupleStruct_3;
+END_VAR
+
+proj0_TupleStruct_3 := tuple.field0;
+END_FUNCTION

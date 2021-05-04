@@ -1,0 +1,6 @@
+TYPE TupleStruct_2:
+    STRUCT
+        field0: ARRAY[0..1] of DINT;
+        field1: ARRAY[0..1] of DINT;
+    END_STRUCT;
+END_TYPE

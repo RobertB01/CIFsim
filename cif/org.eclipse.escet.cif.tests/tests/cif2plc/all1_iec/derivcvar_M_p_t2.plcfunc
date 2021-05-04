@@ -1,0 +1,7 @@
+FUNCTION derivcvar_M_p_t2: LREAL
+VAR_INPUT
+    state: STATE;
+END_VAR
+
+derivcvar_M_p_t2 := 2.0;
+END_FUNCTION

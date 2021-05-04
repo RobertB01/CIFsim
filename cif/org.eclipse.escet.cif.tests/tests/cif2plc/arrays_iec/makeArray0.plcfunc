@@ -1,0 +1,19 @@
+FUNCTION makeArray0: ARRAY[0..4] of DINT
+VAR_INPUT
+    elem0: DINT;
+    elem1: DINT;
+    elem2: DINT;
+    elem3: DINT;
+    elem4: DINT;
+END_VAR
+VAR
+    rslt: ARRAY[0..4] of DINT;
+END_VAR
+
+rslt[0] := elem0;
+rslt[1] := elem1;
+rslt[2] := elem2;
+rslt[3] := elem3;
+rslt[4] := elem4;
+makeArray0 := rslt;
+END_FUNCTION

@@ -1,0 +1,11 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_aut_i AT %Q*: DINT;
+        dvar_M_aut_j AT %Q*: DINT;
+        dvar_M_aut_l AT %Q*: ARRAY[0..4] of DINT;
+        dvar_M_aut_ll AT %Q*: ARRAY[0..1] of ARRAY[0..4] of DINT;
+        dvar_M_aut_empty_arr AT %Q*: ARRAY[0..0] of DINT;
+        dvar_M_aut AT %Q*: enum_E;
+    END_STRUCT;
+END_TYPE

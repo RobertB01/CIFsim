@@ -1,0 +1,8 @@
+FUNCTION func_dup: TupleStruct_1
+VAR_INPUT
+    farg_dup_a: DINT;
+END_VAR
+
+func_dup := makeTupleStruct_1(farg_dup_a, farg_dup_a);
+RETURN;
+END_FUNCTION

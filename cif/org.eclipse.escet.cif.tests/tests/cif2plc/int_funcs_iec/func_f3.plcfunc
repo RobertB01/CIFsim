@@ -1,0 +1,25 @@
+FUNCTION func_f3: DINT
+VAR_INPUT
+    farg_f3_z: DINT;
+END_VAR
+VAR
+    fvar_f3_x: DINT;
+    fvar_f3_y: DINT;
+    tmp0: DINT;
+    tmp1: DINT;
+END_VAR
+
+// Initialize local variables.
+fvar_f3_x := 1;
+fvar_f3_y := 2;
+
+// Actual function body.
+tmp0 := fvar_f3_x;
+tmp1 := fvar_f3_y;
+tmp0 := proj0_TupleStruct_1(makeTupleStruct_1(fvar_f3_y, fvar_f3_x));
+tmp1 := proj1_TupleStruct_1(makeTupleStruct_1(fvar_f3_y, fvar_f3_x));
+fvar_f3_x = tmp0;
+fvar_f3_y = tmp1;
+func_f3 := ((fvar_f3_x) + (fvar_f3_y)) + (farg_f3_z);
+RETURN;
+END_FUNCTION

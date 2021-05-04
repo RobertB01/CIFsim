@@ -1,0 +1,11 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_hw_button AT %Q*: enum_E;
+        dvar_M_hw_lamp_bit AT %Q*: BOOL;
+        dvar_M_hw_lamp AT %Q*: enum_E;
+        dvar_M_sup AT %Q*: enum_E;
+        cvar_M_timer_t AT %Q*: LREAL;
+        dvar_M_timer AT %Q*: enum_E;
+    END_STRUCT;
+END_TYPE

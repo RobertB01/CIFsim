@@ -1,0 +1,8 @@
+FUNCTION func_f1: BOOL
+VAR_INPUT
+    farg_f1_p: BOOL;
+END_VAR
+
+func_f1 := (farg_f1_p) AND (ifExprFunc1(0));
+RETURN;
+END_FUNCTION
