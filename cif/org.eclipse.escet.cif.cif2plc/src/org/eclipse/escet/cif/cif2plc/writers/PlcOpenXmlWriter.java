@@ -493,7 +493,8 @@ public class PlcOpenXmlWriter {
         parent.appendChild(taskElem);
 
         taskElem.setAttribute("name", task.name);
-        taskElem.setAttribute("interval", fmt("t#%dms", task.cycleTime));
+        // Interval value is vendor specific, TwinCAT and CODESYS use ISO 8601 Durations.
+        taskElem.setAttribute("interval", fmt("PT%.3fS", (float)task.cycleTime / 1000));
         taskElem.setAttribute("priority", str(task.priority));
 
         for (PlcPouInstance inst: task.pouInstances) {
