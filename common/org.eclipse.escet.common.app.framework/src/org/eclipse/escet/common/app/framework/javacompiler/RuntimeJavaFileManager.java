@@ -452,6 +452,34 @@ public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileMa
         return rslt;
     }
 
+    @Override
+    public boolean contains(Location location, FileObject fileObject) throws IOException {
+        if (RuntimeJavaCompiler.DEBUG) {
+            System.out.println("RuntimeJavaFileManager.cotains: location=" + location + " fileObject=" + fileObject);
+        }
+
+        // Check our own source files.
+        if (location == StandardLocation.SOURCE_PATH) {
+            for (JavaInputFileObject file: sources.values()) {
+                if (isSameFile(file, fileObject)) {
+                    return true;
+                }
+            }
+        }
+
+        // Check our own generated class files.
+        if (location == StandardLocation.CLASS_PATH) {
+            for (JavaClassFileObject file: classLoader.generatedClasses.values()) {
+                if (isSameFile(file, fileObject)) {
+                    return true;
+                }
+            }
+        }
+
+        // Defer the request.
+        return super.contains(location, fileObject);
+    }
+
     /**
      * Returns a normalized Java class or package name. The Java compiler API supports both {@code '.'} and {@code '/'}
      * characters, see {@link JavaFileManager}. This method normalizes to {@code '.'} characters.
