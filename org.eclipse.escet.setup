@@ -222,8 +222,7 @@
     </setupTask>
   </setupTask>
   <setupTask
-      xsi:type="setup.p2:P2Task"
-      mergeDisabled="true">
+      xsi:type="setup.p2:P2Task">
     <requirement
         name="org.eclipse.sdk.feature.group"/>
     <requirement
@@ -247,19 +246,10 @@
     <requirement
         name="net.sf.eclipsecs.feature.group"/>
     <repository
-        url="https://download.eclipse.org/releases/${eclipse.ide.version}"/>
-    <repository
-        url="https://download.eclipse.org/tools/orbit/downloads/drops/${eclipse.orbit.version}/repository"/>
-    <repository
         url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/${m2eclipse-tycho.version}/N/LATEST/"/>
     <repository
         url="http://checkstyle.org/eclipse-cs-update-site/updates/${eclipse-checkstyle.version.major}.x/${eclipse-checkstyle.version.major}.${eclipse-checkstyle.version.minor}.x"/>
-    <description>
-      Install the tools needed in the IDE to work with the source code for ${scope.project.label}.
-
-      Note:
-      - Setting 'Merge Disabled' is currently set to 'true' as otherwise the P2 task can't be re-executed from within a development environment, as it is not listed when choosing 'Help' -> 'Execute Setup Tasks...'.
-    </description>
+    <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
