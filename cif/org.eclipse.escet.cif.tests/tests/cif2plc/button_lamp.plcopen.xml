@@ -424,8 +424,12 @@ END_WHILE;</xhtml>
     <configurations>
       <configuration name="MyConfig">
         <resource name="MyResource">
-          <task interval="t#7ms" name="MyTask" priority="123">
-            <pouInstance name="MAIN" typeName="MAIN"/>
+          <task interval="PT0.007S" name="MyTask" priority="123">
+            <pouInstance name="MAIN" typeName="MAIN">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"/>
+              </documentation>
+            </pouInstance>
           </task>
           <globalVars constant="false" name="INPUTS">
             <variable address="%I*" name="ivar_M_hw_button_bit">
