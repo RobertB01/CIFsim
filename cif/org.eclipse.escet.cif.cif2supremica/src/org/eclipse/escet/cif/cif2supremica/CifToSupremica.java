@@ -51,11 +51,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
-import org.eclipse.escet.cif.cif2cif.ElimEnums;
 import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
 import org.eclipse.escet.cif.cif2cif.ElimMonitors;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
+import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
@@ -235,7 +235,7 @@ public class CifToSupremica {
         // eliminate them before we simplify values, to allow simplification
         // of the result of this elimination.
         if (elimEnums) {
-            new ElimEnums().transform(spec);
+            new EnumsToInts().transform(spec);
         }
 
         // Simplify values, to simplify the resulting Supremica model. Note

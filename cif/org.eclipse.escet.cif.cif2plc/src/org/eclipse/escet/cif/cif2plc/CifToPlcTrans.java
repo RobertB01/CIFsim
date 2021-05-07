@@ -48,7 +48,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
-import org.eclipse.escet.cif.cif2cif.ElimEnums;
+import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
@@ -354,7 +354,7 @@ public class CifToPlcTrans {
 
         // If requested, eliminate enumerations.
         if (ElimEnumsOption.elimEnums()) {
-            new ElimEnums().transform(spec);
+            new EnumsToInts().transform(spec);
         }
 
         // Generate code.
