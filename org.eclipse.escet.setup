@@ -223,7 +223,7 @@
   </setupTask>
   <setupTask
       xsi:type="setup.p2:P2Task"
-      label="${scope.project.label}"
+      label="Eclipse ESCET"
       mergeDisabled="true">
     <requirement
         name="org.eclipse.sdk.feature.group"/>
