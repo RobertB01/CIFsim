@@ -23,8 +23,12 @@
       value="R20210223232630"/>
   <setupTask
       xsi:type="setup:VariableTask"
-      name="eclipse-checkstyle.version"
-      value="8.39.0"/>
+      name="eclipse-checkstyle.version.major"
+      value="8"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="eclipse-checkstyle.version.minor"
+      value="41"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="m2eclipse-tycho.version"
@@ -218,7 +222,8 @@
     </setupTask>
   </setupTask>
   <setupTask
-      xsi:type="setup.p2:P2Task">
+      xsi:type="setup.p2:P2Task"
+      mergeDisabled="true">
     <requirement
         name="org.eclipse.sdk.feature.group"/>
     <requirement
@@ -239,9 +244,18 @@
         name="org.eclipse.sirius.specifier.feature.group"/>
     <requirement
         name="org.sonatype.tycho.m2e.feature.feature.group"/>
+    <requirement
+        name="net.sf.eclipsecs.feature.group"/>
     <repository
         url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/${m2eclipse-tycho.version}/N/LATEST/"/>
-    <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
+    <repository
+        url="http://checkstyle.org/eclipse-cs-update-site/updates/${eclipse-checkstyle.version.major}.x/${eclipse-checkstyle.version.major}.${eclipse-checkstyle.version.minor}.x"/>
+    <description>
+      Install the tools needed in the IDE to work with the source code for ${scope.project.label}.
+
+      Note:
+      - Setting 'Merge Disabled' is currently set to 'true' as otherwise the P2 task can't be re-executed from within a development environment, as it is not listed when choosing 'Help' -> 'Execute Setup Tasks...'.
+    </description>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
