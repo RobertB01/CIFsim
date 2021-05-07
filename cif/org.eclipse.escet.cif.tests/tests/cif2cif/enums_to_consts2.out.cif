@@ -1,0 +1,16 @@
+group x1:
+  const int A = 0;
+  const int B = 1;
+end
+group x2:
+  const int B = 0;
+  const int A = 1;
+end
+automaton a:
+  disc int[0..1] v1;
+  disc int[0..1] v2;
+  invariant v1 = x1.A or v1 = x1.B;
+  invariant v2 = x2.A or v2 = x2.B;
+  location:
+    initial;
+end
