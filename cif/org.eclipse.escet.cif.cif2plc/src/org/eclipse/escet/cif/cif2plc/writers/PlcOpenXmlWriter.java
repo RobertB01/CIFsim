@@ -483,6 +483,26 @@ public class PlcOpenXmlWriter {
     }
 
     /**
+     * Transforms a PLC POU instance to PLCopen XML and adds a documentation child element to the POU instance.
+     *
+     * @param inst The POU instance.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private static void transPouInstanceWithDoc(PlcPouInstance inst, Element parent) {
+        Element instElem = parent.getOwnerDocument().createElement("pouInstance");
+        parent.appendChild(instElem);
+
+        instElem.setAttribute("name", inst.name);
+        instElem.setAttribute("typeName", inst.pou.name);
+
+        Element docElem = instElem.getOwnerDocument().createElement("documentation");
+        instElem.appendChild(docElem);
+
+        Element xhtml = docElem.getOwnerDocument().createElementNS(XHTML_NS, "xhtml");
+        docElem.appendChild(xhtml);
+    }
+
+    /**
      * Transforms a PLC task to PLCopen XML.
      *
      * @param task The task.
@@ -498,7 +518,9 @@ public class PlcOpenXmlWriter {
         taskElem.setAttribute("priority", str(task.priority));
 
         for (PlcPouInstance inst: task.pouInstances) {
-            transPouInstance(inst, taskElem);
+            // Make sure to also include a documentation element as a child of this POU otherwise TwinCAT and CODESYS
+            // give an 'object reference not set' error when creating this task element.
+            transPouInstanceWithDoc(inst, taskElem);
         }
     }
 
