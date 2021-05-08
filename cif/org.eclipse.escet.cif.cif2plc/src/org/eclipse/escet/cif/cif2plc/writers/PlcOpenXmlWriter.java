@@ -473,13 +473,16 @@ public class PlcOpenXmlWriter {
      *
      * @param inst The POU instance.
      * @param parent The parent element in which to generate new elements.
+     * @return The newly created element for the POU instance.
      */
-    private static void transPouInstance(PlcPouInstance inst, Element parent) {
+    private static Element transPouInstance(PlcPouInstance inst, Element parent) {
         Element instElem = parent.getOwnerDocument().createElement("pouInstance");
         parent.appendChild(instElem);
 
         instElem.setAttribute("name", inst.name);
         instElem.setAttribute("typeName", inst.pou.name);
+
+        return instElem;
     }
 
     /**
@@ -489,11 +492,7 @@ public class PlcOpenXmlWriter {
      * @param parent The parent element in which to generate new elements.
      */
     private static void transPouInstanceWithDoc(PlcPouInstance inst, Element parent) {
-        Element instElem = parent.getOwnerDocument().createElement("pouInstance");
-        parent.appendChild(instElem);
-
-        instElem.setAttribute("name", inst.name);
-        instElem.setAttribute("typeName", inst.pou.name);
+        Element instElem = transPouInstance(inst, parent);
 
         Element docElem = instElem.getOwnerDocument().createElement("documentation");
         instElem.appendChild(docElem);
