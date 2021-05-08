@@ -21,7 +21,8 @@ indexterm:[enumeration,merge]
 This CIF to CIF transformation merges all enumerations together to a single
 enumeration.
 
-See also: <<tools-cif2cif-chapter-elim-enums>>.
+See also: <<tools-cif2cif-chapter-enums-to-ints>> and 
+<<tools-cif2cif-chapter-enums-to-consts>>.
 
 indexterm:[merge enumerations,supported specifications]
 

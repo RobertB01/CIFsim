@@ -63,10 +63,10 @@ path, where the `.cif` file extension is removed (if present), and a
 defaults to the name of the output file, after removal of the `.wmod`
 extension (if present).
 
-* _Eliminate enumerations_: Enable this option to eliminate enumerations before
-generating transforming to Supremica. Disable this option to keep
-enumerations in the generated Supremica module. By default this option is
-disabled.
+* _Eliminate enumerations_: Enable this option to eliminate enumerations and 
+replace them with integers before transforming to Supremica. Disable this
+option to keep enumerations in the generated Supremica module. By default this
+option is disabled.
 +
 Even though Supremica supports enumerations in its language, it doesn't
 support them in all its algorithms. Even if the original CIF transformation
@@ -181,7 +181,7 @@ specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-elim-monitors>>
 
-* <<tools-cif2cif-chapter-elim-enums>> (if enabled via the corresponding
+* <<tools-cif2cif-chapter-enums-to-ints>> (if enabled via the corresponding
 <<tools-cif2supremica-options,option>>)
 
 * <<tools-cif2cif-chapter-simplify-values>>
