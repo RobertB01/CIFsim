@@ -23,6 +23,8 @@ map(string:list string) test_options = {
    "cif2cif/elim_alg_vars2.cif":                    ["-t elim-comp-def-inst,elim-self,elim-alg-vars"],
    "cif2cif/elim_aut_casts.cif":                    ["-t elim-comp-def-inst,elim-aut-casts"],
    "cif2cif/elim_consts.cif":                       ["-t elim-consts"],
+   "cif2cif/elim_enums1.cif":                       ["-t elim-comp-def-inst,elim-enums"],
+   "cif2cif/elim_enums2.cif":                       ["-t elim-enums"],
    "cif2cif/elim_equations.cif":                    ["-t elim-equations"],
    "cif2cif/elim_groups.cif":                       ["-t elim-groups"],
    "cif2cif/elim_if_updates.cif":                   ["-t elim-if-updates"],
