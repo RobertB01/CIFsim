@@ -473,13 +473,32 @@ public class PlcOpenXmlWriter {
      *
      * @param inst The POU instance.
      * @param parent The parent element in which to generate new elements.
+     * @return The newly created element for the POU instance.
      */
-    private static void transPouInstance(PlcPouInstance inst, Element parent) {
+    private static Element transPouInstance(PlcPouInstance inst, Element parent) {
         Element instElem = parent.getOwnerDocument().createElement("pouInstance");
         parent.appendChild(instElem);
 
         instElem.setAttribute("name", inst.name);
         instElem.setAttribute("typeName", inst.pou.name);
+
+        return instElem;
+    }
+
+    /**
+     * Transforms a PLC POU instance to PLCopen XML and adds a documentation child element to the POU instance.
+     *
+     * @param inst The POU instance.
+     * @param parent The parent element in which to generate new elements.
+     */
+    private static void transPouInstanceWithDoc(PlcPouInstance inst, Element parent) {
+        Element instElem = transPouInstance(inst, parent);
+
+        Element docElem = instElem.getOwnerDocument().createElement("documentation");
+        instElem.appendChild(docElem);
+
+        Element xhtml = docElem.getOwnerDocument().createElementNS(XHTML_NS, "xhtml");
+        docElem.appendChild(xhtml);
     }
 
     /**
@@ -493,11 +512,14 @@ public class PlcOpenXmlWriter {
         parent.appendChild(taskElem);
 
         taskElem.setAttribute("name", task.name);
-        taskElem.setAttribute("interval", fmt("t#%dms", task.cycleTime));
+        // Interval value is vendor specific, TwinCAT and CODESYS use ISO 8601 Durations.
+        taskElem.setAttribute("interval", fmt("PT%.3fS", (float)task.cycleTime / 1000));
         taskElem.setAttribute("priority", str(task.priority));
 
         for (PlcPouInstance inst: task.pouInstances) {
-            transPouInstance(inst, taskElem);
+            // Make sure to also include a documentation element as a child of this POU otherwise TwinCAT and CODESYS
+            // give an 'object reference not set' error when creating this task element.
+            transPouInstanceWithDoc(inst, taskElem);
         }
     }
 
