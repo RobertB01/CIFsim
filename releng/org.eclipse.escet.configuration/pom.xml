@@ -43,7 +43,7 @@ SPDX-License-Identifier: MIT
         <asciidoctorj.diagram.version>2.1.0</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.4</asciidoctorj.pdf.version>
         <jruby.version>9.2.15.0</jruby.version>
-        <geneclipsetoc.version>1.0.2</geneclipsetoc.version>
+        <geneclipsetoc.version>1.0.3</geneclipsetoc.version>
 
         <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
         <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
@@ -60,20 +60,11 @@ SPDX-License-Identifier: MIT
             <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
         </pluginRepository>
 
-        <!-- Bintray jmini maven plugins. For geneclipsetoc plugin. -->
-        <!-- See issue #57: Temporarily disabled this as dl.bintray.com is offline and it is only hosted there. -->
-        <!--
+        <!-- bsi-software maven plugins. For geneclipsetoc plugin. -->
         <pluginRepository>
-            <id>bintray.jmini.maven</id>
-            <url>http://dl.bintray.com/jmini/maven/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>bsi-software.geneclipsetoc</id>
+            <url>https://bsi-software.github.io/geneclipsetoc/</url>
         </pluginRepository>
-        -->
     </pluginRepositories>
 
     <!-- Configure Maven/Tycho plugins/versions, and enable them. -->
@@ -287,14 +278,11 @@ SPDX-License-Identifier: MIT
                     </configuration>
                 </plugin>
 
-                <!-- See issue #57: Temporarily disabled this as dl.bintray.com is offline and it is only hosted there. -->
-                <!--
                 <plugin>
                     <groupId>com.bsiag.geneclipsetoc</groupId>
                     <artifactId>geneclipsetoc-maven-plugin</artifactId>
                     <version>${geneclipsetoc.version}</version>
                 </plugin>
-                -->
             </plugins>
         </pluginManagement>
     </build>
