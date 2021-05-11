@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.cif2cif.app;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
@@ -192,6 +193,11 @@ public class CifToCifTransOption extends Option<String> {
             } catch (SecurityException e) {
                 String msg = "Failed to instantiate CIF to CIF trans: " + transClass;
                 throw new RuntimeException(msg, e);
+            }
+
+            // Warn for deprecated options.
+            if (transName.equals("elim-enums")) {
+                warn("The \"elim-enums\" option is deprecated.");
             }
 
             // Add transformation instance to result.

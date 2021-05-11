@@ -33,7 +33,7 @@ import org.eclipse.escet.common.java.Assert;
  * Basic functionality for converting enumerations into other types. This class can be extended to implement specific
  * conversion types.
  */
-public abstract class ElimEnums extends CifWalker implements CifToCifTransformation {
+public abstract class EnumsToBase extends CifWalker implements CifToCifTransformation {
     @Override
     public void transform(Specification spec) {
         // Check no component definition/instantiation precondition.
@@ -62,20 +62,13 @@ public abstract class ElimEnums extends CifWalker implements CifToCifTransformat
      * @param lit The enumeration literal.
      * @return The 0-based index of the enumeration literal in the enumeration declaration.
      */
-    public static int literalToInt(EnumLiteral lit) {
+    protected static int literalToInt(EnumLiteral lit) {
         // Get enumeration declaration and its literals.
         EnumDecl enumDecl = (EnumDecl)lit.eContainer();
         List<EnumLiteral> literals = enumDecl.getLiterals();
 
         // Get index of literal.
-        int idx = -1;
-        for (int i = 0; i < literals.size(); i++) {
-            EnumLiteral literal = literals.get(i);
-            if (literal == lit) {
-                idx = i;
-                break;
-            }
-        }
+        int idx = literals.indexOf(lit);
         Assert.check(idx >= 0);
 
         return idx;
@@ -87,7 +80,7 @@ public abstract class ElimEnums extends CifWalker implements CifToCifTransformat
      *
      * @param enumType The enumeration type to convert.
      */
-    public static void replaceEnumTypeIntType(EnumType enumType) {
+    protected static void replaceEnumTypeByIntType(EnumType enumType) {
         // Construct integer type.
         IntType intType = newIntType();
         intType.setLower(0);

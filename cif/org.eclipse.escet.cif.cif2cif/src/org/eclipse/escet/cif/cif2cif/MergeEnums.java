@@ -54,7 +54,8 @@ import org.eclipse.escet.cif.metamodel.java.CifWalker;
  * multiple enumerations, and compatibility is thus not an issue.
  * </p>
  *
- * @see ElimEnums
+ * @see EnumsToInts
+ * @see EnumsToConsts
  */
 public class MergeEnums extends CifWalker implements CifToCifTransformation {
     /** The new merged enumeration declaration. Is modified in-place. */

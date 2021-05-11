@@ -58,9 +58,9 @@ import org.eclipse.escet.common.java.Sets;
  *
  * <p>
  * If enumeration literals are renamed, this may influence value equality for {@link CifTypeUtils#areEnumsCompatible
- * compatible} enumerations. As such, either use the {@link ElimEnums} transformation before applying this
- * transformation, or otherwise ensure that renaming does not result in an invalid specification. If this transformation
- * renames enumeration literals, a warning is printed.
+ * compatible} enumerations. As such, either use the {@link EnumsToInts} or {@link EnumsToConsts} transformation before
+ * applying this transformation, or otherwise ensure that renaming does not result in an invalid specification. If this
+ * transformation renames enumeration literals, a warning is printed.
  * </p>
  */
 public class ElimGroups implements CifToCifTransformation {

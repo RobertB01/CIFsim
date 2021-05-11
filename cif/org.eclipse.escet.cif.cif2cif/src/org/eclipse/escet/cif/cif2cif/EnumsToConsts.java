@@ -33,6 +33,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EnumLiteralExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.emf.EMFHelper;
 
 /**
@@ -48,7 +49,7 @@ import org.eclipse.escet.common.emf.EMFHelper;
  * <li>Enumeration declarations are replaced by constant integer declarations.</li>
  * <li>Enumeration type references are changed to integer types of range {@code [0..n-1]}, where {@code n} is the number
  * of literals of the enumeration.</li>
- * <li>Enumeration literal references are changed to constant references. If the the referred enumeration literal is the
+ * <li>Enumeration literal references are changed to constant references. If the referred enumeration literal is the
  * {@code n}-th literal in the corresponding enumeration, then the integer value is {@code n-1}. That is, the integer
  * value is the 0-based index of the enumeration literal in the enumeration declaration.</li>
  * </ul>
@@ -71,13 +72,13 @@ import org.eclipse.escet.common.emf.EMFHelper;
  *
  * @see MergeEnums
  */
-public class EnumsToConsts extends ElimEnums {
+public class EnumsToConsts extends EnumsToBase {
     /** Replacement map from enumeration literals to constants. */
-    private static Map<EnumLiteral, Constant> enumConst = map();
+    private Map<EnumLiteral, Constant> enumConst = map();
 
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp) {
-        // Remove enumeration declarations and replace each literal with a constant declarations.
+        // Remove enumeration declarations and replace each literal with a constant declaration.
         List<Declaration> decls = comp.getDeclarations();
         Iterator<Declaration> declIter = decls.iterator();
         List<Declaration> newConstants = list();
@@ -97,16 +98,18 @@ public class EnumsToConsts extends ElimEnums {
 
     @Override
     protected void walkEnumLiteralExpression(EnumLiteralExpression litRef) {
-        // Replace literal reference by constant expression.
+        EnumLiteral lit = litRef.getLiteral();
+
+        // Replace literal reference by constant reference.
         ConstantExpression constExpr = newConstantExpression();
-        constExpr.setConstant(getConstant(litRef.getLiteral()));
-        constExpr.setType(newIntType());
+        constExpr.setConstant(getConstant(lit));
+        constExpr.setType(getIntType(literalToInt(lit)));
         EMFHelper.updateParentContainment(litRef, constExpr);
     }
 
     @Override
     protected void walkEnumType(EnumType enumType) {
-        replaceEnumTypeIntType(enumType);
+        replaceEnumTypeByIntType(enumType);
     }
 
     /**
@@ -115,12 +118,23 @@ public class EnumsToConsts extends ElimEnums {
      * @param lit The enumeration literal.
      * @return The constant corresponding to the supplied literal.
      */
-    public static Constant getConstant(EnumLiteral lit) {
+    private Constant getConstant(EnumLiteral lit) {
         Constant constant = enumConst.get(lit);
         if (constant == null) {
-            constant = newConstant(lit.getName(), null, newIntType(), CifValueUtils.makeInt(literalToInt(lit)));
+            int value = literalToInt(lit);
+            constant = newConstant(lit.getName(), null, getIntType(value), CifValueUtils.makeInt(value));
             enumConst.put(lit, constant);
         }
         return constant;
+    }
+
+    /**
+     * Creates a ranged integer type with upper and lower value equal to {@code value}.
+     *
+     * @param value The value.
+     * @return The newly created ranged integer type.
+     */
+    private IntType getIntType(int value) {
+        return newIntType(value, null, value);
     }
 }

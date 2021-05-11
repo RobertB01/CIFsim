@@ -1,12 +1,12 @@
 type t = int[0..2];
-const int RED = 0;
-const int GREEN = 1;
-const int BLUE = 2;
+const int[0..0] RED = 0;
+const int[1..1] GREEN = 1;
+const int[2..2] BLUE = 2;
 automaton p:
   disc int[0..1] v1 = UP;
   disc int[0..1] v2 = DOWN;
-  const int UP = 0;
-  const int DOWN = 1;
+  const int[0..0] UP = 0;
+  const int[1..1] DOWN = 1;
   invariant v2 = UP;
   location:
     initial;
@@ -19,8 +19,8 @@ automaton a:
 end
 automaton q:
   disc int[0..1] d = DOWN;
-  const int UP = 0;
-  const int DOWN = 1;
+  const int[0..0] UP = 0;
+  const int[1..1] DOWN = 1;
   invariant d = UP;
   location:
     initial;

@@ -40,7 +40,7 @@ import org.eclipse.escet.common.emf.EMFHelper;
  * <li>Enumeration declarations are removed.</li>
  * <li>Enumeration type references are changed to integer types of range {@code [0..n-1]}, where {@code n} is the number
  * of literals of the enumeration.</li>
- * <li>Enumeration literal references are changed to integer values. If the the referred enumeration literal is the
+ * <li>Enumeration literal references are changed to integer values. If the referred enumeration literal is the
  * {@code n}-th literal in the corresponding enumeration, then the integer value is {@code n-1}. That is, the integer
  * value is the 0-based index of the enumeration literal in the enumeration declaration.</li>
  * </ul>
@@ -63,7 +63,7 @@ import org.eclipse.escet.common.emf.EMFHelper;
  *
  * @see MergeEnums
  */
-public class EnumsToInts extends ElimEnums {
+public class EnumsToInts extends EnumsToBase {
     @Override
     protected void preprocessComplexComponent(ComplexComponent comp) {
         // Remove enumeration declarations.
@@ -79,7 +79,7 @@ public class EnumsToInts extends ElimEnums {
 
     @Override
     protected void walkEnumLiteralExpression(EnumLiteralExpression litRef) {
-        // Get enumeration declaration and its literals.
+        // Get enumeration literal.
         EnumLiteral lit = litRef.getLiteral();
 
         // Replace literal reference by integer expression.
@@ -89,6 +89,6 @@ public class EnumsToInts extends ElimEnums {
 
     @Override
     protected void walkEnumType(EnumType enumType) {
-        replaceEnumTypeIntType(enumType);
+        replaceEnumTypeByIntType(enumType);
     }
 }
