@@ -21,8 +21,8 @@ public class ElimEnumsOption extends BooleanOption {
     /** Constructor for the {@link ElimEnumsOption} class. */
     public ElimEnumsOption() {
         super("Eliminate enumerations",
-                "Whether the eliminate enumerations (BOOL=yes), or keep them (BOOL=no). [DEFAULT=no]", null,
-                "elim-enums", "BOOL", false, true, "Should enumerations be eliminated?", "Eliminate enumerations");
+                "Whether the eliminate enumerations (BOOL=yes), or keep them (BOOL=no). [DEFAULT=no] (deprecated)",
+                null, "elim-enums", "BOOL", false, false, null, null);
     }
 
     /**

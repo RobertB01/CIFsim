@@ -52,7 +52,7 @@ range `[0 .. n-1]`, where `n` is the number of literals of the enumeration.
 Enumeration literals, which are used as values, are replaced by constants.
 If the used enumeration literal is the `n`^th^ literal in the corresponding
 enumeration (declaration), then a constant with value `n - 1` is used. That is,
-the integer value is the 0-based index of the enumeration literal into the 
+the integer value is the 0-based index of the enumeration literal into the
 literals of the enumeration declaration.
 
 All enumeration declarations are replaced by constant integer declarations, one
@@ -115,7 +115,7 @@ indexterm:[enumerations to constants,size considerations]
 
 The number of added constants is linear in the number of enumeration literals
 of the specification. Integer types are slightly larger than enumeration types,
-but the increase is linear. Constant references in expressions are not larger 
+but the increase is linear. Constant references in expressions are not larger
 than enumeration literal references.
 
 

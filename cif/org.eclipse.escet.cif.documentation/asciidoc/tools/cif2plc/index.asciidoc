@@ -113,22 +113,23 @@ default the formal syntax is used only for all but the standard
 library/conversion functions. This can be changed to only the standard
 library/conversion functions, or to all functions.
 
-* _Eliminate enumerations_: Enable this option to eliminate enumerations before
-generating the actual PLC code, in case the PLC doesn't support enumerations.
-Disable this option to keep enumerations in the generated PLC code. By
-default this option is disabled.
+* _Convert enumerations_: Specifies whether enumerations should be converted
+before generating the actual PLC code, in case the PLC doesn't support
+enumerations. Enumerations can be converted to integers or constants. By
+default enumerations are not converted.
 
 * _Simplify values_: Enable this option to simplify values and inline constants
 during generation of the PLC code. The benefit is that static computations
 are evaluated, and for the result simpler PLC code is generated. This applies
 to both the original model as well as anything generated during the code
 generation, for instance as the result of
-<<tools-cif2cif-chapter-linearize-merge,linearization>>. Enabling the option
-may thus lead to simpler PLC code. However, the simplification itself may
-take quite some time. Furthermore, as constants are inlined, they are
-duplicated for each use. If a constant with a large value (such as a large
-literal array) is used multiple times, this can lead to significantly larger
-PLC code. By default this option is enabled.
+<<tools-cif2cif-chapter-linearize-merge,linearization>>. Constants created by
+_Convert enumerations_ are not inlined. Enabling the option may thus lead to
+simpler PLC code. However, the simplification itself may take quite some time.
+Furthermore, as constants are inlined, they are duplicated for each use. If a
+constant with a large value (such as a large literal array) is used multiple
+times, this can lead to significantly larger PLC code. By default this option
+is enabled.
 
 * _Rename warnings_: Enable this option to print warnings to the console when
 a PLC name is renamed due to a conflict with another PLC name, or disable it
@@ -271,6 +272,12 @@ transformations>>:
 * <<tools-cif2cif-chapter-linearize-merge>>
 
 * <<tools-cif2cif-chapter-simplify-values>> (if _Simplify values_ option is enabled)
+
+* <<tools-cif2cif-chapter-enums-to-ints>> (if _Convert enumerations_ option is set
+to integers)
+
+* <<tools-cif2cif-chapter-enums-to-consts>> (if _Convert enumerations_ option is
+set to constants)
 
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
