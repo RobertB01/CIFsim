@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.cif2plc.options;
 
 /** Should enumeration data types be converted? */
-public enum ConvertEnumsArg {
+public enum ConvertEnums {
     /** No, keep enumeration data types. */
     NO,
 

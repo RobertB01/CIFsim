@@ -76,7 +76,7 @@ public abstract class EnumsToBase extends CifWalker implements CifToCifTransform
 
     /**
      * Replaces an enumeration type by a ranged integer type. The range is equal to {@code [0..n-1]}, where {@code n} is
-     * the number of literals of the enumeration
+     * the number of literals of the enumeration.
      *
      * @param enumType The enumeration type to convert.
      */

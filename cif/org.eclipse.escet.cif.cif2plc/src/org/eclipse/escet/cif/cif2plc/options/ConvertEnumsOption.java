@@ -16,18 +16,18 @@ package org.eclipse.escet.cif.cif2plc.options;
 import org.eclipse.escet.common.app.framework.options.EnumOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Eliminate enumerations option. */
-public class ConvertEnumsOption extends EnumOption<ConvertEnumsArg> {
+/** Convert enumerations option. */
+public class ConvertEnumsOption extends EnumOption<ConvertEnums> {
     /** Constructor for the {@link ConvertEnumsOption} class. */
     public ConvertEnumsOption() {
         super("Convert enumerations", "Specify whether enumerations should be converted. Specify \"no\" to preserve "
                 + "enumerations, \"ints\" for conversion to integers, or \"consts\" for conversion to constants. "
-                + "[DEFAULT=no]", null, "convert-enums", "CONVERT", ConvertEnumsArg.NO, true,
+                + "[DEFAULT=no]", null, "convert-enums", "CONVERT", ConvertEnums.NO, true,
                 "Should enumerations be converted?");
     }
 
     @Override
-    protected String getDialogText(ConvertEnumsArg value) {
+    protected String getDialogText(ConvertEnums value) {
         switch (value) {
             case NO:
                 return "Keep enumerations";
@@ -45,7 +45,7 @@ public class ConvertEnumsOption extends EnumOption<ConvertEnumsArg> {
      *
      * @return Value indicating whether enumerations are preserved, converted to integers, or converted to constants.
      */
-    public static ConvertEnumsArg getValue() {
+    public static ConvertEnums getValue() {
         return Options.get(ConvertEnumsOption.class);
     }
 }

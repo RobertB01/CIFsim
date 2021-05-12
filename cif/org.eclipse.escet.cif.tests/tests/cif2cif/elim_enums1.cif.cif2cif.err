@@ -1,1 +1,1 @@
-WARNING: The "elim-enums" option is deprecated.
+WARNING: The "elim-enums" option is deprecated. Use "enums-to-ints" or "enums-to-consts" instead.

@@ -1,1 +1,1 @@
-WARNING: The "elim-enums" option is deprecated.
+WARNING: The "elim-enums" option is deprecated. Use the "convert-enums" option instead.

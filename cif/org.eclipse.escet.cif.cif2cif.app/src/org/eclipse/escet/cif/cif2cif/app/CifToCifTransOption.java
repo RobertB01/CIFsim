@@ -197,7 +197,7 @@ public class CifToCifTransOption extends Option<String> {
 
             // Warn for deprecated options.
             if (transName.equals("elim-enums")) {
-                warn("The \"elim-enums\" option is deprecated.");
+                warn("The \"elim-enums\" option is deprecated. Use \"enums-to-ints\" or \"enums-to-consts\" instead.");
             }
 
             // Add transformation instance to result.

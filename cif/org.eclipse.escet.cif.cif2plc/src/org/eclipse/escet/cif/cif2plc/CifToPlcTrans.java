@@ -55,7 +55,7 @@ import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2plc.NaryExpressionConverter.NaryExpression;
-import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsArg;
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
 import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.ElimEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
@@ -288,7 +288,7 @@ public class CifToPlcTrans {
     private CifToPlcTrans() {
         // Private constructor, to force use of public static method.
         simplifyValues = SimplifyValuesOption.simplifyValues();
-        constantsAllowed = !simplifyValues || ConvertEnumsOption.getValue() == ConvertEnumsArg.CONSTS;
+        constantsAllowed = !simplifyValues || ConvertEnumsOption.getValue() == ConvertEnums.CONSTS;
         formalInvokeArg = PlcFormalFuncInvokeArgOption.getValue();
         formalInvokeFunc = PlcFormalFuncInvokeFuncOption.getValue();
 
@@ -361,12 +361,13 @@ public class CifToPlcTrans {
 
         // If requested, convert enumerations.
         if (ElimEnumsOption.elimEnums()) {
-            warn("The \"elim-enums\" option is deprecated.");
+            warn("The \"elim-enums\" option is deprecated. Use the \"convert-enums\" option instead.");
             new EnumsToInts().transform(spec);
-        } else if (ConvertEnumsOption.getValue() == ConvertEnumsArg.INTS) {
+        } else if (ConvertEnumsOption.getValue() == ConvertEnums.INTS) {
             new EnumsToInts().transform(spec);
-        } else if (ConvertEnumsOption.getValue() == ConvertEnumsArg.CONSTS) {
-            // This transformation introduces new constants that are intentionally not removed by simplify values.
+        } else if (ConvertEnumsOption.getValue() == ConvertEnums.CONSTS) {
+            // This transformation introduces new constants that are intentionally not removed if simplify values is
+            // enabled.
             new EnumsToConsts().transform(spec);
         }
 
