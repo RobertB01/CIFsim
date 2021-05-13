@@ -125,7 +125,7 @@ the seed is not printed. The following seeds may be printed:
 +
 ** The seed used for the random <<tools-cifsim-input-automatic-time,automatic mode time transition duration>>.
 +
-** The seed used for the first random generator for a <<../distr-seeds.asciidoc#,stochastic distribution>>.
+** The seed used for the first random generator for a <<tools-cifsim-chapter-distr-seeds,stochastic distribution>>.
 The seed is only printed if it is used to create a random number generator for at least one stochastic
 distribution.
 
