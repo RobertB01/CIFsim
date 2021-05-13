@@ -400,8 +400,12 @@ END_WHILE;</xhtml>
     <configurations>
       <configuration name="Untitled1">
         <resource name="Untitled1">
-          <task interval="t#10ms" name="PlcTask" priority="20">
-            <pouInstance name="MAIN" typeName="MAIN"/>
+          <task interval="PT0.010S" name="PlcTask" priority="20">
+            <pouInstance name="MAIN" typeName="MAIN">
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"/>
+              </documentation>
+            </pouInstance>
           </task>
           <globalVars constant="false" name="INPUTS">
             <variable address="%I*" name="ivar_M_hw_button_bit">
