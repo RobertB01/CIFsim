@@ -79,6 +79,17 @@ public class RuntimeJavaCompiler {
      * compiler options, and {@link ClassLoader#getSystemClassLoader} as an additional class loader to resolve
      * dependencies outside of the sources.
      *
+     * @param compilerName The name of the Java compiler to use. See {@link #getJavaCompiler}.
+     */
+    public RuntimeJavaCompiler(String compilerName) {
+        this(getJavaCompiler(compilerName));
+    }
+
+    /**
+     * Constructor for the {@link RuntimeJavaCompiler} class. Uses the {@link #getDefaultCompilerOptions default}
+     * compiler options, and {@link ClassLoader#getSystemClassLoader} as an additional class loader to resolve
+     * dependencies outside of the sources.
+     *
      * @param compiler The Java compiler to use.
      */
     public RuntimeJavaCompiler(JavaCompiler compiler) {
@@ -100,12 +111,37 @@ public class RuntimeJavaCompiler {
      * Constructor for the {@link RuntimeJavaCompiler} class. Uses the {@link #getDefaultCompilerOptions default}
      * compiler options.
      *
+     * @param compilerName The name of the Java compiler to use. See {@link #getJavaCompiler}.
+     * @param classLoader Class loader to use to resolve dependencies outside of the sources. May be {@code null} if not
+     *     available, to use {@link ClassLoader#getSystemClassLoader}.
+     */
+    public RuntimeJavaCompiler(String compilerName, ClassLoader classLoader) {
+        this(getJavaCompiler(compilerName), classLoader);
+    }
+
+    /**
+     * Constructor for the {@link RuntimeJavaCompiler} class. Uses the {@link #getDefaultCompilerOptions default}
+     * compiler options.
+     *
      * @param compiler The Java compiler to use.
      * @param classLoader Class loader to use to resolve dependencies outside of the sources. May be {@code null} if not
      *     available, to use {@link ClassLoader#getSystemClassLoader}.
      */
     public RuntimeJavaCompiler(JavaCompiler compiler, ClassLoader classLoader) {
         this(compiler, getDefaultCompilerOptions(), classLoader);
+    }
+
+    /**
+     * Constructor for the {@link RuntimeJavaCompiler} class.
+     *
+     * @param compilerName The name of the Java compiler to use. See {@link #getJavaCompiler}.
+     * @param options Additional compilation options, or {@code null} if no additional compilation options. These are
+     *     just passed along to the Java compiler. See the 'javac' documentation for more information.
+     * @param classLoader Class loader to use to resolve dependencies outside of the sources. May be {@code null} if not
+     *     available, to use {@link ClassLoader#getSystemClassLoader}.
+     */
+    public RuntimeJavaCompiler(String compilerName, Iterable<String> options, ClassLoader classLoader) {
+        this(getJavaCompiler(compilerName), options, classLoader);
     }
 
     /**

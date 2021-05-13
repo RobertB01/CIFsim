@@ -326,7 +326,7 @@ public abstract class RuntimeJavaCompilerTest {
      */
     private RuntimeJavaCompiler newCompiler(ClassLoader dependencyLoader) {
         String name = getCompilerName();
-        return new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), dependencyLoader);
+        return new RuntimeJavaCompiler(name, dependencyLoader);
     }
 
     /**

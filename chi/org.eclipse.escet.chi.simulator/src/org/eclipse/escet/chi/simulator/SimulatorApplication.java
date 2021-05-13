@@ -203,7 +203,7 @@ public class SimulatorApplication extends Application<OutputComponentBase> {
         // resolve dependencies to the Chi runtime.
         String name = JavaCompilerOption.getCompilerName();
         ClassLoader classLoader = SimulatorApplication.class.getClassLoader();
-        RuntimeJavaCompiler compiler = new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), classLoader);
+        RuntimeJavaCompiler compiler = new RuntimeJavaCompiler(name, classLoader);
 
         // Prepare source file objects.
         Map<String, JavaInputFileObject> sources = map();
