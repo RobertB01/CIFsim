@@ -273,8 +273,8 @@ specifications that can be transformed:
 * <<tools-cif2cif-chapter-remove-io-decls>>
 
 After these preprocessing steps, the generator checks whether the specification
-is supported. It then applies the following additional <<../../cif2cif/index.asciidoc#,CIF to CIF
-transformations>>:
+is supported. It then applies the following additional 
+<<tools-cif2cif-chapter-index,CIF to CIF transformations>>:
 
 * <<tools-cif2cif-chapter-linearize-merge>>
 
