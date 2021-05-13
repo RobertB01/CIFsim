@@ -71,7 +71,6 @@ public class CompleteModeOption extends EnumOption<CompleteMode> {
                 break;
 
             case TRACE:
-            case INTERACTIVE:
             case CONSOLE:
             case GUI:
                 break;

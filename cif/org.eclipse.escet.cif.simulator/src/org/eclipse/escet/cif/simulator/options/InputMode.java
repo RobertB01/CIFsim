@@ -22,12 +22,6 @@ import org.eclipse.escet.cif.simulator.input.trace.TraceInputComponent;
 /** Input modes. */
 public enum InputMode {
     /**
-     * Interactive console input mode (deprecated). Use {@link #CONSOLE} instead. Kept for backward compatibility, and
-     * re-mapped to {@link #CONSOLE} by the {@link InputModeOption}.
-     */
-    INTERACTIVE,
-
-    /**
      * Interactive console input mode. The user is asked to choose, via the console.
      *
      * @see InteractiveConsoleInputComponent
