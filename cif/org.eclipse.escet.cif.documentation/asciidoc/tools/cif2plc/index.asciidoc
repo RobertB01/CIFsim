@@ -280,10 +280,10 @@ transformations>>:
 
 * <<tools-cif2cif-chapter-simplify-values>> (if _Simplify values_ option is enabled)
 
+* <<tools-cif2cif-chapter-add-default-init-values>>
+
 * <<tools-cif2cif-chapter-enums-to-ints>> (if _Convert enumerations_ option is set
 to integers or if _Eliminate enumerations_ is enabled)
-
-* <<tools-cif2cif-chapter-add-default-init-values>>
 
 * <<tools-cif2cif-chapter-enums-to-consts>> (if _Convert enumerations_ option is
 set to constants)
