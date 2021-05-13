@@ -45,7 +45,7 @@ given order) prior to using this transformation:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
-* <<tools-cif2cif-chapter-elim-enums>>
+* <<tools-cif2cif-chapter-enums-to-ints>>
 
 The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
 automatically applied as preprocessing (in the given order), to increase the

@@ -1,0 +1,31 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Test for bug 'Elimination of enumerations broken for implicit initial values'.
+
+group x1:
+  enum E = A, B;
+end
+
+group x2:
+  enum E = B, A;
+end
+
+automaton a:
+  disc x1.E v1;
+  disc x2.E v2;
+  invariant v1 = x1.A or v1 = x1.B;
+  invariant v2 = x2.A or v2 = x2.B;
+  location:
+    initial;
+end

@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.cif2cif.app;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
@@ -27,7 +28,6 @@ import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimAutCasts;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
-import org.eclipse.escet.cif.cif2cif.ElimEnums;
 import org.eclipse.escet.cif.cif2cif.ElimEquations;
 import org.eclipse.escet.cif.cif2cif.ElimGroups;
 import org.eclipse.escet.cif.cif2cif.ElimIfUpdates;
@@ -38,6 +38,8 @@ import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTauEvent;
 import org.eclipse.escet.cif.cif2cif.ElimTupleFieldProjs;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
+import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
+import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LiftEvents;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.LinearizeProduct;
@@ -96,7 +98,7 @@ public class CifToCifTransOption extends Option<String> {
         TRANSFORMATIONS.put("elim-aut-casts", ElimAutCasts.class);
         TRANSFORMATIONS.put("elim-comp-def-inst", ElimComponentDefInst.class);
         TRANSFORMATIONS.put("elim-consts", ElimConsts.class);
-        TRANSFORMATIONS.put("elim-enums", ElimEnums.class);
+        TRANSFORMATIONS.put("elim-enums", EnumsToInts.class); // Deprecated support as command line argument.
         TRANSFORMATIONS.put("elim-equations", ElimEquations.class);
         TRANSFORMATIONS.put("elim-groups", ElimGroups.class);
         TRANSFORMATIONS.put("elim-if-updates", ElimIfUpdates.class);
@@ -107,6 +109,8 @@ public class CifToCifTransOption extends Option<String> {
         TRANSFORMATIONS.put("elim-tau-event", ElimTauEvent.class);
         TRANSFORMATIONS.put("elim-tuple-field-projs", ElimTupleFieldProjs.class);
         TRANSFORMATIONS.put("elim-type-decls", ElimTypeDecls.class);
+        TRANSFORMATIONS.put("enums-to-consts", EnumsToConsts.class);
+        TRANSFORMATIONS.put("enums-to-ints", EnumsToInts.class);
         TRANSFORMATIONS.put("lift-events", LiftEvents.class);
         TRANSFORMATIONS.put("linearize-merge", LinearizeMerge.class);
         TRANSFORMATIONS.put("linearize-product", LinearizeProduct.class);
@@ -189,6 +193,12 @@ public class CifToCifTransOption extends Option<String> {
             } catch (SecurityException e) {
                 String msg = "Failed to instantiate CIF to CIF trans: " + transClass;
                 throw new RuntimeException(msg, e);
+            }
+
+            // Warn for deprecated options.
+            if (transName.equals("elim-enums")) {
+                warn("The \"elim-enums\" transformation is deprecated. Use \"enums-to-ints\" or \"enums-to-consts\" "
+                        + "instead.");
             }
 
             // Add transformation instance to result.
@@ -316,6 +326,9 @@ public class CifToCifTransOption extends Option<String> {
                 // Add available transformations.
                 List<String> transNames = sortedstrings(TRANSFORMATIONS.keySet());
                 for (String transName: transNames) {
+                    if (transName.equals("elim-enums")) {
+                        continue; // Deprecated.
+                    }
                     availableList.add(transName);
                 }
             }

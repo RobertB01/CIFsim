@@ -1,0 +1,1 @@
+WARNING: The "elim-enums" transformation is deprecated. Use "enums-to-ints" or "enums-to-consts" instead.

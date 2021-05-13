@@ -48,12 +48,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
-import org.eclipse.escet.cif.cif2cif.ElimEnums;
+import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
+import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.cif2plc.NaryExpressionConverter.NaryExpression;
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnums;
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.ElimEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArg;
@@ -198,6 +201,9 @@ public class CifToPlcTrans {
     /** Should value simplification be performed, and constants be inlined and removed? */
     private final boolean simplifyValues;
 
+    /** Is it allowed for constants to appear in the specification? */
+    private final boolean constantsAllowed;
+
     /** The PLC project, or {@code null} until created. */
     private PlcProject project;
 
@@ -282,6 +288,7 @@ public class CifToPlcTrans {
     private CifToPlcTrans() {
         // Private constructor, to force use of public static method.
         simplifyValues = SimplifyValuesOption.simplifyValues();
+        constantsAllowed = !simplifyValues || ConvertEnumsOption.getValue() == ConvertEnums.CONSTS;
         formalInvokeArg = PlcFormalFuncInvokeArgOption.getValue();
         formalInvokeFunc = PlcFormalFuncInvokeFuncOption.getValue();
 
@@ -352,9 +359,16 @@ public class CifToPlcTrans {
         // Add default initial values, to simplify the code generation.
         new AddDefaultInitialValues().transform(spec);
 
-        // If requested, eliminate enumerations.
+        // If requested, convert enumerations.
         if (ElimEnumsOption.elimEnums()) {
-            new ElimEnums().transform(spec);
+            warn("The \"elim-enums\" option is deprecated. Use the \"convert-enums\" option instead.");
+            new EnumsToInts().transform(spec);
+        } else if (ConvertEnumsOption.getValue() == ConvertEnums.INTS) {
+            new EnumsToInts().transform(spec);
+        } else if (ConvertEnumsOption.getValue() == ConvertEnums.CONSTS) {
+            // This transformation introduces new constants that are intentionally not removed if simplify values is
+            // enabled.
+            new EnumsToConsts().transform(spec);
         }
 
         // Generate code.
@@ -452,7 +466,7 @@ public class CifToPlcTrans {
         globalInputs = new PlcGlobalVarList("INPUTS", false);
         resource.globalVarLists.add(globalInputs);
 
-        if (!simplifyValues) {
+        if (constantsAllowed) {
             globalConsts = new PlcGlobalVarList("CONSTS", true);
             resource.globalVarLists.add(globalConsts);
         }
@@ -660,7 +674,7 @@ public class CifToPlcTrans {
             transAlgVar((AlgVariable)decl);
         } else if (decl instanceof Constant) {
             // Ignore. Generated elsewhere, in the correct order.
-            Assert.check(!simplifyValues);
+            Assert.check(constantsAllowed);
         } else if (decl instanceof ContVariable) {
             transContVar((ContVariable)decl);
         } else if (decl instanceof DiscVariable) {
@@ -1784,7 +1798,7 @@ public class CifToPlcTrans {
         } else if (expr instanceof DictExpression) {
             throw new RuntimeException("precond violation");
         } else if (expr instanceof ConstantExpression) {
-            Assert.check(!simplifyValues);
+            Assert.check(constantsAllowed);
             Constant constant = ((ConstantExpression)expr).getConstant();
             return getPlcName(constant);
         } else if (expr instanceof DiscVariableExpression) {
@@ -2151,7 +2165,7 @@ public class CifToPlcTrans {
             if (obj instanceof AlgVariable) {
                 prefix = "alg";
             } else if (obj instanceof Constant) {
-                Assert.check(!simplifyValues);
+                Assert.check(constantsAllowed);
                 prefix = "const";
             } else if (obj instanceof ContVariable) {
                 prefix = "cvar";

@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
+import org.eclipse.escet.cif.cif2plc.options.ConvertEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.ElimEnumsOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcConfigurationNameOption;
 import org.eclipse.escet.cif.cif2plc.options.PlcFormalFuncInvokeArgOption;
@@ -170,7 +171,8 @@ public class CifToPlcApp extends Application<IOutputComponent> {
         genOpts.add(Options.getInstance(PlcMaxIterOption.class));
         genOpts.add(Options.getInstance(PlcFormalFuncInvokeArgOption.class));
         genOpts.add(Options.getInstance(PlcFormalFuncInvokeFuncOption.class));
-        genOpts.add(Options.getInstance(ElimEnumsOption.class));
+        genOpts.add(Options.getInstance(ElimEnumsOption.class)); // Deprecated.
+        genOpts.add(Options.getInstance(ConvertEnumsOption.class));
         genOpts.add(Options.getInstance(SimplifyValuesOption.class));
         genOpts.add(Options.getInstance(RenameWarningsOption.class));
         List<OptionCategory> genSubCats = list();

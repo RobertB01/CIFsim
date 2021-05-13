@@ -594,8 +594,6 @@ include::tools/cif2cif/elim-comp-def-inst.asciidoc[]
 
 include::tools/cif2cif/elim-consts.asciidoc[]
 
-include::tools/cif2cif/elim-enums.asciidoc[]
-
 include::tools/cif2cif/elim-equations.asciidoc[]
 
 include::tools/cif2cif/elim-groups.asciidoc[]
@@ -615,6 +613,10 @@ include::tools/cif2cif/elim-tau-event.asciidoc[]
 include::tools/cif2cif/elim-tuple-field-projs.asciidoc[]
 
 include::tools/cif2cif/elim-type-decls.asciidoc[]
+
+include::tools/cif2cif/enums-to-consts.asciidoc[]
+
+include::tools/cif2cif/enums-to-ints.asciidoc[]
 
 include::tools/cif2cif/lift-events.asciidoc[]
 

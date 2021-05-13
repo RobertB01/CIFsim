@@ -100,8 +100,8 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  *
  * <p>
- * This transformation may introduce new enumerations. To eliminate them, apply the {@link ElimEnums} transformation
- * after this transformation.
+ * This transformation may introduce new enumerations. To eliminate them, apply the {@link EnumsToInts} or
+ * {@code EnumsToConsts} transformation after this transformation.
  * </p>
  */
 public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation, LocationPointerManager {

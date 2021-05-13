@@ -173,7 +173,7 @@ specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-elim-consts>>
 
-* <<tools-cif2cif-chapter-elim-enums>>
+* <<tools-cif2cif-chapter-enums-to-ints>>
 
 * <<tools-cif2cif-chapter-elim-monitors>>
 
