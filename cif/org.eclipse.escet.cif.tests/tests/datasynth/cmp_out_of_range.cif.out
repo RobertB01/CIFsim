@@ -11,65 +11,65 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   a.x = 2
-Invariant (component state invariant):   a.x = 3
-Invariant (component state invariant):   a.x = 4
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   a.x != 2
-Invariant (component state invariant):   a.x != 3
-Invariant (component state invariant):   a.x != 4
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   a.x = 2
-Invariant (component state invariant):   a.x != 4
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   a.x = 2
-Invariant (component state invariant):   a.x != 4
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   a.x != 2
-Invariant (component state invariant):   a.x = 4
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   true
-Invariant (component state invariant):   a.x != 2
-Invariant (component state invariant):   a.x = 4
-Invariant (component state invariant):   false
-Invariant (component state invariant):   false
-Invariant (components state invariant):  false
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   a.x = 2
+Invariant (component state req invariant):   a.x = 3
+Invariant (component state req invariant):   a.x = 4
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   a.x != 2
+Invariant (component state req invariant):   a.x != 3
+Invariant (component state req invariant):   a.x != 4
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   a.x = 2
+Invariant (component state req invariant):   a.x != 4
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   a.x = 2
+Invariant (component state req invariant):   a.x != 4
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   a.x != 2
+Invariant (component state req invariant):   a.x = 4
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   true
+Invariant (component state req invariant):   a.x != 2
+Invariant (component state req invariant):   a.x = 4
+Invariant (component state req invariant):   false
+Invariant (component state req invariant):   false
+Invariant (components state req invariant):  false
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      false
 
 Initial   (discrete variable 0):         a.x = 2
-Initial   (discrete variables):          a.x = 2
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         a.x = 2
-Initial   (system, combined init/inv):   false
+Initial   (discrete variables):              a.x = 2
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             a.x = 2
+Initial   (system, combined init/req inv):   false
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   true
-Marked    (auts/locs marker predicate):  true
-Marked    (uncontrolled system):         true
-Marked    (system, combined marked/inv): false
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined marked/req inv): false
 
 State/event exclusion requirements:
   None

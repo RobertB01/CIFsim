@@ -31,23 +31,23 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 2):         (io.sensor or not p.b) and (not io.sensor or p.b)
-Initial   (discrete variables):          (io.sensor or not p.b) and (not io.sensor or p.b)
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p.test
-Initial   (auts/locs init predicate):    p.test
-Initial   (uncontrolled system):         not io.sensor and (p.test and not p.b) or io.sensor and (p.test and p.b)
-Initial   (system, combined init/inv):   not io.sensor and (p.test and not p.b) or io.sensor and (p.test and p.b)
+Initial   (discrete variables):              (io.sensor or not p.b) and (not io.sensor or p.b)
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.test
+Initial   (auts/locs init predicate):        p.test
+Initial   (uncontrolled system):             not io.sensor and (p.test and not p.b) or io.sensor and (p.test and p.b)
+Initial   (system, combined init/req inv):   not io.sensor and (p.test and not p.b) or io.sensor and (p.test and p.b)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.done
-Marked    (auts/locs marker predicate):  p.done
-Marked    (uncontrolled system):         p.done
-Marked    (system, combined marked/inv): p.done
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.done
+Marked    (auts/locs marker predicate):      p.done
+Marked    (uncontrolled system):             p.done
+Marked    (system, combined marked/req inv): p.done
 
 State/event exclusion requirements:
   None

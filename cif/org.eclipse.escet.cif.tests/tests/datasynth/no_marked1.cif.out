@@ -41,27 +41,27 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 2):         p1.x = 0
-Initial   (discrete variables):          p1.x = 0
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p1.l0
-Initial   (aut/locs init predicate):     p2.l0
-Initial   (auts/locs init predicate):    p1.l0 and p2.l0
-Initial   (uncontrolled system):         p1.l0 and (p2.l0 and p1.x = 0)
-Initial   (system, combined init/inv):   p1.l0 and (p2.l0 and p1.x = 0)
+Initial   (discrete variables):              p1.x = 0
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p1.l0
+Initial   (aut/locs init predicate):         p2.l0
+Initial   (auts/locs init predicate):        p1.l0 and p2.l0
+Initial   (uncontrolled system):             p1.l0 and (p2.l0 and p1.x = 0)
+Initial   (system, combined init/req inv):   p1.l0 and (p2.l0 and p1.x = 0)
 
-Marked    (component marker predicate):  p1.x = 4 or (p1.x = 5 or p1.x = 3)
-Marked    (component marker predicate):  p1.x = 0 or p1.x = 1
-Marked    (components marker predicate): false
-Marked    (aut/locs marker predicate):   p1.l0
-Marked    (aut/locs marker predicate):   p2.l1
-Marked    (auts/locs marker predicate):  p1.l0 and p2.l1
-Marked    (uncontrolled system):         false
-Marked    (system, combined marked/inv): false
+Marked    (component marker predicate):      p1.x = 4 or (p1.x = 5 or p1.x = 3)
+Marked    (component marker predicate):      p1.x = 0 or p1.x = 1
+Marked    (components marker predicate):     false
+Marked    (aut/locs marker predicate):       p1.l0
+Marked    (aut/locs marker predicate):       p2.l1
+Marked    (auts/locs marker predicate):      p1.l0 and p2.l1
+Marked    (uncontrolled system):             false
+Marked    (system, combined marked/req inv): false
 
 State/event exclusion requirements:
   None

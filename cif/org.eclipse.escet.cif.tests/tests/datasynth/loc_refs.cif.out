@@ -31,32 +31,32 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 1):         q1.x = 0
 Initial   (discrete variable 2):         q1.y = 1
-Initial   (discrete variables):          q1.x = 0 and q1.y = 1
-Initial   (component init predicate):    true
-Initial   (component init predicate):    q1.x = 0
-Initial   (component init predicate):    q1.y = 1
-Initial   (components init predicate):   q1.x = 0 and q1.y = 1
-Initial   (aut/locs init predicate):     pe.a
-Initial   (aut/locs init predicate):     true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    pe.a
-Initial   (uncontrolled system):         pe.a and (q1.x = 0 and q1.y = 1)
-Initial   (system, combined init/inv):   pe.a and (q1.x = 0 and q1.y = 1)
+Initial   (discrete variables):              q1.x = 0 and q1.y = 1
+Initial   (component init predicate):        true
+Initial   (component init predicate):        q1.x = 0
+Initial   (component init predicate):        q1.y = 1
+Initial   (components init predicate):       q1.x = 0 and q1.y = 1
+Initial   (aut/locs init predicate):         pe.a
+Initial   (aut/locs init predicate):         true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        pe.a
+Initial   (uncontrolled system):             pe.a and (q1.x = 0 and q1.y = 1)
+Initial   (system, combined init/req inv):   pe.a and (q1.x = 0 and q1.y = 1)
 
-Marked    (component marker predicate):  pe.a
-Marked    (components marker predicate): pe.a
-Marked    (aut/locs marker predicate):   true
-Marked    (aut/locs marker predicate):   true
-Marked    (aut/locs marker predicate):   true
-Marked    (auts/locs marker predicate):  true
-Marked    (uncontrolled system):         pe.a
-Marked    (system, combined marked/inv): pe.a
+Marked    (component marker predicate):      pe.a
+Marked    (components marker predicate):     pe.a
+Marked    (aut/locs marker predicate):       true
+Marked    (aut/locs marker predicate):       true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             pe.a
+Marked    (system, combined marked/req inv): pe.a
 
 State/event exclusion requirements:
   None

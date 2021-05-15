@@ -30,23 +30,23 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 1):         p.x = 0
-Initial   (discrete variables):          p.x = 0
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p.l0
-Initial   (auts/locs init predicate):    p.l0
-Initial   (uncontrolled system):         p.l0 and p.x = 0
-Initial   (system, combined init/inv):   p.l0 and p.x = 0
+Initial   (discrete variables):              p.x = 0
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.l0
+Initial   (auts/locs init predicate):        p.l0
+Initial   (uncontrolled system):             p.l0 and p.x = 0
+Initial   (system, combined init/req inv):   p.l0 and p.x = 0
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   not p.l4 and (not p.l5 and not p.l6)
-Marked    (auts/locs marker predicate):  not p.l4 and (not p.l5 and not p.l6)
-Marked    (uncontrolled system):         not p.l4 and (not p.l5 and not p.l6)
-Marked    (system, combined marked/inv): not p.l4 and (not p.l5 and not p.l6)
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       not p.l4 and (not p.l5 and not p.l6)
+Marked    (auts/locs marker predicate):      not p.l4 and (not p.l5 and not p.l6)
+Marked    (uncontrolled system):             not p.l4 and (not p.l5 and not p.l6)
+Marked    (system, combined marked/req inv): not p.l4 and (not p.l5 and not p.l6)
 
 State/event exclusion requirements:
   Event "u" needs:

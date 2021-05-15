@@ -47,28 +47,28 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   p.b
-Invariant (components state invariant):  p.b
-Invariant (location state invariant):    p.L1 or p.v != p.Q
-Invariant (locations state invariant):   p.L1 or p.v != p.Q
-Invariant (system state invariant):      p.b and (not p.b or (p.L1 or p.v != p.Q))
+Invariant (component state req invariant):   p.b
+Invariant (components state req invariant):  p.b
+Invariant (location state req invariant):    p.L1 or p.v != p.Q
+Invariant (locations state req invariant):   p.L1 or p.v != p.Q
+Invariant (system state req invariant):      p.b and (not p.b or (p.L1 or p.v != p.Q))
 
 Initial   (discrete variable 0):         true
 Initial   (discrete variable 1):         true
 Initial   (discrete variable 4):         true
 Initial   (discrete variable 5):         true
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     (p.x = 2 or p.x = 3) and p.L1
-Initial   (auts/locs init predicate):    (p.x = 2 or p.x = 3) and p.L1
-Initial   (uncontrolled system):         (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))
-Initial   (system, combined init/inv):   p.b and ((not p.b or (p.x = 2 or p.x = 3)) and (not p.b or p.x = 0 or (p.x = 1 or p.L1)))
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         (p.x = 2 or p.x = 3) and p.L1
+Initial   (auts/locs init predicate):        (p.x = 2 or p.x = 3) and p.L1
+Initial   (uncontrolled system):             (p.x = 2 or p.x = 3) and (p.x = 0 or (p.x = 1 or p.L1))
+Initial   (system, combined init/req inv):   p.b and ((not p.b or (p.x = 2 or p.x = 3)) and (not p.b or p.x = 0 or (p.x = 1 or p.L1)))
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.L2 and (p.L1 or p.y != 5)
-Marked    (auts/locs marker predicate):  p.L2 and (p.L1 or p.y != 5)
-Marked    (uncontrolled system):         p.L2 and (p.L1 or p.y != 5)
-Marked    (system, combined marked/inv): p.b and p.L2 and ((p.y = 2 or p.y = 4) and p.v != p.Q) or p.b and p.L2 and (p.y = 3 and p.v != p.Q)
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.L2 and (p.L1 or p.y != 5)
+Marked    (auts/locs marker predicate):      p.L2 and (p.L1 or p.y != 5)
+Marked    (uncontrolled system):             p.L2 and (p.L1 or p.y != 5)
+Marked    (system, combined marked/req inv): p.b and p.L2 and ((p.y = 2 or p.y = 4) and p.v != p.Q) or p.b and p.L2 and (p.y = 3 and p.v != p.Q)
 
 State/event exclusion requirements:
   None

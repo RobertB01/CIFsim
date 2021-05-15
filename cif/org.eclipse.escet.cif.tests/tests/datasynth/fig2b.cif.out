@@ -30,24 +30,24 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   p.x != 4
-Invariant (components state invariant):  p.x != 4
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      p.x != 4
+Invariant (component state req invariant):   p.x != 4
+Invariant (components state req invariant):  p.x != 4
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      p.x != 4
 
 Initial   (discrete variable 1):         p.x = 2
-Initial   (discrete variables):          p.x = 2
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p.L0
-Initial   (auts/locs init predicate):    p.L0
-Initial   (uncontrolled system):         p.L0 and p.x = 2
-Initial   (system, combined init/inv):   p.L0 and p.x = 2
+Initial   (discrete variables):              p.x = 2
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.L0
+Initial   (auts/locs init predicate):        p.L0
+Initial   (uncontrolled system):             p.L0 and p.x = 2
+Initial   (system, combined init/req inv):   p.L0 and p.x = 2
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.L0
-Marked    (auts/locs marker predicate):  p.L0
-Marked    (uncontrolled system):         p.L0
-Marked    (system, combined marked/inv): (p.L1 or p.x != 4) and p.L0
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.L0
+Marked    (auts/locs marker predicate):      p.L0
+Marked    (uncontrolled system):             p.L0
+Marked    (system, combined marked/req inv): (p.L1 or p.x != 4) and p.L0
 
 State/event exclusion requirements:
   Event "e1" needs:

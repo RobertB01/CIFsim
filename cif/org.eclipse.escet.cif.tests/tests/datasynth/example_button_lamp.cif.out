@@ -41,26 +41,26 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     Button1.Released
-Initial   (aut/locs init predicate):     Lamp1.Off
-Initial   (aut/locs init predicate):     LampOnWhileButtonPushed.Released
-Initial   (auts/locs init predicate):    Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial   (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Initial   (system, combined init/inv):   Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         Button1.Released
+Initial   (aut/locs init predicate):         Lamp1.Off
+Initial   (aut/locs init predicate):         LampOnWhileButtonPushed.Released
+Initial   (auts/locs init predicate):        Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+Initial   (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+Initial   (system, combined init/req inv):   Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   Button1.Released
-Marked    (aut/locs marker predicate):   Lamp1.Off
-Marked    (aut/locs marker predicate):   LampOnWhileButtonPushed.Released
-Marked    (auts/locs marker predicate):  Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Marked    (uncontrolled system):         Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
-Marked    (system, combined marked/inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       Button1.Released
+Marked    (aut/locs marker predicate):       Lamp1.Off
+Marked    (aut/locs marker predicate):       LampOnWhileButtonPushed.Released
+Marked    (auts/locs marker predicate):      Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+Marked    (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
+Marked    (system, combined marked/req inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 
 State/event exclusion requirements:
   Event "Button1.u_pushed" needs:

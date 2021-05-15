@@ -17,24 +17,24 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 0):         true
 Initial   (discrete variable 1):         true
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         true
-Initial   (system, combined init/inv):   true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/req inv):   true
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
-Marked    (auts/locs marker predicate):  p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
-Marked    (uncontrolled system):         p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
-Marked    (system, combined marked/inv): p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
+Marked    (auts/locs marker predicate):      p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
+Marked    (uncontrolled system):             p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
+Marked    (system, combined marked/req inv): p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
 
 State/event exclusion requirements:
   None

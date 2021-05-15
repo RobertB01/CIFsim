@@ -81,7 +81,7 @@ public class CifDataSynthesis {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            applyStateInvs(aut, dbgEnabled);
+            applyStateReqInvs(aut, dbgEnabled);
 
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -217,9 +217,9 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             dbg();
             for (BDD pred: aut.reqInvsComps) {
-                dbg("Invariant (component state invariant):   %s", bddToStr(pred, aut));
+                dbg("Invariant (component state req invariant):   %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (components state invariant):  %s", bddToStr(aut.reqInvComps, aut));
+            dbg("Invariant (components state req invariant):  %s", bddToStr(aut.reqInvComps, aut));
         }
 
         // Debug state requirement invariants (predicates) of the locations of the automata.
@@ -228,9 +228,9 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.reqInvsLocs) {
-                dbg("Invariant (location state invariant):    %s", bddToStr(pred, aut));
+                dbg("Invariant (location state req invariant):    %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (locations state invariant):   %s", bddToStr(aut.reqInvLocs, aut));
+            dbg("Invariant (locations state req invariant):   %s", bddToStr(aut.reqInvLocs, aut));
         }
 
         // Debug state requirement invariant (predicate) of the system.
@@ -238,7 +238,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Invariant (system state invariant):      %s", bddToStr(aut.reqInv, aut));
+            dbg("Invariant (system state req invariant):      %s", bddToStr(aut.reqInv, aut));
         }
 
         // Warn if no state in system, due to state requirement invariants.
@@ -266,7 +266,7 @@ public class CifDataSynthesis {
                         bddToStr(aut.initialsVars.get(i), aut));
             }
 
-            dbg("Initial   (discrete variables):          %s", bddToStr(aut.initialVars, aut));
+            dbg("Initial   (discrete variables):              %s", bddToStr(aut.initialVars, aut));
         }
 
         // Debug initialization predicates of the components.
@@ -275,9 +275,9 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.initialsComps) {
-                dbg("Initial   (component init predicate):    %s", bddToStr(pred, aut));
+                dbg("Initial   (component init predicate):        %s", bddToStr(pred, aut));
             }
-            dbg("Initial   (components init predicate):   %s", bddToStr(aut.initialComps, aut));
+            dbg("Initial   (components init predicate):       %s", bddToStr(aut.initialComps, aut));
         }
 
         // Debug initialization predicates of the locations of the automata.
@@ -286,9 +286,9 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.initialsLocs) {
-                dbg("Initial   (aut/locs init predicate):     %s", bddToStr(pred, aut));
+                dbg("Initial   (aut/locs init predicate):         %s", bddToStr(pred, aut));
             }
-            dbg("Initial   (auts/locs init predicate):    %s", bddToStr(aut.initialLocs, aut));
+            dbg("Initial   (auts/locs init predicate):        %s", bddToStr(aut.initialLocs, aut));
         }
 
         // Debug initialization predicate of the uncontrolled system.
@@ -296,7 +296,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (uncontrolled system):         %s", bddToStr(aut.initialUnctrl, aut));
+            dbg("Initial   (uncontrolled system):             %s", bddToStr(aut.initialUnctrl, aut));
         }
 
         // Debug combined initialization and state requirement invariants of the system.
@@ -304,7 +304,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (system, combined init/inv):   %s", bddToStr(aut.initialReqInv, aut));
+            dbg("Initial   (system, combined init/req inv):   %s", bddToStr(aut.initialReqInv, aut));
         }
 
         // Warn if no initial state in uncontrolled system.
@@ -330,9 +330,9 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             dbg();
             for (BDD pred: aut.markedsComps) {
-                dbg("Marked    (component marker predicate):  %s", bddToStr(pred, aut));
+                dbg("Marked    (component marker predicate):      %s", bddToStr(pred, aut));
             }
-            dbg("Marked    (components marker predicate): %s", bddToStr(aut.markedComps, aut));
+            dbg("Marked    (components marker predicate):     %s", bddToStr(aut.markedComps, aut));
         }
 
         // Debug marker predicates of the locations of the automata.
@@ -341,9 +341,9 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             for (BDD pred: aut.markedsLocs) {
-                dbg("Marked    (aut/locs marker predicate):   %s", bddToStr(pred, aut));
+                dbg("Marked    (aut/locs marker predicate):       %s", bddToStr(pred, aut));
             }
-            dbg("Marked    (auts/locs marker predicate):  %s", bddToStr(aut.markedLocs, aut));
+            dbg("Marked    (auts/locs marker predicate):      %s", bddToStr(aut.markedLocs, aut));
         }
 
         // Debug marker predicate of the uncontrolled system.
@@ -351,15 +351,15 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (uncontrolled system):         %s", bddToStr(aut.marked, aut));
+            dbg("Marked    (uncontrolled system):             %s", bddToStr(aut.marked, aut));
         }
 
-        // Debug combined initialization and marking of the uncontrolled system.
+        // Debug combined marking and state requirement invariants of the system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined marked/inv): %s", bddToStr(aut.markedReqInv, aut));
+            dbg("Marked    (system, combined marked/req inv): %s", bddToStr(aut.markedReqInv, aut));
         }
 
         // Warn if no marked state in uncontrolled system.
@@ -472,12 +472,12 @@ public class CifDataSynthesis {
 
     /**
      * Initializes the controlled-behavior predicate, to the invariants, as preprocessing step for synthesis. The idea
-     * is that a state is only in the controlled system if the state invariant holds.
+     * is that a state is only in the controlled system if the state requirement invariant holds.
      *
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyStateReqInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
         if (aut.env.isTerminationRequested()) {
             return;
         }

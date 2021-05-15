@@ -30,25 +30,25 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   not machine1.Producing or not machine2.Producing
-Invariant (components state invariant):  not machine1.Producing or not machine2.Producing
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      not machine1.Producing or not machine2.Producing
+Invariant (component state req invariant):   not machine1.Producing or not machine2.Producing
+Invariant (components state req invariant):  not machine1.Producing or not machine2.Producing
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      not machine1.Producing or not machine2.Producing
 
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     machine1.Idle
-Initial   (aut/locs init predicate):     machine2.Idle
-Initial   (auts/locs init predicate):    machine1.Idle and machine2.Idle
-Initial   (uncontrolled system):         machine1.Idle and machine2.Idle
-Initial   (system, combined init/inv):   machine1.Idle and machine2.Idle
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         machine1.Idle
+Initial   (aut/locs init predicate):         machine2.Idle
+Initial   (auts/locs init predicate):        machine1.Idle and machine2.Idle
+Initial   (uncontrolled system):             machine1.Idle and machine2.Idle
+Initial   (system, combined init/req inv):   machine1.Idle and machine2.Idle
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   machine1.Idle
-Marked    (aut/locs marker predicate):   machine2.Idle
-Marked    (auts/locs marker predicate):  machine1.Idle and machine2.Idle
-Marked    (uncontrolled system):         machine1.Idle and machine2.Idle
-Marked    (system, combined marked/inv): machine1.Idle and machine2.Idle
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       machine1.Idle
+Marked    (aut/locs marker predicate):       machine2.Idle
+Marked    (auts/locs marker predicate):      machine1.Idle and machine2.Idle
+Marked    (uncontrolled system):             machine1.Idle and machine2.Idle
+Marked    (system, combined marked/req inv): machine1.Idle and machine2.Idle
 
 State/event exclusion requirements:
   None

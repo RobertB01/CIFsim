@@ -55,9 +55,9 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 0):         p.bt
 Initial   (discrete variable 1):         not p.bf
@@ -67,18 +67,18 @@ Initial   (discrete variable 5):         p.x4 = 3
 Initial   (discrete variable 6):         p.x2 = 10
 Initial   (discrete variable 7):         p.v1 = X
 Initial   (discrete variable 8):         p.v2 = Y
-Initial   (discrete variables):          <bdd 21n 1p>
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p.l0
-Initial   (auts/locs init predicate):    p.l0
-Initial   (uncontrolled system):         <bdd 22n 1p>
-Initial   (system, combined init/inv):   <bdd 22n 1p>
+Initial   (discrete variables):              <bdd 21n 1p>
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.l0
+Initial   (auts/locs init predicate):        p.l0
+Initial   (uncontrolled system):             <bdd 22n 1p>
+Initial   (system, combined init/req inv):   <bdd 22n 1p>
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.l0
-Marked    (auts/locs marker predicate):  p.l0
-Marked    (uncontrolled system):         p.l0
-Marked    (system, combined marked/inv): p.l0
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.l0
+Marked    (auts/locs marker predicate):      p.l0
+Marked    (uncontrolled system):             p.l0
+Marked    (system, combined marked/req inv): p.l0
 
 State/event exclusion requirements:
   None

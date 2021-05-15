@@ -11,23 +11,23 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 0):         p.x = 9
-Initial   (discrete variables):          p.x = 9
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         p.x = 9
-Initial   (system, combined init/inv):   p.x = 9
+Initial   (discrete variables):              p.x = 9
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             p.x = 9
+Initial   (system, combined init/req inv):   p.x = 9
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.x = 4 or (p.x = 6 or p.x = 5)
-Marked    (auts/locs marker predicate):  p.x = 4 or (p.x = 6 or p.x = 5)
-Marked    (uncontrolled system):         p.x = 4 or (p.x = 6 or p.x = 5)
-Marked    (system, combined marked/inv): p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (auts/locs marker predicate):      p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (uncontrolled system):             p.x = 4 or (p.x = 6 or p.x = 5)
+Marked    (system, combined marked/req inv): p.x = 4 or (p.x = 6 or p.x = 5)
 
 State/event exclusion requirements:
   Event "c" needs:

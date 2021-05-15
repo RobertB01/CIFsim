@@ -33,27 +33,27 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
 Initial   (discrete variable 0):         aut.v01 = 0
 Initial   (discrete variable 1):         aut.v02 = 0
 Initial   (discrete variable 2):         aut.v03 = 0
 Initial   (discrete variable 3):         aut.v13 = 1
 Initial   (discrete variable 4):         aut.v23 = 2
-Initial   (discrete variables):          aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
-Initial   (system, combined init/inv):   aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial   (discrete variables):              aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
+Initial   (system, combined init/req inv):   aut.v01 = 0 and aut.v02 = 0 and (aut.v03 = 0 and (aut.v13 = 1 and aut.v23 = 2))
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   true
-Marked    (auts/locs marker predicate):  true
-Marked    (uncontrolled system):         true
-Marked    (system, combined marked/inv): true
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined marked/req inv): true
 
 State/event exclusion requirements:
   None

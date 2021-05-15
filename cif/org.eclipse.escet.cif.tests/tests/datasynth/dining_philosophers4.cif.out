@@ -52,36 +52,36 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     f1.available
-Initial   (aut/locs init predicate):     f2.available
-Initial   (aut/locs init predicate):     f3.available
-Initial   (aut/locs init predicate):     f4.available
-Initial   (aut/locs init predicate):     p1.neither
-Initial   (aut/locs init predicate):     p2.neither
-Initial   (aut/locs init predicate):     p3.neither
-Initial   (aut/locs init predicate):     p4.neither
-Initial   (auts/locs init predicate):    p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial   (uncontrolled system):         p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Initial   (system, combined init/inv):   p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         f1.available
+Initial   (aut/locs init predicate):         f2.available
+Initial   (aut/locs init predicate):         f3.available
+Initial   (aut/locs init predicate):         f4.available
+Initial   (aut/locs init predicate):         p1.neither
+Initial   (aut/locs init predicate):         p2.neither
+Initial   (aut/locs init predicate):         p3.neither
+Initial   (aut/locs init predicate):         p4.neither
+Initial   (auts/locs init predicate):        p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial   (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Initial   (system, combined init/req inv):   p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   f1.available
-Marked    (aut/locs marker predicate):   f2.available
-Marked    (aut/locs marker predicate):   f3.available
-Marked    (aut/locs marker predicate):   f4.available
-Marked    (aut/locs marker predicate):   p1.neither
-Marked    (aut/locs marker predicate):   p2.neither
-Marked    (aut/locs marker predicate):   p3.neither
-Marked    (aut/locs marker predicate):   p4.neither
-Marked    (auts/locs marker predicate):  p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Marked    (uncontrolled system):         p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
-Marked    (system, combined marked/inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       f1.available
+Marked    (aut/locs marker predicate):       f2.available
+Marked    (aut/locs marker predicate):       f3.available
+Marked    (aut/locs marker predicate):       f4.available
+Marked    (aut/locs marker predicate):       p1.neither
+Marked    (aut/locs marker predicate):       p2.neither
+Marked    (aut/locs marker predicate):       p3.neither
+Marked    (aut/locs marker predicate):       p4.neither
+Marked    (auts/locs marker predicate):      p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Marked    (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
+Marked    (system, combined marked/req inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 
 State/event exclusion requirements:
   None
