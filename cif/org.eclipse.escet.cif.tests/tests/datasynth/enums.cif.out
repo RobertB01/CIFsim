@@ -39,13 +39,13 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         g.p.x0 = g.A
-Initial   (discrete variable 1):         g.p.x1 = g.A
-Initial   (discrete variable 2):         g.p.x2 = g.B
-Initial   (discrete variable 3):         g.p.x3 != g.E and g.p.x3 != g.C
-Initial   (discrete variable 4):         true
-Initial   (discrete variable 5):         true
-Initial   (discrete variable 6):         g.p.x6 = g.G
+Initial   (discrete variable 0):             g.p.x0 = g.A
+Initial   (discrete variable 1):             g.p.x1 = g.A
+Initial   (discrete variable 2):             g.p.x2 = g.B
+Initial   (discrete variable 3):             g.p.x3 != g.E and g.p.x3 != g.C
+Initial   (discrete variable 4):             true
+Initial   (discrete variable 5):             true
+Initial   (discrete variable 6):             g.p.x6 = g.G
 Initial   (discrete variables):              g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.A or g.p.x4 = g.E) and (g.p.x5 = g.C and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and g.p.x4 = g.C and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and g.p.x4 = g.C and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and g.p.x4 = g.C and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.B or g.p.x4 = g.D) and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.A and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))))) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.A or g.p.x4 = g.E) and (g.p.x5 = g.C and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.A or g.p.x4 = g.E) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and g.p.x4 = g.C and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G))) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and g.p.x4 = g.C and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and g.p.x4 = g.C and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.A or g.p.x5 = g.E) and g.p.x6 = g.G)) or (g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.B or g.p.x4 = g.D) and (g.p.x5 = g.C and g.p.x6 = g.G)) or g.p.x0 = g.A and (g.p.x1 = g.A and g.p.x2 = g.B) and ((g.p.x3 = g.B or g.p.x3 = g.D) and (g.p.x4 = g.B or g.p.x4 = g.D) and ((g.p.x5 = g.B or g.p.x5 = g.D) and g.p.x6 = g.G))))))
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

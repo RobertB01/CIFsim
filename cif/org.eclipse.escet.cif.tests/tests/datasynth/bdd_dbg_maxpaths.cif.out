@@ -16,7 +16,7 @@ Invariant (components state req invariant):  p.x = 1 or (p.x = 3 or p.x = 9) or 
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      p.x = 1 or (p.x = 3 or p.x = 9) or (p.x = 11 or (p.x = 5 or p.x = 7))
 
-Initial   (discrete variable 0):         p.x = 5
+Initial   (discrete variable 0):             p.x = 5
 Initial   (discrete variables):              p.x = 5
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

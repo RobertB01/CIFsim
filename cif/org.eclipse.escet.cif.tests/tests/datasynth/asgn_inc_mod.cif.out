@@ -16,7 +16,7 @@ Invariant (components state req invariant):  p.x = 0 or (p.x = 2 or p.x = 4)
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      p.x = 0 or (p.x = 2 or p.x = 4)
 
-Initial   (discrete variable 0):         p.x = 2
+Initial   (discrete variable 0):             p.x = 2
 Initial   (discrete variables):              p.x = 2
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

@@ -26,13 +26,13 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         p.x1 = 0
-Initial   (discrete variable 1):         p.x2 = 2
-Initial   (discrete variable 2):         <bdd 52n 27p>
-Initial   (discrete variable 3):         true
-Initial   (discrete variable 4):         true
-Initial   (discrete variable 5):         true
-Initial   (discrete variable 6):         p.x7 = 0 or p.x7 = 2 or (p.x7 = 4 or (p.x7 = 6 or p.x7 = 8))
+Initial   (discrete variable 0):             p.x1 = 0
+Initial   (discrete variable 1):             p.x2 = 2
+Initial   (discrete variable 2):             <bdd 52n 27p>
+Initial   (discrete variable 3):             true
+Initial   (discrete variable 4):             true
+Initial   (discrete variable 5):             true
+Initial   (discrete variable 6):             p.x7 = 0 or p.x7 = 2 or (p.x7 = 4 or (p.x7 = 6 or p.x7 = 8))
 Initial   (discrete variables):              <bdd 25n 81p>
 Initial   (component init predicate):        p.x1 = 0
 Initial   (component init predicate):        p.x2 = 2

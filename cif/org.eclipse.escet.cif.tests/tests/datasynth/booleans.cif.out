@@ -49,11 +49,11 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         not g.p.b0
-Initial   (discrete variable 1):         not g.p.b2
-Initial   (discrete variable 2):         true
-Initial   (discrete variable 3):         true
-Initial   (discrete variable 4):         g.p.b1
+Initial   (discrete variable 0):             not g.p.b0
+Initial   (discrete variable 1):             not g.p.b2
+Initial   (discrete variable 2):             true
+Initial   (discrete variable 3):             true
+Initial   (discrete variable 4):             g.p.b1
 Initial   (discrete variables):              not g.p.b0 and (not g.p.b2 and g.p.b1)
 Initial   (component init predicate):        g.p.b1
 Initial   (component init predicate):        g.p.b3

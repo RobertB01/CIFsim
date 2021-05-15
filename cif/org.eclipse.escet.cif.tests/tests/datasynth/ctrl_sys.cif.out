@@ -36,7 +36,7 @@ Invariant (components state req invariant):  g.p.x = 4 or g.p.x = 6 or (g.p.x = 
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
 
-Initial   (discrete variable 1):         true
+Initial   (discrete variable 1):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         g.p.l0

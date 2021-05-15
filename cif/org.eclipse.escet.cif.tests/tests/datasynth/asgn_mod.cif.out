@@ -52,11 +52,11 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         true
-Initial   (discrete variable 1):         true
-Initial   (discrete variable 3):         true
-Initial   (discrete variable 4):         true
-Initial   (discrete variable 5):         true
+Initial   (discrete variable 0):             true
+Initial   (discrete variable 1):             true
+Initial   (discrete variable 3):             true
+Initial   (discrete variable 4):             true
+Initial   (discrete variable 5):             true
 Initial   (discrete variables):              <bdd 15n 243p>
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.loc1

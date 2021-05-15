@@ -36,7 +36,7 @@ Invariant (location state req invariant):    p3.loc1 or (p3.x = 4 or p3.x = 5)
 Invariant (locations state req invariant):   p3.loc1 or (p3.x = 4 or p3.x = 5)
 Invariant (system state req invariant):      p3.loc1 and p3.x = 4 or p3.loc1 and p3.x = 5 or (p3.loc1 and p3.x = 3 or p3.loc2 and (p3.x = 4 or p3.x = 5))
 
-Initial   (discrete variable 1):         true
+Initial   (discrete variable 1):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p3.loc1

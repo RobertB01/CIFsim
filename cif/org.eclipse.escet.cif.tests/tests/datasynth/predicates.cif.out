@@ -59,14 +59,14 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         p.bt
-Initial   (discrete variable 1):         not p.bf
-Initial   (discrete variable 2):         p.x1 = 10
-Initial   (discrete variable 4):         p.x3 = 2
-Initial   (discrete variable 5):         p.x4 = 3
-Initial   (discrete variable 6):         p.x2 = 10
-Initial   (discrete variable 7):         p.v1 = X
-Initial   (discrete variable 8):         p.v2 = Y
+Initial   (discrete variable 0):             p.bt
+Initial   (discrete variable 1):             not p.bf
+Initial   (discrete variable 2):             p.x1 = 10
+Initial   (discrete variable 4):             p.x3 = 2
+Initial   (discrete variable 5):             p.x4 = 3
+Initial   (discrete variable 6):             p.x2 = 10
+Initial   (discrete variable 7):             p.v1 = X
+Initial   (discrete variable 8):             p.v2 = Y
 Initial   (discrete variables):              <bdd 21n 1p>
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.l0

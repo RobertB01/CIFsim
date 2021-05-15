@@ -35,7 +35,7 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 2):         (io.sensor or not p.b) and (not io.sensor or p.b)
+Initial   (discrete variable 2):             (io.sensor or not p.b) and (not io.sensor or p.b)
 Initial   (discrete variables):              (io.sensor or not p.b) and (not io.sensor or p.b)
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.test

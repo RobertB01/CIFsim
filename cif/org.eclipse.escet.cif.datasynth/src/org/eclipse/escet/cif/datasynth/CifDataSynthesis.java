@@ -262,7 +262,7 @@ public class CifDataSynthesis {
                 }
 
                 String nr = String.valueOf(i);
-                dbg("Initial   (discrete variable %s):%s%s", nr, Strings.spaces(10 - nr.length()),
+                dbg("Initial   (discrete variable %s):%s%s", nr, Strings.spaces(14 - nr.length()),
                         bddToStr(aut.initialsVars.get(i), aut));
             }
 

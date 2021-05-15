@@ -38,7 +38,7 @@ Invariant (components state req invariant):  r1.inactive or r3.inactive
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      r1.inactive or r3.inactive
 
-Initial   (discrete variable 0):         true
+Initial   (discrete variable 0):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

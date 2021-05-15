@@ -35,7 +35,7 @@ Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         p.x = 0
+Initial   (discrete variable 0):             p.x = 0
 Initial   (discrete variables):              p.x = 0
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

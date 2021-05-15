@@ -17,7 +17,7 @@ Invariant (components state req invariant):  false
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      false
 
-Initial   (discrete variable 0):         <bdd 7n 1p>
+Initial   (discrete variable 0):             <bdd 7n 1p>
 Initial   (discrete variables):              <bdd 7n 1p>
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

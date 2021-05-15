@@ -37,8 +37,8 @@ Invariant (components state req invariant):  p.x != 0 and (p.x != 8 or p.y != 7)
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      p.x != 0 and (p.x != 8 or p.y != 7) and ((p.x != 4 or p.y != 7) and (not(p.x = 2 or p.x = 6) or p.y != 7)) and (p.x != 10 and not(p.x = 1 or p.x = 9) and ((p.x != 5 or p.y != 7) and (not(p.x = 3 or p.x = 7) or p.y != 7)))
 
-Initial   (discrete variable 0):         p.x = 5
-Initial   (discrete variable 1):         p.y = 6
+Initial   (discrete variable 0):             p.x = 5
+Initial   (discrete variable 1):             p.y = 6
 Initial   (discrete variables):              p.x = 5 and p.y = 6
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         true

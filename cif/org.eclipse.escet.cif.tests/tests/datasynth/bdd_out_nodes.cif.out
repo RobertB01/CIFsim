@@ -53,10 +53,10 @@ Invariant (location state req invariant):    p.L1 or p.v != p.Q
 Invariant (locations state req invariant):   p.L1 or p.v != p.Q
 Invariant (system state req invariant):      p.b and (not p.b or (p.L1 or p.v != p.Q))
 
-Initial   (discrete variable 0):         true
-Initial   (discrete variable 1):         true
-Initial   (discrete variable 4):         true
-Initial   (discrete variable 5):         true
+Initial   (discrete variable 0):             true
+Initial   (discrete variable 1):             true
+Initial   (discrete variable 4):             true
+Initial   (discrete variable 5):             true
 Initial   (discrete variables):              true
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         (p.x = 2 or p.x = 3) and p.L1

@@ -48,8 +48,8 @@ Invariant (components state req invariant):  machine1.producing = 0 or machine2.
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      machine1.producing = 0 or machine2.producing = 0
 
-Initial   (discrete variable 1):         machine1.producing = 0
-Initial   (discrete variable 2):         machine2.producing = 0
+Initial   (discrete variable 1):             machine1.producing = 0
+Initial   (discrete variable 2):             machine2.producing = 0
 Initial   (discrete variables):              machine1.producing = 0 and machine2.producing = 0
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         machine1.Idle

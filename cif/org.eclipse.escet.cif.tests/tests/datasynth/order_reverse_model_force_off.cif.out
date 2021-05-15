@@ -21,9 +21,9 @@ Invariant (components state req invariant):  buffer2.count != 3 or (buffer3.coun
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      buffer2.count != 3 or (buffer3.count != 3 or buffer1.count != 3)
 
-Initial   (discrete variable 0):         buffer2.count = 0
-Initial   (discrete variable 2):         buffer3.count = 0
-Initial   (discrete variable 4):         buffer1.count = 0
+Initial   (discrete variable 0):             buffer2.count = 0
+Initial   (discrete variable 2):             buffer3.count = 0
+Initial   (discrete variable 4):             buffer1.count = 0
 Initial   (discrete variables):              buffer2.count = 0 and (buffer3.count = 0 and buffer1.count = 0)
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         buffer1.add

@@ -46,8 +46,8 @@ Invariant (components state req invariant):  not p.l1
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      not p.l1
 
-Initial   (discrete variable 0):         not p.x1
-Initial   (discrete variable 2):         not p.x2
+Initial   (discrete variable 0):             not p.x1
+Initial   (discrete variable 2):             not p.x2
 Initial   (discrete variables):              not p.x1 and not p.x2
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.l0

@@ -35,7 +35,7 @@ Invariant (components state req invariant):  0 <= count_max3.cnt and count_max3.
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      0 <= count_max3.cnt and count_max3.cnt <= 3
 
-Initial   (discrete variable 1):         count_max3.cnt = 0
+Initial   (discrete variable 1):             count_max3.cnt = 0
 Initial   (discrete variables):              count_max3.cnt = 0
 Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         adder.l1
