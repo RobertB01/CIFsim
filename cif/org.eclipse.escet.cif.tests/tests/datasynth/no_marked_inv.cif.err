@@ -1,2 +1,2 @@
-WARNING: The uncontrolled system has no marked state (taking into account both marking and state invariants).
+WARNING: The controlled system has no marked state (taking into account both marking and state requirement invariants).
 ERROR: Empty supervisor.

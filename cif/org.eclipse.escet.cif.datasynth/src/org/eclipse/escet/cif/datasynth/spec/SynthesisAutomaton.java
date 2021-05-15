@@ -110,10 +110,10 @@ public class SynthesisAutomaton {
     public BDD initialUnctrl;
 
     /**
-     * Combined initialization and state invariant predicates of the uncontrolled system. Conjunction of
-     * {@link #initialUnctrl} and {@link #inv}. Is {@code null} if not yet or no longer available.
+     * Combined initialization and state requirement invariant predicates of the uncontrolled system. Conjunction of
+     * {@link #initialUnctrl} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
      */
-    public BDD initialInv;
+    public BDD initialReqInv;
 
     /** Initialization predicate of the controlled system. Is {@code null} if not yet or no longer available. */
     public BDD initialCtrl;
@@ -152,48 +152,48 @@ public class SynthesisAutomaton {
     public BDD marked;
 
     /**
-     * Combined marking and state invariant predicates of the uncontrolled system. Conjunction of {@link #marked} and
-     * {@link #inv}. Is {@code null} if not yet or no longer available.
+     * Combined marking and state requirement invariant predicates of the uncontrolled system. Conjunction of
+     * {@link #marked} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
      */
-    public BDD markedInv;
+    public BDD markedReqInv;
 
     /**
      * State requirement invariants (predicates) from the components. Is {@code null} if not yet or no longer available.
      */
-    public List<BDD> invsComps;
+    public List<BDD> reqInvsComps;
 
     /**
      * State requirement invariants (predicates) from the locations of the automata. Unlike initialization and marker
-     * predicates, these are not combined per automaton, but instead individual state invariants (predicates) are kept.
+     * predicates, these are not combined per automaton, but instead individual state requirement invariants
+     * (predicates) are kept. Is {@code null} if not yet or no longer available.
+     */
+    public List<BDD> reqInvsLocs;
+
+    /**
+     * State requirement invariant (predicate) for the components. Conjunction of {@link #reqInvsComps}. Is {@code null}
+     * if not yet or no longer available.
+     */
+    public BDD reqInvComps;
+
+    /**
+     * State requirement invariant (predicate) for the locations of the automata. Conjunction of {@link #reqInvsLocs}.
      * Is {@code null} if not yet or no longer available.
      */
-    public List<BDD> invsLocs;
+    public BDD reqInvLocs;
 
     /**
-     * State requirement invariant (predicate) for the components. Conjunction of {@link #invsComps}. Is {@code null} if
-     * not yet or no longer available.
+     * State requirement invariant (predicate) for the system. Conjunction of {@link #reqInvComps} and
+     * {@link #reqInvLocs}. Is {@code null} if not yet or no longer available.
      */
-    public BDD invComps;
-
-    /**
-     * State requirement invariant (predicate) for the locations of the automata. Conjunction of {@link #invsLocs}. Is
-     * {@code null} if not yet or no longer available.
-     */
-    public BDD invLocs;
-
-    /**
-     * State requirement invariant (predicate) for the system. Conjunction of {@link #invComps} and {@link #invLocs}. Is
-     * {@code null} if not yet or no longer available.
-     */
-    public BDD inv;
+    public BDD reqInv;
 
     /**
      * Mapping from subset of controllable events to their corresponding state/event exclusion requirements, derived
      * from requirement automata. Per event, the state/event requirements are combined, using conjunctions. The
      * state/event requirement predicates indicate necessary global conditions for the event to be enabled/allowed. That
      * is, the predicates can be seen as additional global guards. The predicates originate only from the requirement
-     * automata, not from the state/event exclusion invariants of the input specification. Is {@code null} if not yet or
-     * no longer available.
+     * automata, not from the state/event exclusion requirement invariants of the input specification. Is {@code null}
+     * if not yet or no longer available.
      */
     public Map<Event, BDD> stateEvtExclsReqAuts;
 
@@ -202,8 +202,8 @@ public class SynthesisAutomaton {
      * from state/event exclusion requirement invariants from the input specification. Per event, the state/event
      * requirements are combined, using conjunctions. The state/event requirement predicates indicate necessary global
      * conditions for the event to be enabled/allowed. That is, the predicates can be seen as additional global guards.
-     * The predicates originate only from the state/event exclusion invariants of the input specification, not from the
-     * requirement automata. Is {@code null} if not yet or no longer available.
+     * The predicates originate only from the state/event exclusion requirement invariants of the input specification,
+     * not from the requirement automata. Is {@code null} if not yet or no longer available.
      */
     public Map<Event, BDD> stateEvtExclsReqInvs;
 
@@ -211,21 +211,22 @@ public class SynthesisAutomaton {
      * Mapping from subset of events to their corresponding state/event exclusion requirements. Per event, the separate
      * state/event requirements are collected. The state/event requirement predicates indicate necessary global
      * conditions for the event to be enabled/allowed. That is, the predicates can be seen as additional global guards.
-     * The predicates originate not only from the requirement state/event exclusion invariants, but also from
+     * The predicates originate not only from the state/event exclusion requirement invariants, but also from
      * requirement automata. Is empty until initialized. May remain empty if no state/event exclusions present in the
      * model. Becomes {@code null} if no longer available.
      */
-    public Map<Event, List<BDD>> stateEvtExclLists = map();
+    public Map<Event, List<BDD>> stateEvtExclReqLists = map();
 
     /**
      * Mapping from subset of events to their corresponding state/event exclusion requirements. Per event, the
-     * state/event requirements are combined, using conjunctions, with respect to {@link #stateEvtExclLists}. The
+     * state/event requirements are combined, using conjunctions, with respect to {@link #stateEvtExclReqLists}. The
      * state/event requirement predicates indicate necessary global conditions for the event to be enabled/allowed. That
      * is, the predicates can be seen as additional global guards. The predicates originate not only from the
-     * requirement state/event exclusion invariants, but also from requirement automata. Is empty until initialized. May
-     * remain empty if no state/event exclusions present in the model. Becomes {@code null} if no longer available.
+     * state/event exclusion requirement invariants, but also from requirement automata. Is empty until initialized. May
+     * remain empty if no state/event exclusion requirements present in the model. Becomes {@code null} if no longer
+     * available.
      */
-    public Map<Event, BDD> stateEvtExcls = map();
+    public Map<Event, BDD> stateEvtExclReqs = map();
 
     /**
      * BDD pairing for every old variable 'x' to its corresponding new variable 'x+'. Is {@code null} if not available.

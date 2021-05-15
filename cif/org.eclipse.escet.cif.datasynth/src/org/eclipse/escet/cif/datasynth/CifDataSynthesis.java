@@ -71,11 +71,11 @@ public class CifDataSynthesis {
             timing.preSynth.start();
         }
         try {
-            // Check uncontrolled system, and print debug information.
+            // Check system, and print debug information.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            checkUncontrolledSystem(aut, dbgEnabled);
+            checkSystem(aut, dbgEnabled);
 
             // Apply requirements.
             if (aut.env.isTerminationRequested()) {
@@ -91,7 +91,7 @@ public class CifDataSynthesis {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            applyStateEvtExcls(aut, dbgEnabled);
+            applyStateEvtExclReqs(aut, dbgEnabled);
 
             // Prepare for actual synthesis. Allow applying edges from here on.
             for (SynthesisEdge edge: aut.edges) {
@@ -203,50 +203,50 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Checks the uncontrolled system for problems with initialization, marking, and state invariants. Also prints
+     * Checks the system for problems with initialization, marking, and state requirement invariants. Also prints
      * related debug information.
      *
      * @param aut The automaton on which to perform synthesis.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void checkUncontrolledSystem(SynthesisAutomaton aut, boolean dbgEnabled) {
-        // Debug state invariants (predicates) of the components.
+    private static void checkSystem(SynthesisAutomaton aut, boolean dbgEnabled) {
+        // Debug state requirement invariants (predicates) of the components.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
             dbg();
-            for (BDD pred: aut.invsComps) {
+            for (BDD pred: aut.reqInvsComps) {
                 dbg("Invariant (component state invariant):   %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (components state invariant):  %s", bddToStr(aut.invComps, aut));
+            dbg("Invariant (components state invariant):  %s", bddToStr(aut.reqInvComps, aut));
         }
 
-        // Debug state invariants (predicates) of the locations of the automata.
+        // Debug state requirement invariants (predicates) of the locations of the automata.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
-            for (BDD pred: aut.invsLocs) {
+            for (BDD pred: aut.reqInvsLocs) {
                 dbg("Invariant (location state invariant):    %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (locations state invariant):   %s", bddToStr(aut.invLocs, aut));
+            dbg("Invariant (locations state invariant):   %s", bddToStr(aut.reqInvLocs, aut));
         }
 
-        // Debug state invariant (predicate) of the system.
+        // Debug state requirement invariant (predicate) of the system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
-            dbg("Invariant (system state invariant):      %s", bddToStr(aut.inv, aut));
+            dbg("Invariant (system state invariant):      %s", bddToStr(aut.reqInv, aut));
         }
 
-        // Warn if no state in system, due to state invariants.
+        // Warn if no state in system, due to state requirement invariants.
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (aut.inv.isZero()) {
-            warn("The uncontrolled system has no states (taking into account only the state invariants).");
+        if (aut.reqInv.isZero()) {
+            warn("The controlled system has no states (taking into account only the state requirement invariants).");
         }
 
         // Debug initialization predicates of the discrete variables.
@@ -299,12 +299,12 @@ public class CifDataSynthesis {
             dbg("Initial   (uncontrolled system):         %s", bddToStr(aut.initialUnctrl, aut));
         }
 
-        // Debug combined initialization and state invariants of the uncontrolled system.
+        // Debug combined initialization and state requirement invariants of the system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (system, combined init/inv):   %s", bddToStr(aut.initialInv, aut));
+            dbg("Initial   (system, combined init/inv):   %s", bddToStr(aut.initialReqInv, aut));
         }
 
         // Warn if no initial state in uncontrolled system.
@@ -318,9 +318,9 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (!aut.initialUnctrl.isZero() && !aut.inv.isZero() && aut.initialInv.isZero()) {
-            warn("The uncontrolled system has no initial state (taking into account both initialization and state "
-                    + "invariants).");
+        if (!aut.initialUnctrl.isZero() && !aut.reqInv.isZero() && aut.initialReqInv.isZero()) {
+            warn("The controlled system has no initial state (taking into account both initialization and state "
+                    + "requirement invariants).");
         }
 
         // Debug marker predicates of the components.
@@ -359,7 +359,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined marked/inv): %s", bddToStr(aut.markedInv, aut));
+            dbg("Marked    (system, combined marked/inv): %s", bddToStr(aut.markedReqInv, aut));
         }
 
         // Warn if no marked state in uncontrolled system.
@@ -373,9 +373,9 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (!aut.marked.isZero() && !aut.inv.isZero() && aut.markedInv.isZero()) {
-            warn("The uncontrolled system has no marked state (taking into "
-                    + "account both marking and state invariants).");
+        if (!aut.marked.isZero() && !aut.reqInv.isZero() && aut.markedReqInv.isZero()) {
+            warn("The controlled system has no marked state (taking into account both marking and state requirement "
+                    + "invariants).");
         }
 
         // Debug state/event exclusions requirements.
@@ -385,10 +385,10 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             dbg();
             dbg("State/event exclusion requirements:");
-            if (aut.stateEvtExclLists.isEmpty()) {
+            if (aut.stateEvtExclReqLists.isEmpty()) {
                 dbg("  None");
             }
-            for (Entry<Event, List<BDD>> entry: aut.stateEvtExclLists.entrySet()) {
+            for (Entry<Event, List<BDD>> entry: aut.stateEvtExclReqLists.entrySet()) {
                 dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
                 for (BDD pred: entry.getValue()) {
                     dbg("    %s", bddToStr(pred, aut));
@@ -407,14 +407,14 @@ public class CifDataSynthesis {
         }
 
         // Free no longer needed predicates.
-        for (BDD bdd: aut.invsComps) {
+        for (BDD bdd: aut.reqInvsComps) {
             bdd.free();
         }
-        for (BDD bdd: aut.invsLocs) {
+        for (BDD bdd: aut.reqInvsLocs) {
             bdd.free();
         }
-        aut.invComps.free();
-        aut.invLocs.free();
+        aut.reqInvComps.free();
+        aut.reqInvLocs.free();
 
         for (BDD bdd: aut.initialsVars) {
             if (bdd != null) {
@@ -430,7 +430,7 @@ public class CifDataSynthesis {
         aut.initialVars.free();
         aut.initialComps.free();
         aut.initialLocs.free();
-        aut.initialInv.free();
+        aut.initialReqInv.free();
 
         for (BDD bdd: aut.markedsComps) {
             bdd.free();
@@ -440,18 +440,18 @@ public class CifDataSynthesis {
         }
         aut.markedComps.free();
         aut.markedLocs.free();
-        aut.markedInv.free();
+        aut.markedReqInv.free();
 
-        for (List<BDD> preds: aut.stateEvtExclLists.values()) {
+        for (List<BDD> preds: aut.stateEvtExclReqLists.values()) {
             for (BDD pred: preds) {
                 pred.free();
             }
         }
 
-        aut.invsComps = null;
-        aut.invComps = null;
-        aut.invsLocs = null;
-        aut.invLocs = null;
+        aut.reqInvsComps = null;
+        aut.reqInvComps = null;
+        aut.reqInvsLocs = null;
+        aut.reqInvLocs = null;
 
         aut.initialsVars = null;
         aut.initialVars = null;
@@ -459,15 +459,15 @@ public class CifDataSynthesis {
         aut.initialComps = null;
         aut.initialsLocs = null;
         aut.initialLocs = null;
-        aut.initialInv = null;
+        aut.initialReqInv = null;
 
         aut.markedsComps = null;
         aut.markedComps = null;
         aut.markedsLocs = null;
         aut.markedLocs = null;
-        aut.markedInv = null;
+        aut.markedReqInv = null;
 
-        aut.stateEvtExclLists = null;
+        aut.stateEvtExclReqLists = null;
     }
 
     /**
@@ -481,7 +481,7 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        aut.ctrlBeh = aut.inv.id();
+        aut.ctrlBeh = aut.reqInv.id();
 
         if (aut.env.isTerminationRequested()) {
             return;
@@ -568,14 +568,14 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Applies the state/event exclusion invariants, as preprocessing step for synthesis.
+     * Applies the state/event exclusion requirement invariants, as preprocessing step for synthesis.
      *
      * @param aut The automaton on which to perform synthesis. Is modified in-place.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void applyStateEvtExcls(SynthesisAutomaton aut, boolean dbgEnabled) {
+    private static void applyStateEvtExclReqs(SynthesisAutomaton aut, boolean dbgEnabled) {
         // Update guards and controlled-behavior predicate, to ensure that transitions not allowed by the state/event
-        // exclusion invariants, are blocked.
+        // exclusion requirement invariants, are blocked.
         if (aut.env.isTerminationRequested()) {
             return;
         }
@@ -592,7 +592,7 @@ public class CifDataSynthesis {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            BDD req = aut.stateEvtExcls.get(edge.event);
+            BDD req = aut.stateEvtExclReqs.get(edge.event);
             if (req == null) {
                 continue;
             }
@@ -671,10 +671,10 @@ public class CifDataSynthesis {
         }
 
         // Free no longer needed predicates.
-        for (BDD bdd: aut.stateEvtExcls.values()) {
+        for (BDD bdd: aut.stateEvtExclReqs.values()) {
             bdd.free();
         }
-        aut.stateEvtExcls = null;
+        aut.stateEvtExclReqs = null;
     }
 
     /**
@@ -1492,7 +1492,7 @@ public class CifDataSynthesis {
 
             for (Event controllable: aut.controllables) {
                 BDD assumption = assumptions.get(controllable);
-                BDD extra = aut.inv.id();
+                BDD extra = aut.reqInv.id();
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
@@ -1501,8 +1501,8 @@ public class CifDataSynthesis {
                 assumptions.put(controllable, assumption);
             }
         }
-        aut.inv.free();
-        aut.inv = null;
+        aut.reqInv.free();
+        aut.reqInv = null;
 
         // If requested, simplify output guards assuming the controlled behavior as computed by synthesis.
         // Initialization is restricted to ensure the system starts within the controlled behavior. Each guard ensures

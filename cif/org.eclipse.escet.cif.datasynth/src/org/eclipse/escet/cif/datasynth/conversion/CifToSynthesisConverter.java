@@ -483,21 +483,21 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Check and convert state invariants (predicates).
-        synthAut.invsComps = list();
-        synthAut.invsLocs = list();
-        synthAut.invComps = synthAut.factory.one();
-        synthAut.invLocs = synthAut.factory.one();
-        convertStateInvs(spec, synthAut, locPtrManager);
-        synthAut.inv = synthAut.invComps.and(synthAut.invLocs);
+        // Check and convert state requirement invariants (predicates).
+        synthAut.reqInvsComps = list();
+        synthAut.reqInvsLocs = list();
+        synthAut.reqInvComps = synthAut.factory.one();
+        synthAut.reqInvLocs = synthAut.factory.one();
+        convertStateReqInvs(spec, synthAut, locPtrManager);
+        synthAut.reqInv = synthAut.reqInvComps.and(synthAut.reqInvLocs);
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
 
-        // Set combined predicates for both initialization and marking with state invariants.
-        synthAut.initialInv = synthAut.initialUnctrl.and(synthAut.inv);
-        synthAut.markedInv = synthAut.marked.and(synthAut.inv);
+        // Set combined predicates for both initialization and marking with state requirement invariants.
+        synthAut.initialReqInv = synthAut.initialUnctrl.and(synthAut.reqInv);
+        synthAut.markedReqInv = synthAut.marked.and(synthAut.reqInv);
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -515,8 +515,8 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Convert state/event exclusion requirement invariants.
-        convertStateEvtExclInvs(spec, synthAut, locPtrManager);
+        // Convert state/event exclusion requirements.
+        convertStateEvtExclReqInvs(spec, synthAut, locPtrManager);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -528,12 +528,12 @@ public class CifToSynthesisConverter {
         }
 
         // Combine state/event exclusion requirements, per event.
-        for (Entry<Event, List<BDD>> entry: synthAut.stateEvtExclLists.entrySet()) {
+        for (Entry<Event, List<BDD>> entry: synthAut.stateEvtExclReqLists.entrySet()) {
             BDD combi = synthAut.factory.one();
             for (BDD pred: entry.getValue()) {
                 combi = combi.and(pred);
             }
-            synthAut.stateEvtExcls.put(entry.getKey(), combi);
+            synthAut.stateEvtExclReqs.put(entry.getKey(), combi);
         }
 
         if (synthAut.env.isTerminationRequested()) {
@@ -1769,8 +1769,7 @@ public class CifToSynthesisConverter {
                     srcLocPred = convertPred(srcLocRef, false, synthAut);
                 } catch (UnsupportedPredicateException ex) {
                     if (ex.expr != null) {
-                        // Internally created predicate shouldn't fail
-                        // conversion.
+                        // Internally created predicate shouldn't fail conversion.
                         throw new RuntimeException(ex);
                     }
                     continue;
@@ -1796,13 +1795,13 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts state invariants (predicates) from the components and the locations of automata.
+     * Converts state requirement invariants (predicates) from the components and the locations of automata.
      *
-     * @param comp The component for which to convert state invariants (predicates), recursively.
-     * @param synthAut The synthesis automaton to be updated with state invariants (predicates) information.
+     * @param comp The component for which to convert state requirement invariants (predicates), recursively.
+     * @param synthAut The synthesis automaton to be updated with state requirement invariants (predicates) information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
+    private void convertStateReqInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
             LocationPointerManager locPtrManager)
     {
         // State invariants (predicates) of the component.
@@ -1824,9 +1823,9 @@ public class CifToSynthesisConverter {
 
             // Convert.
             Expression pred = inv.getPredicate();
-            BDD compInv;
+            BDD reqInvComp;
             try {
-                compInv = convertPred(pred, false, synthAut);
+                reqInvComp = convertPred(pred, false, synthAut);
             } catch (UnsupportedPredicateException ex) {
                 if (ex.expr != null) {
                     String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
@@ -1838,16 +1837,16 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            synthAut.invsComps.add(compInv);
-            synthAut.invComps = synthAut.invComps.andWith(compInv.id());
+            synthAut.reqInvsComps.add(reqInvComp);
+            synthAut.reqInvComps = synthAut.reqInvComps.andWith(reqInvComp.id());
         }
 
-        // State invariants (predicates) of locations (automata only).
+        // State requirement invariants (predicates) of locations (automata only).
         if (comp instanceof Automaton) {
             // Get automaton.
             Automaton aut = (Automaton)comp;
 
-            // Add state invariants (predicates) from the locations.
+            // Add state requirement invariants (predicates) from the locations.
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     // Skip non-state invariants.
@@ -1867,9 +1866,9 @@ public class CifToSynthesisConverter {
 
                     // Convert.
                     Expression pred = inv.getPredicate();
-                    BDD locInv;
+                    BDD reqInvLoc;
                     try {
-                        locInv = convertPred(pred, false, synthAut);
+                        reqInvLoc = convertPred(pred, false, synthAut);
                     } catch (UnsupportedPredicateException ex) {
                         if (ex.expr != null) {
                             String msg = fmt("Unsupported %s: unsupported part \"%s\" of state invariant \"%s\": %s",
@@ -1893,12 +1892,12 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    locInv = srcLocPred.not().orWith(locInv);
+                    reqInvLoc = srcLocPred.not().orWith(reqInvLoc);
                     srcLocPred.free();
 
                     // Store.
-                    synthAut.invsLocs.add(locInv);
-                    synthAut.invLocs = synthAut.invLocs.andWith(locInv.id());
+                    synthAut.reqInvsLocs.add(reqInvLoc);
+                    synthAut.reqInvLocs = synthAut.reqInvLocs.andWith(reqInvLoc.id());
                 }
             }
         }
@@ -1906,22 +1905,23 @@ public class CifToSynthesisConverter {
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertStateInvs((ComplexComponent)child, synthAut, locPtrManager);
+                convertStateReqInvs((ComplexComponent)child, synthAut, locPtrManager);
             }
         }
     }
 
     /**
-     * Converts state/event exclusion invariants from the components and the locations of automata.
+     * Converts state/event exclusion requirement invariants from the components and the locations of automata.
      *
-     * @param comp The component for which to convert state/event exclusion invariants, recursively.
-     * @param synthAut The synthesis automaton to be updated with state/event exclusion invariants information.
+     * @param comp The component for which to convert state/event exclusion requirement invariants, recursively.
+     * @param synthAut The synthesis automaton to be updated with state/event exclusion requirement invariants
+     *     information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateEvtExclInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
+    private void convertStateEvtExclReqInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
             LocationPointerManager locPtrManager)
     {
-        // State/event exclusion invariants of the component.
+        // State/event exclusion requirement invariants of the component.
         for (Invariant inv: comp.getInvariants()) {
             // Skip state invariants.
             if (inv.getInvKind() == InvKind.STATE) {
@@ -1972,10 +1972,10 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            List<BDD> conditions = synthAut.stateEvtExclLists.get(event);
+            List<BDD> conditions = synthAut.stateEvtExclReqLists.get(event);
             if (conditions == null) {
                 conditions = list();
-                synthAut.stateEvtExclLists.put(event, conditions);
+                synthAut.stateEvtExclReqLists.put(event, conditions);
             }
             conditions.add(compInv);
 
@@ -1988,12 +1988,12 @@ public class CifToSynthesisConverter {
             }
         }
 
-        // State/event exclusion invariants of locations (automata only).
+        // State/event exclusion requirement invariants of locations (automata only).
         if (comp instanceof Automaton) {
             // Get automaton.
             Automaton aut = (Automaton)comp;
 
-            // Add state/event exclusion invariants from the locations.
+            // Add state/event exclusion requirement invariants from the locations.
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     // Skip state invariants.
@@ -2001,8 +2001,7 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    // Check kind. Also set kind explicitly, as it is needed
-                    // for later removal.
+                    // Check kind. Also set kind explicitly, as it is needed for later removal.
                     CifInvariantUtils.makeSupKindExplicit(inv);
                     SupKind kind = CifInvariantUtils.getSupKind(inv);
                     if (kind != SupKind.REQUIREMENT) {
@@ -2062,10 +2061,10 @@ public class CifToSynthesisConverter {
                     }
 
                     // Store.
-                    List<BDD> conditions = synthAut.stateEvtExclLists.get(event);
+                    List<BDD> conditions = synthAut.stateEvtExclReqLists.get(event);
                     if (conditions == null) {
                         conditions = list();
-                        synthAut.stateEvtExclLists.put(event, conditions);
+                        synthAut.stateEvtExclReqLists.put(event, conditions);
                     }
                     conditions.add(locInv);
 
@@ -2083,7 +2082,7 @@ public class CifToSynthesisConverter {
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertStateEvtExclInvs((ComplexComponent)child, synthAut, locPtrManager);
+                convertStateEvtExclReqInvs((ComplexComponent)child, synthAut, locPtrManager);
             }
         }
     }
@@ -2101,7 +2100,7 @@ public class CifToSynthesisConverter {
         // Initialization.
         originalMonitors = mapc(requirements.size());
 
-        // For synthesis, requirement automata are treated as plants that\ monitor the entire alphabet. They thus don't
+        // For synthesis, requirement automata are treated as plants that monitor the entire alphabet. They thus don't
         // restrict anything guard-wise. We add additional state/event exclusion requirements to restrict the behavior
         // to what the original requirement automaton allowed.
         for (int i = 0; i < requirements.size(); i++) {
@@ -2136,10 +2135,10 @@ public class CifToSynthesisConverter {
                 }
 
                 // Add guard as state/event exclusion requirement for the event.
-                List<BDD> conditions = synthAut.stateEvtExclLists.get(event);
+                List<BDD> conditions = synthAut.stateEvtExclReqLists.get(event);
                 if (conditions == null) {
                     conditions = list();
-                    synthAut.stateEvtExclLists.put(event, conditions);
+                    synthAut.stateEvtExclReqLists.put(event, conditions);
                 }
                 conditions.add(synthGuard);
 
@@ -2667,8 +2666,7 @@ public class CifToSynthesisConverter {
             // predicate of the assignment.
             BDD error = rhsRslt.carry;
 
-            // Create bit vector for the left hand side (variable to get a new
-            // value).
+            // Create bit vector for the left hand side (variable to get a new value).
             CifBddBitVector lhsVec = CifBddBitVector.createDomain(var.domainNew);
 
             // Construct 'lhs+ = rhs' relation. By resizing both vectors to be equal size, a smaller rhs (in number of
@@ -2841,7 +2839,7 @@ public class CifToSynthesisConverter {
             SynthesisVariable var = synthAut.variables[varIdx];
             return var.domain.ithVar(1);
         } else if (pred instanceof AlgVariableExpression) {
-            // Algebraic variable reference. Get the single defining valu expression, representing the value of the
+            // Algebraic variable reference. Get the single defining value expression, representing the value of the
             // variable. It is in an 'if' expression if an equation is provided per location of an automaton with more
             // than one location.
             AlgVariable var = ((AlgVariableExpression)pred).getVariable();
@@ -3174,8 +3172,7 @@ public class CifToSynthesisConverter {
                     CifBddBitVector lvec = lrslt.vector;
                     CifBddBitVector rvec = rrslt.vector;
 
-                    // Calculate minimum needed vector length, taking into
-                    // account the final carry bit.
+                    // Calculate minimum needed vector length, taking into account the final carry bit.
                     int length = Math.max(lvec.length(), rvec.length()) + 1;
 
                     // Resize lhs and rhs vectors.

@@ -627,8 +627,8 @@ indexterm:[data-based supervisory controller synthesis,initialization]
 [[tools-datasynth-init]]
 === Initialization
 
-The synthesis algorithm ensures that in the controlled system, the requirement
-state invariants hold in all reachable states. It also ensures that in the
+The synthesis algorithm ensures that in the controlled system, the state
+requirement invariants hold in all reachable states. It also ensures that in the
 controlled system, for all transitions from reachable states, the events only
 occur if the requirement automata and state/event exclusion invariants allow
 them.
