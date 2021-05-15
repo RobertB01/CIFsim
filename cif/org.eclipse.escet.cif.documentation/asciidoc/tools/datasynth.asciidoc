@@ -958,11 +958,11 @@ indexterm:[data-based supervisory controller synthesis,checks]
 
 === Early problem detection
 
-The synthesis algorithm checks the uncontrolled system for common issues, for
-early detection of problems that will lead to an empty supervisor. If such a
-problem is detected, a warning is printed to the console. Among others, checks
-are included for no initial states/variables, no marked states, and no states
-due to the invariants.
+The synthesis algorithm checks the specification for common issues, for early
+detection of problems that will lead to an empty supervisor. If such a problem
+is detected,  a warning is printed to the console. Among others, checks are
+included for no initial states/variables, no marked states, and no states due
+to the state requirement invariants.
 
 indexterm:[data-based supervisory controller synthesis,variable order]
 
