@@ -378,7 +378,7 @@ public class CifDataSynthesis {
                     + "invariants).");
         }
 
-        // Debug state/event exclusions requirements.
+        // Debug state/event exclusion requirements.
         if (aut.env.isTerminationRequested()) {
             return;
         }
