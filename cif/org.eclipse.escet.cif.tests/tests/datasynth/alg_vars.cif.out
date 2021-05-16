@@ -33,32 +33,32 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   r1.inactive or r3.inactive
-Invariant (components state invariant):  r1.inactive or r3.inactive
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      r1.inactive or r3.inactive
+Invariant (component state req invariant):   r1.inactive or r3.inactive
+Invariant (components state req invariant):  r1.inactive or r3.inactive
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      r1.inactive or r3.inactive
 
-Initial   (discrete variable 0):         true
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (aut/locs init predicate):     q.l1
-Initial   (aut/locs init predicate):     r1.inactive
-Initial   (aut/locs init predicate):     r2.inactive
-Initial   (aut/locs init predicate):     r3.inactive
-Initial   (auts/locs init predicate):    q.l1 and r1.inactive and (r2.inactive and r3.inactive)
-Initial   (uncontrolled system):         q.l1 and r1.inactive and (r2.inactive and r3.inactive)
-Initial   (system, combined init/inv):   q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (discrete variable 0):             true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (aut/locs init predicate):         q.l1
+Initial   (aut/locs init predicate):         r1.inactive
+Initial   (aut/locs init predicate):         r2.inactive
+Initial   (aut/locs init predicate):         r3.inactive
+Initial   (auts/locs init predicate):        q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (uncontrolled system):             q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (system, combined init/req inv):   q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   true
-Marked    (aut/locs marker predicate):   q.l1
-Marked    (aut/locs marker predicate):   r1.inactive
-Marked    (aut/locs marker predicate):   r2.inactive
-Marked    (aut/locs marker predicate):   r3.inactive
-Marked    (auts/locs marker predicate):  q.l1 and r1.inactive and (r2.inactive and r3.inactive)
-Marked    (uncontrolled system):         q.l1 and r1.inactive and (r2.inactive and r3.inactive)
-Marked    (system, combined marked/inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (aut/locs marker predicate):       q.l1
+Marked    (aut/locs marker predicate):       r1.inactive
+Marked    (aut/locs marker predicate):       r2.inactive
+Marked    (aut/locs marker predicate):       r3.inactive
+Marked    (auts/locs marker predicate):      q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (uncontrolled system):             q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (system, combined marked/req inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 
 State/event exclusion requirements:
   Event "add" needs:

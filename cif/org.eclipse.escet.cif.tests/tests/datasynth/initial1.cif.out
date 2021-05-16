@@ -22,40 +22,40 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         p.x1 = 0
-Initial   (discrete variable 1):         p.x2 = 2
-Initial   (discrete variable 2):         <bdd 52n 27p>
-Initial   (discrete variable 3):         true
-Initial   (discrete variable 4):         true
-Initial   (discrete variable 5):         true
-Initial   (discrete variable 6):         p.x7 = 0 or p.x7 = 2 or (p.x7 = 4 or (p.x7 = 6 or p.x7 = 8))
-Initial   (discrete variables):          <bdd 25n 81p>
-Initial   (component init predicate):    p.x1 = 0
-Initial   (component init predicate):    p.x2 = 2
-Initial   (component init predicate):    p.x3 = 2
-Initial   (component init predicate):    true
-Initial   (component init predicate):    p.x5 != 5
-Initial   (component init predicate):    p.x6 != 6
-Initial   (component init predicate):    p.x6 != 7
-Initial   (component init predicate):    p.x7 != 8
-Initial   (components init predicate):   <bdd 23n 48p>
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         <bdd 27n 45p>
-Initial   (system, combined init/inv):   <bdd 27n 45p>
+Initial   (discrete variable 0):             p.x1 = 0
+Initial   (discrete variable 1):             p.x2 = 2
+Initial   (discrete variable 2):             <bdd 52n 27p>
+Initial   (discrete variable 3):             true
+Initial   (discrete variable 4):             true
+Initial   (discrete variable 5):             true
+Initial   (discrete variable 6):             p.x7 = 0 or p.x7 = 2 or (p.x7 = 4 or (p.x7 = 6 or p.x7 = 8))
+Initial   (discrete variables):              <bdd 25n 81p>
+Initial   (component init predicate):        p.x1 = 0
+Initial   (component init predicate):        p.x2 = 2
+Initial   (component init predicate):        p.x3 = 2
+Initial   (component init predicate):        true
+Initial   (component init predicate):        p.x5 != 5
+Initial   (component init predicate):        p.x6 != 6
+Initial   (component init predicate):        p.x6 != 7
+Initial   (component init predicate):        p.x7 != 8
+Initial   (components init predicate):       <bdd 23n 48p>
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             <bdd 27n 45p>
+Initial   (system, combined init/req inv):   <bdd 27n 45p>
 
-Marked    (component marker predicate):  p.x5 != 1
-Marked    (component marker predicate):  p.x6 != 2
-Marked    (component marker predicate):  p.x7 != 6
-Marked    (components marker predicate): <bdd 12n 64p>
-Marked    (aut/locs marker predicate):   true
-Marked    (auts/locs marker predicate):  true
-Marked    (uncontrolled system):         <bdd 12n 64p>
-Marked    (system, combined marked/inv): <bdd 12n 64p>
+Marked    (component marker predicate):      p.x5 != 1
+Marked    (component marker predicate):      p.x6 != 2
+Marked    (component marker predicate):      p.x7 != 6
+Marked    (components marker predicate):     <bdd 12n 64p>
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             <bdd 12n 64p>
+Marked    (system, combined marked/req inv): <bdd 12n 64p>
 
 State/event exclusion requirements:
   None

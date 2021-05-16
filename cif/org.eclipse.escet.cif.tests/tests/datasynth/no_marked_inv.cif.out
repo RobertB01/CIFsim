@@ -11,24 +11,24 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   p.x = 1
-Invariant (components state invariant):  p.x = 1
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      p.x = 1
+Invariant (component state req invariant):   p.x = 1
+Invariant (components state req invariant):  p.x = 1
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      p.x = 1
 
-Initial   (discrete variable 0):         true
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         true
-Initial   (system, combined init/inv):   p.x = 1
+Initial   (discrete variable 0):             true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/req inv):   p.x = 1
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.x = 3
-Marked    (auts/locs marker predicate):  p.x = 3
-Marked    (uncontrolled system):         p.x = 3
-Marked    (system, combined marked/inv): false
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.x = 3
+Marked    (auts/locs marker predicate):      p.x = 3
+Marked    (uncontrolled system):             p.x = 3
+Marked    (system, combined marked/req inv): false
 
 State/event exclusion requirements:
   None

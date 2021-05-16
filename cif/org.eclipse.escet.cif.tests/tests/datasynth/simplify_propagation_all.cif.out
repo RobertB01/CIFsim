@@ -31,25 +31,25 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):         true
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p5.loc1
-Initial   (aut/locs init predicate):     p6.loc1
-Initial   (auts/locs init predicate):    p5.loc1 and p6.loc1
-Initial   (uncontrolled system):         p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
-Initial   (system, combined init/inv):   p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
+Initial   (discrete variable 1):             true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p5.loc1
+Initial   (aut/locs init predicate):         p6.loc1
+Initial   (auts/locs init predicate):        p5.loc1 and p6.loc1
+Initial   (uncontrolled system):             p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
+Initial   (system, combined init/req inv):   p5.loc1 and (not(p5.x = 2 or p5.x = 3) and p6.loc1) or p5.loc1 and ((p5.x = 2 or p5.x = 3) and p6.loc1)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   not p5.loc3
-Marked    (aut/locs marker predicate):   p6.loc1
-Marked    (auts/locs marker predicate):  not p5.loc3 and p6.loc1
-Marked    (uncontrolled system):         not p5.loc3 and p6.loc1
-Marked    (system, combined marked/inv): not p5.loc3 and p6.loc1
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       not p5.loc3
+Marked    (aut/locs marker predicate):       p6.loc1
+Marked    (auts/locs marker predicate):      not p5.loc3 and p6.loc1
+Marked    (uncontrolled system):             not p5.loc3 and p6.loc1
+Marked    (system, combined marked/req inv): not p5.loc3 and p6.loc1
 
 State/event exclusion requirements:
   None

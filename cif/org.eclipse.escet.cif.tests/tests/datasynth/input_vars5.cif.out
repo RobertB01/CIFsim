@@ -11,23 +11,23 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variables):          true
-Initial   (component init predicate):    io.sensor = 1
-Initial   (components init predicate):   io.sensor = 1
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         io.sensor = 1
-Initial   (system, combined init/inv):   io.sensor = 1
+Initial   (discrete variables):              true
+Initial   (component init predicate):        io.sensor = 1
+Initial   (components init predicate):       io.sensor = 1
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             io.sensor = 1
+Initial   (system, combined init/req inv):   io.sensor = 1
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   io.sensor = 2
-Marked    (auts/locs marker predicate):  io.sensor = 2
-Marked    (uncontrolled system):         io.sensor = 2
-Marked    (system, combined marked/inv): io.sensor = 2
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       io.sensor = 2
+Marked    (auts/locs marker predicate):      io.sensor = 2
+Marked    (uncontrolled system):             io.sensor = 2
+Marked    (system, combined marked/req inv): io.sensor = 2
 
 State/event exclusion requirements:
   None

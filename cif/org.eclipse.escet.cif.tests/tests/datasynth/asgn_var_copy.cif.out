@@ -45,28 +45,28 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   p.y != 2
-Invariant (components state invariant):  p.y != 2
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      p.y != 2
+Invariant (component state req invariant):   p.y != 2
+Invariant (components state req invariant):  p.y != 2
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      p.y != 2
 
-Initial   (discrete variable 0):         true
-Initial   (discrete variable 1):         true
-Initial   (discrete variable 2):         true
-Initial   (discrete variable 3):         true
-Initial   (discrete variable 4):         true
-Initial   (discrete variables):          <bdd 13n 81p>
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p.y != 1
-Initial   (auts/locs init predicate):    p.y != 1
-Initial   (uncontrolled system):         <bdd 14n 81p>
-Initial   (system, combined init/inv):   <bdd 14n 54p>
+Initial   (discrete variable 0):             true
+Initial   (discrete variable 1):             true
+Initial   (discrete variable 2):             true
+Initial   (discrete variable 3):             true
+Initial   (discrete variable 4):             true
+Initial   (discrete variables):              <bdd 13n 81p>
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.y != 1
+Initial   (auts/locs init predicate):        p.y != 1
+Initial   (uncontrolled system):             <bdd 14n 81p>
+Initial   (system, combined init/req inv):   <bdd 14n 54p>
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.y != 3
-Marked    (auts/locs marker predicate):  p.y != 3
-Marked    (uncontrolled system):         p.y != 3
-Marked    (system, combined marked/inv): p.y = 0 or (p.y = 1 or p.y = 4)
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.y != 3
+Marked    (auts/locs marker predicate):      p.y != 3
+Marked    (uncontrolled system):             p.y != 3
+Marked    (system, combined marked/req inv): p.y = 0 or (p.y = 1 or p.y = 4)
 
 State/event exclusion requirements:
   None

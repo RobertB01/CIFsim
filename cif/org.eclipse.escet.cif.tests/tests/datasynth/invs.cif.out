@@ -30,27 +30,27 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (component state invariant):   p.x != 1
-Invariant (component state invariant):   p.x != 2
-Invariant (components state invariant):  p.x != 2 and p.x != 1
-Invariant (location state invariant):    p.l2 or p.x != 0
-Invariant (location state invariant):    p.l1 or p.x != 3
-Invariant (locations state invariant):   (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
-Invariant (system state invariant):      p.l1 and p.x = 3 or p.l2 and p.x = 0
+Invariant (component state req invariant):   p.x != 1
+Invariant (component state req invariant):   p.x != 2
+Invariant (components state req invariant):  p.x != 2 and p.x != 1
+Invariant (location state req invariant):    p.l2 or p.x != 0
+Invariant (location state req invariant):    p.l1 or p.x != 3
+Invariant (locations state req invariant):   (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+Invariant (system state req invariant):      p.l1 and p.x = 3 or p.l2 and p.x = 0
 
-Initial   (discrete variable 1):         true
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     true
-Initial   (auts/locs init predicate):    true
-Initial   (uncontrolled system):         true
-Initial   (system, combined init/inv):   p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial   (discrete variable 1):             true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/req inv):   p.l1 and p.x = 3 or p.l2 and p.x = 0
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   true
-Marked    (auts/locs marker predicate):  true
-Marked    (uncontrolled system):         true
-Marked    (system, combined marked/inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined marked/req inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
 
 State/event exclusion requirements:
   None

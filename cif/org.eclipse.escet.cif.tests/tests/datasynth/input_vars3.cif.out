@@ -31,24 +31,24 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variables):          true
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on)
-Initial   (aut/locs init predicate):     p_act.off
-Initial   (auts/locs init predicate):    not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial   (uncontrolled system):         not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
-Initial   (system, combined init/inv):   not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         (io.sensor or p_sensor.off) and (not io.sensor or p_sensor.on)
+Initial   (aut/locs init predicate):         p_act.off
+Initial   (auts/locs init predicate):        not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial   (uncontrolled system):             not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
+Initial   (system, combined init/req inv):   not io.sensor and (p_sensor.off and p_act.off) or io.sensor and (p_sensor.on and p_act.off)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p_sensor.off
-Marked    (aut/locs marker predicate):   p_act.off
-Marked    (auts/locs marker predicate):  p_sensor.off and p_act.off
-Marked    (uncontrolled system):         p_sensor.off and p_act.off
-Marked    (system, combined marked/inv): p_sensor.off and p_act.off
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p_sensor.off
+Marked    (aut/locs marker predicate):       p_act.off
+Marked    (auts/locs marker predicate):      p_sensor.off and p_act.off
+Marked    (uncontrolled system):             p_sensor.off and p_act.off
+Marked    (system, combined marked/req inv): p_sensor.off and p_act.off
 
 State/event exclusion requirements:
   None

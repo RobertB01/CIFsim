@@ -17,25 +17,25 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variable 1):         true
-Initial   (discrete variables):          true
-Initial   (component init predicate):    p.x != 1
-Initial   (component init predicate):    p.x != 2
-Initial   (components init predicate):   p.x != 2 and p.x != 1
-Initial   (aut/locs init predicate):     (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
-Initial   (auts/locs init predicate):    (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
-Initial   (uncontrolled system):         p.l1 and p.x = 3 or p.l2 and p.x = 0
-Initial   (system, combined init/inv):   p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial   (discrete variable 1):             true
+Initial   (discrete variables):              true
+Initial   (component init predicate):        p.x != 1
+Initial   (component init predicate):        p.x != 2
+Initial   (components init predicate):       p.x != 2 and p.x != 1
+Initial   (aut/locs init predicate):         (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+Initial   (auts/locs init predicate):        (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+Initial   (uncontrolled system):             p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial   (system, combined init/req inv):   p.l1 and p.x = 3 or p.l2 and p.x = 0
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   true
-Marked    (auts/locs marker predicate):  true
-Marked    (uncontrolled system):         true
-Marked    (system, combined marked/inv): true
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined marked/req inv): true
 
 State/event exclusion requirements:
   None

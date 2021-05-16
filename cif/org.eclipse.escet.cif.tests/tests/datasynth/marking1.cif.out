@@ -41,25 +41,25 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variable 2):         p1.x = 0
-Initial   (discrete variables):          p1.x = 0
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p1.l0
-Initial   (aut/locs init predicate):     p2.l0
-Initial   (auts/locs init predicate):    p1.l0 and p2.l0
-Initial   (uncontrolled system):         p1.l0 and (p2.l0 and p1.x = 0)
-Initial   (system, combined init/inv):   p1.l0 and (p2.l0 and p1.x = 0)
+Initial   (discrete variable 2):             p1.x = 0
+Initial   (discrete variables):              p1.x = 0
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p1.l0
+Initial   (aut/locs init predicate):         p2.l0
+Initial   (auts/locs init predicate):        p1.l0 and p2.l0
+Initial   (uncontrolled system):             p1.l0 and (p2.l0 and p1.x = 0)
+Initial   (system, combined init/req inv):   p1.l0 and (p2.l0 and p1.x = 0)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   (not p1.l2 or p1.x != 0) and (p1.l0 or p1.l2)
-Marked    (aut/locs marker predicate):   not p2.l4 and ((not p2.l2 or 0 <= p1.x and p1.x <= 3) and (not p2.l3 or p1.x != 4))
-Marked    (auts/locs marker predicate):  <bdd 24n 16p>
-Marked    (uncontrolled system):         <bdd 24n 16p>
-Marked    (system, combined marked/inv): <bdd 24n 16p>
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       (not p1.l2 or p1.x != 0) and (p1.l0 or p1.l2)
+Marked    (aut/locs marker predicate):       not p2.l4 and ((not p2.l2 or 0 <= p1.x and p1.x <= 3) and (not p2.l3 or p1.x != 4))
+Marked    (auts/locs marker predicate):      <bdd 24n 16p>
+Marked    (uncontrolled system):             <bdd 24n 16p>
+Marked    (system, combined marked/req inv): <bdd 24n 16p>
 
 State/event exclusion requirements:
   None

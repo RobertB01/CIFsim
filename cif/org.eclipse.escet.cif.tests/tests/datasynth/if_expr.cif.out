@@ -41,24 +41,24 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
-Invariant (components state invariant):  true
-Invariant (locations state invariant):   true
-Invariant (system state invariant):      true
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
 
-Initial   (discrete variable 0):         p.x = 0
-Initial   (discrete variable 2):         p.y = 0
-Initial   (discrete variables):          p.x = 0 and p.y = 0
-Initial   (components init predicate):   true
-Initial   (aut/locs init predicate):     p.a
-Initial   (auts/locs init predicate):    p.a
-Initial   (uncontrolled system):         p.x = 0 and (p.a and p.y = 0)
-Initial   (system, combined init/inv):   p.x = 0 and (p.a and p.y = 0)
+Initial   (discrete variable 0):             p.x = 0
+Initial   (discrete variable 2):             p.y = 0
+Initial   (discrete variables):              p.x = 0 and p.y = 0
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         p.a
+Initial   (auts/locs init predicate):        p.a
+Initial   (uncontrolled system):             p.x = 0 and (p.a and p.y = 0)
+Initial   (system, combined init/req inv):   p.x = 0 and (p.a and p.y = 0)
 
-Marked    (components marker predicate): true
-Marked    (aut/locs marker predicate):   p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (auts/locs marker predicate):  p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (uncontrolled system):         p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
-Marked    (system, combined marked/inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+Marked    (auts/locs marker predicate):      p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+Marked    (uncontrolled system):             p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
+Marked    (system, combined marked/req inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
 
 State/event exclusion requirements:
   None

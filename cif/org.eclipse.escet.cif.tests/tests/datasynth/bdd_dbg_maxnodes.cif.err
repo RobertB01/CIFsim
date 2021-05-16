@@ -1,2 +1,2 @@
-WARNING: The uncontrolled system has no states (taking into account only the state invariants).
+WARNING: The controlled system has no states (taking into account only the state requirement invariants).
 ERROR: Empty supervisor.
