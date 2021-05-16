@@ -125,9 +125,8 @@
                 </executions>
             </plugin>
 
-            <!-- See issue #57: Temporarily disabled this as dl.bintray.com is offline and it is only hosted there. -->
-            <!--
             <plugin>
+                <!-- Generate Table of Contents (TOC) for Eclipse help. -->
                 <groupId>com.bsiag.geneclipsetoc</groupId>
                 <artifactId>geneclipsetoc-maven-plugin</artifactId>
                 <executions>
@@ -146,7 +145,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
 
             <plugin>
                 <!-- Package the eclipse help contents in the plugin -->
