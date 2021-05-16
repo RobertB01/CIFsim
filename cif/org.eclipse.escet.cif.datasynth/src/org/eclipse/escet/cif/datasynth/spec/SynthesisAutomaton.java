@@ -229,6 +229,24 @@ public class SynthesisAutomaton {
     public Map<Event, BDD> stateEvtExclReqs = map();
 
     /**
+     * Mapping from events to their corresponding state/event exclusion plants. Per event, the separate state/event
+     * plant invariants are collected. The state/event plant predicates indicate necessary global conditions for the
+     * event to be enabled. That is, the predicates can be seen as additional global guards. Is empty until initialized.
+     * May remain empty if no state/event exclusion plants present in the model. Becomes {@code null} if no longer
+     * available.
+     */
+    public Map<Event, List<BDD>> stateEvtExclPlantLists = map();
+
+    /**
+     * Mapping from events to their corresponding state/event exclusion plants. Per event, the state/event plants are
+     * combined, using conjunctions, with respect to {@link #stateEvtExclPlantLists}. The state/event plant predicates
+     * indicate necessary global conditions for the event to be enabled. That is, the predicates can be seen as
+     * additional global guards.Is empty until initialized. May remain empty if no state/event exclusion plants present
+     * in the model. Becomes {@code null} if no longer available.
+     */
+    public Map<Event, BDD> stateEvtExclPlants = map();
+
+    /**
      * BDD pairing for every old variable 'x' to its corresponding new variable 'x+'. Is {@code null} if not available.
      */
     public BDDPairing oldToNewVarsPairing;

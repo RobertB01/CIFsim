@@ -77,6 +77,11 @@ public class CifDataSynthesis {
             }
             checkSystem(aut, dbgEnabled);
 
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            applyStateEvtExclPlants(aut, dbgEnabled);
+
             // Apply requirements.
             if (aut.env.isTerminationRequested()) {
                 return;
@@ -378,6 +383,21 @@ public class CifDataSynthesis {
                     + "invariants).");
         }
 
+        // Debug state/event exclusion plants.
+        if (dbgEnabled) {
+            dbg();
+            dbg("State/event exclusion plants:");
+            if (aut.stateEvtExclPlantLists.isEmpty()) {
+                dbg("  None");
+            }
+            for (Entry<Event, List<BDD>> entry: aut.stateEvtExclPlantLists.entrySet()) {
+                dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
+                for (BDD pred: entry.getValue()) {
+                    dbg("    %s", bddToStr(pred, aut));
+                }
+            }
+        }
+
         // Debug state/event exclusion requirements.
         if (aut.env.isTerminationRequested()) {
             return;
@@ -402,7 +422,11 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             dbg();
-            dbg("Uncontrolled system:");
+            if (aut.stateEvtExclPlantLists.isEmpty()) {
+                dbg("Uncontrolled system:");
+            } else {
+                dbg("Uncontrolled system (state/event exclusion plants not applied yet):");
+            }
             dbg(aut.toString(1));
         }
 
@@ -442,6 +466,12 @@ public class CifDataSynthesis {
         aut.markedLocs.free();
         aut.markedReqInv.free();
 
+        for (List<BDD> preds: aut.stateEvtExclPlantLists.values()) {
+            for (BDD pred: preds) {
+                pred.free();
+            }
+        }
+
         for (List<BDD> preds: aut.stateEvtExclReqLists.values()) {
             for (BDD pred: preds) {
                 pred.free();
@@ -467,7 +497,72 @@ public class CifDataSynthesis {
         aut.markedLocs = null;
         aut.markedReqInv = null;
 
+        aut.stateEvtExclPlantLists = null;
         aut.stateEvtExclReqLists = null;
+    }
+
+    /**
+     * Applies the state/event exclusion plant invariants, as preprocessing step for synthesis.
+     *
+     * @param aut The automaton on which to perform synthesis. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    private static void applyStateEvtExclPlants(SynthesisAutomaton aut, boolean dbgEnabled) {
+        // Update guards to ensure that transitions not allowed by the state/event exclusion plant invariants, are
+        // blocked.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (dbgEnabled) {
+            dbg();
+            dbg("Restricting behavior using state/event exclusion plants.");
+        }
+
+        boolean firstDbg = true;
+        boolean changed = false;
+        boolean guardChanged = false;
+        for (SynthesisEdge edge: aut.edges) {
+            // Get additional condition for the edge. Skip if none.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            BDD plant = aut.stateEvtExclPlants.get(edge.event);
+            if (plant == null) {
+                continue;
+            }
+
+            // Enforce the additional condition by restricting the guard.
+            BDD newGuard = edge.guard.and(plant);
+
+            if (edge.guard.equals(newGuard)) {
+                newGuard.free();
+            } else {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                if (dbgEnabled) {
+                    if (firstDbg) {
+                        firstDbg = false;
+                        dbg();
+                    }
+                    dbg("Edge %s: guard: %s -> %s [plant: %s].", edge.toString(0, ""), bddToStr(edge.guard, aut),
+                            bddToStr(newGuard, aut), bddToStr(plant, aut));
+                }
+                edge.guard.free();
+                edge.guard = newGuard;
+                changed = true;
+                guardChanged = true;
+            }
+        }
+
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (dbgEnabled && changed) {
+            dbg();
+            dbg("Uncontrolled system:");
+            dbg(aut.toString(1, guardChanged));
+        }
     }
 
     /**
@@ -1458,6 +1553,28 @@ public class CifDataSynthesis {
             }
         }
         aut.stateEvtExclsReqAuts = null;
+
+        // If requested, simplify output guards assuming the state/event exclusion plant invariants from the input
+        // specification. This results in the additional restrictions introduced by the controller with respect to these
+        // plants, instead of the full controlled system guard. Simplification is best effort.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (simplifications.contains(BddSimplify.GUARDS_SE_EXCL_PLANT_INVS)) {
+            assumptionTxts.add("state/event exclusion plant invariants");
+
+            for (Event controllable: aut.controllables) {
+                BDD assumption = assumptions.get(controllable);
+                BDD extra = aut.stateEvtExclPlants.get(controllable);
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
+                assumption = assumption.andWith(extra);
+                assumptions.put(controllable, assumption);
+            }
+        }
+        aut.stateEvtExclPlants = null;
 
         // If requested, simplify output guards assuming the state/event exclusion requirement invariants from the input
         // specification. This results in the additional restrictions introduced by the controller with respect to those

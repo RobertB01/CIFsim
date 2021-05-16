@@ -503,7 +503,13 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Initialize state/event exclusion conditions for controllable events.
+        // Initialize state/event plant exclusion conditions for events.
+        synthAut.stateEvtExclPlants = mapc(synthAut.alphabet.size());
+        for (Event event: synthAut.alphabet) {
+            synthAut.stateEvtExclPlants.put(event, synthAut.factory.one());
+        }
+
+        // Initialize state/event requirement exclusion conditions for controllable events.
         synthAut.stateEvtExclsReqAuts = mapc(synthAut.controllables.size());
         synthAut.stateEvtExclsReqInvs = mapc(synthAut.controllables.size());
         for (Event event: synthAut.controllables) {
@@ -515,8 +521,8 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Convert state/event exclusion requirements.
-        convertStateEvtExclReqInvs(spec, synthAut, locPtrManager);
+        // Convert state/event exclusion plant invariants and requirement invariants.
+        convertStateEvtExclInvs(spec, synthAut, locPtrManager);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -1815,8 +1821,8 @@ public class CifToSynthesisConverter {
             CifInvariantUtils.makeSupKindExplicit(inv);
             SupKind kind = CifInvariantUtils.getSupKind(inv);
             if (kind != SupKind.REQUIREMENT) {
-                String msg = fmt("Unsupported %s: only requirement invariants are supported.",
-                        CifTextUtils.getComponentText1(comp));
+                String msg = fmt("Unsupported %s: only state/event exclusion plant invariants and requirement "
+                        + "invariants are supported.", CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
                 continue;
             }
@@ -1858,8 +1864,8 @@ public class CifToSynthesisConverter {
                     CifInvariantUtils.makeSupKindExplicit(inv);
                     SupKind kind = CifInvariantUtils.getSupKind(inv);
                     if (kind != SupKind.REQUIREMENT) {
-                        String msg = fmt("Unsupported %s: only requirement invariants are supported.",
-                                CifTextUtils.getLocationText1(loc));
+                        String msg = fmt("Unsupported %s: only state/event exclusion plant invariants and requirement "
+                                + "invariants are supported.", CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
                         continue;
                     }
@@ -1911,17 +1917,17 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Converts state/event exclusion requirement invariants from the components and the locations of automata.
+     * Converts state/event exclusion invariants (both plant and requirement) from the components and the locations of
+     * automata.
      *
-     * @param comp The component for which to convert state/event exclusion requirement invariants, recursively.
-     * @param synthAut The synthesis automaton to be updated with state/event exclusion requirement invariants
-     *     information.
+     * @param comp The component for which to convert state/event exclusion invariants, recursively.
+     * @param synthAut The synthesis automaton to be updated with state/event exclusion invariants information.
      * @param locPtrManager Location pointer manager.
      */
-    private void convertStateEvtExclReqInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
+    private void convertStateEvtExclInvs(ComplexComponent comp, SynthesisAutomaton synthAut,
             LocationPointerManager locPtrManager)
     {
-        // State/event exclusion requirement invariants of the component.
+        // State/event exclusion invariants of the component.
         for (Invariant inv: comp.getInvariants()) {
             // Skip state invariants.
             if (inv.getInvKind() == InvKind.STATE) {
@@ -1931,9 +1937,9 @@ public class CifToSynthesisConverter {
             // Check kind. Also set kind explicitly, as it is needed for later removal.
             CifInvariantUtils.makeSupKindExplicit(inv);
             SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.REQUIREMENT) {
-                String msg = fmt("Unsupported %s: only requirement invariants are supported.",
-                        CifTextUtils.getComponentText1(comp));
+            if (kind != SupKind.PLANT && kind != SupKind.REQUIREMENT) {
+                String msg = fmt("Unsupported %s: only state/event exclusion plant invariants and requirement "
+                        + "invariants are supported.", CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
                 continue;
             }
@@ -1972,18 +1978,14 @@ public class CifToSynthesisConverter {
             }
 
             // Store.
-            List<BDD> conditions = synthAut.stateEvtExclReqLists.get(event);
-            if (conditions == null) {
-                conditions = list();
-                synthAut.stateEvtExclReqLists.put(event, conditions);
-            }
-            conditions.add(compInv);
-
-            if (Boolean.TRUE.equals(event.getControllable())) {
-                BDD condition = synthAut.stateEvtExclsReqInvs.get(event);
-                if (condition != null) {
-                    condition = condition.and(compInv);
-                    synthAut.stateEvtExclsReqInvs.put(event, condition);
+            if (kind == SupKind.PLANT) {
+                store(synthAut.stateEvtExclPlantLists, event, compInv);
+                conjunctAndStore(synthAut.stateEvtExclPlants, event, compInv);
+            } else {
+                // Requirement.
+                store(synthAut.stateEvtExclReqLists, event, compInv);
+                if (event.getControllable()) {
+                    conjunctAndStore(synthAut.stateEvtExclsReqInvs, event, compInv);
                 }
             }
         }
@@ -1993,7 +1995,7 @@ public class CifToSynthesisConverter {
             // Get automaton.
             Automaton aut = (Automaton)comp;
 
-            // Add state/event exclusion requirement invariants from the locations.
+            // Add state/event exclusion invariants from the locations.
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: loc.getInvariants()) {
                     // Skip state invariants.
@@ -2004,9 +2006,9 @@ public class CifToSynthesisConverter {
                     // Check kind. Also set kind explicitly, as it is needed for later removal.
                     CifInvariantUtils.makeSupKindExplicit(inv);
                     SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.REQUIREMENT) {
-                        String msg = fmt("Unsupported %s: only requirement invariants are supported.",
-                                CifTextUtils.getLocationText1(loc));
+                    if (kind != SupKind.PLANT && kind != SupKind.REQUIREMENT) {
+                        String msg = fmt("Unsupported %s: only state/event exclusion plant invariants and requirement "
+                                + "invariants are supported.", CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
                         continue;
                     }
@@ -2061,18 +2063,14 @@ public class CifToSynthesisConverter {
                     }
 
                     // Store.
-                    List<BDD> conditions = synthAut.stateEvtExclReqLists.get(event);
-                    if (conditions == null) {
-                        conditions = list();
-                        synthAut.stateEvtExclReqLists.put(event, conditions);
-                    }
-                    conditions.add(locInv);
-
-                    if (Boolean.TRUE.equals(event.getControllable())) {
-                        BDD condition = synthAut.stateEvtExclsReqInvs.get(event);
-                        if (condition != null) {
-                            condition = condition.and(locInv);
-                            synthAut.stateEvtExclsReqInvs.put(event, condition);
+                    if (kind == SupKind.PLANT) {
+                        store(synthAut.stateEvtExclPlantLists, event, locInv);
+                        conjunctAndStore(synthAut.stateEvtExclPlants, event, locInv);
+                    } else {
+                        // Requirement.
+                        store(synthAut.stateEvtExclReqLists, event, locInv);
+                        if (event.getControllable()) {
+                            conjunctAndStore(synthAut.stateEvtExclsReqInvs, event, locInv);
                         }
                     }
                 }
@@ -2082,8 +2080,43 @@ public class CifToSynthesisConverter {
         // Proceed recursively (groups only).
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
-                convertStateEvtExclReqInvs((ComplexComponent)child, synthAut, locPtrManager);
+                convertStateEvtExclInvs((ComplexComponent)child, synthAut, locPtrManager);
             }
+        }
+    }
+
+    /**
+     * Adds the given invariant to the invariants collected so far for the supplied event. The invariants are retrieved
+     * from the supplied mapping. If no invariants for that event have been stored, a new list is created and added to
+     * the mapping.
+     *
+     * @param eventInvs Mapping from events to their corresponding invariants.
+     * @param event The event to use as a key.
+     * @param inv The invariant to add.
+     */
+    private void store(Map<Event, List<BDD>> eventInvs, Event event, BDD inv) {
+        List<BDD> invs = eventInvs.get(event);
+        if (invs == null) {
+            invs = list();
+            eventInvs.put(event, invs);
+        }
+        invs.add(inv);
+    }
+
+    /**
+     * Combines the given invariant with the invariants collected so far for the supplied event. The invariants are
+     * combined, using conjunction. The invariants (as a BDD) are retrieved from the supplied mapping. If no invariants
+     * for that event have been stored, the invariant is not stored.
+     *
+     * @param eventInvs Mapping from events to their corresponding invariants.
+     * @param event The event to use as a key.
+     * @param inv The invariant to combine.
+     */
+    private void conjunctAndStore(Map<Event, BDD> eventInvs, Event event, BDD inv) {
+        BDD invs = eventInvs.get(event);
+        if (invs != null) {
+            invs = invs.and(inv);
+            eventInvs.put(event, invs);
         }
     }
 

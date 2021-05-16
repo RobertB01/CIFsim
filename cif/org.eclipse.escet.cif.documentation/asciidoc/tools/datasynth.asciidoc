@@ -225,11 +225,9 @@ implicitly for edges without explicitly mentioned events.
 supported. That is, requirements that send or receive (with or without data)
 are not supported.
 
-* Regular invariants, plant invariants, and supervisor invariants are not
-supported. Only requirement invariants are supported. To allow plant
-state/event exclusion invariants to be used in the input, manually eliminate
-them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to
-CIF transformation.
+* Regular invariants, state plant invariants, and supervisor invariants are not
+supported. Only state/event exclusion plant invariants and requirement invariants
+are supported.
 
 * Continuous variables are not supported.
 
@@ -774,6 +772,12 @@ simplifications are available:
 | Supervisor guards of controllable events
 | State/event exclusion requirement invariants derived from the
 requirement automata, for the matching events
+
+| `guards-se-excl-plant-invs`
+| yes
+| Supervisor guards of controllable events
+| State/event exclusion plant invariants from the input
+specification, for the matching events
 
 | `guards-se-excl-req-invs`
 | yes
