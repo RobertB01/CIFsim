@@ -50,6 +50,9 @@ Marked    (auts/locs marker predicate):      p_sensor.off and p_act.off
 Marked    (uncontrolled system):             p_sensor.off and p_act.off
 Marked    (system, combined marked/req inv): p_sensor.off and p_act.off
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -60,6 +63,8 @@ Uncontrolled system:
     Edge: (event: c_on) (guard: p_act.off) (assignments: p_act := p_act.on)
     Edge: (event: c_off) (guard: p_act.on) (assignments: p_act := p_act.off)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

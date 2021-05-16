@@ -70,6 +70,9 @@ Marked    (auts/locs marker predicate):      p.m1 = 1 and (p.m2 = 1 and p.loc2) 
 Marked    (uncontrolled system):             p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 Marked    (system, combined marked/req inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -80,6 +83,8 @@ Uncontrolled system:
     Edge: (event: p.em3) (guard: p.loc1) (assignments: p.m3 := p.m3 mod 3, p := p.loc2)
     Edge: (event: p.em4) (guard: p.loc1) (assignments: p.m4 := p.m4 mod 4, p := p.loc2)
     Edge: (event: p.em5) (guard: p.loc1) (assignments: p.m5 := p.m5 mod 5, p := p.loc2)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

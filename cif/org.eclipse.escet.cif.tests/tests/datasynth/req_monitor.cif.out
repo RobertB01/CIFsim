@@ -55,6 +55,9 @@ Marked    (auts/locs marker predicate):      r1.l2 and r2.l2
 Marked    (uncontrolled system):             r1.l2 and r2.l2
 Marked    (system, combined marked/req inv): r1.l2 and r2.l2
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "p.e2" needs:
     r1.l1 and (r1.x = 0 or r1.x = 2) or r1.l1 and r1.x = 1
@@ -74,6 +77,8 @@ Uncontrolled system:
     Edge: (event: p.e2) (guard: (r1.l2 or (r1.x = 1 or 3 <= r1.x and r1.x <= 5) or (r2.l2 or (r2.x = 1 or 3 <= r2.x and r2.x <= 5))) and (r1.l2 or r1.x = 1 or (3 <= r1.x and r1.x <= 5 or (r2.l2 or r2.x != 1))) and ((r1.l2 or r1.x != 4) and (r1.l2 or r1.x != 1 or (r2.l2 or (r2.x = 1 or 3 <= r2.x and r2.x <= 5)))) and ((r1.l2 or r1.x != 1 or (r2.l2 or r2.x != 1)) and (r1.l2 or r1.x != 5) and ((r1.l2 or r1.x != 3) and r1.l1))) (assignments: r1 := r1.l2)
     Edge: (event: p.e2) (guard: r1.l1 and r1.x = 4 and (r2.l1 and (r2.x = 0 or r2.x = 2)) or r1.l1 and r1.x = 4 and (r2.l1 and r2.x = 1) or (r1.l1 and r1.x = 5 and (r2.l1 and (r2.x = 0 or r2.x = 2)) or r1.l1 and r1.x = 5 and (r2.l1 and r2.x = 1)) or (r1.l1 and r1.x = 3 and (r2.l1 and (r2.x = 0 or r2.x = 2)) or r1.l1 and r1.x = 3 and (r2.l1 and r2.x = 1) or (r1.l2 and (r2.l1 and (r2.x = 0 or r2.x = 2)) or r1.l2 and (r2.l1 and r2.x = 1)))) (assignments: r2 := r2.l2)
     Edge: (event: p.e2) (guard: (r1.l2 or (r1.x = 1 or 3 <= r1.x and r1.x <= 5)) and (r1.l2 or r1.x != 4 or (r2.l2 or (r2.x = 1 or 3 <= r2.x and r2.x <= 5))) and ((r1.l2 or r1.x != 4 or (r2.l2 or r2.x != 1)) and ((r1.l2 or r1.x != 1) and (r1.l2 or r1.x != 5 or (r2.l2 or (r2.x = 1 or 3 <= r2.x and r2.x <= 5))))) and ((r1.l2 or r1.x != 5 or (r2.l2 or r2.x != 1)) and (r1.l2 or r1.x != 3 or (r2.l2 or (r2.x = 1 or 3 <= r2.x and r2.x <= 5))) and ((r1.l2 or r1.x != 3 or (r2.l2 or r2.x != 1)) and ((r1.l1 or r2.l2 or (r2.x = 1 or 3 <= r2.x and r2.x <= 5)) and (r1.l1 or (r2.l2 or r2.x != 1))))))
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

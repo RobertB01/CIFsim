@@ -26,7 +26,7 @@ list string default_options = [
     "--forward-reach=on",
 ];
 
-string opt_simplify_all = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl";
+string opt_simplify_all = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-plant-invs,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl";
 
 map(string:list string) test_options = {
     "datasynth/bdd_dbg_maxnodes.cif":               ["--bdd-dbg-maxnodes=2"],

@@ -28,12 +28,17 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
 Marked    (system, combined marked/req inv): true
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -50,6 +50,9 @@ Marked    (auts/locs marker predicate):      g.p.l0
 Marked    (uncontrolled system):             g.p.l0
 Marked    (system, combined marked/req inv): g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "c" needs:
     g.p.x = 0 or g.p.x = 4 or (g.p.x = 2 or (g.p.x = 1 or g.p.x = 3))
@@ -60,6 +63,8 @@ Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: c) (guard: g.p.l0) (assignments: g.p.x := g.p.x + 1, g.p := g.p.l1)
     Edge: (event: u) (guard: g.p.l1) (assignments: g.p.x := g.p.x - 1, g.p := g.p.l0)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7)).
 

@@ -31,11 +31,16 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
 Marked    (system, combined marked/req inv): false
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: false.
 

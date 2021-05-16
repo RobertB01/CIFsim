@@ -54,6 +54,9 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
 Marked    (system, combined marked/req inv): p.x != 0 and (p.x != 8 or p.y != 7) and ((p.x != 4 or p.y != 7) and (not(p.x = 2 or p.x = 6) or p.y != 7)) and (p.x != 10 and not(p.x = 1 or p.x = 9) and ((p.x != 5 or p.y != 7) and (not(p.x = 3 or p.x = 7) or p.y != 7)))
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -62,6 +65,8 @@ Uncontrolled system:
     Edge: (event: a) (guard: true) (assignments: p.x := p.x + 1)
     Edge: (event: b) (guard: true) (assignments: p.x := p.x - 1, p.y := p.y + 1)
     Edge: (event: c) (guard: true) (assignments: p.y := p.y - 1)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: p.x != 0 and (p.x != 8 or p.y != 7) and ((p.x != 4 or p.y != 7) and (not(p.x = 2 or p.x = 6) or p.y != 7)) and (p.x != 10 and not(p.x = 1 or p.x = 9) and ((p.x != 5 or p.y != 7) and (not(p.x = 3 or p.x = 7) or p.y != 7))).
 

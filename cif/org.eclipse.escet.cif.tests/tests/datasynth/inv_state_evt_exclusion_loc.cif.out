@@ -48,6 +48,9 @@ Marked    (auts/locs marker predicate):      a.l2
 Marked    (uncontrolled system):             a.l2
 Marked    (system, combined marked/req inv): a.l2
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "f" needs:
     (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
@@ -70,6 +73,8 @@ Uncontrolled system:
     Edge: (event: h) (guard: a.l1)
     Edge: (event: h) (guard: a.l2)
     Edge: (event: b) (guard: a.l1 and a.x = 5) (assignments: a := a.l2)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

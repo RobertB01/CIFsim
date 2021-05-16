@@ -60,6 +60,9 @@ Marked    (auts/locs marker predicate):      q.l1 and r1.inactive and (r2.inacti
 Marked    (uncontrolled system):             q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 Marked    (system, combined marked/req inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "add" needs:
     q.l1
@@ -76,6 +79,8 @@ Uncontrolled system:
     Edge: (event: r2.deactivate) (guard: r2.active) (assignments: r2 := r2.inactive)
     Edge: (event: r3.activate) (guard: r3.inactive) (assignments: r3 := r3.active)
     Edge: (event: r3.deactivate) (guard: r3.active) (assignments: r3 := r3.inactive)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: r1.inactive or r3.inactive.
 
