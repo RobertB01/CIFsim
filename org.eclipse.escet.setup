@@ -23,8 +23,12 @@
       value="R20210223232630"/>
   <setupTask
       xsi:type="setup:VariableTask"
-      name="eclipse-checkstyle.version"
-      value="8.39.0"/>
+      name="eclipse-checkstyle.version.major"
+      value="8"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="eclipse-checkstyle.version.minor"
+      value="41"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="m2eclipse-tycho.version"
@@ -239,8 +243,12 @@
         name="org.eclipse.sirius.specifier.feature.group"/>
     <requirement
         name="org.sonatype.tycho.m2e.feature.feature.group"/>
+    <requirement
+        name="net.sf.eclipsecs.feature.group"/>
     <repository
         url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/${m2eclipse-tycho.version}/N/LATEST/"/>
+    <repository
+        url="http://checkstyle.org/eclipse-cs-update-site/updates/${eclipse-checkstyle.version.major}.x/${eclipse-checkstyle.version.major}.${eclipse-checkstyle.version.minor}.x"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}.</description>
   </setupTask>
   <setupTask
