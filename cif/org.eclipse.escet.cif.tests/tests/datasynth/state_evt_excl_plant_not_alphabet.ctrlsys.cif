@@ -1,0 +1,26 @@
+plant automaton p:
+  controllable inc;
+  disc int[0..3] x;
+  location:
+    initial;
+    marked;
+    edge inc do x := x + 1;
+end
+plant automaton q:
+  controllable c_not_in_alphabet;
+  location:
+    initial;
+    marked;
+    plant invariant c_not_in_alphabet needs p.x > 0;
+end
+group g2:
+  plant invariant p.x = 2 disables q.c_not_in_alphabet;
+end
+supervisor automaton sup:
+  alphabet p.inc;
+  location:
+    initial;
+    marked;
+    edge p.inc when p.x != 3;
+end
+plant invariant q.c_not_in_alphabet needs p.x < 3;

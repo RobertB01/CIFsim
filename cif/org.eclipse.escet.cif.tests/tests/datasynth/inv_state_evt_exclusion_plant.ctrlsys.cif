@@ -1,0 +1,15 @@
+uncontrollable u;
+plant automaton a:
+  location l1:
+    initial;
+    marked;
+    edge u goto l2;
+  location l2;
+end
+supervisor automaton sup:
+  alphabet;
+  location:
+    initial;
+    marked;
+end
+plant invariant u needs false;

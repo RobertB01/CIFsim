@@ -1,0 +1,3 @@
+WARNING: State/event exclusion invariant "q.c_not_in_alphabet needs p.x < 3" of the top level scope of the specification has no effect, as event "q.c_not_in_alphabet" is not in the alphabet of any automaton.
+WARNING: State/event exclusion invariant "q.c_not_in_alphabet needs p.x > 0" of the location of automaton "q" has no effect, as event "q.c_not_in_alphabet" is not in the alphabet of any automaton.
+WARNING: State/event exclusion invariant "p.x = 2 disables q.c_not_in_alphabet" of group "g2" has no effect, as event "q.c_not_in_alphabet" is not in the alphabet of any automaton.

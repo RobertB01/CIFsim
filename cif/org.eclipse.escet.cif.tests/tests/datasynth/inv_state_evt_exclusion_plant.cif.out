@@ -1,0 +1,88 @@
+Reading CIF file "datasynth/inv_state_evt_exclusion_plant.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind              Type  Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer  n/a   a     0      1 * 2     2 * 2       2 * 2       100%
+  -----  ----------------  ----  ----  -----  --------  ----------  ----------  -----------
+  Total                                1      2         4           4           100%
+
+Starting data-based synthesis.
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         a.l1
+Initial   (auts/locs init predicate):        a.l1
+Initial   (uncontrolled system):             a.l1
+Initial   (system, combined init/req inv):   a.l1
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       a.l1
+Marked    (auts/locs marker predicate):      a.l1
+Marked    (uncontrolled system):             a.l1
+Marked    (system, combined marked/req inv): a.l1
+
+State/event exclusion plants:
+  Event "u" needs:
+    false
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system (state/event exclusion plants not applied yet):
+  State: (controlled-behavior: ?)
+    Edge: (event: u) (guard: a.l1) (assignments: a := a.l2)
+
+Restricting behavior using state/event exclusion plants.
+
+Edge (event: u) (guard: a.l1) (assignments: a := a.l2): guard: a.l1 -> false [plant: false].
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: u) (guard: a.l1 -> false) (assignments: a := a.l2)
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: a.l1 [marker predicate]
+Backward reachability: iteration 1.
+Controlled behavior: true -> a.l1.
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: a.l2 [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: a.l1 [initialization predicate]
+Forward reachability: iteration 1.
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: a.l1)
+    Edge: (event: u) (guard: a.l1 -> false) (assignments: a := a.l2)
+
+Controlled system:                     exactly 1 state.
+
+Initial (synthesis result):            a.l1
+Initial (uncontrolled system):         a.l1
+Initial (controlled system):           a.l1
+Initial (removed by supervisor):       false
+Initial (added by supervisor):         true
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/inv_state_evt_exclusion_plant.ctrlsys.real.cif".
