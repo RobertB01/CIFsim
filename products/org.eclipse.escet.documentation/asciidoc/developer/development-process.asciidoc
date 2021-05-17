@@ -188,7 +188,7 @@ Eclipse Foundation:
 If you are not an Eclipse ESCET project committer, with write access to our
 Git repository, see the information on
 <<developer-contributing-chapter-index,contributing>> to the Eclipse ESCET
-project. Don't forget to sign-off your Git commits.
+project.
 
 
 indexterm:[merge request]

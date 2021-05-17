@@ -58,11 +58,9 @@ electronically sign the Eclipse Contributor Agreement (ECA):
 
 * link:https://www.eclipse.org/legal/ECA.php[Eclipse Contributor Agreement (ECA)]
 
-Commits that are provided by non-committers must have a `Signed-off-by` field
-in the footer indicating that the author is aware of the terms by which the
-contribution has been provided to the project. The non-committer must
-additionally have an Eclipse Foundation account and must have a signed Eclipse
-Contributor Agreement (ECA) on file.
+The non-committer that authored the commit, must have an Eclipse Foundation Account
+and must have a signed Eclipse Contributor Agreement (ECA) on file. The email address
+of the author must match the email address on the Eclipse Foundation Account.
 
 For more information, including the specific format of commit messages,
 please see the Eclipse Foundation Project Handbook:
