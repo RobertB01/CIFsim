@@ -47,6 +47,10 @@
          id="org.eclipse.escet.product.headless.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.escet.setext.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.platform" version="4.19.0" match="compatible"/>
    </requires>
