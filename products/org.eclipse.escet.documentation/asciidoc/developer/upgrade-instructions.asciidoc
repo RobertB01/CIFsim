@@ -74,6 +74,7 @@ To upgrade to a new Java version:
 ** Update Java versions in `org.eclipse.jdt.core.prefs` files.
 ** Update `osgi.requiredJavaVersion` in the product.
 ** Update Java `source` and `target` versions in `RuntimeJavaCompiler` class.
+** Update Java version for `executionEnvironment` in `org.eclipse.escet.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
 
 * For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
