@@ -67,14 +67,20 @@ To upgrade to a new Tycho version:
 
 To upgrade to a new Java version:
 
-* Update `dev-env-setup.asciidoc` to match new Java version.
-* Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
-* Update `JRE_CONTAINER` in all `.classpath` files.
-* Update `JRE_CONTAINER` in all launch configurations.
-* Update Java versions in `org.eclipse.jdt.core.prefs` files.
-* Update `osgi.requiredJavaVersion` in the product.
-* Update Java `source` and `target` versions in `RuntimeJavaCompiler` class.
-* Update Java version in `Jenkinsfile`.
-* Force a rebuild in Eclipse and check for any warnings/errors, addressing them if any.
-* Run a <<developer-building-and-testing-chapter-index,Maven build>>.
-* Ensure no errors or warning during Maven build.
+* For major Java versions (e.g. 11 to 12):
+** Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
+** Update `JRE_CONTAINER` in all `.classpath` files.
+** Update `JRE_CONTAINER` in all launch configurations.
+** Update Java versions in `org.eclipse.jdt.core.prefs` files.
+** Update `osgi.requiredJavaVersion` in the product.
+** Update Java `source` and `target` versions in `RuntimeJavaCompiler` class.
+** Update Java version in `Jenkinsfile`.
+
+* For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
+** Update the JustJ version in the Oomph setup (`eclipse.justj.version.*` variables).
+** Regenerate the target platform file using Oomph.
+** Update the JustJ version in the product.
+** Update `dev-env-setup.asciidoc` to match new Java version.
+** Force a rebuild in Eclipse and check for any warnings/errors, addressing them if any.
+** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+** Ensure no errors or warning during Maven build.
