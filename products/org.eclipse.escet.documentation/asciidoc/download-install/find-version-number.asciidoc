@@ -23,7 +23,7 @@ of the toolkit or specific tools you have currently installed:
 * Via the Eclipse _About Eclipse ESCET_ dialog.
 +
 The _About Eclipse ESCET_ dialog can be opened via the
-menu:Help[About Eclipse ESCET] menu of the Eclipse ESCET IDE. The dialog has
+menu:Help[About Eclipse ESCET] menu of the Eclipse ESCET IDE. The dialog
 shows the version of the Eclipse ESCET toolkit. An btn:[Installation Details]
 button is available to open the _Eclipse Installation Details_ dialog. In this
 dialog, the _Installed Software_ tab shows all the installed software,

@@ -45,23 +45,6 @@ allowing execution in a command line terminal or console,
 particularly useful for execution of the tools on headless clusters. The
 command line scripts are only available for Windows and Linux, not for macOS.
 
-indexterm:[dependencies]
-
-The following dependencies need to be available on the system:
-
-indexterm:[jdk]
-indexterm:[jre]
-indexterm:[java]
-
-* Java Development Kit (JDK):
-** Version 8 update 31 (8u31) or newer is required. Versions 9 and higher are
-currently not yet supported.
-** An x64 (64-bit) version of Java is required, which also requires a 64-bit
-operating system.
-** Currently the Eclipse ESCET tools are only tested using Oracle JDKs. Your
-experience with other JDK vendors may vary.
-** A Java Runtime Environment (JRE) is not sufficient. A JDK is required.
-
 The tools are also available as plug-ins for the Eclipse IDE, by means of an
 Eclipse P2 update site.
 
