@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/invs.cif".
+Reading CIF file "datasynth/invs_req.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -103,4 +103,4 @@ Initial (removed by supervisor):       (p.l2 or p.x != 3) and (p.l1 or p.x != 0)
 Initial (added by supervisor):         p.l1 and p.x = 3 or p.l2 and p.x = 0
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/invs.ctrlsys.real.cif".
+Writing output CIF file "datasynth/invs_req.ctrlsys.real.cif".

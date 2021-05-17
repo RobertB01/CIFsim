@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/inv_state_evt_exclusion_loc.cif".
+Reading CIF file "datasynth/inv_state_evt_exclusion_req_loc.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -234,4 +234,4 @@ Simplification of controlled system under the assumption of the plants:
   Event b: guard: a.l1 and a.x = 5 -> true [assume a.l1 and a.x = 5].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/inv_state_evt_exclusion_loc.ctrlsys.real.cif".
+Writing output CIF file "datasynth/inv_state_evt_exclusion_req_loc.ctrlsys.real.cif".
