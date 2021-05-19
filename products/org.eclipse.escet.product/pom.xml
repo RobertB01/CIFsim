@@ -173,6 +173,8 @@
                     </plugin>
 
                     <!-- Notarize macOS .dmg package. -->
+                    <!-- Temporarily disabled notarization. It fails as JustJ 11.0.2 is not correctly signed. -->
+                    <!--
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
@@ -191,6 +193,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
 
                 </plugins>
             </build>
