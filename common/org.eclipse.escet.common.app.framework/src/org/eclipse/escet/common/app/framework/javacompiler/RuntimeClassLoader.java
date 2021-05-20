@@ -26,7 +26,7 @@ import org.eclipse.escet.common.java.Assert;
 public class RuntimeClassLoader extends ClassLoader {
     /**
      * Absolute class name to generated class file object mapping. A thread safe map is used, as the map may be accessed
-     * on one thread , while another compiler thread is using {@link #add} to add a new entry.
+     * on one thread, while another compiler thread is using {@link #add} to add a new entry.
      */
     public final Map<String, JavaClassFileObject> generatedClasses = new ConcurrentHashMap<>();
 

@@ -35,7 +35,7 @@ import org.junit.Test;
 /** Tests for the {@link RuntimeJavaCompiler}. */
 public abstract class RuntimeJavaCompilerTest {
     /** The run-time Java compiler to use. */
-    private final RuntimeJavaCompiler compiler = newCompiler(null);
+    private final RuntimeJavaCompiler compiler = newCompiler(getClass().getClassLoader());
 
     /** The absolute class name of the class to compile (1). */
     private static final String ABS_CLS_NAME1 = "my.pkg.MyClass";
@@ -326,7 +326,7 @@ public abstract class RuntimeJavaCompilerTest {
      */
     private RuntimeJavaCompiler newCompiler(ClassLoader dependencyLoader) {
         String name = getCompilerName();
-        return new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), dependencyLoader);
+        return new RuntimeJavaCompiler(name, dependencyLoader);
     }
 
     /**

@@ -1511,7 +1511,7 @@ public class CifCompilerContext {
         if (compiler == null) {
             String name = JavaCompilerOption.getCompilerName();
             ClassLoader classLoader = getClass().getClassLoader();
-            compiler = new RuntimeJavaCompiler(RuntimeJavaCompiler.getJavaCompiler(name), classLoader);
+            compiler = new RuntimeJavaCompiler(name, classLoader);
         }
 
         // Get sources.
