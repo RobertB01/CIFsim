@@ -47,8 +47,6 @@ pipeline {
                             # Sign 'master' branch, to allow checking release signing before deployment.
                             BUILD_ARGS="$BUILD_ARGS -Psign"
                         fi
-                        #XXX temporarily force sign this branch
-                        BUILD_ARGS="$BUILD_ARGS -Psign"
                         if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             # Only for actual releases, override the default 'dev' release version.
                             BUILD_ARGS="$BUILD_ARGS -DreleaseVersion=$TAG_NAME"
