@@ -30,21 +30,19 @@ extracted files.
 * For Linux, execute `eclipse` from the directory that contains the
 extracted files.
 
-* For macOS, installation is more complex and may also depend on the version of
-macOS. The following instructions have been tested on Big Sur. The downloaded
-archive contains the Eclipse app in the form of a directory named `Eclipse.app`,
-which contains all the files of the release. The operating system recognizes
-this directory as a macOS application and displays it as _Eclipse_ with a custom
-icon. Move/drag the _Eclipse_ application icon to the macOS _Applications_
-folder, to make the Eclipse icon appear among the other macOS applications.
-Execute the Eclipse application by double clicking it.
+* For macOS, open the downloaded `.dmg` file by double clicking. This opens a
+window with the Eclipse app and a shortcut icon to your Applications folder.
+Drag the Eclipse icon onto the Applications folder icon. This causes the Eclipse
+app to be copied to the Applications folder, where all apps can be found.
+You can now open the Eclipse app from the Applications folder. 
 +
-On macOS Big Sur, you will get an error message saying either _"Eclipse.app"
-cannot be opened because it was not downloaded from the App store_ or
-_"Eclipse.app" cannot be opened because Apple cannot check it for malicious
-software_. Dismiss the popup by clicking btn:[OK]. Go to menu:Apple menu[System
+The first time you open the Eclipse app, you will get an error message saying
+either _"Eclipse" can't be opened because Apple cannot check it for malicious
+software_ or _"Eclipse" can't be opened because it was not downloaded from the
+App store_. Dismiss the popup by clicking btn:[OK]. Go to menu:Apple menu[System
 Preferences], click _Security & Privacy_, then click tab _General_. Under _Allow
-apps downloaded from:_ you should see two tick boxes: one for _App Store_ and
+apps downloaded from:_ you should see in light grey two tick boxes: one for _App
+Store_ and
 one for _App Store and identified developers_. Below that, you should see an
 additional line: _"Eclipse.app"_ was blocked from use because it is not from an
 identified developer, and after that, a button btn:[Open Anyway]. Clicking that
