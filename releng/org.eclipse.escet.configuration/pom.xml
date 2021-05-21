@@ -50,7 +50,7 @@ SPDX-License-Identifier: MIT
         <checkstyle.version>8.41</checkstyle.version>
 
         <!-- Eclipse Common Build Infrastructure version. -->
-        <eclipse.cbi.version>1.1.7</eclipse.cbi.version>
+        <eclipse.cbi.version>1.3.1</eclipse.cbi.version>
     </properties>
 
     <pluginRepositories>
@@ -145,6 +145,10 @@ SPDX-License-Identifier: MIT
                             <version>0.2.0-SNAPSHOT</version>
                         </artifact>
                     </target>
+
+                    <!-- Let JustJ handle the execution environment. -->
+                    <!-- See https://www.eclipse.org/justj/?page=documentation for more information. -->
+                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11</executionEnvironment>
 
                     <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
                     <dependency-resolution>

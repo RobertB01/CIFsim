@@ -15,36 +15,7 @@ include::_part_attributes.asciidoc[]
 [[download-install-install]]
 == Installation of Eclipse ESCET tools
 
-Before installing Eclipse ESCET tools, first install a Java Development Kit
-(JDK), taking into account the following restrictions:
-
-* Version 8 update 31 (8u31) or newer is required. Versions 9 and higher are
-currently not yet supported.
-* An x64 (64-bit) version of Java is required, which also requires a 64-bit
-operating system.
-* Currently the Eclipse ESCET tools are only tested using Oracle JDKs. Your
-experience with other JDK vendors may vary.
-* A Java Runtime Environment (JRE) is not sufficient. A JDK is required.
-
-You can download a JDK from Oracle's
-link:https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html[Java SE Development Kit 8 Downloads]
-page. For more information, see:
-
-* Oracle's
-link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/linux_jdk.html[JDK Installation for Linux Platforms]
-page.
-* Oracle's
-link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/windows_jdk_install.html[JDK Installation for Microsoft Windows]
-page.
-* Oracle's
-link:https://docs.oracle.com/javase/8/docs/technotes/guides/install/mac_jdk.html[JDK 8 Installation for OS X]
-page.
-
-Ensure that this JDK is in your `PATH`. See e.g.
-link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?]
-for how to achieve this.
-
-Next, obtain the Eclipse ESCET tools:
+First, obtain the Eclipse ESCET tools:
 
 * <<download-install-chapter-index,Download>> the Eclipse ESCET tools.
 
@@ -59,62 +30,23 @@ extracted files.
 * For Linux, execute `eclipse` from the directory that contains the
 extracted files.
 
-* For macOS, installation is more complex and may also depend on the version of
-macOS. The following instructions have been tested on Big Sur. The downloaded
-archive contains the Eclipse app in the form of a directory named `Eclipse.app`,
-which contains all the files of the release. The operating system recognizes
-this directory as a macOS application and displays it as _Eclipse_ with a custom
-icon. Move/drag the _Eclipse_ application icon to the macOS _Applications_
-folder, to make the Eclipse icon appear among the other macOS applications.
-Execute the Eclipse application by double clicking it.
+* For macOS, open the downloaded `.dmg` file by double clicking. This opens a
+window with the Eclipse app and a shortcut icon to your Applications folder.
+Drag the Eclipse icon onto the Applications folder icon. This causes the Eclipse
+app to be copied to the Applications folder, where all apps can be found.
+You can now open the Eclipse app from the Applications folder. 
 +
-On macOS Big Sur, you will get an error message saying either _"Eclipse.app"
-cannot be opened because it was not downloaded from the App store_ or
-_"Eclipse.app" cannot be opened because Apple cannot check it for malicious
-software_. Dismiss the popup by clicking btn:[OK]. Go to menu:Apple menu[System
+The first time you open the Eclipse app, you will get an error message saying
+either _"Eclipse" can't be opened because Apple cannot check it for malicious
+software_ or _"Eclipse" can't be opened because it was not downloaded from the
+App store_. Dismiss the popup by clicking btn:[OK]. Go to menu:Apple menu[System
 Preferences], click _Security & Privacy_, then click tab _General_. Under _Allow
-apps downloaded from:_ you should see two tick boxes: one for _App Store_ and
+apps downloaded from:_ you should see in light grey two tick boxes: one for _App
+Store_ and
 one for _App Store and identified developers_. Below that, you should see an
 additional line: _"Eclipse.app"_ was blocked from use because it is not from an
 identified developer, and after that, a button btn:[Open Anyway]. Clicking that
 button will allow the Eclipse app to be executed.
-+
-If executing the Eclipse app now gives an _Alert_ message saying _Failed to
-create the Java virtual machine_, you need to add a setting in Eclipse that
-points to the Java JDK as follows:
-+
-In the Finder, right click the Eclipse app icon and execute _Show Package
-Contents_. In the folder `Contents`, edit the file `Info.plist`. You can do this by right
-clicking the file and execute menu:Open With[TextEdit]. Near the end of this file, look for the following lines:
-+
-[source]
-----
-<key>Eclipse</key>
-        <array>
-                <!-- to use a specific ...
-                        ...
-                        ...
-                        ...
-                -->
-----
-+
-Immediately after these lines, insert the following line:
-+
-[source]
-----
-<string>-vm</string><string>/Library/Java/JavaVirtualMachines/jdk1.8.0_281.jdk/Contents/Home/bin/java</string>
-----
-+
-where you should change the version number `0_281` to the version number of the
-JDK that you have installed on your Mac. You can find this version number in the
-name of the folder that is present in `/Library/Java/JavaVirtualMachines/`. You
-can go to this folder via the Finder menu menu:Go[Go to Folder...]. After
-saving the file, try to execute the Eclipse app.
-+
-In case you now  get an _Alert_ error message saying _The JVM shared
-library "/Library/Java/JavaVirtualMachines/jdk..." does not contain the
-JNI_CreateJavaVM symbol_, click btn:[OK] and restart your Mac. After restarting, the
-Eclipse app should work.
 
 For more information, see the section on starting the Eclipse ESCET IDE
 <<download-install-first-start,for the first time>>.
@@ -127,21 +59,3 @@ information. You may want to add the `bin` directory to your `PATH`
 environment variable. See e.g.
 link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?]
 for how to achieve this.
-
-If the Eclipse ESCET IDE or one of the command line scripts cannot be started,
-the ESCET tools may not be able to correctly detect the JDK you installed. In
-such a case, edit the `eclipse.ini` file from the directory that contains the
-extracted files and add in the following lines at the beginning of the file:
-
-[source]
-----
--vm
-C:/Program Files/Java/jdk1.8.0_211/bin
-----
-
-Note that `-vm` and the path to the JDK need to be on separate lines.
-Obviously, change the JDK path to the actual path for your system.
-Make sure to save the file and retry starting the Eclipse ESCET IDE
-or one of the command line scripts.
-
-Adding the `-vm` option to the `eclipse.ini` file on macOS is of no use.
