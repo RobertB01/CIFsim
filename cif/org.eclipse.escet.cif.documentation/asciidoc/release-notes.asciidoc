@@ -41,7 +41,7 @@ Deprecations and removals:
 - CIF to CIF transformation to eliminate enumerations (`elim-enums`) is now
   deprecated. Use the transformation to convert enumerations to integers
   instead, as it has the same functionality (issue #78).
-- CIF PLC code generator noption to either eliminate enumerations (to
+- CIF PLC code generator option to either eliminate enumerations (to
   integers) or not is now deprecated. Use the new option to choose whether
   to convert enumerations to constants or integers, or not at all. See the
   documentation of the PLC code generator for further details (issue #78).
