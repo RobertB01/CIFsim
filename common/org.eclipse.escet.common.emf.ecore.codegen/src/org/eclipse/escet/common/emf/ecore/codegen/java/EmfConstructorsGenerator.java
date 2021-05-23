@@ -243,11 +243,11 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
             if (feat.getLowerBound() == 0) {
                 box.add(" * @param %s The \"%s\" of the new \"%s\". Multiplicity %s. May be {@code null} to skip "
                         + "setting the \"%s\".", JavaCodeUtils.makeJavaName(feat.getName()), feat.getName(), clsName,
-                        printMultiplicity(feat), feat.getName());
+                        multiplicity(feat), feat.getName());
             } else {
                 box.add(" * @param %s The \"%s\" of the new \"%s\". Multiplicity %s. May be {@code null} to set "
                         + "the \"%s\" later.", JavaCodeUtils.makeJavaName(feat.getName()), feat.getName(), clsName,
-                        printMultiplicity(feat), feat.getName());
+                        multiplicity(feat), feat.getName());
             }
         }
         box.add(" * @return A new instance of the {@link %s} class.", clsName);
@@ -284,17 +284,17 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
     }
 
     /**
-     * Prints the multiplicity of a feature as "[lowerBound..upperBound]".
+     * returns the multiplicity of a feature as "[lowerBound..upperBound]".
      *
      * @param feat The feature.
      * @return The multiplicity.
      */
-    private static String printMultiplicity(EStructuralFeature feat) {
+    private static String multiplicity(EStructuralFeature feat) {
         String upperBound = String.valueOf(feat.getUpperBound());
         if (upperBound.equals("-1")) {
             upperBound = "*";
         }
 
-        return "[" + feat.getLowerBound() + ".." + upperBound + "]";
+        return fmt("[%d..%s]", feat.getLowerBound(), upperBound);
     }
 }
