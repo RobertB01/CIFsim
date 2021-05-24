@@ -21,6 +21,10 @@ The release notes for the releases of Chi and the associated tools, as
 part of the Eclipse ESCET project, are listed below in reverse chronological
 order.
 
+The release notes may refer to issues, the details for which can be found
+at the Eclipse ESCET
+link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
+
 See also the Eclipse ESCET
 link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
 covering those aspects that are common to the various Eclipse ESCET tools.

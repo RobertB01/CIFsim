@@ -374,6 +374,9 @@ public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileMa
                 }
                 if (inPackage(file, normalizedPkgName, recurse)) {
                     rslt.add(file);
+                    if (RuntimeJavaCompiler.DEBUG) {
+                        System.out.println("  --> (own source file) " + file);
+                    }
                 }
             }
         }
@@ -386,6 +389,9 @@ public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileMa
                 }
                 if (inPackage(file, normalizedPkgName, recurse)) {
                     rslt.add(file);
+                    if (RuntimeJavaCompiler.DEBUG) {
+                        System.out.println("  --> (own generated class) " + file);
+                    }
                 }
             }
         }
@@ -396,6 +402,9 @@ public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileMa
             subResults = super.list(location, packageName, kinds, recurse);
             for (JavaFileObject file: subResults) {
                 rslt.add(file);
+                if (RuntimeJavaCompiler.DEBUG) {
+                    System.out.println("  --> (super result) " + file);
+                }
             }
         }
 
@@ -409,8 +418,13 @@ public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileMa
             ClassLoader dependencyLoader = classLoader.getParent();
 
             // If we have a dependency class loader, and it is an OSGi class
-            // loader, to some additional work.
+            // loader, do some additional work.
             if (dependencyLoader != null && dependencyLoader instanceof BundleReference) {
+                // Debug.
+                if (RuntimeJavaCompiler.DEBUG) {
+                    System.out.println("RuntimeJavaFileManager.list: --> dependencyLoader=" + dependencyLoader);
+                }
+
                 // Get resources from OSGi class loader.
                 String resourcePkgName = normalizedPkgName.replace('.', '/');
                 BundleReference ref = (BundleReference)dependencyLoader;
@@ -436,20 +450,45 @@ public class RuntimeJavaFileManager extends ForwardingJavaFileManager<JavaFileMa
                     }
 
                     // Add file object.
-                    rslt.add(new OsgiClassFileObject(absClassName, uri, dependencyLoader));
+                    OsgiClassFileObject file = new OsgiClassFileObject(absClassName, uri, dependencyLoader);
+                    rslt.add(file);
+                    if (RuntimeJavaCompiler.DEBUG) {
+                        System.out.println("  --> (osgi class loader) " + file);
+                    }
                 }
-            }
-        }
-
-        // Debug results.
-        if (RuntimeJavaCompiler.DEBUG) {
-            for (JavaFileObject file: rslt) {
-                System.out.println("  --> " + file);
             }
         }
 
         // Return combined results.
         return rslt;
+    }
+
+    @Override
+    public boolean contains(Location location, FileObject fileObject) throws IOException {
+        if (RuntimeJavaCompiler.DEBUG) {
+            System.out.println("RuntimeJavaFileManager.contains: location=" + location + " fileObject=" + fileObject);
+        }
+
+        // Check our own source files.
+        if (location == StandardLocation.SOURCE_PATH) {
+            for (JavaInputFileObject file: sources.values()) {
+                if (isSameFile(file, fileObject)) {
+                    return true;
+                }
+            }
+        }
+
+        // Check our own generated class files.
+        if (location == StandardLocation.CLASS_PATH) {
+            for (JavaClassFileObject file: classLoader.generatedClasses.values()) {
+                if (isSameFile(file, fileObject)) {
+                    return true;
+                }
+            }
+        }
+
+        // Defer the request.
+        return super.contains(location, fileObject);
     }
 
     /**

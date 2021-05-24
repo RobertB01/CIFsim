@@ -21,6 +21,10 @@ The release notes for the releases of the Eclipse ESCET tools,
 as part of the Eclipse ESCET project, are listed below in reverse
 chronological order.
 
+The release notes may refer to issues, the details for which can be found
+at the Eclipse ESCET
+link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
+
 See also the release notes for the specific tools for more information:
 
 - link:https://www.eclipse.org/escet/cif/#release-notes-chapter-index[CIF release notes]
@@ -31,6 +35,21 @@ See also the release notes for the specific tools for more information:
 === Version 0.2
 
 TBD
+
+Improvements and fixes:
+
+- Various documentation updates, including simpler installation instructions
+  (issues #30 and #31).
+- This release is based on Java 11. Java is now included again in the release
+  and no longer needs to be installed separately (issues #29 and #30).
+- Linux command line scripts now work from any directory rather than only from
+  the `bin` directory that contains them (issue #88).
+- macOS releases are now packaged as `.dmg` files and with proper entitlements
+  (issue #31).
+- This release is based on Eclipse 2021-03 (issue #28).
+- Non-release builds now indicate they are a development build in the Eclipse
+  About dialog (issue #26).
+
 
 === Version 0.1
 

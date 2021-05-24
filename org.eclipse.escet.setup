@@ -35,6 +35,18 @@
       value="0.9.0"/>
   <setupTask
       xsi:type="setup:VariableTask"
+      name="eclipse.justj.version.major"
+      value="11"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="eclipse.justj.version.minor"
+      value="0"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="eclipse.justj.version.micro"
+      value="2"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
       value="None"/>
   <setupTask
@@ -382,6 +394,8 @@
       <requirement
           name="org.eclipse.emf.validation"/>
       <requirement
+          name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
+      <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
           name="org.knowm.xchart"/>
@@ -396,6 +410,8 @@
             url="https://download.eclipse.org/releases/${eclipse.ide.version}"/>
         <repository
             url="https://download.eclipse.org/tools/orbit/downloads/drops/${eclipse.orbit.version}/repository"/>
+        <repository
+            url="http://download.eclipse.org/justj/jres/${eclipse.justj.version.major}/updates/release/${eclipse.justj.version.major}.${eclipse.justj.version.minor}.${eclipse.justj.version.micro}"/>
       </repositoryList>
     </targlet>
   </setupTask>

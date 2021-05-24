@@ -19,6 +19,10 @@ The release notes for the releases of SeText and the associated tools, as
 part of the Eclipse ESCET project, are listed below in reverse chronological
 order.
 
+The release notes may refer to issues, the details for which can be found
+at the Eclipse ESCET
+link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
+
 See also the Eclipse ESCET
 link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
 covering those aspects that are common to the various Eclipse ESCET tools.
@@ -26,6 +30,12 @@ covering those aspects that are common to the various Eclipse ESCET tools.
 === Version 0.2
 
 TBD
+
+Improvements and fixes:
+
+- Documentation has been adapted to be more like the documentation of the
+  other Eclipse ESCET tools (issue #51).
+
 
 === Version 0.1
 

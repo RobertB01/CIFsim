@@ -157,7 +157,7 @@
             "extension": "",
             "arguments": "$*",
             "header": "#!/bin/sh\n\n################################################################################\n# Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation\n#\n# See the NOTICE file(s) distributed with this work for additional\n# information regarding copyright ownership.\n#\n# This program and the accompanying materials are made available under the terms\n# of the MIT License which is available at https://opensource.org/licenses/MIT\n#\n# SPDX-License-Identifier: MIT\n################################################################################",
-            "eclipse": "\"$(dirname \"$(readlink \"$0\")\")\"/../eclipse",
+            "eclipse": "\"$(dirname \"$(realpath \"$0\")\")\"/../eclipse",
             "newline": "\n"
         }
     ]

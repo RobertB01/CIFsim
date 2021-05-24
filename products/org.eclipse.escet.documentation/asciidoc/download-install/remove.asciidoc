@@ -22,5 +22,3 @@ Before removing a version of the Eclipse ESCET tools, you may want to preserve
 data (settings, projects, files). Then, to remove a release, simply remove the
 directory that contains files that you extracted from the downloaded archive
 during <<download-install-install,installation>>.
-
-Additionally, you may want to remove Java if you no longer need it.
