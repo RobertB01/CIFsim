@@ -116,7 +116,7 @@ import org.eclipse.escet.chi.metamodel.chi.XperDeclaration;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 
 /**
- * Helper class with static argument-less constructor methods for the "chi" language.
+ * Helper class with static constructor methods for the "chi" language.
  */
 public class ChiConstructors {
     /** Constructor for the {@link ChiConstructors} class. */
@@ -137,7 +137,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link AssignmentStatement} class.
      *
      * @param lhs The "lhs" of the new "AssignmentStatement". Multiplicity [1..1]. May be {@code null} to set the "lhs" later.
-     * @param position The "position" of the new "AssignmentStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "AssignmentStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param rhs The "rhs" of the new "AssignmentStatement". Multiplicity [1..1]. May be {@code null} to set the "rhs" later.
      * @return A new instance of the {@link AssignmentStatement} class.
      */
@@ -169,9 +169,9 @@ public class ChiConstructors {
      *
      * @param left The "left" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "left" later.
      * @param op The "op" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "op" later.
-     * @param position The "position" of the new "BinaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BinaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param right The "right" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "right" later.
-     * @param type The "type" of the new "BinaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param type The "type" of the new "BinaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link BinaryExpression} class.
      */
     public static BinaryExpression newBinaryExpression(Expression left, BinaryOperators op, Position position, Expression right, Type type) {
@@ -206,8 +206,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link BoolLiteral} class.
      *
-     * @param position The "position" of the new "BoolLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "BoolLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "BoolLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "BoolLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @param value The "value" of the new "BoolLiteral". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link BoolLiteral} class.
      */
@@ -237,7 +237,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link BoolType} class.
      *
-     * @param position The "position" of the new "BoolType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BoolType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link BoolType} class.
      */
     public static BoolType newBoolType(Position position) {
@@ -260,7 +260,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link BreakStatement} class.
      *
-     * @param position The "position" of the new "BreakStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BreakStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link BreakStatement} class.
      */
     public static BreakStatement newBreakStatement(Position position) {
@@ -283,11 +283,11 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link CallExpression} class.
      *
-     * @param arguments The "arguments" of the new "CallExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments".
+     * @param arguments The "arguments" of the new "CallExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "arguments", or to set it later.
      * @param function The "function" of the new "CallExpression". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param name The "name" of the new "CallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "name".
-     * @param position The "position" of the new "CallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "CallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param name The "name" of the new "CallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
+     * @param position The "position" of the new "CallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "CallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link CallExpression} class.
      */
     public static CallExpression newCallExpression(List<Expression> arguments, Expression function, Expression name, Position position, Type type) {
@@ -324,8 +324,8 @@ public class ChiConstructors {
      *
      * @param castType The "castType" of the new "CastExpression". Multiplicity [1..1]. May be {@code null} to set the "castType" later.
      * @param expression The "expression" of the new "CastExpression". Multiplicity [1..1]. May be {@code null} to set the "expression" later.
-     * @param position The "position" of the new "CastExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "CastExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "CastExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "CastExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link CastExpression} class.
      */
     public static CastExpression newCastExpression(Type castType, Expression expression, Position position, Type type) {
@@ -358,8 +358,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ChannelExpression} class.
      *
      * @param elementType The "elementType" of the new "ChannelExpression". Multiplicity [1..1]. May be {@code null} to set the "elementType" later.
-     * @param position The "position" of the new "ChannelExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "ChannelExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "ChannelExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "ChannelExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link ChannelExpression} class.
      */
     public static ChannelExpression newChannelExpression(Type elementType, Position position, Type type) {
@@ -390,7 +390,7 @@ public class ChiConstructors {
      *
      * @param elementType The "elementType" of the new "ChannelType". Multiplicity [1..1]. May be {@code null} to set the "elementType" later.
      * @param ops The "ops" of the new "ChannelType". Multiplicity [1..1]. May be {@code null} to set the "ops" later.
-     * @param position The "position" of the new "ChannelType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ChannelType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ChannelType} class.
      */
     public static ChannelType newChannelType(Type elementType, ChannelOps ops, Position position) {
@@ -420,7 +420,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link CloseStatement} class.
      *
      * @param handle The "handle" of the new "CloseStatement". Multiplicity [1..1]. May be {@code null} to set the "handle" later.
-     * @param position The "position" of the new "CloseStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "CloseStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link CloseStatement} class.
      */
     public static CloseStatement newCloseStatement(Expression handle, Position position) {
@@ -447,7 +447,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ConstantDeclaration} class.
      *
      * @param name The "name" of the new "ConstantDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "ConstantDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ConstantDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ConstantDeclaration". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "ConstantDeclaration". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link ConstantDeclaration} class.
@@ -482,8 +482,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ConstantReference} class.
      *
      * @param constant The "constant" of the new "ConstantReference". Multiplicity [1..1]. May be {@code null} to set the "constant" later.
-     * @param position The "position" of the new "ConstantReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "ConstantReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "ConstantReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "ConstantReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link ConstantReference} class.
      */
     public static ConstantReference newConstantReference(ConstantDeclaration constant, Position position, Type type) {
@@ -512,7 +512,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ContinueStatement} class.
      *
-     * @param position The "position" of the new "ContinueStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ContinueStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ContinueStatement} class.
      */
     public static ContinueStatement newContinueStatement(Position position) {
@@ -536,7 +536,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link DelayStatement} class.
      *
      * @param length The "length" of the new "DelayStatement". Multiplicity [1..1]. May be {@code null} to set the "length" later.
-     * @param position The "position" of the new "DelayStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DelayStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link DelayStatement} class.
      */
     public static DelayStatement newDelayStatement(Expression length, Position position) {
@@ -563,7 +563,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link DictType} class.
      *
      * @param keyType The "keyType" of the new "DictType". Multiplicity [1..1]. May be {@code null} to set the "keyType" later.
-     * @param position The "position" of the new "DictType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DictType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param valueType The "valueType" of the new "DictType". Multiplicity [1..1]. May be {@code null} to set the "valueType" later.
      * @return A new instance of the {@link DictType} class.
      */
@@ -593,9 +593,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link DictionaryExpression} class.
      *
-     * @param pairs The "pairs" of the new "DictionaryExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "pairs".
-     * @param position The "position" of the new "DictionaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "DictionaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param pairs The "pairs" of the new "DictionaryExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "pairs", or to set it later.
+     * @param position The "position" of the new "DictionaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "DictionaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link DictionaryExpression} class.
      */
     public static DictionaryExpression newDictionaryExpression(List<DictionaryPair> pairs, Position position, Type type) {
@@ -625,7 +625,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link DictionaryPair} class.
      *
      * @param key The "key" of the new "DictionaryPair". Multiplicity [1..1]. May be {@code null} to set the "key" later.
-     * @param position The "position" of the new "DictionaryPair". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DictionaryPair". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "DictionaryPair". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link DictionaryPair} class.
      */
@@ -655,7 +655,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link DistributionType} class.
      *
-     * @param position The "position" of the new "DistributionType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DistributionType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param resultType The "resultType" of the new "DistributionType". Multiplicity [1..1]. May be {@code null} to set the "resultType" later.
      * @return A new instance of the {@link DistributionType} class.
      */
@@ -683,7 +683,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link EnumDeclaration} class.
      *
      * @param name The "name" of the new "EnumDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "EnumDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param values The "values" of the new "EnumDeclaration". Multiplicity [1..*]. May be {@code null} to set the "values" later.
      * @return A new instance of the {@link EnumDeclaration} class.
      */
@@ -713,7 +713,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link EnumTypeReference} class.
      *
-     * @param position The "position" of the new "EnumTypeReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumTypeReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "EnumTypeReference". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link EnumTypeReference} class.
      */
@@ -741,7 +741,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link EnumValue} class.
      *
      * @param name The "name" of the new "EnumValue". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "EnumValue". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumValue". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EnumValue} class.
      */
     public static EnumValue newEnumValue(String name, Position position) {
@@ -767,8 +767,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link EnumValueReference} class.
      *
-     * @param position The "position" of the new "EnumValueReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "EnumValueReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "EnumValueReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "EnumValueReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @param value The "value" of the new "EnumValueReference". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link EnumValueReference} class.
      */
@@ -798,8 +798,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ExitStatement} class.
      *
-     * @param position The "position" of the new "ExitStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param value The "value" of the new "ExitStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "value".
+     * @param position The "position" of the new "ExitStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param value The "value" of the new "ExitStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link ExitStatement} class.
      */
     public static ExitStatement newExitStatement(Position position, Expression value) {
@@ -826,8 +826,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link FieldReference} class.
      *
      * @param field The "field" of the new "FieldReference". Multiplicity [1..1]. May be {@code null} to set the "field" later.
-     * @param position The "position" of the new "FieldReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "FieldReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "FieldReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "FieldReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link FieldReference} class.
      */
     public static FieldReference newFieldReference(TupleField field, Position position, Type type) {
@@ -856,7 +856,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link FileType} class.
      *
-     * @param position The "position" of the new "FileType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "FileType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link FileType} class.
      */
     public static FileType newFileType(Position position) {
@@ -880,7 +880,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link FinishStatement} class.
      *
      * @param instances The "instances" of the new "FinishStatement". Multiplicity [1..*]. May be {@code null} to set the "instances" later.
-     * @param position The "position" of the new "FinishStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "FinishStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link FinishStatement} class.
      */
     public static FinishStatement newFinishStatement(List<Expression> instances, Position position) {
@@ -907,7 +907,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ForStatement} class.
      *
      * @param body The "body" of the new "ForStatement". Multiplicity [1..*]. May be {@code null} to set the "body" later.
-     * @param position The "position" of the new "ForStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ForStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param unwinds The "unwinds" of the new "ForStatement". Multiplicity [1..*]. May be {@code null} to set the "unwinds" later.
      * @return A new instance of the {@link ForStatement} class.
      */
@@ -938,10 +938,10 @@ public class ChiConstructors {
      * Returns a new instance of the {@link FunctionDeclaration} class.
      *
      * @param name The "name" of the new "FunctionDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "FunctionDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "FunctionDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param returnType The "returnType" of the new "FunctionDeclaration". Multiplicity [1..1]. May be {@code null} to set the "returnType" later.
      * @param statements The "statements" of the new "FunctionDeclaration". Multiplicity [1..*]. May be {@code null} to set the "statements" later.
-     * @param variables The "variables" of the new "FunctionDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables".
+     * @param variables The "variables" of the new "FunctionDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables", or to set it later.
      * @return A new instance of the {@link FunctionDeclaration} class.
      */
     public static FunctionDeclaration newFunctionDeclaration(String name, Position position, Type returnType, List<Statement> statements, List<VariableDeclaration> variables) {
@@ -977,8 +977,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link FunctionReference} class.
      *
      * @param function The "function" of the new "FunctionReference". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param position The "position" of the new "FunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "FunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "FunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "FunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link FunctionReference} class.
      */
     public static FunctionReference newFunctionReference(FunctionDeclaration function, Position position, Type type) {
@@ -1007,8 +1007,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link FunctionType} class.
      *
-     * @param parameterTypes The "parameterTypes" of the new "FunctionType". Multiplicity [0..*]. May be {@code null} to skip setting the "parameterTypes".
-     * @param position The "position" of the new "FunctionType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param parameterTypes The "parameterTypes" of the new "FunctionType". Multiplicity [0..*]. May be {@code null} to skip setting the "parameterTypes", or to set it later.
+     * @param position The "position" of the new "FunctionType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param resultType The "resultType" of the new "FunctionType". Multiplicity [1..1]. May be {@code null} to set the "resultType" later.
      * @return A new instance of the {@link FunctionType} class.
      */
@@ -1039,8 +1039,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link IfCase} class.
      *
      * @param body The "body" of the new "IfCase". Multiplicity [1..*]. May be {@code null} to set the "body" later.
-     * @param condition The "condition" of the new "IfCase". Multiplicity [0..1]. May be {@code null} to skip setting the "condition".
-     * @param position The "position" of the new "IfCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param condition The "condition" of the new "IfCase". Multiplicity [0..1]. May be {@code null} to skip setting the "condition", or to set it later.
+     * @param position The "position" of the new "IfCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link IfCase} class.
      */
     public static IfCase newIfCase(List<Statement> body, Expression condition, Position position) {
@@ -1070,7 +1070,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link IfStatement} class.
      *
      * @param cases The "cases" of the new "IfStatement". Multiplicity [1..*]. May be {@code null} to set the "cases" later.
-     * @param position The "position" of the new "IfStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IfStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link IfStatement} class.
      */
     public static IfStatement newIfStatement(List<IfCase> cases, Position position) {
@@ -1096,7 +1096,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link InstanceType} class.
      *
-     * @param position The "position" of the new "InstanceType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "InstanceType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link InstanceType} class.
      */
     public static InstanceType newInstanceType(Position position) {
@@ -1119,8 +1119,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link IntNumber} class.
      *
-     * @param position The "position" of the new "IntNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "IntNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "IntNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "IntNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @param value The "value" of the new "IntNumber". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link IntNumber} class.
      */
@@ -1150,7 +1150,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link IntType} class.
      *
-     * @param position The "position" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link IntType} class.
      */
     public static IntType newIntType(Position position) {
@@ -1174,7 +1174,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link IteratedCreateCase} class.
      *
      * @param instances The "instances" of the new "IteratedCreateCase". Multiplicity [1..*]. May be {@code null} to set the "instances" later.
-     * @param position The "position" of the new "IteratedCreateCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IteratedCreateCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param unwinds The "unwinds" of the new "IteratedCreateCase". Multiplicity [1..*]. May be {@code null} to set the "unwinds" later.
      * @return A new instance of the {@link IteratedCreateCase} class.
      */
@@ -1205,8 +1205,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link IteratedSelectCase} class.
      *
      * @param body The "body" of the new "IteratedSelectCase". Multiplicity [1..*]. May be {@code null} to set the "body" later.
-     * @param guard The "guard" of the new "IteratedSelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "guard".
-     * @param position The "position" of the new "IteratedSelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param guard The "guard" of the new "IteratedSelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "guard", or to set it later.
+     * @param position The "position" of the new "IteratedSelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param unwinds The "unwinds" of the new "IteratedSelectCase". Multiplicity [1..*]. May be {@code null} to set the "unwinds" later.
      * @return A new instance of the {@link IteratedSelectCase} class.
      */
@@ -1239,9 +1239,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ListExpression} class.
      *
-     * @param elements The "elements" of the new "ListExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements".
-     * @param position The "position" of the new "ListExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "ListExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param elements The "elements" of the new "ListExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements", or to set it later.
+     * @param position The "position" of the new "ListExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "ListExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link ListExpression} class.
      */
     public static ListExpression newListExpression(List<Expression> elements, Position position, Type type) {
@@ -1271,8 +1271,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ListType} class.
      *
      * @param elementType The "elementType" of the new "ListType". Multiplicity [1..1]. May be {@code null} to set the "elementType" later.
-     * @param initialLength The "initialLength" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "initialLength".
-     * @param position The "position" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param initialLength The "initialLength" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "initialLength", or to set it later.
+     * @param position The "position" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ListType} class.
      */
     public static ListType newListType(Type elementType, Expression initialLength, Position position) {
@@ -1301,9 +1301,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link MatrixExpression} class.
      *
-     * @param position The "position" of the new "MatrixExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "MatrixExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param rows The "rows" of the new "MatrixExpression". Multiplicity [1..*]. May be {@code null} to set the "rows" later.
-     * @param type The "type" of the new "MatrixExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param type The "type" of the new "MatrixExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link MatrixExpression} class.
      */
     public static MatrixExpression newMatrixExpression(Position position, List<MatrixRow> rows, Type type) {
@@ -1333,7 +1333,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link MatrixRow} class.
      *
      * @param elements The "elements" of the new "MatrixRow". Multiplicity [1..*]. May be {@code null} to set the "elements" later.
-     * @param position The "position" of the new "MatrixRow". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "MatrixRow". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link MatrixRow} class.
      */
     public static MatrixRow newMatrixRow(List<Expression> elements, Position position) {
@@ -1360,7 +1360,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link MatrixType} class.
      *
      * @param columnSize The "columnSize" of the new "MatrixType". Multiplicity [1..1]. May be {@code null} to set the "columnSize" later.
-     * @param position The "position" of the new "MatrixType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "MatrixType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param rowSize The "rowSize" of the new "MatrixType". Multiplicity [1..1]. May be {@code null} to set the "rowSize" later.
      * @return A new instance of the {@link MatrixType} class.
      */
@@ -1391,10 +1391,10 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ModelDeclaration} class.
      *
      * @param name The "name" of the new "ModelDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "ModelDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param returnType The "returnType" of the new "ModelDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "returnType".
+     * @param position The "position" of the new "ModelDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param returnType The "returnType" of the new "ModelDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "returnType", or to set it later.
      * @param statements The "statements" of the new "ModelDeclaration". Multiplicity [1..*]. May be {@code null} to set the "statements" later.
-     * @param variables The "variables" of the new "ModelDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables".
+     * @param variables The "variables" of the new "ModelDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables", or to set it later.
      * @return A new instance of the {@link ModelDeclaration} class.
      */
     public static ModelDeclaration newModelDeclaration(String name, Position position, Type returnType, List<Statement> statements, List<VariableDeclaration> variables) {
@@ -1430,8 +1430,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ModelReference} class.
      *
      * @param model The "model" of the new "ModelReference". Multiplicity [1..1]. May be {@code null} to set the "model" later.
-     * @param position The "position" of the new "ModelReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "ModelReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "ModelReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "ModelReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link ModelReference} class.
      */
     public static ModelReference newModelReference(ModelDeclaration model, Position position, Type type) {
@@ -1460,9 +1460,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ModelType} class.
      *
-     * @param exitType The "exitType" of the new "ModelType". Multiplicity [0..1]. May be {@code null} to skip setting the "exitType".
-     * @param parameterTypes The "parameterTypes" of the new "ModelType". Multiplicity [0..*]. May be {@code null} to skip setting the "parameterTypes".
-     * @param position The "position" of the new "ModelType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param exitType The "exitType" of the new "ModelType". Multiplicity [0..1]. May be {@code null} to skip setting the "exitType", or to set it later.
+     * @param parameterTypes The "parameterTypes" of the new "ModelType". Multiplicity [0..*]. May be {@code null} to skip setting the "parameterTypes", or to set it later.
+     * @param position The "position" of the new "ModelType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ModelType} class.
      */
     public static ModelType newModelType(Type exitType, List<Type> parameterTypes, Position position) {
@@ -1491,7 +1491,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link PassStatement} class.
      *
-     * @param position The "position" of the new "PassStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "PassStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link PassStatement} class.
      */
     public static PassStatement newPassStatement(Position position) {
@@ -1515,10 +1515,10 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ProcessDeclaration} class.
      *
      * @param name The "name" of the new "ProcessDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "ProcessDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param returnType The "returnType" of the new "ProcessDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "returnType".
+     * @param position The "position" of the new "ProcessDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param returnType The "returnType" of the new "ProcessDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "returnType", or to set it later.
      * @param statements The "statements" of the new "ProcessDeclaration". Multiplicity [1..*]. May be {@code null} to set the "statements" later.
-     * @param variables The "variables" of the new "ProcessDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables".
+     * @param variables The "variables" of the new "ProcessDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables", or to set it later.
      * @return A new instance of the {@link ProcessDeclaration} class.
      */
     public static ProcessDeclaration newProcessDeclaration(String name, Position position, Type returnType, List<Statement> statements, List<VariableDeclaration> variables) {
@@ -1554,8 +1554,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ProcessInstance} class.
      *
      * @param call The "call" of the new "ProcessInstance". Multiplicity [1..1]. May be {@code null} to set the "call" later.
-     * @param position The "position" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param var The "var" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "var".
+     * @param position The "position" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param var The "var" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "var", or to set it later.
      * @return A new instance of the {@link ProcessInstance} class.
      */
     public static ProcessInstance newProcessInstance(Expression call, Position position, Expression var) {
@@ -1584,9 +1584,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ProcessReference} class.
      *
-     * @param position The "position" of the new "ProcessReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ProcessReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param process The "process" of the new "ProcessReference". Multiplicity [1..1]. May be {@code null} to set the "process" later.
-     * @param type The "type" of the new "ProcessReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param type The "type" of the new "ProcessReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link ProcessReference} class.
      */
     public static ProcessReference newProcessReference(Position position, ProcessDeclaration process, Type type) {
@@ -1615,9 +1615,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ProcessType} class.
      *
-     * @param exitType The "exitType" of the new "ProcessType". Multiplicity [0..1]. May be {@code null} to skip setting the "exitType".
-     * @param parameterTypes The "parameterTypes" of the new "ProcessType". Multiplicity [0..*]. May be {@code null} to skip setting the "parameterTypes".
-     * @param position The "position" of the new "ProcessType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param exitType The "exitType" of the new "ProcessType". Multiplicity [0..1]. May be {@code null} to skip setting the "exitType", or to set it later.
+     * @param parameterTypes The "parameterTypes" of the new "ProcessType". Multiplicity [0..*]. May be {@code null} to skip setting the "parameterTypes", or to set it later.
+     * @param position The "position" of the new "ProcessType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ProcessType} class.
      */
     public static ProcessType newProcessType(Type exitType, List<Type> parameterTypes, Position position) {
@@ -1646,10 +1646,10 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ReadCallExpression} class.
      *
-     * @param file The "file" of the new "ReadCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "file".
+     * @param file The "file" of the new "ReadCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "file", or to set it later.
      * @param loadType The "loadType" of the new "ReadCallExpression". Multiplicity [1..1]. May be {@code null} to set the "loadType" later.
-     * @param position The "position" of the new "ReadCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "ReadCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "ReadCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "ReadCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link ReadCallExpression} class.
      */
     public static ReadCallExpression newReadCallExpression(Expression file, Type loadType, Position position, Type type) {
@@ -1681,8 +1681,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link RealNumber} class.
      *
-     * @param position The "position" of the new "RealNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "RealNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "RealNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "RealNumber". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @param value The "value" of the new "RealNumber". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link RealNumber} class.
      */
@@ -1712,7 +1712,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link RealType} class.
      *
-     * @param position The "position" of the new "RealType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "RealType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link RealType} class.
      */
     public static RealType newRealType(Position position) {
@@ -1736,8 +1736,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link ReceiveStatement} class.
      *
      * @param channel The "channel" of the new "ReceiveStatement". Multiplicity [1..1]. May be {@code null} to set the "channel" later.
-     * @param data The "data" of the new "ReceiveStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "data".
-     * @param position The "position" of the new "ReceiveStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param data The "data" of the new "ReceiveStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "data", or to set it later.
+     * @param position The "position" of the new "ReceiveStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ReceiveStatement} class.
      */
     public static ReceiveStatement newReceiveStatement(Expression channel, Expression data, Position position) {
@@ -1766,7 +1766,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link ReturnStatement} class.
      *
-     * @param position The "position" of the new "ReturnStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ReturnStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "ReturnStatement". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link ReturnStatement} class.
      */
@@ -1794,7 +1794,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link RunStatement} class.
      *
      * @param cases The "cases" of the new "RunStatement". Multiplicity [1..*]. May be {@code null} to set the "cases" later.
-     * @param position The "position" of the new "RunStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "RunStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param startOnly The "startOnly" of the new "RunStatement". Multiplicity [1..1]. May be {@code null} to set the "startOnly" later.
      * @return A new instance of the {@link RunStatement} class.
      */
@@ -1825,8 +1825,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link SelectCase} class.
      *
      * @param body The "body" of the new "SelectCase". Multiplicity [1..*]. May be {@code null} to set the "body" later.
-     * @param guard The "guard" of the new "SelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "guard".
-     * @param position The "position" of the new "SelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param guard The "guard" of the new "SelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "guard", or to set it later.
+     * @param position The "position" of the new "SelectCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SelectCase} class.
      */
     public static SelectCase newSelectCase(List<Statement> body, Expression guard, Position position) {
@@ -1856,7 +1856,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link SelectStatement} class.
      *
      * @param cases The "cases" of the new "SelectStatement". Multiplicity [1..*]. May be {@code null} to set the "cases" later.
-     * @param position The "position" of the new "SelectStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SelectStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SelectStatement} class.
      */
     public static SelectStatement newSelectStatement(List<SelectCase> cases, Position position) {
@@ -1883,8 +1883,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link SendStatement} class.
      *
      * @param channel The "channel" of the new "SendStatement". Multiplicity [1..1]. May be {@code null} to set the "channel" later.
-     * @param data The "data" of the new "SendStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "data".
-     * @param position The "position" of the new "SendStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param data The "data" of the new "SendStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "data", or to set it later.
+     * @param position The "position" of the new "SendStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SendStatement} class.
      */
     public static SendStatement newSendStatement(Expression channel, Expression data, Position position) {
@@ -1913,9 +1913,9 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link SetExpression} class.
      *
-     * @param elements The "elements" of the new "SetExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements".
-     * @param position The "position" of the new "SetExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "SetExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param elements The "elements" of the new "SetExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements", or to set it later.
+     * @param position The "position" of the new "SetExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "SetExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link SetExpression} class.
      */
     public static SetExpression newSetExpression(List<Expression> elements, Position position, Type type) {
@@ -1945,7 +1945,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link SetType} class.
      *
      * @param elementType The "elementType" of the new "SetType". Multiplicity [1..1]. May be {@code null} to set the "elementType" later.
-     * @param position The "position" of the new "SetType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SetType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SetType} class.
      */
     public static SetType newSetType(Type elementType, Position position) {
@@ -1971,12 +1971,12 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link SliceExpression} class.
      *
-     * @param end The "end" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "end".
-     * @param position The "position" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param end The "end" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "end", or to set it later.
+     * @param position The "position" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param source The "source" of the new "SliceExpression". Multiplicity [1..1]. May be {@code null} to set the "source" later.
-     * @param start The "start" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "start".
-     * @param step The "step" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "step".
-     * @param type The "type" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param start The "start" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "start", or to set it later.
+     * @param step The "step" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "step", or to set it later.
+     * @param type The "type" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link SliceExpression} class.
      */
     public static SliceExpression newSliceExpression(Expression end, Position position, Expression source, Expression start, Expression step, Type type) {
@@ -2014,7 +2014,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link Specification} class.
      *
-     * @param declarations The "declarations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations".
+     * @param declarations The "declarations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
      * @return A new instance of the {@link Specification} class.
      */
     public static Specification newSpecification(List<Declaration> declarations) {
@@ -2038,8 +2038,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link StdLibFunctionReference} class.
      *
      * @param function The "function" of the new "StdLibFunctionReference". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param position The "position" of the new "StdLibFunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "StdLibFunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "StdLibFunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "StdLibFunctionReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link StdLibFunctionReference} class.
      */
     public static StdLibFunctionReference newStdLibFunctionReference(StdLibFunctions function, Position position, Type type) {
@@ -2068,8 +2068,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link StringLiteral} class.
      *
-     * @param position The "position" of the new "StringLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "StringLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "StringLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "StringLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @param value The "value" of the new "StringLiteral". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link StringLiteral} class.
      */
@@ -2099,7 +2099,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link StringType} class.
      *
-     * @param position The "position" of the new "StringType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "StringType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link StringType} class.
      */
     public static StringType newStringType(Position position) {
@@ -2122,8 +2122,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link TimeLiteral} class.
      *
-     * @param position The "position" of the new "TimeLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "TimeLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "TimeLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "TimeLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link TimeLiteral} class.
      */
     public static TimeLiteral newTimeLiteral(Position position, Type type) {
@@ -2149,7 +2149,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link TimerType} class.
      *
-     * @param position The "position" of the new "TimerType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TimerType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link TimerType} class.
      */
     public static TimerType newTimerType(Position position) {
@@ -2173,8 +2173,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link TupleExpression} class.
      *
      * @param fields The "fields" of the new "TupleExpression". Multiplicity [2..*]. May be {@code null} to set the "fields" later.
-     * @param position The "position" of the new "TupleExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "TupleExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "TupleExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "TupleExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link TupleExpression} class.
      */
     public static TupleExpression newTupleExpression(List<Expression> fields, Position position, Type type) {
@@ -2203,8 +2203,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link TupleField} class.
      *
-     * @param name The "name" of the new "TupleField". Multiplicity [0..1]. May be {@code null} to skip setting the "name".
-     * @param position The "position" of the new "TupleField". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param name The "name" of the new "TupleField". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
+     * @param position The "position" of the new "TupleField". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TupleField". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TupleField} class.
      */
@@ -2235,7 +2235,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link TupleType} class.
      *
      * @param fields The "fields" of the new "TupleType". Multiplicity [2..*]. May be {@code null} to set the "fields" later.
-     * @param position The "position" of the new "TupleType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TupleType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link TupleType} class.
      */
     public static TupleType newTupleType(List<TupleField> fields, Position position) {
@@ -2262,7 +2262,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link TypeDeclaration} class.
      *
      * @param name The "name" of the new "TypeDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "TypeDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TypeDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TypeDeclaration". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TypeDeclaration} class.
      */
@@ -2292,7 +2292,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link TypeReference} class.
      *
-     * @param position The "position" of the new "TypeReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TypeReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TypeReference". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TypeReference} class.
      */
@@ -2321,8 +2321,8 @@ public class ChiConstructors {
      *
      * @param child The "child" of the new "UnaryExpression". Multiplicity [1..1]. May be {@code null} to set the "child" later.
      * @param op The "op" of the new "UnaryExpression". Multiplicity [1..1]. May be {@code null} to set the "op" later.
-     * @param position The "position" of the new "UnaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "UnaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "UnaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "UnaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link UnaryExpression} class.
      */
     public static UnaryExpression newUnaryExpression(Expression child, UnaryOperators op, Position position, Type type) {
@@ -2355,8 +2355,8 @@ public class ChiConstructors {
      * Returns a new instance of the {@link UnresolvedReference} class.
      *
      * @param name The "name" of the new "UnresolvedReference". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "UnresolvedReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "UnresolvedReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "UnresolvedReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "UnresolvedReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link UnresolvedReference} class.
      */
     public static UnresolvedReference newUnresolvedReference(String name, Position position, Type type) {
@@ -2386,7 +2386,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link UnresolvedType} class.
      *
      * @param name The "name" of the new "UnresolvedType". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "UnresolvedType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "UnresolvedType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link UnresolvedType} class.
      */
     public static UnresolvedType newUnresolvedType(String name, Position position) {
@@ -2412,7 +2412,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link Unwind} class.
      *
-     * @param position The "position" of the new "Unwind". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Unwind". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param source The "source" of the new "Unwind". Multiplicity [1..1]. May be {@code null} to set the "source" later.
      * @param variables The "variables" of the new "Unwind". Multiplicity [1..*]. May be {@code null} to set the "variables" later.
      * @return A new instance of the {@link Unwind} class.
@@ -2443,11 +2443,11 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link VariableDeclaration} class.
      *
-     * @param initialValue The "initialValue" of the new "VariableDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "initialValue".
+     * @param initialValue The "initialValue" of the new "VariableDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "initialValue", or to set it later.
      * @param name The "name" of the new "VariableDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
      * @param parameter The "parameter" of the new "VariableDeclaration". Multiplicity [1..1]. May be {@code null} to set the "parameter" later.
-     * @param position The "position" of the new "VariableDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "VariableDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "VariableDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "VariableDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link VariableDeclaration} class.
      */
     public static VariableDeclaration newVariableDeclaration(Expression initialValue, String name, Boolean parameter, Position position, Type type) {
@@ -2482,8 +2482,8 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link VariableReference} class.
      *
-     * @param position The "position" of the new "VariableReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "VariableReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "VariableReference". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "VariableReference". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @param variable The "variable" of the new "VariableReference". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link VariableReference} class.
      */
@@ -2513,7 +2513,7 @@ public class ChiConstructors {
     /**
      * Returns a new instance of the {@link VoidType} class.
      *
-     * @param position The "position" of the new "VoidType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "VoidType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link VoidType} class.
      */
     public static VoidType newVoidType(Position position) {
@@ -2538,7 +2538,7 @@ public class ChiConstructors {
      *
      * @param body The "body" of the new "WhileStatement". Multiplicity [1..*]. May be {@code null} to set the "body" later.
      * @param condition The "condition" of the new "WhileStatement". Multiplicity [1..1]. May be {@code null} to set the "condition" later.
-     * @param position The "position" of the new "WhileStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "WhileStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link WhileStatement} class.
      */
     public static WhileStatement newWhileStatement(List<Statement> body, Expression condition, Position position) {
@@ -2568,7 +2568,7 @@ public class ChiConstructors {
      * Returns a new instance of the {@link WriteStatement} class.
      *
      * @param addNewline The "addNewline" of the new "WriteStatement". Multiplicity [1..1]. May be {@code null} to set the "addNewline" later.
-     * @param position The "position" of the new "WriteStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "WriteStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param values The "values" of the new "WriteStatement". Multiplicity [1..*]. May be {@code null} to set the "values" later.
      * @return A new instance of the {@link WriteStatement} class.
      */
@@ -2599,9 +2599,9 @@ public class ChiConstructors {
      * Returns a new instance of the {@link XperDeclaration} class.
      *
      * @param name The "name" of the new "XperDeclaration". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "XperDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "XperDeclaration". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param statements The "statements" of the new "XperDeclaration". Multiplicity [1..*]. May be {@code null} to set the "statements" later.
-     * @param variables The "variables" of the new "XperDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables".
+     * @param variables The "variables" of the new "XperDeclaration". Multiplicity [0..*]. May be {@code null} to skip setting the "variables", or to set it later.
      * @return A new instance of the {@link XperDeclaration} class.
      */
     public static XperDeclaration newXperDeclaration(String name, Position position, List<Statement> statements, List<VariableDeclaration> variables) {

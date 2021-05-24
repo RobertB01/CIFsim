@@ -155,7 +155,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.VoidType;
 import org.eclipse.escet.common.position.metamodel.position.Position;
 
 /**
- * Helper class with static argument-less constructor methods for the "cif" language.
+ * Helper class with static constructor methods for the "cif" language.
  */
 public class CifConstructors {
     /** Constructor for the {@link CifConstructors} class. */
@@ -175,7 +175,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link AlgParameter} class.
      *
-     * @param position The "position" of the new "AlgParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "AlgParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param variable The "variable" of the new "AlgParameter". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link AlgParameter} class.
      */
@@ -203,9 +203,9 @@ public class CifConstructors {
      * Returns a new instance of the {@link AlgVariable} class.
      *
      * @param name The "name" of the new "AlgVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "AlgVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "AlgVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "AlgVariable". Multiplicity [1..1]. May be {@code null} to set the "type" later.
-     * @param value The "value" of the new "AlgVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value".
+     * @param value The "value" of the new "AlgVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link AlgVariable} class.
      */
     public static AlgVariable newAlgVariable(String name, Position position, CifType type, Expression value) {
@@ -237,7 +237,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link AlgVariableExpression} class.
      *
-     * @param position The "position" of the new "AlgVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "AlgVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "AlgVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param variable The "variable" of the new "AlgVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link AlgVariableExpression} class.
@@ -268,8 +268,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Alphabet} class.
      *
-     * @param events The "events" of the new "Alphabet". Multiplicity [0..*]. May be {@code null} to skip setting the "events".
-     * @param position The "position" of the new "Alphabet". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param events The "events" of the new "Alphabet". Multiplicity [0..*]. May be {@code null} to skip setting the "events", or to set it later.
+     * @param position The "position" of the new "Alphabet". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Alphabet} class.
      */
     public static Alphabet newAlphabet(List<Expression> events, Position position) {
@@ -296,7 +296,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link Assignment} class.
      *
      * @param addressable The "addressable" of the new "Assignment". Multiplicity [1..1]. May be {@code null} to set the "addressable" later.
-     * @param position The "position" of the new "Assignment". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Assignment". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "Assignment". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link Assignment} class.
      */
@@ -327,7 +327,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link AssignmentFuncStatement} class.
      *
      * @param addressable The "addressable" of the new "AssignmentFuncStatement". Multiplicity [1..1]. May be {@code null} to set the "addressable" later.
-     * @param position The "position" of the new "AssignmentFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "AssignmentFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "AssignmentFuncStatement". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link AssignmentFuncStatement} class.
      */
@@ -357,18 +357,18 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Automaton} class.
      *
-     * @param alphabet The "alphabet" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "alphabet".
-     * @param declarations The "declarations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations".
-     * @param equations The "equations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "equations".
-     * @param initials The "initials" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "initials".
-     * @param invariants The "invariants" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants".
-     * @param ioDecls The "ioDecls" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "ioDecls".
+     * @param alphabet The "alphabet" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "alphabet", or to set it later.
+     * @param declarations The "declarations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
+     * @param equations The "equations" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "equations", or to set it later.
+     * @param initials The "initials" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "initials", or to set it later.
+     * @param invariants The "invariants" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants", or to set it later.
+     * @param ioDecls The "ioDecls" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "ioDecls", or to set it later.
      * @param kind The "kind" of the new "Automaton". Multiplicity [1..1]. May be {@code null} to set the "kind" later.
      * @param locations The "locations" of the new "Automaton". Multiplicity [1..*]. May be {@code null} to set the "locations" later.
-     * @param markeds The "markeds" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds".
-     * @param monitors The "monitors" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "monitors".
+     * @param markeds The "markeds" of the new "Automaton". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds", or to set it later.
+     * @param monitors The "monitors" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "monitors", or to set it later.
      * @param name The "name" of the new "Automaton". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Automaton". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Automaton} class.
      */
     public static Automaton newAutomaton(Alphabet alphabet, List<Declaration> declarations, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, SupKind kind, List<Location> locations, List<Expression> markeds, Monitors monitors, String name, Position position) {
@@ -426,7 +426,7 @@ public class CifConstructors {
      *
      * @param left The "left" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "left" later.
      * @param operator The "operator" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "operator" later.
-     * @param position The "position" of the new "BinaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BinaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param right The "right" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "right" later.
      * @param type The "type" of the new "BinaryExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link BinaryExpression} class.
@@ -463,7 +463,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link BoolExpression} class.
      *
-     * @param position The "position" of the new "BoolExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BoolExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "BoolExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "BoolExpression". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link BoolExpression} class.
@@ -494,7 +494,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link BoolType} class.
      *
-     * @param position The "position" of the new "BoolType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BoolType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link BoolType} class.
      */
     public static BoolType newBoolType(Position position) {
@@ -517,7 +517,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link BreakFuncStatement} class.
      *
-     * @param position The "position" of the new "BreakFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "BreakFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link BreakFuncStatement} class.
      */
     public static BreakFuncStatement newBreakFuncStatement(Position position) {
@@ -541,7 +541,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link CastExpression} class.
      *
      * @param child The "child" of the new "CastExpression". Multiplicity [1..1]. May be {@code null} to set the "child" later.
-     * @param position The "position" of the new "CastExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "CastExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "CastExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link CastExpression} class.
      */
@@ -572,7 +572,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link CompInstWrapExpression} class.
      *
      * @param instantiation The "instantiation" of the new "CompInstWrapExpression". Multiplicity [1..1]. May be {@code null} to set the "instantiation" later.
-     * @param position The "position" of the new "CompInstWrapExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "CompInstWrapExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param reference The "reference" of the new "CompInstWrapExpression". Multiplicity [1..1]. May be {@code null} to set the "reference" later.
      * @param type The "type" of the new "CompInstWrapExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link CompInstWrapExpression} class.
@@ -607,7 +607,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link CompInstWrapType} class.
      *
      * @param instantiation The "instantiation" of the new "CompInstWrapType". Multiplicity [1..1]. May be {@code null} to set the "instantiation" later.
-     * @param position The "position" of the new "CompInstWrapType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "CompInstWrapType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param reference The "reference" of the new "CompInstWrapType". Multiplicity [1..1]. May be {@code null} to set the "reference" later.
      * @return A new instance of the {@link CompInstWrapType} class.
      */
@@ -638,7 +638,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link CompParamWrapExpression} class.
      *
      * @param parameter The "parameter" of the new "CompParamWrapExpression". Multiplicity [1..1]. May be {@code null} to set the "parameter" later.
-     * @param position The "position" of the new "CompParamWrapExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "CompParamWrapExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param reference The "reference" of the new "CompParamWrapExpression". Multiplicity [1..1]. May be {@code null} to set the "reference" later.
      * @param type The "type" of the new "CompParamWrapExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link CompParamWrapExpression} class.
@@ -673,7 +673,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link CompParamWrapType} class.
      *
      * @param parameter The "parameter" of the new "CompParamWrapType". Multiplicity [1..1]. May be {@code null} to set the "parameter" later.
-     * @param position The "position" of the new "CompParamWrapType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "CompParamWrapType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param reference The "reference" of the new "CompParamWrapType". Multiplicity [1..1]. May be {@code null} to set the "reference" later.
      * @return A new instance of the {@link CompParamWrapType} class.
      */
@@ -704,8 +704,8 @@ public class CifConstructors {
      * Returns a new instance of the {@link ComponentDef} class.
      *
      * @param body The "body" of the new "ComponentDef". Multiplicity [1..1]. May be {@code null} to set the "body" later.
-     * @param parameters The "parameters" of the new "ComponentDef". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters".
-     * @param position The "position" of the new "ComponentDef". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param parameters The "parameters" of the new "ComponentDef". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
+     * @param position The "position" of the new "ComponentDef". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ComponentDef} class.
      */
     public static ComponentDef newComponentDef(ComplexComponent body, List<Parameter> parameters, Position position) {
@@ -735,7 +735,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ComponentDefType} class.
      *
      * @param definition The "definition" of the new "ComponentDefType". Multiplicity [1..1]. May be {@code null} to set the "definition" later.
-     * @param position The "position" of the new "ComponentDefType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ComponentDefType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ComponentDefType} class.
      */
     public static ComponentDefType newComponentDefType(ComponentDef definition, Position position) {
@@ -762,7 +762,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ComponentExpression} class.
      *
      * @param component The "component" of the new "ComponentExpression". Multiplicity [1..1]. May be {@code null} to set the "component" later.
-     * @param position The "position" of the new "ComponentExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ComponentExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ComponentExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link ComponentExpression} class.
      */
@@ -794,8 +794,8 @@ public class CifConstructors {
      *
      * @param definition The "definition" of the new "ComponentInst". Multiplicity [1..1]. May be {@code null} to set the "definition" later.
      * @param name The "name" of the new "ComponentInst". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param parameters The "parameters" of the new "ComponentInst". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters".
-     * @param position The "position" of the new "ComponentInst". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param parameters The "parameters" of the new "ComponentInst". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
+     * @param position The "position" of the new "ComponentInst". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ComponentInst} class.
      */
     public static ComponentInst newComponentInst(CifType definition, String name, List<Expression> parameters, Position position) {
@@ -828,7 +828,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ComponentParameter} class.
      *
      * @param name The "name" of the new "ComponentParameter". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "ComponentParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ComponentParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ComponentParameter". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link ComponentParameter} class.
      */
@@ -859,7 +859,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ComponentType} class.
      *
      * @param component The "component" of the new "ComponentType". Multiplicity [1..1]. May be {@code null} to set the "component" later.
-     * @param position The "position" of the new "ComponentType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ComponentType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ComponentType} class.
      */
     public static ComponentType newComponentType(Component component, Position position) {
@@ -886,7 +886,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link Constant} class.
      *
      * @param name The "name" of the new "Constant". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "Constant". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Constant". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "Constant". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "Constant". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link Constant} class.
@@ -921,7 +921,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ConstantExpression} class.
      *
      * @param constant The "constant" of the new "ConstantExpression". Multiplicity [1..1]. May be {@code null} to set the "constant" later.
-     * @param position The "position" of the new "ConstantExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ConstantExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ConstantExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link ConstantExpression} class.
      */
@@ -951,10 +951,10 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ContVariable} class.
      *
-     * @param derivative The "derivative" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "derivative".
+     * @param derivative The "derivative" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "derivative", or to set it later.
      * @param name The "name" of the new "ContVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param value The "value" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value".
+     * @param position The "position" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param value The "value" of the new "ContVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link ContVariable} class.
      */
     public static ContVariable newContVariable(Expression derivative, String name, Position position, Expression value) {
@@ -987,7 +987,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ContVariableExpression} class.
      *
      * @param derivative The "derivative" of the new "ContVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "derivative" later.
-     * @param position The "position" of the new "ContVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ContVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ContVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param variable The "variable" of the new "ContVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link ContVariableExpression} class.
@@ -1021,7 +1021,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ContinueFuncStatement} class.
      *
-     * @param position The "position" of the new "ContinueFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ContinueFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link ContinueFuncStatement} class.
      */
     public static ContinueFuncStatement newContinueFuncStatement(Position position) {
@@ -1044,8 +1044,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link DictExpression} class.
      *
-     * @param pairs The "pairs" of the new "DictExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "pairs".
-     * @param position The "position" of the new "DictExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param pairs The "pairs" of the new "DictExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "pairs", or to set it later.
+     * @param position The "position" of the new "DictExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "DictExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link DictExpression} class.
      */
@@ -1076,7 +1076,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link DictPair} class.
      *
      * @param key The "key" of the new "DictPair". Multiplicity [1..1]. May be {@code null} to set the "key" later.
-     * @param position The "position" of the new "DictPair". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DictPair". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "DictPair". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link DictPair} class.
      */
@@ -1107,7 +1107,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link DictType} class.
      *
      * @param keyType The "keyType" of the new "DictType". Multiplicity [1..1]. May be {@code null} to set the "keyType" later.
-     * @param position The "position" of the new "DictType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DictType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param valueType The "valueType" of the new "DictType". Multiplicity [1..1]. May be {@code null} to set the "valueType" later.
      * @return A new instance of the {@link DictType} class.
      */
@@ -1138,9 +1138,9 @@ public class CifConstructors {
      * Returns a new instance of the {@link DiscVariable} class.
      *
      * @param name The "name" of the new "DiscVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "DiscVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DiscVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "DiscVariable". Multiplicity [1..1]. May be {@code null} to set the "type" later.
-     * @param value The "value" of the new "DiscVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value".
+     * @param value The "value" of the new "DiscVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link DiscVariable} class.
      */
     public static DiscVariable newDiscVariable(String name, Position position, CifType type, VariableValue value) {
@@ -1172,7 +1172,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link DiscVariableExpression} class.
      *
-     * @param position The "position" of the new "DiscVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DiscVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "DiscVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param variable The "variable" of the new "DiscVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link DiscVariableExpression} class.
@@ -1203,7 +1203,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link DistType} class.
      *
-     * @param position The "position" of the new "DistType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "DistType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param sampleType The "sampleType" of the new "DistType". Multiplicity [1..1]. May be {@code null} to set the "sampleType" later.
      * @return A new instance of the {@link DistType} class.
      */
@@ -1230,11 +1230,11 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Edge} class.
      *
-     * @param events The "events" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "events".
-     * @param guards The "guards" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "guards".
-     * @param position The "position" of the new "Edge". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param target The "target" of the new "Edge". Multiplicity [0..1]. May be {@code null} to skip setting the "target".
-     * @param updates The "updates" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "updates".
+     * @param events The "events" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "events", or to set it later.
+     * @param guards The "guards" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "guards", or to set it later.
+     * @param position The "position" of the new "Edge". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param target The "target" of the new "Edge". Multiplicity [0..1]. May be {@code null} to skip setting the "target", or to set it later.
+     * @param updates The "updates" of the new "Edge". Multiplicity [0..*]. May be {@code null} to skip setting the "updates", or to set it later.
      * @param urgent The "urgent" of the new "Edge". Multiplicity [1..1]. May be {@code null} to set the "urgent" later.
      * @return A new instance of the {@link Edge} class.
      */
@@ -1274,7 +1274,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EdgeEvent} class.
      *
      * @param event The "event" of the new "EdgeEvent". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param position The "position" of the new "EdgeEvent". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EdgeEvent". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EdgeEvent} class.
      */
     public static EdgeEvent newEdgeEvent(Expression event, Position position) {
@@ -1301,7 +1301,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EdgeReceive} class.
      *
      * @param event The "event" of the new "EdgeReceive". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param position The "position" of the new "EdgeReceive". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EdgeReceive". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EdgeReceive} class.
      */
     public static EdgeReceive newEdgeReceive(Expression event, Position position) {
@@ -1328,8 +1328,8 @@ public class CifConstructors {
      * Returns a new instance of the {@link EdgeSend} class.
      *
      * @param event The "event" of the new "EdgeSend". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param position The "position" of the new "EdgeSend". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param value The "value" of the new "EdgeSend". Multiplicity [0..1]. May be {@code null} to skip setting the "value".
+     * @param position The "position" of the new "EdgeSend". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param value The "value" of the new "EdgeSend". Multiplicity [0..1]. May be {@code null} to skip setting the "value", or to set it later.
      * @return A new instance of the {@link EdgeSend} class.
      */
     public static EdgeSend newEdgeSend(Expression event, Position position, Expression value) {
@@ -1359,7 +1359,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ElifExpression} class.
      *
      * @param guards The "guards" of the new "ElifExpression". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "ElifExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ElifExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param then The "then" of the new "ElifExpression". Multiplicity [1..1]. May be {@code null} to set the "then" later.
      * @return A new instance of the {@link ElifExpression} class.
      */
@@ -1390,7 +1390,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ElifFuncStatement} class.
      *
      * @param guards The "guards" of the new "ElifFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "ElifFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ElifFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param thens The "thens" of the new "ElifFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "thens" later.
      * @return A new instance of the {@link ElifFuncStatement} class.
      */
@@ -1421,7 +1421,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link ElifUpdate} class.
      *
      * @param guards The "guards" of the new "ElifUpdate". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "ElifUpdate". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ElifUpdate". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param thens The "thens" of the new "ElifUpdate". Multiplicity [1..*]. May be {@code null} to set the "thens" later.
      * @return A new instance of the {@link ElifUpdate} class.
      */
@@ -1453,7 +1453,7 @@ public class CifConstructors {
      *
      * @param literals The "literals" of the new "EnumDecl". Multiplicity [1..*]. May be {@code null} to set the "literals" later.
      * @param name The "name" of the new "EnumDecl". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "EnumDecl". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumDecl". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EnumDecl} class.
      */
     public static EnumDecl newEnumDecl(List<EnumLiteral> literals, String name, Position position) {
@@ -1483,7 +1483,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EnumLiteral} class.
      *
      * @param name The "name" of the new "EnumLiteral". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "EnumLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumLiteral". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EnumLiteral} class.
      */
     public static EnumLiteral newEnumLiteral(String name, Position position) {
@@ -1510,7 +1510,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EnumLiteralExpression} class.
      *
      * @param literal The "literal" of the new "EnumLiteralExpression". Multiplicity [1..1]. May be {@code null} to set the "literal" later.
-     * @param position The "position" of the new "EnumLiteralExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumLiteralExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "EnumLiteralExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link EnumLiteralExpression} class.
      */
@@ -1541,7 +1541,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EnumType} class.
      *
      * @param _enum The "enum" of the new "EnumType". Multiplicity [1..1]. May be {@code null} to set the "enum" later.
-     * @param position The "position" of the new "EnumType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EnumType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link EnumType} class.
      */
     public static EnumType newEnumType(EnumDecl _enum, Position position) {
@@ -1568,7 +1568,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link Equation} class.
      *
      * @param derivative The "derivative" of the new "Equation". Multiplicity [1..1]. May be {@code null} to set the "derivative" later.
-     * @param position The "position" of the new "Equation". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Equation". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "Equation". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @param variable The "variable" of the new "Equation". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link Equation} class.
@@ -1602,10 +1602,10 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Event} class.
      *
-     * @param controllable The "controllable" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "controllable".
+     * @param controllable The "controllable" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "controllable", or to set it later.
      * @param name The "name" of the new "Event". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param type The "type" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "type".
+     * @param position The "position" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param type The "type" of the new "Event". Multiplicity [0..1]. May be {@code null} to skip setting the "type", or to set it later.
      * @return A new instance of the {@link Event} class.
      */
     public static Event newEvent(Boolean controllable, String name, Position position, CifType type) {
@@ -1638,7 +1638,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EventExpression} class.
      *
      * @param event The "event" of the new "EventExpression". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param position The "position" of the new "EventExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EventExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "EventExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link EventExpression} class.
      */
@@ -1669,7 +1669,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link EventParameter} class.
      *
      * @param event The "event" of the new "EventParameter". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param position The "position" of the new "EventParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "EventParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param recvFlag The "recvFlag" of the new "EventParameter". Multiplicity [1..1]. May be {@code null} to set the "recvFlag" later.
      * @param sendFlag The "sendFlag" of the new "EventParameter". Multiplicity [1..1]. May be {@code null} to set the "sendFlag" later.
      * @param syncFlag The "syncFlag" of the new "EventParameter". Multiplicity [1..1]. May be {@code null} to set the "syncFlag" later.
@@ -1709,8 +1709,8 @@ public class CifConstructors {
      *
      * @param function The "function" of the new "ExternalFunction". Multiplicity [1..1]. May be {@code null} to set the "function" later.
      * @param name The "name" of the new "ExternalFunction". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param parameters The "parameters" of the new "ExternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters".
-     * @param position The "position" of the new "ExternalFunction". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param parameters The "parameters" of the new "ExternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
+     * @param position The "position" of the new "ExternalFunction". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param returnTypes The "returnTypes" of the new "ExternalFunction". Multiplicity [1..*]. May be {@code null} to set the "returnTypes" later.
      * @return A new instance of the {@link ExternalFunction} class.
      */
@@ -1746,8 +1746,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Field} class.
      *
-     * @param name The "name" of the new "Field". Multiplicity [0..1]. May be {@code null} to skip setting the "name".
-     * @param position The "position" of the new "Field". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param name The "name" of the new "Field". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
+     * @param position The "position" of the new "Field". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "Field". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link Field} class.
      */
@@ -1778,7 +1778,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link FieldExpression} class.
      *
      * @param field The "field" of the new "FieldExpression". Multiplicity [1..1]. May be {@code null} to set the "field" later.
-     * @param position The "position" of the new "FieldExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "FieldExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "FieldExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link FieldExpression} class.
      */
@@ -1808,8 +1808,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link FuncType} class.
      *
-     * @param paramTypes The "paramTypes" of the new "FuncType". Multiplicity [0..*]. May be {@code null} to skip setting the "paramTypes".
-     * @param position The "position" of the new "FuncType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param paramTypes The "paramTypes" of the new "FuncType". Multiplicity [0..*]. May be {@code null} to skip setting the "paramTypes", or to set it later.
+     * @param position The "position" of the new "FuncType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param returnType The "returnType" of the new "FuncType". Multiplicity [1..1]. May be {@code null} to set the "returnType" later.
      * @return A new instance of the {@link FuncType} class.
      */
@@ -1840,8 +1840,8 @@ public class CifConstructors {
      * Returns a new instance of the {@link FunctionCallExpression} class.
      *
      * @param function The "function" of the new "FunctionCallExpression". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param params The "params" of the new "FunctionCallExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "params".
-     * @param position The "position" of the new "FunctionCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param params The "params" of the new "FunctionCallExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "params", or to set it later.
+     * @param position The "position" of the new "FunctionCallExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "FunctionCallExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link FunctionCallExpression} class.
      */
@@ -1875,7 +1875,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link FunctionExpression} class.
      *
      * @param function The "function" of the new "FunctionExpression". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param position The "position" of the new "FunctionExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "FunctionExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "FunctionExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link FunctionExpression} class.
      */
@@ -1906,7 +1906,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link FunctionParameter} class.
      *
      * @param parameter The "parameter" of the new "FunctionParameter". Multiplicity [1..1]. May be {@code null} to set the "parameter" later.
-     * @param position The "position" of the new "FunctionParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "FunctionParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link FunctionParameter} class.
      */
     public static FunctionParameter newFunctionParameter(DiscVariable parameter, Position position) {
@@ -1932,16 +1932,16 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Group} class.
      *
-     * @param components The "components" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "components".
-     * @param declarations The "declarations" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations".
-     * @param definitions The "definitions" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "definitions".
-     * @param equations The "equations" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "equations".
-     * @param initials The "initials" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "initials".
-     * @param invariants The "invariants" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants".
-     * @param ioDecls The "ioDecls" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "ioDecls".
-     * @param markeds The "markeds" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds".
+     * @param components The "components" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "components", or to set it later.
+     * @param declarations The "declarations" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
+     * @param definitions The "definitions" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "definitions", or to set it later.
+     * @param equations The "equations" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "equations", or to set it later.
+     * @param initials The "initials" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "initials", or to set it later.
+     * @param invariants The "invariants" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants", or to set it later.
+     * @param ioDecls The "ioDecls" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "ioDecls", or to set it later.
+     * @param markeds The "markeds" of the new "Group". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds", or to set it later.
      * @param name The "name" of the new "Group". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "Group". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Group". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Group} class.
      */
     public static Group newGroup(List<Component> components, List<Declaration> declarations, List<ComponentDef> definitions, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, List<Expression> markeds, String name, Position position) {
@@ -1991,10 +1991,10 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link IfExpression} class.
      *
-     * @param elifs The "elifs" of the new "IfExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elifs".
+     * @param elifs The "elifs" of the new "IfExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elifs", or to set it later.
      * @param _else The "else" of the new "IfExpression". Multiplicity [1..1]. May be {@code null} to set the "else" later.
      * @param guards The "guards" of the new "IfExpression". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "IfExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IfExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param then The "then" of the new "IfExpression". Multiplicity [1..1]. May be {@code null} to set the "then" later.
      * @param type The "type" of the new "IfExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link IfExpression} class.
@@ -2034,10 +2034,10 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link IfFuncStatement} class.
      *
-     * @param elifs The "elifs" of the new "IfFuncStatement". Multiplicity [0..*]. May be {@code null} to skip setting the "elifs".
-     * @param elses The "elses" of the new "IfFuncStatement". Multiplicity [0..*]. May be {@code null} to skip setting the "elses".
+     * @param elifs The "elifs" of the new "IfFuncStatement". Multiplicity [0..*]. May be {@code null} to skip setting the "elifs", or to set it later.
+     * @param elses The "elses" of the new "IfFuncStatement". Multiplicity [0..*]. May be {@code null} to skip setting the "elses", or to set it later.
      * @param guards The "guards" of the new "IfFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "IfFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IfFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param thens The "thens" of the new "IfFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "thens" later.
      * @return A new instance of the {@link IfFuncStatement} class.
      */
@@ -2073,10 +2073,10 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link IfUpdate} class.
      *
-     * @param elifs The "elifs" of the new "IfUpdate". Multiplicity [0..*]. May be {@code null} to skip setting the "elifs".
-     * @param elses The "elses" of the new "IfUpdate". Multiplicity [0..*]. May be {@code null} to skip setting the "elses".
+     * @param elifs The "elifs" of the new "IfUpdate". Multiplicity [0..*]. May be {@code null} to skip setting the "elifs", or to set it later.
+     * @param elses The "elses" of the new "IfUpdate". Multiplicity [0..*]. May be {@code null} to skip setting the "elses", or to set it later.
      * @param guards The "guards" of the new "IfUpdate". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "IfUpdate". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IfUpdate". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param thens The "thens" of the new "IfUpdate". Multiplicity [1..*]. May be {@code null} to set the "thens" later.
      * @return A new instance of the {@link IfUpdate} class.
      */
@@ -2113,7 +2113,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link InputVariable} class.
      *
      * @param name The "name" of the new "InputVariable". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "InputVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "InputVariable". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "InputVariable". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link InputVariable} class.
      */
@@ -2143,7 +2143,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link InputVariableExpression} class.
      *
-     * @param position The "position" of the new "InputVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "InputVariableExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "InputVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param variable The "variable" of the new "InputVariableExpression". Multiplicity [1..1]. May be {@code null} to set the "variable" later.
      * @return A new instance of the {@link InputVariableExpression} class.
@@ -2174,7 +2174,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link IntExpression} class.
      *
-     * @param position The "position" of the new "IntExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "IntExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "IntExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "IntExpression". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link IntExpression} class.
@@ -2205,9 +2205,9 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link IntType} class.
      *
-     * @param lower The "lower" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "lower".
-     * @param position The "position" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param upper The "upper" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "upper".
+     * @param lower The "lower" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "lower", or to set it later.
+     * @param position The "position" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param upper The "upper" of the new "IntType". Multiplicity [0..1]. May be {@code null} to skip setting the "upper", or to set it later.
      * @return A new instance of the {@link IntType} class.
      */
     public static IntType newIntType(Integer lower, Position position, Integer upper) {
@@ -2237,11 +2237,11 @@ public class CifConstructors {
      * Returns a new instance of the {@link InternalFunction} class.
      *
      * @param name The "name" of the new "InternalFunction". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param parameters The "parameters" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters".
-     * @param position The "position" of the new "InternalFunction". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param parameters The "parameters" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "parameters", or to set it later.
+     * @param position The "position" of the new "InternalFunction". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param returnTypes The "returnTypes" of the new "InternalFunction". Multiplicity [1..*]. May be {@code null} to set the "returnTypes" later.
      * @param statements The "statements" of the new "InternalFunction". Multiplicity [1..*]. May be {@code null} to set the "statements" later.
-     * @param variables The "variables" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "variables".
+     * @param variables The "variables" of the new "InternalFunction". Multiplicity [0..*]. May be {@code null} to skip setting the "variables", or to set it later.
      * @return A new instance of the {@link InternalFunction} class.
      */
     public static InternalFunction newInternalFunction(String name, List<FunctionParameter> parameters, Position position, List<CifType> returnTypes, List<FunctionStatement> statements, List<DiscVariable> variables) {
@@ -2279,9 +2279,9 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Invariant} class.
      *
-     * @param event The "event" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "event".
+     * @param event The "event" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "event", or to set it later.
      * @param invKind The "invKind" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "invKind" later.
-     * @param position The "position" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Invariant". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param predicate The "predicate" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "predicate" later.
      * @param supKind The "supKind" of the new "Invariant". Multiplicity [1..1]. May be {@code null} to set the "supKind" later.
      * @return A new instance of the {@link Invariant} class.
@@ -2318,8 +2318,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ListExpression} class.
      *
-     * @param elements The "elements" of the new "ListExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements".
-     * @param position The "position" of the new "ListExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param elements The "elements" of the new "ListExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements", or to set it later.
+     * @param position The "position" of the new "ListExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ListExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link ListExpression} class.
      */
@@ -2350,9 +2350,9 @@ public class CifConstructors {
      * Returns a new instance of the {@link ListType} class.
      *
      * @param elementType The "elementType" of the new "ListType". Multiplicity [1..1]. May be {@code null} to set the "elementType" later.
-     * @param lower The "lower" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "lower".
-     * @param position The "position" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param upper The "upper" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "upper".
+     * @param lower The "lower" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "lower", or to set it later.
+     * @param position The "position" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param upper The "upper" of the new "ListType". Multiplicity [0..1]. May be {@code null} to skip setting the "upper", or to set it later.
      * @return A new instance of the {@link ListType} class.
      */
     public static ListType newListType(CifType elementType, Integer lower, Position position, Integer upper) {
@@ -2384,13 +2384,13 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Location} class.
      *
-     * @param edges The "edges" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "edges".
-     * @param equations The "equations" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "equations".
-     * @param initials The "initials" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "initials".
-     * @param invariants The "invariants" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants".
-     * @param markeds The "markeds" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds".
-     * @param name The "name" of the new "Location". Multiplicity [0..1]. May be {@code null} to skip setting the "name".
-     * @param position The "position" of the new "Location". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param edges The "edges" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "edges", or to set it later.
+     * @param equations The "equations" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "equations", or to set it later.
+     * @param initials The "initials" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "initials", or to set it later.
+     * @param invariants The "invariants" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants", or to set it later.
+     * @param markeds The "markeds" of the new "Location". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds", or to set it later.
+     * @param name The "name" of the new "Location". Multiplicity [0..1]. May be {@code null} to skip setting the "name", or to set it later.
+     * @param position The "position" of the new "Location". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param urgent The "urgent" of the new "Location". Multiplicity [1..1]. May be {@code null} to set the "urgent" later.
      * @return A new instance of the {@link Location} class.
      */
@@ -2436,7 +2436,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link LocationExpression} class.
      *
      * @param location The "location" of the new "LocationExpression". Multiplicity [1..1]. May be {@code null} to set the "location" later.
-     * @param position The "position" of the new "LocationExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "LocationExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "LocationExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link LocationExpression} class.
      */
@@ -2467,7 +2467,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link LocationParameter} class.
      *
      * @param location The "location" of the new "LocationParameter". Multiplicity [1..1]. May be {@code null} to set the "location" later.
-     * @param position The "position" of the new "LocationParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "LocationParameter". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link LocationParameter} class.
      */
     public static LocationParameter newLocationParameter(Location location, Position position) {
@@ -2493,8 +2493,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Monitors} class.
      *
-     * @param events The "events" of the new "Monitors". Multiplicity [0..*]. May be {@code null} to skip setting the "events".
-     * @param position The "position" of the new "Monitors". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param events The "events" of the new "Monitors". Multiplicity [0..*]. May be {@code null} to skip setting the "events", or to set it later.
+     * @param position The "position" of the new "Monitors". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Monitors} class.
      */
     public static Monitors newMonitors(List<Expression> events, Position position) {
@@ -2520,13 +2520,13 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Print} class.
      *
-     * @param file The "file" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "file".
-     * @param fors The "fors" of the new "Print". Multiplicity [0..*]. May be {@code null} to skip setting the "fors".
-     * @param position The "position" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param txtPost The "txtPost" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "txtPost".
-     * @param txtPre The "txtPre" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "txtPre".
-     * @param whenPost The "whenPost" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "whenPost".
-     * @param whenPre The "whenPre" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "whenPre".
+     * @param file The "file" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "file", or to set it later.
+     * @param fors The "fors" of the new "Print". Multiplicity [0..*]. May be {@code null} to skip setting the "fors", or to set it later.
+     * @param position The "position" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param txtPost The "txtPost" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "txtPost", or to set it later.
+     * @param txtPre The "txtPre" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "txtPre", or to set it later.
+     * @param whenPost The "whenPost" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "whenPost", or to set it later.
+     * @param whenPre The "whenPre" of the new "Print". Multiplicity [0..1]. May be {@code null} to skip setting the "whenPre", or to set it later.
      * @return A new instance of the {@link Print} class.
      */
     public static Print newPrint(PrintFile file, List<PrintFor> fors, Position position, Expression txtPost, Expression txtPre, Expression whenPost, Expression whenPre) {
@@ -2568,7 +2568,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link PrintFile} class.
      *
      * @param path The "path" of the new "PrintFile". Multiplicity [1..1]. May be {@code null} to set the "path" later.
-     * @param position The "position" of the new "PrintFile". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "PrintFile". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link PrintFile} class.
      */
     public static PrintFile newPrintFile(String path, Position position) {
@@ -2594,9 +2594,9 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link PrintFor} class.
      *
-     * @param event The "event" of the new "PrintFor". Multiplicity [0..1]. May be {@code null} to skip setting the "event".
+     * @param event The "event" of the new "PrintFor". Multiplicity [0..1]. May be {@code null} to skip setting the "event", or to set it later.
      * @param kind The "kind" of the new "PrintFor". Multiplicity [1..1]. May be {@code null} to set the "kind" later.
-     * @param position The "position" of the new "PrintFor". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "PrintFor". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link PrintFor} class.
      */
     public static PrintFor newPrintFor(Expression event, PrintForKind kind, Position position) {
@@ -2627,7 +2627,7 @@ public class CifConstructors {
      *
      * @param child The "child" of the new "ProjectionExpression". Multiplicity [1..1]. May be {@code null} to set the "child" later.
      * @param index The "index" of the new "ProjectionExpression". Multiplicity [1..1]. May be {@code null} to set the "index" later.
-     * @param position The "position" of the new "ProjectionExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ProjectionExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ProjectionExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link ProjectionExpression} class.
      */
@@ -2660,7 +2660,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link RealExpression} class.
      *
-     * @param position The "position" of the new "RealExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "RealExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "RealExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "RealExpression". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link RealExpression} class.
@@ -2691,7 +2691,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link RealType} class.
      *
-     * @param position The "position" of the new "RealType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "RealType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link RealType} class.
      */
     public static RealType newRealType(Position position) {
@@ -2714,7 +2714,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ReceivedExpression} class.
      *
-     * @param position The "position" of the new "ReceivedExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ReceivedExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "ReceivedExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link ReceivedExpression} class.
      */
@@ -2741,7 +2741,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link ReturnFuncStatement} class.
      *
-     * @param position The "position" of the new "ReturnFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "ReturnFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param values The "values" of the new "ReturnFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "values" later.
      * @return A new instance of the {@link ReturnFuncStatement} class.
      */
@@ -2768,7 +2768,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link SelfExpression} class.
      *
-     * @param position The "position" of the new "SelfExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SelfExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "SelfExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link SelfExpression} class.
      */
@@ -2795,8 +2795,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link SetExpression} class.
      *
-     * @param elements The "elements" of the new "SetExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements".
-     * @param position The "position" of the new "SetExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param elements The "elements" of the new "SetExpression". Multiplicity [0..*]. May be {@code null} to skip setting the "elements", or to set it later.
+     * @param position The "position" of the new "SetExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "SetExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link SetExpression} class.
      */
@@ -2827,7 +2827,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link SetType} class.
      *
      * @param elementType The "elementType" of the new "SetType". Multiplicity [1..1]. May be {@code null} to set the "elementType" later.
-     * @param position The "position" of the new "SetType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SetType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SetType} class.
      */
     public static SetType newSetType(CifType elementType, Position position) {
@@ -2853,10 +2853,10 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link SliceExpression} class.
      *
-     * @param begin The "begin" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "begin".
+     * @param begin The "begin" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "begin", or to set it later.
      * @param child The "child" of the new "SliceExpression". Multiplicity [1..1]. May be {@code null} to set the "child" later.
-     * @param end The "end" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "end".
-     * @param position The "position" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param end The "end" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "end", or to set it later.
+     * @param position The "position" of the new "SliceExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "SliceExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link SliceExpression} class.
      */
@@ -2892,16 +2892,16 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link Specification} class.
      *
-     * @param components The "components" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "components".
-     * @param declarations The "declarations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations".
-     * @param definitions The "definitions" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "definitions".
-     * @param equations The "equations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "equations".
-     * @param initials The "initials" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "initials".
-     * @param invariants The "invariants" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants".
-     * @param ioDecls The "ioDecls" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "ioDecls".
-     * @param markeds The "markeds" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds".
+     * @param components The "components" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "components", or to set it later.
+     * @param declarations The "declarations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "declarations", or to set it later.
+     * @param definitions The "definitions" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "definitions", or to set it later.
+     * @param equations The "equations" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "equations", or to set it later.
+     * @param initials The "initials" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "initials", or to set it later.
+     * @param invariants The "invariants" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "invariants", or to set it later.
+     * @param ioDecls The "ioDecls" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "ioDecls", or to set it later.
+     * @param markeds The "markeds" of the new "Specification". Multiplicity [0..*]. May be {@code null} to skip setting the "markeds", or to set it later.
      * @param name The "name" of the new "Specification". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "Specification". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "Specification". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link Specification} class.
      */
     public static Specification newSpecification(List<Component> components, List<Declaration> declarations, List<ComponentDef> definitions, List<Equation> equations, List<Expression> initials, List<Invariant> invariants, List<IoDecl> ioDecls, List<Expression> markeds, String name, Position position) {
@@ -2952,7 +2952,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link StdLibFunctionExpression} class.
      *
      * @param function The "function" of the new "StdLibFunctionExpression". Multiplicity [1..1]. May be {@code null} to set the "function" later.
-     * @param position The "position" of the new "StdLibFunctionExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "StdLibFunctionExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "StdLibFunctionExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link StdLibFunctionExpression} class.
      */
@@ -2982,7 +2982,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link StringExpression} class.
      *
-     * @param position The "position" of the new "StringExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "StringExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "StringExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "StringExpression". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link StringExpression} class.
@@ -3013,7 +3013,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link StringType} class.
      *
-     * @param position The "position" of the new "StringType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "StringType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link StringType} class.
      */
     public static StringType newStringType(Position position) {
@@ -3037,10 +3037,10 @@ public class CifConstructors {
      * Returns a new instance of the {@link SvgCopy} class.
      *
      * @param id The "id" of the new "SvgCopy". Multiplicity [1..1]. May be {@code null} to set the "id" later.
-     * @param position The "position" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param post The "post" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "post".
-     * @param pre The "pre" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "pre".
-     * @param svgFile The "svgFile" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile".
+     * @param position The "position" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param post The "post" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "post", or to set it later.
+     * @param pre The "pre" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "pre", or to set it later.
+     * @param svgFile The "svgFile" of the new "SvgCopy". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile", or to set it later.
      * @return A new instance of the {@link SvgCopy} class.
      */
     public static SvgCopy newSvgCopy(Expression id, Position position, Expression post, Expression pre, SvgFile svgFile) {
@@ -3076,7 +3076,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link SvgFile} class.
      *
      * @param path The "path" of the new "SvgFile". Multiplicity [1..1]. May be {@code null} to set the "path" later.
-     * @param position The "position" of the new "SvgFile". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SvgFile". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SvgFile} class.
      */
     public static SvgFile newSvgFile(String path, Position position) {
@@ -3104,8 +3104,8 @@ public class CifConstructors {
      *
      * @param event The "event" of the new "SvgIn". Multiplicity [1..1]. May be {@code null} to set the "event" later.
      * @param id The "id" of the new "SvgIn". Multiplicity [1..1]. May be {@code null} to set the "id" later.
-     * @param position The "position" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param svgFile The "svgFile" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile".
+     * @param position The "position" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param svgFile The "svgFile" of the new "SvgIn". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile", or to set it later.
      * @return A new instance of the {@link SvgIn} class.
      */
     public static SvgIn newSvgIn(SvgInEvent event, Expression id, Position position, SvgFile svgFile) {
@@ -3138,7 +3138,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link SvgInEventIf} class.
      *
      * @param entries The "entries" of the new "SvgInEventIf". Multiplicity [2..*]. May be {@code null} to set the "entries" later.
-     * @param position The "position" of the new "SvgInEventIf". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SvgInEventIf". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SvgInEventIf} class.
      */
     public static SvgInEventIf newSvgInEventIf(List<SvgInEventIfEntry> entries, Position position) {
@@ -3165,8 +3165,8 @@ public class CifConstructors {
      * Returns a new instance of the {@link SvgInEventIfEntry} class.
      *
      * @param event The "event" of the new "SvgInEventIfEntry". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param guard The "guard" of the new "SvgInEventIfEntry". Multiplicity [0..1]. May be {@code null} to skip setting the "guard".
-     * @param position The "position" of the new "SvgInEventIfEntry". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param guard The "guard" of the new "SvgInEventIfEntry". Multiplicity [0..1]. May be {@code null} to skip setting the "guard", or to set it later.
+     * @param position The "position" of the new "SvgInEventIfEntry". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SvgInEventIfEntry} class.
      */
     public static SvgInEventIfEntry newSvgInEventIfEntry(Expression event, Expression guard, Position position) {
@@ -3196,7 +3196,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link SvgInEventSingle} class.
      *
      * @param event The "event" of the new "SvgInEventSingle". Multiplicity [1..1]. May be {@code null} to set the "event" later.
-     * @param position The "position" of the new "SvgInEventSingle". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SvgInEventSingle". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link SvgInEventSingle} class.
      */
     public static SvgInEventSingle newSvgInEventSingle(Expression event, Position position) {
@@ -3223,8 +3223,8 @@ public class CifConstructors {
      * Returns a new instance of the {@link SvgMove} class.
      *
      * @param id The "id" of the new "SvgMove". Multiplicity [1..1]. May be {@code null} to set the "id" later.
-     * @param position The "position" of the new "SvgMove". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param svgFile The "svgFile" of the new "SvgMove". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile".
+     * @param position The "position" of the new "SvgMove". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param svgFile The "svgFile" of the new "SvgMove". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile", or to set it later.
      * @param x The "x" of the new "SvgMove". Multiplicity [1..1]. May be {@code null} to set the "x" later.
      * @param y The "y" of the new "SvgMove". Multiplicity [1..1]. May be {@code null} to set the "y" later.
      * @return A new instance of the {@link SvgMove} class.
@@ -3261,11 +3261,11 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link SvgOut} class.
      *
-     * @param attr The "attr" of the new "SvgOut". Multiplicity [0..1]. May be {@code null} to skip setting the "attr".
+     * @param attr The "attr" of the new "SvgOut". Multiplicity [0..1]. May be {@code null} to skip setting the "attr", or to set it later.
      * @param attrTextPos The "attrTextPos" of the new "SvgOut". Multiplicity [1..1]. May be {@code null} to set the "attrTextPos" later.
      * @param id The "id" of the new "SvgOut". Multiplicity [1..1]. May be {@code null} to set the "id" later.
-     * @param position The "position" of the new "SvgOut". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param svgFile The "svgFile" of the new "SvgOut". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile".
+     * @param position The "position" of the new "SvgOut". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param svgFile The "svgFile" of the new "SvgOut". Multiplicity [0..1]. May be {@code null} to skip setting the "svgFile", or to set it later.
      * @param value The "value" of the new "SvgOut". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link SvgOut} class.
      */
@@ -3304,8 +3304,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link SwitchCase} class.
      *
-     * @param key The "key" of the new "SwitchCase". Multiplicity [0..1]. May be {@code null} to skip setting the "key".
-     * @param position The "position" of the new "SwitchCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param key The "key" of the new "SwitchCase". Multiplicity [0..1]. May be {@code null} to skip setting the "key", or to set it later.
+     * @param position The "position" of the new "SwitchCase". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param value The "value" of the new "SwitchCase". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link SwitchCase} class.
      */
@@ -3336,7 +3336,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link SwitchExpression} class.
      *
      * @param cases The "cases" of the new "SwitchExpression". Multiplicity [1..*]. May be {@code null} to set the "cases" later.
-     * @param position The "position" of the new "SwitchExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "SwitchExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "SwitchExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @param value The "value" of the new "SwitchExpression". Multiplicity [1..1]. May be {@code null} to set the "value" later.
      * @return A new instance of the {@link SwitchExpression} class.
@@ -3370,7 +3370,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link TauExpression} class.
      *
-     * @param position The "position" of the new "TauExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TauExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TauExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TauExpression} class.
      */
@@ -3397,7 +3397,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link TimeExpression} class.
      *
-     * @param position The "position" of the new "TimeExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TimeExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TimeExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TimeExpression} class.
      */
@@ -3425,7 +3425,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link TupleExpression} class.
      *
      * @param fields The "fields" of the new "TupleExpression". Multiplicity [2..*]. May be {@code null} to set the "fields" later.
-     * @param position The "position" of the new "TupleExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TupleExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TupleExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TupleExpression} class.
      */
@@ -3456,7 +3456,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link TupleType} class.
      *
      * @param fields The "fields" of the new "TupleType". Multiplicity [2..*]. May be {@code null} to set the "fields" later.
-     * @param position The "position" of the new "TupleType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TupleType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link TupleType} class.
      */
     public static TupleType newTupleType(List<Field> fields, Position position) {
@@ -3483,7 +3483,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link TypeDecl} class.
      *
      * @param name The "name" of the new "TypeDecl". Multiplicity [1..1]. May be {@code null} to set the "name" later.
-     * @param position The "position" of the new "TypeDecl". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TypeDecl". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TypeDecl". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TypeDecl} class.
      */
@@ -3513,7 +3513,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link TypeRef} class.
      *
-     * @param position The "position" of the new "TypeRef". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "TypeRef". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "TypeRef". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link TypeRef} class.
      */
@@ -3542,7 +3542,7 @@ public class CifConstructors {
      *
      * @param child The "child" of the new "UnaryExpression". Multiplicity [1..1]. May be {@code null} to set the "child" later.
      * @param operator The "operator" of the new "UnaryExpression". Multiplicity [1..1]. May be {@code null} to set the "operator" later.
-     * @param position The "position" of the new "UnaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "UnaryExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "UnaryExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link UnaryExpression} class.
      */
@@ -3575,8 +3575,8 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link VariableValue} class.
      *
-     * @param position The "position" of the new "VariableValue". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
-     * @param values The "values" of the new "VariableValue". Multiplicity [0..*]. May be {@code null} to skip setting the "values".
+     * @param position The "position" of the new "VariableValue". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
+     * @param values The "values" of the new "VariableValue". Multiplicity [0..*]. May be {@code null} to skip setting the "values", or to set it later.
      * @return A new instance of the {@link VariableValue} class.
      */
     public static VariableValue newVariableValue(Position position, List<Expression> values) {
@@ -3602,7 +3602,7 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link VoidType} class.
      *
-     * @param position The "position" of the new "VoidType". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "VoidType". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @return A new instance of the {@link VoidType} class.
      */
     public static VoidType newVoidType(Position position) {
@@ -3626,7 +3626,7 @@ public class CifConstructors {
      * Returns a new instance of the {@link WhileFuncStatement} class.
      *
      * @param guards The "guards" of the new "WhileFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "guards" later.
-     * @param position The "position" of the new "WhileFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position".
+     * @param position The "position" of the new "WhileFuncStatement". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param statements The "statements" of the new "WhileFuncStatement". Multiplicity [1..*]. May be {@code null} to set the "statements" later.
      * @return A new instance of the {@link WhileFuncStatement} class.
      */

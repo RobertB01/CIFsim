@@ -161,8 +161,7 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         box.add();
 
         box.add("/**");
-        box.add(" * Helper class with static argument-less constructor methods for the \"%s\" language.",
-                pkg.getName());
+        box.add(" * Helper class with static constructor methods for the \"%s\" language.", pkg.getName());
         box.add(" */");
         box.add("public class %s {", genClassName);
 
@@ -242,12 +241,12 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         for (EStructuralFeature feat: feats) {
             if (feat.getLowerBound() == 0) {
                 box.add(" * @param %s The \"%s\" of the new \"%s\". Multiplicity %s. May be {@code null} to skip "
-                        + "setting the \"%s\".", JavaCodeUtils.makeJavaName(feat.getName()), feat.getName(), clsName,
-                        multiplicity(feat), feat.getName());
+                        + "setting the \"%s\", or to set it later.", JavaCodeUtils.makeJavaName(feat.getName()),
+                        feat.getName(), clsName, getMultiplicityText(feat), feat.getName());
             } else {
                 box.add(" * @param %s The \"%s\" of the new \"%s\". Multiplicity %s. May be {@code null} to set "
                         + "the \"%s\" later.", JavaCodeUtils.makeJavaName(feat.getName()), feat.getName(), clsName,
-                        multiplicity(feat), feat.getName());
+                        getMultiplicityText(feat), feat.getName());
             }
         }
         box.add(" * @return A new instance of the {@link %s} class.", clsName);
@@ -284,17 +283,13 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
     }
 
     /**
-     * returns the multiplicity of a feature as "[lowerBound..upperBound]".
+     * Returns the multiplicity of a feature as "[lowerBound..upperBound]".
      *
      * @param feat The feature.
      * @return The multiplicity.
      */
-    private static String multiplicity(EStructuralFeature feat) {
-        String upperBound = String.valueOf(feat.getUpperBound());
-        if (upperBound.equals("-1")) {
-            upperBound = "*";
-        }
-
+    private static String getMultiplicityText(EStructuralFeature feat) {
+        String upperBound = (feat.getUpperBound() == -1) ? "*" : String.valueOf(feat.getUpperBound());
         return fmt("[%d..%s]", feat.getLowerBound(), upperBound);
     }
 }
