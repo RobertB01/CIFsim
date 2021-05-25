@@ -161,8 +161,7 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         box.add();
 
         box.add("/**");
-        box.add(" * Helper class with static argument-less constructor methods for the");
-        box.add(" * \"%s\" language.", pkg.getName());
+        box.add(" * Helper class with static constructor methods for the \"%s\" language.", pkg.getName());
         box.add(" */");
         box.add("public class %s {", genClassName);
 
@@ -205,7 +204,8 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         factName = Strings.slice(factName, 0, -4);
         box.indent();
         box.add("/**");
-        box.add(" * Returns a new instance of the {@link %s} class.", clsName);
+        box.add(" * Returns a new instance of the {@link %s} class. This constructs a new object, without setting any "
+                + "of its features.", clsName);
         box.add(" *");
         box.add(" * @return A new instance of the {@link %s} class.", clsName);
         box.add(" */");
@@ -239,8 +239,15 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
         box.add(" * Returns a new instance of the {@link %s} class.", clsName);
         box.add(" *");
         for (EStructuralFeature feat: feats) {
-            box.add(" * @param %s The \"%s\" of the new \"%s\". May be {@code null} to skip setting the \"%s\".",
-                    JavaCodeUtils.makeJavaName(feat.getName()), feat.getName(), clsName, feat.getName());
+            if (feat.getLowerBound() == 0) {
+                box.add(" * @param %s The \"%s\" of the new \"%s\". Multiplicity %s. May be {@code null} to skip "
+                        + "setting the \"%s\", or to set it later.", JavaCodeUtils.makeJavaName(feat.getName()),
+                        feat.getName(), clsName, getMultiplicityText(feat), feat.getName());
+            } else {
+                box.add(" * @param %s The \"%s\" of the new \"%s\". Multiplicity %s. May be {@code null} to set "
+                        + "the \"%s\" later.", JavaCodeUtils.makeJavaName(feat.getName()), feat.getName(), clsName,
+                        getMultiplicityText(feat), feat.getName());
+            }
         }
         box.add(" * @return A new instance of the {@link %s} class.", clsName);
         box.add(" */");
@@ -273,5 +280,16 @@ public class EmfConstructorsGenerator extends EmfJavaCodeGenerator {
 
         box.add("}");
         box.dedent();
+    }
+
+    /**
+     * Returns the multiplicity of a feature as "[lowerBound..upperBound]".
+     *
+     * @param feat The feature.
+     * @return The multiplicity.
+     */
+    private static String getMultiplicityText(EStructuralFeature feat) {
+        String upperBound = (feat.getUpperBound() == -1) ? "*" : String.valueOf(feat.getUpperBound());
+        return fmt("[%d..%s]", feat.getLowerBound(), upperBound);
     }
 }
