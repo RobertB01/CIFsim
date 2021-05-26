@@ -98,29 +98,37 @@
                 </executions>
             </plugin>
 
-            <!-- Create macOS .dmg package. -->
-            <plugin>
-                <groupId>org.eclipse.cbi.maven.plugins</groupId>
-                <artifactId>eclipse-dmg-packager</artifactId>
-                <version>${eclipse.cbi.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>package-dmg</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <source>${project.build.directory}/products/eclipse-escet-incubation-ide-${qualifiedVersion}-macosx.cocoa.x86_64.tar.gz</source>
-                            <sign>true</sign>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
     <profiles>
+        <!-- Additional packaging. -->
+        <profile>
+            <id>jenkins</id>
+            <build>
+                <plugins>
+                    <!-- Create macOS .dmg package. -->
+                    <plugin>
+                        <groupId>org.eclipse.cbi.maven.plugins</groupId>
+                        <artifactId>eclipse-dmg-packager</artifactId>
+                        <version>${eclipse.cbi.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package-dmg</goal>
+                                </goals>
+                                <phase>integration-test</phase>
+                                <configuration>
+                                    <source>${project.build.directory}/products/eclipse-escet-incubation-ide-${qualifiedVersion}-macosx.cocoa.x86_64.tar.gz</source>
+                                    <sign>true</sign>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- Signing and notarization. -->
         <profile>
             <id>sign</id>
@@ -198,6 +206,7 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 
 </project>
