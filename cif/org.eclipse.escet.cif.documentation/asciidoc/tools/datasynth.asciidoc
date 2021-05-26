@@ -225,9 +225,10 @@ implicitly for edges without explicitly mentioned events.
 supported. That is, requirements that send or receive (with or without data)
 are not supported.
 
-* Regular invariants, state plant invariants, and supervisor invariants are not
-supported. Only state/event exclusion plant invariants and requirement invariants
-are supported.
+* Kindless/regular invariants and supervisor invariants are not supported.
+For state invariants, only requirement invariants are supported. For
+state/event exclusion invariants, both plant and requirement invariants are
+supported.
 
 * Continuous variables are not supported.
 

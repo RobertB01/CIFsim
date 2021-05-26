@@ -28,18 +28,18 @@ State/event exclusion plants:
 State/event exclusion requirements:
   Event "caa" needs:
     false
-  Event "cea" needs:
-    false
   Event "cae" needs:
     true
+  Event "cea" needs:
+    false
   Event "cee" needs:
     true
   Event "uaa" needs:
     false
-  Event "uea" needs:
-    false
   Event "uae" needs:
     true
+  Event "uea" needs:
+    false
   Event "uee" needs:
     true
 

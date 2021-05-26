@@ -18,13 +18,13 @@ ERROR: Data-based supervisory controller synthesis failed due to unsatisfied pre
  - Unsupported automaton "req": requirement uses channels: "g.chan1", "g.chan2".
  - Unsupported automaton "sup": only plant and requirement automata are supported.
  - Unsupported event "g.evt": event is not declared as controllable or uncontrollable.
- - Unsupported group "g2a": only state/event exclusion plant invariants and requirement invariants are supported.
- - Unsupported group "g2b": only state/event exclusion plant invariants and requirement invariants are supported.
- - Unsupported group "g2c": only state/event exclusion plant invariants and requirement invariants are supported.
- - Unsupported group "g3a": only state/event exclusion plant invariants and requirement invariants are supported.
- - Unsupported group "g4a": only state/event exclusion plant invariants and requirement invariants are supported.
- - Unsupported group "g4b": only state/event exclusion plant invariants and requirement invariants are supported.
- - Unsupported group "g4c": only state/event exclusion plant invariants and requirement invariants are supported.
+ - Unsupported group "g2a": for state invariants, only requirement invariants are supported.
+ - Unsupported group "g2b": for state/event exclusion invariants, only plant and requirement invariants are supported.
+ - Unsupported group "g2c": for state/event exclusion invariants, only plant and requirement invariants are supported.
+ - Unsupported group "g3a": for state invariants, only requirement invariants are supported.
+ - Unsupported group "g4a": for state invariants, only requirement invariants are supported.
+ - Unsupported group "g4b": for state/event exclusion invariants, only plant and requirement invariants are supported.
+ - Unsupported group "g4c": for state/event exclusion invariants, only plant and requirement invariants are supported.
  - Unsupported location "l1" of automaton "r1": edges with "tau" events are not supported.
  - Unsupported location "l1" of automaton "r1": edges without events (implicitly event "tau") are not supported.
  - Unsupported location of automaton "p4": edges with "tau" events are not supported.

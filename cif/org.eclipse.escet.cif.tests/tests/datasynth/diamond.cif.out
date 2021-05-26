@@ -68,12 +68,12 @@ State/event exclusion plants:
 State/event exclusion requirements:
   Event "motor1.c_on" needs:
     order.l1
-  Event "motor2.c_off" needs:
-    order.l2
-  Event "motor2.c_on" needs:
-    order.l3
   Event "motor1.c_off" needs:
     order.l4
+  Event "motor2.c_on" needs:
+    order.l3
+  Event "motor2.c_off" needs:
+    order.l2
 
 Uncontrolled system:
   State: (controlled-behavior: ?)

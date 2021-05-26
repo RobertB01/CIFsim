@@ -35,10 +35,7 @@ State/event exclusion plants:
   None
 
 State/event exclusion requirements:
-  Event "q.c_not_in_alphabet" needs:
-    p.x != 3
-    p.x != 0
-    p.x != 2
+  None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)

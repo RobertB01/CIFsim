@@ -77,6 +77,7 @@ public class CifDataSynthesis {
             }
             checkSystem(aut, dbgEnabled);
 
+            // Apply plant invariants.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
@@ -384,16 +385,23 @@ public class CifDataSynthesis {
         }
 
         // Debug state/event exclusion plants.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
         if (dbgEnabled) {
             dbg();
             dbg("State/event exclusion plants:");
-            if (aut.stateEvtExclPlantLists.isEmpty()) {
+            if (aut.stateEvtExclPlantLists.values().stream().flatMap(x->x.stream()).findAny().isEmpty()) {
                 dbg("  None");
-            }
-            for (Entry<Event, List<BDD>> entry: aut.stateEvtExclPlantLists.entrySet()) {
-                dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
-                for (BDD pred: entry.getValue()) {
-                    dbg("    %s", bddToStr(pred, aut));
+            } else {
+                for (Entry<Event, List<BDD>> entry: aut.stateEvtExclPlantLists.entrySet()) {
+                    if (entry.getValue().isEmpty()) {
+                        continue;
+                    }
+                    dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
+                    for (BDD pred: entry.getValue()) {
+                        dbg("    %s", bddToStr(pred, aut));
+                    }
                 }
             }
         }
@@ -405,10 +413,13 @@ public class CifDataSynthesis {
         if (dbgEnabled) {
             dbg();
             dbg("State/event exclusion requirements:");
-            if (aut.stateEvtExclReqLists.isEmpty()) {
+            if (aut.stateEvtExclReqLists.values().stream().flatMap(x->x.stream()).findAny().isEmpty()) {
                 dbg("  None");
             }
             for (Entry<Event, List<BDD>> entry: aut.stateEvtExclReqLists.entrySet()) {
+                if (entry.getValue().isEmpty()) {
+                    continue;
+                }
                 dbg("  Event \"%s\" needs:", CifTextUtils.getAbsName(entry.getKey()));
                 for (BDD pred: entry.getValue()) {
                     dbg("    %s", bddToStr(pred, aut));
@@ -422,7 +433,7 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             dbg();
-            if (aut.stateEvtExclPlantLists.isEmpty()) {
+            if (aut.stateEvtExclPlantLists.values().stream().flatMap(x->x.stream()).findAny().isEmpty()) {
                 dbg("Uncontrolled system:");
             } else {
                 dbg("Uncontrolled system (state/event exclusion plants not applied yet):");
@@ -519,7 +530,6 @@ public class CifDataSynthesis {
         }
 
         boolean firstDbg = true;
-        boolean changed = false;
         boolean guardChanged = false;
         for (SynthesisEdge edge: aut.edges) {
             // Get additional condition for the edge. Skip if none.
@@ -550,7 +560,6 @@ public class CifDataSynthesis {
                 }
                 edge.guard.free();
                 edge.guard = newGuard;
-                changed = true;
                 guardChanged = true;
             }
         }
@@ -558,7 +567,7 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (dbgEnabled && changed) {
+        if (dbgEnabled && guardChanged) {
             dbg();
             dbg("Uncontrolled system:");
             dbg(aut.toString(1, guardChanged));

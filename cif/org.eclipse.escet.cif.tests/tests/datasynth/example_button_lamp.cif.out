@@ -68,12 +68,12 @@ State/event exclusion plants:
 State/event exclusion requirements:
   Event "Button1.u_pushed" needs:
     LampOnWhileButtonPushed.Released
-  Event "Lamp1.c_off" needs:
-    LampOnWhileButtonPushed.Released
   Event "Button1.u_released" needs:
     LampOnWhileButtonPushed.Pushed
   Event "Lamp1.c_on" needs:
     LampOnWhileButtonPushed.Pushed
+  Event "Lamp1.c_off" needs:
+    LampOnWhileButtonPushed.Released
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
