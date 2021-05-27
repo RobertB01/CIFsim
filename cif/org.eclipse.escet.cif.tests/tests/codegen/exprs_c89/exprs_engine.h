@@ -13,7 +13,6 @@
 enum Enumexprs_ {
     _exprs_A,
     _exprs_B,
-    _exprs_X,
 };
 typedef enum Enumexprs_ exprsEnum;
 
@@ -91,7 +90,6 @@ extern IntType inc_(IntType inc_x_);
 extern RealType model_time; /**< Current model time. */
 extern RealType x5_;           /**< Continuous variable "real x5". */
 extern IntType a1_x_;          /**< Discrete variable "int a1.x". */
-extern exprsEnum a1_;          /**< Discrete variable "E a1". */
 extern BoolType AA_vb_;        /**< Discrete variable "bool AA.vb". */
 extern IntType AA_vi_;         /**< Discrete variable "int AA.vi". */
 extern IntType AA_vp_;         /**< Discrete variable "int[1..3] AA.vp". */
@@ -235,7 +233,6 @@ extern IntType AA_f_sign2_;    /**< Discrete variable "int AA.f_sign2". */
 extern IntType AA_f_size1_;    /**< Discrete variable "int AA.f_size1". */
 extern IntType AA_f_size2_;    /**< Discrete variable "int AA.f_size2". */
 extern RealType AA_f_sqrt_;    /**< Discrete variable "real AA.f_sqrt". */
-extern exprsEnum AA_;          /**< Discrete variable "E AA". */
 
 /* Algebraic and derivative functions (use for output only). */
 RealType x5_deriv(void);

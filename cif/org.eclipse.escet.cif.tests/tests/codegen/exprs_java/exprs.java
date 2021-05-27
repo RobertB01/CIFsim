@@ -39,9 +39,6 @@ public abstract class exprs {
     /** Discrete variable "a1.x". */
     public int a1_x_;
 
-    /** Discrete variable "a1". */
-    public exprsEnum a1_;
-
     /** Discrete variable "AA.vb". */
     public boolean AA_vb_;
 
@@ -471,9 +468,6 @@ public abstract class exprs {
     /** Discrete variable "AA.f_sqrt". */
     public double AA_f_sqrt_;
 
-    /** Discrete variable "AA". */
-    public exprsEnum AA_;
-
     /** Input variable "x8". */
     public int x8_;
 
@@ -603,9 +597,6 @@ public abstract class exprs {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = equalObjs(a1_, exprsEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(-1, true);
         if (doInfoEvent) infoEvent(-1, true);
 
@@ -624,7 +615,6 @@ public abstract class exprs {
     private void initState() {
         x5_ = 0.0;
         a1_x_ = 0;
-        a1_ = exprsEnum._X;
         AA_vb_ = true;
         AA_vi_ = 5;
         AA_vp_ = 2;
@@ -768,7 +758,6 @@ public abstract class exprs {
         AA_f_size1_ = size(AA_va_);
         AA_f_size2_ = size(AA_vs_);
         AA_f_sqrt_ = sqrt(AA_vr_);
-        AA_ = exprsEnum._X;
     }
 
     /**
@@ -1079,8 +1068,7 @@ public abstract class exprs {
     /** exprs enumeration. */
     public static enum exprsEnum {
         /** A */ _A,
-        /** B */ _B,
-        /** X */ _X;
+        /** B */ _B;
 
         @Override
         public String toString() {

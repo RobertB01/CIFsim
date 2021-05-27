@@ -261,7 +261,6 @@ const char *exprs_event_names[] = {
 const char *enum_names[] = {
     "A",
     "B",
-    "X",
 };
 
 /* Constants. */
@@ -294,7 +293,6 @@ IntType x8_; /**< Input variable "int x8". */
 /* State variables. */
 RealType x5_;           /**< Continuous variable "real x5". */
 IntType a1_x_;          /**< Discrete variable "int a1.x". */
-exprsEnum a1_;          /**< Discrete variable "E a1". */
 BoolType AA_vb_;        /**< Discrete variable "bool AA.vb". */
 IntType AA_vi_;         /**< Discrete variable "int AA.vi". */
 IntType AA_vp_;         /**< Discrete variable "int[1..3] AA.vp". */
@@ -438,7 +436,6 @@ IntType AA_f_sign2_;    /**< Discrete variable "int AA.f_sign2". */
 IntType AA_f_size1_;    /**< Discrete variable "int AA.f_size1". */
 IntType AA_f_size2_;    /**< Discrete variable "int AA.f_size2". */
 RealType AA_f_sqrt_;    /**< Discrete variable "real AA.f_sqrt". */
-exprsEnum AA_;          /**< Discrete variable "E AA". */
 
 RealType model_time; /**< Current model time. */
 
@@ -461,9 +458,6 @@ static void PrintOutput(exprs_Event_ event, BoolType pre) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
-    BoolType guard = (a1_) == (_exprs_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         exprs_InfoEvent(EVT_TAU_, TRUE);
     #endif
@@ -531,7 +525,6 @@ void exprs_EngineFirstStep(void) {
     exprs_AssignInputVariables();
     x5_ = 0.0;
     a1_x_ = 0;
-    a1_ = _exprs_X;
     AA_vb_ = TRUE;
     AA_vi_ = 5;
     AA_vp_ = 2;
@@ -680,7 +673,6 @@ void exprs_EngineFirstStep(void) {
     AA_f_size1_ = 2;
     AA_f_size2_ = StringTypeSize(&(AA_vs_));
     AA_f_sqrt_ = RealSqrt(AA_vr_);
-    AA_ = _exprs_X;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

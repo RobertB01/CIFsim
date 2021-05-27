@@ -1187,7 +1187,6 @@ enum Enumedges_ {
     _edges_loc1,
     _edges_loc2,
     _edges_loc3,
-    _edges_X,
 };
 typedef enum Enumedges_ edgesEnum;
 
@@ -2282,7 +2281,6 @@ static const char *enum_names[] = {
     "loc1",
     "loc2",
     "loc3",
-    "X",
 };
 
 /**
@@ -2306,7 +2304,7 @@ static BoolType GuardEval57(SimStruct *sim_struct) {
         work->aut14_b_ = SimulinkToBool(*uPtrs[0]);
         work->input_loaded00 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && (work->aut14_b_);
+    return work->aut14_b_;
 }
 
 static BoolType GuardEval58(SimStruct *sim_struct) {
@@ -2319,7 +2317,7 @@ static BoolType GuardEval58(SimStruct *sim_struct) {
         work->aut14_i_ = SimulinkToInt(*uPtrs[0]);
         work->input_loaded01 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && ((work->aut14_i_) > (3));
+    return (work->aut14_i_) > (3);
 }
 
 static BoolType GuardEval59(SimStruct *sim_struct) {
@@ -2337,7 +2335,7 @@ static BoolType GuardEval59(SimStruct *sim_struct) {
         work->aut14_i_ = SimulinkToInt(*uPtrs[0]);
         work->input_loaded01 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && ((RealAdd(work->aut14_r_, work->aut14_i_)) != (18.0));
+    return (RealAdd(work->aut14_r_, work->aut14_i_)) != (18.0);
 }
 
 static BoolType GuardEval60(SimStruct *sim_struct) {
@@ -2350,7 +2348,7 @@ static BoolType GuardEval60(SimStruct *sim_struct) {
         work->aut14_b_ = SimulinkToBool(*uPtrs[0]);
         work->input_loaded00 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && (!(work->aut14_b_));
+    return !(work->aut14_b_);
 }
 
 static BoolType GuardEval61(SimStruct *sim_struct) {
@@ -2363,7 +2361,7 @@ static BoolType GuardEval61(SimStruct *sim_struct) {
         work->aut14_i_ = SimulinkToInt(*uPtrs[0]);
         work->input_loaded01 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && ((IntegerNegate(work->aut14_i_)) < (5));
+    return (IntegerNegate(work->aut14_i_)) < (5);
 }
 
 static BoolType GuardEval62(SimStruct *sim_struct) {
@@ -2376,7 +2374,7 @@ static BoolType GuardEval62(SimStruct *sim_struct) {
         work->aut14_r_ = SimulinkToReal(*uPtrs[0]);
         work->input_loaded02 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && ((RealNegate(work->aut14_r_)) < (6));
+    return (RealNegate(work->aut14_r_)) < (6);
 }
 
 static BoolType GuardEval63(SimStruct *sim_struct) {
@@ -2389,7 +2387,7 @@ static BoolType GuardEval63(SimStruct *sim_struct) {
         work->aut14_i_ = SimulinkToInt(*uPtrs[0]);
         work->input_loaded01 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && ((work->aut14_i_) < (7));
+    return (work->aut14_i_) < (7);
 }
 
 static BoolType GuardEval64(SimStruct *sim_struct) {
@@ -2402,7 +2400,7 @@ static BoolType GuardEval64(SimStruct *sim_struct) {
         work->aut14_r_ = SimulinkToReal(*uPtrs[0]);
         work->input_loaded02 = TRUE;
     }
-    return ((modes[13]) == (_edges_X)) && ((work->aut14_r_) < (8));
+    return (work->aut14_r_) < (8);
 }
 
 /* Event execution. */
@@ -2417,16 +2415,16 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = ((modes[1]) == (_edges_loc1)) || (((modes[1]) == (_edges_loc2)) || ((modes[1]) == (_edges_loc3)));
+    BoolType guard = ((modes[0]) == (_edges_loc1)) || (((modes[0]) == (_edges_loc2)) || ((modes[0]) == (_edges_loc3)));
     if (!guard) return FALSE;
 
 
-    if ((modes[1]) == (_edges_loc1)) {
-        modes[1] = _edges_loc2;
-    } else if ((modes[1]) == (_edges_loc2)) {
-        modes[1] = _edges_loc3;
-    } else if ((modes[1]) == (_edges_loc3)) {
-        modes[1] = _edges_loc1;
+    if ((modes[0]) == (_edges_loc1)) {
+        modes[0] = _edges_loc2;
+    } else if ((modes[0]) == (_edges_loc2)) {
+        modes[0] = _edges_loc3;
+    } else if ((modes[0]) == (_edges_loc3)) {
+        modes[0] = _edges_loc1;
     }
 
     return TRUE;
@@ -2442,15 +2440,15 @@ static BoolType ExecEvent1(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (((modes[1]) == (_edges_loc1)) && ((work->aut02_x_) == (2))) || (((modes[1]) == (_edges_loc2)) || (((modes[1]) == (_edges_loc3)) && ((work->aut02_x_) == (3))));
+    BoolType guard = (((modes[0]) == (_edges_loc1)) && ((work->aut02_x_) == (2))) || (((modes[0]) == (_edges_loc2)) || (((modes[0]) == (_edges_loc3)) && ((work->aut02_x_) == (3))));
     if (!guard) return FALSE;
 
 
-    if (((modes[1]) == (_edges_loc1)) && ((work->aut02_x_) == (2))) {
-        modes[1] = _edges_loc1;
-    } else if ((modes[1]) == (_edges_loc2)) {
+    if (((modes[0]) == (_edges_loc1)) && ((work->aut02_x_) == (2))) {
+        modes[0] = _edges_loc1;
+    } else if ((modes[0]) == (_edges_loc2)) {
         work->aut02_x_ = 1;
-    } else if (((modes[1]) == (_edges_loc3)) && ((work->aut02_x_) == (3))) {
+    } else if (((modes[0]) == (_edges_loc3)) && ((work->aut02_x_) == (3))) {
         work->aut02_x_ = 1;
     }
 
@@ -2466,9 +2464,6 @@ static BoolType ExecEvent2(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[2]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     cstate[1] = 1.23;
@@ -2486,9 +2481,6 @@ static BoolType ExecEvent3(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[2]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut03_d_ = 2;
 
@@ -2504,9 +2496,6 @@ static BoolType ExecEvent4(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[3]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut04_a_) == (1)) {
@@ -2525,9 +2514,6 @@ static BoolType ExecEvent5(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[3]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut04_a_) == (1)) {
@@ -2548,9 +2534,6 @@ static BoolType ExecEvent6(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[3]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut04_a_) == (1)) {
@@ -2573,9 +2556,6 @@ static BoolType ExecEvent7(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[3]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut04_a_) == (1)) {
@@ -2601,9 +2581,6 @@ static BoolType ExecEvent8(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[3]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     if ((work->aut04_a_) == (1)) {
         work->aut04_b_ = 2;
@@ -2623,9 +2600,6 @@ static BoolType ExecEvent9(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[3]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut04_a_) == (1)) {
@@ -2652,9 +2626,6 @@ static BoolType ExecEvent10(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[4]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     {
         int_T rhs2 = 3;
@@ -2679,9 +2650,6 @@ static BoolType ExecEvent11(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[4]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -2708,9 +2676,6 @@ static BoolType ExecEvent12(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[4]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut05_v1_ = work->aut05_v2_;
 
@@ -2726,9 +2691,6 @@ static BoolType ExecEvent13(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[4]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -2755,9 +2717,6 @@ static BoolType ExecEvent14(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[4]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     {
         int_T rhs2 = A5ITypeProject(&(work->aut05_v2_), 1);
@@ -2783,9 +2742,6 @@ static BoolType ExecEvent15(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[5]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     (work->aut06_v1_)._field0 = 3;
     (work->aut06_v1_)._field1 = 4;
@@ -2802,9 +2758,6 @@ static BoolType ExecEvent16(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[5]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -2824,9 +2777,6 @@ static BoolType ExecEvent17(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[5]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -2848,9 +2798,6 @@ static BoolType ExecEvent18(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[5]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     (work->aut06_v1_)._field0 = IntegerAdd(work->aut06_x_, 1);
     (work->aut06_v1_)._field1 = IntegerMultiply(work->aut06_y_, 2);
@@ -2868,9 +2815,6 @@ static BoolType ExecEvent19(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[5]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut06_v1_ = work->aut06_v2_;
 
@@ -2886,9 +2830,6 @@ static BoolType ExecEvent20(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[6]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     cstate[2] = 5.0;
@@ -2906,9 +2847,6 @@ static BoolType ExecEvent21(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[6]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     cstate[3] = cstate[2];
     cstate[2] = 5.0;
@@ -2925,9 +2863,6 @@ static BoolType ExecEvent22(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     ((work->aut08_tt1_)._field0)._field0 = 1;
@@ -2947,9 +2882,6 @@ static BoolType ExecEvent23(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut08_tt1_ = work->aut08_tt2_;
 
@@ -2965,9 +2897,6 @@ static BoolType ExecEvent24(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -2987,9 +2916,6 @@ static BoolType ExecEvent25(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3012,9 +2938,6 @@ static BoolType ExecEvent26(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     {
         int_T rhs2 = 4;
@@ -3035,9 +2958,6 @@ static BoolType ExecEvent27(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3060,9 +2980,6 @@ static BoolType ExecEvent28(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     {
         T2IIType rhs2 = (work->aut08_tt1_)._field0;
@@ -3082,9 +2999,6 @@ static BoolType ExecEvent29(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[7]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3107,9 +3021,6 @@ static BoolType ExecEvent30(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     ((work->aut09_ll1_).data[0]).data[0] = 1;
     ((work->aut09_ll1_).data[0]).data[1] = 2;
@@ -3131,9 +3042,6 @@ static BoolType ExecEvent31(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut09_ll1_ = work->aut09_ll2_;
 
@@ -3149,9 +3057,6 @@ static BoolType ExecEvent32(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3172,9 +3077,6 @@ static BoolType ExecEvent33(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3199,9 +3101,6 @@ static BoolType ExecEvent34(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut09_i_ = A3ITypeProject(&(work->aut09_l_), 0);
 
@@ -3218,9 +3117,6 @@ static BoolType ExecEvent35(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut09_i_ = A3ITypeProject(A2A3ITypeProject(&(work->aut09_ll1_), 0), 1);
 
@@ -3236,9 +3132,6 @@ static BoolType ExecEvent36(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[8]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     ((work->aut09_ll1_).data[0]).data[0] = work->aut09_i_;
@@ -3261,9 +3154,6 @@ static BoolType ExecEvent37(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut10_x1_ = work->aut10_x2_;
 
@@ -3279,9 +3169,6 @@ static BoolType ExecEvent38(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     StringTypeCopyText(&((work->aut10_x1_)._field0), "abc");
@@ -3302,9 +3189,6 @@ static BoolType ExecEvent39(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3336,9 +3220,6 @@ static BoolType ExecEvent40(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     {
         T2A1IA1RType tuple_tmp3;
@@ -3363,9 +3244,6 @@ static BoolType ExecEvent41(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3394,9 +3272,6 @@ static BoolType ExecEvent42(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut10_l_ = (work->aut10_x1_)._field1;
 
@@ -3412,9 +3287,6 @@ static BoolType ExecEvent43(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     work->aut10_li_ = (A2T2A1IA1RTypeProject(&((work->aut10_x1_)._field1), 0))->_field0;
@@ -3432,9 +3304,6 @@ static BoolType ExecEvent44(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut10_lr_ = (A2T2A1IA1RTypeProject(&((work->aut10_x1_)._field1), 0))->_field1;
 
@@ -3450,9 +3319,6 @@ static BoolType ExecEvent45(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[9]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     work->aut10_i_ = A1ITypeProject(&((A2T2A1IA1RTypeProject(&((work->aut10_x1_)._field1), 0))->_field0), 0);
@@ -3470,9 +3336,6 @@ static BoolType ExecEvent46(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[10]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if (((A3T2IITypeProject(&(work->aut11_v1_), 0))->_field0) == (1)) {
@@ -3515,9 +3378,6 @@ static BoolType ExecEvent47(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[11]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut12_z_ = aut12_v_(sim_struct);
     work->aut12_x_ = 1.0;
@@ -3535,9 +3395,6 @@ static BoolType ExecEvent48(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[11]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3558,9 +3415,6 @@ static BoolType ExecEvent49(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[11]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     {
@@ -3583,9 +3437,6 @@ static BoolType ExecEvent50(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[11]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     {
         real_T aut12_t_tmp2 = deriv04(sim_struct);
@@ -3606,9 +3457,6 @@ static BoolType ExecEvent51(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[11]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut12_td_ = deriv05(sim_struct);
     work->aut12_x_ = 1.0;
@@ -3627,9 +3475,6 @@ static BoolType ExecEvent52(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[12]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     work->aut13_x_ = 1.0;
 
@@ -3645,9 +3490,6 @@ static BoolType ExecEvent53(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[12]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut13_z_) == (5.0)) {
@@ -3669,9 +3511,6 @@ static BoolType ExecEvent54(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[12]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     if ((work->aut13_z_) == (5.0)) {
         work->aut13_x_ = 2.0;
@@ -3691,9 +3530,6 @@ static BoolType ExecEvent55(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[12]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((work->aut13_z_) == (5.0)) {
@@ -3716,9 +3552,6 @@ static BoolType ExecEvent56(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[12]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     if ((aut13_w_(sim_struct)) == (4.0)) {
@@ -3876,9 +3709,6 @@ static BoolType ExecEvent65(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[0]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     return TRUE;
 }
@@ -3892,9 +3722,6 @@ static BoolType ExecEvent66(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[0]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     return TRUE;
@@ -3910,9 +3737,6 @@ static BoolType ExecEvent67(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[0]) == (_edges_X);
-    if (!guard) return FALSE;
-
 
     return TRUE;
 }
@@ -3926,9 +3750,6 @@ static BoolType ExecEvent68(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[0]) == (_edges_X);
-    if (!guard) return FALSE;
 
 
     return TRUE;
@@ -3960,7 +3781,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 51)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 38)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
@@ -3974,47 +3795,34 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 9, 1);
     ssSetOutputPortWidth(sim_struct, 10, 1);
     ssSetOutputPortWidth(sim_struct, 11, 1);
-    ssSetOutputPortWidth(sim_struct, 12, 1);
-    ssSetOutputPortWidth(sim_struct, 13, 1);
+    ssSetOutputPortWidth(sim_struct, 12, 5);
+    ssSetOutputPortWidth(sim_struct, 13, 5);
     ssSetOutputPortWidth(sim_struct, 14, 1);
     ssSetOutputPortWidth(sim_struct, 15, 1);
     ssSetOutputPortWidth(sim_struct, 16, 1);
     ssSetOutputPortWidth(sim_struct, 17, 1);
     ssSetOutputPortWidth(sim_struct, 18, 1);
     ssSetOutputPortWidth(sim_struct, 19, 1);
-    ssSetOutputPortWidth(sim_struct, 20, 1);
-    ssSetOutputPortWidth(sim_struct, 21, 1);
-    ssSetOutputPortWidth(sim_struct, 22, 1);
+    ssSetOutputPortWidth(sim_struct, 20, 3);
+    ssSetOutputPortMatrixDimensions(sim_struct, 21, 2, 3);
+    ssSetOutputPortMatrixDimensions(sim_struct, 22, 2, 3);
     ssSetOutputPortWidth(sim_struct, 23, 1);
     ssSetOutputPortWidth(sim_struct, 24, 1);
-    ssSetOutputPortWidth(sim_struct, 25, 5);
-    ssSetOutputPortWidth(sim_struct, 26, 5);
+    ssSetOutputPortWidth(sim_struct, 25, 1);
+    ssSetOutputPortWidth(sim_struct, 26, 1);
     ssSetOutputPortWidth(sim_struct, 27, 1);
     ssSetOutputPortWidth(sim_struct, 28, 1);
     ssSetOutputPortWidth(sim_struct, 29, 1);
     ssSetOutputPortWidth(sim_struct, 30, 1);
     ssSetOutputPortWidth(sim_struct, 31, 1);
     ssSetOutputPortWidth(sim_struct, 32, 1);
-    ssSetOutputPortWidth(sim_struct, 33, 3);
-    ssSetOutputPortMatrixDimensions(sim_struct, 34, 2, 3);
-    ssSetOutputPortMatrixDimensions(sim_struct, 35, 2, 3);
+    ssSetOutputPortWidth(sim_struct, 33, 1);
+    ssSetOutputPortWidth(sim_struct, 34, 1);
+    ssSetOutputPortWidth(sim_struct, 35, 1);
     ssSetOutputPortWidth(sim_struct, 36, 1);
     ssSetOutputPortWidth(sim_struct, 37, 1);
-    ssSetOutputPortWidth(sim_struct, 38, 1);
-    ssSetOutputPortWidth(sim_struct, 39, 1);
-    ssSetOutputPortWidth(sim_struct, 40, 1);
-    ssSetOutputPortWidth(sim_struct, 41, 1);
-    ssSetOutputPortWidth(sim_struct, 42, 1);
-    ssSetOutputPortWidth(sim_struct, 43, 1);
-    ssSetOutputPortWidth(sim_struct, 44, 1);
-    ssSetOutputPortWidth(sim_struct, 45, 1);
-    ssSetOutputPortWidth(sim_struct, 46, 1);
-    ssSetOutputPortWidth(sim_struct, 47, 1);
-    ssSetOutputPortWidth(sim_struct, 48, 1);
-    ssSetOutputPortWidth(sim_struct, 49, 1);
-    ssSetOutputPortWidth(sim_struct, 50, 1);
 
-    for (idx = 0; idx < 51; idx++) {
+    for (idx = 0; idx < 38; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -4029,7 +3837,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 14);
+    ssSetNumModes(sim_struct, 1);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 8);
@@ -4072,17 +3880,14 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 
     /* Initialize discrete, continuous, and location pointer variables. */
     cstate[0] = 0.0; /* time = 0.0 */
-    modes[0] = _edges_X;
     work->aut02_x_ = 0;
-    modes[1] = _edges_loc1;
+    modes[0] = _edges_loc1;
     cstate[1] = 0.0;
     work->aut03_d_ = 0;
-    modes[2] = _edges_X;
     work->aut04_a_ = 0;
     work->aut04_b_ = 0;
     work->aut04_c_ = 0;
     work->aut04_d_ = 0;
-    modes[3] = _edges_X;
     (work->aut05_v1_).data[0] = 0;
     (work->aut05_v1_).data[1] = 0;
     (work->aut05_v1_).data[2] = 0;
@@ -4093,17 +3898,14 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     (work->aut05_v2_).data[2] = 0;
     (work->aut05_v2_).data[3] = 0;
     (work->aut05_v2_).data[4] = 0;
-    modes[4] = _edges_X;
     (work->aut06_v1_)._field0 = 0;
     (work->aut06_v1_)._field1 = 0;
     (work->aut06_v2_)._field0 = 0;
     (work->aut06_v2_)._field1 = 0;
     work->aut06_x_ = 0;
     work->aut06_y_ = 0;
-    modes[5] = _edges_X;
     cstate[2] = 0.0;
     cstate[3] = 0.0;
-    modes[6] = _edges_X;
     ((work->aut08_tt1_)._field0)._field0 = 0;
     ((work->aut08_tt1_)._field0)._field1 = 0;
     StringTypeCopyText(&((work->aut08_tt1_)._field1), "");
@@ -4115,7 +3917,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     work->aut08_i_ = 0;
     work->aut08_j_ = 0;
     StringTypeCopyText(&(work->aut08_s_), "");
-    modes[7] = _edges_X;
     ((work->aut09_ll1_).data[0]).data[0] = 0;
     ((work->aut09_ll1_).data[0]).data[1] = 0;
     ((work->aut09_ll1_).data[0]).data[2] = 0;
@@ -4133,7 +3934,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     (work->aut09_l_).data[2] = 0;
     work->aut09_i_ = 0;
     work->aut09_j_ = 0;
-    modes[8] = _edges_X;
     StringTypeCopyText(&((work->aut10_x1_)._field0), "");
     ((((work->aut10_x1_)._field1).data[0])._field0).data[0] = 0;
     ((((work->aut10_x1_)._field1).data[0])._field1).data[0] = 0.0;
@@ -4152,26 +3952,21 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     (work->aut10_lr_).data[0] = 0.0;
     work->aut10_i_ = 0;
     work->aut10_r_ = 0.0;
-    modes[9] = _edges_X;
     ((work->aut11_v1_).data[0])._field0 = 0;
     ((work->aut11_v1_).data[0])._field1 = 0;
     ((work->aut11_v1_).data[1])._field0 = 0;
     ((work->aut11_v1_).data[1])._field1 = 0;
     ((work->aut11_v1_).data[2])._field0 = 0;
     ((work->aut11_v1_).data[2])._field1 = 0;
-    modes[10] = _edges_X;
     work->aut12_x_ = 0.0;
     work->aut12_y_ = 0.0;
     work->aut12_z_ = 0.0;
     work->aut12_td_ = 0.0;
     cstate[4] = 0.0;
     cstate[5] = 0.0;
-    modes[11] = _edges_X;
     work->aut13_x_ = 0.0;
     work->aut13_y_ = 0.0;
     work->aut13_z_ = 0.0;
-    modes[12] = _edges_X;
-    modes[13] = _edges_X;
 }
 #endif
 /* }}} */
@@ -4231,153 +4026,114 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     *y = IntToSimulink(modes[0]);
 
     y = ssGetOutputPortSignal(sim_struct, 1);
-    *y = IntToSimulink(modes[1]);
-
-    y = ssGetOutputPortSignal(sim_struct, 2);
-    *y = IntToSimulink(modes[2]);
-
-    y = ssGetOutputPortSignal(sim_struct, 3);
-    *y = IntToSimulink(modes[3]);
-
-    y = ssGetOutputPortSignal(sim_struct, 4);
-    *y = IntToSimulink(modes[4]);
-
-    y = ssGetOutputPortSignal(sim_struct, 5);
-    *y = IntToSimulink(modes[5]);
-
-    y = ssGetOutputPortSignal(sim_struct, 6);
-    *y = IntToSimulink(modes[6]);
-
-    y = ssGetOutputPortSignal(sim_struct, 7);
-    *y = IntToSimulink(modes[7]);
-
-    y = ssGetOutputPortSignal(sim_struct, 8);
-    *y = IntToSimulink(modes[8]);
-
-    y = ssGetOutputPortSignal(sim_struct, 9);
-    *y = IntToSimulink(modes[9]);
-
-    y = ssGetOutputPortSignal(sim_struct, 10);
-    *y = IntToSimulink(modes[10]);
-
-    y = ssGetOutputPortSignal(sim_struct, 11);
-    *y = IntToSimulink(modes[11]);
-
-    y = ssGetOutputPortSignal(sim_struct, 12);
-    *y = IntToSimulink(modes[12]);
-
-    y = ssGetOutputPortSignal(sim_struct, 13);
-    *y = IntToSimulink(modes[13]);
-
-    y = ssGetOutputPortSignal(sim_struct, 14);
     *y = RealToSimulink(cstate[1]);
 
-    y = ssGetOutputPortSignal(sim_struct, 15);
+    y = ssGetOutputPortSignal(sim_struct, 2);
     *y = RealToSimulink(cstate[2]);
 
-    y = ssGetOutputPortSignal(sim_struct, 16);
+    y = ssGetOutputPortSignal(sim_struct, 3);
     *y = RealToSimulink(cstate[3]);
 
-    y = ssGetOutputPortSignal(sim_struct, 17);
+    y = ssGetOutputPortSignal(sim_struct, 4);
     *y = RealToSimulink(cstate[4]);
 
-    y = ssGetOutputPortSignal(sim_struct, 18);
+    y = ssGetOutputPortSignal(sim_struct, 5);
     *y = RealToSimulink(cstate[5]);
 
-    y = ssGetOutputPortSignal(sim_struct, 19);
+    y = ssGetOutputPortSignal(sim_struct, 6);
     *y = IntToSimulink(work->aut02_x_);
 
-    y = ssGetOutputPortSignal(sim_struct, 20);
+    y = ssGetOutputPortSignal(sim_struct, 7);
     *y = IntToSimulink(work->aut03_d_);
 
-    y = ssGetOutputPortSignal(sim_struct, 21);
+    y = ssGetOutputPortSignal(sim_struct, 8);
     *y = IntToSimulink(work->aut04_a_);
 
-    y = ssGetOutputPortSignal(sim_struct, 22);
+    y = ssGetOutputPortSignal(sim_struct, 9);
     *y = IntToSimulink(work->aut04_b_);
 
-    y = ssGetOutputPortSignal(sim_struct, 23);
+    y = ssGetOutputPortSignal(sim_struct, 10);
     *y = IntToSimulink(work->aut04_c_);
 
-    y = ssGetOutputPortSignal(sim_struct, 24);
+    y = ssGetOutputPortSignal(sim_struct, 11);
     *y = IntToSimulink(work->aut04_d_);
 
-    y = ssGetOutputPortSignal(sim_struct, 25);
+    y = ssGetOutputPortSignal(sim_struct, 12);
     A5ITypeToSimulink(y, &work->aut05_v1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 26);
+    y = ssGetOutputPortSignal(sim_struct, 13);
     A5ITypeToSimulink(y, &work->aut05_v2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 27);
+    y = ssGetOutputPortSignal(sim_struct, 14);
     *y = IntToSimulink(work->aut06_x_);
 
-    y = ssGetOutputPortSignal(sim_struct, 28);
+    y = ssGetOutputPortSignal(sim_struct, 15);
     *y = IntToSimulink(work->aut06_y_);
 
-    y = ssGetOutputPortSignal(sim_struct, 29);
+    y = ssGetOutputPortSignal(sim_struct, 16);
     *y = IntToSimulink(work->aut08_i_);
 
-    y = ssGetOutputPortSignal(sim_struct, 30);
+    y = ssGetOutputPortSignal(sim_struct, 17);
     *y = IntToSimulink(work->aut08_j_);
 
-    y = ssGetOutputPortSignal(sim_struct, 31);
+    y = ssGetOutputPortSignal(sim_struct, 18);
     *y = IntToSimulink(work->aut09_i_);
 
-    y = ssGetOutputPortSignal(sim_struct, 32);
+    y = ssGetOutputPortSignal(sim_struct, 19);
     *y = IntToSimulink(work->aut09_j_);
 
-    y = ssGetOutputPortSignal(sim_struct, 33);
+    y = ssGetOutputPortSignal(sim_struct, 20);
     A3ITypeToSimulink(y, &work->aut09_l_);
 
-    y = ssGetOutputPortSignal(sim_struct, 34);
+    y = ssGetOutputPortSignal(sim_struct, 21);
     A2A3ITypeToSimulink(y, &work->aut09_ll1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 35);
+    y = ssGetOutputPortSignal(sim_struct, 22);
     A2A3ITypeToSimulink(y, &work->aut09_ll2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 36);
+    y = ssGetOutputPortSignal(sim_struct, 23);
     *y = IntToSimulink(work->aut10_i_);
 
-    y = ssGetOutputPortSignal(sim_struct, 37);
+    y = ssGetOutputPortSignal(sim_struct, 24);
     A1ITypeToSimulink(y, &work->aut10_li_);
 
-    y = ssGetOutputPortSignal(sim_struct, 38);
+    y = ssGetOutputPortSignal(sim_struct, 25);
     A1RTypeToSimulink(y, &work->aut10_lr_);
 
-    y = ssGetOutputPortSignal(sim_struct, 39);
+    y = ssGetOutputPortSignal(sim_struct, 26);
     *y = RealToSimulink(work->aut10_r_);
 
-    y = ssGetOutputPortSignal(sim_struct, 40);
+    y = ssGetOutputPortSignal(sim_struct, 27);
     *y = RealToSimulink(work->aut12_td_);
 
-    y = ssGetOutputPortSignal(sim_struct, 41);
+    y = ssGetOutputPortSignal(sim_struct, 28);
     *y = RealToSimulink(work->aut12_x_);
 
-    y = ssGetOutputPortSignal(sim_struct, 42);
+    y = ssGetOutputPortSignal(sim_struct, 29);
     *y = RealToSimulink(work->aut12_y_);
 
-    y = ssGetOutputPortSignal(sim_struct, 43);
+    y = ssGetOutputPortSignal(sim_struct, 30);
     *y = RealToSimulink(work->aut12_z_);
 
-    y = ssGetOutputPortSignal(sim_struct, 44);
+    y = ssGetOutputPortSignal(sim_struct, 31);
     *y = RealToSimulink(work->aut13_x_);
 
-    y = ssGetOutputPortSignal(sim_struct, 45);
+    y = ssGetOutputPortSignal(sim_struct, 32);
     *y = RealToSimulink(work->aut13_y_);
 
-    y = ssGetOutputPortSignal(sim_struct, 46);
+    y = ssGetOutputPortSignal(sim_struct, 33);
     *y = RealToSimulink(work->aut13_z_);
 
-    y = ssGetOutputPortSignal(sim_struct, 47);
+    y = ssGetOutputPortSignal(sim_struct, 34);
     *y = RealToSimulink(aut12_v_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 48);
+    y = ssGetOutputPortSignal(sim_struct, 35);
     *y = RealToSimulink(aut12_w_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 49);
+    y = ssGetOutputPortSignal(sim_struct, 36);
     *y = RealToSimulink(aut13_v_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 50);
+    y = ssGetOutputPortSignal(sim_struct, 37);
     *y = RealToSimulink(aut13_w_(sim_struct));
 }
 /* }}} */

@@ -123,8 +123,6 @@ public abstract class types_and_literals {
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "a". */
-    public types_and_literalsEnum a_;
 
 
     /** Constructor for the {@link types_and_literals} class. */
@@ -244,7 +242,7 @@ public abstract class types_and_literals {
 
     /** Initializes the state. */
     private void initState() {
-        a_ = types_and_literalsEnum._X;
+        // No state variables, except variable 'time'.
     }
 
     /**
@@ -609,8 +607,7 @@ public abstract class types_and_literals {
     public static enum types_and_literalsEnum {
         /** BLUE */ _BLUE,
         /** RED */ _RED,
-        /** WHITE */ _WHITE,
-        /** X */ _X;
+        /** WHITE */ _WHITE;
 
         @Override
         public String toString() {

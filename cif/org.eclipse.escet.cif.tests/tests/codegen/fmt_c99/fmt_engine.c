@@ -18,17 +18,6 @@ static inline void RangeErrorDetected(void) { exit(1); }
 #endif
 
 /* Type support code. */
-int EnumTypePrint(fmtEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
-
 /**
  * Compare two arrays for equality.
  * @param left First array to compare.
@@ -257,6 +246,17 @@ int A2STypePrint(A2SType *array, char *dest, int start, int end) {
     return start;
 }
 
+int EnumTypePrint(fmtEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
+}
+
 
 /** Event names. */
 const char *fmt_event_names[] = {
@@ -269,7 +269,6 @@ const char *fmt_event_names[] = {
 const char *enum_names[] = {
     "A",
     "B",
-    "X",
 };
 
 /* Constants. */
@@ -284,7 +283,7 @@ IntType i_;  /**< Input variable "int i". */
 RealType r_; /**< Input variable "real r". */
 
 /* State variables. */
-fmtEnum a_; /**< Discrete variable "E a". */
+
 
 RealType model_time; /**< Current model time. */
 
@@ -944,7 +943,7 @@ void fmt_EngineFirstStep(void) {
 
     model_time = 0.0;
     fmt_AssignInputVariables();
-    a_ = _fmt_X;
+
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

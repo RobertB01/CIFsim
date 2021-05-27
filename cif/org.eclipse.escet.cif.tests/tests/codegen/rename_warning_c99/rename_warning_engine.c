@@ -18,16 +18,6 @@ static inline void RangeErrorDetected(void) { exit(1); }
 #endif
 
 /* Type support code. */
-int EnumTypePrint(rename_warningEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
 
 
 /** Event names. */
@@ -38,9 +28,7 @@ const char *rename_warning_event_names[] = {
 };
 
 /** Enumeration names. */
-const char *enum_names[] = {
-    "X",
-};
+
 
 /* Constants. */
 IntType a_b_; /**< Constant "a_b". */
@@ -53,7 +41,7 @@ IntType a_b_2; /**< Constant "a.b". */
 
 
 /* State variables. */
-rename_warningEnum a_; /**< Discrete variable "E a". */
+
 
 RealType model_time; /**< Current model time. */
 
@@ -121,7 +109,7 @@ void rename_warning_EngineFirstStep(void) {
 
     model_time = 0.0;
 
-    a_ = _rename_warning_X;
+
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

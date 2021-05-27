@@ -1056,13 +1056,6 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 /* }}} */
 
 /* {{{ CIF types. */
-enum Enumrename_warning_ {
-    _rename_warning_X,
-};
-typedef enum Enumrename_warning_ rename_warningEnum;
-
-static const char *enum_names[];
-static int EnumTypePrint(rename_warningEnum value, char *dest, int start, int end);
 
 /* }}} */
 
@@ -1139,16 +1132,6 @@ static real_T SimulinkToReal(real_T sr) {
 /* }}} */
 
 /* {{{ Type functions. */
-static int EnumTypePrint(rename_warningEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
 
 /* }}} */
 /* {{{ work data structure. */
@@ -1198,9 +1181,7 @@ const char *evt_names[] = { /** < Event names. */
 };
 
 /** Enum names. */
-static const char *enum_names[] = {
-    "X",
-};
+${enum-names-list}
 
 /**
  * Reset 'loaded' status of all input variables.
@@ -1240,11 +1221,11 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 1)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 0)) return;
 
-    ssSetOutputPortWidth(sim_struct, 0, 1);
 
-    for (idx = 0; idx < 1; idx++) {
+
+    for (idx = 0; idx < 0; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1259,7 +1240,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 1);
+    ssSetNumModes(sim_struct, 0);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 0);
@@ -1302,7 +1283,7 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 
     /* Initialize discrete, continuous, and location pointer variables. */
     cstate[0] = 0.0; /* time = 0.0 */
-    modes[0] = _rename_warning_X;
+
 }
 #endif
 /* }}} */
@@ -1343,8 +1324,6 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     UNUSED_ARG(tid);
 
     real_T *y;
-    y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = IntToSimulink(modes[0]);
 }
 /* }}} */
 

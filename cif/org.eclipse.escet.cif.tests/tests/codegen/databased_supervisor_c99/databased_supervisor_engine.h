@@ -44,7 +44,6 @@ enum Enumdatabased_supervisor_ {
     _databased_supervisor_TurnLampOn,
     _databased_supervisor_WaitForButtonPush,
     _databased_supervisor_WaitForTimeout,
-    _databased_supervisor_X,
 };
 typedef enum Enumdatabased_supervisor_ databased_supervisorEnum;
 
@@ -96,7 +95,6 @@ extern RealType model_time; /**< Current model time. */
 extern databased_supervisorEnum Button_; /**< Discrete variable "E Button". */
 extern databased_supervisorEnum Cycle_;  /**< Discrete variable "E Cycle". */
 extern databased_supervisorEnum Lamp_;   /**< Discrete variable "E Lamp". */
-extern databased_supervisorEnum sup_;    /**< Discrete variable "E sup". */
 extern databased_supervisorEnum Timer_;  /**< Discrete variable "E Timer". */
 
 /* Algebraic and derivative functions (use for output only). */

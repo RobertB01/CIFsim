@@ -31,8 +31,6 @@ public abstract class fmt {
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "a". */
-    public fmtEnum a_;
 
     /** Input variable "b". */
     public boolean b_;
@@ -160,7 +158,7 @@ public abstract class fmt {
 
     /** Initializes the state. */
     private void initState() {
-        a_ = fmtEnum._X;
+        // No state variables, except variable 'time'.
     }
 
     /**
@@ -917,8 +915,7 @@ public abstract class fmt {
     /** fmt enumeration. */
     public static enum fmtEnum {
         /** A */ _A,
-        /** B */ _B,
-        /** X */ _X;
+        /** B */ _B;
 
         @Override
         public String toString() {

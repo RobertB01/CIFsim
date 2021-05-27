@@ -910,7 +910,6 @@ const char *enum_names[] = {
     "BLUE",
     "RED",
     "WHITE",
-    "X",
 };
 
 /* Constants. */
@@ -953,7 +952,7 @@ A1T2A1IA2T2RSType c30_; /**< Constant "c30". */
 
 
 /* State variables. */
-types_and_literalsEnum a_; /**< Discrete variable "E a". */
+
 
 RealType model_time; /**< Current model time. */
 
@@ -1083,7 +1082,7 @@ void types_and_literals_EngineFirstStep(void) {
 
     model_time = 0.0;
 
-    a_ = _types_and_literals_X;
+
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

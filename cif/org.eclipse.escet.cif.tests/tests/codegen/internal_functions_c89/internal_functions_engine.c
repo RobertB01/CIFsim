@@ -81,17 +81,6 @@ int A4ITypePrint(A4IType *array, char *dest, int start, int end) {
     return start;
 }
 
-int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
-
 /**
  * Compare two tuples for equality.
  * @param left First tuple to compare.
@@ -231,9 +220,7 @@ const char *internal_functions_event_names[] = {
 };
 
 /** Enumeration names. */
-const char *enum_names[] = {
-    "X",
-};
+
 
 /* Constants. */
 
@@ -591,28 +578,27 @@ IntType fr_() {
 
 
 /* State variables. */
-IntType aut_v00_;            /**< Discrete variable "int aut.v00". */
-IntType aut_v01_;            /**< Discrete variable "int aut.v01". */
-IntType aut_v02_;            /**< Discrete variable "int aut.v02". */
-IntType aut_v03_;            /**< Discrete variable "int aut.v03". */
-IntType aut_v04_;            /**< Discrete variable "int aut.v04". */
-IntType aut_v05_;            /**< Discrete variable "int aut.v05". */
-IntType aut_v06_;            /**< Discrete variable "int aut.v06". */
-IntType aut_v07_;            /**< Discrete variable "int aut.v07". */
-IntType aut_v08_;            /**< Discrete variable "int aut.v08". */
-RealType aut_v09_;           /**< Discrete variable "real aut.v09". */
-IntType aut_v10_;            /**< Discrete variable "int aut.v10". */
-A4IType aut_v11_;            /**< Discrete variable "list[4] int aut.v11". */
-A4IType aut_v12_;            /**< Discrete variable "list[4] int aut.v12". */
-IntType aut_v13_;            /**< Discrete variable "int aut.v13". */
-IntType aut_v14_;            /**< Discrete variable "int aut.v14". */
-IntType aut_v15_;            /**< Discrete variable "int aut.v15". */
-IntType aut_v16_;            /**< Discrete variable "int aut.v16". */
-IntType aut_v17_;            /**< Discrete variable "int aut.v17". */
-IntType aut_v18_;            /**< Discrete variable "int aut.v18". */
-IntType aut_v19_;            /**< Discrete variable "int aut.v19". */
-IntType aut_combi_;          /**< Discrete variable "int aut.combi". */
-internal_functionsEnum aut_; /**< Discrete variable "E aut". */
+IntType aut_v00_;   /**< Discrete variable "int aut.v00". */
+IntType aut_v01_;   /**< Discrete variable "int aut.v01". */
+IntType aut_v02_;   /**< Discrete variable "int aut.v02". */
+IntType aut_v03_;   /**< Discrete variable "int aut.v03". */
+IntType aut_v04_;   /**< Discrete variable "int aut.v04". */
+IntType aut_v05_;   /**< Discrete variable "int aut.v05". */
+IntType aut_v06_;   /**< Discrete variable "int aut.v06". */
+IntType aut_v07_;   /**< Discrete variable "int aut.v07". */
+IntType aut_v08_;   /**< Discrete variable "int aut.v08". */
+RealType aut_v09_;  /**< Discrete variable "real aut.v09". */
+IntType aut_v10_;   /**< Discrete variable "int aut.v10". */
+A4IType aut_v11_;   /**< Discrete variable "list[4] int aut.v11". */
+A4IType aut_v12_;   /**< Discrete variable "list[4] int aut.v12". */
+IntType aut_v13_;   /**< Discrete variable "int aut.v13". */
+IntType aut_v14_;   /**< Discrete variable "int aut.v14". */
+IntType aut_v15_;   /**< Discrete variable "int aut.v15". */
+IntType aut_v16_;   /**< Discrete variable "int aut.v16". */
+IntType aut_v17_;   /**< Discrete variable "int aut.v17". */
+IntType aut_v18_;   /**< Discrete variable "int aut.v18". */
+IntType aut_v19_;   /**< Discrete variable "int aut.v19". */
+IntType aut_combi_; /**< Discrete variable "int aut.combi". */
 
 /* Derivative and algebraic variable functions. */
 
@@ -713,7 +699,6 @@ void internal_functions_EngineFirstStep(void) {
     aut_v18_ = fu3_();
     aut_v19_ = fr_();
     aut_combi_ = IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(aut_v00_, aut_v01_), aut_v02_), aut_v03_), aut_v04_), aut_v05_), aut_v06_), aut_v07_), aut_v08_), FloorFunction(aut_v09_)), aut_v10_), A4ITypeProject(&(aut_v11_), 0)), A4ITypeProject(&(aut_v12_), 0)), aut_v13_), aut_v14_), aut_v15_), aut_v16_), aut_v17_), aut_v18_), aut_v19_);
-    aut_ = _internal_functions_X;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

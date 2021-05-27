@@ -36,8 +36,6 @@ public abstract class rename_warning {
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "a". */
-    public rename_warningEnum a_;
 
 
     /** Constructor for the {@link rename_warning} class. */
@@ -157,7 +155,7 @@ public abstract class rename_warning {
 
     /** Initializes the state. */
     private void initState() {
-        a_ = rename_warningEnum._X;
+        // No state variables, except variable 'time'.
     }
 
     /**
@@ -263,7 +261,7 @@ public abstract class rename_warning {
 
     /** rename_warning enumeration. */
     public static enum rename_warningEnum {
-        /** X */ _X;
+${java-enum-lits-code}
 
         @Override
         public String toString() {

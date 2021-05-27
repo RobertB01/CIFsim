@@ -1059,7 +1059,6 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 enum Enumprints_ {
     _prints_A,
     _prints_B,
-    _prints_X,
 };
 typedef enum Enumprints_ printsEnum;
 
@@ -1206,7 +1205,6 @@ const char *evt_names[] = { /** < Event names. */
 static const char *enum_names[] = {
     "A",
     "B",
-    "X",
 };
 
 /**
@@ -1247,11 +1245,11 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 1)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 0)) return;
 
-    ssSetOutputPortWidth(sim_struct, 0, 1);
 
-    for (idx = 0; idx < 1; idx++) {
+
+    for (idx = 0; idx < 0; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1266,7 +1264,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 1);
+    ssSetNumModes(sim_struct, 0);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 0);
@@ -1308,7 +1306,7 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 
     /* Initialize discrete, continuous, and location pointer variables. */
     cstate[0] = 0.0; /* time = 0.0 */
-    modes[0] = _prints_X;
+
 }
 #endif
 /* }}} */
@@ -1349,8 +1347,6 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     UNUSED_ARG(tid);
 
     real_T *y;
-    y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = IntToSimulink(modes[0]);
 }
 /* }}} */
 

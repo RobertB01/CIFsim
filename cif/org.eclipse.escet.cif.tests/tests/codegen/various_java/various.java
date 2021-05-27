@@ -38,23 +38,14 @@ public abstract class various {
     /** Discrete variable "a.x". */
     public int a_x_;
 
-    /** Discrete variable "a". */
-    public variousEnum a_;
-
     /** Discrete variable "g.rcv.v". */
     public int g_rcv_v_;
 
     /** Discrete variable "g.rcv.v2". */
     public int g_rcv_v2_;
 
-    /** Discrete variable "g_rcv". */
-    public variousEnum g_rcv_;
-
     /** Discrete variable "g.snd.a". */
     public int g_snd_a_;
-
-    /** Discrete variable "g_snd". */
-    public variousEnum g_snd_;
 
     /** Continuous variable "g.sync.c". */
     public double g_sync_c_;
@@ -222,7 +213,7 @@ public abstract class various {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        boolean guard = (equalObjs(g_snd_, variousEnum._X)) && ((equalObjs(g_rcv_, variousEnum._X)) && ((equalObjs(g_sync_, variousEnum._l2)) && ((g_sync_c_) >= (2))));
+        boolean guard = (equalObjs(g_sync_, variousEnum._l2)) && ((g_sync_c_) >= (2));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(1, true);
@@ -268,12 +259,9 @@ public abstract class various {
     private void initState() {
         a_li_ = makelist(new ArrayList<Integer>(2), 0, 0);
         a_x_ = 2;
-        a_ = variousEnum._X;
         g_rcv_v_ = 0;
         g_rcv_v2_ = g_rcv_v_;
-        g_rcv_ = variousEnum._X;
         g_snd_a_ = addInt((5) + (size(input_li_)), inc_(g_rcv_v_));
-        g_snd_ = variousEnum._X;
         g_sync_c_ = 0.0;
         g_sync_ = variousEnum._l1;
     }
@@ -453,8 +441,7 @@ public abstract class various {
     /** various enumeration. */
     public static enum variousEnum {
         /** l1 */ _l1,
-        /** l2 */ _l2,
-        /** X */ _X;
+        /** l2 */ _l2;
 
         @Override
         public String toString() {

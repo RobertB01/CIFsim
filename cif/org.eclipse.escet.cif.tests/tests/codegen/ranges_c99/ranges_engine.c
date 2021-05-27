@@ -118,17 +118,6 @@ int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end) {
     return start;
 }
 
-int EnumTypePrint(rangesEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
-
 
 /** Event names. */
 const char *ranges_event_names[] = {
@@ -163,9 +152,7 @@ const char *ranges_event_names[] = {
 };
 
 /** Enumeration names. */
-const char *enum_names[] = {
-    "X",
-};
+
 
 /* Constants. */
 
@@ -184,7 +171,6 @@ IntType aut1_x1_;    /**< Discrete variable "int[0..4] aut1.x1". */
 IntType aut1_x2_;    /**< Discrete variable "int[0..9] aut1.x2". */
 IntType aut1_x3_;    /**< Discrete variable "int[-1..4] aut1.x3". */
 IntType aut1_x4_;    /**< Discrete variable "int[-1..9] aut1.x4". */
-rangesEnum aut1_;    /**< Discrete variable "E aut1". */
 
 RealType model_time; /**< Current model time. */
 
@@ -207,9 +193,6 @@ static void PrintOutput(ranges_Event_ event, BoolType pre) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent0(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e11_, TRUE);
     #endif
@@ -228,9 +211,6 @@ static BoolType execEvent0(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent1(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e12_, TRUE);
     #endif
@@ -249,9 +229,6 @@ static BoolType execEvent1(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent2(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e13_, TRUE);
     #endif
@@ -288,9 +265,6 @@ static BoolType execEvent2(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent3(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e14_, TRUE);
     #endif
@@ -314,9 +288,6 @@ static BoolType execEvent3(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent4(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e15_, TRUE);
     #endif
@@ -355,9 +326,6 @@ static BoolType execEvent4(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent5(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e16_, TRUE);
     #endif
@@ -396,9 +364,6 @@ static BoolType execEvent5(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent6(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e17_, TRUE);
     #endif
@@ -437,9 +402,6 @@ static BoolType execEvent6(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent7(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e18_, TRUE);
     #endif
@@ -483,9 +445,6 @@ static BoolType execEvent7(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent8(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e21_, TRUE);
     #endif
@@ -508,9 +467,6 @@ static BoolType execEvent8(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent9(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e22_, TRUE);
     #endif
@@ -533,9 +489,6 @@ static BoolType execEvent9(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent10(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e23_, TRUE);
     #endif
@@ -570,9 +523,6 @@ static BoolType execEvent10(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent11(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e24_, TRUE);
     #endif
@@ -598,9 +548,6 @@ static BoolType execEvent11(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent12(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e25_, TRUE);
     #endif
@@ -633,9 +580,6 @@ static BoolType execEvent12(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent13(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e26_, TRUE);
     #endif
@@ -668,9 +612,6 @@ static BoolType execEvent13(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent14(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e27_, TRUE);
     #endif
@@ -703,9 +644,6 @@ static BoolType execEvent14(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent15(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e28_, TRUE);
     #endif
@@ -738,9 +676,6 @@ static BoolType execEvent15(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent16(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e31_, TRUE);
     #endif
@@ -765,9 +700,6 @@ static BoolType execEvent16(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent17(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e32_, TRUE);
     #endif
@@ -792,9 +724,6 @@ static BoolType execEvent17(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent18(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e33_, TRUE);
     #endif
@@ -826,9 +755,6 @@ static BoolType execEvent18(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent19(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e34_, TRUE);
     #endif
@@ -853,9 +779,6 @@ static BoolType execEvent19(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent20(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e35_, TRUE);
     #endif
@@ -887,9 +810,6 @@ static BoolType execEvent20(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent21(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e36_, TRUE);
     #endif
@@ -921,9 +841,6 @@ static BoolType execEvent21(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent22(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e37_, TRUE);
     #endif
@@ -955,9 +872,6 @@ static BoolType execEvent22(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent23(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e38_, TRUE);
     #endif
@@ -989,9 +903,6 @@ static BoolType execEvent23(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent24(void) {
-    BoolType guard = (aut1_) == (_ranges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         ranges_InfoEvent(e41_, TRUE);
     #endif
@@ -1109,7 +1020,6 @@ void ranges_EngineFirstStep(void) {
     aut1_x2_ = 0;
     aut1_x3_ = 0;
     aut1_x4_ = 0;
-    aut1_ = _ranges_X;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

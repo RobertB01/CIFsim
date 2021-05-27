@@ -76,9 +76,6 @@ public abstract class ranges {
     /** Discrete variable "aut1.x4". */
     public int aut1_x4_;
 
-    /** Discrete variable "aut1". */
-    public rangesEnum aut1_;
-
 
     /** Constructor for the {@link ranges} class. */
     public ranges() {
@@ -274,9 +271,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(0, true);
         if (doInfoEvent) infoEvent(0, true);
 
@@ -293,9 +287,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(1, true);
         if (doInfoEvent) infoEvent(1, true);
 
@@ -312,9 +303,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent2() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(2, true);
         if (doInfoEvent) infoEvent(2, true);
 
@@ -343,9 +331,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent3() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(3, true);
         if (doInfoEvent) infoEvent(3, true);
 
@@ -362,9 +347,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent4() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(4, true);
         if (doInfoEvent) infoEvent(4, true);
 
@@ -390,9 +372,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent5() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(5, true);
         if (doInfoEvent) infoEvent(5, true);
 
@@ -418,9 +397,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent6() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(6, true);
         if (doInfoEvent) infoEvent(6, true);
 
@@ -446,9 +422,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent7() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(7, true);
         if (doInfoEvent) infoEvent(7, true);
 
@@ -477,9 +450,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent8() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(8, true);
         if (doInfoEvent) infoEvent(8, true);
 
@@ -500,9 +470,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent9() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(9, true);
         if (doInfoEvent) infoEvent(9, true);
 
@@ -523,9 +490,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent10() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(10, true);
         if (doInfoEvent) infoEvent(10, true);
 
@@ -552,9 +516,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent11() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(11, true);
         if (doInfoEvent) infoEvent(11, true);
 
@@ -575,9 +536,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent12() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(12, true);
         if (doInfoEvent) infoEvent(12, true);
 
@@ -601,9 +559,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent13() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(13, true);
         if (doInfoEvent) infoEvent(13, true);
 
@@ -627,9 +582,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent14() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(14, true);
         if (doInfoEvent) infoEvent(14, true);
 
@@ -653,9 +605,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent15() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(15, true);
         if (doInfoEvent) infoEvent(15, true);
 
@@ -679,9 +628,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent16() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(16, true);
         if (doInfoEvent) infoEvent(16, true);
 
@@ -705,9 +651,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent17() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(17, true);
         if (doInfoEvent) infoEvent(17, true);
 
@@ -731,9 +674,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent18() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(18, true);
         if (doInfoEvent) infoEvent(18, true);
 
@@ -760,9 +700,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent19() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(19, true);
         if (doInfoEvent) infoEvent(19, true);
 
@@ -786,9 +723,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent20() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(20, true);
         if (doInfoEvent) infoEvent(20, true);
 
@@ -815,9 +749,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent21() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(21, true);
         if (doInfoEvent) infoEvent(21, true);
 
@@ -844,9 +775,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent22() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(22, true);
         if (doInfoEvent) infoEvent(22, true);
 
@@ -873,9 +801,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent23() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(23, true);
         if (doInfoEvent) infoEvent(23, true);
 
@@ -902,9 +827,6 @@ public abstract class ranges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent24() {
-        boolean guard = equalObjs(aut1_, rangesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(24, true);
         if (doInfoEvent) infoEvent(24, true);
 
@@ -930,7 +852,6 @@ public abstract class ranges {
         aut1_x2_ = 0;
         aut1_x3_ = 0;
         aut1_x4_ = 0;
-        aut1_ = rangesEnum._X;
     }
 
     /**
@@ -1085,7 +1006,7 @@ public abstract class ranges {
 
     /** ranges enumeration. */
     public static enum rangesEnum {
-        /** X */ _X;
+${java-enum-lits-code}
 
         @Override
         public String toString() {

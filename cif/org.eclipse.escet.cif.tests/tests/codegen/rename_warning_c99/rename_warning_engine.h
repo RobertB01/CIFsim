@@ -10,13 +10,6 @@
 /* Types of the specification.
  * Note that integer ranges are ignored in C.
  */
-enum Enumrename_warning_ {
-    _rename_warning_X,
-};
-typedef enum Enumrename_warning_ rename_warningEnum;
-
-extern const char *enum_names[];
-extern int EnumTypePrint(rename_warningEnum value, char *dest, int start, int end);
 
 
 /* Event declarations. */
@@ -44,7 +37,7 @@ extern IntType a_b_2; /**< Constant "a.b". */
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern rename_warningEnum a_; /**< Discrete variable "E a". */
+
 
 /* Algebraic and derivative functions (use for output only). */
 

@@ -5,7 +5,7 @@ This report lists the variables in each vector, along with their index number.
 
 Modes
 -----
-a 1
+No variables are available here.
 
 Continuous states
 -----------------
@@ -17,4 +17,4 @@ No variables are available here.
 
 Outputs
 -------
-a 1
+No variables are available here.

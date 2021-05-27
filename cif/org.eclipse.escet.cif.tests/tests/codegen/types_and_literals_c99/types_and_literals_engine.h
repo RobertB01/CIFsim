@@ -36,7 +36,6 @@ enum Enumtypes_and_literals_ {
     _types_and_literals_BLUE,
     _types_and_literals_RED,
     _types_and_literals_WHITE,
-    _types_and_literals_X,
 };
 typedef enum Enumtypes_and_literals_ types_and_literalsEnum;
 
@@ -248,7 +247,7 @@ extern A1T2A1IA2T2RSType c30_; /**< Constant "c30". */
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern types_and_literalsEnum a_; /**< Discrete variable "E a". */
+
 
 /* Algebraic and derivative functions (use for output only). */
 

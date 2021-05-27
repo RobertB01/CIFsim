@@ -1059,7 +1059,6 @@ static int StringTypeAppendText(StringType *s, int end, int flags, int width, co
 enum Enumexprs_ {
     _exprs_A,
     _exprs_B,
-    _exprs_X,
 };
 typedef enum Enumexprs_ exprsEnum;
 
@@ -1876,7 +1875,6 @@ const char *evt_names[] = { /** < Event names. */
 static const char *enum_names[] = {
     "A",
     "B",
-    "X",
 };
 
 /**
@@ -1901,9 +1899,6 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
-
-    BoolType guard = (modes[0]) == (_exprs_X);
-    if (!guard) return FALSE;
 
 
     if (((work->a1_x_) != (1)) && ((work->a1_x_) != (2))) {
@@ -1939,7 +1934,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 151)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 149)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
@@ -2015,9 +2010,9 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 71, 1);
     ssSetOutputPortWidth(sim_struct, 72, 1);
     ssSetOutputPortWidth(sim_struct, 73, 1);
-    ssSetOutputPortWidth(sim_struct, 74, 1);
+    ssSetOutputPortWidth(sim_struct, 74, 2);
     ssSetOutputPortWidth(sim_struct, 75, 1);
-    ssSetOutputPortWidth(sim_struct, 76, 2);
+    ssSetOutputPortWidth(sim_struct, 76, 1);
     ssSetOutputPortWidth(sim_struct, 77, 1);
     ssSetOutputPortWidth(sim_struct, 78, 1);
     ssSetOutputPortWidth(sim_struct, 79, 1);
@@ -2054,10 +2049,10 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 110, 1);
     ssSetOutputPortWidth(sim_struct, 111, 1);
     ssSetOutputPortWidth(sim_struct, 112, 1);
-    ssSetOutputPortWidth(sim_struct, 113, 1);
-    ssSetOutputPortWidth(sim_struct, 114, 1);
-    ssSetOutputPortWidth(sim_struct, 115, 3);
-    ssSetOutputPortWidth(sim_struct, 116, 3);
+    ssSetOutputPortWidth(sim_struct, 113, 3);
+    ssSetOutputPortWidth(sim_struct, 114, 3);
+    ssSetOutputPortWidth(sim_struct, 115, 1);
+    ssSetOutputPortWidth(sim_struct, 116, 1);
     ssSetOutputPortWidth(sim_struct, 117, 1);
     ssSetOutputPortWidth(sim_struct, 118, 1);
     ssSetOutputPortWidth(sim_struct, 119, 1);
@@ -2066,9 +2061,9 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 122, 1);
     ssSetOutputPortWidth(sim_struct, 123, 1);
     ssSetOutputPortWidth(sim_struct, 124, 1);
-    ssSetOutputPortWidth(sim_struct, 125, 1);
+    ssSetOutputPortWidth(sim_struct, 125, 2);
     ssSetOutputPortWidth(sim_struct, 126, 1);
-    ssSetOutputPortWidth(sim_struct, 127, 2);
+    ssSetOutputPortWidth(sim_struct, 127, 1);
     ssSetOutputPortWidth(sim_struct, 128, 1);
     ssSetOutputPortWidth(sim_struct, 129, 1);
     ssSetOutputPortWidth(sim_struct, 130, 1);
@@ -2090,10 +2085,8 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 146, 1);
     ssSetOutputPortWidth(sim_struct, 147, 1);
     ssSetOutputPortWidth(sim_struct, 148, 1);
-    ssSetOutputPortWidth(sim_struct, 149, 1);
-    ssSetOutputPortWidth(sim_struct, 150, 1);
 
-    for (idx = 0; idx < 151; idx++) {
+    for (idx = 0; idx < 149; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -2108,7 +2101,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 2);
+    ssSetNumModes(sim_struct, 0);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 0);
@@ -2153,7 +2146,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     cstate[0] = 0.0; /* time = 0.0 */
     cstate[1] = 0.0;
     work->a1_x_ = 0;
-    modes[0] = _exprs_X;
     work->AA_vb_ = TRUE;
     work->AA_vi_ = 5;
     work->AA_vp_ = 2;
@@ -2302,7 +2294,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     work->AA_f_size1_ = 2;
     work->AA_f_size2_ = StringTypeSize(&(work->AA_vs_));
     work->AA_f_sqrt_ = RealSqrt(work->AA_vr_);
-    modes[1] = _exprs_X;
 }
 #endif
 /* }}} */
@@ -2348,456 +2339,450 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
 
     real_T *y;
     y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = IntToSimulink(modes[1]);
-
-    y = ssGetOutputPortSignal(sim_struct, 1);
-    *y = IntToSimulink(modes[0]);
-
-    y = ssGetOutputPortSignal(sim_struct, 2);
     *y = RealToSimulink(cstate[1]);
 
-    y = ssGetOutputPortSignal(sim_struct, 3);
+    y = ssGetOutputPortSignal(sim_struct, 1);
     *y = IntToSimulink(work->AA_add1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 4);
+    y = ssGetOutputPortSignal(sim_struct, 2);
     *y = RealToSimulink(work->AA_add2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 5);
+    y = ssGetOutputPortSignal(sim_struct, 3);
     *y = RealToSimulink(work->AA_add3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 6);
+    y = ssGetOutputPortSignal(sim_struct, 4);
     *y = RealToSimulink(work->AA_add4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 7);
+    y = ssGetOutputPortSignal(sim_struct, 5);
     *y = IntToSimulink(work->AA_add6_);
 
-    y = ssGetOutputPortSignal(sim_struct, 8);
+    y = ssGetOutputPortSignal(sim_struct, 6);
     *y = IntToSimulink(work->AA_add7_);
 
-    y = ssGetOutputPortSignal(sim_struct, 9);
+    y = ssGetOutputPortSignal(sim_struct, 7);
     *y = IntToSimulink(work->AA_add8_);
 
-    y = ssGetOutputPortSignal(sim_struct, 10);
+    y = ssGetOutputPortSignal(sim_struct, 8);
     *y = BoolToSimulink(work->AA_biimpl_);
 
-    y = ssGetOutputPortSignal(sim_struct, 11);
+    y = ssGetOutputPortSignal(sim_struct, 9);
     *y = BoolToSimulink(work->AA_conj_);
 
-    y = ssGetOutputPortSignal(sim_struct, 12);
+    y = ssGetOutputPortSignal(sim_struct, 10);
     *y = BoolToSimulink(work->AA_disj_);
 
-    y = ssGetOutputPortSignal(sim_struct, 13);
+    y = ssGetOutputPortSignal(sim_struct, 11);
     *y = IntToSimulink(work->AA_div1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 14);
+    y = ssGetOutputPortSignal(sim_struct, 12);
     *y = IntToSimulink(work->AA_div2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 15);
+    y = ssGetOutputPortSignal(sim_struct, 13);
     *y = IntToSimulink(work->AA_div3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 16);
+    y = ssGetOutputPortSignal(sim_struct, 14);
     *y = IntToSimulink(work->AA_div4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 17);
+    y = ssGetOutputPortSignal(sim_struct, 15);
     *y = BoolToSimulink(work->AA_eq1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 18);
+    y = ssGetOutputPortSignal(sim_struct, 16);
     *y = BoolToSimulink(work->AA_eq2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 19);
+    y = ssGetOutputPortSignal(sim_struct, 17);
     *y = BoolToSimulink(work->AA_eq3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 20);
+    y = ssGetOutputPortSignal(sim_struct, 18);
     *y = BoolToSimulink(work->AA_eq4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 21);
+    y = ssGetOutputPortSignal(sim_struct, 19);
     *y = BoolToSimulink(work->AA_eq5_);
 
-    y = ssGetOutputPortSignal(sim_struct, 22);
+    y = ssGetOutputPortSignal(sim_struct, 20);
     *y = IntToSimulink(work->AA_f_abs1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 23);
+    y = ssGetOutputPortSignal(sim_struct, 21);
     *y = IntToSimulink(work->AA_f_abs12_);
 
-    y = ssGetOutputPortSignal(sim_struct, 24);
+    y = ssGetOutputPortSignal(sim_struct, 22);
     *y = RealToSimulink(work->AA_f_abs2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 25);
+    y = ssGetOutputPortSignal(sim_struct, 23);
     *y = RealToSimulink(work->AA_f_acos_);
 
-    y = ssGetOutputPortSignal(sim_struct, 26);
+    y = ssGetOutputPortSignal(sim_struct, 24);
     *y = RealToSimulink(work->AA_f_asin_);
 
-    y = ssGetOutputPortSignal(sim_struct, 27);
+    y = ssGetOutputPortSignal(sim_struct, 25);
     *y = RealToSimulink(work->AA_f_atan_);
 
-    y = ssGetOutputPortSignal(sim_struct, 28);
+    y = ssGetOutputPortSignal(sim_struct, 26);
     *y = RealToSimulink(work->AA_f_cbrt_);
 
-    y = ssGetOutputPortSignal(sim_struct, 29);
+    y = ssGetOutputPortSignal(sim_struct, 27);
     *y = IntToSimulink(work->AA_f_ceil_);
 
-    y = ssGetOutputPortSignal(sim_struct, 30);
+    y = ssGetOutputPortSignal(sim_struct, 28);
     *y = RealToSimulink(work->AA_f_cos_);
 
-    y = ssGetOutputPortSignal(sim_struct, 31);
+    y = ssGetOutputPortSignal(sim_struct, 29);
     *y = BoolToSimulink(work->AA_f_empty_);
 
-    y = ssGetOutputPortSignal(sim_struct, 32);
+    y = ssGetOutputPortSignal(sim_struct, 30);
     *y = RealToSimulink(work->AA_f_exp_);
 
-    y = ssGetOutputPortSignal(sim_struct, 33);
+    y = ssGetOutputPortSignal(sim_struct, 31);
     *y = IntToSimulink(work->AA_f_floor_);
 
-    y = ssGetOutputPortSignal(sim_struct, 34);
+    y = ssGetOutputPortSignal(sim_struct, 32);
     *y = RealToSimulink(work->AA_f_ln_);
 
-    y = ssGetOutputPortSignal(sim_struct, 35);
+    y = ssGetOutputPortSignal(sim_struct, 33);
     *y = RealToSimulink(work->AA_f_log_);
 
-    y = ssGetOutputPortSignal(sim_struct, 36);
+    y = ssGetOutputPortSignal(sim_struct, 34);
     *y = IntToSimulink(work->AA_f_max1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 37);
+    y = ssGetOutputPortSignal(sim_struct, 35);
     *y = RealToSimulink(work->AA_f_max2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 38);
+    y = ssGetOutputPortSignal(sim_struct, 36);
     *y = RealToSimulink(work->AA_f_max3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 39);
+    y = ssGetOutputPortSignal(sim_struct, 37);
     *y = RealToSimulink(work->AA_f_max4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 40);
+    y = ssGetOutputPortSignal(sim_struct, 38);
     *y = IntToSimulink(work->AA_f_min1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 41);
+    y = ssGetOutputPortSignal(sim_struct, 39);
     *y = RealToSimulink(work->AA_f_min2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 42);
+    y = ssGetOutputPortSignal(sim_struct, 40);
     *y = RealToSimulink(work->AA_f_min3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 43);
+    y = ssGetOutputPortSignal(sim_struct, 41);
     *y = RealToSimulink(work->AA_f_min4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 44);
+    y = ssGetOutputPortSignal(sim_struct, 42);
     *y = RealToSimulink(work->AA_f_pow1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 45);
+    y = ssGetOutputPortSignal(sim_struct, 43);
     *y = IntToSimulink(work->AA_f_pow12_);
 
-    y = ssGetOutputPortSignal(sim_struct, 46);
+    y = ssGetOutputPortSignal(sim_struct, 44);
     *y = RealToSimulink(work->AA_f_pow2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 47);
+    y = ssGetOutputPortSignal(sim_struct, 45);
     *y = RealToSimulink(work->AA_f_pow3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 48);
+    y = ssGetOutputPortSignal(sim_struct, 46);
     *y = RealToSimulink(work->AA_f_pow4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 49);
+    y = ssGetOutputPortSignal(sim_struct, 47);
     *y = IntToSimulink(work->AA_f_round_);
 
-    y = ssGetOutputPortSignal(sim_struct, 50);
+    y = ssGetOutputPortSignal(sim_struct, 48);
     *y = RealToSimulink(work->AA_f_scale_);
 
-    y = ssGetOutputPortSignal(sim_struct, 51);
+    y = ssGetOutputPortSignal(sim_struct, 49);
     *y = IntToSimulink(work->AA_f_sign1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 52);
+    y = ssGetOutputPortSignal(sim_struct, 50);
     *y = IntToSimulink(work->AA_f_sign2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 53);
+    y = ssGetOutputPortSignal(sim_struct, 51);
     *y = RealToSimulink(work->AA_f_sin_);
 
-    y = ssGetOutputPortSignal(sim_struct, 54);
+    y = ssGetOutputPortSignal(sim_struct, 52);
     *y = IntToSimulink(work->AA_f_size1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 55);
+    y = ssGetOutputPortSignal(sim_struct, 53);
     *y = IntToSimulink(work->AA_f_size2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 56);
+    y = ssGetOutputPortSignal(sim_struct, 54);
     *y = RealToSimulink(work->AA_f_sqrt_);
 
-    y = ssGetOutputPortSignal(sim_struct, 57);
+    y = ssGetOutputPortSignal(sim_struct, 55);
     *y = RealToSimulink(work->AA_f_tan_);
 
-    y = ssGetOutputPortSignal(sim_struct, 58);
+    y = ssGetOutputPortSignal(sim_struct, 56);
     *y = BoolToSimulink(work->AA_ge1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 59);
+    y = ssGetOutputPortSignal(sim_struct, 57);
     *y = BoolToSimulink(work->AA_ge2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 60);
+    y = ssGetOutputPortSignal(sim_struct, 58);
     *y = BoolToSimulink(work->AA_ge3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 61);
+    y = ssGetOutputPortSignal(sim_struct, 59);
     *y = BoolToSimulink(work->AA_ge4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 62);
+    y = ssGetOutputPortSignal(sim_struct, 60);
     *y = BoolToSimulink(work->AA_gt1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 63);
+    y = ssGetOutputPortSignal(sim_struct, 61);
     *y = BoolToSimulink(work->AA_gt2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 64);
+    y = ssGetOutputPortSignal(sim_struct, 62);
     *y = BoolToSimulink(work->AA_gt3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 65);
+    y = ssGetOutputPortSignal(sim_struct, 63);
     *y = BoolToSimulink(work->AA_gt4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 66);
+    y = ssGetOutputPortSignal(sim_struct, 64);
     *y = RealToSimulink(work->AA_i2r_);
 
-    y = ssGetOutputPortSignal(sim_struct, 67);
+    y = ssGetOutputPortSignal(sim_struct, 65);
     *y = IntToSimulink(work->AA_idx1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 68);
+    y = ssGetOutputPortSignal(sim_struct, 66);
     *y = BoolToSimulink(work->AA_impl_);
 
-    y = ssGetOutputPortSignal(sim_struct, 69);
+    y = ssGetOutputPortSignal(sim_struct, 67);
     *y = BoolToSimulink(work->AA_inv1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 70);
+    y = ssGetOutputPortSignal(sim_struct, 68);
     *y = BoolToSimulink(work->AA_inv2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 71);
+    y = ssGetOutputPortSignal(sim_struct, 69);
     A1BTypeToSimulink(y, &work->AA_l3i_);
 
-    y = ssGetOutputPortSignal(sim_struct, 72);
+    y = ssGetOutputPortSignal(sim_struct, 70);
     *y = BoolToSimulink(work->AA_le1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 73);
+    y = ssGetOutputPortSignal(sim_struct, 71);
     *y = BoolToSimulink(work->AA_le2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 74);
+    y = ssGetOutputPortSignal(sim_struct, 72);
     *y = BoolToSimulink(work->AA_le3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 75);
+    y = ssGetOutputPortSignal(sim_struct, 73);
     *y = BoolToSimulink(work->AA_le4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 76);
+    y = ssGetOutputPortSignal(sim_struct, 74);
     A2ITypeToSimulink(y, &work->AA_li_);
 
-    y = ssGetOutputPortSignal(sim_struct, 77);
+    y = ssGetOutputPortSignal(sim_struct, 75);
     *y = BoolToSimulink(work->AA_lt1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 78);
+    y = ssGetOutputPortSignal(sim_struct, 76);
     *y = BoolToSimulink(work->AA_lt2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 79);
+    y = ssGetOutputPortSignal(sim_struct, 77);
     *y = BoolToSimulink(work->AA_lt3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 80);
+    y = ssGetOutputPortSignal(sim_struct, 78);
     *y = BoolToSimulink(work->AA_lt4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 81);
+    y = ssGetOutputPortSignal(sim_struct, 79);
     *y = IntToSimulink(work->AA_mod1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 82);
+    y = ssGetOutputPortSignal(sim_struct, 80);
     *y = IntToSimulink(work->AA_mod2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 83);
+    y = ssGetOutputPortSignal(sim_struct, 81);
     *y = IntToSimulink(work->AA_mul1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 84);
+    y = ssGetOutputPortSignal(sim_struct, 82);
     *y = RealToSimulink(work->AA_mul2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 85);
+    y = ssGetOutputPortSignal(sim_struct, 83);
     *y = RealToSimulink(work->AA_mul3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 86);
+    y = ssGetOutputPortSignal(sim_struct, 84);
     *y = RealToSimulink(work->AA_mul4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 87);
+    y = ssGetOutputPortSignal(sim_struct, 85);
     *y = IntToSimulink(work->AA_mul5_);
 
-    y = ssGetOutputPortSignal(sim_struct, 88);
+    y = ssGetOutputPortSignal(sim_struct, 86);
     *y = IntToSimulink(work->AA_mul6_);
 
-    y = ssGetOutputPortSignal(sim_struct, 89);
+    y = ssGetOutputPortSignal(sim_struct, 87);
     *y = IntToSimulink(work->AA_mul7_);
 
-    y = ssGetOutputPortSignal(sim_struct, 90);
+    y = ssGetOutputPortSignal(sim_struct, 88);
     *y = BoolToSimulink(work->AA_ne1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 91);
+    y = ssGetOutputPortSignal(sim_struct, 89);
     *y = BoolToSimulink(work->AA_ne2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 92);
+    y = ssGetOutputPortSignal(sim_struct, 90);
     *y = BoolToSimulink(work->AA_ne3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 93);
+    y = ssGetOutputPortSignal(sim_struct, 91);
     *y = BoolToSimulink(work->AA_ne4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 94);
+    y = ssGetOutputPortSignal(sim_struct, 92);
     *y = BoolToSimulink(work->AA_ne5_);
 
-    y = ssGetOutputPortSignal(sim_struct, 95);
+    y = ssGetOutputPortSignal(sim_struct, 93);
     *y = IntToSimulink(work->AA_neg1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 96);
+    y = ssGetOutputPortSignal(sim_struct, 94);
     *y = IntToSimulink(work->AA_neg2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 97);
+    y = ssGetOutputPortSignal(sim_struct, 95);
     *y = IntToSimulink(work->AA_neg3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 98);
+    y = ssGetOutputPortSignal(sim_struct, 96);
     *y = IntToSimulink(work->AA_neg4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 99);
+    y = ssGetOutputPortSignal(sim_struct, 97);
     *y = IntToSimulink(work->AA_pos1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 100);
+    y = ssGetOutputPortSignal(sim_struct, 98);
     *y = IntToSimulink(work->AA_pos2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 101);
+    y = ssGetOutputPortSignal(sim_struct, 99);
     *y = IntToSimulink(work->AA_posneg_);
 
-    y = ssGetOutputPortSignal(sim_struct, 102);
+    y = ssGetOutputPortSignal(sim_struct, 100);
     *y = IntToSimulink(work->AA_proj1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 103);
+    y = ssGetOutputPortSignal(sim_struct, 101);
     *y = IntToSimulink(work->AA_proj2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 104);
+    y = ssGetOutputPortSignal(sim_struct, 102);
     *y = IntToSimulink(work->AA_proj3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 105);
+    y = ssGetOutputPortSignal(sim_struct, 103);
     *y = IntToSimulink(work->AA_proj4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 106);
+    y = ssGetOutputPortSignal(sim_struct, 104);
     *y = RealToSimulink(work->AA_rdiv1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 107);
+    y = ssGetOutputPortSignal(sim_struct, 105);
     *y = RealToSimulink(work->AA_rdiv2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 108);
+    y = ssGetOutputPortSignal(sim_struct, 106);
     *y = RealToSimulink(work->AA_rdiv3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 109);
+    y = ssGetOutputPortSignal(sim_struct, 107);
     *y = RealToSimulink(work->AA_rdiv4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 110);
+    y = ssGetOutputPortSignal(sim_struct, 108);
     *y = RealToSimulink(work->AA_rdiv5_);
 
-    y = ssGetOutputPortSignal(sim_struct, 111);
+    y = ssGetOutputPortSignal(sim_struct, 109);
     *y = RealToSimulink(work->AA_rdiv6_);
 
-    y = ssGetOutputPortSignal(sim_struct, 112);
+    y = ssGetOutputPortSignal(sim_struct, 110);
     *y = BoolToSimulink(work->AA_s2b_);
 
-    y = ssGetOutputPortSignal(sim_struct, 113);
+    y = ssGetOutputPortSignal(sim_struct, 111);
     *y = IntToSimulink(work->AA_s2i_);
 
-    y = ssGetOutputPortSignal(sim_struct, 114);
+    y = ssGetOutputPortSignal(sim_struct, 112);
     *y = RealToSimulink(work->AA_s2r_);
 
-    y = ssGetOutputPortSignal(sim_struct, 115);
+    y = ssGetOutputPortSignal(sim_struct, 113);
     A3ITypeToSimulink(y, &work->AA_self_cast1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 116);
+    y = ssGetOutputPortSignal(sim_struct, 114);
     A3ITypeToSimulink(y, &work->AA_self_cast2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 117);
+    y = ssGetOutputPortSignal(sim_struct, 115);
     *y = BoolToSimulink(work->AA_short_and_);
 
-    y = ssGetOutputPortSignal(sim_struct, 118);
+    y = ssGetOutputPortSignal(sim_struct, 116);
     *y = BoolToSimulink(work->AA_short_or_);
 
-    y = ssGetOutputPortSignal(sim_struct, 119);
+    y = ssGetOutputPortSignal(sim_struct, 117);
     *y = IntToSimulink(work->AA_sub1_);
 
-    y = ssGetOutputPortSignal(sim_struct, 120);
+    y = ssGetOutputPortSignal(sim_struct, 118);
     *y = RealToSimulink(work->AA_sub2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 121);
+    y = ssGetOutputPortSignal(sim_struct, 119);
     *y = RealToSimulink(work->AA_sub3_);
 
-    y = ssGetOutputPortSignal(sim_struct, 122);
+    y = ssGetOutputPortSignal(sim_struct, 120);
     *y = RealToSimulink(work->AA_sub4_);
 
-    y = ssGetOutputPortSignal(sim_struct, 123);
+    y = ssGetOutputPortSignal(sim_struct, 121);
     *y = IntToSimulink(work->AA_sub5_);
 
-    y = ssGetOutputPortSignal(sim_struct, 124);
+    y = ssGetOutputPortSignal(sim_struct, 122);
     *y = IntToSimulink(work->AA_sub6_);
 
-    y = ssGetOutputPortSignal(sim_struct, 125);
+    y = ssGetOutputPortSignal(sim_struct, 123);
     *y = IntToSimulink(work->AA_sub7_);
 
-    y = ssGetOutputPortSignal(sim_struct, 126);
+    y = ssGetOutputPortSignal(sim_struct, 124);
     *y = RealToSimulink(work->AA_v2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 127);
+    y = ssGetOutputPortSignal(sim_struct, 125);
     A2ITypeToSimulink(y, &work->AA_va_);
 
-    y = ssGetOutputPortSignal(sim_struct, 128);
+    y = ssGetOutputPortSignal(sim_struct, 126);
     *y = BoolToSimulink(work->AA_vb_);
 
-    y = ssGetOutputPortSignal(sim_struct, 129);
+    y = ssGetOutputPortSignal(sim_struct, 127);
     *y = IntToSimulink(work->AA_ve_);
 
-    y = ssGetOutputPortSignal(sim_struct, 130);
+    y = ssGetOutputPortSignal(sim_struct, 128);
     *y = BoolToSimulink(work->AA_vf_);
 
-    y = ssGetOutputPortSignal(sim_struct, 131);
+    y = ssGetOutputPortSignal(sim_struct, 129);
     *y = IntToSimulink(work->AA_vi_);
 
-    y = ssGetOutputPortSignal(sim_struct, 132);
+    y = ssGetOutputPortSignal(sim_struct, 130);
     *y = IntToSimulink(work->AA_vn_);
 
-    y = ssGetOutputPortSignal(sim_struct, 133);
+    y = ssGetOutputPortSignal(sim_struct, 131);
     *y = IntToSimulink(work->AA_vp_);
 
-    y = ssGetOutputPortSignal(sim_struct, 134);
+    y = ssGetOutputPortSignal(sim_struct, 132);
     *y = RealToSimulink(work->AA_vr_);
 
-    y = ssGetOutputPortSignal(sim_struct, 135);
+    y = ssGetOutputPortSignal(sim_struct, 133);
     *y = BoolToSimulink(work->AA_vt_);
 
-    y = ssGetOutputPortSignal(sim_struct, 136);
+    y = ssGetOutputPortSignal(sim_struct, 134);
     *y = IntToSimulink(work->AA_vz_);
 
-    y = ssGetOutputPortSignal(sim_struct, 137);
+    y = ssGetOutputPortSignal(sim_struct, 135);
     *y = IntToSimulink(work->a1_x_);
 
-    y = ssGetOutputPortSignal(sim_struct, 138);
+    y = ssGetOutputPortSignal(sim_struct, 136);
     *y = IntToSimulink(fcall1_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 139);
+    y = ssGetOutputPortSignal(sim_struct, 137);
     *y = IntToSimulink(fcall2_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 140);
+    y = ssGetOutputPortSignal(sim_struct, 138);
     *y = IntToSimulink(if1_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 141);
+    y = ssGetOutputPortSignal(sim_struct, 139);
     *y = IntToSimulink(if2_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 142);
+    y = ssGetOutputPortSignal(sim_struct, 140);
     *y = IntToSimulink(if3_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 143);
+    y = ssGetOutputPortSignal(sim_struct, 141);
     *y = IntToSimulink(v1_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 144);
+    y = ssGetOutputPortSignal(sim_struct, 142);
     *y = IntToSimulink(vea_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 145);
+    y = ssGetOutputPortSignal(sim_struct, 143);
     *y = IntToSimulink(x2_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 146);
+    y = ssGetOutputPortSignal(sim_struct, 144);
     *y = IntToSimulink(x3_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 147);
+    y = ssGetOutputPortSignal(sim_struct, 145);
     *y = IntToSimulink(x4_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 148);
+    y = ssGetOutputPortSignal(sim_struct, 146);
     *y = RealToSimulink(x6_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 149);
+    y = ssGetOutputPortSignal(sim_struct, 147);
     *y = BoolToSimulink(x7_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 150);
+    y = ssGetOutputPortSignal(sim_struct, 148);
     *y = IntToSimulink(x9_(sim_struct));
 }
 /* }}} */

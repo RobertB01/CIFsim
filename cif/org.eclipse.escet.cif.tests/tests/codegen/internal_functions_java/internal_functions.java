@@ -94,9 +94,6 @@ public abstract class internal_functions {
     /** Discrete variable "aut.combi". */
     public int aut_combi_;
 
-    /** Discrete variable "aut". */
-    public internal_functionsEnum aut_;
-
 
     /** Constructor for the {@link internal_functions} class. */
     public internal_functions() {
@@ -236,7 +233,6 @@ public abstract class internal_functions {
         aut_v18_ = fu3_();
         aut_v19_ = fr_();
         aut_combi_ = addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(addInt(aut_v00_, aut_v01_), aut_v02_), aut_v03_), aut_v04_), aut_v05_), aut_v06_), aut_v07_), aut_v08_), floor(aut_v09_)), aut_v10_), project(aut_v11_, 0)), project(aut_v12_, 0)), aut_v13_), aut_v14_), aut_v15_), aut_v16_), aut_v17_), aut_v18_), aut_v19_);
-        aut_ = internal_functionsEnum._X;
     }
 
     /**
@@ -830,7 +826,7 @@ public abstract class internal_functions {
 
     /** internal_functions enumeration. */
     public static enum internal_functionsEnum {
-        /** X */ _X;
+${java-enum-lits-code}
 
         @Override
         public String toString() {

@@ -10,16 +10,6 @@
 /* Types of the specification.
  * Note that integer ranges are ignored in C.
  */
-enum Enumfmt_ {
-    _fmt_A,
-    _fmt_B,
-    _fmt_X,
-};
-typedef enum Enumfmt_ fmtEnum;
-
-extern const char *enum_names[];
-extern int EnumTypePrint(fmtEnum value, char *dest, int start, int end);
-
 /* CIF type: list[1] string */
 struct A1S_struct {
     StringType data[1];
@@ -63,6 +53,15 @@ extern StringType *A2STypeProject(A2SType *array, IntType index);
 extern void A2STypeModify(A2SType *array, IntType index, StringType *value);
 extern int A2STypePrint(A2SType *array, char *dest, int start, int end);
 
+enum Enumfmt_ {
+    _fmt_A,
+    _fmt_B,
+};
+typedef enum Enumfmt_ fmtEnum;
+
+extern const char *enum_names[];
+extern int EnumTypePrint(fmtEnum value, char *dest, int start, int end);
+
 
 /* Event declarations. */
 enum fmtEventEnum_ {
@@ -90,7 +89,7 @@ extern void fmt_AssignInputVariables();
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern fmtEnum a_; /**< Discrete variable "E a". */
+
 
 /* Algebraic and derivative functions (use for output only). */
 
