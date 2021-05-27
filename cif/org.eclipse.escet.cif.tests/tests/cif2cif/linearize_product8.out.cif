@@ -1,0 +1,24 @@
+alg bool X1 = true;
+alg bool X2 = false;
+alg bool X3 = if true: true else false end;
+alg string X4 = "v";
+alg bool X5 = false;
+alg string X6 = "*";
+automaton M:
+  alphabet p_e, q_e;
+  event p_e;
+  disc int p_x = 0;
+  event q_e;
+  disc int q_x = 0;
+  initial true and true,
+          true and true;
+  marked true and false,
+         true and false;
+  location L:
+    initial;
+    marked;
+    edge p_e when p_x >= 3;
+    edge p_e when p_x < 3 do if p_x = 0: p_x := p_x + 1 end;
+    edge q_e when q_x >= 3;
+    edge q_e when q_x < 3 do q_x := q_x + 1;
+end
