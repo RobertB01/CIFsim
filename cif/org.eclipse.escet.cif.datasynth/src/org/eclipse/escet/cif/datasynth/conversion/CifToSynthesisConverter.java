@@ -542,23 +542,9 @@ public class CifToSynthesisConverter {
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
-//
-//        // Combine state/event exclusion requirements, per event.
-//        for (Entry<Event, List<BDD>> entry: synthAut.stateEvtExclReqLists.entrySet()) {
-//            BDD combi = synthAut.factory.one();
-//            for (BDD pred: entry.getValue()) {
-//                combi = combi.and(pred);
-//            }
-//            synthAut.stateEvtExclReqs.put(entry.getKey(), combi);
-//        }
-
-        if (synthAut.env.isTerminationRequested()) {
-            return synthAut;
-        }
 
         // Convert plant and requirement automata.
         convertPlantReqAuts(plants, requirements, plantAlphabets, reqAlphabets, locPtrManager, lpToAutMap, synthAut);
-
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
