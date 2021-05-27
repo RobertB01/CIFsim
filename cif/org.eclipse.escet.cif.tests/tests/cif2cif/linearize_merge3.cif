@@ -14,13 +14,15 @@
 // Different kinds.
 plant p1:
   event e;
-  location l:
+  location l1:
     initial;
-    edge e;
+    edge e goto l2;
+  location l2;
 end
 
 requirement p2:
-  location l:
+  location l1:
     initial;
-    edge p1.e;
+    edge p1.e goto l2;
+  location l2;
 end

@@ -1,18 +1,16 @@
-enum E = X;
+enum E = l1, l2;
 automaton M:
-  alphabet;
-  disc E a = X;
-  disc E p = X;
-  disc E r = X;
-  disc E s = X;
-  initial a = X and true,
-          p = X and true,
-          r = X and true,
-          s = X and true;
-  marked a = X and false,
-         p = X and false,
-         r = X and false,
-         s = X and false;
+  alphabet s_e;
+  event s_e;
+  disc E s = l1;
+  initial true and true,
+          true and true,
+          true and true,
+          s = l1 and true or s = l2 and false;
+  marked true and false,
+         true and false,
+         true and false,
+         s = l1 and false or s = l2 and false;
   invariant 21 = 21;
   plant invariant 22 = 22;
   requirement invariant 23 = 23;
@@ -29,13 +27,14 @@ automaton M:
   plant invariant 52 = 52;
   requirement invariant 53 = 53;
   supervisor invariant 54 = 54;
-  supervisor invariant s = X => 61 = 61;
-  plant invariant s = X => 62 = 62;
-  requirement invariant s = X => 63 = 63;
-  supervisor invariant s = X => 64 = 64;
+  supervisor invariant s = l1 => 61 = 61;
+  plant invariant s = l1 => 62 = 62;
+  requirement invariant s = l1 => 63 = 63;
+  supervisor invariant s = l1 => 64 = 64;
   location L:
     initial;
     marked;
+    edge s_e when s = l1 do s := l2;
 end
 invariant 11 = 11;
 plant invariant 12 = 12;

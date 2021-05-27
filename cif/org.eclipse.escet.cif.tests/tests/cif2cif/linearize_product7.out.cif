@@ -1,14 +1,12 @@
-enum E = l, l1, l2, l3, X;
+enum E = l1, l2, l3;
 automaton M:
   alphabet;
   alg string aut_a1_named_v1 = "l";
   alg string aut_a1_named_v2 = "l";
   alg string aut_a1_named_v3 = <string>true;
-  disc E aut_a1_named = l;
   alg string aut_a1_noname_v1 = "*";
   alg string aut_a1_noname_v2 = "*";
   alg string aut_a1_noname_v3 = <string>true;
-  disc E aut_a1_noname = X;
   alg string aut_a2_v1 = if aut_a2 = l1: "l1" else "l2" end;
   alg string aut_a2_v2 = if aut_a2 = l1: "l1" else "l2" end;
   alg string aut_a2_v3 = <string>true;
@@ -20,11 +18,9 @@ automaton M:
   alg string aut_def_a1_named_v1 = "l";
   alg string aut_def_a1_named_v2 = "l";
   alg string aut_def_a1_named_v3 = <string>true;
-  disc E aut_def_a1_named = l;
   alg string aut_def_a1_noname_v1 = "*";
   alg string aut_def_a1_noname_v2 = "*";
   alg string aut_def_a1_noname_v3 = <string>true;
-  disc E aut_def_a1_noname = X;
   alg string aut_def_a2_v1 = if aut_def_a2 = l1: "l1" else "l2" end;
   alg string aut_def_a2_v2 = if aut_def_a2 = l1: "l1" else "l2" end;
   alg string aut_def_a2_v3 = <string>true;
@@ -33,20 +29,20 @@ automaton M:
   alg string aut_def_a3_v2 = if aut_def_a3 = l1: "l1" elif aut_def_a3 = l2: "l2" else "l3" end;
   alg string aut_def_a3_v3 = <string>true;
   disc E aut_def_a3 in any;
-  initial aut_a1_named = l and true,
-          aut_a1_noname = X and true,
+  initial true and true,
+          true and true,
           aut_a2 = l1 and true or aut_a2 = l2 and true,
           aut_a3 = l1 and true or (aut_a3 = l2 and true or aut_a3 = l3 and true),
-          aut_def_a1_named = l and true,
-          aut_def_a1_noname = X and true,
+          true and true,
+          true and true,
           aut_def_a2 = l1 and true or aut_def_a2 = l2 and true,
           aut_def_a3 = l1 and true or (aut_def_a3 = l2 and true or aut_def_a3 = l3 and true);
-  marked aut_a1_named = l and false,
-         aut_a1_noname = X and false,
+  marked true and false,
+         true and false,
          aut_a2 = l1 and false or aut_a2 = l2 and false,
          aut_a3 = l1 and false or (aut_a3 = l2 and false or aut_a3 = l3 and false),
-         aut_def_a1_named = l and false,
-         aut_def_a1_noname = X and false,
+         true and false,
+         true and false,
          aut_def_a2 = l1 and false or aut_def_a2 = l2 and false,
          aut_def_a3 = l1 and false or (aut_def_a3 = l2 and false or aut_def_a3 = l3 and false);
   location L:

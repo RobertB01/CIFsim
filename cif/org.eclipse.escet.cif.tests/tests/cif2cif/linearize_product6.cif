@@ -47,16 +47,19 @@ requirement r:
 end
 
 supervisor s:
+  event e;
               invariant 51 = 51;
   plant       invariant 52 = 52;
   requirement invariant 53 = 53;
   supervisor  invariant 54 = 54;
 
-  location:
+  location l1:
     initial;
 
                 invariant 61 = 61;
     plant       invariant 62 = 62;
     requirement invariant 63 = 63;
     supervisor  invariant 64 = 64;
+    edge e goto l2;
+  location l2;
 end

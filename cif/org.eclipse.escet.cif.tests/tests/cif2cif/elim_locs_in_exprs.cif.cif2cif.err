@@ -1,3 +1,5 @@
+WARNING: File "cif2cif/elim_locs_in_exprs.cif": Semantic warning at line 103, column 19: Switch "else" is superfluous, as all locations already have a "case".
+WARNING: File "cif2cif/elim_locs_in_exprs.cif": Semantic warning at line 113, column 19: Switch "else" is superfluous, as all locations already have a "case".
 WARNING: Location pointer variable "LP_p2" is renamed to "LP_p22".
 WARNING: Enumeration "LOCS_p2", introduced as the type of location pointer variable "LP_p22", is renamed to "LOCS_p22".
 WARNING: Enumeration literal "LOC_l1", introduced as a value for location pointer variable "LP_p22", is renamed to "LOC_l13".
