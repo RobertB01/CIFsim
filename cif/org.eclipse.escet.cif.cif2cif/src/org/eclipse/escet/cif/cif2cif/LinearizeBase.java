@@ -103,9 +103,10 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  *
  * <p>
- * A location pointer variable is introduced for each original automaton, and the use of locations in expressions is
- * eliminated, by replacing such uses with location pointer references. See also the {@link ElimLocRefExprs}
- * transformation (and its {@link #lpIntroducer} instance), which is used for this.
+ * A location pointer variable is introduced for each original automaton that has at least two locations, and the use of
+ * locations in expressions is eliminated, by replacing such uses with location pointer references or {@code true} for
+ * reference to automata with exactly one location. See also the {@link ElimLocRefExprs} transformation (and its
+ * {@link #lpIntroducer} instance), which is used for this.
  * </p>
  *
  * <p>
@@ -181,14 +182,13 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * and for instance locations, as the locations will be eliminated during linearization anyway. We don't add
      * initialization predicates to the location, for initialization of the location pointer variables. We do that as
      * part of the linearization instead, to avoid duplication. We don't optimize, to ensure location pointer variables
-     * for all automata. We use {@code "X"} as name for nameless locations, which differs from the other single letter
-     * names we introduce during this transformation. We don't allow the optimization of initialization of location
+     * for all automata with at least two locations. We don't allow the optimization of initialization of location
      * pointers, by analyzing declarations (used for instance in initialization predicates) to see whether they have
      * constant values, as that would mean we can't easily modify the linearization result, e.g. similar to when
      * constants are inlined.
      * </p>
      */
-    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs("", "TMP_", "", false, false, false, "X",
+    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs("", "TMP_", "", false, false, false,
             absLpNamesMap, false);
 
     /**
@@ -241,8 +241,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // reference expressions.
         new ElimAutCasts().transform(spec);
 
-        // Introduce location pointer variables for all automata, and eliminate
-        // location references from expressions.
+        // Introduce location pointer variables for all automata with at least
+        // two locations, and eliminate location references from expressions.
         lpIntroducer.transform(spec);
 
         // Get automata from linearized specification. Ensure no other
@@ -580,7 +580,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                     CifInvariantUtils.makeSupKindExplicit(inv);
 
                     // Modify 'loc' to 'loc => inv'.
-                    BinaryExpression lexpr = lpIntroducer.createEquality(loc);
+                    Expression lexpr = lpIntroducer.createEquality(loc);
 
                     BinaryExpression bexpr = newBinaryExpression();
                     bexpr.setOperator(BinaryOperator.IMPLICATION);
@@ -610,7 +610,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 // Add 'loc and init'.
                 Expression init = loc.getInitials().isEmpty() ? makeFalse() : createConjunction(loc.getInitials());
 
-                BinaryExpression lexpr = lpIntroducer.createEquality(loc);
+                Expression lexpr = lpIntroducer.createEquality(loc);
                 inits.add(createConjunction(list(lexpr, init)));
             }
 
@@ -631,7 +631,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 // Add 'loc and marker'.
                 Expression marker = loc.getMarkeds().isEmpty() ? makeFalse() : createConjunction(loc.getMarkeds());
 
-                BinaryExpression lexpr = lpIntroducer.createEquality(loc);
+                Expression lexpr = lpIntroducer.createEquality(loc);
                 markers.add(createConjunction(list(lexpr, marker)));
             }
 

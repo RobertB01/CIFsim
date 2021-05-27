@@ -27,6 +27,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newVariableValue;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
+import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.setc;
@@ -71,7 +72,8 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * <p>
  * For each automaton for which a location is referenced (or for all automata, depending on the transformation
  * settings), a location pointer variable is introduced, with as value the current location. The values are part of a
- * new enumeration that has a value for each location of the automaton.
+ * new enumeration that has a value for each location of the automaton. For locations with exactly one location, no
+ * location variable is introduced.
  * </p>
  *
  * <p>
@@ -87,12 +89,14 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  *
  * <p>
  * All location reference expressions are changed to equality binary expressions for variable reference expressions that
- * reference the new location pointer variable.
+ * reference the new location pointer variable. If the location of an automation with exactly one location is
+ * referenced, the reference is replaced by 'true'.
  * </p>
  *
  * <p>
  * 'switch' expressions with an automaton (self) reference as control value, are updated to use location pointers and
- * their corresponding enumeration values.
+ * their corresponding enumeration values. For automata with exactly one location, the switch case is dropped and the
+ * first case value is used.
  * </p>
  *
  * <p>
@@ -113,12 +117,6 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
 
     /** The prefix to use for the new enumeration literals. */
     private final String litPrefix;
-
-    /**
-     * The name to use as default name for nameless locations, or {@code null} if not applicable (if {@link #optimized}
-     * is {@code true}).
-     */
-    private final String defaultLocName;
 
     /**
      * Whether to perform an optimized transformation (only add location pointer variables to automata for which a
@@ -195,7 +193,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * </ul>
      */
     public ElimLocRefExprs() {
-        this("LP_", "LOCS_", "LOC_", true, true, true, null, null, true);
+        this("LP_", "LOCS_", "LOC_", true, true, true, null, true);
     }
 
     /**
@@ -217,8 +215,6 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *     initialized in its declaration, regardless of the value of this parameter.
      * @param optimized Whether to perform an optimized transformation (only add location pointer variables to automata
      *     for which a location is referenced in an expression).
-     * @param defaultLocName The name to use as default name for nameless locations, or {@code null} if not applicable
-     *     (if {@code optimized} is {@code true}).
      * @param absVarNamesMap Mapping from location pointer variables to their absolute names, where the name of the
      *     automaton omitted from the absolute name, but not any of the groups of which the automaton is a part.
      *     Absolute names are not escaped. The mapping is modified in-place. May be {@code null} to not construct this
@@ -227,8 +223,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *     (used for instance in initialization predicates) to see whether they have constant values.
      */
     public ElimLocRefExprs(String varPrefix, String enumPrefix, String litPrefix, boolean considerLocsForRename,
-            boolean addInitPreds, boolean optimized, String defaultLocName, Map<DiscVariable, String> absVarNamesMap,
-            boolean optInits)
+            boolean addInitPreds, boolean optimized, Map<DiscVariable, String> absVarNamesMap, boolean optInits)
     {
         this.varPrefix = varPrefix;
         this.enumPrefix = enumPrefix;
@@ -236,15 +231,13 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         this.considerLocsForRename = considerLocsForRename;
         this.addInitPreds = addInitPreds;
         this.optimized = optimized;
-        this.defaultLocName = defaultLocName;
         this.absVarNamesMap = absVarNamesMap;
         this.optInits = optInits;
-        Assert.ifAndOnlyIf(optimized, defaultLocName == null);
-        Assert.check(defaultLocName == null || !defaultLocName.isEmpty());
     }
 
     /**
-     * Returns the unique location pointer variable for the given automaton.
+     * Returns the unique location pointer variable for the given automaton. If the automation has exactly one location,
+     * {@code null} is returned.
      *
      * <p>
      * The {@link #autToVarMap} is used. If no entry is present in that mapping, a new variable is created and added to
@@ -260,6 +253,11 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * @return The unique location pointer variable.
      */
     private DiscVariable getLocPointerVar(Automaton aut) {
+        if (aut.getLocations().size() == 1) {
+            // Exactly one location, don't create a location pointer.
+            return null;
+        }
+
         DiscVariable var = autToVarMap.get(aut);
         if (var == null) {
             // Create type of location pointer variable.
@@ -291,7 +289,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *
      * <p>
      * The {@link #autToEnumMap} is used. If no entry is present in that mapping, a new enumeration is created and added
-     * to the mapping, before returning it.
+     * to the mapping, before returning it. If the automaton has exactly one location, {@code null} is returned.
      * </p>
      *
      * <p>
@@ -303,6 +301,11 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * @return The unique enumeration.
      */
     private EnumDecl getLocPointerEnum(Automaton aut) {
+        if (aut.getLocations().size() == 1) {
+            // Exactly one location, don't create a location-pointer enumeration.
+            return null;
+        }
+
         EnumDecl enumDecl = autToEnumMap.get(aut);
         if (enumDecl == null) {
             // Create enum.
@@ -313,9 +316,6 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             List<EnumLiteral> literals = enumDecl.getLiterals();
             for (Location loc: aut.getLocations()) {
                 String name = loc.getName();
-                if (name == null) {
-                    name = defaultLocName;
-                }
                 Assert.notNull(name);
 
                 EnumLiteral literal = newEnumLiteral();
@@ -354,20 +354,18 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             // Phase 1: Add automaton.
             Location loc = locRef.getLocation();
             Automaton aut = (Automaton)loc.eContainer();
-            autToVarMap.put(aut, null);
+
+            if (aut.getLocations().size() != 1) {
+                // Only add automata with at least two locations, as for automata with exactly one location, no locaiton
+                // pointer is created.
+                autToVarMap.put(aut, null);
+            }
         } else {
-            // Phase 2: Replace reference by equality over location pointer.
+            // Phase 2: Replace reference by equality over location pointer or 'true' if exactly one location.
             Location loc = locRef.getLocation();
 
-            // Skip automata for which no locations are referenced, if we
-            // use optimized mode.
-            Automaton aut = (Automaton)loc.eContainer();
-            if (optimized && !autToVarMap.containsKey(aut)) {
-                return;
-            }
-
             // Replace.
-            BinaryExpression pred = createEquality(loc);
+            Expression pred = createEquality(loc);
             EMFHelper.updateParentContainment(locRef, pred);
         }
     }
@@ -375,9 +373,13 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     @Override
     protected void preprocessAutomaton(Automaton aut) {
         if (phase == 2) {
-            // Skip automata for which no locations are referenced, if we
-            // use optimized mode.
+            // Skip automata for which no locations are referenced, if we use optimized mode.
             if (optimized && !autToVarMap.containsKey(aut)) {
+                return;
+            }
+
+            // Skip automata with exactly one location.
+            if (aut.getLocations().size() == 1) {
                 return;
             }
 
@@ -602,7 +604,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     }
 
     /**
-     * Creates an equality binary expression for the given location.
+     * Creates an expression for the given location. If there are multiple locations, this is a '{@code var = lit}'
+     * binary expression. If there is exactly one location, this is a '{@code true}' boolean expression.
      *
      * <p>
      * This method is exposed in the public API to allow using it also after the transformation has finished, to create
@@ -610,11 +613,15 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * </p>
      *
      * @param loc The location.
-     * @return The newly created '{@code var = lit}' expression.
+     * @return The newly created '{@code var = lit}' expression or '{@code true}' expression.
      */
-    public BinaryExpression createEquality(Location loc) {
+    public Expression createEquality(Location loc) {
         // Get automaton, variable, and enumeration.
         Automaton aut = (Automaton)loc.eContainer();
+        if (aut.getLocations().size() == 1) {
+            return CifValueUtils.makeTrue();
+        }
+
         DiscVariable var = getLocPointerVar(aut);
         EnumDecl enumDecl = getLocPointerEnum(aut);
 
@@ -636,6 +643,10 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         Automaton aut = (Automaton)loc.eContainer();
         DiscVariable var = getLocPointerVar(aut);
         EnumDecl enumDecl = getLocPointerEnum(aut);
+        if (var == null) {
+            // If there is no location pointer, it can't be updated.
+            return null;
+        }
 
         // Create variable reference.
         DiscVariableExpression varRef = newDiscVariableExpression();
@@ -679,9 +690,18 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         ComponentType compType = (ComponentType)value.getType();
         Component comp = compType.getComponent();
         Automaton aut = CifScopeUtils.getAutomaton(comp);
-        DiscVariable var = getLocPointerVar(aut);
+
+        // Special case, automaton has exactly one location. Drop the entire switch expression, and replace it by the
+        // value of the first switch case. First value is either the only location name of the automaton, or it is the
+        // 'else' switch case.
+        if (aut.getLocations().size() == 1) {
+            SwitchCase firstCase = first(switchExpr.getCases());
+            EMFHelper.updateParentContainment(switchExpr, firstCase.getValue());
+            return;
+        }
 
         // Replace automaton (self) reference by location pointer reference.
+        DiscVariable var = getLocPointerVar(aut);
         DiscVariableExpression varRef = newDiscVariableExpression();
         varRef.setVariable(var);
         varRef.setType(deepclone(var.getType()));
@@ -721,12 +741,18 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         }
 
         // Change location reference to a location pointer value reference.
-        // First, get the location.
+        // First, get the location and the automaton.
         Assert.check(key instanceof LocationExpression);
         Location loc = ((LocationExpression)key).getLocation();
+        Automaton aut = (Automaton)loc.eContainer();
+
+        // Special case, reference to an automaton with one location and an 'else' case. The switch expression will be
+        // dropped during postprocessing.
+        if (aut.getLocations().size() == 1) {
+            return;
+        }
 
         // Get enum literal.
-        Automaton aut = (Automaton)loc.eContainer();
         int idx = aut.getLocations().indexOf(loc);
         EnumDecl enumDecl = getLocPointerEnum(aut);
         EnumLiteral literal = enumDecl.getLiterals().get(idx);
