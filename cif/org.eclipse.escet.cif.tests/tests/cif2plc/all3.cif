@@ -34,9 +34,9 @@ plant q:
 
     edge when y < 6 do y := y + 1;                 // old vs new
 
-    edge f do if y < 6:                            // if upd
-                y := y + 1
-              else
-                b := not b
-              end;
+    edge f when b do if y < 6:                     // if upd
+                       y := y + 1
+                     else
+                       b := not b
+                     end;
 end

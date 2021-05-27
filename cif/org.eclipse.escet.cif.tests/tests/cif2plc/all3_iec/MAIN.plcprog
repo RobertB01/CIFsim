@@ -18,7 +18,6 @@ VAR_TEMP
     state1: STATE;
     progress: BOOL;
     loopCount: INT;
-    b1: BOOL;
 END_VAR
 
 
@@ -57,7 +56,6 @@ IF first THEN
     state0.dvar_M_p := elit_l1;
     state0.dvar_M_q_y := 2;
     state0.dvar_M_q_b := FALSE;
-    state0.dvar_M_q := elit_l1;
 ELSE
     // Update continuous variables for time delay.
 
@@ -70,9 +68,7 @@ WHILE TRUE DO
 
     // Event "e".
     IF NOT progress THEN
-        b1 := (state0.dvar_M_p) = (elit_l1);
-        b1 := b1 AND ((state0.dvar_M_q) = (elit_l1));
-        IF b1 THEN
+        IF (state0.dvar_M_p) = (elit_l1) THEN
             progress := TRUE;
             state1 := state0;
 
@@ -86,7 +82,7 @@ WHILE TRUE DO
 
     // Event "f".
     IF NOT progress THEN
-        IF (state0.dvar_M_q) = (elit_l1) THEN
+        IF state0.dvar_M_q_b THEN
             progress := TRUE;
             state1 := state0;
 
@@ -102,9 +98,7 @@ WHILE TRUE DO
 
     // Event "tau".
     IF NOT progress THEN
-        b1 := (state0.dvar_M_q) = (elit_l1);
-        b1 := b1 AND ((state0.dvar_M_q_y) < (6));
-        IF b1 THEN
+        IF (state0.dvar_M_q_y) < (6) THEN
             progress := TRUE;
             state1 := state0;
 

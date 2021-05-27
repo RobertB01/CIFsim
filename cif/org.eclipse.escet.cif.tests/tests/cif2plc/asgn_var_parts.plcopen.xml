@@ -33,21 +33,7 @@
                 </array>
               </type>
             </variable>
-            <variable address="%Q*" name="dvar_M_a">
-              <type>
-                <derived name="enum_E"/>
-              </type>
-            </variable>
           </struct>
-        </baseType>
-      </dataType>
-      <dataType name="enum_E">
-        <baseType>
-          <enum>
-            <values>
-              <value name="elit_X"/>
-            </values>
-          </enum>
         </baseType>
       </dataType>
       <dataType name="TupleStruct_1">
@@ -260,7 +246,6 @@ IF first THEN
 
     // Initialize state variables for initial state.
     state0.dvar_M_a_li := makeArray0(0, 0, 0, 0, 0);
-    state0.dvar_M_a := elit_X;
 ELSE
     // Update continuous variables for time delay.
 
