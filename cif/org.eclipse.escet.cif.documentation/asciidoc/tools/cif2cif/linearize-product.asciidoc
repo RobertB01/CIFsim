@@ -56,11 +56,11 @@ indexterm:[linearize,implementation]
 
 === Implementation details
 
-A location pointer variable is introduced for each original automaton, and the
-use of locations in expressions is eliminated. This is mostly similar to what
-the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation does,
-except that for instance location pointer variables are added for all automata.
-For nameless locations, name `X` is used.
+A location pointer variable is introduced for each original automaton with at
+least two locations, and the use of locations in expressions is eliminated.
+This is mostly similar to what the <<tools-cif2cif-chapter-elim-locs-in-exprs>>
+CIF to CIF transformation does, except that for instance location pointer
+variables are added for all automata with at least two locations.
 
 One new automaton, named `M`, is created. If all original automata have
 the same supervisory kind, the new automaton gets this kind as well. Otherwise,
@@ -230,31 +230,29 @@ automaton M:
   alphabet e;
 
   disc int p_x = 0;
-  disc E p in any;
   disc int q_y = 0;
-  disc E q in any;
 
-  initial p = X and false,
-          q = X and false;
+  initial true and false,
+          true and false;
 
-  marked p = X and false,
-         q = X and false;
+  marked true and false,
+         true and false;
 
   location L:
     initial;
     marked;
 
-    edge e when p = X and p_x < 5 and q = X and q_y < 5
+    edge e when true and p_x < 5 and true and q_y < 5
            do p_x := p_x + 1, q_y := q_y + 1;
-    edge e when p = X and p_x < 5 and q = X and q_y > 3
+    edge e when true and p_x < 5 and true and q_y > 3
            do p_x := p_x + 1, q_y := q_y - 1;
-    edge e when p = X and p_x < 5 and q = X and q_y = 4
+    edge e when true and p_x < 5 and true and q_y = 4
            do p_x := p_x + 1, q_y := q_y - 1;
-    edge e when p = X and p_x > 3 and q = X and q_y < 5
+    edge e when true and p_x > 3 and true and q_y < 5
            do p_x := p_x - 1, q_y := q_y + 1;
-    edge e when p = X and p_x > 3 and q = X and q_y > 3
+    edge e when true and p_x > 3 and true and q_y > 3
            do p_x := p_x - 1, q_y := q_y - 1;
-    edge e when p = X and p_x > 3 and q = X and q_y = 4
+    edge e when true and p_x > 3 and true and q_y = 4
            do p_x := p_x - 1, q_y := q_y - 1;
 end
 ----
@@ -385,25 +383,22 @@ is transformed to the following specification:
 [source, cif]
 ----
 event e;
-enum E = X;
 
 automaton M:
   alphabet e;
 
-  disc E s in any;
   disc int r_x;
-  disc E r in any;
 
-  initial s = X and false,
-          r = X and false;
-  marked s = X and false,
-         r = X and false;
+  initial true and false,
+          true and false;
+  marked true and false,
+         true and false;
 
   location L:
     initial;
     marked;
 
-    edge e when s = X and r = X do r_x := (1, 2)[0];
+    edge e when true and true do r_x := (1, 2)[0];
 end
 ----
 

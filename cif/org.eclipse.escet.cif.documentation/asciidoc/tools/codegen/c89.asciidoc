@@ -317,7 +317,7 @@ tuples is the <<tools-codegen-c89-systematic-type-names,systematic type name>>
 of the array or tuple type.
 
 * Due to <<tools-cif2cif-chapter-linearize-merge,linearization>> all enumerations
-are merged into one. The generated C89 code always has exactly one translated
+are merged into one. The generated C89 code always has at most one translated
 `enum`.
 
 * The elementary data types (`BoolType`, `IntType`, `RealType`, and
@@ -367,7 +367,7 @@ concatenates the result. The following conversion table applies:
 
 | `+enum e = ...+`
 | `E` (Due to linearization, all enumerations are merged together to a
-single enumeration. As such, always exactly one `enum` is generated for a
+single enumeration. As such, always at most one `enum` is generated for a
 CIF model.)
 
 | `real`

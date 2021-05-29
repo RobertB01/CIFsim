@@ -171,8 +171,8 @@ the environment. Since the code for the CIF model was just executed, these
 variables may have new values.
 +
 All discrete and continuous variables of the CIF model are available, as are
-variable `time` and the current locations of all of the automata of the
-CIF model.
+variable `time` and the current locations of all of the automata with at least
+two location.
 +
 The code to write the output values to the environment is the dual to reading
 the inputs from the environment, as is done in the `updateInputs` method.
@@ -327,7 +327,7 @@ variant is used when needed, for instance for element types of a
 
 * As linearization is applied on the CIF model prior to generating Java code,
 all enumerations are merged together to a single enumeration. As such, always
-exactly one Java `enum` is generated for a CIF model.
+at most one Java `enum` is generated for a CIF model.
 
 === Runtime errors
 
