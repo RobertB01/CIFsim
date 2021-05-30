@@ -1977,19 +1977,22 @@ public class CifToSynthesisConverter {
                 compInv = compInvNot;
             }
 
-            // Store.
+            // Store copies of the BDD.
             if (kind == SupKind.PLANT) {
-                storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv);
-                conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv);
+                storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv.id());
+                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv.id());
             } else if (kind == SupKind.REQUIREMENT) {
-                storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv);
-                conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv);
+                storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv.id());
+                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv.id());
                 if (Boolean.TRUE.equals(event.getControllable())) {
-                    conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv);
+                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv.id());
                 }
             } else {
                 throw new RuntimeException("Unexpected kind: " + kind);
             }
+
+            // Free the original BDD.
+            compInv.free();
         }
 
         // State/event exclusion requirement invariants of locations (automata only).
@@ -2066,19 +2069,22 @@ public class CifToSynthesisConverter {
                         locInv = locInvNot;
                     }
 
-                    // Store.
+                    // Store copies of the BDD.
                     if (kind == SupKind.PLANT) {
-                        storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv);
-                        conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv);
+                        storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv.id());
+                        conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv.id());
                     } else if (kind == SupKind.REQUIREMENT) {
-                        storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv);
-                        conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv);
+                        storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv.id());
+                        conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv.id());
                         if (Boolean.TRUE.equals(event.getControllable())) {
-                            conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv);
+                            conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv.id());
                         }
                     } else {
                         throw new RuntimeException("Unexpected kind: " + kind);
                     }
+
+                    // Free the original BDD.
+                    locInv.free();
                 }
             }
         }
@@ -2113,9 +2119,10 @@ public class CifToSynthesisConverter {
      * @param event The event to use as a key.
      * @param inv The invariant to combine.
      */
-    private void conjuctAndStoreStateEvtExclInv(Map<Event, BDD> eventInvs, Event event, BDD inv) {
+    private void conjunctAndStoreStateEvtExclInv(Map<Event, BDD> eventInvs, Event event, BDD inv) {
         BDD invs = eventInvs.get(event);
         invs = invs.and(inv);
+        inv.free();
         eventInvs.put(event, invs);
     }
 
@@ -2167,12 +2174,14 @@ public class CifToSynthesisConverter {
                 }
 
                 // Add guard as state/event exclusion requirement for the event.
-                storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, synthGuard);
-                conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, synthGuard);
+                storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, synthGuard.id());
+                conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, synthGuard.id());
 
                 if (Boolean.TRUE.equals(event.getControllable())) {
-                    conjuctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqAuts, event, synthGuard);
+                    conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqAuts, event, synthGuard.id());
                 }
+
+                synthGuard.free();
             }
 
             // Change requirement automaton to monitor all events. Skip this if the alphabet is empty, as we then get a

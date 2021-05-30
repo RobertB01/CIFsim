@@ -14,7 +14,6 @@
 package org.eclipse.escet.cif.datasynth.spec;
 
 import static org.eclipse.escet.cif.datasynth.bdd.BddUtils.bddToStr;
-import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
@@ -208,39 +207,42 @@ public class SynthesisAutomaton {
     public Map<Event, BDD> stateEvtExclsReqInvs;
 
     /**
-     * Mapping from events to their corresponding state/event exclusion requirements. Per event, the separate
-     * state/event requirements are collected. The state/event requirement predicates indicate necessary global
-     * conditions for the event to be enabled/allowed. That is, the predicates can be seen as additional global guards.
-     * The predicates originate not only from the state/event exclusion requirement invariants, but also from
-     * requirement automata. Is {@code null} if not yet or no longer available.
+     * Mapping from events to their corresponding state/event exclusion requirements. Does not map internal events that
+     * are not in the original specification, e.g. for input variables. Per event, the separate state/event requirements
+     * are collected. The state/event requirement predicates indicate necessary global conditions for the event to be
+     * enabled/allowed. That is, the predicates can be seen as additional global guards. The predicates originate not
+     * only from the state/event exclusion requirement invariants, but also from requirement automata. Is {@code null}
+     * if not yet or no longer available.
      */
-    public Map<Event, List<BDD>> stateEvtExclReqLists = map();
+    public Map<Event, List<BDD>> stateEvtExclReqLists;
 
     /**
-     * Mapping from events to their corresponding state/event exclusion requirements. Per event, the state/event
-     * requirements are combined, using conjunctions, with respect to {@link #stateEvtExclReqLists}. The state/event
-     * requirement predicates indicate necessary global conditions for the event to be enabled/allowed. That is, the
-     * predicates can be seen as additional global guards. The predicates originate not only from the state/event
-     * exclusion requirement invariants, but also from requirement automata. Is {@code null} if not yet or no longer
+     * Mapping from events to their corresponding state/event exclusion requirements. Does not map internal events that
+     * are not in the original specification, e.g. for input variables. Per event, the state/event requirements are
+     * combined, using conjunctions, with respect to {@link #stateEvtExclReqLists}. The state/event requirement
+     * predicates indicate necessary global conditions for the event to be enabled/allowed. That is, the predicates can
+     * be seen as additional global guards. The predicates originate not only from the state/event exclusion requirement
+     * invariants, but also from requirement automata. Is {@code null} if not yet or no longer available.
+     */
+    public Map<Event, BDD> stateEvtExclReqs;
+
+    /**
+     * Mapping from events to their corresponding state/event exclusion plants. Does not map internal events that are
+     * not in the original specification, e.g. for input variables. Per event, the separate state/event plant invariants
+     * are collected. The state/event plant predicates indicate necessary global conditions for the event to be enabled.
+     * That is, the predicates can be seen as additional global guards. Is {@code null} if not yet or no longer
      * available.
      */
-    public Map<Event, BDD> stateEvtExclReqs = map();
+    public Map<Event, List<BDD>> stateEvtExclPlantLists;
 
     /**
-     * Mapping from events to their corresponding state/event exclusion plants. Per event, the separate state/event
-     * plant invariants are collected. The state/event plant predicates indicate necessary global conditions for the
-     * event to be enabled. That is, the predicates can be seen as additional global guards. Is {@code null} if not yet
-     * or no longer available.
+     * Mapping from events to their corresponding state/event exclusion plants. Does not map internal events that are
+     * not in the original specification, e.g. for input variables. Per event, the state/event plants are combined,
+     * using conjunctions, with respect to {@link #stateEvtExclPlantLists}. The state/event plant predicates indicate
+     * necessary global conditions for the event to be enabled. That is, the predicates can be seen as additional global
+     * guards. Is {@code null} if no yet or no longer available.
      */
-    public Map<Event, List<BDD>> stateEvtExclPlantLists = map();
-
-    /**
-     * Mapping from events to their corresponding state/event exclusion plants. Per event, the state/event plants are
-     * combined, using conjunctions, with respect to {@link #stateEvtExclPlantLists}. The state/event plant predicates
-     * indicate necessary global conditions for the event to be enabled. That is, the predicates can be seen as
-     * additional global guards. Is empty until initialized. Becomes {@code null} if no longer available.
-     */
-    public Map<Event, BDD> stateEvtExclPlants = map();
+    public Map<Event, BDD> stateEvtExclPlants;
 
     /**
      * BDD pairing for every old variable 'x' to its corresponding new variable 'x+'. Is {@code null} if not available.

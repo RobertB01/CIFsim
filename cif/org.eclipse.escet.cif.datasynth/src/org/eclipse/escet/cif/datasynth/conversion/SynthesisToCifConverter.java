@@ -225,7 +225,8 @@ public class SynthesisToCifConverter {
             remover.removeStateReqInvs = !simplifications.contains(BddSimplify.GUARDS_STATE_REQ_INVS);
             remover.transform(spec);
         } catch (CifToCifPreconditionException ex) {
-            // Unexpected, as we do not have requirement automata.
+            // Unexpected, as we do not have requirement automata, and it is impossible to refer to requirement
+            // invariants.
             throw new RuntimeException("Unexpected error.", ex);
         }
 
