@@ -15,13 +15,11 @@ include::../_part_attributes.asciidoc[]
 [[tools-scripting-chapter-tools]]
 == Overview of scriptable tools
 
-This page provides an overview of the CIF tools that are available in the
-`cif` library that is registered with ToolDef by CIF.
+This page provides an overview of the CIF tools that are available in the `cif` library that is registered with ToolDef by CIF.
 
 === Tools
 
-The following table shows the relation between the names of the ToolDef tools
-in the library and the tools of the CIF tool set:
+The following table shows the relation between the names of the ToolDef tools in the library and the tools of the CIF tool set:
 
 [cols=2*,options="header"]
 |===
@@ -106,11 +104,10 @@ in the library and the tools of the CIF tool set:
 
 === Parameters
 
-For every CIF tool, two ToolDef tool variants are available in the `cif`
-ToolDef library. All the CIF tools in the `cif` ToolDef library have
-the same tool signatures, including the same parameters. Only their names
-differ. Below the tool signatures for the two variants are listed, with
-`toolname` instead of the actual tool name (e.g. `cifsim`):
+For every CIF tool, two ToolDef tool variants are available in the `cif` ToolDef library.
+All the CIF tools in the `cif` ToolDef library have the same tool signatures, including the same parameters.
+Only their names differ.
+Below the tool signatures for the two variants are listed, with `toolname` instead of the actual tool name (e.g. `cifsim`):
 
 [source, tooldef]
 ----
@@ -140,42 +137,32 @@ tool int toolname(
 The meaning of each of the parameters is as follows:
 
 args::
-The command line arguments of the application. Each argument string is parsed
-to zero or more actual arguments. It is possible to use a single string with
-all arguments (where the arguments themselves are separated by spaces), comma
-separated strings for each of the arguments (each string has one argument),
-or a mix of those.
+The command line arguments of the application.
+Each argument string is parsed to zero or more actual arguments.
+It is possible to use a single string with all arguments (where the arguments themselves are separated by spaces), comma separated strings for each of the arguments (each string has one argument), or a mix of those.
 +
-In argument strings, individual arguments are separated by whitespace
-(spaces, tabs, new lines, etc). The whitespace itself is ignored, and only
-serves as separation. To include whitespace in an argument, the argument (or
-a part of it), may be quoted, by putting it between double quotes (`"`) or
-single quotes (`'`). Characters may be escaped by prefixing them with a
-backslash (`\`). This is particularly useful for single/double quotes, and
-escape characters, and can also be used to escape spaces. Escapes work the
-same inside of quoted parts as they do outside of quoted parts.
+In argument strings, individual arguments are separated by whitespace (spaces, tabs, new lines, etc).
+The whitespace itself is ignored, and only serves as separation.
+To include whitespace in an argument, the argument (or a part of it), may be quoted, by putting it between double quotes (`"`) or single quotes (`'`).
+Characters may be escaped by prefixing them with a backslash (`\`).
+This is particularly useful for single/double quotes, and escape characters, and can also be used to escape spaces.
+Escapes work the same inside of quoted parts as they do outside of quoted parts.
 
 stdin::
-Specify whether to have a standard input (stdin) stream and where the input
-comes from. Use `""` to not have a stdin stream, "-" to use the stdin
-stream of the ToolDef interpreter, or otherwise an absolute or relative local
-file system path of the file from which to read the standard input. May
-contain both `\` and `/` as path separators
+Specify whether to have a standard input (stdin) stream and where the input comes from.
+Use `""` to not have a stdin stream, "-" to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
+May contain both `\` and `/` as path separators
 
 stdout::
-Specify whether to have a standard output (stdout) stream and where to write
-the standard output. Use `""` to not have a stdout stream, `"-"` to use
-the stdout stream of the ToolDef interpreter, or otherwise an absolute or
-relative local file system path of the file to which to write the standard
-output. May contain both `\` and `/` as path separators.
+Specify whether to have a standard output (stdout) stream and where to write the standard output.
+Use `""` to not have a stdout stream, `"-"` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
+May contain both `\` and `/` as path separators.
 
 stderr::
-Specify whether to have a standard error (stderr) stream and where to write
-the standard error output. Use `""` to not have a stderr stream, `"-"`
-to use the stderr stream of the ToolDef interpreter, or otherwise an absolute
-or relative local file system path of the file to which to write the standard
-error output. May contain both `\` and `/` as path separators. Is ignored
-when the standard error stream is redirected to the standard output stream.
+Specify whether to have a standard error (stderr) stream and where to write the standard error output.
+Use `""` to not have a stderr stream, `"-"` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
+May contain both `\` and `/` as path separators.
+Is ignored when the standard error stream is redirected to the standard output stream.
 
 appendOut::
 Whether to append to the stdout file (`true`) or overwrite it (`false`).
@@ -183,24 +170,22 @@ Is ignored when standard output is not written to a file.
 
 appendErr::
 Whether to append to the stderr file (`true`) or overwrite it (`false`).
-Is ignored if standard error output is not written to a file. Is also ignored
-when standard error stream is redirected to the standard output stream.
+Is ignored if standard error output is not written to a file.
+Is also ignored when standard error stream is redirected to the standard output stream.
 
 errToOut::
-Whether to redirect the standard error stream to the standard output stream
-(`true`) or use separate streams (`false`).
+Whether to redirect the standard error stream to the standard output stream (`true`) or use separate streams (`false`).
 
 ignoreNonZeroExitCode::
-Whether to ignore non-zero exit codes (`true`) or consider them as errors
-(`false`).
+Whether to ignore non-zero exit codes (`true`) or consider them as errors (`false`).
 
 
 === Return value
 
-All the tools return an integer value. This value is the exit code of the
-application. A zero (`0`) exit code means the application terminated without
-any errors. A non-zero exit code means the application terminated with an
-error.
+All the tools return an integer value.
+This value is the exit code of the application.
+A zero (`0`) exit code means the application terminated without any errors.
+A non-zero exit code means the application terminated with an error.
 
 
 === Implementation

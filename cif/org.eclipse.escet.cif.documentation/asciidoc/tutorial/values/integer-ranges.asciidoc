@@ -17,10 +17,8 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[integer,limits]
 indexterm:[integer,overflow]
-CIF can only represent <<tut-values-chapter-integers,integer numbers>>
-(type `int`) in the range -2,147,483,648 (= -2^31^) to
-2,147,483,647 (= 2^31^ - 1). Using values outside that range
-results in the CIF model being invalid, and leads to runtime errors:
+CIF can only represent <<tut-values-chapter-integers,integer numbers>> (type `int`) in the range -2,147,483,648 (= -2^31^) to 2,147,483,647 (= 2^31^ - 1).
+Using values outside that range results in the CIF model being invalid, and leads to runtime errors:
 
 
 [source, console]
@@ -28,8 +26,7 @@ results in the CIF model being invalid, and leads to runtime errors:
 ERROR: Integer overflow: 9999999 * 9999999.
 ----
 
-It is possible in CIF to explicitly specify that only a sub range of the
-integer values are allowed:
+It is possible in CIF to explicitly specify that only a sub range of the integer values are allowed:
 
 
 [source, cif]
@@ -38,7 +35,6 @@ disc int[3..7] x;
 ----
 
 indexterm:[integer,range]
-This variable `x` can only have integer values that are at least `3` and
-at most `7`. Assigning any other value to `x` is not allowed. The default
-value is not `0` but `3`, as that is the value closest to `0` that is in
-the allowed range of values.
+This variable `x` can only have integer values that are at least `3` and at most `7`.
+Assigning any other value to `x` is not allowed.
+The default value is not `0` but `3`, as that is the value closest to `0` that is in the allowed range of values.

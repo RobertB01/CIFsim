@@ -18,9 +18,8 @@ include::../../../_part_attributes.asciidoc[]
 indexterm:[SVG file declaration]
 indexterm:[SVG visualization,SVG file declaration]
 indexterm:[I/O declaration,SVG file declaration]
-Before any other CIF/SVG declarations can be specified, you need to indicate to
-which SVG image (file) they apply, using an SVG file declaration. A typical SVG
-file declaration looks like this:
+Before any other CIF/SVG declarations can be specified, you need to indicate to which SVG image (file) they apply, using an SVG file declaration.
+A typical SVG file declaration looks like this:
 
 
 [source, cif]
@@ -28,17 +27,16 @@ file declaration looks like this:
 svgfile "some_file.svg";
 ----
 
-The SVG files are declared based on their file names. If possible, it is
-recommended to use the same file name for the CIF specification and for the
-SVG image, only with different file extensions. This way, it is easy to see
-which images goes with which CIF specification.
+The SVG files are declared based on their file names.
+If possible, it is recommended to use the same file name for the CIF specification and for the SVG image, only with different file extensions.
+This way, it is easy to see which images goes with which CIF specification.
 
 indexterm:[SVG file declaration,path]
 
 === Paths
 
-It is possible to use relative (or absolute) paths for the SVG files. For
-instance:
+It is possible to use relative (or absolute) paths for the SVG files.
+For instance:
 
 
 [source, cif]
@@ -47,32 +45,20 @@ svgfile "svg_files/some_file.svg";
 svgfile "../images/some_file.svg";
 ----
 
-For the first SVG file declaration, the tools will look for an `svg_files`
-directory in the same directory as the CIF file, and for a `some_file.svg`
-file in that `svg_files` directory. For the second SVG file declaration, the
-tools will look for an `images` directory in the parent directory of the
-directory that contains the CIF file, and for a `some_file.svg` file in that
-`images` directory.
+For the first SVG file declaration, the tools will look for an `svg_files` directory in the same directory as the CIF file, and for a `some_file.svg` file in that `svg_files` directory.
+For the second SVG file declaration, the tools will look for an `images` directory in the parent directory of the directory that contains the CIF file, and for a `some_file.svg` file in that `images` directory.
 
-Files and directories are separated using slashes (`/`), regardless of the
-used operating system. It is also allowed to use backslashes (`\`), which are
-more common on Microsoft Windows operating systems, but they need to be escaped
-as `\\` for this to work, making it easier to use slashes (`/`) instead.
+Files and directories are separated using slashes (`/`), regardless of the used operating system.
+It is also allowed to use backslashes (`\`), which are more common on Microsoft Windows operating systems, but they need to be escaped as `\\` for this to work, making it easier to use slashes (`/`) instead.
 
 indexterm:[SVG file declaration,scoping]
 
 === Scoping
 
-CIF/SVG file declarations (and all 'other' CIF/SVG declarations) can be
-specified in all components. That is, they can be specified in the top level
-scope of the specification, in groups and group definitions, as well as in
-automata and automaton definitions. An SVG file declaration that is specified
-in a certain scope applies to that scope, as well as all child scopes that
-don't have an SVG file declaration of their own. Additionally, all 'other'
-CIF/SVG declarations (such as
-<<tools-cifsim-output-svgviz-chapter-svgout,SVG output mappings>>) may include
-a local SVG file declaration, that only applies to that specific CIF/SVG
-declaration.
+CIF/SVG file declarations (and all 'other' CIF/SVG declarations) can be specified in all components.
+That is, they can be specified in the top level scope of the specification, in groups and group definitions, as well as in automata and automaton definitions.
+An SVG file declaration that is specified in a certain scope applies to that scope, as well as all child scopes that don't have an SVG file declaration of their own.
+Additionally, all 'other' CIF/SVG declarations (such as <<tools-cifsim-output-svgviz-chapter-svgout,SVG output mappings>>) may include a local SVG file declaration, that only applies to that specific CIF/SVG declaration.
 
 For instance, consider the following CIF specification:
 
@@ -104,58 +90,41 @@ group g:
 end
 ----
 
-The mapping for the SVG element with id `a` is declared in the top level
-scope of the specification, and does not have a local SVG file declaration.
-As such, the SVG file declaration from the top level scope (`file1.svg`)
-applies to it. The mapping for the SVG element with id `b` is declared in
-the same scope, but has a local SVG file declaration (`file2.svg`). The local
-SVG file declaration (`file2.svg`) overrides the SVG file declaration from
-the top level scope (`file1.svg`).
+The mapping for the SVG element with id `a` is declared in the top level scope of the specification, and does not have a local SVG file declaration.
+As such, the SVG file declaration from the top level scope (`file1.svg`) applies to it.
+The mapping for the SVG element with id `b` is declared in the same scope, but has a local SVG file declaration (`file2.svg`).
+The local SVG file declaration (`file2.svg`) overrides the SVG file declaration from the top level scope (`file1.svg`).
 
-Group `g` also has an SVG file declaration (`file3.svg`). This overrides
-the SVG file declaration from the top level scope (`file1.svg`). The SVG
-file declaration from group `g` (`file3.svg`) thus applies to the
-mappings for ids `e` and `g`, as they are declared in the same scope, and
-don't have local SVG file declarations. The mapping for SVG element id `i`
-has a local SVG file declaration (`file4.svg`), and as such the SVG file
-declaration from group `g` (`file3.svg`) does not apply to it.
+Group `g` also has an SVG file declaration (`file3.svg`).
+This overrides the SVG file declaration from the top level scope (`file1.svg`).
+The SVG file declaration from group `g` (`file3.svg`) thus applies to the mappings for ids `e` and `g`, as they are declared in the same scope, and don't have local SVG file declarations.
+The mapping for SVG element id `i` has a local SVG file declaration (`file4.svg`), and as such the SVG file declaration from group `g` (`file3.svg`) does not apply to it.
 
-The SVG file declaration (`file5.svg`) from group `g.h` does not apply to
-any mappings. The simulator will show the image, but the image will not change
-during simulation. A warning is printed to the console, to indicate the
-potential problem.
+The SVG file declaration (`file5.svg`) from group `g.h` does not apply to any mappings.
+The simulator will show the image, but the image will not change during simulation.
+A warning is printed to the console, to indicate the potential problem.
 
-Group `g.i` does not have an SVG file declaration, so the SVG file
-declaration (`file3.svg`) from group `g` (the parent scope of group
-`g.i`) applies to the mapping for SVG element id `k`.
+Group `g.i` does not have an SVG file declaration, so the SVG file declaration (`file3.svg`) from group `g` (the parent scope of group `g.i`) applies to the mapping for SVG element id `k`.
 
-See also the <<tools-cif2cif-chapter-svg-file-into-decls>> CIF to CIF
-transformation.
+See also the <<tools-cif2cif-chapter-svg-file-into-decls>> CIF to CIF transformation.
 
 indexterm:[SVG file declaration,completeness]
 indexterm:[SVG file declaration,uniqueness]
 
 === Completeness and uniqueness
 
-Every CIF/SVG declaration that is not itself an SVG file declaration, requires
-an SVG file declaration, in its scope, in one of its ancestor scopes, or
-locally in that CIF/SVG declaration itself.
+Every CIF/SVG declaration that is not itself an SVG file declaration, requires an SVG file declaration, in its scope, in one of its ancestor scopes, or locally in that CIF/SVG declaration itself.
 
 In each scope, there may be at most one SVG file declaration.
 
-In every scope (or component), in principle at most one SVG file declaration
-may be specified. The exception is that for a single scope, specified in
-multiple CIF files (when imports are used), if the SVG file declarations
-refer to the same image file, they are merged. If however the two CIF files
-refer to different image files, this is still considered an error. It is also
-considered an error if two SVG file declarations are present in a single scope,
-in a single file, regardless of whether they refer to the same image file or
-not. In the end, after processing imports, for every scope there must be a
-unique SVG file declaration, if one is declared at all.
+In every scope (or component), in principle at most one SVG file declaration may be specified.
+The exception is that for a single scope, specified in multiple CIF files (when imports are used), if the SVG file declarations refer to the same image file, they are merged.
+If however the two CIF files refer to different image files, this is still considered an error.
+It is also considered an error if two SVG file declarations are present in a single scope, in a single file, regardless of whether they refer to the same image file or not.
+In the end, after processing imports, for every scope there must be a unique SVG file declaration, if one is declared at all.
 
-If the same SVG image file is specified multiple times, in different SVG file
-declarations, this is detected by the simulator, and the image will only be
-shown once. For instance, consider the following CIF specification:
+If the same SVG image file is specified multiple times, in different SVG file declarations, this is detected by the simulator, and the image will only be shown once.
+For instance, consider the following CIF specification:
 
 
 [source, cif]
@@ -165,6 +134,5 @@ svgout id "..." attr "..." value 5 file "some_file.svg";
 svgout id "..." attr "..." value 6 file "some_file.svg";
 ----
 
-Even though both output mappings specify an SVG file locally, they use the same
-file. The SVG image will thus only be shown once, and both mappings apply to
-the same image.
+Even though both output mappings specify an SVG file locally, they use the same file.
+The SVG image will thus only be shown once, and both mappings apply to the same image.

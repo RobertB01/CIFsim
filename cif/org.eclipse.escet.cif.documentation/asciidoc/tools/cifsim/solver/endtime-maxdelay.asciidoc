@@ -26,38 +26,23 @@ The maximum length of a time transition is determined by several factors:
 
 * The maximum allowed delay amount.
 
-The current simulation time is the value of variable `time`. Each time
-transition starts at the current time.
+The current simulation time is the value of variable `time`.
+Each time transition starts at the current time.
 
-Using the
-menu:Simulation end time[]
-option (menu:Simulator[]
-category), the <<tools-cifsim-termination-endtime,end time>> of the
-simulation can be configured. By setting a simulation end time, you ensure that
-when the value of variable `time` reaches that value, the simulation
-<<tools-cifsim-chapter-termination,terminates>>. Settings a simulation end time
-also limits the maximum length of a time transition, since from the current
-time, a limited amount of time can pass before the end time is reached. By
-default the simulation end time is set to 'infinite', which means that
-simulation termination, and the maximum length of a time transition, are not
-limited by a simulation end time.
+Using the menu:Simulation end time[] option (menu:Simulator[] category), the <<tools-cifsim-termination-endtime,end time>> of the simulation can be configured.
+By setting a simulation end time, you ensure that when the value of variable `time` reaches that value, the simulation <<tools-cifsim-chapter-termination,terminates>>.
+Settings a simulation end time also limits the maximum length of a time transition, since from the current time, a limited amount of time can pass before the end time is reached.
+By default the simulation end time is set to 'infinite', which means that simulation termination, and the maximum length of a time transition, are not limited by a simulation end time.
 
 indexterm:[debug,maximum delay]
-Using the
-menu:Maximum delay[]
-option (menu:Simulator[]
-category),
-the maximum delay amount for a single time transition can be set. If set, no
-time transitions longer than the specified value may be calculated. This limits
-the maximum length of time transitions to that value. Essentially, this cuts
-time transitions into parts with a maximum length specified by this option. By
-default, the maximum delay is set to 'infinite', which means that the maximum
-length of a time transition is not limited by this option. Restricting the
-maximum delay amount for a time transition should generally be avoided.
-For debugging purposes however, it may be useful to disable passage of time
-altogether. This can be achieved by using a maximum delay of `0`.
+Using the menu:Maximum delay[] option (menu:Simulator[] category), the maximum delay amount for a single time transition can be set.
+If set, no time transitions longer than the specified value may be calculated.
+This limits the maximum length of time transitions to that value.
+Essentially, this cuts time transitions into parts with a maximum length specified by this option.
+By default, the maximum delay is set to 'infinite', which means that the maximum length of a time transition is not limited by this option.
+Restricting the maximum delay amount for a time transition should generally be avoided.
+For debugging purposes however, it may be useful to disable passage of time altogether.
+This can be achieved by using a maximum delay of `0`.
 
-If both a simulation end time and a maximum allowed delay amount are specified,
-the most restrictive of them determines the maximum length of the time
-transition. If neither is specified, the simulator will attempt to calculate a
-time transition of length `100.0`.
+If both a simulation end time and a maximum allowed delay amount are specified, the most restrictive of them determines the maximum length of the time transition.
+If neither is specified, the simulator will attempt to calculate a time transition of length `100.0`.

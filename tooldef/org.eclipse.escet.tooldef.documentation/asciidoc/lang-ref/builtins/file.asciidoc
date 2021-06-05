@@ -50,12 +50,12 @@ Copies a file from a source location to a target location.
 _Parameters_
 
 `source`::
-The absolute or relative local file system path of the source file. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the source file.
+May contain both `\` and `/` as path separators.
 
 `target`::
-The absolute or relative local file system path of the target file. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the target file.
+May contain both `\` and `/` as path separators.
 
 `overwrite`::
 Whether to overwrite the target file if it already exists.
@@ -64,13 +64,10 @@ _Runtime errors_
 
 * If the source file does not exist.
 * If the source is a directory rather than a file.
-* If it can not be determined whether the source path refers to a file or a
-directory.
+* If it can not be determined whether the source path refers to a file or a directory.
 * If the target file exists and overwriting is not allowed.
-* If the target file exists and overwriting is allowed, but the target refers
-to a directory rather than a file.
-* If the target file exists and overwriting is allowed, but it can not be
-determined whether the target path refers to a file or a directory.
+* If the target file exists and overwriting is allowed, but the target refers to a directory rather than a file.
+* If the target file exists and overwriting is allowed, but it can not be determined whether the target path refers to a file or a directory.
 * If copying the file failed due to an I/O error.
 
 
@@ -84,37 +81,33 @@ indexterm:[cpdir]
 tool cpdir(string source, string target)
 ----
 
-Copies a directory from a source location to a target location. All files and
-directories in the source directory are copied recursively.
+Copies a directory from a source location to a target location.
+All files and directories in the source directory are copied recursively.
 
 If the operation fails, part of the operation may have already been performed.
 
 _Parameters_
 
 `source`::
-The absolute or relative local file system path of the source directory. All
-files and directories in the source directory are copied recursively. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the source directory.
+All files and directories in the source directory are copied recursively.
+May contain both `\` and `/` as path separators.
 
 `target`::
-The absolute or relative local file system path of the target directory. This
-is the directory in which the contents of the source directory are copied.
-The source directory itself is not copied, only the files and directories
-contained in the source directory. May contain both `\` and `/` as path
-separators.
+The absolute or relative local file system path of the target directory.
+This is the directory in which the contents of the source directory are copied.
+The source directory itself is not copied, only the files and directories contained in the source directory.
+May contain both `\` and `/` as path separators.
 
 _Runtime errors_
 
 * If the source directory does not exist.
 * If the source is a file rather than a directory.
-* If it can not be determined whether the source path refers to a file or a
-directory.
+* If it can not be determined whether the source path refers to a file or a directory.
 * If the target directory already exists.
-* If the target directory doesn't exist, but one of the ancestors is not a
-directory.
+* If the target directory doesn't exist, but one of the ancestors is not a directory.
 * If walking the directory (recursively) fails.
-* If walking the directory (recursively) encounters a file system cycle (due to
-symbolic links).
+* If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
 * If a file or (sub-)directory could not be copied due to an I/O error.
 
 
@@ -133,33 +126,28 @@ Computes the differences between two files.
 _Parameters_
 
 `file1`::
-The absolute or relative local file system path of the first file. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the first file.
+May contain both `\` and `/` as path separators.
 
 `file2`::
-The absolute or relative local file system path of the second file. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the second file.
+May contain both `\` and `/` as path separators.
 
 `output`::
-Specify whether/where to write a unified diff if the files differ. Use `+""+`
-to not write a unified diff, `+"-"+` to write the unified diff to the
-standard output stream (stdout), or otherwise an absolute or relative local
-file system path of the file to which to write the unified diff. May contain
-both `\` and `/` as path separators.
+Specify whether/where to write a unified diff if the files differ.
+Use `+""+` to not write a unified diff, `+"-"+` to write the unified diff to the standard output stream (stdout), or otherwise an absolute or relative local file system path of the file to which to write the unified diff.
+May contain both `\` and `/` as path separators.
 
 `missingAsEmpty`::
-Treat a missing first/second file as empty (`true`) or as an error
-(`false`).
+Treat a missing first/second file as empty (`true`) or as an error (`false`).
 
 `warnOnDiff`::
-Emit a warning for differing files (`true`) or not (`false`). If a
-warning is emitted to the standard error stream (stderr), the unified diff
-(if enabled) is printed first.
+Emit a warning for differing files (`true`) or not (`false`).
+If a warning is emitted to the standard error stream (stderr), the unified diff (if enabled) is printed first.
 
 `failOnDiff`::
-Treat differing files as an error (`true`) or not (`false`). If an error
-is emitted, the unified diff (if enabled) and warning (if enabled) are
-printed first.
+Treat differing files as an error (`true`) or not (`false`).
+If an error is emitted, the unified diff (if enabled) and warning (if enabled) are printed first.
 
 _Returns_
 
@@ -167,11 +155,9 @@ _Returns_
 
 _Runtime errors_
 
-* If either the first or second file doesn't exist and `missingAsEmpty` is
-disabled.
+* If either the first or second file doesn't exist and `missingAsEmpty` is disabled.
 * If the first or second file is not a file but a directory.
-* If it can not be determined whether the first or second path refers to a file
-or a directory.
+* If it can not be determined whether the first or second path refers to a file or a directory.
 * If an I/O error occurs.
 * If the `out` file exists but is a directory rather than a regular file.
 * If the `out` file does not exist but cannot be created.
@@ -196,8 +182,8 @@ Does a file or directory with the given path exist?
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file or directory. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the file or directory.
+May contain both `\` and `/` as path separators.
 
 _Returns_
 
@@ -216,46 +202,35 @@ tool bool filenewer(string path, string... refpaths,   bool allowNonExisting = f
 tool bool filenewer(string path, list string refpaths, bool allowNonExisting = false, bool sameAsNewer = true)
 ----
 
-Checks whether a file is newer (was modified at a later date/time) than some
-reference file(s).
+Checks whether a file is newer (was modified at a later date/time) than some reference file(s).
 
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file for which to
-check whether it is newer than the reference file(s). May contain both `\`
-and `/` as path separators.
+The absolute or relative local file system path of the file for which to check whether it is newer than the reference file(s).
+May contain both `\` and `/` as path separators.
 
 `refpath`, `refpaths`::
-The absolute or relative local file system path of the reference file(s). May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the reference file(s).
+May contain both `\` and `/` as path separators.
 
 `allowNonExisting`::
-Whether to allow the first file to not exist (`true`) or consider it an
-error if the first file does not exist (`false`).
+Whether to allow the first file to not exist (`true`) or consider it an error if the first file does not exist (`false`).
 
 `sameAsNewer`::
-Whether to treat files with the same last change date as being the same
-(`false`) or as newer (`true`).
+Whether to treat files with the same last change date as being the same (`false`) or as newer (`true`).
 
 _Returns_
 
-`false` if the first file does not exist (if allowed by enabling
-`allowNonExisting`), if the first file is older than any the reference files,
-or if the first file has the same last change date as any of the reference
-files and `sameAsNewer` is disabled. `true` if the first file is newer than
-all of the reference files, if the first file has the same last change date as
-some the reference files and `sameAsNewer` is enabled and is newer than all
-of the other reference files, or if the first file has the same last change
-date as all the reference files and `sameAsNewer` is enabled.
+`false` if the first file does not exist (if allowed by enabling `allowNonExisting`), if the first file is older than any the reference files, or if the first file has the same last change date as any of the reference files and `sameAsNewer` is disabled.
+`true` if the first file is newer than all of the reference files, if the first file has the same last change date as some the reference files and `sameAsNewer` is enabled and is newer than all of the other reference files, or if the first file has the same last change date as all the reference files and `sameAsNewer` is enabled.
 
 _Runtime errors_
 
 * If the first file does not exist and `allowNonExisting` is disabled.
 * If any of the reference files does not exist.
 * If any of the files is a directory rather than a file.
-* If for any of the paths it can not be determined whether the path refers to a
-file or a directory.
+* If for any of the paths it can not be determined whether the path refers to a file or a directory.
 * If the last change date/time of any of the files can not be determined.
 
 
@@ -274,17 +249,15 @@ Returns the size of the file, in bytes.
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file. May contain both
-`\` and `/` as path separators.
+The absolute or relative local file system path of the file.
+May contain both `\` and `/` as path separators.
 
 `missingAsZero`::
-Whether to return 0 if the file does not exist (`true`) or consider it
-an error if the file does not exist (`false`).
+Whether to return 0 if the file does not exist (`true`) or consider it an error if the file does not exist (`false`).
 
 _Returns_
 
-The size of the file in bytes, or `0` if the file is missing and
-`missingAsZero` is enabled.
+The size of the file in bytes, or `0` if the file is missing and `missingAsZero` is enabled.
 
 _Runtime errors_
 
@@ -309,15 +282,14 @@ Searches a directory for files and/or directories matching a pattern.
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the directory in which to
-search. The directory itself is never returned. May contain both `\` and
-`/` as path separators.
+The absolute or relative local file system path of the directory in which to search.
+The directory itself is never returned.
+May contain both `\` and `/` as path separators.
 
 `pattern`::
-The pattern to use to match files/directories. Is a
-link:https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob[Java NIO glob]
-pattern, that is matched against single file names or single directory names,
-and never against paths. Pattern `+"*"+` matches all files and directories.
+The pattern to use to match files/directories.
+Is a link:https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob[Java NIO glob] pattern, that is matched against single file names or single directory names, and never against paths.
+Pattern `+"*"+` matches all files and directories.
 
 `recursive`::
 Whether to recursively look in sub-directories.
@@ -330,19 +302,16 @@ Whether to match directories.
 
 _Returns_
 
-The local file system paths of the matched files and directories, relative
-against the given root directory from which searching started.
+The local file system paths of the matched files and directories, relative against the given root directory from which searching started.
 
 _Runtime errors_
 
 * If the given directory is not found.
 * If the given directory is a file rather than a directory.
-* If the can not be determined whether the given path refers to a file or a
-directory.
+* If the can not be determined whether the given path refers to a file or a directory.
 * If the pattern is invalid.
 * If walking the directory (recursively) fails.
-* If walking the directory (recursively) encounters a file system cycle (due to
-symbolic links).
+* If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
 * If the operation fails due to an I/O error.
 
 
@@ -361,13 +330,12 @@ Does a directory with the given path exist?
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the directory. May contain
-both `\` and `/` as path separators.
+The absolute or relative local file system path of the directory.
+May contain both `\` and `/` as path separators.
 
 _Returns_
 
-`true` if the directory exists, `false` if it doesn't exist or is not a
-directory.
+`true` if the directory exists, `false` if it doesn't exist or is not a directory.
 
 
 indexterm:[isfile]
@@ -385,8 +353,8 @@ Does a file with the given path exist?
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file. May contain
-both `\` and `/` as path separators.
+The absolute or relative local file system path of the file.
+May contain both `\` and `/` as path separators.
 
 _Returns_
 
@@ -412,12 +380,10 @@ The absolute or relative local file system path of the directory to create.
 May contain both `\` and `/` as path separators.
 
 `force`::
-Whether to skip creating the directory if it already exists (`true`) or
-fail if it already exists (`false`).
+Whether to skip creating the directory if it already exists (`true`) or fail if it already exists (`false`).
 
 `parents`::
-Whether to allow creating parents as needed (`true`) or fail if the parent
-directory does not exist (`false`).
+Whether to allow creating parents as needed (`true`) or fail if the parent directory does not exist (`false`).
 
 _Runtime errors_
 
@@ -435,18 +401,18 @@ indexterm:[mvfile]
 tool mvfile(string source, string target, bool overwrite = false)
 ----
 
-Moves a file from a source location to a target location. This can be used to
-rename a file and/or move it to another directory.
+Moves a file from a source location to a target location.
+This can be used to rename a file and/or move it to another directory.
 
 _Parameters_
 
 `source`::
-The absolute or relative local file system path of the source file. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the source file.
+May contain both `\` and `/` as path separators.
 
 `target`::
-The absolute or relative local file system path of the target file. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the target file.
+May contain both `\` and `/` as path separators.
 
 `overwrite`::
 Whether to overwrite the target file if it already exists.
@@ -455,13 +421,10 @@ _Runtime errors_
 
 * If the source file does not exist.
 * If the source is a directory rather than a file.
-* If it can not be determined whether the source path refers to a file or a
-directory.
+* If it can not be determined whether the source path refers to a file or a directory.
 * If the target file exist and overwriting is not allowed.
-* If the target file exists and overwriting is allowed, but the target refers
-to a directory rather than a file.
-* If the target file exists and overwriting is allowed, but it can not be
-determined whether the target path refers to a file or a directory.
+* If the target file exists and overwriting is allowed, but the target refers to a directory rather than a file.
+* If the target file exists and overwriting is allowed, but it can not be determined whether the target path refers to a file or a directory.
 * If moving the file fails due to an I/O error.
 
 
@@ -475,39 +438,34 @@ indexterm:[mvdir]
 tool mvdir(string source, string target)
 ----
 
-Moves a directory from a source location to a target location. The directory
-and all files and directories in it are moved recursively.
+Moves a directory from a source location to a target location.
+The directory and all files and directories in it are moved recursively.
 
-The operation is implemented as a copy from source to target, followed by a
-remove of the source. If the operation fails, part of the operation may have
-already been performed.
+The operation is implemented as a copy from source to target, followed by a remove of the source.
+If the operation fails, part of the operation may have already been performed.
 
 _Parameters_
 
 `source`::
-The absolute or relative local file system path of the source directory. The
-directory itself and all files and directories in it are moved recursively.
+The absolute or relative local file system path of the source directory.
+The directory itself and all files and directories in it are moved recursively.
 May contain both `\` and `/` as path separators.
 
 `target`::
-The absolute or relative local file system path of the target directory. This
-is the directory into which the contents of the source directory are moved.
+The absolute or relative local file system path of the target directory.
+This is the directory into which the contents of the source directory are moved.
 May contain both `\` and `/` as path separators.
 
 _Runtime errors_
 
 * If the source directory does not exist.
 * If the source is a file rather than a directory.
-* If it can not be determined whether the source path refers to a file or a
-directory.
+* If it can not be determined whether the source path refers to a file or a directory.
 * If the target directory already exists.
-* If the target directory doesn't exist but one of the ancestors is not a
-directory.
+* If the target directory doesn't exist but one of the ancestors is not a directory.
 * If walking the directory (recursively) fails.
-* If walking the directory (recursively) encounters a file system cycle (due to
-symbolic links).
-* If a file or (sub-)directory can not be copied or removed, due to an I/O
-error.
+* If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
+* If a file or (sub-)directory can not be copied or removed, due to an I/O error.
 
 
 indexterm:[readlines]
@@ -525,8 +483,8 @@ Read lines of text from a file.
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file to read. May
-contain both `\` and `/` as path separators.
+The absolute or relative local file system path of the file to read.
+May contain both `\` and `/` as path separators.
 
 _Returns_
 
@@ -557,17 +515,15 @@ Removes a file.
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file. May contain both
-`\` and `/` as path separators.
+The absolute or relative local file system path of the file.
+May contain both `\` and `/` as path separators.
 
 `force`::
-Whether to ignore non-existing files (`true`) or consider it an error
-(`false`).
+Whether to ignore non-existing files (`true`) or consider it an error (`false`).
 
 _Returns_
 
-`true` if the file was removed, `false` if it could not be removed because
-it did not exist and force is enabled.
+`true` if the file was removed, `false` if it could not be removed because it did not exist and force is enabled.
 
 _Runtime errors_
 
@@ -593,17 +549,15 @@ Removes a directory, recursively.
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the directory. May contain
-both `\` and `/` as path separators.
+The absolute or relative local file system path of the directory.
+May contain both `\` and `/` as path separators.
 
 `force`::
-Whether to ignore non-existing directories (`true`) or consider it an error
-(`false`).
+Whether to ignore non-existing directories (`true`) or consider it an error (`false`).
 
 _Returns_
 
-`true` if the directory was removed, `false` if it could not be removed
-because it did not exist and `force` is enabled.
+`true` if the directory was removed, `false` if it could not be removed because it did not exist and `force` is enabled.
 
 _Runtime errors_
 
@@ -612,10 +566,8 @@ _Runtime errors_
 * If it can not be determined whether the path refers to a file or a directory.
 * If an I/O error occurs.
 * If walking the directory (recursively) fails.
-* If walking the directory (recursively) encounters a file system cycle (due to
-symbolic links).
-* If the directory or one of its sub-files or sub-directories can not be
-removed for some other reason.
+* If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
+* If the directory or one of its sub-files or sub-directories can not be removed for some other reason.
 
 
 indexterm:[writefile]
@@ -634,15 +586,14 @@ Writes text to a file.
 _Parameters_
 
 `path`::
-The absolute or relative local file system path of the file. May contain both
-`\` and `/` as path separators.
+The absolute or relative local file system path of the file.
+May contain both `\` and `/` as path separators.
 
 `text`, `lines`::
 The text or lines of text to write to the file.
 
 `append`::
-Whether to append the lines text to the file if it already exists (`true`),
-or overwrite the file if it already exists (`false`).
+Whether to append the lines text to the file if it already exists (`true`), or overwrite the file if it already exists (`false`).
 
 _Runtime errors_
 

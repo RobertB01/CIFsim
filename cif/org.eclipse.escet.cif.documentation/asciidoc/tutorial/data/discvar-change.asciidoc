@@ -16,10 +16,9 @@ include::../_part_attributes.asciidoc[]
 == Discrete variable value changes
 
 indexterm:[discrete variable,value change]
-Discrete variables can only change value by explicitly assigning them a new
-value in the `do` part of an edge. If an edge does not assign a value to a
-discrete variable, that variable keeps its current value. Consider the
-following CIF specification:
+Discrete variables can only change value by explicitly assigning them a new value in the `do` part of an edge.
+If an edge does not assign a value to a discrete variable, that variable keeps its current value.
+Consider the following CIF specification:
 
 
 [source, cif]
@@ -38,18 +37,14 @@ automaton lamp:
 end
 ----
 
-This is the same `lamp` automaton as used in the lesson on
-<<tut-basics-chapter-automata,automata>>, but with a `count` variable added. This
-variable is used to count the number of times that the lamp has been turned on.
-The edge for the `turn_on` event increments the value of the variable by one,
-each time the lamp is turned on.
+This is the same `lamp` automaton as used in the lesson on <<tut-basics-chapter-automata,automata>>, but with a `count` variable added.
+This variable is used to count the number of times that the lamp has been turned on.
+The edge for the `turn_on` event increments the value of the variable by one, each time the lamp is turned on.
 
-The edge for the `turn_off` event does not assign a value to a variable, so
-variable `count` keeps its value when the lamp is turned off.
+The edge for the `turn_off` event does not assign a value to a variable, so variable `count` keeps its value when the lamp is turned off.
 
 The state space of this specification is:
 
 image::{tut-imgsdir}/data/discvar_change_state_space.png[]
 
-The states are labeled with the name of the current location of automaton
-`lamp` and the current value of variable `count`.
+The states are labeled with the name of the current location of automaton `lamp` and the current value of variable `count`.

@@ -18,20 +18,13 @@ include::_local_attributes.asciidoc[]
 
 indexterm:[CIF merger]
 indexterm:[tools,CIF merger]
-The CIF merger can be used to merge two or more CIF specifications into a
-single CIF specification. The result of the merger is essentially the parallel
-composition of the input specifications. Unlike the
-<<tools-chapter-cif-explorer>> and <<tools-eventbased-chapter-product>> tools
-however, the parallel composition is not unfolded into a
-<<tools-cifsim-traces-state-space,state space>>.
+The CIF merger can be used to merge two or more CIF specifications into a single CIF specification.
+The result of the merger is essentially the parallel composition of the input specifications.
+Unlike the <<tools-chapter-cif-explorer>> and <<tools-eventbased-chapter-product>> tools however, the parallel composition is not unfolded into a <<tools-cifsim-traces-state-space,state space>>.
 
-It can for instance be useful to merge a synthesized supervisor with a timed or
-hybrid plant, to validate the supervisor against that more detailed plant,
-using interactive simulation and visualization on the merged specification.
+It can for instance be useful to merge a synthesized supervisor with a timed or hybrid plant, to validate the supervisor against that more detailed plant, using interactive simulation and visualization on the merged specification.
 
-The specifications that are being merged can <<tools-mergecif-shared,share>>
-events and variables, making it possible to have
-interaction between the merged specifications.
+The specifications that are being merged can <<tools-mergecif-shared,share>> events and variables, making it possible to have interaction between the merged specifications.
 
 indexterm:[CIF merger,start]
 
@@ -41,35 +34,22 @@ The merger can be started in the following ways:
 
 * Use the Eclipse IDE to merge multiple files:
 
-** Select a `.cif` file in the 'Project Explorer' tab or
-'Package Explorer' tab by left clicking on it.
+** Select a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab by left clicking on it.
 
-** Select additional `.cif` files by left clicking on them while pressing
-the
-kbd:[Ctrl]
-or
-kbd:[Control]
-key.
+** Select additional `.cif` files by left clicking on them while pressing the kbd:[Ctrl] or kbd:[Control] key.
 
 ** Make sure at least two `.cif` files are selected.
 
-** Right click one of the `.cif` files and choose
-menu:Merge CIF specifications...[].
+** Right click one of the `.cif` files and choose menu:Merge CIF specifications...[].
 
-* Use the Eclipse IDE to merge a single file with itself (allowed, but
-practically not that useful):
+* Use the Eclipse IDE to merge a single file with itself (allowed, but practically not that useful):
 
-** Right click a `.cif` file in the 'Project Explorer' tab or
-'Package Explorer' tab and choose
-menu:CIF miscellaneous tools[Merge CIF specifications...].
+** Right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF miscellaneous tools[Merge CIF specifications...].
 
-** Right click an open text editor for a `.cif` file and choose
-menu:CIF miscellaneous tools[Merge CIF specifications...].
+** Right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Merge CIF specifications...].
 
-* Use the `cifmerge` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifmerge` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifmerge` command line tool.
 
@@ -77,25 +57,20 @@ indexterm:[CIF merger,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input files_: The absolute or relative local file system path to the
-input CIF specifications. These are the files to merge.
+* _Input files_: The absolute or relative local file system path to the input CIF specifications.
+These are the files to merge.
 
-* _Output file_: The absolute or relative local file system path to the
-merged/output CIF specification. If not specified, the output file defaults
-to `merged.cif`. If the merger is executed via the Eclipse GUI, the output
-file, if specified as a relative path (or just a file name), is resolved
-relative to the directory that contains the first input file.
+* _Output file_: The absolute or relative local file system path to the merged/output CIF specification.
+If not specified, the output file defaults to `merged.cif`.
+If the merger is executed via the Eclipse GUI, the output file, if specified as a relative path (or just a file name), is resolved relative to the directory that contains the first input file.
 
 indexterm:[CIF merger,preprocessing]
 
 === Preprocessing
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-applied as preprocessing (in the given order), to increase the subset of CIF
-specifications that can be transformed:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -103,9 +78,7 @@ specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-print-file-into-decls>>
 
-If only one input file is provided to the CIF merger, essentially that single
-input file is preprocessed and written as output, without any merging taking
-place.
+If only one input file is provided to the CIF merger, essentially that single input file is preprocessed and written as output, without any merging taking place.
 
 indexterm:[CIF merger,example]
 
@@ -132,26 +105,19 @@ Merging these two specifications results in the following merged specification:
 include::{incdir-tools}/mergecif/merged.cif[]
 ----
 
-The supervisor specification contains three _skeletons_: groups that only
-contain event declarations, and have no behavior. The skeletons represent the
-plants of the system, which are controlled by the supervisor. The supervisor
-specification also contains a supervisor automaton, which waits for the button
-to be pushed, then turns on the lamp and start the timer, waits for the timer
-to time out, turns the lamp back off, and keeps repeating this behavior.
+The supervisor specification contains three _skeletons_: groups that only contain event declarations, and have no behavior.
+The skeletons represent the plants of the system, which are controlled by the supervisor.
+The supervisor specification also contains a supervisor automaton, which waits for the button to be pushed, then turns on the lamp and start the timer, waits for the timer to time out, turns the lamp back off, and keeps repeating this behavior.
 Pushing or releasing the button during the cycle has no effect.
 
-The timed specification contains the same plants, with the same events, but
-here the plants are actual automata with behavior, instead of just skeleton
-groups. For the button and lamp, the events occur in alternating sequences.
-The timer has a clock that ensures that the timeout happens two time units
-after the timer is started.
+The timed specification contains the same plants, with the same events, but here the plants are actual automata with behavior, instead of just skeleton groups.
+For the button and lamp, the events occur in alternating sequences.
+The timer has a clock that ensures that the timeout happens two time units after the timer is started.
 
-Since both specifications contain the same events (based on their absolute
-names), these events are merged together. This ensures that uses of those
-events become linked (or coupled), and all refer to the single merged event in
-the merged specification. This means that the events used in the supervisor are
-the same events as used the timed plant. This also means that they synchronize,
-and the supervisor thus controls the timed plants.
+Since both specifications contain the same events (based on their absolute names), these events are merged together.
+This ensures that uses of those events become linked (or coupled), and all refer to the single merged event in the merged specification.
+This means that the events used in the supervisor are the same events as used the timed plant.
+This also means that they synchronize, and the supervisor thus controls the timed plants.
 
 indexterm:[CIF merger,shared events]
 indexterm:[CIF merger,shared variables]
@@ -159,34 +125,24 @@ indexterm:[CIF merger,shared variables]
 [[tools-mergecif-shared]]
 === Shared events and variables
 
-The example above shows how shared events can be used to link (or couple)
-multiple specifications through merging.
+The example above shows how shared events can be used to link (or couple) multiple specifications through merging.
 
-Similarly to the way events can be merged, it is possible to merge input
-variables with other variables, as long as the types are compatible. That is,
-an input variable can be merged with another input variable, a discrete
-variable, a continuous variable, an algebraic variable, a constant, or a
-location. The input variable is then a sort of _skeleton_ definition that is
-merged with an actual definition (for instance an algebraic variable), which
-defines the value.
+Similarly to the way events can be merged, it is possible to merge input variables with other variables, as long as the types are compatible.
+That is, an input variable can be merged with another input variable, a discrete variable, a continuous variable, an algebraic variable, a constant, or a location.
+The input variable is then a sort of _skeleton_ definition that is merged with an actual definition (for instance an algebraic variable), which defines the value.
 
-There are thus two ways for merged specifications to become linked (or
-coupled): by means of shared events and by means of shared variables (including
-constants).
+There are thus two ways for merged specifications to become linked (or coupled): by means of shared events and by means of shared variables (including constants).
 
-For further details and restrictions, see the
-<<tools-mergecif-compatibility>> section.
+For further details and restrictions, see the <<tools-mergecif-compatibility>> section.
 
 indexterm:[CIF merger,merge compatibility]
 
 [[tools-mergecif-compatibility]]
 === Merge compatibility
 
-In general, objects (components, declarations, etc) that only occur in one
-of the specifications being merged, are simply copied to the merged
-specification. If in two (or more) specifications objects with the same
-absolute name are present, they need to be merged. Not all objects can be
-merged with all other objects, i.e. not all objects are _merge compatible_.
+In general, objects (components, declarations, etc) that only occur in one of the specifications being merged, are simply copied to the merged specification.
+If in two (or more) specifications objects with the same absolute name are present, they need to be merged.
+Not all objects can be merged with all other objects, i.e. not all objects are _merge compatible_.
 The following table gives an overview of what can be merged:
 
 [cols=13*,options="header"]
@@ -375,66 +331,46 @@ The following table gives an overview of what can be merged:
 |===
 
 
-For components (i.e. groups and automata) that are present in more than one
-specification, the contents are recursively merged into a single component.
-The contents of components consists not only of their declarations (such as
-events) and their sub-components (for groups), but also of their invariants,
-initialization predicates, marker predicates, equations, locations
-(for automata), etc.
+For components (i.e. groups and automata) that are present in more than one specification, the contents are recursively merged into a single component.
+The contents of components consists not only of their declarations (such as events) and their sub-components (for groups), but also of their invariants, initialization predicates, marker predicates, equations, locations (for automata), etc.
 
-As the button/lamp example above shows, automata can be merged with groups
-(often acting as skeletons), resulting in an automaton with the contents of
-the group merged into it. Since automata can't contain sub-components and
-user-defined functions, groups with sub-components and/or user-defined
-functions can not be merged with automata.
+As the button/lamp example above shows, automata can be merged with groups (often acting as skeletons), resulting in an automaton with the contents of the group merged into it.
+Since automata can't contain sub-components and user-defined functions, groups with sub-components and/or user-defined functions can not be merged with automata.
 
-Groups can also be merged with other groups. Automata however can not be merged
-with other automata, as that may lead to the merge of conflicting behavioral
-specifications.
+Groups can also be merged with other groups.
+Automata however can not be merged with other automata, as that may lead to the merge of conflicting behavioral specifications.
 
-Events can be merged with other events. Each event must then either be a
-channel in all of the specifications in which it occurs, or in none of them.
-If it is a channel, the data type must be exactly the same in all
-specifications in which it is declared. Events that have different
-controllability in different specifications, can also not be merged.
+Events can be merged with other events.
+Each event must then either be a channel in all of the specifications in which it occurs, or in none of them.
+If it is a channel, the data type must be exactly the same in all specifications in which it is declared.
+Events that have different controllability in different specifications, can also not be merged.
 
-Constants can be merged with other constants. However, the constants must then
-have the exact same type and value in all the specifications in which they
-occur. This restriction prevents the merge of conflicting values. Due to this
-restriction, constants that have a type of which the values can not be compared
-for equality (e.g. function types), are not supported (can not be merged).
+Constants can be merged with other constants.
+However, the constants must then have the exact same type and value in all the specifications in which they occur.
+This restriction prevents the merge of conflicting values.
+Due to this restriction, constants that have a type of which the values can not be compared for equality (e.g. function types), are not supported (can not be merged).
 
-As mentioned in the <<tools-mergecif-shared>> section, an input variable can
-be merged with another input variable, discrete variable, continuous variable,
-algebraic variable, constant, or location. Input variables can only be merged
-with other objects that have the exact same type.
+As mentioned in the <<tools-mergecif-shared>> section, an input variable can be merged with another input variable, discrete variable, continuous variable, algebraic variable, constant, or location.
+Input variables can only be merged with other objects that have the exact same type.
 
-A location can be merged with an input variable that has a boolean type. The
-input variable is then a placeholder for the location, indicating whether the
-location is the current location of its automaton.
+A location can be merged with an input variable that has a boolean type.
+The input variable is then a placeholder for the location, indicating whether the location is the current location of its automaton.
 
-It is not allowed to merge two algebraic variables, two discrete variables, or
-two continuous variables, as that may lead to the merge of conflicting values.
+It is not allowed to merge two algebraic variables, two discrete variables, or two continuous variables, as that may lead to the merge of conflicting values.
 
-In general, only one of the specifications defines the variable as a concrete
-variable that defines a value (e.g. as a discrete, continuous, or algebraic
-variable). All the other specifications that have that same variable must
-declare it as an input variable (essentially a _placeholder_). It is however
-allowed to merge two or more constants with the same type and the same value.
+In general, only one of the specifications defines the variable as a concrete variable that defines a value (e.g. as a discrete, continuous, or algebraic variable).
+All the other specifications that have that same variable must declare it as an input variable (essentially a _placeholder_).
+It is however allowed to merge two or more constants with the same type and the same value.
 
-Type declarations can be merged with other type declarations, as long as they
-have the exact same type.
+Type declarations can be merged with other type declarations, as long as they have the exact same type.
 
-Enumerations can be merged with other enumerations, as long as they are
-compatible. Two enumerations are compatible if they have the same number of
-literals, with the exact same names, in the same order.
+Enumerations can be merged with other enumerations, as long as they are compatible.
+Two enumerations are compatible if they have the same number of literals, with the exact same names, in the same order.
 
-Enumeration literals can only be merged as the result of the enumerations of
-which they are a part being merged. Merging two literals from different
-enumerations (which then have different names) is not supported.
+Enumeration literals can only be merged as the result of the enumerations of which they are a part being merged.
+Merging two literals from different enumerations (which then have different names) is not supported.
 
-Type declarations and enumerations can be merged, as long as the type of the
-type declaration is compatible with the enumeration.
+Type declarations and enumerations can be merged, as long as the type of the type declaration is compatible with the enumeration.
 
 User-defined functions can never be merged with other objects of the same name.
 
@@ -442,9 +378,8 @@ indexterm:[CIF merger,invariants]
 
 === Invariants
 
-Merging a group with an automaton, may change the supervisory kinds of the
-invariants of the group. For instance, consider the following CIF
-specifications:
+Merging a group with an automaton, may change the supervisory kinds of the invariants of the group.
+For instance, consider the following CIF specifications:
 
 
 [source, cif]
@@ -475,29 +410,23 @@ end
 
 In the original group `x`, the invariant did not have a supervisory kind.
 After merging, the invariant still does not specify a supervisory kind.
-However, since it is now specified in an automaton `x` of kind `plant`, the
-invariant <<lang-tut-extensions-synthesis-invkind-implicit,implicitly>>
-becomes a plant invariant as well.
+However, since it is now specified in an automaton `x` of kind `plant`, the invariant <<lang-tut-extensions-synthesis-invkind-implicit,implicitly>> becomes a plant invariant as well.
 
-When an invariant gets an implicit supervisory kind as a result of merging,
-the merge tool prints a warning to the console.
+When an invariant gets an implicit supervisory kind as a result of merging, the merge tool prints a warning to the console.
 
-To get rid of the warning, the invariant in group `x` can be declared
-explicitly as being a `plant` invariant. The supervisory kind then matches
-the supervisory kind of automaton `x`. When the group and automaton are
-merged, the invariant keeps its explicit supervisory `plant` kind. The merge
-result is thus the same as the earlier merge result, as in both cases the
-invariant in the merged specification is interpreted as a print invariant.
+To get rid of the warning, the invariant in group `x` can be declared explicitly as being a `plant` invariant.
+The supervisory kind then matches the supervisory kind of automaton `x`.
+When the group and automaton are merged, the invariant keeps its explicit supervisory `plant` kind.
+The merge result is thus the same as the earlier merge result, as in both cases the invariant in the merged specification is interpreted as a print invariant.
 However, in this last case, no warning is printed to the console.
 
 indexterm:[CIF merger,merge problems]
 
 === Merge problems
 
-Even when two or more CIF specifications are merge compatible, as described
-above, the resulting merged CIF specification can still be invalid. In such
-cases, merging fails. For instance, consider the following two CIF
-specifications:
+Even when two or more CIF specifications are merge compatible, as described above, the resulting merged CIF specification can still be invalid.
+In such cases, merging fails.
+For instance, consider the following two CIF specifications:
 
 
 [source, cif]
@@ -521,11 +450,7 @@ alg int x = y;
 alg int y = x;
 ----
 
-But this merged specification is invalid, as `x` is defined in terms of
-`y`, which is defined in terms of `x`, leading to a loop (definition/use
-cycle).
+But this merged specification is invalid, as `x` is defined in terms of `y`, which is defined in terms of `x`, leading to a loop (definition/use cycle).
 
-Another example of merge problems is two CIF specifications that have SVG
-output mappings for the same SVG element id and attribute, for the same SVG
-image file. In the individual CIF specifications there are no duplicate output
-mappings, but in the merged specification there are.
+Another example of merge problems is two CIF specifications that have SVG output mappings for the same SVG element id and attribute, for the same SVG image file.
+In the individual CIF specifications there are no duplicate output mappings, but in the merged specification there are.

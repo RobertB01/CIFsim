@@ -18,13 +18,11 @@ indexterm:[documentation,reference]
 == Language reference
 
 The documentation in this language reference manual serves as reference.
-It is not intended to be read from beginning to end, but more to look up
-specific information when needed. The reference documentation generally
-provides detailed and complete information, but this information may not
-always be presented in the most accessible way.
+It is not intended to be read from beginning to end, but more to look up specific information when needed.
+The reference documentation generally provides detailed and complete information, but this information may not always be presented in the most accessible way.
 
-The information is divided into categories. The following categories and
-information is part of the language reference documentation:
+The information is divided into categories.
+The following categories and information is part of the language reference documentation:
 
 _Syntax_
 

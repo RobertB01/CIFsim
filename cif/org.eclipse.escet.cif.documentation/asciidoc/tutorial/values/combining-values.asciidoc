@@ -15,8 +15,8 @@ include::../_part_attributes.asciidoc[]
 [[tut-values-chapter-combining-values]]
 == Combining values
 
-Values of different types can usually be arbitrarily combined. For instance,
-consider the following example:
+Values of different types can usually be arbitrarily combined.
+For instance, consider the following example:
 
 
 [source, cif]
@@ -26,13 +26,12 @@ disc dict(int;tuple(real pos, weight)) boxes = {1: (0.0, 2.5),
                                                 3: (4.0, 3.9};
 ----
 
-Variable `boxes` stores data about multiple boxes, in a dictionary with
-unique identification numbers (`1`, `2`, and `3`) used as keys. For each
-box, the position (`pos`) and `weight` are stored as a tuple. Initially,
-there are three boxes. The first box has identification number `1`,
-position `0.0`, and weight `2.5`. The second box has identification number
-`2`, position `3.0`, and weight `1.7`. Also consider the following
-example, where the data of that variable is manipulated:
+Variable `boxes` stores data about multiple boxes, in a dictionary with unique identification numbers (`1`, `2`, and `3`) used as keys.
+For each box, the position (`pos`) and `weight` are stored as a tuple.
+Initially, there are three boxes.
+The first box has identification number `1`, position `0.0`, and weight `2.5`.
+The second box has identification number `2`, position `3.0`, and weight `1.7`.
+Also consider the following example, where the data of that variable is manipulated:
 
 
 [source, cif]
@@ -42,7 +41,6 @@ edge ... do boxes[2][pos] := boxes[2][pos] + 1;
 edge ... do boxes[4] := (1.0, 0.8);
 ----
 
-The first edge changes the `weight` of the box `1` (the box with
-identification number `1`), from `2.5` to `3.5`. The second edge
-increases the position (`pos`) of box `2` from `3.0` to `4.0`. The
-third edge adds data for a new box with identification number `4`.
+The first edge changes the `weight` of the box `1` (the box with identification number `1`), from `2.5` to `3.5`.
+The second edge increases the position (`pos`) of box `2` from `3.0` to `4.0`.
+The third edge adds data for a new box with identification number `4`.

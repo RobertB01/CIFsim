@@ -15,8 +15,7 @@ include::_part_attributes.asciidoc[]
 [[use-edit-exec]]
 == Editing files and executing commands
 
-This section contains information on <<use-edit,editing text files>> and
-<<use-commands,executing commands>> (such as starting a simulator).
+This section contains information on <<use-edit,editing text files>> and <<use-commands,executing commands>> (such as starting a simulator).
 
 indexterm:[edit,file]
 indexterm:[file,edit]
@@ -36,21 +35,16 @@ indexterm:[marker,editor]
 [[use-edit]]
 === Editing a text file
 
-To edit a file, double click it in the _Project explorer_ or
-_Package explorer_ <<use-terminology-view,view>>.
+To edit a file, double click it in the _Project explorer_ or _Package explorer_ <<use-terminology-view,view>>.
 
-Whenever you open a text file, change it, or the editor receives the focus,
-the file is checked for errors. If there are errors (or warnings), they are
-displayed in the editor as shown below.
+Whenever you open a text file, change it, or the editor receives the focus, the file is checked for errors.
+If there are errors (or warnings), they are displayed in the editor as shown below.
 
 image::{use-imgsdir}/model_with_error.png[]
 
-Note that you can hover over an error in the source code itself to find out
-what the problem is. Alternatively, you can hover over the error marker in
-the margin of the editor, or look at the _Problems_ view. Also, if a file
-has an error or a warning, an overlay icon is shown in the _Project Explorer_
-and _Package Explorer_ views, for that file, the directories that
-contain it, and the <<use-terminology-project,project>> that contains it.
+Note that you can hover over an error in the source code itself to find out what the problem is.
+Alternatively, you can hover over the error marker in the margin of the editor, or look at the _Problems_ view.
+Also, if a file has an error or a warning, an overlay icon is shown in the _Project Explorer_ and _Package Explorer_ views, for that file, the directories that contain it, and the <<use-terminology-project,project>> that contains it.
 
 
 indexterm:[command,execute]
@@ -62,18 +56,15 @@ indexterm:[simulate]
 [[use-commands]]
 === Executing commands
 
-If you have a file without errors, you can execute certain commands on it. The
-various Eclipse ESCET tools add _commands_ to Eclipse. For instance, CIF models
-can be simulated using a simulation command.
+If you have a file without errors, you can execute certain commands on it.
+The various Eclipse ESCET tools add _commands_ to Eclipse.
+For instance, CIF models can be simulated using a simulation command.
 
-To execute a command on a file, right click the file in the
-_Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>, and
-select the command. Alternatively, if you have the file open in an editor, right
-click the editor, and select the command.
+To execute a command on a file, right click the file in the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>, and select the command.
+Alternatively, if you have the file open in an editor, right click the editor, and select the command.
 
-The commands that are available are determined by the file extension of the
-file. That is, only the commands applicable for a certain file are shown.
+The commands that are available are determined by the file extension of the file.
+That is, only the commands applicable for a certain file are shown.
 
-Besides simulation, other commands may be available, depending on the modeling
-language and tools you use. Consult the specific documentation for each tool
-for more details.
+Besides simulation, other commands may be available, depending on the modeling language and tools you use.
+Consult the specific documentation for each tool for more details.

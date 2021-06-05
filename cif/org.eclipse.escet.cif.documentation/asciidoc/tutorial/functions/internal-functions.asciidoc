@@ -16,9 +16,8 @@ include::../_part_attributes.asciidoc[]
 == Internal user-defined functions
 
 indexterm:[function,internal]
-The most commonly used <<tut-functions-chapter-intro,kind>> of user-defined
-functions are the internal user-defined functions. Consider the following CIF
-specification:
+The most commonly used <<tut-functions-chapter-intro,kind>> of user-defined functions are the internal user-defined functions.
+Consider the following CIF specification:
 
 // Copied to: functions/statements
 
@@ -39,44 +38,37 @@ end
 
 indexterm:[function,parameters]
 indexterm:[function,return type]
-This specification defines a function (keyword `func`) named `mean`. After
-the name of the function, between the parentheses, the _parameters_ are listed.
-The parameters are the input values, which the function can use to compute its
-result. In this example, the function takes a
-<<tut-values-chapter-lists,list>> of <<tut-values-chapter-reals,real>>
-values as its only parameter. Parameter name `vs` can be used in the body of
-the function to refer to this input value. Just after the `func` keyword, the
-<<tut-values-chapter-types-values-exprs,type>> of the _result_ of the
-computation is specified. In this case, the function results in a
-<<tut-values-chapter-reals,real>> typed value. The `mean` function takes a
-list of integer values and produces a single real value as result.
+This specification defines a function (keyword `func`) named `mean`.
+After the name of the function, between the parentheses, the _parameters_ are listed.
+The parameters are the input values, which the function can use to compute its result.
+In this example, the function takes a <<tut-values-chapter-lists,list>> of <<tut-values-chapter-reals,real>> values as its only parameter.
+Parameter name `vs` can be used in the body of the function to refer to this input value.
+Just after the `func` keyword, the <<tut-values-chapter-types-values-exprs,type>> of the _result_ of the computation is specified.
+In this case, the function results in a <<tut-values-chapter-reals,real>> typed value.
+The `mean` function takes a list of integer values and produces a single real value as result.
 
 indexterm:[function,body]
 indexterm:[function,local variables]
-In the _body_ of the function, local variables can be declared. The `mean`
-function declares three variables: `length`, `index`, and `sum`. Local
-variables of functions are very similar to
-<<tut-data-chapter-discrete-variables,discrete variables>>. The main
-difference is that they are
-declared without the `disc` keyword. In the example, `length` is set to the
-number of elements in list `vs`. Variables `index` and `sum` are both
-initialized to `0`.
+In the _body_ of the function, local variables can be declared.
+The `mean` function declares three variables: `length`, `index`, and `sum`.
+Local variables of functions are very similar to <<tut-data-chapter-discrete-variables,discrete variables>>.
+The main difference is that they are declared without the `disc` keyword.
+In the example, `length` is set to the number of elements in list `vs`.
+Variables `index` and `sum` are both initialized to `0`.
 
 indexterm:[function,statements]
 indexterm:[function,return value]
-After the local variables (if any), the statements of the body are given. The
-statements implement the algorithm, the actual computation of the function.
-Statements are executed one after another, in the order they are given. In the
-`mean` function, the `while` statement is executed before the `return`
-statement. The `mean` function first calculates the sum of the input values,
-and then _returns_ the mean value. The details of the statements are discussed
-in the <<tut-functions-chapter-statements,next lesson>>.
+After the local variables (if any), the statements of the body are given.
+The statements implement the algorithm, the actual computation of the function.
+Statements are executed one after another, in the order they are given.
+In the `mean` function, the `while` statement is executed before the `return` statement.
+The `mean` function first calculates the sum of the input values, and then _returns_ the mean value.
+The details of the statements are discussed in the <<tut-functions-chapter-statements,next lesson>>.
 
 indexterm:[function,application]
 indexterm:[function,call]
-A function can be called (or applied) on concrete input values, to obtain the
-computation result for those specific input values. For instance, consider the
-following extension to the above CIF specification:
+A function can be called (or applied) on concrete input values, to obtain the computation result for those specific input values.
+For instance, consider the following extension to the above CIF specification:
 
 
 [source, cif]
@@ -92,27 +84,22 @@ automaton a:
 end
 ----
 
-Algebraic variable `m` is given the value that results from calling function
-`mean` on a single _argument_, a list with four values. Each argument of a
-function call must match with the corresponding parameter of the function being
-called. In this case, the list of four real values matches with the `vs`
-parameter of the `mean` function, which has type `list real`. Variable
-`m` becomes `7.1`, as the mean of those four values is `7.1`
-(`(1.5 + 3.2 + 7.9 + 15.8) / 4`).
+Algebraic variable `m` is given the value that results from calling function `mean` on a single _argument_, a list with four values.
+Each argument of a function call must match with the corresponding parameter of the function being called.
+In this case, the list of four real values matches with the `vs` parameter of the `mean` function, which has type `list real`.
+Variable `m` becomes `7.1`, as the mean of those four values is `7.1` (`(1.5 + 3.2 + 7.9 + 15.8) / 4`).
 
-The edge in automaton `a` assigns a value to variable `x`. The mean of a
-list of three values is calculated, and multiplied by two, to obtain the new
-value of `x`. The mean of `0.4`, `1.5`, and `6.8` is
-`(0.4 + 1.5 + 6.8) / 3`, which is `2.9`. Variable `x` gets `5.8`
-(`2.9 * 2`) as its new value.
+The edge in automaton `a` assigns a value to variable `x`.
+The mean of a list of three values is calculated, and multiplied by two, to obtain the new value of `x`.
+The mean of `0.4`, `1.5`, and `6.8` is `(0.4 + 1.5 + 6.8) / 3`, which is `2.9`.
+Variable `x` gets `5.8` (`2.9 * 2`) as its new value.
 
-Function `mean` is called in two places in the example, showing reuse of
-calculations.
+Function `mean` is called in two places in the example, showing reuse of calculations.
 
 indexterm:[function,side effects]
-Functions in CIF are mathematical functions. That is, the result of a function
-is the same for the same input values, and functions have no side effects.
-Functions can not directly access variables outside their body. For example,
-they cannot access discrete, continuous, and algebraic variables. They can also
-not use variable `time`. To use the values of those variables in a function,
-they have to to be passed in through parameters.
+Functions in CIF are mathematical functions.
+That is, the result of a function is the same for the same input values, and functions have no side effects.
+Functions can not directly access variables outside their body.
+For example, they cannot access discrete, continuous, and algebraic variables.
+They can also not use variable `time`.
+To use the values of those variables in a function, they have to to be passed in through parameters.

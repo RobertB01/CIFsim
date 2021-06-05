@@ -22,13 +22,13 @@ indexterm:[value,string]
 indexterm:[string,value]
 indexterm:[literal,string]
 indexterm:[string,literal]
-Strings represent textual values, as a sequence of characters. String values
-are always written between double quotes. An example is `"hello world"`. The
-default value of strings (`string` type) is the empty string `""`.
+Strings represent textual values, as a sequence of characters.
+String values are always written between double quotes.
+An example is `"hello world"`.
+The default value of strings (`string` type) is the empty string `""`.
 
-Strings can be composed using the `pass:c[+]` operator. The expression
-`"hello" + " " + "world"` evaluates to `"hello world"`. For advanced text
-formatting, see
-<<tools-cifsim-output-print-chapter-tut-fmt,the text formatting tutorial>>.
+Strings can be composed using the `pass:c[+]` operator.
+The expression `"hello" + " " + "world"` evaluates to `"hello world"`.
+For advanced text formatting, see <<tools-cifsim-output-print-chapter-tut-fmt,the text formatting tutorial>>.
 
 // TODO: link to future ref manual

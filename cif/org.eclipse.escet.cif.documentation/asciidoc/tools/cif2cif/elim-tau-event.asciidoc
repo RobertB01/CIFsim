@@ -33,14 +33,12 @@ indexterm:[eliminate tau event,implementation]
 
 === Implementation details
 
-This transformation introduces new events for the `tau` event, one per
-automaton where a `tau` event is used. The new events are named `+tau_+` (if
-that name is not already in use).
+This transformation introduces new events for the `tau` event, one per automaton where a `tau` event is used.
+The new events are named `+tau_+` (if that name is not already in use).
 
 If the alphabet is explicit specified, it is extended as well.
 
-The new events are neither controllable nor uncontrollable, and don't have a
-data type.
+The new events are neither controllable nor uncontrollable, and don't have a data type.
 
 For instance, the following specification:
 
@@ -81,17 +79,15 @@ indexterm:[eliminate tau event,renaming]
 
 === Renaming
 
-The newly introduced `+tau_+` events are renamed to `tau_2`, `tau_3`, etc,
-if they conflict with other declarations with the same name, that already
-exist in the automata. If renaming is needed, a warning is printed to the
-console.
+The newly introduced `+tau_+` events are renamed to `tau_2`, `tau_3`, etc, if they conflict with other declarations with the same name, that already exist in the automata.
+If renaming is needed, a warning is printed to the console.
 
 indexterm:[eliminate tau event,size considerations]
 
 === Size considerations
 
-New events may be added, the alphabet may be extended, and an explicit event
-may be added to edges. Therefore, the size of the specification may increase.
+New events may be added, the alphabet may be extended, and an explicit event may be added to edges.
+Therefore, the size of the specification may increase.
 
 
 === Optimality

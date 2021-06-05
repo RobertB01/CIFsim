@@ -21,11 +21,9 @@ indexterm:[SVG,copy declaration]
 indexterm:[SVG declaration,SVG copy declaration]
 indexterm:[I/O declaration,SVG copy declaration]
 indexterm:[see: svgcopy,SVG copy declaration]
-A CIF/SVG copy declaration can be used to create copies of existing graphical
-elements of an SVG image. This page explains the technical details of such
-copy declarations. For concrete examples, see the
-<<tools-cifsim-output-svgviz-chapter-example-lamps,lamps example>> or the
-<<tools-cifsim-output-svgviz-chapter-example-buffers-products,buffers/products example>>.
+A CIF/SVG copy declaration can be used to create copies of existing graphical elements of an SVG image.
+This page explains the technical details of such copy declarations.
+For concrete examples, see the <<tools-cifsim-output-svgviz-chapter-example-lamps,lamps example>> or the <<tools-cifsim-output-svgviz-chapter-example-buffers-products,buffers/products example>>.
 
 indexterm:[SVG copy declaration,example]
 
@@ -38,10 +36,10 @@ Consider the following SVG file:
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/svgcopy.svg[]
 ----
 
-It features three rectangles, with ids `rect`, `rect2`, and `rect3`, each
-with the same size. They have different `fill` colors and positions. The
-second rectangle is enclosed in a group with id `grp`. Also consider the
-following CIF file:
+It features three rectangles, with ids `rect`, `rect2`, and `rect3`, each with the same size.
+They have different `fill` colors and positions.
+The second rectangle is enclosed in a group with id `grp`.
+Also consider the following CIF file:
 
 [source,cif]
 ----
@@ -79,43 +77,28 @@ svgcopy id <orig-elem-id> pre <prefix> post <postfix>;
 svgcopy id <orig-elem-id> pre <prefix> file "...";
 ----
 
-The `svgcopy` keyword is followed by a specification of an SVG element
-<<tools-cifsim-output-svgviz-svg-id,id>>. Every copy declaration must
-<<tools-cifsim-output-svgviz-svgout-id,specify the id>> of an SVG
-element, and an SVG element with that id must exist in the original SVG image,
-or must exist after applying one of the other copy declarations of the same
-CIF specification. The `id` indicates the element that is to be copied.
+The `svgcopy` keyword is followed by a specification of an SVG element <<tools-cifsim-output-svgviz-svg-id,id>>.
+Every copy declaration must <<tools-cifsim-output-svgviz-svgout-id,specify the id>> of an SVG element, and an SVG element with that id must exist in the original SVG image, or must exist after applying one of the other copy declarations of the same CIF specification.
+The `id` indicates the element that is to be copied.
 
-The prefix and postfix are both optional, but at least one of them must be
-specified. The prefix and postfix are used to generate unique ids for the
-copied elements. The prefix (if any) is prepended to the ids of the copied
-elements, while the postfix (if any) is appended to the ids of the copied
-elements. Prefixes (if specified) must be valid SVG name prefixes, which means
-they must be valid SVG names, just as
-<<tools-cifsim-output-svgviz-svgout-id,SVG element ids>>.
-Similarly, postfixes (if specified) must be valid SVG name postfixes, which
-means they must be valid SVG names, but may start with dashes (`-`), dots
-(`.`), and numbers (`0` to `9`). Similar to
-<<tools-cifsim-output-svgviz-svgout-id,ids>>, expressions may be
-used for both prefixes and postfixes, as long as they result in a `string`
-typed value when they're evaluated.
+The prefix and postfix are both optional, but at least one of them must be specified.
+The prefix and postfix are used to generate unique ids for the copied elements.
+The prefix (if any) is prepended to the ids of the copied elements, while the postfix (if any) is appended to the ids of the copied elements.
+Prefixes (if specified) must be valid SVG name prefixes, which means they must be valid SVG names, just as <<tools-cifsim-output-svgviz-svgout-id,SVG element ids>>.
+Similarly, postfixes (if specified) must be valid SVG name postfixes, which means they must be valid SVG names, but may start with dashes (`-`), dots (`.`), and numbers (`0` to `9`).
+Similar to <<tools-cifsim-output-svgviz-svgout-id,ids>>, expressions may be used for both prefixes and postfixes, as long as they result in a `string` typed value when they're evaluated.
 
-If we look at the rectangles example above, we see that the `rect` element is
-copied, and that the `id` of the copied element is prefixed with `a`,
-resulting in `arect` as `id` of the copy. Similarly, `rect3` is prefixed
-with `+_+` and postfixed with `x` resulting in `+_rect3x+` as `id` of the
-copy.
+If we look at the rectangles example above, we see that the `rect` element is copied, and that the `id` of the copied element is prefixed with `a`, resulting in `arect` as `id` of the copy.
+Similarly, `rect3` is prefixed with `+_+` and postfixed with `x` resulting in `+_rect3x+` as `id` of the copy.
 
-The `grp` element is copied as well, with a `b` postfix. This results in
-a copied group with `grpb` as its `id`. Group `grp` also contains the
-rectangle with id `rect2`. When an element is copied, all its contents are
-copied as well. That is, the copy is recursive. This means that the `rect2`
-element is copied as well, and that copy is also given a `b` postfix,
-resulting in `rect2b` as its `id`.
+The `grp` element is copied as well, with a `b` postfix.
+This results in a copied group with `grpb` as its `id`.
+Group `grp` also contains the rectangle with id `rect2`.
+When an element is copied, all its contents are copied as well.
+That is, the copy is recursive.
+This means that the `rect2` element is copied as well, and that copy is also given a `b` postfix, resulting in `rect2b` as its `id`.
 
-In the syntax examples above, we see that it is also allowed to declare a
-local <<tools-cifsim-output-svgviz-chapter-svgfile,SVG file declaration>>, that
-only applies to that specific copy declaration.
+In the syntax examples above, we see that it is also allowed to declare a local <<tools-cifsim-output-svgviz-chapter-svgfile,SVG file declaration>>, that only applies to that specific copy declaration.
 
 indexterm:[SVG copy declaration,placement]
 indexterm:[SVG copy declaration,order]
@@ -123,37 +106,27 @@ indexterm:[SVG copy declaration,root]
 
 === Placement
 
-The copies are added to the SVG image, as siblings of their originals. That is,
-the copies are added just before their originals. In the rectangles example
-above, this means that the `arect` copy is added just before the `rect`
-original, and the `grpb` copy is added just before the `grp` original.
+The copies are added to the SVG image, as siblings of their originals.
+That is, the copies are added just before their originals.
+In the rectangles example above, this means that the `arect` copy is added just before the `rect` original, and the `grpb` copy is added just before the `grp` original.
 
-The order of the `rect`, `rect2`, and `rect3` rectangles is important,
-in that it determines their _rendering order_. Elements that are listed first,
-get _rendered_ or _painted_ first. Subsequent elements are painted on top of
-previously painted elements. Thus, the red `rect` rectangle is painted first,
-and is partially covered by the green `rect2` rectangle, which is painted
-second and is partially covered by the blue `rect3` rectangle, which is
-painted third.
+The order of the `rect`, `rect2`, and `rect3` rectangles is important, in that it determines their _rendering order_.
+Elements that are listed first, get _rendered_ or _painted_ first.
+Subsequent elements are painted on top of previously painted elements.
+Thus, the red `rect` rectangle is painted first, and is partially covered by the green `rect2` rectangle, which is painted second and is partially covered by the blue `rect3` rectangle, which is painted third.
 
-By including copies near their originals (as siblings), the copies get a
-similar rendering order.
+By including copies near their originals (as siblings), the copies get a similar rendering order.
 
-It is not allowed to copy the root element (the element with id `root` in the
-rectangles example above), as that would result in two root elements, which is
-not allowed by the SVG standard.
+It is not allowed to copy the root element (the element with id `root` in the rectangles example above), as that would result in two root elements, which is not allowed by the SVG standard.
 
 indexterm:[SVG copy declaration,uniqueness]
 
 === Uniqueness
 
-All copied elements (the element that is copied, its children, the children of
-its children, etc) have their ids pre- and postfixed to create their new ids.
-These ids must be unique in the SVG image. That is, the new ids must not yet
-exist in the original SVG image, or have been used for previously copied
-elements. The unique ids are requires to ensure that we can still uniquely
-identify all elements by their ids, and we can thus use the ids to uniquely
-indicate to which elements other CIF/SVG declarations apply.
+All copied elements (the element that is copied, its children, the children of its children, etc) have their ids pre- and postfixed to create their new ids.
+These ids must be unique in the SVG image.
+That is, the new ids must not yet exist in the original SVG image, or have been used for previously copied elements.
+The unique ids are requires to ensure that we can still uniquely identify all elements by their ids, and we can thus use the ids to uniquely indicate to which elements other CIF/SVG declarations apply.
 
 Consider once again the rectangles example above:
 
@@ -170,12 +143,11 @@ We add the following copy declaration:
 svgcopy id "rect" post "2";
 ----
 
-This would result in the `rect` element being copied, and the copy being
-given a `rect2` id. However, there is already an element with that id. As
-such, the copy declaration is illegal.
+This would result in the `rect` element being copied, and the copy being given a `rect2` id.
+However, there is already an element with that id.
+As such, the copy declaration is illegal.
 
-At least a prefix or a postfix is required for every copy declaration, as
-otherwise the new ids would be identical to the original ids.
+At least a prefix or a postfix is required for every copy declaration, as otherwise the new ids would be identical to the original ids.
 
 indexterm:[SVG copy declaration,overlap]
 
@@ -197,10 +169,10 @@ svgcopy id "g" post "a";
 svgcopy id "r" post "b";
 ----
 
-Both the `g` element and the `r` element are copied. However, the `r`
-element is a part of the `g` element. Therefore, the `r` element is copied
-twice, once for the copy of that element itself, and once for the copy of its
-parent (`g`). This leads to the following SVG image:
+Both the `g` element and the `r` element are copied.
+However, the `r` element is a part of the `g` element.
+Therefore, the `r` element is copied twice, once for the copy of that element itself, and once for the copy of its parent (`g`).
+This leads to the following SVG image:
 
 [source, cif]
 ----
@@ -214,12 +186,11 @@ However, if we switch the order of the copies, we get:
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap_out2.svg[]
 ----
 
-Copying an element twice by copying the element itself (e.g. `g`), but also
-copying an element that it contains (e.g. `r`) is not recommended. As seen
-above, the outcome depends on the order, and can be very confusing. CIF gives
-a warning in case such overlapping copies are used. Generally, instead of
-copying the element twice, what is really wanted, is to copy the copied
-element. This can be done as follows:
+Copying an element twice by copying the element itself (e.g. `g`), but also copying an element that it contains (e.g. `r`) is not recommended.
+As seen above, the outcome depends on the order, and can be very confusing.
+CIF gives a warning in case such overlapping copies are used.
+Generally, instead of copying the element twice, what is really wanted, is to copy the copied element.
+This can be done as follows:
 
 
 [source, cif]
@@ -235,19 +206,15 @@ And this results in the following SVG file:
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap_out3.svg[]
 ----
 
-See the <<tools-cifsim-output-svgviz-chapter-example-buffers-products,buffers/products example>> for a
-more concrete example of the usefulness of copying copied elements.
+See the <<tools-cifsim-output-svgviz-chapter-example-buffers-products,buffers/products example>> for a more concrete example of the usefulness of copying copied elements.
 
-Not that overlap is only detected for copying an element and an element that
-it contains. Copying the same element multiple times is perfectly valid and
-useful, and does not result in warnings.
+Not that overlap is only detected for copying an element and an element that it contains.
+Copying the same element multiple times is perfectly valid and useful, and does not result in warnings.
 
 indexterm:[SVG copy declaration,application]
 indexterm:[SVG copy declaration,order]
 
 === Application
 
-Copy declarations are only applied once, at the beginning of the simulation,
-before any of the other CIF/SVG declarations have been applied. For more
-information, see the <<tools-cifsim-output-svgviz-simulation-order>>
-section.
+Copy declarations are only applied once, at the beginning of the simulation, before any of the other CIF/SVG declarations have been applied.
+For more information, see the <<tools-cifsim-output-svgviz-simulation-order>> section.

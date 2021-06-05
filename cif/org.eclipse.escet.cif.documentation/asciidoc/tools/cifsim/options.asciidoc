@@ -16,8 +16,8 @@ include::../_part_attributes.asciidoc[]
 == Simulator options
 
 indexterm:[CIF simulator,options]
-The CIF simulator can be configured via various options. The available
-options are listed below, per category.
+The CIF simulator can be configured via various options.
+The available options are listed below, per category.
 
 *General*
 
@@ -27,17 +27,13 @@ options are listed below, per category.
 
 * _License_: Prints the license text of the application to the console.
 
-* _Developer mode_: Option to control whether exceptional situations return
-limited and user-friendly information (the default), or extended developer
-oriented information. This option is primarily intended for the developers of
-the CIF simulator, and should not be used by end users.
+* _Developer mode_: Option to control whether exceptional situations return limited and user-friendly information (the default), or extended developer oriented information.
+This option is primarily intended for the developers of the CIF simulator, and should not be used by end users.
 
 *Simulation*
 
-* _CIF specification_: The absolute or relative local file system path to the
-CIF specification (`.cif` file) to simulate. May also be a
-<<tools-cifsim-chapter-repeated-simulation,compiled code file>> (`.cifcode`
-file).
+* _CIF specification_: The absolute or relative local file system path to the CIF specification (`.cif` file) to simulate.
+May also be a <<tools-cifsim-chapter-repeated-simulation,compiled code file>> (`.cifcode` file).
 
 * <<tools-cifsim-chapter-init,CIF specification initialization>>
 * <<tools-cifsim-termination-endtime,Simulation end time>>

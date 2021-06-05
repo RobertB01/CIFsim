@@ -17,9 +17,8 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[automaton definition,parameters]
 indexterm:[automaton instantiation,arguments]
-In the <<tut-reuse2-chapter-aut-def-params,previous lesson>>, an automaton
-definition with parameter was used. The parameter was an algebraic parameter,
-which is only one of the different kinds of automaton definition parameters.
+In the <<tut-reuse2-chapter-aut-def-params,previous lesson>>, an automaton definition with parameter was used.
+The parameter was an algebraic parameter, which is only one of the different kinds of automaton definition parameters.
 This lesson explains each of them:
 
 * <<lang-tut-reuse2-aut-def-param-kinds-alg>>
@@ -30,19 +29,16 @@ This lesson explains each of them:
 
 * <<lang-tut-reuse2-aut-def-param-kinds-aut>>
 
-This lesson also explains how to use
-<<lang-tut-reuse2-aut-def-param-kinds-multiple,multiple parameters>>.
+This lesson also explains how to use <<lang-tut-reuse2-aut-def-param-kinds-multiple,multiple parameters>>.
 
 indexterm:[automaton definition parameter,algebraic]
 
 [[lang-tut-reuse2-aut-def-param-kinds-alg]]
 === Algebraic parameters
 
-An algebraic parameter is similar to an
-<<tut-reuse1-chapter-algebraic-variables,algebraic variable>>. Arbitrary
-values or expressions of matching type can be provided as arguments in
-automaton instantiations. For instance, consider the following partial CIF
-specification:
+An algebraic parameter is similar to an <<tut-reuse1-chapter-algebraic-variables,algebraic variable>>.
+Arbitrary values or expressions of matching type can be provided as arguments in automaton instantiations.
+For instance, consider the following partial CIF specification:
 
 
 [source, cif]
@@ -61,18 +57,15 @@ end
 buffer1: Buffer(5);
 ----
 
-Automaton definition `Buffer` has an algebraic parameter that indicates the
-`capacity` of the buffer. The buffer can `accept` something when it has not
-yet reached its capacity. It can `provide` something when the buffer is not
-empty. Automaton instantiation `buffer1` has value `5` as its parameter.
-Value `5` is an integer number, which matches the integer type (`int`) of
-the `capacity` parameter.
+Automaton definition `Buffer` has an algebraic parameter that indicates the `capacity` of the buffer.
+The buffer can `accept` something when it has not yet reached its capacity.
+It can `provide` something when the buffer is not empty.
+Automaton instantiation `buffer1` has value `5` as its parameter.
+Value `5` is an integer number, which matches the integer type (`int`) of the `capacity` parameter.
 
-Algebraic parameters can be used inside an automaton definition, wherever a
-value is expected, e.g. in guards, updates, initial values of discrete
-variables, and invariants. The expression that is provided by the instantiation
-is essentially filled in wherever the parameter is used. The above is
-equivalent to:
+Algebraic parameters can be used inside an automaton definition, wherever a value is expected, e.g. in guards, updates, initial values of discrete variables, and invariants.
+The expression that is provided by the instantiation is essentially filled in wherever the parameter is used.
+The above is equivalent to:
 
 
 [source, cif]
@@ -94,10 +87,8 @@ indexterm:[automaton definition parameter,event]
 [[lang-tut-reuse2-aut-def-param-kinds-event]]
 === Event parameters
 
-Event parameters allow different instantiations to synchronize with different
-events or to communicate over different
-<<tut-channels-chapter-intro,channels>>. For instance, consider the
-following partial CIF specification:
+Event parameters allow different instantiations to synchronize with different events or to communicate over different <<tut-channels-chapter-intro,channels>>.
+For instance, consider the following partial CIF specification:
 
 
 [source, cif]
@@ -119,23 +110,15 @@ buffer1: Buffer(generate, pass_along);
 buffer2: Buffer(pass_along, exit);
 ----
 
-Automaton definition `Buffer` is parametrized with two channels, one to
-`accept` a product into the one place buffer, and one to `provide` it to
-some other part of the system. The first buffer (`buffer1`) accepts products
-via the `generate` channel, and provides products via the `pass_along`
-channel. The second buffer (`buffer2`) accepts products via the
-`pass_along` channel, and provides products via the `exit` channel. The
-first buffer uses the `pass_along` channel as its `provide` channel
-parameter, and the second buffer uses that same `pass_along` channel as its
-`accept` channel parameter. The first buffer thus provides its items to the
-second buffer.
+Automaton definition `Buffer` is parametrized with two channels, one to `accept` a product into the one place buffer, and one to `provide` it to some other part of the system.
+The first buffer (`buffer1`) accepts products via the `generate` channel, and provides products via the `pass_along` channel.
+The second buffer (`buffer2`) accepts products via the `pass_along` channel, and provides products via the `exit` channel.
+The first buffer uses the `pass_along` channel as its `provide` channel parameter, and the second buffer uses that same `pass_along` channel as its `accept` channel parameter.
+The first buffer thus provides its items to the second buffer.
 
-Event and channel parameters can be used inside an automaton definition,
-wherever an event or channel is expected, e.g. on edges and in
-<<tut-basics-chapter-alphabet,alphabets>> if
-<<lang-tut-basics-alphabet-explicit,explicitly specified>>. The event or
-channel that is provided by the instantiation is essentially filled in wherever
-the parameter is used. The above is equivalent to:
+Event and channel parameters can be used inside an automaton definition, wherever an event or channel is expected, e.g. on edges and in <<tut-basics-chapter-alphabet,alphabets>> if <<lang-tut-basics-alphabet-explicit,explicitly specified>>.
+The event or channel that is provided by the instantiation is essentially filled in wherever the parameter is used.
+The above is equivalent to:
 
 
 [source, cif]
@@ -178,33 +161,24 @@ indexterm:[~,channel parameter usage restriction]
 [[lang-tut-reuse2-aut-def-param-kinds-event-restrictions]]
 ==== Channel parameter usage restrictions
 
-If an event parameter is actually a channel (it has a data type), it may also
-be called a _channel parameter_. By default, a channel parameter can be used to
-send, receive, or synchronize. However, it is also possible to restrict the
-allowed usages. By putting certain event usage restriction flags after the name
-of the channel parameter, only those usages are allowed. The available flags
-are `!` to allow sending, `?` to allow receiving, and `~` to allow
-synchronizing. Duplicate flags are not allowed, the `!` should be before the
-`?` flag, and the `!` and `?` flags should be before the `~` flag.
+If an event parameter is actually a channel (it has a data type), it may also be called a _channel parameter_.
+By default, a channel parameter can be used to send, receive, or synchronize.
+However, it is also possible to restrict the allowed usages.
+By putting certain event usage restriction flags after the name of the channel parameter, only those usages are allowed.
+The available flags are `!` to allow sending, `?` to allow receiving, and `~` to allow synchronizing.
+Duplicate flags are not allowed, the `!` should be before the `?` flag, and the `!` and `?` flags should be before the `~` flag.
 
-By restricting the usages, you can immediately see how a channel parameter is
-used within the automaton definition, as only the usages indicates by the
-parameter are allowed. It serves as sort of documentation of the intention of
-the channel parameter. This is much simpler than finding the actual usages of
-the parameter in the automaton. However, note that the parameter indicates the
-allowed usages, and doesn't guarantee that the event/parameter is actually used
-at all.
+By restricting the usages, you can immediately see how a channel parameter is used within the automaton definition, as only the usages indicates by the parameter are allowed.
+It serves as sort of documentation of the intention of the channel parameter.
+This is much simpler than finding the actual usages of the parameter in the automaton.
+However, note that the parameter indicates the allowed usages, and doesn't guarantee that the event/parameter is actually used at all.
 
-Another benefit of restricting the usages, is that it makes it possible to spot
-mistakes. You might for instance use a channel parameter on an edge (e.g.
-`edge e`), but forget to include the send part (e.g. `edge e!1`). If the
-parameter only allows sending, the accidental synchronization (`edge e`) is
-reported as an invalid use. Without the usage checking, you might not encounter
-the problem until for instance simulation, where it is much more difficult to
-find the cause.
+Another benefit of restricting the usages, is that it makes it possible to spot mistakes.
+You might for instance use a channel parameter on an edge (e.g. `edge e`), but forget to include the send part (e.g. `edge e!1`).
+If the parameter only allows sending, the accidental synchronization (`edge e`) is reported as an invalid use.
+Without the usage checking, you might not encounter the problem until for instance simulation, where it is much more difficult to find the cause.
 
-For the example above, we have the following _header_ of the `Buffer`
-definition:
+For the example above, we have the following _header_ of the `Buffer` definition:
 
 
 [source, cif]
@@ -220,19 +194,16 @@ We can change this as follows:
 automaton def Buffer(event int accept?, provide!):
 ----
 
-This makes it clearer that the `accept` channel is used to receive a
-product into the buffer, and the `provide` channel is used send a product
-from the buffer.
+This makes it clearer that the `accept` channel is used to receive a product into the buffer, and the `provide` channel is used send a product from the buffer.
 
 indexterm:[automaton definition parameter,location]
 
 [[lang-tut-reuse2-aut-def-param-kinds-loc]]
 === Location parameters
 
-An earlier lesson explained how a
-<<tut-data-chapter-locs-as-var,location can be used as a variable>>. Using
-location parameters, automaton definitions can be supplied with different
-locations. For instance, consider the following CIF specification:
+An earlier lesson explained how a <<tut-data-chapter-locs-as-var,location can be used as a variable>>.
+Using location parameters, automaton definitions can be supplied with different locations.
+For instance, consider the following CIF specification:
 
 
 [source, cif]
@@ -253,27 +224,19 @@ machine1: Machine(machine2.processing);
 machine2: Machine(machine1.processing);
 ----
 
-Automaton definition `Machine` represents a machine that can heat up, process
-something, cool down, and repeat that forever. The system consists of two of
-those machines. The machines can not start processing if the other machine is
-already processing. That is, the machines perform
-link:http://en.wikipedia.org/wiki/Mutual_exclusion[mutually exclusive]
-processing. If the first machine is in its `processing` location, the other
-can't also be processing (in its own `processing` location). To prevent a
-machine from starting to process if the other machine is already processing,
-each machine needs to know whether the other is already processing. Therefore,
-automaton definition `Machine` is parametrized with a location parameter
-`+other_processing+`, that indicates whether the other machine is currently
-processing (in its `processing` location). This parameter is used as a guard
-that determines whether a transition from location `+heat_up+` to location
-`processing` is allowed. Automaton instantiation `machine1` provides the
-first machine with the `processing` location of the second machine, by
-using `machine2.processing` as its instantiation argument.
+Automaton definition `Machine` represents a machine that can heat up, process something, cool down, and repeat that forever.
+The system consists of two of those machines.
+The machines can not start processing if the other machine is already processing.
+That is, the machines perform link:http://en.wikipedia.org/wiki/Mutual_exclusion[mutually exclusive] processing.
+If the first machine is in its `processing` location, the other can't also be processing (in its own `processing` location).
+To prevent a machine from starting to process if the other machine is already processing, each machine needs to know whether the other is already processing.
+Therefore, automaton definition `Machine` is parametrized with a location parameter `+other_processing+`, that indicates whether the other machine is currently processing (in its `processing` location).
+This parameter is used as a guard that determines whether a transition from location `+heat_up+` to location `processing` is allowed.
+Automaton instantiation `machine1` provides the first machine with the `processing` location of the second machine, by using `machine2.processing` as its instantiation argument.
 
-Location parameters can be used inside an automaton definition, wherever a
-<<tut-values-chapter-booleans,boolean>> value is expected, e.g. in guards.
-The location that is provided by the instantiation is essentially filled in
-wherever the parameter is used. The above is equivalent to:
+Location parameters can be used inside an automaton definition, wherever a <<tut-values-chapter-booleans,boolean>> value is expected, e.g. in guards.
+The location that is provided by the instantiation is essentially filled in wherever the parameter is used.
+The above is equivalent to:
 
 
 [source, cif]
@@ -309,11 +272,8 @@ indexterm:[automaton definition parameter,component]
 [[lang-tut-reuse2-aut-def-param-kinds-aut]]
 === Automaton parameters
 
-When multiple declarations (variables, locations, etc) from one automaton are
-to be supplied as parameters to another automaton, it is also possible to
-supply the entire automaton as a parameter, but only if the provided automaton
-is an instantiation of an automaton definition. Consider for instance the
-following CIF specification:
+When multiple declarations (variables, locations, etc) from one automaton are to be supplied as parameters to another automaton, it is also possible to supply the entire automaton as a parameter, but only if the provided automaton is an instantiation of an automaton definition.
+Consider for instance the following CIF specification:
 
 
 [source, cif]
@@ -346,18 +306,16 @@ end
 actuator1: Actuator(sensor1);
 ----
 
-Automaton definition `Sensor` models a sensor that can go on an off. Both
-`sensor1` and `sensor2` are actual sensors. Automaton definition
-`Actuator` models an actuator that can be turned on if a sensor is on, and be
-turned off if that same sensor is off. The `actuator1` automaton is provided
-`sensor1` as sensor. If `sensor1` goes on, `actuator1` is turned on, and
-if `sensor1` goes off, `actuator1` is turned off. `sensor2` going on or
-off has no effect on `actuator1`.
+Automaton definition `Sensor` models a sensor that can go on an off.
+Both `sensor1` and `sensor2` are actual sensors.
+Automaton definition `Actuator` models an actuator that can be turned on if a sensor is on, and be turned off if that same sensor is off.
+The `actuator1` automaton is provided `sensor1` as sensor.
+If `sensor1` goes on, `actuator1` is turned on, and if `sensor1` goes off, `actuator1` is turned off.
+`sensor2` going on or off has no effect on `actuator1`.
 
-Automaton parameters can be used inside an automaton definition, to refer to
-declarations inside the automaton supplied for the automaton parameter. The
-automaton that is provided by the instantiation is essentially filled in
-wherever the parameter is used. The above is equivalent to:
+Automaton parameters can be used inside an automaton definition, to refer to declarations inside the automaton supplied for the automaton parameter.
+The automaton that is provided by the instantiation is essentially filled in wherever the parameter is used.
+The above is equivalent to:
 
 
 [source, cif]
@@ -401,8 +359,7 @@ indexterm:[automaton definition parameter,multiple]
 [[lang-tut-reuse2-aut-def-param-kinds-multiple]]
 === Multiple parameters
 
-It is possible to use multiple parameters of the same kind, as well as
-different kinds of parameters:
+It is possible to use multiple parameters of the same kind, as well as different kinds of parameters:
 
 
 [source, cif]
@@ -417,11 +374,7 @@ x: X(z, z, 3 * 5, z);
 ----
 
 Automaton definition `X` has four parameters: `a`, `b`, `c`, and `d`.
-Since `a` and `b` are both event parameters, a comma (`,`) is used to
-make sure the `event` keyword does not need to be repeated for parameter
-`b`. Algebraic parameter `d` is of a different kind, and is therefore
-separated using a semicolon (`;`).
+Since `a` and `b` are both event parameters, a comma (`,`) is used to make sure the `event` keyword does not need to be repeated for parameter `b`.
+Algebraic parameter `d` is of a different kind, and is therefore separated using a semicolon (`;`).
 
-Automaton instantiation `x` instantiates `X` with the event `z` (for the
-first, second, and fourth parameters), and value 15.0 (`+3 * 5+`, for the third
-parameter).
+Automaton instantiation `x` instantiates `X` with the event `z` (for the first, second, and fourth parameters), and value 15.0 (`+3 * 5+`, for the third parameter).

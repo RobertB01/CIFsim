@@ -20,10 +20,10 @@ indexterm:[type,tuple]
 indexterm:[tuple,type]
 indexterm:[value,tuple]
 indexterm:[tuple,value]
-Tuples are used for keeping several (related) kinds of data together in one
-variable, e.g. the identification number and weight of a box. A tuple consists
-of a number of fields, where the types of these fields may be different. The
-number of fields is fixed. For instance, consider the following:
+Tuples are used for keeping several (related) kinds of data together in one variable, e.g. the identification number and weight of a box.
+A tuple consists of a number of fields, where the types of these fields may be different.
+The number of fields is fixed.
+For instance, consider the following:
 
 
 [source, cif]
@@ -31,14 +31,11 @@ number of fields is fixed. For instance, consider the following:
 disc tuple(int nr; real weight) box;
 ----
 
-Variable `box` has a tuple type, consisting of two fields, an integer
-typed field with name `nr` and real typed field with name `weight`. The
-`box` variable has essentially two values, an integer typed value, and
-a real typed value.
+Variable `box` has a tuple type, consisting of two fields, an integer typed field with name `nr` and real typed field with name `weight`.
+The `box` variable has essentially two values, an integer typed value, and a real typed value.
 
-If multiple consecutive fields have the same type, the type need not be
-repeated for each of them. In the following example, variables `x1` and
-`x2` have the same type:
+If multiple consecutive fields have the same type, the type need not be repeated for each of them.
+In the following example, variables `x1` and `x2` have the same type:
 
 
 [source, cif]
@@ -60,14 +57,12 @@ disc tuple(int nr; real weight) box = (5, 2.7);
 edge ... do box := (6, 3.4);
 ----
 
-The `box` variable is initialized to a tuple value consisting of integer
-value `5` (identification number) and real value `2.7` (weight). The entire
-value of the variable is reassigned in the assignment. That is, both fields are
-given new values.
+The `box` variable is initialized to a tuple value consisting of integer value `5` (identification number) and real value `2.7` (weight).
+The entire value of the variable is reassigned in the assignment.
+That is, both fields are given new values.
 
 indexterm:[tuple,projection]
-It is also possible to refer to a specific field of a tuple, using
-_projection_:
+It is also possible to refer to a specific field of a tuple, using _projection_:
 
 
 [source, cif]
@@ -82,16 +77,13 @@ edge ... do box[nr] := i;            // Assignment to field 'nr'.
 edge ... do box[nr] := box[nr] + 1;  // Increment of field 'nr'.
 ----
 
-The first edge uses projection to obtain the value of the integer `nr`
-field, and assign it to integer variable `i` (`i` becomes `5`). The
-second edge performs a similar operation for the `weight` field (`r`
-becomes `2.7`). The third edge assigns the value of integer variable `i`
-to the integer field `nr` of the `box` variable. This changes only the
-value of the `nr` field. The value of the `weight` field of the `box`
-variable is not affected by this assignment. The third edge increments the
-value of the `nr` field of the `box` variable by one, leaving the
-`weight` of the `box` as is. Besides projection using field names, it is
-also possible to do projection using 0-based indices:
+The first edge uses projection to obtain the value of the integer `nr` field, and assign it to integer variable `i` (`i` becomes `5`).
+The second edge performs a similar operation for the `weight` field (`r` becomes `2.7`).
+The third edge assigns the value of integer variable `i` to the integer field `nr` of the `box` variable.
+This changes only the value of the `nr` field.
+The value of the `weight` field of the `box` variable is not affected by this assignment.
+The third edge increments the value of the `nr` field of the `box` variable by one, leaving the `weight` of the `box` as is.
+Besides projection using field names, it is also possible to do projection using 0-based indices:
 
 
 [source, cif]
@@ -105,14 +97,13 @@ edge ... do r := box[1];  // Projection to field 'weight'.
 ----
 
 indexterm:[tuple,indexing]
-Index `0` refers to the first field, in this case field `nr`. Index `1`
-refers to the second field, etc. Projection using indices is also called
-_indexing_. For tuples, it is usually preferred to use field names, rather than
-indices, for readability.
+Index `0` refers to the first field, in this case field `nr`.
+Index `1` refers to the second field, etc.
+Projection using indices is also called _indexing_.
+For tuples, it is usually preferred to use field names, rather than indices, for readability.
 
 indexterm:[tuple,packing]
-It is possible to create a tuple from separate values, each stored in a
-variable:
+It is possible to create a tuple from separate values, each stored in a variable:
 
 
 [source, cif]
@@ -125,16 +116,13 @@ edge ... do box := (i, r); // Packing a tuple.
 ----
 
 The right hand side of the assignment is a tuple literal value, as used before.
-The field values however, are obtained by evaluation of variables, rather than
-using literal integer and real values. This kind of assignment, where there is
-tuple variable at the left hand side, and values for each of the fields of that
-tuple at the right hand side, is called _packing_ a tuple.
+The field values however, are obtained by evaluation of variables, rather than using literal integer and real values.
+This kind of assignment, where there is tuple variable at the left hand side, and values for each of the fields of that tuple at the right hand side, is called _packing_ a tuple.
 
 indexterm:[tuple,unpacking]
 
 [[lang-tut-values-tuples-unpacking]]
-It is possible to obtain the values of the fields of a tuple into separate
-variables:
+It is possible to obtain the values of the fields of a tuple into separate variables:
 
 
 [source, cif]
@@ -147,12 +135,8 @@ edge ... do i := box[nr], r := box[weight];
 edge ... do (i, r) := box; // Unpacking a tuple.
 ----
 
-The first edge uses projection on the variable `box` to obtain the values of
-the individual fields, and assigns those extracted values to two separate
-variables. The second edge does the same thing as the first edge, and is
-preferred in this case, because of its simple and short notation. This kind of
-use, where at the left hand side of the assignment you see variables for each
-of the fields of the tuple, and on the right hand side you see only one
-variable that has a tuple type, is called _unpacking_ a tuple.
+The first edge uses projection on the variable `box` to obtain the values of the individual fields, and assigns those extracted values to two separate variables.
+The second edge does the same thing as the first edge, and is preferred in this case, because of its simple and short notation.
+This kind of use, where at the left hand side of the assignment you see variables for each of the fields of the tuple, and on the right hand side you see only one variable that has a tuple type, is called _unpacking_ a tuple.
 
 // TODO: link to future ref manual

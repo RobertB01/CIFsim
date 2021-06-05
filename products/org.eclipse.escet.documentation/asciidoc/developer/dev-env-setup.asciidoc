@@ -24,8 +24,7 @@ Get the Eclipse Installer:
 
 * Go to link:https://www.eclipse.org/[] in a browser.
 * Click on the big btn:[Download] button at the top right.
-* Download Eclipse Installer, 64 bit edition, using the btn:[Download 64 bit]
-button.
+* Download Eclipse Installer, 64 bit edition, using the btn:[Download 64 bit] button.
 
 indexterm:[oomph, setup]
 indexterm:[development, environment]
@@ -37,67 +36,52 @@ To create a development environment for the first time:
 * For Windows:
 ** When asked to keep the installer in a permanent location, choose to do so.
 Select a directory of your choosing.
-** The Eclipse installer will start automatically in advanced mode, from the
-new permanent location.
+** The Eclipse installer will start automatically in advanced mode, from the new permanent location.
 * For Linux:
 ** The Eclipse installer will restart in advanced mode.
-* Continue with non-first time instructions for setting up a development
-environment.
+* Continue with non-first time instructions for setting up a development environment.
 
 To create a development environment for a non-first time:
 
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
 ** Select _2021-03_ for _Product Version_.
-** For _Java 11+ VM_ select
-_JRE 11.0.2 - \http://download.eclipse.org/justj/jres/11/updates/release/11.0.2_.
+** For _Java 11+ VM_ select _JRE 11.0.2 - \http://download.eclipse.org/justj/jres/11/updates/release/11.0.2_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:
 ** Use the green '+' icon at the top right to add the Oomph setup.
 *** For _Catalog_, choose _Eclipse Projects_.
-*** For _Resource URIs_, enter
-`+https://gitlab.eclipse.org/eclipse/escet/escet/-/raw/develop/org.eclipse.escet.setup+`
-and make sure there are no spaces before or after the URL.
+*** For _Resource URIs_, enter `+https://gitlab.eclipse.org/eclipse/escet/escet/-/raw/develop/org.eclipse.escet.setup+` and make sure there are no spaces before or after the URL.
 *** Click btn:[OK].
-** Check the checkbox for _Eclipse ESCET_, from the big list. It is under _Eclipse
-Projects_ / _<User>_.
+** Check the checkbox for _Eclipse ESCET_, from the big list.
+It is under _Eclipse Projects_ / _<User>_.
 ** At the bottom right, select the _develop_ stream.
 ** Click btn:[Next].
 * In the third wizard window:
 ** Enable the _Show all variables_ option to show all options.
 ** Choose a _Root install folder_ and _Installation folder name_.
-The new development environment will be put at
-`<root_installation_folder>/<installation_folder_name>`.
-** For _Eclipse Foundation account full name_ fill in your full name (first
-and last name) matching the full name in your Eclipse Foundation account.
+The new development environment will be put at `<root_installation_folder>/<installation_folder_name>`.
+** For _Eclipse Foundation account full name_ fill in your full name (first and last name) matching the full name in your Eclipse Foundation account.
 This will be used as name for Git commits.
-** For _Eclipse Foundation account email address_ fill in the email address
-associated with your Eclipse Foundation account. This will be used as email
-for Git commits.
+** For _Eclipse Foundation account email address_ fill in the email address associated with your Eclipse Foundation account.
+This will be used as email for Git commits.
 ** Click btn:[Next].
 * In the fourth wizard window:
 ** Select btn:[Finish].
-* Wait for the setup to complete and the development environment to be
-launched.
+* Wait for the setup to complete and the development environment to be launched.
 ** If asked, accept any licenses and certificates.
 * Press btn:[Finish] in the Eclipse Installer to close the Eclipse Installer.
-* In the new development environment, observe Oomph executing the startup
-tasks (such as Git clone, importing projects, etc). If this is not
-automatically shown, click the rotating arrows icon in the status bar
-(bottom right) of the new development environment.
+* In the new development environment, observe Oomph executing the startup tasks (such as Git clone, importing projects, etc).
+If this is not automatically shown, click the rotating arrows icon in the status bar (bottom right) of the new development environment.
 * Wait for the startup tasks to finish successfully.
-* NOTE: If you don't open the Oomph dialog, the status bar icon icon may
-disappear when the tasks are successfully completed.
+* NOTE: If you don't open the Oomph dialog, the status bar icon icon may disappear when the tasks are successfully completed.
 
-If you have any issues during setting up the development environment, consider
-the following:
+If you have any issues during setting up the development environment, consider the following:
 
-* Make sure to use a recent version of the Eclipse Installer. These versions
-include a recent JRE, which includes up-to-date certificates, preventing issues
-when accessing https URLs.
-* You can set the following environment variables to force the use of IPv4, in
-case of any issues accessing/downloading remote files:
+* Make sure to use a recent version of the Eclipse Installer.
+These versions include a recent JRE, which includes up-to-date certificates, preventing issues when accessing https URLs.
+* You can set the following environment variables to force the use of IPv4, in case of any issues accessing/downloading remote files:
 +
 [source]
 ----
@@ -105,16 +89,14 @@ _JAVA_OPTIONS=-Djava.net.preferIPv4Stack=true
 _JPI_VM_OPTIONS=-Djava.net.preferIPv4Stack=true
 ----
 +
-After setting them, make sure to fully close the Eclipse Installer and then
-start it again, for the changes to be picked up.
+After setting them, make sure to fully close the Eclipse Installer and then start it again, for the changes to be picked up.
 
 In your new development environment, consider changing the following settings:
 
 * For the _Package Explorer_ <<use-terminology-view,view>>:
 
-** Enable the _Link with Editor_ setting, using the
-image:{developer-imgsdir}/link-with-editor.png[] icon.
+** Enable the _Link with Editor_ setting, using the image:{developer-imgsdir}/link-with-editor.png[] icon.
 
 ** Enable showing resources (files/folders) with names starting with a period.
-Open the _View Menu_ (image:{developer-imgsdir}/view-menu.png[]) and choose
-menu:Filters...[]. Uncheck the `+.* resources+` option and click btn:[OK].
+Open the _View Menu_ (image:{developer-imgsdir}/view-menu.png[]) and choose menu:Filters...[].
+Uncheck the `+.* resources+` option and click btn:[OK].

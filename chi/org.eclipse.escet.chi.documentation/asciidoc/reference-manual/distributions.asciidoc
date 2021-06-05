@@ -26,25 +26,18 @@ The Chi language has three kinds of distributions:
 * <<ref-continuous-distributions>>, distributions returning a real number value
 
 The constant distributions are used during creation of the Chi program.
-Before adding stochastic behavior, you want to make sure the program itself
-is correct. It is much easier to verify correctness without stochastic
-behavior, but if you have to change the program again after the verification,
-you may introduce new errors in the process.
+Before adding stochastic behavior, you want to make sure the program itself is correct.
+It is much easier to verify correctness without stochastic behavior, but if you have to change the program again after the verification, you may introduce new errors in the process.
 
-The constant distributions solve this by allowing you to program with
-stochastic sampling in the code, but it is not doing anything (since you get
-the same predictable value on each sample operation). After verifying
-correctness of the program, you only need to modify the distributions that you
-use to get proper stochastic behavior.
+The constant distributions solve this by allowing you to program with stochastic sampling in the code, but it is not doing anything (since you get the same predictable value on each sample operation).
+After verifying correctness of the program, you only need to modify the distributions that you use to get proper stochastic behavior.
 
 indexterm:[constant distribution]
 
 [[ref-constant-distributions]]
 === Constant distributions
 
-The constant distributions have very predictable samples, which makes them
-ideal for testing functioning of the program before adding stochastic
-behavior.
+The constant distributions have very predictable samples, which makes them ideal for testing functioning of the program before adding stochastic behavior.
 
 * `dist` `bool` *constant*`(bool b)`
 +
@@ -278,12 +271,7 @@ See also:: Weibull(a, b), <<law-ref>>, page 284
 [bibliography]
 === References
 
-- [[[banks-ref]]] Handbook of Simulation,
-Principles, Methodology, Advances, Applications, and Practice,
-editor Jerry Banks,
-publisher John Wiley & Sons, inc, 1998
+- [[[banks-ref]]] Handbook of Simulation, Principles, Methodology, Advances, Applications, and Practice, editor Jerry Banks, publisher John Wiley & Sons, inc, 1998
 
-- [[[law-ref]]] Simulation Modeling & Analysis, fourth edition,
-by Averill M. Law,
-publisher McGraw-Hill, International Edition, 2007,
-ISBN 978-007-125519-6
+- [[[law-ref]]] Simulation Modeling & Analysis, fourth edition, by Averill M.
+Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6

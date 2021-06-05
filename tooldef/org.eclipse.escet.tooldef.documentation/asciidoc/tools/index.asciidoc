@@ -17,12 +17,10 @@ indexterm:[tooling]
 [[tools-chapter-index]]
 == Tooling
 
-Below you can find general information on how to use the ToolDef tooling,
-both on the command line, and in the link:https://eclipse.org[Eclipse] IDE.
+Below you can find general information on how to use the ToolDef tooling, both on the command line, and in the link:https://eclipse.org[Eclipse] IDE.
 
-To start using the ToolDef tooling, create a `.tooldef` file. See the
-<<lang-ref-chapter-index,language reference>> documentation for more
-information on the syntax.
+To start using the ToolDef tooling, create a `.tooldef` file.
+See the <<lang-ref-chapter-index,language reference>> documentation for more information on the syntax.
 
 
 indexterm:[execution,command line]
@@ -30,9 +28,8 @@ indexterm:[command line,execution]
 
 === Command line
 
-To execute a ToolDef script on the command line, use the `tooldef`
-executable. To start executing a ToolDef script, enter
-something like this on the command line:
+To execute a ToolDef script on the command line, use the `tooldef` executable.
+To start executing a ToolDef script, enter something like this on the command line:
 
 [source, shell]
 ----
@@ -41,9 +38,8 @@ tooldef some_script.tooldef
 
 indexterm:[options,command line]
 indexterm:[command line,options]
-Additional options are available, to influence how the script is executed. For
-details, execute the ToolDef interpreter with the `--help` or `-h` command
-line option:
+Additional options are available, to influence how the script is executed.
+For details, execute the ToolDef interpreter with the `--help` or `-h` command line option:
 
 [source, shell]
 ----
@@ -57,16 +53,10 @@ indexterm:[Eclipse IDE,execution]
 
 indexterm:[options,Eclipse IDE]
 indexterm:[Eclipse IDE,options]
-To execute a ToolDef script in the Eclipse IDE, right click the file or an
-open text editor for the script, and choose menu:Execute ToolDef[].
-Alternatively, choose menu:Execute ToolDef...[] to first shown an option
-dialog, where several options that influence how the script is executed, before
-actually executing the script.
+To execute a ToolDef script in the Eclipse IDE, right click the file or an open text editor for the script, and choose menu:Execute ToolDef[].
+Alternatively, choose menu:Execute ToolDef...[] to first shown an option dialog, where several options that influence how the script is executed, before actually executing the script.
 
-It is also possible to start executing a script by pressing kbd:[F10], while
-a `.tooldef` file is selected or an open text for such a file has the focus.
-Finally, clicking the corresponding toolbar icon
-(image:{tools-imgsdir}/tooldef_icon.png[]) has the same effect.
+It is also possible to start executing a script by pressing kbd:[F10], while a `.tooldef` file is selected or an open text for such a file has the focus.
+Finally, clicking the corresponding toolbar icon (image:{tools-imgsdir}/tooldef_icon.png[]) has the same effect.
 
-Execution of ToolDef script can be manually terminated by means of the
-termination features of the _Applications_ view.
+Execution of ToolDef script can be manually terminated by means of the termination features of the _Applications_ view.

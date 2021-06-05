@@ -18,41 +18,27 @@ include::_part_attributes.asciidoc[]
 indexterm:[data-based supervisory controller synthesis]
 indexterm:[tools,data-based supervisory controller synthesis]
 indexterm:[synthesis,data-based]
-The data-based supervisory controller synthesis tool performs data-based
-supervisory controller synthesis, or simply data-based synthesis. It can be
-used to <<tut-extensions-chapter-synthesis,synthesize>> a supervisor for an
-untimed CIF specification, with data
-(e.g. <<tut-data-chapter-discrete-variables,discrete variables>>). For a CIF
-specification with plants and requirements, the tool computes a supervisor.
-The supervisor restricts the plants in such a way that the resulting controlled
-system satisfies the following properties:
+The data-based supervisory controller synthesis tool performs data-based supervisory controller synthesis, or simply data-based synthesis.
+It can be used to <<tut-extensions-chapter-synthesis,synthesize>> a supervisor for an untimed CIF specification, with data (e.g. <<tut-data-chapter-discrete-variables,discrete variables>>).
+For a CIF specification with plants and requirements, the tool computes a supervisor.
+The supervisor restricts the plants in such a way that the resulting controlled system satisfies the following properties:
 
-* The controlled system is safe. That is, all reachable states in the
-controlled system satisfy the requirements.
+* The controlled system is safe.
+That is, all reachable states in the controlled system satisfy the requirements.
 
-* The controlled system is controllable. That is, for all reachable states in
-the controlled system, the
-<<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events that are
-enabled in the same state in the uncontrolled system are still possible in
-the controlled system. In other words, uncontrollable events are not
-restricted.
+* The controlled system is controllable.
+That is, for all reachable states in the controlled system, the <<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events that are enabled in the same state in the uncontrolled system are still possible in the controlled system.
+In other words, uncontrollable events are not restricted.
 
-* The controlled system is non-blocking. That is, it is possible to reach a
-<<lang-tut-extensions-synthesis-marked,marked>> state from all reachable
-states in the controlled system.
+* The controlled system is non-blocking.
+That is, it is possible to reach a <<lang-tut-extensions-synthesis-marked,marked>> state from all reachable states in the controlled system.
 
-* The controlled system is maximally permissive (or simply maximal). That is,
-the controlled system permits all safe, controllable, and non-blocking
-behaviors.
+* The controlled system is maximally permissive (or simply maximal).
+That is, the controlled system permits all safe, controllable, and non-blocking behaviors.
 
-Note that <<lang-tut-time-deadlock,deadlock>> is not prevented for marked
-states.
+Note that <<lang-tut-time-deadlock,deadlock>> is not prevented for marked states.
 
-The synthesis algorithm is based on the following paper: Lucien Ouedraogo,
-Ratnesh Kumar, Robi Malik, and Knut Åkesson: Nonblocking and Safe
-Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE
-Transactions on Automation Science and Engineering, Volume 8, Issue 3, Pages
-560-569, July 2011.
+The synthesis algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson: Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions on Automation Science and Engineering, Volume 8, Issue 3, Pages 560-569, July 2011.
 
 indexterm:[data-based supervisory controller synthesis,start]
 
@@ -60,17 +46,12 @@ indexterm:[data-based supervisory controller synthesis,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF synthesis tools[Apply data-based synthesis...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF synthesis tools[Apply data-based synthesis...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 
-* Use the `cifdatasynth` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifdatasynth` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifdatasynth` command line tool.
 
@@ -79,190 +60,147 @@ indexterm:[data-based supervisory controller synthesis,options]
 [[tools-datasynth-options]]
 === Options
 
-Besides the general application options, this application several other
-options.
+Besides the general application options, this application several other options.
 
 The following options are part of the _Synthesis_ category:
 
-* _Input file path_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file path_: The absolute or relative local file system path to the input CIF specification.
 
-* _Output file path_: The absolute or relative local file system path to the
-output CIF file. If not specified, defaults to the input file path, where the
-`.cif` file extension is removed (if present), and a `.ctrlsys.cif`
-file extension is added.
+* _Output file path_: The absolute or relative local file system path to the output CIF file.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `.ctrlsys.cif` file extension is added.
 
-* _Supervisor name_: The name of the resulting supervisor automaton. If not
-specified, it defaults to `sup`. For more information, see the section on
-the <<tools-datasynth-supervisor,resulting supervisor>> below.
+* _Supervisor name_: The name of the resulting supervisor automaton.
+If not specified, it defaults to `sup`.
+For more information, see the section on the <<tools-datasynth-supervisor,resulting supervisor>> below.
 
-* _Supervisor namespace_: The namespace of the resulting supervisor. If not
-specified, it defaults to the empty namespace. For more information, see the
-section on <<tools-datasynth-supervisor-namespace,namespaces>> below.
+* _Supervisor namespace_: The namespace of the resulting supervisor.
+If not specified, it defaults to the empty namespace.
+For more information, see the section on <<tools-datasynth-supervisor-namespace,namespaces>> below.
 
-* _Forward reachability_: Whether to perform forward reachability during
-synthesis, or omit it. Is disabled by default. For more information, see the
-section on <<tools-datasynth-forward-reach,forward reachability>> below.
+* _Forward reachability_: Whether to perform forward reachability during synthesis, or omit it.
+Is disabled by default.
+For more information, see the section on <<tools-datasynth-forward-reach,forward reachability>> below.
 
-* _Statistics_: The kinds of statistics to print. By default, no statistics
-are printed. For more information, see the section on
-<<tools-datasynth-stats,statistics>> below.
+* _Statistics_: The kinds of statistics to print.
+By default, no statistics are printed.
+For more information, see the section on <<tools-datasynth-stats,statistics>> below.
 
-Internally during synthesis, predicates are represented using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs). There are
-various options that can influence the use of BDDs. The following options are
-part of the _BDD_ sub-category of the _Synthesis_ category:
+Internally during synthesis, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+There are various options that can influence the use of BDDs.
+The following options are part of the _BDD_ sub-category of the _Synthesis_ category:
 
-* _BDD output mode_: This option can be used to control how the BDDs are
-converted to CIF for the output of synthesis. For more information, see the
-<<tools-datasynth-supervisor-bdd>> section below.
+* _BDD output mode_: This option can be used to control how the BDDs are converted to CIF for the output of synthesis.
+For more information, see the <<tools-datasynth-supervisor-bdd>> section below.
 
-* _BDD output name prefix_: The prefix to use for BDD related names in the
-output. Only has an effect if the _BDD output mode_ option is set to
-represent the internal BDD nodes directly in CIF. The default prefix is
-`bdd`. For more information, see the <<tools-datasynth-supervisor-bdd>>
-section below.
+* _BDD output name prefix_: The prefix to use for BDD related names in the output.
+Only has an effect if the _BDD output mode_ option is set to represent the internal BDD nodes directly in CIF.
+The default prefix is `bdd`.
+For more information, see the <<tools-datasynth-supervisor-bdd>> section below.
 
-* _BDD variable order_: CIF variables and automata are represented using one or
-more boolean variables. The initial order of the boolean variables is
-determined by this option. For more information, see the
-<<tools-datasynth-var-order>> section below.
+* _BDD variable order_: CIF variables and automata are represented using one or more boolean variables.
+The initial order of the boolean variables is determined by this option.
+For more information, see the <<tools-datasynth-var-order>> section below.
 
-* _BDD FORCE variable ordering algorithm_: CIF variables and automata are
-represented using one or more boolean variables. The initial order of the
-boolean variables can be improved by enabling this option. For more
-information, see the <<tools-datasynth-var-order>> section below.
+* _BDD FORCE variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
+The initial order of the boolean variables can be improved by enabling this option.
+For more information, see the <<tools-datasynth-var-order>> section below.
 
-* _BDD sliding window variable ordering algorithm_: CIF variables and automata
-are represented using one or more boolean variables. The initial order of the
-boolean variables can be improved by enabling this option. For more
-information, see the <<tools-datasynth-var-order>> section below.
+* _BDD sliding window variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
+The initial order of the boolean variables can be improved by enabling this option.
+For more information, see the <<tools-datasynth-var-order>> section below.
 
-* _BDD sliding window size_: The maximum length of the window to use for the
-BDD sliding window variable ordering algorithm. This option only has effect
-if the _BDD sliding window variable ordering algorithm_ option is enabled.
-The size must be an integer number in the range [1 .. 12]. The default size
-is 4. For more information, see the <<tools-datasynth-var-order>> section
-below.
+* _BDD sliding window size_: The maximum length of the window to use for the BDD sliding window variable ordering algorithm.
+This option only has effect if the _BDD sliding window variable ordering algorithm_ option is enabled.
+The size must be an integer number in the range [1 .. 12].
+The default size is 4.
+For more information, see the <<tools-datasynth-var-order>> section below.
 
-* _BDD predicate simplify_: Several BDD predicates may be simplified under the
-assumption of other predicates, resulting in smaller/simpler output. This may
-decrease the size of the resulting controller, and may give more insight. For
-more information, see the <<tools-datasynth-simplification>> section
-below.
+* _BDD predicate simplify_: Several BDD predicates may be simplified under the assumption of other predicates, resulting in smaller/simpler output.
+This may decrease the size of the resulting controller, and may give more insight.
+For more information, see the <<tools-datasynth-simplification>> section below.
 
-* _BDD library initial node table size_: The BDD library that is used maintains
-an internal node table. This option can be used to set the initial size of
-that node table. The size will automatically be increased during synthesis,
-if necessary. Increasing the initial size can increase performance for large
-systems, as it will not be necessary to repeatedly increase the size of the
-node table. However, a larger node table requires more memory, and can lead
-to the node table no longer fitting within CPU caches, degrading performance.
-The default is `100000` nodes. The initial node table size must be in the
-range [1 .. 2^31^ - 1]. For more information, see the
-<<tools-datasynth-stats>> section.
+* _BDD library initial node table size_: The BDD library that is used maintains an internal node table.
+This option can be used to set the initial size of that node table.
+The size will automatically be increased during synthesis, if necessary.
+Increasing the initial size can increase performance for large systems, as it will not be necessary to repeatedly increase the size of the node table.
+However, a larger node table requires more memory, and can lead to the node table no longer fitting within CPU caches, degrading performance.
+The default is `100000` nodes.
+The initial node table size must be in the range [1 .. 2^31^ - 1].
+For more information, see the <<tools-datasynth-stats>> section.
 
-* _BDD library operation cache size_: The BDD library that is used maintains
-an internal operation cache. This option can be used to set the fixed size of
-that cache. The operation cache size must be in the range
-[2 .. 2^31^ - 1]. By default, this option is disabled (value `off` on
-the command line), and the _BDD library operation cache ratio_ option is
-used instead. For more information, see the <<tools-datasynth-op-caches>>
-section below.
+* _BDD library operation cache size_: The BDD library that is used maintains an internal operation cache.
+This option can be used to set the fixed size of that cache.
+The operation cache size must be in the range [2 .. 2^31^ - 1].
+By default, this option is disabled (value `off` on the command line), and the _BDD library operation cache ratio_ option is used instead.
+For more information, see the <<tools-datasynth-op-caches>> section below.
 
-* _BDD library operation cache ratio_: The BDD library that is used maintains
-an internal operation cache. This option can be used to set the ratio of the
-size of the operation cache of the BDD library to the size of the node table
-of the BDD library. For instance, a ratio of `0.1` means that the size of
-the operation cache is 10% of the size of the node table. The operation cache
-ratio must be in the range [0.01 .. 1000]. The default ratio is 1.0. This
-option has no effect if the _BDD library operation cache size_ option is
-enabled. For more information, see the <<tools-datasynth-op-caches>>
-section below.
+* _BDD library operation cache ratio_: The BDD library that is used maintains an internal operation cache.
+This option can be used to set the ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
+For instance, a ratio of `0.1` means that the size of the operation cache is 10% of the size of the node table.
+The operation cache ratio must be in the range [0.01 .. 1000].
+The default ratio is 1.0.
+This option has no effect if the _BDD library operation cache size_ option is enabled.
+For more information, see the <<tools-datasynth-op-caches>> section below.
 
-* _BDD debug max nodes_: Internally, predicates are represented
-using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs). This option
-control the maximum number of BDD nodes for which to convert a BDD to a
-readable CNF/DNF representation for the debug output. The default is `10`
-nodes. The maximum must be in the range [1 .. 2^31^ - 1].
-The option
-can be set to have an infinite maximum (no maximum), using option value
-`inf`. For more information, see the <<tools-datasynth-dbg-output>>
-section below.
+* _BDD debug max nodes_: Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+This option control the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug output.
+The default is `10` nodes.
+The maximum must be in the range [1 .. 2^31^ - 1].
+The option can be set to have an infinite maximum (no maximum), using option value `inf`.
+For more information, see the <<tools-datasynth-dbg-output>> section below.
 
-* _BDD debug max paths_: Internally, predicates are represented
-using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs). This option
-control the maximum number of BDD true paths for which to convert a BDD to a
-readable CNF/DNF representation for the debug output. The default is `10`
-paths. The maximum must be in the range [0 .. 1.7e308]. The option
-can be set to have an infinite maximum (no maximum), using option value
-`inf`. For more information, see the <<tools-datasynth-dbg-output>>
-section below.
+* _BDD debug max paths_: Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+This option control the maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the debug output.
+The default is `10` paths.
+The maximum must be in the range [0 .. 1.7e308].
+The option can be set to have an infinite maximum (no maximum), using option value `inf`.
+For more information, see the <<tools-datasynth-dbg-output>> section below.
 
 indexterm:[data-based supervisory controller synthesis,supported specifications]
 
 === Supported specifications
 
-The data-based supervisory controller synthesis tool supports a subset of CIF
-specifications. The following restrictions apply:
+The data-based supervisory controller synthesis tool supports a subset of CIF specifications.
+The following restrictions apply:
 
-* Only `plant` and `requirement` automata are supported. Automata with a
-`supervisor` kind, as well as kindless/regular automata (without a
-supervisory kind) are not supported.
+* Only `plant` and `requirement` automata are supported.
+Automata with a `supervisor` kind, as well as kindless/regular automata (without a supervisory kind) are not supported.
 
 * Specifications without plant automata are not supported.
 
 * Events not declared as controllable or uncontrollable are not supported.
-This includes the `tau` event, both explicitly used on edges, as well as
-implicitly for edges without explicitly mentioned events.
+This includes the `tau` event, both explicitly used on edges, as well as implicitly for edges without explicitly mentioned events.
 
-* The use of channels (events with data types) in requirements is not
-supported. That is, requirements that send or receive (with or without data)
-are not supported.
+* The use of channels (events with data types) in requirements is not supported.
+That is, requirements that send or receive (with or without data) are not supported.
 
-* Regular invariants, plant invariants, and supervisor invariants are not
-supported. Only requirement invariants are supported. To allow plant
-state/event exclusion invariants to be used in the input, manually eliminate
-them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to
-CIF transformation.
+* Regular invariants, plant invariants, and supervisor invariants are not supported.
+Only requirement invariants are supported.
+To allow plant state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
 
 * Continuous variables are not supported.
 
-* Only discrete/input variables with a boolean type, ranged integer type
-(e.g. `int[0..5]`), or enumeration type are supported. For integer types,
-ranges that include negative integer values are not supported. For algebraic
-variables and algebraic parameters of components, all types are supported.
+* Only discrete/input variables with a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type are supported.
+For integer types, ranges that include negative integer values are not supported.
+For algebraic variables and algebraic parameters of components, all types are supported.
 
-* Discrete variables must have supported initial values. If explicit initial
-values are given, they must be supported predicates (for boolean variables)
-or supported expressions as described below (for all other variables).
+* Discrete variables must have supported initial values.
+If explicit initial values are given, they must be supported predicates (for boolean variables) or supported expressions as described below (for all other variables).
 
 * Automata with non-determinism for controllable events are not supported.
-That is, automata that have locations with multiple outgoing edges for the
-same controllable event, with overlapping guards (e.g. `x > 1` and
-`x < 4`), are not supported. Note that this check is performed on the
-<<tools-cif2cif-chapter-linearize-product,linearized>> guards, and may
-therefore lead to false positives, as the check is an over-approximation and
-guard overlap may be detected for unreachable states.
+That is, automata that have locations with multiple outgoing edges for the same controllable event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
+Note that this check is performed on the <<tools-cif2cif-chapter-linearize-product,linearized>> guards, and may therefore lead to false positives, as the check is an over-approximation and guard overlap may be detected for unreachable states.
 
-* Conditional updates (`if` updates), multi-assignments, and partial variable
-assignments are not supported.
+* Conditional updates (`if` updates), multi-assignments, and partial variable assignments are not supported.
 
-Only limited forms of predicates (for markers, invariants, initialization,
-guards, etc) are supported. The supported predicates are:
+Only limited forms of predicates (for markers, invariants, initialization, guards, etc) are supported.
+The supported predicates are:
 
 * Boolean literals (`true`, `false`).
 
-* Discrete/input/algebraic boolean variables (`x`, for `x` a discrete,
-input, or algebraic variable with a boolean type).
+* Discrete/input/algebraic boolean variables (`x`, for `x` a discrete, input, or algebraic variable with a boolean type).
 
-* Locations (`aut.loc`, for `aut` and automaton and `loc` a location of
-that automaton).
+* Locations (`aut.loc`, for `aut` and automaton and `loc` a location of that automaton).
 
 * The unary inverse operator (`not`) on a supported predicate.
 
@@ -274,60 +212,46 @@ that automaton).
 
 * The binary logical bi-conditional (`+<=>+`) on two supported predicates.
 
-* The binary equality comparison (`=`) on two supported predicates, or on two
-supported integer or enumeration expressions.
+* The binary equality comparison (`=`) on two supported predicates, or on two supported integer or enumeration expressions.
 
-* The binary inequality comparison (`!=`) on two supported predicates, or on
-two supported integer or enumeration expressions.
+* The binary inequality comparison (`!=`) on two supported predicates, or on two supported integer or enumeration expressions.
 
 * The binary less than comparison (`<`) on two supported integer expressions.
 
-* The binary less than or equal comparison (`+<=+`) on two supported integer
-expressions.
+* The binary less than or equal comparison (`+<=+`) on two supported integer expressions.
 
-* The binary greater than comparison (`>`) on two supported integer
-expressions.
+* The binary greater than comparison (`>`) on two supported integer expressions.
 
-* The binary greater than or equal comparison (`>=`) on two supported integer
-expressions.
+* The binary greater than or equal comparison (`>=`) on two supported integer expressions.
 
-* Conditional expressions (`if` expressions) with supported guard and
-resulting value predicates.
+* Conditional expressions (`if` expressions) with supported guard and resulting value predicates.
 
-Only limited forms of integer and enumeration expressions (for binary
-comparisons, initial values of variables, right hand sides of assignments, etc)
-are supported. The supported expressions are:
+Only limited forms of integer and enumeration expressions (for binary comparisons, initial values of variables, right hand sides of assignments, etc) are supported.
+The supported expressions are:
 
 * A non-negative integer literal/value.
 
 * An enumeration literal/value.
 
-* Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a
-discrete, input, or algebraic variable with an integer or enumeration type).
+* Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a discrete, input, or algebraic variable with an integer or enumeration type).
 
 * `+i` for `i` a supported integer expression.
 
 * `i + j` for `i` and `j` supported integer expressions.
 
-* `i div j` and `i mod j` for `i` a supported integer expressions, and
-`j` a positive integer value, or a computation that results in a positive
-integer value, as long as the computation is not too complex to be performed
-statically. That is, `j` must essentially be constant.
+* `i div j` and `i mod j` for `i` a supported integer expressions, and `j` a positive integer value, or a computation that results in a positive integer value, as long as the computation is not too complex to be performed statically.
+That is, `j` must essentially be constant.
 
-* Conditional expressions (`if` expressions) with supported guard predicates
-and supported resulting values.
+* Conditional expressions (`if` expressions) with supported guard predicates and supported resulting values.
 
-* Any other valid CIF expression (computation) that that results in a
-non-negative integer value or an enumeration value, as long as the
-computation is not too complex to be performed statically. That is, the
-computation must essentially represent a fixed/constant value.
+* Any other valid CIF expression (computation) that that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
+That is, the computation must essentially represent a fixed/constant value.
 
 Here are some examples of computations that can be statically evaluated:
 
 * `true and false` (result is `false`)
 
-* `c or false`, for a constant `c` with value `false` (result is
-`false`)
+* `c or false`, for a constant `c` with value `false` (result is `false`)
 
 * `1 + 1` (result is `2`)
 
@@ -339,17 +263,17 @@ Here are some examples of computations that can be statically evaluated:
 
 Here are some examples of computations that can _not_ be statically evaluated:
 
-* `v + 1`, for `v` a discrete variable. The computation results in
-different values for different values of `v`.
+* `v + 1`, for `v` a discrete variable.
+The computation results in different values for different values of `v`.
 
-* `v = true` for `v` a discrete variable. The computation results in
-different values for different values of `v`.
+* `v = true` for `v` a discrete variable.
+The computation results in different values for different values of `v`.
 
-* `v = e` for `v` a discrete variable and `e` an enumeration
-literal/value. The computation results in different values for different
-values of `v`.
+* `v = e` for `v` a discrete variable and `e` an enumeration literal/value.
+The computation results in different values for different values of `v`.
 
-Only limited forms of assignments are supported. The supported assignments are:
+Only limited forms of assignments are supported.
+The supported assignments are:
 
 * `xb := p`
 
@@ -373,41 +297,33 @@ For the following constraints:
 
 * `ee` is a supported enumeration expression, as described above.
 
-Additionally, the tool warns about state/event exclusion invariants for events
-that are not in the alphabet of any automaton. Such invariants have no effect,
-as they try to (further) restrict events that are never enabled to begin with.
+Additionally, the tool warns about state/event exclusion invariants for events that are not in the alphabet of any automaton.
+Such invariants have no effect, as they try to (further) restrict events that are never enabled to begin with.
 
 indexterm:[data-based supervisory controller synthesis,preprocessing]
 
 === Preprocessing
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-applied as preprocessing (in the given order), to increase the subset of CIF
-specifications that can be synthesized:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be synthesized:
 
 * <<tools-cif2cif-chapter-remove-io-decls>>
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
-Additionally, the CIF specification is converted to an internal representation
-on which the synthesis is performed. This conversion also applies
-<<tools-cif2cif-chapter-linearize-product,linearization (product variant)>> to
-the edges. Predicates are represented internally using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs).
+Additionally, the CIF specification is converted to an internal representation on which the synthesis is performed.
+This conversion also applies <<tools-cif2cif-chapter-linearize-product,linearization (product variant)>> to the edges.
+Predicates are represented internally using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 
 indexterm:[data-based supervisory controller synthesis,requirements]
 
 === Supported requirements
 
 Three types of requirements are supported:
-<<tut-data-chapter-stat-invariants,state invariants>>,
-<<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and
-<<lang-tut-extensions-synthesis-autkind,requirement automata>>.
+<<tut-data-chapter-stat-invariants,state invariants>>, <<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
 
-State invariants are global conditions over the values of variables (and
-locations of automata) that must always hold. Such requirements are sometimes
-also called mutual state exclusions. Here are some examples:
+State invariants are global conditions over the values of variables (and locations of automata) that must always hold.
+Such requirements are sometimes also called mutual state exclusions.
+Here are some examples:
 
 
 [source, cif]
@@ -421,9 +337,8 @@ requirement (3 <= x and x < = 5) or (2 <= y and y <= 7);
 requirement x = 1 => y > 2;
 ----
 
-State/event exclusion invariants or simply state/event exclusions are
-additional conditions under which transitions may take place for certain
-events. Here are some examples:
+State/event exclusion invariants or simply state/event exclusions are additional conditions under which transitions may take place for certain events.
+Here are some examples:
 
 
 [source, cif]
@@ -436,11 +351,11 @@ requirement {lamp.c_turn_on, motor.c_turn_on} needs button.Off;
 requirement p.x = 3 and p.y > 7 disables p.u_something;
 ----
 
-Requirement automata are simply automata marked as `requirement`. They
-usually introduce additional state by using multiple locations or a variable.
-The additional state is used to be able to express the requirement. One common
-example is a counter. For instance, consider the following requirement, which
-prevents more than three products being added to a buffer:
+Requirement automata are simply automata marked as `requirement`.
+They usually introduce additional state by using multiple locations or a variable.
+The additional state is used to be able to express the requirement.
+One common example is a counter.
+For instance, consider the following requirement, which prevents more than three products being added to a buffer:
 
 
 [source, cif]
@@ -458,10 +373,8 @@ requirement automaton counter:
 end
 ----
 
-Another common example is a requirement that introduces ordering. For instance,
-consider the following requirement, which states that `motor1` must always be
-turned on before `motor2` is turned on, and they must always be turned off in
-the opposite order:
+Another common example is a requirement that introduces ordering.
+For instance, consider the following requirement, which states that `motor1` must always be turned on before `motor2` is turned on, and they must always be turned off in the opposite order:
 
 
 [source, cif]
@@ -483,279 +396,183 @@ requirement automaton order:
 end
 ----
 
-Besides the explicit requirements, synthesis also prevents runtime errors. This
-includes enforcing that integer variables stay within their range of allowed
-values. This is essentially an implicit requirement. For instance, for a CIF
-specification with a variable `x` of type `int[0..5]` and a variable `y`
-of type `int[1..3]`, requirement invariant
-`+0 <= x and x <= 5 and 1 <= y and y <= 3+` is
-implicitly added and enforced by the synthesis algorithm. In the resulting
-controlled system, no runtime errors due to variables being assigned values
-outside their domain (integer value range) occur.
+Besides the explicit requirements, synthesis also prevents runtime errors.
+This includes enforcing that integer variables stay within their range of allowed values.
+This is essentially an implicit requirement.
+For instance, for a CIF specification with a variable `x` of type `int[0..5]` and a variable `y` of type `int[1..3]`, requirement invariant `+0 <= x and x <= 5 and 1 <= y and y <= 3+` is implicitly added and enforced by the synthesis algorithm.
+In the resulting controlled system, no runtime errors due to variables being assigned values outside their domain (integer value range) occur.
 
 indexterm:[data-based supervisory controller synthesis,resulting supervisor]
 
 [[tools-datasynth-supervisor]]
 === Resulting supervisor
 
-If the supervisor has to restrict so much of the behavior of the uncontrolled
-system that no initial state remains, the controlled system becomes empty. The
-synthesis algorithm then ends with an _empty supervisor_ error, and no output
-CIF file is created.
+If the supervisor has to restrict so much of the behavior of the uncontrolled system that no initial state remains, the controlled system becomes empty.
+The synthesis algorithm then ends with an _empty supervisor_ error, and no output CIF file is created.
 
-If an initial state remains after synthesis, an output CIF file is created. The
-contents is the controlled system. The controlled system is obtained by taking
-the input specification, and modifying it. The requirement automata are changed
-to supervisor automata. Some or all of the requirement invariants may be
-<<tools-cif2cif-chapter-remove-reqs,removed>>, depending on the
-<<tools-datasynth-simplification,simplifications>> that are applied. An
-additional external supervisor automaton is added. Also, depending on the
-simplifications that are applied, the requirement automata may serve as
-<<tut-data-chapter-monitoring,monitors>> or _observers_ for the external
-supervisor, or may actually impose the requirement restrictions. An external
-supervisor is a `supervisor` automaton that adds restrictions to the
-uncontrolled system (the plants), and potentially the requirement automata,
-depending on the simplifications that are applied. The supervisor uses the
-same events as the plants, and refers to plant and requirement locations and
-variables in its conditions.
+If an initial state remains after synthesis, an output CIF file is created.
+The contents is the controlled system.
+The controlled system is obtained by taking the input specification, and modifying it.
+The requirement automata are changed to supervisor automata.
+Some or all of the requirement invariants may be <<tools-cif2cif-chapter-remove-reqs,removed>>, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
+An additional external supervisor automaton is added.
+Also, depending on the simplifications that are applied, the requirement automata may serve as <<tut-data-chapter-monitoring,monitors>> or _observers_ for the external supervisor, or may actually impose the requirement restrictions.
+An external supervisor is a `supervisor` automaton that adds restrictions to the uncontrolled system (the plants), and potentially the requirement automata, depending on the simplifications that are applied.
+The supervisor uses the same events as the plants, and refers to plant and requirement locations and variables in its conditions.
 
-By default, the resulting external supervisor automaton is put in the empty
-<<tut-reuse2-chapter-namespaces,namespace>>, at the top level of the
-resulting specification. That is, the supervisor automaton is not put in any
-groups. See the <<tools-datasynth-supervisor-namespace>> section for more
-information.
+By default, the resulting external supervisor automaton is put in the empty <<tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
+That is, the supervisor automaton is not put in any groups.
+See the <<tools-datasynth-supervisor-namespace>> section for more information.
 
-By default, the added supervisor automaton is named `sup`. Using the
-_Supervisor name_ option (see <<tools-datasynth-options,options>> section
-above), it is possible to specify a different name. Custom supervisor automaton
-names must be valid CIF identifiers, i.e. they may consist of letters, digits,
-and underscores (`+_+`), but may not start with a digit. If the resulting
-supervisor automaton has a name that conflicts with an existing declaration, it
-is automatically renamed to have a non-conflicting name. In such cases, a
-warning is printed to the console to inform the user.
+By default, the added supervisor automaton is named `sup`.
+Using the _Supervisor name_ option (see <<tools-datasynth-options,options>> section above), it is possible to specify a different name.
+Custom supervisor automaton names must be valid CIF identifiers, i.e. they may consist of letters, digits, and underscores (`+_+`), but may not start with a digit.
+If the resulting supervisor automaton has a name that conflicts with an existing declaration, it is automatically renamed to have a non-conflicting name.
+In such cases, a warning is printed to the console to inform the user.
 
-The resulting supervisor has exactly one self loop edge for each of the
-controllable events in the alphabet of the controlled system (which is equal to
-the alphabet of the uncontrolled system). These self loops represent the
-possible conditions under which the supervisor allows the events to occur in
-the controlled system. The exact predicates may vary, depending on the
-<<tools-datasynth-simplification,simplifications>> that are applied.
+The resulting supervisor has exactly one self loop edge for each of the controllable events in the alphabet of the controlled system (which is equal to the alphabet of the uncontrolled system).
+These self loops represent the possible conditions under which the supervisor allows the events to occur in the controlled system.
+The exact predicates may vary, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
 
-The resulting supervisor may have an initialization predicate that restricts
-the states in which the system may be initialized (may start), on top of the
-initialization constraints already present in the uncontrolled system. For more
-information on this initialization predicate, see the section on
-<<tools-datasynth-init,initialization>> below.
+The resulting supervisor may have an initialization predicate that restricts the states in which the system may be initialized (may start), on top of the initialization constraints already present in the uncontrolled system.
+For more information on this initialization predicate, see the section on <<tools-datasynth-init,initialization>> below.
 
 [[tools-datasynth-supervisor-namespace]]
 ==== Namespace
 
-As indicated above, by default the resulting supervisor automaton is put in the
-empty <<tut-reuse2-chapter-namespaces,namespace>>, at the top level of the
-resulting specification. That is, the supervisor automaton is not put in any
-groups.
+As indicated above, by default the resulting supervisor automaton is put in the empty <<tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
+That is, the supervisor automaton is not put in any groups.
 
-It is possible to add a namespace to the entire resulting specification. That
-is, to put groups around the original plants and requirements, the added
-supervisor automaton, etc. A namespace can be added using the
-_Supervisor namespace_ option (see <<tools-datasynth-options,options>>
-section above). By default, no additional namespace is added.
+It is possible to add a namespace to the entire resulting specification.
+That is, to put groups around the original plants and requirements, the added supervisor automaton, etc.
+A namespace can be added using the _Supervisor namespace_ option (see <<tools-datasynth-options,options>> section above).
+By default, no additional namespace is added.
 
-By adding a namespace around the entire resulting specification, the synthesis
-result can be easily <<tools-chapter-mergecif,merged>> with for instance a
-simulation model. The added namespace ensures that there are no naming
-conflicts between the plants of the simulation model and the similarly original
-plants. The events are not put in the new namespace, but are instead kept in
-their original place, wrapped in groups as necessary to keep their original
-identities (absolute names). This ensures that it remains possible to connect
-(merge) the events of the synthesis output with the events of the simulation
-model.
+By adding a namespace around the entire resulting specification, the synthesis result can be easily <<tools-chapter-mergecif,merged>> with for instance a simulation model.
+The added namespace ensures that there are no naming conflicts between the plants of the simulation model and the similarly original plants.
+The events are not put in the new namespace, but are instead kept in their original place, wrapped in groups as necessary to keep their original identities (absolute names).
+This ensures that it remains possible to connect (merge) the events of the synthesis output with the events of the simulation model.
 
-The namespace specified using the option, must consist of one or more valid CIF
-identifiers, separated by dots (`.`). Valid CIF identifiers consist of one or
-more letters, digits, and underscores (`+_+`), but may not start with a digit.
-As an example, consider namespace `a.b`. A group `b` is wrapped around the
-entire synthesis result, and a group `a` is wrapped around group `b`. Group
-`a` is then the new synthesis result.
+The namespace specified using the option, must consist of one or more valid CIF identifiers, separated by dots (`.`).
+Valid CIF identifiers consist of one or more letters, digits, and underscores (`+_+`), but may not start with a digit.
+As an example, consider namespace `a.b`.
+A group `b` is wrapped around the entire synthesis result, and a group `a` is wrapped around group `b`.
+Group `a` is then the new synthesis result.
 
-If a part of the namespace has the same name as an event that remains in its
-original place, this leads to a conflict, and synthesis fails. If the namespace
-does not conflict, but is non-empty (it contains an event or it contains a
-group that contains an event), synthesis also fails.
+If a part of the namespace has the same name as an event that remains in its original place, this leads to a conflict, and synthesis fails.
+If the namespace does not conflict, but is non-empty (it contains an event or it contains a group that contains an event), synthesis also fails.
 
 [[tools-datasynth-supervisor-bdd]]
 ==== BDD representation in CIF
 
-Internally, predicates are represented using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs). The supervisor
-that is the output of synthesis, contains several predicates as well. For
-instance, it has self loops with guard predicates, and it may have an
-initialization predicate. The predicates represented as BDDs need to be
-represented as CIF predicates. There are multiple approaches to do this, and
-the _BDD output mode_ option (see <<tools-datasynth-options,options>>
-section above), can be used to configure the approach to use.
+Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+The supervisor that is the output of synthesis, contains several predicates as well.
+For instance, it has self loops with guard predicates, and it may have an initialization predicate.
+The predicates represented as BDDs need to be represented as CIF predicates.
+There are multiple approaches to do this, and the _BDD output mode_ option (see <<tools-datasynth-options,options>> section above), can be used to configure the approach to use.
 
-The first approach, which is also the default approach (named `normal`), is
-to use either
-link:http://en.wikipedia.org/wiki/Conjunctive_normal_form[Conjunctive Normal Form]
-(CNF) or
-link:http://en.wikipedia.org/wiki/Disjunctive_normal_form[Disjunctive Normal Form]
-(DNF) predicates. This
-approach has as benefit that for relatively small predicates (usually for small
-systems), the CIF predicates are often intuitive, and can easily understood.
-The downside is that for larger systems, the CIF predicates often grow
-exponentially in size.
+The first approach, which is also the default approach (named `normal`), is to use either link:http://en.wikipedia.org/wiki/Conjunctive_normal_form[Conjunctive Normal Form] (CNF) or link:http://en.wikipedia.org/wiki/Disjunctive_normal_form[Disjunctive Normal Form] (DNF) predicates.
+This approach has as benefit that for relatively small predicates (usually for small systems), the CIF predicates are often intuitive, and can easily understood.
+The downside is that for larger systems, the CIF predicates often grow exponentially in size.
 
-The second approached (named `nodes`), is to represent the internal BDD nodes
-directly in CIF. The BDD is then more or less coded directly in CIF, using
-some constants and algebraic variables, and is evaluated using a BDD evaluation
-function. The benefit is that for larger systems, this representation remains
-relatively small, and at the very least doesn't blow up nearly as much as the
-CNF and DNF representations. The downside to this approach, is that it leads to
-a supervisor that can not be easily understood by inspecting it. For this
-approach, several objects are created in the top level scope of the CIF
-specification. The names of these declarations all share a common prefix. The
-default prefix is `bdd`, but it can be changed using the
-_BDD output name prefix_ option (see
-<<tools-datasynth-options,options>> section above). No existing
-declarations, whose names start with that prefix, should be present in the top
-level scope of the specification.
+The second approached (named `nodes`), is to represent the internal BDD nodes directly in CIF.
+The BDD is then more or less coded directly in CIF, using some constants and algebraic variables, and is evaluated using a BDD evaluation function.
+The benefit is that for larger systems, this representation remains relatively small, and at the very least doesn't blow up nearly as much as the CNF and DNF representations.
+The downside to this approach, is that it leads to a supervisor that can not be easily understood by inspecting it.
+For this approach, several objects are created in the top level scope of the CIF specification.
+The names of these declarations all share a common prefix.
+The default prefix is `bdd`, but it can be changed using the _BDD output name prefix_ option (see <<tools-datasynth-options,options>> section above).
+No existing declarations, whose names start with that prefix, should be present in the top level scope of the specification.
 
 indexterm:[data-based supervisory controller synthesis,initialization]
 
 [[tools-datasynth-init]]
 === Initialization
 
-The synthesis algorithm ensures that in the controlled system, the state
-requirement invariants hold in all reachable states. It also ensures that in the
-controlled system, for all transitions from reachable states, the events only
-occur if the requirement automata and state/event exclusion invariants allow
-them.
+The synthesis algorithm ensures that in the controlled system, the state requirement invariants hold in all reachable states.
+It also ensures that in the controlled system, for all transitions from reachable states, the events only occur if the requirement automata and state/event exclusion invariants allow them.
 
-The synthesis algorithm does not restrict any uncontrollable events. Instead,
-such restrictions are propagated backwards to the source state of the edge with
-the uncontrollable event, and from there to the transitions that lead to the
-source state, etc. They are propagated backwards until an edge with a
-controllable event is encountered (for which the guard can be restricted) or
-the initial state is reached (and the initialization predicate can be
-restricted).
+The synthesis algorithm does not restrict any uncontrollable events.
+Instead, such restrictions are propagated backwards to the source state of the edge with the uncontrollable event, and from there to the transitions that lead to the source state, etc.
+They are propagated backwards until an edge with a controllable event is encountered (for which the guard can be restricted) or the initial state is reached (and the initialization predicate can be restricted).
 
-If a variable in the uncontrolled system has a single initial value, and the
-initialization predicate is restricted to not allow this initial value,
-initialization will be impossible, causing an _empty supervisor_ error. For
-discrete variables with
-<<lang-tut-data-discvar-init-multiple,multiple potential initial values>>,
-the synthesis algorithm may restrict initialization to disallow certain initial
-values, while still leaving possibilities for initialization. For discrete
-variables declared to initially have an
-<<lang-tut-data-discvar-init-any,arbitrary>> initial value, as well as
-for input variables, the synthesis algorithm essentially determines under which
-conditions the system can be started, and still exhibits only safe,
-non-blocking behavior.
+If a variable in the uncontrolled system has a single initial value, and the initialization predicate is restricted to not allow this initial value, initialization will be impossible, causing an _empty supervisor_ error.
+For discrete variables with <<lang-tut-data-discvar-init-multiple,multiple potential initial values>>, the synthesis algorithm may restrict initialization to disallow certain initial values, while still leaving possibilities for initialization.
+For discrete variables declared to initially have an <<lang-tut-data-discvar-init-any,arbitrary>> initial value, as well as for input variables, the synthesis algorithm essentially determines under which conditions the system can be started, and still exhibits only safe, non-blocking behavior.
 
-If the controlled system requires more strict initialization than the
-uncontrolled system, an additional initialization predicate is added to the
-resulting supervisor. The exact predicate may differ, depending on the
-<<tools-datasynth-simplification,simplifications>> that are applied.
+If the controlled system requires more strict initialization than the uncontrolled system, an additional initialization predicate is added to the resulting supervisor.
+The exact predicate may differ, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
 
 indexterm:[data-based supervisory controller synthesis,forward reachability]
 
 [[tools-datasynth-forward-reach]]
 === Forward reachability
 
-Synthesis essentially works by calculations that involve predicates that
-partition the entire state space into states that satisfy a property or don't
-satisfy a property. For instance, a marker predicate may indicate which states
-of the state space are marked. All other states are thus not marked.
+Synthesis essentially works by calculations that involve predicates that partition the entire state space into states that satisfy a property or don't satisfy a property.
+For instance, a marker predicate may indicate which states of the state space are marked.
+All other states are thus not marked.
 
 indexterm:[reachability]
 indexterm:[fixed point]
-Calculations during synthesis often involve
-link:https://en.wikipedia.org/wiki/Reachability[reachability].
-For instance,
-from which states is it possible to reach a marker state? To compute the states
-that can reach a marker state, the marker predicate of the input specification
-is used. The marker predicate indicates the states that are themselves marked.
-Then, the states are calculated that can reach one of those marked states, via
-a single transition. They are put together, to form the states that are marked
-or can be marked after one transition. By taking another such step, we can add
-the states that can reach a marked state via two transitions. We then have all
-states that can reach a marked state via zero, one, or two transitions. We can
-repeat this until no new states are found, which is called reaching a
-link:https://en.wikipedia.org/wiki/Fixed_point_%28mathematics%29[fixed point].
+Calculations during synthesis often involve link:https://en.wikipedia.org/wiki/Reachability[reachability].
+For instance, from which states is it possible to reach a marker state?
+To compute the states that can reach a marker state, the marker predicate of the input specification is used.
+The marker predicate indicates the states that are themselves marked.
+Then, the states are calculated that can reach one of those marked states, via a single transition.
+They are put together, to form the states that are marked or can be marked after one transition.
+By taking another such step, we can add the states that can reach a marked state via two transitions.
+We then have all states that can reach a marked state via zero, one, or two transitions.
+We can repeat this until no new states are found, which is called reaching a link:https://en.wikipedia.org/wiki/Fixed_point_%28mathematics%29[fixed point].
 
 indexterm:[reachability,backward]
-This form of reachability is called backward reachability, as it starts with
-some target (e.g. marked states), and goes backwards to find all states from
-which the target can be reached. Backward reachability can lead to states that
-could never be reached from an initial state, even in the uncontrolled system.
+This form of reachability is called backward reachability, as it starts with some target (e.g. marked states), and goes backwards to find all states from which the target can be reached.
+Backward reachability can lead to states that could never be reached from an initial state, even in the uncontrolled system.
 This leads to two separate issues.
 
-The first issue is about unintuitive resulting supervisor guards. The
-resulting supervisor forbids certain transitions, by restricting controllable
-events. It among others forbids transitions that end up in states from which no
-marked state can be reached. However, if those forbidden states can never be
-reached from an initial state, there is no reason to restrict the controllable
-events in such cases. The guards of the resulting supervisor then appear to
-restrict the controllable events, while in fact the guard doesn't impose a
-restriction for the controlled system. The supervisor simply doesn't have the
-necessary information to know this.
+The first issue is about unintuitive resulting supervisor guards.
+The resulting supervisor forbids certain transitions, by restricting controllable events.
+It among others forbids transitions that end up in states from which no marked state can be reached.
+However, if those forbidden states can never be reached from an initial state, there is no reason to restrict the controllable events in such cases.
+The guards of the resulting supervisor then appear to restrict the controllable events, while in fact the guard doesn't impose a restriction for the controlled system.
+The supervisor simply doesn't have the necessary information to know this.
 
-The second issue is about performance. Expanding unreachable states during
-backward reachability takes time and costs memory, while it has no useful
-effect on the resulting controlled system.
+The second issue is about performance.
+Expanding unreachable states during backward reachability takes time and costs memory, while it has no useful effect on the resulting controlled system.
 
 indexterm:[reachability,forward]
-The use of forward reachability can be a solution to both problems. Forward
-reachability starts with the initial states, and adds states reachable via one
-transitions, then via two transitions, then via three transitions, etc. This
-is repeated until all reachable states are found.
+The use of forward reachability can be a solution to both problems.
+Forward reachability starts with the initial states, and adds states reachable via one transitions, then via two transitions, then via three transitions, etc.
+This is repeated until all reachable states are found.
 
-By combining both forward and backward reachability, the supervisor knows about
-states that exist in the uncontrolled system (due to forward reachability) and
-about states that it should forbid (due to backward reachability). This leads
-to the supervisor only restricting transitions that are strictly necessary.
-However, both when using forward reachability and when not using it, the
-synthesized supervisor is safe, non-blocking, and maximally permissive. It is
-only the guards that are more complex than they might need to be, if forward
-reachability is not used. More complex guards are often less readable, and
-potentially more expensive to implement in an actual controller.
+By combining both forward and backward reachability, the supervisor knows about states that exist in the uncontrolled system (due to forward reachability) and about states that it should forbid (due to backward reachability).
+This leads to the supervisor only restricting transitions that are strictly necessary.
+However, both when using forward reachability and when not using it, the synthesized supervisor is safe, non-blocking, and maximally permissive.
+It is only the guards that are more complex than they might need to be, if forward reachability is not used.
+More complex guards are often less readable, and potentially more expensive to implement in an actual controller.
 
-By combining both forward and backward reachability, parts of the state space
-that are not relevant may not have to be expanded (as much), which may improve
-performance. However, computing the forward reachability may also take time
-and cost memory, thus reducing performance.
+By combining both forward and backward reachability, parts of the state space that are not relevant may not have to be expanded (as much), which may improve performance.
+However, computing the forward reachability may also take time and cost memory, thus reducing performance.
 
-It depends on the specification being synthesized whether enabling forward
-reachability increases or decreases performance. It also depends on the
-specification whether there is any benefit to using forward reachability for
-the guards of the supervisor. Forward reachability is disabled by default. It
-can be enabled using the _Forward reachability_ option (see
-<<tools-datasynth-options,options>> section above).
+It depends on the specification being synthesized whether enabling forward reachability increases or decreases performance.
+It also depends on the specification whether there is any benefit to using forward reachability for the guards of the supervisor.
+Forward reachability is disabled by default.
+It can be enabled using the _Forward reachability_ option (see <<tools-datasynth-options,options>> section above).
 
 indexterm:[data-based supervisory controller synthesis,simplification]
 
 [[tools-datasynth-simplification]]
 === Simplification
 
-The synthesis algorithm computes various predicates, such as the conditions
-under which the controllable events may take place in the controlled system,
-and the initialization predicate of the controlled system. These predicates
-are included in the supervisor that results from synthesis.
+The synthesis algorithm computes various predicates, such as the conditions under which the controllable events may take place in the controlled system, and the initialization predicate of the controlled system.
+These predicates are included in the supervisor that results from synthesis.
 
-However, if the controlled system imposes the exact same restrictions as the
-uncontrolled system, there is no need to list the full conditions in the
-supervisor, as the plants already define that behavior. The supervisor imposes
-no additional restrictions with respect to the plants, and it suffices to use
-`true` as condition for the supervisor to make that explicit.
+However, if the controlled system imposes the exact same restrictions as the uncontrolled system, there is no need to list the full conditions in the supervisor, as the plants already define that behavior.
+The supervisor imposes no additional restrictions with respect to the plants, and it suffices to use `true` as condition for the supervisor to make that explicit.
 
-There are several predicates in the synthesis result that can be simplified
-under the assumption of conditions that are already present in the input
-specification. In some cases this leads to smaller/simpler supervisor
-representations. In other cases it gives insight, indicating that the
-supervisor does not impose any additional restrictions. The following
-simplifications are available:
+There are several predicates in the synthesis result that can be simplified under the assumption of conditions that are already present in the input specification.
+In some cases this leads to smaller/simpler supervisor representations.
+In other cases it gives insight, indicating that the supervisor does not impose any additional restrictions.
+The following simplifications are available:
 
 [cols="15,5,30,50",options="header"]
 |===
@@ -772,20 +589,17 @@ simplifications are available:
 | `guards-req-auts`
 | yes
 | Supervisor guards of controllable events
-| State/event exclusion requirement invariants derived from the
-requirement automata, for the matching events
+| State/event exclusion requirement invariants derived from the requirement automata, for the matching events
 
 | `guards-se-excl-req-invs`
 | yes
 | Supervisor guards of controllable events
-| State/event exclusion requirement invariants from the input
-specification, for the matching events
+| State/event exclusion requirement invariants from the input specification, for the matching events
 
 | `guards-state-req-invs`
 | yes
 | Supervisor guards of controllable events
-| State requirement invariants from the input specification (includes the
-range requirement invariants added by the synthesis algorithm)
+| State requirement invariants from the input specification (includes the range requirement invariants added by the synthesis algorithm)
 
 | `guards-ctrl-beh`
 | yes
@@ -799,158 +613,110 @@ range requirement invariants added by the synthesis algorithm)
 |===
 
 
-Which simplifications should be performed, can be specified using the
-_BDD predicate simplify_ option (see <<tools-datasynth-options,options>>
-section above).
+Which simplifications should be performed, can be specified using the _BDD predicate simplify_ option (see <<tools-datasynth-options,options>> section above).
 
-The table above lists in the first column, the option values to use for each of
-the simplifications, on the command line. The names given in the first column
-should be combined using commas, and used as option value. The simplifications
-that are specified using the option replace the default simplifications (see
-the second column of the table). However, it is also possible to specify
-additions and removals relative to the default simplifications, by prefixing
-simplifications (from the first column) with a `pass:c[+]` or `-` respectively.
-Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]` or
-`-` prefix). Specifying a simplification twice leads to a warning being
-printed to the console. Adding a simplification that is already present or
-removing a simplification that is not present, also leads to a warning being
-printed.
+The table above lists in the first column, the option values to use for each of the simplifications, on the command line.
+The names given in the first column should be combined using commas, and used as option value.
+The simplifications that are specified using the option replace the default simplifications (see the second column of the table).
+However, it is also possible to specify additions and removals relative to the default simplifications, by prefixing simplifications (from the first column) with a `pass:c[+]` or `-` respectively.
+Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]` or `-` prefix).
+Specifying a simplification twice leads to a warning being printed to the console.
+Adding a simplification that is already present or removing a simplification that is not present, also leads to a warning being printed.
 
-In the option dialog, each of the simplifications can be enabled or disabled
-using a checkbox.
+In the option dialog, each of the simplifications can be enabled or disabled using a checkbox.
 
-The second column indicates for each simplification whether it is enabled by
-default. By default, all simplifications are enabled. The third column
-indicates the predicate in the synthesis result that can be simplified. The
-fourth column indicates under the assumption of which predicate the
-simplification is applied.
+The second column indicates for each simplification whether it is enabled by default.
+By default, all simplifications are enabled.
+The third column indicates the predicate in the synthesis result that can be simplified.
+The fourth column indicates under the assumption of which predicate the simplification is applied.
 
-The simplification algorithm is not perfect, and may not simplify the
-predicates as much as could potentially be possible.
+The simplification algorithm is not perfect, and may not simplify the predicates as much as could potentially be possible.
 
-When simplifying with respect to state requirement invariants, the supervisor
-no longer enforces those requirements, as they are assumed to already hold. As
-such, the simplification prevents such invariants from being removed from the
-resulting CIF specification. This applies to some of the other simplifications
-as well. For instance, the simplification over state/event exclusion
-requirement invariants leads to them being part of the output as well. This may
-affect whether other tools can handle the resulting supervisor model as input,
-depending on what kind of features they support. In particular, for code
-generation, simplification of the guards with respect to the state requirement
-invariants and state/event exclusion requirement invariants may need to be
-disabled.
+When simplifying with respect to state requirement invariants, the supervisor no longer enforces those requirements, as they are assumed to already hold.
+As such, the simplification prevents such invariants from being removed from the resulting CIF specification.
+This applies to some of the other simplifications as well.
+For instance, the simplification over state/event exclusion requirement invariants leads to them being part of the output as well.
+This may affect whether other tools can handle the resulting supervisor model as input, depending on what kind of features they support.
+In particular, for code generation, simplification of the guards with respect to the state requirement invariants and state/event exclusion requirement invariants may need to be disabled.
 
 indexterm:[data-based supervisory controller synthesis,debugging]
 
 [[tools-datasynth-dbg-output]]
 === Debug output
 
-By default, the synthesis algorithm shows no progress information, and does not
-explain how the resulting supervisor is obtained. By enabling debug output,
-detailed information is printed to the console. Debug output can be enabled
-by setting the
-menu:Output mode[]
-option (menu:General[]
-category) to
-menu:Debug[].
+By default, the synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
+By enabling debug output, detailed information is printed to the console.
+Debug output can be enabled by setting the menu:Output mode[] option (menu:General[] category) to menu:Debug[].
 
-The debug output also contains information about the number of states in the
-resulting controlled system (the uncontrolled system restricted by the
-synthesized supervisor). If the resulting supervisor (and thus the controlled
-system) is empty, or if
-<<tools-datasynth-forward-reach,forward reachability>> is enabled, the
-number of states that is printed is an exact number (e.g. `exactly 0 states`,
-`exactly 1 state`, `exactly 1,234 states`). In other situations, the
-controlled behavior predicate that is used to determine the number potentially
-gives an over-approximation, and an upper bound on the number of states is
-printed (e.g. `at most 1,234 states`).
+The debug output also contains information about the number of states in the resulting controlled system (the uncontrolled system restricted by the synthesized supervisor).
+If the resulting supervisor (and thus the controlled system) is empty, or if <<tools-datasynth-forward-reach,forward reachability>> is enabled, the number of states that is printed is an exact number (e.g. `exactly 0 states`, `exactly 1 state`, `exactly 1,234 states`).
+In other situations, the controlled behavior predicate that is used to determine the number potentially gives an over-approximation, and an upper bound on the number of states is printed (e.g. `at most 1,234 states`).
 
-Enabling debug output may significantly slow down the synthesis algorithm,
-especially for larger models. The performance degradation stems mostly from the
-printing of predicates. Predicates are internally represented using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs). To print them,
-they are converted to CNF or DNF predicates, similar to one of the approaches
-to <<tools-datasynth-supervisor-bdd,convert>> BDDs to CIF predicates for
-synthesis output.
+Enabling debug output may significantly slow down the synthesis algorithm, especially for larger models.
+The performance degradation stems mostly from the printing of predicates.
+Predicates are internally represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+To print them, they are converted to CNF or DNF predicates, similar to one of the approaches to <<tools-datasynth-supervisor-bdd,convert>> BDDs to CIF predicates for synthesis output.
 
-To limit the performance degradation, options are available to limit the
-conversion of BDDs to CNF/DNF predicates. The _BDD debug max nodes_ controls
-the maximum number of BDD nodes for which to convert a BDD to a readable
-CNF/DNF representation for the debug output. The default is `10` nodes. The
-maximum must be in the range [1 .. 2^31^ - 1].
-The option can be set to
-have an infinite maximum (no maximum), using option value `inf`. The _BDD
-debug max paths_ option controls the maximum number of BDD true paths for which
-to convert a BDD to a readable CNF/DNF representation for the debug output. The
-default is `10` paths. The maximum must be in the range [1 .. 1.7e308]. The
-option can be set to have an infinite maximum (no maximum), using option value
-`inf`. If a BDD has more than the specified maximum number of nodes, or more
-than the specified number of true paths, it is not converted to a CNF/DNF
-predicate. Instead, it is converted to a textual representation that indicates
-the number of nodes and true paths, e.g. `<bdd 1,234n 5,678p>` for a BDD with
-1,234 nodes and 5,678 true paths.
+To limit the performance degradation, options are available to limit the conversion of BDDs to CNF/DNF predicates.
+The _BDD debug max nodes_ controls the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug output.
+The default is `10` nodes.
+The maximum must be in the range [1 .. 2^31^ - 1].
+The option can be set to have an infinite maximum (no maximum), using option value `inf`.
+The _BDD debug max paths_ option controls the maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the debug output.
+The default is `10` paths.
+The maximum must be in the range [1 .. 1.7e308].
+The option can be set to have an infinite maximum (no maximum), using option value `inf`.
+If a BDD has more than the specified maximum number of nodes, or more than the specified number of true paths, it is not converted to a CNF/DNF predicate.
+Instead, it is converted to a textual representation that indicates the number of nodes and true paths, e.g. `<bdd 1,234n 5,678p>` for a BDD with 1,234 nodes and 5,678 true paths.
 
-By limiting the conversion of BDDs to CNF/DNF predicates, debug output can
-still be used for large models to see progress information, while not degrading
-the performance too much.
+By limiting the conversion of BDDs to CNF/DNF predicates, debug output can still be used for large models to see progress information, while not degrading the performance too much.
 
 indexterm:[data-based supervisory controller synthesis,statistics]
 
 [[tools-datasynth-stats]]
 === Statistics
 
-The data-based synthesis tool supports printing various kinds of statistics to
-the console. By default, no statistics are printed. Statistics can be enabled
-using the the _Statistics_ option (see <<tools-datasynth-options,options>>
-section above). The following statistics are available:
+The data-based synthesis tool supports printing various kinds of statistics to the console.
+By default, no statistics are printed.
+Statistics can be enabled using the the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
+The following statistics are available:
 
 * _Timing_ [`timing`]
 +
-Print statistics for timing of various parts of the tool. Is printed to the
-console, after execution, just termination of the tool. Timing is only
-printed for parts of the tool that were actually executed. Timing is printed
-as a tree. The root of the tree represents the total time of the synthesis
-tool. For some parts of the tool, timing is also measured for sub-parts.
-Timing is printed in milliseconds, to make it easier to compare timing for
-various parts.
+Print statistics for timing of various parts of the tool.
+Is printed to the console, after execution, just termination of the tool.
+Timing is only printed for parts of the tool that were actually executed.
+Timing is printed as a tree.
+The root of the tree represents the total time of the synthesis tool.
+For some parts of the tool, timing is also measured for sub-parts.
+Timing is printed in milliseconds, to make it easier to compare timing for various parts.
 +
-When measuring performance, always perform multiple measurements, and take
-the average. Also, use a warm-up phase, to avoid skewed results.
+When measuring performance, always perform multiple measurements, and take the average.
+Also, use a warm-up phase, to avoid skewed results.
 
 * _BDD garbage collection_ [`bdd-gc`]
 +
-The BDD library that is used maintains an internal node table. Whenever new
-nodes no longer fit in the node table, a garbage collection is started by
-the BDD library, to clean out all nodes that are no longer needed. BDD
-garbage collection statistics are printed before and after garbage
-collection. The printed information includes the size of the node table, the
-number of free nodes, timing information, etc. See also the
-BDD library initial node table size option (see
-<<tools-datasynth-options,options>>` section above).
+The BDD library that is used maintains an internal node table.
+Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
+BDD garbage collection statistics are printed before and after garbage collection.
+The printed information includes the size of the node table, the number of free nodes, timing information, etc.
+See also the BDD library initial node table size option (see <<tools-datasynth-options,options>>` section above).
 
 * _BDD node table resize_ [`bdd-resize`]
 +
-The BDD library that is used maintains an internal node table. Whenever new
-nodes no longer fit in the node table, a garbage collection is started by
-the BDD library, to clean out all nodes that are no longer needed. If only
-very limited space could be reclaimed by garbage collection, the size of the
-node table is increased. BDD node table resize statistics are printed when
-the node table is resized. The printed information includes the old and the
-new sizes of the node table. See also the BDD library initial node table
-size option (see <<tools-datasynth-options,options>>` section above).
+The BDD library that is used maintains an internal node table.
+Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
+If only very limited space could be reclaimed by garbage collection, the size of the node table is increased.
+BDD node table resize statistics are printed when the node table is resized.
+The printed information includes the old and the new sizes of the node table.
+See also the BDD library initial node table size option (see <<tools-datasynth-options,options>>` section above).
 
-In the option dialog, each of the different kinds of statistics can be enabled
-and disabled individually, using a checkbox.
+In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
-From the command line, using the `--stats` option, the names of the different
-kinds of statistics, as indicated above between square brackets, should be
-used, separated by commas. For instance, use `--stats=bdd-gc,bdd-resize` to
-enable both BDD garbage collection statistics and BDD node table resize
-statistics, but keep all other statistics disabled.
+From the command line, using the `--stats` option, the names of the different kinds of statistics, as indicated above between square brackets, should be used, separated by commas.
+For instance, use `--stats=bdd-gc,bdd-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
 
-Specifying a statistics kind twice leads to a warning being printed to the
-console.
+Specifying a statistics kind twice leads to a warning being printed to the console.
 
 // Don't explain add/remove from default, as default is no statistics.
 
@@ -958,152 +724,109 @@ indexterm:[data-based supervisory controller synthesis,checks]
 
 === Early problem detection
 
-The synthesis algorithm checks the specification for common issues, for early
-detection of problems that will lead to an empty supervisor. If such a problem
-is detected, a warning is printed to the console. Among others, checks are
-included for no initial states/variables, no marked states, and no states due
-to the state requirement invariants.
+The synthesis algorithm checks the specification for common issues, for early detection of problems that will lead to an empty supervisor.
+If such a problem is detected, a warning is printed to the console.
+Among others, checks are included for no initial states/variables, no marked states, and no states due to the state requirement invariants.
 
 indexterm:[data-based supervisory controller synthesis,variable order]
 
 [[tools-datasynth-var-order]]
 === BDD variable order
 
-Internally, predicates are represented using
-link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams]
-(BDDs). CIF
-variables and automata are represented using one or more boolean variables
-(also called BDD variables or bits). For instance, a boolean CIF variable is
-represented using a single boolean/BDD variable, and a CIF variable of type
-`int[0..8]` is represented using four boolean/BDD variables (9 possible
-values, log~2~(9) ≈ 3.17). For each automaton with two or
-more locations, a location pointer variable is created, that represents the
-current or active location of that automaton. For instance, an automaton with
-three locations is represented using two boolean/BDD variables. Two boolean/BDD
-variables can represent 2^2^ = 4 values, so one value is not
-used.
+Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+CIF variables and automata are represented using one or more boolean variables (also called BDD variables or bits).
+For instance, a boolean CIF variable is represented using a single boolean/BDD variable, and a CIF variable of type `int[0..8]` is represented using four boolean/BDD variables (9 possible values, log~2~(9) ≈ 3.17).
+For each automaton with two or more locations, a location pointer variable is created, that represents the current or active location of that automaton.
+For instance, an automaton with three locations is represented using two boolean/BDD variables.
+Two boolean/BDD variables can represent 2^2^ = 4 values, so one value is not used.
 
-The CIF variables and location pointer variables for the automata
-(together called synthesis variables) can be ordered. This ordering can
-significantly influence the performance of synthesis. Synthesis variables that
-have a higher influence on the result of predicates (simply put, occur more
-frequently in predicates) should generally be put earlier in the ordering.
-Furthermore, in general, strongly related synthesis variables (e.g. by
-comparison, integer computation, or assignment) should be kept closely together
-in the order. For two synthesis variables `x` and `y`, examples of
-predicates that introduce relations are `x = y` (by comparison) and
-`5 < x + y` (by integer computation), and examples of assignments that
-introduce relations are `x := y` and `x := y + 1` (both by assignment).
+The CIF variables and location pointer variables for the automata (together called synthesis variables) can be ordered.
+This ordering can significantly influence the performance of synthesis.
+Synthesis variables that have a higher influence on the result of predicates (simply put, occur more frequently in predicates) should generally be put earlier in the ordering.
+Furthermore, in general, strongly related synthesis variables (e.g. by comparison, integer computation, or assignment) should be kept closely together in the order.
+For two synthesis variables `x` and `y`, examples of predicates that introduce relations are `x = y` (by comparison) and `5 < x + y` (by integer computation), and examples of assignments that introduce relations are `x := y` and `x := y + 1` (both by assignment).
 
-For the initial variable ordering, it is possible to order the BDD variables
-per synthesis variable, or to interleave the BDD/boolean variables of some
-synthesis variables. This can significantly influences the performance of
-synthesis. Generally, strongly related synthesis variables should be
-interleaved.
+For the initial variable ordering, it is possible to order the BDD variables per synthesis variable, or to interleave the BDD/boolean variables of some synthesis variables.
+This can significantly influences the performance of synthesis.
+Generally, strongly related synthesis variables should be interleaved.
 
-For more information on ordering and its influence on performance, see
-Chapter 3 of <<minato>>.
+For more information on ordering and its influence on performance, see Chapter 3 of <<minato>>.
 
-For each CIF variable and location pointer, two synthesis variables are
-created, one storing the old/current value (before a transition), and one
-storing the new value (after a transition). For a single CIF variable or
-location pointer, the old and new synthesis variables are always kept together,
-and interleaved. The old synthesis variable is also always before the new
-synthesis variable.
+For each CIF variable and location pointer, two synthesis variables are created, one storing the old/current value (before a transition), and one storing the new value (after a transition).
+For a single CIF variable or location pointer, the old and new synthesis variables are always kept together, and interleaved.
+The old synthesis variable is also always before the new synthesis variable.
 
-The initial order of the boolean/BDD variables is determined by the
-_BDD variable order_ option (see <<tools-datasynth-options,options>>
-section above). Several default orders exist, and it is also possible to
-define a custom order. By default, the sorted order is used. The following
-default orders exist:
+The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see <<tools-datasynth-options,options>> section above).
+Several default orders exist, and it is also possible to define a custom order.
+By default, the sorted order is used.
+The following default orders exist:
 
 * _model ordering without interleaving_ (option value `model`)
 +
 The initial order of the synthesis variables is as they occur in the model.
-A location pointer, for an automaton with two or more locations, is put
-before the variables declared in that automaton.
+A location pointer, for an automaton with two or more locations, is put before the variables declared in that automaton.
 +
-No synthesis variables are interleaved, except for each old variable with
-its corresponding new variable.
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
 * _reverse model ordering without interleaving_ (option value `reverse-model`)
 +
-The initial order of the synthesis variables is as they occur in the model,
-but reversed. A location pointer, for an automaton with two or more
-locations, is put after the variables declared in that automaton, in this
-reverse order.
+The initial order of the synthesis variables is as they occur in the model, but reversed.
+A location pointer, for an automaton with two or more locations, is put after the variables declared in that automaton, in this reverse order.
 +
-No synthesis variables are interleaved, except for each old variable with
-its corresponding new variable. The old variables are still before the new
-variables; this is not reversed.
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+The old variables are still before the new variables; this is not reversed.
 
 * _sorted ordering without interleaving_ (option value `sorted`)
 +
-The initial order of the synthesis variables is based on the names of the
-variables and automata. They are sorted alphabetically in ascending
-order, based on their absolute names.
+The initial order of the synthesis variables is based on the names of the variables and automata.
+They are sorted alphabetically in ascending order, based on their absolute names.
 +
-No synthesis variables are interleaved, except for each old variable with
-its corresponding new variable.
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
 * _reverse sorted ordering without interleaving_ (option value `reverse-sorted`)
 +
-The initial order of the synthesis variables is based on the names of the
-variables and automata. They are sorted alphabetically in descending
-order, based on their absolute names.
+The initial order of the synthesis variables is based on the names of the variables and automata.
+They are sorted alphabetically in descending order, based on their absolute names.
 +
-No synthesis variables are interleaved, except for each old variable with
-its corresponding new variable. The old variables are still before the new
-variables; this is not reversed.
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
+The old variables are still before the new variables; this is not reversed.
 
 * _random ordering without interleaving_ (option value `random` or `random:SEED`)
 +
-The variables and automata are initially ordered randomly. If no
-seed is specified, a random seed is used, resulting in a random random order.
-If a seed is specified, a fixed random order is used. That is, using the same
-seed again, results in the same random order. The `SEED` must be an integer
-number in the range [0 .. 2^64^ - 1]. For instance, use
-`random:123` as option value to get a random order that can be repeated on
-a subsequent synthesis for the same model.
+The variables and automata are initially ordered randomly.
+If no seed is specified, a random seed is used, resulting in a random random order.
+If a seed is specified, a fixed random order is used.
+That is, using the same seed again, results in the same random order.
+The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
+For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
 +
-No synthesis variables are interleaved, except for each old variable with
-its corresponding new variable.
+No synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
-Furthermore, a custom initial order can be defined. Custom orders consist of
-absolute names of variables and automata. That is, for an automaton
-`a`, with a discrete variable `x`, the absolute name of the variable is
-`a.x`. The `+*+` character can be used as wildcard in those names, and
-indicates zero or more characters. In case of multiple matches, the matches are
-sorted increasingly on their absolute names, and interleaved.
+Furthermore, a custom initial order can be defined.
+Custom orders consist of absolute names of variables and automata.
+That is, for an automaton `a`, with a discrete variable `x`, the absolute name of the variable is `a.x`.
+The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
+In case of multiple matches, the matches are sorted increasingly on their absolute names, and interleaved.
 
-Multiple names can be separated with `;` characters. The synthesis variables
-matching the name pattern before the `;` are ordered before the synthesis
-variables matching the name pattern after the `;`. The `;` separator does
-not introduce interleaving. The `,` separator can be used instead of the
-`;` separator to introduce order but also introduce interleaving.
+Multiple names can be separated with `;` characters.
+The synthesis variables matching the name pattern before the `;` are ordered before the synthesis variables matching the name pattern after the `;`.
+The `;` separator does not introduce interleaving.
+The `,` separator can be used instead of the `;` separator to introduce order but also introduce interleaving.
 
 Each name pattern in the order must match at least one variable or automaton.
-A variable or automaton may not be included more than once in the
-order. Every variable and automaton (with two or more locations) needs to be
-included in the order. It is not possible to specify new variables, as they
-are always directly after their corresponding old variables, and they are
-always interleaved.
+A variable or automaton may not be included more than once in the order.
+Every variable and automaton (with two or more locations) needs to be included in the order.
+It is not possible to specify new variables, as they are always directly after their corresponding old variables, and they are always interleaved.
 
-For instance, consider two automata: `a` and `b`, each with three
-variables of type `int[0..3]`: `x1`, `x2`, and `x3`. The automata have
-three locations each, so location pointers are created for them. We thus have
-six discrete variables: `a.x1`, `a.x2`, `a.x3`, `b.x1`, `b.x2`, and
-`b.x3`, and two location pointer variables: `a` and `b`. Consider the
-following custom order: `+b*;a.x3,a.x1;a.x2,a+`. Pattern `+b*+` matches
-location pointer variable `b` as well as the three discrete variables of
-automaton `b` (`b.x1`, `b.x2`, and `b.x3`). They are ordered in
-increasing alphabetic order, and are interleaved. Variables `a.x3` and
-`a.x1` are also interleaved, with `a.x3` before `a.x1`. Finally, variable
-`a.x2` is ordered before the location pointer for automaton `a`, and they
-are interleaved as well. This results in the following initial boolean/BDD
-variable ordering, with bits whose name ends with `pass:c[+]` representing bits of
-new variables rather than current/old variables, and `x#0` representing bit
-zero of variable `x`:
+For instance, consider two automata: `a` and `b`, each with three variables of type `int[0..3]`: `x1`, `x2`, and `x3`.
+The automata have three locations each, so location pointers are created for them.
+We thus have six discrete variables: `a.x1`, `a.x2`, `a.x3`, `b.x1`, `b.x2`, and `b.x3`, and two location pointer variables: `a` and `b`.
+Consider the following custom order: `+b*;a.x3,a.x1;a.x2,a+`.
+Pattern `+b*+` matches location pointer variable `b` as well as the three discrete variables of automaton `b` (`b.x1`, `b.x2`, and `b.x3`).
+They are ordered in increasing alphabetic order, and are interleaved.
+Variables `a.x3` and `a.x1` are also interleaved, with `a.x3` before `a.x1`.
+Finally, variable `a.x2` is ordered before the location pointer for automaton `a`, and they are interleaved as well.
+This results in the following initial boolean/BDD variable ordering, with bits whose name ends with `pass:c[+]` representing bits of new variables rather than current/old variables, and `x#0` representing bit zero of variable `x`:
 
 [%hardbreaks]
 `b#0`
@@ -1143,52 +866,36 @@ zero of variable `x`:
 `a#1`
 `a+#1`
 
-The default orders are often not optimal performance-wise. Manually
-specifying a custom order often requires specialist knowledge and can take
-quite some time. Luckily, there are algorithms that can automatically compute
-a decent variable order.
+The default orders are often not optimal performance-wise.
+Manually specifying a custom order often requires specialist knowledge and can take quite some time.
+Luckily, there are algorithms that can automatically compute a decent variable order.
 
-The algorithms all take an initial variable ordering, and try to improve it
-using a fast heuristic. A better initial variable ordering may result in a
-better final variable ordering (a better local optimum), and may speed up the
-automatic variable ordering algorithm (reaching an optimum faster).
+The algorithms all take an initial variable ordering, and try to improve it using a fast heuristic.
+A better initial variable ordering may result in a better final variable ordering (a better local optimum), and may speed up the automatic variable ordering algorithm (reaching an optimum faster).
 
-For the initial variable ordering, the CIF variables and location pointers
-may be arbitrarily interleaved. If an automatic variable ordering algorithm
-changes the initial order, no synthesis variables are interleaved, except for
-each old variable with its corresponding new variable.
+For the initial variable ordering, the CIF variables and location pointers may be arbitrarily interleaved.
+If an automatic variable ordering algorithm changes the initial order, no synthesis variables are interleaved, except for each old variable with its corresponding new variable.
 
-The automatic variable ordering algorithms are not applied if the CIF model has
-less than two synthesis variables. They are also not applied if the model has
-no guards, updates, or other predicates to use as input for the algorithms,
-i.e. there are no _hyperedges_ to which to apply the algorithms.
+The automatic variable ordering algorithms are not applied if the CIF model has less than two synthesis variables.
+They are also not applied if the model has no guards, updates, or other predicates to use as input for the algorithms, i.e. there are no _hyperedges_ to which to apply the algorithms.
 
 The following algorithms are available:
 
 * _FORCE_
 +
-The <<force>> algorithm is enabled by default, but can be disabled using the
-_BDD FORCE variable ordering algorithm_ option (see
-<<tools-datasynth-options,options>> section above).
+The <<force>> algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 +
-At most 10 * ceil(log~e~(n)) iterations of the FORCE
-algorithm are performed, with `n` the number of current/old BDD/boolean
-variables.
+At most 10 * ceil(log~e~(n)) iterations of the FORCE algorithm are performed, with `n` the number of current/old BDD/boolean variables.
 
 * _Sliding window_
 +
-The sliding window algorithm is enabled by default, but can be disabled using
-the _BDD sliding window variable ordering algorithm_ option (see
-<<tools-datasynth-options,options>> section above).
+The sliding window algorithm is enabled by default, but can be disabled using the _BDD sliding window variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 +
-The default maximum length of the window that is used is 4. The actual window
-may be smaller, if less than 4 variables and/or location pointers are present
-in the model. The maximum length of the window can be configured using the
-_BDD sliding window size_ option (see
-<<tools-datasynth-options,options>> section above). The option to set
-the maximum length only has effect if the sliding window variable ordering
-algorithm is enabled. The size must be an integer number in the range
-[1 .. 12].
+The default maximum length of the window that is used is 4.
+The actual window may be smaller, if less than 4 variables and/or location pointers are present in the model.
+The maximum length of the window can be configured using the _BDD sliding window size_ option (see <<tools-datasynth-options,options>> section above).
+The option to set the maximum length only has effect if the sliding window variable ordering algorithm is enabled.
+The size must be an integer number in the range [1 .. 12].
 
 If enabled, the algorithms are applied in the order they are listed above.
 
@@ -1197,46 +904,34 @@ indexterm:[data-based supervisory controller synthesis,operation caches]
 [[tools-datasynth-op-caches]]
 === BDD operation caches
 
-One of the main properties of BDDs is that they employ full sharing. That is,
-if a part of a binary tree needs to be represented more than once, it is stored
-only once, and reused. This leads to BDDs being represented using directed
-acyclic graphs, rather than binary trees.
+One of the main properties of BDDs is that they employ full sharing.
+That is, if a part of a binary tree needs to be represented more than once, it is stored only once, and reused.
+This leads to BDDs being represented using directed acyclic graphs, rather than binary trees.
 
-The BDD library uses an operation cache to speed up synthesis. Whenever a
-certain operation is performed on one or more nodes of a BDD graph, the result
-is cached. If that same operation is performed again on the same nodes, the
-cached result is reused, if available. This way, repeated calculations can be
-prevented for shared sub-graphs.
+The BDD library uses an operation cache to speed up synthesis.
+Whenever a certain operation is performed on one or more nodes of a BDD graph, the result is cached.
+If that same operation is performed again on the same nodes, the cached result is reused, if available.
+This way, repeated calculations can be prevented for shared sub-graphs.
 
-The operation cache is essential for the performance of the synthesis
-algorithm. With infinite caches, the operations are generally linear in the
-number of nodes used to represent the BDDs on which they are applied. Without
-caching, the computation time grows exponentially.
+The operation cache is essential for the performance of the synthesis algorithm.
+With infinite caches, the operations are generally linear in the number of nodes used to represent the BDDs on which they are applied.
+Without caching, the computation time grows exponentially.
 
-Obviously, in practice we can't have infinite caches, as a computer only has a
-finite amount of memory available. We thus need to work with finite caches.
-Whenever a new cached operation result doesn't fit in the cache, an older
-result is overwritten, and will need to be recomputed if it is needed again.
+Obviously, in practice we can't have infinite caches, as a computer only has a finite amount of memory available.
+We thus need to work with finite caches.
+Whenever a new cached operation result doesn't fit in the cache, an older result is overwritten, and will need to be recomputed if it is needed again.
 
-Increasing the cache size can significantly increase performance for large
-systems, as a cache that is too small is ineffective, and results in many
-operations needing to be repeated, that could have otherwise been obtained from
-the cache. However, a larger than needed cache may also significantly decrease
-performance, as a cache that is too large may no longer fit within CPU caches,
-leading to more expensive accesses to the main memory rather than e.g. L1/L2/L3
-caches.
+Increasing the cache size can significantly increase performance for large systems, as a cache that is too small is ineffective, and results in many operations needing to be repeated, that could have otherwise been obtained from the cache.
+However, a larger than needed cache may also significantly decrease performance, as a cache that is too large may no longer fit within CPU caches, leading to more expensive accesses to the main memory rather than e.g. L1/L2/L3 caches.
 
-The operation cache size can be configured in two ways: as a fixed size that
-remains the same during the entire synthesis, or a variable cache size that
-grows in size as the node table grows in size. See the
-<<tools-datasynth-options,options>> section above for details.
+The operation cache size can be configured in two ways: as a fixed size that remains the same during the entire synthesis, or a variable cache size that grows in size as the node table grows in size.
+See the <<tools-datasynth-options,options>> section above for details.
 
 indexterm:[data-based supervisory controller synthesis,performance]
 
 === Performance
 
-The following <<tools-datasynth-options,options>> have an effect on the
-performance of data-based synthesis:
+The following <<tools-datasynth-options,options>> have an effect on the performance of data-based synthesis:
 
 [cols="5,15,15,20,40",options="header"]
 |===
@@ -1256,15 +951,13 @@ performance of data-based synthesis:
 | BDD predicate simplify
 | <<tools-datasynth-simplification>>
 | Potentially smaller BDDs in the output
-| Enable for smaller output, although simplification itself also takes
-time
+| Enable for smaller output, although simplification itself also takes time
 
 | Order
 | BDD variable order
 | <<tools-datasynth-var-order>>
 | Better order for smaller BDD representations
-| Choose the best order, depends on the model, (reversed) model/sorted
-usually good choices, custom order allows for best performance
+| Choose the best order, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
 
 | Order
 | BDD FORCE variable ordering algorithm
@@ -1294,15 +987,13 @@ usually good choices, custom order allows for best performance
 | BDD library operation cache size/ratio
 | <<tools-datasynth-op-caches>>
 | Increase cache for less computations
-| Enable, larger costs more memory, larger leads to less memory locality,
-size/ratio depends on model
+| Enable, larger costs more memory, larger leads to less memory locality, size/ratio depends on model
 
 | Algorithm
 | Forward reachability
 | <<tools-datasynth-forward-reach>>
 | Explore only reachable state space
-| Enable to reduce state space, although calculation itself may also be
-expensive, depends on model
+| Enable to reduce state space, although calculation itself may also be expensive, depends on model
 
 | Debug
 | Output mode
@@ -1323,61 +1014,47 @@ expensive, depends on model
 | Disable for better performance
 |===
 
-The first column categorizes the different options a bit, for different kind of
-options. The second column lists the different options. The third column
-indicates in which section on this page of the documentation you can find more
-information about that option. The fourth column indicates the effect of the
-option. The fifth column indicates what to choose for the option, for best
-performance, although a trade-off may be involved.
+The first column categorizes the different options a bit, for different kind of options.
+The second column lists the different options.
+The third column indicates in which section on this page of the documentation you can find more information about that option.
+The fourth column indicates the effect of the option.
+The fifth column indicates what to choose for the option, for best performance, although a trade-off may be involved.
 
-Obviously, the actual model that is used has a large impact as well. More
-variables often leads to longer synthesis times. However, the predicates that
-are used may also significantly impact performance.
+Obviously, the actual model that is used has a large impact as well.
+More variables often leads to longer synthesis times.
+However, the predicates that are used may also significantly impact performance.
 
-Try to use state/event exclusion requirement invariants instead of requirement
-automata with a single location and self loops. Also, try to avoid an
-event-based modeling style, and use a data-based modeling style instead, if
-possible.
+Try to use state/event exclusion requirement invariants instead of requirement automata with a single location and self loops.
+Also, try to avoid an event-based modeling style, and use a data-based modeling style instead, if possible.
 
 indexterm:[data-based supervisory controller synthesis,input variables]
 
 === Input variables
 
-Data-based synthesis supports input variables. The model itself doesn't specify
-which value an input variable has at any given moment. Input variables can thus
-have any value (as long as it fits within the data type of the variable), and
-the value can change at any time. Input variables are ideal to model sensors.
+Data-based synthesis supports input variables.
+The model itself doesn't specify which value an input variable has at any given moment.
+Input variables can thus have any value (as long as it fits within the data type of the variable), and the value can change at any time.
+Input variables are ideal to model sensors.
 
-To support this for data-based synthesis, the input variable is treated as a
-discrete variable with an arbitrary initial value. To allow the input variable
-to arbitrarily change, an uncontrollable event is added (with the same absolute
-name as the input variable). Also, a single edge is added for that event. The
-edge is always enabled (guard `true`, since the input variable can always
-change value), and the update indicates that it can get any value that it
-doesn't currently have (`x+ != x` for `x` an input variable, with `x`
-the value of the variable before the update, and `x+` the value of the
-variable after the update). Obviously, the value of the input variable is kept
-within the range of values that is allowed by its data type.
+To support this for data-based synthesis, the input variable is treated as a discrete variable with an arbitrary initial value.
+To allow the input variable to arbitrarily change, an uncontrollable event is added (with the same absolute name as the input variable).
+Also, a single edge is added for that event.
+The edge is always enabled (guard `true`, since the input variable can always change value), and the update indicates that it can get any value that it doesn't currently have (`x+ != x` for `x` an input variable, with `x` the value of the variable before the update, and `x+` the value of the variable after the update).
+Obviously, the value of the input variable is kept within the range of values that is allowed by its data type.
 
-Using synthesis with requirements that restrict the allowed values of an input
-variable will result in an empty supervisor, as a supervisor can't prevent the
-environment from changing the value of the input variable (it would have to
-restrict the uncontrollable event that is internally added to model value
-changes of the input variable). A supervisor can however impose additional
-restrictions on the <<tools-datasynth-init,initial>> value of an input
-variable. The supervisor can then only guarantee safe, non-blocking behavior
-if the system is initialized in accordance with the additional initialization
-restrictions.
+Using synthesis with requirements that restrict the allowed values of an input variable will result in an empty supervisor, as a supervisor can't prevent the environment from changing the value of the input variable (it would have to restrict the uncontrollable event that is internally added to model value changes of the input variable).
+A supervisor can however impose additional restrictions on the <<tools-datasynth-init,initial>> value of an input variable.
+The supervisor can then only guarantee safe, non-blocking behavior if the system is initialized in accordance with the additional initialization restrictions.
 
 [bibliography]
 === References
 
-- [[[minato]]] Shin-ichi Minato. Binary Decision Diagrams and Applications for
-VLSI CAD: The Springer International Series in Engineering and Computer Science,
-Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book),
-ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
+- [[[minato]]] Shin-ichi Minato.
+Binary Decision Diagrams and Applications for VLSI CAD: The Springer International Series in Engineering and Computer Science, Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book), ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
 
-- [[[force]]] Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah.
+- [[[force]]] Fadi A.
+Aloul, Igor L.
+Markov, Karem A.
+Sakallah.
 FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic:
-GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI
-pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3
+GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3

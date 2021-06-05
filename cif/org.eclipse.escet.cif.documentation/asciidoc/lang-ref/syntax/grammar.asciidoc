@@ -19,15 +19,11 @@ indexterm:[syntax,grammar]
 [[lang-ref-syntax-grammar]]
 == Grammar
 
-Below, the link:http://en.wikipedia.org/wiki/Formal_grammar[grammar] of the
-CIF language is shown, in a form closely resembling
-link:http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form[Backus-Naur Form]
-(BNF). The `Specification`
-link:http://en.wikipedia.org/wiki/Nonterminal_symbol[non-terminal] is the
-link:http://en.wikipedia.org/wiki/Start_symbol_(formal_languages)[start symbol]
-of the grammar. Text between quotes are terminals. Names using only upper case
-letters are defined in the <<lang-ref-syntax-lexical,lexical syntax>>. The
-remaining names are the non-terminals of the grammar.
+Below, the link:http://en.wikipedia.org/wiki/Formal_grammar[grammar] of the CIF language is shown, in a form closely resembling link:http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form[Backus-Naur Form] (BNF).
+The `Specification` link:http://en.wikipedia.org/wiki/Nonterminal_symbol[non-terminal] is the link:http://en.wikipedia.org/wiki/Start_symbol_(formal_languages)[start symbol] of the grammar.
+Text between quotes are terminals.
+Names using only upper case letters are defined in the <<lang-ref-syntax-lexical,lexical syntax>>.
+The remaining names are the non-terminals of the grammar.
 
 [source, bnf]
 ----

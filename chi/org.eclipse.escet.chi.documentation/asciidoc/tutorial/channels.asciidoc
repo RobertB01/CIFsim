@@ -20,29 +20,24 @@ indexterm:[channel,type]
 indexterm:[type,channel]
 In <<tut-chapter-processes,Processes>> processes have been introduced.
 This chapter describes channels, denoted by the type `chan`.
-A channel connects two processes and is used for the transfer of data or just
-signals.
+A channel connects two processes and is used for the transfer of data or just signals.
 One process is the sending process, the other process is the receiving process.
-Communication between the processes takes place instantly when both processes
-are willing to communicate, this is called _synchronous_ communication.
+Communication between the processes takes place instantly when both processes are willing to communicate, this is called _synchronous_ communication.
 
 === A channel
 
-The following example shows the sending of an integer value between two
-processes via a channel.
-<<tut-figure-producer-consumer>> shows the two processes `P` and `C`,
-connected by channel variable `a`.
+The following example shows the sending of an integer value between two processes via a channel.
+<<tut-figure-producer-consumer>> shows the two processes `P` and `C`, connected by channel variable `a`.
 
 [[tut-figure-producer-consumer]]
 .A producer and a consumer
 image::{tut-imgsdir}/pictures/producer_consumer.png[]
 
-Processes are denoted by circles, and channels are denoted by directed arrows
-in the figure. The arrow denotes the direction of communication.
+Processes are denoted by circles, and channels are denoted by directed arrows in the figure.
+The arrow denotes the direction of communication.
 Process `P` is the sender or producer, process `C` is the receiver or consumer.
 
-In this case, the producer sends a finite stream of integer values (5 numbers)
-to the consumer.
+In this case, the producer sends a finite stream of integer values (5 numbers) to the consumer.
 The consumer receives these values and writes them to the screen.
 The model is:
 
@@ -72,18 +67,13 @@ end
 ----
 
 The model instantiates processes `P` and `C`.
-The two processes are connected to each other via channel variable `a` which
-is given as actual parameter in the `run` statement.
-This value is copied into the local formal parameter `a` in process `P`
-and in formal parameter `b` inside process `C`.
+The two processes are connected to each other via channel variable `a` which is given as actual parameter in the `run` statement.
+This value is copied into the local formal parameter `a` in process `P` and in formal parameter `b` inside process `C`.
 
-Process `P` can send a value of type `int` via the actual channel
-parameter `a` to process `C`.
+Process `P` can send a value of type `int` via the actual channel parameter `a` to process `C`.
 In this case `P` first tries to send the value `0`.
-Process `C` tries to receive a value of type `int` via the actual channel
-parameter `a`.
-Both processes can communicate, so the communication occurs and the value
-`0` is sent to process `C`.
+Process `C` tries to receive a value of type `int` via the actual channel parameter `a`.
+Both processes can communicate, so the communication occurs and the value `0` is sent to process `C`.
 The received value is assigned in process `C` to variable `x`.
 The value of `x` is printed and the cycle starts again.
 This model writes the sequence `0, 1, 2, 3, 4` to the screen.
@@ -92,24 +82,17 @@ This model writes the sequence `0, 1, 2, 3, 4` to the screen.
 === Synchronization channels
 
 Above, process `P` constructs the numbers and sends them to process `C`.
-However, since it is known that the number sequence starts at `0` and
-increments by one each time, there is no actual need to transfer a number.
-Process `C` could also construct the number by itself after getting a signal
-(a 'go ahead') from process `P`.
-Such signals are called synchronization signals, transfered by means of a
-synchronization channel. The signal does not carry any data,
-it just synchronizes a send and a receive between different processes.
-(Since there is no actual data transfered, the notion of sender and receiver
-is ambiguous. However, in modeling there is often a notion of 'initiator'
-process that can be conveniently expressed with sending.)
+However, since it is known that the number sequence starts at `0` and increments by one each time, there is no actual need to transfer a number.
+Process `C` could also construct the number by itself after getting a signal (a 'go ahead') from process `P`.
+Such signals are called synchronization signals, transfered by means of a synchronization channel.
+The signal does not carry any data, it just synchronizes a send and a receive between different processes.
+(Since there is no actual data transfered, the notion of sender and receiver is ambiguous.
+However, in modeling there is often a notion of 'initiator' process that can be conveniently expressed with sending.)
 
-The following example shows the use of synchronization signals between
-processes `P` and `C`.
+The following example shows the use of synchronization signals between processes `P` and `C`.
 The connecting channel 'transfers' values of type `void`.
-The type `void` means that 'non-values' are sent and received;
-the type `void` is only allowed in combination with channels.
-The iconic model is given in the previous figure,
-<<tut-figure-producer-consumer>>.
+The type `void` means that 'non-values' are sent and received; the type `void` is only allowed in combination with channels.
+The iconic model is given in the previous figure, <<tut-figure-producer-consumer>>.
 The model is:
 
 
@@ -138,29 +121,23 @@ model M():
 end
 ----
 
-Process `P` sends a signal (and no value is sent), and process `C`
-receives a signal (without a value).
-The signal is used by process `C` to write the value of `i` and to
-increment variable `i`.
-The effect of the model is identical to the previous example: the numbers
-`0, 1, 2, 3, 4` appear on the screen.
+Process `P` sends a signal (and no value is sent), and process `C` receives a signal (without a value).
+The signal is used by process `C` to write the value of `i` and to increment variable `i`.
+The effect of the model is identical to the previous example: the numbers `0, 1, 2, 3, 4` appear on the screen.
 
 
 === Two channels
 
-A process can have more than one channel, allowing interaction with several
-other processes.
+A process can have more than one channel, allowing interaction with several other processes.
 
-The next example shows two channel variables, `a` and `b`, and three
-processes, generator `G`, server `S` and exit `E`.
+The next example shows two channel variables, `a` and `b`, and three processes, generator `G`, server `S` and exit `E`.
 The iconic model is given in <<tut-figure-generator-server-exit>>.
 
 [[tut-figure-generator-server-exit]]
 .A generator, a server and an exit
 image::{tut-imgsdir}/pictures/generator_server_exit.png[]
 
-Process `G` is connected via channel variable `a` to process `S` and
-process `S` is connected via channel variable `b` to process `E`.
+Process `G` is connected via channel variable `a` to process `S` and process `S` is connected via channel variable `b` to process `E`.
 The model is:
 
 
@@ -198,15 +175,10 @@ end
 
 The model contains two channel variables `a` and `b`.
 The processes are connected to each other in model `M`.
-The processes are instantiated and run where the formal parameters are
-replaced by the actual parameters.
-Process `G` sends a stream of integer values `0, 1, 2, 3, 4` to another
-process via channel `a`.
-Process `S` receives a value via channel `a`, assigns this value to
-variable `x`, doubles the value of the variable, and sends the value of the
-variable via `b` to another process.
-Process `E` receives a value via channel `b`, assigns this value to the
-variable `x`, and prints this value.
+The processes are instantiated and run where the formal parameters are replaced by the actual parameters.
+Process `G` sends a stream of integer values `0, 1, 2, 3, 4` to another process via channel `a`.
+Process `S` receives a value via channel `a`, assigns this value to variable `x`, doubles the value of the variable, and sends the value of the variable via `b` to another process.
+Process `E` receives a value via channel `b`, assigns this value to the variable `x`, and prints this value.
 The result of the model is given by:
 
 
@@ -219,64 +191,47 @@ E   6
 E   8
 ----
 
-After printing this five lines, process `G` stops, process `S` is blocked,
-as well as process `E`, the model gets blocked, and the model ends.
+After printing this five lines, process `G` stops, process `S` is blocked, as well as process `E`, the model gets blocked, and the model ends.
 
 
 === More senders or receivers
 
-Channels send a message (or a signal in case of synchronization channels) from
-one sender to one receiver. It is however allowed to give the same channel to
-several sender or receiver processes. The channel selects a sender and a
-receiver before each communication.
+Channels send a message (or a signal in case of synchronization channels) from one sender to one receiver.
+It is however allowed to give the same channel to several sender or receiver processes.
+The channel selects a sender and a receiver before each communication.
 
-The following example gives an illustration, see
-<<tut-figure-generator-2servers-exit>>.
+The following example gives an illustration, see <<tut-figure-generator-2servers-exit>>.
 
 [[tut-figure-generator-2servers-exit]]
 .A generator, two servers and an exit
 image::{tut-imgsdir}/pictures/generator_2servers_exit.png[]
 
 Suppose that only `G` and `S0` want to communicate.
-The channel can select a sender (namely `G`) and a receiver (process
-`S0`), and let both processes communicate with each other.
-When sender `G`, and both receivers (`S0` and `S1`), want to
-communicate, the channel selects a sender (`G` as it is the only sender
-available to the channel), and a receiver (either process `S0` or process
-`S1`), and it lets the selected processes communicate with each other.
-This selection process is non-deterministic; a choice is made, but it is
-unknown how the selection takes place and it cannot be influenced.
-Note that a non-deterministic choice is different from a random choice. In the
-latter case, there are known probabilities of selecting a process.
+The channel can select a sender (namely `G`) and a receiver (process `S0`), and let both processes communicate with each other.
+When sender `G`, and both receivers (`S0` and `S1`), want to communicate, the channel selects a sender (`G` as it is the only sender available to the channel), and a receiver (either process `S0` or process `S1`), and it lets the selected processes communicate with each other.
+This selection process is non-deterministic; a choice is made, but it is unknown how the selection takes place and it cannot be influenced.
+Note that a non-deterministic choice is different from a random choice.
+In the latter case, there are known probabilities of selecting a process.
 
-Sharing a channel in this way allows to send data to receiving processes where
-the receiving party is not relevant (either server process will do).
-This way of communication is different from _broadcasting_, where both servers
-receive the same data value.
+Sharing a channel in this way allows to send data to receiving processes where the receiving party is not relevant (either server process will do).
+This way of communication is different from _broadcasting_, where both servers receive the same data value.
 Broadcasting is not supported by the Chi language.
 
-In case of two senders, `S0` and `S1`, and one receiver `E` the
-selection process is the same.
-If one of the two servers `S` can communicate with exit `E`, communication
-between that server and the exit takes place.
+In case of two senders, `S0` and `S1`, and one receiver `E` the selection process is the same.
+If one of the two servers `S` can communicate with exit `E`, communication between that server and the exit takes place.
 If both servers can communicate, a non-deterministic choice is made.
 
-Having several senders and several receivers for a single channel is also
-handled in the same manner.
-A non-deterministic choice is made for the sending process and a
-non-deterministic choice is made for the receiving process before each
-communication.
+Having several senders and several receivers for a single channel is also handled in the same manner.
+A non-deterministic choice is made for the sending process and a non-deterministic choice is made for the receiving process before each communication.
 
-To communicate with several other processes but without non-determinism,
-unique channels must be used.
+To communicate with several other processes but without non-determinism, unique channels must be used.
 
 
 === Notes
 
 
 * The direction in channels, denoted by `?` or `!`, may be omitted.
-By leaving it out, the semantics of the parameters becomes less clear (the
-direction of communication has to be derived from the process code).
+By leaving it out, the semantics of the parameters becomes less clear (the direction of communication has to be derived from the process code).
 indexterm:[channel,direction]
 indexterm:[direction,channel]
 
@@ -284,31 +239,24 @@ indexterm:[direction,channel]
 indexterm:[channel,naming]
 indexterm:[naming,channel]
 
-.. Start naming formal channel parameters
-in each new process with `a`, `b`, etc.
+.. Start naming formal channel parameters in each new process with `a`, `b`, etc.
 The actual names follow from the figure.
 This convention is followed in this chapter.
-For small models this convention is easy and works well, for complicated
-models this convention can be error-prone.
+For small models this convention is easy and works well, for complicated models this convention can be error-prone.
 indexterm:[parameter,naming of channels]
 indexterm:[channels, naming of parameters]
 
-.. Use the actual names of the channel parameters in the figures as formal
-names in the processes. Start naming in figures with `a`, `b`, etc.
-This convention works well, if both figure and code are at hand during
-the design process. If many processes have sub-processes, this convention
-does not really work.
+.. Use the actual names of the channel parameters in the figures as formal names in the processes.
+Start naming in figures with `a`, `b`, etc.
+This convention works well, if both figure and code are at hand during the design process.
+If many processes have sub-processes, this convention does not really work.
 
-.. Use unique names for the channel parameters for the whole model, and for
-all sub-systems, for example a channel between processes `A` and `B`
-is named `a2b` (the lower-case name of the sending process, followed by
-`2`, denoting 'to', and the lower-case name of the receiving process).
+.. Use unique names for the channel parameters for the whole model, and for all sub-systems, for example a channel between processes `A` and `B` is named `a2b` (the lower-case name of the sending process, followed by `2`, denoting 'to', and the lower-case name of the receiving process).
 +
 In this case the formal and actual parameters can be in most cases the same.
 If many identical processes are used, this convention does not really work.
 
-In the text all three conventions are used, depending on the structure of
-the model.
+In the text all three conventions are used, depending on the structure of the model.
 
 
 === Exercises
@@ -339,27 +287,21 @@ end
 
 .. Why does the model terminate immediately?
 
-. Six children have been given the assignment to perform a series of
-calculations on the numbers `+0, 1, 2, 3, ..., 9+`, namely add 2, multiply
-by 3, multiply by 2, and add 6 subsequently. They decide to split up the
-calculations and to operate in parallel. They sit down at a table next to
-each other. The first child, the reader `R`, reads the numbers
-`+0, 1, 2, 3, ..., 9+` one by one to the first calculating child `C1`. Child
-`C1` adds 2 and tells the result to its right neighbour, child `C2`. After
-telling the result to child `C2`, child `C1` is able to start
-calculating on the next number the reader `R` tells him. Children `C2`,
-`C3`, and `C4` are analogous to child `C1`; they each perform a
-different calculation on a number they hear and tell the result to their
-right neighbor. At the end of the table the writer `W` writes every
-result he hears down on paper. Figure <<tut-figure-sixchilds>> shows a
-schematic drawing of the children at the table.
+. Six children have been given the assignment to perform a series of calculations on the numbers `+0, 1, 2, 3, ..., 9+`, namely add 2, multiply by 3, multiply by 2, and add 6 subsequently.
+They decide to split up the calculations and to operate in parallel.
+They sit down at a table next to each other.
+The first child, the reader `R`, reads the numbers `+0, 1, 2, 3, ..., 9+` one by one to the first calculating child `C1`.
+Child `C1` adds 2 and tells the result to its right neighbour, child `C2`.
+After telling the result to child `C2`, child `C1` is able to start calculating on the next number the reader `R` tells him.
+Children `C2`, `C3`, and `C4` are analogous to child `C1`; they each perform a different calculation on a number they hear and tell the result to their right neighbor.
+At the end of the table the writer `W` writes every result he hears down on paper.
+Figure <<tut-figure-sixchilds>> shows a schematic drawing of the children at the table.
 +
 [[tut-figure-sixchilds]]
 .Six children working in parallel
 image::{tut-imgsdir}/pictures/sixchilds.png[]
 
-.. Finish the specification for the reading child `R`, that reads the
-numbers 0 till 9 one by one:
+.. Finish the specification for the reading child `R`, that reads the numbers 0 till 9 one by one:
 +
 [source, chi]
 ----
@@ -373,16 +315,14 @@ proc R(...):
 end
 ----
 
-.. Specify the parameterized process `Cadd` that represents the children
-`C1` and `C4`, who perform an addition.
+.. Specify the parameterized process `Cadd` that represents the children `C1` and `C4`, who perform an addition.
 
-.. Specify the parameterized process `Cmul` that represents the children
-`C2` and `C3`, who perform a multiplication.
+.. Specify the parameterized process `Cmul` that represents the children `C2` and `C3`, who perform a multiplication.
 
-.. Specify the process `W` representing the writing child. Write each
-result to the screen separated by a new line.
+.. Specify the process `W` representing the writing child.
+Write each result to the screen separated by a new line.
 
-.. Make a graphical representation of the model `SixChildren` that is
-composed of the six children.
+.. Make a graphical representation of the model `SixChildren` that is composed of the six children.
 
-.. Specify the model `SixChildren`. Simulate the model.
+.. Specify the model `SixChildren`.
+Simulate the model.

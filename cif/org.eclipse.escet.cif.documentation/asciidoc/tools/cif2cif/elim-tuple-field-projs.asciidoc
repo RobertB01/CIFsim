@@ -18,8 +18,7 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,eliminate tuple field projections]
 indexterm:[eliminate tuple field projections]
 indexterm:[tuple,eliminate field projections]
-This CIF to CIF transformation eliminates tuple field projections by replacing
-them with tuple index projections.
+This CIF to CIF transformation eliminates tuple field projections by replacing them with tuple index projections.
 
 === Supported specifications
 
@@ -35,10 +34,10 @@ indexterm:[eliminate tuple field projections,implementation]
 === Implementation details
 
 Obtaining the value of a field of a tuple is called tuple projection.
-There are two ways to project a tuple. That is, there are two ways to indicate
-from which field to obtain the value. The first way is to use the name of the
-field, the second way is to use the 0-based index of the field into the fields
-of the tuple's type. For instance:
+There are two ways to project a tuple.
+That is, there are two ways to indicate from which field to obtain the value.
+The first way is to use the name of the field, the second way is to use the 0-based index of the field into the fields of the tuple's type.
+For instance:
 
 
 [source, cif]
@@ -48,12 +47,10 @@ const int x = t[a];
 const int y = t[0];
 ----
 
-Here, both constants `x` and `y` have value `1`, obtained from field
-`a` of the tuple value of constant `t`.
+Here, both constants `x` and `y` have value `1`, obtained from field `a` of the tuple value of constant `t`.
 
-This transformation replaces tuple field projections (using the name of the
-field), by tuple index projections (using the 0-based index of the field). For
-instance, for the example above, the result of this transformation is:
+This transformation replaces tuple field projections (using the name of the field), by tuple index projections (using the 0-based index of the field).
+For instance, for the example above, the result of this transformation is:
 
 
 [source, cif]
@@ -72,8 +69,7 @@ indexterm:[eliminate tuple field projections,size considerations]
 
 === Size considerations
 
-Since both field references and integer values are single expression nodes,
-this transformation does not increase the size of the specification.
+Since both field references and integer values are single expression nodes, this transformation does not increase the size of the specification.
 
 
 === Optimality

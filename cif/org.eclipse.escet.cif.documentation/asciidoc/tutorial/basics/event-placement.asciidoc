@@ -16,8 +16,7 @@ include::../_part_attributes.asciidoc[]
 == Event declaration placement
 
 indexterm:[event,placement]
-Consider the following CIF specification (the producer/consumer example from
-the lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>):
+Consider the following CIF specification (the producer/consumer example from the lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>):
 
 
 [source, cif]
@@ -71,25 +70,20 @@ automaton consumer:
 end
 ----
 
-The `consume` event is now declared in the `producer` automaton rather than
-the `consumer` automaton, but the locations and edges have not changed. This
-modified specification exhibits the same behavior as the original.
+The `consume` event is now declared in the `producer` automaton rather than the `consumer` automaton, but the locations and edges have not changed.
+This modified specification exhibits the same behavior as the original.
 
-It should be clear that while events can be declared in various places, it is
-best to declare them where they belong. That is, the `consume` event is only
-used by the `consumer` automaton, and is thus best declared in that
-automaton. Similarly, the `produce` event is only used by the `producer`
-automaton.
+It should be clear that while events can be declared in various places, it is best to declare them where they belong.
+That is, the `consume` event is only used by the `consumer` automaton, and is thus best declared in that automaton.
+Similarly, the `produce` event is only used by the `producer` automaton.
 
-The `provide` event however is used by both automata. In such cases the event
-is usually declared where it is initiated. In the example above, the producer
-provides the product to the consumer, and not the other way around. Therefore,
-the `provide` event is declared in the `producer` automaton, rather than in
-the `consumer` automaton.
+The `provide` event however is used by both automata.
+In such cases the event is usually declared where it is initiated.
+In the example above, the producer provides the product to the consumer, and not the other way around.
+Therefore, the `provide` event is declared in the `producer` automaton, rather than in the `consumer` automaton.
 
-However, the modeler is free to choose the best place to declare the event. If
-no choice can be made between the automata, the event can also be declared
-outside the automata, as follows:
+However, the modeler is free to choose the best place to declare the event.
+If no choice can be made between the automata, the event can also be declared outside the automata, as follows:
 
 
 [source, cif]
@@ -119,10 +113,8 @@ automaton consumer:
 end
 ----
 
-This specification also has the same behavior. Only the placement of the event
-declarations has changed.
+This specification also has the same behavior.
+Only the placement of the event declarations has changed.
 
-The place where an event is declared is of no influence to the
-implicit (default) <<tut-basics-chapter-alphabet,alphabets>> of the
-automata. The implicit alphabet of an automaton is determined solely based on
-the events that occur on the edges of that automaton.
+The place where an event is declared is of no influence to the implicit (default) <<tut-basics-chapter-alphabet,alphabets>> of the automata.
+The implicit alphabet of an automaton is determined solely based on the events that occur on the edges of that automaton.

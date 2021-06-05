@@ -29,28 +29,20 @@ end
 end
 ----
 
-Here we specified two groups of terminals. The first group specifies two
-keyword (sub-)groups, named `Operators` and `Functions`. For these keywords
-(`and`, `or`, `log`, etc), terminals are created (`ANDKW`, `ORKW`,
-`LOGKW`, etc). Furthermore, the keyword group names (`Operators` and
-`Functions`) may be used as non-terminals in the grammar, to recognize
-exactly one of the keyword terminals created for that keyword group.
+Here we specified two groups of terminals.
+The first group specifies two keyword (sub-)groups, named `Operators` and `Functions`.
+For these keywords (`and`, `or`, `log`, etc), terminals are created (`ANDKW`, `ORKW`, `LOGKW`, etc).
+Furthermore, the keyword group names (`Operators` and `Functions`) may be used as non-terminals in the grammar, to recognize exactly one of the keyword terminals created for that keyword group.
 
-The second group specifies an `IDTK` terminal, defined by a regular
-expression (see below). The `+{scanID}+` part indicates that the resulting
-tokens should be passed to the `scanID` method in the hooks class (see
-below), to allow post-processing. Post-processing methods are also allowed
-for keyword identifiers, such as `sin` and `cos` in the example.
+The second group specifies an `IDTK` terminal, defined by a regular expression (see below).
+The `+{scanID}+` part indicates that the resulting tokens should be passed to the `scanID` method in the hooks class (see below), to allow post-processing.
+Post-processing methods are also allowed for keyword identifiers, such as `sin` and `cos` in the example.
 
-SeText generated scanners use longest match when recognizing tokens. If two
-or more terminals recognize the same longest match, priorities are used to
-resolve the conflict. For the example above, the first group of terminals has
-priority over the second group, thus giving the keywords priority over the
-identifiers. That is, `@terminals` groups listed earlier in the specification
-have higher priority than `@terminals` groups listed later in the
-specification. If two terminals accept the same input, and they are defined
-within the same group (they have the same priority), then the specification
-is invalid.
+SeText generated scanners use longest match when recognizing tokens.
+If two or more terminals recognize the same longest match, priorities are used to resolve the conflict.
+For the example above, the first group of terminals has priority over the second group, thus giving the keywords priority over the identifiers.
+That is, `@terminals` groups listed earlier in the specification have higher priority than `@terminals` groups listed later in the specification.
+If two terminals accept the same input, and they are defined within the same group (they have the same priority), then the specification is invalid.
 
 It is also possible to use scanner states:
 
@@ -69,34 +61,27 @@ end
 end
 ----
 
-The first group of terminals is for the default state, as no state name is
-specified. Single line comments (`+// ...+`) are detected using the first
-regular expression. This expression is not given a name, and can thus not be
-used in parser rules.
+The first group of terminals is for the default state, as no state name is specified.
+Single line comments (`+// ...+`) are detected using the first regular expression.
+This expression is not given a name, and can thus not be used in parser rules.
 
-The second regular expression detects the start of block comments (`+/*+`)
-and switches the scanner to the `+BLOCK_COMMENT+` state.
+The second regular expression detects the start of block comments (`+/*+`) and switches the scanner to the `+BLOCK_COMMENT+` state.
 
-The second group of terminals is detected only when the scanner is in the
-`+BLOCK_COMMENT+` state, as indicated by the `+BLOCK_COMMENT+` state name after
-the `@terminals` keyword. Everything except for the end of the comment is
-ignored (no name for the terminals, and no new scanner state). The end of
-block comments (`+*/+`) makes the scanner go back to the default scanner
-state (arrow without state name).
+The second group of terminals is detected only when the scanner is in the `+BLOCK_COMMENT+` state, as indicated by the `+BLOCK_COMMENT+` state name after the `@terminals` keyword.
+Everything except for the end of the comment is ignored (no name for the terminals, and no new scanner state).
+The end of block comments (`+*/+`) makes the scanner go back to the default scanner state (arrow without state name).
 
-The `@eof` terminal indicates that end-of-file is allowed in a scanner
-state (in this case, the default scanner state).
+The `@eof` terminal indicates that end-of-file is allowed in a scanner state (in this case, the default scanner state).
 
-For every scanner, the name of the Java class to generate should be specified,
-as follows:
+For every scanner, the name of the Java class to generate should be specified, as follows:
 
 [source, setext]
 ----
 @scanner some.package.SomeScanner;
 ----
 
-The scanner class must not be a generic class. Imports (see below) can be used
-to shorten the specification of the Java class name.
+The scanner class must not be a generic class.
+Imports (see below) can be used to shorten the specification of the Java class name.
 
 Shortcuts can be used for reuse of regular expressions:
 
@@ -110,5 +95,4 @@ Shortcuts can be used for reuse of regular expressions:
 end
 ----
 
-It is possible to use shortcuts in other shortcuts, as long as a shortcut is
-defined before its use.
+It is possible to use shortcuts in other shortcuts, as long as a shortcut is defined before its use.

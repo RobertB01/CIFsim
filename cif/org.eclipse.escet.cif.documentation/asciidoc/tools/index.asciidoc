@@ -21,9 +21,8 @@ indexterm:[tools,overview]
 
 *Applications*
 
-The CIF toolset consists of applications that cover a wide range of
-functionality. The available applications are listed below, categorized by the
-different phases of the development process.
+The CIF toolset consists of applications that cover a wide range of functionality.
+The available applications are listed below, categorized by the different phases of the development process.
 
 _Specification_
 
@@ -62,9 +61,9 @@ indexterm:[tools,scripting]
 
 *Scripting*
 
-The CIF tools can be used on the command line, as well as in the
-Eclipse IDE. They can also be used in ToolDef scripts. The following additional
-information is available on scripting related to CIF and ToolDef scripts:
+The CIF tools can be used on the command line, as well as in the Eclipse IDE.
+They can also be used in ToolDef scripts.
+The following additional information is available on scripting related to CIF and ToolDef scripts:
 // Removed the previously present link to documentation about 'command line'.
 // Removed the previously present link to documentation about 'Eclipse IDE'.
 // Removed the previously present link to documentation about 'ToolDef'.

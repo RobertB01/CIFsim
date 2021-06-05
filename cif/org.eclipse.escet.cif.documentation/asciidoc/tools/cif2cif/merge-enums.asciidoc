@@ -18,18 +18,16 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,merge enumerations]
 indexterm:[merge enumerations]
 indexterm:[enumeration,merge]
-This CIF to CIF transformation merges all enumerations together to a single
-enumeration.
+This CIF to CIF transformation merges all enumerations together to a single enumeration.
 
-See also: <<tools-cif2cif-chapter-enums-to-ints>> and 
-<<tools-cif2cif-chapter-enums-to-consts>>.
+See also: <<tools-cif2cif-chapter-enums-to-ints>> and <<tools-cif2cif-chapter-enums-to-consts>>.
 
 indexterm:[merge enumerations,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -37,15 +35,11 @@ indexterm:[merge enumerations,preprocessing]
 
 === Preprocessing
 
-To increase the subset of specifications that can be transformed, apply
-the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order) prior to using this transformation:
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order) prior to using this transformation:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-automatically applied as preprocessing (in the given order), to increase the
-subset of CIF specifications that can be transformed:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are automatically applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
@@ -53,10 +47,11 @@ indexterm:[merge enumerations,implementation]
 
 === Implementation details
 
-If there are any enumerations in the specification, a single new enumeration
-is created. This enumeration is named `E`. All literals of the original
-enumerations are added to this new enumeration. Obviously, duplicate literals
-are only included once. The literals are added in sorted order.
+If there are any enumerations in the specification, a single new enumeration is created.
+This enumeration is named `E`.
+All literals of the original enumerations are added to this new enumeration.
+Obviously, duplicate literals are only included once.
+The literals are added in sorted order.
 
 The original enumerations are removed.
 
@@ -96,17 +91,13 @@ indexterm:[merge enumerations,renaming]
 
 === Renaming
 
-The newly created enumeration `E` and its literals, may conflict with
-declarations already present in the specification. If this is the case, they
-are renamed. For instance, if `E` is already in use, `E2`, or `E3`, etc,
-is used instead. If renaming is performed, a warning is printed to the console.
+The newly created enumeration `E` and its literals, may conflict with declarations already present in the specification.
+If this is the case, they are renamed.
+For instance, if `E` is already in use, `E2`, or `E3`, etc, is used instead.
+If renaming is performed, a warning is printed to the console.
 
-In general, renaming of enumeration literals may influence value equality for
-_compatible_ enumerations (enumerations with the same number of literals, with
-the same names, in the same order). However, since the resulting specification
-has at most one enumeration, there are no multiple enumerations, and thus
-compatibility is not an issue (since the enumeration is always compatible with
-itself).
+In general, renaming of enumeration literals may influence value equality for _compatible_ enumerations (enumerations with the same number of literals, with the same names, in the same order).
+However, since the resulting specification has at most one enumeration, there are no multiple enumerations, and thus compatibility is not an issue (since the enumeration is always compatible with itself).
 
 indexterm:[merge enumerations,default initial values]
 
@@ -156,14 +147,10 @@ automaton p:
 end
 ----
 
-In the original specification, `v1` had value `A`, and `v2` had value
-`B`. After the merging of the enumerations, both `v1` and `v2` have
-implicit initial value `A`. Thus, they had different initial values
-beforehand, and the same initial values afterward. To solve this problem, the
-<<tools-cif2cif-chapter-add-default-init-values>> CIF to CIF transformation is
-automatically applied as preprocessing before the actual elimination of the
-enumerations, to ensure that the explicit initial values are properly
-transformed.
+In the original specification, `v1` had value `A`, and `v2` had value `B`.
+After the merging of the enumerations, both `v1` and `v2` have implicit initial value `A`.
+Thus, they had different initial values beforehand, and the same initial values afterward.
+To solve this problem, the <<tools-cif2cif-chapter-add-default-init-values>> CIF to CIF transformation is automatically applied as preprocessing before the actual elimination of the enumerations, to ensure that the explicit initial values are properly transformed.
 
 indexterm:[merge enumerations,size considerations]
 
@@ -172,8 +159,7 @@ indexterm:[merge enumerations,size considerations]
 Since enumerations are merged, duplicate literals become a single new literal.
 Therefore, this transformation may decrease the size of the specification.
 
-The added default initial values may significantly increase the size of the
-specification.
+The added default initial values may significantly increase the size of the specification.
 
 
 === Optimality
