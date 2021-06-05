@@ -82,7 +82,7 @@ Using this option, the classpath (directory) where the already generated code is
 By specifying it, the simulator knows from where to load it.
 
 Simulations not started from the generated launch configuration, generally don't use this option.
-They load the input specification, validate it, generate fresh code, and compile the code in-memory, or use <<tools-cifsim-repeated-sim-compile-once,compiled code files>>
+They load the input specification, validate it, generate fresh code, and compile the code in-memory, or use <<tools-cifsim-repeated-sim-compile-once,compiled code files>>.
 
 Simulations using the generated code ignore all options related to <<tools-cifsim-chapter-repeated-simulation,repeated simulations>>.
 That is, the _Load debug code_ option takes priority over the _Compile only_ option (_Compiler_ category), and simulating with <<tools-cifsim-repeated-sim-compile-once,compiled code files>>.

@@ -190,7 +190,8 @@ It is forbidden to assign the same variable or selected element more than once:
 ----
 x, x = 3, 3         # Error, assigned 'x' twice.
 xs[0], xs[1] = 0, 1 # Allowed, different selected elements.
-xs[0], xs[x] = 0, 1 # Allowed if x != 0 . ----
+xs[0], xs[x] = 0, 1 # Allowed if x != 0.
+----
 
 indexterm:[iterative,statement]
 indexterm:[statement,iterative]

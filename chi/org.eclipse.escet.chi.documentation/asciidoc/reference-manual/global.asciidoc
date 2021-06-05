@@ -15,7 +15,7 @@ include::_part_attributes.asciidoc[]
 [[ref-chapter-global-definitions]]
 == Global definitions
 
-At global level, a Chi program is a sequence of definitions, as shown in the following diagram
+At global level, a Chi program is a sequence of definitions, as shown in the following diagram.
 
 image::{ref-imgsdir}/rail_diagrams/program.png[]
 
@@ -142,7 +142,7 @@ indexterm:[proc]
 
 A process is an entity that shows behavior over time.
 A process definition is a template for such a process.
-It is defined as follows
+It is defined as follows.
 
 image::{ref-imgsdir}/rail_diagrams/procdef.png[]
 
@@ -186,7 +186,7 @@ As such, a model can only take data values which you can write down as literal v
 For example, giving it a channel or a process instance is not allowed.
 
 Like the process, a model also has a definition.
-It is defined below
+It is defined below.
 
 image::{ref-imgsdir}/rail_diagrams/modeldef.png[]
 
@@ -242,7 +242,7 @@ indexterm:[xper]
 === Experiment definitions
 
 An experiment can execute one or more model simulations, collect their exit values, and combine them into a experiment result.
-Its syntax is shown below
+Its syntax is shown below.
 
 image::{ref-imgsdir}/rail_diagrams/xperdef.png[]
 
@@ -296,7 +296,7 @@ Note that the called model (or one of its started processes) *must* end with the
 === Formal parameters
 
 Definitions above often take values as parameter to allow customizing their behavior during execution.
-The definition of those parameters are called _formal parameters_, The syntax of formal parameters is shown below
+The definition of those parameters are called _formal parameters_, The syntax of formal parameters is shown below.
 
 image::{ref-imgsdir}/rail_diagrams/formalparms.png[]
 

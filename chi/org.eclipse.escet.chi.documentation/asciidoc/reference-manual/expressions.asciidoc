@@ -799,7 +799,7 @@ ys = xs[::2];  # == xs[0:3:2], assigns [4, 18]
 ys = xs[::-1]; # == xs[2:-1:-1], assigns [18, 7, 4]
 ----
 
-With the latter example, not that the `-1` end value in `xs[2:-1:-1]` really means index `-1`, it is *not* rewritten!!
+With the latter example, not that the `-1` end value in `xs[2:-1:-1]` really means index `-1`, it is *not* rewritten!
 
 The *concatenation* operator `pass:c[+]` 'glues' two lists together by constructing a new list, copying the value of the *lhs* list, and appending the values of the *rhs*:
 
@@ -968,7 +968,7 @@ indexterm:[expression,dictionary]
 [[ref-dictionary-expression]]
 === Dictionary expressions
 
-Literal dictionaries are written using the syntax shown below
+Literal dictionaries are written using the syntax shown below.
 
 image::{ref-imgsdir}/rail_diagrams/literal_dictionary.png[]
 
@@ -1309,7 +1309,7 @@ See <<tut-chapter-stochastic-behavior>> for a discussion how random numbers are 
 
 Variables of type distribution (see <<ref-distribution-type>>) are initialized by using a distribution function from the standard library, see <<ref-chapter-distributions>> for an overview.
 
-There is only one operator for variables with a distribution type, as shown below
+There is only one operator for variables with a distribution type, as shown below.
 
 [cols=4*,options="header"]
 |===
@@ -1358,7 +1358,8 @@ indexterm:[expression,process]
 
 A process expression refers to a process definition.
 It can be used to parameterize the process that is being instantiated, by passing such a value to a `run` or `start` statement.
-(See <<ref-run-and-start-statements>> for details on how to create a new process.) An example:
+(See <<ref-run-and-start-statements>> for details on how to create a new process.)
+An example:
 
 [source, chi]
 ----

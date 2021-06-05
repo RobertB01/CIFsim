@@ -273,5 +273,4 @@ See also:: Weibull(a, b), <<law-ref>>, page 284
 
 - [[[banks-ref]]] Handbook of Simulation, Principles, Methodology, Advances, Applications, and Practice, editor Jerry Banks, publisher John Wiley & Sons, inc, 1998
 
-- [[[law-ref]]] Simulation Modeling & Analysis, fourth edition, by Averill M.
-Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
+- [[[law-ref]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6

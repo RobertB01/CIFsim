@@ -157,7 +157,9 @@ The result of the unary `not`, the binary `and` and `or` operators, for two vari
 |
 |`true`
 |`true`
-|=== If `p = true` and `q = false`, we find for `p or q` the value `true` (third line in <<tut-table-truthtable>>).
+|===
+
+If `p = true` and `q = false`, we find for `p or q` the value `true` (third line in <<tut-table-truthtable>>).
 
 indexterm:[enum]
 indexterm:[enumeration,type]
