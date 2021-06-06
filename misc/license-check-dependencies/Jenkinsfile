@@ -35,7 +35,6 @@ pipeline {
                 sh '''
                     java -version
                     mvn -version
-                    printenv
 
                     ./misc/license-check-dependencies/license-check-dependencies.sh
                 '''
@@ -43,9 +42,25 @@ pipeline {
 
             post {
                 always {
-                    archiveArtifacts artifacts: 'DEPENDENCIES*.txt', allowEmptyArchive: true
+                    archiveArtifacts 'DEPENDENCIES*.txt'
                 }
             }
+        }
+    }
+
+    post {
+        // Send an e-mail on unsuccessful builds (unstable, failure, aborted).
+        unsuccessful {
+            emailext subject: 'Dependencies license check $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!',
+            body: '''Check console output at $BUILD_URL to view the results.''',
+            to: 'escet-dev@eclipse.org'
+        }
+
+        // Send an e-mail on fixed builds (back to normal).
+        fixed {
+            emailext subject: 'Dependencies license check $BUILD_STATUS $PROJECT_NAME #$BUILD_NUMBER!',
+            body: '''Check console output at $BUILD_URL to view the results.''',
+            to: 'escet-dev@eclipse.org'
         }
     }
 }
