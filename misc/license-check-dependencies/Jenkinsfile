@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+pipeline {
+    tools {
+        jdk 'openjdk-jdk11-latest'
+        maven 'apache-maven-3.6.3'
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+        timeout(time: 10, unit: 'MINUTES')
+        timestamps()
+    }
+
+    stages {
+        stage('Check') {
+            steps {
+                sh '''
+                    java -version
+                    mvn -version
+                    printenv
+
+                    ./misc/license-check-dependencies/license-check-dependencies.sh
+                '''
+            }
+
+            post {
+                archiveArtifacts artifacts: 'DEPENDENCIES*.txt', allowEmptyArchive: true
+            }
+        }
+    }
+}
