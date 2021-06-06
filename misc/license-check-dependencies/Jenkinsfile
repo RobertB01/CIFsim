@@ -12,6 +12,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 pipeline {
+    triggers {
+        cron('H H * * *')
+    }
+
+    agent any
+
     tools {
         jdk 'openjdk-jdk11-latest'
         maven 'apache-maven-3.6.3'
