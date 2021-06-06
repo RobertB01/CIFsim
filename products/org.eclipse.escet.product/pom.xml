@@ -66,6 +66,13 @@
                             <!-- But available, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=357503 -->
                             <!-- The 'os', 'ws' and 'arch' values are automatically added, as is the file extension. -->
                             <archiveFileName>eclipse-escet-incubation-ide-${qualifiedVersion}</archiveFileName>
+
+                            <!-- Add root folder, to prevent issues when extracting to current folder. -->
+                            <rootFolders>
+                                <linux>eclipse-escet-${releaseVersion}</linux>
+                                <macosx>EclipseESCET-${releaseVersion}.app</macosx>
+                                <win32>eclipse-escet-${releaseVersion}</win32>
+                            </rootFolders>
                         </product>
                     </products>
 
