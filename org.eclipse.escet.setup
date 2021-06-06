@@ -394,6 +394,8 @@
       <requirement
           name="org.eclipse.emf.validation"/>
       <requirement
+          name="org.eclipse.epp.mpc.feature.group"/>
+      <requirement
           name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
       <requirement
           name="org.eclipse.sdk.feature.group"/>
