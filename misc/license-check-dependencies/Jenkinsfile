@@ -36,7 +36,9 @@ pipeline {
             }
 
             post {
-                archiveArtifacts artifacts: 'DEPENDENCIES*.txt', allowEmptyArchive: true
+                always {
+                    archiveArtifacts artifacts: 'DEPENDENCIES*.txt', allowEmptyArchive: true
+                }
             }
         }
     }
