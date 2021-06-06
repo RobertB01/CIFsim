@@ -76,6 +76,7 @@ To upgrade to a new Java version:
 ** Update Java `source` and `target` versions in `RuntimeJavaCompiler` class.
 ** Update Java version for `executionEnvironment` in `org.eclipse.escet.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
+** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
 
 * For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
 ** Update the JustJ version in the Oomph setup (`eclipse.justj.version.*` variables).
