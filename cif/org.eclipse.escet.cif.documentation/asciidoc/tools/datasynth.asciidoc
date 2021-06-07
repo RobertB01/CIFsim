@@ -175,9 +175,8 @@ This includes the `tau` event, both explicitly used on edges, as well as implici
 That is, requirements that send or receive (with or without data) are not supported.
 
 * Kindless/regular invariants and supervisor invariants are not supported.
-For state invariants, only requirement invariants are supported. For
-state/event exclusion invariants, both plant and requirement invariants are
-supported.
+For state invariants, only requirement invariants are supported.
+For state/event exclusion invariants, both plant and requirement invariants are supported.
 
 * Continuous variables are not supported.
 
@@ -595,8 +594,7 @@ The following simplifications are available:
 | `guards-se-excl-plant-invs`
 | yes
 | Supervisor guards of controllable events
-| State/event exclusion plant invariants from the input
-specification, for the matching events
+| State/event exclusion plant invariants from the input specification, for the matching events
 
 | `guards-se-excl-req-invs`
 | yes
