@@ -17,39 +17,34 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF code generator,Java]
 indexterm:[Java,code generation]
-The <<tools-codegen-chapter-index>> can generate Java code from a CIF
-specification. It is assumed the reader of this page is familiar with the
-general information of the CIF code generator tool. This page describes
-specific information applicable only to Java code generation.
+The <<tools-codegen-chapter-index>> can generate Java code from a CIF specification.
+It is assumed the reader of this page is familiar with the general information of the CIF code generator tool.
+This page describes specific information applicable only to Java code generation.
 
 === Supported specifications
 
-The CIF code generator supports a subset of CIF specifications. Generation
-of Java code does not impose additional restrictions. See the
-<<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>>
-page for more information.
+The CIF code generator supports a subset of CIF specifications.
+Generation of Java code does not impose additional restrictions.
+See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
 
 
 === Options
 
-Besides the <<tools-codegen-options,common options>> that apply to all
-target languages/platforms of the <<tools-codegen-chapter-index>>, the Java code
-generation can be influenced by the following additional options:
+Besides the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>, the Java code generation can be influenced by the following additional options:
 
-* _Java package_: The Java package in which to generate Java code. If not
-specified, the code prefix is used. The specified package should be a valid
-Java package name, and must not be empty.
+* _Java package_: The Java package in which to generate Java code.
+If not specified, the code prefix is used.
+The specified package should be a valid Java package name, and must not be empty.
 
-The code prefix that can be configured using a common option, is used in the
-generated Java code as prefix for class names.
+The code prefix that can be configured using a common option, is used in the generated Java code as prefix for class names.
 
 
 === Compilation
 
 The generated Java code can be compiled with a Java 7 compiler or newer.
 
-The generated code is complete, and can be used as is, without any CIF related
-library or runtime. No additional dependencies or libraries are required.
+The generated code is complete, and can be used as is, without any CIF related library or runtime.
+No additional dependencies or libraries are required.
 Only the standard Java libraries, part of any Java installation, are needed.
 
 
@@ -61,15 +56,11 @@ Java code generation leads to two Java files being generated:
 
 * `<prefix>Test.java`
 
-where `<prefix>` is replaced by the code prefix configured using the
-_Code prefix_ option.
+where `<prefix>` is replaced by the code prefix configured using the _Code prefix_ option.
 
-The first file contains the code for all the features of the CIF model in an
-abstract class named `<prefix>`. The second file contains a class named
-`<prefix>Test`, which inherits from the `<prefix>` class, and implements
-various abstract methods. This test class can be used to test the code, and
-can serve as a starting point for actually implementing the coupling between
-the code generated for the CIF model, and the environment in which it runs.
+The first file contains the code for all the features of the CIF model in an abstract class named `<prefix>`.
+The second file contains a class named `<prefix>Test`, which inherits from the `<prefix>` class, and implements various abstract methods.
+This test class can be used to test the code, and can serve as a starting point for actually implementing the coupling between the code generated for the CIF model, and the environment in which it runs.
 
 
 === Executing the code
@@ -83,15 +74,15 @@ The code can be executed in multiple ways:
 public void execOnce(double newTime)
 ----
 +
-Invoke this method to execute the code once. Inputs are read, transitions are
-executed until none are possible, output is written, etc.
+Invoke this method to execute the code once.
+Inputs are read, transitions are executed until none are possible, output is written, etc.
 +
-The `newTime` is the time in seconds, since the start of the first
-execution of this method. For each invocation, the time that has elapsed
-so far should be provided. This becomes the new value of variable `time`.
+The `newTime` is the time in seconds, since the start of the first execution of this method.
+For each invocation, the time that has elapsed so far should be provided.
+This becomes the new value of variable `time`.
 +
-Using this method, you decide when you invoke this method, and with what
-values to use for variable `time`. This approach allows full control.
+Using this method, you decide when you invoke this method, and with what values to use for variable `time`.
+This approach allows full control.
 
 * `exec` method
 +
@@ -103,25 +94,20 @@ public void exec(long frequency)
 Invoke this method to execute the code repeatedly, without ever stopping.
 This repeatedly invokes the `execOnce` method.
 +
-The `frequency` can be used to configure how often, in number of times per
-second, the code should be executed. By given a frequency of `100`, the
-method attempts to execute the code every 10 milliseconds. If a single
-execution takes less than 10 milliseconds, the method will sleep for the
-remainder of what is left of the 10 milliseconds. However, if a single
-execution takes more than 10 milliseconds, the next execution is immediately
-started.
+The `frequency` can be used to configure how often, in number of times per second, the code should be executed.
+By given a frequency of `100`, the method attempts to execute the code every 10 milliseconds.
+If a single execution takes less than 10 milliseconds, the method will sleep for the remainder of what is left of the 10 milliseconds.
+However, if a single execution takes more than 10 milliseconds, the next execution is immediately started.
 +
-It is also possible to execute the code repeatedly, as fast as possible,
-without any delays. As soon as a single execution has finished, another
-execution is started. This kind of behavior can be obtained by providing a
-negative or zero value for `frequency`.
+It is also possible to execute the code repeatedly, as fast as possible, without any delays.
+As soon as a single execution has finished, another execution is started.
+This kind of behavior can be obtained by providing a negative or zero value for `frequency`.
 
 === Environment interface
 
 The code generated for the CIF model does not do anything useful by itself.
 Only once it is coupled to the environment, can the CIF model become useful.
-The following methods are provided in the interface of the generated class as
-abstract methods, and need to be implemented in a derived class:
+The following methods are provided in the interface of the generated class as abstract methods, and need to be implemented in a derived class:
 
 * `updateInputs` method
 +
@@ -130,18 +116,15 @@ abstract methods, and need to be implemented in a derived class:
 protected void updateInputs()
 ----
 +
-In this method, you should update the values of the input variables of the
-CIF model. Note that you should obtain these from the environment. You should
-not access the state of the CIF model from this method, as it may not be
-initialized or up-to-date yet.
+In this method, you should update the values of the input variables of the CIF model.
+Note that you should obtain these from the environment.
+You should not access the state of the CIF model from this method, as it may not be initialized or up-to-date yet.
 +
-An example of how to update the input variables, can be found in the
-generated `<prefix>Test` class. There, each input variable is assigned the
-default value for its data type.
+An example of how to update the input variables, can be found in the generated `<prefix>Test` class.
+There, each input variable is assigned the default value for its data type.
 +
-If you want to update the variable, you should always assign completely new
-fresh values. Don't modify arrays and tuples in-place, as that may lead to
-other variables being changed as well.
+If you want to update the variable, you should always assign completely new fresh values.
+Don't modify arrays and tuples in-place, as that may lead to other variables being changed as well.
 
 * `preExec` method
 +
@@ -150,12 +133,10 @@ other variables being changed as well.
 protected void preExec()
 ----
 +
-This method is invoked each time, just before the code for the CIF model is
-executed. This method is invoked before the `updateInputs` method is
-invoked.
+This method is invoked each time, just before the code for the CIF model is executed.
+This method is invoked before the `updateInputs` method is invoked.
 +
-You should not access the state of the CIF model from this method, as it may
-not be initialized or up-to-date yet.
+You should not access the state of the CIF model from this method, as it may not be initialized or up-to-date yet.
 
 * `postExec` method
 +
@@ -164,18 +145,13 @@ not be initialized or up-to-date yet.
 protected void postExec()
 ----
 +
-This method is invoked each time, just after the code for the CIF model is
-executed.
-In this method, you should write the output variables of the CIF model to
-the environment. Since the code for the CIF model was just executed, these
-variables may have new values.
+This method is invoked each time, just after the code for the CIF model is executed.
+In this method, you should write the output variables of the CIF model to the environment.
+Since the code for the CIF model was just executed, these variables may have new values.
 +
-All discrete and continuous variables of the CIF model are available, as are
-variable `time` and the current locations of all of the automata of the
-CIF model.
+All discrete and continuous variables of the CIF model are available, as are variable `time` and the current locations of all of the automata of the CIF model.
 +
-The code to write the output values to the environment is the dual to reading
-the inputs from the environment, as is done in the `updateInputs` method.
+The code to write the output values to the environment is the dual to reading the inputs from the environment, as is done in the `updateInputs` method.
 
 * `infoExec` method
 +
@@ -184,20 +160,15 @@ the inputs from the environment, as is done in the `updateInputs` method.
 protected void infoExec(long duration, long cycleTime)
 ----
 +
-This method informs about the duration of a single execution of the code
-generated for the CIF model.
+This method informs about the duration of a single execution of the code generated for the CIF model.
 The `duration` is the total number of nanoseconds spent executing the code.
-The `cycleTime` is the desired maximum duration of the execution, in
-nanoseconds, or `-1` if not available.
+The `cycleTime` is the desired maximum duration of the execution, in nanoseconds, or `-1` if not available.
 +
-You can use this method to detect when the code runs longer than the desired
-maximum duration, and thus the desired execution frequency can not be
-achieved. You can also use this method to figure out the variability of the
-duration of execution.
+You can use this method to detect when the code runs longer than the desired maximum duration, and thus the desired execution frequency can not be achieved.
+You can also use this method to figure out the variability of the duration of execution.
 +
-The `doInfoExec` field of the class can be used to configure whether this
-method is invoked during execution by the `exec` method. This is enabled
-(`true`) by default.
+The `doInfoExec` field of the class can be used to configure whether this method is invoked during execution by the `exec` method.
+This is enabled (`true`) by default.
 
 * `infoEvent` method
 +
@@ -206,18 +177,16 @@ method is invoked during execution by the `exec` method. This is enabled
 protected void infoEvent(int idx, boolean pre)
 ----
 +
-This method informs about events that are about to be executed or have just
-been executed.
-The `idx` is the 0-based index of the event. You can feed this index to the
-`getEventName` method to obtain the absolute name of the event. The `pre`
-is `true` if the event is about to be executed, and `false` if the event
-has just been executed.
+This method informs about events that are about to be executed or have just been executed.
+The `idx` is the 0-based index of the event.
+You can feed this index to the `getEventName` method to obtain the absolute name of the event.
+The `pre` is `true` if the event is about to be executed, and `false` if the event has just been executed.
 +
-You can use this method to be informed about what the code does during
-execution. You could for instance log that for debugging.
+You can use this method to be informed about what the code does during execution.
+You could for instance log that for debugging.
 +
-The `doInfoEvent` field of the class can be used to configure whether this
-method is invoked during execution. This is disabled (`false`) by default.
+The `doInfoEvent` field of the class can be used to configure whether this method is invoked during execution.
+This is disabled (`false`) by default.
 
 * `infoPrintOutput` method
 +
@@ -226,51 +195,40 @@ method is invoked during execution. This is disabled (`false`) by default.
 protected void infoPrintOutput(String text, String target)
 ----
 +
-This method informs that new print output has been generated during
-execution.
-The `text` is the text that is to be printed. The `target` indicates the
-file or special target to which text is to be printed. If printed to a file,
-an absolute or relative local file system path is given. Paths may contain
-both `/` and `\` as path separators. Supply the path to the
-`<prefix>Utils.normalizePrintTarget` method to normalize the path to use
-path separators for the current platform on which the Java code is executed.
+This method informs that new print output has been generated during execution.
+The `text` is the text that is to be printed.
+The `target` indicates the file or special target to which text is to be printed.
+If printed to a file, an absolute or relative local file system path is given.
+Paths may contain both `/` and `\` as path separators.
+Supply the path to the `<prefix>Utils.normalizePrintTarget` method to normalize the path to use path separators for the current platform on which the Java code is executed.
 +
-There are two special targets: `:stdout` to print to the standard output
-stream, and `:stderr` to print to the standard error stream.
+There are two special targets: `:stdout` to print to the standard output stream, and `:stderr` to print to the standard error stream.
 +
-You should use this method to actually print the text to standard output,
-standard error, or files. An example of how to do this, can be found in the
-generated `<prefix>Test` class.
+You should use this method to actually print the text to standard output, standard error, or files.
+An example of how to do this, can be found in the generated `<prefix>Test` class.
 +
-The `doInfoPrintOutput` field of the class can be used to configure whether
-this method is invoked during execution. This is enabled (`true`) by default.
+The `doInfoPrintOutput` field of the class can be used to configure whether this method is invoked during execution.
+This is enabled (`true`) by default.
 
 === Data access and manipulation
 
-For each CIF constant, a field is generated in the Java class. Similar fields
-are generated for the state variables (discrete and continuous variables), and
-the input variables. A `time` field is always present and contains the
-current model time.
+For each CIF constant, a field is generated in the Java class.
+Similar fields are generated for the state variables (discrete and continuous variables), and the input variables.
+A `time` field is always present and contains the current model time.
 
-For each internal user-defined function of the CIF model, a method is generated
-in the Java class. Similarly, a method is generated for each algebraic variable
-of the CIF model, as well as for the derivative of each continuous variable
-(except variable `time`).
+For each internal user-defined function of the CIF model, a method is generated in the Java class.
+Similarly, a method is generated for each algebraic variable of the CIF model, as well as for the derivative of each continuous variable (except variable `time`).
 
-The standard library functions and operators that are supported by the code
-generation, are also available, in the `<prefix>Utils` inner class. Not all
-operators and standard library functions are available. Only those that have
-no corresponding Java operator or method, or behave differently with respect to
-runtime errors, are available in this inner class.
+The standard library functions and operators that are supported by the code generation, are also available, in the `<prefix>Utils` inner class.
+Not all operators and standard library functions are available.
+Only those that have no corresponding Java operator or method, or behave differently with respect to runtime errors, are available in this inner class.
 
-For more information on the names of the generated field and methods, see the
-section on <<tools-codegen-java-naming,naming>> below.
+For more information on the names of the generated field and methods, see the section on <<tools-codegen-java-naming,naming>> below.
 
 [[tools-codegen-java-datatypes]]
 === Data types
 
-The following table lists CIF types supported by the code generator, and their
-equivalent in the generated Java code:
+The following table lists CIF types supported by the code generator, and their equivalent in the generated Java code:
 
 [cols="1,2,2",options="header"]
 |===
@@ -304,61 +262,48 @@ equivalent in the generated Java code:
 
 | `+tuple(...)+`
 | `+CifTuple_T...+` inner class
-| `TnFFF`, with `n` the number of fields, and `FFF` a postfix for
-the type of each field.
+| `TnFFF`, with `n` the number of fields, and `FFF` a postfix for the type of each field.
 |===
 
 Notes:
 
-* For each unique tuple type (ignoring integer and array ranges
-of the types of the fields, as well as field names) an inner
-Java class is generated. Their names all start with
-`+CifTuple_+`, and end in a postfix that describes the type.
-The _Tuple postfix_ column in the table lists the texts used for each
-type in the postfix. For instance, for a
-`tuple(tuple(int x; real y; string z) a, list[3] int b)`
-type, the tuple class would be named `CifTuple_T2T3IRSLI`.
+* For each unique tuple type (ignoring integer and array ranges of the types of the fields, as well as field names) an inner Java class is generated.
+Their names all start with `+CifTuple_+`, and end in a postfix that describes the type.
+The _Tuple postfix_ column in the table lists the texts used for each type in the postfix.
+For instance, for a `tuple(tuple(int x; real y; string z) a, list[3] int b)` type, the tuple class would be named `CifTuple_T2T3IRSLI`.
 
-* For `boolean`, `int`, and `double`, the primitive type is preferred. It's boxed
-variant is used when needed, for instance for element types of a
-`+java.util.List<...>+` class.
+* For `boolean`, `int`, and `double`, the primitive type is preferred.
+It's boxed variant is used when needed, for instance for element types of a `+java.util.List<...>+` class.
 
 * Generic lists are not supported, only CIF arrays can be used.
 
-* As linearization is applied on the CIF model prior to generating Java code,
-all enumerations are merged together to a single enumeration. As such, always
-exactly one Java `enum` is generated for a CIF model.
+* As linearization is applied on the CIF model prior to generating Java code, all enumerations are merged together to a single enumeration.
+As such, always exactly one Java `enum` is generated for a CIF model.
 
 === Runtime errors
 
-Some CIF models that are syntactically valid, may lead to runtime errors when
-simulated or executed. For instance, there may be a division by zero, an out
-of bounds projection, or an assignment may lead to the range of the assigned
-variable being violated. The generated Java code detects all such problems and
-throws a `<prefix>Exception` in such cases. This exception class is an inner
-class of the `<prefix>` class. The exception indicates what caused the
-runtime error, using an informative end-user readable message.
+Some CIF models that are syntactically valid, may lead to runtime errors when simulated or executed.
+For instance, there may be a division by zero, an out of bounds projection, or an assignment may lead to the range of the assigned variable being violated.
+The generated Java code detects all such problems and throws a `<prefix>Exception` in such cases.
+This exception class is an inner class of the `<prefix>` class.
+The exception indicates what caused the runtime error, using an informative end-user readable message.
 
 [[tools-codegen-java-naming]]
 === Naming
 
-The generated code will contain names for variables, functions, etc. The names
-in the generated code are based on the absolute names of the objects in the
-original CIF model. The names are further influenced by the
-<<tools-cif2cif-chapter-linearize-merge,linearization>> algorithm. Essentially,
-the absolute names are used, where each `.` is replaced by a `+_+`.
-Furthermore, a `+_+` is added at the end, to avoid conflicts with other
-non-generated names, Java keywords, etc. For instance, for an automaton `a`
-with a discrete variable `b` in it, the absolute name is `a.b`. In the
-Java code, the variable will be named `+a_b_+`.
+The generated code will contain names for variables, functions, etc.
+The names in the generated code are based on the absolute names of the objects in the original CIF model.
+The names are further influenced by the <<tools-cif2cif-chapter-linearize-merge,linearization>> algorithm.
+Essentially, the absolute names are used, where each `.` is replaced by a `+_+`.
+Furthermore, a `+_+` is added at the end, to avoid conflicts with other non-generated names, Java keywords, etc.
+For instance, for an automaton `a` with a discrete variable `b` in it, the absolute name is `a.b`.
+In the Java code, the variable will be named `+a_b_+`.
 
-The code generator ensures unique names in the generated Java code. If the
-same Java name results from two different CIF objects, one of them is renamed,
-by adding a `2`, or `3`, or `4`, etc to make it unique. For instance,
-if the CIF model has a constant named `a_b` in the top level scope, and a
-constant named `b` in the `a` automaton, both would be named `+a_b_+`. One
-of them is renamed to `a_b_2`. If such renaming takes place, a warning is
-printed to the console.
+The code generator ensures unique names in the generated Java code.
+If the same Java name results from two different CIF objects, one of them is renamed, by adding a `2`, or `3`, or `4`, etc to make it unique.
+For instance, if the CIF model has a constant named `a_b` in the top level scope, and a constant named `b` in the `a` automaton, both would be named `+a_b_+`.
+One of them is renamed to `a_b_2`.
+If such renaming takes place, a warning is printed to the console.
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -430,9 +375,7 @@ printed to the console.
 
 Notes:
 
-* As linearization is applied on the CIF model prior to generating Java code,
-all enumerations are merged together to a single enumeration. As such, always
-exactly one Java `enum` is generated for a CIF model.
+* As linearization is applied on the CIF model prior to generating Java code, all enumerations are merged together to a single enumeration.
+As such, always exactly one Java `enum` is generated for a CIF model.
 
-* For details on tuple types and the classes that are generated for them,
-see the <<tools-codegen-java-datatypes,data types>> section above.
+* For details on tuple types and the classes that are generated for them, see the <<tools-codegen-java-datatypes,data types>> section above.

@@ -19,8 +19,7 @@ SeText supports the following comments:
 
 * Everything after `//` until the end of the line is a comment.
 
-* Everything from `+/*+` up to the next `+*/+`, possibly spanning multiple
-lines, is a comment.
+* Everything from `+/*+` up to the next `+*/+`, possibly spanning multiple lines, is a comment.
 
 SeText keywords may be used by escaping them with a `$` character.
 

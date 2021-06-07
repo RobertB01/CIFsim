@@ -22,10 +22,10 @@ indexterm:[deadlock]
 [[lang-tut-time-deadlock]]
 === Deadlock
 
-If no event transitions are possible, and also no time transitions are possible
-(time may not progress), then no transitions are possible. This is called
-_deadlock_. No behavior is possible, or will ever become possible. As an
-example, consider the following CIF specification:
+If no event transitions are possible, and also no time transitions are possible (time may not progress), then no transitions are possible.
+This is called _deadlock_.
+No behavior is possible, or will ever become possible.
+As an example, consider the following CIF specification:
 
 
 [source, cif]
@@ -40,19 +40,20 @@ automaton use_case:
 end
 ----
 
-Location `wait3` is the initial location. Initially, `time` is zero. Time
-can not progress, as the location is <<lang-tut-time-urgloc,urgent>>.
-Since the guard of the edge also does not hold, event `tau` is also not
-possible. No transitions are possible, and the specification is in deadlock.
+Location `wait3` is the initial location.
+Initially, `time` is zero.
+Time can not progress, as the location is <<lang-tut-time-urgloc,urgent>>.
+Since the guard of the edge also does not hold, event `tau` is also not possible.
+No transitions are possible, and the specification is in deadlock.
 
 indexterm:[livelock]
 
 [[lang-tut-time-livelock]]
 === Livelock
 
-As long as an event is possible, no time may pass. If by mistake always an
-event is possible, this prevents all passage of time. Consider the following
-CIF specification:
+As long as an event is possible, no time may pass.
+If by mistake always an event is possible, this prevents all passage of time.
+Consider the following CIF specification:
 
 
 [source, cif]
@@ -72,14 +73,12 @@ automaton car:
 end
 ----
 
-This specification models a `car` that can `increase` and `decrease` its
-speed, so that it is at least `0` and at most `100`. It keeps track of its
-position (continuous variable `pos`) that increases more quickly as the speed
-increases. When position `850` is reached, the car has `arrived` and is
-`done`.
+This specification models a `car` that can `increase` and `decrease` its speed, so that it is at least `0` and at most `100`.
+It keeps track of its position (continuous variable `pos`) that increases more quickly as the speed increases.
+When position `850` is reached, the car has `arrived` and is `done`.
 
-The car will be increasing and decreasing it speed, using the `increase` and
-`decrease` events. As always at least one of them is enabled at any moment,
-time can never progress, and `pos` remains zero. This effect is called
-_livelock_. While behavior is still possible, the model does not truly progress
-with useful behavior. The model gets 'stuck' repeating one or a few events.
+The car will be increasing and decreasing it speed, using the `increase` and `decrease` events.
+As always at least one of them is enabled at any moment, time can never progress, and `pos` remains zero.
+This effect is called _livelock_.
+While behavior is still possible, the model does not truly progress with useful behavior.
+The model gets 'stuck' repeating one or a few events.

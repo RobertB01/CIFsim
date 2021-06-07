@@ -16,36 +16,27 @@ include::../_part_attributes.asciidoc[]
 == Supported specifications
 
 indexterm:[CIF simulator,supported specifications]
-The CIF simulator supports a subset of CIF specifications. The following
-restrictions apply:
+The CIF simulator supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Input variables are currently not supported.
 
-* Time dependent <<tut-data-chapter-stat-invariants,state invariants>> are
-not supported. This applies only to state invariants.
+* Time dependent <<tut-data-chapter-stat-invariants,state invariants>> are not supported.
+This applies only to state invariants.
 <<tut-data-chapter-stat-evt-excl-invariants,State/event exclusion invariants>> are supported.
 
-Specifications with component definitions/instantiations are not natively
-supported by the CIF simulator. Therefore, they are automatically eliminated
-by the simulator, as a preprocessing step, using the CIF to CIF transformation
-to <<tools-cif2cif-chapter-elim-comp-def-inst,eliminate component definition/instantiation>>.
+Specifications with component definitions/instantiations are not natively supported by the CIF simulator.
+Therefore, they are automatically eliminated by the simulator, as a preprocessing step, using the CIF to CIF transformation to <<tools-cif2cif-chapter-elim-comp-def-inst,eliminate component definition/instantiation>>.
 
-Automata with multiple possible initial locations and discrete variables with
-multiple possible initial values (including `any`) are not supported, unless
-additional <<tools-cifsim-chapter-init,initialization>> is provided.
+Automata with multiple possible initial locations and discrete variables with multiple possible initial values (including `any`) are not supported, unless additional <<tools-cifsim-chapter-init,initialization>> is provided.
 
-The controllability of events is ignored by the simulator, as are marker
-predicates.
+The controllability of events is ignored by the simulator, as are marker predicates.
 
-All automata are simulated as plants. That is, all automaton kinds are ignored
-by the simulator. However, simulating requirements as plants may lead to
-unexpected results. Therefore, the simulator prints warnings to the console,
-whenever requirements are simulated. It is highly recommended to first apply
-<<tools-eventbased-chapter-supervisorsynthesis,supervisor synthesis>> to the
-specification, and simulate the resulting specification using the simulator.
-Alternatively, apply verification to the specification,
-<<tools-cif2cif-chapter-remove-reqs,remove>> the verified requirements, and
-simulate the resulting specification using the simulator.
+All automata are simulated as plants.
+That is, all automaton kinds are ignored by the simulator.
+However, simulating requirements as plants may lead to unexpected results.
+Therefore, the simulator prints warnings to the console, whenever requirements are simulated.
+It is highly recommended to first apply <<tools-eventbased-chapter-supervisorsynthesis,supervisor synthesis>> to the specification, and simulate the resulting specification using the simulator.
+Alternatively, apply verification to the specification, <<tools-cif2cif-chapter-remove-reqs,remove>> the verified requirements, and simulate the resulting specification using the simulator.
 
-Similar to requirement automata, the simulator warns about simulation of
-requirement invariants.
+Similar to requirement automata, the simulator warns about simulation of requirement invariants.

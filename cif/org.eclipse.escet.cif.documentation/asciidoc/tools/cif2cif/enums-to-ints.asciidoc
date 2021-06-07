@@ -20,15 +20,14 @@ indexterm:[enumerations to integers]
 indexterm:[enumeration,convert to ints]
 This CIF to CIF transformation converts enumerations to integers.
 
-See also: <<tools-cif2cif-chapter-merge-enums>> and
-<<tools-cif2cif-chapter-enums-to-consts>>.
+See also: <<tools-cif2cif-chapter-merge-enums>> and <<tools-cif2cif-chapter-enums-to-consts>>.
 
 indexterm:[enumerations to integers,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -36,9 +35,7 @@ indexterm:[enumerations to integers,preprocessing]
 
 === Preprocessing
 
-To increase the subset of specifications that can be transformed, apply
-the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order) prior to using this transformation:
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order) prior to using this transformation:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -46,14 +43,11 @@ indexterm:[enumerations to integers,implementation]
 
 === Implementation details
 
-Enumerations, which are used as types, are replaced by integer types, with
-range `[0 .. n-1]`, where `n` is the number of literals of the enumeration.
+Enumerations, which are used as types, are replaced by integer types, with range `[0 .. n-1]`, where `n` is the number of literals of the enumeration.
 
 Enumeration literals, which are used as values, are replaced by integer values.
-If the used enumeration literal is the `n`^th^ literal in the corresponding
-enumeration (declaration), then the integer value is `n - 1`. That is, the
-integer value is the 0-based index of the enumeration literal into the literals
-of the enumeration declaration.
+If the used enumeration literal is the `n`^th^ literal in the corresponding enumeration (declaration), then the integer value is `n - 1`.
+That is, the integer value is the 0-based index of the enumeration literal into the literals of the enumeration declaration.
 
 All enumeration declarations are removed.
 
@@ -95,21 +89,16 @@ indexterm:[enumerations to integers,renaming]
 
 This transformation itself does not perform any renaming.
 
-If enumeration literals are renamed, this may influence value equality for
-_compatible_ enumerations (enumerations with the same number of literals,
-with the same names, in the same order). Therefore, either apply this
-transformation before applying other transformations that perform renaming on
-enumeration literals (such as the <<tools-cif2cif-chapter-groups>> CIF to CIF
-transformation), or otherwise ensure that renaming does not result in an
-invalid specification.
+If enumeration literals are renamed, this may influence value equality for _compatible_ enumerations (enumerations with the same number of literals, with the same names, in the same order).
+Therefore, either apply this transformation before applying other transformations that perform renaming on enumeration literals (such as the <<tools-cif2cif-chapter-groups>> CIF to CIF transformation), or otherwise ensure that renaming does not result in an invalid specification.
 
 indexterm:[enumerations to integers,size considerations]
 
 === Size considerations
 
-Integer types and integer values are not larger than enumerations and their
-literals. Therefore, this transformation does not increase the size of the
-specification. In fact, it may even be smaller.
+Integer types and integer values are not larger than enumerations and their literals.
+Therefore, this transformation does not increase the size of the specification.
+In fact, it may even be smaller.
 
 
 === Optimality

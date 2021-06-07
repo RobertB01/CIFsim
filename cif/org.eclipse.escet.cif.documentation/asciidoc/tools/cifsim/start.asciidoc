@@ -18,23 +18,17 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF simulator,start]
 The CIF simulator can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:Simulate CIF specification...[].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:Simulate CIF specification...[].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:Simulate CIF specification...[].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:Simulate CIF specification...[].
 
-* Use the `cifsim` tool in a ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifsim` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifsim` command line tool.
 
-Once you start the simulator, an option dialog will appear, where you can
-configure the simulation <<tools-cifsim-chapter-options,options>>.
+Once you start the simulator, an option dialog will appear, where you can configure the simulation <<tools-cifsim-chapter-options,options>>.
 
-Instead of a CIF model (e.g. a `.cif` file), simulation can also be started
-for a <<tools-cifsim-chapter-repeated-simulation,compiled code file>> (e.g. a
-`.cifcode` file). For compiled code files, an additional option is
-available. The simulator can also be started by double clicking such a file.
+Instead of a CIF model (e.g. a `.cif` file), simulation can also be started for a <<tools-cifsim-chapter-repeated-simulation,compiled code file>> (e.g. a `.cifcode` file).
+For compiled code files, an additional option is available.
+The simulator can also be started by double clicking such a file.

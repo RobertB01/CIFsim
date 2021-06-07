@@ -15,8 +15,7 @@ include::_part_attributes.asciidoc[]
 [[setext-imports]]
 == Imports
 
-Java classes/types can be specified in SeText specifications using their fully
-quantified names, optionally with generic type parameters:
+Java classes/types can be specified in SeText specifications using their fully quantified names, optionally with generic type parameters:
 
 [source, setext]
 ----
@@ -35,11 +34,11 @@ but it is also possible to use imports:
 @import java.util as u;
 ----
 
-The first import imports `java.util.String` as `String`. The second
-imports the same type as `string`. The third import imports the `java.util`
-package as `util`. The fourth import imports that same package as `u`.
-After these imports, the following all refer to the `java.util.String` Java
-type/class:
+The first import imports `java.util.String` as `String`.
+The second imports the same type as `string`.
+The third import imports the `java.util` package as `util`.
+The fourth import imports that same package as `u`.
+After these imports, the following all refer to the `java.util.String` Java type/class:
 
 [source, setext]
 ----
@@ -50,21 +49,16 @@ String
 string
 ----
 
-It is also possible to import generic types, with their type parameters
-instantiated:
+It is also possible to import generic types, with their type parameters instantiated:
 
 [source, setext]
 ----
 @import java.util.List<java.util.String> as stringList
 ----
 
-allowing `stringList` to be used as a short form for
-`java.util.List<java.util.String>`.
+allowing `stringList` to be used as a short form for `java.util.List<java.util.String>`.
 
 Note that it is not possible to use imports to shorten other imports.
 
-Finally, note that Java types where the first part of the identifier (the
-part before any dot) does not refer to an import, are considered absolute.
-This means that any Java type name not containing a dot, and not referring to
-an import, is also considered absolute, and thus refers to a class with that
-name, in the default package.
+Finally, note that Java types where the first part of the identifier (the part before any dot) does not refer to an import, are considered absolute.
+This means that any Java type name not containing a dot, and not referring to an import, is also considered absolute, and thus refers to a class with that name, in the default package.

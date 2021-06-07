@@ -15,65 +15,42 @@ include::_part_attributes.asciidoc[]
 [[tut-chapter-introduction]]
 == Introduction
 
-The topic is modeling of the operation of (manufacturing) systems, e.g.
-semiconductor factories, assembly and packaging lines, car manufacturing
-plants, steel foundries, metal processing shops, beer breweries, health care
-systems, warehouses, order-picking systems.
-For a proper functioning of these systems, these systems are controlled by
-operators and electronic devices, e.g. computers.
+The topic is modeling of the operation of (manufacturing) systems, e.g. semiconductor factories, assembly and packaging lines, car manufacturing plants, steel foundries, metal processing shops, beer breweries, health care systems, warehouses, order-picking systems.
+For a proper functioning of these systems, these systems are controlled by operators and electronic devices, e.g. computers.
 
-During the design process, engineers make use of (analytical) mathematical
-models, e.g. algebra and probability theory, to get answers about the
-operation of the system.
-For complex systems, (numerical) mathematical models are used, and computers
-perform simulation experiments, to analyze the operation of the system.
+During the design process, engineers make use of (analytical) mathematical models, e.g. algebra and probability theory, to get answers about the operation of the system.
+For complex systems, (numerical) mathematical models are used, and computers perform simulation experiments, to analyze the operation of the system.
 Simulation studies give answers to questions like:
 
 * What is the throughput of the system?
 
 * What is the effect of set-up time in a machine?
 
-* How will the batch size of an order influence the flow time of the
-product-items?
+* How will the batch size of an order influence the flow time of the product-items?
 
 * What is the effect of more surgeons in a hospital?
 
 indexterm:[concurrent]
 indexterm:[parallel]
-The operation of a system can be described, e.g. in terms of or operating
-processes.
+The operation of a system can be described, e.g. in terms of or operating processes.
 
-An example of a system with parallel operating processes is a manufacturing
-line, with a number of manufacturing machines, where product-items go from
-machine to machine.
-A surgery room in a hospital is a system where patients are treated by teams
-using medical equipment and sterile materials.
-A biological system can be described by a number of parallel processes, where,
-e.g. processes transform sugars into water and carbon-dioxide producing
-energy.
-In all these examples, processes operate in parallel to complete a task, and
-to achieve a goal.
-Concurrency is the dominant aspect in these type of systems, and as a
-consequence this holds too for their models.
+An example of a system with parallel operating processes is a manufacturing line, with a number of manufacturing machines, where product-items go from machine to machine.
+A surgery room in a hospital is a system where patients are treated by teams using medical equipment and sterile materials.
+A biological system can be described by a number of parallel processes, where, e.g. processes transform sugars into water and carbon-dioxide producing energy.
+In all these examples, processes operate in parallel to complete a task, and to achieve a goal.
+Concurrency is the dominant aspect in these type of systems, and as a consequence this holds too for their models.
 
-The operating behavior of parallel processes can be described by different
-formalisms, e.g. automata, Petri-nets or parallel processes. This text uses
-the programming language Chi, which is an instance of a parallel processes
-formalism.
+The operating behavior of parallel processes can be described by different formalisms, e.g. automata, Petri-nets or parallel processes.
+This text uses the programming language Chi, which is an instance of a parallel processes formalism.
 
-A system is abstracted into a model, with cooperating processes, where
-processes are connected to each other via channels.
+A system is abstracted into a model, with cooperating processes, where processes are connected to each other via channels.
 The channels are used for exchanging material and information.
-Models of the above mentioned examples consist of a number of concurrent
-processes connected by channels, denoting the flow of products, patients or
-personnel.
+Models of the above mentioned examples consist of a number of concurrent processes connected by channels, denoting the flow of products, patients or personnel.
 
 In Chi, communication takes place in a synchronous manner.
-This means that communication between a sending process, and a receiving
-process takes place only when both processes are able to communicate.
+This means that communication between a sending process, and a receiving process takes place only when both processes are able to communicate.
 Processes and channels can dynamically be altered.
-To model times, like inter-arrival times and server processing times, the
-language has a notation of time.
+To model times, like inter-arrival times and server processing times, the language has a notation of time.
 
 The rationale behind the language is that models for the analysis of a system should be
 
@@ -85,65 +62,44 @@ The rationale behind the language is that models for the analysis of a system sh
 
 * and easily extensible (adding more details in one part should not affect other parts).
 
-Verification of the models to investigate the properties of the model should
-be relatively effortless. (A model has to preserve some properties of the real system
-otherwise results from the simulation study have no relation with the system
-being modeled. The language must allow this verification to take place in a
-simple manner.)
+Verification of the models to investigate the properties of the model should be relatively effortless.
+(A model has to preserve some properties of the real system otherwise results from the simulation study have no relation with the system being modeled.
+The language must allow this verification to take place in a simple manner.)
 
-Experiments should be performed in an straightforward manner. (Minimizing the
-effort in doing simulation studies, in particular for large systems, makes the
-language useful.)
+Experiments should be performed in an straightforward manner.
+(Minimizing the effort in doing simulation studies, in particular for large systems, makes the language useful.)
 
-Finally, the used models should be usable for the supervisory (logic) control
-of the systems (simulation studies often provide answers on how to control a
-system in a better way, these answers should also work for the modeled
-system).
+Finally, the used models should be usable for the supervisory (logic) control of the systems (simulation studies often provide answers on how to control a system in a better way, these answers should also work for the modeled system).
 
 === Chi in a nutshell
 
-During the past decades, the ancestors of Chi have been used with success,
-for the analysis of a variety of (industrial) systems.
-Based on this experience, the language Chi has been completely redesigned,
-keeping the strong points of the previous versions, while making it more
-powerful for advanced users, and easier to access for non-experts.
+During the past decades, the ancestors of Chi have been used with success, for the analysis of a variety of (industrial) systems.
+Based on this experience, the language Chi has been completely redesigned, keeping the strong points of the previous versions, while making it more powerful for advanced users, and easier to access for non-experts.
 
 Its features are:
 
-* A system (and its control) is modeled as a collection of parallel running
-processes, communicating with each other using channels.
+* A system (and its control) is modeled as a collection of parallel running processes, communicating with each other using channels.
 
-* Processes do not share data with other processes and channels are
-synchronous (sending and receiving is always done together at the same
-time), making reasoning about process behavior easier.
+* Processes do not share data with other processes and channels are synchronous (sending and receiving is always done together at the same time), making reasoning about process behavior easier.
 
-* Processes and channels are dynamic, new processes can be created as needed,
-and communication channels can be created or rerouted.
+* Processes and channels are dynamic, new processes can be created as needed, and communication channels can be created or rerouted.
 
-* Variables can have elementary values such as _boolean_, _integer_ or _real_
-numbers, to high level structured collections of data like _lists_, _sets_
-and _dictionaries_ to model the data of the system. If desired, processes
-and channels can also be part of that data.
+* Variables can have elementary values such as _boolean_, _integer_ or _real_ numbers, to high level structured collections of data like _lists_, _sets_ and _dictionaries_ to model the data of the system.
+If desired, processes and channels can also be part of that data.
 
-* A small generic set of statements to describe algorithms, assignment, _if_,
-_while_, and _for_ statements. This set is relatively easy to explain to
-non-experts, allowing them to understand the model, and participate in the
-discussions.
+* A small generic set of statements to describe algorithms, assignment, _if_, _while_, and _for_ statements.
+This set is relatively easy to explain to non-experts, allowing them to understand the model, and participate in the discussions.
 
-* Tutorials and manuals demonstrate use of the language for effective modeling
-of system processes. More detailed modeling of the processes, or custom
-tailoring them to the real situation, has no inherent limits.
+* Tutorials and manuals demonstrate use of the language for effective modeling of system processes.
+More detailed modeling of the processes, or custom tailoring them to the real situation, has no inherent limits.
 
-* Time and (quasi-) random number generation distributions are available for
-modeling behavior of the system in time.
+* Time and (quasi-) random number generation distributions are available for modeling behavior of the system in time.
 
-* Likewise, measurements to derive performance indicators of the modeled
-system are integrated in the model. Tutorials and manuals show basic use.
-The integration allows for custom solutions to obtain the needed data in the
-wanted form.
+* Likewise, measurements to derive performance indicators of the modeled system are integrated in the model.
+Tutorials and manuals show basic use.
+The integration allows for custom solutions to obtain the needed data in the wanted form.
 
-* Input and output facilities from and to the file system exists to support
-large simulation experiments.
+* Input and output facilities from and to the file system exists to support large simulation experiments.
 
 
 === Exercises
@@ -161,8 +117,7 @@ model M():
 end
 ----
 
-.. Compile, and simulate the model as explained in the tool manual (in
-<<tool-compile-and-simulate,Compile and simulate>>).
+.. Compile, and simulate the model as explained in the tool manual (in <<tool-compile-and-simulate,Compile and simulate>>).
 
 .. Try to explain the result.
 
@@ -177,7 +132,6 @@ model M(string s):
 end
 ----
 
-.. Simulate the model, where you have to set the _Model instance_ text to
-`M("OOPS")` in the dialog box of the simulator.
+.. Simulate the model, where you have to set the _Model instance_ text to `M("OOPS")` in the dialog box of the simulator.
 
 .. Try to explain the result.

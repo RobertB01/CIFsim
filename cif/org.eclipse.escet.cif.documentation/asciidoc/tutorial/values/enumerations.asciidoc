@@ -21,16 +21,13 @@ indexterm:[enumeration,type]
 indexterm:[value,enumeration]
 indexterm:[enumeration,value]
 indexterm:[enumeration,declaration]
-Enumerations represent collections of related entities, such as types of
-products, types of available resources, available machine types, different
-countries, different colors, different genders, and so on. It is possible to
-use numbers to represent the different entities, for instance `0` for red,
-`1` for orange, and `2` for green, to represent the different colors of
-a traffic light. However, these numbers are rather arbitrary. Furthermore, they
-don't actually represent numbers, but rather they represent one of the entities
-(red, orange, green). Enumerations allow giving each entity a name, and to use
-those names instead of numbers. This usually makes the model easier to read and
-understand. For instance, consider the following:
+Enumerations represent collections of related entities, such as types of products, types of available resources, available machine types, different countries, different colors, different genders, and so on.
+It is possible to use numbers to represent the different entities, for instance `0` for red, `1` for orange, and `2` for green, to represent the different colors of a traffic light.
+However, these numbers are rather arbitrary.
+Furthermore, they don't actually represent numbers, but rather they represent one of the entities (red, orange, green).
+Enumerations allow giving each entity a name, and to use those names instead of numbers.
+This usually makes the model easier to read and understand.
+For instance, consider the following:
 
 
 [source, cif]
@@ -42,10 +39,10 @@ indexterm:[enumeration,literal]
 indexterm:[literal,enumeration]
 
 [[lang-tut-values-enums-lit]]
-The `enum` keyword is used to declare an enumeration. The `TrafficColor`
-enumeration has three possible values or _literals_. The literals are named
-`RED`, `ORANGE`, and `GREEN`. An enumeration can be used as data type,
-and the enumeration literals can be used as values:
+The `enum` keyword is used to declare an enumeration.
+The `TrafficColor` enumeration has three possible values or _literals_.
+The literals are named `RED`, `ORANGE`, and `GREEN`.
+An enumeration can be used as data type, and the enumeration literals can be used as values:
 
 [source, cif]
 ----
@@ -53,21 +50,18 @@ disc TrafficColor light = RED;
 ----
 
 The `TrafficColor` enumeration is used as type of the `light` variable.
-The `light` variable is given value `RED` as its initial value. The default
-value of an enumeration type is its first literal (`RED` in this case).
-However, it is usually preferred to explicitly initialize variables with
-enumeration types, for readability.
+The `light` variable is given value `RED` as its initial value.
+The default value of an enumeration type is its first literal (`RED` in this case).
+However, it is usually preferred to explicitly initialize variables with enumeration types, for readability.
 
 [source, cif]
 ----
 edge change_color when light = RED do light := GREEN;
 ----
 
-This edge has a guard that compares the value of the `light` variable to
-enumeration literal `RED`. Only if the `light` is currently `RED`, may
-this edge be taken. The edge further assigns enumeration literal `GREEN` as
-the new value of variable `light`. The edge as a whole models that if the
-`light` is currently `RED`, it may change color (event `+change_color+`)
-and become `GREEN`.
+This edge has a guard that compares the value of the `light` variable to enumeration literal `RED`.
+Only if the `light` is currently `RED`, may this edge be taken.
+The edge further assigns enumeration literal `GREEN` as the new value of variable `light`.
+The edge as a whole models that if the `light` is currently `RED`, it may change color (event `+change_color+`) and become `GREEN`.
 
 // TODO: link to future ref manual

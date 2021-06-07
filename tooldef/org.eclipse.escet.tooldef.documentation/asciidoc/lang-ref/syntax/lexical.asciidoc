@@ -99,8 +99,7 @@ indexterm:[syntax,terminals]
 
 === Terminals
 
-Besides the keyword terminals listed above, ToolDef features several other
-terminals:
+Besides the keyword terminals listed above, ToolDef features several other terminals:
 
 indexterm:[identifiers]
 indexterm:[syntax,identifier]
@@ -109,11 +108,13 @@ indexterm:[syntax,keyword escaping]
 indexterm:[keyword,escaping]
 
 `IDENTIFIERTK`::
-An identifier. Defined by the regular expression:
-`+[$]?[a-zA-Z_][a-zA-Z0-9_]*+`. They thus consist of letters, numbers
-and underscore characters (`+_+`). Identifiers may not start with a
-numeric digit. Keywords take priority over identifiers. To use a
-keyword as an identifier, prefix it with a `$` character.
+An identifier.
+Defined by the regular expression:
+`+[$]?[a-zA-Z_][a-zA-Z0-9_]*+`.
+They thus consist of letters, numbers and underscore characters (`+_+`).
+Identifiers may not start with a numeric digit.
+Keywords take priority over identifiers.
+To use a keyword as an identifier, prefix it with a `$` character.
 The `$` is not part of the identifier name.
 
 +
@@ -131,10 +132,10 @@ indexterm:[names]
 indexterm:[syntax,name]
 
 `RELATIVENAMETK`::
-A name. Defined by the regular expression:
+A name.
+Defined by the regular expression:
 `+[$]?[a-zA-Z_][a-zA-Z0-9_]*(\.[$]?[a-zA-Z_][a-zA-Z0-9_]*)++`.
-It thus consists of two or more `IDENTIFIERTK` joined together
-with periods (`.`).
+It thus consists of two or more `IDENTIFIERTK` joined together with periods (`.`).
 +
 Examples:
 +
@@ -149,9 +150,11 @@ indexterm:[number,literal]
 indexterm:[syntax,number]
 
 `NUMBERTK`::
-An integer literal. Defined by the regular expression: `+0|[1-9][0-9]*+`.
-Integers thus consist of numeric digits. Only for the number `0` may an
-integer literal start with `0`. E.g. `02` is invalid.
+An integer literal.
+Defined by the regular expression: `+0|[1-9][0-9]*+`.
+Integers thus consist of numeric digits.
+Only for the number `0` may an integer literal start with `0`.
+E.g. `02` is invalid.
 +
 Examples:
 +
@@ -166,11 +169,11 @@ indexterm:[double,literal]
 indexterm:[syntax,double]
 
 `DOUBLETK`::
-A double literal. Defined by the regular expression:
+A double literal.
+Defined by the regular expression:
 `+(0|[1-9][0-9]*)(\.[0-9]+|(\.[0-9]+)?[eE][\-\+]?[0-9]+)+`.
-Simple double literals consist of an integer literal followed by
-a period (`.`) and some numeric digits. Double literals using scientific
-notation start with either an integer literal or a simple double literal.
+Simple double literals consist of an integer literal followed by a period (`.`) and some numeric digits.
+Double literals using scientific notation start with either an integer literal or a simple double literal.
 They then contain either an `e` or `E`, followed by the exponent.
 The exponent consists of numeric digits, optionally preceded by `+` or `-`.
 +
@@ -188,14 +191,15 @@ indexterm:[string,literal]
 indexterm:[syntax,string]
 
 `STRINGTK`::
-A string literal. Defined by the regular expression:
-`+\"([^\\\"\n]|\\[nt\\\"])*\"+`. String literals are enclosed in double
-quotes (`+"+`). String literals must be on a single line and must thus not
-include new line characters (`\n`, Unicode U+0A). To include a double quote
-(`+"+`) in a string literal, it must be escaped as `+\"+`. Since a
-backslash (`\`) serves as escape character, to include a backslash in a string
-literal it must be escaped as `\\`. To include a tab character in a string
-literal, use `\t`. To include a newline in a string literal, use `\n`.
+A string literal.
+Defined by the regular expression:
+`+\"([^\\\"\n]|\\[nt\\\"])*\"+`.
+String literals are enclosed in double quotes (`+"+`).
+String literals must be on a single line and must thus not include new line characters (`\n`, Unicode U+0A).
+To include a double quote (`+"+`) in a string literal, it must be escaped as `+\"+`.
+Since a backslash (`\`) serves as escape character, to include a backslash in a string literal it must be escaped as `\\`.
+To include a tab character in a string literal, use `\t`.
+To include a newline in a string literal, use `\n`.
 +
 Examples:
 +
@@ -212,11 +216,9 @@ indexterm:[syntax,whitespace]
 === Whitespace
 
 ToolDef supports spaces, tabs, and new line characters as whitespace.
-Whitespace is ignored (except in string literals), but can be used to separate
-tokens as well as for layout purposes. The use of tab characters is allowed,
-but should be avoided if possible, as layout will be different for text
-editors with different tab settings. You may generally format a ToolDef
-script as you see fit, and start on a new line when desired.
+Whitespace is ignored (except in string literals), but can be used to separate tokens as well as for layout purposes.
+The use of tab characters is allowed, but should be avoided if possible, as layout will be different for text editors with different tab settings.
+You may generally format a ToolDef script as you see fit, and start on a new line when desired.
 
 Examples:
 
@@ -240,9 +242,10 @@ indexterm:[syntax,comments]
 
 === Comments
 
-ToolDef features two types of comments. Single line comments start with
-`//` and end at end of the line. Multi line comments start with `+/*+` and
-end at `+*/+`. Comments are ignored.
+ToolDef features two types of comments.
+Single line comments start with `//` and end at end of the line.
+Multi line comments start with `+/*+` and end at `+*/+`.
+Comments are ignored.
 
 Examples:
 

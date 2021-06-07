@@ -17,16 +17,14 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF to CIF transformer,eliminate the use of locations in expressions]
 indexterm:[eliminate the use of locations in expressions]
-This CIF to CIF transformation eliminates the use of locations in expressions
-(such as guards, invariants, and equations), by introducing location pointer
-variables for automata, and using them instead.
+This CIF to CIF transformation eliminates the use of locations in expressions (such as guards, invariants, and equations), by introducing location pointer variables for automata, and using them instead.
 
 indexterm:[eliminate the use of locations in expressions,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -34,10 +32,8 @@ indexterm:[eliminate the use of locations in expressions,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -45,26 +41,15 @@ indexterm:[eliminate the use of locations in expressions,implementation]
 
 === Implementation details
 
-For each automaton for which a location is used (referred to) in an expression
-(such as a guard, invariant, or equation), a location pointer variable is
-introduced, with as value the current location of the automaton. The values
-for such a new variables are part of a newly created enumeration that has a
-value (an enumeration literal) for each location of the automaton.
+For each automaton for which a location is used (referred to) in an expression (such as a guard, invariant, or equation), a location pointer variable is introduced, with as value the current location of the automaton.
+The values for such a new variables are part of a newly created enumeration that has a value (an enumeration literal) for each location of the automaton.
 
-To initialize the new location pointer variable, the variable itself is
-initialized to `any` (meaning any value in its domain), and initialization
-predicates are added to all locations that could potentially be initial
-locations. For automata with exactly one initial state, the initial value
-of the location pointer variable is set directly, instead of using
-initialization predicates.
+To initialize the new location pointer variable, the variable itself is initialized to `any` (meaning any value in its domain), and initialization predicates are added to all locations that could potentially be initial locations.
+For automata with exactly one initial state, the initial value of the location pointer variable is set directly, instead of using initialization predicates.
 
-All edges in the automaton that change the current location of that automaton,
-get an additional assignment to update the location pointer variable.
+All edges in the automaton that change the current location of that automaton, get an additional assignment to update the location pointer variable.
 
-All uses of the locations of the automaton in expressions (that is, all
-location reference expressions) are changed to equality binary expressions for
-the location pointer variable and the enumeration literal corresponding to the
-location.
+All uses of the locations of the automaton in expressions (that is, all location reference expressions) are changed to equality binary expressions for the location pointer variable and the enumeration literal corresponding to the location.
 
 For instance, the following specification:
 
@@ -104,44 +89,37 @@ automaton x:
 end
 ----
 
-Location pointer variable `LP_x` is added. It is initialized directly in the
-declaration, since there is exactly one initial location in this automaton.
-Enumeration `LOCS_x` is created to represent the possible values of the
-location pointer variable. Enumerations literals `LOC_l1` and `LOC_l2`
-represent locations `l1` and `l2`, respectively.
+Location pointer variable `LP_x` is added.
+It is initialized directly in the declaration, since there is exactly one initial location in this automaton.
+Enumeration `LOCS_x` is created to represent the possible values of the location pointer variable.
+Enumerations literals `LOC_l1` and `LOC_l2` represent locations `l1` and `l2`, respectively.
 
-The edge from location `l1` to location `l2` is extended with an update
-to the location pointer. The self loop in location `l2` is not extended, as
-the location does not change.
+The edge from location `l1` to location `l2` is extended with an update to the location pointer.
+The self loop in location `l2` is not extended, as the location does not change.
 
 indexterm:[eliminate the use of locations in expressions,renaming]
 
 === Renaming
 
-If the names of the location pointer variables that are introduced, conflict
-with already existing declarations, they are renamed. For instance, if `LP_x`
-is already in use, `LP_x2`, `LP_x3`, etc, are used instead. Similarly,
-renaming is performed for enumerations, and enumeration literals that conflict
-with already existing declarations. If renaming takes place, a warning is
-printed to the console.
+If the names of the location pointer variables that are introduced, conflict with already existing declarations, they are renamed.
+For instance, if `LP_x` is already in use, `LP_x2`, `LP_x3`, etc, are used instead.
+Similarly, renaming is performed for enumerations, and enumeration literals that conflict with already existing declarations.
+If renaming takes place, a warning is printed to the console.
 
 indexterm:[eliminate the use of locations in expressions,size considerations]
 
 === Size considerations
 
-The number of added location pointer variables is linear in the number of
-automata. The number of added initialization predicates for the location
-pointer variables is linear in the number of possible initial locations. The
-number of added enumerations is linear in the number of automata. The number of
-added enumeration literals is linear in the number of locations. The number of
-added updates is linear in the number of edges. The number of added equality
-binary expressions is linear in the number of location references.
+The number of added location pointer variables is linear in the number of automata.
+The number of added initialization predicates for the location pointer variables is linear in the number of possible initial locations.
+The number of added enumerations is linear in the number of automata.
+The number of added enumeration literals is linear in the number of locations.
+The number of added updates is linear in the number of edges.
+The number of added equality binary expressions is linear in the number of location references.
 
 indexterm:[eliminate the use of locations in expressions,optimality]
 
 === Optimality
 
-This transformation introduces enumerations for the possible values of the
-location pointer variables. To eliminate the enumerations, apply the
-<<tools-cif2cif-chapter-enums-to-ints>> or 
-<<tools-cif2cif-chapter-enums-to-consts>> CIF to CIF transformation.
+This transformation introduces enumerations for the possible values of the location pointer variables.
+To eliminate the enumerations, apply the <<tools-cif2cif-chapter-enums-to-ints>> or <<tools-cif2cif-chapter-enums-to-consts>> CIF to CIF transformation.

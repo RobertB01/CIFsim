@@ -17,16 +17,15 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF to CIF transformer,add default initial values]
 indexterm:[add default initial values]
-This CIF to CIF transformation adds the default initial values to variables
-that are not given an explicit initial value. This includes discrete and
-continuous variables, as well as local variables of functions.
+This CIF to CIF transformation adds the default initial values to variables that are not given an explicit initial value.
+This includes discrete and continuous variables, as well as local variables of functions.
 
 indexterm:[add default initial values,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -34,10 +33,8 @@ indexterm:[add default initial values,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -45,11 +42,11 @@ indexterm:[add default initial values,implementation]
 
 === Implementation details
 
-The default values for all types are simple values. The only exception are
-function types, for which a new function is introduced. This new functions
-returns the default value for the return type of the function. If multiple
-default values for the same function type are needed, the newly introduced
-function is reused. The functions are named `+_f+`, `+_f2+`, `+_f3+`, etc.
+The default values for all types are simple values.
+The only exception are function types, for which a new function is introduced.
+This new functions returns the default value for the return type of the function.
+If multiple default values for the same function type are needed, the newly introduced function is reused.
+The functions are named `+_f+`, `+_f2+`, `+_f3+`, etc.
 
 For instance, the following specification:
 
@@ -83,25 +80,21 @@ indexterm:[add default initial values,renaming]
 
 === Renaming
 
-If the names of the functions that are introduced, conflict with already
-existing declarations, they are renamed. For instance, if `+_f2+` is already in
-use, `+_f22+`, `+_f23+`, etc, are used instead. If renaming takes place, a
-warning is printed to the console.
+If the names of the functions that are introduced, conflict with already existing declarations, they are renamed.
+For instance, if `+_f2+` is already in use, `+_f22+`, `+_f23+`, etc, are used instead.
+If renaming takes place, a warning is printed to the console.
 
 indexterm:[add default initial values,size considerations]
 
 === Size considerations
 
-Since values are added, this transformation increases the size of the
-specification. For an array of 400 elements, with an array of 300 integers
-each, the default initial value consists of 1,200 integers. Add such an initial
-value can significantly increase the size of the model.
+Since values are added, this transformation increases the size of the specification.
+For an array of 400 elements, with an array of 300 integers each, the default initial value consists of 1,200 integers.
+Add such an initial value can significantly increase the size of the model.
 
 indexterm:[add default initial values,optimality]
 
 === Optimality
 
-The default values for all types are as primitive as they can be, and can
-usually not be simplified any further. It may however be possible that
-functions are introduced for the default values of function types, while such
-a function already existed in the original specification.
+The default values for all types are as primitive as they can be, and can usually not be simplified any further.
+It may however be possible that functions are introduced for the default values of function types, while such a function already existed in the original specification.

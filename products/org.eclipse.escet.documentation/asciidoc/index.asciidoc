@@ -24,41 +24,30 @@ include::_root_attributes.asciidoc[]
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 
-The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM))
-project is an link:https://eclipse.org[Eclipse Foundation] open-source project
-that provides a toolkit for the development of supervisory controllers in the
-Model-Based Systems Engineering (MBSE) paradigm. The toolkit has a strong
-focus on model-based design, supervisory controller synthesis, and industrial
-applicability, for example to cyber-physical systems. The toolkit supports
-the entire development process of (supervisory) controllers, from modeling,
-supervisory controller synthesis, simulation-based validation and
-visualization, and formal verification, to real-time testing and
-implementation.
+The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project is an link:https://eclipse.org[Eclipse Foundation] open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
+The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
+The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
 
 [WARNING]
 ====
-The Eclipse ESCET project and all its tools are currently in the
-link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+The Eclipse ESCET project and all its tools are currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
 
 image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
 
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-manual.pdf[download this manual]
-as a PDF as well.
+TIP: You can link:eclipse-escet-incubation-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
-The Eclipse ESCET toolkit features the following languages and associated
-tools:
+The Eclipse ESCET toolkit features the following languages and associated tools:
 
 * <<intro-chapter-chi,Chi>>
 * <<intro-chapter-cif,CIF>>
 * <<intro-chapter-setext,SeText>>
 * <<intro-chapter-tooldef,ToolDef>>
 
-This manual includes information related to the Eclipse ESCET toolkit as a
-whole, and applies to those tools as well. The following information is
-available for end users of the toolkit:
+This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to those tools as well.
+The following information is available for end users of the toolkit:
 
 * <<intro-chapter-index>>
 * <<download-install-chapter-index>>

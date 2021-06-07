@@ -22,12 +22,10 @@ indexterm:[value,boolean]
 indexterm:[boolean,value]
 indexterm:[literal,boolean]
 indexterm:[boolean,literal]
-Booleans represents truth values of for instance guards and other conditions
-and properties. The only two possible values are `true` (condition or
-property holds) and `false` (condition or property does not hold). The
-default value of booleans (`bool` type) is `false`. Several standard
-link:http://en.wikipedia.org/wiki/Logical_operator[logical operators]
-are available to work with booleans, including the following:
+Booleans represents truth values of for instance guards and other conditions and properties.
+The only two possible values are `true` (condition or property holds) and `false` (condition or property does not hold).
+The default value of booleans (`bool` type) is `false`.
+Several standard link:http://en.wikipedia.org/wiki/Logical_operator[logical operators] are available to work with booleans, including the following:
 
 [source, cif]
 ----
@@ -41,14 +39,12 @@ x = y       // equal to
 x != y      // not equal to
 ----
 
-The condition `x < 3` evaluates to `true` if `x` is less than `3` and
-to `false` if `x` is `3` or larger than `3`. The result is thus a
-boolean value.
+The condition `x < 3` evaluates to `true` if `x` is less than `3` and to `false` if `x` is `3` or larger than `3`.
+The result is thus a boolean value.
 
-Conditions can be combined. `+x >= 3 and x <= 9+` means that the value of `x`
-must be both at least `3` and at most `9`. `+x >= 3 or x <= 9+` means that
-the value of `x` must be at least `3`, at most `9`, or both. Since the
-condition is always satisfied (it always evaluates to `true`), condition
-`true` can be used instead of `+x >= 3 or x <= 9+`.
+Conditions can be combined.
+`+x >= 3 and x <= 9+` means that the value of `x` must be both at least `3` and at most `9`.
+`+x >= 3 or x <= 9+` means that the value of `x` must be at least `3`, at most `9`, or both.
+Since the condition is always satisfied (it always evaluates to `true`), condition `true` can be used instead of `+x >= 3 or x <= 9+`.
 
 // TODO: link to future ref manual

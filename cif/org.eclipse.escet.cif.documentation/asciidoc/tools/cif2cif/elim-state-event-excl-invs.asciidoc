@@ -18,15 +18,15 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,eliminate state/event exclusion invariants]
 indexterm:[eliminate state/event exclusion invariants]
 indexterm:[invariant,eliminate state/event exclusion invariants]
-This CIF to CIF transformation eliminates state/event exclusion invariants. It
-replaces them with automata with self loops.
+This CIF to CIF transformation eliminates state/event exclusion invariants.
+It replaces them with automata with self loops.
 
 indexterm:[eliminate state/event exclusion invariants,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -34,10 +34,8 @@ indexterm:[eliminate state/event exclusion invariants,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -47,49 +45,34 @@ indexterm:[eliminate state/event exclusion invariants,implementation]
 
 All state/event exclusion invariants are removed from the specification.
 
-They are replaced with automata with self loops. Per component, the state/event
-exclusion invariants of the component (the top level scope of the
-specification, groups, automata), as well as those of its locations (only for
-automata), are partitioned per
-<<lang-tut-extensions-synthesis-invkind,supervisory kind>>. Per such
-partition, an automaton is created.
+They are replaced with automata with self loops.
+Per component, the state/event exclusion invariants of the component (the top level scope of the specification, groups, automata), as well as those of its locations (only for automata), are partitioned per <<lang-tut-extensions-synthesis-invkind,supervisory kind>>.
+Per such partition, an automaton is created.
 
-The automaton is put along side the component (for groups and automata), as
-sibling. For invariants in the top level scope of the specification, the new
-automaton is put in the top level scope of the specification. The new automaton
-gets the same name as the component that contained the invariants as prefix,
-with some postfixes. For invariants at the top level scope of the
-specification, an empty prefix is used. The first postfix is indicates the
-supervisory kind of the invariants of the partition: `Plant`,
-`Requirement`, `Supervisor`, or empty for regular/kindless invariants.
-The second postfix is `StateEvtExcls`. So, for an automaton `Abc` with
-some plant invariants, an automaton `AbcPlantStateEvtExcls` is created. The
-name may conflict with existing automata or other declarations, in which case
-it is <<tools-cif2cif-elim-state-event-excl-invs-renaming,renamed>>.
+The automaton is put along side the component (for groups and automata), as sibling.
+For invariants in the top level scope of the specification, the new automaton is put in the top level scope of the specification.
+The new automaton gets the same name as the component that contained the invariants as prefix, with some postfixes.
+For invariants at the top level scope of the specification, an empty prefix is used.
+The first postfix is indicates the supervisory kind of the invariants of the partition: `Plant`, `Requirement`, `Supervisor`, or empty for regular/kindless invariants.
+The second postfix is `StateEvtExcls`.
+So, for an automaton `Abc` with some plant invariants, an automaton `AbcPlantStateEvtExcls` is created.
+The name may conflict with existing automata or other declarations, in which case it is <<tools-cif2cif-elim-state-event-excl-invs-renaming,renamed>>.
 
-The automata that are created inherit the supervisory kind of the state/event
-exclusion invariants in the partition for which the automaton is created. The
-automata have a single nameless location, that is both initial and marked.
+The automata that are created inherit the supervisory kind of the state/event exclusion invariants in the partition for which the automaton is created.
+The automata have a single nameless location, that is both initial and marked.
 
-For each state/event exclusion invariant in the partition, and self loop edge
-is created per event. The condition predicates of the invariants are used as
-guard, possible after some manipulation.
+For each state/event exclusion invariant in the partition, and self loop edge is created per event.
+The condition predicates of the invariants are used as guard, possible after some manipulation.
 
-For state/event exclusion invariants of the locations of automata, the
-condition predicate is made conditional on the location. However, this is only
-done for automata with at least two locations, as conditioning on an always
-active location is of little use. For a location `loc`, and a state/event
-exclusion invariant `invariant evt needs x = 1`, predicate `x = 1` is
-changed to `+loc => x = 1+`.
+For state/event exclusion invariants of the locations of automata, the condition predicate is made conditional on the location.
+However, this is only done for automata with at least two locations, as conditioning on an always active location is of little use.
+For a location `loc`, and a state/event exclusion invariant `invariant evt needs x = 1`, predicate `x = 1` is changed to `+loc => x = 1+`.
 
-For state/event exclusion invariants that indicate when an event is to be
-disallowed/disabled, the condition predicate is inverted. The inversion is
-performed after the condition predicate is made condition on the location, if
-applicable. For instance, for a state/event exclusion invariant
-`invariant x != 1 disables evt` in a location `loc`, the condition
-predicate `x != 1` is first made conditional on the location. This results in
-`+loc => x != 1+`. The condition predicate is then inverted to
-`+not(loc => x != 1)+`, which is then used as guard.
+For state/event exclusion invariants that indicate when an event is to be disallowed/disabled, the condition predicate is inverted.
+The inversion is performed after the condition predicate is made condition on the location, if applicable.
+For instance, for a state/event exclusion invariant `invariant x != 1 disables evt` in a location `loc`, the condition predicate `x != 1` is first made conditional on the location.
+This results in `+loc => x != 1+`.
+The condition predicate is then inverted to `+not(loc => x != 1)+`, which is then used as guard.
 
 The alphabets of the automata are left implicit.
 
@@ -149,31 +132,26 @@ indexterm:[eliminate state/event exclusion invariants,renaming]
 [[tools-cif2cif-elim-state-event-excl-invs-renaming]]
 === Renaming
 
-New automata are created. If the desired name for an automaton is already in
-use for some other automaton or declaration, the new automaton is given a
-different name. For instance, if an automaton is to be named
-`ControllerStateEvtExcls` and that name is already in use, it will be named
-`ControllerStateEvtExcls2`. If that name is also already in use, it will be
-named `ControllerStateEvtExcls3`, etc.
+New automata are created.
+If the desired name for an automaton is already in use for some other automaton or declaration, the new automaton is given a different name.
+For instance, if an automaton is to be named `ControllerStateEvtExcls` and that name is already in use, it will be named `ControllerStateEvtExcls2`.
+If that name is also already in use, it will be named `ControllerStateEvtExcls3`, etc.
 
 indexterm:[eliminate state/event exclusion invariants,size considerations]
 
 === Size considerations
 
-The constant amount of additional objects are created (e.g. an automaton, a
-location, a `true` initialization predicate, etc). At most one automaton is
-created per state/event exclusion invariant. As such, the size increase is
-linear in the number of state/event exclusion invariants.
+The constant amount of additional objects are created (e.g. an automaton, a location, a `true` initialization predicate, etc).
+At most one automaton is created per state/event exclusion invariant.
+As such, the size increase is linear in the number of state/event exclusion invariants.
 
 indexterm:[eliminate state/event exclusion invariants,optimality]
 
 === Optimality
 
-For state/event exclusion invariants that are defined in locations of automata
-with more than one location, this transformation makes their predicates
-conditional on those locations. To eliminate such location references, apply
-the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation.
+For state/event exclusion invariants that are defined in locations of automata with more than one location, this transformation makes their predicates conditional on those locations.
+To eliminate such location references, apply the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation.
 
 This transformation generate boolean implication and inversion predicates.
-These are not simplified. To simply them, apply the
-the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF transformation.
+These are not simplified.
+To simply them, apply the the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF transformation.

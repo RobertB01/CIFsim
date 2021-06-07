@@ -17,10 +17,10 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[group]
 indexterm:[component,group]
-For large CIF specifications with many automata, it can be beneficial to add
-more structure to the specification. For this purpose, CIF has _groups_. Groups
-are named collections of automata and other declarations. For instance,
-consider the following CIF specification:
+For large CIF specifications with many automata, it can be beneficial to add more structure to the specification.
+For this purpose, CIF has _groups_.
+Groups are named collections of automata and other declarations.
+For instance, consider the following CIF specification:
 
 
 [source, cif]
@@ -49,13 +49,10 @@ end
 ----
 
 This specifications features four automata that model the behavior of machines.
-The details of the actual automata are omitted, as they are irrelevant for this
-lesson. All four machines are in the same factory, but they are divided into
-two halls. This physical subdivision is expressed in the CIF specification
-using groups named `factory`, `hall1`, and `hall2`. While in this case
-the subdivision into a hierarchical specification structure is based on the
-physical subdivision of the actual system, the modeler is free to base the
-specification structure on other criteria.
+The details of the actual automata are omitted, as they are irrelevant for this lesson.
+All four machines are in the same factory, but they are divided into two halls.
+This physical subdivision is expressed in the CIF specification using groups named `factory`, `hall1`, and `hall2`.
+While in this case the subdivision into a hierarchical specification structure is based on the physical subdivision of the actual system, the modeler is free to base the specification structure on other criteria.
 
 Consider also the following partial CIF specification:
 
@@ -69,14 +66,10 @@ group configuration:
 end
 ----
 
-The `configuration` group is used to group together several configuration
-values, modeled by constants. By grouping these constants together, it is more
-clear that they together are the configuration settings of the system, and that
-they belong together.
+The `configuration` group is used to group together several configuration values, modeled by constants.
+By grouping these constants together, it is more clear that they together are the configuration settings of the system, and that they belong together.
 
-Finally, consider the following CIF specification, based on the
-link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]
-from the lesson on <<tut-time-chapter-equations,equations>>.
+Finally, consider the following CIF specification, based on the link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system] from the lesson on <<tut-time-chapter-equations,equations>>.
 
 
 [source, cif]
@@ -92,6 +85,5 @@ group tank:
 end
 ----
 
-By grouping the declarations and their equations together, it is becomes clear
-that together they model a `tank`. This is especially useful if other parts
-of the specification model something different.
+By grouping the declarations and their equations together, it is becomes clear that together they model a `tank`.
+This is especially useful if other parts of the specification model something different.

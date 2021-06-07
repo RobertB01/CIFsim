@@ -18,38 +18,32 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,eliminate groups]
 indexterm:[eliminate groups]
 indexterm:[group,eliminate]
-This CIF to CIF transformation flattens the component structure of a
-specification, by eliminating all groups. That is, after this transformation,
-all automata will be at the top level, directly in the specification.
+This CIF to CIF transformation flattens the component structure of a specification, by eliminating all groups.
+That is, after this transformation, all automata will be at the top level, directly in the specification.
 
 indexterm:[eliminate groups,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
-Furthermore, this transformation does not guarantee the correct result for
-specification with enumerations. See also the
-<<tools-cif2cif-elim-groups-renaming>> section below.
+Furthermore, this transformation does not guarantee the correct result for specification with enumerations.
+See also the <<tools-cif2cif-elim-groups-renaming>> section below.
 
 indexterm:[eliminate groups,preprocessing]
 
 === Preprocessing
 
-To increase the subset of specifications that can be transformed, apply
-the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order) prior to using this transformation:
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order) prior to using this transformation:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
 * <<tools-cif2cif-chapter-enums-to-ints>>
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-automatically applied as preprocessing (in the given order), to increase the
-subset of CIF specifications that can be transformed:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are automatically applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-svg-file-into-decls>>
 
@@ -59,16 +53,13 @@ indexterm:[eliminate groups,implementation]
 
 === Implementation details
 
-All declarations, invariants, initialization predicates, marker predicates, and
-equations from the groups are lifted to the top level of the specification.
+All declarations, invariants, initialization predicates, marker predicates, and equations from the groups are lifted to the top level of the specification.
 The automata are lifted to the top level of the specification as well.
 Subsequently, the groups are removed.
 
-In order to be able to track the origin of automata and declarations, they are
-named after their absolute names. For a group `x`, with a group
-`y`, with a constant `z`, the absolute name of the constant is `x.y.z`.
-The constant is lifted to the top level of the specification, and named
-`x_y_z`.
+In order to be able to track the origin of automata and declarations, they are named after their absolute names.
+For a group `x`, with a group `y`, with a constant `z`, the absolute name of the constant is `x.y.z`.
+The constant is lifted to the top level of the specification, and named `x_y_z`.
 
 For instance, this specification:
 
@@ -107,22 +98,18 @@ indexterm:[eliminate groups,renaming]
 [[tools-cif2cif-elim-groups-renaming]]
 === Renaming
 
-Since declarations of the specification are merged with the declarations of the
-groups and with automata, renaming may be necessary to ensure uniquely
-named declarations. For instance, for a group `x`, with a group
-`y`, with a constant `z`, the absolute name of the constant is `x.y.z`.
-The constant is lifted to the top level of the specification, and renamed to
-`x_y_z`. However, if the specification already contains a declaration of
-another constant, automaton, etc named `x_y_z`, then the lifted constant is
-renamed to `x_y_z2` instead. If that name is also already in use, it is
-renamed to `x_y_z3`, etc.
+Since declarations of the specification are merged with the declarations of the groups and with automata, renaming may be necessary to ensure uniquely named declarations.
+For instance, for a group `x`, with a group `y`, with a constant `z`, the absolute name of the constant is `x.y.z`.
+The constant is lifted to the top level of the specification, and renamed to `x_y_z`.
+However, if the specification already contains a declaration of another constant, automaton, etc named `x_y_z`, then the lifted constant is renamed to `x_y_z2` instead.
+If that name is also already in use, it is renamed to `x_y_z3`, etc.
 
 Whenever renaming takes place, a warning will be printed to the console.
 
 ==== Renaming of enumeration literals
 
-Enumeration literals that are part of lifted enumeration declarations, are not
-renamed to their absolute names. To understand why this is necessary, consider:
+Enumeration literals that are part of lifted enumeration declarations, are not renamed to their absolute names.
+To understand why this is necessary, consider:
 
 
 [source, cif]
@@ -140,13 +127,10 @@ end
 invariant x.A = y.A;
 ----
 
-Here, group `x` and automaton `y` both have an enumeration `E` with
-enumeration literals `A` and `B`. The invariant of the specification
-compares the literals of the two different enumerations. This is allowed, since
-the enumerations are _compatible_ (they have the same enumeration literals,
-with the same names, in the same order). If we were to rename the enumeration
-literals to absolute names as we lift them to the top level of the
-specification, the result would be:
+Here, group `x` and automaton `y` both have an enumeration `E` with enumeration literals `A` and `B`.
+The invariant of the specification compares the literals of the two different enumerations.
+This is allowed, since the enumerations are _compatible_ (they have the same enumeration literals, with the same names, in the same order).
+If we were to rename the enumeration literals to absolute names as we lift them to the top level of the specification, the result would be:
 
 
 [source, cif]
@@ -162,10 +146,8 @@ end
 invariant x_A = y.A;
 ----
 
-Which would no longer be a valid specification, as enumerations `x_E` and
-`y.E` are no longer compatible (they have enumeration literals with different
-names). Since we leave the names of the enumeration literals as they are, the
-result of the transformation is:
+Which would no longer be a valid specification, as enumerations `x_E` and `y.E` are no longer compatible (they have enumeration literals with different names).
+Since we leave the names of the enumeration literals as they are, the result of the transformation is:
 
 
 [source, cif]
@@ -181,8 +163,7 @@ end
 invariant A = y.A;
 ----
 
-which is still a correct specification, and has the same meaning as the
-original specification.
+which is still a correct specification, and has the same meaning as the original specification.
 
 Now assume the following specification:
 
@@ -200,10 +181,9 @@ end
 invariant x.A = y.A;
 ----
 
-Here, the two enumerations are both in groups. If we lift them, we have
-two enumerations, with the same literals, which is not a valid CIF
-specification. As such, renaming can not be avoided, and the result of the
-transformation will be:
+Here, the two enumerations are both in groups.
+If we lift them, we have two enumerations, with the same literals, which is not a valid CIF specification.
+As such, renaming can not be avoided, and the result of the transformation will be:
 
 
 [source, cif]
@@ -214,18 +194,17 @@ enum y_E = A2, B2;
 invariant A = A2;
 ----
 
-This result is an invalid CIF specification. Whenever an enumeration literal
-is renamed, a warning is printed to the console, informing of the possibility
-that the resulting specification is invalid. As such, it is highly recommended
-to avoid such situations, and eliminate the enumerations prior to the
-elimination of the groups.
+This result is an invalid CIF specification.
+Whenever an enumeration literal is renamed, a warning is printed to the console, informing of the possibility that the resulting specification is invalid.
+As such, it is highly recommended to avoid such situations, and eliminate the enumerations prior to the elimination of the groups.
 
 indexterm:[eliminate groups,size considerations]
 
 === Size considerations
 
-The groups are removed. Other objects are lifted, which essentially means
-they are moved. The size of the specification does not increase.
+The groups are removed.
+Other objects are lifted, which essentially means they are moved.
+The size of the specification does not increase.
 
 
 === Optimality

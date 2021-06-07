@@ -21,11 +21,10 @@ _Topics_
 
 * <<tut-chapter-introduction,Introduction>> (global description of the aims of the language)
 
-* _Basics_: Elementary knowledge needed for writing and understanding Chi
-programs. _Start here to learn the language!_
+* _Basics_: Elementary knowledge needed for writing and understanding Chi programs.
+_Start here to learn the language!_
 
-** <<tut-chapter-data-types,Data types>> (explanation of all kinds of data and their
-operations)
+** <<tut-chapter-data-types,Data types>> (explanation of all kinds of data and their operations)
 
 ** <<tut-chapter-statements,Statements>> (available process statements)
 
@@ -33,8 +32,7 @@ operations)
 
 ** <<tut-chapter-input-and-output,Input and output>> (reading/writing files, displaying output)
 
-* _Programming_: How to specify parallel executing processes using the Chi
-language.
+* _Programming_: How to specify parallel executing processes using the Chi language.
 
 ** <<tut-chapter-stochastic-behavior,Modeling stochastic behavior>> (how to model varying behavior)
 
@@ -52,8 +50,7 @@ language.
 
 ** <<tut-chapter-simulation-and-experiments,Experiments>> (performing simulation experiments)
 
-* _Visualization_: Making an animated graphical display of a system with the
-Chi simulator.
+* _Visualization_: Making an animated graphical display of a system with the Chi simulator.
 
 ** <<tut-chapter-svg-visualization,SVG visualization>> (how to attach an SVG visualization)
 

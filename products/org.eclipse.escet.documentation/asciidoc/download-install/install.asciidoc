@@ -19,43 +19,32 @@ First, obtain the Eclipse ESCET tools:
 
 * <<download-install-chapter-index,Download>> the Eclipse ESCET tools.
 
-* Extract the downloaded archive somewhere on your hard disk, to a new empty
-directory where you have read and write access.
+* Extract the downloaded archive somewhere on your hard disk, to a new empty directory where you have read and write access.
 
 You can now start the Eclipse ESCET IDE:
 
-* For Windows, execute `eclipse.exe` from the directory that contains the
-extracted files.
+* For Windows, execute `eclipse.exe` from the directory that contains the extracted files.
 
-* For Linux, execute `eclipse` from the directory that contains the
-extracted files.
+* For Linux, execute `eclipse` from the directory that contains the extracted files.
 
-* For macOS, open the downloaded `.dmg` file by double clicking. This opens a
-window with the Eclipse app and a shortcut icon to your Applications folder.
-Drag the Eclipse icon onto the Applications folder icon. This causes the Eclipse
-app to be copied to the Applications folder, where all apps can be found.
-You can now open the Eclipse app from the Applications folder. 
+* For macOS, open the downloaded `.dmg` file by double clicking.
+This opens a window with the Eclipse app and a shortcut icon to your Applications folder.
+Drag the Eclipse icon onto the Applications folder icon.
+This causes the Eclipse app to be copied to the Applications folder, where all apps can be found.
+You can now open the Eclipse app from the Applications folder.
 +
-The first time you open the Eclipse app, you will get an error message saying
-either _"Eclipse" can't be opened because Apple cannot check it for malicious
-software_ or _"Eclipse" can't be opened because it was not downloaded from the
-App store_. Dismiss the popup by clicking btn:[OK]. Go to menu:Apple menu[System
-Preferences], click _Security & Privacy_, then click tab _General_. Under _Allow
-apps downloaded from:_ you should see in light grey two tick boxes: one for _App
-Store_ and
-one for _App Store and identified developers_. Below that, you should see an
-additional line: _"Eclipse.app"_ was blocked from use because it is not from an
-identified developer, and after that, a button btn:[Open Anyway]. Clicking that
-button will allow the Eclipse app to be executed.
+The first time you open the Eclipse app, you will get an error message saying either _"Eclipse" can't be opened because Apple cannot check it for malicious software_ or _"Eclipse" can't be opened because it was not downloaded from the App store_.
+Dismiss the popup by clicking btn:[OK].
+Go to menu:Apple menu[System Preferences], click _Security & Privacy_, then click tab _General_.
+Under _Allow apps downloaded from:_ you should see in light grey two tick boxes: one for _App Store_ and one for _App Store and identified developers_.
+Below that, you should see an additional line: _"Eclipse.app"_ was blocked from use because it is not from an identified developer, and after that, a button btn:[Open Anyway].
+Clicking that button will allow the Eclipse app to be executed.
 
-For more information, see the section on starting the Eclipse ESCET IDE
-<<download-install-first-start,for the first time>>.
+For more information, see the section on starting the Eclipse ESCET IDE <<download-install-first-start,for the first time>>.
 
-You can now also use the command line scripts located in the `bin`
-directory. These are only available for Windows and Linux, not for macOS. To see which
-tools are available, simply look in this directory. Each of these
-tools can be started with the `-h` or `--help` option to get further
-information. You may want to add the `bin` directory to your `PATH`
-environment variable. See e.g.
-link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?]
-for how to achieve this.
+You can now also use the command line scripts located in the `bin` directory.
+These are only available for Windows and Linux, not for macOS.
+To see which tools are available, simply look in this directory.
+Each of these tools can be started with the `-h` or `--help` option to get further information.
+You may want to add the `bin` directory to your `PATH` environment variable.
+See e.g. link:https://www.java.com/en/download/help/path.xml[How do I set or change the PATH system variable?] for how to achieve this.

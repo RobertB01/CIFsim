@@ -17,25 +17,22 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF to CIF transformer,simplify others]
 indexterm:[simplify others]
-This CIF to CIF transformation simplifies CIF specifications, by applying
-the following non-value related simplifications:
+This CIF to CIF transformation simplifies CIF specifications, by applying the following non-value related simplifications:
 
 * Duplicate monitor events of automata are removed.
 
 * Duplicate events in the alphabet are removed.
 
-* Duplicate events on edges are removed, with the exception of duplicate sends
-for the same event, as they may send different values.
+* Duplicate events on edges are removed, with the exception of duplicate sends for the same event, as they may send different values.
 
-* Self-loops with a target location are simplified by removing the target
-location.
+* Self-loops with a target location are simplified by removing the target location.
 
 indexterm:[simplify others,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -43,10 +40,8 @@ indexterm:[simplify others,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -64,8 +59,7 @@ indexterm:[simplify others,size considerations]
 
 === Size considerations
 
-This transformation tries to simplify the specification, possibly reducing its
-size.
+This transformation tries to simplify the specification, possibly reducing its size.
 
 
 === Optimality

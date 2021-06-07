@@ -17,16 +17,14 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF to CIF transformer,simplify values (no references)]
 indexterm:[simplify values (no references)]
-This CIF to CIF transformation simplifies CIF specifications, by applying
-same value-related simplifications as the <<tools-cif2cif-chapter-simplify-values>>
-CIF to CIF transformation, but without simplifying reference expressions.
+This CIF to CIF transformation simplifies CIF specifications, by applying same value-related simplifications as the <<tools-cif2cif-chapter-simplify-values>> CIF to CIF transformation, but without simplifying reference expressions.
 
 indexterm:[simplify values (no references),supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -34,10 +32,8 @@ indexterm:[simplify values (no references),preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -45,8 +41,7 @@ indexterm:[simplify values (no references),implementation]
 
 === Implementation details
 
-The CIF to CIF transformation to <<tools-cif2cif-chapter-simplify-values>>,
-transforms the following specification:
+The CIF to CIF transformation to <<tools-cif2cif-chapter-simplify-values>>, transforms the following specification:
 
 
 [source, cif]
@@ -64,10 +59,8 @@ const int x = 3;
 invariant false;
 ----
 
-This transformation however, does not take the values of declarations into
-account, and thus for instance does not fill in the values of constants,
-algebraic variables, etc. Therefore, this transformation transforms that same
-specification into the following simplified specification:
+This transformation however, does not take the values of declarations into account, and thus for instance does not fill in the values of constants, algebraic variables, etc.
+Therefore, this transformation transforms that same specification into the following simplified specification:
 
 
 [source, cif]
@@ -76,27 +69,18 @@ const int x = 3;
 invariant x - 4 > 0;
 ----
 
-This variant can be useful, as it prevents the use of constants from being
-eliminated. This makes it possible to change the value of the constant in one
-place (the one place being the declaration of the constant), and have all uses
-of that constant automatically change with it (as they still refer to the
-constant). If the value of the constant would be filled in as well, changing
-the value of the constant would be more work, as all those places where it was
-filled in, need to be replaced as well. In the above example, the issue is
-even bigger, as the result is simplified even further, eliminating the entire
-comparison to a single boolean value.
+This variant can be useful, as it prevents the use of constants from being eliminated.
+This makes it possible to change the value of the constant in one place (the one place being the declaration of the constant), and have all uses of that constant automatically change with it (as they still refer to the constant).
+If the value of the constant would be filled in as well, changing the value of the constant would be more work, as all those places where it was filled in, need to be replaced as well.
+In the above example, the issue is even bigger, as the result is simplified even further, eliminating the entire comparison to a single boolean value.
 
-Another issue related to simplification of constants, is that inlining them
-can be very expensive. If a constant has a large literal as its value, the
-large literal is inlined wherever the constant is used. This may lead to
-significantly larger specifications. Also, tools that use the resulting model
-may handle constants in a special way to ensure they are evaluated only once,
-but may not do so for large literals that occur in the middle of other
-expressions. As such, simplification/inlining of constants may significantly
-reduce performance.
+Another issue related to simplification of constants, is that inlining them can be very expensive.
+If a constant has a large literal as its value, the large literal is inlined wherever the constant is used.
+This may lead to significantly larger specifications.
+Also, tools that use the resulting model may handle constants in a special way to ensure they are evaluated only once, but may not do so for large literals that occur in the middle of other expressions.
+As such, simplification/inlining of constants may significantly reduce performance.
 
-The reference expressions that are not simplified (filled in) include among
-others the following:
+The reference expressions that are not simplified (filled in) include among others the following:
 
 * Values of constants.
 
@@ -125,12 +109,10 @@ indexterm:[simplify values (no references),size considerations]
 
 === Size considerations
 
-This transformation tries to simplify the specification, possibly reducing its
-size.
+This transformation tries to simplify the specification, possibly reducing its size.
 
 indexterm:[simplify values (no references),optimality]
 
 === Optimality
 
-Not all simplifications that could potentially be performed are implemented in
-this transformation.
+Not all simplifications that could potentially be performed are implemented in this transformation.

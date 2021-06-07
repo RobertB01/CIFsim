@@ -18,10 +18,8 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF PLC code generator]
 indexterm:[tools,CIF PLC code generator]
 indexterm:[see: PLC,CIF PLC code generator]
-The CIF PLC code generator can be used to generate **P**rogrammable
-**L**ogic **C**ontroller (PLC) code, for the implementation of CIF
-controllers on PLCs. The generated PLC code adheres to the IEC 61131-3
-standard, a widely used international standard for PLC programming languages.
+The CIF PLC code generator can be used to generate **P**rogrammable **L**ogic **C**ontroller (PLC) code, for the implementation of CIF controllers on PLCs.
+The generated PLC code adheres to the IEC 61131-3 standard, a widely used international standard for PLC programming languages.
 
 indexterm:[CIF PLC code generator,start]
 
@@ -29,17 +27,12 @@ indexterm:[CIF PLC code generator,start]
 
 The generator can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF implementation tools[Generate PLC code for CIF specification...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF implementation tools[Generate PLC code for CIF specification...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
 
-* Use the `cif2plc` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cif2plc` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cif2plc` command line tool.
 
@@ -48,152 +41,119 @@ indexterm:[CIF PLC code generator,options]
 [[tools-cif2plc-options]]
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file_: The absolute or relative local file system path to the input CIF specification.
 
-* _Output file_: The absolute or relative local file system path to the
-output file. Depending on the <<tools-cif2plc-output-type,output type>>,
-this is either a file or a directory. The default depends on the output type
-as well.
+* _Output file_: The absolute or relative local file system path to the output file.
+Depending on the <<tools-cif2plc-output-type,output type>>, this is either a file or a directory.
+The default depends on the output type as well.
 
-* _PLC code output type_: The PLC code <<tools-cif2plc-output-type,output type>>
-specifies the type of output (essentially the file format) that should be generated.
+* _PLC code output type_: The PLC code <<tools-cif2plc-output-type,output type>> specifies the type of output (essentially the file format) that should be generated.
 
-* _PLC task name_: The name of the PLC task to generate. If not specified,
-defaults to `PlcTask`.
+* _PLC task name_: The name of the PLC task to generate.
+If not specified, defaults to `PlcTask`.
 
-* _PLC task cycle time_: If periodic task scheduling is to be used, use this
-option to enable it, by setting the cycle time in milliseconds for the task
-to generate. The cycle time must be a positive integer number. Cycle times of
-over a minute may not work as expected. However, since such large cycle times
-are of little practical use, that should not be a problem. Disable this
-option to disable periodic task scheduling. This option defaults to periodic
-task scheduling with a cycle time of 10 milliseconds. Disabling periodic task
-scheduling is not supported for the TwinCAT <<tools-cif2plc-output-type,output type>>.
+* _PLC task cycle time_: If periodic task scheduling is to be used, use this option to enable it, by setting the cycle time in milliseconds for the task to generate.
+The cycle time must be a positive integer number.
+Cycle times of over a minute may not work as expected.
+However, since such large cycle times are of little practical use, that should not be a problem.
+Disable this option to disable periodic task scheduling.
+This option defaults to periodic task scheduling with a cycle time of 10 milliseconds.
+Disabling periodic task scheduling is not supported for the TwinCAT <<tools-cif2plc-output-type,output type>>.
 
-* _PLC task priority_: The scheduling priority of the task to generate. The
-priority must be in the range [0 .. 65535], where priority 0 is the highest
-priority, and priority 65535 is the lowest priority. The priority can be used
-for preemptive or non-preemptive scheduling. If not specified, the priority
-defaults to 20.
+* _PLC task priority_: The scheduling priority of the task to generate.
+The priority must be in the range [0 .. 65535], where priority 0 is the highest priority, and priority 65535 is the lowest priority.
+The priority can be used for preemptive or non-preemptive scheduling.
+If not specified, the priority defaults to 20.
 
-* _PLC project name_: The name of the PLC project to generate. If not
-specified, defaults to `Untitled1`.
+* _PLC project name_: The name of the PLC project to generate.
+If not specified, defaults to `Untitled1`.
 
-* _PLC configuration name_: The name of the PLC configuration to generate. If
-not specified, defaults to `Untitled1`.
+* _PLC configuration name_: The name of the PLC configuration to generate.
+If not specified, defaults to `Untitled1`.
 
-* _PLC resource name_: The name of the PLC resource to generate. If not
-specified, defaults to `Untitled1`.
+* _PLC resource name_: The name of the PLC resource to generate.
+If not specified, defaults to `Untitled1`.
 
-* _PLC number bits_: The maximum number of bits supported by the PLC for
-representing numeric values. Use 64-bit if supported by the PLC, for full CIF
-compatibility, and the highest <<tools-cif2plc-accuracy,accuracy>>. If
-the PLC does not supported 64-bit integer and floating point numbers, set
-this option to 32-bit.
+* _PLC number bits_: The maximum number of bits supported by the PLC for representing numeric values.
+Use 64-bit if supported by the PLC, for full CIF compatibility, and the highest <<tools-cif2plc-accuracy,accuracy>>.
+If the PLC does not supported 64-bit integer and floating point numbers, set this option to 32-bit.
 
-* _PLC maximum iterations_: The maximum number of iterations of the main loop
-of the main program body, per execution of the main program body. Must be
-a positive number. May be set to infinite, to not impose a restriction. The
-default is set to at most 100 iterations. See the section on the
-<<tools-cif2plc-progbody,program body>> for more information.
+* _PLC maximum iterations_: The maximum number of iterations of the main loop of the main program body, per execution of the main program body.
+Must be a positive number.
+May be set to infinite, to not impose a restriction.
+The default is set to at most 100 iterations.
+See the section on the <<tools-cif2plc-progbody,program body>> for more information.
 
-* _Formal function invocation (arguments based)_: Specifies for which functions
-to use formal invocation syntax in the generated PLC code. By default the
-formal syntax is used for none of the functions. For PLC implementations that
-don't support the non-formal syntax, the formal syntax can be used for all
-functions, or only for functions with more than one argument.
+* _Formal function invocation (arguments based)_: Specifies for which functions to use formal invocation syntax in the generated PLC code.
+By default the formal syntax is used for none of the functions.
+For PLC implementations that don't support the non-formal syntax, the formal syntax can be used for all functions, or only for functions with more than one argument.
 
-* _Formal function invocation (function kind based)_: Specifies for which
-functions to use formal invocation syntax in the generated PLC code. By
-default the formal syntax is used only for all but the standard
-library/conversion functions. This can be changed to only the standard
-library/conversion functions, or to all functions.
+* _Formal function invocation (function kind based)_: Specifies for which functions to use formal invocation syntax in the generated PLC code.
+By default the formal syntax is used only for all but the standard library/conversion functions.
+This can be changed to only the standard library/conversion functions, or to all functions.
 
-* _Eliminate enumerations_: Enable this option to eliminate enumerations (by
-converting them to integers) before generating the actual PLC code, in case
-the PLC doesn't support enumerations. Disable this option to keep enumerations
-in the generated PLC code. By default this option is disabled. This option is
-deprecated. Use the _Convert enumerations_ option instead.
+* _Eliminate enumerations_: Enable this option to eliminate enumerations (by converting them to integers) before generating the actual PLC code, in case the PLC doesn't support enumerations.
+Disable this option to keep enumerations in the generated PLC code.
+By default this option is disabled.
+This option is deprecated.
+Use the _Convert enumerations_ option instead.
 
-* _Convert enumerations_: Specifies whether enumerations should be converted
-before generating the actual PLC code, in case the PLC doesn't support
-enumerations. Enumerations can be converted to integers or constants. By
-default enumerations are not converted. This option has no effect if the
-_Eliminate enumerations_ option is enabled.
+* _Convert enumerations_: Specifies whether enumerations should be converted before generating the actual PLC code, in case the PLC doesn't support enumerations.
+Enumerations can be converted to integers or constants.
+By default enumerations are not converted.
+This option has no effect if the _Eliminate enumerations_ option is enabled.
 
-* _Simplify values_: Enable this option to simplify values and inline constants
-during generation of the PLC code. The benefit is that static computations
-are evaluated, and for the result simpler PLC code is generated. This applies
-to both the original model as well as anything generated during the code
-generation, for instance as the result of
-<<tools-cif2cif-chapter-linearize-merge,linearization>>. Constants created by
-_Convert enumerations_ are not inlined. Enabling the option may thus lead to
-simpler PLC code. However, the simplification itself may take quite some time.
-Furthermore, as constants are inlined, they are duplicated for each use. If a
-constant with a large value (such as a large literal array) is used multiple
-times, this can lead to significantly larger PLC code. By default this option
-is enabled.
+* _Simplify values_: Enable this option to simplify values and inline constants during generation of the PLC code.
+The benefit is that static computations are evaluated, and for the result simpler PLC code is generated.
+This applies to both the original model as well as anything generated during the code generation, for instance as the result of <<tools-cif2cif-chapter-linearize-merge,linearization>>.
+Constants created by _Convert enumerations_ are not inlined.
+Enabling the option may thus lead to simpler PLC code.
+However, the simplification itself may take quite some time.
+Furthermore, as constants are inlined, they are duplicated for each use.
+If a constant with a large value (such as a large literal array) is used multiple times, this can lead to significantly larger PLC code.
+By default this option is enabled.
 
-* _Rename warnings_: Enable this option to print warnings to the console when
-a PLC name is renamed due to a conflict with another PLC name, or disable it
-to omit the warnings. The option is disabled by default. See the section on
-<<tools-cif2plc-names,names>> for more information.
+* _Rename warnings_: Enable this option to print warnings to the console when a PLC name is renamed due to a conflict with another PLC name, or disable it to omit the warnings.
+The option is disabled by default.
+See the section on <<tools-cif2plc-names,names>> for more information.
 
-Formal function invocation syntax (e.g. `MIN(IN1:3, IN2:5)`) is used in the
-generated PLC code only for those functions that are included by both the
-menu:Formal function invocation (arguments based)[]
-option and the
-menu:Formal function invocation (function kind based)[]
-option. If either
-of the options excludes the function, the non-formal function invocation syntax
-(e.g. `MIN(3, 5)`) is used for that function. Note that for invocations of
-function blocks, the generated PLC code always uses the formal syntax.
-Furthermore, for certain standard library functions, only the non-formal syntax
-is defined by the standard, and thus used in the generated PLC code.
+Formal function invocation syntax (e.g. `MIN(IN1:3, IN2:5)`) is used in the generated PLC code only for those functions that are included by both the menu:Formal function invocation (arguments based)[] option and the menu:Formal function invocation (function kind based)[] option.
+If either of the options excludes the function, the non-formal function invocation syntax (e.g. `MIN(3, 5)`) is used for that function.
+Note that for invocations of function blocks, the generated PLC code always uses the formal syntax.
+Furthermore, for certain standard library functions, only the non-formal syntax is defined by the standard, and thus used in the generated PLC code.
 
 indexterm:[CIF PLC code generator,supported specifications]
 
 === Supported specifications
 
-The CIF PLC code generator supports a subset of CIF specifications. The
-following restrictions apply:
+The CIF PLC code generator supports a subset of CIF specifications.
+The following restrictions apply:
 
-* Unrestricted events are not supported, as they can always be executed (are
-always enabled), and would lead to infinitely running PLC code. Detection of
-unrestricted events however, is incomplete. That is, for some unrestricted
-the code generation results in an error, while for other unrestricted events
-code is generated without any warnings or errors. See the
-<<tools-cif2plc-progbody>> section for more information.
+* Unrestricted events are not supported, as they can always be executed (are always enabled), and would lead to infinitely running PLC code.
+Detection of unrestricted events however, is incomplete.
+That is, for some unrestricted the code generation results in an error, while for other unrestricted events code is generated without any warnings or errors.
+See the <<tools-cif2plc-progbody>> section for more information.
 
 * Specifications without automata are not supported.
 
-* Initialization predicates outside locations are not supported, except if it
-can be determined statically that they are trivially `true`.
+* Initialization predicates outside locations are not supported, except if it can be determined statically that they are trivially `true`.
 
-* State invariants in components are not supported, except if it can be
-determined statically that they are trivially `true`.
+* State invariants in components are not supported, except if it can be determined statically that they are trivially `true`.
 
-* State/event exclusion invariants (in components as well as locations) are not
-supported. To allow state/event exclusion invariants to be used in the input,
-manually eliminate them first using the
-<<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
+* State/event exclusion invariants (in components as well as locations) are not supported.
+To allow state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
 
-* Discrete variables with multiple initial values (including `any`) are not
-supported.
+* Discrete variables with multiple initial values (including `any`) are not supported.
 
 * External user-defined functions are not supported.
 
 * Urgent locations are not supported.
 
-* Initialization predicates in locations that can not be statically evaluated
-are not supported.
+* Initialization predicates in locations that can not be statically evaluated are not supported.
 
-* State invariants in locations are not supported, except if it can be
-determined statically that they are trivially `true`.
+* State invariants in locations are not supported, except if it can be determined statically that they are trivially `true`.
 
 * Automata that do not have exactly one initial location are not supported.
 
@@ -201,66 +161,52 @@ determined statically that they are trivially `true`.
 
 * User-defined functions without parameters are not supported.
 
-* Internal user-defined functions that contain a multi-assignment that assigns
-multiple (non-overlapping) parts of a single variable are not supported.
-For instance, `a[0], a[1] := 1, 2` is not supported, as multiple parts
-(the first and second element) of array `a` are assigned in a single
-multi-assignment. This restriction applies only to multi-assignments in
-functions, not to multi-assignments on edges.
+* Internal user-defined functions that contain a multi-assignment that assigns multiple (non-overlapping) parts of a single variable are not supported.
+For instance, `a[0], a[1] := 1, 2` is not supported, as multiple parts (the first and second element) of array `a` are assigned in a single multi-assignment.
+This restriction applies only to multi-assignments in functions, not to multi-assignments on edges.
 
-* Internal user-defined functions that contain a `continue` statement are
-not supported.
+* Internal user-defined functions that contain a `continue` statement are not supported.
 
-* Data types other than `bool`, `int` (with or without range), `real`,
-enumerations, tuples, and arrays, are not supported. This applies to the data
-types of variables, parameters of functions, return types of functions, etc.
+* Data types other than `bool`, `int` (with or without range), `real`, enumerations, tuples, and arrays, are not supported.
+This applies to the data types of variables, parameters of functions, return types of functions, etc.
 
 * String values are not supported.
 
-* Cast from `int` to `real` and casts that don't change the type, are
-supported. All other casts are not supported.
+* Cast from `int` to `real` and casts that don't change the type, are supported.
+All other casts are not supported.
 
 * Sampling of distributions is not supported.
 
-* The use of the conjunction and disjunction binary operators on anything other
-than boolean values is not supported.
+* The use of the conjunction and disjunction binary operators on anything other than boolean values is not supported.
 
-* The use of the equality and inequality binary operators on anything other
-than boolean, integer, real, or enumeration values is not supported.
+* The use of the equality and inequality binary operators on anything other than boolean, integer, real, or enumeration values is not supported.
 
-* The use of the addition and subtraction binary operators on anything other
-than integer or real values is not supported.
+* The use of the addition and subtraction binary operators on anything other than integer or real values is not supported.
 
 * The use of the element test and subset binary operators is not supported.
 
-* Projection on anything other than tuples and arrays is not supported. This
-applies to expressions as well as addressables (the left hand sides of
-assignments). For arrays, both 0-based indices (counting from the left) as
-well as negative indices (counting from the right) are supported.
+* Projection on anything other than tuples and arrays is not supported.
+This applies to expressions as well as addressables (the left hand sides of assignments).
+For arrays, both 0-based indices (counting from the left) as well as negative indices (counting from the right) are supported.
 
 * Slicing is not supported.
 
-* Function calls on anything other than standard library functions and internal
-user-defined functions is not supported.
+* Function calls on anything other than standard library functions and internal user-defined functions is not supported.
 
-* The `ceil`, `del`, `empty`, `floor`, `fmt`, `pop`, `round`,
-`scale`, `sign`, `size`, `acosh`, `asinh`, `atanh`, `cosh`,
-`sinh`, and `tanh` standard library functions are not supported.
+* The `ceil`, `del`, `empty`, `floor`, `fmt`, `pop`, `round`, `scale`, `sign`, `size`, `acosh`, `asinh`, `atanh`, `cosh`, `sinh`, and `tanh` standard library functions are not supported.
 
 * The distribution standard library functions are not supported.
 
 * Lists (except for arrays), sets, and dictionaries are not supported.
 
-* The use of functions as values is not supported. That is, functions may only
-be used in function calls, and may for instance not be stored in variables.
+* The use of functions as values is not supported.
+That is, functions may only be used in function calls, and may for instance not be stored in variables.
 
 indexterm:[CIF PLC code generator,preprocessing]
 
 === Preprocessing
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-applied as preprocessing (in the given order), to increase the subset of CIF
-specifications that can be transformed:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -272,9 +218,8 @@ specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-remove-io-decls>>
 
-After these preprocessing steps, the generator checks whether the specification
-is supported. It then applies the following additional 
-<<tools-cif2cif-chapter-index,CIF to CIF transformations>>:
+After these preprocessing steps, the generator checks whether the specification is supported.
+It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CIF transformations>>:
 
 * <<tools-cif2cif-chapter-linearize-merge>>
 
@@ -282,97 +227,76 @@ is supported. It then applies the following additional
 
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
-* <<tools-cif2cif-chapter-enums-to-ints>> (if _Convert enumerations_ option is set
-to integers or if _Eliminate enumerations_ is enabled)
+* <<tools-cif2cif-chapter-enums-to-ints>> (if _Convert enumerations_ option is set to integers or if _Eliminate enumerations_ is enabled)
 
-* <<tools-cif2cif-chapter-enums-to-consts>> (if _Convert enumerations_ option is
-set to constants)
+* <<tools-cif2cif-chapter-enums-to-consts>> (if _Convert enumerations_ option is set to constants)
 
 indexterm:[CIF PLC code generator,standard compliance]
 
 === Standard compliance
 
-The PLC code that is generated complies with the second edition (from 2003) of
-the IEC 61131-3 standard. The code does not use any vendor specific extensions,
-functions, etc.
+The PLC code that is generated complies with the second edition (from 2003) of the IEC 61131-3 standard.
+The code does not use any vendor specific extensions, functions, etc.
 
-For the TwinCAT <<tools-cif2plc-output-type,output type>>, `STRUCT`
-data type declarations have no `;` character after the `STRUCT` data types,
-to work around a bug in the TwinCAT parser. In that case the output is not
-compliant with the IEC 61131-3 standard.
+For the TwinCAT <<tools-cif2plc-output-type,output type>>, `STRUCT` data type declarations have no `;` character after the `STRUCT` data types, to work around a bug in the TwinCAT parser.
+In that case the output is not compliant with the IEC 61131-3 standard.
 
 indexterm:[CIF PLC code generator,generated code]
 
 === Generated PLC code
 
-The bodies of the programs and functions in the generated PLC code use
-Structured Text as programming language. Structured Text is one of the
-programming languages that is part of the IEC 61131-1 standard.
+The bodies of the programs and functions in the generated PLC code use Structured Text as programming language.
+Structured Text is one of the programming languages that is part of the IEC 61131-1 standard.
 
-The generated code contains a single program called `MAIN`. This program is
-instantiated in a task, which is part of a resource, which in turn is part of
-a configuration. The configuration is put in a project, but that is outside
-the range of the IEC 61131-3 standard. Most implementations however, work with
-projects. The effect of the project, configuration, resource, and task is
-dependent on the <<tools-cif2plc-output-type,output type>>. Besides a
-program, the code generator also generates data types, functions, and global
-variables.
+The generated code contains a single program called `MAIN`.
+This program is instantiated in a task, which is part of a resource, which in turn is part of a configuration.
+The configuration is put in a project, but that is outside the range of the IEC 61131-3 standard.
+Most implementations however, work with projects.
+The effect of the project, configuration, resource, and task is dependent on the <<tools-cif2plc-output-type,output type>>.
+Besides a program, the code generator also generates data types, functions, and global variables.
 
-For algebraic variables, functions are generated that are parametrized over the
-state of the system. Similarly, functions are generated for the derivatives of
-the continuous variables. For the discrete and continuous variables (including
-variable `time`), a `STRUCT` data type named `STATE` is generated that
-holds the entire state of the system (or more precisely, the
-<<tools-cifsim-traces-state,state>> of the CIF specification). For input variables,
-an `INPUTS` global variables list/file is generated. For constants (if
-_Simplify values_ option is disabled), a `CONSTS` global variables list/file
-is generated.
+For algebraic variables, functions are generated that are parametrized over the state of the system.
+Similarly, functions are generated for the derivatives of the continuous variables.
+For the discrete and continuous variables (including variable `time`), a `STRUCT` data type named `STATE` is generated that holds the entire state of the system (or more precisely, the <<tools-cifsim-traces-state,state>> of the CIF specification).
+For input variables, an `INPUTS` global variables list/file is generated.
+For constants (if _Simplify values_ option is disabled), a `CONSTS` global variables list/file is generated.
 
-For invalid CIF specifications, the resulting code may not always behave as the
-original CIF code. For instance, the ranges of integer types are ignored by the
-code generator. Furthermore, `mod` by zero in CIF results in a runtime error,
-while in the generated code it results in zero. Out of bound projection indices
-of arrays may for instance have the effect that the closest existing element is
-used instead, and the result may even be implementation dependent. There are
-other such differences as well.
+For invalid CIF specifications, the resulting code may not always behave as the original CIF code.
+For instance, the ranges of integer types are ignored by the code generator.
+Furthermore, `mod` by zero in CIF results in a runtime error, while in the generated code it results in zero.
+Out of bound projection indices of arrays may for instance have the effect that the closest existing element is used instead, and the result may even be implementation dependent.
+There are other such differences as well.
 
-Little to no effort is put into generating readable code. That is, the
-generated is not meant to be inspected. The generated code is also not intended
-to be modified directly. Instead, the original CIF models should be modified,
-and from them new PLC code should be generated. Examples of non-readable code
-include the generated <<tools-cif2plc-names,names>>, and code generated
-for expressions (which has way more parentheses than strictly necessary).
+Little to no effort is put into generating readable code.
+That is, the generated is not meant to be inspected.
+The generated code is also not intended to be modified directly.
+Instead, the original CIF models should be modified, and from them new PLC code should be generated.
+Examples of non-readable code include the generated <<tools-cif2plc-names,names>>, and code generated for expressions (which has way more parentheses than strictly necessary).
 
 indexterm:[CIF PLC code generator,names]
 
 [[tools-cif2plc-names]]
 === Names
 
-The generated PLC code will contain names for functions, variables, locations
-of automata, etc. The absolute names of all objects are used. The names are
-influenced by the <<tools-cif2cif-chapter-linearize-merge,linearization>>
-algorithm. They are further influenced by the PLC code generator.
+The generated PLC code will contain names for functions, variables, locations of automata, etc.
+The absolute names of all objects are used.
+The names are influenced by the <<tools-cif2cif-chapter-linearize-merge,linearization>> algorithm.
+They are further influenced by the PLC code generator.
 
-The code generator ensures unique names in the generated PLC code, taking into
-account the reserved names (keywords, standard functions, etc) of the IEC
-61131-3 standard and some of the common implementations of that standard. To
-avoid reserved names, names are prefixed with prefixes that depend on the type
-of object (for instance, `+dvar_+` for discrete variables). Furthermore, it
-takes into account that names in CIF are case sensitive, while they are case
-insensitive in IEC 61131-3. The code generator computes a candidate name based
-on these criteria.
+The code generator ensures unique names in the generated PLC code, taking into account the reserved names (keywords, standard functions, etc) of the IEC 61131-3 standard and some of the common implementations of that standard.
+To avoid reserved names, names are prefixed with prefixes that depend on the type of object (for instance, `+dvar_+` for discrete variables).
+Furthermore, it takes into account that names in CIF are case sensitive, while they are case insensitive in IEC 61131-3.
+The code generator computes a candidate name based on these criteria.
 
-If this results in duplicate names, renaming is performed. A common reason for
-renaming is different locations (of the same automaton or of different
-automata) that have the same name, but in different casing. For instance,
-consider one location named `WaitForTimeout` and another named
-`WaitForTimeOut`. After linearization, there is an enumeration with a literal
-for each unique location name. The enumeration thus has at least two literals,
-named `WaitForTimeout` and `WaitForTimeOut`. The candidate names for these
-enumeration literals are `elit_WaitForTimeout` and `elit_WaitForTimeOut`.
-However, they are identical except for casing. Thus, the first one that is
-encountered during code generation gets the candidate name, and the second one
-is renamed. This results in a warning like this:
+If this results in duplicate names, renaming is performed.
+A common reason for renaming is different locations (of the same automaton or of different automata) that have the same name, but in different casing.
+For instance, consider one location named `WaitForTimeout` and another named `WaitForTimeOut`.
+After linearization, there is an enumeration with a literal for each unique location name.
+The enumeration thus has at least two literals, named `WaitForTimeout` and `WaitForTimeOut`.
+The candidate names for these enumeration literals are `elit_WaitForTimeout` and `elit_WaitForTimeOut`.
+However, they are identical except for casing.
+Thus, the first one that is encountered during code generation gets the candidate name, and the second one is renamed.
+This results in a warning like this:
 
 
 [source, console]
@@ -380,102 +304,75 @@ is renamed. This results in a warning like this:
 WARNING: PLC variable "elit_WaitForTimeout" is renamed to "elit_WaitForTimeout2".
 ----
 
-Renaming may be needed to ensure valid functioning output. However, it may make
-it slightly more difficult to trace names in the generated PLC code back to the
-original CIF model. Also, in the PLC environment, when debugging the current
-values of variables may be shown. If enumeration literals are renamed, the
-renamed names may then be shown in the debugger. By default, the PLC code
-generator does not inform the user when renaming takes place. By enabling the
-_Rename Warnings_ option, a warning will be printed to the console, each time
-a PLC name is renamed.
+Renaming may be needed to ensure valid functioning output.
+However, it may make it slightly more difficult to trace names in the generated PLC code back to the original CIF model.
+Also, in the PLC environment, when debugging the current values of variables may be shown.
+If enumeration literals are renamed, the renamed names may then be shown in the debugger.
+By default, the PLC code generator does not inform the user when renaming takes place.
+By enabling the _Rename Warnings_ option, a warning will be printed to the console, each time a PLC name is renamed.
 
 indexterm:[CIF PLC code generator,program body]
 
 [[tools-cif2plc-progbody]]
 === Program body
 
-The body of the `MAIN` program consists of several parts. The `MAIN`
-program is executed exactly once per cycle, by the PLC. The following parts are
-present, and are executed in order:
+The body of the `MAIN` program consists of several parts.
+The `MAIN` program is executed exactly once per cycle, by the PLC.
+The following parts are present, and are executed in order:
 
 * Time and cycle time handling.
 
 * Initialization of the initial state, for the first cycle only.
 
-* Updating of the continuous variables for the time that has passed since the
-previous cycle, for all but the first cycle.
+* Updating of the continuous variables for the time that has passed since the previous cycle, for all but the first cycle.
 
 * A loop that executes events for as long as they are possible.
 
-The code automatically determines the cycle time that is used, in a manner that
-does not require any vendor specific extensions, functions, or data types.
-The generated code works for fixed cycle times (periodic task scheduling) as
-well as variable cycle times (non-periodic tasks).
+The code automatically determines the cycle time that is used, in a manner that does not require any vendor specific extensions, functions, or data types.
+The generated code works for fixed cycle times (periodic task scheduling) as well as variable cycle times (non-periodic tasks).
 
-During the first cycle, the variables of the state are initialized to their
-proper values. For subsequent cycles, the state resulting from the previous
-cycle is reused, where the values of the continuous variables are updated to
-account for the time that has passed since the beginning of the previous cycle.
-For details on the method used to update the values of the continuous
-variables, see the <<tools-cif2plc-accuracy>> section.
+During the first cycle, the variables of the state are initialized to their proper values.
+For subsequent cycles, the state resulting from the previous cycle is reused, where the values of the continuous variables are updated to account for the time that has passed since the beginning of the previous cycle.
+For details on the method used to update the values of the continuous variables, see the <<tools-cif2plc-accuracy>> section.
 
-The loop at the end of the body evaluates the guard of each of the events of
-the CIF specification. If a guard holds, the corresponding update is performed.
-Code is generated for the events, or rather the edges, in the order that they
-occur in the <<tools-cif2cif-chapter-linearize-merge,linearized>> CIF
-specification. Linearization is performed in such a way, that the PLC code that
-is generated from it, has a correspondence to the simulator. Assuming the
-simulator is used to simulate by always automatically choosing the
-<<tools-cifsim-input-chapter-automatic,first transition>> that is enabled, the
-PLC code will choose that same transition. That is, for each iteration of the
-event loop, the code is executed for the first event with an enabled guard.
-Then, a new iteration of the loop is started, from the top, to ensure that the
-first enabled event is always executed, similar to simulation. If during an
-iteration of the loop none of the events is enabled, the loop terminates.
+The loop at the end of the body evaluates the guard of each of the events of the CIF specification.
+If a guard holds, the corresponding update is performed.
+Code is generated for the events, or rather the edges, in the order that they occur in the <<tools-cif2cif-chapter-linearize-merge,linearized>> CIF specification.
+Linearization is performed in such a way, that the PLC code that is generated from it, has a correspondence to the simulator.
+Assuming the simulator is used to simulate by always automatically choosing the <<tools-cifsim-input-chapter-automatic,first transition>> that is enabled, the PLC code will choose that same transition.
+That is, for each iteration of the event loop, the code is executed for the first event with an enabled guard.
+Then, a new iteration of the loop is started, from the top, to ensure that the first enabled event is always executed, similar to simulation.
+If during an iteration of the loop none of the events is enabled, the loop terminates.
 
-If at least one event was enabled, the loop is executed again. If during an
-iteration of the loop none of the edges was enabled, the loop terminates. This
-approach generally does not result in predictable execution times of the
-program body. That is, if a certain edge keeps being enabled, the loop is
-executed over an over again. In that case, the execution time of the body
-exceeds the fixed cycle time, and the controller is no longer guaranteed to
-work correctly. Even if the loop is only executed a finite number of times,
-the execution time of the body may exceed the fixed cycle time. One may
-consider monitoring the execution times to detect such issues.
+If at least one event was enabled, the loop is executed again.
+If during an iteration of the loop none of the edges was enabled, the loop terminates.
+This approach generally does not result in predictable execution times of the program body.
+That is, if a certain edge keeps being enabled, the loop is executed over an over again.
+In that case, the execution time of the body exceeds the fixed cycle time, and the controller is no longer guaranteed to work correctly.
+Even if the loop is only executed a finite number of times, the execution time of the body may exceed the fixed cycle time.
+One may consider monitoring the execution times to detect such issues.
 
 indexterm:[debug,PLC code]
-Within the 'event loop', a counter is used to detect how often the loop is
-repeated. After the loop is executed a 100 times, the loop is terminated, to
-ensure that the body terminates in the case of events that are always possible.
+Within the 'event loop', a counter is used to detect how often the loop is repeated.
+After the loop is executed a 100 times, the loop is terminated, to ensure that the body terminates in the case of events that are always possible.
 In such a cases, variable `loopsKilled` is incremented by one, for debugging.
-While by default the loop is terminated after 100 iterations, this maximum
-number of iterations can be configured using the
-menu:PLC maximum iterations[]
-option (menu:Generator[]
-category). The
-option can also be set to infinite, to not impose a restriction, and never
-terminate the loop due to too many iterations. See also the
-<<tools-cif2plc-options>> section above.
+While by default the loop is terminated after 100 iterations, this maximum number of iterations can be configured using the menu:PLC maximum iterations[] option (menu:Generator[] category).
+The option can also be set to infinite, to not impose a restriction, and never terminate the loop due to too many iterations.
+See also the <<tools-cif2plc-options>> section above.
 
-Obviously, similar to the fact that the controller cannot guarantee its correct
-behavior if the execution time of a cycle exceeds the cycle time, the
-controller also cannot guarantee its correct behavior if the inputs from the
-external I/O change more rapidly than the cycle time. That is, if an input
-changes during a cycle, the change is not noticed until the next cycle. If an
-input changes during a cycle and changes back during that same cycle, the
-change is not noticed at all. Therefore, choosing an appropriate cycle time is
-essential for the correct functioning of the controller.
+Obviously, similar to the fact that the controller cannot guarantee its correct behavior if the execution time of a cycle exceeds the cycle time, the controller also cannot guarantee its correct behavior if the inputs from the external I/O change more rapidly than the cycle time.
+That is, if an input changes during a cycle, the change is not noticed until the next cycle.
+If an input changes during a cycle and changes back during that same cycle, the change is not noticed at all.
+Therefore, choosing an appropriate cycle time is essential for the correct functioning of the controller.
 
 indexterm:[CIF PLC code generator,accuracy over time]
 
 [[tools-cif2plc-accuracy]]
 === Accuracy over time
 
-The generated code maintains the running time in seconds, by adding the cycle
-time to current running time, on each cycle. Due to the finite binary
-representation of real values, this results in loss of a accuracy over
-prolonged periods of execution time. As such, the use of variable `time` in
-CIF models is highly discouraged.
+The generated code maintains the running time in seconds, by adding the cycle time to current running time, on each cycle.
+Due to the finite binary representation of real values, this results in loss of a accuracy over prolonged periods of execution time.
+As such, the use of variable `time` in CIF models is highly discouraged.
 
 // 1e12 + 1e-3 = 1000000000000.001
 // 1e13 + 1e-3 = 10000000000000.002
@@ -483,50 +380,32 @@ CIF models is highly discouraged.
 // 1e12/60/60/24/365 = 31709.79198376459
 // > 31709 years
 
-However, for a cycle time of one millisecond, while there may be loss of
-accuracy, time should keep increasing for at least several thousand years.
-After that, adding the cycle time may no longer increase the value of the
-variable, potentially resulting in unexpected execution behavior.
+However, for a cycle time of one millisecond, while there may be loss of accuracy, time should keep increasing for at least several thousand years.
+After that, adding the cycle time may no longer increase the value of the variable, potentially resulting in unexpected execution behavior.
 
-The continuous variables from the CIF specification are updated each cycle
-using the
-link:http://en.wikipedia.org/wiki/Euler_method[Euler method]
-for
-integration. That is, each cycle the cycle time is multiplied by the derivative
-of the continuous variable in the state of the previous cycle. This value is
-added to the value of the continuous variable. Essentially, a linear
-approximation of the derivative is used, calculated using the state of the
-previous cycle.
+The continuous variables from the CIF specification are updated each cycle using the link:http://en.wikipedia.org/wiki/Euler_method[Euler method] for integration.
+That is, each cycle the cycle time is multiplied by the derivative of the continuous variable in the state of the previous cycle.
+This value is added to the value of the continuous variable.
+Essentially, a linear approximation of the derivative is used, calculated using the state of the previous cycle.
 
-The Euler method can be
-link:http://en.wikipedia.org/wiki/Numerical_stability[numerically unstable],
-can suffer from rounding
-errors due to the use finite binary representations of real values, and has
-some other issues as well. The effects are likely to be limited if linear
-continuous variable (continuous variables with constant derivatives) are used.
-Especially clocks (derivative +1 or -1) generally don't suffer too much from
-these issues. However, even clocks may suffer from loss of accuracy over time.
+The Euler method can be link:http://en.wikipedia.org/wiki/Numerical_stability[numerically unstable], can suffer from rounding errors due to the use finite binary representations of real values, and has some other issues as well.
+The effects are likely to be limited if linear continuous variable (continuous variables with constant derivatives) are used.
+Especially clocks (derivative +1 or -1) generally don't suffer too much from these issues.
+However, even clocks may suffer from loss of accuracy over time.
 As such, clocks should not be used to measure over long periods of time.
-Instead they should be reset, rendering the past loss of accuracy irrelevant
-for any future measurements.
+Instead they should be reset, rendering the past loss of accuracy irrelevant for any future measurements.
 
 indexterm:[CIF PLC code generator,I/O coupling]
 
 === I/O coupling
 
-For all variables in the state of the CIF specification, except for variable
-`time`, PLC variables are generated with a `+%Q*+` address, to ensure they
-can be used as output variables, and can potentially be coupled to output
-ports. The state is maintained in a variable `state0`, a persistent local
-variable of the `MAIN` program.
+For all variables in the state of the CIF specification, except for variable `time`, PLC variables are generated with a `+%Q*+` address, to ensure they can be used as output variables, and can potentially be coupled to output ports.
+The state is maintained in a variable `state0`, a persistent local variable of the `MAIN` program.
 
-For all input variables of the CIF specification, a PLC variable is generated
-with a `+%I*+` addresses, to ensure they can be used as input variables, and
-can potentially be coupled to input ports. These variables are generated in a
-global variables list/file named `INPUTS`.
+For all input variables of the CIF specification, a PLC variable is generated with a `+%I*+` addresses, to ensure they can be used as input variables, and can potentially be coupled to input ports.
+These variables are generated in a global variables list/file named `INPUTS`.
 
-The actual coupling to hardware addresses is something that is left to the
-implementation of the PLC programming environment.
+The actual coupling to hardware addresses is something that is left to the implementation of the PLC programming environment.
 
 indexterm:[CIF PLC code generator,output types]
 indexterm:[CIF PLC code generator,PLCopen XML]
@@ -536,13 +415,9 @@ indexterm:[CIF PLC code generator,TwinCAT]
 [[tools-cif2plc-output-type]]
 === PLC output type
 
-The PLC code generator can generate its output in multiple forms (file formats)
-depending on the output type. The output type can be configured using the
-menu:PLC code output type[]
-option (
-menu:Generator[]
-category). The
-following output types are currently available:
+The PLC code generator can generate its output in multiple forms (file formats) depending on the output type.
+The output type can be configured using the menu:PLC code output type[] option ( menu:Generator[] category).
+The following output types are currently available:
 
 * PLCopen XML (default)
 
@@ -550,30 +425,16 @@ following output types are currently available:
 
 * <<tools-cif2plc-chapter-twincat,TwinCAT>>
 
-PLCopen XML is an
-link:http://en.wikipedia.org/wiki/XML[XML]-based file format
-standardized by the PLCopen organization, intended for the exchange of complete
-projects of PLC code, even across different tools and vendors. The PLCopen
-XML files generated by the PLC code generator are compliant with version 2.01
-of the PLCopen XML standard. By default, if no output file is specified, it
-defaults to the input file path, where the `.cif` file extension is removed
-(if present), and a `.plcopen.xml` file extension is added.
+PLCopen XML is an link:http://en.wikipedia.org/wiki/XML[XML]-based file format standardized by the PLCopen organization, intended for the exchange of complete projects of PLC code, even across different tools and vendors.
+The PLCopen XML files generated by the PLC code generator are compliant with version 2.01 of the PLCopen XML standard.
+By default, if no output file is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `.plcopen.xml` file extension is added.
 
-Output in IEC 61131-3 syntax generates multiple files. By default, if no output
-directory is specified, it defaults to the input file path, where the `.cif`
-file extension is removed (if present), and a `+_plc+` directory extension is
-added. The `MAIN` program gets a `.plcprog` file extension, functions get
-a `.plcfunc` file extension, type declarations get a `.plctype` file
-extension, and the configuration gets a `.plccfg` file extension. The
-_PLC project name_ and _PLC resource name_ options have no effect for this
-output type.
+Output in IEC 61131-3 syntax generates multiple files.
+By default, if no output directory is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_plc+` directory extension is added.
+The `MAIN` program gets a `.plcprog` file extension, functions get a `.plcfunc` file extension, type declarations get a `.plctype` file extension, and the configuration gets a `.plccfg` file extension.
+The _PLC project name_ and _PLC resource name_ options have no effect for this output type.
 
-TwinCAT is a complete
-link:http://en.wikipedia.org/wiki/Integrated_development_environment[IDE]
-for the
-development and testing of PLC controllers. Using the TwinCAT PLC output type,
-the generated PLC code can be written to the native file formats of the TwinCAT
-IDE. By default, if no output directory is specified, it defaults to the input
-file path, where the `.cif` file extension is removed (if present), and a
-`+_twincat+` directory extension is added. See the
-<<tools-cif2plc-chapter-twincat>> page for further details.
+TwinCAT is a complete link:http://en.wikipedia.org/wiki/Integrated_development_environment[IDE] for the development and testing of PLC controllers.
+Using the TwinCAT PLC output type, the generated PLC code can be written to the native file formats of the TwinCAT IDE.
+By default, if no output directory is specified, it defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_twincat+` directory extension is added.
+See the <<tools-cif2plc-chapter-twincat>> page for further details.

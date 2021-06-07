@@ -16,10 +16,10 @@ include::../_part_attributes.asciidoc[]
 == Constants
 
 indexterm:[constant]
-Through the use of _constants_, fixed values can be given a name. Using
-constants, it is easy to change certain fixed values. If the constant is
-used consistently throughout the model, the value needs to be changed only in
-one place. Constants can thus make it easier to keep the model consistent.
+Through the use of _constants_, fixed values can be given a name.
+Using constants, it is easy to change certain fixed values.
+If the constant is used consistently throughout the model, the value needs to be changed only in one place.
+Constants can thus make it easier to keep the model consistent.
 
 Consider the following CIF specification:
 
@@ -39,21 +39,20 @@ automaton movement:
 end
 ----
 
-In this example, the `movement` automaton keeps track of the `position` of
-an object. The object starts at position `0`. It can `move` until it
-reaches its target position. The target position is `100`. Rather than using
-`position < 100` as guard, the value `100` is stored in a constant named
-`TARGET`. The constant can then be used instead the value `100`. Similarly,
-the step size of the object is stored in a constant named `STEP`.
+In this example, the `movement` automaton keeps track of the `position` of an object.
+The object starts at position `0`.
+It can `move` until it reaches its target position.
+The target position is `100`.
+Rather than using `position < 100` as guard, the value `100` is stored in a constant named `TARGET`.
+The constant can then be used instead the value `100`.
+Similarly, the step size of the object is stored in a constant named `STEP`.
 
-Constants have a name, which by contention is usually written using upper case
-letters. Using a constant instead of a fixed value makes it more clear what
-that value represents. For instance, by using `position < TARGET` rather than
-`position < 100`, the intention of the guard condition is more clear. Using a
-constant can thus enhance readability.
+Constants have a name, which by contention is usually written using upper case letters.
+Using a constant instead of a fixed value makes it more clear what that value represents.
+For instance, by using `position < TARGET` rather than `position < 100`, the intention of the guard condition is more clear.
+Using a constant can thus enhance readability.
 
-Another benefit of constants, is that they can be used multiple times in the
-same model:
+Another benefit of constants, is that they can be used multiple times in the same model:
 
 
 [source, cif]
@@ -72,15 +71,13 @@ automaton movement:
 end
 ----
 
-In this modified example it is possible for the object to perform `forward`
-as well as `backward` movements. The step size is the same for both
-movements, making it possible to use the `STEP` constant in the updates of
-both edges. Since a constant is used, the speed of both movements can be
-changed by changing the value of the constant. Without using a constant, the
-speed would have to be changed separately for each edge.
+In this modified example it is possible for the object to perform `forward` as well as `backward` movements.
+The step size is the same for both movements, making it possible to use the `STEP` constant in the updates of both edges.
+Since a constant is used, the speed of both movements can be changed by changing the value of the constant.
+Without using a constant, the speed would have to be changed separately for each edge.
 
-Constants are not limited to integer values. Consider the following example,
-where a more complex value is used:
+Constants are not limited to integer values.
+Consider the following example, where a more complex value is used:
 
 // Copied to: reuse1/type-declarations
 
@@ -90,12 +87,8 @@ enum ProductType = A, B, C;
 const dict(ProductType:real) DURATION = {A: 3.5, B: 5.7, C: 0.8};
 ----
 
-This example declares a `ProductType` enumeration, with three different
-product types: `A`, `B`, and `C`. The `DURATION` constant indicates
-for each product type, how long it takes to produce a product of that type.
-Products of type `A` can be produced in 3.5 hours, products of type `B`
-in 5.7 hours, etc. To get the production duration of products of type `C`,
-<<tut-values-chapter-types-values-exprs,expression>> `DURATION[C]` can be
-used. For more information, see the lessons on
-<<tut-values-chapter-enumerations,enumerations>> and
-<<tut-values-chapter-dictionaries,dictionaries>>.
+This example declares a `ProductType` enumeration, with three different product types: `A`, `B`, and `C`.
+The `DURATION` constant indicates for each product type, how long it takes to produce a product of that type.
+Products of type `A` can be produced in 3.5 hours, products of type `B` in 5.7 hours, etc.
+To get the production duration of products of type `C`, <<tut-values-chapter-types-values-exprs,expression>> `DURATION[C]` can be used.
+For more information, see the lessons on <<tut-values-chapter-enumerations,enumerations>> and <<tut-values-chapter-dictionaries,dictionaries>>.

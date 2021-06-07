@@ -18,23 +18,14 @@ include::_part_attributes.asciidoc[]
 indexterm:[CIF to yEd transformer]
 indexterm:[tools,CIF to yEd transformer]
 indexterm:[see: yEd,CIF to yEd transformer]
-The CIF to yEd transformer can be used to transform CIF specifications to
-yEd diagrams. Several <<tools-cif2yed-diagram-kinds,kinds of diagrams>>
-can be generated. These diagrams can be used to better understand the
-specification, to communicate the specification to other, or to be included in
-reports.
+The CIF to yEd transformer can be used to transform CIF specifications to yEd diagrams.
+Several <<tools-cif2yed-diagram-kinds,kinds of diagrams>> can be generated.
+These diagrams can be used to better understand the specification, to communicate the specification to other, or to be included in reports.
 
-The
-link:http://www.yworks.com/en/products/yfiles/yed/[yEd Graph Editor]
-is an
-application that can be used to view, create, edit, arrange, import and export
-various kinds of diagrams. It is freely available and runs on Windows, Linux,
-and macOS.
+The link:http://www.yworks.com/en/products/yfiles/yed/[yEd Graph Editor] is an application that can be used to view, create, edit, arrange, import and export various kinds of diagrams.
+It is freely available and runs on Windows, Linux, and macOS.
 
-The yEd diagrams are generated as
-link:http://graphml.graphdrawing.org/[GraphML]
-files (`+*.graphml+` files), using yEd specific extensions to specify the
-graphical representation.
+The yEd diagrams are generated as link:http://graphml.graphdrawing.org/[GraphML] files (`+*.graphml+` files), using yEd specific extensions to specify the graphical representation.
 
 indexterm:[CIF to yEd transformer,start]
 
@@ -42,17 +33,12 @@ indexterm:[CIF to yEd transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:Convert CIF to yEd diagram...[].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:Convert CIF to yEd diagram...[].
 
-* Use the `cif2yed` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cif2yed` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cif2yed` command line tool.
 
@@ -61,45 +47,36 @@ indexterm:[CIF to yEd transformer,options]
 [[tools-cif2yed-options]]
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file path_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file path_: The absolute or relative local file system path to the input CIF specification.
 
-* _Output file path_: The absolute or relative local file system path to the
-output yEd/GraphML diagram file. If not specified, defaults to the input file
-path, where the `.cif` file extension is removed (if present), and a
-`.kind.graphml` file extension is added. For the added default file
-extension, `kind` is replaced by the diagram kind (see other option), e.g.
-`model`, resulting in file extension `.model.graphml`. If multiple
-diagrams are generated, the output file path may not be specified. In such
-cases, either use the implicit/default file names, or generate one diagram at
-a time, allowing you to specify an explicit output file path for each of
-them.
+* _Output file path_: The absolute or relative local file system path to the output yEd/GraphML diagram file.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `.kind.graphml` file extension is added.
+For the added default file extension, `kind` is replaced by the diagram kind (see other option), e.g. `model`, resulting in file extension `.model.graphml`.
+If multiple diagrams are generated, the output file path may not be specified.
+In such cases, either use the implicit/default file names, or generate one diagram at a time, allowing you to specify an explicit output file path for each of them.
 
-* _Diagram kinds_: The kinds of diagrams to generate. The default is to
-generate all the different kinds of diagrams. See the
-<<tools-cif2yed-diagram-kinds>> section for details.
+* _Diagram kinds_: The kinds of diagrams to generate.
+The default is to generate all the different kinds of diagrams.
+See the <<tools-cif2yed-diagram-kinds>> section for details.
 
-* _Syntax highlighting_: Whether to apply syntax highlighting (if option is
-enabled), or use plain text (if option is disabled). By default, syntax
-highlighting is enabled. For large diagrams, disabling syntax highlighting
-can significantly improve the performance, when displaying the diagrams in
-yEd.
+* _Syntax highlighting_: Whether to apply syntax highlighting (if option is enabled), or use plain text (if option is disabled).
+By default, syntax highlighting is enabled.
+For large diagrams, disabling syntax highlighting can significantly improve the performance, when displaying the diagrams in yEd.
 
-* _Transparent edge labels_: Enable option to use a transparent background for
-edge labels. Disable option to use a light gray background. By default, the
-option is disabled (a light gray background is used). See the
-<<tools-cif2yed-layout>> section below for further details.
+* _Transparent edge labels_: Enable option to use a transparent background for edge labels.
+Disable option to use a light gray background.
+By default, the option is disabled (a light gray background is used).
+See the <<tools-cif2yed-layout>> section below for further details.
 
-* _Model filters_: The kinds of features to include in the diagram. Only
-applies to model diagrams. See the <<tools-cif2yed-diagram-model>> section
-for details.
+* _Model filters_: The kinds of features to include in the diagram.
+Only applies to model diagrams.
+See the <<tools-cif2yed-diagram-model>> section for details.
 
-* _Relations_: The kinds of relations to include in relations diagrams. The
-default is to include all kinds of relations. See the
-<<tools-cif2yed-diagram-relations>> section for details.
+* _Relations_: The kinds of relations to include in relations diagrams.
+The default is to include all kinds of relations.
+See the <<tools-cif2yed-diagram-relations>> section for details.
 
 indexterm:[CIF to yEd transformer,supported specifications]
 
@@ -111,9 +88,7 @@ For <<tools-cif2yed-diagram-model,model diagrams>>:
 
 For <<tools-cif2yed-diagram-relations,relations diagrams>>:
 
-* CIF specifications with
-<<lang-tut-reuse2-aut-def-param-kinds-aut,component parameters>> are not
-supported.
+* CIF specifications with <<lang-tut-reuse2-aut-def-param-kinds-aut,component parameters>> are not supported.
 
 indexterm:[CIF to yEd transformer,preprocessing]
 
@@ -126,63 +101,42 @@ indexterm:[CIF to yEd transformer,diagram kinds]
 [[tools-cif2yed-diagram-kinds]]
 === Diagram kinds
 
-Several types of diagrams can be created. They are each described below. Using
-the _Diagram kinds_ option (see the <<tools-cif2yed-options>> section
-above), generation of certain kind of diagrams can be enabled or disabled.
+Several types of diagrams can be created.
+They are each described below.
+Using the _Diagram kinds_ option (see the <<tools-cif2yed-options>> section above), generation of certain kind of diagrams can be enabled or disabled.
 
-In the option dialog, each diagram kind can be enabled and disabled
-individually, using a checkbox.
+In the option dialog, each diagram kind can be enabled and disabled individually, using a checkbox.
 
-From the command line, using the `-k` or `--diagram-kinds` option, the
-names of the diagram kinds, as indicates for each diagram kind in the sections
-below, should be used, separated by commas. By default, i.e. when the `-k` or
-`--diagram-kinds` option is not used, diagrams are generated for all the
-different kinds. As an example, consider `-k model` or
-`--diagram-kinds=model`. Only a model diagram is generated, while all
-other diagrams are not generated.
+From the command line, using the `-k` or `--diagram-kinds` option, the names of the diagram kinds, as indicates for each diagram kind in the sections below, should be used, separated by commas.
+By default, i.e. when the `-k` or `--diagram-kinds` option is not used, diagrams are generated for all the different kinds.
+As an example, consider `-k model` or `--diagram-kinds=model`.
+Only a model diagram is generated, while all other diagrams are not generated.
 
-The diagram kinds that are specified using the option replace the default
-diagram kinds. However, it is also possible to specify additions and removals
-relative to the default features, by prefixing features with a `pass:c[+]` or `-`
-respectively. For instance, when using `-k -model` or
-`--diagram-kinds=-model` the default diagrams are generated, except for the
-model diagram (due to `-model`). Replacements (no prefix) may not be
-combined with additions/removals (`pass:c[+]` or `-` prefix).
+The diagram kinds that are specified using the option replace the default diagram kinds.
+However, it is also possible to specify additions and removals relative to the default features, by prefixing features with a `pass:c[+]` or `-` respectively.
+For instance, when using `-k -model` or `--diagram-kinds=-model` the default diagrams are generated, except for the model diagram (due to `-model`).
+Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]` or `-` prefix).
 
-Specifying a replacement diagram kind twice leads to a warning being printed to
-the console. Adding a diagram kind that is already present or removing a
-diagram kind that is not present, also leads to a warning being printed.
-A warning is also printed to the console if all diagram kinds are disabled, and
-thus no output is generated.
+Specifying a replacement diagram kind twice leads to a warning being printed to the console.
+Adding a diagram kind that is already present or removing a diagram kind that is not present, also leads to a warning being printed.
+A warning is also printed to the console if all diagram kinds are disabled, and thus no output is generated.
 
 
 [[tools-cif2yed-diagram-model]]
 ==== Model diagram
 
-The option value to use on the command line, for this kind of diagrams, is
-`model`.
+The option value to use on the command line, for this kind of diagrams, is `model`.
 
-A diagram of the model itself, with all its details. That is, the diagram can
-be used instead of the textual representation of the model, without loss of
-details. Changes with respect to the textual representation include among
-others elimination of <<tut-reuse2-chapter-imports,imports>>, and the loss
-of comments and textual layout.
+A diagram of the model itself, with all its details.
+That is, the diagram can be used instead of the textual representation of the model, without loss of details.
+Changes with respect to the textual representation include among others elimination of <<tut-reuse2-chapter-imports,imports>>, and the loss of comments and textual layout.
 
-All components (<<tut-basics-chapter-automata,automata>>,
-<<tut-reuse2-chapter-groups,groups>>, automaton
-<<tut-reuse2-chapter-aut-def-inst,instantiations>>, and group
-instantiations) and components
-<<tut-reuse2-chapter-aut-def-inst,definitions>> (automata and group
-definitions) are visualized in a hierarchical manner, as rectangles contained
-in other rectangles. Automaton and group instantiations are grouped together
-into a single node in the diagram. All of them can be closed (collapsed) and
-opened (expanded) in yEd, allowing to hide unimportant details while focusing
-on only a part of the diagram. The header of the component or component
-definition is shown at the top of the rectangle, while for instantiations the
-word `Instantiations` is used as header. For groups and group definitions an
-italic font is used, while for automata, automaton definitions, and
-automaton/group instantiations, a regular font is used. The background (of the
-header) is colored as follows:
+All components (<<tut-basics-chapter-automata,automata>>, <<tut-reuse2-chapter-groups,groups>>, automaton <<tut-reuse2-chapter-aut-def-inst,instantiations>>, and group instantiations) and components <<tut-reuse2-chapter-aut-def-inst,definitions>> (automata and group definitions) are visualized in a hierarchical manner, as rectangles contained in other rectangles.
+Automaton and group instantiations are grouped together into a single node in the diagram.
+All of them can be closed (collapsed) and opened (expanded) in yEd, allowing to hide unimportant details while focusing on only a part of the diagram.
+The header of the component or component definition is shown at the top of the rectangle, while for instantiations the word `Instantiations` is used as header.
+For groups and group definitions an italic font is used, while for automata, automaton definitions, and automaton/group instantiations, a regular font is used.
+The background (of the header) is colored as follows:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_comp_header.png[]
 A component (group/automaton)
@@ -193,16 +147,10 @@ A component definition (group/automaton definition)
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_inst_header.png[]
 A component instantiation (group/automaton instantiation)
 
-For instantiations, the complete instantiations are shown as code block in the
-body of the rectangle.
+For instantiations, the complete instantiations are shown as code block in the body of the rectangle.
 
-For the declarations (e.g.
-<<tut-data-chapter-discrete-variables,variables>>),
-<<tut-data-chapter-stat-invariants,invariants>>, I/O declarations (e.g.
-<<tools-cifsim-output-svgviz-chapter-cifsvg,SVG declarations>>), etc a block of
-code is used. Code blocks use header and background colors that are distinct
-from the colors used for components, component definitions, and component
-instantiations:
+For the declarations (e.g. <<tut-data-chapter-discrete-variables,variables>>), <<tut-data-chapter-stat-invariants,invariants>>, I/O declarations (e.g. <<tools-cifsim-output-svgviz-chapter-cifsvg,SVG declarations>>), etc a block of code is used.
+Code blocks use header and background colors that are distinct from the colors used for components, component definitions, and component instantiations:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_code_header.png[]
 A code block (header)
@@ -210,18 +158,12 @@ A code block (header)
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_code_bg.png[]
 A code block (background)
 
-For automata, the <<lang-tut-basics-automata-location,locations>> are
-visualized as rectangles with rounded colors. Their names (if applicable),
-invariants, equations, etc are shown as code in the rectangles. The
-<<tut-data-chapter-init-preds,initialization>> of the location (if present
-and not `false`) is visualized as an incoming arrow without source location,
-with a label indicating the initialization predicates if they are not `true`.
-<<lang-tut-basics-edge,Edges>> are visualized as arrows between locations,
-with arrows to the source location itself for self loop edges. The events,
-guards, `now` keywords (for <<tut-time-chapter-urgency,urgent>> edges),
-and updates are put as labels on the edges. Locations use a background color
-that is distinct from the colors used for components, component definitions,
-and code blocks:
+For automata, the <<lang-tut-basics-automata-location,locations>> are visualized as rectangles with rounded colors.
+Their names (if applicable), invariants, equations, etc are shown as code in the rectangles.
+The <<tut-data-chapter-init-preds,initialization>> of the location (if present and not `false`) is visualized as an incoming arrow without source location, with a label indicating the initialization predicates if they are not `true`.
+<<lang-tut-basics-edge,Edges>> are visualized as arrows between locations, with arrows to the source location itself for self loop edges.
+The events, guards, `now` keywords (for <<tut-time-chapter-urgency,urgent>> edges), and updates are put as labels on the edges.
+Locations use a background color that is distinct from the colors used for components, component definitions, and code blocks:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_loc_bg.png[]
 A location (background)
@@ -230,13 +172,11 @@ As an example consider the following diagram of the CIF `tank` example:
 
 image::{tools-imgsdir}/cif2yed/tank.model.layouted.png[]
 
-Using the _Model filters_ option (see the <<tools-cif2yed-options>> section
-above), certain features of the model can be included or excluded from the
-diagram. The table below indicates the features that can be enabled and
-disabled using the option. The first column lists the names to use on the
-command line. The second column indicates whether the feature is enabled
-(included) by default. The third column describes what parts of the model are
-included/excluded when the feature is enabled/disabled.
+Using the _Model filters_ option (see the <<tools-cif2yed-options>> section above), certain features of the model can be included or excluded from the diagram.
+The table below indicates the features that can be enabled and disabled using the option.
+The first column lists the names to use on the command line.
+The second column indicates whether the feature is enabled (included) by default.
+The third column describes what parts of the model are included/excluded when the feature is enabled/disabled.
 
 [cols=3*,options="header"]
 |===
@@ -250,112 +190,73 @@ included/excluded when the feature is enabled/disabled.
 
 | `decls`
 | yes
-| The declarations of the components. Includes the alphabet (if explicitly
-specified) and monitors of the automata, event declarations, constant
-declarations, variable declarations, function declarations, invariants,
-initialization predicates, marker predicates, equations, etc.
+| The declarations of the components.
+Includes the alphabet (if explicitly specified) and monitors of the automata, event declarations, constant declarations, variable declarations, function declarations, invariants, initialization predicates, marker predicates, equations, etc.
 
 | `loc-decls`
 | yes
-| The declarations of the locations. Includes the invariants, marker
-predicates, equations, and urgency.
+| The declarations of the locations.
+Includes the invariants, marker predicates, equations, and urgency.
 
 | `guards`
 | yes
-| The guards of the edges. Includes also the urgency of the edge (the
-`now`) keyword.
+| The guards of the edges.
+Includes also the urgency of the edge (the `now`) keyword.
 
 | `updates`
 | yes
 | The updates of the edges.
 |===
 
-In the option dialog, each of the features can be enabled and disabled
-individually, using a checkbox.
+In the option dialog, each of the features can be enabled and disabled individually, using a checkbox.
 
-From the command line, using the `-f` or `--model-filters` option, the
-names of the different features, as indicates in the first column of the table
-above, should be used, separated by commas. The features indicated as default
-in the second column of the table, are enabled when default settings are used,
-i.e. when the `-f` or `--model-filters` option is not used. As an example,
-consider `-f guards,updates` or `--model-filters=guards,updates`. Only
-the guards and updates are included, while all the other features are excluded.
+From the command line, using the `-f` or `--model-filters` option, the names of the different features, as indicates in the first column of the table above, should be used, separated by commas.
+The features indicated as default in the second column of the table, are enabled when default settings are used, i.e. when the `-f` or `--model-filters` option is not used.
+As an example, consider `-f guards,updates` or `--model-filters=guards,updates`.
+Only the guards and updates are included, while all the other features are excluded.
 
 The features that are specified using the option replace the default features.
-However, it is also possible to specify additions and removals relative to the
-default features, by prefixing features with a `pass:c[+]` or `-` respectively. For
-instance, when using `-f -loc-decls,+io` or
-`--model-filters=-loc-decls,+io` the default features are used, with the
-declarations of the locations disabled (due to `-loc-decls`), and with I/O
-declarations enabled (due to `+io`). Replacements (no prefix) may not be
-combined with additions/removals (`pass:c[+]` or `-` prefix).
+However, it is also possible to specify additions and removals relative to the default features, by prefixing features with a `pass:c[+]` or `-` respectively.
+For instance, when using `-f -loc-decls,+io` or `--model-filters=-loc-decls,+io` the default features are used, with the declarations of the locations disabled (due to `-loc-decls`), and with I/O declarations enabled (due to `+io`).
+Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]` or `-` prefix).
 
-Specifying a replacement feature type twice leads to a warning being printed to
-the console. Adding a feature that is already present or removing a feature
-that is not present, also leads to a warning being printed.
+Specifying a replacement feature type twice leads to a warning being printed to the console.
+Adding a feature that is already present or removing a feature that is not present, also leads to a warning being printed.
 
 [[tools-cif2yed-diagram-relations]]
 ==== Relations diagram
 
-The option value to use on the command line, for this kind of diagrams, is
-`relations`.
+The option value to use on the command line, for this kind of diagrams, is `relations`.
 
-A diagram of only the <<lang-tut-basics-automata-events,event>> and
-data relations. The diagram can be used to see which events are used by which
-<<tut-basics-chapter-automata,automata>> (are in the
-<<tut-basics-chapter-alphabet,alphabet>> of those automata). It can also be
-used to see which data (variables, locations, etc) exist in the model and where
-they are used. Furthermore, it can also be used to see how events and data are
-passed via automaton and group
-<<tut-reuse2-chapter-aut-def-inst,instantiations>>. Events, variables, and
-locations can thereby potentially be renamed if the
-<<tut-reuse2-chapter-aut-def-params,parameters>> of the
-corresponding automaton or <<tut-reuse2-chapter-groups,group>>
-<<tut-reuse2-chapter-aut-def-inst,definitions>> have different names than
-the events, variables, and locations that are passed via the instantiations.
+A diagram of only the <<lang-tut-basics-automata-events,event>> and data relations.
+The diagram can be used to see which events are used by which <<tut-basics-chapter-automata,automata>> (are in the <<tut-basics-chapter-alphabet,alphabet>> of those automata).
+It can also be used to see which data (variables, locations, etc) exist in the model and where they are used.
+Furthermore, it can also be used to see how events and data are passed via automaton and group <<tut-reuse2-chapter-aut-def-inst,instantiations>>.
+Events, variables, and locations can thereby potentially be renamed if the <<tut-reuse2-chapter-aut-def-params,parameters>> of the corresponding automaton or <<tut-reuse2-chapter-groups,group>> <<tut-reuse2-chapter-aut-def-inst,definitions>> have different names than the events, variables, and locations that are passed via the instantiations.
 
-All components (automata, groups, automaton instantiations, and group
-instantiations) and component definitions (automaton and group definitions) are
-visualized in a hierarchical manner, as rectangles contained in other
-rectangles. Automaton and group instantiations are unfolded to their contents
-(the body of the corresponding automaton or group definition). Essentially, it
-is as if component definition/instantiation has been
-<<tools-cif2cif-chapter-elim-comp-def-inst,eliminated>>, but the parameters are
-kept. Within components and component definition bodies, the components
-(including the component instantiations) and declarations (event declarations,
-event parameters, algebraic variables, algebraic parameters, locations, etc)
-are separated from the component definitions, using additional wrapping boxes.
-Such wrapping boxes are only added if both components and component definitions
-are present, and thus separation is needed.
+All components (automata, groups, automaton instantiations, and group instantiations) and component definitions (automaton and group definitions) are visualized in a hierarchical manner, as rectangles contained in other rectangles.
+Automaton and group instantiations are unfolded to their contents (the body of the corresponding automaton or group definition).
+Essentially, it is as if component definition/instantiation has been <<tools-cif2cif-chapter-elim-comp-def-inst,eliminated>>, but the parameters are kept.
+Within components and component definition bodies, the components (including the component instantiations) and declarations (event declarations, event parameters, algebraic variables, algebraic parameters, locations, etc) are separated from the component definitions, using additional wrapping boxes.
+Such wrapping boxes are only added if both components and component definitions are present, and thus separation is needed.
 
-However, all internal details of component instantiations are omitted, as they
-can be seen in the graphical representations of component definitions (that are
-instantiated by the instantiations). That is, only the external connections are
-included, as they show the actual relations (definition here and use there,
-synchronizations between components, etc). By excluding the internal details,
-duplication is avoided for multiple instantiations of the same definition. All
-empty components and components definitions are also excluded, as they only
-clutter the diagram, and have no relations whatsoever.
+However, all internal details of component instantiations are omitted, as they can be seen in the graphical representations of component definitions (that are instantiated by the instantiations).
+That is, only the external connections are included, as they show the actual relations (definition here and use there, synchronizations between components, etc).
+By excluding the internal details, duplication is avoided for multiple instantiations of the same definition.
+All empty components and components definitions are also excluded, as they only clutter the diagram, and have no relations whatsoever.
 
-All components can be closed (collapsed) and opened (expanded) in yEd, allowing
-to hide unimportant details while focusing on only a part of the diagram. By
-default, all components are closed (collapsed). This allows seeing the top
-level structure. By selectively opening (expanding) components, more details
-can be shown. It is also possible to focus on a single component, to show only
-that component and its contents, by selecting
-menu:Grouping[View Group Content]
-in yEd, while a closed or
-opened component is selected.
+All components can be closed (collapsed) and opened (expanded) in yEd, allowing to hide unimportant details while focusing on only a part of the diagram.
+By default, all components are closed (collapsed).
+This allows seeing the top level structure.
+By selectively opening (expanding) components, more details can be shown.
+It is also possible to focus on a single component, to show only that component and its contents, by selecting menu:Grouping[View Group Content] in yEd, while a closed or opened component is selected.
 
-The header of the component is shown at the top of the rectangle. It includes
-the name of the component or component definition, whether it is a group or
-automaton, whether it is a definition or not, etc. The parameters of component
-definitions, and the arguments of component instantiations, are all omitted
-from the headers. For wrappers either _Components_ or _Component definitions_
-is used as header text. For groups, group definitions, and group instantiations
-an italic font is used, while for automata, automaton definitions, automaton
-instantiations, and wrapping boxes, a regular font is used. The background of
-the header is colored as follows:
+The header of the component is shown at the top of the rectangle.
+It includes the name of the component or component definition, whether it is a group or automaton, whether it is a definition or not, etc.
+The parameters of component definitions, and the arguments of component instantiations, are all omitted from the headers.
+For wrappers either _Components_ or _Component definitions_ is used as header text.
+For groups, group definitions, and group instantiations an italic font is used, while for automata, automaton definitions, automaton instantiations, and wrapping boxes, a regular font is used.
+The background of the header is colored as follows:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_comp_header.png[]
 A component (group/automaton)
@@ -369,36 +270,20 @@ A component instantiation (group/automaton instantiation)
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_wrap_box_header.png[]
 A wrapping box for components (incl. instantiations) or component definitions
 
-Event <<lang-tut-basics-automata-events,declarations>>,
-<<tut-data-chapter-discrete-variables,discrete variables>>,
-<<tut-time-chapter-continuous-variables,continuous variables>>,
-<<tut-reuse1-chapter-algebraic-variables,algebraic variables>>,
-<<tut-reuse2-chapter-input-variables,input variables>>, and
-<<lang-tut-basics-automata-location,locations>> are all visualized as
-rectangles with a thick border. The text in the rectangle is a keyword
-(`event`, `disc`, `cont`, etc), followed by the name of the declaration.
-For <<tut-channels-chapter-intro,channels>> (events with a data type), the
-name is followed by `!?~`.
+Event <<lang-tut-basics-automata-events,declarations>>, <<tut-data-chapter-discrete-variables,discrete variables>>, <<tut-time-chapter-continuous-variables,continuous variables>>, <<tut-reuse1-chapter-algebraic-variables,algebraic variables>>, <<tut-reuse2-chapter-input-variables,input variables>>, and <<lang-tut-basics-automata-location,locations>> are all visualized as rectangles with a thick border.
+The text in the rectangle is a keyword (`event`, `disc`, `cont`, etc), followed by the name of the declaration.
+For <<tut-channels-chapter-intro,channels>> (events with a data type), the name is followed by `!?~`.
 
-Event, location, and algebraic
-<<tut-reuse2-chapter-aut-def-params,parameters>> are visualized as
-octagons with a thin dashed border. The text in the rectangle is a keyword
-(`event`, `location`, etc), followed by the name of the parameter. For
-<<tut-channels-chapter-intro,channels>> (events with a data type), the name
-is followed by the <<lang-tut-reuse2-aut-def-param-kinds-event-restrictions,event parameter usage restriction flags>> (e.g. `!` for send,
-`?` for receive, and/or `~` for synchronization). For channel parameters
-without flags, `!?~` is used as text after the name of the parameter.
+Event, location, and algebraic <<tut-reuse2-chapter-aut-def-params,parameters>> are visualized as octagons with a thin dashed border.
+The text in the rectangle is a keyword (`event`, `location`, etc), followed by the name of the parameter.
+For <<tut-channels-chapter-intro,channels>> (events with a data type), the name is followed by the <<lang-tut-reuse2-aut-def-param-kinds-event-restrictions,event parameter usage restriction flags>> (e.g. `!` for send, `?` for receive, and/or `~` for synchronization).
+For channel parameters without flags, `!?~` is used as text after the name of the parameter.
 
-Uses of events and data are visualized as circles. For uses of events by
-automata (event in the alphabet of the automaton), the circles indicate the
-type of use: `!` if the automaton sends over the channel, `?` if the
-automaton receives over the channel, and no text if the automaton
-<<tut-basics-chapter-synchronizing-events,synchronizes>> over the event (the
-event is in the alphabet of the automaton). For data uses, the circles never
-contain text.
+Uses of events and data are visualized as circles.
+For uses of events by automata (event in the alphabet of the automaton), the circles indicate the type of use: `!` if the automaton sends over the channel, `?` if the automaton receives over the channel, and no text if the automaton <<tut-basics-chapter-synchronizing-events,synchronizes>> over the event (the event is in the alphabet of the automaton).
+For data uses, the circles never contain text.
 
-Different colors are used for declarations, parameters, and uses, as well as
-for events and data:
+Different colors are used for declarations, parameters, and uses, as well as for events and data:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_event_decl.png[]
 An event declaration
@@ -424,80 +309,56 @@ A location parameter or an algebraic parameter
 * image:{tools-imgsdir}/cif2yed/cif2yed_data_usage.png[]
 A data (variable, location, parameter) usage in a component
 
-Each event usage is coupled to the event declaration or event parameter that it
-refers to, using a directed or undirected edge. For synchronizing usage an
-undirected edge is used, for send usage a directed edge from the usage to the
-event declaration or event parameter is used, and for receive usage a directed
-edge from the event declaration or event parameter to the usage is used.
+Each event usage is coupled to the event declaration or event parameter that it refers to, using a directed or undirected edge.
+For synchronizing usage an undirected edge is used, for send usage a directed edge from the usage to the event declaration or event parameter is used, and for receive usage a directed edge from the event declaration or event parameter to the usage is used.
 
-Each data usage in a component not related to a declaration (variable,
-location, or parameter) gets a circular node to indicate usage. It is coupled
-to the declaration it uses, via a directed edge from the declaration to the
-use, to indicate the flow of data. Duplicate edges are avoided.
-
-Event parameters of component instantiations are coupled to the actual event
-(or event parameter) that is provided by the instantiation, using a directed or
-undirected edge. If the parameter is a channel parameter that explicitly allows
-sending (has a `!` flag) and doesn't allow receiving (has no `?` flag), a
-directed edge from the parameter to the actual event is used. If it explicitly
-allows receiving (has `?` flag) and doesn't allow sending (has no `!`
-flag), a directed edge from the actual event to the parameter is used. If it
-explicitly allows both sending and receiving (has both a `!` and a `?`
-flag), a bidirectional edge is used. In all other cases, an undirected edge is
-used.
-
-Location parameters of component instantiations are coupled to the actual
-location (or location parameter) that is provided by the instantiation, using a
-directed edge from the actual location to the parameter, to indicate the flow
-of data. Similarly, algebraic parameters are related to the actual arguments.
-However, for algebraic parameters, an
-<<tut-values-chapter-types-values-exprs,expression>> may be provided. For
-each variable, location, and parameter used in the actual argument, a directed
-edge is added. Duplicate edges are avoided.
-
-From declarations (variables, locations, parameters), directed edges are
-included in the diagram for all relations to other declarations. For instance,
-if a discrete variable is initialized using the value of an algebraic variable,
-there will be an edge from the algebraic variable to the discrete variable.
-Similarly, if in a continuous variable is used in a guard, there will be an
-edge from the continuous variable to the location that contains the edge.
+Each data usage in a component not related to a declaration (variable, location, or parameter) gets a circular node to indicate usage.
+It is coupled to the declaration it uses, via a directed edge from the declaration to the use, to indicate the flow of data.
 Duplicate edges are avoided.
 
-As an example consider the following relations diagram of the CIF
-'machine/buffer' example, showing only the event relations:
+Event parameters of component instantiations are coupled to the actual event (or event parameter) that is provided by the instantiation, using a directed or undirected edge.
+If the parameter is a channel parameter that explicitly allows sending (has a `!` flag) and doesn't allow receiving (has no `?` flag), a directed edge from the parameter to the actual event is used.
+If it explicitly allows receiving (has `?` flag) and doesn't allow sending (has no `!` flag), a directed edge from the actual event to the parameter is used.
+If it explicitly allows both sending and receiving (has both a `!` and a `?` flag), a bidirectional edge is used.
+In all other cases, an undirected edge is used.
+
+Location parameters of component instantiations are coupled to the actual location (or location parameter) that is provided by the instantiation, using a directed edge from the actual location to the parameter, to indicate the flow of data.
+Similarly, algebraic parameters are related to the actual arguments.
+However, for algebraic parameters, an <<tut-values-chapter-types-values-exprs,expression>> may be provided.
+For each variable, location, and parameter used in the actual argument, a directed edge is added.
+Duplicate edges are avoided.
+
+From declarations (variables, locations, parameters), directed edges are included in the diagram for all relations to other declarations.
+For instance, if a discrete variable is initialized using the value of an algebraic variable, there will be an edge from the algebraic variable to the discrete variable.
+Similarly, if in a continuous variable is used in a guard, there will be an edge from the continuous variable to the location that contains the edge.
+Duplicate edges are avoided.
+
+As an example consider the following relations diagram of the CIF 'machine/buffer' example, showing only the event relations:
 
 image::{tools-imgsdir}/cif2yed/machine_buffer.events.layouted.png[]
 
-Using the _Relations_ option (see the <<tools-cif2yed-options>> section
-above), certain kinds of relations included or excluded from the diagram. By
-default all kinds of relations are included. The following kinds of relations
-are available:
+Using the _Relations_ option (see the <<tools-cif2yed-options>> section above), certain kinds of relations included or excluded from the diagram.
+By default all kinds of relations are included.
+The following kinds of relations are available:
 
 * event relations (`event`)
 
 * data relations (`data`)
 
-In the option dialog, each of the features can be enabled and disabled
-individually, using a checkbox.
+In the option dialog, each of the features can be enabled and disabled individually, using a checkbox.
 
-From the command line, using the `-r` or `--relations` option, the
-names of the different kinds of relations, as indicates between parentheses
-above, should be used, separated by commas. As an example, consider
-`-r event` or `--relations=event`. Only the event relations are included,
-while all the other relations are excluded.
+From the command line, using the `-r` or `--relations` option, the names of the different kinds of relations, as indicates between parentheses above, should be used, separated by commas.
+As an example, consider `-r event` or `--relations=event`.
+Only the event relations are included, while all the other relations are excluded.
 
 The kinds that are specified using the option replace the default kinds.
-However, it is also possible to specify additions and removals relative to the
-default kinds, by prefixing names with a `pass:c[+]` or `-` respectively. For
-instance, when using `-r -event` or `--relations=-event` the default kinds
-are used, with the event relations excluded (due to `-event`). Replacements
-(no prefix) may not be combined with additions/removals (`pass:c[+]` or `-`
-prefix).
+However, it is also possible to specify additions and removals relative to the default kinds, by prefixing names with a `pass:c[+]` or `-` respectively.
+For instance, when using `-r -event` or `--relations=-event` the default kinds are used, with the event relations excluded (due to `-event`).
+Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]` or `-` prefix).
 
-Specifying a replacement kind type twice leads to a warning being printed to
-the console. Adding a kind that is already present or removing a kind that is
-not present, also leads to a warning being printed. Finally, generating a
-relations diagram without any relations also leads to a warning being printed.
+Specifying a replacement kind type twice leads to a warning being printed to the console.
+Adding a kind that is already present or removing a kind that is not present, also leads to a warning being printed.
+Finally, generating a relations diagram without any relations also leads to a warning being printed.
 
 indexterm:[yEd,layout]
 indexterm:[CIF to yEd transformer,layout]
@@ -505,77 +366,46 @@ indexterm:[CIF to yEd transformer,layout]
 [[tools-cif2yed-layout]]
 === Layout
 
-The generated diagrams can be opened in the yEd Diagram Editor using
-menu:File[Open...]. After opening the diagram, all nodes
-overlap, as the generated diagrams don't contain any positions for them. yEd
-can automatically layout the diagram. Several layout algorithms are available
-in the
-menu:Layout[]
-menu.
+The generated diagrams can be opened in the yEd Diagram Editor using menu:File[Open...].
+After opening the diagram, all nodes overlap, as the generated diagrams don't contain any positions for them.
+yEd can automatically layout the diagram.
+Several layout algorithms are available in the menu:Layout[] menu.
 
-Good results for <<tools-cif2yed-diagram-model,model diagrams>> can often
-be obtained by using the
-btn:[Orthogonal layout].
-Select
-menu:Layout[Orthogonal > Classic] to show the
-'Orthogonal Layout' window. Click the
-btn:[Dock]
-button to dock
-the window. Once docked, select
-btn:[Integrated]
-for
-btn:[Edge Labeling]
-and
-btn:[Free]
-for
-btn:[Edge Label Model].
-Also enable the
-btn:[Length Reduction]
-and
-btn:[Consider Node Labels]
-options. Press the
-btn:[Apply changes]
-button (the green rectangle) at the top of the docked window to apply the
-changes to the layout.
+Good results for <<tools-cif2yed-diagram-model,model diagrams>> can often be obtained by using the btn:[Orthogonal layout].
+Select menu:Layout[Orthogonal > Classic] to show the 'Orthogonal Layout' window.
+Click the btn:[Dock] button to dock the window.
+Once docked, select btn:[Integrated] for btn:[Edge Labeling] and btn:[Free] for btn:[Edge Label Model].
+Also enable the btn:[Length Reduction] and btn:[Consider Node Labels] options.
+Press the btn:[Apply changes] button (the green rectangle) at the top of the docked window to apply the changes to the layout.
 
-You may want to try different values for the 'Grid' option, to get
-more or less spacing between nodes. Once you change a value, just apply the new
-layout, as before. The automatic layout algorithms aren't perfect, but they are
-usually a good starting point.
+You may want to try different values for the 'Grid' option, to get more or less spacing between nodes.
+Once you change a value, just apply the new layout, as before.
+The automatic layout algorithms aren't perfect, but they are usually a good starting point.
 
-By default, edge labels have a light gray background. This makes them easier
-to read when placed on the edges. By changing the 'Edge Label Model' from
-'Free' to 'Side Slider' , labels are not placed on the
-edges, but besides them. However, this often leads to some overlap, requiring
-manual layouting. If the 'Side Slider' variant is used, you may want
-to change the background of the edge labels to be transparent. This can be
-achieved by enabling the _Transparent edge labels_ option (see the
-<<tools-cif2yed-options>> section above).
+By default, edge labels have a light gray background.
+This makes them easier to read when placed on the edges.
+By changing the 'Edge Label Model' from 'Free' to 'Side Slider' , labels are not placed on the edges, but besides them.
+However, this often leads to some overlap, requiring manual layouting.
+If the 'Side Slider' variant is used, you may want to change the background of the edge labels to be transparent.
+This can be achieved by enabling the _Transparent edge labels_ option (see the <<tools-cif2yed-options>> section above).
 
-Good results for <<tools-cif2yed-diagram-relations,relations diagrams>>
-can often be obtained using the 'One-Click Layout' functionality of
-yEd. Select menu:Layout[One-Click Layout] or use the
-corresponding toolbar button. This option is only available in yEd 3.14 or
-newer.
+Good results for <<tools-cif2yed-diagram-relations,relations diagrams>> can often be obtained using the 'One-Click Layout' functionality of yEd.
+Select menu:Layout[One-Click Layout] or use the corresponding toolbar button.
+This option is only available in yEd 3.14 or newer.
 
-You can also close (collapse) and open (expand) groups and apply the layout
-again.
+You can also close (collapse) and open (expand) groups and apply the layout again.
 
-yEd has many more options. You can explore them using the included help text,
-by selecting menu:Help[Help].
+yEd has many more options.
+You can explore them using the included help text, by selecting menu:Help[Help].
 
 indexterm:[yEd,Structure View]
 
 === Structure View
 
-yEd has a _Structure View_ window that can be enabled via
-menu:Windows[Structure View]. The _Structure View_ can be used
-to see and navigate the structure of the CIF model. By switching from
-'Text' to 'Description' (see upper right corner of the
-_Structure View_ window), useful descriptions are shown for all elements.
-Furthermore, switching also ensures that the HTML code that is used for syntax
-highlighting is not shown in the _Structure Viewer_ (if syntax highlighting is
-enabled, see the <<tools-cif2yed-options>> section above). The following
-image shows the difference:
+yEd has a _Structure View_ window that can be enabled via menu:Windows[Structure View].
+The _Structure View_ can be used to see and navigate the structure of the CIF model.
+By switching from 'Text' to 'Description' (see upper right corner of the _Structure View_ window), useful descriptions are shown for all elements.
+Furthermore, switching also ensures that the HTML code that is used for syntax highlighting is not shown in the _Structure Viewer_ (if syntax highlighting is enabled, see the <<tools-cif2yed-options>> section above).
+The following image shows the difference:
 
 image::{tools-imgsdir}/cif2yed/yed_structure_view.png[]

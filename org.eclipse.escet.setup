@@ -229,7 +229,7 @@
         name="de.jcup.asciidoctoreditor">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/de.jcup.asciidoctoreditor/usePreviewImageDirectory"
+          key="/instance/de.jcup.asciidoctoreditor/autoCreateInitialAsciidocConfigFile"
           value="false"/>
     </setupTask>
   </setupTask>

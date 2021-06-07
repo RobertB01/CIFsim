@@ -17,17 +17,11 @@ indexterm:[release, notes]
 [[release-notes-chapter-index]]
 == CIF release notes
 
-The release notes for the releases of CIF and the associated tools, as
-part of the Eclipse ESCET project, are listed below in reverse chronological
-order.
+The release notes for the releases of CIF and the associated tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
 
-The release notes may refer to issues, the details for which can be found
-at the Eclipse ESCET
-link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
+The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
 
-See also the Eclipse ESCET
-link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes]
-covering those aspects that are common to the various Eclipse ESCET tools.
+See also the Eclipse ESCET link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
 === Version 0.2
 
@@ -35,78 +29,50 @@ TBD
 
 Deprecations and removals:
 
-- CIF deprecated enumeration declaration syntax (with curly brackets) now
-  leads to deprecation warnings. The documentation now properly reflects
-  the deprecation as well (issue #45).
-- CIF to CIF transformation to eliminate enumerations (`elim-enums`) is now
-  deprecated. Use the transformation to convert enumerations to integers
-  instead, as it has the same functionality (issue #78).
-- CIF PLC code generator option to either eliminate enumerations (to
-  integers) or not is now deprecated. Use the new option to choose whether
-  to convert enumerations to constants or integers, or not at all. See the
-  documentation of the PLC code generator for further details (issue #78).
-- CIF simulator deprecated 'interactive input mode' (`interactive` value)
-  has been removed. Use the 'interactive console input mode' instead
-  (issue #81).
+- CIF deprecated enumeration declaration syntax (with curly brackets) now leads to deprecation warnings.
+The documentation now properly reflects the deprecation as well (issue #45).
+- CIF to CIF transformation to eliminate enumerations (`elim-enums`) is now deprecated.
+Use the transformation to convert enumerations to integers instead, as it has the same functionality (issue #78).
+- CIF PLC code generator option to either eliminate enumerations (to integers) or not is now deprecated.
+Use the new option to choose whether to convert enumerations to constants or integers, or not at all.
+See the documentation of the PLC code generator for further details (issue #78).
+- CIF simulator deprecated 'interactive input mode' (`interactive` value) has been removed.
+Use the 'interactive console input mode' instead (issue #81).
 
 New features:
 
-- CIF to CIF transformation to convert enumerations to constants
-  (`enums-to-consts`) and enumerations to integers (`enums-to-ints`) has been
-  added (issue #78).
-- CIF explorer now has an option to specify the name of the resulting
-  statespace automaton (issue #55).
-- CIF PLC code generator now has an option to choose whether to convert
-  enumerations to constants or integers, or not at all. This replaces the old
-  option to either eliminate enumerations (to integers) or not, which is now
-  deprecated. See the documentation of the PLC code generator for further
-  details (issue #78).
+- CIF to CIF transformation to convert enumerations to constants (`enums-to-consts`) and enumerations to integers (`enums-to-ints`) has been added (issue #78).
+- CIF explorer now has an option to specify the name of the resulting statespace automaton (issue #55).
+- CIF PLC code generator now has an option to choose whether to convert enumerations to constants or integers, or not at all.
+This replaces the old option to either eliminate enumerations (to integers) or not, which is now deprecated.
+See the documentation of the PLC code generator for further details (issue #78).
 
 Improvements and fixes:
 
-- Various fixes for handling component definition/instantiation as well as
-  references via component instantiations and component parameters
-  (issues #25, #39 and #66).
-- CIF to CIF linearize merge transformation no longer crashes for channels
-  without a sender (issue #56).
-- CIF simulator now correctly determines initial value for locations without
-  initialization predicates, when those locations are used in initial values
-  of variables (issue #37).
-- CIF simulator no longer crashes on assignments to dictionaries with non-int
-  keys (issue #47).
-- CIF simulator is now more robust for larger numbers of state invariants in
-  components (issue #49).
-- CIF data-based synthesis documentation, debug output and warnings
-  improved/fixed regarding invariants vs requirement invariants and controlled
-  vs uncontrolled system (issue #83).
-- CIF PLC code generator now creates output folder if it does not yet exist,
-  rather than giving an error, if IEC 61131-3 output is requested (issue #74).
-- CIF PLC code generator documentation now correctly indicates the order in
-  which CIF to CIF transformations are applied (issue #78).
+- Various fixes for handling component definition/instantiation as well as references via component instantiations and component parameters (issues #25, #39 and #66).
+- CIF to CIF linearize merge transformation no longer crashes for channels without a sender (issue #56).
+- CIF simulator now correctly determines initial value for locations without initialization predicates, when those locations are used in initial values of variables (issue #37).
+- CIF simulator no longer crashes on assignments to dictionaries with non-int keys (issue #47).
+- CIF simulator is now more robust for larger numbers of state invariants in components (issue #49).
+- CIF data-based synthesis documentation, debug output and warnings improved/fixed regarding invariants vs requirement invariants and controlled vs uncontrolled system (issue #83).
+- CIF PLC code generator now creates output folder if it does not yet exist, rather than giving an error, if IEC 61131-3 output is requested (issue #74).
+- CIF PLC code generator documentation now correctly indicates the order in which CIF to CIF transformations are applied (issue #78).
 - CIF PLC code generator PLCOpen XML output fixes for PLC tasks (issue #75).
-- CIF to mCRL2 transformation precondition check messages improved to avoid
-  duplicates for multiple initial locations (issue #60).
-- CIF to mCRL2 documentation updated to reflect that input variables are not
-  supported (issue #59).
-- CIF to Supremica and CIF to UPPAAL precondition check message wording for
-  discrete variables with multiple potential initial values has been fixed
-  (issue #58).
-- CIF tutorial updated to remove explanation of list subtraction operator
-  that doesn't exist in the language and implementation (issue #77).
+- CIF to mCRL2 transformation precondition check messages improved to avoid duplicates for multiple initial locations (issue #60).
+- CIF to mCRL2 documentation updated to reflect that input variables are not supported (issue #59).
+- CIF to Supremica and CIF to UPPAAL precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue #58).
+- CIF tutorial updated to remove explanation of list subtraction operator that doesn't exist in the language and implementation (issue #77).
 - CIF documentation updated to fix two broken links (issue #80).
 
 
 === Version 0.1
 
 The first release of CIF as part of the Eclipse ESCET project.
-This release is based on the initial contribution by the Eindhoven University
-of Technology (TU/e).
+This release is based on the initial contribution by the Eindhoven University of Technology (TU/e).
 
 Most notable changes compared to the last TU/e release:
 
-- The names of the CIF command line tools and tools available in ToolDef
-scripts have changed. For more information, check the list of
-<<tools-scripting-chapter-tools,currently available tools>>.
+- The names of the CIF command line tools and tools available in ToolDef scripts have changed.
+For more information, check the list of <<tools-scripting-chapter-tools,currently available tools>>.
 - The CIF simulator no longer crashes on code generation.
-- The CIF simulator plot visualizer has been re-implemented using different
-third party libraries.
+- The CIF simulator plot visualizer has been re-implemented using different third party libraries.

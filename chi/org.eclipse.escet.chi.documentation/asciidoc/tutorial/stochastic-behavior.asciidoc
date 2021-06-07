@@ -19,24 +19,16 @@ indexterm:[distribution]
 indexterm:[type,dist]
 indexterm:[dist,type]
 Many processes in the world vary a little bit each time they are performed.
-Setup of machines goes a bit faster or slower, patients taking their medicine
-takes longer this morning, more products are delivered today, or the quality
-of the manufactured product degrades due to a tired operator.
-Modeling such variations is often done with stochastic distributions. A
-distribution has a mean value and a known shape of variation. By matching the
-means and the variation shape with data from the system being modeled, an
-accurate model of the system can be obtained.
-The language has many stochastic distributions available, this chapter
-explains how to use them to model a system, and lists a few commonly used
-distributions. The full list is available in the reference manual at
-<<ref-chapter-distributions,Distributions>>.
+Setup of machines goes a bit faster or slower, patients taking their medicine takes longer this morning, more products are delivered today, or the quality of the manufactured product degrades due to a tired operator.
+Modeling such variations is often done with stochastic distributions.
+A distribution has a mean value and a known shape of variation.
+By matching the means and the variation shape with data from the system being modeled, an accurate model of the system can be obtained.
+The language has many stochastic distributions available, this chapter explains how to use them to model a system, and lists a few commonly used distributions.
+The full list is available in the reference manual at <<ref-chapter-distributions,Distributions>>.
 
-The following fragment illustrates the use of the random distribution to model
-a dice.
-Each value of the six-sided dice is equally likely to appear. Every value
-having the same probability of appearing is a property of the integer uniform
-distribution, in this case using interval `[1, 7)` (inclusive on the left
-side, exclusive on the right side).
+The following fragment illustrates the use of the random distribution to model a dice.
+Each value of the six-sided dice is equally likely to appear.
+Every value having the same probability of appearing is a property of the integer uniform distribution, in this case using interval `[1, 7)` (inclusive on the left side, exclusive on the right side).
 The model is:
 
 
@@ -50,56 +42,39 @@ y = sample dice;
 writeln("x=%d, y=%d", x, y);
 ----
 
-The variable `dice` is an integer distribution, meaning that values drawn
-from the distribution are integer numbers. It is assigned an
-uniform distribution.
+The variable `dice` is an integer distribution, meaning that values drawn from the distribution are integer numbers.
+It is assigned an uniform distribution.
 A throw of a dice is simulated with the _operator_ `sample`.
-Each time `sample` is used, a new sample value is obtained from the
-distribution.
-In the fragment the dice is thrown twice, and the values are assigned to the
-variables `x`, and `y`.
+Each time `sample` is used, a new sample value is obtained from the distribution.
+In the fragment the dice is thrown twice, and the values are assigned to the variables `x`, and `y`.
 
 === Distributions
 
 The language provides _constant_, _discrete_ and _continuous_ distributions.
-A discrete distribution is a distribution where only specific values can be
-drawn, for example throwing a dice gives an integer number.
-A continuous distribution is a distribution where a value from a continuous
-range can be drawn, for example assembling a product takes a positive amount
-of time.
-The constant distributions are discrete distributions that always return the
-same value. They are useful during the development of the model (see below).
+A discrete distribution is a distribution where only specific values can be drawn, for example throwing a dice gives an integer number.
+A continuous distribution is a distribution where a value from a continuous range can be drawn, for example assembling a product takes a positive amount of time.
+The constant distributions are discrete distributions that always return the same value.
+They are useful during the development of the model (see below).
 
 indexterm:[distribution,constant]
 indexterm:[constant,distribution]
 
 ==== Constant distributions
 
-When developing a model with stochastic behavior, it is hard to verify whether
-the model behaves correctly, since the stochastic results make it difficult to
-predict the outcome of experiments. As a result, errors in the model may not
-be noticed, they hide in the noise of the stochastic results.
-One solution is to first write a model without stochastic behavior, verify
-that model, and then extend the model with stochastic sampling.
-Extending the model with stochastic behavior is however an invasive change
-that may introduce new errors. These errors are again hard to find due to the
-difficulties to predict the outcome of an experiment.
-The constant distributions aim to narrow the gap by reducing the amount of
-changes that need to be done after verification.
+When developing a model with stochastic behavior, it is hard to verify whether the model behaves correctly, since the stochastic results make it difficult to predict the outcome of experiments.
+As a result, errors in the model may not be noticed, they hide in the noise of the stochastic results.
+One solution is to first write a model without stochastic behavior, verify that model, and then extend the model with stochastic sampling.
+Extending the model with stochastic behavior is however an invasive change that may introduce new errors.
+These errors are again hard to find due to the difficulties to predict the outcome of an experiment.
+The constant distributions aim to narrow the gap by reducing the amount of changes that need to be done after verification.
 
-With constant distributions, a stochastic model with sampling of distributions
-is developed, but the stochastic behavior is eliminated by temporarily using
-constant distributions. The model performs stochastic sampling of values, but
-with predictable outcome, and thus with predictable experimental results,
-making verification easier. After verifying the model, the constant
-distributions are replaced with the distributions that fit the mean value and
-variation pattern of the modeled system, giving a model with stochastic
-behavior.
-Changing the used distributions is however much less invasive, making it less
-likely to introduce new errors at this stage in the development of the model.
+With constant distributions, a stochastic model with sampling of distributions is developed, but the stochastic behavior is eliminated by temporarily using constant distributions.
+The model performs stochastic sampling of values, but with predictable outcome, and thus with predictable experimental results, making verification easier.
+After verifying the model, the constant distributions are replaced with the distributions that fit the mean value and variation pattern of the modeled system, giving a model with stochastic behavior.
+Changing the used distributions is however much less invasive, making it less likely to introduce new errors at this stage in the development of the model.
 
-Constant distributions produce the same value `v` with every call of
-`sample`. There is one constant distribution for each type of sample value:
+Constant distributions produce the same value `v` with every call of `sample`.
+There is one constant distribution for each type of sample value:
 
 * `constant(bool v)`, a `bool` distribution.
 
@@ -115,18 +90,15 @@ An example with a constant distribution is:
 dist int u = constant(7);
 ----
 
-This distribution returns the integer value `7` with each `sample u`
-operation.
+This distribution returns the integer value `7` with each `sample u` operation.
 
 indexterm:[distribution,discrete]
 indexterm:[discrete,distribution]
 
 ==== Discrete distributions
 
-Discrete distributions return values from a finite fixed set of possible
-values as answer. In Chi, there is one distribution that returns a boolean
-when sampled, and there are several discrete distributions that return an
-integer number.
+Discrete distributions return values from a finite fixed set of possible values as answer.
+In Chi, there is one distribution that returns a boolean when sampled, and there are several discrete distributions that return an integer number.
 
 * `dist` `bool` *bernoulli*`(real p)`
 +
@@ -187,62 +159,43 @@ Variance:: `+a * b^2+`
 [bibliography]
 ==== References
 
-- [[[law-tut]]] Simulation Modeling & Analysis, fourth edition,
-by Averill M. Law,
-publisher McGraw-Hill, International Edition, 2007,
-ISBN 978-007-125519-6
+- [[[law-tut]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
 
 
 [[tut-simulating-stochastic-behavior]]
 === Simulating stochastic behavior
 
-In this chapter, the mathematical notion of stochastic distribution is used to
-describe how to model stochastic behavior.
-Simulating a model with stochastic behavior at a computer is however not
-stochastic at all. Computer systems are deterministic machines, and
-have no notion of varying results.
+In this chapter, the mathematical notion of stochastic distribution is used to describe how to model stochastic behavior.
+Simulating a model with stochastic behavior at a computer is however not stochastic at all.
+Computer systems are deterministic machines, and have no notion of varying results.
 
-A (pseudo-)random number generator is used to create stochastic results
-instead. It starts with an initial _seed_, an integer number (you can give one
-at the start of the simulation).
-From this seed, a function creates a stream of 'random' values. When looking
-at the values there does not seem to be any pattern.
-It is not truly random however. Using the same seed again gives exactly the
-same stream of numbers. This is the reason to call the function a
-_pseudo_-random number generator (a true random number generator would never
-produce the exact same stream of numbers).
-A sample of a distribution uses one or more numbers from the stream to compute
-its value.
-The value of the initial seed thus decides the value of all samples drawn in
-the simulation. By default, a different seed is used each time you run a
-simulation (leading to slightly different results each time).
-You can also explicitly state what seed you want to use when running a model,
-see <<tool-compile-and-simulate,Compile and simulate>>.
-At the end of the simulation, the used
-initial seed of that simulation is printed for reference purposes.
+A (pseudo-)random number generator is used to create stochastic results instead.
+It starts with an initial _seed_, an integer number (you can give one at the start of the simulation).
+From this seed, a function creates a stream of 'random' values.
+When looking at the values there does not seem to be any pattern.
+It is not truly random however.
+Using the same seed again gives exactly the same stream of numbers.
+This is the reason to call the function a _pseudo_-random number generator (a true random number generator would never produce the exact same stream of numbers).
+A sample of a distribution uses one or more numbers from the stream to compute its value.
+The value of the initial seed thus decides the value of all samples drawn in the simulation.
+By default, a different seed is used each time you run a simulation (leading to slightly different results each time).
+You can also explicitly state what seed you want to use when running a model, see <<tool-compile-and-simulate,Compile and simulate>>.
+At the end of the simulation, the used initial seed of that simulation is printed for reference purposes.
 
-While doing a stochastic simulation study, performing several experiments with
-the same initial seed invalidates the results, as it is equivalent to copying
-the outcome of a single experiment a number of times.
-On the other hand, when looking for the cause of a bug in the model,
-performing the exact same experiment is useful as outcomes of previous
-experiments should match exactly.
+While doing a stochastic simulation study, performing several experiments with the same initial seed invalidates the results, as it is equivalent to copying the outcome of a single experiment a number of times.
+On the other hand, when looking for the cause of a bug in the model, performing the exact same experiment is useful as outcomes of previous experiments should match exactly.
 
 
 === Exercises
 
-. According to the Chi reference manual, for a `gamma` distribution with
-parameters `(a, b)`, the mean equals `a * b`.
+. According to the Chi reference manual, for a `gamma` distribution with parameters `(a, b)`, the mean equals `a * b`.
 
-.. Use a Chi specification to verify whether this is true for at least 3
-different pairs of `a` and `b`.
+.. Use a Chi specification to verify whether this is true for at least 3 different pairs of `a` and `b`.
 
-.. How many samples from the distribution are approximately required to
-determine the mean up to three decimals accurate?
+.. How many samples from the distribution are approximately required to determine the mean up to three decimals accurate?
 
-. Estimate the mean μ and variance σ^2^ of a triangular distribution
-`triangle(1.0, 2.0, 5.0)` by simulating 1000 samples. Recall that the
-variance σ^2^ of _n_ samples can be calculated by a function like:
+. Estimate the mean μ and variance σ^2^ of a triangular distribution `triangle(1.0, 2.0, 5.0)` by simulating 1000 samples.
+Recall that the variance σ^2^ of _n_ samples can be calculated by a function like:
 +
 [source, chi]
 ----
@@ -258,12 +211,12 @@ end
 ----
 
 . We would like to build a small game, called _Higher or Lower_.
-The computer picks a random integer number between 1 and 14. The player
-then has to predict whether the next number will be higher or lower. The
-computer picks the next random number and compares the new number with the
-previous one. If the player guesses right his score is doubled. If the
-player guesses wrong, he looses all and the game is over. Try the following
-specification:
+The computer picks a random integer number between 1 and 14.
+The player then has to predict whether the next number will be higher or lower.
+The computer picks the next random number and compares the new number with the previous one.
+If the player guesses right his score is doubled.
+If the player guesses wrong, he looses all and the game is over.
+Try the following specification:
 +
 [source, chi]
 ----
@@ -306,8 +259,7 @@ end
 
 .. What is the maximum end score?
 
-.. What happens, when the drawn sample is equal to the previous drawn
-sample?
+.. What happens, when the drawn sample is equal to the previous drawn sample?
 
 .. Extend this game specification with the possibility to stop.
 

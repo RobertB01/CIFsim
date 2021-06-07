@@ -15,17 +15,14 @@ include::_part_attributes.asciidoc[]
 [[tut-chapter-simulation-and-experiments]]
 == Simulations and experiments
 
-So far, attention has focused on the Chi language, and how to use it for
-modeling a discrete-event system.
+So far, attention has focused on the Chi language, and how to use it for modeling a discrete-event system.
 
-In this chapter, the focus shifts to performing simulations, in particular for
-systems with infinite behavior. Also, how to perform multiple model
-simulations is explained.
+In this chapter, the focus shifts to performing simulations, in particular for systems with infinite behavior.
+Also, how to perform multiple model simulations is explained.
 
 === Simulating finite systems
 
-For systems that have simple cyclic behavior, the simulation can be
-'exhaustive', for example:
+For systems that have simple cyclic behavior, the simulation can be 'exhaustive', for example:
 
 
 [source, chi]
@@ -54,9 +51,8 @@ model M():
 end
 ----
 
-This simulation sends a single product through the line, prints the flow time,
-and exits. (All processes end, which makes that the `run` statement and the
-model end as well.)
+This simulation sends a single product through the line, prints the flow time, and exits.
+(All processes end, which makes that the `run` statement and the model end as well.)
 
 In this case, the answer is even obvious without running the simulation.
 
@@ -64,15 +60,11 @@ In this case, the answer is even obvious without running the simulation.
 === Simulating infinite systems
 
 For other systems, it is much harder to decide when enough has been simulated.
-Typically, a process (`E` in the example below), collects values of the
-property of interest (for example flow time of products), until it has
-collected enough samples to draw a conclusion, and compute the resulting value.
+Typically, a process (`E` in the example below), collects values of the property of interest (for example flow time of products), until it has collected enough samples to draw a conclusion, and compute the resulting value.
 
-After doing so, the problem arises to let all processes know the simulation
-should be stopped. This can be programmed in the model (such as adding
-channels to
-signal termination of the simulation to all processes). A simpler alternative
-is to use the `exit` statement, in the following way:
+After doing so, the problem arises to let all processes know the simulation should be stopped.
+This can be programmed in the model (such as adding channels to signal termination of the simulation to all processes).
+A simpler alternative is to use the `exit` statement, in the following way:
 
 
 [source, chi]
@@ -94,29 +86,24 @@ model real M(... int N):
 end
 ----
 
-In process `E`, the average flow time is calculated and given as
-argument of the `exit` statement. At the moment this statement is executed,
-the model and all processes are killed, and the computed value becomes the
-exit value (the result) of the simulation. The `real` type before
-the name `E` denotes that the process may perform an `exit` statement
-returning a real value. The model runs the `E` process, so it may also give
-an exit value as result. These types are called _exit type_.
-Exit values are printed to the screen by the simulator when it ends the
-model simulation.
+In process `E`, the average flow time is calculated and given as argument of the `exit` statement.
+At the moment this statement is executed, the model and all processes are killed, and the computed value becomes the exit value (the result) of the simulation.
+The `real` type before the name `E` denotes that the process may perform an `exit` statement returning a real value.
+The model runs the `E` process, so it may also give an exit value as result.
+These types are called _exit type_.
+Exit values are printed to the screen by the simulator when it ends the model simulation.
 
-Another option is to use `write` to output the computed value, and use
-`exit` without argument. In that case, the exit value is of type `void`.
+Another option is to use `write` to output the computed value, and use `exit` without argument.
+In that case, the exit value is of type `void`.
 
 [[tut-experiment]]
 === Simulating several scenarios
 
-The above works nicely for single model simulations. The model is started one
-time, and it derives a result for a single scenario.
+The above works nicely for single model simulations.
+The model is started one time, and it derives a result for a single scenario.
 
-Often however, you want to perform several model simulations. This can be the
-exact same scenario when the model has stochastic behavior, or it can be
-with different parameter values each time (to investigate system behavior
-under different circumstances).
+Often however, you want to perform several model simulations.
+This can be the exact same scenario when the model has stochastic behavior, or it can be with different parameter values each time (to investigate system behavior under different circumstances).
 In such cases, you can use an experiment, like below:
 
 
@@ -133,12 +120,8 @@ xper X():
 end
 ----
 
-The experiment `X` looks just like a function, except that it has no
-`return`
-statement. It can however 'call' a model like a function. In the example above
-`M(n)` starts a simulation with model `M` and the given value for `n`.
-When the model exits by means of the `exit` statement (this is required!),
-the computed exit
-value of the (model) simulation is assigned to variable `v`. In the
-experiment, this value can be used for post-processing, or in this case, get
-printed as result value in a table.
+The experiment `X` looks just like a function, except that it has no `return` statement.
+It can however 'call' a model like a function.
+In the example above `M(n)` starts a simulation with model `M` and the given value for `n`.
+When the model exits by means of the `exit` statement (this is required!), the computed exit value of the (model) simulation is assigned to variable `v`.
+In the experiment, this value can be used for post-processing, or in this case, get printed as result value in a table.

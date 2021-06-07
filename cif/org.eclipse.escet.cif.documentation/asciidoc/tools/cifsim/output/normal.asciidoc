@@ -18,8 +18,7 @@ include::../../_part_attributes.asciidoc[]
 indexterm:[CIF simulator,normal output]
 indexterm:[simulation output,normal console output]
 indexterm:[normal console output]
-Normal console output mainly focuses on the state of the specification, and the
-progress of the simulation.
+Normal console output mainly focuses on the state of the specification, and the progress of the simulation.
 
 [[tools-cifsim-output-normal-types]]
 === Available types of normal output
@@ -32,15 +31,13 @@ Prints the initial state to the console.
 
 * _The target states_ [`state-target`] (default)
 +
-Prints all target states to the console. This
-includes all states reached by event transitions and time transitions.
-Specifically, it excludes the initial state, and it includes the
-final/deadlock state.
+Prints all target states to the console.
+This includes all states reached by event transitions and time transitions.
+Specifically, it excludes the initial state, and it includes the final/deadlock state.
 
 * _The final state_ [`state-final`]
 +
-Prints the final state to the console, regardless of whether or not the final
-state is a deadlock state.
+Prints the final state to the console, regardless of whether or not the final state is a deadlock state.
 
 * _The deadlock state_ [`state-deadlock`]
 +
@@ -48,86 +45,70 @@ Prints the final state to the console, but only if it is a deadlock state.
 
 * _The intermediate states_ [`state-intermediate`]
 +
-Prints all intermediate states to the console. Intermediate states are the
-states that are used to generate
-<<tools-cifsim-output-realtime-frames,intermediate frames>>, for smooth
-visualizations. The intermediate states are generated for states between the
-start and end states of time transitions, when
-<<tools-cifsim-output-chapter-realtime,real-time>> simulation is enabled. Note
-that this does not include the initial state, target states, and
-final/deadlock states.
+Prints all intermediate states to the console.
+Intermediate states are the states that are used to generate <<tools-cifsim-output-realtime-frames,intermediate frames>>, for smooth visualizations.
+The intermediate states are generated for states between the start and end states of time transitions, when <<tools-cifsim-output-chapter-realtime,real-time>> simulation is enabled.
+Note that this does not include the initial state, target states, and final/deadlock states.
 
 * _The algebraic variables as part of the state_ [`state-alg-vars`] (default)
 +
-Prints the algebraic variables (derived state) as part of the state. This
-applies to all states, including the states for intermediate frames. If no
-state information is printed, this output type has no effect. Disabling
-printing of algebraic variables excludes algebraic variables, regardless of
-whether <<tools-cifsim-output-normal-state-filter,state filtering>>
-includes or excludes them.
+Prints the algebraic variables (derived state) as part of the state.
+This applies to all states, including the states for intermediate frames.
+If no state information is printed, this output type has no effect.
+Disabling printing of algebraic variables excludes algebraic variables, regardless of whether <<tools-cifsim-output-normal-state-filter,state filtering>> includes or excludes them.
 
 * _The derivatives as part of the state_ [`state-derivs`] (default)
 +
-Prints the derivatives of the continuous variables (derived state) as part of
-the state. This applies to all states, including the states for intermediate
-frames. If no state information is printed, this output type has no effect.
-The derivative of variable `time` is not included. Disabling printing of
-derivatives excludes derivatives, regardless of whether
-<<tools-cifsim-output-normal-state-filter,state filtering>> includes
-or excludes them.
+Prints the derivatives of the continuous variables (derived state) as part of the state.
+This applies to all states, including the states for intermediate frames.
+If no state information is printed, this output type has no effect.
+The derivative of variable `time` is not included.
+Disabling printing of derivatives excludes derivatives, regardless of whether <<tools-cifsim-output-normal-state-filter,state filtering>> includes or excludes them.
 
 * _The possible transitions (for interactive console choice only)_ [`trans-minimal`]
 +
-Prints the possible transitions to the console, if the
-<<tools-cifsim-input-chapter-console,interactive console input mode>> is used. Multiple possible
-transition are always printed. Single possible transitions are only printed
-if automatic choice for a single possible transition is disabled. Nothing
-is printed if no transitions are possible.
+Prints the possible transitions to the console, if the <<tools-cifsim-input-chapter-console,interactive console input mode>> is used.
+Multiple possible transition are always printed.
+Single possible transitions are only printed if automatic choice for a single possible transition is disabled.
+Nothing is printed if no transitions are possible.
 
 * _The possible transitions (for interactive console choice, or if more than one transition)_ [`trans-default`]
 +
-Similar to 'interactive console choice only', but additionally always prints
-the possible transitions, if there are multiple possible transitions,
-regardless of the <<tools-cifsim-input-chapter-index,input mode>>.
+Similar to 'interactive console choice only', but additionally always prints the possible transitions, if there are multiple possible transitions, regardless of the <<tools-cifsim-input-chapter-index,input mode>>.
 
 * _The possible transitions (always)_ [`trans-always`]
 +
-Always print the possible transitions to the console, regardless of the input
-mode, and the number of possible transitions. However, nothing is printed if
-no transitions are possible.
+Always print the possible transitions to the console, regardless of the input mode, and the number of possible transitions.
+However, nothing is printed if no transitions are possible.
 
 * _The chosen transitions_ [`chosen-trans`] (default)
 +
-Prints the chosen transitions (the transitions that are about to be taken),
-to the console.
+Prints the chosen transitions (the transitions that are about to be taken), to the console.
 
 * _The interrupted transitions_ [`interrupted-trans`] (default)
 +
-Prints information about interrupted transitions (time transitions that are
-stopped prematurely) to the console.
+Prints information about interrupted transitions (time transitions that are stopped prematurely) to the console.
 
 * _The simulation result_ [`sim-rslt`] (default)
 +
-Prints the simulation result the console, at the end of the simulation, if
-simulation did not result in a runtime error.
+Prints the simulation result the console, at the end of the simulation, if simulation did not result in a runtime error.
 
 * _The random seeds used for the random generators_ [`seeds`] (default)
 +
 indexterm:[seed; CIF simulator normal console output]
 +
 [[tools-cifsim-output-normal-seeds]]
-Prints the seeds used for the random generators to the console, to allow
-reproducing the simulation <<tools-cifsim-chapter-traces,trace>>. Only if a
-random seed is used, is the seed printed. That is, for user-specified seeds,
-the seed is not printed. The following seeds may be printed:
+Prints the seeds used for the random generators to the console, to allow reproducing the simulation <<tools-cifsim-chapter-traces,trace>>.
+Only if a random seed is used, is the seed printed.
+That is, for user-specified seeds, the seed is not printed.
+The following seeds may be printed:
 +
 ** The seed used for the random <<tools-cifsim-input-automatic-trans,automatic mode choice algorithm>>.
 +
 ** The seed used for the random <<tools-cifsim-input-automatic-time,automatic mode time transition duration>>.
 +
 ** The seed used for the first random generator for a <<tools-cifsim-chapter-distr-seeds,stochastic distribution>>.
-The seed is only printed if it is used to create a random number generator for at least one stochastic
-distribution.
+The seed is only printed if it is used to create a random number generator for at least one stochastic distribution.
 
 * _The print declarations output_ [`print`] (default)
 +
@@ -138,107 +119,73 @@ indexterm:[normal console output,option]
 
 === Normal output option
 
-In the option dialog, each of the different types of output can be enabled and
-disabled individually (menu:Normal output[]
-option,
-menu:Output[]
-category).
+In the option dialog, each of the different types of output can be enabled and disabled individually (menu:Normal output[] option, menu:Output[] category).
 
-From the command line, using the `-o` or `--output` option, the names of
-the different types of normal output, as specified between square brackets,
-should be used, separated by commas. The output types indicated with
-'(default)' are enabled when default settings are used, i.e. when the
-`-o` or `--output` option is not used. As an example, consider
-`-o print,seeds` or `--output=print,seeds`. Only output generated by print
-declarations (due to `print`) and output about the used seeds for random
-generators (due to `seeds`) is enabled, while all other output is disabled.
+From the command line, using the `-o` or `--output` option, the names of the different types of normal output, as specified between square brackets, should be used, separated by commas.
+The output types indicated with '(default)' are enabled when default settings are used, i.e. when the `-o` or `--output` option is not used.
+As an example, consider `-o print,seeds` or `--output=print,seeds`.
+Only output generated by print declarations (due to `print`) and output about the used seeds for random generators (due to `seeds`) is enabled, while all other output is disabled.
 
-The output types that are specified using the option replace the default output
-types. However, it is also possible to specify additions and removals relative
-to the default output, by prefixing output types with a `pass:c[+]` or `-`
-respectively. For instance, when using `-o -print,+trans-always` or
-`--output=-print,+trans-always` the default output is used, with print
-declarations output excluded from it (due to `-print`), and with always
-printing possible transitions enabled (due to `+trans-always`). Replacements
-(no prefix) may not be combined with additions/removals (`pass:c[+]` or `-`
-prefix).
+The output types that are specified using the option replace the default output types.
+However, it is also possible to specify additions and removals relative to the default output, by prefixing output types with a `pass:c[+]` or `-` respectively.
+For instance, when using `-o -print,+trans-always` or `--output=-print,+trans-always` the default output is used, with print declarations output excluded from it (due to `-print`), and with always printing possible transitions enabled (due to `+trans-always`).
+Replacements (no prefix) may not be combined with additions/removals (`pass:c[+]` or `-` prefix).
 
-Specifying a replacement output type twice leads to a warning being printed to
-the console. Adding an output type that is already present or removing an
-output type that is not present, also leads to a warning being printed.
+Specifying a replacement output type twice leads to a warning being printed to the console.
+Adding an output type that is already present or removing an output type that is not present, also leads to a warning being printed.
 
 indexterm:[normal console output,output details]
 
 === Output details
 
-When printing states, variable `time` is always printed first. It is followed
-by the current location of each of the automata, the current values of the
-state variables (the discrete and continuous variables), the current values of
-the derivatives of the continuous variables, and the current values of the
-algebraic variables. Except for variable `time`, the state objects are sorted
-alphabetically based on their absolute names. For automata with a single
-nameless location, the current location is always `+*+`.
+When printing states, variable `time` is always printed first.
+It is followed by the current location of each of the automata, the current values of the state variables (the discrete and continuous variables), the current values of the derivatives of the continuous variables, and the current values of the algebraic variables.
+Except for variable `time`, the state objects are sorted alphabetically based on their absolute names.
+For automata with a single nameless location, the current location is always `+*+`.
 
-For variables with a function type and implicit default values, the
-default values may include `defaultValueFunc`, `defaultValueFunc2`, etc.
+For variables with a function type and implicit default values, the default values may include `defaultValueFunc`, `defaultValueFunc2`, etc.
 
-When printing the possible transitions, the event transitions are printed
-first, followed by the `tau` transitions, and the time transition. The event
-transitions are sorted alphabetically on the names of the events.
+When printing the possible transitions, the event transitions are printed first, followed by the `tau` transitions, and the time transition.
+The event transitions are sorted alphabetically on the names of the events.
 
 indexterm:[normal console output,state filtering]
 
 [[tools-cifsim-output-normal-state-filter]]
 === State filtering
 
-By default, when printing states, all state objects are included. Using
-the
-menu:Normal output state filters[]
-option
-(menu:Output[]
-category), the state objects can be filtered. The
-menu:Normal output state filters[]
-option only has effect
-if states are printed at all.
+By default, when printing states, all state objects are included.
+Using the menu:Normal output state filters[] option (menu:Output[] category), the state objects can be filtered.
+The menu:Normal output state filters[] option only has effect if states are printed at all.
 
-As value for the option, comma separated _filters_ should be supplied. Each
-filter specifies one or more state objects. The absolute names of the objects
-are used. That is, for an automaton `a`, with a variable `x`, the absolute
-name of the variable object is `a.x`. If CIF textual syntax keyword are
-used as names for events (such as `plant`), then they must be escaped in
-`.cif` files (`$plant`). For filters however, all escape characters (`$`)
-in the names are ignored. The `+*+` character can be used as wildcard, to
-indicate zero or more characters. If a filter doesn't match any of the state
-objects of the CIF model, a warning is printed to the console.
+As value for the option, comma separated _filters_ should be supplied.
+Each filter specifies one or more state objects.
+The absolute names of the objects are used.
+That is, for an automaton `a`, with a variable `x`, the absolute name of the variable object is `a.x`.
+If CIF textual syntax keyword are used as names for events (such as `plant`), then they must be escaped in `.cif` files (`$plant`).
+For filters however, all escape characters (`$`) in the names are ignored.
+The `+*+` character can be used as wildcard, to indicate zero or more characters.
+If a filter doesn't match any of the state objects of the CIF model, a warning is printed to the console.
 
-By default, filters include matching state objects. Filters may however be
-preceded by a `-` character, turning them into exclusion filters, which
-exclude matching states objects rather than including them. Filters are
-processed in the order they are specified, allowing for alternating additions
-and removals. If a filter does not result in the addition/removal of any state
-objects to/from the filter result, a warning is printed to the console. A
-warning is also printed if the entire state is filtered out.
+By default, filters include matching state objects.
+Filters may however be preceded by a `-` character, turning them into exclusion filters, which exclude matching states objects rather than including them.
+Filters are processed in the order they are specified, allowing for alternating additions and removals.
+If a filter does not result in the addition/removal of any state objects to/from the filter result, a warning is printed to the console.
+A warning is also printed if the entire state is filtered out.
 
 As an example, option value `+a.*,-a.b*,a.bc*+` consists of three filters:
-`+a.*+`, `+-a.b*+`, and `+a.bc*+`. The first filter indicates that state
-objects whose absolute names start with `a.` are to be included. The second
-filter indicates that from those matching state objects, the state objects
-whose absolute names start with `+a.b*+` are to be excluded. To that result,
-the third filter adds those state objects whose absolute names start with
-`+a.bc*+`. For instance, if a specification contains state objects `time`,
-`a.a`, `a.b` `a.bb`, `a.bc`, `a.b.c`, `a.bc`, `a.bcc`, and
-`a.bcd`, the result of the three filters is that the following state objects
-are displayed: `a.a`, `a.bc`, `a.bc`, `a.bcc`, and `a.bcd`.
+`+a.*+`, `+-a.b*+`, and `+a.bc*+`.
+The first filter indicates that state objects whose absolute names start with `a.` are to be included.
+The second filter indicates that from those matching state objects, the state objects whose absolute names start with `+a.b*+` are to be excluded.
+To that result, the third filter adds those state objects whose absolute names start with `+a.bc*+`.
+For instance, if a specification contains state objects `time`, `a.a`, `a.b` `a.bb`, `a.bc`, `a.b.c`, `a.bc`, `a.bcc`, and `a.bcd`, the result of the three filters is that the following state objects are displayed: `a.a`, `a.bc`, `a.bc`, `a.bcc`, and `a.bcd`.
 
 The default option value (filter) is `+*+`.
 
-Regardless of whether the filtered result includes them or not, all algebraic
-variables and derivatives of continuous variables may be excluded, using the
-<<tools-cifsim-output-normal-types,Normal output option>>.
+Regardless of whether the filtered result includes them or not, all algebraic variables and derivatives of continuous variables may be excluded, using the <<tools-cifsim-output-normal-types,Normal output option>>.
 
 indexterm:[profiling,normal console output]
 
 === Profiling
 
-If <<tools-cifsim-chapter-profiling,profiling>> is enabled, all normal output is
-automatically disabled. That is, profiling suppresses all normal output.
+If <<tools-cifsim-chapter-profiling,profiling>> is enabled, all normal output is automatically disabled.
+That is, profiling suppresses all normal output.

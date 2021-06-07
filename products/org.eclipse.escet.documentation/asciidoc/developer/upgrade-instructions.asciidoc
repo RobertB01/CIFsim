@@ -18,8 +18,7 @@ include::_part_attributes.asciidoc[]
 To upgrade to a new Eclipse Platform/IDE/SDK version:
 
 * Version updates
-** Look up Orbit version for the new Eclipse Platform/IDE/SDK release, see
-https://download.eclipse.org/tools/orbit/downloads/.
+** Look up Orbit version for the new Eclipse Platform/IDE/SDK release, see https://download.eclipse.org/tools/orbit/downloads/.
 ** Update Oomph setup, configuring new Eclipse and Orbit versions.
 ** Update `dev-env-setup.asciidoc` to match new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature` project).
@@ -47,10 +46,8 @@ https://download.eclipse.org/tools/orbit/downloads/.
 ** Check the properties of the `org.eclipse.escet.common.java` project, under menu:Java Compiler[Errors/Warnings].
 ** Make a dummy change and change it back.
 ** In case of changes to `*.prefs` files in `.settings`, configure the new settings as desired.
-** Run `misc/java-code-style/copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style`
-to copy the new settings to the central place.
-** Run `misc/java-code-style/copy_there.bash` from `misc/java-code-style` to copy the new settings to all relevant
-projects.
+** Run `misc/java-code-style/copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new settings to the central place.
+** Run `misc/java-code-style/copy_there.bash` from `misc/java-code-style` to copy the new settings to all relevant projects.
 ** Force a rebuild in Eclipse and check for any warnings/errors, addressing them if any.
 
 * Validation

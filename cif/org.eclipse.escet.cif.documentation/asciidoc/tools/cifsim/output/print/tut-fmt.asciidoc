@@ -19,13 +19,11 @@ indexterm:[text formatting]
 indexterm:[print output,text formatting]
 indexterm:[text formatting,tutorial]
 indexterm:[tutorial,text formatting]
-This tutorial explains text formatting by means of examples. It does not
-explain all uses of text formatting, and all details related to text
-formatting. For those details, see the
-<<tools-cifsim-output-print-chapter-ref-fmt>> page instead.
+This tutorial explains text formatting by means of examples.
+It does not explain all uses of text formatting, and all details related to text formatting.
+For those details, see the <<tools-cifsim-output-print-chapter-ref-fmt>> page instead.
 
-In this tutorial, when printed console output is shown, all output that the
-simulator can generate other than output for print declarations, is omitted.
+In this tutorial, when printed console output is shown, all output that the simulator can generate other than output for print declarations, is omitted.
 
 indexterm:[text formatting,introduction]
 
@@ -49,14 +47,10 @@ Time=5.000000000000001
 Time=10.0
 ----
 
-As you can see, due to rounding and simulation imprecision, the length of the
-textual representations of the values of `time` can vary wildly during
-simulation. Furthermore, the explicit casts (conversions) from real to string
-(`<string>`) and string concatenation (the `pass:c[+]` operator) can quickly
-become cluttered, and hard to read.
+As you can see, due to rounding and simulation imprecision, the length of the textual representations of the values of `time` can vary wildly during simulation.
+Furthermore, the explicit casts (conversions) from real to string (`<string>`) and string concatenation (the `pass:c[+]` operator) can quickly become cluttered, and hard to read.
 
-To improve readability of the print declaration, we could adapt the CIF
-specification to the following:
+To improve readability of the print declaration, we could adapt the CIF specification to the following:
 
 
 [source, cif]
@@ -64,35 +58,29 @@ specification to the following:
 print fmt("Time=%s", time);
 ----
 
-Here, manual text construction has been replaced by the use of the `fmt`
-standard library function. The first argument is a _format pattern_, and the
-remaining arguments are the values that are to be included in the text, in
-this case the value of variable `time`. The `fmt` function ensures that we
-no longer have to use casts. We also no longer have to create pieces of text
-and concatenate them (using the `pass:c[+]` operator).
+Here, manual text construction has been replaced by the use of the `fmt` standard library function.
+The first argument is a _format pattern_, and the remaining arguments are the values that are to be included in the text, in this case the value of variable `time`.
+The `fmt` function ensures that we no longer have to use casts.
+We also no longer have to create pieces of text and concatenate them (using the `pass:c[+]` operator).
 
-This is a typical use of a format pattern. The print declaration prints the
-value that results from text formatting. The value that is used is the value of
-variable `time`. The value of this variable is not used 'as is', but is
-instead converted to a textual representation using the format pattern. This
-format pattern specifies that the resulting text should start with `Time=`.
-It also specifies that the value (of variable `time`) should be included at
-the end of the textual representation. The `%s` part of the format pattern is
-a _format specifier_. The `%s` specifier is the generic specifier that can
-convert any type of value to a textual representation.
+This is a typical use of a format pattern.
+The print declaration prints the value that results from text formatting.
+The value that is used is the value of variable `time`.
+The value of this variable is not used 'as is', but is instead converted to a textual representation using the format pattern.
+This format pattern specifies that the resulting text should start with `Time=`.
+It also specifies that the value (of variable `time`) should be included at the end of the textual representation.
+The `%s` part of the format pattern is a _format specifier_.
+The `%s` specifier is the generic specifier that can convert any type of value to a textual representation.
 
-When simulated, this new specification gives the exact same output as the
-previous version.
+When simulated, this new specification gives the exact same output as the previous version.
 
 indexterm:[text formatting,real values]
 
 === Real value formatting
 
-As we saw in the previous section, due to rounding and simulation imprecision,
-the length of the generic textual representations of the values of variable
-`time` can vary wildly during simulation. This reduces readability of the
-results, as a lot of irrelevant digits are included. Consider the following
-alternative CIF specification:
+As we saw in the previous section, due to rounding and simulation imprecision, the length of the generic textual representations of the values of variable `time` can vary wildly during simulation.
+This reduces readability of the results, as a lot of irrelevant digits are included.
+Consider the following alternative CIF specification:
 
 
 [source, cif]
@@ -100,12 +88,10 @@ alternative CIF specification:
 print fmt("Time=%.2f", time);
 ----
 
-Here, instead of a `%s` specifier, a `%f` specifier is used. This specifier
-can only be used for `real` numbers, and indicates that the number should be
-formatted as a floating point number in decimal representation. The `.2` part
-specifies the precision, and indicates that the floating point number in
-decimal notation should have exactly two digits after the decimal point. When
-simulated, this could give the following output:
+Here, instead of a `%s` specifier, a `%f` specifier is used.
+This specifier can only be used for `real` numbers, and indicates that the number should be formatted as a floating point number in decimal representation.
+The `.2` part specifies the precision, and indicates that the floating point number in decimal notation should have exactly two digits after the decimal point.
+When simulated, this could give the following output:
 
 
 [source]
@@ -120,8 +106,8 @@ indexterm:[text formatting,columns]
 
 === Putting values in columns
 
-In the examples above, we included a single value in the output. Now consider
-the following CIF specification:
+In the examples above, we included a single value in the output.
+Now consider the following CIF specification:
 
 
 [source, cif]
@@ -129,13 +115,10 @@ the following CIF specification:
 print fmt("%.2f %.2f %.2f", x, y, z);
 ----
 
-Here, the values of variables `x`, `y`, and `z` are included in the
-formatted result. The format pattern includes each of the values (the first
-`%.2f` includes the value of variable `x`, the second `%.2f` includes the
-value of variable `y`, etc). The format pattern includes spaces between the
-format specifiers (between the `%.2f` parts), and thus the formatted values
-include spaces between them as well. When simulated, this could give the
-following output:
+Here, the values of variables `x`, `y`, and `z` are included in the formatted result.
+The format pattern includes each of the values (the first `%.2f` includes the value of variable `x`, the second `%.2f` includes the value of variable `y`, etc).
+The format pattern includes spaces between the format specifiers (between the `%.2f` parts), and thus the formatted values include spaces between them as well.
+When simulated, this could give the following output:
 
 
 [source]
@@ -146,8 +129,7 @@ following output:
 -3.25 1.25 99.20
 ----
 
-Due to some larger values being mixed with shorter values, as well as due to
-having both positive and negative values, the output is not so easy to read.
+Due to some larger values being mixed with shorter values, as well as due to having both positive and negative values, the output is not so easy to read.
 This can be solved by using the following CIF specification instead:
 
 
@@ -156,8 +138,7 @@ This can be solved by using the following CIF specification instead:
 print fmt("%10.2f %10.2f %10.2f", x, y, z);
 ----
 
-By including a _width_ of `10`, the text is now nicely formatted into columns
-of ten characters wide:
+By including a _width_ of `10`, the text is now nicely formatted into columns of ten characters wide:
 
 
 [source]
@@ -169,9 +150,8 @@ of ten characters wide:
      -3.25       1.25      99.20
 ----
 
-The first line is not actual output, but is included to make it easier to see
-the columns. Not only is the output now nicely put in columns, but due to the
-exactly two digits after the dot (`.`), the dots are now also nicely aligned.
+The first line is not actual output, but is included to make it easier to see the columns.
+Not only is the output now nicely put in columns, but due to the exactly two digits after the dot (`.`), the dots are now also nicely aligned.
 
 indexterm:[text formatting,large numbers]
 
@@ -196,10 +176,8 @@ When simulated, this could give the following output:
 2147185402.17
 ----
 
-As the values of variable `time` get larger and larger, their textual
-representations become longer and longer, and it becomes more and more
-difficult to see exactly how large the values are. The following alternative
-CIF specification solves this problem:
+As the values of variable `time` get larger and larger, their textual representations become longer and longer, and it becomes more and more difficult to see exactly how large the values are.
+The following alternative CIF specification solves this problem:
 
 
 [source, cif]
@@ -207,8 +185,7 @@ CIF specification solves this problem:
 print fmt("%,.2f", time);
 ----
 
-The addition of the comma (`,`) _flag_ ensures that we get the following
-output instead:
+The addition of the comma (`,`) _flag_ ensures that we get the following output instead:
 
 
 [source]
@@ -219,17 +196,15 @@ output instead:
 2,147,185,402.17
 ----
 
-That is, a comma is used in the result as _thousand separator_, making it
-easier to see that the value of variable `time` is just over two billion,
-rather than for instance just over 200 million.
+That is, a comma is used in the result as _thousand separator_, making it easier to see that the value of variable `time` is just over two billion, rather than for instance just over 200 million.
 
 indexterm:[text formatting,left alignment]
 
 === Left alignment
 
-Earlier, we put values in columns. By default, if a _width_ is used, text is
-right-justified (aligned to the right). We can also justify it to the left,
-as in this CIF specification:
+Earlier, we put values in columns.
+By default, if a _width_ is used, text is right-justified (aligned to the right).
+We can also justify it to the left, as in this CIF specification:
 
 
 [source, cif]
@@ -237,11 +212,10 @@ as in this CIF specification:
 print fmt("%-10.2d %-10.2d %-10.2d", g, h, i);
 ----
 
-Here the `%d` specifier is used instead of the `%f` specifier. The `%d`
-specifier can only be used for integer values, while the `%f` specifier can
-only be used for real values. Besides a different specifier, the minus (`-`)
-flag is added, and different variables are used as values. After the changes,
-the CIF specification could result in the following output:
+Here the `%d` specifier is used instead of the `%f` specifier.
+The `%d` specifier can only be used for integer values, while the `%f` specifier can only be used for real values.
+Besides a different specifier, the minus (`-`) flag is added, and different variables are used as values.
+After the changes, the CIF specification could result in the following output:
 
 
 [source]
@@ -253,12 +227,10 @@ the CIF specification could result in the following output:
 2946       567        -25072563
 ----
 
-Once again, the first line is not actual output, but is included to make it
-easier to see the columns. Observe how the addition of the `-` flag resulted
-in the right-justified output being changed to left-justified (aligned to the
-left) output. The presence of negative numbers makes that the left-most digits
-of the columns are not nicely aligned. The following CIF specification solves
-this:
+Once again, the first line is not actual output, but is included to make it easier to see the columns.
+Observe how the addition of the `-` flag resulted in the right-justified output being changed to left-justified (aligned to the left) output.
+The presence of negative numbers makes that the left-most digits of the columns are not nicely aligned.
+The following CIF specification solves this:
 
 
 [source, cif]
@@ -266,8 +238,7 @@ this:
 print fmt("%-+10.2d %-+10.2d %-+10.2d", x, y, z);
 ----
 
-The addition of the plus (`pass:c[+]`) flag means that for non-negative numbers, a
-plus (`pass:c[+]`) character is always included:
+The addition of the plus (`pass:c[+]`) flag means that for non-negative numbers, a plus (`pass:c[+]`) character is always included:
 
 
 [source]
@@ -279,8 +250,7 @@ plus (`pass:c[+]`) character is always included:
 +2946      +567       -25072563
 ----
 
-If preferred, a space can be used instead of a plus, resulting in the following
-CIF specification:
+If preferred, a space can be used instead of a plus, resulting in the following CIF specification:
 
 
 [source, cif]
@@ -303,9 +273,7 @@ and the following output:
 
 === More formatting
 
-In this short tutorial, we've seen a few forms of text formatting using the
-`fmt` function. However, CIF supports various other specifiers, besides the
-`%s`, `%f`, and `%d` specifiers that were used in this tutorial. All
-those specifiers support various flags, widths, and precisions, and allow them
-to be combined in various ways. For the complete details of text formatting,
-see the <<tools-cifsim-output-print-chapter-ref-fmt>> page.
+In this short tutorial, we've seen a few forms of text formatting using the `fmt` function.
+However, CIF supports various other specifiers, besides the `%s`, `%f`, and `%d` specifiers that were used in this tutorial.
+All those specifiers support various flags, widths, and precisions, and allow them to be combined in various ways.
+For the complete details of text formatting, see the <<tools-cifsim-output-print-chapter-ref-fmt>> page.

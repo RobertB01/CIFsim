@@ -18,19 +18,12 @@ indexterm:[ToolDef]
 == ToolDef
 
 ToolDef is a cross-platform and machine-independent scripting language.
-It supports command line execution, but is also available as plug-in for
-the Eclipse IDE, providing an integrated development experience.
+It supports command line execution, but is also available as plug-in for the Eclipse IDE, providing an integrated development experience.
 
-The ToolDef language features a simple and intuitive syntax to make it easy to
-write scripts, static typing to catch simple mistakes, a large number of
-built-in data types and tools, Java integration, and more.
+The ToolDef language features a simple and intuitive syntax to make it easy to write scripts, static typing to catch simple mistakes, a large number of built-in data types and tools, Java integration, and more.
 
-ToolDef libraries with ToolDef compatible tools are available for all tools
-within the Eclipse ESCET toolkit, allowing cross-platform and
-machine-independent scripting using Eclipse ESCET tools. ToolDef however is a
-generic scripting language, and can be used without using any of the other
-Eclipse ESCET tools. Furthermore, other tools can be made available for use
-within ToolDef scripts by defining ToolDef libraries for them.
+ToolDef libraries with ToolDef compatible tools are available for all tools within the Eclipse ESCET toolkit, allowing cross-platform and machine-independent scripting using Eclipse ESCET tools.
+ToolDef however is a generic scripting language, and can be used without using any of the other Eclipse ESCET tools.
+Furthermore, other tools can be made available for use within ToolDef scripts by defining ToolDef libraries for them.
 
-See the separate https://eclipse.org/escet/tooldef[ToolDef documentation] for
-more information.
+See the separate https://eclipse.org/escet/tooldef[ToolDef documentation] for more information.

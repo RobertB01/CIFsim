@@ -18,29 +18,22 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,remove requirements]
 indexterm:[remove requirements]
 indexterm:[requirement,remove]
-This CIF to CIF transformation removes
-<<lang-tut-extensions-synthesis-plant-req-sup,requirements>> from the
-specification. By removing all requirements from a CIF specification with both
-<<lang-tut-extensions-synthesis-plant-req-sup,plants>> and requirements, only the
-plants remain. The resulting plants can then be <<tools-chapter-mergecif,merged>>
-with a <<lang-tut-extensions-synthesis-plant-req-sup,supervisor>> or other
-controller.
+This CIF to CIF transformation removes <<lang-tut-extensions-synthesis-plant-req-sup,requirements>> from the specification.
+By removing all requirements from a CIF specification with both <<lang-tut-extensions-synthesis-plant-req-sup,plants>> and requirements, only the plants remain.
+The resulting plants can then be <<tools-chapter-mergecif,merged>> with a <<lang-tut-extensions-synthesis-plant-req-sup,supervisor>> or other controller.
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
-* Using (referring to) requirement automata or declarations from requirement
-automata from outside requirement automata.
+* Using (referring to) requirement automata or declarations from requirement automata from outside requirement automata.
 
-Specifications where requirement automata or declarations declared in
-requirement automata are used (referred to) from outside requirement automata
-are not supported. By removing the requirement automata, those uses
-(references) become invalid, as the automata or declarations that are
-referenced no longer exist. For instance, consider:
+Specifications where requirement automata or declarations declared in requirement automata are used (referred to) from outside requirement automata are not supported.
+By removing the requirement automata, those uses (references) become invalid, as the automata or declarations that are referenced no longer exist.
+For instance, consider:
 
 
 [source, cif]
@@ -56,28 +49,23 @@ requirement automaton req:
 end
 ----
 
-When requirement automaton `req` is removed, the `switch` expression can no
-longer refer to that automaton, or to its locations. Removing the requirements
-from this CIF specification is not supported.
+When requirement automaton `req` is removed, the `switch` expression can no longer refer to that automaton, or to its locations.
+Removing the requirements from this CIF specification is not supported.
 
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
 
 === Implementation details
 
-Both <<lang-tut-extensions-synthesis-autkind,requirement automata>> and
-<<lang-tut-extensions-synthesis-invkind,requirement invariants>> are
-removed. Requirement invariants are removed from the top level scope of the
-specification, all groups and automata, and all locations of automata. For
-instance, consider the following CIF specification:
+Both <<lang-tut-extensions-synthesis-autkind,requirement automata>> and <<lang-tut-extensions-synthesis-invkind,requirement invariants>> are removed.
+Requirement invariants are removed from the top level scope of the specification, all groups and automata, and all locations of automata.
+For instance, consider the following CIF specification:
 
 
 [source, cif]
@@ -131,8 +119,7 @@ n/a
 
 === Size considerations
 
-Since information is removed from the specification, the specification can only
-become smaller as a result of this transformation.
+Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
 
 
 === Optimality
