@@ -49,9 +49,9 @@ image::{ref-imgsdir}/rail_diagrams/statement.png[]
 * Finally, the `OtherStatements` group contains several different statements (explained further in <<ref-other-statements>>).
 The more commonly used statements in that group are the `delay` statement, the `write` statement, and the `return` statement.
 
-The syntax diagram of `Body` states that statements are separated from each other with a semi colon (`;`).
+The syntax diagram of `Body` states that statements are separated from each other with a semicolon (`;`).
 The compiler allows more freedom.
-Semicolons may be omitted before and after a `end` keyword, and a semi colon may be added after the last statement.
+Semicolons may be omitted before and after a `end` keyword, and a semicolon may be added after the last statement.
 
 indexterm:[variables,local variables]
 indexterm:[variable,declaration]
@@ -60,13 +60,13 @@ indexterm:[declaration,variable]
 [[ref-variable-declarations]]
 === Local variables
 
-Local variables are introduced in a process or function using the following syntax
+Local variables are introduced in a process or function using the following syntax.
 
 image::{ref-imgsdir}/rail_diagrams/vardef.png[]
 
 Variable definitions start with a `Type` node (its syntax if explained in <<ref-chapter-types>>), followed by a sequence of variable names where each variable may be initialized with a value by means of the `= Expression` path.
 If no value is assigned, the variable gets the default value of the type.
-Use a semi colon to terminate the sequence of new variables.
+Use a semicolon to terminate the sequence of new variables.
 
 Next, another set of variables may be defined by going back to the start of the diagram, and giving another `Type` node, or the diagram can be ended, and the statements of the process or function can be given.
 
@@ -77,7 +77,7 @@ indexterm:[statement,assignment]
 === Assignment statement
 
 An assignment statement assigns one or more values to the local variables.
-Its syntax is
+Its syntax is as follows.
 
 image::{ref-imgsdir}/rail_diagrams/assignment_statement.png[]
 
@@ -199,7 +199,7 @@ indexterm:[statement,iterative]
 [[ref-iterative-statements]]
 === Iterative statements
 
-The iterative statements are
+The iterative statements are shown below.
 
 image::{ref-imgsdir}/rail_diagrams/iterative_statement.png[]
 
@@ -390,7 +390,7 @@ The statements of that alternative are executed, and the choice statement ends.
 The choice statement also ends when all boolean expressions yield false.
 The boolean expression of the `else` alternative always holds.
 
-The syntax of the choice statement is
+The syntax of the choice statement is as follows.
 
 image::{ref-imgsdir}/rail_diagrams/choice_statement.png[]
 
@@ -438,7 +438,7 @@ If the first test fails, the test `x == 2` is computed.
 If it holds, the statements `y = 6; x = 6` are performed, and the choice statement ends.
 If the second test also fails, the `y = 7` statement is performed.
 
-The essential points of this statement are
+The essential points of this statement are:
 
 * The choice is computed now, you cannot wait for a condition to become true.
 
@@ -542,7 +542,7 @@ indexterm:[statement,finish]
 
 The `finish` statement allows waiting for the end of a process instance.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
-Its syntax is
+Its syntax is as follows.
 
 image::{ref-imgsdir}/rail_diagrams/finish_statement.png[]
 
@@ -594,7 +594,7 @@ run P(sync, dch), Q(sync, dch);
 In a parent process, two channels are created, a synchronization channel `sync`, and a communication channel with data called `dch`.
 The channel values are given to processes `P` and `Q` through their formal parameters.
 
-The communication statements are
+The communication statements are as follows.
 
 image::{ref-imgsdir}/rail_diagrams/communication_statement.png[]
 
@@ -672,7 +672,7 @@ Additionally, there may be time-dependent internal activities that must be monit
 The select statement is the general purpose solution for such cases.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
 
-Its syntax is:
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/select_statement.png[]
 
@@ -806,7 +806,7 @@ indexterm:[statement,delay]
 
 The `delay` statement is useful to wait some time.
 The statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
-Its syntax is:
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/delay_statement.png[]
 
@@ -830,7 +830,7 @@ indexterm:[statement,write]
 ==== Write statement
 
 The write statement is used to output text to the screen or to a file.
-Its syntax is
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/write_statement.png[]
 
@@ -935,7 +935,7 @@ indexterm:[return,statement]
 ==== Return statement
 
 The return statement may only be used in a <<ref-function-definitions>>.
-Its syntax is
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/return_statement.png[]
 
@@ -963,7 +963,7 @@ indexterm:[exit,value]
 ==== Exit statement
 
 The `exit` statement may only be used in <<ref-process-definitions>> and <<ref-model-definitions>>.
-Its syntax is
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/exit_statement.png[]
 

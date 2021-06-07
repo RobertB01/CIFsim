@@ -17,7 +17,7 @@ include::_part_attributes.asciidoc[]
 
 indexterm:[type]
 A type defines the set of possible values of an expression or a variable.
-Its syntax is
+Its syntax is defined as follows.
 
 image::{ref-imgsdir}/rail_diagrams/type.png[]
 
@@ -84,7 +84,7 @@ indexterm:[type,elementary]
 === Elementary types
 
 The elementary types do not depend on other types to define their set of allowed values.
-Their syntax is
+They have the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/elementary_type.png[]
 
@@ -201,7 +201,7 @@ indexterm:[type,void]
 
 The `void` type denotes that no data is involved.
 Values of type `void` do not exist.
-The type is allowed at two places in the Chi specification, namely
+The type is allowed at two places in the Chi specification, namely:
 
 * As data type of synchronization channels.
 Further explanation can be found at <<ref-communication-statements>> and <<ref-channel-type>>.
@@ -217,7 +217,7 @@ indexterm:[type,container]
 === Container types
 
 The main function of container types is to organize and hold a collection of values of another type (the _element type_).
-The syntax diagram of the container types is
+The syntax diagram of the container types is as follows.
 
 image::{ref-imgsdir}/rail_diagrams/container_type.png[]
 
@@ -319,7 +319,7 @@ indexterm:[type,tuple]
 === Tuple type
 
 A tuple contains a fixed number of values of (possibly) different types.
-Its syntax is
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/tuple_type.png[]
 
@@ -352,7 +352,7 @@ indexterm:[type,channel]
 === Channel type
 
 The channel type defines the direction and the type of values transported.
-The syntax of the channel type is
+The syntax of the channel type is as follows.
 
 image::{ref-imgsdir}/rail_diagrams/channel_type.png[]
 
@@ -378,7 +378,7 @@ indexterm:[type,distribution]
 === Distribution type
 
 The distribution type represents a stochastic distribution.
-The syntax is
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/distribution_type.png[]
 
@@ -395,7 +395,7 @@ indexterm:[type,function]
 === Function type
 
 The function type can hold a function.
-Its syntax is
+Its syntax is as follows.
 
 image::{ref-imgsdir}/rail_diagrams/function_type.png[]
 
@@ -411,7 +411,7 @@ indexterm:[type,process]
 === Process type
 
 The process type is similar to the function type (discussed in <<ref-function-type>>), except this type can hold a process definition.
-The syntax is
+It has the following syntax:
 
 image::{ref-imgsdir}/rail_diagrams/process_type.png[]
 

@@ -1049,8 +1049,6 @@ The supervisor can then only guarantee safe, non-blocking behavior if the system
 [bibliography]
 === References
 
-- [[[minato]]] Shin-ichi Minato.
-Binary Decision Diagrams and Applications for VLSI CAD: The Springer International Series in Engineering and Computer Science, Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book), ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
+- [[[minato]]] Shin-ichi Minato. Binary Decision Diagrams and Applications for VLSI CAD: The Springer International Series in Engineering and Computer Science, Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book), ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
 
-- [[[force]]] Fadi A.
-Aloul, Igor L. Markov, Karem A. Sakallah. FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic: GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3
+- [[[force]]] Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah. FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic: GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3
