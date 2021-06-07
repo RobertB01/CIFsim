@@ -2121,7 +2121,8 @@ public class CifToSynthesisConverter {
      */
     private void conjunctAndStoreStateEvtExclInv(Map<Event, BDD> eventInvs, Event event, BDD inv) {
         BDD invs = eventInvs.get(event);
-        invs.andWith(inv);
+        invs = invs.andWith(inv);
+        eventInvs.put(event, invs);
     }
 
     /**
