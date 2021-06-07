@@ -29,7 +29,7 @@ cat DEPENDENCIES.generated.txt | grep -v "^maven/mavencentral/org.eclipse.escet/
 # Exit code is zero in case of no differences.
 echo
 echo "Checking for differences between generated and stored dependency lists..."
-diff -u DEPENDENCIES.txt DEPENDENCIES.generated.processed.txt
+diff --strip-trailing-cr -u DEPENDENCIES.txt DEPENDENCIES.generated.processed.txt
 ANY_DIFFS=$?
 
 # Check for restricted dependencies.
@@ -53,7 +53,7 @@ if [ $ANY_DIFFS -ne 0 ]; then
     >&2 echo " - Please replace DEPENDENCIES.txt by DEPENDENCIES.generated.processed.txt."
     exit 1
 fi
-if [ $ANY_DIFFS -eq 0 ]; then
+if [ $RESTRICTED -ne 1 ]; then
     >&2 echo
     >&2 echo "FAILED: Restricted dependencies found. Please:"
     >&2 echo " - File a CQ with the IP team for approval, if applicable."
@@ -62,4 +62,5 @@ if [ $ANY_DIFFS -eq 0 ]; then
 fi
 
 # Success.
+echo
 echo "SUCCESS: License check OK."
