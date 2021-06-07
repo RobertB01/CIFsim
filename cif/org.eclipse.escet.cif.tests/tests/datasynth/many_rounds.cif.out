@@ -48,6 +48,9 @@ Marked    (auts/locs marker predicate):      <bdd 24n 6p>
 Marked    (uncontrolled system):             <bdd 24n 6p>
 Marked    (system, combined marked/req inv): <bdd 24n 6p>
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -65,6 +68,8 @@ Uncontrolled system:
     Edge: (event: u) (guard: p.l4) (assignments: p.x := p.x + 1, p := p.l0)
     Edge: (event: u) (guard: p.l5) (assignments: p.x := p.x + 1, p := p.l0)
     Edge: (event: u) (guard: p.l6) (assignments: p.x := p.x + 1, p := p.l0)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

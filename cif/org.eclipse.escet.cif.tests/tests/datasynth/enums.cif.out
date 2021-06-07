@@ -66,6 +66,9 @@ Marked    (auts/locs marker predicate):      g.p.x0 = g.E
 Marked    (uncontrolled system):             g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A and (g.p.x5 = g.A or g.p.x5 = g.E))) or g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A and (g.p.x5 = g.B or g.p.x5 = g.D))) or (g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.B and (g.p.x5 = g.A or g.p.x5 = g.E))) or g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.B and (g.p.x5 = g.B or g.p.x5 = g.D))))
 Marked    (system, combined marked/req inv): g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A and (g.p.x5 = g.A or g.p.x5 = g.E))) or g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.A and (g.p.x5 = g.B or g.p.x5 = g.D))) or (g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.B and (g.p.x5 = g.A or g.p.x5 = g.E))) or g.p.x0 = g.E and (g.p.x1 = g.A and g.p.x2 = g.B) and (g.p.x3 = g.D and (g.p.x4 = g.B and (g.p.x5 = g.B or g.p.x5 = g.D))))
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -77,6 +80,8 @@ Uncontrolled system:
     Edge: (event: g.e1) (guard: g.p.x0 = g.D) (assignments: g.p.x0 := g.E)
     Edge: (event: g.e2) (guard: g.p.x6 = g.G)
     Edge: (event: g.e2) (guard: g.p.x6 != g.G)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

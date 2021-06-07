@@ -62,15 +62,18 @@ Marked    (auts/locs marker predicate):      Button1.Released and (LampOnWhileBu
 Marked    (uncontrolled system):             Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 Marked    (system, combined marked/req inv): Button1.Released and (LampOnWhileButtonPushed.Released and Lamp1.Off)
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "Button1.u_pushed" needs:
-    LampOnWhileButtonPushed.Released
-  Event "Lamp1.c_off" needs:
     LampOnWhileButtonPushed.Released
   Event "Button1.u_released" needs:
     LampOnWhileButtonPushed.Pushed
   Event "Lamp1.c_on" needs:
     LampOnWhileButtonPushed.Pushed
+  Event "Lamp1.c_off" needs:
+    LampOnWhileButtonPushed.Released
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
@@ -82,6 +85,8 @@ Uncontrolled system:
     Edge: (event: Lamp1.c_on) (guard: LampOnWhileButtonPushed.Released and Lamp1.Off) (assignments: Lamp1 := Lamp1.On)
     Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Released and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
     Edge: (event: Lamp1.c_off) (guard: LampOnWhileButtonPushed.Pushed and Lamp1.On) (assignments: Lamp1 := Lamp1.Off)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

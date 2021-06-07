@@ -68,6 +68,9 @@ Marked    (auts/locs marker predicate):      p.y != 3
 Marked    (uncontrolled system):             p.y != 3
 Marked    (system, combined marked/req inv): p.y = 0 or (p.y = 1 or p.y = 4)
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -76,6 +79,8 @@ Uncontrolled system:
     Edge: (event: p.c1) (guard: true) (assignments: p.x := p.y)
     Edge: (event: p.c2) (guard: true) (assignments: p.a := p.b)
     Edge: (event: p.c3) (guard: true) (assignments: p.a := p.c)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: p.y != 2.
 

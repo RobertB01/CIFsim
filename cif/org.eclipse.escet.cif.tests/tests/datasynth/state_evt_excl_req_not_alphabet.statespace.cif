@@ -1,0 +1,21 @@
+group p:
+  controllable inc;
+end
+group q:
+  controllable c_not_in_alphabet;
+end
+automaton statespace:
+  alphabet p.inc;
+  location loc1:
+    initial;
+    marked;
+    edge p.inc goto loc2;
+  location loc2:
+    marked;
+    edge p.inc goto loc3;
+  location loc3:
+    marked;
+    edge p.inc goto loc4;
+  location loc4:
+    marked;
+end

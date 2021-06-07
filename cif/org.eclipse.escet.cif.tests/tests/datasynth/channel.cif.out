@@ -59,6 +59,9 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
 Marked    (system, combined marked/req inv): true
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "e" needs:
     rcv1.x = 0 or (rcv1.x = 2 and rcv2.x = 1 or (rcv1.x = 1 or rcv1.x = 3) and rcv2.x = 1)
@@ -70,6 +73,8 @@ Uncontrolled system:
     Edge: (event: e) (guard: false) (assignments: rcv2.x := 1)
     Edge: (event: e) (guard: false) (assignments: rcv1.x := 2)
     Edge: (event: e) (guard: cnt.c = 2) (assignments: rcv2.x := 2)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

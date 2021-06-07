@@ -1,0 +1,44 @@
+controllable e;
+controllable f;
+controllable g;
+controllable h;
+uncontrollable i;
+uncontrollable j;
+uncontrollable k;
+uncontrollable l;
+plant automaton a:
+  disc int[0..25] x = 1;
+  plant invariant f needs x >= 10;
+  plant invariant f needs x <= 15;
+  plant invariant x < 11 disables g;
+  plant invariant x > 14 disables g;
+  plant invariant h needs x >= 12;
+  plant invariant x > 13 disables h;
+  plant invariant j needs x >= 10;
+  plant invariant j needs x <= 15;
+  plant invariant x < 11 disables k;
+  plant invariant x > 14 disables k;
+  plant invariant l needs x >= 12;
+  plant invariant x > 13 disables l;
+  location:
+    initial;
+    marked;
+    edge e when x < 20 do x := x + 1;
+    edge f;
+    edge g;
+    edge h;
+    edge i when x < 20 do x := x + 1;
+    edge j;
+    edge k;
+    edge l;
+end
+supervisor automaton sup:
+  alphabet e, f, g, h;
+  location:
+    initial;
+    marked;
+    edge e when true;
+    edge f when a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15));
+    edge g when a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11);
+    edge h when a.x = 12 or a.x = 13;
+end

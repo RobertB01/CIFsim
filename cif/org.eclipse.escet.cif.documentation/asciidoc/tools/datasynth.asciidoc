@@ -174,9 +174,9 @@ This includes the `tau` event, both explicitly used on edges, as well as implici
 * The use of channels (events with data types) in requirements is not supported.
 That is, requirements that send or receive (with or without data) are not supported.
 
-* Regular invariants, plant invariants, and supervisor invariants are not supported.
-Only requirement invariants are supported.
-To allow plant state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
+* Kindless/regular invariants and supervisor invariants are not supported.
+For state invariants, only requirement invariants are supported.
+For state/event exclusion invariants, both plant and requirement invariants are supported.
 
 * Continuous variables are not supported.
 
@@ -590,6 +590,11 @@ The following simplifications are available:
 | yes
 | Supervisor guards of controllable events
 | State/event exclusion requirement invariants derived from the requirement automata, for the matching events
+
+| `guards-se-excl-plant-invs`
+| yes
+| Supervisor guards of controllable events
+| State/event exclusion plant invariants from the input specification, for the matching events
 
 | `guards-se-excl-req-invs`
 | yes

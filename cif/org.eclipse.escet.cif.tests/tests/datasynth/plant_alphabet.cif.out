@@ -30,12 +30,17 @@ Marked    (auts/locs marker predicate):      p1.l0
 Marked    (uncontrolled system):             p1.l0
 Marked    (system, combined marked/req inv): p1.l0
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: c1) (guard: p1.l0) (assignments: p1 := p1.l1)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

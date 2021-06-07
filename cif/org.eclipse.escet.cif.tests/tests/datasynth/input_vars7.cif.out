@@ -49,6 +49,9 @@ Marked    (auts/locs marker predicate):      p.done
 Marked    (uncontrolled system):             p.done
 Marked    (system, combined marked/req inv): p.done
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -56,6 +59,8 @@ Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: p.u_ok) (guard: p.test and p.b) (assignments: p := p.done)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -213,10 +213,8 @@ public class SynthesisToCifConverter {
         // can be removed here, even though the component in which they are
         // specified may have changed its kind.
         //
-        // It is a precondition that we only have invariants with a requirement
-        // kind, so in fact all invariants are removed, if that is allowed.
-        // Whether it is allowed depends on the BDD predicate simplification
-        // option.
+        // Whether it is allowed to remove the requirements depends on the BDD
+        // predicate simplification option.
         try {
             // If we simplify against something, the 'something' needs to
             // remain to ensure we don't loose that restriction.
@@ -227,8 +225,8 @@ public class SynthesisToCifConverter {
             remover.removeStateReqInvs = !simplifications.contains(BddSimplify.GUARDS_STATE_REQ_INVS);
             remover.transform(spec);
         } catch (CifToCifPreconditionException ex) {
-            // Unexpected, as we have only requirement invariants, and it is
-            // not possible to refer the them or to parts of them.
+            // Unexpected, as we do not have requirement automata, and it is impossible to refer to requirement
+            // invariants.
             throw new RuntimeException("Unexpected error.", ex);
         }
 

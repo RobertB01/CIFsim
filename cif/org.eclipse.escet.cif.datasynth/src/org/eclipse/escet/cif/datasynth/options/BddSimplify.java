@@ -25,6 +25,11 @@ public enum BddSimplify {
     GUARDS_REQ_AUTS,
 
     /**
+     * Supervisor guards of controllable events wrt state/event exclusion plant invariants from the input specification.
+     */
+    GUARDS_SE_EXCL_PLANT_INVS,
+
+    /**
      * Supervisor guards of controllable events wrt state/event exclusion requirement invariants from the input
      * specification.
      */

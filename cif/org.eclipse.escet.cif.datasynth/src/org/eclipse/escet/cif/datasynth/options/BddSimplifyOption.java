@@ -34,6 +34,9 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
                         "\"guards-req-auts\" to simplify supervisor guards wrt state/event exclusion requirement "
                         + "invariants derived from the requirement automata, " +
 
+                        "\"guard-se-excl-plant-invs\" to simplify supervisor guards wrt state/event exclusion "
+                        + "plant invariants from the input specification, " +
+
                         "\"guards-se-excl-req-invs\" to simplify supervisor guards wrt state/event exclusion "
                         + "requirement invariants from the input specification, " +
 
@@ -83,6 +86,9 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
             case GUARDS_REQ_AUTS:
                 return "Supervisor guards wrt state/event exclusion requirement invariants derived from the "
                         + "requirement automata.";
+
+            case GUARDS_SE_EXCL_PLANT_INVS:
+                return "Supervisor guards wrt state/event exclusion plant invariants from the input specification.";
 
             case GUARDS_SE_EXCL_REQ_INVS:
                 return "Supervisor guards wrt state/event exclusion requirement invariants from the input "

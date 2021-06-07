@@ -1,4 +1,4 @@
-Reading CIF file "datasynth/inv_state_evt_exclusion_comp.cif".
+Reading CIF file "datasynth/inv_state_evt_exclusion_plant_comp.cif".
 Preprocessing CIF specification.
 Converting CIF specification to internal format.
 
@@ -29,7 +29,7 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
 Marked    (system, combined marked/req inv): true
 
-State/event exclusion requirements:
+State/event exclusion plants:
   Event "f" needs:
     (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
     0 <= a.x and a.x <= 15
@@ -39,13 +39,49 @@ State/event exclusion requirements:
   Event "h" needs:
     (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 25) and not(4 <= a.x and a.x <= 7)
     (0 <= a.x and a.x <= 15 or a.x = 18 or (a.x = 19 or (a.x = 22 or a.x = 23))) and not(a.x = 18 or a.x = 19) and (not(a.x = 22 or a.x = 23) and not(a.x = 14 or a.x = 15))
+  Event "j" needs:
+    (2 <= a.x and a.x <= 7 or 10 <= a.x and a.x <= 25) and (not(a.x = 4 or a.x = 5) and not(a.x = 2 or a.x = 3 or (a.x = 6 or a.x = 7)))
+    0 <= a.x and a.x <= 15
+  Event "k" needs:
+    not(a.x = 0 or a.x = 2 or (a.x = 8 or a.x = 10)) and not(a.x = 4 or a.x = 6) and (not(a.x = 1 or a.x = 9) and (a.x != 5 and not(a.x = 3 or a.x = 7)))
+    not(a.x = 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))) and not(a.x = 17 or (a.x = 21 or a.x = 25)) and (a.x != 19 and (a.x != 23 and a.x != 15))
+  Event "l" needs:
+    (4 <= a.x and a.x <= 7 or 12 <= a.x and a.x <= 25) and not(4 <= a.x and a.x <= 7)
+    (0 <= a.x and a.x <= 15 or a.x = 18 or (a.x = 19 or (a.x = 22 or a.x = 23))) and not(a.x = 18 or a.x = 19) and (not(a.x = 22 or a.x = 23) and not(a.x = 14 or a.x = 15))
 
-Uncontrolled system:
+State/event exclusion requirements:
+  None
+
+Uncontrolled system (state/event exclusion plants not applied yet):
   State: (controlled-behavior: ?)
     Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
     Edge: (event: f) (guard: true)
     Edge: (event: g) (guard: true)
     Edge: (event: h) (guard: true)
+    Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+    Edge: (event: j) (guard: true)
+    Edge: (event: k) (guard: true)
+    Edge: (event: l) (guard: true)
+
+Restricting behavior using state/event exclusion plants.
+
+Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [plant: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
+Edge (event: g) (guard: true): guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11) [plant: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
+Edge (event: h) (guard: true): guard: true -> a.x = 12 or a.x = 13 [plant: a.x = 12 or a.x = 13].
+Edge (event: j) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [plant: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
+Edge (event: k) (guard: true): guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11) [plant: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
+Edge (event: l) (guard: true): guard: true -> a.x = 12 or a.x = 13 [plant: a.x = 12 or a.x = 13].
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+    Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+    Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+    Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
+    Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+    Edge: (event: j) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+    Edge: (event: k) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+    Edge: (event: l) (guard: true -> a.x = 12 or a.x = 13)
 
 Initialized controlled-behavior predicate using invariants: true.
 
@@ -56,17 +92,6 @@ Controlled behavior: true -> true [range: true, variable: discrete variable "a.x
 Extended controlled-behavior predicate using variable ranges: true.
 
 Restricting behavior using state/event exclusion requirements.
-
-Edge (event: f) (guard: true): guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)) [requirement: a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15))].
-Edge (event: g) (guard: true): guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11) [requirement: a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11)].
-Edge (event: h) (guard: true): guard: true -> a.x = 12 or a.x = 13 [requirement: a.x = 12 or a.x = 13].
-
-Restricted behavior using state/event exclusion requirements:
-  State: (controlled-behavior: true)
-    Edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
-    Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
-    Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
-    Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
 
 Round 1: started.
 
@@ -84,43 +109,34 @@ Round 1: computing forward controlled-behavior predicate.
 Forward controlled-behavior: a.x = 1 [initialization predicate]
 Forward reachability: iteration 1.
 Forward controlled-behavior: a.x = 1 -> a.x = 2 or a.x = 1 [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward controlled-behavior: a.x = 2 or a.x = 1 -> a.x = 2 or (a.x = 1 or a.x = 3) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
 Forward reachability: iteration 2.
-Forward controlled-behavior: a.x = 2 or a.x = 1 -> a.x = 2 or (a.x = 1 or a.x = 3) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 3.
 Forward controlled-behavior: a.x = 2 or (a.x = 1 or a.x = 3) -> a.x = 4 or a.x = 2 or (a.x = 1 or a.x = 3) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 4.
-Forward controlled-behavior: a.x = 4 or a.x = 2 or (a.x = 1 or a.x = 3) -> a.x = 4 or a.x = 2 or (a.x = 1 or (a.x = 5 or a.x = 3)) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 5.
+Forward controlled-behavior: a.x = 4 or a.x = 2 or (a.x = 1 or a.x = 3) -> a.x = 4 or a.x = 2 or (a.x = 1 or (a.x = 5 or a.x = 3)) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 3.
 Forward controlled-behavior: a.x = 4 or a.x = 2 or (a.x = 1 or (a.x = 5 or a.x = 3)) -> a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or (a.x = 5 or a.x = 3)) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 6.
-Forward controlled-behavior: a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or (a.x = 5 or a.x = 3)) -> a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 3 or (a.x = 5 or a.x = 7)) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 7.
+Forward controlled-behavior: a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or (a.x = 5 or a.x = 3)) -> a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 3 or (a.x = 5 or a.x = 7)) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 4.
 Forward controlled-behavior: a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 3 or (a.x = 5 or a.x = 7)) -> a.x = 8 or a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 3 or (a.x = 5 or a.x = 7)) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 8.
-Forward controlled-behavior: a.x = 8 or a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 3 or (a.x = 5 or a.x = 7)) -> a.x = 8 or a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 9 or (a.x = 5 or (a.x = 3 or a.x = 7))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 9.
+Forward controlled-behavior: a.x = 8 or a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 3 or (a.x = 5 or a.x = 7)) -> a.x = 8 or a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 9 or (a.x = 5 or (a.x = 3 or a.x = 7))) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 5.
 Forward controlled-behavior: a.x = 8 or a.x = 4 or (a.x = 2 or a.x = 6) or (a.x = 1 or a.x = 9 or (a.x = 5 or (a.x = 3 or a.x = 7))) -> a.x = 8 or a.x = 4 or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or a.x = 9 or (a.x = 5 or (a.x = 3 or a.x = 7))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 10.
-Forward controlled-behavior: a.x = 8 or a.x = 4 or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or a.x = 9 or (a.x = 5 or (a.x = 3 or a.x = 7))) -> a.x = 8 or a.x = 4 or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 3 or a.x = 9) or (a.x = 11 or (a.x = 5 or a.x = 7))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 11.
+Forward controlled-behavior: a.x = 8 or a.x = 4 or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or a.x = 9 or (a.x = 5 or (a.x = 3 or a.x = 7))) -> a.x = 8 or a.x = 4 or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 3 or a.x = 9) or (a.x = 11 or (a.x = 5 or a.x = 7))) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 6.
 Forward controlled-behavior: a.x = 8 or a.x = 4 or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 3 or a.x = 9) or (a.x = 11 or (a.x = 5 or a.x = 7))) -> a.x = 8 or (a.x = 4 or a.x = 12) or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 3 or a.x = 9) or (a.x = 11 or (a.x = 5 or a.x = 7))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 12.
-Forward controlled-behavior: a.x = 8 or (a.x = 4 or a.x = 12) or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 3 or a.x = 9) or (a.x = 11 or (a.x = 5 or a.x = 7))) -> a.x = 8 or (a.x = 4 or a.x = 12) or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 5 or a.x = 9) or (a.x = 13 or a.x = 3 or (a.x = 11 or a.x = 7))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 13.
+Forward controlled-behavior: a.x = 8 or (a.x = 4 or a.x = 12) or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 3 or a.x = 9) or (a.x = 11 or (a.x = 5 or a.x = 7))) -> a.x = 8 or (a.x = 4 or a.x = 12) or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 5 or a.x = 9) or (a.x = 13 or a.x = 3 or (a.x = 11 or a.x = 7))) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 7.
 Forward controlled-behavior: a.x = 8 or (a.x = 4 or a.x = 12) or (a.x = 2 or (a.x = 10 or a.x = 6)) or (a.x = 1 or (a.x = 5 or a.x = 9) or (a.x = 13 or a.x = 3 or (a.x = 11 or a.x = 7))) -> not(a.x = 0 or a.x = 16) and a.x != 24 and (a.x != 20 and not(a.x = 18 or a.x = 22)) and (not(a.x = 17 or (a.x = 21 or a.x = 25)) and a.x != 19 and (a.x != 23 and a.x != 15)) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 14.
-Forward controlled-behavior: not(a.x = 0 or a.x = 16) and a.x != 24 and (a.x != 20 and not(a.x = 18 or a.x = 22)) and (not(a.x = 17 or (a.x = 21 or a.x = 25)) and a.x != 19 and (a.x != 23 and a.x != 15)) -> not(a.x = 0 or a.x = 16) and a.x != 24 and (a.x != 20 and (not(a.x = 18 or a.x = 22) and (0 <= a.x and a.x <= 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 15.
+Forward controlled-behavior: not(a.x = 0 or a.x = 16) and a.x != 24 and (a.x != 20 and not(a.x = 18 or a.x = 22)) and (not(a.x = 17 or (a.x = 21 or a.x = 25)) and a.x != 19 and (a.x != 23 and a.x != 15)) -> not(a.x = 0 or a.x = 16) and a.x != 24 and (a.x != 20 and (not(a.x = 18 or a.x = 22) and (0 <= a.x and a.x <= 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))))) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 8.
 Forward controlled-behavior: not(a.x = 0 or a.x = 16) and a.x != 24 and (a.x != 20 and (not(a.x = 18 or a.x = 22) and (0 <= a.x and a.x <= 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))))) -> a.x != 0 and a.x != 24 and (a.x != 20 and (not(a.x = 18 or a.x = 22) and (0 <= a.x and a.x <= 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 16.
-Forward controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 20 and (not(a.x = 18 or a.x = 22) and (0 <= a.x and a.x <= 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))))) -> a.x != 0 and (a.x != 24 and a.x != 20) and (not(a.x = 18 or a.x = 22) and a.x != 25 and (a.x != 21 and not(a.x = 19 or a.x = 23))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 17.
+Forward controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 20 and (not(a.x = 18 or a.x = 22) and (0 <= a.x and a.x <= 16 or a.x = 18 or (a.x = 20 or (a.x = 22 or a.x = 24))))) -> a.x != 0 and (a.x != 24 and a.x != 20) and (not(a.x = 18 or a.x = 22) and a.x != 25 and (a.x != 21 and not(a.x = 19 or a.x = 23))) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 9.
 Forward controlled-behavior: a.x != 0 and (a.x != 24 and a.x != 20) and (not(a.x = 18 or a.x = 22) and a.x != 25 and (a.x != 21 and not(a.x = 19 or a.x = 23))) -> a.x != 0 and (a.x != 24 and a.x != 20) and (a.x != 22 and a.x != 25 and (a.x != 21 and not(a.x = 19 or a.x = 23))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 18.
-Forward controlled-behavior: a.x != 0 and (a.x != 24 and a.x != 20) and (a.x != 22 and a.x != 25 and (a.x != 21 and not(a.x = 19 or a.x = 23))) -> a.x != 0 and (a.x != 24 and a.x != 20) and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 19.
+Forward controlled-behavior: a.x != 0 and (a.x != 24 and a.x != 20) and (a.x != 22 and a.x != 25 and (a.x != 21 and not(a.x = 19 or a.x = 23))) -> a.x != 0 and (a.x != 24 and a.x != 20) and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))) [forward reach with edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
+Forward reachability: iteration 10.
 Forward controlled-behavior: a.x != 0 and (a.x != 24 and a.x != 20) and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))) -> a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))) [forward reach with edge: (event: e) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1), restricted to current/previous controlled-behavior predicate: true]
-Forward reachability: iteration 20.
+Forward reachability: iteration 11.
 Forward controlled-behavior: a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))) [fixed point].
 Controlled behavior: true -> a.x != 0 and a.x != 24 and (a.x != 22 and (a.x != 25 and not(a.x = 21 or a.x = 23))).
 
@@ -148,6 +164,10 @@ Final synthesis result:
     Edge: (event: f) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
     Edge: (event: g) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
     Edge: (event: h) (guard: true -> a.x = 12 or a.x = 13)
+    Edge: (event: i) (guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))) (assignments: a.x := a.x + 1)
+    Edge: (event: j) (guard: true -> a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15)))
+    Edge: (event: k) (guard: true -> a.x = 12 or a.x = 14 or (a.x = 13 or a.x = 11))
+    Edge: (event: l) (guard: true -> a.x = 12 or a.x = 13)
 
 Controlled system:                     exactly 20 states.
 
@@ -161,4 +181,4 @@ Simplification of controlled system under the assumption of the plants:
   Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
-Writing output CIF file "datasynth/inv_state_evt_exclusion_comp.ctrlsys.real.cif".
+Writing output CIF file "datasynth/inv_state_evt_exclusion_plant_comp.ctrlsys.real.cif".

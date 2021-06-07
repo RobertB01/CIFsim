@@ -50,6 +50,9 @@ Marked    (auts/locs marker predicate):      machine1.Idle and machine2.Idle
 Marked    (uncontrolled system):             machine1.Idle and machine2.Idle
 Marked    (system, combined marked/req inv): machine1.Idle and machine2.Idle
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -61,6 +64,8 @@ Uncontrolled system:
     Edge: (event: machine2.c_start) (guard: machine2.Idle) (assignments: machine2 := machine2.Producing)
     Edge: (event: machine2.u_waiting) (guard: machine2.Producing) (assignments: machine2 := machine2.CoolDown)
     Edge: (event: machine2.u_finished) (guard: machine2.CoolDown) (assignments: machine2 := machine2.Idle)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: not machine1.Producing or not machine2.Producing.
 

@@ -1,0 +1,7 @@
+uncontrollable u;
+automaton statespace:
+  alphabet u;
+  location loc1:
+    initial;
+    marked;
+end
