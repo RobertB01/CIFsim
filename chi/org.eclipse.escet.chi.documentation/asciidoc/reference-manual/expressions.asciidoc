@@ -873,7 +873,8 @@ Two set values are equal when they have the same number of element values contai
 The order of the elements in a set is not relevant, any permutation is equivalent.
 
 Like lists, sets have no unary operators.
-They do have binary operators though. The operators are as follows.
+They do have binary operators though.
+The operators are as follows.
 
 [cols=5*,options="header"]
 |===
