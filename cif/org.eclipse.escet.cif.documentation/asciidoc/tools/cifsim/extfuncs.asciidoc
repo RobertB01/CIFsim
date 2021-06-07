@@ -17,8 +17,8 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF simulator,external user-defined functions]
 indexterm:[external user-defined functions]
-The CIF simulator supports external user-defined functions. Currently, the
-following external languages are supported:
+The CIF simulator supports external user-defined functions.
+Currently, the following external languages are supported:
 
 * <<tools-cifsim-chapter-extfuncs-java,Java>>
 
@@ -30,26 +30,18 @@ indexterm:[external user-defined functions,responsiveness]
 [[tools-cifsim-extfuncs-async]]
 === Asynchronous execution
 
-By default, external user-defined functions are executed asynchronously. This
-ensures that the simulation can be <<tools-cifsim-chapter-termination,terminated>>
-during the execution of such a function. This is
-useful if such functions take a long time to execute. It is also particularly
-useful for external functions that never terminate, for instance because they
-get stuck in a loop, often due to a bug.
+By default, external user-defined functions are executed asynchronously.
+This ensures that the simulation can be <<tools-cifsim-chapter-termination,terminated>> during the execution of such a function.
+This is useful if such functions take a long time to execute.
+It is also particularly useful for external functions that never terminate, for instance because they get stuck in a loop, often due to a bug.
 
 indexterm:[performance,asynchronous external user-defined functions]
-This asynchronous execution however, does lead to a performance penalty. To
-get rid of this performance penalty, disable asynchronous execution, leading
-to synchronous execution. Asynchronous execution can be disabled using the
-menu:External functions asynchronous execution[]
-option
-(menu:Simulator[]
-category).
+This asynchronous execution however, does lead to a performance penalty.
+To get rid of this performance penalty, disable asynchronous execution, leading to synchronous execution.
+Asynchronous execution can be disabled using the menu:External functions asynchronous execution[] option (menu:Simulator[] category).
 
-By disabling the asynchronous execution, the simulator can no longer be
-terminated if it gets stuck executing an external user-defined function. If the
-functions runs for a long time, the termination is postponed until the external
-function finishes its execution.
+By disabling the asynchronous execution, the simulator can no longer be terminated if it gets stuck executing an external user-defined function.
+If the functions runs for a long time, the termination is postponed until the external function finishes its execution.
 
 indexterm:[external user-defined functions,side effects]
 indexterm:[external user-defined functions,determinism]
@@ -58,24 +50,18 @@ indexterm:[external user-defined functions,logging]
 [[tools-cifsim-extfuncs-side-effects]]
 === Side effects
 
-All user-defined functions in CIF are pure mathematical functions. They must
-therefore be deterministic, and may not have side effects. For internal
-user-defined functions, this is enforced. For external user-defined functions,
-it is mostly impossible to check this constraint in an implementation, and the
-responsibility for checking this is therefore delegated to the end user.
-Practically, this means that for instance logging statements in functions,
-while essentially side effects, may be permitted, as long as the function
-returns the same value, if given the same arguments. This is essential for
-correct simulation results, as the results of function calls may for instance
-be cached by the simulator.
+All user-defined functions in CIF are pure mathematical functions.
+They must therefore be deterministic, and may not have side effects.
+For internal user-defined functions, this is enforced.
+For external user-defined functions, it is mostly impossible to check this constraint in an implementation, and the responsibility for checking this is therefore delegated to the end user.
+Practically, this means that for instance logging statements in functions, while essentially side effects, may be permitted, as long as the function returns the same value, if given the same arguments.
+This is essential for correct simulation results, as the results of function calls may for instance be cached by the simulator.
 
 indexterm:[external user-defined functions,value semantics]
 indexterm:[external user-defined functions,call by value]
 
 === Value semantics
 
-The CIF simulator uses value semantics for the parameters and return values
-of functions. That is, changes to the parameters of functions in external
-user-defined functions are _not_ reflected back to the CIF specification.
-Furthermore, changes to the return values in the CIF simulator have no effect
-on subsequent calls to external user-defined functions.
+The CIF simulator uses value semantics for the parameters and return values of functions.
+That is, changes to the parameters of functions in external user-defined functions are _not_ reflected back to the CIF specification.
+Furthermore, changes to the return values in the CIF simulator have no effect on subsequent calls to external user-defined functions.

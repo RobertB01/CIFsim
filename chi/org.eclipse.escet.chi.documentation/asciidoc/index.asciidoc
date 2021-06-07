@@ -25,49 +25,36 @@ include::_root_attributes.asciidoc[]
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 :favicon: favicon.png
 
-Chi is a modeling language for describing and analyzing performance of
-discrete event systems by means of simulation.
-It uses a process-based view, and uses synchronous point-to-point
-communication between processes. A process is written as an imperative
-program, with a syntax much inspired by the well-known Python language.
+Chi is a modeling language for describing and analyzing performance of discrete event systems by means of simulation.
+It uses a process-based view, and uses synchronous point-to-point communication between processes.
+A process is written as an imperative program, with a syntax much inspired by the well-known Python language.
 
-Chi is one of the tools of the Eclipse ESCET(TM) project. Visit the
-link:https://eclipse.org/escet[project website] for downloads,
-installation instructions, source code, general tool usage information,
-information on how to contribute, and more.
+Chi is one of the tools of the Eclipse ESCET(TM) project.
+Visit the link:https://eclipse.org/escet[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
 [WARNING]
 ====
-The Eclipse ESCET project, including the Chi language and toolset,
-is currently in the
-link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+The Eclipse ESCET project, including the Chi language and toolset, is currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
 
 image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
 
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-chi-manual.pdf[download this manual]
-as a PDF as well.
+TIP: You can link:eclipse-escet-incubation-chi-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
 Tutorial::
-The <<tut-chapter-chi-tutorial>>
-teaches the Chi language, and its use in modeling and simulating systems
-to answer your performance questions.
+The <<tut-chapter-chi-tutorial>> teaches the Chi language, and its use in modeling and simulating systems to answer your performance questions.
 +
 Some interesting topics are:
 +
-* Basics (<<tut-chapter-data-types>>, <<tut-chapter-statements>>,
-<<tut-chapter-stochastic-behavior>>)
+* Basics (<<tut-chapter-data-types>>, <<tut-chapter-statements>>, <<tut-chapter-stochastic-behavior>>)
 * Programming (<<tut-chapter-processes>>, <<tut-chapter-channels>>)
-* Modeling (<<tut-chapter-buffers>>, <<tut-chapter-servers-with-time>>,
-<<tut-chapter-conveyors>>)
+* Modeling (<<tut-chapter-buffers>>, <<tut-chapter-servers-with-time>>, <<tut-chapter-conveyors>>)
 
 Reference manual::
-The <<ref-chapter-reference-manual>>
-describes the Chi language in full detail, for example the top level language
-elements or all statements. It also contains a list with all standard library
-functions and a list with all distribution functions.
+The <<ref-chapter-reference-manual>> describes the Chi language in full detail, for example the top level language elements or all statements.
+It also contains a list with all standard library functions and a list with all distribution functions.
 +
 Some interesting topics are:
 +
@@ -76,13 +63,11 @@ Some interesting topics are:
 * <<ref-chapter-distributions>> (Available distributions)
 
 Tool manual::
-The <<tool-chapter-tool-manual,Tool manual>>
-describes the Chi simulator software.
+The <<tool-chapter-tool-manual,Tool manual>> describes the Chi simulator software.
 Use of the software to create and simulate Chi programs is also explained.
 
 Release notes::
-The <<release-notes-chapter-index,Release notes>> provides information on
-all Chi releases.
+The <<release-notes-chapter-index,Release notes>> provides information on all Chi releases.
 
 Legal::
 See <<legal-chapter-index,Legal>> for copyright and licensing information.

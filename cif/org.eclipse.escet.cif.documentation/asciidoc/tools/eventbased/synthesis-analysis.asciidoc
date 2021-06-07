@@ -19,105 +19,82 @@ indexterm:[event-based synthesis analysis]
 indexterm:[tools,event-based synthesis analysis]
 indexterm:[event-based synthesis analysis toolset,event-based synthesis analysis]
 indexterm:[event-based synthesis analysis,event-based synthesis analysis toolset]
-While developing a controller with supervisory controller synthesis, the
-result is not always what you expect. To assist, the synthesis analysis tool
-has been developed. Its primary purpose is to explain why certain states or
-edges have been removed.
+While developing a controller with supervisory controller synthesis, the result is not always what you expect.
+To assist, the synthesis analysis tool has been developed.
+Its primary purpose is to explain why certain states or edges have been removed.
 
-To use the tool, enable creation of the _Synthesis Dump_ file during
-synthesis, using the _Enable Synthesis dump_ option or the _Synthesis dump
-file_ option of the <<tools-eventbased-chapter-supervisorsynthesis,Supervisor synthesis tool>>.
+To use the tool, enable creation of the _Synthesis Dump_ file during synthesis, using the _Enable Synthesis dump_ option or the _Synthesis dump file_ option of the <<tools-eventbased-chapter-supervisorsynthesis,Supervisor synthesis tool>>.
 
 image::{tools-imgsdir}/eventbased/analysis_enable_synthesis_dump.png[]
-By double clicking the generated dump file, or by right-clicking the dump file
-and selecting
-menu:Analyze Synthesis Result[],
-the analysis tool is
-started. It loads the file (which can take a some time if the file is big),
-eventually giving the following display:
+By double clicking the generated dump file, or by right-clicking the dump file and selecting menu:Analyze Synthesis Result[], the analysis tool is started.
+It loads the file (which can take a some time if the file is big), eventually giving the following display:
 
 image::{tools-imgsdir}/eventbased/analysis_startup.png[]
 
-At the left, all automata with their initial location are shown. You can
-select a different supervisor state by changing these locations. At the top,
-in the middle, there are three buttons. The bottom button labeled _Search
-state_ is used to search the information about a supervisor state selected at
-the left. The _Jump to initial state_ button resets the automata locations
-to their initial state, useful when you want to start again. The middle button
-is disabled now, but allows you to go back to the previous state.
+At the left, all automata with their initial location are shown.
+You can select a different supervisor state by changing these locations.
+At the top, in the middle, there are three buttons.
+The bottom button labeled _Search state_ is used to search the information about a supervisor state selected at the left.
+The _Jump to initial state_ button resets the automata locations to their initial state, useful when you want to start again.
+The middle button is disabled now, but allows you to go back to the previous state.
 
-At the right, a number of options are available in case the displayed
-information is not sufficient. These are explained later.
+At the right, a number of options are available in case the displayed information is not sufficient.
+These are explained later.
 
-Below the buttons and options is the report area, which just displays some
-statistics. When you press _Search_, the tool analyzes the selected state at
-the left. Depending on what happened with that state, different things may be
-shown. In this example, you get:
+Below the buttons and options is the report area, which just displays some statistics.
+When you press _Search_, the tool analyzes the selected state at the left.
+Depending on what happened with that state, different things may be shown.
+In this example, you get:
 
 image::{tools-imgsdir}/eventbased/analysis_basic.png[]
 
 The report area changes to display the information about the selected state.
 It starts with the internal number of this state (`#0`), and its properties.
-The `initial` means this state is the initial state, `marked` means this
-state is marked. Then follows an explicit list of locations of every
-automaton. It is the same list as the selected locations at the left, but more
-compact. Then the analysis result is shown. This state exists in the
-supervisor, and has no outgoing edges. In other words, this state is the only
-state in the result. Below it, the edges removed by the requirements are
-listed, together with the name of the requirement automaton that disabled it.
+The `initial` means this state is the initial state, `marked` means this state is marked.
+Then follows an explicit list of locations of every automaton.
+It is the same list as the selected locations at the left, but more compact.
+Then the analysis result is shown.
+This state exists in the supervisor, and has no outgoing edges.
+In other words, this state is the only state in the result.
+Below it, the edges removed by the requirements are listed, together with the name of the requirement automaton that disabled it.
 
-Not displayed here is the list of edges removed due to plant automata. These
-can be displayed by enabling the _Display disabled plant events_ option at the
-top-right.
+Not displayed here is the list of edges removed due to plant automata.
+These can be displayed by enabling the _Display disabled plant events_ option at the top-right.
 
 If a state does have outgoing edges, these are displayed as well:
 
 image::{tools-imgsdir}/eventbased/analysis_outgoing.png[]
 
-State `#7` has one outgoing edge, leading to state `#9` using event
-`Sensor_In_Off`. The last line with the removed controllable events
-displays a removed edge because destination state `#8` was removed.
+State `#7` has one outgoing edge, leading to state `#9` using event `Sensor_In_Off`.
+The last line with the removed controllable events displays a removed edge because destination state `#8` was removed.
 
-If you want to know what states `#9` or `#8` are, you can enable the
-_Display full state_ at the top-right, and the tool will display the full
-list of automaton locations with each state, just like the first line in the
-report. You can also go to these states, by double-clicking at the blue area.
+If you want to know what states `#9` or `#8` are, you can enable the _Display full state_ at the top-right, and the tool will display the full list of automaton locations with each state, just like the first line in the report.
+You can also go to these states, by double-clicking at the blue area.
 If you click at removed state `#8` you get a display like:
 
 image::{tools-imgsdir}/eventbased/analysis_removed.png[]
 
-As expected, the analysis tools displays that the state was removed,
-apparently because it was not co-reachable. Again you get the list of removed
-edges from this state, as an aid to decide which requirement should be
-checked, if this was not expected.
+As expected, the analysis tools displays that the state was removed, apparently because it was not co-reachable.
+Again you get the list of removed edges from this state, as an aid to decide which requirement should be checked, if this was not expected.
 
-The final screenshot shows what is displayed if a state is removed because
-another state is removed:
+The final screenshot shows what is displayed if a state is removed because another state is removed:
 
 image::{tools-imgsdir}/eventbased/analysis_chain.png[]
-This is an example from a bigger system, where the supervisor is empty. The
-analysis of the initial state reveals that it was removed due to a removal of
-a chain of other states. State `#24` was removed due to a requirement
-(reading from bottom to top), which caused the chain of states `#9`, `#2`,
-and eventually `#0` to be removed.
+This is an example from a bigger system, where the supervisor is empty.
+The analysis of the initial state reveals that it was removed due to a removal of a chain of other states.
+State `#24` was removed due to a requirement (reading from bottom to top), which caused the chain of states `#9`, `#2`, and eventually `#0` to be removed.
 
-Removed edges with controllable events are not displayed here, since these
-have no influence to the disappearing of the states. If you want, you can
-display them by toggling the _Always display disabled controllable events_
-option at the top-right.
+Removed edges with controllable events are not displayed here, since these have no influence to the disappearing of the states.
+If you want, you can display them by toggling the _Always display disabled controllable events_ option at the top-right.
 
-In this example, the number of states in the chain to the disabling
-requirement was 4 states. This chain can be longer. Usually the middle part
-is not that interesting and it is omitted from the display, but if you want to
-see them, you can increase the number of displayed states at the top-right
-(which is by default `5`).
-Another way to see them is to double-click at a state in the chain, and the
-analysis tool will display the chain starting from that state.
+In this example, the number of states in the chain to the disabling requirement was 4 states.
+This chain can be longer.
+Usually the middle part is not that interesting and it is omitted from the display, but if you want to see them, you can increase the number of displayed states at the top-right (which is by default `5`).
+Another way to see them is to double-click at a state in the chain, and the analysis tool will display the chain starting from that state.
 
-A situation that is not shown here, is that the analysis tool has no
-information about a state. It happens when the synthesis encountered a bad
-state on all paths to that state. In such a case, it displays that there is no
-information about the queried state.
+A situation that is not shown here, is that the analysis tool has no information about a state.
+It happens when the synthesis encountered a bad state on all paths to that state.
+In such a case, it displays that there is no information about the queried state.
 
 indexterm:[event-based synthesis analysis,start]
 
@@ -125,27 +102,19 @@ indexterm:[event-based synthesis analysis,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, double-click a `.synth_dump` file generated by the supervisor
-synthesis dump.
+* In Eclipse, double-click a `.synth_dump` file generated by the supervisor synthesis dump.
 
-* In Eclipse, right click a `.synth_dump` file in the
-'Project Explorer' tab or 'Package Explorer' tab and choose
-menu:Analyze Synthesis Result[].
+* In Eclipse, right click a `.synth_dump` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:Analyze Synthesis Result[].
 
-* Use the `cifsynthanalys` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifsynthanalys` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
-* Use the `cifsynthanalys`
-command line tool.
+* Use the `cifsynthanalys` command line tool.
 
 indexterm:[event-based synthesis analysis,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input Synthesis dump file.
+* _Input file_: The absolute or relative local file system path to the input Synthesis dump file.

@@ -17,13 +17,9 @@ indexterm:[release, notes]
 [[release-notes-chapter-index]]
 == Eclipse ESCET release notes
 
-The release notes for the releases of the Eclipse ESCET tools,
-as part of the Eclipse ESCET project, are listed below in reverse
-chronological order.
+The release notes for the releases of the Eclipse ESCET tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
 
-The release notes may refer to issues, the details for which can be found
-at the Eclipse ESCET
-link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
+The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
 
 See also the release notes for the specific tools for more information:
 
@@ -38,28 +34,24 @@ TBD
 
 Improvements and fixes:
 
-- Various documentation updates, including simpler installation instructions
-  (issues #30 and #31).
-- This release is based on Java 11. Java is now included again in the release
-  and no longer needs to be installed separately (issues #29 and #30).
-- Linux command line scripts now work from any directory rather than only from
-  the `bin` directory that contains them (issue #88).
-- macOS releases are now packaged as `.dmg` files and with proper entitlements
-  (issue #31).
+- Various documentation updates, including simpler installation instructions (issues #30 and #31).
+- This release is based on Java 11.
+Java is now included again in the release and no longer needs to be installed separately (issues #29 and #30).
+- Linux command line scripts now work from any directory rather than only from the `bin` directory that contains them (issue #88).
+- macOS releases are now packaged as `.dmg` files and with proper entitlements (issue #31).
 - This release is based on Eclipse 2021-03 (issue #28).
-- Non-release builds now indicate they are a development build in the Eclipse
-  About dialog (issue #26).
+- Non-release builds now indicate they are a development build in the Eclipse About dialog (issue #26).
 
 
 === Version 0.1
 
 The first release of the Eclipse ESCET project and toolkit.
-This release is based on the initial contribution by the Eindhoven University
-of Technology (TU/e).
+This release is based on the initial contribution by the Eindhoven University of Technology (TU/e).
 
 Most notable changes compared to the last TU/e release:
 
-- A JDK is no longer bundled with the downloads. A JDK must be installed
-separately and manually. Future releases will again include a JDK.
+- A JDK is no longer bundled with the downloads.
+A JDK must be installed separately and manually.
+Future releases will again include a JDK.
 
 This release is based on the Eclipse IDE version 2020-06 and supports Java 8.

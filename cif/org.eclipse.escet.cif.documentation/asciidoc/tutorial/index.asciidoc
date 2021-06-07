@@ -17,33 +17,28 @@ indexterm:[tutorial,language]
 [[tut-chapter-index]]
 == Language tutorial
 
-This tutorial introduces the CIF language. It explains the general idea
-behind the concepts of the language, and shows how to use them, all by means of
-examples. The tutorial is focused on giving a short introduction to CIF, and
-does not cover all details. It is recommended reading for all CIF users.
+This tutorial introduces the CIF language.
+It explains the general idea behind the concepts of the language, and shows how to use them, all by means of examples.
+The tutorial is focused on giving a short introduction to CIF, and does not cover all details.
+It is recommended reading for all CIF users.
 
 === Introduction
 
-CIF stands for **C**ompositional **I**nterchange **F**ormat for hybrid
-systems. CIF is primarily used to create models of physical systems and their
-controllers, describing their behavior. However, CIF is a general-purpose
-modeling language, and can be used to model practically anything, ranging from
-physical real-world systems to abstract mathematical entities.
+CIF stands for **C**ompositional **I**nterchange **F**ormat for hybrid systems.
+CIF is primarily used to create models of physical systems and their controllers, describing their behavior.
+However, CIF is a general-purpose modeling language, and can be used to model practically anything, ranging from physical real-world systems to abstract mathematical entities.
 
 indexterm:[discrete event system]
 indexterm:[timed system]
 indexterm:[hybrid system]
 
-CIF supports discrete event models, that are mostly concerned with what
-happens, and in which order. CIF also supports timed systems, where timing
-plays and explicit role, and hybrid systems, which combine the discrete events
-with timing. This makes CIF suitable for modeling of all kinds of systems.
+CIF supports discrete event models, that are mostly concerned with what happens, and in which order.
+CIF also supports timed systems, where timing plays and explicit role, and hybrid systems, which combine the discrete events with timing.
+This makes CIF suitable for modeling of all kinds of systems.
 
-The CIF tooling puts a particular focus on supporting the entire development
-process of controllers. However, just as the CIF language, the CIF tooling can
-be applied much more generally. The tooling allows among others specification,
-supervisory controller synthesis, simulation-based validation and
-visualization, verification, real-time testing, and code generation.
+The CIF tooling puts a particular focus on supporting the entire development process of controllers.
+However, just as the CIF language, the CIF tooling can be applied much more generally.
+The tooling allows among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.
 
 === Lessons
 
@@ -60,8 +55,7 @@ Several lessons are available, grouped into the following categories:
 * <<lang-tut-stochastics,Stochastics>>
 * <<lang-tut-extensions,Language extensions>>
 
-The lessons introduce new concepts, one by one, and are meant to be read in
-the given order.
+The lessons introduce new concepts, one by one, and are meant to be read in the given order.
 
 
 [[lang-tut-basics]]
@@ -83,9 +77,7 @@ Explains alphabets for both individual automata and entire specifications.
 Explains the placement of event declarations.
 
 <<tut-basics-chapter-shorter-notations>>::
-Explains several shorter notations, including self loops, declaring
-multiple events with a single declaration, multiple events on an edge, and
-nameless locations.
+Explains several shorter notations, including self loops, declaring multiple events with a single declaration, multiple events on an edge, and nameless locations.
 
 
 [[lang-tut-data]]
@@ -98,12 +90,10 @@ Explains discrete variables, guards, and updates.
 Explains how and when discrete variables can change value.
 
 <<tut-data-chapter-loc-var-duality1>>::
-Explains the duality between locations and variables using a model of a
-counter.
+Explains the duality between locations and variables using a model of a counter.
 
 <<tut-data-chapter-loc-var-duality2>>::
-Explains the duality between locations and variables using a model of a
-lamp.
+Explains the duality between locations and variables using a model of a lamp.
 
 <<tut-data-chapter-read-write>>::
 Explains the concepts of global read and local write.
@@ -112,19 +102,16 @@ Explains the concepts of global read and local write.
 Explains monitoring, self loops, and monitor automata.
 
 <<tut-data-chapter-asgn-old-vs-new>>::
-Explains old and new values of variables in assignments, multiple
-assignments, and the order of assignments.
+Explains old and new values of variables in assignments, multiple assignments, and the order of assignments.
 
 <<tut-data-chapter-tau-event>>::
 Explains the `tau` event.
 
 <<tut-data-chapter-discvar-init>>::
-Explains initialization of discrete variables, including the use of default
-values and multiple potential initial values.
+Explains initialization of discrete variables, including the use of default values and multiple potential initial values.
 
 <<tut-data-chapter-init-preds>>::
-Explains initialization in general, and initialization predicates in
-particular.
+Explains initialization in general, and initialization predicates in particular.
 
 <<tut-data-chapter-locs-as-var>>::
 Explains the use of locations as variables.
@@ -140,12 +127,10 @@ Explains state/event exclusion invariants.
 *Types and values*
 
 <<tut-values-chapter-types-values-exprs>>::
-Explains the concepts of types, values, and expressions, as an introduction
-for the other lessons in this category.
+Explains the concepts of types, values, and expressions, as an introduction for the other lessons in this category.
 
 <<tut-values-chapter-overview>>::
-Provides an overview of the available values, and divides them into
-categories.
+Provides an overview of the available values, and divides them into categories.
 
 <<tut-values-chapter-integers>>::
 Explains integer types, values, and commonly used expressions.
@@ -213,13 +198,10 @@ Explains the use of continuous variables.
 Explains the use of equations to specify values of continuous variables.
 
 <<tut-time-chapter-equations>>::
-Show the use of equations for both continuous and algebraic variables, by
-means of an example of a
-link:http://en.wikipedia.org/wiki/Nonlinear_system>[non-linear system].
+Show the use of equations for both continuous and algebraic variables, by means of an example of a link:http://en.wikipedia.org/wiki/Nonlinear_system>[non-linear system].
 
 <<tut-time-chapter-var-overview>>::
-Provides an overview of the different kinds of variables in CIF, and their
-main differences.
+Provides an overview of the different kinds of variables in CIF, and their main differences.
 
 <<tut-time-chapter-urgency>>::
 Explains the concept of urgency, as well as the different forms of urgency.
@@ -238,8 +220,7 @@ Explains point-to-point channels and data communication.
 Explains `void` channels that do not communicate any data.
 
 <<tut-channels-chapter-chan-sync-combi>>::
-Explains how channel communication can be combined with event
-synchronization, further restricting the communication.
+Explains how channel communication can be combined with event synchronization, further restricting the communication.
 
 
 [[lang-tut-functions]]
@@ -252,8 +233,7 @@ Introduces functions, and explains the different kind of functions.
 Explains internal user-defined functions.
 
 <<tut-functions-chapter-statements>>::
-Explains the different statements that can be used in internal user-defined
-functions.
+Explains the different statements that can be used in internal user-defined functions.
 
 <<tut-functions-chapter-functions-as-values>>::
 Explains using functions as values, allowing functions to be passed around.
@@ -281,9 +261,7 @@ Explains groups definitions and parametrized group definitions.
 Explains splitting CIF specifications over multiple files using imports.
 
 <<tut-reuse2-chapter-imports-libraries>>::
-Explains how to create libraries that can be used by multiple CIF
-specifications using imports, as well as how to use imports to include
-CIF specifications from other directories.
+Explains how to create libraries that can be used by multiple CIF specifications using imports, as well as how to use imports to include CIF specifications from other directories.
 
 <<tut-reuse2-chapter-imports-groups>>::
 Explains how imports and groups interact.
@@ -292,48 +270,39 @@ Explains how imports and groups interact.
 Explains namespaces, and how they can be used together with imports.
 
 <<tut-reuse2-chapter-input-variables>>::
-Explains input variables, how they can be used for coupling with other
-models and systems, and their relation to imports.
+Explains input variables, how they can be used for coupling with other models and systems, and their relation to imports.
 
 
 [[lang-tut-stochastics]]
 *Stochastics*
 
 <<tut-stochastics-chapter-intro>>::
-Introduction to stochastic distributions, which allow for sampling, making
-it possible to produce random values.
+Introduction to stochastic distributions, which allow for sampling, making it possible to produce random values.
 
 <<tut-stochastics-chapter-discrete-continuous-constant>>::
-Explains the different categories of stochastic distributions: discrete,
-continuous, and constant distributions.
+Explains the different categories of stochastic distributions: discrete, continuous, and constant distributions.
 
 <<tut-stochastics-chapter-pseudo-randomness>>::
-Explains how computers implement stochastics using pseudo-random number
-generators, and how this affects the use of stochastics in CIF.
+Explains how computers implement stochastics using pseudo-random number generators, and how this affects the use of stochastics in CIF.
 
 
 [[lang-tut-extensions]]
 *Language extensions*
 
 <<tut-extensions-chapter-synthesis>>::
-Explains how to extend a model to make it suitable for supervisory
-controller synthesis.
+Explains how to extend a model to make it suitable for supervisory controller synthesis.
 
 <<tools-cifsim-output-print-chapter-index,Print output>>::
 Explains how to extend a model to include printing of textual output.
 +
-This documentation is currently not part of the language tutorial,
-but of the simulator tool documentation.
+This documentation is currently not part of the language tutorial, but of the simulator tool documentation.
 
 <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>>::
 Explains how to extend a model to couple it to an image for visualization.
 +
-This documentation is currently not part of the language tutorial,
-but of the simulator tool documentation.
+This documentation is currently not part of the language tutorial, but of the simulator tool documentation.
 
 <<tools-cifsim-input-svg-chapter-index,SVG interaction>>::
-Explains how to extend a model to couple it to an image for interaction via
-a visualization.
+Explains how to extend a model to couple it to an image for interaction via a visualization.
 +
-This documentation is currently not part of the language tutorial,
-but of the simulator tool documentation.
+This documentation is currently not part of the language tutorial, but of the simulator tool documentation.

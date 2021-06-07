@@ -21,37 +21,26 @@ Application framework applications can be executed in the following ways:
 
 * As plain Java application, from the command line.
 +
-Using the _GUI_ option, the application can be executed either with full GUI
-support, or as headless application.
+Using the _GUI_ option, the application can be executed either with full GUI support, or as headless application.
 +
-The OSGi framework will not be running, and the Eclipse workbench will not
-be available.
+The OSGi framework will not be running, and the Eclipse workbench will not be available.
 
 * As application within the Eclipse IDE, with full GUI support.
 +
-The OSGi framework will be running, and the Eclipse workbench will be
-available.
+The OSGi framework will be running, and the Eclipse workbench will be available.
 
 * As headless Eclipse application.
 +
-Using the _GUI_ option, the application can be executed either with full GUI
-support, or as headless application.
+Using the _GUI_ option, the application can be executed either with full GUI support, or as headless application.
 +
-The OSGi framework will be running, but the Eclipse workbench will not be
-available.
+The OSGi framework will be running, but the Eclipse workbench will not be available.
 +
-The `org.eclipse.escet.common.app.framework.AppEclipseApplication` application
-can be provided to the `-application` command line argument of Eclipse to
-start any application framework application. This functionality is
-implemented by the
-`org.eclipse.escet.common.app.framework.AppEclipseApplication` which
-provides a generic implementation of Eclipse's `IApplication` interface
-that supports execution of any application framework application.
+The `org.eclipse.escet.common.app.framework.AppEclipseApplication` application can be provided to the `-application` command line argument of Eclipse to start any application framework application.
+This functionality is implemented by the `org.eclipse.escet.common.app.framework.AppEclipseApplication` which provides a generic implementation of Eclipse's `IApplication` interface that supports execution of any application framework application.
 +
 The following command line arguments are expected:
 +
 - The name of the plug-in (OSGi bundle) that provides the application.
 - The full/absolute name of the Java class that implements the application.
 Must extend the `Application` class and have a parameterless constructor.
-- The remaining command line arguments are the command line arguments for
-the application itself.
+- The remaining command line arguments are the command line arguments for the application itself.

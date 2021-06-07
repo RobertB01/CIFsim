@@ -16,14 +16,13 @@ include::../_part_attributes.asciidoc[]
 == Equations
 
 indexterm:[equation,benefit]
-Consider the following
-link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
+Consider the following link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
 
 image::{tut-imgsdir}/time/tank.png[]
 
-Variable `V` models the water volume of a tank. The water volume of the tank
-changes based on the incoming flow of water `Qi` and outgoing flow of water
-`Qo`. The tank can be modeled using the following CIF specification:
+Variable `V` models the water volume of a tank.
+The water volume of the tank changes based on the incoming flow of water `Qi` and outgoing flow of water `Qo`.
+The tank can be modeled using the following CIF specification:
 
 
 [source, cif]
@@ -33,12 +32,11 @@ alg real Qi = 1;
 alg real Qo = sqrt(V);
 ----
 
-Initially, the tank is filled with `5` liters of water. The incoming flow is
-constant at `1` liter per second. The outgoing flow increases as the water
-volume of the tank increases.
+Initially, the tank is filled with `5` liters of water.
+The incoming flow is constant at `1` liter per second.
+The outgoing flow increases as the water volume of the tank increases.
 
-By separating the declarations of the three variables from their equations, the
-specification becomes more readable:
+By separating the declarations of the three variables from their equations, the specification becomes more readable:
 
 // Copied to: reuse2/groups
 

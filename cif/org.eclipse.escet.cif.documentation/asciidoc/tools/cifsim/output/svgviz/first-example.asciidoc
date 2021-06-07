@@ -17,21 +17,17 @@ include::_local_attributes.asciidoc[]
 == First example
 
 indexterm:[SVG visualization,first example]
-Before we go into any details about SVG visualization, let's first look at an
-example. Here, we use a trivial example, which nonetheless serves several
-purposes:
+Before we go into any details about SVG visualization, let's first look at an example.
+Here, we use a trivial example, which nonetheless serves several purposes:
 
-* It gives a quick overview of what the idea of SVG visualization is all about,
-and what it looks like.
+* It gives a quick overview of what the idea of SVG visualization is all about, and what it looks like.
 
 * It shows how to use SVG visualization with the CIF simulator.
 
-* It shows the two alternatives to simulation: via the options dialog, and by
-using a ToolDef <<tools-scripting-chapter-intro,script>>.
+* It shows the two alternatives to simulation: via the options dialog, and by using a ToolDef <<tools-scripting-chapter-intro,script>>.
 
-Note that it is not necessary to fully understand what exactly is going on, or
-how it works. Those details should become clear after reading the remaining
-pages of the documentation.
+Note that it is not necessary to fully understand what exactly is going on, or how it works.
+Those details should become clear after reading the remaining pages of the documentation.
 
 === Creating the CIF model
 
@@ -44,127 +40,69 @@ In an Eclipse project or directory, create a new CIF file named `lamp.cif`:
 include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.cif[]
 ----
 
-This file describes not only the behavior of the lamp using a CIF automaton,
-but also contains a <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declaration>>, which specifies the connection between
-the behavioral CIF specification and the SVG image.
+This file describes not only the behavior of the lamp using a CIF automaton, but also contains a <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declaration>>, which specifies the connection between the behavioral CIF specification and the SVG image.
 
 
 === Creating the SVG image
 
 Next, we'll create an <<tools-cifsim-output-svgviz-chapter-svg,SVG>> image.
-Start
-link:http://inkscape.org/[Inkscape],
-Select
-menu:Document Properties...[]
-from the
-menu:File[]
-menu, to open the
-menu:Document Properties[]
-window. On the
-menu:Page[]
-tab, set the
-menu:Units[]
-to
-menu:px[],
-the
-menu:Width[]
-to `75.00`, and
-the height to `100.00`. It is recommended to always
-<<tools-cifsim-output-svgviz-inkscape-size,set the size>> of the image,
-before adding any shapes or text labels.
+Start link:http://inkscape.org/[Inkscape], Select menu:Document Properties...[] from the menu:File[] menu, to open the menu:Document Properties[] window.
+On the menu:Page[] tab, set the menu:Units[] to menu:px[], the menu:Width[] to `75.00`, and the height to `100.00`.
+It is recommended to always <<tools-cifsim-output-svgviz-inkscape-size,set the size>> of the image, before adding any shapes or text labels.
 
-Next, select the circle tool, by clicking on the circle in the _Toolbox_ on the
-left side of the application. Draw a circle on the canvas. It should look
-something like this:
+Next, select the circle tool, by clicking on the circle in the _Toolbox_ on the left side of the application.
+Draw a circle on the canvas.
+It should look something like this:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/lamp/lamp_inkscape.png[]
 
-Right click the circle and choose
-menu:Object Properties[].
-The
-menu:Object Properties[]
-window will appear. Change the
-menu:Id[]
-of
-the circle to `lamp` and click the
-btn:[Set]
-button. Save the image
-as `lamp.svg`, in the same directory as the `lamp.cif` file.
+Right click the circle and choose menu:Object Properties[].
+The menu:Object Properties[] window will appear.
+Change the menu:Id[] of the circle to `lamp` and click the btn:[Set] button.
+Save the image as `lamp.svg`, in the same directory as the `lamp.cif` file.
 
 
 === Simulation and the options dialog
 
-Right click the `lamp.cif` file and choose
-menu:Simulate CIF specification...[]
-to start the CIF simulator. An
-options dialog appears. In this case the defaults suffice, so click
-btn:[OK]
-to start the simulation. Initially, the visualization looks as
-follows:
+Right click the `lamp.cif` file and choose menu:Simulate CIF specification...[] to start the CIF simulator.
+An options dialog appears.
+In this case the defaults suffice, so click btn:[OK] to start the simulation.
+Initially, the visualization looks as follows:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/lamp/lamp_sim_off.png[]
 
-Using the
-menu:GUI input[],
-click the button for
-btn:[time delay]
-and then the button for
-btn:[tau].
-After performing these two
-transitions, the visualization should look as follows:
+Using the menu:GUI input[], click the button for btn:[time delay] and then the button for btn:[tau].
+After performing these two transitions, the visualization should look as follows:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/lamp/lamp_sim_on.png[]
 
 As you can see, the lamp is gray while it is off, and yellow while it is on.
-Close the
-menu:GUI input[]
-to terminate the simulator. You may also close
-the visualization window.
+Close the menu:GUI input[] to terminate the simulator.
+You may also close the visualization window.
 
-Now restart the simulator. In the
-menu:Simulator[]
-category, set the
-<<tools-cifsim-solver-chapter-endtime-maxdelay,Simulation end time>> option to
-menu:Finite end time[].
-You can leave the default value for
-menu:End time[].
-In the
-menu:Input[]
-category, set the
-<<tools-cifsim-input-chapter-index,Input mode>> option to
-menu:Automatic input mode[].
-In the
-menu:Output[]
-category, enable
-the <<tools-cifsim-output-realtime-framerate,Frame rate>> option and
-keep the default frame rate value. Click
-menu:OK[]
-to start the simulation
-again. This time, the simulator automatically chooses transitions. Furthermore,
-<<tools-cifsim-output-chapter-realtime,real-time simulation>> is enabled, where
-the model time is interpreted in seconds, and the visualization is regularly
-updated. Using these options, SVG visualization essentially turns into an
-SVG movie of the simulation of a flashing lamp. Simulation will automatically
-stop after ten seconds, the default simulation end time. Once simulation
-terminates, you may close the visualization window.
+Now restart the simulator.
+In the menu:Simulator[] category, set the <<tools-cifsim-solver-chapter-endtime-maxdelay,Simulation end time>> option to menu:Finite end time[].
+You can leave the default value for menu:End time[].
+In the menu:Input[] category, set the <<tools-cifsim-input-chapter-index,Input mode>> option to menu:Automatic input mode[].
+In the menu:Output[] category, enable the <<tools-cifsim-output-realtime-framerate,Frame rate>> option and keep the default frame rate value.
+Click menu:OK[] to start the simulation again.
+This time, the simulator automatically chooses transitions.
+Furthermore, <<tools-cifsim-output-chapter-realtime,real-time simulation>> is enabled, where the model time is interpreted in seconds, and the visualization is regularly updated.
+Using these options, SVG visualization essentially turns into an SVG movie of the simulation of a flashing lamp.
+Simulation will automatically stop after ten seconds, the default simulation end time.
+Once simulation terminates, you may close the visualization window.
 
 
 === Simulation using ToolDef
 
-While the option dialog is useful for configuring simulation options, it is
-often easier to use a _ToolDef_ file to
-<<tools-scripting-chapter-intro,script>> the execution of the CIF simulator.
-Create a new file named `lamp.tooldef`, in the same directory as the other
-files, and give it the following content:
+While the option dialog is useful for configuring simulation options, it is often easier to use a _ToolDef_ file to <<tools-scripting-chapter-intro,script>> the execution of the CIF simulator.
+Create a new file named `lamp.tooldef`, in the same directory as the other files, and give it the following content:
 
 [source,tooldef]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.tooldef[]
 ----
 
-Don't forget to save the file. Right-click the `lamp.tooldef` file and
-choose
-menu:Execute ToolDef[]
-to execute the ToolDef script. This script
-uses the exact same options as we manually configured in the option dialog, in
-the previous section.
+Don't forget to save the file.
+Right-click the `lamp.tooldef` file and choose menu:Execute ToolDef[] to execute the ToolDef script.
+This script uses the exact same options as we manually configured in the option dialog, in the previous section.

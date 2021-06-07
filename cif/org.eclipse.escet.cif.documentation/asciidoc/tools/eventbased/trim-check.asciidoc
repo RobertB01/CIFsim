@@ -19,11 +19,9 @@ indexterm:[event-based trim check]
 indexterm:[tools,event-based trim check]
 indexterm:[event-based synthesis toolset,event-based trim check]
 indexterm:[event-based trim check,event-based synthesis toolset]
-This check verifies that the automata in the given file are trim, that is, in
-each automaton, all the locations must be both reachable and coreachable. If
-the check fails for one or more automata, the tool reports for each automaton,
-whether all its locations are reachable and coreachable. It also lists the
-locations where the property fails.
+This check verifies that the automata in the given file are trim, that is, in each automaton, all the locations must be both reachable and coreachable.
+If the check fails for one or more automata, the tool reports for each automaton, whether all its locations are reachable and coreachable.
+It also lists the locations where the property fails.
 
 indexterm:[event-based trim check,start]
 
@@ -31,17 +29,12 @@ indexterm:[event-based trim check,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply trim check...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply trim check...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply trim check...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply trim check...].
 
-* Use the `ciftrimchk` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `ciftrimchk` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `ciftrimchk` command line tool.
 
@@ -49,13 +42,9 @@ indexterm:[event-based trim check,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file_: The absolute or relative local file system path to the input CIF specification.
 
-* _Report file_: The absolute or relative local file system path to the
-output report file with disabled events. If not specified, defaults to the
-input file path, where the `.cif` file extension is removed (if present),
-and a `+_trimcheck.txt+` file extension is added.
+* _Report file_: The absolute or relative local file system path to the output report file with disabled events.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_trimcheck.txt+` file extension is added.

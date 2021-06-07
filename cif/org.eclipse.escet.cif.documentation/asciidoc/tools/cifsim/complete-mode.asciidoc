@@ -16,39 +16,30 @@ include::../_part_attributes.asciidoc[]
 == Complete mode
 
 indexterm:[CIF simulator,complete mode]
-The CIF simulator calculates for each <<tools-cifsim-traces-state,state>>
-the set of transitions that are possible from
-that state. It is up to the <<tools-cifsim-input-chapter-index,input component>>
-to choose one of those transitions, as the transition to take. Using the
-<<tools-cifsim-input-chapter-automatic,automatic input mode>>, it is possible to
-always choose the first transition that is possible.
+The CIF simulator calculates for each <<tools-cifsim-traces-state,state>> the set of transitions that are possible from that state.
+It is up to the <<tools-cifsim-input-chapter-index,input component>> to choose one of those transitions, as the transition to take.
+Using the <<tools-cifsim-input-chapter-automatic,automatic input mode>>, it is possible to always choose the first transition that is possible.
 
-In that situation, it is then a waste of resources to calculate the other
-possible transitions. Using the
-menu:Complete mode[]
-option (menu:Simulator[])
-category), it is possible to enable complete mode. If
-complete mode is enabled, the calculation of the possible transitions stops as
-soon as one possible transition is found.
+In that situation, it is then a waste of resources to calculate the other possible transitions.
+Using the menu:Complete mode[] option (menu:Simulator[]) category), it is possible to enable complete mode.
+If complete mode is enabled, the calculation of the possible transitions stops as soon as one possible transition is found.
 
 The following values are available for the complete mode option:
 
 * _Auto: disable if possible, enable otherwise_
 +
-Automatically chooses whether to enable or disable complete mode. If it is
-allowed to disable complete mode, it will be disabled. Otherwise, complete
-mode will be enabled.
+Automatically chooses whether to enable or disable complete mode.
+If it is allowed to disable complete mode, it will be disabled.
+Otherwise, complete mode will be enabled.
 
 * _On: forced enabled_
 +
-Enables complete mode. All possible transitions will be calculated.
+Enables complete mode.
+All possible transitions will be calculated.
 
 * _Off: forced disabled_
 +
-Disables complete mode. Only the first possible transitions will be
-calculated.
+Disables complete mode.
+Only the first possible transitions will be calculated.
 
-Currently, it is only allowed to disable complete mode, if the
-<<tools-cifsim-input-chapter-automatic,automatic input mode>> or
-<<tools-cifsim-input-svg-chapter-index,SVG input mode>> is used, together with
-always choosing the first possible transition.
+Currently, it is only allowed to disable complete mode, if the <<tools-cifsim-input-chapter-automatic,automatic input mode>> or <<tools-cifsim-input-svg-chapter-index,SVG input mode>> is used, together with always choosing the first possible transition.

@@ -33,8 +33,7 @@ indexterm:[out]
 tool out(string pattern, object?... args)
 ----
 
-Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
-pattern and arguments) to the standard output stream (stdout).
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a pattern and arguments) to the standard output stream (stdout).
 
 _Parameters_
 
@@ -60,8 +59,7 @@ indexterm:[err]
 tool err(string pattern, object?... args)
 ----
 
-Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
-pattern and arguments) to the standard error stream (stderr).
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a pattern and arguments) to the standard error stream (stderr).
 
 _Parameters_
 
@@ -87,9 +85,7 @@ indexterm:[outln]
 tool outln(string pattern = "", object?... args)
 ----
 
-Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
-pattern and arguments) to the standard output stream (stdout), printing an
-additional new line at the end.
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a pattern and arguments) to the standard output stream (stdout), printing an additional new line at the end.
 
 _Parameters_
 
@@ -115,9 +111,7 @@ indexterm:[errln]
 tool errln(string pattern = "", object?... args)
 ----
 
-Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a
-pattern and arguments) to the standard error stream (stderr), printing an
-additional new line at the end.
+Prints <<lang-ref-builtins-data-fmt,formatted text>> (based on a pattern and arguments) to the standard error stream (stderr), printing an additional new line at the end.
 
 _Parameters_
 

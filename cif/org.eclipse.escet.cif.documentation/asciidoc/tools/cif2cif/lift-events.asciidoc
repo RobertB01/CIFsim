@@ -18,15 +18,14 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,lift events]
 indexterm:[lift events]
 indexterm:[event,lift to specification]
-This CIF to CIF transformation lifts event declarations to the top level of the
-specification.
+This CIF to CIF transformation lifts event declarations to the top level of the specification.
 
 indexterm:[lift events,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -36,10 +35,8 @@ indexterm:[lift events,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -49,13 +46,11 @@ indexterm:[lift events,implementation]
 
 === Implementation details
 
-All events declared in the automata, are lifted to the top level of the
-specification.
+All events declared in the automata, are lifted to the top level of the specification.
 
-In order to be able to track the origin of the events, they are named after
-their absolute names. For a group `x`, with a group `y`, with an
-event `e`, the absolute name of the event is `x.y.e`. The event is lifted
-to the top level of the specification, and named `x_y_e`.
+In order to be able to track the origin of the events, they are named after their absolute names.
+For a group `x`, with a group `y`, with an event `e`, the absolute name of the event is `x.y.e`.
+The event is lifted to the top level of the specification, and named `x_y_e`.
 
 For instance, this specification:
 
@@ -101,14 +96,11 @@ indexterm:[lift events,renaming]
 
 === Renaming
 
-Since events of the automata are merged with the declarations of the
-specification, renaming may be necessary to ensure uniquely named declarations.
-For instance, for a group `x`, with a group `y`, with an event
-`e`, the absolute name of the event is `x.y.e`. The event is lifted to the
-top level of the specification, and renamed to `x_y_e`. However, if the
-specification already contains a declaration of a constant, automaton, other
-event, etc, named `x_y_e`, then the lifted event is renamed to `x_y_e2`
-instead. If that name is also already in use, it is renamed to `x_y_e3`, etc.
+Since events of the automata are merged with the declarations of the specification, renaming may be necessary to ensure uniquely named declarations.
+For instance, for a group `x`, with a group `y`, with an event `e`, the absolute name of the event is `x.y.e`.
+The event is lifted to the top level of the specification, and renamed to `x_y_e`.
+However, if the specification already contains a declaration of a constant, automaton, other event, etc, named `x_y_e`, then the lifted event is renamed to `x_y_e2` instead.
+If that name is also already in use, it is renamed to `x_y_e3`, etc.
 
 Whenever renaming takes place, a warning is be printed to the console.
 
@@ -116,8 +108,8 @@ indexterm:[lift events,size considerations]
 
 === Size considerations
 
-Events are lifted, which essentially means they are moved. The size of the
-specification does not increase.
+Events are lifted, which essentially means they are moved.
+The size of the specification does not increase.
 
 
 === Optimality

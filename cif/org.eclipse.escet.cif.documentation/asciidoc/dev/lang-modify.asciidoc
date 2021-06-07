@@ -20,18 +20,20 @@ For each change to the CIF language, follow these steps:
 - Update `cif.setext` syntax.
 - Update `cif.bnf` syntax in documentation.
 - Update example models for changed syntax.
-- Update Ecore metamodel. Update Ecore diagram images.
-- Update Ecore genmodel. Remove and re-generate model code.
+- Update Ecore metamodel.
+Update Ecore diagram images.
+- Update Ecore genmodel.
+Remove and re-generate model code.
 - Update generated Java constructors and walker code.
 - Update LaTeX documentation skeleton files.
-- Update LaTeX documentation, including constraints. Generate new PDF.
+- Update LaTeX documentation, including constraints.
+Generate new PDF.
 - Update example models for changed constraints.
 - Update parser implementation, including AST classes.
 - Update text editor, including keywords and syntax highlighting.
 - Update type checker, including error message enumeration.
 - Update pretty printer, including set of keywords.
 - Update CIF to CIF transformations and other tools.
-- Update CIF documentation, including language reference manual with lexical
-syntax and grammar.
+- Update CIF documentation, including language reference manual with lexical syntax and grammar.
 - Update CIF syntax highlighting definition for LaTeX.
 - Update CIF syntax highlighting definition for AsciiDoctor.

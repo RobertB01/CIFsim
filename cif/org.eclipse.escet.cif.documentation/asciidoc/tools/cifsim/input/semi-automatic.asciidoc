@@ -16,72 +16,48 @@ include::../../_part_attributes.asciidoc[]
 == Semi-automatic mode
 
 indexterm:[input mode,semi-automatic mode]
-By default, in the interactive <<tools-cifsim-input-chapter-console,console>>
-and <<tools-cifsim-input-chapter-gui,GUI>> input modes, the user is asked
-to choose, even if for instance there is only one possible transition. Having
-to choose for every transition can become tiresome. To reduce the number of
-situations where input is required, the semi-automatic mode is available.
-Semi-automatic mode allows the simulator to automatically choose certain
-transitions, while leaving the remaining choices for the user. The following
-choices can be automatically made by the simulator, in semi-automatic mode:
+By default, in the interactive <<tools-cifsim-input-chapter-console,console>> and <<tools-cifsim-input-chapter-gui,GUI>> input modes, the user is asked to choose, even if for instance there is only one possible transition.
+Having to choose for every transition can become tiresome.
+To reduce the number of situations where input is required, the semi-automatic mode is available.
+Semi-automatic mode allows the simulator to automatically choose certain transitions, while leaving the remaining choices for the user.
+The following choices can be automatically made by the simulator, in semi-automatic mode:
 
 * Automatically choose a transition if there is only one transition possible.
 
-* Automatically choose time transitions, regardless of how many transitions
-are possible.
+* Automatically choose time transitions, regardless of how many transitions are possible.
 
 * Automatically choose the delay duration of time transitions.
 
-* Automatically choose event transitions (for certain events), regardless of
-how many transitions are possible.
+* Automatically choose event transitions (for certain events), regardless of how many transitions are possible.
 
-Each of these possible automatic choices can be individually enabled,
-through the
-menu:Interactive mode automatic transition choice[]
-option
-(menu:Input[]
-category). As value for the option, comma separated
-_filters_ should be supplied. The following filters are available:
+Each of these possible automatic choices can be individually enabled, through the menu:Interactive mode automatic transition choice[] option (menu:Input[] category).
+As value for the option, comma separated _filters_ should be supplied.
+The following filters are available:
 
-* `1` to automatically choose a transition if there is only one transition
-possible.
+* `1` to automatically choose a transition if there is only one transition possible.
 
 * `time` to automatically choose time transitions.
 
 * `timedur` to automatically choose the delay duration of time transitions.
 
-* The name of an event, to automatically choose event transitions for that
-event.
+* The name of an event, to automatically choose event transitions for that event.
 
-* `urgent` to automatically choose event transitions for all
-<<tools-cifsim-chapter-env-events,urgent>> (non-environment) events.
+* `urgent` to automatically choose event transitions for all <<tools-cifsim-chapter-env-events,urgent>> (non-environment) events.
 
-For events, the absolute names of the events are used. That is, for an
-automaton `a`, with an event `e`, the absolute name of the event is
-`a.e`. If CIF textual syntax keyword are used as names for events (such as
-`plant`), then they must be escaped in `.cif` files (`$plant`). For
-filters however, all escape characters (`$`) in event names are ignored.
-The `+*+` character can be used as wildcard, to indicate zero or more
-characters. The special `urgent` event filter matches all
-<<tools-cifsim-chapter-env-events,urgent>> events of the specification. If an
-event filter doesn't match any of the events of the CIF model, a warning is
-printed to the console. If a filter doesn't have any effect, because a previous
-filter already turned ensured that the matching events into are automatically
-chosen, a warning is printed as well.
+For events, the absolute names of the events are used.
+That is, for an automaton `a`, with an event `e`, the absolute name of the event is `a.e`.
+If CIF textual syntax keyword are used as names for events (such as `plant`), then they must be escaped in `.cif` files (`$plant`).
+For filters however, all escape characters (`$`) in event names are ignored.
+The `+*+` character can be used as wildcard, to indicate zero or more characters.
+The special `urgent` event filter matches all <<tools-cifsim-chapter-env-events,urgent>> events of the specification.
+If an event filter doesn't match any of the events of the CIF model, a warning is printed to the console.
+If a filter doesn't have any effect, because a previous filter already turned ensured that the matching events into are automatically chosen, a warning is printed as well.
 
-As an example, option value `+1, g*, t*+` consist of three filters: `1`,
-`+g*+`, and `+t*+`. The first filter indicates that the simulator should
-automatically choose a transition if there is only one transition possible. The
-second and third filters indicate that the simulator should also automatically
-choose all events starting with an `g` or a `t`, such as `g`, `g1`,
-`go`, etc. Note that the wildcards apply only to events, so `+t*+` does not
-mean that time transitions should be automatically chosen. The `+t*+` filter
-always matches the `tau` event, as that event is implicitly always present.
+As an example, option value `+1, g*, t*+` consist of three filters: `1`, `+g*+`, and `+t*+`.
+The first filter indicates that the simulator should automatically choose a transition if there is only one transition possible.
+The second and third filters indicate that the simulator should also automatically choose all events starting with an `g` or a `t`, such as `g`, `g1`, `go`, etc.
+Note that the wildcards apply only to events, so `+t*+` does not mean that time transitions should be automatically chosen.
+The `+t*+` filter always matches the `tau` event, as that event is implicitly always present.
 
-If an automatic choice can be made, given the filter and the possible
-transitions, the transitions are filtered to only keep the ones that can be
-chosen automatically, and they are sent to the
-<<tools-cifsim-input-chapter-automatic,automatic input component>>, which then makes the actual choice,
-depending on its own configuration. Similarly, if the delay duration of a time
-transition is to be automatically chosen, the automatic input component is
-asked to choose, based on its own configuration.
+If an automatic choice can be made, given the filter and the possible transitions, the transitions are filtered to only keep the ones that can be chosen automatically, and they are sent to the <<tools-cifsim-input-chapter-automatic,automatic input component>>, which then makes the actual choice, depending on its own configuration.
+Similarly, if the delay duration of a time transition is to be automatically chosen, the automatic input component is asked to choose, based on its own configuration.

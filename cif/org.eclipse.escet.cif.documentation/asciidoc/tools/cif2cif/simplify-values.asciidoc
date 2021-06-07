@@ -17,27 +17,26 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF to CIF transformer,simplify values]
 indexterm:[simplify values]
-This CIF to CIF transformation simplifies CIF specifications, by applying
-the following value-related simplifications:
+This CIF to CIF transformation simplifies CIF specifications, by applying the following value-related simplifications:
 
-* Evaluation of constant (sub-)expressions. For instance, `1 + 1` is
-simplified to `2`.
+* Evaluation of constant (sub-)expressions.
+For instance, `1 + 1` is simplified to `2`.
 
-* Simplification of short-circuit boolean binary operators. For instance,
-`true and x` is simplified to `x`.
+* Simplification of short-circuit boolean binary operators.
+For instance, `true and x` is simplified to `x`.
 
-* Simplification of boolean unary operators. For instance, `not not x` is
-simplified to `x`.
+* Simplification of boolean unary operators.
+For instance, `not not x` is simplified to `x`.
 
-* Removal of default values. For instance, `true` state invariants are
-removed.
+* Removal of default values.
+For instance, `true` state invariants are removed.
 
 indexterm:[simplify values,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -45,10 +44,8 @@ indexterm:[simplify values,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -56,8 +53,7 @@ indexterm:[simplify values,implementation]
 
 === Implementation details
 
-The following is a complete list of the short-circuit boolean binary operators
-that are simplified (with `x` an arbitrary boolean expression):
+The following is a complete list of the short-circuit boolean binary operators that are simplified (with `x` an arbitrary boolean expression):
 
 [cols=2*,options="header"]
 |===
@@ -113,8 +109,7 @@ that are simplified (with `x` an arbitrary boolean expression):
 | `not x`
 |===
 
-The following is a complete list of the boolean unary operators that are
-simplified (with `x` and `y` two arbitrary expressions):
+The following is a complete list of the boolean unary operators that are simplified (with `x` and `y` two arbitrary expressions):
 
 [cols=2*,options="header"]
 |===
@@ -160,13 +155,10 @@ Default values are removed in the following places:
 
 * Guards of 'if' and 'elif' expressions.
 
-Predicates that are trivially equal to the default value are removed. If a
-trivial value is found that is equal to the negation of the default value, the
-entire feature gets the non-default value. For instance, for guards on edges,
-`true`, `1 = 1`, etc, are removed as they are all trivially `true`
-(the default for guards). If however, `false`, `1 = 2`, `1 != 1`, or any
-other trivially `false` guards is found, all guards on that edge are removed,
-and a single `false` guard is added.
+Predicates that are trivially equal to the default value are removed.
+If a trivial value is found that is equal to the negation of the default value, the entire feature gets the non-default value.
+For instance, for guards on edges, `true`, `1 = 1`, etc, are removed as they are all trivially `true` (the default for guards).
+If however, `false`, `1 = 2`, `1 != 1`, or any other trivially `false` guards is found, all guards on that edge are removed, and a single `false` guard is added.
 
 
 === Renaming
@@ -177,19 +169,15 @@ indexterm:[simplify values,size considerations]
 
 === Size considerations
 
-This transformation tries to simplify the specification, possibly reducing its
-size.
+This transformation tries to simplify the specification, possibly reducing its size.
 
-All uses of constants lead to constant (sub-)expressions, and they are
-evaluated. This leads to constants being inlined. For constants with large
-literal values, this may significantly increase the size of the specification,
-especially if the constant is used more than once. For information on how to
-prevent this, see the <<tools-cif2cif-chapter-simplify-values-no-refs>> CIF to CIF
-transformation.
+All uses of constants lead to constant (sub-)expressions, and they are evaluated.
+This leads to constants being inlined.
+For constants with large literal values, this may significantly increase the size of the specification, especially if the constant is used more than once.
+For information on how to prevent this, see the <<tools-cif2cif-chapter-simplify-values-no-refs>> CIF to CIF transformation.
 
 indexterm:[simplify values,optimality]
 
 === Optimality
 
-Not all simplifications that could potentially be performed are implemented in
-this transformation.
+Not all simplifications that could potentially be performed are implemented in this transformation.

@@ -19,8 +19,7 @@ indexterm:[CIF to CIF transformer,eliminate component definition/instantiation]
 indexterm:[eliminate component definition/instantiation]
 indexterm:[component definition,eliminate]
 indexterm:[component instantiation,eliminate]
-This CIF to CIF transformation eliminates all component definitions and
-instantiations, by actually instantiating the component definitions.
+This CIF to CIF transformation eliminates all component definitions and instantiations, by actually instantiating the component definitions.
 
 === Supported specifications
 
@@ -37,17 +36,12 @@ indexterm:[eliminate component definition/instantiation,implementation]
 
 This transformation operates in three phases:
 
-* Phase 1: Find the component definitions without any component definitions
-and/or component instantiations in them.
+* Phase 1: Find the component definitions without any component definitions and/or component instantiations in them.
 
-* Phase 2: Instantiate the component definitions found in phase 1, by putting
-the body of the definition in the place of the instantiation, in a component
-named after the component instantiation. Also removes the component
-definitions that were just instantiated, and introduces new local algebraic
-variables for the algebraic parameters.
+* Phase 2: Instantiate the component definitions found in phase 1, by putting the body of the definition in the place of the instantiation, in a component named after the component instantiation.
+Also removes the component definitions that were just instantiated, and introduces new local algebraic variables for the algebraic parameters.
 
-* Phase 3: Replace uses of component, event, and location parameters by the
-actual arguments provided for the instantiation.
+* Phase 3: Replace uses of component, event, and location parameters by the actual arguments provided for the instantiation.
 
 For instance, the following specification:
 
@@ -81,8 +75,8 @@ group p2:
 end
 ----
 
-Absolute references may be needed to express the results of this
-transformation. For instance:
+Absolute references may be needed to express the results of this transformation.
+For instance:
 
 
 [source, cif]
@@ -112,9 +106,8 @@ group a:
 end
 ----
 
-Note how the invariant in component `a.x` can not refer to constant `x`
-directly, as `x` refers to component `a.x` in that context. Therefore, the
-scope absolute reference `.x` is used instead.
+Note how the invariant in component `a.x` can not refer to constant `x` directly, as `x` refers to component `a.x` in that context.
+Therefore, the scope absolute reference `.x` is used instead.
 
 
 === Renaming
@@ -125,8 +118,7 @@ indexterm:[eliminate component definition/instantiation,size considerations]
 
 === Size considerations
 
-Since component definitions are shortcuts for components, eliminating
-them could result in an increase of the size of the specification.
+Since component definitions are shortcuts for components, eliminating them could result in an increase of the size of the specification.
 
 
 === Optimality

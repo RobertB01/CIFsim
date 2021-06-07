@@ -21,100 +21,72 @@ The Chi simulator software performs two steps internally:
 
 * Running the created simulator.
 
-Starting with a `.chi` source file, both steps have to be performed for a
-simulation. As this is the common situation, the software normally combines
-both steps.
-If you run many experiments with the same file, it becomes useful to skip the
-first step. How to do this is explained in <<tool-compile-or-simulate>>.
-In addition, the software can be run from the command line. In that case,
-command-line options as explained in <<tool-chapter-command-line>> need to be
-specified.
+Starting with a `.chi` source file, both steps have to be performed for a simulation.
+As this is the common situation, the software normally combines both steps.
+If you run many experiments with the same file, it becomes useful to skip the first step.
+How to do this is explained in <<tool-compile-or-simulate>>.
+In addition, the software can be run from the command line.
+In that case, command-line options as explained in <<tool-chapter-command-line>> need to be specified.
 
 [[tool-compile-and-simulate]]
 === Compile and simulate
 
-Normally, you want to simulate a `.chi` source file. The Chi simulator
-software uses two steps internally (first checking the input and building the
-simulator, then running the just created simulator), but these steps are
-combined in the dialog.
+Normally, you want to simulate a `.chi` source file.
+The Chi simulator software uses two steps internally (first checking the input and building the simulator, then running the just created simulator), but these steps are combined in the dialog.
 
-The process starts by selecting the source file you want to use (a file with
-a `.chi` extension) in the _Project Explorer_ or _Package Explorer_ tab, and opening the
-popup menu with the right mouse button from that selection.
-Alternatively, open the file in the editor, and use the right mouse button to
-get a similar popup menu.
+The process starts by selecting the source file you want to use (a file with a `.chi` extension) in the _Project Explorer_ or _Package Explorer_ tab, and opening the popup menu with the right mouse button from that selection.
+Alternatively, open the file in the editor, and use the right mouse button to get a similar popup menu.
 
-From the popup menu, select _Simulate Chi file_ entry. The
-selection causes the _Console_ view to be opened in Eclipse, and a
-dialog window pops up to set the simulator options like below.
+From the popup menu, select _Simulate Chi file_ entry.
+The selection causes the _Console_ view to be opened in Eclipse, and a dialog window pops up to set the simulator options like below.
 
 image::{tool-imgsdir}/chi_simulator_dialog.png[]
 
 The dialog shows the source file being used in the _Input file path_ box.
-Below it, in the _Instance_ box, you can enter how to run the
-model or the experiment of the source file. The syntax of the input is the same
-as you would
-write it in your Chi file. For example, with a model definition
-`+model M(list real xs, int n): ... end+`, you could write `M([1.5, 2.81], 15)` as
-model instantiation. If you leave the entry empty, the simulator tries to find
-an experiment without any parameters (for example `X()`). If that fails, it
-tries to find a model without any parameters (typically `M()`). If both
-attempts fail, or the simulator finds more than one such experiment or model,
-an error is reported.
+Below it, in the _Instance_ box, you can enter how to run the model or the experiment of the source file.
+The syntax of the input is the same as you would write it in your Chi file.
+For example, with a model definition `+model M(list real xs, int n): ... end+`, you could write `M([1.5, 2.81], 15)` as model instantiation.
+If you leave the entry empty, the simulator tries to find an experiment without any parameters (for example `X()`).
+If that fails, it tries to find a model without any parameters (typically `M()`).
+If both attempts fail, or the simulator finds more than one such experiment or model, an error is reported.
 
-If you want to set an initial seed (see
-<<tut-simulating-stochastic-behavior>> for a discussion), you can use the
-_Initial seed value_ box. Value `0` means 'create a new one'.
+If you want to set an initial seed (see <<tut-simulating-stochastic-behavior>> for a discussion), you can use the _Initial seed value_ box.
+Value `0` means 'create a new one'.
 
-This is all you have to do, select _OK_ at the bottom. The software
-performs its two steps, and if no errors are found, it runs the model.
+This is all you have to do, select _OK_ at the bottom.
+The software performs its two steps, and if no errors are found, it runs the model.
 
 ==== Quick simulate
 
-For files that do not need any further configuration before
-they are run, there is a _Quick simulate Chi file_. This menu
-option assumes the default configuration (a parameter-less experiment or
-model needs to be run with a new seed), skips the dialog (saving you from
-having to press _OK_) and immediately proceeds with processing the Chi file.
+For files that do not need any further configuration before they are run, there is a _Quick simulate Chi file_.
+This menu option assumes the default configuration (a parameter-less experiment or model needs to be run with a new seed), skips the dialog (saving you from having to press _OK_) and immediately proceeds with processing the Chi file.
 
-This functionality is also available from the Chi text editor, by pressing
-the _F9_ key. Alternatively, you can select a Chi file in the
-_Project Explorer_ or _Package Explorer_, and press the
-_F9_ key.
+This functionality is also available from the Chi text editor, by pressing the _F9_ key.
+Alternatively, you can select a Chi file in the _Project Explorer_ or _Package Explorer_, and press the _F9_ key.
 
 [[tool-compile-or-simulate]]
 === Compile only
 
-The above is convenient for simple experiments, but checking the input and
-building a simulator each time is tedious if you want to do several
-experiments with the same source file.
+The above is convenient for simple experiments, but checking the input and building a simulator each time is tedious if you want to do several experiments with the same source file.
 For this reason, each step can be done separately as well.
 
-Only building a simulator starts in the same way as above, select a `.chi`
-source file from the _Project Explorer_, the _Package Explorer_
-or an editor window, and right-click at it. Select the _Simulate Chi file_
-option from the popup menu. As the file only gets compiled, the
-simulator options are of no interest. Instead switch to the _Compiler_
-tab. It looks like this:
+Only building a simulator starts in the same way as above, select a `.chi` source file from the _Project Explorer_, the _Package Explorer_ or an editor window, and right-click at it.
+Select the _Simulate Chi file_ option from the popup menu.
+As the file only gets compiled, the simulator options are of no interest.
+Instead switch to the _Compiler_ tab.
+It looks like this:
 
 image::{tool-imgsdir}/chi_compiler_dialog.png[]
 
-Most settings are only useful for developers, but at the bottom, check the
-_Write the compiled Java code to a .cchi file_ box, and click
-_OK_ at the bottom. Setting this option causes the simulator
-software to check the input file, build a simulator, write the constructed
-simulator to a `.cchi` file (a compiled Chi file), and quit. No simulation
-of the Chi model is performed at this time.
+Most settings are only useful for developers, but at the bottom, check the _Write the compiled Java code to a .cchi file_ box, and click _OK_ at the bottom.
+Setting this option causes the simulator software to check the input file, build a simulator, write the constructed simulator to a `.cchi` file (a compiled Chi file), and quit.
+No simulation of the Chi model is performed at this time.
 
 
 === Simulate a compiled model
 
-You can simulate the Chi model from the `.cchi` file now, by selecting
-that file as source file by right-clicking on it. Select the
-_Simulate Chi file_ or the _Quick simulate Chi file_
-option as before, and proceed with setting the
-simulator options and running the model as-if you selected a normal `.chi`
-file, as explained in <<tool-compile-and-simulate>> above.
+You can simulate the Chi model from the `.cchi` file now, by selecting that file as source file by right-clicking on it.
+Select the _Simulate Chi file_ or the _Quick simulate Chi file_ option as before, and proceed with setting the simulator options and running the model as-if you selected a normal `.chi` file, as explained in <<tool-compile-and-simulate>> above.
 
 
 === Terminating a simulation
@@ -123,21 +95,15 @@ A simulation ends when:
 
 * The model goes into a deadlock state,
 
-* An `exit` statement is performed (see <<tut-exit,experiments>>
-in the tutorial),
+* An `exit` statement is performed (see <<tut-exit,experiments>> in the tutorial),
 
-* The simulation is terminated by the user, via the console
-_Terminate_ button (explained below), or
+* The simulation is terminated by the user, via the console _Terminate_ button (explained below), or
 
 * A runtime error occurs.
 
-The simulation can be stopped at any time by using the _Terminate_ button
-(image::{tool-imgsdir}/terminate_button.png[]),
-located at the upper right corner of the console.
-Note however that if the console does not have the focus, this button may not
-be visible. If the button is not visible, click somewhere in the console to
-make the button appear. If even then the button is still not available, it may
-still appear if you _Maximize_ the console. Also note that the
-button has no effect while the simulator interactively asks for input from the
-console. However, once the console input is provided, and _ENTER_ is
-pressed, the termination request will be processed.
+The simulation can be stopped at any time by using the _Terminate_ button (image::{tool-imgsdir}/terminate_button.png[]), located at the upper right corner of the console.
+Note however that if the console does not have the focus, this button may not be visible.
+If the button is not visible, click somewhere in the console to make the button appear.
+If even then the button is still not available, it may still appear if you _Maximize_ the console.
+Also note that the button has no effect while the simulator interactively asks for input from the console.
+However, once the console input is provided, and _ENTER_ is pressed, the termination request will be processed.

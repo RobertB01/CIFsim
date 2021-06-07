@@ -32,8 +32,7 @@ The first part of this example shows a person walking on a floor, and features:
 
 * Using <<tools-cifsim-output-print-chapter-tut-fmt,text formatting>>.
 
-The second part of this example shows a person walking around in a room, and
-features:
+The second part of this example shows a person walking around in a room, and features:
 
 * Using multiple values in an output mapping.
 
@@ -45,43 +44,30 @@ The following SVG image is used for the example of a person walking on a floor:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/walk_floor/walk_floor_orig_inkscape.png[]
 
-The image features a floor (gray bar), a person, and a text label. The
-person consists of some lines and a circle. These shapes are grouped together,
-using the
-menu:Group[]
-command from Inkscape's
-menu:Object[]
-menu.
-The group can also be seen in the XML representation, as an `svg:g` element,
-with the actual shapes (paths in this case) as children. We assigned the
-`person` id to the `svg:g` element, as it represents the entire person. For
-clarity we gave the sub-elements ids as well, although that was not necessary,
-as we won't directly reference them in the CIF/SVG declarations.
+The image features a floor (gray bar), a person, and a text label.
+The person consists of some lines and a circle.
+These shapes are grouped together, using the menu:Group[] command from Inkscape's menu:Object[] menu.
+The group can also be seen in the XML representation, as an `svg:g` element, with the actual shapes (paths in this case) as children.
+We assigned the `person` id to the `svg:g` element, as it represents the entire person.
+For clarity we gave the sub-elements ids as well, although that was not necessary, as we won't directly reference them in the CIF/SVG declarations.
 
-Note that we moved the person as a whole, to the start of the floor. Since
-`svg:g` elements don't have an `x` and `y` attribute in SVG, Inkscape
-applies a translation to move the group. This is reflected in the XML as a
-`transform` attribute, with the `translate(-290,-467)` value. This
-indicates that the person was moved 290 pixels to the left, and 467 pixels to
-the top (as SVG has its origin in the upper left corner of the canvas).
+Note that we moved the person as a whole, to the start of the floor.
+Since `svg:g` elements don't have an `x` and `y` attribute in SVG, Inkscape applies a translation to move the group.
+This is reflected in the XML as a `transform` attribute, with the `translate(-290,-467)` value.
+This indicates that the person was moved 290 pixels to the left, and 467 pixels to the top (as SVG has its origin in the upper left corner of the canvas).
 
-To get rid of this, once the person is at the correct initial position, we
-can ungroup the `person` group (
-menu:Ungroup[]
-command from Inkscape's
-menu:Object[]
-menu), and regroup it. By ungrouping the group, the
-transformation is pushed to the individual elements of the group. The regroup
-simply adds a new group around the elements, without a translation
-transformation. The new group is given an automatically generated name, so we
-need to rename it to `person`. This ungroup/group trick is often very useful.
+To get rid of this, once the person is at the correct initial position, we can ungroup the `person` group ( menu:Ungroup[] command from Inkscape's menu:Object[] menu), and regroup it.
+By ungrouping the group, the transformation is pushed to the individual elements of the group.
+The regroup simply adds a new group around the elements, without a translation transformation.
+The new group is given an automatically generated name, so we need to rename it to `person`.
+This ungroup/group trick is often very useful.
 After this trick, the image looks as follows:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/walk_floor/walk_floor_inkscape.png[]
 
-The text label is to be used to show the position of the person, as a
-percentage. The left position is represented as 0%, and the right position is
-represented as 100%. The id of the text label is `pos_txt`.
+The text label is to be used to show the position of the person, as a percentage.
+The left position is represented as 0%, and the right position is represented as 100%.
+The id of the text label is `pos_txt`.
 
 
 === CIF specification (walking on floor)
@@ -93,46 +79,36 @@ The following CIF specification models a person walking on a floor:
 include::{incdir-tools-cifsim-output-svgviz}/walk_floor/walk_floor.cif[]
 ----
 
-A person starts at position (variable `person.pos`) zero (value `0.0`), and
-initially moves `forward`. After (s)he has reached position `5.0`, the
-movement is reversed. Once the person is back at the start position, the
-movement repeats itself.
+A person starts at position (variable `person.pos`) zero (value `0.0`), and initially moves `forward`.
+After (s)he has reached position `5.0`, the movement is reversed.
+Once the person is back at the start position, the movement repeats itself.
 
-There are two mappings, one that controls the horizontal position of the
-`person`, and another that controls the text of the text label.
+There are two mappings, one that controls the horizontal position of the `person`, and another that controls the text of the text label.
 
-As stated above, the values of variable `person.pos` are in the range
-[0 .. 5]. As can be seen from the comments of the CIF model, the width of the
-floor and person are 180 pixels and 19 pixels respectively. The person can
-thus move 161 pixels to the right. The output interval of the `scale`
-standard library function is thus [0 .. 161]. As the vertical position is
-fixed, no vertical translation is required. The
-<<tools-cifsim-output-print-ref-fmt-pattern,format pattern>>
-`"translate(%s,0)"` inserts the scaled value into the horizontal amount of
-the translation. The formatted output updates the `transform` attribute,
-making the person move horizontally.
+As stated above, the values of variable `person.pos` are in the range [0 .. 5].
+As can be seen from the comments of the CIF model, the width of the floor and person are 180 pixels and 19 pixels respectively.
+The person can thus move 161 pixels to the right.
+The output interval of the `scale` standard library function is thus [0 .. 161].
+As the vertical position is fixed, no vertical translation is required.
+The <<tools-cifsim-output-print-ref-fmt-pattern,format pattern>> `"translate(%s,0)"` inserts the scaled value into the horizontal amount of the translation.
+The formatted output updates the `transform` attribute, making the person move horizontally.
 
-The text of the text label with id `pos_txt` is updated using a second
-mapping. The value of variable `person.pos` is once again scaled using the
-`scale` standard library function. This time the output range is [0 .. 100],
-to get a percentage. Format pattern `"%.1f%%"` uses a `%.1f` format
-specifier to convert that percentage to a textual value, with a single digit
-after the decimal point. After the value of the percentage, a percentage
-character is included in escaped form (`%%`), to ensure it is not interpreted
-as a format specifier.
+The text of the text label with id `pos_txt` is updated using a second mapping.
+The value of variable `person.pos` is once again scaled using the `scale` standard library function.
+This time the output range is [0 .. 100], to get a percentage.
+Format pattern `"%.1f%%"` uses a `%.1f` format specifier to convert that percentage to a textual value, with a single digit after the decimal point.
+After the value of the percentage, a percentage character is included in escaped form (`%%`), to ensure it is not interpreted as a format specifier.
 
 
 === SVG image (walking in room)
 
-The following SVG image is used for the example of a person walking around in
-a room:
+The following SVG image is used for the example of a person walking around in a room:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/walk_room/walk_room_inkscape.png[]
 
-The image features a room (black rectangle) and a person. The person is the
-same group of elements as in the example of a person walking on a floor. The
-same group/ungroup trick is used here as well, to make sure the group has no
-translation transformation.
+The image features a room (black rectangle) and a person.
+The person is the same group of elements as in the example of a person walking on a floor.
+The same group/ungroup trick is used here as well, to make sure the group has no translation transformation.
 
 
 === CIF specification (walking in room)
@@ -145,14 +121,11 @@ include::{incdir-tools-cifsim-output-svgviz}/walk_room/walk_room.cif[]
 ----
 
 A person starts at the top left position, and initially moves to the `right`.
-Once (s)he reaches the right side, (s)he start to move `down`, followed by
-a `left` and `up` movement. After the `up` movement, the person is once
-again at the top left position, start another walk around the room, etc.
+Once (s)he reaches the right side, (s)he start to move `down`, followed by a `left` and `up` movement.
+After the `up` movement, the person is once again at the top left position, start another walk around the room, etc.
 
-There is only one mapping, which controls both the horizontal and vertical
-position of the `person`. The mapping is similar to the example of a person
-walking on a floor, except that now both the horizontal and vertical movements
-are included. The mapping uses two scaled values, one for the horizontal
-movement, and one for the vertical movement. The format pattern includes both
-values in the output. The first scaled value controls the horizontal movement,
-while the second scaled value controls the vertical movement.
+There is only one mapping, which controls both the horizontal and vertical position of the `person`.
+The mapping is similar to the example of a person walking on a floor, except that now both the horizontal and vertical movements are included.
+The mapping uses two scaled values, one for the horizontal movement, and one for the vertical movement.
+The format pattern includes both values in the output.
+The first scaled value controls the horizontal movement, while the second scaled value controls the vertical movement.

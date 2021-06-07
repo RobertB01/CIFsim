@@ -19,61 +19,40 @@ indexterm:[SVG]
 indexterm:[SVG visualization,SVG standard]
 indexterm:[SVG,W3C]
 The SVG visualization feature uses Scalable Vector Graphics (SVG) images.
-link:http://www.w3.org/TR/SVG11/[SVG]
-is a widely-deployed royalty-free standard
-for two-dimensional vector graphics, developed by the
-link:http://www.w3.org/[World Wide Web Consortium]
-(W3C). SVG images consist of
-three types of objects: vector graphic shapes (rectangles, circles, etc.),
-raster images, and text. The benefit of vector images formats over raster image
-formats, is that raster images are created with a fixed size, while vector
-images contain a description of the image and can be rendered at any size
-without loss of quality.
+link:http://www.w3.org/TR/SVG11/[SVG] is a widely-deployed royalty-free standard for two-dimensional vector graphics, developed by the link:http://www.w3.org/[World Wide Web Consortium] (W3C).
+SVG images consist of three types of objects: vector graphic shapes (rectangles, circles, etc.), raster images, and text.
+The benefit of vector images formats over raster image formats, is that raster images are created with a fixed size, while vector images contain a description of the image and can be rendered at any size without loss of quality.
 
 indexterm:[SVG visualization,Batik]
 
 [[tools-cifsim-output-svgviz-svg-svg11]]
-Multiple versions of the SVG standard exist. The CIF simulator uses the
-free and open source
-link:http://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit]
-to render SVG images. Batik supports
-version 1.1 of the SVG specification.
+Multiple versions of the SVG standard exist.
+The CIF simulator uses the free and open source link:http://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit] to render SVG images.
+Batik supports version 1.1 of the SVG specification.
 
 indexterm:[SVG,XML]
-SVG image files are stored in an
-link:http://en.wikipedia.org/wiki/XML[XML]-based file format. This means that
-they can be edited with any text editor. However, it is often more convenient
-to edit them with a drawing program that supports vector graphics, such as
-link:http://www.adobe.com/products/illustrator.html[Adobe Illustrator]
-or
-<<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>. Most modern web
-browsers also support SVG images.
+SVG image files are stored in an link:http://en.wikipedia.org/wiki/XML[XML]-based file format.
+This means that they can be edited with any text editor.
+However, it is often more convenient to edit them with a drawing program that supports vector graphics, such as link:http://www.adobe.com/products/illustrator.html[Adobe Illustrator] or <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>.
+Most modern web browsers also support SVG images.
 
-Since SVG images are essentially XML files, we get all the benefits of XML
-for free. One of those benefits is that XML files represent tree structures,
-which can be easily manipulated by applications. This is essential for the CIF
-simulator. During initialization, the CIF simulator loads the SVG image
-file that the user provided, and subsequently has access to the XML tree.
-It then uses the aforementioned Batik toolkit to draw the SVG image
-represented by the XML tree. Once the simulator starts taking transitions and
-updates its <<tools-cifsim-traces-state,state>>, it can use the
-information from the state to modify the XML tree. Changes to the XML tree then
-result in an updated SVG image, the next time the image is rendered again.
+Since SVG images are essentially XML files, we get all the benefits of XML for free.
+One of those benefits is that XML files represent tree structures, which can be easily manipulated by applications.
+This is essential for the CIF simulator.
+During initialization, the CIF simulator loads the SVG image file that the user provided, and subsequently has access to the XML tree.
+It then uses the aforementioned Batik toolkit to draw the SVG image represented by the XML tree.
+Once the simulator starts taking transitions and updates its <<tools-cifsim-traces-state,state>>, it can use the information from the state to modify the XML tree.
+Changes to the XML tree then result in an updated SVG image, the next time the image is rendered again.
 
 indexterm:[SVG,id]
 
 [[tools-cifsim-output-svgviz-svg-id]]
-In order to be able to modify particular objects (shapes, text labels, etc.) of
-the SVG image, the simulator should be able to identify the objects that make
-up the image. Here we once again reap the benefits of XML. All nodes (called
-elements) in the XML tree can have an `id` attribute that specifies the
-id (also called name or identity) of the element. As such, all SVG objects can
-be identified using their unique id. The
-<<tools-cifsim-output-svgviz-svgout-id>> section of the
-<<tools-cifsim-output-svgviz-chapter-svgout>> page further explains the
-use of SVG element ids.
+In order to be able to modify particular objects (shapes, text labels, etc.) of the SVG image, the simulator should be able to identify the objects that make up the image.
+Here we once again reap the benefits of XML.
+All nodes (called elements) in the XML tree can have an `id` attribute that specifies the id (also called name or identity) of the element.
+As such, all SVG objects can be identified using their unique id.
+The <<tools-cifsim-output-svgviz-svgout-id>> section of the <<tools-cifsim-output-svgviz-chapter-svgout>> page further explains the use of SVG element ids.
 
 indexterm:[SVG,tutorial]
 indexterm:[tutorial,SVG]
-The website of Jakob Jenkov has a very nice
-link:http://tutorials.jenkov.com/svg[SVG Tutorial].
+The website of Jakob Jenkov has a very nice link:http://tutorials.jenkov.com/svg[SVG Tutorial].

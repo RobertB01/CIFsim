@@ -19,17 +19,13 @@ indexterm:[event-based controllability check]
 indexterm:[tools,event-based controllability check]
 indexterm:[event-based synthesis toolset,event-based controllability check]
 indexterm:[event-based controllability check,event-based synthesis toolset]
-The controllability check verifies whether a supervisor automaton does not
-disable edges with uncontrollable events of the (combined) plant automata. If
-the check fails, the tool reports where it fails. If the check succeeds, it
-reports the edges with controllable events that are disabled by the
-supervisor.
+The controllability check verifies whether a supervisor automaton does not disable edges with uncontrollable events of the (combined) plant automata.
+If the check fails, the tool reports where it fails.
+If the check succeeds, it reports the edges with controllable events that are disabled by the supervisor.
 
 indexterm:[event-based controllability check,supported specifications]
-The tool takes a `.cif` file containing a `supervisor` automaton, and one
-or more `plant` automata. Besides the general event-based restrictions listed
-at <<tools-eventbased-supported-specifications>>, the current implementation
-does not support:
+The tool takes a `.cif` file containing a `supervisor` automaton, and one or more `plant` automata.
+Besides the general event-based restrictions listed at <<tools-eventbased-supported-specifications>>, the current implementation does not support:
 
 * Having more than one `supervisor` automaton.
 
@@ -39,17 +35,13 @@ does not support:
 
 * Having a non-deterministic automaton.
 
-* Events that are not controllable or uncontrollable, if used (present in the
-alphabet or on an edge of at least one automaton).
+* Events that are not controllable or uncontrollable, if used (present in the alphabet or on an edge of at least one automaton).
 
 The controllability check tool produces a report text file with its findings.
-It states whether the controllability property holds (no edges with
-uncontrollable events of the plant are disabled) or fails (one or more edges
-with uncontrollable events in the plant are disabled by the supervisor).
+It states whether the controllability property holds (no edges with uncontrollable events of the plant are disabled) or fails (one or more edges with uncontrollable events in the plant are disabled by the supervisor).
 
-If the controllability property holds, the tool lists the disabled controllable
-events, which can be useful in the design process. If the property fails, the
-tool lists the edges that are disabled by the supervisor.
+If the controllability property holds, the tool lists the disabled controllable events, which can be useful in the design process.
+If the property fails, the tool lists the edges that are disabled by the supervisor.
 
 indexterm:[event-based controllability check,start]
 
@@ -57,17 +49,12 @@ indexterm:[event-based controllability check,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply controllability check...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply controllability check...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply controllability check...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply controllability check...].
 
-* Use the `cifctrlchk` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifctrlchk` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifctrlchk` command line tool.
 
@@ -75,13 +62,9 @@ indexterm:[event-based controllability check,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file_: The absolute or relative local file system path to the input CIF specification.
 
-* _Report file_: The absolute or relative local file system path to the
-output report file with disabled events. If not specified, defaults to the
-input file path, where the `.cif` file extension is removed (if present),
-and a `+_disableds.txt+` file extension is added.
+* _Report file_: The absolute or relative local file system path to the output report file with disabled events.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_disableds.txt+` file extension is added.

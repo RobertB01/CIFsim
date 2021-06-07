@@ -22,12 +22,11 @@ indexterm:[value,real]
 indexterm:[real,value]
 indexterm:[literal,real]
 indexterm:[real,literal]
-Reals or real numbers are numbers with a fractional part. Examples include
-`1.56` and `-2.7e6` (scientific notation for 2.7 million). Real numbers
-must either have a fraction or use the scientific notation, to distinguish them
-from integer numbers. The default value of reals (`real` type) is `0.0`.
-Several standard arithmetic operators and functions are available to work with
-reals, including the following:
+Reals or real numbers are numbers with a fractional part.
+Examples include `1.56` and `-2.7e6` (scientific notation for 2.7 million).
+Real numbers must either have a fraction or use the scientific notation, to distinguish them from integer numbers.
+The default value of reals (`real` type) is `0.0`.
+Several standard arithmetic operators and functions are available to work with reals, including the following:
 
 [source, cif]
 ----
@@ -67,10 +66,9 @@ x >= y      // larger than or equal to
 x > y       // larger than
 ----
 
-Integer numbers can often be written where real numbers are expected. Real
-values and integer values can also often be combined using arithmetic operators
-and functions. Furthermore, it is possible to convert between them, e.g as
-follows:
+Integer numbers can often be written where real numbers are expected.
+Real values and integer values can also often be combined using arithmetic operators and functions.
+Furthermore, it is possible to convert between them, e.g as follows:
 
 [source, cif]
 ----

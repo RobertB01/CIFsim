@@ -19,15 +19,10 @@ indexterm:[print file declaration]
 indexterm:[print output,print file declaration]
 indexterm:[I/O declaration,print file declaration]
 indexterm:[see: printfile,print file declaration]
-<<tools-cifsim-output-print-chapter-ref-printdecl,Print declarations>> can
-<<tools-cifsim-output-print-ref-printdecl-file,specify>> the file or
-special target to which text is to printed. If they don't specify anything,
-the default is to print to the
-link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream],
-usually called 'stdout'.
-This default can be influenced by means of _print file declarations_, which act
-as a sort of global declaration of the file or special target. A typical print
-file declaration looks like this:
+<<tools-cifsim-output-print-chapter-ref-printdecl,Print declarations>> can <<tools-cifsim-output-print-ref-printdecl-file,specify>> the file or special target to which text is to printed.
+If they don't specify anything, the default is to print to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
+This default can be influenced by means of _print file declarations_, which act as a sort of global declaration of the file or special target.
+A typical print file declaration looks like this:
 
 
 [source, cif]
@@ -39,7 +34,8 @@ indexterm:[print file declaration,path]
 
 === Paths
 
-It is possible to use relative (or absolute) paths for the files. For instance:
+It is possible to use relative (or absolute) paths for the files.
+For instance:
 
 
 [source, cif]
@@ -48,17 +44,11 @@ printfile "txt_files/some_file.txt";
 printfile "../files/some_file.txt";
 ----
 
-For the first print file declaration, the simulator will look for a
-`txt_files` directory in the same directory as the CIF file, and print text
-to a file named `some_file.txt` in that directory. For the second print file
-declaration, the simulator will look for a `files` directory in the parent
-directory of the directory that contains the CIF file, and print text to a file
-named `some_file.txt` in that `files` directory.
+For the first print file declaration, the simulator will look for a `txt_files` directory in the same directory as the CIF file, and print text to a file named `some_file.txt` in that directory.
+For the second print file declaration, the simulator will look for a `files` directory in the parent directory of the directory that contains the CIF file, and print text to a file named `some_file.txt` in that `files` directory.
 
-Files and directories are separated using slashes (`/`), regardless of the
-used operating system. It is also allowed to use backslashes (`\`), which are
-more common on Microsoft Windows operating systems, but they need to be escaped
-as `\\` for this to work, making it easier to use slashes (`/`) instead.
+Files and directories are separated using slashes (`/`), regardless of the used operating system.
+It is also allowed to use backslashes (`\`), which are more common on Microsoft Windows operating systems, but they need to be escaped as `\\` for this to work, making it easier to use slashes (`/`) instead.
 
 indexterm:[print file declaration,special target]
 indexterm:[print file declaration,stdout]
@@ -68,26 +58,20 @@ indexterm:[print file declaration,stderr]
 
 The following special non-file targets are supported:
 
-* `":stdout"`: prints to the
-link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
+* `":stdout"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
 In Eclipse, the text ends up on the console, as black text.
 
-* `":stderr"`: prints to the
-link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
+* `":stderr"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
 In Eclipse, the text ends up on the console, as red text.
 
 indexterm:[print file declaration,scoping]
 
 === Scoping
 
-Print file declarations can (just as print declarations) be specified in all
-components. That is, they can be specified in the top level scope of the
-specification, in groups and group definitions, as well as in automata and
-automaton definitions. A print file declaration that is specified in a certain
-scope applies to that scope, as well as all child scopes that don't have a
-print file declaration of their own. Additionally, print file declarations
-apply to all print declarations without local file declarations, in scopes to
-which the print file declarations apply.
+Print file declarations can (just as print declarations) be specified in all components.
+That is, they can be specified in the top level scope of the specification, in groups and group definitions, as well as in automata and automaton definitions.
+A print file declaration that is specified in a certain scope applies to that scope, as well as all child scopes that don't have a print file declaration of their own.
+Additionally, print file declarations apply to all print declarations without local file declarations, in scopes to which the print file declarations apply.
 
 For instance, consider the following CIF specification:
 
@@ -116,56 +100,38 @@ group g:
 end
 ----
 
-The print declaration that prints `5` is declared in the top level scope of
-the specification, and does not have a local file declaration. As such, the
-print file declaration from the top level scope (`file1.txt`) applies to it.
-The print declaration that prints `6` is declared in the same scope, but has
-a local print file declaration (`file2.txt`). The local print file
-declaration (`file2.txt`) overrides the print file declaration from the top
-level scope (`file1.txt`).
+The print declaration that prints `5` is declared in the top level scope of the specification, and does not have a local file declaration.
+As such, the print file declaration from the top level scope (`file1.txt`) applies to it.
+The print declaration that prints `6` is declared in the same scope, but has a local print file declaration (`file2.txt`).
+The local print file declaration (`file2.txt`) overrides the print file declaration from the top level scope (`file1.txt`).
 
-Group `g` also has a print file declaration (`file3.txt`). This overrides
-the print file declaration from the top level scope (`file1.txt`). The print
-file declaration from group `g` (`file3.txt`) thus applies to the print
-declarations that print `7` and `8`, as they are declared in the same
-scope, and don't have local print file declarations. The print declaration that
-prints `9` has a local print file declaration (`file4.txt`), and as such
-the print file declaration from group `g` (`file3.txt`) does not apply to
-it.
+Group `g` also has a print file declaration (`file3.txt`).
+This overrides the print file declaration from the top level scope (`file1.txt`).
+The print file declaration from group `g` (`file3.txt`) thus applies to the print declarations that print `7` and `8`, as they are declared in the same scope, and don't have local print file declarations.
+The print declaration that prints `9` has a local print file declaration (`file4.txt`), and as such the print file declaration from group `g` (`file3.txt`) does not apply to it.
 
-The print file declaration (`file5.txt`) from group `g.h` does not apply to
-any print declarations. The simulator will open the file for writing, but no
-text will be printed to the file. A warning is printed to the console, to
-indicate the potential problem. However, no such warnings are ever printed for
-special target 'stdout'.
+The print file declaration (`file5.txt`) from group `g.h` does not apply to any print declarations.
+The simulator will open the file for writing, but no text will be printed to the file.
+A warning is printed to the console, to indicate the potential problem.
+However, no such warnings are ever printed for special target 'stdout'.
 
-Group `g.i` does not have a print file declaration, so the print file
-declaration (`file3.txt`) from group `g` (the parent scope of group
-`g.i`) applies to the print declaration that prints `10`.
+Group `g.i` does not have a print file declaration, so the print file declaration (`file3.txt`) from group `g` (the parent scope of group `g.i`) applies to the print declaration that prints `10`.
 
-See also the <<tools-cif2cif-chapter-print-file-into-decls>> CIF to CIF
-transformation.
+See also the <<tools-cif2cif-chapter-print-file-into-decls>> CIF to CIF transformation.
 
 indexterm:[print file declaration,uniqueness]
 
 === Uniqueness
 
-In every scope (or component), in principle at most one print file declaration
-may be specified. The exception is that for a single scope, specified in
-multiple CIF files (when imports are used), if the print file declarations
-refer to the same target, they are merged. If however the two CIF files refer
-to different targets, this is still considered an error. It is also considered
-an error if two print file declarations are present in a single scope, in a
-single file, regardless of whether they refer to the same target or not. In
-the end, after processing imports, for every scope there must be a unique print
-file declaration, if one is declared at all.
+In every scope (or component), in principle at most one print file declaration may be specified.
+The exception is that for a single scope, specified in multiple CIF files (when imports are used), if the print file declarations refer to the same target, they are merged.
+If however the two CIF files refer to different targets, this is still considered an error.
+It is also considered an error if two print file declarations are present in a single scope, in a single file, regardless of whether they refer to the same target or not.
+In the end, after processing imports, for every scope there must be a unique print file declaration, if one is declared at all.
 
-If the same file or special target is used/specified multiple times, in
-different print file declarations or locally in print declarations, this is
-detected by the simulator. The simulator only opens a stream to the file or
-special target once, and prints to it all the output of all print declarations
-that apply to that file or special target. For instance, consider the following
-CIF specification:
+If the same file or special target is used/specified multiple times, in different print file declarations or locally in print declarations, this is detected by the simulator.
+The simulator only opens a stream to the file or special target once, and prints to it all the output of all print declarations that apply to that file or special target.
+For instance, consider the following CIF specification:
 
 
 [source, cif]
@@ -174,5 +140,5 @@ print 5 file "some_file.txt";
 print 6 file "some_file.txt";
 ----
 
-Even though both print declarations specify a file locally, they use the same
-file. The output of both print declarations is thus printed to the same file.
+Even though both print declarations specify a file locally, they use the same file.
+The output of both print declarations is thus printed to the same file.

@@ -17,12 +17,9 @@ include::_root_attributes.asciidoc[]
 
 The following limitations currently apply:
 
-* SeText only allows for the specification of scanners that accept ASCII
-input.
+* SeText only allows for the specification of scanners that accept ASCII input.
 
-* SeText currently assumes UTF-8 encoded files. If the input file is actually
-encoded using a different encoding, scanner exceptions may indicate the
-wrong character.
+* SeText currently assumes UTF-8 encoded files.
+If the input file is actually encoded using a different encoding, scanner exceptions may indicate the wrong character.
 
-* SeText does not support grammars with conflicts (shift/reduce,
-reduce/reduce, accept/reduce).
+* SeText does not support grammars with conflicts (shift/reduce, reduce/reduce, accept/reduce).

@@ -95,8 +95,7 @@ indexterm:[ceil]
 tool long ceil(double x)
 ----
 
-Returns the given double number rounded to a whole long number, towards
-positive infinity.
+Returns the given double number rounded to a whole long number, towards positive infinity.
 
 _Parameters_
 
@@ -125,9 +124,7 @@ tool bool contains<T>(set T $set, T elem)
 tool bool contains<K,V>(map(K:V) $map, K key)
 ----
 
-Returns whether a given string is contained in another given string, a given
-value is contained in a given list, a given value is contained in a given set,
-or a given value is a key of a given map.
+Returns whether a given string is contained in another given string, a given value is contained in a given list, a given value is contained in a given set, or a given value is a key of a given map.
 
 _Type parameters_
 
@@ -146,14 +143,11 @@ _Parameters_
 The whole string, the list, the set, or the map.
 
 `part`, `elem`, `key`::
-The part string (potentially contained in the whole string), or the value
-(potential element of the list or set, or potential key of the map).
+The part string (potentially contained in the whole string), or the value (potential element of the list or set, or potential key of the map).
 
 _Returns_
 
-`true` if the part string is contained in the whole string, if the value is
-contained in the list, if the value is contained in the set, or if the value is
-a key of the map, `false` otherwise.
+`true` if the part string is contained in the whole string, if the value is contained in the list, if the value is contained in the set, or if the value is a key of the map, `false` otherwise.
 
 
 indexterm:[del]
@@ -168,10 +162,8 @@ tool set T    del<T>(set T $set, T elem)
 tool map(K:V) del<K,V>(map(K:V) $map, K key)
 ----
 
-Returns the given list with all occurrences of the given element removed from
-it, the given set with the given element removed from it, or the given map
-with the given entry with the given key removed from it. If the element or key
-does not exist, the list, set or map is returned unmodified.
+Returns the given list with all occurrences of the given element removed from it, the given set with the given element removed from it, or the given map with the given entry with the given key removed from it.
+If the element or key does not exist, the list, set or map is returned unmodified.
 
 _Type parameters_
 
@@ -190,13 +182,12 @@ _Parameters_
 The list, set, or map.
 
 `elem`, `key`::
-The element or key to remove. May be `null`.
+The element or key to remove.
+May be `null`.
 
 _Returns_
 
-The list with all occurrences of the element removed from it, the set with the
-element removed from it, or the map with the entry with the given key removed
-from it.
+The list with all occurrences of the element removed from it, the set with the element removed from it, or the map with the entry with the given key removed from it.
 
 
 indexterm:[delidx]
@@ -222,8 +213,8 @@ _Parameters_
 The list.
 
 `index`::
-The 0-based index into the list of the element to remove. Negative indices
-are allowed, and count from the right.
+The 0-based index into the list of the element to remove.
+Negative indices are allowed, and count from the right.
 
 _Returns_
 
@@ -247,8 +238,7 @@ tool bool empty<T>(set T x)
 tool bool empty<K,V>(map(K:V) x)
 ----
 
-Returns whether a given string, list, set, or map is empty (no characters,
-elements, or entries).
+Returns whether a given string, list, set, or map is empty (no characters, elements, or entries).
 
 _Type parameters_
 
@@ -281,8 +271,8 @@ indexterm:[endswith]
 tool bool endswith(string whole, string suffix)
 ----
 
-Returns whether the first given string ends with the second given string. For
-an empty suffix, always returns `true`.
+Returns whether the first given string ends with the second given string.
+For an empty suffix, always returns `true`.
 
 _Parameters_
 
@@ -294,8 +284,7 @@ The second given string.
 
 _Returns_
 
-`true` if the first given string ends with the second given string, `false`
-otherwise.
+`true` if the first given string ends with the second given string, `false` otherwise.
 
 
 indexterm:[entries]
@@ -308,8 +297,7 @@ indexterm:[entries]
 tool list tuple(K, V) entries<K,V>(map(K:V) $map)
 ----
 
-Returns a list with 2-tuples of keys and values for all entries of the given
-map.
+Returns a list with 2-tuples of keys and values for all entries of the given map.
 
 _Type parameters_
 
@@ -339,8 +327,7 @@ indexterm:[enumerate]
 tool list tuple(int, T) enumerate<T>(list T $list)
 ----
 
-Returns a list with 2-tuples of 0-based indices and elements for all elements
-of the given list.
+Returns a list with 2-tuples of 0-based indices and elements for all elements of the given list.
 
 _Type parameters_
 
@@ -354,8 +341,7 @@ The list.
 
 _Returns_
 
-The list with 2-tuples of 0-based indices and elements for all elements of the
-given list.
+The list with 2-tuples of 0-based indices and elements for all elements of the given list.
 
 
 indexterm:[floor]
@@ -368,8 +354,7 @@ indexterm:[floor]
 tool long floor(double x)
 ----
 
-Returns the given double number rounded to a whole long number, towards
-negative infinity.
+Returns the given double number rounded to a whole long number, towards negative infinity.
 
 _Parameters_
 
@@ -397,8 +382,7 @@ tool string fmt(string pattern, object?... args)
 
 Formats a text based on a pattern and arguments.
 
-See also the <<lang-ref-builtins-data-str,str>> tool, as `str(value)` is
-equal to `+fmt("%s", value)+`.
+See also the <<lang-ref-builtins-data-str,str>> tool, as `str(value)` is equal to `+fmt("%s", value)+`.
 
 _Parameters_
 
@@ -433,19 +417,14 @@ tool int indexof<T>(list T $list, T elem)
 tool int indexof<T>(list T $list, T elem, int offset)
 ----
 
-Returns the 0-based index of the first occurrence of the second given string
-or value, in the first given string or list. The tool looks for an occurrence
-from left to right of the first given string or elements of the first given
-list. If an offset is given, the tool only looks for an occurrence at or after
-that 0-based offset. If no offset is not given, the tool starts looking at the
-first (left most) character or list element.
+Returns the 0-based index of the first occurrence of the second given string or value, in the first given string or list.
+The tool looks for an occurrence from left to right of the first given string or elements of the first given list.
+If an offset is given, the tool only looks for an occurrence at or after that 0-based offset.
+If no offset is not given, the tool starts looking at the first (left most) character or list element.
 
-Returns `-1` if the second given string or value doesn't occur in the first
-given string or list, at or after the 0-based offset if given, or at all if
-no offset is given. For an empty second string, always returns `0` if no
-offset is given. For an empty second string, if an offset is given, always
-returns the offset, unless there is no character at the given offset, in which
-`-1` is always returned.
+Returns `-1` if the second given string or value doesn't occur in the first given string or list, at or after the 0-based offset if given, or at all if no offset is given.
+For an empty second string, always returns `0` if no offset is given.
+For an empty second string, if an offset is given, always returns the offset, unless there is no character at the given offset, in which `-1` is always returned.
 
 _Type parameters_
 
@@ -465,8 +444,7 @@ The optional 0-based offset.
 
 _Returns_
 
-The 0-based index of the first occurrence, at or after the given offset if
-given, or `-1`.
+The 0-based index of the first occurrence, at or after the given offset if given, or `-1`.
 
 
 indexterm:[join]
@@ -481,8 +459,8 @@ tool string join(list string texts)
 tool string join(list string texts, string separator)
 ----
 
-Returns the given texts joined together. They can be joined without any
-separator, or using a given separator.
+Returns the given texts joined together.
+They can be joined without any separator, or using a given separator.
 
 _Parameters_
 
@@ -540,19 +518,14 @@ tool int lastindexof<T>(list T $list, T elem)
 tool int lastindexof<T>(list T $list, T elem, int offset)
 ----
 
-Returns the 0-based index of the last occurrence of the second given string
-or value, in the first given string or list. The tool looks for an occurrence
-from left to right of the first given string or elements of the first given
-list. If an offset is given, the tool only looks for an occurrence at or before
-that 0-based offset. If no offset is not given, the tool starts looking at the
-first (left most) character or list element.
+Returns the 0-based index of the last occurrence of the second given string or value, in the first given string or list.
+The tool looks for an occurrence from left to right of the first given string or elements of the first given list.
+If an offset is given, the tool only looks for an occurrence at or before that 0-based offset.
+If no offset is not given, the tool starts looking at the first (left most) character or list element.
 
-Returns `-1` if the second given string or value doesn't occur in the first
-given string or list, at or before the 0-based offset if given, or at all if
-no offset is given. For an empty second string, always returns the size of the
-first given string, if no offset is given. For an empty second string, if an
-offset is given, always returns the offset, unless there is no character at the
-given offset, in which `-1` is always returned.
+Returns `-1` if the second given string or value doesn't occur in the first given string or list, at or before the 0-based offset if given, or at all if no offset is given.
+For an empty second string, always returns the size of the first given string, if no offset is given.
+For an empty second string, if an offset is given, always returns the offset, unless there is no character at the given offset, in which `-1` is always returned.
 
 _Type parameters_
 
@@ -572,8 +545,7 @@ The optional 0-based offset.
 
 _Returns_
 
-The 0-based index of the last occurrence, at or before the given offset if
-given, or `-1`.
+The 0-based index of the last occurrence, at or before the given offset if given, or `-1`.
 
 
 indexterm:[ln]
@@ -638,7 +610,8 @@ indexterm:[lower]
 tool string lower(string text)
 ----
 
-Returns the given text, converted to lower case. Uses a US English locale.
+Returns the given text, converted to lower case.
+Uses a US English locale.
 
 _Parameters_
 
@@ -687,9 +660,8 @@ tool long   max(list long x)
 tool double max(list double x)
 ----
 
-Returns the maximum of some integer, long, or double numbers. If no numbers are
-given, the minimum representable finite integer, long, or double value is
-returned.
+Returns the maximum of some integer, long, or double numbers.
+If no numbers are given, the minimum representable finite integer, long, or double value is returned.
 
 _Parameters_
 
@@ -716,9 +688,8 @@ tool long   min(list long x)
 tool double min(list double x)
 ----
 
-Returns the minimum of some integer, long, or double numbers. If no numbers are
-given, the maximum representable finite integer, long, or double value is
-returned.
+Returns the minimum of some integer, long, or double numbers.
+If no numbers are given, the maximum representable finite integer, long, or double value is returned.
 
 _Parameters_
 
@@ -771,11 +742,8 @@ tool list int range(int begin, int $end)
 tool list int range<T>(list T $list)
 ----
 
-Returns a list of numbers representing the range `[0..count-1]`,
-`[begin..end]`, or `[0..size(list)-1]`. That is, for `count` = `5` the
-list `[0, 1, 2, 3, 4]` is returned, for `begin` = `-3` and `end` =
-`2` the list `[-3, -2, -1, 0, 1, 2]` is returned, and for a `list` with
-`5` elements the list `[0, 1, 2, 3, 4]` is returned.
+Returns a list of numbers representing the range `[0..count-1]`, `[begin..end]`, or `[0..size(list)-1]`.
+That is, for `count` = `5` the list `[0, 1, 2, 3, 4]` is returned, for `begin` = `-3` and `end` = `2` the list `[-3, -2, -1, 0, 1, 2]` is returned, and for a `list` with `5` elements the list `[0, 1, 2, 3, 4]` is returned.
 
 _Type parameters_
 
@@ -785,8 +753,8 @@ The type of the elements of the list.
 _Parameters_
 
 `count`::
-The number of elements in the resulting list. Negative counts are treated as
-zero.
+The number of elements in the resulting list.
+Negative counts are treated as zero.
 
 `begin`::
 The lower bound of the range.
@@ -813,11 +781,10 @@ tool string replace(string text, string oldtext, string newtext)
 tool list T replace<T>(list T $list, T oldelem, T newelem)
 ----
 
-Returns the string or list with old sub strings or elements replaced by new
-text or elements. For strings, the replacement proceeds from the beginning of
-the string to the end. That is, replacing `"aa"` with `"b"` in the string
-`+"aaa"+` will result in `"ba"` rather than `"ab"`. For lists, the
-replacement is performed for all matching old elements.
+Returns the string or list with old sub strings or elements replaced by new text or elements.
+For strings, the replacement proceeds from the beginning of the string to the end.
+That is, replacing `"aa"` with `"b"` in the string `+"aaa"+` will result in `"ba"` rather than `"ab"`.
+For lists, the replacement is performed for all matching old elements.
 
 _Type parameters_
 
@@ -830,11 +797,12 @@ _Parameters_
 The text (string) or list in which to replace text or elements.
 
 `oldtext`, `oldelem`::
-The text (sub string) or element to replace. For list elements, it may be
-`null`.
+The text (sub string) or element to replace.
+For list elements, it may be `null`.
 
 `newtext`, `newelem`::
-The replacement text or element. For list elements, it may be `null`.
+The replacement text or element.
+For list elements, it may be `null`.
 
 _Returns_
 
@@ -879,8 +847,7 @@ indexterm:[round]
 tool long round(double x)
 ----
 
-Returns the given double number rounded to the closest whole long number, with
-ties being rounded toward positive infinity.
+Returns the given double number rounded to the closest whole long number, with ties being rounded toward positive infinity.
 
 _Parameters_
 
@@ -931,8 +898,7 @@ tool int size<T>(set T x)
 tool int size<K,V>(map(K:V) x)
 ----
 
-Returns the size (number of characters, elements, or entries) of the given
-string, list, set, or map.
+Returns the size (number of characters, elements, or entries) of the given string, list, set, or map.
 
 _Type parameters_
 
@@ -966,8 +932,7 @@ tool list T sorted<T>(list T $list)
 tool list T sorted<T>(set T $set)
 ----
 
-Returns the given list, or the given set as a list, with the elements sorted in
-ascending order.
+Returns the given list, or the given set as a list, with the elements sorted in ascending order.
 
 _Type parameters_
 
@@ -997,8 +962,7 @@ indexterm:[split]
 tool list string split(string text, string? separator = null, bool removeEmpty = true)
 ----
 
-Splits the given text at all non-overlapping occurrences of the given
-separator.
+Splits the given text at all non-overlapping occurrences of the given separator.
 
 _Parameters_
 
@@ -1006,16 +970,15 @@ _Parameters_
 The text to split.
 
 `separator`::
-The separator text. May be empty or `null` to split on whitespace.
+The separator text.
+May be empty or `null` to split on whitespace.
 
 `removeEmpty`::
-Whether to remove empty parts (in case the text starts or ends with the
-separator, or in case the text contains consecutive separators), or not.
+Whether to remove empty parts (in case the text starts or ends with the separator, or in case the text contains consecutive separators), or not.
 
 _Returns_
 
-The parts of the original text resulting from splitting the original text at
-the separators.
+The parts of the original text resulting from splitting the original text at the separators.
 
 
 indexterm:[sqrt]
@@ -1054,8 +1017,8 @@ indexterm:[startswith]
 tool bool startswith(string whole, string prefix)
 ----
 
-Returns whether the first given string starts with the second given string. For
-an empty prefix, always returns `true`.
+Returns whether the first given string starts with the second given string.
+For an empty prefix, always returns `true`.
 
 _Parameters_
 
@@ -1067,8 +1030,7 @@ The second given string.
 
 _Returns_
 
-`true` if the first given string starts with the second given string,
-`false` otherwise.
+`true` if the first given string starts with the second given string, `false` otherwise.
 
 
 indexterm:[str]
@@ -1081,15 +1043,12 @@ indexterm:[str]
 tool string str(object? value)
 ----
 
-Converts the given value into a textual representation, closely resembling the
-ToolDef syntax.
+Converts the given value into a textual representation, closely resembling the ToolDef syntax.
 
-Values of type `string` as returned as provided. Values of type `string`
-included in containers such as lists are escaped and surrounded by double
-quotes, as in the ToolDef syntax.
+Values of type `string` as returned as provided.
+Values of type `string` included in containers such as lists are escaped and surrounded by double quotes, as in the ToolDef syntax.
 
-See also the <<lang-ref-builtins-data-fmt,fmt>> tool, as `str(value)` is
-equal to `fmt("%s", value)`.
+See also the <<lang-ref-builtins-data-fmt,fmt>> tool, as `str(value)` is equal to `fmt("%s", value)`.
 
 _Parameters_
 
@@ -1140,8 +1099,7 @@ indexterm:[subset]
 tool bool subset<T>(set T part, set T whole)
 ----
 
-Returns whether the first given set is a subset (proper subset or equal) of the
-second given set.
+Returns whether the first given set is a subset (proper subset or equal) of the second given set.
 
 _Type parameters_
 
@@ -1158,8 +1116,7 @@ The second set.
 
 _Returns_
 
-`true` if the first given set is a subset of the second given set, `false`
-otherwise.
+`true` if the first given set is a subset of the second given set, `false` otherwise.
 
 
 indexterm:[trim]
@@ -1172,8 +1129,7 @@ indexterm:[trim]
 tool string trim(string text)
 ----
 
-Returns the given text with whitespace at the left/start and right/end of the
-text removed.
+Returns the given text with whitespace at the left/start and right/end of the text removed.
 
 _Parameters_
 
@@ -1195,7 +1151,8 @@ indexterm:[upper]
 tool string upper(string text)
 ----
 
-Returns the given text, converted to upper case. Uses a US English locale.
+Returns the given text, converted to upper case.
+Uses a US English locale.
 
 _Parameters_
 

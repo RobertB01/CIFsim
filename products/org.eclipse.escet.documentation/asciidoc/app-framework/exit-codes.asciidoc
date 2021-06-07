@@ -24,9 +24,7 @@ Application framework applications can terminate with the following exit codes:
 * `2`: Application crashed after running out of memory.
 * `3`: Application crashed for any reason other than running out of memory.
 
-Note that applications themselves should always return a zero exit code. The
-other exit codes are generated automatically by the exception framework when
-applicable.
+Note that applications themselves should always return a zero exit code.
+The other exit codes are generated automatically by the exception framework when applicable.
 
-Any exceptions to these rules should generally be avoided, but otherwise must
-be clearly documented for end users.
+Any exceptions to these rules should generally be avoided, but otherwise must be clearly documented for end users.

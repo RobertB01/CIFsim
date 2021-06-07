@@ -16,9 +16,8 @@ include::../_part_attributes.asciidoc[]
 == Imports and libraries
 
 indexterm:[import,library]
-Using <<tut-reuse2-chapter-imports,imports>>, it is possible to make
-libraries that can be used by multiple CIF specifications. For instance,
-consider the following CIF specification in file `math.cif`:
+Using <<tut-reuse2-chapter-imports,imports>>, it is possible to make libraries that can be used by multiple CIF specifications.
+For instance, consider the following CIF specification in file `math.cif`:
 
 
 [source, cif]
@@ -30,9 +29,8 @@ func int inc(int x):
 end
 ----
 
-This CIF specification declares a single function `inc` that takes an integer
-number and returns that number incremented by one. Now also consider the
-following CIF specification in file `counter.cif`:
+This CIF specification declares a single function `inc` that takes an integer number and returns that number incremented by one.
+Now also consider the following CIF specification in file `counter.cif`:
 
 
 [source, cif]
@@ -50,29 +48,23 @@ automaton counter:
 end
 ----
 
-By importing the `math.cif` file, the `counter` automaton can use the
-`inc` function. Other CIF files could similarly import the `math.cif` file,
-essentially turning `math.cif` into a library.
+By importing the `math.cif` file, the `counter` automaton can use the `inc` function.
+Other CIF files could similarly import the `math.cif` file, essentially turning `math.cif` into a library.
 
-It is possible to make a function library, consisting of commonly used
-functions, a constant library, with commonly used constants, or an automaton
-definition library, with automaton definitions. As libraries are just CIF
-files, they can contain anything as long as they are valid CIF files.
-Essentially, every CIF file that is imported in more than one other CIF file
-can be considered a library.
+It is possible to make a function library, consisting of commonly used functions, a constant library, with commonly used constants, or an automaton definition library, with automaton definitions.
+As libraries are just CIF files, they can contain anything as long as they are valid CIF files.
+Essentially, every CIF file that is imported in more than one other CIF file can be considered a library.
 
 indexterm:[import,directories]
-The import as used above, only works if both CIF files are in the same
-directory. Library files however, are often placed in a different directory.
-Consider the same two CIF files, but organized into directories (or folders)
-as follows:
+The import as used above, only works if both CIF files are in the same directory.
+Library files however, are often placed in a different directory.
+Consider the same two CIF files, but organized into directories (or folders) as follows:
 
 image::{tut-imgsdir}/reuse2/library_dir_tree.png[]
 
-Directory `system` contains a sub-directories named `libraries`, which
-contains the `math.cif` library. The `system` directory also contains the
-`counter.cif` file. The import in the `counter.cif` file needs to be
-adapted to refer to the `math.cif` file in the `libraries` directory:
+Directory `system` contains a sub-directories named `libraries`, which contains the `math.cif` library.
+The `system` directory also contains the `counter.cif` file.
+The import in the `counter.cif` file needs to be adapted to refer to the `math.cif` file in the `libraries` directory:
 
 
 [source, cif]

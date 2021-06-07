@@ -21,10 +21,10 @@ indexterm:[component,automaton]
 indexterm:[specification]
 indexterm:[model]
 
-CIF models consist of _components_. Each of the components represents the
-behavior of a part of the system. Components can be modeled as _automata_,
-which form the basis of CIF. The following CIF _specification_, or CIF _model_,
-shows a simple automaton:
+CIF models consist of _components_.
+Each of the components represents the behavior of a part of the system.
+Components can be modeled as _automata_, which form the basis of CIF.
+The following CIF _specification_, or CIF _model_, shows a simple automaton:
 
 // Copied to: data/loc-var-duality2
 // Copied to: data/discvar-change
@@ -42,63 +42,56 @@ automaton lamp:
 end
 ----
 
-The automaton is named `lamp`, and not surprisingly represents the (discrete)
-behavior of a lamp.
+The automaton is named `lamp`, and not surprisingly represents the (discrete) behavior of a lamp.
 
 indexterm:[event]
 indexterm:[event,declaration]
 
 [[lang-tut-basics-automata-events]]
 Automaton `lamp` declares two _events_, named `turn_on` and `turn_off`.
-Events model things that can happen in a system. They represent changes. For
-instance, the `turn_on` event indicates that the lamp is being turned on. It
-represents the change from the lamp being off to the lamp being on. The event
-declaration in the `lamp` automaton declares two events. The event
-declaration only indicates that these events exist, it does not yet indicate
-when they can happen, and what the result of them happening is.
+Events model things that can happen in a system.
+They represent changes.
+For instance, the `turn_on` event indicates that the lamp is being turned on.
+It represents the change from the lamp being off to the lamp being on.
+The event declaration in the `lamp` automaton declares two events.
+The event declaration only indicates that these events exist, it does not yet indicate when they can happen, and what the result of them happening is.
 
 indexterm:[location]
 indexterm:[state]
 
 [[lang-tut-basics-automata-location]]
-All automata have one or more _locations_, which represent the mutually
-exclusive _states_ of the automaton. The `lamp` automaton has two
-_locations_, named `on` and `off`. Automata have an _active_ or _current_
-location. That is, for every automaton one of its location is the active
-location, and the automaton is said to be _in_ that location. For instance,
-the `lamp` automaton is either in its `on` location, or in its `off`
-location.
+All automata have one or more _locations_, which represent the mutually exclusive _states_ of the automaton.
+The `lamp` automaton has two _locations_, named `on` and `off`.
+Automata have an _active_ or _current_ location.
+That is, for every automaton one of its location is the active location, and the automaton is said to be _in_ that location.
+For instance, the `lamp` automaton is either in its `on` location, or in its `off` location.
 
 indexterm:[location initial]
 
 [[lang-tut-basics-automata-loc-init]]
-Initially, the lamp is on, as indicated by the `initial` keyword in the
-`on` location. That is, the `on` location is the initial location of the
-`lamp` automaton. The initial location is the active location of the
-automaton, at the start of the system.
+Initially, the lamp is on, as indicated by the `initial` keyword in the `on` location.
+That is, the `on` location is the initial location of the `lamp` automaton.
+The initial location is the active location of the automaton, at the start of the system.
 
 indexterm:[edge goto]
 
 [[lang-tut-basics-edge]]
-In each location, an automaton can have different behavior, specified using
-_edges_. An edge indicates how an automaton can change its state, by going from
-one location to another. Edges can be associated with events, that indicate
-what happened, and thus what caused the state change.
+In each location, an automaton can have different behavior, specified using _edges_.
+An edge indicates how an automaton can change its state, by going from one location to another.
+Edges can be associated with events, that indicate what happened, and thus what caused the state change.
 
-The `lamp` automaton has an edge with the `turn_off` event, in its `on`
-location, going to the `off` location. Whenever the lamp is on, the `lamp`
-automaton is in its `on` location. Whenever the lamp is turned off, the
-`turn_off` event happens. The edge with that event indicates what the
-result of that event is, for the `on` location. In this case the result is
-that the lamp will then be off, which is why the edge goes to the `off`
-location.
+The `lamp` automaton has an edge with the `turn_off` event, in its `on` location, going to the `off` location.
+Whenever the lamp is on, the `lamp` automaton is in its `on` location.
+Whenever the lamp is turned off, the `turn_off` event happens.
+The edge with that event indicates what the result of that event is, for the `on` location.
+In this case the result is that the lamp will then be off, which is why the edge goes to the `off` location.
 
 indexterm:[transition]
 indexterm:[edge,take]
 
 [[lang-tut-basics-trans]]
-The `lamp` automaton can go from one location to another, as described by its
-edges. This is referred to as 'performing a transition', 'taking a transition',
-or 'taking an edge'. The `lamp` automaton can keep performing _transitions_.
-The lamp can be turned on, off, on again, off again, etc. This can go on
-forever.
+The `lamp` automaton can go from one location to another, as described by its edges.
+This is referred to as 'performing a transition', 'taking a transition', or 'taking an edge'.
+The `lamp` automaton can keep performing _transitions_.
+The lamp can be turned on, off, on again, off again, etc.
+This can go on forever.

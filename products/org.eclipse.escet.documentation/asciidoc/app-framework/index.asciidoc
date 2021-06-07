@@ -15,9 +15,8 @@ include::_part_attributes.asciidoc[]
 [[app-framework-chapter-index]]
 == Application framework
 
-The Eclipse ESCET application framework provides common functionality for
-applications within the Eclipse ESCET toolkit. The following topics explain
-the framework in more detail:
+The Eclipse ESCET application framework provides common functionality for applications within the Eclipse ESCET toolkit.
+The following topics explain the framework in more detail:
 
 * <<app-framework-introduction>>
 * <<app-framework-standalone-vs-eclipse>>

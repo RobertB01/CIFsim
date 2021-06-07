@@ -19,34 +19,21 @@ indexterm:[event-based language equivalence check]
 indexterm:[tools,event-based language equivalence check]
 indexterm:[event-based synthesis toolset,event-based language equivalence check]
 indexterm:[event-based language equivalence check,event-based synthesis toolset]
-The language equivalence check verifies whether two automata produce the same
-language, that is, at every point they are marked in the same way and can
-produce the same events. Note that even automata with a different number of
-locations or edges can be language equivalent.
+The language equivalence check verifies whether two automata produce the same language, that is, at every point they are marked in the same way and can produce the same events.
+Note that even automata with a different number of locations or edges can be language equivalent.
 
-All reachable locations of the automata are checked. In particular, it also
-checks locations that are outside the marked behavior (that is, reachable
-locations that are not marked and are not on a path to a marked location). To
-avoid false positives, you may want to ensure that both automata are
-<<tools-eventbased-chapter-trim,trim>>.
+All reachable locations of the automata are checked.
+In particular, it also checks locations that are outside the marked behavior (that is, reachable locations that are not marked and are not on a path to a marked location).
+To avoid false positives, you may want to ensure that both automata are <<tools-eventbased-chapter-trim,trim>>.
 
-One practical application is to verify whether a manually created supervisor
-is equivalent to an automatically generated one. If they are not, a counter
-example is produced.
+One practical application is to verify whether a manually created supervisor is equivalent to an automatically generated one.
+If they are not, a counter example is produced.
 
-The tool takes a `.cif` file containing exactly two automata, that must
-be deterministic, have the same alphabet, and have an initial location. In
-addition, the general event-based restrictions listed at
-<<tools-eventbased-supported-specifications>> apply as well.
+The tool takes a `.cif` file containing exactly two automata, that must be deterministic, have the same alphabet, and have an initial location.
+In addition, the general event-based restrictions listed at <<tools-eventbased-supported-specifications>> apply as well.
 
-The language equivalence check tool produces output stating
-`Automata have the same language`, or it produces a counter example
-where an event can be
-performed in a location in one automaton, while from the equivalent
-location in the other automaton the same event cannot be performed.
-The equivalent location is derived by walking from the initial
-location to the location of interest in both automata, using the same
-sequence of events.
+The language equivalence check tool produces output stating `Automata have the same language`, or it produces a counter example where an event can be performed in a location in one automaton, while from the equivalent location in the other automaton the same event cannot be performed.
+The equivalent location is derived by walking from the initial location to the location of interest in both automata, using the same sequence of events.
 
 indexterm:[event-based language equivalence check,start]
 
@@ -54,16 +41,12 @@ indexterm:[event-based language equivalence check,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply language equivalence check...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply language equivalence check...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply language equivalence check...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply language equivalence check...].
 
-* Use the `ciflngeqv` tool in a ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `ciflngeqv` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `ciflngeqv` command line tool.
 
@@ -71,8 +54,6 @@ indexterm:[event-based language equivalence check,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file_: The absolute or relative local file system path to the input CIF specification.

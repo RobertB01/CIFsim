@@ -18,8 +18,7 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,convert switch expressions to if expressions]
 indexterm:[convert switch expressions to if expressions]
 indexterm:[switch expression,convert]
-This CIF to CIF transformation converts `switch` expressions to `if`
-expressions.
+This CIF to CIF transformation converts `switch` expressions to `if` expressions.
 
 === Supported specifications
 
@@ -34,8 +33,8 @@ indexterm:[convert switch expressions to if expressions,implementation]
 
 === Implementation details
 
-All `switch` expressions are replaced by `if` expressions. For instance,
-consider the following CIF specification:
+All `switch` expressions are replaced by `if` expressions.
+For instance, consider the following CIF specification:
 
 
 [source, cif]
@@ -91,15 +90,12 @@ automaton a:
 end
 ----
 
-For algebraic variable `z`, there is only one case (the `else`), so no
-`if` expression is generated. This optimization means that the control value
-(`y` in this case) is lost.
+For algebraic variable `z`, there is only one case (the `else`), so no `if` expression is generated.
+This optimization means that the control value (`y` in this case) is lost.
 
-For algebraic variable `v` in automaton `a`, the `switch` expression uses
-an automaton self reference. The cases list the possible locations of the
-automaton, and the `switch` expression maps them to string values. Since for
-`if` expressions the `else` part is mandatory, the last `case` of the
-`switch` is converted to the `else` of the `if` expression.
+For algebraic variable `v` in automaton `a`, the `switch` expression uses an automaton self reference.
+The cases list the possible locations of the automaton, and the `switch` expression maps them to string values.
+Since for `if` expressions the `else` part is mandatory, the last `case` of the `switch` is converted to the `else` of the `if` expression.
 
 
 === Renaming
@@ -110,17 +106,12 @@ indexterm:[convert switch expressions to if expressions,size considerations]
 
 === Size considerations
 
-The created `if` expression is usually larger than the original `switch`
-expression, as the control value is duplicated for each `if` and `elif`
-part, where it is compared to the `case` values. For `switch` expressions
-with only one `case` or `else`, no `if` expression is generated, and the
-expression becomes smaller.
+The created `if` expression is usually larger than the original `switch` expression, as the control value is duplicated for each `if` and `elif` part, where it is compared to the `case` values.
+For `switch` expressions with only one `case` or `else`, no `if` expression is generated, and the expression becomes smaller.
 
 indexterm:[convert switch expressions to if expressions,optimality]
 
 === Optimality
 
-This transformation transforms `switch` expressions to `if` expressions,
-leading to `if` expressions with `if` and `elif` guards that may not be
-optimal. To simplify the result, apply additional CIF to CIF transformations,
-such as <<tools-cif2cif-chapter-simplify-values>>.
+This transformation transforms `switch` expressions to `if` expressions, leading to `if` expressions with `if` and `elif` guards that may not be optimal.
+To simplify the result, apply additional CIF to CIF transformations, such as <<tools-cif2cif-chapter-simplify-values>>.

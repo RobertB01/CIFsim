@@ -17,14 +17,9 @@ indexterm:[function]
 [[tut-chapter-functions]]
 == Functions
 
-In a model, computations must be performed to process the information that is
-sent around.
-Short and simple calculations are written as assignments between the other
-statements, but for longer computations or computations that are needed at
-several places in the model, a more encapsulated environment is useful, a
-_function_.
-In addition, the language comes with a number of built-in functions, such as
-`size` or `empty` on container types.
+In a model, computations must be performed to process the information that is sent around.
+Short and simple calculations are written as assignments between the other statements, but for longer computations or computations that are needed at several places in the model, a more encapsulated environment is useful, a _function_.
+In addition, the language comes with a number of built-in functions, such as `size` or `empty` on container types.
 An example:
 
 
@@ -40,29 +35,23 @@ func real mean(list int xs):
 end
 ----
 
-The `func` keyword indicates it is a function. The name of the function is
-just before the opening parenthesis, in this example `mean`. Between the
-parentheses, the input values (the _formal parameters_) are listed. In this
-example, there is one input value, namely `list int` which is a list of
-integers. Parameter name `xs` is used to refer to the input value in the
-body of the function.
-Between `func` and the name of the function is the type of the computation
-result, in this case, a `real` value.
-In other words, this `mean` function takes a list of integers as input, and
-produces a `real` value as result.
+The `func` keyword indicates it is a function.
+The name of the function is just before the opening parenthesis, in this example `mean`.
+Between the parentheses, the input values (the _formal parameters_) are listed.
+In this example, there is one input value, namely `list int` which is a list of integers.
+Parameter name `xs` is used to refer to the input value in the body of the function.
+Between `func` and the name of the function is the type of the computation result, in this case, a `real` value.
+In other words, this `mean` function takes a list of integers as input, and produces a `real` value as result.
 
 indexterm:[statement,return]
 indexterm:[return,statement]
 The colon at the end of the first line indicates the start of the computation.
-Below it are new variable declarations (`int sum`), and statements to
-compute the value, the _function algorithm_.
-The `return` statement denotes the end of
-the function algorithm.
+Below it are new variable declarations (`int sum`), and statements to compute the value, the _function algorithm_.
+The `return` statement denotes the end of the function algorithm.
 The value of the expression behind it is the result of the calculation.
 This example computes and returns the mean value of the integers of the list.
 
-Use of a function (_application_ of a function) is done by using its name,
-followed by the values to be used as input (the _actual parameters_).
+Use of a function (_application_ of a function) is done by using its name, followed by the values to be used as input (the _actual parameters_).
 The above function can be used like:
 
 
@@ -72,18 +61,14 @@ m = mean([1, 3, 5, 7, 9])
 ----
 
 The actual parameter of this function application is `[1, 3, 5, 7, 9]`.
-The function result is `(1 + 3 + 5 + 7 + 9)/5` (which is `5.0`), and
-variable `m` becomes `5.0`.
+The function result is `(1 + 3 + 5 + 7 + 9)/5` (which is `5.0`), and variable `m` becomes `5.0`.
 
 indexterm:[side-effect]
 indexterm:[time,in a function]
 indexterm:[function,use of time]
-A function is a mathematical function: the result of a function is the same
-for the same values of input parameters.
+A function is a mathematical function: the result of a function is the same for the same values of input parameters.
 A function has no _side-effect_, and it cannot access variables outside the body.
-For example, it cannot access `time` (explained in
-<<tut-servers-with-time,Servers with time>>) directly, it has to be passed in through
-the parameter list.
+For example, it cannot access `time` (explained in <<tut-servers-with-time,Servers with time>>) directly, it has to be passed in through the parameter list.
 
 A function that calculates the sign of a real number, is:
 
@@ -109,8 +94,7 @@ The sign function returns:
 * if `r` is greater than zero, the value one.
 
 The computation in a function ends when it encounters a `return` statement.
-The `return 1` at the end is therefore only executed when both
-`if` conditions are false.
+The `return 1` at the end is therefore only executed when both `if` conditions are false.
 
 indexterm:[function,recursive]
 indexterm:[recursive,function]
@@ -121,13 +105,10 @@ indexterm:[higher-order,function]
 === Sorted lists
 
 The language allows _recursive_ functions as well as _higher-order_ functions.
-Explaining them in detail is beyond the scope of this tutorial, but these
-functions are useful for making and maintaining sorted lists.
-Such a sorted list is useful for easily getting the smallest (or largest) item
-from a collection, for example the order with the nearest deadline.
+Explaining them in detail is beyond the scope of this tutorial, but these functions are useful for making and maintaining sorted lists.
+Such a sorted list is useful for easily getting the smallest (or largest) item from a collection, for example the order with the nearest deadline.
 
-To sort a list, the first notion that has to be defined is the desired order,
-by making a function of the following form:
+To sort a list, the first notion that has to be defined is the desired order, by making a function of the following form:
 
 
 [source, chi]
@@ -138,43 +119,33 @@ end
 ----
 
 The function is called _predicate function_.
-It takes two values from the list (two integers in this case), and produces a
-boolean value, indicating whether the parameters are in the right order.
-In this case, the function returns `true` when the first parameter is larger
-or equal than the second parameter, that is, larger values must be before
-smaller values (for equal values, the order does not matter). This results in
-a list with decreasing values.
+It takes two values from the list (two integers in this case), and produces a boolean value, indicating whether the parameters are in the right order.
+In this case, the function returns `true` when the first parameter is larger or equal than the second parameter, that is, larger values must be before smaller values (for equal values, the order does not matter).
+This results in a list with decreasing values.
 
 The requirements on _any_ predicate function `f` are:
 
-. If `x != y`, either `f(x, y)` must hold or `f(y, x)` must hold, but
-not both. (Unequal values must have a unique order.)
+. If `x != y`, either `f(x, y)` must hold or `f(y, x)` must hold, but not both.
+(Unequal values must have a unique order.)
 
-. If `x == y`, both `f(x, y)` and `f(y, x)` must hold. (Equal values
-can be placed in arbitrary order.)
+. If `x == y`, both `f(x, y)` and `f(y, x)` must hold.
+(Equal values can be placed in arbitrary order.)
 
-. For values `x`, `y`, and `z`, if `f(x, y)` holds and `f(y, z)`
-holds (that is `x >= y` and `y >= z`), then `f(x, z)` must also hold
-(that is, `x >= z` should also be true).
+. For values `x`, `y`, and `z`, if `f(x, y)` holds and `f(y, z)` holds (that is `x >= y` and `y >= z`), then `f(x, z)` must also hold (that is, `x >= z` should also be true).
 
-(The order between `x` and `z` must be stable, even when you compare
-with an intermediate value `y` between `x` and `z`.)
+(The order between `x` and `z` must be stable, even when you compare with an intermediate value `y` between `x` and `z`.)
 
-These requirements hold for functions that test on `+<=+` or `>=` between
-two values, like above.
+These requirements hold for functions that test on `+<=+` or `>=` between two values, like above.
 
-If you do not provide a proper predicate function, the result may not be
-sorted as you expect, or the simulator may abort when it fails to find a
-proper sorting order.
+If you do not provide a proper predicate function, the result may not be sorted as you expect, or the simulator may abort when it fails to find a proper sorting order.
 
 indexterm:[function,sort]
 indexterm:[sort,function]
 
 ==== Sort
 
-The first use of such a predicate function is for sorting a list. For example
-list `[3, 8, 7]` is sorted decreasingly (larger numbers
-before smaller numbers) with the following statement:
+The first use of such a predicate function is for sorting a list.
+For example list `[3, 8, 7]` is sorted decreasingly (larger numbers before smaller numbers) with the following statement:
 
 
 [source, chi]
@@ -182,14 +153,12 @@ before smaller numbers) with the following statement:
 ys = sort([3, 8, 7], decreasing)
 ----
 
-Sorting is done with the _sort_ function, it takes two parameters, the list to
-sort, and the predicate _function_. (There are no parentheses `()` behind
-`decreasing`!) The value of list `ys` becomes `[8, 7, 3]`.
+Sorting is done with the _sort_ function, it takes two parameters, the list to sort, and the predicate _function_.
+(There are no parentheses `()` behind `decreasing`!) The value of list `ys` becomes `[8, 7, 3]`.
 
-Another sorting example is a list of type `tuple(int number, real slack)`,
-where field `number` denotes the number of an item, and field `slack`
-denotes the slack time of the item. The list should be sorted in ascending
-order of the slack time. The type of the item is:
+Another sorting example is a list of type `tuple(int number, real slack)`, where field `number` denotes the number of an item, and field `slack` denotes the slack time of the item.
+The list should be sorted in ascending order of the slack time.
+The type of the item is:
 
 
 [source, chi]
@@ -206,8 +175,7 @@ func bool spred(item x, y):
 end
 ----
 
-Function `spred` returns `true` if the two elements are in increasing
-order in the list, otherwise `false`.
+Function `spred` returns `true` if the two elements are in increasing order in the list, otherwise `false`.
 Note, the parameters of the function are of type `item`.
 Given a variable `ps` equal to `[(7, 21.6), (5, 10.3), (3, 35.8)]`.
 The statement denoting the sorting is:
@@ -224,12 +192,9 @@ indexterm:[insert,function]
 
 ==== Insert
 
-Adding a new value to a sorted list is the second use of higher-order
-functions. The simplest approach would be to add the new value to the head or
-rear of the list, and sort the list again, but sorting an almost sorted list
-is very expensive.
-It is much faster to find the right position in the already sorted list, and
-insert the new value at that point.
+Adding a new value to a sorted list is the second use of higher-order functions.
+The simplest approach would be to add the new value to the head or rear of the list, and sort the list again, but sorting an almost sorted list is very expensive.
+It is much faster to find the right position in the already sorted list, and insert the new value at that point.
 This function also exists, and is named `insert`.
 An example is (assume `xs` initially contains `[3,8]`):
 
@@ -249,5 +214,4 @@ func bool increasing(int x, y):
 end
 ----
 
-The `insert` call assigns the result `[3,7,8]` as new value to `xs`,
-`7` is inserted in the list.
+The `insert` call assigns the result `[3,7,8]` as new value to `xs`, `7` is inserted in the list.

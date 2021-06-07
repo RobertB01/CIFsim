@@ -18,15 +18,12 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,remove CIF/SVG declarations]
 indexterm:[remove CIF/SVG declarations]
 indexterm:[CIF/SVG declaration,remove]
-This CIF to CIF transformation removes
-<<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG>> declarations from the
-specification. This may reduce the size of the specification. It may also lead
-to the specification being supported by more tools, as the CIF/SVG declarations
-may use features of the CIF language that certain tools don't support.
+This CIF to CIF transformation removes <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG>> declarations from the specification.
+This may reduce the size of the specification.
+It may also lead to the specification being supported by more tools, as the CIF/SVG declarations may use features of the CIF language that certain tools don't support.
 
-This CIF to CIF transformation removes only CIF/SVG declarations. The
-<<tools-cif2cif-chapter-remove-io-decls>> CIF to CIF transformation removes them
-as well, but additionally also removes the other I/O declarations.
+This CIF to CIF transformation removes only CIF/SVG declarations.
+The <<tools-cif2cif-chapter-remove-io-decls>> CIF to CIF transformation removes them as well, but additionally also removes the other I/O declarations.
 
 === Supported specifications
 
@@ -52,8 +49,7 @@ indexterm:[remove CIF/SVG declarations,size considerations]
 
 === Size considerations
 
-Since information is removed from the specification, the specification can only
-become smaller as a result of this transformation.
+Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
 
 
 === Optimality

@@ -20,15 +20,14 @@ indexterm:[enumerations to constants]
 indexterm:[enumeration,convert to consts]
 This CIF to CIF transformation converts enumerations to integer constants.
 
-See also: <<tools-cif2cif-chapter-merge-enums>> and
-<<tools-cif2cif-chapter-enums-to-ints>>.
+See also: <<tools-cif2cif-chapter-merge-enums>> and <<tools-cif2cif-chapter-enums-to-ints>>.
 
 indexterm:[enumerations to constants,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -36,9 +35,7 @@ indexterm:[enumerations to constants,preprocessing]
 
 === Preprocessing
 
-To increase the subset of specifications that can be transformed, apply
-the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order) prior to using this transformation:
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order) prior to using this transformation:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -46,17 +43,13 @@ indexterm:[enumerations to constants,implementation]
 
 === Implementation details
 
-Enumerations, which are used as types, are replaced by integer types, with
-range `[0 .. n-1]`, where `n` is the number of literals of the enumeration.
+Enumerations, which are used as types, are replaced by integer types, with range `[0 .. n-1]`, where `n` is the number of literals of the enumeration.
 
 Enumeration literals, which are used as values, are replaced by constants.
-If the used enumeration literal is the `n`^th^ literal in the corresponding
-enumeration (declaration), then a constant with value `n - 1` is used. That is,
-the integer value is the 0-based index of the enumeration literal into the
-literals of the enumeration declaration.
+If the used enumeration literal is the `n`^th^ literal in the corresponding enumeration (declaration), then a constant with value `n - 1` is used.
+That is, the integer value is the 0-based index of the enumeration literal into the literals of the enumeration declaration.
 
-All enumeration declarations are replaced by constant integer declarations, one
-for each literal in the enumeration declaration.
+All enumeration declarations are replaced by constant integer declarations, one for each literal in the enumeration declaration.
 
 For instance, the following specification:
 
@@ -101,22 +94,16 @@ indexterm:[enumerations to constants,renaming]
 
 This transformation itself does not perform any renaming.
 
-If enumeration literals are renamed, this may influence value equality for
-_compatible_ enumerations (enumerations with the same number of literals,
-with the same names, in the same order). Therefore, either apply this
-transformation before applying other transformations that perform renaming on
-enumeration literals (such as the <<tools-cif2cif-chapter-groups>> CIF to CIF
-transformation), or otherwise ensure that renaming does not result in an
-invalid specification.
+If enumeration literals are renamed, this may influence value equality for _compatible_ enumerations (enumerations with the same number of literals, with the same names, in the same order).
+Therefore, either apply this transformation before applying other transformations that perform renaming on enumeration literals (such as the <<tools-cif2cif-chapter-groups>> CIF to CIF transformation), or otherwise ensure that renaming does not result in an invalid specification.
 
 indexterm:[enumerations to constants,size considerations]
 
 === Size considerations
 
-The number of added constants is linear in the number of enumeration literals
-of the specification. Integer types are slightly larger than enumeration types,
-but the increase is linear. Constant references in expressions are not larger
-than enumeration literal references.
+The number of added constants is linear in the number of enumeration literals of the specification.
+Integer types are slightly larger than enumeration types, but the increase is linear.
+Constant references in expressions are not larger than enumeration literal references.
 
 
 === Optimality

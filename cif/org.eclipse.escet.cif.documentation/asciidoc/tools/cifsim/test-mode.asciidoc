@@ -18,40 +18,21 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF simulator,test mode]
 indexterm:[test mode]
 
-WARNING: This page is primarily intended for the developers of the CIF simulator,
-and not its end users.
+WARNING: This page is primarily intended for the developers of the CIF simulator, and not its end users.
 
-In order to be able to perform automated testing, the
-menu:Test mode[]
-option (menu:Output[]
-category) can be used. This option has the following
-effect:
+In order to be able to perform automated testing, the menu:Test mode[] option (menu:Output[] category) can be used.
+This option has the following effect:
 
-* The visual interfaces for all
-<<tools-cifsim-output-chapter-index,output components>> (such as visualizers)
-are disabled.
+* The visual interfaces for all <<tools-cifsim-output-chapter-index,output components>> (such as visualizers) are disabled.
 
-* The user is no longer asked to
-<<tools-cifsim-termination-confirm,confirm termination>> of the
-simulator, if the the
-menu:Ask to confirm simulator termination[]
-option (menu:Simulator[]
-category) is configured to let the simulator
-decide whether to ask the user for confirmation or terminate automatically.
-By not asking for user input at the console, the automated test set can be
-fully automatically executed.
+* The user is no longer asked to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator, if the the menu:Ask to confirm simulator termination[] option (menu:Simulator[] category) is configured to let the simulator decide whether to ask the user for confirmation or terminate automatically.
+By not asking for user input at the console, the automated test set can be fully automatically executed.
 
-* It is allowed to perform <<tools-cifsim-output-chapter-realtime,real-time>>
-simulation without using any
-<<tools-cifsim-output-realtime-outcomp,real-time output components>>,
-allowing testing of the real-time functionality in the automated test set.
+* It is allowed to perform <<tools-cifsim-output-chapter-realtime,real-time>> simulation without using any <<tools-cifsim-output-realtime-outcomp,real-time output components>>, allowing testing of the real-time functionality in the automated test set.
 
-* All <<tools-cifsim-output-chapter-realtime,real-time delays>> are skipped. By
-not performing unnecessary real-time delays, the automated test set executes
-as fast as possible.
+* All <<tools-cifsim-output-chapter-realtime,real-time delays>> are skipped.
+By not performing unnecessary real-time delays, the automated test set executes as fast as possible.
 
-* <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>> operates in
-synchronous mode, rather than asynchronous mode. This ensures that debug
-output becomes synchronous as well, and we thus get consistent output for our
-test cases. This is not only useful for automated testing, but also for
-debugging.
+* <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>> operates in synchronous mode, rather than asynchronous mode.
+This ensures that debug output becomes synchronous as well, and we thus get consistent output for our test cases.
+This is not only useful for automated testing, but also for debugging.

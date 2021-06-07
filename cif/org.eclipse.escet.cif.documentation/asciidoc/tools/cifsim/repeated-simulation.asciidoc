@@ -18,86 +18,52 @@ include::_local_attributes.asciidoc[]
 
 indexterm:[CIF simulator,repeated simulation]
 indexterm:[performance,repeated simulation]
-When simulating a CIF model, the simulator reads the CIF file, checks it for
-validity, generates
-link:http://oracle.com/java[Java]
-code,
-<<tools-cifsim-chapter-java-compiler,compiles>> the code, and uses the compiled
-code using the actual simulation. All of this takes a bit of time, or even
-quite some time, depending on the size of the model. This situation is not
-ideal for repeated simulations, for instance when trying different scenarios
-or use cases, when simulating with different
-<<tools-cifsim-chapter-options,options>>, or when repeating simulations with
-various different <<tools-cifsim-chapter-init,initializations>> or due to
-<<tut-stochastics-chapter-intro,stochastic>> behavior. The startup time for
-the first simulation is also present for the second simulation, etc.
+When simulating a CIF model, the simulator reads the CIF file, checks it for validity, generates link:http://oracle.com/java[Java] code, <<tools-cifsim-chapter-java-compiler,compiles>> the code, and uses the compiled code using the actual simulation.
+All of this takes a bit of time, or even quite some time, depending on the size of the model.
+This situation is not ideal for repeated simulations, for instance when trying different scenarios or use cases, when simulating with different <<tools-cifsim-chapter-options,options>>, or when repeating simulations with various different <<tools-cifsim-chapter-init,initializations>> or due to <<tut-stochastics-chapter-intro,stochastic>> behavior.
+The startup time for the first simulation is also present for the second simulation, etc.
 
-It would be much better to generate and compile the code just once, and then
-simulate multiple times using the already compiled code, significantly reducing
-the startup time of the simulations. This is especially useful for automated
-repeated simulations, where the same simulation model, either with different
-options (for instance different initializations) or with the same options for a
-model with stochastics, is simulated multiple times and the results of
-simulation are for instance compared or aggregated in some way.
+It would be much better to generate and compile the code just once, and then simulate multiple times using the already compiled code, significantly reducing the startup time of the simulations.
+This is especially useful for automated repeated simulations, where the same simulation model, either with different options (for instance different initializations) or with the same options for a model with stochastics, is simulated multiple times and the results of simulation are for instance compared or aggregated in some way.
 
 indexterm:[performance,compile once]
 
 [[tools-cifsim-repeated-sim-compile-once]]
 === Compiling just once
 
-The simulator can be used to generate code and compile it only once. By
-enabling the _Compile only_ option (_Compiler_ category), the simulator will
-perform all steps needed to generate and compile the code, and will then save
-the compiled code to a file. After saving the file, the simulator will
-terminate, not simulating the model.
+The simulator can be used to generate code and compile it only once.
+By enabling the _Compile only_ option (_Compiler_ category), the simulator will perform all steps needed to generate and compile the code, and will then save the compiled code to a file.
+After saving the file, the simulator will terminate, not simulating the model.
 
-By default, the input file name (e.g. `some_file.cif`) is used to construct
-the name of the simulator compiled Java code file, by removing the `.cif`
-file extension if present, and adding a `.cifcode` file extension to it (e.g.
-resulting in `some_file.cifcode`). It is possible to change this file name
-by using the _Compiled code file_ option (_Compiler_ category). If used, it
-specifies the absolute or relative local file system path to the compiled Java
-code file.
+By default, the input file name (e.g. `some_file.cif`) is used to construct the name of the simulator compiled Java code file, by removing the `.cif` file extension if present, and adding a `.cifcode` file extension to it (e.g. resulting in `some_file.cifcode`).
+It is possible to change this file name by using the _Compiled code file_ option (_Compiler_ category).
+If used, it specifies the absolute or relative local file system path to the compiled Java code file.
 
-The compiled code file can be put in any directory. It does not have to be in
-the same directory as the original CIF model. However, make sure that any
-additional files, such as <<tools-cifsim-output-svgviz-chapter-svg,SVG images>>
-for <<tools-cifsim-output-svgviz-chapter-index,visualization>>, remain in their
-original locations. They will be resolved relative to the original location of
-the CIF model that was compiled.
+The compiled code file can be put in any directory.
+It does not have to be in the same directory as the original CIF model.
+However, make sure that any additional files, such as <<tools-cifsim-output-svgviz-chapter-svg,SVG images>> for <<tools-cifsim-output-svgviz-chapter-index,visualization>>, remain in their original locations.
+They will be resolved relative to the original location of the CIF model that was compiled.
 
 indexterm:[simulator,compiled code file]
 
 === Simulating using a compiled code file
 
-There are several ways to start simulation with a compiled code file. In fact,
-all the ways to <<tools-cifsim-chapter-start,start>> simulation for normal CIF
-models (e.g. `.cif` files), apply to compiled code files (e.g. `.cifcode`
-file) as well. The simulator checks whether the input file name ends with
-`.cifcode` and then loads the compiled code file, instead of treating the
-input model as CIF model.
+There are several ways to start simulation with a compiled code file.
+In fact, all the ways to <<tools-cifsim-chapter-start,start>> simulation for normal CIF models (e.g. `.cif` files), apply to compiled code files (e.g. `.cifcode` file) as well.
+The simulator checks whether the input file name ends with `.cifcode` and then loads the compiled code file, instead of treating the input model as CIF model.
 
-Alternatively, a `.cifcode` file can be double clicked in the Eclipse
-'Project Explorer' tab or 'Package Explorer' tab, to immediately
-start simulation. An option dialog is shown to configure any simulator
-<<tools-cifsim-chapter-options,options>>.
+Alternatively, a `.cifcode` file can be double clicked in the Eclipse 'Project Explorer' tab or 'Package Explorer' tab, to immediately start simulation.
+An option dialog is shown to configure any simulator <<tools-cifsim-chapter-options,options>>.
 
-A warning is printed to the console if the compiled code file was generated
-by a different version of the simulator than the one used to simulate it.
-Ignoring the warning may lead to unexpected simulation results, or even
-simulator crashes.
+A warning is printed to the console if the compiled code file was generated by a different version of the simulator than the one used to simulate it.
+Ignoring the warning may lead to unexpected simulation results, or even simulator crashes.
 
 
 === Option effects and priorities
 
-Most simulator <<tools-cifsim-chapter-options,options>> have no effect when the
-_Compile only_ option (_Compiler_ category) is enabled, as after code is
-generated, compiled, and saved to a file, the simulator terminates, and no
-actual simulation is performed.
+Most simulator <<tools-cifsim-chapter-options,options>> have no effect when the _Compile only_ option (_Compiler_ category) is enabled, as after code is generated, compiled, and saved to a file, the simulator terminates, and no actual simulation is performed.
 
-The _Compile only_ option (_Compiler_ category) has no effect when
-<<tools-cifsim-chapter-debug-gen-code,debugging generated code>>, by enabling
-the _Load debug code_ option (_Simulator_ category).
+The _Compile only_ option (_Compiler_ category) has no effect when <<tools-cifsim-chapter-debug-gen-code,debugging generated code>>, by enabling the _Load debug code_ option (_Simulator_ category).
 
 
 === Example
@@ -109,19 +75,14 @@ As an example, consider the following CIF model in file `machine.cif`:
 include::{incdir-tools-cifsim}/machine.cif[]
 ----
 
-The model consists of a `machine` that processes products. Initially, the
-machine is `waiting`. Once a product enters the system, the machine will
-start `processing`. Once the product is `processed`, the machine is
-`done` and will be `waiting` for the next product to `enter`. The time it
-takes to process a product varies with each product. A
-link:http://en.wikipedia.org/wiki/Normal_distribution[normal distribution]
-with
-a mean of `10` and a variance of `7` is used to model the varying
-processing times.
+The model consists of a `machine` that processes products.
+Initially, the machine is `waiting`.
+Once a product enters the system, the machine will start `processing`.
+Once the product is `processed`, the machine is `done` and will be `waiting` for the next product to `enter`.
+The time it takes to process a product varies with each product.
+A link:http://en.wikipedia.org/wiki/Normal_distribution[normal distribution] with a mean of `10` and a variance of `7` is used to model the varying processing times.
 
-The <<tools-cifsim-output-print-chapter-ref-printdecl,print declaration>> at the
-end of the model is used to <<tools-cifsim-output-print-chapter-index,print>>
-the number of processed products at the end of the simulation.
+The <<tools-cifsim-output-print-chapter-ref-printdecl,print declaration>> at the end of the model is used to <<tools-cifsim-output-print-chapter-index,print>> the number of processed products at the end of the simulation.
 
 Consider the following ToolDef <<tools-scripting-chapter-intro,script>>:
 
@@ -130,38 +91,25 @@ Consider the following ToolDef <<tools-scripting-chapter-intro,script>>:
 include::{incdir-tools-cifsim}/machine.tooldef[]
 ----
 
-The `import` statement makes the CIF tools available. The first `cifsim`
-command generates code for the `machine.cif` model, compiles it, and saves it
-to `machine.cifcode`. The `rmfile` command removes the `out.txt` file, in
-case it was left over from a previous run of the script.
+The `import` statement makes the CIF tools available.
+The first `cifsim` command generates code for the `machine.cif` model, compiles it, and saves it to `machine.cifcode`.
+The `rmfile` command removes the `out.txt` file, in case it was left over from a previous run of the script.
 
-The body of the `for` statement is executed `1000` times. Each time, the
-`cifsim` command is used to simulate the model, using the already compiled
-code in `machine.cifcode`. The simulation uses
-<<tools-cifsim-input-chapter-automatic,automatic mode>> due to `-i auto`,
-always chooses the <<tools-cifsim-input-automatic-trans,first>> available
-transition due to `-a first`, <<tools-cifsim-termination-endtime,ends>>
-at time `100` due to `-t 100`, and only
-<<tools-cifsim-output-chapter-normal,outputs>> text for print declarations due
-to `-o print`. The output of the simulation is not written to the console,
-but to `out.txt` due to the use of the `stdout` parameter of the
-`cifsim` tool. The `appendOut` parameter is enabled to ensure that the
-output of each simulation is appended (added) to the `out.txt` file instead
-of overwriting the file for each simulation. After the simulations, the
-`out.txt` file will contain the number of processed products for each of the
-simulation experiments.
+The body of the `for` statement is executed `1000` times.
+Each time, the `cifsim` command is used to simulate the model, using the already compiled code in `machine.cifcode`.
+The simulation uses <<tools-cifsim-input-chapter-automatic,automatic mode>> due to `-i auto`, always chooses the <<tools-cifsim-input-automatic-trans,first>> available transition due to `-a first`, <<tools-cifsim-termination-endtime,ends>> at time `100` due to `-t 100`, and only <<tools-cifsim-output-chapter-normal,outputs>> text for print declarations due to `-o print`.
+The output of the simulation is not written to the console, but to `out.txt` due to the use of the `stdout` parameter of the `cifsim` tool.
+The `appendOut` parameter is enabled to ensure that the output of each simulation is appended (added) to the `out.txt` file instead of overwriting the file for each simulation.
+After the simulations, the `out.txt` file will contain the number of processed products for each of the simulation experiments.
 
-The remainder of the script computes the minimum and maximum number of products
-(minimum and maximum throughput) of the machine, as observed from the
-experiments. Both the `minimum` and `maximum` are initialized. Then each
-line of the `out.txt` file is processed. The numeric value is obtained by
-casting the text of the line to a `double` number. Then the `minimum` and
-`maximum` are updated as needed. After the minimum and maximum are
-calculated, they are printed to the console as floating point numbers with two
-digits after the decimal mark.
+The remainder of the script computes the minimum and maximum number of products (minimum and maximum throughput) of the machine, as observed from the experiments.
+Both the `minimum` and `maximum` are initialized.
+Then each line of the `out.txt` file is processed.
+The numeric value is obtained by casting the text of the line to a `double` number.
+Then the `minimum` and `maximum` are updated as needed.
+After the minimum and maximum are calculated, they are printed to the console as floating point numbers with two digits after the decimal mark.
 
-The output of the execution of the script could look like this, but may vary
-given that stochastics are used:
+The output of the execution of the script could look like this, but may vary given that stochastics are used:
 
 
 [source, console]
@@ -174,11 +122,8 @@ Maximum: 12.00
 === Applications view
 
 // Removed the previously present link to documentation about 'Applications view'.
-The _Applications_ view shows the current status
-of each running application. For repeated simulation, lots of applications may
-be started in a short period of time. Also, a lot of status updates need to
-be processed by the view in a short amount of time. This may lead to many
-updates of the GUI of the _Applications_ view, which could potentially reduce
-the responsiveness of Eclipse, and decrease the performance of the simulation.
-If you experience such problems, simply close the _Applications_ view while
-running a repeated simulation.
+The _Applications_ view shows the current status of each running application.
+For repeated simulation, lots of applications may be started in a short period of time.
+Also, a lot of status updates need to be processed by the view in a short amount of time.
+This may lead to many updates of the GUI of the _Applications_ view, which could potentially reduce the responsiveness of Eclipse, and decrease the performance of the simulation.
+If you experience such problems, simply close the _Applications_ view while running a repeated simulation.

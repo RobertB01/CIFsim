@@ -19,90 +19,62 @@ include::_local_attributes.asciidoc[]
 indexterm:[CIF simulator,trajectory data]
 indexterm:[trajectory data]
 indexterm:[simulation output,trajectory data]
-The trajectory data (values of the variables as time progresses), calculated
-by the <<tools-cifsim-solver-chapter-index,ode solver>>, can be written to a
-file, using the trajectory data output component.
+The trajectory data (values of the variables as time progresses), calculated by the <<tools-cifsim-solver-chapter-index,ode solver>>, can be written to a file, using the trajectory data output component.
 
 indexterm:[trajectory data,enable]
 indexterm:[trajectory data,disable]
 
 [[tools-cifsim-output-trajdata-option]]
-Enable the
-menu:Trajectory data[]
-option (menu:Output: Trajectory data[]
-category) to enable writing the trajectory data to a file.
+Enable the menu:Trajectory data[] option (menu:Output: Trajectory data[] category) to enable writing the trajectory data to a file.
 
 indexterm:[trajectory data,file]
 
 [[tools-cifsim-output-trajdata-file]]
-By default, the file to which to write the trajectory data, is the name of the
-input specification file, with `.trajdata` added to it. Using the
-menu:Trajectory data file[]
-option (menu:Output: Trajectory data[]
-category), a different file can be specified. The value of the option is the
-absolute or relative local file system path to use for the trajectory data
-file.
+By default, the file to which to write the trajectory data, is the name of the input specification file, with `.trajdata` added to it.
+Using the menu:Trajectory data file[] option (menu:Output: Trajectory data[] category), a different file can be specified.
+The value of the option is the absolute or relative local file system path to use for the trajectory data file.
 
 indexterm:[trajectory data,filtering]
 
 === Filtering
 
-Variable `time` is always included in the trajectory data file. The following
-additional variables (officially 'state objects') are included by default:
+Variable `time` is always included in the trajectory data file.
+The following additional variables (officially 'state objects') are included by default:
 
-* The state variables, which includes the discrete variables and the continuous
-variables.
+* The state variables, which includes the discrete variables and the continuous variables.
 
-* The derivatives of the continuous variables. This does not include the
-derivative of variable `time`.
+* The derivatives of the continuous variables.
+This does not include the derivative of variable `time`.
 
 * The algebraic variables.
 
-Only variables of type `bool`, `int` (with or without ranges), or `real`
-are included.
+Only variables of type `bool`, `int` (with or without ranges), or `real` are included.
 
 [[tools-cifsim-output-trajdata-filters]]
-Using the
-menu:Trajectory data filters[]
-option
-(menu:Output: Trajectory data[]
-category), the state objects can be
-filtered. The
-menu:Trajectory data filters[]
-option only has effect
-if trajectory data output is enabled, using the
-menu:Trajectory data[]
-option.
+Using the menu:Trajectory data filters[] option (menu:Output: Trajectory data[] category), the state objects can be filtered.
+The menu:Trajectory data filters[] option only has effect if trajectory data output is enabled, using the menu:Trajectory data[] option.
 
-As value for the option, comma separated _filters_ should be supplied. Each
-filter specifies one or more state objects. The absolute names of the objects
-are used. That is, for an automaton `a`, with a variable `x`, the absolute
-name of the variable object is `a.x`. If CIF textual syntax keyword are
-used as names for events (such as `plant`), then they must be escaped in
-`.cif` files (`$plant`). For filters however, all escape characters (`$`)
-in the names are ignored. The `+*+` character can be used as wildcard, to
-indicate zero or more characters. If a filter doesn't match any of the state
-objects of the CIF model (after filtering them for supported types etc), a
-warning is printed to the console. A warning is also printed if the entire
-state is filtered out.
+As value for the option, comma separated _filters_ should be supplied.
+Each filter specifies one or more state objects.
+The absolute names of the objects are used.
+That is, for an automaton `a`, with a variable `x`, the absolute name of the variable object is `a.x`.
+If CIF textual syntax keyword are used as names for events (such as `plant`), then they must be escaped in `.cif` files (`$plant`).
+For filters however, all escape characters (`$`) in the names are ignored.
+The `+*+` character can be used as wildcard, to indicate zero or more characters.
+If a filter doesn't match any of the state objects of the CIF model (after filtering them for supported types etc), a warning is printed to the console.
+A warning is also printed if the entire state is filtered out.
 
-By default, filters include matching state objects. Filters may however be
-preceded by a `-` character, turning them into exclusion filters, which
-exclude matching states objects rather than including them. Filters are
-processed in the order they are specified, allowing for alternating additions
-and removals. If a filter does not result in the addition/removal of any state
-objects to/from the filter result, a warning is printed to the console.
+By default, filters include matching state objects.
+Filters may however be preceded by a `-` character, turning them into exclusion filters, which exclude matching states objects rather than including them.
+Filters are processed in the order they are specified, allowing for alternating additions and removals.
+If a filter does not result in the addition/removal of any state objects to/from the filter result, a warning is printed to the console.
 
 As an example, option value `+a.*,-a.b*,a.bc*+` consists of three filters:
-`+a.*+`, `+-a.b*+`, and `+a.bc*+`. The first filter indicates that state
-objects whose absolute names start with `a.` are to be included. The second
-filter indicates that from those matching state objects, the state objects
-whose absolute names start with `+a.b*+` are to be excluded. To that result,
-the third filter adds those state objects whose absolute names start with
-`+a.bc*+`. For instance, if a specification contains state objects `time`,
-`a.a`, `a.b` `a.bb`, `a.bc`, `a.b.c`, `a.bc`, `a.bcc`, and
-`a.bcd`, the result of the three filters is that the following state objects
-are displayed: `a.a`, `a.bc`, `a.bc`, `a.bcc`, and `a.bcd`.
+`+a.*+`, `+-a.b*+`, and `+a.bc*+`.
+The first filter indicates that state objects whose absolute names start with `a.` are to be included.
+The second filter indicates that from those matching state objects, the state objects whose absolute names start with `+a.b*+` are to be excluded.
+To that result, the third filter adds those state objects whose absolute names start with `+a.bc*+`.
+For instance, if a specification contains state objects `time`, `a.a`, `a.b` `a.bb`, `a.bc`, `a.b.c`, `a.bc`, `a.bcc`, and `a.bcd`, the result of the three filters is that the following state objects are displayed: `a.a`, `a.bc`, `a.bc`, `a.bcc`, and `a.bcd`.
 
 The default option value (filter) is `+*+`.
 
@@ -111,22 +83,17 @@ indexterm:[trajectory data,output]
 === Output
 
 indexterm:[trajectory data,types]
-The variables are sorted alphabetically, based on their absolute names. The
-only exception is variable `time`, which is always listed first.
+The variables are sorted alphabetically, based on their absolute names.
+The only exception is variable `time`, which is always listed first.
 
-For variables with a boolean type, value `false` is represented by `0`, and
-value `true` is represented by `1`.
+For variables with a boolean type, value `false` is represented by `0`, and value `true` is represented by `1`.
 
 indexterm:[trajectory data,ODE solver]
 indexterm:[trajectory data,time points]
-For each time transition, the trajectories of the variables are printed to the
-trajectory data file. The first line is a comment, and contains the names of
-the variables. Each of the subsequent lines contain the values of the variables
-for a specific value of variable `time`. The exact times for which the
-values are printed to the trajectory data file, is determined by the
-<<tools-cifsim-solver-chapter-basics-int,ODE solver integrator>>, and can be
-influenced using the <<tools-cifsim-solver-chapter-options,integration options>>,
-as well as the <<tools-cifsim-solver-chapter-options-outstep,fixed output step size>> option.
+For each time transition, the trajectories of the variables are printed to the trajectory data file.
+The first line is a comment, and contains the names of the variables.
+Each of the subsequent lines contain the values of the variables for a specific value of variable `time`.
+The exact times for which the values are printed to the trajectory data file, is determined by the <<tools-cifsim-solver-chapter-basics-int,ODE solver integrator>>, and can be influenced using the <<tools-cifsim-solver-chapter-options,integration options>>, as well as the <<tools-cifsim-solver-chapter-options-outstep,fixed output step size>> option.
 
 An example of a trajectory data file, for a single time transition:
 
@@ -140,10 +107,9 @@ indexterm:[trajectory data,prettify]
 [[tools-cifsim-output-trajdata-prettify]]
 === Prettifying
 
-To make the output in the trajectory data file easier to read, the output
-can be _prettified_. If prettifying is enabled, then after the simulation ends,
-the trajectory data file is read, prettified, and rewritten. A fixed width is
-then used for each column (each variable), with a fixed column separation.
+To make the output in the trajectory data file easier to read, the output can be _prettified_.
+If prettifying is enabled, then after the simulation ends, the trajectory data file is read, prettified, and rewritten.
+A fixed width is then used for each column (each variable), with a fixed column separation.
 After prettification, the above trajectory data file looks like this:
 
 [source]
@@ -152,27 +118,17 @@ include::{incdir-tools-cifsim-output}/tank.trajdata[]
 ----
 
 [[tools-cifsim-output-trajdata-sep]]
-By default, the trajectory data output is prettified using a column separation
-of three spaces. This can be changed using the
-menu:Trajectory data separation amount[]
-option
-(menu:Output: Trajectory data[]
-category). Using this option,
-prettification can be disabled, or a different number of spaces can be used
-between the columns.
+By default, the trajectory data output is prettified using a column separation of three spaces.
+This can be changed using the menu:Trajectory data separation amount[] option (menu:Output: Trajectory data[] category).
+Using this option, prettification can be disabled, or a different number of spaces can be used between the columns.
 
 indexterm:[trajectory data,undo]
 indexterm:[trajectory data,reset]
 
 === Undo/reset
 
-It is possible to go back in time, by
-<<tools-cifsim-input-history-reset-undo,undoing>> one or more transitions, or
-by <<tools-cifsim-input-history-reset-undo,resetting>> the simulation.
-However, once a time transition is taken, trajectory data is written to the
-output file. The simulator does not remove data for time points that are then
-suddenly in the future. If simulation continues after the undo or reset, new
-data may be written at the end of the trajectory, for the same time points that
-were already present earlier in the data file. As such, the data contained in
-the trajectory data file, may no longer be useful after an undo or reset, if
-simulation continues afterwards.
+It is possible to go back in time, by <<tools-cifsim-input-history-reset-undo,undoing>> one or more transitions, or by <<tools-cifsim-input-history-reset-undo,resetting>> the simulation.
+However, once a time transition is taken, trajectory data is written to the output file.
+The simulator does not remove data for time points that are then suddenly in the future.
+If simulation continues after the undo or reset, new data may be written at the end of the trajectory, for the same time points that were already present earlier in the data file.
+As such, the data contained in the trajectory data file, may no longer be useful after an undo or reset, if simulation continues afterwards.

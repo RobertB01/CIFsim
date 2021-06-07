@@ -16,14 +16,12 @@ include::../_part_attributes.asciidoc[]
 == Imports and groups
 
 indexterm:[import,group merging]
-Large systems can be hierarchically modeled using
-<<tut-reuse2-chapter-groups,groups>>. When using imports, two specifications
-may not have declarations with the same name. Groups however, are the exception
-to this rule. Consider a factory with two machines, each consisting of two
-parts. We can model this using five files, one for each of the parts of the
-machines, and one for the factory as a whole. The following CIF specifications
-show the contents of the five CIF files, where the comment at the first line
-indicates which file it is:
+Large systems can be hierarchically modeled using <<tut-reuse2-chapter-groups,groups>>.
+When using imports, two specifications may not have declarations with the same name.
+Groups however, are the exception to this rule.
+Consider a factory with two machines, each consisting of two parts.
+We can model this using five files, one for each of the parts of the machines, and one for the factory as a whole.
+The following CIF specifications show the contents of the five CIF files, where the comment at the first line indicates which file it is:
 
 
 [source, cif]
@@ -100,11 +98,10 @@ import "p3.cif";
 import "p4.cif";
 ----
 
-The four CIF specifications for the machine parts differ only in their group
-and automaton names. Their implementations are kept identical for simplicity.
-The `factory.cif` file imports all four part specifications, which together
-form the full factory. The effect of the imports in `factory.cif` is the
-following:
+The four CIF specifications for the machine parts differ only in their group and automaton names.
+Their implementations are kept identical for simplicity.
+The `factory.cif` file imports all four part specifications, which together form the full factory.
+The effect of the imports in `factory.cif` is the following:
 
 
 [source, cif]
@@ -151,16 +148,11 @@ end
 ----
 
 For groups with the same name, the contents of the groups is merged together.
-That is, automaton `part1` in the `machine1` group from one CIF file, and
-the automaton `part2` in that same `machine1` group from another CIF file,
-end up in a single `machine1` group after eliminating the imports.
+That is, automaton `part1` in the `machine1` group from one CIF file, and the automaton `part2` in that same `machine1` group from another CIF file, end up in a single `machine1` group after eliminating the imports.
 
-In general, contents of groups with the same name are merged into a single
-group. This works also for groups in groups, groups in groups in groups, etc.
-If two CIF files that are imported both contain a group `a` and in both CIF
-files those groups contain a group `b`, then the contents of both `a`
-groups are merged, and also the contents of both `b` groups are merged. It is
-not allowed for different CIF files to have declarations with the same name in
-the same group. It is allowed to have declarations with the same name in
-different groups. The file itself (the top level) can be considered a group as
-well.
+In general, contents of groups with the same name are merged into a single group.
+This works also for groups in groups, groups in groups in groups, etc.
+If two CIF files that are imported both contain a group `a` and in both CIF files those groups contain a group `b`, then the contents of both `a` groups are merged, and also the contents of both `b` groups are merged.
+It is not allowed for different CIF files to have declarations with the same name in the same group.
+It is allowed to have declarations with the same name in different groups.
+The file itself (the top level) can be considered a group as well.

@@ -18,9 +18,7 @@ indexterm:[applications view]
 [[use-apps-view]]
 == Applications view
 
-The _Applications_ <<use-terminology-view,view>> can be used to manage the
-applications of the Eclipse ESCET software running within the Eclipse ESCET
-IDE.
+The _Applications_ <<use-terminology-view,view>> can be used to manage the applications of the Eclipse ESCET software running within the Eclipse ESCET IDE.
 
 image::{use-imgsdir}/apps_view.png[]
 
@@ -30,9 +28,7 @@ indexterm:[applications view,open]
 
 === Opening the view
 
-The _Applications_ view can be <<use-terminology-view-open,opened>> by
-selecting menu:Window[Show view > Applications], assuming the
-<<use-escet-perspective,ESCET perspective>> is enabled.
+The _Applications_ view can be <<use-terminology-view-open,opened>> by selecting menu:Window[Show view > Applications], assuming the <<use-escet-perspective,ESCET perspective>> is enabled.
 
 
 indexterm:[applications view,status]
@@ -44,16 +40,15 @@ indexterm:[applications view,child]
 [[use-apps-view-status]]
 === Application status
 
-The view shows a list of running applications. If an application starts another
-application, it is shown as a child, forming a tree structure. Each item of the
-tree shows a single application. In the example screenshot above, there are
-four running applications. The first application is a _ToolDef interpreter_,
-which is running a second application, a _CIF simulator_. The third
-application is also a _ToolDef interpreter_, which is running a fourth
-application, also a _CIF simulator_.
+The view shows a list of running applications.
+If an application starts another application, it is shown as a child, forming a tree structure.
+Each item of the tree shows a single application.
+In the example screenshot above, there are four running applications.
+The first application is a _ToolDef interpreter_, which is running a second application, a _CIF simulator_.
+The third application is also a _ToolDef interpreter_, which is running a fourth application, also a _CIF simulator_.
 
-To the left of each item, the status of the application is indicated. The
-following statuses are available:
+To the left of each item, the status of the application is indicated.
+The following statuses are available:
 
 * image:{use-imgsdir}/status_starting.png[] Staring
 * image:{use-imgsdir}/status_running.png[] Running
@@ -63,22 +58,17 @@ following statuses are available:
 * image:{use-imgsdir}/status_failed.png[] Failed
 * image:{use-imgsdir}/status_crashed.png[] Crashed
 
-When an application is started, it get a _Starting_ state. Once the options
-have been processed from the command line and the option dialog (if requested),
-the actual application code is executed, and the status changes to _Running_.
-If the application is not terminated at the request of the user, the
-application will be done with its execution after some time. If execution
-finished without problems, it then reaches status _Finished_. If execution
-failed for some reason, it reaches status _Failed_ instead. If the execution
-crashed due to internal problems, the application reaches status _Crashed_. If
-however the user <<use-apps-view-termination,terminates>> the application,
-the status is first changed to _Terminating_. Once the application has
-successfully been terminated, the status changes to _Terminated_.
+When an application is started, it get a _Starting_ state.
+Once the options have been processed from the command line and the option dialog (if requested), the actual application code is executed, and the status changes to _Running_.
+If the application is not terminated at the request of the user, the application will be done with its execution after some time.
+If execution finished without problems, it then reaches status _Finished_.
+If execution failed for some reason, it reaches status _Failed_ instead.
+If the execution crashed due to internal problems, the application reaches status _Crashed_.
+If however the user <<use-apps-view-termination,terminates>> the application, the status is first changed to _Terminating_.
+Once the application has successfully been terminated, the status changes to _Terminated_.
 
 indexterm:[applications view,status legend]
-You can also view these statuses and their corresponding icons from within
-the IDE, by opening the _Application Status Legend_ dialog, which is available
-via the view's drop-down button popup menu:
+You can also view these statuses and their corresponding icons from within the IDE, by opening the _Application Status Legend_ dialog, which is available via the view's drop-down button popup menu:
 
 image::{use-imgsdir}/show_status_legend.png[]
 
@@ -89,70 +79,55 @@ indexterm:[applications view,termination]
 [[use-apps-view-termination]]
 === Termination
 
-The _Applications_ view supports terminating running applications. There are
-several ways to terminate an application using the _Applications_ view.
+The _Applications_ view supports terminating running applications.
+There are several ways to terminate an application using the _Applications_ view.
 
-When terminating an application (with a _Starting_ or _Running_ state), the
-application will get a _Terminating_ state. Applications occasionally poll for
-termination requests. Therefore, it may take a while for the application to
-actually process the termination request. Once it has been processed, the
-application will have terminated, and the status changes to _Terminated_ as
-well.
+When terminating an application (with a _Starting_ or _Running_ state), the application will get a _Terminating_ state.
+Applications occasionally poll for termination requests.
+Therefore, it may take a while for the application to actually process the termination request.
+Once it has been processed, the application will have terminated, and the status changes to _Terminated_ as well.
 
-Applications can't process a termination request while a modal dialog (such as
-the option dialog) is open, or when input is requested from the console. They
-will terminate as soon as possible, after the dialog is closed, or the user has
-provided input via the console.
+Applications can't process a termination request while a modal dialog (such as the option dialog) is open, or when input is requested from the console.
+They will terminate as soon as possible, after the dialog is closed, or the user has provided input via the console.
 
-The following buttons related to termination are available in the
-_Applications_ view's toolbar:
+The following buttons related to termination are available in the _Applications_ view's toolbar:
 
 indexterm:[applications view,auto terminate]
 indexterm:[auto terminate,applications view]
 
 * Auto Terminate (image:{use-imgsdir}/command_auto_terminate.png[])
 +
-Most users will only want to have a single application running at a time,
-including application started by that application, etc. To facilitate this,
-the view provides an _Auto Terminate_ feature. This feature can be enabled
-and disabled from the view's toolbar. It is enabled by default. Your choice
-whether to enable or disable this option will be remembered, even after
-Eclipse is restarted. The feature only has an effect if the view is shown in
-at least one of the opened <<use-escet-perspective,perspectives>>.
+Most users will only want to have a single application running at a time, including application started by that application, etc.
+To facilitate this, the view provides an _Auto Terminate_ feature.
+This feature can be enabled and disabled from the view's toolbar.
+It is enabled by default.
+Your choice whether to enable or disable this option will be remembered, even after Eclipse is restarted.
+The feature only has an effect if the view is shown in at least one of the opened <<use-escet-perspective,perspectives>>.
 +
-If enabled, and a new application (not started by another already running
-application) is started, all other already running applications are
-automatically terminated. The new application starts its execution
-immediately. The already running applications will start to process the
-termination request, and will terminate as soon as possible.
+If enabled, and a new application (not started by another already running application) is started, all other already running applications are automatically terminated.
+The new application starts its execution immediately.
+The already running applications will start to process the termination request, and will terminate as soon as possible.
 
 indexterm:[applications view,terminate all]
 indexterm:[terminate all,applications view]
 
 * Terminate All (image:{use-imgsdir}/command_terminate_all.png[])
 +
-The view's toolbar contains a _Terminate All_ button that can be used to
-terminate all running applications. The button is only enabled when at least
-one of the listed applications can be terminated. When clicked, all running
-applications are given a termination request, and will terminate as soon as
-possible.
+The view's toolbar contains a _Terminate All_ button that can be used to terminate all running applications.
+The button is only enabled when at least one of the listed applications can be terminated.
+When clicked, all running applications are given a termination request, and will terminate as soon as possible.
 
 indexterm:[applications view,terminate]
 indexterm:[terminate,applications view]
 
 * Terminate (image:{use-imgsdir}/command_terminate.png[])
 +
-The view's drop-down button popup menu contains a _Terminate_ item that can
-be used to terminate all selected applications that are running. The item is
-only enabled when at least one of the listed applications that is selected,
-can be terminated. When clicked, all selected applications that can be
-terminated, are given a termination request, and will terminate as soon as
-possible.
+The view's drop-down button popup menu contains a _Terminate_ item that can be used to terminate all selected applications that are running.
+The item is only enabled when at least one of the listed applications that is selected, can be terminated.
+When clicked, all selected applications that can be terminated, are given a termination request, and will terminate as soon as possible.
 +
-Even when a child application is selected, all applications in the entire
-tree, starting from the root, will be given a termination request, if not
-already terminated or having finished their execution. In other words, only
-an entire tree of related applications can be terminated.
+Even when a child application is selected, all applications in the entire tree, starting from the root, will be given a termination request, if not already terminated or having finished their execution.
+In other words, only an entire tree of related applications can be terminated.
 
 
 indexterm:[applications view,removal]
@@ -161,65 +136,50 @@ indexterm:[removal,applications view]
 [[use-apps-view-removal]]
 === Removal
 
-The _Applications_ view can get a bit crowded, if already terminated
-applications are not removed from the list. To keep only relevant applications,
-the _Applications_ view supports removing items from the list.
+The _Applications_ view can get a bit crowded, if already terminated applications are not removed from the list.
+To keep only relevant applications, the _Applications_ view supports removing items from the list.
 
-Only applications which have finished execution can be removed. That is, the
-root of the tree of applications needs to have a _Terminated_, _Finished_,
-_Failed_, or _Crashed_ status, for the tree to be allowed to be removed. This
-prevents removing applications that are still running, which would make it
-impossible to terminate them, or observe their status.
+Only applications which have finished execution can be removed.
+That is, the root of the tree of applications needs to have a _Terminated_, _Finished_, _Failed_, or _Crashed_ status, for the tree to be allowed to be removed.
+This prevents removing applications that are still running, which would make it impossible to terminate them, or observe their status.
 
-The following buttons related to removal are available in the _Applications_
-view's toolbar:
+The following buttons related to removal are available in the _Applications_ view's toolbar:
 
 indexterm:[applications view,auto remove]
 indexterm:[auto remove,applications view]
 
 * Auto Remove (image:{use-imgsdir}/command_auto_remove.png[])
 +
-Most users will only want to only have applications listed in the view, that
-are either still running, or have just finished execution. To facilitate
-this, the view provides an _Auto Remove_ feature. This feature can be enabled
-and disabled from the view's toolbar. It is enabled by default. Your choice
-whether to enable or disable this option will be remembered, even after
-Eclipse is restarted. The feature only has an effect if the view is shown in
-at least one of the opened <<use-escet-perspective,perspectives>>.
+Most users will only want to only have applications listed in the view, that are either still running, or have just finished execution.
+To facilitate this, the view provides an _Auto Remove_ feature.
+This feature can be enabled and disabled from the view's toolbar.
+It is enabled by default.
+Your choice whether to enable or disable this option will be remembered, even after Eclipse is restarted.
+The feature only has an effect if the view is shown in at least one of the opened <<use-escet-perspective,perspectives>>.
 +
-If enabled, and a new application (not started by another already running
-application) is started, all already terminated applications, will be removed
-from the list. If combined with the _Auto Terminate_ feature, all other
-applications that can not be removed immediately because they are still
-running, will be removed as soon as possible, after they have been
-terminated.
+If enabled, and a new application (not started by another already running application) is started, all already terminated applications, will be removed from the list.
+If combined with the _Auto Terminate_ feature, all other applications that can not be removed immediately because they are still running, will be removed as soon as possible, after they have been terminated.
 
 indexterm:[applications view,remove all]
 indexterm:[remove all,applications view]
 
 * Remove All (image:{use-imgsdir}/command_remove_all.png[])
 +
-The view's drop-down button popup menu contains a _Remove All_ item that can
-be used to remove all listed applications that may be removed. The item is
-only enabled when at least one of the listed applications can be removed.
-When clicked, all listed applications that can be removed, are immediately
-removed from the list.
+The view's drop-down button popup menu contains a _Remove All_ item that can be used to remove all listed applications that may be removed.
+The item is only enabled when at least one of the listed applications can be removed.
+When clicked, all listed applications that can be removed, are immediately removed from the list.
 
 indexterm:[applications view,remove]
 indexterm:[remove,applications view]
 
 * Remove (image:{use-imgsdir}/command_remove.png[])
 +
-The view's drop-down button popup menu contains a _Remove_ item that can
-be used to remove all selected applications that can be removed. The item is
-only enabled when at least one of the listed applications that is selected,
-can be removed. When clicked, all selected applications that can be
-removed, are immediately removed from the list.
+The view's drop-down button popup menu contains a _Remove_ item that can be used to remove all selected applications that can be removed.
+The item is only enabled when at least one of the listed applications that is selected, can be removed.
+When clicked, all selected applications that can be removed, are immediately removed from the list.
 +
-Even when a child application is selected, all applications in the entire
-tree, starting from the root, will be removed. In other words, only an entire
-tree of related applications can be removed, and only if all applications in
-that tree have finished execution.
+Even when a child application is selected, all applications in the entire tree, starting from the root, will be removed.
+In other words, only an entire tree of related applications can be removed, and only if all applications in that tree have finished execution.
 
 
 indexterm:[applications view,expansion]
@@ -228,31 +188,26 @@ indexterm:[expansion,applications view]
 [[use-apps-view-expansion]]
 === Expansion
 
-When one application starts another application, they are listed in a tree,
-with the parent containing the child. When running a single application, it
-may be of interest to see which child applications are being executed by the
-parent application. However, when executing multiple applications, this may
-quickly crowd the view. It may then be better to keep all root items collapsed,
-only showing the status of the root applications. This provides an overview
-over those multiple applications.
+When one application starts another application, they are listed in a tree, with the parent containing the child.
+When running a single application, it may be of interest to see which child applications are being executed by the parent application.
+However, when executing multiple applications, this may quickly crowd the view.
+It may then be better to keep all root items collapsed, only showing the status of the root applications.
+This provides an overview over those multiple applications.
 
-The following buttons related to expansion are available in the _Applications_
-view's toolbar:
+The following buttons related to expansion are available in the _Applications_ view's toolbar:
 
 indexterm:[applications view,auto expand]
 indexterm:[auto expand,applications view]
 
 * Auto Expand (image:{use-imgsdir}/command_auto_expand.png[])
 +
-Most users will have the _Auto Terminate_ and _Auto Remove_ features enabled,
-and will thus only have a single application listed. They will want to
-automatically expand a parent application, to show its children. To
-facilitate this, the view provides an _Auto Expand_ feature. This feature can
-be enabled and disabled from the view's toolbar. It is enabled by default.
-Your choice whether to enable or disable this option will be remembered, even
-after Eclipse is restarted. The feature only has an effect if the view is
-shown in at least one of the opened <<use-escet-perspective,perspectives>>.
+Most users will have the _Auto Terminate_ and _Auto Remove_ features enabled, and will thus only have a single application listed.
+They will want to automatically expand a parent application, to show its children.
+To facilitate this, the view provides an _Auto Expand_ feature.
+This feature can be enabled and disabled from the view's toolbar.
+It is enabled by default.
+Your choice whether to enable or disable this option will be remembered, even after Eclipse is restarted.
+The feature only has an effect if the view is shown in at least one of the opened <<use-escet-perspective,perspectives>>.
 +
-If enabled, and a parent application starts a child application, the item
-for the parent application in the view, is automatically expanded to show its
-children. If disabled, no items will be automatically expanded.
+If enabled, and a parent application starts a child application, the item for the parent application in the view, is automatically expanded to show its children.
+If disabled, no items will be automatically expanded.
