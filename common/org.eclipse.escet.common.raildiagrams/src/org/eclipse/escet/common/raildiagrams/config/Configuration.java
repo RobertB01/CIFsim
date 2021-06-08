@@ -21,7 +21,7 @@ import java.awt.Graphics2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -36,118 +36,6 @@ import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
 public class Configuration {
     /** Compiled pattern to match RGB values. */
     private static final Pattern RGB_PATTERN = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*");
-
-    /** Default properties of the diagram generator. */
-    private static final String PROPERTIES_LITERAL;
-
-    static {
-        /** Default properties of the program. */
-        String[] defaultConfigLines = new String[] {
-                // Background.
-                "diagram.background.color: 255 255 255", //
-
-                // Rail.
-                "rail.linewidth: 1.0", //
-                "rail.color:     0 0 0", //
-
-                // Diagram rule.
-                "rule.padding.top:          10", //
-                "rule.padding.left:         10", //
-                "rule.padding.bottom:       10", //
-                "rule.padding.right:        10", //
-                "rule.diagram.padding.top:  10", //
-                "rule.diagram.padding.left: 10", //
-                "rule.diagram.lead.width:   20", //
-                "rule.diagram.trail.width:  20", //
-
-                // Choice.
-                "choice.arc-radius:       10", //
-                "choice.padding.vertical:  5", //
-
-                // Loop.
-                "loop.arc-radius:       10", //
-                "loop.padding.vertical:  5", // Padding between forward and backward sequence.
-                "loop.padding.left:      5", // Padding between the left-side and the left loop vertical line.
-                "loop.padding.right:     5", // Padding between the right-side and the right loop vertical line.
-
-                // Sequence.
-                "sequence.padding.first-row.prefix:  0", //
-                "sequence.padding.other-row.prefix:  5", //
-                "sequence.padding.row.suffix:        5", // Padding behind a row, between the vertical
-                                                         // lines down and up.
-                "sequence.padding.interrow:          8", // Excludes width of horizontal line.
-                "sequence.arc-radius:               10", //
-
-                // Branch label.
-                "branch-label.padding.left:    5", //
-                "branch-label.padding.right:   5", //
-                "branch-label.padding.top:     5", //
-                "branch-label.padding.bottom:  5", //
-                "branch-label.min-width:       5", //
-                "branch-label.text.color:      0 0 0", //
-                "branch-label.text.font:       SansSerif", //
-                "branch-label.text.font.size:  16", //
-                "branch-label.text.font.style: plain", //
-
-                // Empty node.
-                "empty.width: 10", //
-
-                // Name node, width of the entry and exit connections.
-                "name.rail.entry.width: 5", //
-                "name.rail.exit.width:  5", //
-
-                // Header font and text.
-                "diagram-header.text.color:      0 0 0", //
-                "diagram-header.text.font:       SansSerif", //
-                "diagram-header.text.font.size:  16", //
-                "diagram-header.text.font.style: bold", //
-
-                // 'terminal' name properties.
-                "terminal.name.padding.horizontal: 5", // Horizontal padding around the name.
-                "terminal.name.padding.vertical:   5", // Vertical padding around the name.
-                "terminal.corner.radius: 12", //
-                "terminal.box.color:     0 0 0", //
-                "terminal.box.linewidth: 1.0", //
-                "terminal.text.color:    0 0 0", //
-                "terminal.text.font:       Monospaced", //
-                "terminal.text.font.size:  18", //
-                "terminal.text.font.style: plain", //
-
-                // 'meta-terminal' name properties.
-                "meta-terminal.name.padding.horizontal: 5", //
-                "meta-terminal.name.padding.vertical:   5", //
-                "meta-terminal.corner.radius: 12", //
-                "meta-terminal.box.color:     0 0 0", //
-                "meta-terminal.box.linewidth: 1.0", //
-                "meta-terminal.text.color:    0 0 0", //
-                "meta-terminal.text.font:       SansSerif", //
-                "meta-terminal.text.font.size:  16", //
-                "meta-terminal.text.font.style: plain", //
-
-                // 'nonterminal' name properties.
-                "nonterminal.name.padding.horizontal: 5", //
-                "nonterminal.name.padding.vertical:   5", //
-                "nonterminal.corner.radius:   0", //
-                "nonterminal.box.color:       0 0 0", //
-                "nonterminal.box.linewidth:   1.0", //
-                "nonterminal.text.color:      0 0 0", //
-                "nonterminal.text.font:       SansSerif", //
-                "nonterminal.text.font.size:  16", //
-                "nonterminal.text.font.style: italic", //
-
-                // Token text properties:
-                // "terminal.token.<tokname>: <toktext>", should always be fully specified.
-                // "meta-terminal.<tokname>: <toktext>", should always be fully specified.
-                // "nonterminal.token.<tokname>: <toktext>", with <toktext> optional, default value is <tokname>.
-        };
-
-        StringBuilder sb = new StringBuilder();
-        for (String line: defaultConfigLines) {
-            sb.append(line);
-            sb.append('\n');
-        }
-        PROPERTIES_LITERAL = sb.toString();
-    }
 
     /** Stored key/value pairs of the properties of the rail diagram generator. */
     private Map<String, String> defaultProperties = map();
@@ -169,12 +57,13 @@ public class Configuration {
     public Configuration(Graphics2D gd) {
         this.gd = gd;
 
-        // Copy the properties of PROPERTIES_LITERAL to a map.
+        // Read default properties and put into a map.
         Properties defaultConfig = new Properties();
-        try {
-            defaultConfig.load(new StringReader(PROPERTIES_LITERAL));
+        String defaultConfigPath = Configuration.class.getPackageName().replace(".", "/") + "/default.properties";
+        try (InputStream stream = getClass().getClassLoader().getResourceAsStream(defaultConfigPath)) {
+            defaultConfig.load(stream);
         } catch (IOException ex) {
-            throw new RuntimeException("Properties literal not readable.");
+            throw new RuntimeException("Failed to read default railroad diagram generator configuration.", ex);
         }
         for (String key: defaultConfig.stringPropertyNames()) {
             defaultProperties.put(key, defaultConfig.getProperty(key));
