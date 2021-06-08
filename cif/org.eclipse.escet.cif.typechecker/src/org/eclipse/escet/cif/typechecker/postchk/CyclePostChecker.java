@@ -519,7 +519,7 @@ public class CyclePostChecker {
         addToCycle(var, cycle);
 
         // Check value/equations.
-        List<Expression> values = getValuesForAlgVar(var, true);
+        List<Expression> values = getValuesForAlgVar(var, true, true);
         for (Expression value: values) {
             check(value, cycle);
         }

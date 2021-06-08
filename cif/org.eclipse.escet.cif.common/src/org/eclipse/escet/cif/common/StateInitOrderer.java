@@ -305,7 +305,7 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
         if (expr instanceof AlgVariableExpression) {
             AlgVariable var = ((AlgVariableExpression)expr).getVariable();
             List<Expression> values;
-            values = CifEquationUtils.getValuesForAlgVar(var, false);
+            values = CifEquationUtils.getValuesForAlgVar(var, false, false);
             for (Expression value: values) {
                 collectDependencies(value, deps);
             }

@@ -399,3 +399,19 @@ group init6:
   end
 end
 
+// Cycle via equations combined with initial predicates.
+automaton A:
+  alg bool x;
+  location wait_init:
+    initial B.y = 1;
+    equation x = false;
+  location wait_init_2:
+    initial B.y = 0;
+    equation x = true;
+end
+
+automaton B:
+  disc int y = if A.x: 0 else 1 end;
+  location:
+    initial;
+end

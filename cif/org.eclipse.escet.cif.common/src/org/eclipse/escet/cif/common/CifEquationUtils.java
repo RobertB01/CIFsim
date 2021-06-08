@@ -89,10 +89,13 @@ public class CifEquationUtils {
      *
      * @param var The algebraic variable. Must not be an algebraic parameter.
      * @param allowIncomplete Whether to allow incomplete (and thus invalid) CIF specifications.
+     * @param getInitialDependencies Whether to collect initial predicates when there are equations in locations.
      * @return The different possible values of the algebraic variable. For invalid specifications, an empty sequence
      *     may be returned.
      */
-    public static List<Expression> getValuesForAlgVar(AlgVariable var, boolean allowIncomplete) {
+    public static List<Expression> getValuesForAlgVar(AlgVariable var, boolean allowIncomplete,
+            boolean getInitialDependencies)
+    {
         // Get from value.
         if (var.getValue() != null) {
             return list(var.getValue());
@@ -127,6 +130,10 @@ public class CifEquationUtils {
                     found = true;
                     break;
                 }
+            }
+
+            if (getInitialDependencies) {
+                values.addAll(loc.getInitials());
             }
 
             if (found) {

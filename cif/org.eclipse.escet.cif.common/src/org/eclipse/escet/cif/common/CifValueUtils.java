@@ -1486,7 +1486,7 @@ public class CifValueUtils {
             }
 
             // Value(s) specified in equation(s).
-            List<Expression> values = getValuesForAlgVar(var, false);
+            List<Expression> values = getValuesForAlgVar(var, false, false);
             for (Expression val: values) {
                 if (!isTimeConstant(val)) {
                     return false;
