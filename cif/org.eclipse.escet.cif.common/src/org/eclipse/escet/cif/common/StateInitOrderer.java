@@ -309,6 +309,12 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
             for (Expression value: values) {
                 collectDependencies(value, deps);
             }
+
+            // If there are equations in locations, their is a dependency to
+            // the initial location of the automaton.
+            if (CifEquationUtils.hasLocationEquations(var)) {
+                deps.add((Automaton)(var.eContainer()));
+            }
             return;
         }
 

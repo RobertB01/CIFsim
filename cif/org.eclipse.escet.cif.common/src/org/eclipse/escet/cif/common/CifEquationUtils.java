@@ -392,4 +392,41 @@ public class CifEquationUtils {
         // Return derivative of continuous variable.
         return ifExpr;
     }
+
+    /**
+     * Returns the {@code true} if the variable has equations in locations, returns {@code false} otherwise.
+     *
+     * @param var The algebraic or continuous variable. Must not be an algebraic parameter.
+     * @return {@code true} if the variable has equations in locations, {@code false} otherwise.
+     */
+    public static boolean hasLocationEquations(PositionObject var) {
+        // Precondition checking.
+        Assert.check(var instanceof AlgVariable || var instanceof ContVariable);
+
+        // Find equation in component.
+        ComplexComponent comp = (ComplexComponent)var.eContainer();
+        for (Equation eq: comp.getEquations()) {
+            if (eq.getVariable() == var) {
+                return false;
+            }
+        }
+
+        // If component is a specification or group, we found nothing.
+        if (!(comp instanceof Automaton)) {
+            return false;
+        }
+
+        // Find equations in the locations.
+        Automaton aut = (Automaton)comp;
+        for (Location loc: aut.getLocations()) {
+            for (Equation eq: loc.getEquations()) {
+                if (eq.getVariable() == var) {
+                    return true;
+                }
+            }
+        }
+
+        // Found nothing.
+        return false;
+    }
 }
