@@ -23,7 +23,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
-/** A (rectangular) part of a rail-road diagram, also acts as the edges of its contents. */
+/** A (rectangular) part of a railroad diagram, also acts as the edges of its contents. */
 public abstract class DiagramElement {
     /** Variable storage, constraint storage, and solver of the variable values. */
     public final Solver solver = new Solver();

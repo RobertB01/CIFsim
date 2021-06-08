@@ -24,13 +24,13 @@ import org.eclipse.escet.setext.runtime.Token;
 /**
  * Call back hook methods for:
  * <ul>
- *  <li>{@link RailRoadScanner}</li>
- *  <li>{@link RailRoadParser}</li>
+ *  <li>{@link RailRoadDiagramScanner}</li>
+ *  <li>{@link RailRoadDiagramParser}</li>
  * </ul>
  */
-public final class RailRoadHooks
-implements RailRoadScanner.Hooks,
-           RailRoadParser.Hooks
+public final class RailRoadDiagramHooks
+implements RailRoadDiagramScanner.Hooks,
+           RailRoadDiagramParser.Hooks
 {
     @Override
     public void setParser(Parser<?> parser) {

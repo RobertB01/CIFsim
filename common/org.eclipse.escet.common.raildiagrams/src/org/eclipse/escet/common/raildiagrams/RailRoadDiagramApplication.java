@@ -33,7 +33,7 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.raildiagrams.parser.RailRoadParser;
+import org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
@@ -98,7 +98,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
         for (String inputFile: inputFiles) {
             // Parse the input.
             // A file may contain several rules, which are assumed to belong together in one diagram.
-            RailRoadParser parser = new RailRoadParser();
+            RailRoadDiagramParser parser = new RailRoadDiagramParser();
             List<RailRule> rules = parser.parseFile(Paths.resolve(inputFile), DebugMode.NONE);
             for (SyntaxWarning warning: parser.getWarnings()) {
                 OutputProvider.warn(warning.toString());
@@ -188,7 +188,7 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
     protected OptionCategory getAllOptions() {
         OptionCategory generalOpts = getGeneralOptionCategory();
 
-        OptionCategory diagramOpts = new OptionCategory("Railroad generation", "Railroad generation options.", list(),
+        OptionCategory diagramOpts = new OptionCategory("Generator", "Railroad diagram generation options.", list(),
                 list(Options.getInstance(FilesOption.class), Options.getInstance(ConfigFileOption.class),
                         Options.getInstance(WriteImageOption.class)));
 

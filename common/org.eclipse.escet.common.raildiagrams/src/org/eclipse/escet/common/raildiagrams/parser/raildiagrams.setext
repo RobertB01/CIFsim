@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-@scanner org.eclipse.escet.common.raildiagrams.parser.RailRoadScanner;
+@scanner org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramScanner;
 
 @terminals:
     SEMI          = ";";
@@ -44,8 +44,8 @@ end
 @import java.util.Optional;
 @import java.util.List;
 
-@main specification: org.eclipse.escet.common.raildiagrams.parser.RailRoadParser;
-@hooks org.eclipse.escet.common.raildiagrams.parser.RailRoadHooks;
+@main specification: org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
+@hooks org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramHooks;
 
 
 {List<rr.RailRule>}

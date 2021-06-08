@@ -20,7 +20,7 @@ SCRIPT=`readlink -f $0`
 SCRIPTPATH=`dirname $SCRIPT`
 cd $SCRIPTPATH
 
-HOOKS_BASE=RailRoadHooks
+HOOKS_BASE=RailRoadDiagramHooks
 HOOKS_SKELETON_PATH=../../../../../../../src-gen/org/eclipse/escet/common/raildiagrams/parser
 
 grep -Pzo "(\n    public [^{]+{|\n    @Override( // [^;]+;)?)" $HOOKS_BASE.java \

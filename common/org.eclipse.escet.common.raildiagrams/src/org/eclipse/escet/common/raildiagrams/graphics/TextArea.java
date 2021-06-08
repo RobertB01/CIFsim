@@ -77,7 +77,7 @@ public class TextArea extends Area {
      *
      * @param solver Constraint problem solver for the box.
      * @param prefix Unique prefix for variables.
-     * @param config Configuration of the railroad generator.
+     * @param config Configuration of the railroad diagram generator.
      * @param nameKind Kind of name
      * @param text Text to display.
      * @return The constructed box with text.
