@@ -517,7 +517,7 @@ Its configuration settings are:
 
 | `loop.padding.vertical`
 | Real
-| Amount of vertical space between the forward and backward node.
+| Amount of vertical space between the nodes of the forward and backward sequences.
 
 | `loop.padding.left`
 | Real
