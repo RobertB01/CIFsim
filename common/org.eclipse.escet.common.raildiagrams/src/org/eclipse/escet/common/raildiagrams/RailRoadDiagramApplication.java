@@ -33,8 +33,11 @@ import org.eclipse.escet.common.app.framework.options.OptionCategory;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.raildiagrams.config.ConfigFileOption;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
 

@@ -20,11 +20,11 @@ import static org.eclipse.escet.common.raildiagrams.graphics.TextArea.makeTextAr
 import java.awt.Color;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.raildiagrams.Configuration;
-import org.eclipse.escet.common.raildiagrams.NameKind;
-import org.eclipse.escet.common.raildiagrams.Size2D;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.NameKind;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Diagram of a production rule. */
 public class RailRule extends DiagramElement {

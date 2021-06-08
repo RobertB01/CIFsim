@@ -18,7 +18,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.awt.Graphics2D;
 import java.util.List;
 
-import org.eclipse.escet.common.raildiagrams.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Area;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;

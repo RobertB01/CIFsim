@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams;
+package org.eclipse.escet.common.raildiagrams.config;
 
 /** Available kinds of nodes. */
 public enum NameKind {

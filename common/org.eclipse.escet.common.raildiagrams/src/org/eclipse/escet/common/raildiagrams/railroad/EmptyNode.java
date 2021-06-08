@@ -15,7 +15,7 @@ package org.eclipse.escet.common.raildiagrams.railroad;
 
 import java.awt.Color;
 
-import org.eclipse.escet.common.raildiagrams.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 
 /** Empty node, that is, "()" in the input file. */

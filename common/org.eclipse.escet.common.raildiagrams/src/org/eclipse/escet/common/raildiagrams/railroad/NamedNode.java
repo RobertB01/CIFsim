@@ -18,11 +18,10 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import java.awt.Color;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.raildiagrams.Configuration;
-import org.eclipse.escet.common.raildiagrams.FontData;
-import org.eclipse.escet.common.raildiagrams.NameKind;
-import org.eclipse.escet.common.raildiagrams.Size2D;
-import org.eclipse.escet.common.raildiagrams.TextSizeOffset;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.FontData;
+import org.eclipse.escet.common.raildiagrams.config.NameKind;
+import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
@@ -30,6 +29,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** A node referring to another diagram. */
 public class NamedNode extends DiagramElement {

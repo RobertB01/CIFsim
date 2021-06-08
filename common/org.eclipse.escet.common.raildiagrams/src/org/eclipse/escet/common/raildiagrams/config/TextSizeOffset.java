@@ -11,7 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams;
+package org.eclipse.escet.common.raildiagrams.config;
+
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Class holding size of a given text, and offset relative to top-left. */
 public class TextSizeOffset {

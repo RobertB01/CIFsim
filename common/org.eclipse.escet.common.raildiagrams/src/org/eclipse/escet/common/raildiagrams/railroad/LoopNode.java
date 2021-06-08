@@ -19,7 +19,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 
 import java.awt.Color;
 
-import org.eclipse.escet.common.raildiagrams.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.Arc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;

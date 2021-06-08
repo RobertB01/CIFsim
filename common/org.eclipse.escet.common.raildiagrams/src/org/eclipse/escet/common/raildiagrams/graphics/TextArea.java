@@ -16,13 +16,13 @@ package org.eclipse.escet.common.raildiagrams.graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import org.eclipse.escet.common.raildiagrams.Configuration;
-import org.eclipse.escet.common.raildiagrams.FontData;
-import org.eclipse.escet.common.raildiagrams.NameKind;
-import org.eclipse.escet.common.raildiagrams.Position2D;
-import org.eclipse.escet.common.raildiagrams.Size2D;
-import org.eclipse.escet.common.raildiagrams.TextSizeOffset;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.FontData;
+import org.eclipse.escet.common.raildiagrams.config.NameKind;
+import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Area with some text in it. */
 public class TextArea extends Area {
@@ -78,7 +78,7 @@ public class TextArea extends Area {
      * @param solver Constraint problem solver for the box.
      * @param prefix Unique prefix for variables.
      * @param config Configuration of the railroad diagram generator.
-     * @param nameKind Kind of name
+     * @param nameKind Kind of name.
      * @param text Text to display.
      * @return The constructed box with text.
      */

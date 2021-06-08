@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams;
+package org.eclipse.escet.common.raildiagrams.config;
 
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.raildiagrams.FontData.FontStyle;
+import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
 
 /** Configuration data of the diagrams. */
 public class Configuration {

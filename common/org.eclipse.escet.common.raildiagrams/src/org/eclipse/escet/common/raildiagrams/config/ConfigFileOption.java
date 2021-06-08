@@ -11,7 +11,7 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams;
+package org.eclipse.escet.common.raildiagrams.config;
 
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;

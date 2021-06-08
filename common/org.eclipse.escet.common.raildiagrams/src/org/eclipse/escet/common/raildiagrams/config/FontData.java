@@ -11,11 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams;
+package org.eclipse.escet.common.raildiagrams.config;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Data about the font used for generating text in the output. */
 public class FontData {

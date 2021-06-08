@@ -11,31 +11,31 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.raildiagrams;
+package org.eclipse.escet.common.raildiagrams.util;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-/** Class for storing a position. */
-public class Position2D {
-    /** Horizontal position. */
-    public final double x;
+/** Class for storing a size. */
+public class Size2D {
+    /** Width of the size. */
+    public final double width;
 
-    /** Vertical position. */
-    public final double y;
+    /** Height of the size. */
+    public final double height;
 
     /**
-     * Constructor of the {@link Position2D} class.
+     * Constructor of the {@link Size2D} class.
      *
-     * @param x Horizontal position.
-     * @param y Vertical position.
+     * @param width Width of the size.
+     * @param height Height of the size.
      */
-    public Position2D(double x, double y) {
-        this.x = x;
-        this.y = y;
+    public Size2D(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public String toString() {
-        return fmt("Position2D(%.1f, %.1f)", x, y);
+        return fmt("Size2D(%.1f, %.1f)", width, height);
     }
 }

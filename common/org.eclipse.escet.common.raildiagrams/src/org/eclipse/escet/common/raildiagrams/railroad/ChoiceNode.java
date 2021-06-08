@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.util.List;
 
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.raildiagrams.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.BottomRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;

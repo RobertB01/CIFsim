@@ -15,14 +15,14 @@ package org.eclipse.escet.common.raildiagrams.railroad;
 
 import java.awt.Color;
 
-import org.eclipse.escet.common.raildiagrams.Configuration;
-import org.eclipse.escet.common.raildiagrams.FontData;
-import org.eclipse.escet.common.raildiagrams.NameKind;
-import org.eclipse.escet.common.raildiagrams.Position2D;
-import org.eclipse.escet.common.raildiagrams.Size2D;
-import org.eclipse.escet.common.raildiagrams.TextSizeOffset;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.FontData;
+import org.eclipse.escet.common.raildiagrams.config.NameKind;
+import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
+import org.eclipse.escet.common.raildiagrams.util.Position2D;
+import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Node displaying the name of a branch for referral from the explanatory text. */
 public class BranchLabelNode extends DiagramElement {

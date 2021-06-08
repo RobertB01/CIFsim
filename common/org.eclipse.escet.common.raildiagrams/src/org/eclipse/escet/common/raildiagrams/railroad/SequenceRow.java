@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.escet.common.java.ReverseListIterator;
-import org.eclipse.escet.common.raildiagrams.Configuration;
+import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
 import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
