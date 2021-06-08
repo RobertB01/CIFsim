@@ -15,9 +15,8 @@ include::_part_attributes.asciidoc[]
 [[rail-chapter-index]]
 == Rail diagram generator
 
-The Eclipse ESCET rail diagram generator makes it easy to generate pretty and
-simple to understand syntax specifications. The following topics explain
-the rail diagram generator in more detail:
+The Eclipse ESCET rail diagram generator makes it easy to generate pretty and simple to understand syntax specifications.
+The following topics explain the rail diagram generator in more detail:
 
 * <<rail-introduction>>
 * <<rail-examples>>

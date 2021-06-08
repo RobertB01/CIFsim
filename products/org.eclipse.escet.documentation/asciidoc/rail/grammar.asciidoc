@@ -15,9 +15,9 @@ include::_part_attributes.asciidoc[]
 [[rail-grammar]]
 == Grammar
 
-The toplevel grammar rule of the application is `Specification`. It is a
-sequence of rules, each terminated by a semicolon. One specification creates
-one output file.
+The toplevel grammar rule of the application is `Specification`.
+It is a sequence of rules, each terminated by a semicolon.
+One specification creates one output file.
 
 image::{rail-imgsdir}/spec.png[Specification]
 
@@ -29,34 +29,31 @@ A `Railroad` is one or more choice alternatives.
 
 image::{rail-imgsdir}/diagram.png[Railroad]
 
-The `BracketedString` like `[a]` can be used to denote specific points in the diagram
-allowing you to refer to such points from the explanatory text.
+The `BracketedString` like `[a]` can be used to denote specific points in the diagram allowing you to refer to such points from the explanatory text.
 
-An `Alternative` has a `sequence` of one or more factors. The optional `?`
-character makes a factor optional. By appending the `[loop]`
-part, the sequence can be repeated. The `+` requires at least one sequence,
-the `*` also allows `0` repetitions, resulting in an empty sequence.
-The second `Factor` defines the syntax on the way back to the start. Note that
-parentheses are required in the second `Factor` if is it more than one node.
+An `Alternative` has a `sequence` of one or more factors.
+The optional `?` character makes a factor optional.
+By appending the `[loop]` part, the sequence can be repeated.
+The `+` requires at least one sequence, the `*` also allows `0` repetitions, resulting in an empty sequence.
+The second `Factor` defines the syntax on the way back to the start.
+Note that parentheses are required in the second `Factor` if is it more than one node.
 
 image::{rail-imgsdir}/alternative.png[Alternative]
 
-Note that together with `|` above and the empty sequence `()` below, you can
-write all loops using the `+` infix operator. The <<rail-examples>> section explains
-this as well.
+Note that together with `|` above and the empty sequence `()` below, you can write all loops using the `+` infix operator.
+The <<rail-examples>> section explains this as well.
 
 In an alternative, `Factor` is a single token:
 
 image::{rail-imgsdir}/factor.png[Factor]
 
-The `[literal1]` and `[literal2]` choices show the text of the string. Surrounding
-quotes are dropped. There are two forms of literals to simplify using single
-or double quote literals in the diagrams.
-The `[sub-diagram]` choice allows nesting of sequence, choice, and repetition, enabling
-construction of more complicated diagrams.
+The `[literal1]` and `[literal2]` choices show the text of the string.
+Surrounding quotes are dropped.
+There are two forms of literals to simplify using single or double quote literals in the diagrams.
+The `[sub-diagram]` choice allows nesting of sequence, choice, and repetition, enabling construction of more complicated diagrams.
 The `[epsilon]` choice is the empty sequence.
 The `[sub-rule]` choice enables giving the name of another diagram to process.
 
-Finally, the `[line-break]` choice can be used to split a long sequence of
-factors into multiple rows. In general, its use should be avoided as it often
-leads to less pretty diagrams. Instead, try to re-organize rules or diagrams.
+Finally, the `[line-break]` choice can be used to split a long sequence of factors into multiple rows.
+In general, its use should be avoided as it often leads to less pretty diagrams.
+Instead, try to re-organize rules or diagrams.
