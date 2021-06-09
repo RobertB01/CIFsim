@@ -45,7 +45,8 @@ pipeline {
                         ./misc/license-header/license-header-check.bash
 
                         # Get Git last commit date.
-                        GIT_DATE=$(TZ=UTC git log -1 --format=%cd --date=format-local:%Y%m%d-%H%M%S)
+                        GIT_DATE_EPOCH=$(TZ=UTC git log -1 --format=%cd --date=unix)
+                        GIT_DATE=$(date -d @$GIT_DATE_EPOCH -u +%Y%m%d-%H%M%S)
 
                         # Configure 'jenkins' profile for build.
                         BUILD_ARGS="-Pjenkins"
