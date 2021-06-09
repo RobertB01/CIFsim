@@ -20,6 +20,15 @@ indexterm:[patches]
 
 Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
 
+The following topics are discussed:
+
+* <<developer-contributing-contribute>>
+* <<developer-contributing-become-committer>>
+
+
+[[developer-contributing-contribute]]
+=== How to contribute to Eclipse ESCET
+
 It is often a good idea to first discuss your contribution with the project's community and committers, before creating the actual code (e.g. patches), documentation, etc of your contribution.
 Discussions can take place via an <<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<developer-chapter-index,'dev' list>>.
 
@@ -50,7 +59,7 @@ Before your contribution can be accepted by the project team, you must electroni
 * link:https://www.eclipse.org/legal/ECA.php[Eclipse Contributor Agreement (ECA)]
 
 The non-committer that authored the commit, must have an Eclipse Foundation Account and must have a signed Eclipse Contributor Agreement (ECA) on file.
-The email address of the author must match the email address on the Eclipse Foundation Account.
+The name and email address of the commits must match the corresponding information on the Eclipse Foundation Account.
 
 For more information, including the specific format of commit messages, please see the Eclipse Foundation Project Handbook:
 
@@ -69,3 +78,40 @@ The project's developers can help to improve your contribution.
 If you need any help, just ask the project's developers using the issue or the project's <<develop-dev-list,'dev' list>>.
 
 See for more information our <<developer-development-process-chapter-index,development process>>.
+
+
+[[developer-contributing-become-committer]]
+=== How to become a committer
+
+The Eclipse Foundation operates on the principle of meritocracy.
+Anybody can contribute to Eclipse ESCET as a contributor.
+But the more that somebody contributes, the more responsibility they will earn.
+To earn committer status, a contributor must demonstrate that they understand their responsibilities, both as an Eclipse Foundation committer in general and as a committer for the project in particular.
+
+A contributor can be elected to become a committer.
+This starts with a nomination by an existing committer.
+For further details on the process, see the link:https://www.eclipse.org/projects/handbook/#elections-committer[Committer Elections] section of the Eclipse Foundation Project Handbook.
+
+Each project can define the criteria that are considered for nominations.
+The criteria for the Eclipse ESCET project are as follows:
+
+* Demonstrate a good grasp of the link:https://www.eclipse.org/projects/dev_process/[Eclipse Foundation Development Process], including the link:https://www.eclipse.org/org/documents/Eclipse_IP_Policy.pdf[Eclipse Foundation Intellectual Property Policy].
+* Provide several high-quality non-trivial contributions that demonstrate a good grasp of the code base, its structure and the underlying concepts.
+* Demonstrate a good grasp of the Eclipse ESCET way of working, including use of issues, merge requests, code style, build, tests, etc.
+* Demonstrate the ability to work together with the current committers and the wider community, in a positive, open and transparent manner.
+
+The more of these criteria that have been shown the better, but it not being a requirement to show all of these to the same degree.
+In the end it is up to the existing committers to judge whether enough merit has been demonstrated to warrant a nomination.
+
+The Eclipse Foundation also requires that nominations are supported by public evidence that demonstrates the merit.
+This ensures that the process of electing new committers is transparent.
+Furthermore, nominations and elections must be open, in that anybody that shows merit should be considered equally for nominations.
+It must definitely not be based on employment status.
+
+Obviously, there must also be an outlook that the contributor will remain active in the future.
+And the committer must be willing and able to become a committer.
+
+For more information, see also the following blog posts:
+
+* link:https://blog.waynebeaton.ca/posts/opensource/repository/[Barriers for Entry] (Wayne Beaton, Director of Open Source Projects at Eclipse Foundation)
+* link:https://blog.waynebeaton.ca/posts/opensource/hired-a-committer/[Make This Person We Hired a Committer] (Wayne Beaton, Director of Open Source Projects at Eclipse Foundation)
