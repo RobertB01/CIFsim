@@ -20,9 +20,9 @@ SPDX-License-Identifier: MIT
     <packaging>pom</packaging>
 
     <properties>
-        <!-- Release version. -->
-        <!-- By default all builds are 'dev' builds. Jenkinsfile overrides for actual releases. -->
-        <releaseVersion>dev</releaseVersion>
+        <!-- The end-user readable version number. -->
+        <!-- The default is 'dev'. Jenkinsfile overrides this for releases only, to e.g. v0.1, v0.1-M1, v0.1-RC1. -->
+        <escet.version.enduser>dev</escet.version.enduser>
 
         <!-- The version qualifier to use for all plugins/features/etc. -->
         <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to e.g., -->

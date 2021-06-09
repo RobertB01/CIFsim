@@ -69,9 +69,9 @@
 
                             <!-- Add root folder, to prevent issues when extracting to current folder. -->
                             <rootFolders>
-                                <linux>eclipse-escet-${releaseVersion}</linux>
-                                <macosx>EclipseESCET-${releaseVersion}.app</macosx>
-                                <win32>eclipse-escet-${releaseVersion}</win32>
+                                <linux>eclipse-escet-${escet.version.enduser}</linux>
+                                <macosx>EclipseESCET-${escet.version.enduser}.app</macosx>
+                                <win32>eclipse-escet-${escet.version.enduser}</win32>
                             </rootFolders>
                         </product>
                     </products>

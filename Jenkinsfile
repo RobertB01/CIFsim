@@ -49,7 +49,7 @@ pipeline {
                         fi
                         if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             # Only for actual releases, override the default 'dev' release version.
-                            BUILD_ARGS="$BUILD_ARGS -DreleaseVersion=$TAG_NAME"
+                            BUILD_ARGS="$BUILD_ARGS -Descet.version.enduser=$TAG_NAME"
                         fi
 
                         ./build.sh $BUILD_ARGS
