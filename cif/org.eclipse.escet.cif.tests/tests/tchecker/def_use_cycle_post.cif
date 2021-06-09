@@ -399,19 +399,18 @@ group init6:
   end
 end
 
-// Cycle via equations combined with initial predicates.
-automaton A:
+// Cycle via equations for algebraic variable combined with initial predicate.
+automaton init7:
   alg bool x;
-  location l1:
-    initial B.y = 1;
+  location:
+    initial x = false;
     equation x = false;
-  location l2:
-    initial B.y = 0;
-    equation x = true;
 end
 
-automaton B:
-  disc int y = if A.x: 0 else 1 end;
+// Cycle via equations for derivative of continuous variable combined with initial predicate.
+automaton init8:
+  cont x;
   location:
-    initial;
+    initial x' = 0;
+    equation x' = 0;
 end

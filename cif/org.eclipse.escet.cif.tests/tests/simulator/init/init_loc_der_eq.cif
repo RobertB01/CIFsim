@@ -11,17 +11,17 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-alg bool x = A.x;
+// Initial value dependency via equation for derivative of continuous variable.
 automaton A:
-  alg bool x;
-  location wait_init:
+  cont x;
+  location:
     initial;
-    equation x = false;
+    equation x' = 1;
 end
 
 automaton B:
   event e;
-  disc int y = if A.x: 0 else 1 end;
+  disc int y = if A.x' = 0: 0 else 1 end;
   location l1:
     initial;
     edge e when y = 1 goto l2;
