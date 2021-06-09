@@ -26,8 +26,8 @@ SPDX-License-Identifier: MIT
 
         <!-- The version qualifier to use for all plugins/features/etc. -->
         <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to e.g., -->
-        <!-- '20210609-141908-dev' for development builds, '20210609-141908-M1' for milestone releases, -->
-        <!-- '20210609-141908-RC1' for release candidates, and '20210609-141908' for final releases. -->
+        <!-- 'v20210609-141908-dev' for development builds, 'v20210609-141908-M1' for milestone releases, -->
+        <!-- 'v20210609-141908-RC1' for release candidates, and 'v20210609-141908' for final releases. -->
         <escet.version.qualifier>dev</escet.version.qualifier>
 
         <!-- Ensure platform independent build by fixing encoding. Prevents warnings. -->
