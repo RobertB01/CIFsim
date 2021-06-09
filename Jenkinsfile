@@ -35,17 +35,19 @@ pipeline {
             steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
-                        # Print version and environment.
+                        # Print versions.
                         java -version
                         mvn -version
                         git --version
+
+                        # Print environment.
                         printenv
 
                         # Check license headers are present for all files, where relevant.
                         ./misc/license-header/license-header-check.bash
 
                         # Get Git last commit date.
-                        GIT_DATE_EPOCH=$(TZ=UTC git log -1 --format=%cd --date=unix)
+                        GIT_DATE_EPOCH=$(git log -1 --format=%cd --date=raw | cut -d ' ' -f 1)
                         GIT_DATE=$(date -d @$GIT_DATE_EPOCH -u +%Y%m%d-%H%M%S)
 
                         # Configure 'jenkins' profile for build.
