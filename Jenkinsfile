@@ -38,6 +38,7 @@ pipeline {
                         # Print version and environment.
                         java -version
                         mvn -version
+                        git --version
                         printenv
 
                         # Check license headers are present for all files, where relevant.
