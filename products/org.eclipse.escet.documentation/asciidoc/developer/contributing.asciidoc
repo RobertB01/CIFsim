@@ -100,7 +100,7 @@ The criteria for the Eclipse ESCET project are as follows:
 * Demonstrate a good grasp of the Eclipse ESCET way of working, including use of issues, merge requests, code style, build, tests, etc.
 * Demonstrate the ability to work together with the current committers and the wider community, in a positive, open and transparent manner.
 
-The more of these criteria that have been shown the better, but it not being a requirement to show all of these to the same degree.
+The more of these criteria that have been shown the better, but it is not a requirement to show all of these to the same degree.
 In the end it is up to the existing committers to judge whether enough merit has been demonstrated to warrant a nomination.
 
 The Eclipse Foundation also requires that nominations are supported by public evidence that demonstrates the merit.
@@ -108,8 +108,7 @@ This ensures that the process of electing new committers is transparent.
 Furthermore, nominations and elections must be open, in that anybody that shows merit should be considered equally for nominations.
 It must definitely not be based on employment status.
 
-Obviously, there must also be an outlook that the contributor will remain active in the future.
-And the committer must be willing and able to become a committer.
+Obviously, the contributor must be willing and able to become a committer, and there must be an outlook that the contributor will remain active in the future.
 
 For more information, see also the following blog posts:
 
