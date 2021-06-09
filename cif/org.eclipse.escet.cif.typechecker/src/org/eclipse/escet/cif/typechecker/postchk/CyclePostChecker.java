@@ -499,6 +499,15 @@ public class CyclePostChecker {
             check(value, cycle);
         }
 
+        // If the derivative is defined via equations in locations, check for cycles via initialization predicates.
+        if (CifEquationUtils.hasLocationEquations(der.var)) {
+            Automaton aut = (Automaton)der.var.eContainer();
+
+            for (Location loc: aut.getLocations()) {
+                check(loc, cycle);
+            }
+        }
+
         // Remove object from cycle detection and mark the object as done.
         removeFromCycle(der, cycle);
         done.add(der);
@@ -525,7 +534,7 @@ public class CyclePostChecker {
             check(value, cycle);
         }
 
-        // If there are equations in locations, check for cycles via initialization predicates.
+        // If there are equations for the variable in locations, check for cycles via initialization predicates.
         if (CifEquationUtils.hasLocationEquations(var)) {
             Automaton aut = (Automaton)var.eContainer();
 

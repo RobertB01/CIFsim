@@ -387,10 +387,10 @@ public class CifEquationUtils {
     }
 
     /**
-     * Returns the {@code true} if the variable has equations in locations, returns {@code false} otherwise.
+     * Does the given algebraic variable, or derivative of the given continuous variable, have equations in locations?
      *
      * @param var The algebraic or continuous variable. Must not be an algebraic parameter.
-     * @return {@code true} if the variable has equations in locations, {@code false} otherwise.
+     * @return {@code true} if (the derivative of) the variable has equations in locations, {@code false} otherwise.
      */
     public static boolean hasLocationEquations(PositionObject var) {
         // Precondition checking.
