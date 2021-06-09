@@ -310,7 +310,7 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
                 collectDependencies(value, deps);
             }
 
-            // If there are equations for the variable in locations, there is
+            // If the value is defined via equations in locations, there is
             // a dependency to the initial location of the parent automaton.
             if (CifEquationUtils.hasLocationEquations(var)) {
                 deps.add((Automaton)(var.eContainer()));

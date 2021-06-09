@@ -396,26 +396,19 @@ public class CifEquationUtils {
         // Precondition checking.
         Assert.check(var instanceof AlgVariable || var instanceof ContVariable);
 
-        // Find equation in component.
+        // If parent component is a specification or group, there are no locations.
         ComplexComponent comp = (ComplexComponent)var.eContainer();
-        for (Equation eq: comp.getEquations()) {
-            if (eq.getVariable() == var) {
-                return false;
-            }
-        }
-
-        // If component is a specification or group, we found nothing.
         if (!(comp instanceof Automaton)) {
             return false;
         }
 
-        // Find equations in the locations.
+        // Find equations in the locations. Either all locations have an equation for (the derivative of) the variable,
+        // or no location has.
         Automaton aut = (Automaton)comp;
-        for (Location loc: aut.getLocations()) {
-            for (Equation eq: loc.getEquations()) {
-                if (eq.getVariable() == var) {
-                    return true;
-                }
+        Location loc = first(aut.getLocations());
+        for (Equation eq: loc.getEquations()) {
+            if (eq.getVariable() == var) {
+                return true;
             }
         }
 

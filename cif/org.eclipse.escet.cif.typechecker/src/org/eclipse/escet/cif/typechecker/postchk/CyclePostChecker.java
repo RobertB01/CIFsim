@@ -534,7 +534,7 @@ public class CyclePostChecker {
             check(value, cycle);
         }
 
-        // If there are equations for the variable in locations, check for cycles via initialization predicates.
+        // If the value is defined via equations in locations, check for cycles via initialization predicates.
         if (CifEquationUtils.hasLocationEquations(var)) {
             Automaton aut = (Automaton)var.eContainer();
 
