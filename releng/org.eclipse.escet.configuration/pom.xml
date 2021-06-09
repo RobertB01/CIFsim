@@ -250,7 +250,7 @@ SPDX-License-Identifier: MIT
                             <attribute-missing>error</attribute-missing>
                             <attribute-undefined>error</attribute-undefined>
                             <asciimath />
-                            <revnumber>${qualifiedVersion}</revnumber>
+                            <revnumber>${escet.version.enduser}</revnumber>
                             <last-update-label>false</last-update-label>
                         </attributes>
                     </configuration>

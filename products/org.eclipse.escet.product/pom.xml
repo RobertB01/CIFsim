@@ -37,7 +37,7 @@
                     <repositoryName>Eclipse ESCET Update Site (Incubation)</repositoryName>
 
                     <!-- Custom archive file name (excluding file extension). -->
-                    <finalName>eclipse-escet-incubation-updatesite-${qualifiedVersion}</finalName>
+                    <finalName>eclipse-escet-incubation-updatesite-${escet.version.enduser}</finalName>
                 </configuration>
             </plugin>
 
@@ -65,7 +65,7 @@
                             <!-- Undocumented, see https://dev.eclipse.org/mhonarc/lists/tycho-user/msg05560.html -->
                             <!-- But available, see https://bugs.eclipse.org/bugs/show_bug.cgi?id=357503 -->
                             <!-- The 'os', 'ws' and 'arch' values are automatically added, as is the file extension. -->
-                            <archiveFileName>eclipse-escet-incubation-${qualifiedVersion}</archiveFileName>
+                            <archiveFileName>eclipse-escet-incubation-${escet.version.enduser}</archiveFileName>
 
                             <!-- Add root folder, to prevent issues when extracting to current folder. -->
                             <rootFolders>
@@ -126,7 +126,7 @@
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
-                                    <source>${project.build.directory}/products/eclipse-escet-incubation-${qualifiedVersion}-macosx.cocoa.x86_64.tar.gz</source>
+                                    <source>${project.build.directory}/products/eclipse-escet-incubation-${escet.version.enduser}-macosx.cocoa.x86_64.tar.gz</source>
                                     <sign>true</sign>
                                 </configuration>
                             </execution>
