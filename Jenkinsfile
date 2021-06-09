@@ -35,23 +35,44 @@ pipeline {
             steps {
                 wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
                     sh '''
+                        # Print version and environment.
                         java -version
                         mvn -version
                         printenv
 
+                        # Check license headers are present for all files, where relevant.
                         ./misc/license-header/license-header-check.bash
 
+                        # Get Git last commit date.
+                        GIT_DATE=$(TZ=UTC git log -1 --format=%cd --date=format-local:%Y%m%d-%H%M%S)
+
+                        # Configure 'jenkins' profile for build.
                         BUILD_ARGS="-Pjenkins"
+
+                        # Configure 'sign' profile for build.
+                        # Sign 'master' branch, to allow checking release signing before deployment.
+                        # Sign releases. Determined based on release version tag name.
                         if [[ "$GIT_BRANCH" == "master" || "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
-                            # Sign releases, based on release version tag name.
-                            # Sign 'master' branch, to allow checking release signing before deployment.
                             BUILD_ARGS="$BUILD_ARGS -Psign"
                         fi
+
+                        # Override the 'escet.version.enduser' property for releases. Remains 'dev' otherwise.
                         if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
-                            # Only for actual releases, override the default 'dev' release version.
                             BUILD_ARGS="$BUILD_ARGS -Descet.version.enduser=$TAG_NAME"
                         fi
 
+                        # Override the 'escet.version.qualifier' property for Jenkins builds.
+                        # It starts with 'v' and the Git date, followed by a qualifier postfix.
+                        # For releases, the qualifier postfix is the postfix of the version tag (if any).
+                        # For non-releases, the qualifier postfix is 'dev'.
+                        if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
+                            QUALIFIER_POSTFIX=$(echo "$TAG_NAME" | sed -e 's/^[^-]*//g')
+                        else
+                            QUALIFIER_POSTFIX=-dev
+                        fi
+                        BUILD_ARGS="$BUILD_ARGS -Descet.version.qualifier=v$GIT_DATE$QUALIFIER_POSTFIX"
+
+                        # Perform build.
                         ./build.sh $BUILD_ARGS
                     '''
                 }
