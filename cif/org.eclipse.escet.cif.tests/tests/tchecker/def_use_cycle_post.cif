@@ -402,10 +402,10 @@ end
 // Cycle via equations combined with initial predicates.
 automaton A:
   alg bool x;
-  location wait_init:
+  location l1:
     initial B.y = 1;
     equation x = false;
-  location wait_init_2:
+  location l2:
     initial B.y = 0;
     equation x = true;
 end

@@ -26,6 +26,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.escet.cif.common.CifEquationUtils;
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -519,9 +520,18 @@ public class CyclePostChecker {
         addToCycle(var, cycle);
 
         // Check value/equations.
-        List<Expression> values = getValuesForAlgVar(var, true, true);
+        List<Expression> values = getValuesForAlgVar(var, true);
         for (Expression value: values) {
             check(value, cycle);
+        }
+
+        // If there are equations in locations, check for cycles via initialization predicates.
+        if (CifEquationUtils.hasLocationEquations(var)) {
+            Automaton aut = (Automaton)var.eContainer();
+
+            for (Location loc: aut.getLocations()) {
+                check(loc, cycle);
+            }
         }
 
         // Remove object from cycle detection and mark the object as done.

@@ -1166,7 +1166,7 @@ public class CifToSynthesisConverter {
         protected void preprocessAlgVariableExpression(AlgVariableExpression expr) {
             // Get the possible values of the variable.
             AlgVariable var = expr.getVariable();
-            List<Expression> values = CifEquationUtils.getValuesForAlgVar(var, false, false);
+            List<Expression> values = CifEquationUtils.getValuesForAlgVar(var, false);
 
             // Collect for each possible value.
             for (Expression value: values) {
