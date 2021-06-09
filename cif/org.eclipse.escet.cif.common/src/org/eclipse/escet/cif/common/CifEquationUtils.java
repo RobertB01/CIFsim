@@ -385,4 +385,34 @@ public class CifEquationUtils {
         // Return derivative of continuous variable.
         return ifExpr;
     }
+
+    /**
+     * Does the given algebraic variable, or derivative of the given continuous variable, have equations in locations?
+     *
+     * @param var The algebraic or continuous variable. Must not be an algebraic parameter.
+     * @return {@code true} if (the derivative of) the variable has equations in locations, {@code false} otherwise.
+     */
+    public static boolean hasLocationEquations(PositionObject var) {
+        // Precondition checking.
+        Assert.check(var instanceof AlgVariable || var instanceof ContVariable);
+
+        // If parent component is a specification or group, there are no locations.
+        ComplexComponent comp = (ComplexComponent)var.eContainer();
+        if (!(comp instanceof Automaton)) {
+            return false;
+        }
+
+        // Find equations in the locations. Either all locations have an equation for (the derivative of) the variable,
+        // or no location has.
+        Automaton aut = (Automaton)comp;
+        Location loc = first(aut.getLocations());
+        for (Equation eq: loc.getEquations()) {
+            if (eq.getVariable() == var) {
+                return true;
+            }
+        }
+
+        // Found nothing.
+        return false;
+    }
 }

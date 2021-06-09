@@ -399,3 +399,18 @@ group init6:
   end
 end
 
+// Cycle via equations for algebraic variable combined with initial predicate.
+automaton init7:
+  alg bool x;
+  location:
+    initial x = false;
+    equation x = false;
+end
+
+// Cycle via equations for derivative of continuous variable combined with initial predicate.
+automaton init8:
+  cont x;
+  location:
+    initial x' = 0;
+    equation x' = 0;
+end

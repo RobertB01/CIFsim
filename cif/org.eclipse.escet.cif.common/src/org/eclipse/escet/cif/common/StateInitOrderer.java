@@ -309,6 +309,12 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
             for (Expression value: values) {
                 collectDependencies(value, deps);
             }
+
+            // If the value is defined via equations in locations, there is
+            // a dependency to the initial location of the parent automaton.
+            if (CifEquationUtils.hasLocationEquations(var)) {
+                deps.add((Automaton)(var.eContainer()));
+            }
             return;
         }
 
@@ -324,6 +330,12 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
                 derivs = CifEquationUtils.getDerivativesForContVar(var, false);
                 for (Expression deriv: derivs) {
                     collectDependencies(deriv, deps);
+                }
+
+                // If the derivative is defined via equations in locations, there
+                // is a dependency to the initial location of the parent automaton.
+                if (CifEquationUtils.hasLocationEquations(var)) {
+                    deps.add((Automaton)(var.eContainer()));
                 }
                 return;
             } else {
