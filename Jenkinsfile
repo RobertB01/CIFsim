@@ -60,6 +60,9 @@ pipeline {
                             BUILD_ARGS="$BUILD_ARGS -Psign"
                         fi
 
+                        #XXX TMP test
+                        TAG_NAME=v0.2-RC1
+
                         # Override the 'escet.version.enduser' property for releases. Remains 'dev' otherwise.
                         if [[ "$TAG_NAME" =~ ^v[0-9]+\\.[0-9]+.*$ ]]; then
                             BUILD_ARGS="$BUILD_ARGS -Descet.version.enduser=$TAG_NAME"
