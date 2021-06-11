@@ -34,7 +34,7 @@ alg bool c6 = switch lx0: case ly0:  true else false end; // Equal range - OK.
 alg bool c7 = switch lx0: case ly1:  true else false end; // Non-overlapping range - OK.
 alg bool c8 = switch lx0: case ly01: true else false end; // Overlapping range - OK.
 
-// Ranged and non-ranged integer types
+// Ranged and non-ranged integer types.
 alg int z0 = 0;
 alg list int lz0 = [0];
 
