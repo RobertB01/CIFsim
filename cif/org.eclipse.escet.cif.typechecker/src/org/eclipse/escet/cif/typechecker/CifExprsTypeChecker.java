@@ -4622,7 +4622,7 @@ public class CifExprsTypeChecker {
             cse.setKey(key);
 
             // Check type.
-            if (!checkTypeCompat(switchValue.getType(), key.getType(), RangeCompat.CONTAINED)) {
+            if (!checkTypeCompat(switchValue.getType(), key.getType(), RangeCompat.IGNORE)) {
                 tchecker.addProblem(ErrMsg.SWITCH_CASE_KEY_TYPE, astKey.position, typeToStr(key.getType()),
                         typeToStr(switchValue.getType()));
                 throw new SemanticException();
