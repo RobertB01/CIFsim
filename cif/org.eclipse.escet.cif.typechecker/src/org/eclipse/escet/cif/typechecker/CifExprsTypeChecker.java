@@ -4513,7 +4513,7 @@ public class CifExprsTypeChecker {
      * Transforms a 'switch' case and performs type checking on it.
      *
      * @param astSwitch The 'switch' AST expression.
-     * @param switchValue The 'value of the 'switch' expression.
+     * @param switchValue The 'value' of the 'switch' expression.
      * @param astCase The CIF AST 'switch' case to transform.
      * @param isAutRef Is the value of the 'switch' expression an automaton reference?
      * @param firstCaseValueType The type of the value of the first case, or {@code null} if not applicable/available.
