@@ -149,13 +149,22 @@ public final class CrashReport {
      * @param s The {@link AppStream} to write the crash report to.
      */
     public static void writeCrashReport(Throwable ex, AppStream s) {
+        // Get application.
+        Application<?> app = AppEnv.getApplication();
+
+        // Provide users with issue reporting instructions.
+        s.println("[Reporting]");
+        for (String line: Strings.wrap(app.getCrashReportIssueReportingInstructions())) {
+            s.println(line);
+        }
+        s.println();
+
         // Exception.
         s.println("[Exception]");
         s.printStackTrace(ex);
         s.println();
 
         // Application framework.
-        Application<?> app = AppEnv.getApplication();
         s.println("[Application]");
         s.println("Application name    = " + app.getAppName());
         s.println("Application version = " + app.getAppVersionSafe());

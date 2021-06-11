@@ -378,6 +378,23 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
     }
 
     /**
+     * Returns a text with issue reporting instructions, for the UI report to users in cas of a validation crash.
+     *
+     * <p>
+     * The default implementation is specific for Eclipse ESCET. Derived classes may override this method to provide
+     * instructions matching their own text editor.
+     * </p>
+     *
+     * @return The text with issue reporting instructions.
+     */
+    public String getValidationCrashIssueReportingInstructions() {
+        return "Validation crashed. Please report this to the Eclipse ESCET development team at "
+                + "https://gitlab.eclipse.org/eclipse/escet/escet/-/issues. For more information, see "
+                + "https://eclipse.org/escet/escet/#developer-issue-tracking-chapter-index. We appreciate you "
+                + "taking the effort to report issues to us!";
+    }
+
+    /**
      * Performs validation by parsing and type checking the text document. Updates the problem markers based on the
      * parse and type check results.
      *
@@ -392,16 +409,12 @@ public class GenericTextEditor<T1, T2> extends TextEditor implements IDocumentLi
             }
         }
 
-        // Perform validation, reporting validation errors to the end user via
-        // the Eclipse UI.
+        // Perform validation, reporting validation errors to the end user via the Eclipse UI.
         try {
             validateInternal();
         } catch (Throwable ex) {
-            // We report the crash using the name of the editor class instead
-            // of the name of the plug-in that the editor class is a part of.
-            String title = "Validation crashed. Please report this to the Eclipse ESCET development team.";
-            String pluginName = GenericTextEditor.this.getClass().getName();
-            Status status = new Status(IStatus.ERROR, pluginName, IStatus.OK, title, ex);
+            String title = getValidationCrashIssueReportingInstructions();
+            Status status = new Status(IStatus.ERROR, getClass(), IStatus.OK, title, ex);
             int style = StatusManager.LOG | StatusManager.SHOW;
             StatusManager.getManager().handle(status, style);
         }
