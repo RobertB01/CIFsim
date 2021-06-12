@@ -13,3 +13,32 @@
 
 const string c1 = switch 1:   case true: "a" else "b" end;
 const int    c2 = switch "a": case 1.0:  5   else 6   end;
+
+// Ranged integer types.
+alg int[0..0] x0  = 0;
+alg int[0..0] y0  = 0;
+alg int[1..1] y1  = 1;
+alg int[0..1] y01 = 0;
+
+alg bool c3 = switch x0: case y0:  true else false end; // Equal range - OK.
+alg bool c4 = switch x0: case y1:  true else false end; // Non-overlapping range - OK.
+alg bool c5 = switch x0: case y01: true else false end; // Overlapping range - OK.
+
+// Ranged integer type lists.
+alg list int[0..0] lx0  = [0];
+alg list int[0..0] ly0  = [0];
+alg list int[1..1] ly1  = [1];
+alg list int[0..1] ly01 = [0];
+
+alg bool c6 = switch lx0: case ly0:  true else false end; // Equal range - OK.
+alg bool c7 = switch lx0: case ly1:  true else false end; // Non-overlapping range - OK.
+alg bool c8 = switch lx0: case ly01: true else false end; // Overlapping range - OK.
+
+// Ranged and non-ranged integer types.
+alg int z0 = 0;
+alg list int lz0 = [0];
+
+alg bool c9  = switch x0:  case z0:  true else false end; // Ranged control, rangeless key - OK.
+alg bool c11 = switch z0:  case x0:  true else false end; // Ranged control, rangeless key - OK.
+alg bool c10 = switch lx0: case lz0: true else false end; // Rangeless control, ranged key - OK.
+alg bool c12 = switch lz0: case lx0: true else false end; // Rangeless control, ranged key - OK.
