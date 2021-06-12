@@ -1,0 +1,3 @@
+OptionalA1: () | A;
+
+OptionalA2: A? ;
