@@ -198,6 +198,7 @@ POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documen
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/tools/mergecif/merge_sup.cif:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/tools/mergecif/merge_timed.cif:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./cif/org.eclipse.escet.cif.documentation/images/tools/mergecif/merged.cif:0$"
+POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./common/org.eclipse.escet.common.raildiagrams/src/org/eclipse/escet/common/raildiagrams/config/default.properties:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/abcd.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/abcdefgh.rr:0$"
 POST_EXCLUDE_PATTERN="$POST_EXCLUDE_PATTERN|^./products/org.eclipse.escet.documentation/images/rail/alternating.rr:0$"
