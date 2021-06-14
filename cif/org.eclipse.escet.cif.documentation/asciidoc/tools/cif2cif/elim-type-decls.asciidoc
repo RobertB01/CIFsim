@@ -24,8 +24,8 @@ indexterm:[eliminate type declarations,supported transformations]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -33,10 +33,8 @@ indexterm:[eliminate type declarations,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -44,10 +42,9 @@ indexterm:[eliminate type declarations,implementation]
 
 === Implementation details
 
-All uses of type declarations (in types of variables, types of other type
-declarations, etc), are replaced by the types of those type declarations. The
-type declarations themselves are removed. For instance, the following
-specification:
+All uses of type declarations (in types of variables, types of other type declarations, etc), are replaced by the types of those type declarations.
+The type declarations themselves are removed.
+For instance, the following specification:
 
 
 [source, cif]
@@ -80,10 +77,9 @@ indexterm:[eliminate type declarations,size considerations]
 
 === Size considerations
 
-Since type declarations are shortcuts for types, eliminating them could result
-in an increase of the size of the specification. Type declarations may be
-defined in terms of other type declarations. Therefore, in the worst case, the
-increase is exponential.
+Since type declarations are shortcuts for types, eliminating them could result in an increase of the size of the specification.
+Type declarations may be defined in terms of other type declarations.
+Therefore, in the worst case, the increase is exponential.
 
 
 === Optimality

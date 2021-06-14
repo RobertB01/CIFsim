@@ -60,6 +60,9 @@ Marked    (auts/locs marker predicate):      p.x = 0 and (p.b and p.y = 1) or p.
 Marked    (uncontrolled system):             p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
 Marked    (system, combined marked/req inv): p.x = 0 and (p.b and p.y = 1) or p.x = 2 and (p.b and p.y = 2) or (p.x = 1 and (p.b and p.y = 2) or p.x = 3 and (p.b and p.y = 3))
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -68,6 +71,8 @@ Uncontrolled system:
     Edge: (event: inc_x) (guard: p.a) (assignments: p.x := p.x + 1)
     Edge: (event: inc_y) (guard: p.a) (assignments: p.y := p.y + 1)
     Edge: (event: done) (guard: p.a) (assignments: p := p.b)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

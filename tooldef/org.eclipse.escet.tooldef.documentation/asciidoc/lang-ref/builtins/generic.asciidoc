@@ -34,67 +34,52 @@ tool int app(string? plugin, string classname, list string args = [], string std
 
 Executes an application framework application.
 
-The application is specified as a Java class that extends the
-`org.eclipse.escet.common.app.framework.Application` class. It should have a constructor
-that accepts one parameter, of type `org.eclipse.escet.common.app.framework.io.AppStreams`.
+The application is specified as a Java class that extends the `org.eclipse.escet.common.app.framework.Application` class.
+It should have a constructor that accepts one parameter, of type `org.eclipse.escet.common.app.framework.io.AppStreams`.
 
-The application is started within the current Java interpreter, in a new
-thread. If executed from Eclipse, the class is loaded using the class loader
-of the given bundle (if provided), otherwise, it is loaded using the default
-class loader. In the latter case, the class should be in the class path.
+The application is started within the current Java interpreter, in a new thread.
+If executed from Eclipse, the class is loaded using the class loader of the given bundle (if provided), otherwise, it is loaded using the default class loader.
+In the latter case, the class should be in the class path.
 
-Note that this tool is only machine independent and platform independent, as
-long as the applications that are executed, are machine independent and
-platform independent as well.
+Note that this tool is only machine independent and platform independent, as long as the applications that are executed, are machine independent and platform independent as well.
 
 _Parameters_
 
 `plugin`::
-The name of the plug-in (OSGi bundle) in which to resolve the application
-class. If the Java application is executed from Eclipse, then the class is
-loaded by the class loader of this bundle, otherwise it is resolved using the
-default class loader. May be `null` to always use the default class loader.
+The name of the plug-in (OSGi bundle) in which to resolve the application class.
+If the Java application is executed from Eclipse, then the class is loaded by the class loader of this bundle, otherwise it is resolved using the default class loader.
+May be `null` to always use the default class loader.
 
 `classname`::
 The absolute name of the Java class to execute as application.
 
 `args`::
-The command line arguments of the application to execute. Each argument
-string is parsed to zero or more actual arguments. It is possible to use a
-single string with all arguments (where the arguments themselves are
-separated by spaces), comma separated strings for each of the arguments (each
-string has one argument), or a mix of those.
+The command line arguments of the application to execute.
+Each argument string is parsed to zero or more actual arguments.
+It is possible to use a single string with all arguments (where the arguments themselves are separated by spaces), comma separated strings for each of the arguments (each string has one argument), or a mix of those.
 +
-In argument strings, individual arguments are separated by whitespace
-(spaces, tabs, new lines, etc). The whitespace itself is ignored, and only
-serves as separation. To include whitespace in an argument, the argument (or
-a part of it), may be quoted, by putting it between double quotes (`+"+`) or
-single quotes (`+'+`). Characters may be escaped by prefixing them with a
-backslash (`\`). This is particularly useful for single/double quotes, and
-escape characters, and can also be used to escape spaces. Escapes work the
-same inside of quoted parts as they do outside of quoted parts.
+In argument strings, individual arguments are separated by whitespace (spaces, tabs, new lines, etc).
+The whitespace itself is ignored, and only serves as separation.
+To include whitespace in an argument, the argument (or a part of it), may be quoted, by putting it between double quotes (`+"+`) or single quotes (`+'+`).
+Characters may be escaped by prefixing them with a backslash (`\`).
+This is particularly useful for single/double quotes, and escape characters, and can also be used to escape spaces.
+Escapes work the same inside of quoted parts as they do outside of quoted parts.
 
 `stdin`::
-Specify whether to have a standard input (stdin) stream and where the input
-comes from. Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin
-stream of the ToolDef interpreter, or otherwise an absolute or relative local
-file system path of the file from which to read the standard input. May
-contain both `\` and `/` as path separators.
+Specify whether to have a standard input (stdin) stream and where the input comes from.
+Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
+May contain both `\` and `/` as path separators.
 
 `stdout`::
-Specify whether to have a standard output (stdout) stream and where to write
-the standard output. Use `+""+` to not have a stdout stream, `+"-"+` to use
-the stdout stream of the ToolDef interpreter, or otherwise an absolute or
-relative local file system path of the file to which to write the standard
-output. May contain both `\` and `/` as path separators.
+Specify whether to have a standard output (stdout) stream and where to write the standard output.
+Use `+""+` to not have a stdout stream, `+"-"+` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
+May contain both `\` and `/` as path separators.
 
 `stderr`::
-Specify whether to have a standard error (stderr) stream and where to write
-the standard error output. Use `+""+` to not have a stderr stream, `+"-"+`
-to use the stderr stream of the ToolDef interpreter, or otherwise an absolute
-or relative local file system path of the file to which to write the standard
-error output. May contain both `\` and `/` as path separators. Is ignored
-when the standard error stream is redirected to the standard output stream.
+Specify whether to have a standard error (stderr) stream and where to write the standard error output.
+Use `+""+` to not have a stderr stream, `+"-"+` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
+May contain both `\` and `/` as path separators.
+Is ignored when the standard error stream is redirected to the standard output stream.
 
 `appendOut`::
 Whether to append to the stdout file (`true`) or overwrite it (`false`).
@@ -102,21 +87,19 @@ Is ignored when standard output is not written to a file.
 
 `appendErr`::
 Whether to append to the stderr file (`true`) or overwrite it (`false`).
-Is ignored if standard error output is not written to a file. Is also ignored
-when standard error stream is redirected to the standard output stream.
+Is ignored if standard error output is not written to a file.
+Is also ignored when standard error stream is redirected to the standard output stream.
 
 `errToOut`::
-Whether to redirect the standard error stream to the standard output stream
-(`true`) or use separate streams (`false`).
+Whether to redirect the standard error stream to the standard output stream (`true`) or use separate streams (`false`).
 
 `ignoreNonZeroExitCode`::
-Whether to ignore non-zero exit codes (`true`) or consider them as errors
-(`false`).
+Whether to ignore non-zero exit codes (`true`) or consider them as errors (`false`).
 
 _Returns_
 
-The application exit code. See the application framework documentation for a
-description of the exit codes.
+The application exit code.
+See the application framework documentation for a description of the exit codes.
 
 _Runtime errors_
 
@@ -127,8 +110,7 @@ _Runtime errors_
 * If an instance of the application class can not be constructed.
 * If parsing of the command line arguments fails.
 * If the application fails to execute due to its thread being interrupted.
-* If the application exits with a non-zero exit code and non-zero exit codes
-are not ignored.
+* If the application exits with a non-zero exit code and non-zero exit codes are not ignored.
 
 
 indexterm:[exec]
@@ -144,55 +126,41 @@ tool int exec(string cmd, list string args = [], string stdin = "", string stdou
 
 Executes a system command or external application as a sub process.
 
-This tool should be avoided if possible, as it is in general not guaranteed to
-be cross platform and machine independent. Commands and external applications
-may not be available on all systems, or may have different behavior on
-different systems.
+This tool should be avoided if possible, as it is in general not guaranteed to be cross platform and machine independent.
+Commands and external applications may not be available on all systems, or may have different behavior on different systems.
 
 _Parameters_
 
 `cmd`::
-The name of the command or the absolute or relative local file system path of
-the external application to execute, using platform specific new line
-characters.
+The name of the command or the absolute or relative local file system path of the external application to execute, using platform specific new line characters.
 
 `args`::
 The command line arguments of the command or external application to execute.
-Each argument string is parsed to zero or more actual arguments. It is
-possible to use a single string with all arguments (where the arguments
-themselves are separated by spaces), comma separated strings for each of the
-arguments (each string has one argument), or a mix of those.
+Each argument string is parsed to zero or more actual arguments.
+It is possible to use a single string with all arguments (where the arguments themselves are separated by spaces), comma separated strings for each of the arguments (each string has one argument), or a mix of those.
 +
-In argument strings, individual arguments are separated by whitespace
-(spaces, tabs, new lines, etc). The whitespace itself is ignored, and only
-serves as separation. To include whitespace in an argument, the argument (or
-a part of it), may be quoted, by putting it between double quotes (`+"+`) or
-single quotes (`+'+`). Characters may be escaped by prefixing them with a
-backslash (`+\+`). This is particularly useful for single/double quotes, and
-escape characters, and can also be used to escape spaces. Escapes work the
-same inside of quoted parts as they do outside of quoted parts.
+In argument strings, individual arguments are separated by whitespace (spaces, tabs, new lines, etc).
+The whitespace itself is ignored, and only serves as separation.
+To include whitespace in an argument, the argument (or a part of it), may be quoted, by putting it between double quotes (`+"+`) or single quotes (`+'+`).
+Characters may be escaped by prefixing them with a backslash (`+\+`).
+This is particularly useful for single/double quotes, and escape characters, and can also be used to escape spaces.
+Escapes work the same inside of quoted parts as they do outside of quoted parts.
 
 `stdin`::
-Specify whether to have a standard input (stdin) stream and where the input
-comes from. Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin
-stream of the ToolDef interpreter, or otherwise an absolute or relative local
-file system path of the file from which to read the standard input. May
-contain both `\` and `/` as path separators.
+Specify whether to have a standard input (stdin) stream and where the input comes from.
+Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
+May contain both `\` and `/` as path separators.
 
 `stdout`::
-Specify whether to have a standard output (stdout) stream and where to write
-the standard output. Use `+""+` to not have a stdout stream, `+"-"+` to use
-the stdout stream of the ToolDef interpreter, or otherwise an absolute or
-relative local file system path of the file to which to write the standard
-output. May contain both `\` and `/` as path separators.
+Specify whether to have a standard output (stdout) stream and where to write the standard output.
+Use `+""+` to not have a stdout stream, `+"-"+` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
+May contain both `\` and `/` as path separators.
 
 `stderr`::
-Specify whether to have a standard error (stderr) stream and where to write
-the standard error output. Use `+""+` to not have a stderr stream, `+"-"+`
-to use the stderr stream of the ToolDef interpreter, or otherwise an absolute
-or relative local file system path of the file to which to write the standard
-error output. May contain both `\` and `/` as path separators. Is ignored
-when the standard error stream is redirected to the standard output stream.
+Specify whether to have a standard error (stderr) stream and where to write the standard error output.
+Use `+""+` to not have a stderr stream, `+"-"+` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
+May contain both `\` and `/` as path separators.
+Is ignored when the standard error stream is redirected to the standard output stream.
 
 `appendOut`::
 Whether to append to the stdout file (`true`) or overwrite it (`false`).
@@ -200,28 +168,24 @@ Is ignored when standard output is not written to a file.
 
 `appendErr`::
 Whether to append to the stderr file (`true`) or overwrite it (`false`).
-Is ignored if standard error output is not written to a file. Is also ignored
-when standard error stream is redirected to the standard output stream.
+Is ignored if standard error output is not written to a file.
+Is also ignored when standard error stream is redirected to the standard output stream.
 
 `errToOut`::
-Whether to redirect the standard error stream to the standard output stream
-(`true`) or use separate streams (`false`).
+Whether to redirect the standard error stream to the standard output stream (`true`) or use separate streams (`false`).
 
 `ignoreNonZeroExitCode`::
-Whether to ignore non-zero exit codes (`true`) or consider them as errors
-(`false`).
+Whether to ignore non-zero exit codes (`true`) or consider them as errors (`false`).
 
 _Returns_
 
-The exit code resulting from the execution of the command or external
-application.
+The exit code resulting from the execution of the command or external application.
 
 _Runtime errors_
 
 * If parsing of the command line arguments fails.
 * If ToolDef fails to execution the command or external application.
-* If execution results in a non-zero exit code and non-zero exit codes are not
-ignored.
+* If execution results in a non-zero exit code and non-zero exit codes are not ignored.
 
 
 indexterm:[tooldef]
@@ -235,51 +199,40 @@ tool int tooldef(string... args,        string stdin = "-", string stdout = "-",
 tool int tooldef(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-", bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false)
 ----
 
-Executes a ToolDef script. Waits for that script to finish its execution before
-continuing with the current script.
+Executes a ToolDef script.
+Waits for that script to finish its execution before continuing with the current script.
 
-The script is executed within the current Java interpreter, in a new thread,
-using a new ToolDef interpreter.
+The script is executed within the current Java interpreter, in a new thread, using a new ToolDef interpreter.
 
 _Parameters_
 
 `args`::
-The command line arguments for the ToolDef interpreter, including the path to
-the script to execute. Each argument string is parsed to zero or more actual
-arguments. It is possible to use a single string with all arguments (where
-the arguments themselves are separated by spaces), comma separated strings
-for each of the arguments (each string has one argument), or a mix of those.
+The command line arguments for the ToolDef interpreter, including the path to the script to execute.
+Each argument string is parsed to zero or more actual arguments.
+It is possible to use a single string with all arguments (where the arguments themselves are separated by spaces), comma separated strings for each of the arguments (each string has one argument), or a mix of those.
 +
-In argument strings, individual arguments are separated by whitespace
-(spaces, tabs, new lines, etc). The whitespace itself is ignored, and only
-serves as separation. To include whitespace in an argument, the argument (or
-a part of it), may be quoted, by putting it between double quotes (`+"+`) or
-single quotes (`+'+`). Characters may be escaped by prefixing them with a
-backslash (`+\+`). This is particularly useful for single/double quotes, and
-escape characters, and can also be used to escape spaces. Escapes work the
-same inside of quoted parts as they do outside of quoted parts.
+In argument strings, individual arguments are separated by whitespace (spaces, tabs, new lines, etc).
+The whitespace itself is ignored, and only serves as separation.
+To include whitespace in an argument, the argument (or a part of it), may be quoted, by putting it between double quotes (`+"+`) or single quotes (`+'+`).
+Characters may be escaped by prefixing them with a backslash (`+\+`).
+This is particularly useful for single/double quotes, and escape characters, and can also be used to escape spaces.
+Escapes work the same inside of quoted parts as they do outside of quoted parts.
 
 `stdin`::
-Specify whether to have a standard input (stdin) stream and where the input
-comes from. Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin
-stream of the ToolDef interpreter, or otherwise an absolute or relative local
-file system path of the file from which to read the standard input. May
-contain both `\` and `/` as path separators.
+Specify whether to have a standard input (stdin) stream and where the input comes from.
+Use `+""+` to not have a stdin stream, `+"-"+` to use the stdin stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file from which to read the standard input.
+May contain both `\` and `/` as path separators.
 
 `stdout`::
-Specify whether to have a standard output (stdout) stream and where to write
-the standard output. Use `+""+` to not have a stdout stream, `+"-"+` to use
-the stdout stream of the ToolDef interpreter, or otherwise an absolute or
-relative local file system path of the file to which to write the standard
-output. May contain both `\` and `/` as path separators.
+Specify whether to have a standard output (stdout) stream and where to write the standard output.
+Use `+""+` to not have a stdout stream, `+"-"+` to use the stdout stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard output.
+May contain both `\` and `/` as path separators.
 
 `stderr`::
-Specify whether to have a standard error (stderr) stream and where to write
-the standard error output. Use `+""+` to not have a stderr stream, `+"-"+`
-to use the stderr stream of the ToolDef interpreter, or otherwise an absolute
-or relative local file system path of the file to which to write the standard
-error output. May contain both `\` and `/` as path separators. Is ignored
-when the standard error stream is redirected to the standard output stream.
+Specify whether to have a standard error (stderr) stream and where to write the standard error output.
+Use `+""+` to not have a stderr stream, `+"-"+` to use the stderr stream of the ToolDef interpreter, or otherwise an absolute or relative local file system path of the file to which to write the standard error output.
+May contain both `\` and `/` as path separators.
+Is ignored when the standard error stream is redirected to the standard output stream.
 
 `appendOut`::
 Whether to append to the stdout file (`true`) or overwrite it (`false`).
@@ -287,16 +240,14 @@ Is ignored when standard output is not written to a file.
 
 `appendErr`::
 Whether to append to the stderr file (`true`) or overwrite it (`false`).
-Is ignored if standard error output is not written to a file. Is also ignored
-when standard error stream is redirected to the standard output stream.
+Is ignored if standard error output is not written to a file.
+Is also ignored when standard error stream is redirected to the standard output stream.
 
 `errToOut`::
-Whether to redirect the standard error stream to the standard output stream
-(`true`) or use separate streams (`false`).
+Whether to redirect the standard error stream to the standard output stream (`true`) or use separate streams (`false`).
 
 `ignoreNonZeroExitCode`::
-Whether to ignore non-zero exit codes (`true`) or consider them as errors
-(`false`).
+Whether to ignore non-zero exit codes (`true`) or consider them as errors (`false`).
 
 _Returns_
 
@@ -306,5 +257,4 @@ _Runtime errors_
 
 * If parsing of the command line arguments fails.
 * If the application fails to execute due to its thread being interrupted.
-* If execution results in a non-zero exit code and non-zero exit codes are not
-ignored.
+* If execution results in a non-zero exit code and non-zero exit codes are not ignored.

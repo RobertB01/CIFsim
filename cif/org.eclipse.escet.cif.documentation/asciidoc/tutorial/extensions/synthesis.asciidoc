@@ -16,41 +16,31 @@ include::../_part_attributes.asciidoc[]
 == Supervisory controller synthesis
 
 indexterm:[supervisory controller synthesis]
-Supervisory controller synthesis (or supervisor synthesis, or just synthesis)
-is a generative technique, where one derives a supervisory controller from a
-collection of plants and requirements. Synthesis allows to focus on the _what_,
-i.e. which requirements should hold, rather than on the _how_, i.e. how to
-implement this in a controller.
+Supervisory controller synthesis (or supervisor synthesis, or just synthesis) is a generative technique, where one derives a supervisory controller from a collection of plants and requirements.
+Synthesis allows to focus on the _what_, i.e. which requirements should hold, rather than on the _how_, i.e. how to implement this in a controller.
 
 indexterm:[plant]
 indexterm:[requirement]
 indexterm:[supervisor]
 
 [[lang-tut-extensions-synthesis-plant-req-sup]]
-The _plants_ describe capabilities or behavior of a physical system 'as is',
-without any integrated control. They represent the available behavior of the
-uncontrolled system. _Requirements_ model (a part of) the functions a system is
-supposed to perform. They represents behavior that is allowed in the controlled
-system, or more precisely, they specify the behavior that is not allowed in the
-controlled system. In other words, requirements restrict the behavior of the
-plants, to ensure that only the desired behavior remains. The goal of
-supervisory controller synthesis is to compute a supervisory controller (or
-_supervisor_) that enforces the requirements, assuming the behavior of the
-plants, additionally preventing deadlock and livelock, and without restricting
-the system any further than is required.
+The _plants_ describe capabilities or behavior of a physical system 'as is', without any integrated control.
+They represent the available behavior of the uncontrolled system.
+_Requirements_ model (a part of) the functions a system is supposed to perform.
+They represents behavior that is allowed in the controlled system, or more precisely, they specify the behavior that is not allowed in the controlled system.
+In other words, requirements restrict the behavior of the plants, to ensure that only the desired behavior remains.
+The goal of supervisory controller synthesis is to compute a supervisory controller (or _supervisor_) that enforces the requirements, assuming the behavior of the plants, additionally preventing deadlock and livelock, and without restricting the system any further than is required.
 
-It is beyond the scope of the CIF language tutorial to go into the details of
-supervisory controller synthesis. However, CIF has several features that are
-used solely of modeling systems for the purpose of supervisory controller
-synthesis:
+It is beyond the scope of the CIF language tutorial to go into the details of supervisory controller synthesis.
+However, CIF has several features that are used solely of modeling systems for the purpose of supervisory controller synthesis:
 
 * <<lang-tut-extensions-synthesis-autkind>>
 * <<lang-tut-extensions-synthesis-invkind>>
 * <<lang-tut-extensions-synthesis-evtctrl>>
 * <<lang-tut-extensions-synthesis-marked>>
 
-These concepts are explained below. When a model is not used for supervisory
-controller synthesis, e.g. for simulation, these concepts are usually ignored.
+These concepts are explained below.
+When a model is not used for supervisory controller synthesis, e.g. for simulation, these concepts are usually ignored.
 
 indexterm:[automaton,supervisory kind]
 indexterm:[automaton,regular]
@@ -62,22 +52,16 @@ indexterm:[automaton,supervisor]
 [[lang-tut-extensions-synthesis-autkind]]
 === Automaton kinds
 
-For supervisory controller synthesis, different kinds of automata are treated
-in different ways. Regular automata, as used in the language tutorial so far,
-are specified using only the `automaton` keyword. Regular automata do not
-specify a kind for supervisory controller synthesis, and are therefore
-sometimes also referred to as kindless automata. Synthesis tools typically
-require knowledge about the purpose of each of the automata, and therefore
-don't support regular automata.
+For supervisory controller synthesis, different kinds of automata are treated in different ways.
+Regular automata, as used in the language tutorial so far, are specified using only the `automaton` keyword.
+Regular automata do not specify a kind for supervisory controller synthesis, and are therefore sometimes also referred to as kindless automata.
+Synthesis tools typically require knowledge about the purpose of each of the automata, and therefore don't support regular automata.
 
-For supervisory controller synthesis, three different kinds of automata are
-available: plant automata, requirement automata, and supervisor automata. These
-automata are identical to regular automata, except for the keywords used to
-declare their intent. The `automaton` keyword is preceded or replaced by the
-`plant`, `requirement`, or `supervisor` keyword respectively.
+For supervisory controller synthesis, three different kinds of automata are available: plant automata, requirement automata, and supervisor automata.
+These automata are identical to regular automata, except for the keywords used to declare their intent.
+The `automaton` keyword is preceded or replaced by the `plant`, `requirement`, or `supervisor` keyword respectively.
 
-For instance, the following are two alternative ways to model the same plant
-automaton:
+For instance, the following are two alternative ways to model the same plant automaton:
 
 
 [source, cif]
@@ -117,11 +101,8 @@ indexterm:[invariant,supervisor]
 [[lang-tut-extensions-synthesis-invkind]]
 === Invariant kinds
 
-Similar to automata, different kinds of invariants are treated in different
-ways for supervisory controller synthesis. Invariants can be declared as plant,
-requirement, or supervisor invariants, by preceding or replacing the
-`invariant` keyword with a `plant`, `requirement`, or `supervisor`
-keyword respectively.
+Similar to automata, different kinds of invariants are treated in different ways for supervisory controller synthesis.
+Invariants can be declared as plant, requirement, or supervisor invariants, by preceding or replacing the `invariant` keyword with a `plant`, `requirement`, or `supervisor` keyword respectively.
 
 For instance, consider the following CIF specification:
 
@@ -145,21 +126,16 @@ plant lamp:
 end
 ----
 
-The first invariant, above the `lamp` automaton, does not specify an
-additional supervisory kind keyword, are is therefore a regular invariant, also
-called a kindless invariant. The second invariant, in the `lamp` automaton,
-explicitly specifies a `requirement` kind and is therefore a requirement
-invariant. The third and last invariant is identical to the second invariant,
-except that the `invariant` keyword has been omitted. It is also a
-requirement invariant, but written in a shorter form.
+The first invariant, above the `lamp` automaton, does not specify an additional supervisory kind keyword, are is therefore a regular invariant, also called a kindless invariant.
+The second invariant, in the `lamp` automaton, explicitly specifies a `requirement` kind and is therefore a requirement invariant.
+The third and last invariant is identical to the second invariant, except that the `invariant` keyword has been omitted.
+It is also a requirement invariant, but written in a shorter form.
 
 [[lang-tut-extensions-synthesis-invkind-implicit]]
-Invariants without an additional keyword to specify their supervisory kind, are
-regular invariants or kindless invariants. However, if such an invariant is
-placed in an automaton that has a supervisory kind, the invariant inherits the
-supervisory kind of that automaton. This is a deprecated feature that will
-result in a warning. To get rid of the warning, explicitly specify the
-supervisory kind of the invariant.
+Invariants without an additional keyword to specify their supervisory kind, are regular invariants or kindless invariants.
+However, if such an invariant is placed in an automaton that has a supervisory kind, the invariant inherits the supervisory kind of that automaton.
+This is a deprecated feature that will result in a warning.
+To get rid of the warning, explicitly specify the supervisory kind of the invariant.
 
 For instance, consider the following CIF specification:
 
@@ -182,21 +158,19 @@ plant lamp:
 end
 ----
 
-The first invariant has no explicit supervisory kind specified, and therefore
-inherits the `plant` supervisory kind from the automaton. It is thus an
-invariant that is implicitly a plant invariant. This results in a warning. The
-second invariant is identical, except for the explicit specification of the
-`plant` kind. It is also a plant invariant, but due to the explicit kind
-specification, there is no warning. The third and last invariant is identical
-to the second invariant, except that the `invariant` keyword has been
-omitted. It is also explicitly a plant invariant, but written in a shorter
-form. Due to the explicit use of the `plant` keyword, this variant also gets
-no warning.
+The first invariant has no explicit supervisory kind specified, and therefore inherits the `plant` supervisory kind from the automaton.
+It is thus an invariant that is implicitly a plant invariant.
+This results in a warning.
+The second invariant is identical, except for the explicit specification of the `plant` kind.
+It is also a plant invariant, but due to the explicit kind specification, there is no warning.
+The third and last invariant is identical to the second invariant, except that the `invariant` keyword has been omitted.
+It is also explicitly a plant invariant, but written in a shorter form.
+Due to the explicit use of the `plant` keyword, this variant also gets no warning.
 
 There are two forms of invariants:
-<<tut-data-chapter-stat-invariants,state invariants>> and
-<<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>. Both forms can be used for
-synthesis. For instance, consider the following example of a counter:
+<<tut-data-chapter-stat-invariants,state invariants>> and <<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>.
+Both forms can be used for synthesis.
+For instance, consider the following example of a counter:
 
 
 [source, cif]
@@ -216,10 +190,9 @@ plant counter:
 end
 ----
 
-The counter can be incremented and decremented. The plant invariant specifies
-that it is not possible for the counter to count negative values, or values
-more than 10. It is a requirement that synthesis ensures that the counter can
-only be incremented as long as the counted value is less than 8.
+The counter can be incremented and decremented.
+The plant invariant specifies that it is not possible for the counter to count negative values, or values more than 10.
+It is a requirement that synthesis ensures that the counter can only be incremented as long as the counted value is less than 8.
 
 indexterm:[event,controllability]
 indexterm:[event,uncontrollable]
@@ -228,48 +201,33 @@ indexterm:[event,controllable]
 [[lang-tut-extensions-synthesis-evtctrl]]
 === Event controllability
 
-Supervisory controller synthesis distinguishes two kinds of
-<<lang-tut-basics-automata-events,events>>: controllable events and
-uncontrollable events.
+Supervisory controller synthesis distinguishes two kinds of <<lang-tut-basics-automata-events,events>>: controllable events and uncontrollable events.
 
-Uncontrollable events are events that a supervisor can not prohibit, and are
-usually related to sensors. A typical example are events that indicate that a
-button has been pushed or released. A button is essentially a sensor that is
-on if the user pushes the button, and off if the user doesn't push it. The
-supervisor can not prevent a user from physically pushing or releasing a
-button, and can also not determine when the user pushes or releases it. The
-supervisor thus also can not prevent the events from occurring.
+Uncontrollable events are events that a supervisor can not prohibit, and are usually related to sensors.
+A typical example are events that indicate that a button has been pushed or released.
+A button is essentially a sensor that is on if the user pushes the button, and off if the user doesn't push it.
+The supervisor can not prevent a user from physically pushing or releasing a button, and can also not determine when the user pushes or releases it.
+The supervisor thus also can not prevent the events from occurring.
 
-Another example is an event that indicates that a moving part has reached its
-outer position (limit sensor turns on). If the part reaches its outer position,
-the event will occur. The supervisor can not control the sensor, as it is
-physically linked to the position of the moving part.
+Another example is an event that indicates that a moving part has reached its outer position (limit sensor turns on).
+If the part reaches its outer position, the event will occur.
+The supervisor can not control the sensor, as it is physically linked to the position of the moving part.
 
-Controllable events may be restricted by a supervisor, and are usually related
-to actuators. Typical examples are events used to turn a motor on or off, to
-turn a lamp on or off, or to change the direction of movement.
+Controllable events may be restricted by a supervisor, and are usually related to actuators.
+Typical examples are events used to turn a motor on or off, to turn a lamp on or off, or to change the direction of movement.
 
-Even though a supervisor may not be able to control a limit sensor directly,
-and thus restrict the corresponding events, it may be able to influence it
-indirectly. For instance, a motor may be available that makes it possible for
-the part to move. That motor may then be controlled using controllable on and
-off events. Stopping the motor then makes the part stop moving, ensuring that
-the part never reaches its outer position, indirectly preventing the limit
-sensor from turning on, and the corresponding event from happening.
+Even though a supervisor may not be able to control a limit sensor directly, and thus restrict the corresponding events, it may be able to influence it indirectly.
+For instance, a motor may be available that makes it possible for the part to move.
+That motor may then be controlled using controllable on and off events.
+Stopping the motor then makes the part stop moving, ensuring that the part never reaches its outer position, indirectly preventing the limit sensor from turning on, and the corresponding event from happening.
 
-Events and <<tut-channels-chapter-intro,channels>> in CIF are declared
-using the `event` keyword. For controllable events, the `event` keyword
-may be preceded or replaced by the `controllable` keyword. Similarly,
-for uncontrollable events, the `event` keyword may be preceded or replaced
-by the `uncontrollable` keyword. Similar to event declarations, for
-<<lang-tut-reuse2-aut-def-param-kinds-event,event parameters>> the
-`event` keyword may by preceded or replaced by the `controllable` or
-`uncontrollable` keyword, for controllable and uncontrollable event
-parameters respectively.
+Events and <<tut-channels-chapter-intro,channels>> in CIF are declared using the `event` keyword.
+For controllable events, the `event` keyword may be preceded or replaced by the `controllable` keyword.
+Similarly, for uncontrollable events, the `event` keyword may be preceded or replaced by the `uncontrollable` keyword.
+Similar to event declarations, for <<lang-tut-reuse2-aut-def-param-kinds-event,event parameters>> the `event` keyword may by preceded or replaced by the `controllable` or `uncontrollable` keyword, for controllable and uncontrollable event parameters respectively.
 
-As a convention, controllable events are given names that start with `+c_+`,
-and uncontrollable events are given names that start with `+u_+`. This allows
-them to be highlighted in different colors.
+As a convention, controllable events are given names that start with `+c_+`, and uncontrollable events are given names that start with `+u_+`.
+This allows them to be highlighted in different colors.
 
 For instance, consider the following CIF specification:
 
@@ -286,18 +244,17 @@ indexterm:[marker,predicate]
 [[lang-tut-extensions-synthesis-marked]]
 === Marker predicates
 
-Marking is very weak form of liveness, and is used by supervisory controller
-synthesis to prevent livelocks, to ensure progress. It is also used to prevent
-deadlocks. A supervisor per definition ensures that a marked state can always
-be reached, for the entire system. A system is marked if all its automata are
-marked. An automaton is marked if its active location is a marked location. In
-literature, marked location are also called _safe_ locations. Note that
-deadlock in marked states is not prevented, as a marker state (the state
-itself) can be reached by not taking any transition. In literature, marked
-deadlock states are also called _final_ states.
+Marking is very weak form of liveness, and is used by supervisory controller synthesis to prevent livelocks, to ensure progress.
+It is also used to prevent deadlocks.
+A supervisor per definition ensures that a marked state can always be reached, for the entire system.
+A system is marked if all its automata are marked.
+An automaton is marked if its active location is a marked location.
+In literature, marked location are also called _safe_ locations.
+Note that deadlock in marked states is not prevented, as a marker state (the state itself) can be reached by not taking any transition.
+In literature, marked deadlock states are also called _final_ states.
 
-Marking can be specified using _marker predicates_. Locations can be marked
-using the `marked` keyword, as follows:
+Marking can be specified using _marker predicates_.
+Locations can be marked using the `marked` keyword, as follows:
 
 
 [source, cif]
@@ -315,18 +272,12 @@ plant lamp:
 end
 ----
 
-In this example location `off` is both initial and marked, while location
-`on` is neither initial nor marked.
+In this example location `off` is both initial and marked, while location `on` is neither initial nor marked.
 
-Marker predicates are very similar to
-<<tut-data-chapter-init-preds,initialization predicates>>, as by default,
-locations are not marked, similar to how by default locations are not initial.
-Marker predicates can be specified in locations, automata,
-<<tut-reuse2-chapter-groups,groups>>, and the top level of the specification
-(which can be seen as a group), similar to initialization predicates.
+Marker predicates are very similar to <<tut-data-chapter-init-preds,initialization predicates>>, as by default, locations are not marked, similar to how by default locations are not initial.
+Marker predicates can be specified in locations, automata, <<tut-reuse2-chapter-groups,groups>>, and the top level of the specification (which can be seen as a group), similar to initialization predicates.
 
-The following specification shows an example of a variable that is only marked
-for a certain value:
+The following specification shows an example of a variable that is only marked for a certain value:
 
 
 [source, cif]
@@ -345,7 +296,6 @@ plant counter:
 end
 ----
 
-Variable `count` of plant automaton `counter` is only marked if it has
-value zero. That is, the entire system can only be marked if `count` is zero.
-Supervisor synthesis will ensure that it is always possible to get back to a
-state where `count` is zero.
+Variable `count` of plant automaton `counter` is only marked if it has value zero.
+That is, the entire system can only be marked if `count` is zero.
+Supervisor synthesis will ensure that it is always possible to get back to a state where `count` is zero.

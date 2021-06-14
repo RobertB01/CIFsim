@@ -29,12 +29,17 @@ Marked    (auts/locs marker predicate):      io.sensor = 2
 Marked    (uncontrolled system):             io.sensor = 2
 Marked    (system, combined marked/req inv): io.sensor = 2
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: io.sensor) (guard: true) (assignments: io.sensor+ != io.sensor)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

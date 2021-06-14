@@ -19,9 +19,8 @@ indexterm:[CIF to CIF transformer,remove I/O declarations]
 indexterm:[remove I/O declarations]
 indexterm:[I/O declaration,remove]
 This CIF to CIF transformation removes I/O declarations from the specification.
-This may reduce the size of the specification. It may also lead to the
-specification being supported by more tools, as the I/O declarations may use
-features of the CIF language that certain tools don't support.
+This may reduce the size of the specification.
+It may also lead to the specification being supported by more tools, as the I/O declarations may use features of the CIF language that certain tools don't support.
 
 === Supported specifications
 
@@ -36,8 +35,8 @@ indexterm:[remove I/O declarations,implementation]
 
 === Implementation details
 
-All I/O declarations are removed from the specification. I/O declarations
-include:
+All I/O declarations are removed from the specification.
+I/O declarations include:
 
 * <<tools-cifsim-output-print-chapter-ref-printdecl>>
 
@@ -45,8 +44,8 @@ include:
 
 * <<tools-cifsim-output-svgviz-chapter-cifsvg>>
 
-This transformation removes all I/O declarations. To only remove certain kinds
-of I/O declarations, see the following CIF to CIF transformations:
+This transformation removes all I/O declarations.
+To only remove certain kinds of I/O declarations, see the following CIF to CIF transformations:
 
 * <<tools-cif2cif-chapter-remove-print-decls>>
 
@@ -61,8 +60,7 @@ indexterm:[remove I/O declarations,size considerations]
 
 === Size considerations
 
-Since information is removed from the specification, the specification can only
-become smaller as a result of this transformation.
+Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
 
 
 === Optimality

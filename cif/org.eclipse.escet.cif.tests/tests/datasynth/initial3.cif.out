@@ -39,11 +39,16 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             p.x3 = 1 or p.x3 = 3
 Marked    (system, combined marked/req inv): p.x3 = 1 or p.x3 = 3
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -17,13 +17,10 @@ indexterm:[SeText]
 [[intro-chapter-setext]]
 == SeText
 
-SeText is a textual syntax specification language and associated scanner/parser
-generator. It can be used to specify the syntax of a language, and automatically
-generate a scanner and LALR(1) parser(s).
+SeText is a textual syntax specification language and associated scanner/parser generator.
+It can be used to specify the syntax of a language, and automatically generate a scanner and LALR(1) parser(s).
 
-SeText is used as scanner/parser technology for the other tools within the
-Eclipse ESCET project. It is however a generic scanner/parser generator that can
-also be used for the development of scanners and parsers for other languages.
+SeText is used as scanner/parser technology for the other tools within the Eclipse ESCET project.
+It is however a generic scanner/parser generator that can also be used for the development of scanners and parsers for other languages.
 
-See the separate https://eclipse.org/escet/setext[SeText documentation] for more
-information.
+See the separate https://eclipse.org/escet/setext[SeText documentation] for more information.

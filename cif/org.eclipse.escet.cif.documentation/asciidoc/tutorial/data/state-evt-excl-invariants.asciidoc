@@ -19,10 +19,8 @@ indexterm:[invariant]
 indexterm:[invariant,state/event exclusion]
 indexterm:[event,state/event exclusion invariant,]
 indexterm:[state,state/event exclusion invariant,]
-Consider an elevator, consisting of three parts: a motor to make the elevator
-move up and down, a door that can be opened and closed to let passengers enter
-and exit, and an emergency button that can be used to stop the elevator in
-case of an emergency. The following CIF specification models the three parts:
+Consider an elevator, consisting of three parts: a motor to make the elevator move up and down, a door that can be opened and closed to let passengers enter and exit, and an emergency button that can be used to stop the elevator in case of an emergency.
+The following CIF specification models the three parts:
 
 
 [source, cif]
@@ -61,17 +59,15 @@ automaton emergency_button:
 end
 ----
 
-Each part is modeled by an automaton. Since the automata don't share any
-events, they operate independently. What is missing, is a controller that
-links the different automata, and controls them in a safe manner. Such a
-controller restricts the behavior of the individual automata, allowing only
-the combined behavior that is deemed desired. There are several ways to
-restrict events, including introducing synchronization between the different
-automata, and adding guards. The downside of these approaches it that they
-require modification of the automata. What if we wanted to specify the
-controller separately from the behavior of the physical system? We could
-introduce an additional automaton, that synchronizes with the existing
-automata. For instance, we could add the following to the CIF specification:
+Each part is modeled by an automaton.
+Since the automata don't share any events, they operate independently.
+What is missing, is a controller that links the different automata, and controls them in a safe manner.
+Such a controller restricts the behavior of the individual automata, allowing only the combined behavior that is deemed desired.
+There are several ways to restrict events, including introducing synchronization between the different automata, and adding guards.
+The downside of these approaches it that they require modification of the automata.
+What if we wanted to specify the controller separately from the behavior of the physical system?
+We could introduce an additional automaton, that synchronizes with the existing automata.
+For instance, we could add the following to the CIF specification:
 
 
 [source, cif]
@@ -83,24 +79,16 @@ automaton controller:
 end
 ----
 
-This controller introduces restrictions for the `+turn_on+` event of the
-`motor`. In this particular case, the controller ensures that the motor may
-only be turned on when both the door is closed and the emergency button is
-released. By restricting the event, the controller prohibits the event from
-taking place in certain states, ensuring that only the desired behavior
-remains.
+This controller introduces restrictions for the `+turn_on+` event of the `motor`.
+In this particular case, the controller ensures that the motor may only be turned on when both the door is closed and the emergency button is released.
+By restricting the event, the controller prohibits the event from taking place in certain states, ensuring that only the desired behavior remains.
 
-It is nice that we can separate the description of the physical behavior of the
-elevator from the controller that controls it. This separation of concerns may
-make it easier to reason about the behavior, it may make it easier to adapt
-the controller when the physical system doesn't change, and it may make it
-easier to reuse the model of the physical system for other purposes.
+It is nice that we can separate the description of the physical behavior of the elevator from the controller that controls it.
+This separation of concerns may make it easier to reason about the behavior, it may make it easier to adapt the controller when the physical system doesn't change, and it may make it easier to reuse the model of the physical system for other purposes.
 
-However, modeling an automaton with a single location that must then also be
-`initial` requires quite some syntax. State/event exclusion invariants can
-serve the same purpose, but are often easier to use, shorter to write, and
-more intuitive to read. Instead of the `controller` automaton, we can also
-use the following:
+However, modeling an automaton with a single location that must then also be `initial` requires quite some syntax.
+State/event exclusion invariants can serve the same purpose, but are often easier to use, shorter to write, and more intuitive to read.
+Instead of the `controller` automaton, we can also use the following:
 
 
 [source, cif]
@@ -108,16 +96,13 @@ use the following:
 invariant motor.turn_on needs door.closed and emergency_button.released;
 ----
 
-Each state/event exclusion invariant restricts an event, preventing it from
-happening in certain states. That is, the event is excluded from taking place
-in certain states. In this case, the `+turn_on+` event of the `motor`
-automaton needs the `door` to be in its `closed` location and the
-`+emergency_button+` to be in its `released` location, for the event to be
-allowed/enabled. For the states in which that condition doesn't hold, the event
-is disabled.
+Each state/event exclusion invariant restricts an event, preventing it from happening in certain states.
+That is, the event is excluded from taking place in certain states.
+In this case, the `+turn_on+` event of the `motor` automaton needs the `door` to be in its `closed` location and the `+emergency_button+` to be in its `released` location, for the event to be allowed/enabled.
+For the states in which that condition doesn't hold, the event is disabled.
 
-The invariant consists of two conditions. It can also be written as two
-separate state/event exclusion invariants, one for each condition:
+The invariant consists of two conditions.
+It can also be written as two separate state/event exclusion invariants, one for each condition:
 
 
 [source, cif]
@@ -130,19 +115,15 @@ invariant motor.turn_on needs door.closed;
 invariant motor.turn_on needs emergency_button.released;
 ----
 
-The second and third invariants lead to the same behavior as the first combined
-invariant. The second invariant ensures that the event can only take place when
-the door is closed, while the third invariant ensures that the event can only
-take place when the emergency button is released. The second and third
-invariants each indicate a necessary condition that must hold for the event to
-be allowed/enabled. Together, they require that both conditions hold, for the
-event to be allowed/enabled. If one of the conditions doesn't hold, the event
-will be disabled.
+The second and third invariants lead to the same behavior as the first combined invariant.
+The second invariant ensures that the event can only take place when the door is closed, while the third invariant ensures that the event can only take place when the emergency button is released.
+The second and third invariants each indicate a necessary condition that must hold for the event to be allowed/enabled.
+Together, they require that both conditions hold, for the event to be allowed/enabled.
+If one of the conditions doesn't hold, the event will be disabled.
 
-The `door` is either `opened` or `closed`. So far, we've required that
-the door is closed to allow the motor to be turned on. We can also specify it
-the other way around: to disallow the motor to be turned on, while the door is
-opened:
+The `door` is either `opened` or `closed`.
+So far, we've required that the door is closed to allow the motor to be turned on.
+We can also specify it the other way around: to disallow the motor to be turned on, while the door is opened:
 
 
 [source, cif]
@@ -154,15 +135,12 @@ invariant motor.turn_on needs door.closed;
 invariant door.opened disables motor.turn_on;
 ----
 
-Both invariants have the exact same effect. The first invariant only allows the
-motor to be turned on while the door is closed, which means that it disallows
-the motor to be turned on in all other situations, namely when the door is
-opened. And that is exactly what is specified by the second invariant: when the
-door is opened, turning the motor on is disallowed/disabled. In general,
-state/event exclusion invariants can always be specified as a positive form
-(allowed/enabled) and a negative form (disallowed/disabled). It is up to the
-modeler to choose, based on considerations such as personal preference and
-readability. Consider the following four alternative forms:
+Both invariants have the exact same effect.
+The first invariant only allows the motor to be turned on while the door is closed, which means that it disallows the motor to be turned on in all other situations, namely when the door is opened.
+And that is exactly what is specified by the second invariant: when the door is opened, turning the motor on is disallowed/disabled.
+In general, state/event exclusion invariants can always be specified as a positive form (allowed/enabled) and a negative form (disallowed/disabled).
+It is up to the modeler to choose, based on considerations such as personal preference and readability.
+Consider the following four alternative forms:
 
 
 [source, cif]
@@ -191,25 +169,17 @@ invariant door.opened             disables motor.turn_on;
 invariant emergency_button.pushed disables motor.turn_on;
 ----
 
-Each of the four forms has the exact same effect, but is written in a different
-way.
+Each of the four forms has the exact same effect, but is written in a different way.
 
-We already saw earlier that for state/event exclusion invariants that
-introduce necessary conditions for an event to be enabled (the `needs`
-variant), the conditions can be combined using an `and` operator to form a
-combined condition, for a single invariant.
+We already saw earlier that for state/event exclusion invariants that introduce necessary conditions for an event to be enabled (the `needs` variant), the conditions can be combined using an `and` operator to form a combined condition, for a single invariant.
 
-Here, we also see how in a similar way, state/event exclusion invariants that
-introduce sufficient conditions for an event to be disabled (the `disabled`
-variant) can be combined. Each of them individually has a condition, that if
-satisfied disables the event, regardless of the other invariants. So, if one of
-them disables the event, the event is disabled. To combine such invariants into
-a single invariant, the conditions need to be combined using an `or`
-operator, as shown above.
+Here, we also see how in a similar way, state/event exclusion invariants that introduce sufficient conditions for an event to be disabled (the `disabled` variant) can be combined.
+Each of them individually has a condition, that if satisfied disables the event, regardless of the other invariants.
+So, if one of them disables the event, the event is disabled.
+To combine such invariants into a single invariant, the conditions need to be combined using an `or` operator, as shown above.
 
 It may occur that multiple events need to be disabled for the same conditions.
-Instead of writing multiple invariants with the same conditions, one for each
-event, they can also be combined:
+Instead of writing multiple invariants with the same conditions, one for each event, they can also be combined:
 
 
 [source, cif]
@@ -222,8 +192,7 @@ invariant door.close    needs emergency_button.released;
 invariant {motor.turn_on, door.close} needs emergency_button.released;
 ----
 
-The first two invariants have the same condition, but restrict different
-events. The third invariant has the same condition, but restricts both events.
-In general, for all state/event invariants, multiple events may be given, if
-they share the same condition. The events must then be separated by spaces and
-be enclosed in curly brackets (`+{...}+`).
+The first two invariants have the same condition, but restrict different events.
+The third invariant has the same condition, but restricts both events.
+In general, for all state/event invariants, multiple events may be given, if they share the same condition.
+The events must then be separated by spaces and be enclosed in curly brackets (`+{...}+`).

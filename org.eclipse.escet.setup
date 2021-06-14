@@ -229,7 +229,7 @@
         name="de.jcup.asciidoctoreditor">
       <setupTask
           xsi:type="setup:PreferenceTask"
-          key="/instance/de.jcup.asciidoctoreditor/usePreviewImageDirectory"
+          key="/instance/de.jcup.asciidoctoreditor/autoCreateInitialAsciidocConfigFile"
           value="false"/>
     </setupTask>
   </setupTask>
@@ -393,6 +393,8 @@
           name="org.eclipse.emf.feature.group"/>
       <requirement
           name="org.eclipse.emf.validation"/>
+      <requirement
+          name="org.eclipse.epp.mpc.feature.group"/>
       <requirement
           name="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group"/>
       <requirement

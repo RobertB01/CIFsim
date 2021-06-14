@@ -24,8 +24,8 @@ indexterm:[eliminate automata to string casts,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
@@ -33,10 +33,8 @@ indexterm:[eliminate automata to string casts,preprocessing]
 
 === Preprocessing
 
-No preprocessing is currently performed by this CIF to CIF transformation. To
-increase the subset of specifications that can be transformed, apply the
-following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the
-given order):
+No preprocessing is currently performed by this CIF to CIF transformation.
+To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -44,13 +42,10 @@ indexterm:[eliminate automata to string casts,implementation]
 
 === Implementation details
 
-All casts of automata to strings, using either implicit automaton `self`
-references or explicit automata references, are eliminated. If the referred
-automaton has only a single location, the cast is replaced by a string literal
-with the name of that location. If the automaton has multiple locations, the
-cast is replaced by an `if` expression, using the locations of the automaton
-as guards, and string literals containing the location names as values. For
-nameless locations the string literal `"*"` is used.
+All casts of automata to strings, using either implicit automaton `self` references or explicit automata references, are eliminated.
+If the referred automaton has only a single location, the cast is replaced by a string literal with the name of that location.
+If the automaton has multiple locations, the cast is replaced by an `if` expression, using the locations of the automaton as guards, and string literals containing the location names as values.
+For nameless locations the string literal `"*"` is used.
 
 For instance, consider the following CIF specification:
 
@@ -107,15 +102,13 @@ indexterm:[eliminate automata to string casts,size considerations]
 
 === Size considerations
 
-The created `if` expressions are usually larger than the original cast
-expressions. The increase is linear in terms of the number of locations times
-the number of casts.
+The created `if` expressions are usually larger than the original cast expressions.
+The increase is linear in terms of the number of locations times the number of casts.
 
 indexterm:[eliminate automata to string casts,optimality]
 
 === Optimality
 
-This transformation introduces 'if' expressions for automaton to string casts,
-for automata with at least two locations. The guards of such 'if' expressions
-refer to the locations of the automata. To eliminate such location references,
-apply the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation.
+This transformation introduces 'if' expressions for automaton to string casts, for automata with at least two locations.
+The guards of such 'if' expressions refer to the locations of the automata.
+To eliminate such location references, apply the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation.

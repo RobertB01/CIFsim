@@ -15,43 +15,35 @@ include::_part_attributes.asciidoc[]
 [[developer-release-process-chapter-index]]
 == Release process
 
-The process for working on, and releasing a new version of the Eclipse ESCET tools, involves the
-following steps:
+The process for working on, and releasing a new version of the Eclipse ESCET tools, involves the following steps:
 
-* Prepare the Git repository for the next version (not a milestone or release
-candidate):
+* Prepare the Git repository for the next version (not a milestone or release candidate):
 
-** Run in the root of the Git repository the command
-`./mvn_escet.sh org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=<new-version>`,
-where `<new-version>` is replaced by the new version, e.g. `0.2.0.qualifier`.
-This replaces most version numbers automatically. Check all changes to ensure
-no versions are updated that should not be updated.
+** Run in the root of the Git repository the command `./mvn_escet.sh org.eclipse.tycho:tycho-versions-plugin:set-version -DnewVersion=<new-version>`, where `<new-version>` is replaced by the new version, e.g. `0.2.0.qualifier`.
+This replaces most version numbers automatically.
+Check all changes to ensure no versions are updated that should not be updated.
 
-** Verify that the `feature` `url` and `version` of all `org.eclipse.escet.*`
-features in `org.eclipse.escet.product/category.xml` are properly updated.
-The old version should no longer be present. This should be automatic.
+** Verify that the `feature` `url` and `version` of all `org.eclipse.escet.*` features in `org.eclipse.escet.product/category.xml` are properly updated.
+The old version should no longer be present.
+This should be automatic.
 
-** Verify that the `product` `version` in
-`org.eclipse.escet.product/escet.product` is properly updated.
-The old version should no longer be present. This should be automatic.
+** Verify that the `product` `version` in `org.eclipse.escet.product/escet.product` is properly updated.
+The old version should no longer be present.
+This should be automatic.
 
-** Verify that the `feature` `version` of the product feature in
-`org.eclipse.escet.product/escet.product` is properly updated.
-The old version should no longer be present. This should be automatic.
+** Verify that the `feature` `version` of the product feature in `org.eclipse.escet.product/escet.product` is properly updated.
+The old version should no longer be present.
+This should be automatic.
 
-** Verify that the `Bundle-Version` of all `MANIFEST.MF` files in
-`org.eclipse.escet.*` projects are properly updated. The old version should
-no longer be present. This should be automatic.
+** Verify that the `Bundle-Version` of all `MANIFEST.MF` files in `org.eclipse.escet.*` projects are properly updated.
+The old version should no longer be present.
+This should be automatic.
 
-** Manually replace in all `MANIFEST.MF` files the regex
-`+org\.eclipse\.escet\.([a-z0-9\.]+);bundle-version="<old-version>"+` by
-`+org.eclipse.escet.\1;bundle-version="<new-version>"+`, where
-`<old-version>` and `<new-version>` are replaced by actual versions,
-e.g. `0.1.0`. Check for unintended changes.
+** Manually replace in all `MANIFEST.MF` files the regex `+org\.eclipse\.escet\.([a-z0-9\.]+);bundle-version="<old-version>"+` by `+org.eclipse.escet.\1;bundle-version="<new-version>"+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0`.
+Check for unintended changes.
 Search for the old version in all manifests to ensure none remain.
 
-** In all documentation sets, add a new section to the release notes for the
-new release, before the existing releases:
+** In all documentation sets, add a new section to the release notes for the new release, before the existing releases:
 +
 [source]
 ----
@@ -60,184 +52,138 @@ new release, before the existing releases:
 TBD
 ----
 
-** Verify that the `<version>` of a POM and its parent in each `pom.xml` are
-properly updated. The old version should no longer be present. This should
-mostly be automatic. Manually adapt it where necessary.
+** Verify that the `<version>` of a POM and its parent in each `pom.xml` are properly updated.
+The old version should no longer be present.
+This should mostly be automatic.
+Manually adapt it where necessary.
 
 *** Manually adapt the version in `org.eclipse.escet.configuration/pom.xml`.
 
 *** Manually adapt the parent version in `org.eclipse.escet.root/pom.xml`.
-Also remove the version for the pom itself, to prevent a warning that the
-version of the pom and its parent are identical.
+Also remove the version for the pom itself, to prevent a warning that the version of the pom and its parent are identical.
 
-** Manually adapt the `<version>` of the target platform in
-`org.eclipse.escet.configuration/pom.xml`.
+** Manually adapt the `<version>` of the target platform in `org.eclipse.escet.configuration/pom.xml`.
 
-** Verify that the `version` of all `feature.xml` files in
-`org.eclipse.escet.*` projects .xml` are properly updated.
-The old version should no longer be present. This should
-mostly be automatic. Manually adapt it where necessary.
+** Verify that the `version` of all `feature.xml` files in `org.eclipse.escet.*` projects .xml` are properly updated.
+The old version should no longer be present.
+This should mostly be automatic.
+Manually adapt it where necessary.
 
-*** Manually adapt the `version` of the `org.eclipse.escet.license.mit`
-feature.
+*** Manually adapt the `version` of the `org.eclipse.escet.license.mit` feature.
 
-** Manually replace in all `feature.xml` files the literal text
-`+license-feature-version="<old-version>"+` by
-`+license-feature-version="<new-version>"+`, where `<old-version>` and
-`<new-version>` are replaced by actual versions, e.g. `0.1.0.qualifier`.
+** Manually replace in all `feature.xml` files the literal text `+license-feature-version="<old-version>"+` by `+license-feature-version="<new-version>"+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0.qualifier`.
 Check for unintended changes.
 
-** Manually replace in all `feature.xml` files the regex
-`+<import feature="([^"]+)" version="<old-version>"/>+` by
-`+<import feature="\1" version="<new-version>"/>+`, where `<old-version>` and
-`<new-version>` are replaced by actual versions, e.g. `0.1.0.qualifier`.
+** Manually replace in all `feature.xml` files the regex `+<import feature="([^"]+)" version="<old-version>"/>+` by `+<import feature="\1" version="<new-version>"/>+`, where `<old-version>` and `<new-version>` are replaced by actual versions, e.g. `0.1.0.qualifier`.
 Check for unintended changes.
 
-** Manually search for the old version in all `features.xml` files to ensure
-none remain.
+** Manually search for the old version in all `features.xml` files to ensure none remain.
 
-** Search the entire Git repository (all projects) for the old version number
-and update anything that still requires updating.
+** Search the entire Git repository (all projects) for the old version number and update anything that still requires updating.
 
 ** Test that the <<developer-building-and-testing-chapter-index,build works>>.
 
-* Prepare for the next release in the `develop` branch until it is ready to be
-released.
+* Prepare for the next release in the `develop` branch until it is ready to be released.
 
 * Create a GitLab merge request from `develop` to `master`, and merge it.
-Since `master` is a protected branch for the Eclipse ESCET GitLab, a GitLab
-merge request is the only way to update it.
+Since `master` is a protected branch for the Eclipse ESCET GitLab, a GitLab merge request is the only way to update it.
 
 * Check that the build on `master` succeeds in Jenkins.
 
-* Add a tag on the commit in `master` that is to be released. Only version
-tags with a specific syntax will be picked up by Jenkins to be released.
-For instance, use `v0.1`, `v0.1.1`, `v2.0`, etc for releases, `v0.1-M1`
-for a milestone build, or `v0.1-RC1` for a release candidate.
+* Add a tag on the commit in `master` that is to be released.
+Only version tags with a specific syntax will be picked up by Jenkins to be released.
+For instance, use `v0.1`, `v0.1.1`, `v2.0`, etc for releases, `v0.1-M1` for a milestone build, or `v0.1-RC1` for a release candidate.
 +
-Add the tag via GitLab, at
-https://gitlab.eclipse.org/eclipse/escet/escet/-/tags/new. Use the
-_Tag name_ also as _Message_. Make sure to select `master` as branch from
-which to create the tag. For the _Release notes_, use a short text inspired
-by the release plan.
+Add the tag via GitLab, at https://gitlab.eclipse.org/eclipse/escet/escet/-/tags/new.
+Use the _Tag name_ also as _Message_.
+Make sure to select `master` as branch from which to create the tag.
+For the _Release notes_, use a short text inspired by the release plan.
 +
-As an example, consider milestone 1 of release v0.1: see
-https://projects.eclipse.org/projects/technology.escet/releases/0.1 for the
-release plan, https://gitlab.eclipse.org/eclipse/escet/escet/-/tags/v0.1-M1
-for the tag and
-https://gitlab.eclipse.org/eclipse/escet/escet/-/releases/v0.1-M1 for the
-GitLab release record.
+As an example, consider milestone 1 of release v0.1: see https://projects.eclipse.org/projects/technology.escet/releases/0.1 for the release plan, https://gitlab.eclipse.org/eclipse/escet/escet/-/tags/v0.1-M1 for the tag and https://gitlab.eclipse.org/eclipse/escet/escet/-/releases/v0.1-M1 for the GitLab release record.
 
-* Edit the GitLab release record, adding the GitLab milestone to the
-release record. Save the changes.
+* Edit the GitLab release record, adding the GitLab milestone to the release record.
+Save the changes.
 
-* Jenkins will automatically pick up the new tag. Log in to Jenkins and
-manually trigger a build for the tag. Jenkins will then automatically build
-and release a new version from that tag.
+* Jenkins will automatically pick up the new tag.
+Log in to Jenkins and manually trigger a build for the tag.
+Jenkins will then automatically build and release a new version from that tag.
 
 * All releases can be downloaded at https://download.eclipse.org/escet/.
-For a version `v0.1`, the downloads will be located at
-`\https://download.eclipse.org/escet/v0.1`.
+For a version `v0.1`, the downloads will be located at `\https://download.eclipse.org/escet/v0.1`.
 +
-Note that according to the Eclipse Foundation Wiki page
-link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc],
-"Once your files are on the `download.eclipse.org` server, they are
-immediately available to the general public. However, for release builds,
-we ask that you wait at least four hours for our mirror sites to fetch the
-new files before linking to them. It typically takes a day or two for all
-the mirror sites to synchronize with us and get new files."
+Note that according to the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc], "Once your files are on the `download.eclipse.org` server, they are immediately available to the general public.
+However, for release builds, we ask that you wait at least four hours for our mirror sites to fetch the new files before linking to them.
+It typically takes a day or two for all the mirror sites to synchronize with us and get new files."
 +
-That same wiki page also notes that "Although you can link directly to
-`download.eclipse.org/yourfile.zip`, you can also use the _Find a Mirror_
-script [...]. Using this script allows you to view download statistics and
-allows users to pick a nearby mirror site for their download." It further
-indicates that "P2 repositories are not normally accessed via the mirror
-selection script." The _Find a Mirror_ script also transparently handles
-files moved from `download.eclipse.org` to `archive.eclipse.org`.
+That same wiki page also notes that "Although you can link directly to `download.eclipse.org/yourfile.zip`, you can also use the _Find a Mirror_ script [...].
+Using this script allows you to view download statistics and allows users to pick a nearby mirror site for their download." It further indicates that "P2 repositories are not normally accessed via the mirror selection script." The _Find a Mirror_ script also transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
 
-* Jenkins will automatically push the website for the new release to the
-website Git repository, in a directory for the specific release. For a version
-`v0.1`, the website can be accessed at `\https://www.eclipse.org/escet/v0.1`.
-It may take a few minutes for the Git repository to be synced to the webserver
-and for the website for the new version to become available.
+* Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
+For a version `v0.1`, the website can be accessed at `\https://www.eclipse.org/escet/v0.1`.
+It may take a few minutes for the Git repository to be synced to the webserver and for the website for the new version to become available.
 
-* If the website for the new release is to be the standard visible website for
-the project (at `https://www.eclipse.org/escet`), it has to be manually
-replaced. This is to ensure that a bugfix release for an older version doesn't
-override the standard visible website. The following steps explain how to
-'promote' a website for a specific version to become the standard visible
-website:
+* If the website for the new release is to be the standard visible website for the project (at `https://www.eclipse.org/escet`), it has to be manually replaced.
+This is to ensure that a bugfix release for an older version doesn't override the standard visible website.
+The following steps explain how to 'promote' a website for a specific version to become the standard visible website:
 
-** Make sure you've uploaded your SSH public key to Eclipse Gerrit. This is
-a one-time only step. Go to https://git.eclipse.org/r/. Sign in using your
-Eclipse Foundation committer account. Use the gear icon at the top right to
-access your account settings. Under _SSH Keys_ add your SSH public key. Also
-make note of your _username_, _Full name_ and _Email_ address.
+** Make sure you've uploaded your SSH public key to Eclipse Gerrit.
+This is a one-time only step.
+Go to https://git.eclipse.org/r/.
+Sign in using your Eclipse Foundation committer account.
+Use the gear icon at the top right to access your account settings.
+Under _SSH Keys_ add your SSH public key.
+Also make note of your _username_, _Full name_ and _Email_ address.
 
-** Clone the Eclipes ESCET website Git repository using
-`git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
-Make sure to replace `<username>` by your Eclipse Foundation committer
-account _username_.
+** Clone the Eclipes ESCET website Git repository using `git clone ssh://<username>@git.eclipse.org:29418/www.eclipse.org/escet.git`.
+Make sure to replace `<username>` by your Eclipse Foundation committer account _username_.
 
-** In the cloned repository, remove all files/folders in the root of the
-Git repository pertaining to the current standard visible website.
-Be sure not to remove any of the directories with websites for specific
-releases.
+** In the cloned repository, remove all files/folders in the root of the Git repository pertaining to the current standard visible website.
+Be sure not to remove any of the directories with websites for specific releases.
 
-** Copy the files/folders from the directory with the website for the
-release that you want to make the standard visible website, and put them
-in the root of the Git repository.
+** Copy the files/folders from the directory with the website for the release that you want to make the standard visible website, and put them in the root of the Git repository.
 
 ** Add all changes to be committed, e.g. by using `git add -A`.
 
-** Make sure to use the _Full name_ and _Email_ address of your Eclipse
-Foundation committer account. E.g. use
-`git config --local user.name "<full_name>"` and
-`git config --local user.email "<email>"`, replacing `<full_name>` and
-`<email>` by the appropriate information matching your Eclipse Foundation
-committer account.
+** Make sure to use the _Full name_ and _Email_ address of your Eclipse Foundation committer account.
+E.g. use `git config --local user.name "<full_name>"` and `git config --local user.email "<email>"`, replacing `<full_name>` and `<email>` by the appropriate information matching your Eclipse Foundation committer account.
 
-** Commit the changes. Use as commit message
-`Set standard visible website to release <version>.`, replacing `<version>`
-by the release version that will become the new standard visible website.
-Make sure to sign off the commit to pass Eclipse Foundation automatic
-commit validation. E.g. use the following to commit the changes:
+** Commit the changes.
+Use as commit message `Set standard visible website to release <version>.`, replacing `<version>` by the release version that will become the new standard visible website.
+Make sure to sign off the commit to pass Eclipse Foundation automatic commit validation.
+E.g. use the following to commit the changes:
 `git commit -s -m "Set standard visible website to release v0.1."`.
 
-** Push the changes to the Git server. E.g. use `git push`. If successful
-you should see the changes at the Git server's web view, at
-https://git.eclipse.org/c/www.eclipse.org/escet.git/.
+** Push the changes to the Git server.
+E.g. use `git push`.
+If successful you should see the changes at the Git server's web view, at https://git.eclipse.org/c/www.eclipse.org/escet.git/.
 
-** It may take a few minutes for the Git repository to be synced to the
-webserver, and for the new standard visible website to become available.
-The standard visible website can be accessed at
-`https://www.eclipse.org/escet`. Depending on browser cache settings and
-other factors, it may be necessary to force refresh your browser for it
-to pick up the changes on the server.
+** It may take a few minutes for the Git repository to be synced to the webserver, and for the new standard visible website to become available.
+The standard visible website can be accessed at `https://www.eclipse.org/escet`.
+Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
 
 * Remove/archive old releases:
 
-** For every release (not a milestone or release candidate), remove
-all milestones and release candidates of the previous version and older.
-E.g. for `v0.2`, remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc. Also archive
-all releases older than the current and previous release. E.g. for `v0.3`
-archive `v0.1` and older, but keep `v0.2`.
+** For every release (not a milestone or release candidate), remove all milestones and release candidates of the previous version and older.
+E.g. for `v0.2`, remove `v0.1-M1`, `v0.1-M2`, `v0.1-RC1`, etc.
+Also archive all releases older than the current and previous release.
+E.g. for `v0.3` archive `v0.1` and older, but keep `v0.2`.
 +
-Consider whether archiving or removing P2 update sites will lead to issues
-for users. See for more information the Eclipse Foundation Wiki page
-link:https://wiki.eclipse.org/Equinox/p2/p2.mirrorsURL#Moving_a_repo_to_archive.eclipse.org[Moving
-a repo to archive.eclipse.org].
+Consider whether archiving or removing P2 update sites will lead to issues for users.
+See for more information the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/Equinox/p2/p2.mirrorsURL#Moving_a_repo_to_archive.eclipse.org[Moving a repo to archive.eclipse.org].
 
-** Old websites can be removed in a similar way to the above instructions to
-change the default website. Only remove the directory for the milestone
-or release candidate.
+** Old websites can be removed in a similar way to the above instructions to change the default website.
+Only remove the directory for the milestone or release candidate.
 
-** Older downloads can be archived. Go to https://download.eclipse.org/escet/.
-Make sure you're logged in. This should make check-boxes appear. Select the
-folders to archive and click the _Archive_ button. It may take a few minutes
-for archiving to complete.
+** Older downloads can be archived.
+Go to https://download.eclipse.org/escet/.
+Make sure you're logged in.
+This should make check-boxes appear.
+Select the folders to archive and click the _Archive_ button.
+It may take a few minutes for archiving to complete.
 
-** Archived downloads can be removed. Go to https://archive.eclipse.org/escet/.
-Make sure you're logged in. This should make check-boxes appear. Select the
-folders to delete and click the _Delete_ button. It may take a few minutes
-for deleting to complete.
+** Archived downloads can be removed.
+Go to https://archive.eclipse.org/escet/.
+Make sure you're logged in.
+This should make check-boxes appear.
+Select the folders to delete and click the _Delete_ button.
+It may take a few minutes for deleting to complete.

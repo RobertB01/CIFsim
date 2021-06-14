@@ -71,12 +71,12 @@ end
 
 group g2b:
   controllable evt;
-  invariant evt needs true;                 // Non-requirement state/event exclusion invariant.
+  invariant evt needs true;                 // Non-requirement/non-plant state/event exclusion invariant.
 end
 
 group g2c:
   controllable evt;
-  invariant false disables evt;             // Non-requirement state/event exclusion invariant.
+  invariant false disables evt;             // Non-requirement/non-plant state/event exclusion invariant.
 end
 
 group g3a:
@@ -85,12 +85,12 @@ end
 
 group g3b:
   controllable evt;
-  plant invariant evt needs true;           // Non-requirement state/event exclusion invariant.
+  plant invariant evt needs true;           // OK.
 end
 
 group g3c:
   controllable evt;
-  plant invariant false disables evt;       // Non-requirement state/event exclusion invariant.
+  plant invariant false disables evt;       // OK.
 end
 
 group g4a:
@@ -99,19 +99,19 @@ end
 
 group g4b:
   controllable evt;
-  supervisor invariant evt needs true;      // Non-requirement state/event exclusion invariant.
+  supervisor invariant evt needs true;      // Non-requirement/non-plant state/event exclusion invariant.
 end
 
 group g4c:
   controllable evt;
-  supervisor invariant false disables evt;  // Non-requirement state/event exclusion invariant.
+  supervisor invariant false disables evt;  // Non-requirement/non-plant state/event exclusion invariant.
 end
 
 group g5:
   controllable evt;
   requirement invariant 6 = 6;              // OK.
-  requirement invariant evt needs true;     // Non-requirement state/event exclusion invariant.
-  requirement invariant false disables evt; // Non-requirement state/event exclusion invariant.
+  requirement invariant evt needs true;     // OK.
+  requirement invariant false disables evt; // OK.
 end
 
 plant p:

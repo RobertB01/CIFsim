@@ -24,32 +24,23 @@ include::_root_attributes.asciidoc[]
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 
-SeText is a textual syntax specification language and associated scanner/parser
-generator. It can be used to specify the syntax of a language, and automatically
-generate a scanner and LALR(1) parser(s).
+SeText is a textual syntax specification language and associated scanner/parser generator.
+It can be used to specify the syntax of a language, and automatically generate a scanner and LALR(1) parser(s).
 
-SeText is one of the tools of the Eclipse ESCET(TM) project. Visit the
-link:https://eclipse.org/escet[project website] for downloads,
-installation instructions, source code, general tool usage information,
-information on how to contribute, and more.
+SeText is one of the tools of the Eclipse ESCET(TM) project.
+Visit the link:https://eclipse.org/escet[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
 
 [WARNING]
 ====
-The Eclipse ESCET project, including the SeText language and toolset,
-is currently in the
-link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+The Eclipse ESCET project, including the SeText language and toolset, is currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
 
 image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
 
-For the purpose of this document, it is assumed that the reader is familiar
-with scanner/parser generators (for example _yacc_/_bison_ and _lex_/_flex_),
-scanner and LALR(1) parser technology (including regular expressions and BNF
-notation), and understands the limitations of the LALR(1) algorithm.
+For the purpose of this document, it is assumed that the reader is familiar with scanner/parser generators (for example _yacc_/_bison_ and _lex_/_flex_), scanner and LALR(1) parser technology (including regular expressions and BNF notation), and understands the limitations of the LALR(1) algorithm.
 
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-setext-manual.pdf[download this manual]
-as a PDF as well.
+TIP: You can link:eclipse-escet-incubation-setext-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
 The following topics are discussed:

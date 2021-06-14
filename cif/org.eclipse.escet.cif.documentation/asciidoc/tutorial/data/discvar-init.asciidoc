@@ -28,8 +28,7 @@ disc int x = 1;
 
 indexterm:[initial value,implicit]
 indexterm:[initial value,default]
-The initial value may be omitted, leading to the default value of its data type
-being used:
+The initial value may be omitted, leading to the default value of its data type being used:
 
 
 [source, cif]
@@ -38,17 +37,15 @@ disc int x;
 disc bool y;
 ----
 
-The default value of <<tut-values-chapter-integers,integer typed>> variables
-is `0`. The default value of <<tut-values-chapter-booleans,boolean typed>>
-variables is `false`.
+The default value of <<tut-values-chapter-integers,integer typed>> variables is `0`.
+The default value of <<tut-values-chapter-booleans,boolean typed>> variables is `false`.
 
 // TODO: Refer to future reference manual for complete overview?
 
 indexterm:[initial value,multiple]
 
 [[lang-tut-data-discvar-init-multiple]]
-It is possible to indicate that a variable has more than one potential initial
-value:
+It is possible to indicate that a variable has more than one potential initial value:
 
 
 [source, cif]
@@ -57,19 +54,14 @@ disc int x in {1, 2, 4};
 ----
 
 This declares a variable `x` that has three potential initial values.
-Variables can only have one value at a time, so an initial value has to be
-chosen from the <<tut-values-chapter-sets,set>> of potential initial values.
-In other words, initially the value of variable `x` is either `1`, `2`,
-or `4`. For information on how to store multiple values in a single variable,
-see the lessons on types and values, in particular those on
-<<tut-values-chapter-tuples,tuples>>, <<tut-values-chapter-lists,lists>>,
-and <<tut-values-chapter-sets,sets>>.
+Variables can only have one value at a time, so an initial value has to be chosen from the <<tut-values-chapter-sets,set>> of potential initial values.
+In other words, initially the value of variable `x` is either `1`, `2`, or `4`.
+For information on how to store multiple values in a single variable, see the lessons on types and values, in particular those on <<tut-values-chapter-tuples,tuples>>, <<tut-values-chapter-lists,lists>>, and <<tut-values-chapter-sets,sets>>.
 
 indexterm:[initial value,any]
 
 [[lang-tut-data-discvar-init-any]]
-It is also possible to indicate that a variable can have any arbitrary initial
-value:
+It is also possible to indicate that a variable can have any arbitrary initial value:
 
 
 [source, cif]
@@ -78,23 +70,20 @@ disc int x in any;
 disc bool y in any;
 ----
 
-Variable `x` can initially have any value. The only constraint is that the
-initial value must be an integer value, as it must conform to the integer type
-(`int`) of the variable. Examples of initial values include `-1027`,
-`0`, `1`, and `12345`. Variable `y` can initially have any value, as
-long as that value is a boolean value, due to the variable having a boolean
-type (`bool`). There are only two boolean values, `true` and `false`.
+Variable `x` can initially have any value.
+The only constraint is that the initial value must be an integer value, as it must conform to the integer type (`int`) of the variable.
+Examples of initial values include `-1027`, `0`, `1`, and `12345`.
+Variable `y` can initially have any value, as long as that value is a boolean value, due to the variable having a boolean type (`bool`).
+There are only two boolean values, `true` and `false`.
 
 indexterm:[specification,parameterization]
 indexterm:[specification,configuration]
-Discrete variables with multiple potential initial values and arbitrary initial
-values essentially _parametrize_ the specification. The exact initial value is
-to be chosen or _configured_ later on. This allows a single specification to be
-used for various different combinations of initial values.
+Discrete variables with multiple potential initial values and arbitrary initial values essentially _parametrize_ the specification.
+The exact initial value is to be chosen or _configured_ later on.
+This allows a single specification to be used for various different combinations of initial values.
 
-So far all examples used literal values to initialize the variables. However,
-it is also allowed to use expressions to compute initial values, for instance
-based on the initial values of other variables:
+So far all examples used literal values to initialize the variables.
+However, it is also allowed to use expressions to compute initial values, for instance based on the initial values of other variables:
 
 
 [source, cif]
@@ -105,16 +94,15 @@ disc int z = x + y; // Initial value: 3
 ----
 
 indexterm:[initialization,consistency]
-Variable `x` is explicitly initialized with value `1`. Variable `y` is
-initialized to the initial value of `x`, multiplied by two. Variable `z`
-is initialized to the sum of the initial values of `x` and `y`. Using this
-kind of initialization is useful if the initial values must be kept consistent.
-Changing the initial value of `x` automatically also changes the initial
-values of `y` and `z`.
+Variable `x` is explicitly initialized with value `1`.
+Variable `y` is initialized to the initial value of `x`, multiplied by two.
+Variable `z` is initialized to the sum of the initial values of `x` and `y`.
+Using this kind of initialization is useful if the initial values must be kept consistent.
+Changing the initial value of `x` automatically also changes the initial values of `y` and `z`.
 
 indexterm:[declaration,order]
-The order of the declaration of the variables does not matter. We could just
-as easily declare them as follows:
+The order of the declaration of the variables does not matter.
+We could just as easily declare them as follows:
 
 
 [source, cif]
@@ -124,9 +112,8 @@ disc int x = 1;
 ----
 
 indexterm:[initialization,cyclic dependencies]
-Variable `y` is still initialized using the initial value of variable `x`,
-which is now declared after variable `y`. It is not allowed to construct
-loops, where the initial values of variables depend on each other:
+Variable `y` is still initialized using the initial value of variable `x`, which is now declared after variable `y`.
+It is not allowed to construct loops, where the initial values of variables depend on each other:
 
 
 [source, cif]
@@ -136,12 +123,9 @@ disc int y = z;
 disc int z = x;
 ----
 
-Variable `x` uses the value of variable `y`, which uses the value of
-variable `z`, which in turn uses the value of variable `x` again. This is
-not allowed in CIF, as it creates a cyclic dependency. However, since no
-restrictions are introduced on the initial values of variables `x`, `y`,
-and `z`, except that they must be equal to each other, we can declare them
-as follows:
+Variable `x` uses the value of variable `y`, which uses the value of variable `z`, which in turn uses the value of variable `x` again.
+This is not allowed in CIF, as it creates a cyclic dependency.
+However, since no restrictions are introduced on the initial values of variables `x`, `y`, and `z`, except that they must be equal to each other, we can declare them as follows:
 
 
 [source, cif]
@@ -151,6 +135,5 @@ disc int y = z;
 disc int z = x;
 ----
 
-Here, variable `x` is explicitly initialized to an arbitrary value. The other
-variables are initialized to be equal to whatever arbitrary value is chosen as
-initial value for variable `x`.
+Here, variable `x` is explicitly initialized to an arbitrary value.
+The other variables are initialized to be equal to whatever arbitrary value is chosen as initial value for variable `x`.

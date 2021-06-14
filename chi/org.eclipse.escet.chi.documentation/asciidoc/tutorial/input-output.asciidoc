@@ -15,8 +15,7 @@ include::_part_attributes.asciidoc[]
 [[tut-chapter-input-and-output]]
 == Input and output
 
-A model communicates with the outside world, e.g. screen and files, by the use
-of read statements for input of data, and write statements for output of data.
+A model communicates with the outside world, e.g. screen and files, by the use of read statements for input of data, and write statements for output of data.
 
 indexterm:[reading,from the keyboard]
 indexterm:[keyboard, reading from]
@@ -46,8 +45,9 @@ On the command line the two values are typed:
 ----
 
 Variable `i` becomes `1`, and string `s` becomes `"This is a string"`.
-The double quotes are required! Parameter values are separated by a space or a
-tabular stop. Putting each value on a separate line also works.
+The double quotes are required!
+Parameter values are separated by a space or a tabular stop.
+Putting each value on a separate line also works.
 
 indexterm:[reading,from a file]
 indexterm:[file,reading from]
@@ -55,7 +55,8 @@ indexterm:[file,reading from]
 [[tut-reading-from-file]]
 === Reading from a file
 
-Data also can be read from files. An example fragment:
+Data also can be read from files.
+An example fragment:
 
 
 [source, chi]
@@ -72,20 +73,14 @@ rows = read(f, list row);
 close(f)
 ----
 
-Before a file can be used, the file has to be declared, _and_ the file has to
-be opened by statement `open`.
-Statement `open` has two parameters, the first parameter denotes the file
-name (as a string), and the second parameter describes the way the file is
-used. In this case, the file is opened in a read-only mode, denoted by string
-"r".
+Before a file can be used, the file has to be declared, _and_ the file has to be opened by statement `open`.
+Statement `open` has two parameters, the first parameter denotes the file name (as a string), and the second parameter describes the way the file is used.
+In this case, the file is opened in a read-only mode, denoted by string "r".
 
-Reading values works in the same way as before, except you cannot add new text
-in the file while reading it. Instead, the file is processed sequentially from
-begin to end, with values separated from each other by white space (spaces,
-tabs, and new-lines). You can read values of different types from the same
-file, as long as the value in the file matches with the type that you ask.
-For example, the above Chi program could read the following data from
-`data_file.txt`:
+Reading values works in the same way as before, except you cannot add new text in the file while reading it.
+Instead, the file is processed sequentially from begin to end, with values separated from each other by white space (spaces, tabs, and new-lines).
+You can read values of different types from the same file, as long as the value in the file matches with the type that you ask.
+For example, the above Chi program could read the following data from `data_file.txt`:
 
 
 [source, console]
@@ -95,28 +90,21 @@ For example, the above Chi program could read the following data from
  ("def", [8,31,47])]
 ----
 
-After enough values have been read, the file should be closed with the
-statement `close`, with one parameter, the variable of the file.
-If a file is still open after an experiment, the file is closed automatically
-before the program quits.
+After enough values have been read, the file should be closed with the statement `close`, with one parameter, the variable of the file.
+If a file is still open after an experiment, the file is closed automatically before the program quits.
 
 [[tut-advanced-file-reading]]
 === Advanced reading from a file
 
-When reading from a file, the `eof` and `eol` functions can be used to
-obtain information about the white space around the values.
+When reading from a file, the `eof` and `eol` functions can be used to obtain information about the white space around the values.
 
-* The `eof` (end of file) function returns `true` if you have read the
-last value (that is, there are no more values to read).
+* The `eof` (end of file) function returns `true` if you have read the last value (that is, there are no more values to read).
 
-* The `eol` (end of line) function returns `true` if there are no more
-values at the current line. In particular, the `eol` function returns
-`true` when the end of the file has been reached.
+* The `eol` (end of line) function returns `true` if there are no more values at the current line.
+In particular, the `eol` function returns `true` when the end of the file has been reached.
 
 These functions can be used to customize reading of more complicated values.
-As an example, you may want to read the same `list row` value as above, but
-without having all the comma's, quotes, parentheses, and brackets of the
-literal value `[("abc", [7,21]), ("def", [8,31,47])]`.
+As an example, you may want to read the same `list row` value as above, but without having all the comma's, quotes, parentheses, and brackets of the literal value `[("abc", [7,21]), ("def", [8,31,47])]`.
 Instead, imagine having a file `clean_data.txt` with the following layout:
 
 
@@ -126,10 +114,9 @@ abc 7 21
 def 8 31 47
 ----
 
-Each line is one row. It starts with a one-word string, followed by a list of
-integer numbers.
-By using the `eof` and `eol` functions, you can read this file in the
-following way:
+Each line is one row.
+It starts with a one-word string, followed by a list of integer numbers.
+By using the `eof` and `eol` functions, you can read this file in the following way:
 
 
 [source, chi]
@@ -151,15 +138,13 @@ end
 close(f);
 ----
 
-Each line is processed individually, where `eol` is used to find out whether
-the last value of a line has been read. The reading loop terminates when
-`eof` returns `true`.
+Each line is processed individually, where `eol` is used to find out whether the last value of a line has been read.
+The reading loop terminates when `eof` returns `true`.
 
-Note that `eol` returns whether the current line has no more values. It does
-not tell you how many lines down the next value is. For example, an empty line
-inserted between the  `abc 7 21` line and the `def 8 31 47` line is
-skipped silently. If you want that information, you can use the `newlines`
-function instead.
+Note that `eol` returns whether the current line has no more values.
+It does not tell you how many lines down the next value is.
+For example, an empty line inserted between the  `abc 7 21` line and the `def 8 31 47` line is skipped silently.
+If you want that information, you can use the `newlines` function instead.
 
 indexterm:[statement,write]
 indexterm:[write,statement]
@@ -168,19 +153,18 @@ indexterm:[screen,writing to]
 
 === The `write` statement
 
-The _write_ statement is used for for output of data to the screen of the
-computer. Data can also be written to a file.
+The _write_ statement is used for for output of data to the screen of the computer.
+Data can also be written to a file.
 
-The first argument of `write` (or the second argument if you write to a file,
-see below) Is called the _format string_. It is a template of the text to
-write, with 'holes' at the point where a data value is to be written.
+The first argument of `write` (or the second argument if you write to a file, see below) Is called the _format string_.
+It is a template of the text to write, with 'holes' at the point where a data value is to be written.
 
-Behind the format string, the data values to write are listed. The first value is
-written in the first 'hole', the second value in the second 'hole' and so
-on. The holes are also called _place holders_. A place holder starts with
-`%` optionally followed by numbers or some punctuation (its meaning is
-explained below). A place holder ends with a _format specifier_, a single
-letter like `s` or `f`. An example:
+Behind the format string, the data values to write are listed.
+The first value is written in the first 'hole', the second value in the second 'hole' and so on.
+The holes are also called _place holders_.
+A place holder starts with `%` optionally followed by numbers or some punctuation (its meaning is explained below).
+A place holder ends with a _format specifier_, a single letter like `s` or `f`.
+An example:
 
 
 [source, chi]
@@ -190,14 +174,16 @@ int i = 5;
 write("i equals %s", i)
 ----
 
-In this example the text `i equals 5` is written to the screen by the
-`write` statement. The `"i equals %s"` format string defines what output
-is written. All 'normal' characters are copied as-is. The `%s` place holder
-is not copied. Instead the first data value (in this case `i`) is inserted.
+In this example the text `i equals 5` is written to the screen by the `write` statement.
+The `"i equals %s"` format string defines what output is written.
+All 'normal' characters are copied as-is.
+The `%s` place holder is not copied.
+Instead the first data value (in this case `i`) is inserted.
 
-The `s` in the place holder is the format specifier. It means 'print as
-string'. The `%s` is a general purpose format specifier, it works with
-almost every type of data. For example:
+The `s` in the place holder is the format specifier.
+It means 'print as string'.
+The `%s` is a general purpose format specifier, it works with almost every type of data.
+For example:
 
 
 [source, chi]
@@ -209,10 +195,8 @@ write("%s", xs)
 
 will output the contents of `xs` (`{1 : 5.3}`).
 
-In general, this works nicely, but for numeric values a little more control
-over the output is often useful.
-To this end, there are also format specifiers `d` for integer numbers, and
-`f` for real numbers.
+In general, this works nicely, but for numeric values a little more control over the output is often useful.
+To this end, there are also format specifiers `d` for integer numbers, and `f` for real numbers.
 An example:
 
 
@@ -224,8 +208,7 @@ real r = 3.14;
 write("%4d/%8.2f", i, r)
 ----
 
-This fragment has the effect that the values of `i` and `r` are written to
-the screen as follows:
+This fragment has the effect that the values of `i` and `r` are written to the screen as follows:
 
 
 [source, console]
@@ -233,14 +216,9 @@ the screen as follows:
    5/    3.14
 ----
 
-The value of `i` is written in `d` format (as `int` value), and the
-value of `r` is written in `f` format (as `real` value).
-The symbols `d` and `f` originate respectively from 'decimal', and
-'floating point' numbers.
-The numbers `4` respectively `8.2` denote that the integer value is
-written four positions wide (that is, 3 spaces and a `5` character), and
-that the real value is written eight positions wide, with two characters after
-the decimal point (that is, 4 spaces and the text `3.14`).
+The value of `i` is written in `d` format (as `int` value), and the value of `r` is written in `f` format (as `real` value).
+The symbols `d` and `f` originate respectively from 'decimal', and 'floating point' numbers.
+The numbers `4` respectively `8.2` denote that the integer value is written four positions wide (that is, 3 spaces and a `5` character), and that the real value is written eight positions wide, with two characters after the decimal point (that is, 4 spaces and the text `3.14`).
 
 A list of format specifiers is given in <<tut-table-format-specifiers>>.
 
@@ -279,12 +257,9 @@ A list of format specifiers is given in <<tut-table-format-specifiers>>.
 |the character `%`
 |===
 
-Finally, there are also a few special character sequences called _escape
-sequence_ which allow to write characters like horizontal tab (which means
-'jump to next tab position in the output'), or newline (which means 'go to the
-next line in the output') in a string.
-An escape sequence consists of two characters. First a backslash character
-`\`, followed by a second character.
+Finally, there are also a few special character sequences called _escape sequence_ which allow to write characters like horizontal tab (which means 'jump to next tab position in the output'), or newline (which means 'go to the next line in the output') in a string.
+An escape sequence consists of two characters.
+First a backslash character `\`, followed by a second character.
 The escape sequence are presented in <<tut-table-escape-sequences>>.
 
 [[tut-table-escape-sequences]]
@@ -324,8 +299,7 @@ The result looks like:
         3.14
 ----
 
-The value of `j` is written at the tab position, the output goes to the next
-line again at the first tab position, and outputs the value of `r`.
+The value of `j` is written at the tab position, the output goes to the next line again at the first tab position, and outputs the value of `r`.
 
 indexterm:[writing,to file]
 indexterm:[file,writing to]
@@ -348,12 +322,9 @@ write(f, "%s", i); write(f, "%8.2f", r);
 close(f)
 ----
 
-A file, in this case `"output_file"` is used in write-only mode, denoted by
-the character `"w"`.
+A file, in this case `"output_file"` is used in write-only mode, denoted by the character `"w"`.
 Opening a file for writing destroys its old contents (if the file already exists).
-In the write statement, the first parameter must be the file, and the second
-parameter must be the format string.
+In the write statement, the first parameter must be the file, and the second parameter must be the format string.
 
 After all data has been written, the file is closed by statement `close`.
-If the file is still open after execution of the program, the file is closed
-automatically.
+If the file is still open after execution of the program, the file is closed automatically.

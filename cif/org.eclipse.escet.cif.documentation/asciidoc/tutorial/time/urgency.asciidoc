@@ -16,20 +16,20 @@ include::../_part_attributes.asciidoc[]
 == Urgency
 
 indexterm:[urgency]
-In CIF, urgency indicates whether or not time may progress. CIF has three forms
-of urgency: event urgency, location urgency, and edge urgency. Edge urgency
-should be avoided, and is not explained here.
+In CIF, urgency indicates whether or not time may progress.
+CIF has three forms of urgency: event urgency, location urgency, and edge urgency.
+Edge urgency should be avoided, and is not explained here.
 
 indexterm:[urgency,event]
 indexterm:[event,urgency]
 
 === Event urgency
 
-By default, all events in CIF are _urgent_. Events being urgent means that
-edges are taken as soon as possible. In other words, event transitions take
-priority over time transitions. Time can only progress if no event transitions
-are possible. It is not possible to make events non-urgent in a CIF model, but
-specific tools may allow making events non-urgent.
+By default, all events in CIF are _urgent_.
+Events being urgent means that edges are taken as soon as possible.
+In other words, event transitions take priority over time transitions.
+Time can only progress if no event transitions are possible.
+It is not possible to make events non-urgent in a CIF model, but specific tools may allow making events non-urgent.
 
 indexterm:[urgency,location]
 indexterm:[location,urgency]
@@ -59,11 +59,9 @@ The state space is:
 
 image::{tut-imgsdir}/time/usecase_nonurg_state_space.png[]
 
-The states are labeled with the names of the current locations of automaton
-`use_case` and the current values of variable time. At the end of the use
-case, no events are possible, and thus time can progress infinitely. To force
-that in location `done` no time can progress, the location can be made
-urgent:
+The states are labeled with the names of the current locations of automaton `use_case` and the current values of variable time.
+At the end of the use case, no events are possible, and thus time can progress infinitely.
+To force that in location `done` no time can progress, the location can be made urgent:
 
 
 [source, cif]

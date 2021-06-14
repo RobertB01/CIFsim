@@ -18,11 +18,9 @@ include::../_part_attributes.asciidoc[]
 indexterm:[automaton definition parameter]
 indexterm:[automaton definition,parameters]
 indexterm:[automaton instantiation,arguments]
-In the <<tut-reuse2-chapter-aut-def-inst,previous lesson>>, automaton
-definition/instantiation was used to obtain two identical automata, while only
-having to specify their behavior once. What we have seen so far, is enough for
-exactly identical automata, but not for nearly identical automata. Consider the
-following two nearly identical consumers:
+In the <<tut-reuse2-chapter-aut-def-inst,previous lesson>>, automaton definition/instantiation was used to obtain two identical automata, while only having to specify their behavior once.
+What we have seen so far, is enough for exactly identical automata, but not for nearly identical automata.
+Consider the following two nearly identical consumers:
 
 
 [source, cif]
@@ -44,13 +42,10 @@ automaton consumer2:
 end
 ----
 
-The consumers can accept products that the producer provides (channel
-`provide`). They store the identification numbers of those products in a
-`buffer`. The two consumers are identical except for the number of products
-that they can accept: the first consumer can accept two products, the second
-producer can accept three products. We can still use automaton definition and
-instantiation to model the consumer only once, but we need to parametrize the
-automaton definition:
+The consumers can accept products that the producer provides (channel `provide`).
+They store the identification numbers of those products in a `buffer`.
+The two consumers are identical except for the number of products that they can accept: the first consumer can accept two products, the second producer can accept three products.
+We can still use automaton definition and instantiation to model the consumer only once, but we need to parametrize the automaton definition:
 
 
 [source, cif]
@@ -67,13 +62,9 @@ consumer1: Consumer(2);
 consumer2: Consumer(3);
 ----
 
-The `Consumer` automaton definition now has a parameter named `capacity`
-that indicates how many identification numbers can be stored in its `buffer`.
-The automaton instantiations `consumer1` and `consumer2` provide an
-argument (`2` and `3` respectively) to match the parameter of `Consumer`.
-That is, the instantiations indicate their `capacity`. Using parameters, the
-`Consumer` automaton definition models the behavior of both automata
-`consumer1` and `consumer2`, even though they have different capacities.
+The `Consumer` automaton definition now has a parameter named `capacity` that indicates how many identification numbers can be stored in its `buffer`.
+The automaton instantiations `consumer1` and `consumer2` provide an argument (`2` and `3` respectively) to match the parameter of `Consumer`.
+That is, the instantiations indicate their `capacity`.
+Using parameters, the `Consumer` automaton definition models the behavior of both automata `consumer1` and `consumer2`, even though they have different capacities.
 
-The details of the different kind of parameters of automaton definitions are
-explained in the <<tut-reuse2-chapter-aut-def-param-kinds,next lesson>>.
+The details of the different kind of parameters of automaton definitions are explained in the <<tut-reuse2-chapter-aut-def-param-kinds,next lesson>>.

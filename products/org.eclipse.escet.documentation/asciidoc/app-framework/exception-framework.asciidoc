@@ -17,25 +17,21 @@ indexterm:[exception]
 [[app-framework-exception-framework]]
 == The exception framework
 
-The application framework contains the exception framework. Its main goal
-is to hide stack traces from end users. Exceptions can generally be divided
-into two categories: internal errors, and end-user errors.
+The application framework contains the exception framework.
+Its main goal is to hide stack traces from end users.
+Exceptions can generally be divided into two categories: internal errors, and end-user errors.
 
 indexterm:[exception, end-user]
 
 [[app-framework-enduser-exceptions]]
 === End-user exceptions
 
-All exceptions that should be presented to the end user are considered end-user
-exceptions. These messages should be written in terms that the end user should
-be able to understand. For end-user exceptions, the exception framework does
-not display stack traces (at least not by default). All end-user exceptions must
-implement the `org.eclipse.escet.common.app.framework.exceptions.EndUserException`
-interface, and may inherit from the
-`org.eclipse.escet.common.app.framework.exceptions.ApplicationException` class.
-All applications that use the application framework must satisfy these
-requirements when the error message is to be presented to end users. It is
-recommended to reuse existing application framework exceptions whenever possible.
+All exceptions that should be presented to the end user are considered end-user exceptions.
+These messages should be written in terms that the end user should be able to understand.
+For end-user exceptions, the exception framework does not display stack traces (at least not by default).
+All end-user exceptions must implement the `org.eclipse.escet.common.app.framework.exceptions.EndUserException` interface, and may inherit from the `org.eclipse.escet.common.app.framework.exceptions.ApplicationException` class.
+All applications that use the application framework must satisfy these requirements when the error message is to be presented to end users.
+It is recommended to reuse existing application framework exceptions whenever possible.
 
 
 indexterm:[exception, internal]
@@ -43,14 +39,11 @@ indexterm:[exception, internal]
 [[app-framework-internal-exceptions]]
 === Internal exceptions
 
-All exceptions that are not to be presented to end users are considered to
-be internal exceptions. Internal exceptions crash the application and are
-always considered to be bugs. The application framework generates crash
-reports for internal errors, so that end users can easily report them. Also,
-stack traces are not shown on the console. They are however present in the
-crash report, along with among others information about the system, the Java
-version used, the application that crashed (name, version, etc), and if
-the OSGi framework is running, the available plug-ins etc.
+All exceptions that are not to be presented to end users are considered to be internal exceptions.
+Internal exceptions crash the application and are always considered to be bugs.
+The application framework generates crash reports for internal errors, so that end users can easily report them.
+Also, stack traces are not shown on the console.
+They are however present in the crash report, along with among others information about the system, the Java version used, the application that crashed (name, version, etc), and if the OSGi framework is running, the available plug-ins etc.
 
 
 indexterm:[exception, chained]
@@ -59,31 +52,23 @@ indexterm:[exception, cause]
 [[app-framework-chained-excpetions]]
 === Chained exceptions
 
-Java supports the concept of _chained exceptions_. The end-user exceptions of
-the application framework support this as well. If an uncaught end-user
-exception needs to be presented to the end user, the message of the exception
-is printed to the console, prefixed with the `ERROR:` text. All the causes of
-the exception are printed as well, each on a line of their own. Those messages
-are prefixed with the `CAUSE:` text. For exceptions that provide an end-user
-readable message, only that message is printed after the `CAUSE:` text. For
-other exceptions, the simple name of the exception class, enclosed in
-parentheses, is printed between the `CAUSE:` text and the exception message.
-All end-user exceptions (the ones inheriting from the
-`org.eclipse.escet.common.app.framework.exceptions.ApplicationException` class),
-as well as all other exceptions explicitly designed as such (by implementing the
-`org.eclipse.escet.common.app.framework.exceptions.EndUserException` interface)
-are considered to provide readable messages. For other exceptions, it is
-assumed that they don't. This includes all exceptions provided by Java itself.
+Java supports the concept of _chained exceptions_.
+The end-user exceptions of the application framework support this as well.
+If an uncaught end-user exception needs to be presented to the end user, the message of the exception is printed to the console, prefixed with the `ERROR:` text.
+All the causes of the exception are printed as well, each on a line of their own.
+Those messages are prefixed with the `CAUSE:` text.
+For exceptions that provide an end-user readable message, only that message is printed after the `CAUSE:` text.
+For other exceptions, the simple name of the exception class, enclosed in parentheses, is printed between the `CAUSE:` text and the exception message.
+All end-user exceptions (the ones inheriting from the `org.eclipse.escet.common.app.framework.exceptions.ApplicationException` class), as well as all other exceptions explicitly designed as such (by implementing the `org.eclipse.escet.common.app.framework.exceptions.EndUserException` interface) are considered to provide readable messages.
+For other exceptions, it is assumed that they don't.
+This includes all exceptions provided by Java itself.
 
 indexterm:[option, development mode]
 
 [[app-framework-development-mode]]
 === Development mode
 
-Developers can enable the development mode option (`DevModeOption` class) to
-always get stack traces for all internal exceptions (thus for crashes, but not
-for end-user exceptions), instead of crash reports. For more information, see
-the <<app-framework-option-framework,option framework>> section.
+Developers can enable the development mode option (`DevModeOption` class) to always get stack traces for all internal exceptions (thus for crashes, but not for end-user exceptions), instead of crash reports.
+For more information, see the <<app-framework-option-framework,option framework>> section.
 
-The development mode option is ideal for automated tests, where a stack trace
-on stderr is much more ideal than a crash report.
+The development mode option is ideal for automated tests, where a stack trace on stderr is much more ideal than a crash report.

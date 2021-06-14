@@ -23,8 +23,7 @@ This example shows:
 
 * Grouping of SVG objects.
 
-* Controlling the visibility of objects based on the current locations of
-automata.
+* Controlling the visibility of objects based on the current locations of automata.
 
 === SVG image
 
@@ -32,18 +31,12 @@ The following SVG image is used for this example:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/sun_moon/sun_moon_inkscape.png[]
 
-The image features a sun and a moon. The sun consists of a circle and several
-lines. They are grouped together, using the
-menu:Group[]
-command from
-Inkscape's
-menu:Object[]
-menu. The group can also be seen in the XML
-representation, as an `svg:g` element, with the actual shapes (paths in this
-case) as children. We assigned the `sun` id to the `svg:g` element, as it
-represents the entire sun. For clarity we gave the sub-elements ids as well,
-although that was not necessary, as we won't directly reference them in the
-CIF/SVG declarations.
+The image features a sun and a moon.
+The sun consists of a circle and several lines.
+They are grouped together, using the menu:Group[] command from Inkscape's menu:Object[] menu.
+The group can also be seen in the XML representation, as an `svg:g` element, with the actual shapes (paths in this case) as children.
+We assigned the `sun` id to the `svg:g` element, as it represents the entire sun.
+For clarity we gave the sub-elements ids as well, although that was not necessary, as we won't directly reference them in the CIF/SVG declarations.
 
 
 === CIF specification
@@ -55,23 +48,18 @@ The following CIF specification models the sun/moon example:
 include::{incdir-tools-cifsim-output-svgviz}/sun_moon/sun_moon.cif[]
 ----
 
-Initially, it is day (location `Day`). It is day for 12 hours, after which it
-becomes night (location `Night`). After 12 hours, it becomes day again, etc.
+Initially, it is day (location `Day`).
+It is day for 12 hours, after which it becomes night (location `Night`).
+After 12 hours, it becomes day again, etc.
 
-There is one mapping to control the visibility of the sun, and one to control
-the visibility of the moon. Changing the visibility of the `svg:g` group
-element with id `sun` influences the visibility of all its children. This
-saves us from having to control the visibility of all the individual shapes
-that together represent the sun.
+There is one mapping to control the visibility of the sun, and one to control the visibility of the moon.
+Changing the visibility of the `svg:g` group element with id `sun` influences the visibility of all its children.
+This saves us from having to control the visibility of all the individual shapes that together represent the sun.
 
-Both mappings map the current location of automaton `sun_moon` to either
-`"visible"` or `"hidden"`, although they do it in a different methods. The
-mapping for the sun uses an `if` expression, which is shorter in syntax, and
-especially suited for automata with only two locations. The mapping for the
-moon uses a `switch` expression over `self`, which is a way to refer to
-automaton `sun_moon`, from inside that automaton itself. The cases list all
-the possible locations, and map them to the corresponding visibility values.
-The `switch` method is a bit more explicit, and becomes more elegant as the
-automaton has more locations.
+Both mappings map the current location of automaton `sun_moon` to either `"visible"` or `"hidden"`, although they do it in a different methods.
+The mapping for the sun uses an `if` expression, which is shorter in syntax, and especially suited for automata with only two locations.
+The mapping for the moon uses a `switch` expression over `self`, which is a way to refer to automaton `sun_moon`, from inside that automaton itself.
+The cases list all the possible locations, and map them to the corresponding visibility values.
+The `switch` method is a bit more explicit, and becomes more elegant as the automaton has more locations.
 
 // TODO: ideally we would refer to if/switch/self reference documentation.

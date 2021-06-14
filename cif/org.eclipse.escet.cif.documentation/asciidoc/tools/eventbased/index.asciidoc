@@ -17,36 +17,28 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[event-based synthesis toolset]
 indexterm:[see: event-based supervisory control,event-based synthesis toolset]
-Synthesis, 'supervisor synthesis', or 'supervisory controller synthesis', is a
-generative technique, where one derives a (supervisor) automaton from a
-collection of plants and requirements. The resulting supervisor is maximally
-permissive under the conditions of being free of deadlocks, and always having
-the option of reaching a marked state.
+Synthesis, 'supervisor synthesis', or 'supervisory controller synthesis', is a generative technique, where one derives a (supervisor) automaton from a collection of plants and requirements.
+The resulting supervisor is maximally permissive under the conditions of being free of deadlocks, and always having the option of reaching a marked state.
 
-While there is only one true synthesis tool (the tool that actually derives a
-supervisor automaton from a collection of plant and requirement automata),
-other tools exist to support the process. These tools together form the
-_event-based synthesis toolset_.
+While there is only one true synthesis tool (the tool that actually derives a supervisor automaton from a collection of plant and requirement automata), other tools exist to support the process.
+These tools together form the _event-based synthesis toolset_.
 
-These tools use and modify the sequences of events that can be performed. This
-in contrast to state-based tools, which operate primarily on the
-<<tools-cifsim-traces-state,state>> of the system. Event sequences
-directly hook into language theory, which places these tools firmly in the
-language theory mathematical framework.
+These tools use and modify the sequences of events that can be performed.
+This in contrast to state-based tools, which operate primarily on the <<tools-cifsim-traces-state,state>> of the system.
+Event sequences directly hook into language theory, which places these tools firmly in the language theory mathematical framework.
 
 indexterm:[event-based synthesis toolset,supported specifications]
 
 [[tools-eventbased-supported-specifications]]
 === Supported specifications
 
-The application supports a subset of CIF specifications. The following
-restrictions apply:
+The application supports a subset of CIF specifications.
+The following restrictions apply:
 
-* Channels (events with data types), if used (present on an edge of at least
-one automaton), are not supported.
+* Channels (events with data types), if used (present on an edge of at least one automaton), are not supported.
 
-* Any use of the `tau` event is not supported. Note that both explicit use
-(keyword `tau`) and implicit use (no events on an edge) are unsupported.
+* Any use of the `tau` event is not supported.
+Note that both explicit use (keyword `tau`) and implicit use (no events on an edge) are unsupported.
 
 * Automata with multiple initial locations are not supported.
 
@@ -60,13 +52,11 @@ one automaton), are not supported.
 
 * Marker predicates in components are not supported.
 
-* Initialization predicates in locations that are not trivially true or false
-are not supported.
+* Initialization predicates in locations that are not trivially true or false are not supported.
 
 * State invariants in locations that are not trivially true are not supported.
 
-* Marker predicates in locations that are not trivially true or false are not
-supported.
+* Marker predicates in locations that are not trivially true or false are not supported.
 
 * State/event exclusion invariants are not supported.
 
@@ -80,20 +70,15 @@ supported.
 
 * Multiple guards on a single edge are not supported.
 
-To allow state/event exclusion invariants to be used in the input, manually
-eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
-CIF to CIF transformation.
+To allow state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
 
-For meaningful results, it is recommended to have an initial location and at
-least one marked location, in each automaton.
+For meaningful results, it is recommended to have an initial location and at least one marked location, in each automaton.
 
 indexterm:[event-based synthesis toolset,preprocessing]
 
 === Preprocessing
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-applied as preprocessing (in the given order), to increase the subset of CIF
-specifications that can be transformed:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
@@ -102,9 +87,7 @@ indexterm:[event-based synthesis toolset,automaton kinds]
 [[tools-eventbased-kinds]]
 === Automaton kinds
 
-The event-based toolset recognizes the CIF automaton kinds `plant`,
-`requirement`, and `supervisor`, and interprets them using the
-corresponding concepts of the mathematical framework of supervisor synthesis.
+The event-based toolset recognizes the CIF automaton kinds `plant`, `requirement`, and `supervisor`, and interprets them using the corresponding concepts of the mathematical framework of supervisor synthesis.
 Kindless/regular automata (without a supervisory kind) are treated as unknown.
 
 indexterm:[event-based synthesis toolset,names in reports]
@@ -112,26 +95,15 @@ indexterm:[event-based synthesis toolset,names in errors]
 
 === Location names in reports and errors
 
-Several tools output reports or give errors with locations that are
-interesting in some way.
+Several tools output reports or give errors with locations that are interesting in some way.
 
-Tools that take a single automaton as input report locations by their name in
-the input specification, for example `location "button.off"` denotes the
-`off` location in the `button` automaton. The location of automata that
-have a single unnamed location use `+*+` as location name, for example
-`location "req.*"` denotes the single unnamed location in the `req`
-automaton.
+Tools that take a single automaton as input report locations by their name in the input specification, for example `location "button.off"` denotes the `off` location in the `button` automaton.
+The location of automata that have a single unnamed location use `+*+` as location name, for example `location "req.*"` denotes the single unnamed location in the `req` automaton.
 
-Tools that take a number of automata together, like supervisor synthesis
-report interesting states as `state` followed by the names of the locations,
-for example `state "button.on", "machine.idle"`. Such a state refers to a
-location that represents the combined locations of the automata, in the
-example, the combined locations `button.off` and `machine.idle`.
+Tools that take a number of automata together, like supervisor synthesis report interesting states as `state` followed by the names of the locations, for example `state "button.on", "machine.idle"`.
+Such a state refers to a location that represents the combined locations of the automata, in the example, the combined locations `button.off` and `machine.idle`.
 
-Tools that combine or merge locations, like projection, report such combined
-locations as a partition, for example `partition "machine.down",
-"machine.off"` represents a location that is a combination of the `down`
-and the `off` locations in the `machine` automaton.
+Tools that combine or merge locations, like projection, report such combined locations as a partition, for example `partition "machine.down", "machine.off"` represents a location that is a combination of the `down` and the `off` locations in the `machine` automaton.
 
 
 indexterm:[event-based synthesis toolset,tools]
@@ -140,14 +112,12 @@ indexterm:[event-based synthesis toolset,tools]
 
 * <<tools-eventbased-chapter-product>>
 +
-Computes the product of a number of deterministic or non-deterministic
-automata, where common events are synchronized. Essentially computes the
-<<tools-cifsim-traces-state-space,state space>>.
+Computes the product of a number of deterministic or non-deterministic automata, where common events are synchronized.
+Essentially computes the <<tools-cifsim-traces-state-space,state space>>.
 
 * <<tools-eventbased-chapter-supervisorsynthesis>>
 +
-Derivation of a maximal permissive supervisor from a collection of
-deterministic plant and requirement automata.
+Derivation of a maximal permissive supervisor from a collection of deterministic plant and requirement automata.
 
 * <<tools-eventbased-chapter-synthesis-analysis>>
 +
@@ -155,13 +125,11 @@ Analysis of the removed parts of a synthesized supervisor.
 
 * <<tools-eventbased-chapter-nonconflicting-check>>
 +
-Verifies whether automata are conflicting, that is together could lead to
-non-coreachable states.
+Verifies whether automata are conflicting, that is together could lead to non-coreachable states.
 
 * <<tools-eventbased-chapter-controllability-check>>
 +
-Verifies whether the supervisor does not disable uncontrollable events
-of the plant.
+Verifies whether the supervisor does not disable uncontrollable events of the plant.
 
 * <<tools-eventbased-chapter-language-equivalence-check>>
 +
@@ -169,23 +137,19 @@ Verifies whether two automata produce the same events at each point.
 
 * <<tools-eventbased-chapter-nfa-to-dfa>>
 +
-Converts a non-deterministic automaton to a deterministic automaton while
-preserving the event behavior.
+Converts a non-deterministic automaton to a deterministic automaton while preserving the event behavior.
 
 * <<tools-eventbased-chapter-dfa-minimization>>
 +
-Minimize the number of locations of an automaton while preserving the
-event behavior.
+Minimize the number of locations of an automaton while preserving the event behavior.
 
 * <<tools-eventbased-chapter-projection>>
 +
-Computes a projection of an automaton, resulting in a deterministic and
-language equivalent automaton over a subset of its alphabet.
+Computes a projection of an automaton, resulting in a deterministic and language equivalent automaton over a subset of its alphabet.
 
 * <<tools-eventbased-chapter-observer-check>>
 +
-Verifies whether an automaton can act as an observer of occurrences of
-observable events.
+Verifies whether an automaton can act as an observer of occurrences of observable events.
 
 * <<tools-eventbased-chapter-automaton-abstraction>>
 +
@@ -193,8 +157,7 @@ Abstracts an automaton to a set of observable events.
 
 * <<tools-eventbased-chapter-trim-check>>
 +
-Verifies whether the automata are trim, that is, in each automaton, the
-locations must be both reachable and co-reachable.
+Verifies whether the automata are trim, that is, in each automaton, the locations must be both reachable and co-reachable.
 
 * <<tools-eventbased-chapter-trim>>
 +

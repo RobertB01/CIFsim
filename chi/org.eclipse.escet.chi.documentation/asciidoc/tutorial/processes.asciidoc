@@ -20,46 +20,30 @@ indexterm:[parallel,process]
 indexterm:[process,concurrent]
 indexterm:[concurrent,process]
 indexterm:[process]
-The language has been designed for modeling and analyzing systems with many
-components, all working together to obtain the total system behavior.
-Each component exhibits behavior over time. Sometimes they are busy making
-internal decisions, sometimes they interact with other components.
-The language uses a _process_ to model the behavior of a component (the
-primary interest are the actions of the component rather than its physical
-representation). This leads to models with many processes working in
-_parallel_ (also known as _concurrent_ processes), interacting with each
-other.
+The language has been designed for modeling and analyzing systems with many components, all working together to obtain the total system behavior.
+Each component exhibits behavior over time.
+Sometimes they are busy making internal decisions, sometimes they interact with other components.
+The language uses a _process_ to model the behavior of a component (the primary interest are the actions of the component rather than its physical representation).
+This leads to models with many processes working in _parallel_ (also known as _concurrent_ processes), interacting with each other.
 
-Another characteristic of these systems is that the parallelism happens at
-different scales at the same time, and each scale can be considered to be a
-collection of co-operating parallel working processes.
-For example, a factory can be seen as a single component, it accepts supplies
-and delivers products.
-However, within a factory, you can have several parallel operating production
-lines, and a line consists of several parallel operating machines.
+Another characteristic of these systems is that the parallelism happens at different scales at the same time, and each scale can be considered to be a collection of co-operating parallel working processes.
+For example, a factory can be seen as a single component, it accepts supplies and delivers products.
+However, within a factory, you can have several parallel operating production lines, and a line consists of several parallel operating machines.
 A machine again consists of parallel operating parts.
-In the other direction, a factory is a small element in a supply chain. Each
-supply chain is an element in a (distribution) network.
-Depending on the area that needs to be analyzed, and the level of detail, some
-scales are precisely modeled, while others either fall outside the scope of
-the system or are modeled in an abstract way.
+In the other direction, a factory is a small element in a supply chain.
+Each supply chain is an element in a (distribution) network.
+Depending on the area that needs to be analyzed, and the level of detail, some scales are precisely modeled, while others either fall outside the scope of the system or are modeled in an abstract way.
 
-In all these systems, the interaction between processes is not random, they
-understand each other and exchange information.
-In other words, they _communicate_ with each other. The Chi language uses
-_channels_ to model the communication.
-A channel connects a sending process to a receiving process, allowing the
-sender to pass messages to the receiver.
-This chapter discusses parallel operating processes only, communication
-between processes using channels is discussed in <<tut-chapter-channels,Channels>>.
+In all these systems, the interaction between processes is not random, they understand each other and exchange information.
+In other words, they _communicate_ with each other.
+The Chi language uses _channels_ to model the communication.
+A channel connects a sending process to a receiving process, allowing the sender to pass messages to the receiver.
+This chapter discusses parallel operating processes only, communication between processes using channels is discussed in <<tut-chapter-channels,Channels>>.
 
-As discussed above, a process can be seen as a single component with behavior
-over time, or as a wrapper around many processes that work at a smaller scale.
+As discussed above, a process can be seen as a single component with behavior over time, or as a wrapper around many processes that work at a smaller scale.
 The Chi language supports both kinds of processes.
-The former is modeled with the statements explained in previous chapters and
-communication that will be explained in <<tut-chapter-channels,Channels>>.
-The latter (a process as a wrapper around many smaller-scale processes) is
-supported with the `run` statement.
+The former is modeled with the statements explained in previous chapters and communication that will be explained in <<tut-chapter-channels,Channels>>.
+The latter (a process as a wrapper around many smaller-scale processes) is supported with the `run` statement.
 
 === A single process
 
@@ -77,12 +61,8 @@ model M():
 end
 ----
 
-Similar to a model, a process definition is denoted by the keyword `proc`
-(`proc` means process and does not mean procedure!), followed by the name of
-the process, here `P`, followed by an empty pair of parentheses `()`,
-meaning that the process has no parameters.
-Process `P` contains one statement, a `write` statement to output text to
-the screen.
+Similar to a model, a process definition is denoted by the keyword `proc` (`proc` means process and does not mean procedure!), followed by the name of the process, here `P`, followed by an empty pair of parentheses `()`, meaning that the process has no parameters.
+Process `P` contains one statement, a `write` statement to output text to the screen.
 Model `M` contains one statement, a `run` statement to run a process.
 When simulating this model, the output is:
 
@@ -94,12 +74,9 @@ Hello. I am a process.
 
 indexterm:[statement,run]
 indexterm:[run,statement]
-A `run` statement constructs a process from the process definition (it
-_instantiates_ a process definition) for each of its arguments, and they start
-running.
-This means that the statements inside each process are executed. The `run`
-statement waits until the statements in its created processes are finished,
-before it ends itself.
+A `run` statement constructs a process from the process definition (it _instantiates_ a process definition) for each of its arguments, and they start running.
+This means that the statements inside each process are executed.
+The `run` statement waits until the statements in its created processes are finished, before it ends itself.
 
 To demonstrate, below is an example of a model with two processes:
 
@@ -119,9 +96,7 @@ This model instantiates and runs two processes, `P(1)` and `P(2)`.
 The processes are running at the same time.
 Both processes can perform a `write` statement.
 One of them goes first, but there is no way to decide beforehand which one.
-(It may always be the same choice, it may be different on Wednesday, etc, you
-just don't know.)
-The output of the model is therefore either:
+(It may always be the same choice, it may be different on Wednesday, etc, you just don't know.) The output of the model is therefore either:
 
 
 [source, console]
@@ -139,20 +114,17 @@ I am process 2.
 I am process 1.
 ----
 
-After the two processes have finished their activities, the `run` statement
-in the model finishes, and the simulation ends.
+After the two processes have finished their activities, the `run` statement in the model finishes, and the simulation ends.
 
 indexterm:[atomic]
 An important property of statements is that they are executed _atomically_.
-It means that execution of the statement of one process cannot be interrupted
-by the execution of a statement of another process.
+It means that execution of the statement of one process cannot be interrupted by the execution of a statement of another process.
 
 
 === A process in a process
 
-The view of a process being a wrapper around many other processes is supported
-by allowing to use the `run` statement inside a process as
-well. An example:
+The view of a process being a wrapper around many other processes is supported by allowing to use the `run` statement inside a process as well.
+An example:
 
 
 [source, chi]
@@ -175,16 +147,15 @@ end
 The model instantiates and runs one process `DoubleP`.
 Process `DoubleP` instantiates and runs two processes `P`.
 The relevance becomes clear in models with a lot of processes.
-The concept of 'a process in a process' is very useful in keeping the model
-structured.
+The concept of 'a process in a process' is very useful in keeping the model structured.
 
 indexterm:[unwind,run]
 indexterm:[run,unwind]
 
 === Many processes
 
-Some models consist of many identical processes at a single level. The
-language has an `unwind` statement to reduce the amount of program text.
+Some models consist of many identical processes at a single level.
+The language has an `unwind` statement to reduce the amount of program text.
 A model with e.g. ten identical processes, and a different parameter value, is:
 
 
@@ -196,8 +167,7 @@ model MRun():
 end
 ----
 
-An easier way to write this model is by applying the `unwind` statement
-inside `run` with the same effect:
+An easier way to write this model is by applying the `unwind` statement inside `run` with the same effect:
 
 [source, chi]
 ----
@@ -208,7 +178,4 @@ model MP():
 end
 ----
 
-The `unwind` works like a `for` statement
-(see <<tut-for-statement,The `for` statement>>),
-except the `unwind` expands all values at the same time instead of iterating
-over them one at a time.
+The `unwind` works like a `for` statement (see <<tut-for-statement,The `for` statement>>), except the `unwind` expands all values at the same time instead of iterating over them one at a time.

@@ -17,11 +17,8 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF simulator]
 indexterm:[tools,CIF simulator]
-The CIF simulator can be used to explore the
-<<tools-cifsim-traces-state-space,state space>> of CIF specifications, either
-interactively, or using a more automated approach. Powerful visualization
-features allow for interactive visualization-based validation of the CIF
-specification.
+The CIF simulator can be used to explore the <<tools-cifsim-traces-state-space,state space>> of CIF specifications, either interactively, or using a more automated approach.
+Powerful visualization features allow for interactive visualization-based validation of the CIF specification.
 
 *Basics*
 

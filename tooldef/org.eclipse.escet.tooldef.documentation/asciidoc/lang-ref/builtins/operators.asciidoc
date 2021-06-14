@@ -35,12 +35,9 @@ This page describes the built-in operators:
 * <<lang-ref-builtins-operators-eq,pass:[==]>>
 * <<lang-ref-builtins-operators-ne,pass:[!=]>>
 
-The signatures of the operators are given using tool headers, to show the name
-of the operator, the types of the arguments, and the type of the resulting
-value. Operators however, can not be used by means of tool invocations.
-Operators with one argument are put directly before the argument (e.g.
-`not true`, `-5`), while operators with two arguments are put between the
-arguments (e.g. `true and false`, `+1 + 3+`).
+The signatures of the operators are given using tool headers, to show the name of the operator, the types of the arguments, and the type of the resulting value.
+Operators however, can not be used by means of tool invocations.
+Operators with one argument are put directly before the argument (e.g. `not true`, `-5`), while operators with two arguments are put between the arguments (e.g. `true and false`, `+1 + 3+`).
 
 
 indexterm:[not]
@@ -77,9 +74,8 @@ tool set T and<T>(set T left, set T right)
 ----
 
 Returns the conjunction of two boolean values, or the intersection of two sets.
-For boolean values, the operator uses short circuit evaluation. That is, the
-`right` argument is only evaluated if necessary, i.e. only if the `left`
-argument evaluates to `true`.
+For boolean values, the operator uses short circuit evaluation.
+That is, the `right` argument is only evaluated if necessary, i.e. only if the `left` argument evaluates to `true`.
 
 _Type parameters_
 
@@ -111,9 +107,8 @@ tool set T or<T>(set T left, set T right)
 ----
 
 Returns the disjunction of two boolean values, or the union of two sets.
-For boolean values, the operator uses short circuit evaluation. That is, the
-`right` argument is only evaluated if necessary, i.e. only if the `left`
-argument evaluates to `false`.
+For boolean values, the operator uses short circuit evaluation.
+That is, the `right` argument is only evaluated if necessary, i.e. only if the `left` argument evaluates to `false`.
 
 _Type parameters_
 
@@ -145,9 +140,8 @@ tool long   +(long arg)
 tool double +(double arg)
 ----
 
-Returns the unary plus of an integer, long, or double value. This is
-essentially the
-link:http://en.wikipedia.org/wiki/Identity_function[identity function].
+Returns the unary plus of an integer, long, or double value.
+This is essentially the link:http://en.wikipedia.org/wiki/Identity_function[identity function].
 
 _Arguments_
 
@@ -174,11 +168,8 @@ tool list T   +<T>(list T left, list T right)
 tool map(K:V) +<K, V>(map(K:V) left, map(K:V) right)
 ----
 
-Returns the addition of two integer, long, or double numbers, the concatenation
-of two strings or lists, or the update of a first map with the entries of a
-second map. For two maps, essentially, the entries of the first map are
-overwritten by the entries of the second map, while entries for new keys are
-added.
+Returns the addition of two integer, long, or double numbers, the concatenation of two strings or lists, or the update of a first map with the entries of a second map.
+For two maps, essentially, the entries of the first map are overwritten by the entries of the second map, while entries for new keys are added.
 
 _Type parameters_
 
@@ -205,8 +196,7 @@ The addition, concatenation, or map update result.
 
 _Runtime errors_
 
-* If the operation results in overflow (for integer, long, and double numbers
-only).
+* If the operation results in overflow (for integer, long, and double numbers only).
 
 
 indexterm:[-,unary]
@@ -253,10 +243,7 @@ tool map(K:V) -<K, V>(map(K:V) left, set K right)
 tool map(K:V) -<K, V, V2>(map(K:V) left, map(K:V2) right)
 ----
 
-Returns the subtraction of two integer, long, or double numbers, the set
-difference of two sets, the map with the keys from the list removed from it,
-the map with the keys from the set removed from it, or the first map with the
-keys from the second map removed from it.
+Returns the subtraction of two integer, long, or double numbers, the set difference of two sets, the map with the keys from the list removed from it, the map with the keys from the set removed from it, or the first map with the keys from the second map removed from it.
 
 _Type parameters_
 
@@ -275,8 +262,7 @@ _Arguments_
 The first integer, long, or double number, the first set, or the (first) map.
 
 `right`::
-The second integer, long, or double number, the (second) set, the list, or
-the second map.
+The second integer, long, or double number, the (second) set, the list, or the second map.
 
 _Returns_
 
@@ -284,8 +270,7 @@ The subtraction, set difference, or map removal result.
 
 _Runtime errors_
 
-* If the operation results in overflow (for integer, long, and double numbers
-only).
+* If the operation results in overflow (for integer, long, and double numbers only).
 
 
 indexterm:[*]
@@ -420,8 +405,7 @@ tool bool <(long left, long right)
 tool bool <(double left, double right)
 ----
 
-Returns whether the first integer, long, or double number is less than the
-second integer, long, or double number.
+Returns whether the first integer, long, or double number is less than the second integer, long, or double number.
 
 _Arguments_
 
@@ -433,8 +417,7 @@ The second integer, long, or double number.
 
 _Returns_
 
-`true` if the first number is less than the second number, `false`
-otherwise.
+`true` if the first number is less than the second number, `false` otherwise.
 
 
 [subs=-replacements]
@@ -450,8 +433,7 @@ tool bool <=(long left, long right)
 tool bool <=(double left, double right)
 ----
 
-Returns whether the first integer, long, or double number is less than or equal
-to the second integer, long, or double number.
+Returns whether the first integer, long, or double number is less than or equal to the second integer, long, or double number.
 
 _Arguments_
 
@@ -463,8 +445,7 @@ The second integer, long, or double number.
 
 _Returns_
 
-`true` if the first number is less than or equal to the second number,
-`false` otherwise.
+`true` if the first number is less than or equal to the second number, `false` otherwise.
 
 
 indexterm:[>]
@@ -479,8 +460,7 @@ tool bool >(long left, long right)
 tool bool >(double left, double right)
 ----
 
-Returns whether the first integer, long, or double number is greater than the
-second integer, long, or double number.
+Returns whether the first integer, long, or double number is greater than the second integer, long, or double number.
 
 _Arguments_
 
@@ -492,8 +472,7 @@ The second integer, long, or double number.
 
 _Returns_
 
-`true` if the first number is greater than the second number, `false`
-otherwise.
+`true` if the first number is greater than the second number, `false` otherwise.
 
 indexterm:[>=]
 
@@ -507,8 +486,7 @@ tool bool >=(long left, long right)
 tool bool >=(double left, double right)
 ----
 
-Returns whether the first integer, long, or double number is greater than or
-equal to the second integer, long, or double number.
+Returns whether the first integer, long, or double number is greater than or equal to the second integer, long, or double number.
 
 _Arguments_
 
@@ -520,8 +498,7 @@ The second integer, long, or double number.
 
 _Returns_
 
-`true` if the first number is greater than or equal to the second number,
-`false` otherwise.
+`true` if the first number is greater than or equal to the second number, `false` otherwise.
 
 
 indexterm:[==]
@@ -544,10 +521,12 @@ The type of the values.
 _Arguments_
 
 `left`::
-The first value. May be `null`.
+The first value.
+May be `null`.
 
 `right`::
-The second value. May be `null`.
+The second value.
+May be `null`.
 
 _Returns_
 
@@ -574,12 +553,13 @@ The type of the values.
 _Arguments_
 
 `left`::
-The first value. May be `null`.
+The first value.
+May be `null`.
 
 `right`::
-The second value. May be `null`.
+The second value.
+May be `null`.
 
 _Returns_
 
-`true` if the first value is unequal to the second value, `false`
-otherwise.
+`true` if the first value is unequal to the second value, `false` otherwise.

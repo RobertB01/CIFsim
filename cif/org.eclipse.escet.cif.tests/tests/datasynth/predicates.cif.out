@@ -80,6 +80,9 @@ Marked    (auts/locs marker predicate):      p.l0
 Marked    (uncontrolled system):             p.l0
 Marked    (system, combined marked/req inv): p.l0
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -130,6 +133,8 @@ Uncontrolled system:
     Edge: (event: e43) (guard: p.l0 and (p.x3 = 1 or p.x3 = 3))
     Edge: (event: e44) (guard: p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1)
     Edge: (event: e45) (guard: p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)))
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

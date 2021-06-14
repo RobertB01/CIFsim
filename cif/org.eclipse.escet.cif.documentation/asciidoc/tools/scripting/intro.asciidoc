@@ -16,53 +16,37 @@ include::../_part_attributes.asciidoc[]
 == Introduction to scripting
 
 // Removed the previously present link to documentation about 'ToolDef'.
-All CIF <<tools-chapter-index,tools>> can be used in
-ToolDef scripts. ToolDef is a
-cross-platform and machine-independent scripting language that supports command
-line execution, but is also available as plug-in for
-link:https://eclipse.org[Eclipse], providing an integrated development
-experience. See the link:https://eclipse.org/escet/tooldef[ToolDef website] for
-more information on ToolDef.
+All CIF <<tools-chapter-index,tools>> can be used in ToolDef scripts.
+ToolDef is a cross-platform and machine-independent scripting language that supports command line execution, but is also available as plug-in for link:https://eclipse.org[Eclipse], providing an integrated development experience.
+See the link:https://eclipse.org/escet/tooldef[ToolDef website] for more information on ToolDef.
 
 
 === Scenarios
 
 Using CIF tools in a ToolDef script can be useful for various reasons.
 
-Scripts allow executing multiple tools, one after the other, for instance to
-perform <<tools-chapter-datasynth,data-based synthesis>> on some sub-systems,
-<<tools-chapter-mergecif,merge>> the resulting supervisors, and
-<<tools-cif2plc-chapter-index,generate PLC code>> from it. Once a script is made,
-these steps can be easily repeated whenever the models for the sub-systems
-change. This is much easier than starting each of the tools manually, and saves
-valuable time. Furthermore, it is possible to share your script with others,
-who can then perform the same steps, and get the same results.
+Scripts allow executing multiple tools, one after the other, for instance to perform <<tools-chapter-datasynth,data-based synthesis>> on some sub-systems, <<tools-chapter-mergecif,merge>> the resulting supervisors, and <<tools-cif2plc-chapter-index,generate PLC code>> from it.
+Once a script is made, these steps can be easily repeated whenever the models for the sub-systems change.
+This is much easier than starting each of the tools manually, and saves valuable time.
+Furthermore, it is possible to share your script with others, who can then perform the same steps, and get the same results.
 
-A script can also be used to execute a single tool, specifying the parameters
-used when executing it. For instance, a script could execute the simulator,
-specifying not only which model (file) to simulate, but also the simulation
-options. If various <<tools-cifsim-output-chapter-index,visualizations>> are
-enabled, variables are <<tools-cifsim-output-plotviz-filtering,filtered>>,
-etc, manually configuring the options for each simulation can become tiresome.
-By specifying them in a script, simulating again with the same options becomes
-as simple as executing the script again. By sharing such a script with others,
-they can simulate the same model with the same options.
+A script can also be used to execute a single tool, specifying the parameters used when executing it.
+For instance, a script could execute the simulator, specifying not only which model (file) to simulate, but also the simulation options.
+If various <<tools-cifsim-output-chapter-index,visualizations>> are enabled, variables are <<tools-cifsim-output-plotviz-filtering,filtered>>, etc, manually configuring the options for each simulation can become tiresome.
+By specifying them in a script, simulating again with the same options becomes as simple as executing the script again.
+By sharing such a script with others, they can simulate the same model with the same options.
 
-Another use of scripts is to repeatedly execute the same tool, but with
-different parameters. A good example is
-<<tools-cifsim-chapter-repeated-simulation,repeatedly simulating>> a model.
-Instead of manually simulating a model with
-<<tut-stochastics-chapter-intro,stochastics>> hundreds or even thousands of
-times, which can be very time consuming, a script can be used to automate this
-task. The script can then also be used to automatically collect the results,
-and process them. Others can use the same script to repeat the experiments and
-verify the results, or to perform similar experiments.
+Another use of scripts is to repeatedly execute the same tool, but with different parameters.
+A good example is <<tools-cifsim-chapter-repeated-simulation,repeatedly simulating>> a model.
+Instead of manually simulating a model with <<tut-stochastics-chapter-intro,stochastics>> hundreds or even thousands of times, which can be very time consuming, a script can be used to automate this task.
+The script can then also be used to automatically collect the results, and process them.
+Others can use the same script to repeat the experiments and verify the results, or to perform similar experiments.
 
 
 === Library import
 
-In order to use CIF tools in a ToolDef script, the library with all CIF
-tools needs to be imported. The import statement to use is:
+In order to use CIF tools in a ToolDef script, the library with all CIF tools needs to be imported.
+The import statement to use is:
 
 
 [source, tooldef]
@@ -70,15 +54,13 @@ tools needs to be imported. The import statement to use is:
 from "lib:cif" import *;
 ----
 
-This statement imports all tools from the `cif` library, a library
-registered by the CIF tooling. You'll want to include this import statement
-in all your own scripts that use CIF tools.
+This statement imports all tools from the `cif` library, a library registered by the CIF tooling.
+You'll want to include this import statement in all your own scripts that use CIF tools.
 
 
 === Execution a tool
 
-Here is a simple example of a ToolDef script that simulates a model using the
-<<tools-cifsim-chapter-index,CIF simulator>>:
+Here is a simple example of a ToolDef script that simulates a model using the <<tools-cifsim-chapter-index,CIF simulator>>:
 
 
 [source, tooldef]
@@ -88,33 +70,22 @@ from "lib:cif" import *;
 cifsim("some_model.cif -i auto -t 10");
 ----
 
-The second statement executes the `cifsim` tool (the CIF simulator). This
-is just one of the tools that is available, but there are
-<<tools-scripting-chapter-tools,many more>>.
+The second statement executes the `cifsim` tool (the CIF simulator).
+This is just one of the tools that is available, but there are <<tools-scripting-chapter-tools,many more>>.
 
 
 === Command line arguments
 
-Command line arguments can be used to let a tool know on which files it should
-operate, and what options it should use. The example above uses
-`"some_model.cif -i auto -t 10"` as arguments, consisting of the model to
-simulate (the `some_model.cif` file) and some simulation options
-(<<tools-cifsim-input-chapter-automatic,automatic simulation>> due to
-`-i auto`, and a simulation
-<<tools-cifsim-termination-endtime,end time>> of 10 time units due to
-`-t 10`).
+Command line arguments can be used to let a tool know on which files it should operate, and what options it should use.
+The example above uses `"some_model.cif -i auto -t 10"` as arguments, consisting of the model to simulate (the `some_model.cif` file) and some simulation options (<<tools-cifsim-input-chapter-automatic,automatic simulation>> due to `-i auto`, and a simulation <<tools-cifsim-termination-endtime,end time>> of 10 time units due to `-t 10`).
 
 // Removed the previously present link to documentation about 'command line'.
-The command line options to use in ToolDef, are identical to the command line
-options to use for command line scripts, in a
-shell or command window. The CIF documentation generally refers to command line
-arguments or command line options, which can thus be used on the actual command
-line, as well as in ToolDef scripts.
+The command line options to use in ToolDef, are identical to the command line options to use for command line scripts, in a shell or command window.
+The CIF documentation generally refers to command line arguments or command line options, which can thus be used on the actual command line, as well as in ToolDef scripts.
 
-The command line arguments that are available are different for each tool. All
-CIF tools have `-h` and `--help` command line arguments that can be used
-to print the application help text to the console. The help text contains
-detailed information on all the command line arguments supported by the tool.
+The command line arguments that are available are different for each tool.
+All CIF tools have `-h` and `--help` command line arguments that can be used to print the application help text to the console.
+The help text contains detailed information on all the command line arguments supported by the tool.
 Here is an example of how to show the help text for the simulator:
 
 
@@ -129,28 +100,21 @@ This information can also be seen in the option dialog:
 
 image::{tools-imgsdir}/scripting/option_dialog_cmdline_help.png[]
 
-The option dialog shows the same help text as the command line `--help` and
-`-h` options. In this screenshot, you can see the help text of the
-`--end-time` or `-t` option. This particular option can also be configured
-using the option dialog. It is part of the
-menu:Simulator[]
-category:
+The option dialog shows the same help text as the command line `--help` and `-h` options.
+In this screenshot, you can see the help text of the `--end-time` or `-t` option.
+This particular option can also be configured using the option dialog.
+It is part of the menu:Simulator[] category:
 
 image::{tools-imgsdir}/scripting/option_dialog_cmdline_link.png[]
 
-There, it is listed as
-menu:Simulator end time[]
-option. After that name,
-the command line names of the option (`--end-time` and `-t`) are also
-listed. This makes it easier to link options in the option dialog with command
-line options.
+There, it is listed as menu:Simulator end time[] option.
+After that name, the command line names of the option (`--end-time` and `-t`) are also listed.
+This makes it easier to link options in the option dialog with command line options.
 
-In the example ToolDef scripts so far, all command line arguments are provided
-as a single string of text. However, it is also possible to provide each
-command line argument as a separate string. In fact, you may provide as many
-strings as you like, and each string may contain as many command line arguments
-as you like. For instance, the following statements each execute the simulator,
-and all have the same command line arguments, but provided in a different way:
+In the example ToolDef scripts so far, all command line arguments are provided as a single string of text.
+However, it is also possible to provide each command line argument as a separate string.
+In fact, you may provide as many strings as you like, and each string may contain as many command line arguments as you like.
+For instance, the following statements each execute the simulator, and all have the same command line arguments, but provided in a different way:
 
 
 [source, tooldef]
@@ -160,10 +124,9 @@ cifsim("some_model.cif", "-i auto", "-t 10"); // Multiple strings, multiple argu
 cifsim("some_model.cif", "-i", "auto", "-t", "10"); // Multiple strings, one argument each.
 ----
 
-For simulations, disabling a certain simulation option is a common task. By
-listing each simulation option on a separate line of the script, disabling or
-enabling a simulation option becomes as easy as commenting or uncommenting a
-line of the script. For instance, consider the following script:
+For simulations, disabling a certain simulation option is a common task.
+By listing each simulation option on a separate line of the script, disabling or enabling a simulation option becomes as easy as commenting or uncommenting a line of the script.
+For instance, consider the following script:
 
 
 [source, tooldef]
@@ -177,9 +140,8 @@ cifsim(
 );
 ----
 
-The model to simulate, the enabling of the automatic input mode, and the
-simulation end time, are each specified on a separate line. This makes it very
-easy to disable the simulation end time:
+The model to simulate, the enabling of the automatic input mode, and the simulation end time, are each specified on a separate line.
+This makes it very easy to disable the simulation end time:
 
 
 [source, tooldef]
@@ -193,18 +155,13 @@ cifsim(
 );
 ----
 
-To comment a line or multiple selected lines in a ToolDef text editor, use
-keyboard shortcut kbd:[Ctrl+/] or the corresponding toolbar button
-(image:{tools-imgsdir}/scripting/comment.png[]). For uncommenting, use keyboard shortcut
-kbd:[Ctrl+Shift+/] or the corresponding toolbar button
-(image:{tools-imgsdir}/scripting/uncomment.png[]).
+To comment a line or multiple selected lines in a ToolDef text editor, use keyboard shortcut kbd:[Ctrl+/] or the corresponding toolbar button (image:{tools-imgsdir}/scripting/comment.png[]).
+For uncommenting, use keyboard shortcut kbd:[Ctrl+Shift+/] or the corresponding toolbar button (image:{tools-imgsdir}/scripting/uncomment.png[]).
 
 === Output redirection and other options
 
-Besides the application specific options that can be configured using the
-command line arguments, all tools such as the `cifsim` tool, have some
-additional options. This includes the possibility to write the output of the
-tool to a file instead of the console:
+Besides the application specific options that can be configured using the command line arguments, all tools such as the `cifsim` tool, have some additional options.
+This includes the possibility to write the output of the tool to a file instead of the console:
 
 
 [source, tooldef]
@@ -214,7 +171,5 @@ from "lib:cif" import *;
 cifsim("some_model.cif -i auto -t 10", stdout="output.txt");
 ----
 
-The `stdout` parameter of the `cifsim` tool is used to specify the
-filename of the file to which to write the output. A complete list of the
-available parameters and their meaning, is available on the
-<<tools-scripting-chapter-tools>> page.
+The `stdout` parameter of the `cifsim` tool is used to specify the filename of the file to which to write the output.
+A complete list of the available parameters and their meaning, is available on the <<tools-scripting-chapter-tools>> page.

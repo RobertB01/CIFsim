@@ -50,12 +50,17 @@ Marked    (auts/locs marker predicate):      (p.l2 or 2 <= p.x and p.x <= 5) and
 Marked    (uncontrolled system):             p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
 Marked    (system, combined marked/req inv): p.l1 and (p.x = 2 or p.x = 3) or p.l2 and p.x = 3
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: p.c) (guard: p.l1) (assignments: p := p.l2)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -18,15 +18,14 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,linearize (merge)]
 indexterm:[linearize,merge]
 indexterm:[synchronization,eliminate]
-This CIF to CIF transformation performs process-algebraic linearization,
-thereby eliminating parallel composition and event synchronization.
+This CIF to CIF transformation performs process-algebraic linearization, thereby eliminating parallel composition and event synchronization.
 
 indexterm:[linearize,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
 * Specifications without automata are not supported.
 
@@ -34,9 +33,7 @@ indexterm:[linearize,preprocessing]
 
 === Preprocessing
 
-The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are
-applied as preprocessing (in the given order), to increase the subset of CIF
-specifications that can be transformed:
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-remove-pos-info>>
 
@@ -56,48 +53,34 @@ indexterm:[linearize,implementation]
 
 === Implementation details
 
-A location pointer variable is introduced for each original automaton with at
-least two locations, and the use of locations in expressions is eliminated.
-This is mostly similar to what the <<tools-cif2cif-chapter-elim-locs-in-exprs>>
-CIF to CIF transformation does, except that for instance location pointer
-variables are added for all automata with at least two locations.
+A location pointer variable is introduced for each original automaton with at least two locations, and the use of locations in expressions is eliminated.
+This is mostly similar to what the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation does, except that for instance location pointer variables are added for all automata with at least two locations.
 
-One new automaton, named `M`, is created. If all original automata have
-the same supervisory kind, the new automaton gets this kind as well. Otherwise,
-it gets no supervisory kind. The alphabet of this new automaton is the union of
-alphabets of the original automata, including the events that are used to
-send or receive in any of the automata.
+One new automaton, named `M`, is created.
+If all original automata have the same supervisory kind, the new automaton gets this kind as well.
+Otherwise, it gets no supervisory kind.
+The alphabet of this new automaton is the union of alphabets of the original automata, including the events that are used to send or receive in any of the automata.
 
 All declarations from the original automata are moved to the new automaton.
-They are renamed based on their absolute names. That is, for an automaton `a`
-with a constant `c`, the absolute name of the constant is `a.c` and the
-moved constant will be named `a_c`. Enumeration literals are not given
-absolute names, and keep their original names
-<<tools-cif2cif-linearize-merge-renaming,if possible>>.
+They are renamed based on their absolute names.
+That is, for an automaton `a` with a constant `c`, the absolute name of the constant is `a.c` and the moved constant will be named `a_c`.
+Enumeration literals are not given absolute names, and keep their original names <<tools-cif2cif-linearize-merge-renaming,if possible>>.
 
-One location, named `L`, is added. This location is both initial and marked.
-All initialization and marker predicates from all the original automata
-(including ones from locations) are merged together. They are put in the new
-automaton, and restrict the initialization and marker predicates of location
-`L`.
+One location, named `L`, is added.
+This location is both initial and marked.
+All initialization and marker predicates from all the original automata (including ones from locations) are merged together.
+They are put in the new automaton, and restrict the initialization and marker predicates of location `L`.
 
-The invariants of the original automata (including ones from locations) are
-merged together in a similar way as the initialization and marker predicates.
-The supervisory kinds of the invariants are made explicit, to ensure that the
-original supervisory kinds inherited from automata are preserved.
+The invariants of the original automata (including ones from locations) are merged together in a similar way as the initialization and marker predicates.
+The supervisory kinds of the invariants are made explicit, to ensure that the original supervisory kinds inherited from automata are preserved.
 
-For the `tau` event, a self loop is created per original `tau` edge. For
-all other events, the edges are merged, resulting in a single self loop for
-each non-`tau` event. By creating single edges per non-`tau` event,
-<<tools-cif2cif-linearize-merge-nondet,non-deterministic choice>> may be
-eliminated, ensuring that the model size of the resulting specification is
-near-linear <<tools-cif2cif-linearize-merge-size,compared to>> the model
-size of the original specification.
+For the `tau` event, a self loop is created per original `tau` edge.
+For all other events, the edges are merged, resulting in a single self loop for each non-`tau` event.
+By creating single edges per non-`tau` event, <<tools-cif2cif-linearize-merge-nondet,non-deterministic choice>> may be eliminated, ensuring that the model size of the resulting specification is near-linear <<tools-cif2cif-linearize-merge-size,compared to>> the model size of the original specification.
 
-Monitors are taken into account when merging the guards of the edges, resulting
-in simpler guard predicates. Communication is eliminated altogether, and events
-no longer have data types after linearization. For edges with receives, the
-'received value' is replaced (in the updates) by the 'send value'.
+Monitors are taken into account when merging the guards of the edges, resulting in simpler guard predicates.
+Communication is eliminated altogether, and events no longer have data types after linearization.
+For edges with receives, the 'received value' is replaced (in the updates) by the 'send value'.
 
 For instance, the following specification:
 
@@ -162,34 +145,27 @@ plant automaton M:
 end
 ----
 
-We see that an enumeration `E` is added, with literals for all the locations
-of the original automata. We also see that plant automata `p` and `q` are
-linearized to plant automaton `M`. Two location pointers, `p` and `q`,
-named after the original automata, are added. The variables are moved. The
-initialization and marker predicates are linearized. We have one location
-`L`, which is initial and marked. For event `e`, the guards and updates are
-linearized into a single self loop. Location pointer updates are incorporated
-as well. For event `tau`, the single original edge is simply included as a
-self loop.
+We see that an enumeration `E` is added, with literals for all the locations of the original automata.
+We also see that plant automata `p` and `q` are linearized to plant automaton `M`.
+Two location pointers, `p` and `q`, named after the original automata, are added.
+The variables are moved.
+The initialization and marker predicates are linearized.
+We have one location `L`, which is initial and marked.
+For event `e`, the guards and updates are linearized into a single self loop.
+Location pointer updates are incorporated as well.
+For event `tau`, the single original edge is simply included as a self loop.
 
 indexterm:[linearize,non-determinism]
 
 [[tools-cif2cif-linearize-merge-nondet]]
 ==== Non-determinism
 
-If the original automata have non-determinism, this choice is eliminated as
-part of this transformation. Non-determinism can be present due to multiple
-outgoing edges for a single location, for the same event (excluding the
-`tau` event), with overlapping guards. Another cause of non-determinism is
-multiple senders or receivers that are enabled at the same time, for the same
-channel. In the resulting specification, the first possible transition is
-always taken, similar to how the simulator chooses, assuming the simulator is
-configured to always automatically choose the
-<<tools-cifsim-input-chapter-automatic,first transition>>. Linearization
-eliminates some of the non-determinism in this case, essentially choosing a
-specific trace through the state space. To ensure the same choices are made,
-events and automata are sorted in the same order for linearization and
-simulation.
+If the original automata have non-determinism, this choice is eliminated as part of this transformation.
+Non-determinism can be present due to multiple outgoing edges for a single location, for the same event (excluding the `tau` event), with overlapping guards.
+Another cause of non-determinism is multiple senders or receivers that are enabled at the same time, for the same channel.
+In the resulting specification, the first possible transition is always taken, similar to how the simulator chooses, assuming the simulator is configured to always automatically choose the <<tools-cifsim-input-chapter-automatic,first transition>>.
+Linearization eliminates some of the non-determinism in this case, essentially choosing a specific trace through the state space.
+To ensure the same choices are made, events and automata are sorted in the same order for linearization and simulation.
 
 For instance, the following specification:
 
@@ -235,14 +211,11 @@ automaton M:
 end
 ----
 
-Here, we see that the edge for event `e` with guard `x < 5` and update
-`x := x + 1` is chosen to take precedence over the edge with guard `x > 3`
-with update `x := x - 1`. This choice is based on the original specification,
-where the edge with guard `x < 5` is listed before the edge with guard
-`x > 3`.
+Here, we see that the edge for event `e` with guard `x < 5` and update `x := x + 1` is chosen to take precedence over the edge with guard `x > 3` with update `x := x - 1`.
+This choice is based on the original specification, where the edge with guard `x < 5` is listed before the edge with guard `x > 3`.
 
-Related to this, are dummy updates, which are added to ensure that the correct
-updates are taken. For instance, the following specification:
+Related to this, are dummy updates, which are added to ensure that the correct updates are taken.
+For instance, the following specification:
 
 
 [source, cif]
@@ -284,46 +257,32 @@ automaton M:
 end
 ----
 
-Here, the edge with guard `x >= 3` takes precedence over the edge with guard
-`x < 3`. To ensure that no updates are performed when the edge with guard
-`x >= 3` is chosen, a dummy update is added (reassigning the value of `p_x`
-to itself). If this update were to be omitted, the update of the other
-edge would instead be executed, which is undesirable.
+Here, the edge with guard `x >= 3` takes precedence over the edge with guard `x < 3`.
+To ensure that no updates are performed when the edge with guard `x >= 3` is chosen, a dummy update is added (reassigning the value of `p_x` to itself).
+If this update were to be omitted, the update of the other edge would instead be executed, which is undesirable.
 
 indexterm:[linearize,order]
 
 ==== Order
 
-If code generation is performed on a linearized version of the specification,
-it may be a good idea to ensure the same order is used and the same choices
-are made, both in the generated code and in simulation. Assuming simulation
-was performed by always automatically choosing the
-<<tools-cifsim-input-chapter-automatic,first transition>>, this should correspond to the output of
-linearization. The linearized edges are in the same order as the transitions
-are calculated by the simulator. This is ensured by sorting events and automata
-in the same order for linearization and simulation. Also, as the
-<<tools-cif2cif-linearize-merge-nondet>> section above explains, if
-non-determinism is eliminated, it is done in a way that preserves that order.
+If code generation is performed on a linearized version of the specification, it may be a good idea to ensure the same order is used and the same choices are made, both in the generated code and in simulation.
+Assuming simulation was performed by always automatically choosing the <<tools-cifsim-input-chapter-automatic,first transition>>, this should correspond to the output of linearization.
+The linearized edges are in the same order as the transitions are calculated by the simulator.
+This is ensured by sorting events and automata in the same order for linearization and simulation.
+Also, as the <<tools-cif2cif-linearize-merge-nondet>> section above explains, if non-determinism is eliminated, it is done in a way that preserves that order.
 
-Code should thus be generated in the order of the linearized edges resulting
-from linearization. Each time the code for an edge is executed, the code should
-start from the top, to ensure always the first enabled transition is chosen.
+Code should thus be generated in the order of the linearized edges resulting from linearization.
+Each time the code for an edge is executed, the code should start from the top, to ensure always the first enabled transition is chosen.
 
 indexterm:[linearize,urgency]
 
 ==== Urgency
 
-If the original automata contain urgent locations and/or urgent edges, a
-discrete boolean variable `u` is added to the linearized automaton.
-Initially, it's value is `true`, and it must always remain so
-(`plant invariant u;`). We add self loops (event `tau`), with as guard the
-urgent locations and guards of urgent edges, such that the edge can be taken if
-the system is in an urgent location, or an urgent edge is enabled (guard wise).
-However, these edges update `u` to `false`, which violates the target
-location invariant, meaning we can never take these edges in a transition.
-Since the edge is also urgent, it means that if the edge is enabled guard wise,
-time may not progress, thus ensuring the urgency behavior of the original
-urgent locations and edges.
+If the original automata contain urgent locations and/or urgent edges, a discrete boolean variable `u` is added to the linearized automaton.
+Initially, it's value is `true`, and it must always remain so (`plant invariant u;`).
+We add self loops (event `tau`), with as guard the urgent locations and guards of urgent edges, such that the edge can be taken if the system is in an urgent location, or an urgent edge is enabled (guard wise).
+However, these edges update `u` to `false`, which violates the target location invariant, meaning we can never take these edges in a transition.
+Since the edge is also urgent, it means that if the edge is enabled guard wise, time may not progress, thus ensuring the urgency behavior of the original urgent locations and edges.
 
 For instance, the following specification:
 
@@ -375,17 +334,11 @@ automaton M:
 end
 ----
 
-So, if `p` (the location pointer variable for original automaton `p`) is
-equal to `l1` (the enumeration literal for original location `l1`), then
-the guard of the new urgent edge is enabled, and time may not progress.
-Similarly, if `p` is equal to `l2` and the guard `1 = 1` of the original
-urgent edge is enabled, the guard of the new urgent edge is enabled, and time
-may not progress. This correctly reflects the urgency conditions of the
-original specification.
+So, if `p` (the location pointer variable for original automaton `p`) is equal to `l1` (the enumeration literal for original location `l1`), then the guard of the new urgent edge is enabled, and time may not progress.
+Similarly, if `p` is equal to `l2` and the guard `1 = 1` of the original urgent edge is enabled, the guard of the new urgent edge is enabled, and time may not progress.
+This correctly reflects the urgency conditions of the original specification.
 
-To ensure that no additional event transitions are possible, the new urgent
-edge can never be taken, as it would update `u` to `false`, which violates
-`plant invariant u`.
+To ensure that no additional event transitions are possible, the new urgent edge can never be taken, as it would update `u` to `false`, which violates `plant invariant u`.
 
 indexterm:[linearize,received values]
 indexterm:[linearize,tuple field projections]
@@ -436,33 +389,24 @@ automaton M:
 end
 ----
 
-Observe how event `e` no longer has a data type, and the communication (send
-and receive) have been eliminated. In the assignment `x := ?[a]`, received
-value `?` has been replaced by send value `(1, 2)`. Since tuple values
-don't have field names, the right hand side `(1, 2)[a]` has been replaced
-by `(1, 2)[0]`, using the <<tools-cif2cif-chapter-elim-tuple-field-projs>> CIF to
-CIF transformation.
+Observe how event `e` no longer has a data type, and the communication (send and receive) have been eliminated.
+In the assignment `x := ?[a]`, received value `?` has been replaced by send value `(1, 2)`.
+Since tuple values don't have field names, the right hand side `(1, 2)[a]` has been replaced by `(1, 2)[0]`, using the <<tools-cif2cif-chapter-elim-tuple-field-projs>> CIF to CIF transformation.
 
 indexterm:[linearize,communication]
 
 ==== Elimination of communication
 
-Since channel communication is completely eliminated, and channels become
-regular events after this transformation, it is no longer possible to
-<<tools-chapter-mergecif,merge>> additional senders/receivers with the linearized
-specification. If you wish to merge another specification with additional
-communication partners, first perform the merging, and then the linearization.
+Since channel communication is completely eliminated, and channels become regular events after this transformation, it is no longer possible to <<tools-chapter-mergecif,merge>> additional senders/receivers with the linearized specification.
+If you wish to merge another specification with additional communication partners, first perform the merging, and then the linearization.
 
 indexterm:[linearize,renaming]
 
 [[tools-cif2cif-linearize-merge-renaming]]
 === Renaming
 
-Since declarations are moved/merged, and new names are introduced, renaming may
-be necessary to ensure unique names within a single scope. In order to reduce
-the amount of renaming for the enumeration literals introduced for the
-locations of the original automata, all enumerations are merged together into a
-single enumeration in the specification, with name `E`.
+Since declarations are moved/merged, and new names are introduced, renaming may be necessary to ensure unique names within a single scope.
+In order to reduce the amount of renaming for the enumeration literals introduced for the locations of the original automata, all enumerations are merged together into a single enumeration in the specification, with name `E`.
 
 If renaming is performed, a warning is printed to the console.
 
@@ -473,68 +417,53 @@ indexterm:[linearize,size considerations]
 
 Declarations are moved, so they don't increase the size of the specification.
 
-The addition of location variables increases the size of the specification, but
-this is linear in the number of automata and the number of locations.
+The addition of location variables increases the size of the specification, but this is linear in the number of automata and the number of locations.
 
-Assignment are added for the updates to the location pointers. The increase is
-linear in the number of edges. The additional dummy updates that are added are
-linear in the number of edges as well.
+Assignment are added for the updates to the location pointers.
+The increase is linear in the number of edges.
+The additional dummy updates that are added are linear in the number of edges as well.
 
-A single self loop is added for each non-`tau` event. This does increase the
-size of the specification. The guards are simply combined using boolean
-operators, and the increase is therefore linear in the number of guards.
-Similarly, updates are combined using 'if' updates, and the increase is also
-linear.
+A single self loop is added for each non-`tau` event.
+This does increase the size of the specification.
+The guards are simply combined using boolean operators, and the increase is therefore linear in the number of guards.
+Similarly, updates are combined using 'if' updates, and the increase is also linear.
 
-For original edges with multiple events however, the guards and updates are
-duplicated for each event. The duplication is linear in the number of events
-on those edges.
+For original edges with multiple events however, the guards and updates are duplicated for each event.
+The duplication is linear in the number of events on those edges.
 
-Since `tau` edges are essentially just moved, they don't increase the size
-of the specification. That is, their size is linear in the number of original
-`tau` edges.
+Since `tau` edges are essentially just moved, they don't increase the size of the specification.
+That is, their size is linear in the number of original `tau` edges.
 
 The initialization and marker predicates, as well as the invariants are moved.
-They remain linear in size related to the number of original predicates. The
-predicates for the locations are also made conditional on the values of the
-location pointer variable. This size increase is linear in the number of
-original locations. Predicates are combined using boolean operators, leading
-to a size increase that is linear in the number of original predicates.
+They remain linear in size related to the number of original predicates.
+The predicates for the locations are also made conditional on the values of the location pointer variable.
+This size increase is linear in the number of original locations.
+Predicates are combined using boolean operators, leading to a size increase that is linear in the number of original predicates.
 
-If a single received value is used multiple times in the updates of a single
-edge, the send value is duplicated for each of those uses. As such, the size
-increase is linear in the number of uses of the received value.
+If a single received value is used multiple times in the updates of a single edge, the send value is duplicated for each of those uses.
+As such, the size increase is linear in the number of uses of the received value.
 
-If multiple senders and multiple receivers (individual send/receive edges, not
-whole automata) are present for a certain event, then the received value is
-expanded to all the potential send values, with the conditions under which they
-are used as send value (using an 'if' expression). As such, the received
-value are expanded into expressions that are linear in the number of senders.
-If we have only a single sender or a single receiver, this is linear. If we
-have multiple of both, this becomes quadratic (number of senders times number
-of receivers).
+If multiple senders and multiple receivers (individual send/receive edges, not whole automata) are present for a certain event, then the received value is expanded to all the potential send values, with the conditions under which they are used as send value (using an 'if' expression).
+As such, the received value are expanded into expressions that are linear in the number of senders.
+If we have only a single sender or a single receiver, this is linear.
+If we have multiple of both, this becomes quadratic (number of senders times number of receivers).
 
-For urgency, an additional variable and invariant are added. This is a constant
-increase in size. A self loop is added as well. This self loop duplicates
-the guards of urgent edges. It also includes predicates for the urgent
-locations. The size of this edge is linear in the number of urgent locations,
-and the guards of the urgent edges.
+For urgency, an additional variable and invariant are added.
+This is a constant increase in size.
+A self loop is added as well.
+This self loop duplicates the guards of urgent edges.
+It also includes predicates for the urgent locations.
+The size of this edge is linear in the number of urgent locations, and the guards of the urgent edges.
 
-From the above, it should be clear that while the specification may increase
-in size, it is mostly linear. Practically, the size of the linearized
-specification is usually linear compared to the size of the input
-specification.
+From the above, it should be clear that while the specification may increase in size, it is mostly linear.
+Practically, the size of the linearized specification is usually linear compared to the size of the input specification.
 
 indexterm:[linearize,optimality]
 
 === Optimality
 
-As should be clear from the examples above, this transformation does not try
-to generate optimized expressions. In fact, often almost all generated
-expressions can easily be simplified. To further simplify the result, apply
-additional CIF to CIF transformations, such as
-<<tools-cif2cif-chapter-simplify-values>>.
+As should be clear from the examples above, this transformation does not try to generate optimized expressions.
+In fact, often almost all generated expressions can easily be simplified.
+To further simplify the result, apply additional CIF to CIF transformations, such as <<tools-cif2cif-chapter-simplify-values>>.
 
-Currently, no effort is made by this transformation to reduce for instance the
-number of dummy assignments, or the number of replacements of tuple field
-projections by tuple index projections.
+Currently, no effort is made by this transformation to reduce for instance the number of dummy assignments, or the number of replacements of tuple field projections by tuple index projections.

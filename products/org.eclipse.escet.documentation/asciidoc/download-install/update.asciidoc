@@ -19,59 +19,45 @@ indexterm:[update]
 
 There are two ways to obtain a newer version of the Eclipse ESCET tools:
 
-* New download of the Eclipse ESCET tools (including command line scripts),
-to be used side-by-side the older version.
+* New download of the Eclipse ESCET tools (including command line scripts), to be used side-by-side the older version.
 
 * In-place update of the Eclipse ESCET tools.
 
 
 === Side by side new installation
 
-To download and install a new version of Eclipse ESCET tools (including the
-command line scripts) side-by-side an older version, follow these steps:
+To download and install a new version of Eclipse ESCET tools (including the command line scripts) side-by-side an older version, follow these steps:
 
-* Follow the normal <<download-install-install,installation instructions>>,
-extracting the new version to a different directory than the old version.
+* Follow the normal <<download-install-install,installation instructions>>, extracting the new version to a different directory than the old version.
 
-* You can copy the data (<<use-terminology-project,projects>>, files, and
-settings) of an earlier installation to the new installation. While neither
-version of the Eclipse ESCET IDE is running, simply remove the
-<<use-terminology-workspace,workspace>> directory of the new installation,
-and copy the workspace directory of the earlier installation to the new
-installation.
+* You can copy the data (<<use-terminology-project,projects>>, files, and settings) of an earlier installation to the new installation.
+While neither version of the Eclipse ESCET IDE is running, simply remove the <<use-terminology-workspace,workspace>> directory of the new installation, and copy the workspace directory of the earlier installation to the new installation.
 
-Using these instructions, it is possible to use multiple installations side
-by side, at the same time, regardless of whether the installations are the
-same release or different releases. Simply extract them to different
-directories and launch them as you would normally do.
+Using these instructions, it is possible to use multiple installations side by side, at the same time, regardless of whether the installations are the same release or different releases.
+Simply extract them to different directories and launch them as you would normally do.
 
 
 === In-place update
 
 To perform an in-place update of the Eclipse ESCET tools:
 
-* Select menu:Help[Check for Updates] within the Eclipse ESCET IDE. Follow
-the on-screen instructions to perform an in-place update.
+* Select menu:Help[Check for Updates] within the Eclipse ESCET IDE.
+Follow the on-screen instructions to perform an in-place update.
 
 * This will _not_ update the command line scripts.
 
-* If the tool indicates that no updates are available, while you are sure that
-an updated version has been released, or if some other problem occurs, please
-restart the tool and try again. If still an in-place update fails, try to
-install a new version side-by-side the older version.
+* If the tool indicates that no updates are available, while you are sure that an updated version has been released, or if some other problem occurs, please restart the tool and try again.
+If still an in-place update fails, try to install a new version side-by-side the older version.
 
-* If you get a dialog stating there is a problem, click the btn:[Details]
-button for further details. If may mention `Address family not supported by
-protocol family: connect`. If so, close Eclipse, and add the following line
-to the `eclipse.ini` file:
+* If you get a dialog stating there is a problem, click the btn:[Details] button for further details.
+If may mention `Address family not supported by protocol family: connect`.
+If so, close Eclipse, and add the following line to the `eclipse.ini` file:
 +
 [source]
 ----
 -Djava.net.preferIPv4Stack=true
 ----
 +
-Add the line at the end of the file, on a line by itself. By default,
-`eclipse.ini` is located in the Eclipse ESCET tools installation directory,
-except for macOS, where instead it is in the `Eclipse.app/Contents/MacOS`
-directory inside the Eclipse ESCET tools installation directory. Restart the
-Eclipse ESCET IDE and try again.
+Add the line at the end of the file, on a line by itself.
+By default, `eclipse.ini` is located in the Eclipse ESCET tools installation directory, except for macOS, where instead it is in the `Eclipse.app/Contents/MacOS` directory inside the Eclipse ESCET tools installation directory.
+Restart the Eclipse ESCET IDE and try again.

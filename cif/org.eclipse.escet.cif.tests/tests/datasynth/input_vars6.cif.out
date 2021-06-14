@@ -37,6 +37,9 @@ Marked    (auts/locs marker predicate):      not io.sensor2 and not io.sensor3
 Marked    (uncontrolled system):             not io.sensor2 and not io.sensor3
 Marked    (system, combined marked/req inv): not io.sensor2 and not io.sensor3
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -45,6 +48,8 @@ Uncontrolled system:
     Edge: (event: io.sensor1) (guard: true) (assignments: io.sensor1+ != io.sensor1)
     Edge: (event: io.sensor2) (guard: true) (assignments: io.sensor2+ != io.sensor2)
     Edge: (event: io.sensor3) (guard: true) (assignments: io.sensor3+ != io.sensor3)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

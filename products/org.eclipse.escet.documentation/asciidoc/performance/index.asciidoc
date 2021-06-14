@@ -20,18 +20,15 @@ indexterm:[troubleshooting,performance]
 [[performance-chapter-index]]
 == Resolving performance and memory problems
 
-During the use of the Eclipse ESCET toolkit, you may encounter performance
-and/or memory problems. This includes slow execution, performance degradation over time,
-out-of-memory errors, etc. One way to solve such problems, is to use a
-computer that is faster and/or has more memory. If that is not an option, or
-if that doesn't help, the following information is available to help you get
-rid of these problems:
+During the use of the Eclipse ESCET toolkit, you may encounter performance and/or memory problems.
+This includes slow execution, performance degradation over time, out-of-memory errors, etc.
+One way to solve such problems, is to use a computer that is faster and/or has more memory.
+If that is not an option, or if that doesn't help, the following information is available to help you get rid of these problems:
 
 * <<performance-clear-console>>
 * <<performance-reduce-console-output>>
 * <<performance-close-running-apps>>
 * <<performance-tweak-perf-settings>>
 
-In particular, the <<performance-tweak-perf-settings>> section
-provides information on how to give Eclipse ESCET tools more memory. This solves the most
-common performance problems and out-of-memory errors.
+In particular, the <<performance-tweak-perf-settings>> section provides information on how to give Eclipse ESCET tools more memory.
+This solves the most common performance problems and out-of-memory errors.

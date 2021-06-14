@@ -17,20 +17,15 @@ include::../../_part_attributes.asciidoc[]
 
 indexterm:[ODE,root finder options]
 indexterm:[root finder options]
-The <<tools-cifsim-solver-chapter-basics-root,root finder>> used by the ODE
-solver of the CIF simulator, can be configured using several options.
+The <<tools-cifsim-solver-chapter-basics-root,root finder>> used by the ODE solver of the CIF simulator, can be configured using several options.
 
 indexterm:[root finder options,maximum check interval]
 
 [[tools-cifsim-solver-options-root-maxcheck]]
 === Maximum check interval
 
-The
-menu:ODE solver root finder maximum check interval[]
-option
-(menu:ODE solver: ODE root finder[]
-category) is explained on a separate
-page. See <<tools-cifsim-solver-chapter-root-problems>>.
+The menu:ODE solver root finder maximum check interval[] option (menu:ODE solver: ODE root finder[] category) is explained on a separate page.
+See <<tools-cifsim-solver-chapter-root-problems>>.
 
 indexterm:[root finder options,algorithm]
 indexterm:[root finder options,Regula Falsi]
@@ -41,45 +36,28 @@ indexterm:[root finder options,Pegasus]
 [[tools-cifsim-solver-options-root-algo]]
 === Root finding algorithm
 
-The
-menu:ODE solver root finding algorithm[]
-option
-(menu:ODE solver: ODE root finder[]
-category) can be used to configure the
-root finding algorithm to use. The following algorithms are available:
+The menu:ODE solver root finding algorithm[] option (menu:ODE solver: ODE root finder[] category) can be used to configure the root finding algorithm to use.
+The following algorithms are available:
 
-* Regula Falsi
-(link:http://en.wikipedia.org/wiki/False_position_method[False position])
-method
+* Regula Falsi (link:http://en.wikipedia.org/wiki/False_position_method[False position]) method
 
 * Illinois method
 
 * Pegasus method (default)
 
-The _Illinois_ and _Pegasus_ methods are modified _Regula Falsi_ methods. The
-algorithms differ only in how they choose the middle point of the interval.
-This influences their convergence speed. The _Regula Falsi_ method in
-particular should be avoided in practice.
+The _Illinois_ and _Pegasus_ methods are modified _Regula Falsi_ methods.
+The algorithms differ only in how they choose the middle point of the interval.
+This influences their convergence speed.
+The _Regula Falsi_ method in particular should be avoided in practice.
 
 indexterm:[root finder options,tolerances]
 
 [[tools-cifsim-solver-options-root-tol]]
 === Absolute and relative tolerance
 
-The
-menu:ODE solver root finder absolute tolerance[]
-option
-(menu:ODE solver: ODE root finder[]
-category) and the
-menu:ODE solver root finder relative tolerance[]
-option
-(menu:ODE solver: ODE root finder[]
-category), can be used to
-configure how precise the results of the root finder should be. The lower the
-tolerance (or error), the higher the precision of the results, but also the
-more computing time it costs to get to that precision. The absolute precision
-is the difference between the prediction and the actual value, while the
-relative precision is that same difference, as a fraction of the actual value.
+The menu:ODE solver root finder absolute tolerance[] option (menu:ODE solver: ODE root finder[] category) and the menu:ODE solver root finder relative tolerance[] option (menu:ODE solver: ODE root finder[] category), can be used to configure how precise the results of the root finder should be.
+The lower the tolerance (or error), the higher the precision of the results, but also the more computing time it costs to get to that precision.
+The absolute precision is the difference between the prediction and the actual value, while the relative precision is that same difference, as a fraction of the actual value.
 In the latter case, precision reduces with increasing values.
 
 indexterm:[root finder options,maximum iterations]
@@ -87,18 +65,10 @@ indexterm:[root finder options,maximum iterations]
 [[tools-cifsim-solver-options-root-maxiter]]
 === Maximum iterations
 
-The
-menu:ODE solver root finder maximum iterations[]
-option
-(menu:ODE solver: ODE root finder[]
-category) can be used to set the
-maximum number of iterations to use for root finding. This value must be at
-least one. If the root interval is larger than the tolerances allow, after the
-maximum number of iterations, root finding fails.
+The menu:ODE solver root finder maximum iterations[] option (menu:ODE solver: ODE root finder[] category) can be used to set the maximum number of iterations to use for root finding.
+This value must be at least one.
+If the root interval is larger than the tolerances allow, after the maximum number of iterations, root finding fails.
 
-If it fails for your CIF specification, increase the value of this option. If
-that does not help, your specification is most likely too complex (by nature),
-or has a modeling error that causes the specification to become too complex
-for the root finding algorithm to handle. The problem however, may also be in
-one of the other root finder options, or in one of the
-<<tools-cifsim-solver-chapter-options,integrator options>>.
+If it fails for your CIF specification, increase the value of this option.
+If that does not help, your specification is most likely too complex (by nature), or has a modeling error that causes the specification to become too complex for the root finding algorithm to handle.
+The problem however, may also be in one of the other root finder options, or in one of the <<tools-cifsim-solver-chapter-options,integrator options>>.

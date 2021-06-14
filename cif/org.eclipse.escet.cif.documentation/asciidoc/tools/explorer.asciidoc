@@ -20,13 +20,12 @@ indexterm:[tools,CIF explorer]
 indexterm:[single,state space,explorer]
 indexterm:[single,state space,generator]
 indexterm:[see: explorer,CIF explorer]
-The CIF explorer unfolds the state space expressed by a CIF specification, in
-an untimed setting. It takes a CIF model and iteratively explores the states
-using event transitions, unfolding the state space. Available output forms
-include a CIF automaton of the state space, and a report with details of the
-found states. Time transitions are never taken. The explorer will return a
-deadlock state when forced into a time step. Continuous variables are allowed,
-but behave much like discrete variables due to lack of time steps.
+The CIF explorer unfolds the state space expressed by a CIF specification, in an untimed setting.
+It takes a CIF model and iteratively explores the states using event transitions, unfolding the state space.
+Available output forms include a CIF automaton of the state space, and a report with details of the found states.
+Time transitions are never taken.
+The explorer will return a deadlock state when forced into a time step.
+Continuous variables are allowed, but behave much like discrete variables due to lack of time steps.
 
 indexterm:[CIF explorer,start]
 
@@ -34,17 +33,12 @@ indexterm:[CIF explorer,start]
 
 The explorer can be started in Eclipse in the following ways:
 
-* Right click a `.cif` file in the 'Project Explorer' tab or
-'Package Explorer' tab and choose
-menu:CIF miscellaneous tools[Explore untimed state space...].
+* Right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF miscellaneous tools[Explore untimed state space...].
 
-* Right click an open text editor for a `.cif` file and choose
-menu:CIF miscellaneous tools[Explore untimed state space...].
+* Right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Explore untimed state space...].
 
-* Use the `cifexplorer` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifexplorer` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifexplorer` command line tool.
 
@@ -52,76 +46,61 @@ indexterm:[CIF explorer,options]
 
 === Options
 
-Besides the general application options, the application has the following
-options:
+Besides the general application options, the application has the following options:
 
-* _Input file path_: The absolute or relative file system path to the input
-CIF specification.
+* _Input file path_: The absolute or relative file system path to the input CIF specification.
 
-* _Enable edge minimization_: Enable edge minimization to remove duplicate
-edges of the state space, before printing statistics, and writing output
-files. Two edges are duplicates if they have the same source and target
-states, and the same event. The communication value, if any, is ignored.
+* _Enable edge minimization_: Enable edge minimization to remove duplicate edges of the state space, before printing statistics, and writing output files.
+Two edges are duplicates if they have the same source and target states, and the same event.
+The communication value, if any, is ignored.
 Enabled by default.
 
-* _Enable statistics_: Enable printing of statistics of the resulting state
-space to the console. Statistics include the number of states and the number
-of edges of the resulting state space. It is recommended to enable the
-edge minimization option when printing statistics. Enabled by default.
+* _Enable statistics_: Enable printing of statistics of the resulting state space to the console.
+Statistics include the number of states and the number of edges of the resulting state space.
+It is recommended to enable the edge minimization option when printing statistics.
+Enabled by default.
 
 * _Enable CIF output_: Enable output of states and edges as a CIF automaton.
 Enabled by default.
 
-* _Output file path_: The absolute or relative file system path of the output
-CIF specification with the generated state space as a CIF automaton.
+* _Output file path_: The absolute or relative file system path of the output CIF specification with the generated state space as a CIF automaton.
 
-* _Name_: The name of the resulting statespace automaton. If not specified, it 
-defaults to `statespace`. If the resulting statespace automaton has a name 
-that conflicts with an existing declaration, it is automatically renamed to 
-have a non-conflicting name.
+* _Name_: The name of the resulting statespace automaton.
+If not specified, it defaults to `statespace`.
+If the resulting statespace automaton has a name that conflicts with an existing declaration, it is automatically renamed to have a non-conflicting name.
 
 * _Enable report_: Enable writing a detailed report on the found states.
 Disabled by default.
 
-* _Report file path_: The absolute or relative file system path of the report
-file. If specified, option _Enable report_ is implied.
+* _Report file path_: The absolute or relative file system path of the report file.
+If specified, option _Enable report_ is implied.
 
-* _Print progress_: The number of states to process before printing progress
-information. Must be a non-negative integer number. May be `off` to disable
-progress information. The default is to print progress information after
-processing 1000 states.
+* _Print progress_: The number of states to process before printing progress information.
+Must be a non-negative integer number.
+May be `off` to disable progress information.
+The default is to print progress information after processing 1000 states.
 
-The CIF output file is written if the _Enable CIF output_ option is set, or if
-a path is supplied with the _Output file path_ option. If the latter is given,
-its value is used as the path for writing the report file. If only the
-_Enable CIF output_ option is set, the value of the _Input file path_ option is
-used, where the `.cif` extension is removed (if present), and
-a `+_statespace.cif+` suffix is added.
+The CIF output file is written if the _Enable CIF output_ option is set, or if a path is supplied with the _Output file path_ option.
+If the latter is given, its value is used as the path for writing the report file.
+If only the _Enable CIF output_ option is set, the value of the _Input file path_ option is used, where the `.cif` extension is removed (if present), and a `+_statespace.cif+` suffix is added.
 
-The report file is written if the _Enable report_ option is set, or if a path
-is supplied with the _Report file path_ option. If the latter is given, its
-value is used as the path for writing the report file. If only the
-_Enable report_ option is set, the value of the _Input file path_ option is
-used, where the `.cif` extension is removed (if present), and
-a `+_report.txt+` suffix is added.
+The report file is written if the _Enable report_ option is set, or if a path is supplied with the _Report file path_ option.
+If the latter is given, its value is used as the path for writing the report file.
+If only the _Enable report_ option is set, the value of the _Input file path_ option is used, where the `.cif` extension is removed (if present), and a `+_report.txt+` suffix is added.
 
-If both the CIF output and the report file output are disabled, the resulting
-state space is not outputted at all. In such cases, the state space explorer
-acts as a verifier for runtime errors, which can make the exploration fail.
-If exploration completes without errors, the explorer has verified that no
-runtime errors occur. Runtime errors include failures to compute values, such
-as division by zero, as well as assignments that assign values to variables
-that are outside the allowed bounds/ranges of the variables.
+If both the CIF output and the report file output are disabled, the resulting state space is not outputted at all.
+In such cases, the state space explorer acts as a verifier for runtime errors, which can make the exploration fail.
+If exploration completes without errors, the explorer has verified that no runtime errors occur.
+Runtime errors include failures to compute values, such as division by zero, as well as assignments that assign values to variables that are outside the allowed bounds/ranges of the variables.
 
 indexterm:[CIF explorer,supported specifications]
 
 === Supported specifications
 
-The explorer supports a subset of CIF specifications. The following
-restrictions apply:
+The explorer supports a subset of CIF specifications.
+The following restrictions apply:
 
-* Usage of distribution types and distribution standard library functions is
-not supported.
+* Usage of distribution types and distribution standard library functions is not supported.
 
 * Usage of derivatives is not supported.
 
@@ -129,8 +108,7 @@ not supported.
 
 * Input variables are not supported.
 
-* Specifications with more than 2^31^ - 1 = 2,147,483,647 potential
-initial states are not supported.
+* Specifications with more than 2^31^ - 1 = 2,147,483,647 potential initial states are not supported.
 
 The following information from the specification is ignored:
 
@@ -142,8 +120,7 @@ indexterm:[CIF explorer,preprocessing]
 
 === Preprocessing
 
-Prior to exploration, the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to
-increase the subset of CIF specifications that can be explored:
+Prior to exploration, the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be explored:
 
 * <<tools-cif2cif-chapter-remove-io-decls>>
 
@@ -151,6 +128,4 @@ increase the subset of CIF specifications that can be explored:
 
 * <<tools-cif2cif-chapter-elim-self>>
 
-In addition it applies the
-<<tools-cif2cif-chapter-simplify-values-no-refs-optimized>> CIF to CIF
-transformation to speed up processing.
+In addition it applies the <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>> CIF to CIF transformation to speed up processing.

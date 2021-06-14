@@ -17,126 +17,90 @@ include::../../_part_attributes.asciidoc[]
 
 indexterm:[input mode,trace input mode]
 indexterm:[trace input mode]
-In the trace input mode, the simulator automatically chooses transitions as
-well as time transition durations, based on a user provided trace file.
+In the trace input mode, the simulator automatically chooses transitions as well as time transition durations, based on a user provided trace file.
 
 [[tools-cifsim-input-trace-file]]
 === Trace file
 
-If the trace input mode is used, the
-menu:Trace input file[]
-option
-(menu:Input[]
-category) can be used to specify the path to the trace file.
-If the path is not explicitly specified, the input CIF file path is used, where
-the `.cif` file extension is removed if present, and a `.trace` file
-extension is added.
+If the trace input mode is used, the menu:Trace input file[] option (menu:Input[] category) can be used to specify the path to the trace file.
+If the path is not explicitly specified, the input CIF file path is used, where the `.cif` file extension is removed if present, and a `.trace` file extension is added.
 
-The trace file uses a line based file format. Leading (at the beginning of the
-line) and trailing (at the end of the line) whitespace is ignored. Empty lines
-as well as lines starting with a hash character (`#`) are ignored as well.
-Lines starting with a hash character can be used as comment lines. All other
-lines contain commands.
+The trace file uses a line based file format.
+Leading (at the beginning of the line) and trailing (at the end of the line) whitespace is ignored.
+Empty lines as well as lines starting with a hash character (`#`) are ignored as well.
+Lines starting with a hash character can be used as comment lines.
+All other lines contain commands.
 
-There are two types of commands: option commands and non-option commands. The
-option commands must always be before the non-option commands.
+There are two types of commands: option commands and non-option commands.
+The option commands must always be before the non-option commands.
 
 
 === Option commands
 
-All option commands use the `option NAME VALUE` syntax, where `NAME` is the
-name of the option, and `VALUE` is the value of the option. Option commands
-must be specified in the trace file, before any other (non-option) commands.
+All option commands use the `option NAME VALUE` syntax, where `NAME` is the name of the option, and `VALUE` is the value of the option.
+Option commands must be specified in the trace file, before any other (non-option) commands.
 The remainder of this section explains the available options.
 
 * _option strict on/off_ (default `off`)
 +
-The strict option can be used to specify whether a strict match is
-expected for an event. If strict mode is on (option strict on), it is
-considered an error if more than one transition is possible for an event from
-the trace. If strict mode is off (option strict off), and there are
-multiple possible transitions for an event from the trace, the
-<<tools-cifsim-input-chapter-automatic,automatic input component>> is asked to
-choose between those possible transitions for that single event, based on its
-own configuration. The strict option applies only to events, not time delays.
+The strict option can be used to specify whether a strict match is expected for an event.
+If strict mode is on (option strict on), it is considered an error if more than one transition is possible for an event from the trace.
+If strict mode is off (option strict off), and there are multiple possible transitions for an event from the trace, the <<tools-cifsim-input-chapter-automatic,automatic input component>> is asked to choose between those possible transitions for that single event, based on its own configuration.
+The strict option applies only to events, not time delays.
 
 * _option time off/implicit/explicit_ (default `implicit`)
 +
 The time option can be used to specify the time mode to use.
-If the time mode is off (option time off) , time passage is not
-allowed. That is, time delays/transitions are never chosen, and the value of
-variable time remains zero during the entire simulation. For this mode,
-the time command is not allowed.
-+
-If the time mode is implicit (option time implicit), time delays are
-chosen if necessary. The simulator will use the least amount of time passage
-possible, to still enable the events as specified in the trace. In other
-words, if an event is possible no time delays occur, and otherwise the
-simulator delays for as long as is needed until the event becomes enabled.
+If the time mode is off (option time off) , time passage is not allowed.
+That is, time delays/transitions are never chosen, and the value of variable time remains zero during the entire simulation.
 For this mode, the time command is not allowed.
 +
-If the time mode is explicit (option time explicit), time delays are
-only possible if the time command explicitly allows time passage.
+If the time mode is implicit (option time implicit), time delays are chosen if necessary.
+The simulator will use the least amount of time passage possible, to still enable the events as specified in the trace.
+In other words, if an event is possible no time delays occur, and otherwise the simulator delays for as long as is needed until the event becomes enabled.
+For this mode, the time command is not allowed.
++
+If the time mode is explicit (option time explicit), time delays are only possible if the time command explicitly allows time passage.
 
 === Transition commands
 
-The transition commands can be used to specify the actual trace itself, to
-choose specific transitions. The following commands are available:
+The transition commands can be used to specify the actual trace itself, to choose specific transitions.
+The following commands are available:
 
 * _event NAME_
 +
-The event command indicates that an event transition should be taken. The
-event to choose is indicated by the `NAME` part, which must be an absolute
-name of an event. For an automaton `a` with an event `e`, `NAME` must
-be `a.e`, and the full command would thus be event `a.e`.
+The event command indicates that an event transition should be taken.
+The event to choose is indicated by the `NAME` part, which must be an absolute name of an event.
+For an automaton `a` with an event `e`, `NAME` must be `a.e`, and the full command would thus be event `a.e`.
 +
-If CIF textual syntax keyword are used as names for events (such as
-`plant`), then they must be escaped in `.cif` files (e.g. `$plant`).
-For event commands however, no escape characters (`$`) should be used
-in event names.
+If CIF textual syntax keyword are used as names for events (such as `plant`), then they must be escaped in `.cif` files (e.g. `$plant`).
+For event commands however, no escape characters (`$`) should be used in event names.
 +
-If the specified event is not enabled in the current state, the simulator
-checks whether time passage is allowed and possible. For the off time
-mode, time passage is not allowed, and the simulation results in deadlock.
-For the implicit time mode, the simulator delays if a time transition is
-possible, and otherwise simulation results in deadlock. For the explicit
-time mode, if the current event command was preceded by an explicit
-time command, the simulator delays if a time transition is possible, and
-otherwise (current command not preceded by time command or no time
-transition possible) simulation results in deadlock. Upon deadlock,
-simulation <<tools-cifsim-chapter-termination,ends>>, and a warning is printed
-to the console to indicate the event that was not enabled.
+If the specified event is not enabled in the current state, the simulator checks whether time passage is allowed and possible.
+For the off time mode, time passage is not allowed, and the simulation results in deadlock.
+For the implicit time mode, the simulator delays if a time transition is possible, and otherwise simulation results in deadlock.
+For the explicit time mode, if the current event command was preceded by an explicit time command, the simulator delays if a time transition is possible, and otherwise (current command not preceded by time command or no time transition possible) simulation results in deadlock.
+Upon deadlock, simulation <<tools-cifsim-chapter-termination,ends>>, and a warning is printed to the console to indicate the event that was not enabled.
 +
-If multiple transitions are possible for the event, due to
-<<tut-basics-chapter-non-determinism,non-determinism>>, the strict
-option (see above) determines if and how the simulator proceeds.
+If multiple transitions are possible for the event, due to <<tut-basics-chapter-non-determinism,non-determinism>>, the strict option (see above) determines if and how the simulator proceeds.
 
 * _time_
 +
-The time command explicitly indicates that time is allowed to pass, i.e.
-the simulator may delay by choosing a time transition. This command is only
-allowed for the explicit time mode.
+The time command explicitly indicates that time is allowed to pass, i.e. the simulator may delay by choosing a time transition.
+This command is only allowed for the explicit time mode.
 +
-The time command does not ensure that time passes. It specifies that time
-passage is allowed, not that it is required. Specifying the time command
-multiple times without an intermediate event command has the same effect
-as specifying the time command only once. That is, it doesn't matter
-how many times you allow time passage, once is enough.
+The time command does not ensure that time passes.
+It specifies that time passage is allowed, not that it is required.
+Specifying the time command multiple times without an intermediate event command has the same effect as specifying the time command only once.
+That is, it doesn't matter how many times you allow time passage, once is enough.
 
-The trace input mode does not support
-<<tools-cifsim-input-history-reset-undo,undo>> and
-<<tools-cifsim-input-history-reset-undo,reset>>.
+The trace input mode does not support <<tools-cifsim-input-history-reset-undo,undo>> and <<tools-cifsim-input-history-reset-undo,reset>>.
 
 
 === Simulation
 
-The commands from the trace file are processed in the order they occur in the
-trace file. After all commands have been used to select transitions, and no
-more commands are available, the simulation
-<<tools-cifsim-chapter-termination,ends>>. The simulator indicates the
-simulation has terminated at the request of the user, as the user did not
-include any more commands in the trace file.
+The commands from the trace file are processed in the order they occur in the trace file.
+After all commands have been used to select transitions, and no more commands are available, the simulation <<tools-cifsim-chapter-termination,ends>>.
+The simulator indicates the simulation has terminated at the request of the user, as the user did not include any more commands in the trace file.
 
-Simulation is also terminated if deadlock occurs or the
-<<tools-cifsim-termination-endtime,user-specified simulation end time>>
-is reached, even if more (unprocessed) commands are still available.
+Simulation is also terminated if deadlock occurs or the <<tools-cifsim-termination-endtime,user-specified simulation end time>> is reached, even if more (unprocessed) commands are still available.

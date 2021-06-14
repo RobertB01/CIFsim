@@ -22,10 +22,10 @@ indexterm:[value,integer]
 indexterm:[integer,value]
 indexterm:[literal,integer]
 indexterm:[integer,literal]
-Integers are whole numbers, numbers without a fractional part. Examples include
-`-123` and `5`. The default value of integers (`int` type) is `0`.
-Several standard arithmetic operators and functions are available to work with
-integers, including the following:
+Integers are whole numbers, numbers without a fractional part.
+Examples include `-123` and `5`.
+The default value of integers (`int` type) is `0`.
+Several standard arithmetic operators and functions are available to work with integers, including the following:
 
 [source, cif]
 ----

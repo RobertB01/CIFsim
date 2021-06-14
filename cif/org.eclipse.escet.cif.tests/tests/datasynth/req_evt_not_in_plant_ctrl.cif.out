@@ -50,6 +50,9 @@ Marked    (auts/locs marker predicate):      r.loc1
 Marked    (uncontrolled system):             r.loc1
 Marked    (system, combined marked/req inv): r.loc1
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "p.inc" needs:
     r.loc1
@@ -63,6 +66,8 @@ Uncontrolled system:
     Edge: (event: r.trace) (guard: r.loc1) (assignments: r := r.loc2)
     Edge: (event: r.trace) (guard: (p.x = 2 or p.x = 3) and r.loc2) (assignments: r := r.loc1)
     Edge: (event: r.trace) (guard: (p.x = 0 or p.x = 1) and r.loc2)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

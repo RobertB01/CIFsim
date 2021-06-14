@@ -17,27 +17,23 @@ indexterm:[examples]
 [[examples-chapter-index]]
 == CIF examples
 
-CIF ships with several examples. To obtain these examples, follow these steps:
+CIF ships with several examples.
+To obtain these examples, follow these steps:
 
 * Start the Eclipse ESCET IDE.
 * Click menu:File[New > Example...].
 * Select _CIF Examples_ and click btn:[Next].
 * Choose the name of the new project that will be created.
-* Choose a location for the new project, on your hard disk. If you leave the
-  _Use default location_ option enabled, the new project will be created in
-  workspace directory. See the Eclipse ESCET documentation for more
-  information on workspaces.
-* Click btn:[Finish] to create the new project, and fill it with the
-  examples.
+* Choose a location for the new project, on your hard disk.
+If you leave the _Use default location_ option enabled, the new project will be created in workspace directory.
+See the Eclipse ESCET documentation for more information on workspaces.
+* Click btn:[Finish] to create the new project, and fill it with the examples.
 
-For new releases of CIF, the examples may change. The examples project that you
-previously created won't be automatically updated. You can however go
-through the steps again, and get a second project, with the new examples. The
-version of the release is included in the suggested project name, allowing
-multiple example projects for different releases.
+For new releases of CIF, the examples may change.
+The examples project that you previously created won't be automatically updated.
+You can however go through the steps again, and get a second project, with the new examples.
+The version of the release is included in the suggested project name, allowing multiple example projects for different releases.
 
-Most examples also include a ToolDef <<tools-scripting-chapter-intro,script>>
-(`.tooldef` file) that can be used to perform various tasks, such as
-simulation. To execute such a script, right click a `.tooldef` file an choose
-menu:Execute ToolDef[]. Alternatively, select the file and press
-kbd:[F10].
+Most examples also include a ToolDef <<tools-scripting-chapter-intro,script>> (`.tooldef` file) that can be used to perform various tasks, such as simulation.
+To execute such a script, right click a `.tooldef` file an choose menu:Execute ToolDef[].
+Alternatively, select the file and press kbd:[F10].

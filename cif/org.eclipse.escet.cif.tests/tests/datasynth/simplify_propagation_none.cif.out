@@ -51,6 +51,9 @@ Marked    (auts/locs marker predicate):      not p5.loc3 and p6.loc1
 Marked    (uncontrolled system):             not p5.loc3 and p6.loc1
 Marked    (system, combined marked/req inv): not p5.loc3 and p6.loc1
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -66,6 +69,8 @@ Uncontrolled system:
     Edge: (event: e6b) (guard: p6.loc3) (assignments: p6 := p6.loc4)
     Edge: (event: e6b) (guard: p6.loc4) (assignments: p6 := p6.loc5)
     Edge: (event: e6b) (guard: p6.loc6) (assignments: p6 := p6.loc7)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

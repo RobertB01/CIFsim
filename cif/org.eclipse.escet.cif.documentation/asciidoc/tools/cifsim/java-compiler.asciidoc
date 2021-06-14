@@ -17,42 +17,28 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF simulator,Java compiler]
 indexterm:[performance,Java compiler]
-The simulator internally generates
-link:http://oracle.com/java[Java]
-code from
-the CIF model. This code is compiled using a Java compiler and executed. Code
-generation and compilation result in faster simulation. However, compilation
-itself also takes time. The time it takes to compile is different for different
-Java compilers.
+The simulator internally generates link:http://oracle.com/java[Java] code from the CIF model.
+This code is compiled using a Java compiler and executed.
+Code generation and compilation result in faster simulation.
+However, compilation itself also takes time.
+The time it takes to compile is different for different Java compilers.
 
-Using the _Java Compiler_ option (_Compiler_ category), the Java compiler
-implementation to use, can be configured. We currently provide two different
-Java compilers:
+Using the _Java Compiler_ option (_Compiler_ category), the Java compiler implementation to use, can be configured.
+We currently provide two different Java compilers:
 
 * Java compiler from the Java Development Kit (`jdk`)
 +
-The Java Development Kit (JDK) that is required to use our tooling
-includes a Java compiler. This compiler has the advantage that is has a bit
-less overhead of accessing the file system, while it has as disadvantage that
-it is a slower in actually compiling the Java code.
+The Java Development Kit (JDK) that is required to use our tooling includes a Java compiler.
+This compiler has the advantage that is has a bit less overhead of accessing the file system, while it has as disadvantage that it is a slower in actually compiling the Java code.
 
 * Eclipse Compiler for Java (`eclipse`)
 +
-The Eclipse Compiler for Java (ecj) is part of the Eclipse Java Development
-Tools (JDT), and is provided with our tooling. This compiler has the
-advantage that is is a faster in actually compiling the Java code, while it
-has as disadvantage that it has a bit more overhead of accessing the file
-system.
+The Eclipse Compiler for Java (ecj) is part of the Eclipse Java Development Tools (JDT), and is provided with our tooling.
+This compiler has the advantage that is is a faster in actually compiling the Java code, while it has as disadvantage that it has a bit more overhead of accessing the file system.
 
-The names given above, in parentheses, indicate the command line option values
-to use for selecting the different compilers.
+The names given above, in parentheses, indicate the command line option values to use for selecting the different compilers.
 
-In general, the JDK compiler is faster for small CIF models, while the Eclipse
-compiler is faster for larger CIF models. By default, the JDK compiler is
-used.
+In general, the JDK compiler is faster for small CIF models, while the Eclipse compiler is faster for larger CIF models.
+By default, the JDK compiler is used.
 
-The _Java Compiler_ option has no effect when simulating using a
-<<tools-cifsim-chapter-repeated-simulation,compiled code file>> (e.g. a
-`.cifcode` file) for repeated simulations, or when
-<<tools-cifsim-chapter-debug-gen-code,debugging generated code>> by enabling
-the _Load debug code_ option (_Simulator_ category).
+The _Java Compiler_ option has no effect when simulating using a <<tools-cifsim-chapter-repeated-simulation,compiled code file>> (e.g. a `.cifcode` file) for repeated simulations, or when <<tools-cifsim-chapter-debug-gen-code,debugging generated code>> by enabling the _Load debug code_ option (_Simulator_ category).

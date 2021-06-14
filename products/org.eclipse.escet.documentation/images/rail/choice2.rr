@@ -1,0 +1,1 @@
+SequentialChoice : ( A | B ) ( C | D ) ;

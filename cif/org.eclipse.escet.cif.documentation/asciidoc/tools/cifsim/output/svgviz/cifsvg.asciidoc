@@ -19,16 +19,12 @@ indexterm:[SVG declaration]
 indexterm:[SVG,declarations]
 indexterm:[I/O declaration,SVG declaration]
 indexterm:[CIF/SVG declaration]
-The connection between the <<tools-cifsim-traces-state,state>> of the CIF
-specification and the SVG image can be specified by using CIF/SVG declarations
-(sometimes also called SVG declarations, for simplicity). Such declarations can
-be specified directly in the CIF specification. CIF/SVG declarations are an
-extension to the CIF language, and can only be used to couple the model to the
-image. They don't influence the behavior of the model itself.
+The connection between the <<tools-cifsim-traces-state,state>> of the CIF specification and the SVG image can be specified by using CIF/SVG declarations (sometimes also called SVG declarations, for simplicity).
+Such declarations can be specified directly in the CIF specification.
+CIF/SVG declarations are an extension to the CIF language, and can only be used to couple the model to the image.
+They don't influence the behavior of the model itself.
 
-The CIF <<tools-chapter-text-editor,text editor>> provides full integration for
-the CIF/SVG declarations extension, complete with syntax highlighting,
-background validation, etc.
+The CIF <<tools-chapter-text-editor,text editor>> provides full integration for the CIF/SVG declarations extension, complete with syntax highlighting, background validation, etc.
 
 === Declarations
 

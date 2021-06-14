@@ -19,14 +19,12 @@ indexterm:[event-based NFA to DFA automaton conversion]
 indexterm:[tools,event-based NFA to DFA automaton conversion]
 indexterm:[event-based synthesis toolset,event-based NFA to DFA automaton conversion]
 indexterm:[event-based NFA to DFA automaton conversion,event-based synthesis toolset]
-The event-based NFA to DFA automaton conversion takes an non-deterministic
-automaton. The algorithm produces a deterministic automaton with the same
-language.
+The event-based NFA to DFA automaton conversion takes an non-deterministic automaton.
+The algorithm produces a deterministic automaton with the same language.
 
-The tool takes a `.cif` file containing a single automaton. The output is
-a `.cif` file containing a deterministic automaton that is language
-equivalent with the input automaton. The resulting automaton has the same kind
-as the input automaton.
+The tool takes a `.cif` file containing a single automaton.
+The output is a `.cif` file containing a deterministic automaton that is language equivalent with the input automaton.
+The resulting automaton has the same kind as the input automaton.
 
 indexterm:[event-based NFA to DFA automaton conversion,start]
 
@@ -34,17 +32,12 @@ indexterm:[event-based NFA to DFA automaton conversion,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply NFA to DFA automaton conversion...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply NFA to DFA automaton conversion...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply NFA to DFA automaton conversion...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply NFA to DFA automaton conversion...].
 
-* Use the `cifnfadfa` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `cifnfadfa` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cifnfadfa` command line tool.
 
@@ -52,17 +45,14 @@ indexterm:[event-based NFA to DFA automaton conversion,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file_: The absolute or relative local file system path to the input CIF specification.
 
-* _Output file_: The absolute or relative local file system path to the
-output CIF specification. If not specified, defaults to the input file
-path, where the `.cif` file extension is removed (if present), and a
-`+_dfa.cif+` file extension is added. The `dfa` part of the
-default extension depends on the _Result name_ option.
+* _Output file_: The absolute or relative local file system path to the output CIF specification.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_dfa.cif+` file extension is added.
+The `dfa` part of the default extension depends on the _Result name_ option.
 
-* _Result name_: The name to use for the projected automaton. If not
-specified, defaults to `dfa`. Also affects the _Output file_ option.
+* _Result name_: The name to use for the projected automaton.
+If not specified, defaults to `dfa`.
+Also affects the _Output file_ option.

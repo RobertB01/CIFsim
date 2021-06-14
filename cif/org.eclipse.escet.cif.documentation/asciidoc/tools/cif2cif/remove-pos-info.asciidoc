@@ -17,8 +17,7 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF to CIF transformer,remove position information]
 indexterm:[remove position information]
-This CIF to CIF transformation removes position information from the internal
-representation of the specification.
+This CIF to CIF transformation removes position information from the internal representation of the specification.
 
 === Supported specifications
 
@@ -33,27 +32,18 @@ indexterm:[remove position information,implementation]
 
 === Implementation details
 
-When performing operations on CIF specifications, the specification is first
-read from disk, and stored into memory. The internal representation
-stores position information with all objects (such as declarations,
-types, expression nodes, automata, locations, etc). The position information of
-an object includes information about the location of the object in the original
-textual source. This information is used during validation of the specification
-(i.e. type checking), when reporting errors, to indicate where in the original
-specification the error is found.
+When performing operations on CIF specifications, the specification is first read from disk, and stored into memory.
+The internal representation stores position information with all objects (such as declarations, types, expression nodes, automata, locations, etc).
+The position information of an object includes information about the location of the object in the original textual source.
+This information is used during validation of the specification (i.e. type checking), when reporting errors, to indicate where in the original specification the error is found.
 
 indexterm:[performance,position information]
-After type checking, this information is no longer used. To make sure that
-subsequent operations, such as CIF to CIF transformations, don't have to
-process the position information, this transformation can be applied to rid
-the specification of all position information. Applying this transformation
-may increase the performance of subsequent transformations.
+After type checking, this information is no longer used.
+To make sure that subsequent operations, such as CIF to CIF transformations, don't have to process the position information, this transformation can be applied to rid the specification of all position information.
+Applying this transformation may increase the performance of subsequent transformations.
 
-Applying this transformation has no effect on the actual contents of the
-specification, and does not change the effect of subsequent transformation.
-That is, it may affect the performance of subsequent transformations, but has
-no effect on the result of the subsequent transformations, as they are written
-to disk.
+Applying this transformation has no effect on the actual contents of the specification, and does not change the effect of subsequent transformation.
+That is, it may affect the performance of subsequent transformations, but has no effect on the result of the subsequent transformations, as they are written to disk.
 
 
 === Renaming
@@ -64,11 +54,8 @@ indexterm:[remove position information,size considerations]
 
 === Size considerations
 
-Since position information is removed from the specification, this
-transformation has an effect on the size of the specification as it is
-represented in memory. However, this transformation has no effect on the size
-of the specification, as far as actual content (which affects the meaning of
-the specification) is concerned.
+Since position information is removed from the specification, this transformation has an effect on the size of the specification as it is represented in memory.
+However, this transformation has no effect on the size of the specification, as far as actual content (which affects the meaning of the specification) is concerned.
 
 
 === Optimality

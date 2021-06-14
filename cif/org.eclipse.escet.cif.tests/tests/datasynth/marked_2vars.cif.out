@@ -36,11 +36,16 @@ Marked    (auts/locs marker predicate):      p.x = 2 and p.y = 2 or p.x = 1 and 
 Marked    (uncontrolled system):             p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
 Marked    (system, combined marked/req inv): p.x = 2 and p.y = 2 or p.x = 1 and p.y = 1
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -101,5 +101,9 @@ ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 383, colum
 ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 388, column 14: Definition/use cycle detected: "init5.a.l0" is recursively defined in terms of itself: init5.a.l0 -> init5.a.l1 -> init5.a.l0.
 ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 390, column 14: Definition/use cycle detected: "init5.a.l1" is recursively defined in terms of itself: init5.a.l1 -> init5.a.l0 -> init5.a.l1.
 ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 397, column 14: Definition/use cycle detected: "init6.a.l0" is recursively defined in terms of itself: init6.a.l0 -> init6.a.l0.
+ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 404, column 12: Definition/use cycle detected: "init7.x" is recursively defined in terms of itself: init7.x -> init7.<loc> -> init7.x.
+ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 405, column 3: Definition/use cycle detected: "init7.<loc>" is recursively defined in terms of itself: init7.<loc> -> init7.x -> init7.<loc>.
+ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 412, column 8: Definition/use cycle detected: "init8.x'" is recursively defined in terms of itself: init8.x' -> init8.<loc> -> init8.x'.
+ERROR: File "tchecker/def_use_cycle_post.cif": Semantic error at line 413, column 3: Definition/use cycle detected: "init8.<loc>" is recursively defined in terms of itself: init8.<loc> -> init8.x' -> init8.<loc>.
 WARNING: File "tchecker/def_use_cycle_post.cif": Semantic warning at line 278, column 14: Location "l2" is not reachable from any of the initial locations of automaton "reachable_locs.p".
 ERROR: Failed to load CIF file "tchecker/def_use_cycle_post.cif": the file has errors.

@@ -19,11 +19,9 @@ indexterm:[event-based trim]
 indexterm:[tools,event-based trim]
 indexterm:[event-based synthesis toolset,event-based trim]
 indexterm:[event-based trim,event-based synthesis toolset]
-The trim tool makes an automaton trim by removing all locations that are not
-reachable or coreachable.
-The input is a `.cif` file with a single automaton, and the tool produces a
-new `.cif` file with the trim automaton. If the automaton in the input was
-already trim, all locations are preserved.
+The trim tool makes an automaton trim by removing all locations that are not reachable or coreachable.
+The input is a `.cif` file with a single automaton, and the tool produces a new `.cif` file with the trim automaton.
+If the automaton in the input was already trim, all locations are preserved.
 
 indexterm:[event-based trim,start]
 
@@ -31,17 +29,12 @@ indexterm:[event-based trim,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab
-or 'Package Explorer' tab and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply trim...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply trim...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose
-menu:CIF synthesis tools[Event-based synthesis tools > Apply trim...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply trim...].
 
-* Use the `ciftrim` tool in a
-ToolDef script. See the
-<<tools-scripting-chapter-intro,scripting documentation>> and
-<<tools-scripting-chapter-tools,tools overview>> page for details.
+* Use the `ciftrim` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `ciftrim` command line tool.
 
@@ -49,17 +42,14 @@ indexterm:[event-based trim,options]
 
 === Options
 
-Besides the general application options, this application has the following
-options:
+Besides the general application options, this application has the following options:
 
-* _Input file_: The absolute or relative local file system path to the
-input CIF specification.
+* _Input file_: The absolute or relative local file system path to the input CIF specification.
 
-* _Output file_: The absolute or relative local file system path to the
-output CIF specification. If not specified, defaults to the input file
-path, where the `.cif` file extension is removed (if present), and a
-`+_trim.cif+` file extension is added. The `trim` part of the default
-extension depends on the _Result name_ option.
+* _Output file_: The absolute or relative local file system path to the output CIF specification.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `+_trim.cif+` file extension is added.
+The `trim` part of the default extension depends on the _Result name_ option.
 
-* _Result name_: The name to use for the trim automaton. If not
-specified, defaults to `trim`. Also affects the _Output file_ option.
+* _Result name_: The name to use for the trim automaton.
+If not specified, defaults to `trim`.
+Also affects the _Output file_ option.

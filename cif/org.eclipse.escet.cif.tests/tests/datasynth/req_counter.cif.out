@@ -51,6 +51,9 @@ Marked    (auts/locs marker predicate):      adder.l1
 Marked    (uncontrolled system):             adder.l1
 Marked    (system, combined marked/req inv): adder.l1 and (0 <= count_max3.cnt and count_max3.cnt <= 3)
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "adder.c_add" needs:
     true
@@ -62,6 +65,8 @@ Uncontrolled system:
     Edge: (event: adder.c_add) (guard: adder.l1) (assignments: adder := adder.l2, count_max3.cnt := count_max3.cnt + 1)
     Edge: (event: adder.c_add) (guard: adder.l2) (assignments: adder := adder.l3, count_max3.cnt := count_max3.cnt + 1)
     Edge: (event: adder.u_remove) (guard: adder.l3) (assignments: adder := adder.l1, count_max3.cnt := count_max3.cnt - 1)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: 0 <= count_max3.cnt and count_max3.cnt <= 3.
 

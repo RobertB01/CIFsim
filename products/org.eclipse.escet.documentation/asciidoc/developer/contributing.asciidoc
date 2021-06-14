@@ -18,18 +18,12 @@ indexterm:[patches]
 [[developer-contributing-chapter-index]]
 == Contributing
 
-Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit
-(Eclipse ESCET) project.
+Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
 
-It is often a good idea to first discuss your contribution with the project's
-community and committers, before creating the actual code (e.g. patches),
-documentation, etc of your contribution. Discussions can take place via an
-<<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on
-the project's <<developer-chapter-index,'dev' list>>.
+It is often a good idea to first discuss your contribution with the project's community and committers, before creating the actual code (e.g. patches), documentation, etc of your contribution.
+Discussions can take place via an <<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<developer-chapter-index,'dev' list>>.
 
-To contribute your actual contribution, e.g. code, documentation, examples,
-or anything else to the project, please first create an issue in the
-<<developer-issue-tracking-chapter-index,issue tracker>>.
+To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please first create an issue in the <<developer-issue-tracking-chapter-index,issue tracker>>.
 
 The easiest way to contribute the actual contribution, is to use GitLab:
 
@@ -38,50 +32,40 @@ The easiest way to contribute the actual contribution, is to use GitLab:
 ** link:https://gitlab.eclipse.org[Eclipse Foundation GitLab]
 
 * Clone the official Eclipse ESCET Git repository.
-  You can click the 'Fork' button at the top right of the page.
-  This creates a fork of the official repository under your own
-  account.
+You can click the 'Fork' button at the top right of the page.
+This creates a fork of the official repository under your own account.
 
 ** link:https://gitlab.eclipse.org/eclipse/escet/escet[Official Eclipse ESCET Git repository]
 
 * Make your changes in the forked repository under your own account.
 
-* Create a merge request of those changes from the forked repository under
-your own account. As the target, select the official Eclipse ESCET repository
-from which you forked earlier. Typically, you should target the `develop`
-branch.
+* Create a merge request of those changes from the forked repository under your own account.
+As the target, select the official Eclipse ESCET repository from which you forked earlier.
+Typically, you should target the `develop` branch.
 
 indexterm:[ECA]
 
-Before your contribution can be accepted by the project team, you must
-electronically sign the Eclipse Contributor Agreement (ECA):
+Before your contribution can be accepted by the project team, you must electronically sign the Eclipse Contributor Agreement (ECA):
 
 * link:https://www.eclipse.org/legal/ECA.php[Eclipse Contributor Agreement (ECA)]
 
-The non-committer that authored the commit, must have an Eclipse Foundation Account
-and must have a signed Eclipse Contributor Agreement (ECA) on file. The email address
-of the author must match the email address on the Eclipse Foundation Account.
+The non-committer that authored the commit, must have an Eclipse Foundation Account and must have a signed Eclipse Contributor Agreement (ECA) on file.
+The email address of the author must match the email address on the Eclipse Foundation Account.
 
-For more information, including the specific format of commit messages,
-please see the Eclipse Foundation Project Handbook:
+For more information, including the specific format of commit messages, please see the Eclipse Foundation Project Handbook:
 
 * link:https://www.eclipse.org/projects/handbook[Eclipse Foundation Project Handbook]
 * link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records]
 
-Always start a commit message with the issue number, e.g.
-`#1 Some commit message`.
+Always start a commit message with the issue number, e.g. `#1 Some commit message`.
 
 A contribution by a non-committer will be reviewed by the project committers.
-This includes adherence to the project's
-<<developer-coding-standards-chapter-index,coding standards>>. Discussions
-regarding the contribution will take place in the associated issue and/or
-merge request. If the committers agree with the contribution, they will commit
-the contribution into the project's Git repository.
+This includes adherence to the project's <<developer-coding-standards-chapter-index,coding standards>>.
+Discussions regarding the contribution will take place in the associated issue and/or merge request.
+If the committers agree with the contribution, they will commit the contribution into the project's Git repository.
 
-Remember that contributions are always welcome, and contributions don't have
-to be perfect. The project's developers can help to improve your contribution.
-If you need any help, just ask the project's developers using the issue or the
-project's <<develop-dev-list,'dev' list>>.
+Remember that contributions are always welcome, and contributions don't have to be perfect.
+The project's developers can help to improve your contribution.
+If you need any help, just ask the project's developers using the issue or the project's <<develop-dev-list,'dev' list>>.
 
-See for more information our
-<<developer-development-process-chapter-index,development process>>.
+See for more information our <<developer-development-process-chapter-index,development process>>.

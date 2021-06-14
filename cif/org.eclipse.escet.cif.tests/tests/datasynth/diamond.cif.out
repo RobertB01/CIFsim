@@ -62,15 +62,18 @@ Marked    (auts/locs marker predicate):      motor1.Off and (order.l1 and motor2
 Marked    (uncontrolled system):             motor1.Off and (order.l1 and motor2.On)
 Marked    (system, combined marked/req inv): motor1.Off and (order.l1 and motor2.On)
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   Event "motor1.c_on" needs:
     order.l1
-  Event "motor2.c_off" needs:
-    order.l2
-  Event "motor2.c_on" needs:
-    order.l3
   Event "motor1.c_off" needs:
     order.l4
+  Event "motor2.c_on" needs:
+    order.l3
+  Event "motor2.c_off" needs:
+    order.l2
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
@@ -82,6 +85,8 @@ Uncontrolled system:
     Edge: (event: motor2.c_on) (guard: order.l1 and motor2.Off or (order.l2 or order.l4) and motor2.Off) (assignments: motor2 := motor2.On)
     Edge: (event: motor2.c_off) (guard: order.l2 and motor2.On) (assignments: motor2 := motor2.Off, order := order.l3)
     Edge: (event: motor2.c_off) (guard: (order.l1 or order.l3) and motor2.On or order.l4 and motor2.On) (assignments: motor2 := motor2.Off)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

@@ -16,12 +16,11 @@ include::_part_attributes.asciidoc[]
 == CIF text editor
 
 indexterm:[tools,text editor]
-Part of the CIF tooling is a textual editor for CIF specifications. This
-editor is part of the Eclipse IDE. Below is a list of some of the more
-notable features of this text editor:
+Part of the CIF tooling is a textual editor for CIF specifications.
+This editor is part of the Eclipse IDE.
+Below is a list of some of the more notable features of this text editor:
 
-* continuous background validation (integrated parsing and type checking), with
-error markings directly in the source
+* continuous background validation (integrated parsing and type checking), with error markings directly in the source
 
 * comment spell checking
 
@@ -43,9 +42,7 @@ error markings directly in the source
 
 * automatic removal of trailing whitespace from all lines on save
 
-* automatic addition of a new line character at the end of the file on save,
-if none is present (includes smart detection of the platform dependent new
-line characters that are used in the file)
+* automatic addition of a new line character at the end of the file on save, if none is present (includes smart detection of the platform dependent new line characters that are used in the file)
 
 // Removed the previously present link to documentation about 'text editors and text editing in Eclipse'.
 

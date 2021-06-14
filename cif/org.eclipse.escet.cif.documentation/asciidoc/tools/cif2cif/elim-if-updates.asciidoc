@@ -24,28 +24,26 @@ indexterm:[eliminate if updates,supported specifications]
 
 === Supported specifications
 
-This transformation supports a subset of CIF specifications. The following
-restrictions apply:
+This transformation supports a subset of CIF specifications.
+The following restrictions apply:
 
-* Multi-assignments and partial variable assignments are not supported. That
-is, the left hand sides of the assignments on edges (the addressables) must
-be single variables without projections.
+* Multi-assignments and partial variable assignments are not supported.
+That is, the left hand sides of the assignments on edges (the addressables) must be single variables without projections.
 
 indexterm:[eliminate if updates,preprocessing]
 
 === Preprocessing
 
-No preprocessing, to increase the subset of CIF specifications that can be
-transformed, is currently performed by this CIF to CIF transformation.
+No preprocessing, to increase the subset of CIF specifications that can be transformed, is currently performed by this CIF to CIF transformation.
 
 indexterm:[eliminate if updates,implementation]
 
 [[tools-cif2cif-elim-if-updates-impl]]
 === Implementation details
 
-This transformation ensures that each variable that is assigned, gets
-a single explicit assignment. Simply put, the 'if' update structure is
-replicated by an 'if' expression. For instance, the following edge updates:
+This transformation ensures that each variable that is assigned, gets a single explicit assignment.
+Simply put, the 'if' update structure is replicated by an 'if' expression.
+For instance, the following edge updates:
 
 
 [source, cif]
@@ -89,10 +87,8 @@ z := 7
 Observe how variables `x` and `y` are assigned inside two `if` updates.
 These `if` updates are replicated by two `if` expressions.
 
-Since for `if` expressions the `else` part is not optional, dummy
-`x := x` assignments are sometimes performed in cases where the original
-specification would not have assigned variable `x` at all. That is, variables
-may be assigned their old values, resulting in superfluous assignments.
+Since for `if` expressions the `else` part is not optional, dummy `x := x` assignments are sometimes performed in cases where the original specification would not have assigned variable `x` at all.
+That is, variables may be assigned their old values, resulting in superfluous assignments.
 
 
 === Renaming
@@ -103,14 +99,12 @@ indexterm:[eliminate if updates,size considerations]
 
 === Size considerations
 
-The 'if' structure may be replicated for multiple variables, which may result
-in an increase of the specification size. The increase amount is influenced
-by the size of the guard expressions, and the number of levels of nesting 'if'
-updates.
+The 'if' structure may be replicated for multiple variables, which may result in an increase of the specification size.
+The increase amount is influenced by the size of the guard expressions, and the number of levels of nesting 'if' updates.
 
 indexterm:[eliminate if updates,optimality]
 
 === Optimality
 
-The superfluous assignments (see the <<tools-cif2cif-elim-if-updates-impl>>
-section above), are obviously not optimal. The language however requires them.
+The superfluous assignments (see the <<tools-cif2cif-elim-if-updates-impl>> section above), are obviously not optimal.
+The language however requires them.

@@ -17,8 +17,5 @@ indexterm:[remove]
 [[download-install-remove]]
 == Removing Eclipse ESCET tools
 
-Before removing a version of the Eclipse ESCET tools, you may want to preserve
-(back up) its <<use-terminology-workspace,workspace>> directory, to keep your
-data (settings, projects, files). Then, to remove a release, simply remove the
-directory that contains files that you extracted from the downloaded archive
-during <<download-install-install,installation>>.
+Before removing a version of the Eclipse ESCET tools, you may want to preserve (back up) its <<use-terminology-workspace,workspace>> directory, to keep your data (settings, projects, files).
+Then, to remove a release, simply remove the directory that contains files that you extracted from the downloaded archive during <<download-install-install,installation>>.

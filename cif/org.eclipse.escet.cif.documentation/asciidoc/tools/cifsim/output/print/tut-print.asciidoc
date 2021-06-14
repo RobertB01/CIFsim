@@ -18,17 +18,14 @@ include::../../../_part_attributes.asciidoc[]
 indexterm:[print output,tutorial]
 indexterm:[tutorial,print output]
 indexterm:[print output,examples]
-This tutorial explains print output by means of examples. It does not explain
-all uses of print output, and all details related to print output. For those
-details, see the reference documentation instead.
+This tutorial explains print output by means of examples.
+It does not explain all uses of print output, and all details related to print output.
+For those details, see the reference documentation instead.
 
-In this tutorial, when printed console output is shown, all output that the
-simulator can generate other than output for print declarations, is omitted.
+In this tutorial, when printed console output is shown, all output that the simulator can generate other than output for print declarations, is omitted.
 
-Before we start with the examples, the
-<<tools-cifsim-output-print-tut-print-model-trace>> section introduces the
-example model and simulation trace on which the examples are based. Then, the
-following examples are explained in detail:
+Before we start with the examples, the <<tools-cifsim-output-print-tut-print-model-trace>> section introduces the example model and simulation trace on which the examples are based.
+Then, the following examples are explained in detail:
 
 * <<tools-cifsim-output-print-tut-print-ex1>>
 
@@ -55,8 +52,7 @@ following examples are explained in detail:
 [[tools-cifsim-output-print-tut-print-model-trace]]
 === Example model and simulation trace
 
-The examples of print output in this tutorial all make use of the same CIF
-model:
+The examples of print output in this tutorial all make use of the same CIF model:
 
 
 [source, cif]
@@ -72,28 +68,23 @@ automaton buffer:
 end
 ----
 
-The `buffer` initially contains five items (`cnt = 5`). As long as there
-is room in the buffer (`cnt < 10`), an item can be added (event `add`) to
-the buffer. As long as the buffer is not empty (`cnt > 0`), an item can be
-removed (event `remove`) from the buffer. During simulation, it is possible
-to <<tools-cifsim-input-chapter-index,choose>> between adding an item to the
-buffer, and removing an item from the buffer. The following is a potential
-simulation trace:
+The `buffer` initially contains five items (`cnt = 5`).
+As long as there is room in the buffer (`cnt < 10`), an item can be added (event `add`) to the buffer.
+As long as the buffer is not empty (`cnt > 0`), an item can be removed (event `remove`) from the buffer.
+During simulation, it is possible to <<tools-cifsim-input-chapter-index,choose>> between adding an item to the buffer, and removing an item from the buffer.
+The following is a potential simulation trace:
 
 image::{tools-imgsdir}/cifsim/output/print/trace_normal.png[]
 
-In the initial state (S1), variable `cnt` has value `5`. An item is then
-added (transition for the event `add`), resulting in a new state (S2), where
-`cnt` has value `6`. After that, another item is added, leading to state
-S3, where `cnt` has value `7`. Finally, an item is removed by means of a
-transition for event `remove`, leading to state S4, where `cnt` has value
-`6` again.
+In the initial state (S1), variable `cnt` has value `5`.
+An item is then added (transition for the event `add`), resulting in a new state (S2), where `cnt` has value `6`.
+After that, another item is added, leading to state S3, where `cnt` has value `7`.
+Finally, an item is removed by means of a transition for event `remove`, leading to state S4, where `cnt` has value `6` again.
 
 [[tools-cifsim-output-print-tut-print-ex1]]
 === Example 1: Printing the buffer count for all states
 
-If we want to print for every state (S1 through S4), the number of items in the
-buffer, we could add the following print declaration to automaton `buffer`:
+If we want to print for every state (S1 through S4), the number of items in the buffer, we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -101,8 +92,7 @@ buffer, we could add the following print declaration to automaton `buffer`:
 print cnt;
 ----
 
-Then, as a result of this print declaration, the following text is printed to
-the console:
+Then, as a result of this print declaration, the following text is printed to the console:
 
 
 [source, console]
@@ -113,8 +103,7 @@ the console:
 6
 ----
 
-That is, for every state (S1 through S4), the value of variable `cnt` is
-printed, on a new line.
+That is, for every state (S1 through S4), the value of variable `cnt` is printed, on a new line.
 
 indexterm:[print output,printing to file]
 
@@ -130,12 +119,10 @@ print cnt     file "a.txt";
 print cnt * 2 file "b.txt";
 ----
 
-The first print declaration results in the number of items in the buffer being
-printed for every state of the simulation trace, to a file named `a.txt`. The
-second print declaration prints the number of items in the buffer multiplied by
-two, to a file named `b.txt`. These declarations use local file declarations
-to specify the file to which output is to be written. It is also possible to
-use global print file declarations:
+The first print declaration results in the number of items in the buffer being printed for every state of the simulation trace, to a file named `a.txt`.
+The second print declaration prints the number of items in the buffer multiplied by two, to a file named `b.txt`.
+These declarations use local file declarations to specify the file to which output is to be written.
+It is also possible to use global print file declarations:
 
 
 [source, cif]
@@ -145,18 +132,14 @@ print cnt;
 print cnt * 2;
 ----
 
-The print file declaration declares that output of this scope is to be printed
-to a file named `ab.txt`. The two print declarations don't specify a local
-file declaration, and thus use the default file for their scope, in this case
-file `ab.txt`. Alternating lines with the number of items in the buffer and
-twice that amount are thus printed to that file.
+The print file declaration declares that output of this scope is to be printed to a file named `ab.txt`.
+The two print declarations don't specify a local file declaration, and thus use the default file for their scope, in this case file `ab.txt`.
+Alternating lines with the number of items in the buffer and twice that amount are thus printed to that file.
 
 [[tools-cifsim-output-print-tut-print-ex3]]
 === Example 3: Printing the odd/even status for all states
 
-If we want to print for every state, whether the buffer contains an odd or even
-number of items, we could add the following print declaration to automaton
-`buffer`:
+If we want to print for every state, whether the buffer contains an odd or even number of items, we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -164,8 +147,7 @@ number of items, we could add the following print declaration to automaton
 print if cnt mod 2 = 0: "even" else "odd" end;
 ----
 
-Then, as a result of this print declaration, the following text is printed to
-the console:
+Then, as a result of this print declaration, the following text is printed to the console:
 
 
 [source, console]
@@ -179,9 +161,7 @@ even
 [[tools-cifsim-output-print-tut-print-ex4]]
 === Example 4: Printing only for odd states
 
-If we want to print the number of items in the buffer, but only for states
-where the number of items is odd, we could add the following print declaration
-to automaton `buffer`:
+If we want to print the number of items in the buffer, but only for states where the number of items is odd, we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -189,8 +169,7 @@ to automaton `buffer`:
 print cnt when cnt mod 2 = 1;
 ----
 
-Then, as a result of this print declaration, the following text is printed to
-the console:
+Then, as a result of this print declaration, the following text is printed to the console:
 
 
 [source, console]
@@ -202,9 +181,7 @@ the console:
 [[tools-cifsim-output-print-tut-print-ex5]]
 === Example 5: Printing the result of adding an item
 
-If we want to print the result of adding an item, that is the new buffer count
-after a transition for the `add` event, we could add the following print
-declaration to automaton `buffer`:
+If we want to print the result of adding an item, that is the new buffer count after a transition for the `add` event, we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -212,8 +189,7 @@ declaration to automaton `buffer`:
 print cnt for add;
 ----
 
-Then, as a result of this print declaration, the following text is printed to
-the console:
+Then, as a result of this print declaration, the following text is printed to the console:
 
 
 [source, console]
@@ -227,9 +203,7 @@ Since an item is added to the buffer twice, two lines of text are printed.
 [[tools-cifsim-output-print-tut-print-ex6]]
 === Example 6: Printing addition/removal results
 
-If we want to print the resulting buffer count after every change to the buffer
-(addition or removal), we could add the following print declaration to
-automaton `buffer`:
+If we want to print the resulting buffer count after every change to the buffer (addition or removal), we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -237,8 +211,7 @@ automaton `buffer`:
 print cnt for add, remove;
 ----
 
-Then, as a result of this print declaration, the following text is printed to
-the console:
+Then, as a result of this print declaration, the following text is printed to the console:
 
 
 [source, console]
@@ -248,12 +221,9 @@ the console:
 6
 ----
 
-Two items are added to the buffer, and one item is removed from the buffer,
-leading to three lines of text being printed.
+Two items are added to the buffer, and one item is removed from the buffer, leading to three lines of text being printed.
 
-Since the `add` and `remove` events are the only events in the system, and
-no edges exist without an event (which would implicitly use the `tau` event),
-the print declaration can also be specified as follows:
+Since the `add` and `remove` events are the only events in the system, and no edges exist without an event (which would implicitly use the `tau` event), the print declaration can also be specified as follows:
 
 
 [source, cif]
@@ -266,9 +236,7 @@ That is, the value of variable `cnt` is printed after each event transition.
 [[tools-cifsim-output-print-tut-print-ex7]]
 === Example 7: Printing value changes
 
-If we want to print the buffer count before and after removal of an item from
-the buffer, we could add the following print declaration to automaton
-`buffer`:
+If we want to print the buffer count before and after removal of an item from the buffer, we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -276,8 +244,7 @@ the buffer, we could add the following print declaration to automaton
 print pre cnt post cnt for remove;
 ----
 
-As a result of this print declaration, the following text is printed to the
-console:
+As a result of this print declaration, the following text is printed to the console:
 
 
 [source, console]
@@ -286,9 +253,7 @@ console:
 6
 ----
 
-As only one item is removed for our example trace, two lines of text are
-printed, one with the buffer count before the removal (due to `pre cnt`),
-and one with the buffer count after the removal (due to `post cnt`).
+As only one item is removed for our example trace, two lines of text are printed, one with the buffer count before the removal (due to `pre cnt`), and one with the buffer count after the removal (due to `post cnt`).
 
 indexterm:[print output,header]
 indexterm:[print output,footer]
@@ -296,8 +261,7 @@ indexterm:[print output,footer]
 [[tools-cifsim-output-print-tut-print-ex8]]
 === Example 8: Printing headers and footers
 
-If we want to print for every state (S1 through S4), the number of items in the
-buffer, we could add the following print declaration to automaton `buffer`:
+If we want to print for every state (S1 through S4), the number of items in the buffer, we could add the following print declaration to automaton `buffer`:
 
 
 [source, cif]
@@ -305,9 +269,7 @@ buffer, we could add the following print declaration to automaton `buffer`:
 print cnt;
 ----
 
-If we want to print some text before this, as a header, and some text after
-this, as a footer, we could add the following print declaration to the top
-level scope of the specification, or to automaton `buffer`:
+If we want to print some text before this, as a header, and some text after this, as a footer, we could add the following print declaration to the top level scope of the specification, or to automaton `buffer`:
 
 
 [source, cif]
@@ -316,8 +278,7 @@ print "header" for initial;
 print "footer" for final;
 ----
 
-As a result of the original print declaration, and these two new print
-declarations, the following text is printed to the console:
+As a result of the original print declaration, and these two new print declarations, the following text is printed to the console:
 
 
 [source, console]
@@ -333,10 +294,9 @@ footer
 [[tools-cifsim-output-print-tut-print-ex9]]
 === Example 9: Printing the new time after time passes
 
-In the example simulation trace given at the top of this page, no passage of
-time is included. If however a trace includes time passage, it is possible to
-filter printing to only time transitions. For instance, if we want to print the
-new time after time passes, we could use the following print declaration:
+In the example simulation trace given at the top of this page, no passage of time is included.
+If however a trace includes time passage, it is possible to filter printing to only time transitions.
+For instance, if we want to print the new time after time passes, we could use the following print declaration:
 
 
 [source, cif]
@@ -345,10 +305,8 @@ print time for time;
 ----
 
 This prints the value of variable `time`, every time after a time transition.
-The first `time` in the print declaration denotes that the value of variable
-`time` should be printed, and the second `time` denotes that it should be
-printed only after passage of time (after time transitions). As an example,
-the following could be printed to the console:
+The first `time` in the print declaration denotes that the value of variable `time` should be printed, and the second `time` denotes that it should be printed only after passage of time (after time transitions).
+As an example, the following could be printed to the console:
 
 
 [source, console]
@@ -362,12 +320,10 @@ the following could be printed to the console:
 [[tools-cifsim-output-print-tut-print-ex10]]
 === Example 10: Printing all unique time values
 
-In the <<tools-cifsim-output-print-tut-print-ex9,ninth example>>, we
-printed the new time value after each time transition. However, initially time
-is zero. Since the initial state is not reached via a time transition, time
-zero is not printed. We could adapt the print declaration to the following, to
-print all unique values of variable `time`, for all states of the simulation
-trace:
+In the <<tools-cifsim-output-print-tut-print-ex9,ninth example>>, we printed the new time value after each time transition.
+However, initially time is zero.
+Since the initial state is not reached via a time transition, time zero is not printed.
+We could adapt the print declaration to the following, to print all unique values of variable `time`, for all states of the simulation trace:
 
 
 [source, cif]
@@ -375,9 +331,8 @@ trace:
 print time for initial, time;
 ----
 
-This initially prints the value of variable `time`, and also prints it after
-every time transition. As an example, the following could be printed to the
-console:
+This initially prints the value of variable `time`, and also prints it after every time transition.
+As an example, the following could be printed to the console:
 
 
 [source, console]
@@ -392,11 +347,9 @@ console:
 [[tools-cifsim-output-print-tut-print-ex11]]
 === Example 11: Printing transitions to/from a location
 
-In the example model given at the top of this page, automaton `buffer` has
-only one location. If however an automaton has multiple locations, it may be
-useful to print the effect of transitions ending in a certain location, or the
-state of the system for transitions starting in a certain location. Consider
-the following print declaration:
+In the example model given at the top of this page, automaton `buffer` has only one location.
+If however an automaton has multiple locations, it may be useful to print the effect of transitions ending in a certain location, or the state of the system for transitions starting in a certain location.
+Consider the following print declaration:
 
 
 [source, cif]
@@ -404,12 +357,10 @@ the following print declaration:
 print x for event when aut.loc;
 ----
 
-This prints the value of variable `x` after event transitions leading to a
-state where location `loc` is the current location of automaton `aut`.
-That is, whenever an event transition leads to entering that location, the
-value of variable `x` after that transition is printed. Since self loops have
-the same source and target location, this includes self loops. To exclude self
-loops, use the following print declaration:
+This prints the value of variable `x` after event transitions leading to a state where location `loc` is the current location of automaton `aut`.
+That is, whenever an event transition leads to entering that location, the value of variable `x` after that transition is printed.
+Since self loops have the same source and target location, this includes self loops.
+To exclude self loops, use the following print declaration:
 
 
 [source, cif]
@@ -417,14 +368,10 @@ loops, use the following print declaration:
 print x for event when pre not aut.loc post aut.loc;
 ----
 
-This print declaration prints the same text, but only prints it after event
-transitions from a state where location `loc` is not the current location
-of automaton `aut` to a state where location `loc` is the current location
-of automaton `aut`.
+This print declaration prints the same text, but only prints it after event transitions from a state where location `loc` is not the current location of automaton `aut` to a state where location `loc` is the current location of automaton `aut`.
 
 So far in this example, we printed text for transitions ending in a location.
-To print text for transitions starting in a location, consider the following
-print declaration:
+To print text for transitions starting in a location, consider the following print declaration:
 
 
 [source, cif]
@@ -432,6 +379,4 @@ print declaration:
 print pre y for event when pre aut.loc post not aut.loc;
 ----
 
-This print declaration prints the value of variable `y` in the state that is
-exited by the transition, for all event transitions that start in location
-`loc` of automaton `aut`, but do end in that same location.
+This print declaration prints the value of variable `y` in the state that is exited by the transition, for all event transitions that start in location `loc` of automaton `aut`, but do end in that same location.

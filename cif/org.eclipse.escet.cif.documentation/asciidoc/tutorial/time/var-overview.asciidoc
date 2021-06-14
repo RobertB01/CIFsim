@@ -18,8 +18,8 @@ include::../_part_attributes.asciidoc[]
 indexterm:[variable]
 indexterm:[variable,different kinds]
 CIF features different kinds of variables, that have different functionality.
-Each is better suited for a particular purpose. The following table gives an
-overview:
+Each is better suited for a particular purpose.
+The following table gives an overview:
 
 [cols="<,^,^",options="header"]
 |===
@@ -44,22 +44,17 @@ overview:
 | *yes*
 |===
 
-Discrete variables can only change value when given an explicit new value by
-means of an assignment. They don't change automatically as time progresses.
+Discrete variables can only change value when given an explicit new value by means of an assignment.
+They don't change automatically as time progresses.
 
-Algebraic variables can't be assigned. Instead, their values depend on their
-declarations or equation(s). If the computations that result in their values
-depend on a variable that can change value as time progresses, then so can
-the values of the algebraic variables. Algebraic variables are used as named
-shorthand notations for computations, for readability, reuse, consistency, and
-abstraction.
+Algebraic variables can't be assigned.
+Instead, their values depend on their declarations or equation(s).
+If the computations that result in their values depend on a variable that can change value as time progresses, then so can the values of the algebraic variables.
+Algebraic variables are used as named shorthand notations for computations, for readability, reuse, consistency, and abstraction.
 
-Continuous variables automatically change value as time progresses, as
-specified by their derivatives. They can also be assigned new values, from
-which they then automatically change again, based on the current values of
-their derivatives.
+Continuous variables automatically change value as time progresses, as specified by their derivatives.
+They can also be assigned new values, from which they then automatically change again, based on the current values of their derivatives.
 
-The derivatives of the continuous variables can be seen as variables
-themselves. Their values depend on their declaration or equation(s). If the
-computations that result in their values depend on a variable that can change
-value as time progresses, then so can the values of the derivatives.
+The derivatives of the continuous variables can be seen as variables themselves.
+Their values depend on their declaration or equation(s).
+If the computations that result in their values depend on a variable that can change value as time progresses, then so can the values of the derivatives.

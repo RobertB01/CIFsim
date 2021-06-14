@@ -1,0 +1,125 @@
+controllable b;
+controllable e;
+controllable f;
+controllable g;
+controllable h;
+uncontrollable c;
+uncontrollable i;
+uncontrollable j;
+uncontrollable k;
+uncontrollable l;
+automaton statespace:
+  alphabet e, f, g, h, b, i, j, k, l, c;
+  location loc1:
+    initial;
+    edge e goto loc2;
+    edge h;
+    edge i goto loc2;
+    edge l;
+  location loc2:
+    edge e goto loc3;
+    edge h;
+    edge i goto loc3;
+    edge l;
+  location loc3:
+    edge e goto loc4;
+    edge h;
+    edge i goto loc4;
+    edge l;
+  location loc4:
+    edge e goto loc5;
+    edge h;
+    edge i goto loc5;
+    edge l;
+  location loc5:
+    edge h;
+    edge b goto loc6;
+    edge l;
+    edge c goto loc6;
+  location loc6:
+    marked;
+    edge e goto loc7;
+    edge i goto loc7;
+  location loc7:
+    marked;
+    edge e goto loc8;
+    edge i goto loc8;
+  location loc8:
+    marked;
+    edge e goto loc9;
+    edge i goto loc9;
+  location loc9:
+    marked;
+    edge e goto loc10;
+    edge i goto loc10;
+  location loc10:
+    marked;
+    edge e goto loc11;
+    edge i goto loc11;
+  location loc11:
+    marked;
+    edge e goto loc12;
+    edge f;
+    edge i goto loc12;
+    edge j;
+  location loc12:
+    marked;
+    edge e goto loc13;
+    edge f;
+    edge g;
+    edge i goto loc13;
+    edge j;
+    edge k;
+  location loc13:
+    marked;
+    edge e goto loc14;
+    edge f;
+    edge g;
+    edge h;
+    edge i goto loc14;
+    edge j;
+    edge k;
+    edge l;
+  location loc14:
+    marked;
+    edge e goto loc15;
+    edge f;
+    edge g;
+    edge h;
+    edge i goto loc15;
+    edge j;
+    edge k;
+    edge l;
+  location loc15:
+    marked;
+    edge e goto loc16;
+    edge f;
+    edge g;
+    edge i goto loc16;
+    edge j;
+    edge k;
+  location loc16:
+    marked;
+    edge e goto loc17;
+    edge f;
+    edge i goto loc17;
+    edge j;
+  location loc17:
+    marked;
+    edge e goto loc18;
+    edge i goto loc18;
+  location loc18:
+    marked;
+    edge e goto loc19;
+    edge i goto loc19;
+  location loc19:
+    marked;
+    edge e goto loc20;
+    edge i goto loc20;
+  location loc20:
+    marked;
+    edge e goto loc21;
+    edge i goto loc21;
+  location loc21:
+    marked;
+end

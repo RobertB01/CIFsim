@@ -57,11 +57,16 @@ Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             <bdd 12n 64p>
 Marked    (system, combined marked/req inv): <bdd 12n 64p>
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 

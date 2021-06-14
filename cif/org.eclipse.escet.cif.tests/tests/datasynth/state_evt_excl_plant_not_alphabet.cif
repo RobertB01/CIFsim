@@ -1,0 +1,39 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  controllable inc;
+  disc int[0..3] x;
+
+  location:
+    initial;
+    marked;
+
+    edge inc do x := x + 1;
+end
+
+plant q:
+  controllable c_not_in_alphabet;
+
+  location:
+    initial;
+    marked;
+
+    plant c_not_in_alphabet needs p.x > 0;    // Warning state/event exclusion: event not in alphabet.
+end
+
+group g2:
+  plant p.x = 2 disables q.c_not_in_alphabet; // Warning state/event exclusion: event not in alphabet.
+end
+
+plant q.c_not_in_alphabet needs p.x < 3;      // Warning state/event exclusion: event not in alphabet.

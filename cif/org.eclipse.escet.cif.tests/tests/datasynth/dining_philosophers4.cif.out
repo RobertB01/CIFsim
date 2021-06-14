@@ -83,6 +83,9 @@ Marked    (auts/locs marker predicate):      p1.neither and f2.available and (f1
 Marked    (uncontrolled system):             p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 Marked    (system, combined marked/req inv): p1.neither and f2.available and (f1.available and p2.neither) and (f3.available and p4.neither and (f4.available and p3.neither))
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
@@ -108,6 +111,8 @@ Uncontrolled system:
     Edge: (event: p4.take_left) (guard: p4.right and f4.available) (assignments: f4 := f4.taken, p4 := p4.both)
     Edge: (event: p3.take_right) (guard: f4.available and p3.neither) (assignments: f4 := f4.taken, p3 := p3.right)
     Edge: (event: p3.take_right) (guard: f4.available and p3.left) (assignments: f4 := f4.taken, p3 := p3.both)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 
@@ -243,7 +248,7 @@ Initial (controlled system):           p1.neither and f2.available and (f1.avail
 Initial (removed by supervisor):       false
 Initial (added by supervisor):         true
 
-Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion requirement invariants, state requirement invariants, and controlled behavior:
+Simplification of controlled system under the assumption of the plants, requirement automata, state/event exclusion plant invariants, state/event exclusion requirement invariants, state requirement invariants, and controlled behavior:
   Event p1.take_left: guard: <bdd 30n 26p> -> p1.right or p1.both or (f2.available or p2.right) or (p2.both or f3.available or (p4.neither or p4.right)) [assume <bdd 27n 27p>].
   Event p4.take_right: guard: <bdd 34n 26p> -> p1.neither or (p1.left or p2.neither) or (p2.left or p4.left or (p4.both or f4.available)) [assume <bdd 27n 27p>].
   Event p1.release_both: guard: <bdd 24n 9p> -> true [assume <bdd 24n 9p>].

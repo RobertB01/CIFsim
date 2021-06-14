@@ -15,9 +15,8 @@ include::_part_attributes.asciidoc[]
 [[use-projects]]
 == Working with projects, directories, and files
 
-Eclipse uses <<use-terminology-project,projects>> to manage files and
-directories (also called _folders_). This section contains information on the
-following topics:
+Eclipse uses <<use-terminology-project,projects>> to manage files and directories (also called _folders_).
+This section contains information on the following topics:
 
 * <<use-create-project>>
 * <<use-import-project>>
@@ -34,31 +33,24 @@ indexterm:[create,project]
 [[use-create-project]]
 === Creating a new project
 
-To create a new project, ensure you have either the _Project Explorer_ or
-_Package Explorer_ <<use-terminology-view,view>> visible.
+To create a new project, ensure you have either the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>> visible.
 
 Select menu:File[New > Project...] to open the _New Project_ window.
-Alternatively, right click somewhere in the _Project Explorer_ or
-_Package Explorer_ view, and select menu:New[Project...], to open the same
-window.
+Alternatively, right click somewhere in the _Project Explorer_ or _Package Explorer_ view, and select menu:New[Project...], to open the same window.
 
-In the _New Project_ window, from the _General_ category select _Project_,
-and click the btn:[Next >] button.
+In the _New Project_ window, from the _General_ category select _Project_, and click the btn:[Next >] button.
 
 In the next window, enter a project name, for example `models`.
 
 indexterm:[project,workspace]
 indexterm:[workspace,project]
-By default, a project is created inside your
-<<use-terminology-workspace,workspace>> directory. If you want it at a
-different place (so you can remove the workspace without losing your
-projects), uncheck the _Use default location_ option, and enter a
-_Location_. Make sure the location does not yet exist, for example by ending
-with the project name. It is recommended to always create a project in a
-directory that has the same name as the project.
+By default, a project is created inside your <<use-terminology-workspace,workspace>> directory.
+If you want it at a different place (so you can remove the workspace without losing your projects), uncheck the _Use default location_ option, and enter a _Location_.
+Make sure the location does not yet exist, for example by ending with the project name.
+It is recommended to always create a project in a directory that has the same name as the project.
 
-Click the btn:[Finish] button to create the project. Observe how it
-appears in the _Project Explorer_ or _Package Explorer_ view.
+Click the btn:[Finish] button to create the project.
+Observe how it appears in the _Project Explorer_ or _Package Explorer_ view.
 
 
 indexterm:[project,import]
@@ -71,31 +63,20 @@ indexterm:[existing,project]
 [[use-import-project]]
 === Importing an existing project
 
-If you previously created a project, but it is no longer visible in your
-_Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>,
-you can import it. Imported projects are _linked_ to your
-<<use-terminology-workspace,workspace>>, but remain in their original location
-on your hard disk (by default, they are _not_ moved or copied to your
-workspace directory).
+If you previously created a project, but it is no longer visible in your _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>, you can import it.
+Imported projects are _linked_ to your <<use-terminology-workspace,workspace>>, but remain in their original location on your hard disk (by default, they are _not_ moved or copied to your workspace directory).
 
-Importing existing projects is particularly useful if you removed you workspace
-directory and started with a fresh one, e.g. for a new installation.
+Importing existing projects is particularly useful if you removed you workspace directory and started with a fresh one, e.g. for a new installation.
 
-To import one or more existing projects, select menu:File[Import...] to open
-the _Import_ window. Alternatively, right click somewhere in the
-_Project Explorer_ or _Package Explorer_ view, and select
-menu:Import...[] to open the same window.
+To import one or more existing projects, select menu:File[Import...] to open the _Import_ window.
+Alternatively, right click somewhere in the _Project Explorer_ or _Package Explorer_ view, and select menu:Import...[] to open the same window.
 
-In the _Import_ window, from the _General_ category, select
-_Existing Projects into Workspace_, and click btn:[Next >].
+In the _Import_ window, from the _General_ category, select _Existing Projects into Workspace_, and click btn:[Next >].
 
-In the next window, in _Select root directory_, point it to the
-directory that contains the project you wish to import. The available projects
-in the given root directory, and all its sub-directories (recursively), are
-listed in the _Projects_ list. Select the project(s) you want to
-import, by checking the relevant check boxes, and click btn:[Finish].
-Observe how the project(s) appear(s) in the _Project Explorer_ or
-_Package Explorer_ view.
+In the next window, in _Select root directory_, point it to the directory that contains the project you wish to import.
+The available projects in the given root directory, and all its sub-directories (recursively), are listed in the _Projects_ list.
+Select the project(s) you want to import, by checking the relevant check boxes, and click btn:[Finish].
+Observe how the project(s) appear(s) in the _Project Explorer_ or _Package Explorer_ view.
 
 
 indexterm:[project,remove]
@@ -106,19 +87,13 @@ indexterm:[delete,project]
 [[use-remove-project]]
 === Removing a project from Eclipse
 
-To remove a project from Eclipse, ensure you have either the
-_Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>
-visible.
+To remove a project from Eclipse, ensure you have either the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>> visible.
 
-Right click the project in the _Project Explorer_ or _Package Explorer_ view
-and choose menu:Delete[]. Alternatively, select it and press the kbd:[Delete]
-key on your keyboard. The _Delete Resources_ dialog appears. To only remove
-the project from Eclipse, and keep the files on your hard disk, disable the
-_Delete project contents on disk (cannot be undone)_ option and click the
-btn:[OK] button. Alternatively, to remove the project from Eclipse and also
-remove all the files in the project from your hard disk, enable the
-_Delete project contents on disk (cannot be undone)_ option and click the
-btn:[OK] button.
+Right click the project in the _Project Explorer_ or _Package Explorer_ view and choose menu:Delete[].
+Alternatively, select it and press the kbd:[Delete] key on your keyboard.
+The _Delete Resources_ dialog appears.
+To only remove the project from Eclipse, and keep the files on your hard disk, disable the _Delete project contents on disk (cannot be undone)_ option and click the btn:[OK] button.
+Alternatively, to remove the project from Eclipse and also remove all the files in the project from your hard disk, enable the _Delete project contents on disk (cannot be undone)_ option and click the btn:[OK] button.
 
 Wait for Eclipse to complete the removal operation.
 
@@ -133,15 +108,11 @@ indexterm:[Eclipse,folder]
 [[use-create-dir]]
 === Creating a new directory
 
-You can structure large collections of files, by putting them into different
-directories (also called _folders_). Directories can only be created in
-<<use-terminology-project,projects>>, or in other directories.
+You can structure large collections of files, by putting them into different directories (also called _folders_).
+Directories can only be created in <<use-terminology-project,projects>>, or in other directories.
 
-Select the project or directory in which you want to create a new directory
-(by left clicking its name in the _Project Explorer_ or _Package Explorer_
-<<use-terminology-view,view>>, and create a new directory by selecting
-menu:File[New > Folder]. Alternatively, right click on the project or
-directory instead, and from the popup menu select menu:New[Folder].
+Select the project or directory in which you want to create a new directory (by left clicking its name in the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>, and create a new directory by selecting menu:File[New > Folder].
+Alternatively, right click on the project or directory instead, and from the popup menu select menu:New[Folder].
 
 In the _New Folder_ window, enter the _Folder name_, and click btn:[Finish].
 
@@ -153,16 +124,12 @@ indexterm:[Eclipse,file]
 [[use-create-file]]
 === Creating a new file
 
-Select the <<use-terminology-project,project>> or directory in which you
-want to create a new file (by left clicking its name in the
-_Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>),
-and create a new file by selecting menu:File[New > File]. Alternatively,
-right click on the project or directory instead, and from the popup menu
-select menu:New[File].
+Select the <<use-terminology-project,project>> or directory in which you want to create a new file (by left clicking its name in the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>), and create a new file by selecting menu:File[New > File].
+Alternatively, right click on the project or directory instead, and from the popup menu select menu:New[File].
 
 In the _New File_ window, enter the _File name_, and click btn:[Finish].
-Make sure to give the file the correct file extension. E.g. CIF files
-should end with `.cif`.
+Make sure to give the file the correct file extension.
+E.g. CIF files should end with `.cif`.
 
 An editor for the new file opens, and you can start <<use-edit,editing it>>.
 
@@ -179,13 +146,9 @@ indexterm:[F2]
 [[use-rename]]
 === Renaming a file, directory, or project
 
-To rename a file, directory, or <<use-terminology-project,project>>,
-select it by left clicking its name in the _Project Explorer_ or
-_Package Explorer_ <<use-terminology-view,view>>, and then select
-menu:File[Rename...]. Alternatively, right click on the file, directory, or
-project instead, and from the popup menu select menu:Refactor[Rename...].
-A second alternative is to select the file, directory, or project, and
-then press the kbd:[F2] key.
+To rename a file, directory, or <<use-terminology-project,project>>, select it by left clicking its name in the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>, and then select menu:File[Rename...].
+Alternatively, right click on the file, directory, or project instead, and from the popup menu select menu:Refactor[Rename...].
+A second alternative is to select the file, directory, or project, and then press the kbd:[F2] key.
 
 In the _Rename Resource_ window, enter the _New name_, and click btn:[OK].
 
@@ -206,30 +169,21 @@ indexterm:[properties,file]
 [[use-locations]]
 === Locating files, directories, and projects
 
-Often, it is convenient to be able to manage files not from inside Eclipse,
-but from outside Eclipse, for instance in a file explorer provided by your
-operating system. The _Properties_ <<use-terminology-view,view>> can be used
-to find out where the files, directories, and projects that are in Eclipse,
-are located on your hard disk. With the _Properties_ view visible, select a
-file, directory, or project in the _Project Explorer_ or _Package Explorer_
-view. In the _Property_ column of the _Properties_ view, look for _location_.
-The corresponding _Value_ indicates where the file, directory, or project is
-located on your hard disk. Note that you can right click the location and
-choose _Copy_ to copy the location to the clipboard.
+Often, it is convenient to be able to manage files not from inside Eclipse, but from outside Eclipse, for instance in a file explorer provided by your operating system.
+The _Properties_ <<use-terminology-view,view>> can be used to find out where the files, directories, and projects that are in Eclipse, are located on your hard disk.
+With the _Properties_ view visible, select a file, directory, or project in the _Project Explorer_ or _Package Explorer_ view.
+In the _Property_ column of the _Properties_ view, look for _location_.
+The corresponding _Value_ indicates where the file, directory, or project is located on your hard disk.
+Note that you can right click the location and choose _Copy_ to copy the location to the clipboard.
 
-As an alternative to the _Properties_ view, you can also use the
-_Properties_  window. Right click a file, directory, or project in the
-_Project Explorer_ or _Package Explorer_ view and choose menu:Properties[].
-In the window that shows, select _Resource_ on the left, if it is not already
-selected. Then, on the right, look for the _Location_.
+As an alternative to the _Properties_ view, you can also use the _Properties_  window.
+Right click a file, directory, or project in the _Project Explorer_ or _Package Explorer_ view and choose menu:Properties[].
+In the window that shows, select _Resource_ on the left, if it is not already selected.
+Then, on the right, look for the _Location_.
 
-To directly open the directory that contains a file, directory, or project
-in your system's file explorer, right click the file, directory, or project in
-the _Project Explorer_ or _Package Explorer_ view and choose
-menu:Show In[System Explorer].
+To directly open the directory that contains a file, directory, or project in your system's file explorer, right click the file, directory, or project in the _Project Explorer_ or _Package Explorer_ view and choose menu:Show In[System Explorer].
 
-Don't forget to <<use-refresh,refresh>> your projects in Eclipse after
-manipulating them outside Eclipse.
+Don't forget to <<use-refresh,refresh>> your projects in Eclipse after manipulating them outside Eclipse.
 
 
 indexterm:[project,refresh]
@@ -243,15 +197,11 @@ indexterm:[Eclipse,refresh]
 [[use-refresh]]
 === Refreshing a file, directory, or project
 
-Whenever changes are made to files or directories from outside Eclipse, and
-those files or directories are also in one of the projects inside Eclipse,
-the changes are _not_ always automatically reflected in the
-_Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>. To
-ensure that the current state of the files and directories are properly
-reflected in Eclipse, a refresh is required. To refresh a file, directory,
-or project, right click it, and choose menu:Refresh[]. Any files and
-directories that no longer exist will disappear from Eclipse. Any new files
-and directories created outside Eclipse will appear in Eclipse as well.
+Whenever changes are made to files or directories from outside Eclipse, and those files or directories are also in one of the projects inside Eclipse, the changes are _not_ always automatically reflected in the _Project Explorer_ or _Package Explorer_ <<use-terminology-view,view>>.
+To ensure that the current state of the files and directories are properly reflected in Eclipse, a refresh is required.
+To refresh a file, directory, or project, right click it, and choose menu:Refresh[].
+Any files and directories that no longer exist will disappear from Eclipse.
+Any new files and directories created outside Eclipse will appear in Eclipse as well.
 
 
 indexterm:[file,size]
@@ -262,16 +212,14 @@ indexterm:[properties,file]
 [[use-filesize]]
 === Checking the size of a file
 
-When working with files, you may occasionally encounter large files. Opening
-large files in Eclipse can cause serious
-<<performance-chapter-index,performance problems>>. You can use the
-_Properties_ <<use-terminology-view,view>> to check the size of a file. With
-the _Properties_ view visible, select a file in the _Project Explorer_ or
-_Package Explorer_ view. In the _Property_ column of the _Properties_ view,
-look for _size_. The corresponding _Value_ indicates the size of the file.
+When working with files, you may occasionally encounter large files.
+Opening large files in Eclipse can cause serious <<performance-chapter-index,performance problems>>.
+You can use the _Properties_ <<use-terminology-view,view>> to check the size of a file.
+With the _Properties_ view visible, select a file in the _Project Explorer_ or _Package Explorer_ view.
+In the _Property_ column of the _Properties_ view, look for _size_.
+The corresponding _Value_ indicates the size of the file.
 
-As an alternative to the _Properties_ view, you can also use the _Properties_
-window. Right click a file in the _Project Explorer_ or _Package Explorer_
-view and choose menu:Properties[]. In the window that shows, select _Resource_
-on the left, if it is not already selected. Then, on the right, look for the
-_Size_.
+As an alternative to the _Properties_ view, you can also use the _Properties_ window.
+Right click a file in the _Project Explorer_ or _Package Explorer_ view and choose menu:Properties[].
+In the window that shows, select _Resource_ on the left, if it is not already selected.
+Then, on the right, look for the _Size_.

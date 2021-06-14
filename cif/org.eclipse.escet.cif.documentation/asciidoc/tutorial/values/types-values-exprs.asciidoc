@@ -16,11 +16,9 @@ include::../_part_attributes.asciidoc[]
 == Types, values, and expressions
 
 This lesson explains the difference between types, values, and expressions.
-These concepts have already been used in previous lessons, but this lesson
-names them explicitly, and also explains the relations between them.
-Furthermore, this lesson serves as an introduction for the coming lessons,
-which rely heavily on these concepts. Consider the following declarations of
-<<tut-data-chapter-discrete-variables,discrete variables>>:
+These concepts have already been used in previous lessons, but this lesson names them explicitly, and also explains the relations between them.
+Furthermore, this lesson serves as an introduction for the coming lessons, which rely heavily on these concepts.
+Consider the following declarations of <<tut-data-chapter-discrete-variables,discrete variables>>:
 
 
 [source, cif]
@@ -31,26 +29,24 @@ disc int y = 2 * x;
 
 indexterm:[type]
 indexterm:[value]
-The first declaration declares a discrete variable named `x`, and the second
-declaration declares a discrete variable named `y`. Both variables have an
-`int` _data type_. A data type is usually just called a _type_, if there is
-no confusion with other kinds of types. The type of a variable indicates the
-potential or allowed values of the variable. Variable `x` is initialized to
-_value_ `1`. Variable `y` is initialized to twice the value of `x`,
-meaning it is initialized to value `2`.
+The first declaration declares a discrete variable named `x`, and the second declaration declares a discrete variable named `y`.
+Both variables have an `int` _data type_.
+A data type is usually just called a _type_, if there is no confusion with other kinds of types.
+The type of a variable indicates the potential or allowed values of the variable.
+Variable `x` is initialized to _value_ `1`.
+Variable `y` is initialized to twice the value of `x`, meaning it is initialized to value `2`.
 
 indexterm:[expression]
 indexterm:[expression,computation]
 indexterm:[expression,evaluation]
-Both `1` and `+2 * x+` are _expressions_. Expressions are combinations of
-among others literal values (e.g. `1`), variables (e.g. `x`), and
-operations (e.g. `+*+`) on them. Expressions can be _computed_, resulting in a
-value. This is called _evaluation_ of the expression.
+Both `1` and `+2 * x+` are _expressions_.
+Expressions are combinations of among others literal values (e.g. `1`), variables (e.g. `x`), and operations (e.g. `+*+`) on them.
+Expressions can be _computed_, resulting in a value.
+This is called _evaluation_ of the expression.
 
-Expression `+2 * x+` can be evaluated. Evaluating the expression results in
-value `2` if the value of `x` is `1`, and in value `4` if the value of
-`x` is `2`. Expressions can thus be evaluated to different values,
-depending on the values of the variables that occur in them.
+Expression `+2 * x+` can be evaluated.
+Evaluating the expression results in value `2` if the value of `x` is `1`, and in value `4` if the value of `x` is `2`.
+Expressions can thus be evaluated to different values, depending on the values of the variables that occur in them.
 
 indexterm:[literal]
 indexterm:[expression,literal]
@@ -63,8 +59,8 @@ indexterm:[value,constant]
 indexterm:[constant,value]
 
 [[lang-tut-values-types-values-exprs-literal]]
-Expression `1` consists of only a single value, called a _literal_ value
-expression. Evaluation always results in that single value. Expression
-`1 + 3` evaluates to value `4`. Even though it does not consist of only
-just a literal, the value is the same for each evaluation. The expression
-represents a _constant_ value.
+Expression `1` consists of only a single value, called a _literal_ value expression.
+Evaluation always results in that single value.
+Expression `1 + 3` evaluates to value `4`.
+Even though it does not consist of only just a literal, the value is the same for each evaluation.
+The expression represents a _constant_ value.

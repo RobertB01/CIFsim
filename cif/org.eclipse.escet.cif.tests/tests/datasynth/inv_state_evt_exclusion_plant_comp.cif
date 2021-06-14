@@ -1,0 +1,57 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable e;
+controllable f;
+controllable g;
+controllable h;
+uncontrollable i;
+uncontrollable j;
+uncontrollable k;
+uncontrollable l;
+
+plant a:
+  disc int[0..25] x = 1;
+
+  plant invariant f needs x >= 10;            // f enabled for 10 <= x <= 15
+  plant invariant f needs x <= 15;
+
+  plant invariant x < 11 disables g;          // g enabled for 11 <= x <= 14
+  plant invariant x > 14 disables g;
+
+  plant invariant h needs x >= 12;            // h enabled for 12 <= x <= 13
+  plant invariant x > 13 disables h;
+
+  plant invariant j needs x >= 10;            // j enabled for 10 <= x <= 15
+  plant invariant j needs x <= 15;
+
+  plant invariant x < 11 disables k;          // k enabled for 11 <= x <= 14
+  plant invariant x > 14 disables k;
+
+  plant invariant l needs x >= 12;            // l enabled for 12 <= x <= 13
+  plant invariant x > 13 disables l;
+
+  location:
+    initial;
+    marked;
+
+    edge e when x < 20 do x := x + 1;
+    edge f;
+    edge g;
+    edge h;
+
+    edge i when x < 20 do x := x + 1;
+    edge j;
+    edge k;
+    edge l;
+end

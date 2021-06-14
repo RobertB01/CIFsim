@@ -1,0 +1,106 @@
+Reading CIF file "datasynth/invs_req.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      location pointer   n/a        p     0      1 * 2     2 * 2       2 * 2       100%
+  2      discrete variable  int[0..3]  p.x   1      2 * 2     4 * 2       4 * 2       100%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      2      6         12          12          100%
+
+Applying automatic variable ordering:
+  Number of hyperedges: 4
+
+  Applying FORCE algorithm:
+    Maximum number of iterations: 10
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [iteration 1]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Applying sliding window algorithm:
+    Window length: 2
+
+    Total span:                    0 (total)                 0.00 (avg/edge) [before]
+    Total span:                    0 (total)                 0.00 (avg/edge) [after]
+
+  Variable order unchanged.
+
+Starting data-based synthesis.
+
+Invariant (component state req invariant):   p.x != 1
+Invariant (component state req invariant):   p.x != 2
+Invariant (components state req invariant):  p.x != 2 and p.x != 1
+Invariant (location state req invariant):    p.l2 or p.x != 0
+Invariant (location state req invariant):    p.l1 or p.x != 3
+Invariant (locations state req invariant):   (p.l2 or p.x != 0) and (p.l1 or p.x != 3)
+Invariant (system state req invariant):      p.l1 and p.x = 3 or p.l2 and p.x = 0
+
+Initial   (discrete variable 1):             true
+Initial   (discrete variables):              true
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             true
+Initial   (system, combined init/req inv):   p.l1 and p.x = 3 or p.l2 and p.x = 0
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined marked/req inv): p.l1 and p.x = 3 or p.l2 and p.x = 0
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
+
+Initialized controlled-behavior predicate using invariants: p.l1 and p.x = 3 or p.l2 and p.x = 0.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
+Backward reachability: iteration 1.
+Backward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: (p.l2 or p.x != 3) and (p.l1 or p.x != 0) [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: true [initialization predicate]
+Forward controlled-behavior: true -> p.l1 and p.x = 3 or p.l2 and p.x = 0 [restricted to current/previous controlled-behavior predicate: p.l1 and p.x = 3 or p.l2 and p.x = 0]
+Forward reachability: iteration 1.
+Forward controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0 [fixed point].
+
+Round 1: finished, controlled behavior is stable.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: p.l1 and p.x = 3 or p.l2 and p.x = 0)
+
+Controlled system:                     exactly 2 states.
+
+Initial (synthesis result):            p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (uncontrolled system):         true
+Initial (controlled system):           p.l1 and p.x = 3 or p.l2 and p.x = 0
+Initial (removed by supervisor):       (p.l2 or p.x != 3) and (p.l1 or p.x != 0)
+Initial (added by supervisor):         p.l1 and p.x = 3 or p.l2 and p.x = 0
+
+Constructing output CIF specification.
+Writing output CIF file "datasynth/invs_req.ctrlsys.real.cif".

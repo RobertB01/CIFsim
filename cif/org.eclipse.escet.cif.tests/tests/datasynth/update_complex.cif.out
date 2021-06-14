@@ -54,12 +54,17 @@ Marked    (auts/locs marker predicate):      p.l2 and p.sum = 7
 Marked    (uncontrolled system):             p.l2 and p.sum = 7
 Marked    (system, combined marked/req inv): p.l2 and p.sum = 7
 
+State/event exclusion plants:
+  None
+
 State/event exclusion requirements:
   None
 
 Uncontrolled system:
   State: (controlled-behavior: ?)
     Edge: (event: error) (guard: p.l1) (assignments: p.sum := p.x + p.y + p.z, p := p.l2)
+
+Restricting behavior using state/event exclusion plants.
 
 Initialized controlled-behavior predicate using invariants: true.
 
