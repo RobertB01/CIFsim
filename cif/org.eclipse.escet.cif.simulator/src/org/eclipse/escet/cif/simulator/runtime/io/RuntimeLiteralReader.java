@@ -739,22 +739,21 @@ public class RuntimeLiteralReader {
             throw new InputOutputException(msg, ex);
         }
 
-        // Loop up the literal from the enumeration Java class.
-        T rslt;
-        try {
-            rslt = Enum.valueOf(enumClass, name);
-        } catch (IllegalArgumentException ex) {
-            String msg = fmt("Identifier \"%s\" is not the name of an expected enumeration literal", name);
-            String lineColMsg = stream.getLineColMsg();
-            if (lineColMsg != null) {
-                msg += ", " + lineColMsg;
+        // Look up the literal from the enumeration Java class.
+        for (T enumElem: enumClass.getEnumConstants()) {
+            if (enumElem.toString().equals(name)) {
+                return enumElem;
             }
-            msg += ".";
-            throw new InputOutputException(msg);
         }
 
-        // Return enumeration literal;
-        return rslt;
+        // Result not found.
+        String msg = fmt("Identifier \"%s\" is not the name of an expected enumeration literal", name);
+        String lineColMsg = stream.getLineColMsg();
+        if (lineColMsg != null) {
+            msg += ", " + lineColMsg;
+        }
+        msg += ".";
+        throw new InputOutputException(msg);
     }
 
     /**

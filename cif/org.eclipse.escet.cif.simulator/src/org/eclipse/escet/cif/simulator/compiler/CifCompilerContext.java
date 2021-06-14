@@ -62,6 +62,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
@@ -121,8 +122,11 @@ public class CifCompilerContext {
     /** Prefix for methods for derivatives. */
     public static final String DER_MTHD_PREFIX = "d";
 
-    /** Prefix for classes for enumerations. */
-    public static final String ENUM_CLS_PREFIX = "E_";
+    /** Prefix for classes for enumeration declarations. */
+    public static final String ENUM_DECL_CLS_PREFIX = "E_";
+
+    /** Prefix for values for enumeration literals. */
+    public static final String ENUM_LIT_VALUE_PREFIX = "elit";
 
     /** Prefix for classes for events. */
     public static final String EVENT_CLS_PREFIX = "Event";
@@ -305,11 +309,18 @@ public class CifCompilerContext {
     public boolean hasTauEdge = false;
 
     /**
-     * Mapping from enumerations to their representatives. Is {@code null} until computed (when needed).
+     * Mapping from enumeration declarations to their representatives. Is {@code null} until computed (when needed).
      *
-     * @see #getEnumReprs
+     * @see #getEnumDeclReprs
      */
-    private Map<EnumDecl, EnumDecl> enumReprs = null;
+    private Map<EnumDecl, EnumDecl> enumDeclReprs = null;
+
+    /**
+     * Mapping from enumeration literals to their representatives. Is {@code null} until computed (when needed).
+     *
+     * @see #getEnumLitReprs
+     */
+    private Map<EnumLiteral, EnumLiteral> enumLitReprs = null;
 
     /**
      * Mapping from {@link CifTypeUtils#normalizeType normalized} container types to their unique generated default
@@ -537,14 +548,26 @@ public class CifCompilerContext {
     }
 
     /**
-     * Returns the unique generated name for the enumeration class that is generated for the given enumeration.
+     * Returns the unique generated name for the enumeration class that is generated for the given enumeration
+     * declaration.
      *
-     * @param enumDecl The enumeration for which to get the unique name.
+     * @param enumDecl The enumeration declaration for which to get the unique name.
      * @return The unique generated name of the enumeration class.
      */
     public String getEnumClassName(EnumDecl enumDecl) {
-        // Not all enumerations have a class, only the representatives do.
-        return getName(getEnumReprs().get(enumDecl), ENUM_CLS_PREFIX, true);
+        // Not all enumeration declarations have a class, only the representatives do.
+        return getName(getEnumDeclReprs().get(enumDecl), ENUM_DECL_CLS_PREFIX, true);
+    }
+
+    /**
+     * Returns the unique generated name for the enumeration value that is generated for the given enumeration literal.
+     *
+     * @param enumLit The enumeration literal for which to get the unique name.
+     * @return The unique generated name of the enumeration value.
+     */
+    public String getEnumValueName(EnumLiteral enumLit) {
+        // Not all enumeration literals have a value, only the representatives do.
+        return getName(getEnumLitReprs().get(enumLit), ENUM_LIT_VALUE_PREFIX, false);
     }
 
     /**
@@ -1094,15 +1117,27 @@ public class CifCompilerContext {
     }
 
     /**
-     * Returns the mapping from enumerations to their representatives.
+     * Returns the mapping from enumeration declarations to their representatives.
      *
-     * @return The mapping from enumerations to their representatives.
+     * @return The mapping from enumeration declarations to their representatives.
      */
-    public Map<EnumDecl, EnumDecl> getEnumReprs() {
-        if (enumReprs == null) {
-            enumReprs = EnumCodeGenerator.getEnumReprs(spec);
+    public Map<EnumDecl, EnumDecl> getEnumDeclReprs() {
+        if (enumDeclReprs == null) {
+            enumDeclReprs = EnumCodeGenerator.getEnumDeclReprs(spec);
         }
-        return enumReprs;
+        return enumDeclReprs;
+    }
+
+    /**
+     * Returns the mapping from enumeration literals to their representatives.
+     *
+     * @return The mapping from enumeration literals to their representatives.
+     */
+    public Map<EnumLiteral, EnumLiteral> getEnumLitReprs() {
+        if (enumLitReprs == null) {
+            enumLitReprs = EnumCodeGenerator.getEnumLitReprs(getEnumDeclReprs());
+        }
+        return enumLitReprs;
     }
 
     /**

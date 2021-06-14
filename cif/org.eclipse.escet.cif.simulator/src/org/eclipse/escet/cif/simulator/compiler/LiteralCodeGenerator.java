@@ -239,6 +239,7 @@ public class LiteralCodeGenerator {
             return;
         } else if (expr instanceof EnumLiteralExpression) {
             EnumLiteralExpression lexpr = (EnumLiteralExpression)expr;
+            // Use the Cif name, not the Java name, as that is what RuntimeLiteralReader expects.
             String name = lexpr.getLiteral().getName();
             writer.write(name);
             return;
