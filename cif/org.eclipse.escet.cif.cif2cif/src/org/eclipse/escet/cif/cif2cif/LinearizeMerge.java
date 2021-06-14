@@ -115,7 +115,7 @@ public class LinearizeMerge extends LinearizeBase {
         LocRefExprCreator creator = new LocRefExprCreator() {
             @Override
             public Expression create(Location loc) {
-                return lpIntroducer.createEquality(loc);
+                return lpIntroducer.createLocRef(loc);
             }
         };
 
@@ -264,7 +264,7 @@ public class LinearizeMerge extends LinearizeBase {
                         }
 
                         // Add 'loc and guards' : 'value' pair.
-                        Expression lexpr = lpIntroducer.createEquality(loc);
+                        Expression lexpr = lpIntroducer.createLocRef(loc);
 
                         Expression guards = createConjunction(deepclone(edge.getGuards()));
 
@@ -342,7 +342,7 @@ public class LinearizeMerge extends LinearizeBase {
                     }
 
                     // Get 'loc and guards', 'loc', 'updates' triple.
-                    Expression lexpr = lpIntroducer.createEquality(loc);
+                    Expression lexpr = lpIntroducer.createLocRef(loc);
 
                     Expression guards = createConjunction(deepclone(edge.getGuards()));
 
@@ -378,7 +378,7 @@ public class LinearizeMerge extends LinearizeBase {
             if (!trip.third.isEmpty()) {
                 // Has an update.
                 allEmpty = false;
-                updatableVar = getUpdatedVar(first(trip.third));
+                updatableVar = getUpdatedVarRefExpr(first(trip.third));
                 break;
             }
         }
@@ -407,8 +407,8 @@ public class LinearizeMerge extends LinearizeBase {
             // Get location.
             Location loc = trip.second;
 
-            // Add dummy location pointer update.
-            Expression lexpr = lpIntroducer.createEquality(loc);
+            // Add dummy update.
+            Expression lexpr = lpIntroducer.createLocRef(loc);
 
             Assignment asgn = newAssignment();
             if (lexpr instanceof BinaryExpression) {
@@ -453,23 +453,19 @@ public class LinearizeMerge extends LinearizeBase {
     }
 
     /**
-     * Returns a variable that is updated. For an assignment this is the addressable, for an if-update this is a
-     * variable updated by the first 'then'.
+     * Returns an expression that references (a part of) a variable. For an assignment this is the addressable, for an
+     * if-update this is a variable updated by the first 'then'.
      *
      * @param update The update to retrieve a variable from.
-     * @return A variable that is updated.
+     * @return An expression that references (a part of) a variable".
      */
-    private Expression getUpdatedVar(Update update) {
+    private Expression getUpdatedVarRefExpr(Update update) {
         if (update instanceof Assignment) {
             Assignment ass = (Assignment)update;
             return ass.getAddressable();
         } else if (update instanceof IfUpdate) {
             IfUpdate ifUpdate = (IfUpdate)update;
-            return getUpdatedVar(first(ifUpdate.getThens()));
-        } else if (update instanceof ElifUpdate) {
-            // Shouldn't happen.
-            ElifUpdate elifUpdate = (ElifUpdate)update;
-            return getUpdatedVar(first(elifUpdate.getThens()));
+            return getUpdatedVarRefExpr(first(ifUpdate.getThens()));
         } else {
             throw new RuntimeException("Unexpected update: " + update.toString());
         }

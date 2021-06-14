@@ -72,7 +72,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * <p>
  * For each automaton for which a location is referenced (or for all automata, depending on the transformation
  * settings), a location pointer variable is introduced, with as value the current location. The values are part of a
- * new enumeration that has a value for each location of the automaton. For locations with exactly one location, no
+ * new enumeration that has a value for each location of the automaton. For automata with exactly one location, no
  * location variable is introduced.
  * </p>
  *
@@ -128,8 +128,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     private final boolean considerLocsForRename;
 
     /**
-     * Whether to add initially predicates for the initialization the introduced location pointer variables. Note that
-     * if the automaton has exactly one initial location, the location pointer variable is initialized in its
+     * Whether to add initialization predicates for the initialization of the introduced location pointer variables.
+     * Note that if the automaton has exactly one initial location, the location pointer variable is initialized in its
      * declaration, regardless of the value of this variable.
      */
     private final boolean addInitPreds;
@@ -250,7 +250,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * </p>
      *
      * @param aut The automaton for which to return the unique location pointer variable.
-     * @return The unique location pointer variable.
+     * @return The unique location pointer variable, or {@code null}.
      */
     private DiscVariable getLocPointerVar(Automaton aut) {
         if (aut.getLocations().size() == 1) {
@@ -298,7 +298,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * </p>
      *
      * @param aut The automaton for which to return the unique enumeration.
-     * @return The unique enumeration.
+     * @return The unique enumeration, or {@code null}.
      */
     private EnumDecl getLocPointerEnum(Automaton aut) {
         if (aut.getLocations().size() == 1) {
@@ -356,7 +356,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             Automaton aut = (Automaton)loc.eContainer();
 
             if (aut.getLocations().size() != 1) {
-                // Only add automata with at least two locations, as for automata with exactly one location, no locaiton
+                // Only add automata with at least two locations, as for automata with exactly one location, no location
                 // pointer is created.
                 autToVarMap.put(aut, null);
             }
@@ -365,7 +365,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             Location loc = locRef.getLocation();
 
             // Replace.
-            Expression pred = createEquality(loc);
+            Expression pred = createLocRef(loc);
             EMFHelper.updateParentContainment(locRef, pred);
         }
     }
@@ -603,25 +603,15 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         return pred;
     }
 
-    /**
-     * Creates an expression for the given location. If there are multiple locations, this is a '{@code var = lit}'
-     * binary expression. If there is exactly one location, this is a '{@code true}' boolean expression.
-     *
-     * <p>
-     * This method is exposed in the public API to allow using it also after the transformation has finished, to create
-     * additional references to locations, using proper expressions.
-     * </p>
-     *
-     * @param loc The location.
-     * @return The newly created '{@code var = lit}' expression or '{@code true}' expression.
-     */
-    public Expression createEquality(Location loc) {
-        // Get automaton, variable, and enumeration.
+    @Override
+    public Expression createLocRef(Location loc) {
+        // For automata with exactly one location, the automaton is always in that location, create true expression.
         Automaton aut = (Automaton)loc.eContainer();
         if (aut.getLocations().size() == 1) {
             return CifValueUtils.makeTrue();
         }
 
+        // For automata with multiple locations, get the location pointer variable and create an equality expression.
         DiscVariable var = getLocPointerVar(aut);
         EnumDecl enumDecl = getLocPointerEnum(aut);
 
@@ -633,20 +623,17 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     }
 
     @Override
-    public Expression createLocRef(Location loc) {
-        return createEquality(loc);
-    }
-
-    @Override
     public Update createLocUpdate(Location loc) {
-        // Get automaton and location pointer variable.
+        // For automata with exactly one location, no location pointer updates have to be created, since there is no
+        // location pointer.
         Automaton aut = (Automaton)loc.eContainer();
-        DiscVariable var = getLocPointerVar(aut);
-        EnumDecl enumDecl = getLocPointerEnum(aut);
-        if (var == null) {
-            // If there is no location pointer, it can't be updated.
+        if (aut.getLocations().size() == 1) {
             return null;
         }
+
+        // For automata with multiple locations, get the location pointer variable and create update.
+        DiscVariable var = getLocPointerVar(aut);
+        EnumDecl enumDecl = getLocPointerEnum(aut);
 
         // Create variable reference.
         DiscVariableExpression varRef = newDiscVariableExpression();

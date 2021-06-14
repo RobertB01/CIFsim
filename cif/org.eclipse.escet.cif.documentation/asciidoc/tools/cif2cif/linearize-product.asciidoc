@@ -197,8 +197,6 @@ is transformed to the following specification:
 ----
 event e;
 
-enum E = X;
-
 automaton M:
   alphabet e;
 

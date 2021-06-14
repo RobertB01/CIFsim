@@ -188,8 +188,6 @@ is transformed to the following specification:
 
 [source, cif]
 ----
-enum E = X;
-
 automaton M:
   alphabet p_e;
 
@@ -235,8 +233,6 @@ is transformed to the following specification:
 
 [source, cif]
 ----
-enum E = X;
-
 automaton M:
   alphabet p_e;
   event p_e;

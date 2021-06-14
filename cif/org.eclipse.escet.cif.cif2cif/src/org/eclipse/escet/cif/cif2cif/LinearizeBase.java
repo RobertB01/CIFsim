@@ -580,7 +580,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                     CifInvariantUtils.makeSupKindExplicit(inv);
 
                     // Modify 'loc' to 'loc => inv'.
-                    Expression lexpr = lpIntroducer.createEquality(loc);
+                    Expression lexpr = lpIntroducer.createLocRef(loc);
 
                     BinaryExpression bexpr = newBinaryExpression();
                     bexpr.setOperator(BinaryOperator.IMPLICATION);
@@ -610,7 +610,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 // Add 'loc and init'.
                 Expression init = loc.getInitials().isEmpty() ? makeFalse() : createConjunction(loc.getInitials());
 
-                Expression lexpr = lpIntroducer.createEquality(loc);
+                Expression lexpr = lpIntroducer.createLocRef(loc);
                 inits.add(createConjunction(list(lexpr, init)));
             }
 
@@ -631,7 +631,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 // Add 'loc and marker'.
                 Expression marker = loc.getMarkeds().isEmpty() ? makeFalse() : createConjunction(loc.getMarkeds());
 
-                Expression lexpr = lpIntroducer.createEquality(loc);
+                Expression lexpr = lpIntroducer.createLocRef(loc);
                 markers.add(createConjunction(list(lexpr, marker)));
             }
 
@@ -674,7 +674,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
                     // Combine guards, and add location pointer guard.
                     Expression newGuard = createConjunction(
-                            concat(lpIntroducer.createEquality(loc), deepclone(edge.getGuards())));
+                            concat(lpIntroducer.createLocRef(loc), deepclone(edge.getGuards())));
 
                     // Copy updates (to preserve them in case of multiple
                     // events on the edge). Location pointer update should
@@ -904,14 +904,14 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 // Add condition for urgent locations.
                 if (loc.isUrgent()) {
                     // Add 'lp = loc'.
-                    guards.add(lpIntroducer.createEquality(loc));
+                    guards.add(lpIntroducer.createLocRef(loc));
                 }
 
                 for (Edge edge: loc.getEdges()) {
                     // Add condition for urgent edges.
                     if (edge.isUrgent()) {
                         // Add 'lp = loc and guard1 and guard2 and ...'
-                        Expression lexpr = lpIntroducer.createEquality(loc);
+                        Expression lexpr = lpIntroducer.createLocRef(loc);
                         List<Expression> eguards = deepclone(edge.getGuards());
                         guards.add(createConjunction(concat(lexpr, eguards)));
                     }
