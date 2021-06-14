@@ -123,7 +123,7 @@ public class CifCompilerContext {
     public static final String DER_MTHD_PREFIX = "d";
 
     /** Prefix for classes for enumeration declarations. */
-    public static final String ENUM_DECL_CLS_PREFIX = "E_";
+    public static final String ENUM_DECL_CLS_PREFIX = "E";
 
     /** Prefix for values for enumeration literals. */
     public static final String ENUM_LIT_VALUE_PREFIX = "elit";

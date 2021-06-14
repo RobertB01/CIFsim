@@ -672,7 +672,7 @@ public class RuntimeLiteralReader {
         } catch (InputOutputException ex) {
             // Currently literal resource reading is only used internally, so
             // we expect no exceptions here.
-            String name = RuntimeEnumUtils.getCifName(enumClass);
+            String name = RuntimeEnumUtils.getEnumCifName(enumClass);
             String msg = fmt("Failed to read literal of type \"%s\".", name);
             throw new RuntimeException(msg, ex);
         }
@@ -693,7 +693,7 @@ public class RuntimeLiteralReader {
                 return readEnumLiteral(stream, enumClass);
             }
         } catch (InputOutputException ex) {
-            String name = RuntimeEnumUtils.getCifName(enumClass);
+            String name = RuntimeEnumUtils.getEnumCifName(enumClass);
             String msg = fmt("Failed to read literal of type \"%s\".", name);
             throw new InputOutputException(msg, ex);
         }
@@ -713,7 +713,7 @@ public class RuntimeLiteralReader {
         try {
             return readEnumLiteralInternal(stream, enumClass);
         } catch (InputOutputException ex) {
-            String name = RuntimeEnumUtils.getCifName(enumClass);
+            String name = RuntimeEnumUtils.getEnumCifName(enumClass);
             String msg = fmt("Failed to read literal of type \"%s\".", name);
             throw new InputOutputException(msg, ex);
         }

@@ -29,22 +29,22 @@ public class RuntimeEnumUtils {
      * @param enumClass The enumeration Java class.
      * @return The absolute name of the CIF enumeration declaration, with keyword escaping.
      */
-    public static String getCifName(Class<? extends Enum<?>> enumClass) {
-        // Get 'getCifName' method of runtime enumeration Java class.
+    public static String getEnumCifName(Class<? extends Enum<?>> enumClass) {
+        // Get 'getEnumCifName' method of runtime enumeration Java class.
         Method method;
         try {
-            method = enumClass.getMethod("getCifName");
+            method = enumClass.getMethod("getEnumCifName");
         } catch (NoSuchMethodException | SecurityException e) {
-            String msg = "Failed to get 'getCifName' method: " + enumClass;
+            String msg = "Failed to get 'getEnumCifName' method: " + enumClass;
             throw new RuntimeException(msg, e);
         }
 
-        // Invoke 'getCifName' method.
+        // Invoke 'getEnumCifName' method.
         String name;
         try {
             name = (String)method.invoke(null);
         } catch (Throwable e) {
-            String msg = "Failed to invoke 'getCifName' method: " + enumClass;
+            String msg = "Failed to invoke 'getEnumCifName' method: " + enumClass;
             throw new RuntimeException(msg, e);
         }
 

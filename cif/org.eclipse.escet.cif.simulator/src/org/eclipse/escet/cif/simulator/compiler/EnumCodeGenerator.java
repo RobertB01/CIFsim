@@ -95,9 +95,9 @@ public class EnumCodeGenerator {
             }
             c.add("%s(\"%s\");", ctxt.getEnumValueName(last(lits)), last(lits).getName());
 
-            // Add 'getCifName' method.
+            // Add 'getEnumCifName' method.
             c.add();
-            c.add("public static String getCifName() {");
+            c.add("public static String getEnumCifName() {");
             c.indent();
             c.add("return %s;", Strings.stringToJava(absName));
             c.dedent();
