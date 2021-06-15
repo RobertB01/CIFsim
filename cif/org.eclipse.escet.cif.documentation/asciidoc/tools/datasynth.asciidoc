@@ -415,6 +415,7 @@ The contents is the controlled system.
 The controlled system is obtained by taking the input specification, and modifying it.
 The requirement automata are changed to supervisor automata.
 Some or all of the requirement invariants may be <<tools-cif2cif-chapter-remove-reqs,removed>>, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
+The remaining requirement invariants are changed to supervisor invariants.
 An additional external supervisor automaton is added.
 Also, depending on the simplifications that are applied, the requirement automata may serve as <<tut-data-chapter-monitoring,monitors>> or _observers_ for the external supervisor, or may actually impose the requirement restrictions.
 An external supervisor is a `supervisor` automaton that adds restrictions to the uncontrolled system (the plants), and potentially the requirement automata, depending on the simplifications that are applied.

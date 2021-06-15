@@ -6,7 +6,7 @@ plant automaton p3:
     marked;
     edge e3a goto loc2;
   location loc2:
-    requirement invariant x > 3;
+    supervisor invariant x > 3;
     edge e3a goto loc1;
 end
 supervisor automaton sup:
@@ -17,4 +17,4 @@ supervisor automaton sup:
     marked;
     edge e3a when not(p3.x = 2 or p3.x = 3);
 end
-requirement invariant p3.loc1 => p3.x > 2;
+supervisor invariant p3.loc1 => p3.x > 2;
