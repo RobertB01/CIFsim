@@ -1,0 +1,51 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+////////////////////////////////////////////////////////////////////////////////
+
+tool int make_rr(list string args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.common.raildiagrams", "org.eclipse.escet.common.raildiagrams.RailRoadDiagramApplication",
+               args, stdin, stdout, stderr, appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+string root_dir = replace(dirname(scriptpath()), "\\", "/");
+list string files = find(root_dir, "*.rr", recursive=false, dirs=false);
+
+for f in files:
+    f = replace(f, "\\", "/");
+    outln(f);
+    list string opts = ["--devmode=yes", "--option-dialog=no",
+                        "--write-image=yes", "--output-mode=normal",
+                       ];
+
+    string png_file = chfileext(f, "rr", "png");
+    string props_file = chfileext(f, "rr", "props");
+
+    if exists(props_file):
+        opts = opts + ["--config=" + root_dir + "/" + props_file];
+    end
+
+    rmfile(png_file, force=true);
+    list string options = opts + [f];
+    make_rr(options, stdin="", ignoreNonZeroExitCode=true);
+
+    bool has_png = filesize(png_file, missingAsZero=true) > 0;
+
+    if has_png:
+    	out("  ok:");
+    else
+    	out("              FAIL:");
+    end
+
+    if has_png:: out(" png");
+    outln(); // Terminate above list.
+    outln(); // Empty line to separate from next file.
+end

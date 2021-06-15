@@ -52,9 +52,23 @@ SPDX-License-Identifier: MIT
 
         <!-- Eclipse Common Build Infrastructure version. -->
         <eclipse.cbi.version>1.3.1</eclipse.cbi.version>
+
+        <!-- Eclipse Dash license tool. -->
+        <eclipse.dash.license.tool.version>0.0.1-SNAPSHOT</eclipse.dash.license.tool.version>
     </properties>
 
     <pluginRepositories>
+        <!-- Dash license plugin. -->
+        <!-- Given that this contains snapshots, this must be first. Looking for snapshots on release repos will give an 
+            error, regardless of whether the plugin is present there or not. -->
+        <pluginRepository>
+            <id>dash-licenses-snapshots</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+
         <!-- Eclipse CBI releases. For CBI signing plugins. -->
         <pluginRepository>
             <id>eclipse.cbi</id>
@@ -68,7 +82,6 @@ SPDX-License-Identifier: MIT
         </pluginRepository>
     </pluginRepositories>
 
-    <!-- Configure Maven/Tycho plugins/versions, and enable them. -->
     <build>
         <plugins>
             <!-- Enable Tycho. -->
@@ -211,9 +224,9 @@ SPDX-License-Identifier: MIT
             </plugin>
         </plugins>
 
-        <!-- Documentation generation configuration. -->
         <pluginManagement>
             <plugins>
+                <!-- AsciiDoctor documentation generation configuration. -->
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
                     <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -256,10 +269,24 @@ SPDX-License-Identifier: MIT
                     </configuration>
                 </plugin>
 
+                <!-- Eclipse help documentation Table Of Contents (TOC) generation configuration. -->
                 <plugin>
                     <groupId>com.bsiag.geneclipsetoc</groupId>
                     <artifactId>geneclipsetoc-maven-plugin</artifactId>
                     <version>${geneclipsetoc.version}</version>
+                </plugin>
+
+                <!-- Eclipse Dash, license check, configuration. -->
+                <!-- Plugin executed manually, not during Maven build. -->
+                <!-- Can't integrate into Maven build yet, as won't fail. -->
+                <!-- See https://github.com/eclipse/dash-licenses/issues/70 -->
+                <plugin>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>${eclipse.dash.license.tool.version}</version>
+                    <configuration>
+                        <projectId>technology.escet</projectId>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -10,7 +10,7 @@
 # SPDX-License-Identifier: MIT
 ################################################################################
 #
-# Makefile for creating the reference manual rail road images
+# Makefile for creating the reference manual railroad images
 #
 LATEX=latex
 DVIPS=dvips

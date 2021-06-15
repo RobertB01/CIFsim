@@ -1,0 +1,91 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+@scanner org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramScanner;
+
+@terminals:
+    SEMI          = ";";
+    COLON         = ":";
+    STAR          = "\*";
+    PLUS          = "\+";
+    PIPE          = "\|";
+    QUEST         = "\?";
+    BSLASH_BSLASH = "\\\\";
+    PAROPEN       = "\(";
+    PARCLOSE      = "\)";
+end
+
+@terminals:
+    IDENTIFIER = "[\-A-Za-z0-9_]+" [a name];
+
+    DQUOTE_STRING = "\"([^\\\"\n]|\\[\\\"])*\"" {dropOuter} [a double quoted string];
+    SQUOTE_STRING = "'([^\\'\n]|\\[\\'])*\'" {dropOuter} [a single quoted string];
+    BR_STRING = "\[([^\\\]\n]|\\[\\\]])*\]" [a bracketed label];
+
+    // Comments.
+    "#.*";
+
+    // Whitespace and EOF.
+    "[ \t\r\n]+";
+    @eof;
+end
+
+@import org.eclipse.escet.common.raildiagrams.railroad as rr;
+@import java.util.Optional;
+@import java.util.List;
+
+@main specification: org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
+@hooks org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramHooks;
+
+
+{List<rr.RailRule>}
+specification : rule SEMI
+              | specification rule SEMI
+              ;
+
+{rr.RailRule}
+rule : body1
+     | @IDENTIFIER COLON body1
+     ;
+
+{List<rr.DiagramElement>}
+body1: body2
+     | @BR_STRING body2
+     | body1 PIPE body2
+     | body1 PIPE @BR_STRING body2
+     ;
+
+{rr.DiagramElement}
+body2: body3
+     | body3 STAR body5
+     | body3 PLUS body5
+     ;
+
+{List<Optional<rr.DiagramElement>>}
+body3: body4
+     | body3 body4
+     ;
+
+{Optional<rr.DiagramElement>}
+body4: body5
+     | body5 QUEST
+     ;
+
+{Optional<rr.DiagramElement>}
+body5: @SQUOTE_STRING
+     | @DQUOTE_STRING
+     | PAROPEN body1 PARCLOSE
+     | BSLASH_BSLASH
+     | PAROPEN PARCLOSE
+     | @IDENTIFIER
+     ;

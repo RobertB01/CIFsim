@@ -777,6 +777,24 @@ public abstract class Application<T extends IOutputComponent> {
     }
 
     /**
+     * Returns a text with issue reporting instructions, for crash reports.
+     *
+     * <p>
+     * The default implementation is specific for Eclipse ESCET. Applications may override this method to provide
+     * instructions matching their own application.
+     * </p>
+     *
+     * @return The text with issue reporting instructions.
+     */
+    public String getCrashReportIssueReportingInstructions() {
+        return "Issues can be reported using the Eclipse ESCET issue tracker, at "
+                + "https://gitlab.eclipse.org/eclipse/escet/escet/-/issues. For more information, see "
+                + "https://eclipse.org/escet/escet/#developer-issue-tracking-chapter-index. This crash report "
+                + "contains valuable information that you can include in your bug report, to make it easier for the "
+                + "bug to be fixed. We appreciate you taking the effort to report issues to us!";
+    }
+
+    /**
      * Returns the option category with the default options that apply to all application that use the application
      * framework. Derived classes should invoke this method in the {@link #getAllOptions} method, to obtain the general
      * option category.

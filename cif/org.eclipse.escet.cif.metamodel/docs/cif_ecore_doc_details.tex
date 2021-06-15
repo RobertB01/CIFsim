@@ -3528,8 +3528,8 @@ escaped) may be used in such cases.
 \begin{constraints}
 \citem{SwitchCase.keyType}
   If the `key' is specified, and if the `value' of the switch expression does
-  not refer to an automaton, the type of the `key' expression must be contained
-  in the type of that `value'.
+  not refer to an automaton, the type of the `key' expression and the type of
+  that `value' must be type compatible (ignoring ranges).
 \citem{SwitchCase.keyLocRef}
   If the `key' is specified, and if the `value' of the switch expression refers
   to an automaton, the `key' must be a reference to a location of that
