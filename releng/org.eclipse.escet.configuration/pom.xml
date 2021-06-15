@@ -20,14 +20,15 @@ SPDX-License-Identifier: MIT
     <packaging>pom</packaging>
 
     <properties>
-        <!-- Release version. -->
-        <!-- By default all builds are 'dev' builds. Jenkinsfile overrides for actual releases. -->
-        <releaseVersion>dev</releaseVersion>
+        <!-- The end-user readable version number. -->
+        <!-- The default is 'dev'. Jenkinsfile overrides this for releases only, to e.g. v0.1, v0.1-M1, v0.1-RC1. -->
+        <escet.version.enduser>dev</escet.version.enduser>
 
-        <!-- Format to use for bundle qualifiers. -->
-        <!-- Git only supplies seconds resolution, so no milliseconds in format. -->
-        <!-- String compare is used for this type of qualifier format. -->
-        <maven.build.timestamp.format>yyyyMMdd'-'HHmmss</maven.build.timestamp.format>
+        <!-- The version qualifier to use for all plugins/features/etc. -->
+        <!-- Remains 'dev' for non-Jenkins builds. Jenkinsfile overrides the qualifier to e.g., -->
+        <!-- 'v20210609-141908-dev' for development builds, 'v20210609-141908-M1' for milestone releases, -->
+        <!-- 'v20210609-141908-RC1' for release candidates, and 'v20210609-141908' for final releases. -->
+        <escet.version.qualifier>dev</escet.version.qualifier>
 
         <!-- Ensure platform independent build by fixing encoding. Prevents warnings. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -106,36 +107,9 @@ SPDX-License-Identifier: MIT
                 <artifactId>tycho-packaging-plugin</artifactId>
                 <version>${tycho.version}</version>
 
-                <!-- When packaging bundles, derive qualifiers from Git timestamps. -->
-                <dependencies>
-                    <dependency>
-                        <groupId>org.eclipse.tycho.extras</groupId>
-                        <artifactId>tycho-buildtimestamp-jgit</artifactId>
-                        <version>${tycho.extras.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.eclipse.jgit</groupId>
-                        <artifactId>org.eclipse.jgit</artifactId>
-                        <version>[4.3.0,)</version>
-                    </dependency>
-                </dependencies>
-
                 <configuration>
-                    <!-- Qualifier replacement format to use. -->
-                    <format>${maven.build.timestamp.format}</format>
-
-                    <!-- Derive qualifier from Git timestamps. -->
-                    <!-- Based on timestamps of last commits for files in the bundle. -->
-                    <!-- Requires that all generated code/documentation etc is committed (warnings enabled below). -->
-                    <!-- Requires that only files from the bundle itself are used/packaged (not checked by build). -->
-                    <!-- If requirements violated, version may not be increased while contents are changed! -->
-                    <!-- However, the Git last change date of dependencies (recursively) are taken into account. -->
-                    <!-- So only new files generated during the build, and taken from other bundles, cause issues. -->
-                    <timestampProvider>jgit</timestampProvider>
-
-                    <!-- Warn if dirty Git working tree, with local changes. -->
-                    <!-- In such cases, timestamps not up-to-date for local code changes. -->
-                    <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
+                    <!-- Use property-based fixed qualifier for all plugins/features/etc. -->
+                    <forceContextQualifier>${escet.version.qualifier}</forceContextQualifier>
 
                     <!-- Disable Maven descriptors in JAR bundles. -->
                     <archive>
@@ -289,7 +263,7 @@ SPDX-License-Identifier: MIT
                             <attribute-missing>error</attribute-missing>
                             <attribute-undefined>error</attribute-undefined>
                             <asciimath />
-                            <revnumber>${qualifiedVersion}</revnumber>
+                            <revnumber>${escet.version.enduser}</revnumber>
                             <last-update-label>false</last-update-label>
                         </attributes>
                     </configuration>
