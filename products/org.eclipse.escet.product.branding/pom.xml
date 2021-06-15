@@ -25,16 +25,50 @@
     <packaging>eclipse-plugin</packaging>
 
     <build>
-        <resources>
-            <resource>
-                <directory>${basedir}</directory>
-                <includes>
-                    <include>about.properties</include>
-                    <include>plugin.properties</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+        <plugins>
+            <!-- Replace versions. -->
+            <plugin>
+                <groupId>com.google.code.maven-replacer-plugin</groupId>
+                <artifactId>replacer</artifactId>
+                <version>1.5.3</version>
+                <executions>
+                    <execution>
+                        <id>replace-versions</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>replace</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <basedir>${project.basedir}</basedir>
+                    <outputDir>target/files-with-replacements/</outputDir>
+                    <includes>
+                        <include>about.properties</include>
+                        <include>plugin.properties</include>
+                    </includes>
+                    <token>Version: dev</token>
+                    <value>Version: ${escet.version.enduser}</value>
+                </configuration>
+            </plugin>
+
+            <!-- Include files with replacements. -->
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-packaging-plugin</artifactId>
+                <configuration>
+                    <additionalFileSets>
+                        <fileSet>
+                            <directory>${project.build.directory}/files-with-replacements/</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                        </fileSet>
+                    </additionalFileSets>
+                </configuration>
+            </plugin>
+
+        </plugins>
     </build>
 
 </project>
