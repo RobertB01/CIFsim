@@ -559,6 +559,8 @@ public class CifCompilerContext {
      * @return The generated name of the enumeration constant.
      */
     public String getEnumConstName(EnumLiteral enumLit) {
+        // We generate a name that is locally unique within the enumeration class. All references to the enumeration
+        // constant should be prefixed with the enumeration class name.
         return ENUM_LIT_CONST_PREFIX + "_" + enumLit.getName();
     }
 
