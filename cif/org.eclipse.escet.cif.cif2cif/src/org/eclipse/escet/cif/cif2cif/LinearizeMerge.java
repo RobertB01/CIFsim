@@ -457,7 +457,7 @@ public class LinearizeMerge extends LinearizeBase {
      * if-update this is a variable updated by the first 'then'.
      *
      * @param update The update to retrieve a variable from.
-     * @return An expression that references (a part of) a variable".
+     * @return An expression that references (a part of) a variable.
      */
     private Expression getUpdatedVarRefExpr(Update update) {
         if (update instanceof Assignment) {

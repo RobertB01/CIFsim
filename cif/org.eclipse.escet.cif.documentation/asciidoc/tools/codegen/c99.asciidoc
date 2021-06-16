@@ -317,7 +317,6 @@ The following conversion table applies:
 | `+enum e = ...+`
 | `E` (Due to linearization, all enumerations are merged together to a single enumeration.
 As such, always at most one `enum` is generated for a CIF model.)
-=======
 
 | `real`
 | `R`

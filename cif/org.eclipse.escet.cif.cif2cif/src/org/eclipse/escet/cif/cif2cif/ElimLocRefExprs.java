@@ -603,6 +603,17 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         return pred;
     }
 
+    /**
+     * Creates an expression for the given location. If there are multiple locations, this is a '{@code var = lit}'
+     * binary expression. If there is exactly one location, this is a '{@code true}' boolean expression.
+     *
+     * <p>
+     * This method is exposed in the public API to allow using it also after the transformation has finished, to create
+     * additional references to locations, using proper expressions.
+     * </p>
+     *
+     * @return The newly created '{@code var = lit}' expression or '{@code true}' expression.
+     */
     @Override
     public Expression createLocRef(Location loc) {
         // For automata with exactly one location, the automaton is always in that location, create true expression.
