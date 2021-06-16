@@ -1,6 +1,5 @@
 TYPE STATE:
     STRUCT
         curTime: LREAL;
-        dvar_M_p AT %Q*: enum_E;
     END_STRUCT;
 END_TYPE

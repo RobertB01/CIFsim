@@ -685,7 +685,6 @@ const char *enum_names[] = {
     "loc1",
     "loc2",
     "loc3",
-    "X",
 };
 
 /* Constants. */
@@ -700,41 +699,33 @@ IntType aut14_i_;  /**< Input variable "int aut14.i". */
 RealType aut14_r_; /**< Input variable "real aut14.r". */
 
 /* State variables. */
-edgesEnum aut01_;            /**< Discrete variable "E aut01". */
 IntType aut02_x_;            /**< Discrete variable "int[0..3] aut02.x". */
 edgesEnum aut02_;            /**< Discrete variable "E aut02". */
 RealType aut03_c_;           /**< Continuous variable "real aut03.c". */
 IntType aut03_d_;            /**< Discrete variable "int aut03.d". */
-edgesEnum aut03_;            /**< Discrete variable "E aut03". */
 IntType aut04_a_;            /**< Discrete variable "int aut04.a". */
 IntType aut04_b_;            /**< Discrete variable "int aut04.b". */
 IntType aut04_c_;            /**< Discrete variable "int aut04.c". */
 IntType aut04_d_;            /**< Discrete variable "int aut04.d". */
-edgesEnum aut04_;            /**< Discrete variable "E aut04". */
 A5IType aut05_v1_;           /**< Discrete variable "list[5] int aut05.v1". */
 A5IType aut05_v2_;           /**< Discrete variable "list[5] int aut05.v2". */
-edgesEnum aut05_;            /**< Discrete variable "E aut05". */
 T2IIType aut06_v1_;          /**< Discrete variable "tuple(int a; int b) aut06.v1". */
 T2IIType aut06_v2_;          /**< Discrete variable "tuple(int a; int b) aut06.v2". */
 IntType aut06_x_;            /**< Discrete variable "int aut06.x". */
 IntType aut06_y_;            /**< Discrete variable "int aut06.y". */
-edgesEnum aut06_;            /**< Discrete variable "E aut06". */
 RealType aut07_x_;           /**< Continuous variable "real aut07.x". */
 RealType aut07_y_;           /**< Continuous variable "real aut07.y". */
-edgesEnum aut07_;            /**< Discrete variable "E aut07". */
 T2T2IISType aut08_tt1_;      /**< Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt1". */
 T2T2IISType aut08_tt2_;      /**< Discrete variable "tuple(tuple(int a; int b) t; string c) aut08.tt2". */
 T2IIType aut08_t_;           /**< Discrete variable "tuple(int a; int b) aut08.t". */
 IntType aut08_i_;            /**< Discrete variable "int aut08.i". */
 IntType aut08_j_;            /**< Discrete variable "int aut08.j". */
 StringType aut08_s_;         /**< Discrete variable "string aut08.s". */
-edgesEnum aut08_;            /**< Discrete variable "E aut08". */
 A2A3IType aut09_ll1_;        /**< Discrete variable "list[2] list[3] int aut09.ll1". */
 A2A3IType aut09_ll2_;        /**< Discrete variable "list[2] list[3] int aut09.ll2". */
 A3IType aut09_l_;            /**< Discrete variable "list[3] int aut09.l". */
 IntType aut09_i_;            /**< Discrete variable "int aut09.i". */
 IntType aut09_j_;            /**< Discrete variable "int aut09.j". */
-edgesEnum aut09_;            /**< Discrete variable "E aut09". */
 T2SA2T2A1IA1RType aut10_x1_; /**< Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x1". */
 T2SA2T2A1IA1RType aut10_x2_; /**< Discrete variable "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z) aut10.x2". */
 A2T2A1IA1RType aut10_l_;     /**< Discrete variable "list[2] tuple(list[1] int x; list[1] real y) aut10.l". */
@@ -742,21 +733,16 @@ A1IType aut10_li_;           /**< Discrete variable "list[1] int aut10.li". */
 A1RType aut10_lr_;           /**< Discrete variable "list[1] real aut10.lr". */
 IntType aut10_i_;            /**< Discrete variable "int aut10.i". */
 RealType aut10_r_;           /**< Discrete variable "real aut10.r". */
-edgesEnum aut10_;            /**< Discrete variable "E aut10". */
 A3T2IIType aut11_v1_;        /**< Discrete variable "list[3] tuple(int a; int b) aut11.v1". */
-edgesEnum aut11_;            /**< Discrete variable "E aut11". */
 RealType aut12_x_;           /**< Discrete variable "real aut12.x". */
 RealType aut12_y_;           /**< Discrete variable "real aut12.y". */
 RealType aut12_z_;           /**< Discrete variable "real aut12.z". */
 RealType aut12_td_;          /**< Discrete variable "real aut12.td". */
 RealType aut12_t_;           /**< Continuous variable "real aut12.t". */
 RealType aut12_u_;           /**< Continuous variable "real aut12.u". */
-edgesEnum aut12_;            /**< Discrete variable "E aut12". */
 RealType aut13_x_;           /**< Discrete variable "real aut13.x". */
 RealType aut13_y_;           /**< Discrete variable "real aut13.y". */
 RealType aut13_z_;           /**< Discrete variable "real aut13.z". */
-edgesEnum aut13_;            /**< Discrete variable "E aut13". */
-edgesEnum aut14_;            /**< Discrete variable "E aut14". */
 
 RealType model_time; /**< Current model time. */
 
@@ -833,9 +819,6 @@ static BoolType execEvent1(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent2(void) {
-    BoolType guard = (aut03_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e03a_, TRUE);
     #endif
@@ -854,9 +837,6 @@ static BoolType execEvent2(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent3(void) {
-    BoolType guard = (aut03_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e03b_, TRUE);
     #endif
@@ -875,9 +855,6 @@ static BoolType execEvent3(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent4(void) {
-    BoolType guard = (aut04_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e04a_, TRUE);
     #endif
@@ -898,9 +875,6 @@ static BoolType execEvent4(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent5(void) {
-    BoolType guard = (aut04_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e04b_, TRUE);
     #endif
@@ -923,9 +897,6 @@ static BoolType execEvent5(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent6(void) {
-    BoolType guard = (aut04_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e04c_, TRUE);
     #endif
@@ -950,9 +921,6 @@ static BoolType execEvent6(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent7(void) {
-    BoolType guard = (aut04_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e04d_, TRUE);
     #endif
@@ -979,9 +947,6 @@ static BoolType execEvent7(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent8(void) {
-    BoolType guard = (aut04_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e04e_, TRUE);
     #endif
@@ -1004,9 +969,6 @@ static BoolType execEvent8(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent9(void) {
-    BoolType guard = (aut04_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e04f_, TRUE);
     #endif
@@ -1034,9 +996,6 @@ static BoolType execEvent9(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent10(void) {
-    BoolType guard = (aut05_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e05a_, TRUE);
     #endif
@@ -1064,9 +1023,6 @@ static BoolType execEvent10(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent11(void) {
-    BoolType guard = (aut05_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e05b_, TRUE);
     #endif
@@ -1094,9 +1050,6 @@ static BoolType execEvent11(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent12(void) {
-    BoolType guard = (aut05_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e05c_, TRUE);
     #endif
@@ -1115,9 +1068,6 @@ static BoolType execEvent12(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent13(void) {
-    BoolType guard = (aut05_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e05d_, TRUE);
     #endif
@@ -1145,9 +1095,6 @@ static BoolType execEvent13(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent14(void) {
-    BoolType guard = (aut05_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e05e_, TRUE);
     #endif
@@ -1175,9 +1122,6 @@ static BoolType execEvent14(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent15(void) {
-    BoolType guard = (aut06_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e06a_, TRUE);
     #endif
@@ -1197,9 +1141,6 @@ static BoolType execEvent15(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent16(void) {
-    BoolType guard = (aut06_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e06b_, TRUE);
     #endif
@@ -1221,9 +1162,6 @@ static BoolType execEvent16(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent17(void) {
-    BoolType guard = (aut06_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e06c_, TRUE);
     #endif
@@ -1246,9 +1184,6 @@ static BoolType execEvent17(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent18(void) {
-    BoolType guard = (aut06_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e06d_, TRUE);
     #endif
@@ -1268,9 +1203,6 @@ static BoolType execEvent18(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent19(void) {
-    BoolType guard = (aut06_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e06e_, TRUE);
     #endif
@@ -1289,9 +1221,6 @@ static BoolType execEvent19(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent20(void) {
-    BoolType guard = (aut07_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e07a_, TRUE);
     #endif
@@ -1310,9 +1239,6 @@ static BoolType execEvent20(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent21(void) {
-    BoolType guard = (aut07_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e07b_, TRUE);
     #endif
@@ -1332,9 +1258,6 @@ static BoolType execEvent21(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent22(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08a_, TRUE);
     #endif
@@ -1355,9 +1278,6 @@ static BoolType execEvent22(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent23(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08b_, TRUE);
     #endif
@@ -1376,9 +1296,6 @@ static BoolType execEvent23(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent24(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08c_, TRUE);
     #endif
@@ -1400,9 +1317,6 @@ static BoolType execEvent24(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent25(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08d_, TRUE);
     #endif
@@ -1426,9 +1340,6 @@ static BoolType execEvent25(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent26(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08e_, TRUE);
     #endif
@@ -1452,9 +1363,6 @@ static BoolType execEvent26(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent27(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08f_, TRUE);
     #endif
@@ -1478,9 +1386,6 @@ static BoolType execEvent27(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent28(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08g_, TRUE);
     #endif
@@ -1503,9 +1408,6 @@ static BoolType execEvent28(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent29(void) {
-    BoolType guard = (aut08_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e08h_, TRUE);
     #endif
@@ -1529,9 +1431,6 @@ static BoolType execEvent29(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent30(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09a_, TRUE);
     #endif
@@ -1555,9 +1454,6 @@ static BoolType execEvent30(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent31(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09b_, TRUE);
     #endif
@@ -1576,9 +1472,6 @@ static BoolType execEvent31(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent32(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09c_, TRUE);
     #endif
@@ -1601,9 +1494,6 @@ static BoolType execEvent32(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent33(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09d_, TRUE);
     #endif
@@ -1629,9 +1519,6 @@ static BoolType execEvent33(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent34(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09e_, TRUE);
     #endif
@@ -1650,9 +1537,6 @@ static BoolType execEvent34(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent35(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09f_, TRUE);
     #endif
@@ -1671,9 +1555,6 @@ static BoolType execEvent35(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent36(void) {
-    BoolType guard = (aut09_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e09g_, TRUE);
     #endif
@@ -1697,9 +1578,6 @@ static BoolType execEvent36(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent37(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10a_, TRUE);
     #endif
@@ -1718,9 +1596,6 @@ static BoolType execEvent37(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent38(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10b_, TRUE);
     #endif
@@ -1743,9 +1618,6 @@ static BoolType execEvent38(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent39(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10c_, TRUE);
     #endif
@@ -1778,9 +1650,6 @@ static BoolType execEvent39(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent40(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10d_, TRUE);
     #endif
@@ -1808,9 +1677,6 @@ static BoolType execEvent40(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent41(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10e_, TRUE);
     #endif
@@ -1840,9 +1706,6 @@ static BoolType execEvent41(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent42(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10f_, TRUE);
     #endif
@@ -1861,9 +1724,6 @@ static BoolType execEvent42(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent43(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10g_, TRUE);
     #endif
@@ -1882,9 +1742,6 @@ static BoolType execEvent43(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent44(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10h_, TRUE);
     #endif
@@ -1903,9 +1760,6 @@ static BoolType execEvent44(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent45(void) {
-    BoolType guard = (aut10_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e10i_, TRUE);
     #endif
@@ -1925,9 +1779,6 @@ static BoolType execEvent45(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent46(void) {
-    BoolType guard = (aut11_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e11a_, TRUE);
     #endif
@@ -1971,9 +1822,6 @@ static BoolType execEvent46(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent47(void) {
-    BoolType guard = (aut12_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e12a_, TRUE);
     #endif
@@ -1994,9 +1842,6 @@ static BoolType execEvent47(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent48(void) {
-    BoolType guard = (aut12_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e12b_, TRUE);
     #endif
@@ -2019,9 +1864,6 @@ static BoolType execEvent48(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent49(void) {
-    BoolType guard = (aut12_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e12c_, TRUE);
     #endif
@@ -2045,9 +1887,6 @@ static BoolType execEvent49(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent50(void) {
-    BoolType guard = (aut12_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e12d_, TRUE);
     #endif
@@ -2070,9 +1909,6 @@ static BoolType execEvent50(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent51(void) {
-    BoolType guard = (aut12_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e12e_, TRUE);
     #endif
@@ -2093,9 +1929,6 @@ static BoolType execEvent51(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent52(void) {
-    BoolType guard = (aut13_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e13a_, TRUE);
     #endif
@@ -2114,9 +1947,6 @@ static BoolType execEvent52(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent53(void) {
-    BoolType guard = (aut13_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e13b_, TRUE);
     #endif
@@ -2139,9 +1969,6 @@ static BoolType execEvent53(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent54(void) {
-    BoolType guard = (aut13_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e13c_, TRUE);
     #endif
@@ -2164,9 +1991,6 @@ static BoolType execEvent54(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent55(void) {
-    BoolType guard = (aut13_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e13d_, TRUE);
     #endif
@@ -2191,9 +2015,6 @@ static BoolType execEvent55(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent56(void) {
-    BoolType guard = (aut13_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(e13e_, TRUE);
     #endif
@@ -2216,7 +2037,7 @@ static BoolType execEvent56(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent57(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && (aut14_b_);
+    BoolType guard = aut14_b_;
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2235,7 +2056,7 @@ static BoolType execEvent57(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent58(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && ((aut14_i_) > (3));
+    BoolType guard = (aut14_i_) > (3);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2254,7 +2075,7 @@ static BoolType execEvent58(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent59(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && ((RealAdd(aut14_r_, aut14_i_)) != (18.0));
+    BoolType guard = (RealAdd(aut14_r_, aut14_i_)) != (18.0);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2273,7 +2094,7 @@ static BoolType execEvent59(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent60(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && (!(aut14_b_));
+    BoolType guard = !(aut14_b_);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2292,7 +2113,7 @@ static BoolType execEvent60(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent61(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && ((IntegerNegate(aut14_i_)) < (5));
+    BoolType guard = (IntegerNegate(aut14_i_)) < (5);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2311,7 +2132,7 @@ static BoolType execEvent61(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent62(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && ((RealNegate(aut14_r_)) < (6));
+    BoolType guard = (RealNegate(aut14_r_)) < (6);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2330,7 +2151,7 @@ static BoolType execEvent62(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent63(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && ((aut14_i_) < (7));
+    BoolType guard = (aut14_i_) < (7);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2349,7 +2170,7 @@ static BoolType execEvent63(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent64(void) {
-    BoolType guard = ((aut14_) == (_edges_X)) && ((aut14_r_) < (8));
+    BoolType guard = (aut14_r_) < (8);
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -2368,9 +2189,6 @@ static BoolType execEvent64(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent65(void) {
-    BoolType guard = (aut01_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(EVT_TAU_, TRUE);
     #endif
@@ -2387,9 +2205,6 @@ static BoolType execEvent65(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent66(void) {
-    BoolType guard = (aut01_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(EVT_TAU_, TRUE);
     #endif
@@ -2406,9 +2221,6 @@ static BoolType execEvent66(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent67(void) {
-    BoolType guard = (aut01_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(EVT_TAU_, TRUE);
     #endif
@@ -2425,9 +2237,6 @@ static BoolType execEvent67(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent68(void) {
-    BoolType guard = (aut01_) == (_edges_X);
-    if (!guard) return FALSE;
-
     #if EVENT_OUTPUT
         edges_InfoEvent(EVT_TAU_, TRUE);
     #endif
@@ -2555,17 +2364,14 @@ void edges_EngineFirstStep(void) {
 
     model_time = 0.0;
     edges_AssignInputVariables();
-    aut01_ = _edges_X;
     aut02_x_ = 0;
     aut02_ = _edges_loc1;
     aut03_c_ = 0.0;
     aut03_d_ = 0;
-    aut03_ = _edges_X;
     aut04_a_ = 0;
     aut04_b_ = 0;
     aut04_c_ = 0;
     aut04_d_ = 0;
-    aut04_ = _edges_X;
     (aut05_v1_).data[0] = 0;
     (aut05_v1_).data[1] = 0;
     (aut05_v1_).data[2] = 0;
@@ -2576,17 +2382,14 @@ void edges_EngineFirstStep(void) {
     (aut05_v2_).data[2] = 0;
     (aut05_v2_).data[3] = 0;
     (aut05_v2_).data[4] = 0;
-    aut05_ = _edges_X;
     (aut06_v1_)._field0 = 0;
     (aut06_v1_)._field1 = 0;
     (aut06_v2_)._field0 = 0;
     (aut06_v2_)._field1 = 0;
     aut06_x_ = 0;
     aut06_y_ = 0;
-    aut06_ = _edges_X;
     aut07_x_ = 0.0;
     aut07_y_ = 0.0;
-    aut07_ = _edges_X;
     ((aut08_tt1_)._field0)._field0 = 0;
     ((aut08_tt1_)._field0)._field1 = 0;
     StringTypeCopyText(&((aut08_tt1_)._field1), "");
@@ -2598,7 +2401,6 @@ void edges_EngineFirstStep(void) {
     aut08_i_ = 0;
     aut08_j_ = 0;
     StringTypeCopyText(&(aut08_s_), "");
-    aut08_ = _edges_X;
     ((aut09_ll1_).data[0]).data[0] = 0;
     ((aut09_ll1_).data[0]).data[1] = 0;
     ((aut09_ll1_).data[0]).data[2] = 0;
@@ -2616,7 +2418,6 @@ void edges_EngineFirstStep(void) {
     (aut09_l_).data[2] = 0;
     aut09_i_ = 0;
     aut09_j_ = 0;
-    aut09_ = _edges_X;
     StringTypeCopyText(&((aut10_x1_)._field0), "");
     ((((aut10_x1_)._field1).data[0])._field0).data[0] = 0;
     ((((aut10_x1_)._field1).data[0])._field1).data[0] = 0.0;
@@ -2635,26 +2436,21 @@ void edges_EngineFirstStep(void) {
     (aut10_lr_).data[0] = 0.0;
     aut10_i_ = 0;
     aut10_r_ = 0.0;
-    aut10_ = _edges_X;
     ((aut11_v1_).data[0])._field0 = 0;
     ((aut11_v1_).data[0])._field1 = 0;
     ((aut11_v1_).data[1])._field0 = 0;
     ((aut11_v1_).data[1])._field1 = 0;
     ((aut11_v1_).data[2])._field0 = 0;
     ((aut11_v1_).data[2])._field1 = 0;
-    aut11_ = _edges_X;
     aut12_x_ = 0.0;
     aut12_y_ = 0.0;
     aut12_z_ = 0.0;
     aut12_td_ = 0.0;
     aut12_t_ = 0.0;
     aut12_u_ = 0.0;
-    aut12_ = _edges_X;
     aut13_x_ = 0.0;
     aut13_y_ = 0.0;
     aut13_z_ = 0.0;
-    aut13_ = _edges_X;
-    aut14_ = _edges_X;
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

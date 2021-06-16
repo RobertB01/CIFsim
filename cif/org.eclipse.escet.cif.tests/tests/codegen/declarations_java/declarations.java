@@ -59,17 +59,8 @@ public abstract class declarations {
     /** Discrete variable "aut1.v5". */
     public double aut1_v5_;
 
-    /** Discrete variable "aut1". */
-    public declarationsEnum aut1_;
-
     /** Continuous variable "aut2.v2". */
     public double aut2_v2_;
-
-    /** Discrete variable "aut2". */
-    public declarationsEnum aut2_;
-
-    /** Discrete variable "aut3". */
-    public declarationsEnum aut3_;
 
     /** Discrete variable "g1_a1". */
     public declarationsEnum g1_a1_;
@@ -343,10 +334,7 @@ public abstract class declarations {
         aut1_v1_ = 2.6457513110645907;
         aut1_v4_ = addReal(aut1_v1_, 2.0);
         aut1_v5_ = aut1_v4_;
-        aut1_ = declarationsEnum._X;
         aut2_v2_ = 0.0;
-        aut2_ = declarationsEnum._X;
-        aut3_ = declarationsEnum._loc1;
         g1_a1_ = declarationsEnum._loc1;
         aut1_v3_ = aut1_v5_;
         aut2_v1_ = aut2_v2_;
@@ -596,8 +584,7 @@ public abstract class declarations {
     /** declarations enumeration. */
     public static enum declarationsEnum {
         /** loc1 */ _loc1,
-        /** loc2 */ _loc2,
-        /** X */ _X;
+        /** loc2 */ _loc2;
 
         @Override
         public String toString() {

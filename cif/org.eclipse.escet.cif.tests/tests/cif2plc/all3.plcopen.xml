@@ -43,11 +43,6 @@
                 <BOOL/>
               </type>
             </variable>
-            <variable address="%Q*" name="dvar_M_q">
-              <type>
-                <derived name="enum_E"/>
-              </type>
-            </variable>
           </struct>
         </baseType>
       </dataType>
@@ -143,11 +138,6 @@
                 <INT/>
               </type>
             </variable>
-            <variable name="b1">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
           </tempVars>
         </interface>
         <body>
@@ -188,7 +178,6 @@ IF first THEN
     state0.dvar_M_p := elit_l1;
     state0.dvar_M_q_y := 2;
     state0.dvar_M_q_b := FALSE;
-    state0.dvar_M_q := elit_l1;
 ELSE
     // Update continuous variables for time delay.
 
@@ -201,9 +190,7 @@ WHILE TRUE DO
 
     // Event "e".
     IF NOT progress THEN
-        b1 := (state0.dvar_M_p) = (elit_l1);
-        b1 := b1 AND ((state0.dvar_M_q) = (elit_l1));
-        IF b1 THEN
+        IF (state0.dvar_M_p) = (elit_l1) THEN
             progress := TRUE;
             state1 := state0;
 
@@ -217,7 +204,7 @@ WHILE TRUE DO
 
     // Event "f".
     IF NOT progress THEN
-        IF (state0.dvar_M_q) = (elit_l1) THEN
+        IF state0.dvar_M_q_b THEN
             progress := TRUE;
             state1 := state0;
 
@@ -233,9 +220,7 @@ WHILE TRUE DO
 
     // Event "tau".
     IF NOT progress THEN
-        b1 := (state0.dvar_M_q) = (elit_l1);
-        b1 := b1 AND ((state0.dvar_M_q_y) &lt; (6));
-        IF b1 THEN
+        IF (state0.dvar_M_q_y) &lt; (6) THEN
             progress := TRUE;
             state1 := state0;
 

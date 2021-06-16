@@ -13,7 +13,6 @@
 enum Enumdeclarations_ {
     _declarations_loc1,
     _declarations_loc2,
-    _declarations_X,
 };
 typedef enum Enumdeclarations_ declarationsEnum;
 
@@ -72,10 +71,7 @@ extern RealType model_time; /**< Current model time. */
 extern RealType aut1_v1_;       /**< Discrete variable "real aut1.v1". */
 extern RealType aut1_v4_;       /**< Discrete variable "real aut1.v4". */
 extern RealType aut1_v5_;       /**< Discrete variable "real aut1.v5". */
-extern declarationsEnum aut1_;  /**< Discrete variable "E aut1". */
 extern RealType aut2_v2_;       /**< Continuous variable "real aut2.v2". */
-extern declarationsEnum aut2_;  /**< Discrete variable "E aut2". */
-extern declarationsEnum aut3_;  /**< Discrete variable "E aut3". */
 extern declarationsEnum g1_a1_; /**< Discrete variable "E g1_a1". */
 extern RealType aut1_v3_;       /**< Continuous variable "real aut1.v3". */
 extern RealType aut2_v1_;       /**< Discrete variable "real aut2.v1". */

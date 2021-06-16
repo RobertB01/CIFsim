@@ -52,7 +52,6 @@ IF first THEN
     first := FALSE;
 
     // Initialize state variables for initial state.
-    state0.dvar_M_p := elit_X;
 ELSE
     // Update continuous variables for time delay.
 

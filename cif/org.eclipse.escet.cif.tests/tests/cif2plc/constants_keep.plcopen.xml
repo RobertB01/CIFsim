@@ -28,21 +28,7 @@
                 <DINT/>
               </type>
             </variable>
-            <variable address="%Q*" name="dvar_M_aut">
-              <type>
-                <derived name="enum_E"/>
-              </type>
-            </variable>
           </struct>
-        </baseType>
-      </dataType>
-      <dataType name="enum_E">
-        <baseType>
-          <enum>
-            <values>
-              <value name="elit_X"/>
-            </values>
-          </enum>
         </baseType>
       </dataType>
     </dataTypes>
@@ -169,7 +155,6 @@ IF first THEN
 
     // Initialize state variables for initial state.
     state0.dvar_M_aut_y := 0;
-    state0.dvar_M_aut := elit_X;
 ELSE
     // Update continuous variables for time delay.
 
@@ -182,7 +167,7 @@ WHILE TRUE DO
 
     // Event "M.aut_e".
     IF NOT progress THEN
-        b1 := (state0.dvar_M_aut) = (elit_X);
+        b1 := TRUE;
         b1 := b1 AND (((ivar_i) + (const_c)) &gt; (3));
         IF b1 THEN
             progress := TRUE;

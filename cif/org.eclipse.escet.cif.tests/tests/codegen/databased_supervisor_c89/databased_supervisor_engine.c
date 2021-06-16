@@ -223,7 +223,6 @@ const char *enum_names[] = {
     "TurnLampOn",
     "WaitForButtonPush",
     "WaitForTimeout",
-    "X",
 };
 
 /* Constants. */
@@ -266,7 +265,6 @@ BoolType bdd_eval_(IntType bdd_eval_idx_, A6BType* bdd_eval_values_tmp2) {
 databased_supervisorEnum Button_; /**< Discrete variable "E Button". */
 databased_supervisorEnum Cycle_;  /**< Discrete variable "E Cycle". */
 databased_supervisorEnum Lamp_;   /**< Discrete variable "E Lamp". */
-databased_supervisorEnum sup_;    /**< Discrete variable "E sup". */
 databased_supervisorEnum Timer_;  /**< Discrete variable "E Timer". */
 
 /* Derivative and algebraic variable functions. */
@@ -437,7 +435,7 @@ static BoolType execEvent1(void) {
  */
 static BoolType execEvent2(void) {
     A6BType deref_store3 = bdd_values_();
-    BoolType guard = (((Cycle_) == (_databased_supervisor_TurnLampOff)) && ((Lamp_) == (_databased_supervisor_On))) && (((sup_) == (_databased_supervisor_X)) && (bdd_eval_(5, &deref_store3)));
+    BoolType guard = (((Cycle_) == (_databased_supervisor_TurnLampOff)) && ((Lamp_) == (_databased_supervisor_On))) && (bdd_eval_(5, &deref_store3));
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -460,7 +458,7 @@ static BoolType execEvent2(void) {
  */
 static BoolType execEvent3(void) {
     A6BType deref_store4 = bdd_values_();
-    BoolType guard = (((Cycle_) == (_databased_supervisor_TurnLampOn)) && ((Lamp_) == (_databased_supervisor_Off))) && (((sup_) == (_databased_supervisor_X)) && (bdd_eval_(0, &deref_store4)));
+    BoolType guard = (((Cycle_) == (_databased_supervisor_TurnLampOn)) && ((Lamp_) == (_databased_supervisor_Off))) && (bdd_eval_(0, &deref_store4));
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -483,7 +481,7 @@ static BoolType execEvent3(void) {
  */
 static BoolType execEvent4(void) {
     A6BType deref_store5 = bdd_values_();
-    BoolType guard = (((Cycle_) == (_databased_supervisor_StartTimer)) && ((sup_) == (_databased_supervisor_X))) && ((bdd_eval_(9, &deref_store5)) && ((Timer_) == (_databased_supervisor_Idle)));
+    BoolType guard = ((Cycle_) == (_databased_supervisor_StartTimer)) && ((bdd_eval_(9, &deref_store5)) && ((Timer_) == (_databased_supervisor_Idle)));
     if (!guard) return FALSE;
 
     #if EVENT_OUTPUT
@@ -569,7 +567,6 @@ void databased_supervisor_EngineFirstStep(void) {
     Button_ = _databased_supervisor_Released;
     Cycle_ = _databased_supervisor_WaitForButtonPush;
     Lamp_ = _databased_supervisor_Off;
-    sup_ = _databased_supervisor_X;
     Timer_ = _databased_supervisor_Idle;
 
     #if PRINT_OUTPUT

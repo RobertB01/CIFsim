@@ -31,7 +31,8 @@ automaton p2:
   invariant LP_p2 or LOCS_p2 or LOC_l1 or LOC_l12;
   location l1:
     initial;
-    edge when LP_p2 or l1;
+    edge when LP_p2 or l1 goto l2;
+  location l2;
 end
 
 // Test no location pointer needed.
@@ -94,7 +95,31 @@ automaton p_switch1:
   alg real x1 = switch self:
                   case l1: 1.0
                 end;
-
+  alg real x2 = switch self:
+                  else     2.0
+                end;
+  alg real x3 = switch self:
+                  case l1: 3.0
+                  else     4.0
+                end;
+  alg real x4 = switch p_switch1:
+                  case l1: 1.0
+                end;
+  alg real x5 = switch p_switch1:
+                  else     2.0
+                end;
+  alg real x6 = switch p_switch1:
+                  case l1: 3.0
+                  else     4.0
+                end;
+  alg real x7 = switch true:
+                  case l1: 5.0
+                  else     6.0
+                end;
+  alg real x8 = switch false:
+                  case l1: 5.0
+                  else     6.0
+                end;
   location l1:
     initial;
 end

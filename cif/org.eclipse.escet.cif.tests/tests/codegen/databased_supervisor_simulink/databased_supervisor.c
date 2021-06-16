@@ -1090,7 +1090,6 @@ enum Enumdatabased_supervisor_ {
     _databased_supervisor_TurnLampOn,
     _databased_supervisor_WaitForButtonPush,
     _databased_supervisor_WaitForTimeout,
-    _databased_supervisor_X,
 };
 typedef enum Enumdatabased_supervisor_ databased_supervisorEnum;
 
@@ -1559,7 +1558,6 @@ static const char *enum_names[] = {
     "TurnLampOn",
     "WaitForButtonPush",
     "WaitForTimeout",
-    "X",
 };
 
 /**
@@ -1635,7 +1633,7 @@ static BoolType ExecEvent2(SimStruct *sim_struct) {
     real_T *cstate = ssGetContStates(sim_struct);
 
     A6BType deref_store3 = bdd_values_(sim_struct);
-    BoolType guard = (((modes[3]) == (_databased_supervisor_TurnLampOff)) && ((modes[1]) == (_databased_supervisor_On))) && (((modes[4]) == (_databased_supervisor_X)) && (bdd_eval_(sim_struct, 5, &deref_store3)));
+    BoolType guard = (((modes[3]) == (_databased_supervisor_TurnLampOff)) && ((modes[1]) == (_databased_supervisor_On))) && (bdd_eval_(sim_struct, 5, &deref_store3));
     if (!guard) return FALSE;
 
 
@@ -1656,7 +1654,7 @@ static BoolType ExecEvent3(SimStruct *sim_struct) {
     real_T *cstate = ssGetContStates(sim_struct);
 
     A6BType deref_store4 = bdd_values_(sim_struct);
-    BoolType guard = (((modes[3]) == (_databased_supervisor_TurnLampOn)) && ((modes[1]) == (_databased_supervisor_Off))) && (((modes[4]) == (_databased_supervisor_X)) && (bdd_eval_(sim_struct, 0, &deref_store4)));
+    BoolType guard = (((modes[3]) == (_databased_supervisor_TurnLampOn)) && ((modes[1]) == (_databased_supervisor_Off))) && (bdd_eval_(sim_struct, 0, &deref_store4));
     if (!guard) return FALSE;
 
 
@@ -1677,7 +1675,7 @@ static BoolType ExecEvent4(SimStruct *sim_struct) {
     real_T *cstate = ssGetContStates(sim_struct);
 
     A6BType deref_store5 = bdd_values_(sim_struct);
-    BoolType guard = (((modes[3]) == (_databased_supervisor_StartTimer)) && ((modes[4]) == (_databased_supervisor_X))) && ((bdd_eval_(sim_struct, 9, &deref_store5)) && ((modes[2]) == (_databased_supervisor_Idle)));
+    BoolType guard = ((modes[3]) == (_databased_supervisor_StartTimer)) && ((bdd_eval_(sim_struct, 9, &deref_store5)) && ((modes[2]) == (_databased_supervisor_Idle)));
     if (!guard) return FALSE;
 
 
@@ -1731,7 +1729,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 12)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 11)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
@@ -1743,10 +1741,9 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 7, 1);
     ssSetOutputPortWidth(sim_struct, 8, 1);
     ssSetOutputPortWidth(sim_struct, 9, 1);
-    ssSetOutputPortWidth(sim_struct, 10, 1);
-    ssSetOutputPortWidth(sim_struct, 11, 6);
+    ssSetOutputPortWidth(sim_struct, 10, 6);
 
-    for (idx = 0; idx < 12; idx++) {
+    for (idx = 0; idx < 11; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1761,7 +1758,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 5);
+    ssSetNumModes(sim_struct, 4);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 0);
@@ -1841,7 +1838,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     modes[0] = _databased_supervisor_Released;
     modes[3] = _databased_supervisor_WaitForButtonPush;
     modes[1] = _databased_supervisor_Off;
-    modes[4] = _databased_supervisor_X;
     modes[2] = _databased_supervisor_Idle;
 }
 #endif
@@ -1896,29 +1892,26 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
     *y = IntToSimulink(modes[2]);
 
     y = ssGetOutputPortSignal(sim_struct, 4);
-    *y = IntToSimulink(modes[4]);
-
-    y = ssGetOutputPortSignal(sim_struct, 5);
     *y = BoolToSimulink(bdd_value0_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 6);
+    y = ssGetOutputPortSignal(sim_struct, 5);
     *y = BoolToSimulink(bdd_value1_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 7);
+    y = ssGetOutputPortSignal(sim_struct, 6);
     *y = BoolToSimulink(bdd_value2_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 8);
+    y = ssGetOutputPortSignal(sim_struct, 7);
     *y = BoolToSimulink(bdd_value3_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 9);
+    y = ssGetOutputPortSignal(sim_struct, 8);
     *y = BoolToSimulink(bdd_value4_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 10);
+    y = ssGetOutputPortSignal(sim_struct, 9);
     *y = BoolToSimulink(bdd_value5_(sim_struct));
 
-    y = ssGetOutputPortSignal(sim_struct, 11);
-    A6BType tmp11 = bdd_values_(sim_struct);
-    A6BTypeToSimulink(y, &tmp11);
+    y = ssGetOutputPortSignal(sim_struct, 10);
+    A6BType tmp10 = bdd_values_(sim_struct);
+    A6BTypeToSimulink(y, &tmp10);
 }
 /* }}} */
 

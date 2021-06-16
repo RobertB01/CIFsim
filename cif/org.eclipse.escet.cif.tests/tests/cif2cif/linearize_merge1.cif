@@ -752,4 +752,3 @@ automaton p41:
     edge e41a? do a := ?;
     edge e41b? do b := ?;
 end
-

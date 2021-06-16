@@ -31,14 +31,6 @@ extern T2IIType *A3T2IITypeProject(A3T2IIType *array, IntType index);
 extern void A3T2IITypeModify(A3T2IIType *array, IntType index, T2IIType *value);
 extern int A3T2IITypePrint(A3T2IIType *array, char *dest, int start, int end);
 
-enum Enumranges_ {
-    _ranges_X,
-};
-typedef enum Enumranges_ rangesEnum;
-
-extern const char *enum_names[];
-extern int EnumTypePrint(rangesEnum value, char *dest, int start, int end);
-
 
 /* Event declarations. */
 enum rangesEventEnum_ {
@@ -96,7 +88,6 @@ extern IntType aut1_x1_;    /**< Discrete variable "int[0..4] aut1.x1". */
 extern IntType aut1_x2_;    /**< Discrete variable "int[0..9] aut1.x2". */
 extern IntType aut1_x3_;    /**< Discrete variable "int[-1..4] aut1.x3". */
 extern IntType aut1_x4_;    /**< Discrete variable "int[-1..9] aut1.x4". */
-extern rangesEnum aut1_;    /**< Discrete variable "E aut1". */
 
 /* Algebraic and derivative functions (use for output only). */
 

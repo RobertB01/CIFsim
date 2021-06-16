@@ -95,9 +95,6 @@ public abstract class edges {
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "aut01". */
-    public edgesEnum aut01_;
-
     /** Discrete variable "aut02.x". */
     public int aut02_x_;
 
@@ -109,9 +106,6 @@ public abstract class edges {
 
     /** Discrete variable "aut03.d". */
     public int aut03_d_;
-
-    /** Discrete variable "aut03". */
-    public edgesEnum aut03_;
 
     /** Discrete variable "aut04.a". */
     public int aut04_a_;
@@ -125,17 +119,11 @@ public abstract class edges {
     /** Discrete variable "aut04.d". */
     public int aut04_d_;
 
-    /** Discrete variable "aut04". */
-    public edgesEnum aut04_;
-
     /** Discrete variable "aut05.v1". */
     public List<Integer> aut05_v1_;
 
     /** Discrete variable "aut05.v2". */
     public List<Integer> aut05_v2_;
-
-    /** Discrete variable "aut05". */
-    public edgesEnum aut05_;
 
     /** Discrete variable "aut06.v1". */
     public CifTuple_T2II aut06_v1_;
@@ -149,17 +137,11 @@ public abstract class edges {
     /** Discrete variable "aut06.y". */
     public int aut06_y_;
 
-    /** Discrete variable "aut06". */
-    public edgesEnum aut06_;
-
     /** Continuous variable "aut07.x". */
     public double aut07_x_;
 
     /** Continuous variable "aut07.y". */
     public double aut07_y_;
-
-    /** Discrete variable "aut07". */
-    public edgesEnum aut07_;
 
     /** Discrete variable "aut08.tt1". */
     public CifTuple_T2T2IIS aut08_tt1_;
@@ -179,9 +161,6 @@ public abstract class edges {
     /** Discrete variable "aut08.s". */
     public String aut08_s_;
 
-    /** Discrete variable "aut08". */
-    public edgesEnum aut08_;
-
     /** Discrete variable "aut09.ll1". */
     public List<List<Integer>> aut09_ll1_;
 
@@ -196,9 +175,6 @@ public abstract class edges {
 
     /** Discrete variable "aut09.j". */
     public int aut09_j_;
-
-    /** Discrete variable "aut09". */
-    public edgesEnum aut09_;
 
     /** Discrete variable "aut10.x1". */
     public CifTuple_T2SLT2LILR aut10_x1_;
@@ -221,14 +197,8 @@ public abstract class edges {
     /** Discrete variable "aut10.r". */
     public double aut10_r_;
 
-    /** Discrete variable "aut10". */
-    public edgesEnum aut10_;
-
     /** Discrete variable "aut11.v1". */
     public List<CifTuple_T2II> aut11_v1_;
-
-    /** Discrete variable "aut11". */
-    public edgesEnum aut11_;
 
     /** Discrete variable "aut12.x". */
     public double aut12_x_;
@@ -248,9 +218,6 @@ public abstract class edges {
     /** Continuous variable "aut12.u". */
     public double aut12_u_;
 
-    /** Discrete variable "aut12". */
-    public edgesEnum aut12_;
-
     /** Discrete variable "aut13.x". */
     public double aut13_x_;
 
@@ -259,12 +226,6 @@ public abstract class edges {
 
     /** Discrete variable "aut13.z". */
     public double aut13_z_;
-
-    /** Discrete variable "aut13". */
-    public edgesEnum aut13_;
-
-    /** Discrete variable "aut14". */
-    public edgesEnum aut14_;
 
     /** Input variable "aut14.b". */
     public boolean aut14_b_;
@@ -671,9 +632,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent2() {
-        boolean guard = equalObjs(aut03_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(2, true);
         if (doInfoEvent) infoEvent(2, true);
 
@@ -690,9 +648,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent3() {
-        boolean guard = equalObjs(aut03_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(3, true);
         if (doInfoEvent) infoEvent(3, true);
 
@@ -709,9 +664,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent4() {
-        boolean guard = equalObjs(aut04_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(4, true);
         if (doInfoEvent) infoEvent(4, true);
 
@@ -730,9 +682,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent5() {
-        boolean guard = equalObjs(aut04_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(5, true);
         if (doInfoEvent) infoEvent(5, true);
 
@@ -753,9 +702,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent6() {
-        boolean guard = equalObjs(aut04_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(6, true);
         if (doInfoEvent) infoEvent(6, true);
 
@@ -778,9 +724,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent7() {
-        boolean guard = equalObjs(aut04_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(7, true);
         if (doInfoEvent) infoEvent(7, true);
 
@@ -805,9 +748,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent8() {
-        boolean guard = equalObjs(aut04_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(8, true);
         if (doInfoEvent) infoEvent(8, true);
 
@@ -828,9 +768,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent9() {
-        boolean guard = equalObjs(aut04_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(9, true);
         if (doInfoEvent) infoEvent(9, true);
 
@@ -856,9 +793,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent10() {
-        boolean guard = equalObjs(aut05_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(10, true);
         if (doInfoEvent) infoEvent(10, true);
 
@@ -884,9 +818,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent11() {
-        boolean guard = equalObjs(aut05_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(11, true);
         if (doInfoEvent) infoEvent(11, true);
 
@@ -912,9 +843,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent12() {
-        boolean guard = equalObjs(aut05_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(12, true);
         if (doInfoEvent) infoEvent(12, true);
 
@@ -931,9 +859,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent13() {
-        boolean guard = equalObjs(aut05_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(13, true);
         if (doInfoEvent) infoEvent(13, true);
 
@@ -959,9 +884,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent14() {
-        boolean guard = equalObjs(aut05_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(14, true);
         if (doInfoEvent) infoEvent(14, true);
 
@@ -987,9 +909,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent15() {
-        boolean guard = equalObjs(aut06_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(15, true);
         if (doInfoEvent) infoEvent(15, true);
 
@@ -1006,9 +925,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent16() {
-        boolean guard = equalObjs(aut06_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(16, true);
         if (doInfoEvent) infoEvent(16, true);
 
@@ -1029,9 +945,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent17() {
-        boolean guard = equalObjs(aut06_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(17, true);
         if (doInfoEvent) infoEvent(17, true);
 
@@ -1052,9 +965,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent18() {
-        boolean guard = equalObjs(aut06_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(18, true);
         if (doInfoEvent) infoEvent(18, true);
 
@@ -1071,9 +981,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent19() {
-        boolean guard = equalObjs(aut06_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(19, true);
         if (doInfoEvent) infoEvent(19, true);
 
@@ -1090,9 +997,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent20() {
-        boolean guard = equalObjs(aut07_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(20, true);
         if (doInfoEvent) infoEvent(20, true);
 
@@ -1109,9 +1013,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent21() {
-        boolean guard = equalObjs(aut07_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(21, true);
         if (doInfoEvent) infoEvent(21, true);
 
@@ -1129,9 +1030,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent22() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(22, true);
         if (doInfoEvent) infoEvent(22, true);
 
@@ -1148,9 +1046,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent23() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(23, true);
         if (doInfoEvent) infoEvent(23, true);
 
@@ -1167,9 +1062,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent24() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(24, true);
         if (doInfoEvent) infoEvent(24, true);
 
@@ -1190,9 +1082,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent25() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(25, true);
         if (doInfoEvent) infoEvent(25, true);
 
@@ -1216,9 +1105,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent26() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(26, true);
         if (doInfoEvent) infoEvent(26, true);
 
@@ -1242,9 +1128,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent27() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(27, true);
         if (doInfoEvent) infoEvent(27, true);
 
@@ -1265,9 +1148,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent28() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(28, true);
         if (doInfoEvent) infoEvent(28, true);
 
@@ -1288,9 +1168,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent29() {
-        boolean guard = equalObjs(aut08_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(29, true);
         if (doInfoEvent) infoEvent(29, true);
 
@@ -1312,9 +1189,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent30() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(30, true);
         if (doInfoEvent) infoEvent(30, true);
 
@@ -1331,9 +1205,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent31() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(31, true);
         if (doInfoEvent) infoEvent(31, true);
 
@@ -1350,9 +1221,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent32() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(32, true);
         if (doInfoEvent) infoEvent(32, true);
 
@@ -1373,9 +1241,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent33() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(33, true);
         if (doInfoEvent) infoEvent(33, true);
 
@@ -1399,9 +1264,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent34() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(34, true);
         if (doInfoEvent) infoEvent(34, true);
 
@@ -1418,9 +1280,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent35() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(35, true);
         if (doInfoEvent) infoEvent(35, true);
 
@@ -1437,9 +1296,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent36() {
-        boolean guard = equalObjs(aut09_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(36, true);
         if (doInfoEvent) infoEvent(36, true);
 
@@ -1456,9 +1312,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent37() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(37, true);
         if (doInfoEvent) infoEvent(37, true);
 
@@ -1475,9 +1328,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent38() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(38, true);
         if (doInfoEvent) infoEvent(38, true);
 
@@ -1494,9 +1344,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent39() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(39, true);
         if (doInfoEvent) infoEvent(39, true);
 
@@ -1522,9 +1369,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent40() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(40, true);
         if (doInfoEvent) infoEvent(40, true);
 
@@ -1548,9 +1392,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent41() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(41, true);
         if (doInfoEvent) infoEvent(41, true);
 
@@ -1580,9 +1421,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent42() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(42, true);
         if (doInfoEvent) infoEvent(42, true);
 
@@ -1599,9 +1437,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent43() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(43, true);
         if (doInfoEvent) infoEvent(43, true);
 
@@ -1618,9 +1453,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent44() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(44, true);
         if (doInfoEvent) infoEvent(44, true);
 
@@ -1637,9 +1469,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent45() {
-        boolean guard = equalObjs(aut10_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(45, true);
         if (doInfoEvent) infoEvent(45, true);
 
@@ -1657,9 +1486,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent46() {
-        boolean guard = equalObjs(aut11_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(46, true);
         if (doInfoEvent) infoEvent(46, true);
 
@@ -1705,9 +1531,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent47() {
-        boolean guard = equalObjs(aut12_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(47, true);
         if (doInfoEvent) infoEvent(47, true);
 
@@ -1726,9 +1549,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent48() {
-        boolean guard = equalObjs(aut12_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(48, true);
         if (doInfoEvent) infoEvent(48, true);
 
@@ -1749,9 +1569,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent49() {
-        boolean guard = equalObjs(aut12_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(49, true);
         if (doInfoEvent) infoEvent(49, true);
 
@@ -1773,9 +1590,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent50() {
-        boolean guard = equalObjs(aut12_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(50, true);
         if (doInfoEvent) infoEvent(50, true);
 
@@ -1796,9 +1610,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent51() {
-        boolean guard = equalObjs(aut12_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(51, true);
         if (doInfoEvent) infoEvent(51, true);
 
@@ -1817,9 +1628,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent52() {
-        boolean guard = equalObjs(aut13_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(52, true);
         if (doInfoEvent) infoEvent(52, true);
 
@@ -1836,9 +1644,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent53() {
-        boolean guard = equalObjs(aut13_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(53, true);
         if (doInfoEvent) infoEvent(53, true);
 
@@ -1859,9 +1664,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent54() {
-        boolean guard = equalObjs(aut13_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(54, true);
         if (doInfoEvent) infoEvent(54, true);
 
@@ -1882,9 +1684,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent55() {
-        boolean guard = equalObjs(aut13_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(55, true);
         if (doInfoEvent) infoEvent(55, true);
 
@@ -1907,9 +1706,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent56() {
-        boolean guard = equalObjs(aut13_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(56, true);
         if (doInfoEvent) infoEvent(56, true);
 
@@ -1930,7 +1726,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent57() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && (aut14_b_);
+        boolean guard = aut14_b_;
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(57, true);
@@ -1948,7 +1744,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent58() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && ((aut14_i_) > (3));
+        boolean guard = (aut14_i_) > (3);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(58, true);
@@ -1966,7 +1762,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent59() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && (!equalObjs(addReal(aut14_r_, aut14_i_), 18.0));
+        boolean guard = !equalObjs(addReal(aut14_r_, aut14_i_), 18.0);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(59, true);
@@ -1984,7 +1780,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent60() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && (!(aut14_b_));
+        boolean guard = !(aut14_b_);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(60, true);
@@ -2002,7 +1798,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent61() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && ((negate(aut14_i_)) < (5));
+        boolean guard = (negate(aut14_i_)) < (5);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(61, true);
@@ -2020,7 +1816,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent62() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && ((negate(aut14_r_)) < (6));
+        boolean guard = (negate(aut14_r_)) < (6);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(62, true);
@@ -2038,7 +1834,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent63() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && ((aut14_i_) < (7));
+        boolean guard = (aut14_i_) < (7);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(63, true);
@@ -2056,7 +1852,7 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent64() {
-        boolean guard = (equalObjs(aut14_, edgesEnum._X)) && ((aut14_r_) < (8));
+        boolean guard = (aut14_r_) < (8);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(64, true);
@@ -2074,9 +1870,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent65() {
-        boolean guard = equalObjs(aut01_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(-1, true);
         if (doInfoEvent) infoEvent(-1, true);
 
@@ -2092,9 +1885,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent66() {
-        boolean guard = equalObjs(aut01_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(-1, true);
         if (doInfoEvent) infoEvent(-1, true);
 
@@ -2110,9 +1900,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent67() {
-        boolean guard = equalObjs(aut01_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(-1, true);
         if (doInfoEvent) infoEvent(-1, true);
 
@@ -2128,9 +1915,6 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent68() {
-        boolean guard = equalObjs(aut01_, edgesEnum._X);
-        if (!guard) return false;
-
         if (doInfoPrintOutput) printOutput(-1, true);
         if (doInfoEvent) infoEvent(-1, true);
 
@@ -2142,41 +1926,33 @@ public abstract class edges {
 
     /** Initializes the state. */
     private void initState() {
-        aut01_ = edgesEnum._X;
         aut02_x_ = 0;
         aut02_ = edgesEnum._loc1;
         aut03_c_ = 0.0;
         aut03_d_ = 0;
-        aut03_ = edgesEnum._X;
         aut04_a_ = 0;
         aut04_b_ = 0;
         aut04_c_ = 0;
         aut04_d_ = 0;
-        aut04_ = edgesEnum._X;
         aut05_v1_ = makelist(new ArrayList<Integer>(5), 0, 0, 0, 0, 0);
         aut05_v2_ = makelist(new ArrayList<Integer>(5), 0, 0, 0, 0, 0);
-        aut05_ = edgesEnum._X;
         aut06_v1_ = new CifTuple_T2II(0, 0);
         aut06_v2_ = new CifTuple_T2II(0, 0);
         aut06_x_ = 0;
         aut06_y_ = 0;
-        aut06_ = edgesEnum._X;
         aut07_x_ = 0.0;
         aut07_y_ = 0.0;
-        aut07_ = edgesEnum._X;
         aut08_tt1_ = new CifTuple_T2T2IIS(new CifTuple_T2II(0, 0), "");
         aut08_tt2_ = new CifTuple_T2T2IIS(new CifTuple_T2II(0, 0), "");
         aut08_t_ = new CifTuple_T2II(0, 0);
         aut08_i_ = 0;
         aut08_j_ = 0;
         aut08_s_ = "";
-        aut08_ = edgesEnum._X;
         aut09_ll1_ = makelist(new ArrayList<List<Integer>>(2), makelist(new ArrayList<Integer>(3), 0, 0, 0), makelist(new ArrayList<Integer>(3), 0, 0, 0));
         aut09_ll2_ = makelist(new ArrayList<List<Integer>>(2), makelist(new ArrayList<Integer>(3), 0, 0, 0), makelist(new ArrayList<Integer>(3), 0, 0, 0));
         aut09_l_ = makelist(new ArrayList<Integer>(3), 0, 0, 0);
         aut09_i_ = 0;
         aut09_j_ = 0;
-        aut09_ = edgesEnum._X;
         aut10_x1_ = new CifTuple_T2SLT2LILR("", makelist(new ArrayList<CifTuple_T2LILR>(2), new CifTuple_T2LILR(makelist(new ArrayList<Integer>(1), 0), makelist(new ArrayList<Double>(1), 0.0)), new CifTuple_T2LILR(makelist(new ArrayList<Integer>(1), 0), makelist(new ArrayList<Double>(1), 0.0))));
         aut10_x2_ = new CifTuple_T2SLT2LILR("", makelist(new ArrayList<CifTuple_T2LILR>(2), new CifTuple_T2LILR(makelist(new ArrayList<Integer>(1), 0), makelist(new ArrayList<Double>(1), 0.0)), new CifTuple_T2LILR(makelist(new ArrayList<Integer>(1), 0), makelist(new ArrayList<Double>(1), 0.0))));
         aut10_l_ = makelist(new ArrayList<CifTuple_T2LILR>(2), new CifTuple_T2LILR(makelist(new ArrayList<Integer>(1), 0), makelist(new ArrayList<Double>(1), 0.0)), new CifTuple_T2LILR(makelist(new ArrayList<Integer>(1), 0), makelist(new ArrayList<Double>(1), 0.0)));
@@ -2184,21 +1960,16 @@ public abstract class edges {
         aut10_lr_ = makelist(new ArrayList<Double>(1), 0.0);
         aut10_i_ = 0;
         aut10_r_ = 0.0;
-        aut10_ = edgesEnum._X;
         aut11_v1_ = makelist(new ArrayList<CifTuple_T2II>(3), new CifTuple_T2II(0, 0), new CifTuple_T2II(0, 0), new CifTuple_T2II(0, 0));
-        aut11_ = edgesEnum._X;
         aut12_x_ = 0.0;
         aut12_y_ = 0.0;
         aut12_z_ = 0.0;
         aut12_td_ = 0.0;
         aut12_t_ = 0.0;
         aut12_u_ = 0.0;
-        aut12_ = edgesEnum._X;
         aut13_x_ = 0.0;
         aut13_y_ = 0.0;
         aut13_z_ = 0.0;
-        aut13_ = edgesEnum._X;
-        aut14_ = edgesEnum._X;
     }
 
     /**
@@ -2584,8 +2355,7 @@ public abstract class edges {
     public static enum edgesEnum {
         /** loc1 */ _loc1,
         /** loc2 */ _loc2,
-        /** loc3 */ _loc3,
-        /** X */ _X;
+        /** loc3 */ _loc3;
 
         @Override
         public String toString() {

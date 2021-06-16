@@ -739,10 +739,10 @@ public abstract class CodeGen {
         stateVars = new StateInitVarOrderer().computeOrder(stateVars);
 
         // After linearization, enumerations have been merged to a single
-        // enumeration. Due to having at least one automaton, and representing
-        // values of location pointer variables as enumerations, we also always
-        // have at least one enumeration. We thus have exactly one enumeration.
-        Assert.check(enumDecls.size() == 1);
+        // enumeration. If we only have automata with exactly one location
+        // it might be that there is no enum declaration. Otherwise, there
+        // should be at most one enum declaration.
+        Assert.check(enumDecls.size() <= 1);
 
         CodeContext ctxt = new CodeContext(this);
 
@@ -754,7 +754,9 @@ public abstract class CodeGen {
         addAlgVars(ctxt);
         addInputVars(ctxt);
         addFunctions(ctxt);
-        addEnum(first(enumDecls), ctxt);
+        if (enumDecls.size() == 1) {
+            addEnum(first(enumDecls), ctxt);
+        }
 
         // Get code for the print declarations.
         List<IoDecl> ioDecls = list();

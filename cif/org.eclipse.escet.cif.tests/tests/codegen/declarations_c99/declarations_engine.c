@@ -85,7 +85,6 @@ const char *declarations_event_names[] = {
 const char *enum_names[] = {
     "loc1",
     "loc2",
-    "X",
 };
 
 /* Constants. */
@@ -126,10 +125,7 @@ T3IIRType i3_; /**< Input variable "tuple(int a; int b; real c) i3". */
 RealType aut1_v1_;       /**< Discrete variable "real aut1.v1". */
 RealType aut1_v4_;       /**< Discrete variable "real aut1.v4". */
 RealType aut1_v5_;       /**< Discrete variable "real aut1.v5". */
-declarationsEnum aut1_;  /**< Discrete variable "E aut1". */
 RealType aut2_v2_;       /**< Continuous variable "real aut2.v2". */
-declarationsEnum aut2_;  /**< Discrete variable "E aut2". */
-declarationsEnum aut3_;  /**< Discrete variable "E aut3". */
 declarationsEnum g1_a1_; /**< Discrete variable "E g1_a1". */
 RealType aut1_v3_;       /**< Continuous variable "real aut1.v3". */
 RealType aut2_v1_;       /**< Discrete variable "real aut2.v1". */
@@ -320,10 +316,7 @@ void declarations_EngineFirstStep(void) {
     aut1_v1_ = 2.6457513110645907;
     aut1_v4_ = RealAdd(aut1_v1_, 2.0);
     aut1_v5_ = aut1_v4_;
-    aut1_ = _declarations_X;
     aut2_v2_ = 0.0;
-    aut2_ = _declarations_X;
-    aut3_ = _declarations_loc1;
     g1_a1_ = _declarations_loc1;
     aut1_v3_ = aut1_v5_;
     aut2_v1_ = aut2_v2_;

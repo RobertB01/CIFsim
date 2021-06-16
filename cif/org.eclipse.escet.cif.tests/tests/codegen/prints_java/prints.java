@@ -32,8 +32,6 @@ public abstract class prints {
     /** Variable 'time'. */
     public double time;
 
-    /** Discrete variable "a1". */
-    public printsEnum a1_;
 
 
     /** Constructor for the {@link prints} class. */
@@ -153,7 +151,7 @@ public abstract class prints {
 
     /** Initializes the state. */
     private void initState() {
-        a1_ = printsEnum._X;
+        // No state variables, except variable 'time'.
     }
 
     /**
@@ -532,8 +530,7 @@ public abstract class prints {
     /** prints enumeration. */
     public static enum printsEnum {
         /** A */ _A,
-        /** B */ _B,
-        /** X */ _X;
+        /** B */ _B;
 
         @Override
         public String toString() {

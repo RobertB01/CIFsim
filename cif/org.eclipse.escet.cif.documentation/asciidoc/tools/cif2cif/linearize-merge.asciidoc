@@ -53,9 +53,8 @@ indexterm:[linearize,implementation]
 
 === Implementation details
 
-A location pointer variable is introduced for each original automaton, and the use of locations in expressions is eliminated.
-This is mostly similar to what the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation does, except that for instance location pointer variables are added for all automata.
-For nameless locations, name `X` is used.
+A location pointer variable is introduced for each original automaton with at least two locations, and the use of locations in expressions is eliminated.
+This is mostly similar to what the <<tools-cif2cif-chapter-elim-locs-in-exprs>> CIF to CIF transformation does, except that for instance location pointer variables are added for all automata with at least two locations.
 
 One new automaton, named `M`, is created.
 If all original automata have the same supervisory kind, the new automaton gets this kind as well.
@@ -178,6 +177,7 @@ automaton p:
   disc int x = 0;
 
   location:
+    initial;
     edge e when x < 5 do x := x + 1;
     edge e when x > 3 do x := x - 1;
 end
@@ -188,26 +188,23 @@ is transformed to the following specification:
 
 [source, cif]
 ----
-enum E = X;
-
 automaton M:
   alphabet p_e;
 
   event p_e;
 
   disc int p_x = 0;
-  disc E p in any;
 
-  initial p = X and false;
-  marked p = X and false;
+  initial true and true;
+  marked true and false;
 
   location L:
     initial;
     marked;
 
-    edge p_e when p = X and (p_x < 5 or p_x > 3)
-             do if   p = X and p_x < 5: p_x := p_x + 1
-                elif p = X and p_x > 3: p_x := p_x - 1
+    edge p_e when true and (p_x < 5 or p_x > 3)
+             do if   true and p_x < 5: p_x := p_x + 1
+                elif true and p_x > 3: p_x := p_x - 1
                 end;
 end
 ----
@@ -225,6 +222,7 @@ automaton p:
   event e;
   disc int x = 0;
   location:
+    initial;
     edge e when x >= 3;
     edge e when x < 3 do x := x + 1;
 end
@@ -235,31 +233,28 @@ is transformed to the following specification:
 
 [source, cif]
 ----
-enum E = X;
-
 automaton M:
   alphabet p_e;
   event p_e;
 
   disc int p_x = 0;
-  disc E p in any;
 
-  initial p = X and false;
-  marked p = X and false;
+  initial true and true;
+  marked true and false;
 
   location L:
     initial;
     marked;
 
-    edge p_e when p = X and (p_x >= 3 or p_x < 3)
-             do if   p = X and p_x >= 3: p := X
-                elif p = X and p_x < 3:  p_x := p_x + 1
+    edge p_e when true and (p_x >= 3 or p_x < 3)
+             do if   true and p_x >= 3: p_x := p_x
+                elif true and p_x < 3:  p_x := p_x + 1
                 end;
 end
 ----
 
 Here, the edge with guard `x >= 3` takes precedence over the edge with guard `x < 3`.
-To ensure that no updates are performed when the edge with guard `x >= 3` is chosen, a dummy update is added (reassigning the location pointer variable the value it already has).
+To ensure that no updates are performed when the edge with guard `x >= 3` is chosen, a dummy update is added (reassigning the value of `p_x` to itself).
 If this update were to be omitted, the update of the other edge would instead be executed, which is undesirable.
 
 indexterm:[linearize,order]
@@ -371,25 +366,22 @@ is transformed to the following specification:
 [source, cif]
 ----
 event e;
-enum E = X;
 
 automaton M:
   alphabet e;
 
-  disc E s in any;
   disc int r_x;
-  disc E r in any;
 
-  initial s = X and false,
-          r = X and false;
-  marked s = X and false,
-         r = X and false;
+  initial true and false,
+          true and false;
+  marked true and false,
+         true and false;
 
   location L:
     initial;
     marked;
 
-    edge e when s = X and true and (r = X and true) do r_x := (1, 2)[0];
+    edge e when true and true and (true and true) do r_x := (1, 2)[0];
 end
 ----
 

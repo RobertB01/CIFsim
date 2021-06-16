@@ -24,7 +24,6 @@ extern int A2ITypePrint(A2IType *array, char *dest, int start, int end);
 enum Enumvarious_ {
     _various_l1,
     _various_l2,
-    _various_X,
 };
 typedef enum Enumvarious_ variousEnum;
 
@@ -73,12 +72,9 @@ extern IntType inc_(IntType inc_x_);
 extern RealType model_time; /**< Current model time. */
 extern A2IType a_li_;       /**< Discrete variable "list[2] int[0..3] a.li". */
 extern IntType a_x_;        /**< Discrete variable "int[2..5] a.x". */
-extern variousEnum a_;      /**< Discrete variable "E a". */
 extern IntType g_rcv_v_;    /**< Discrete variable "int g.rcv.v". */
 extern IntType g_rcv_v2_;   /**< Discrete variable "int g.rcv.v2". */
-extern variousEnum g_rcv_;  /**< Discrete variable "E g_rcv". */
 extern IntType g_snd_a_;    /**< Discrete variable "int g.snd.a". */
-extern variousEnum g_snd_;  /**< Discrete variable "E g_snd". */
 extern RealType g_sync_c_;  /**< Continuous variable "real g.sync.c". */
 extern variousEnum g_sync_; /**< Discrete variable "E g_sync". */
 

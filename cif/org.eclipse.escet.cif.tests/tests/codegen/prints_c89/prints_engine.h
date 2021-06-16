@@ -13,7 +13,6 @@
 enum Enumprints_ {
     _prints_A,
     _prints_B,
-    _prints_X,
 };
 typedef enum Enumprints_ printsEnum;
 
@@ -80,7 +79,7 @@ extern const char *prints_event_names[];
 
 /* State variables (use for output only). */
 extern RealType model_time; /**< Current model time. */
-extern printsEnum a1_; /**< Discrete variable "E a1". */
+
 
 /* Algebraic and derivative functions (use for output only). */
 

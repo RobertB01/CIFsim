@@ -7,5 +7,4 @@ WARNING: Declaration "p1_p1" is renamed to "p1_p12".
 WARNING: Declaration "p2_p2_x" is renamed to "p2_p2_x2".
 WARNING: Declaration "p8_a_p8" is renamed to "p8_a_p82".
 WARNING: Enumeration literal "p4_l1" is renamed to "p4_l12".
-WARNING: Enumeration literal "X" is renamed to "X2".
 WARNING: Merged enumeration "E" is renamed to "E2".

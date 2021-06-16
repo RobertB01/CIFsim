@@ -210,7 +210,6 @@ const char *prints_event_names[] = {
 const char *enum_names[] = {
     "A",
     "B",
-    "X",
 };
 
 /* Constants. */
@@ -223,7 +222,7 @@ const char *enum_names[] = {
 
 
 /* State variables. */
-printsEnum a1_; /**< Discrete variable "E a1". */
+
 
 /* Derivative and algebraic variable functions. */
 
@@ -418,7 +417,7 @@ void prints_EngineFirstStep(void) {
 
     model_time = 0.0;
 
-    a1_ = _prints_X;
+
 
     #if PRINT_OUTPUT
         /* pre-initial and post-initial prints. */

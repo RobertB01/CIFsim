@@ -168,7 +168,6 @@ const char *various_event_names[] = {
 const char *enum_names[] = {
     "l1",
     "l2",
-    "X",
 };
 
 /* Constants. */
@@ -188,12 +187,9 @@ A3IType input_li_; /**< Input variable "list[3] int[0..5] input_li". */
 /* State variables. */
 A2IType a_li_;       /**< Discrete variable "list[2] int[0..3] a.li". */
 IntType a_x_;        /**< Discrete variable "int[2..5] a.x". */
-variousEnum a_;      /**< Discrete variable "E a". */
 IntType g_rcv_v_;    /**< Discrete variable "int g.rcv.v". */
 IntType g_rcv_v2_;   /**< Discrete variable "int g.rcv.v2". */
-variousEnum g_rcv_;  /**< Discrete variable "E g_rcv". */
 IntType g_snd_a_;    /**< Discrete variable "int g.snd.a". */
-variousEnum g_snd_;  /**< Discrete variable "E g_snd". */
 RealType g_sync_c_;  /**< Continuous variable "real g.sync.c". */
 variousEnum g_sync_; /**< Discrete variable "E g_sync". */
 
@@ -285,7 +281,7 @@ static BoolType execEvent0(void) {
  * @return Whether the event was performed.
  */
 static BoolType execEvent1(void) {
-    BoolType guard = ((g_snd_) == (_various_X)) && (((g_rcv_) == (_various_X)) && (((g_sync_) == (_various_l2)) && ((g_sync_c_) >= (2))));
+    BoolType guard = ((g_sync_) == (_various_l2)) && ((g_sync_c_) >= (2));
     if (!guard) return FALSE;
 
     #if PRINT_OUTPUT
@@ -392,12 +388,9 @@ void various_EngineFirstStep(void) {
     (a_li_).data[0] = 0;
     (a_li_).data[1] = 0;
     a_x_ = 2;
-    a_ = _various_X;
     g_rcv_v_ = 0;
     g_rcv_v2_ = g_rcv_v_;
-    g_rcv_ = _various_X;
     g_snd_a_ = IntegerAdd((5) + (3), inc_(g_rcv_v_));
-    g_snd_ = _various_X;
     g_sync_c_ = 0.0;
     g_sync_ = _various_l1;
 

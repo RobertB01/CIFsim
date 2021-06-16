@@ -33,21 +33,7 @@
                 <REAL/>
               </type>
             </variable>
-            <variable address="%Q*" name="dvar_M_p">
-              <type>
-                <derived name="enum_E"/>
-              </type>
-            </variable>
           </struct>
-        </baseType>
-      </dataType>
-      <dataType name="enum_E">
-        <baseType>
-          <enum>
-            <values>
-              <value name="elit_X"/>
-            </values>
-          </enum>
         </baseType>
       </dataType>
     </dataTypes>
@@ -194,7 +180,6 @@ IF first THEN
     // Initialize state variables for initial state.
     state0.dvar_M_p_x := 5;
     state0.cvar_M_p_t := 0.0;
-    state0.dvar_M_p := elit_X;
 ELSE
     // Update continuous variables for time delay.
     state1.cvar_M_p_t := state0.cvar_M_p_t + curDeltaSecs * derivcvar_M_p_t(state0);

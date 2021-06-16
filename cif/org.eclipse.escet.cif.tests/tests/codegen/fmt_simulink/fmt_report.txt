@@ -5,7 +5,7 @@ This report lists the variables in each vector, along with their index number.
 
 Modes
 -----
-a 1
+No variables are available here.
 
 Continuous states
 -----------------
@@ -19,18 +19,17 @@ r 3
 
 Outputs
 -------
-a        1
-b0       2
-e0       3
-i0       4
-ii1      5
-ii2      6
-ii3      7
-ii4      8
-ii5      9
-ii7      10
-neg12345 11
-r0       12
-r456     13
-r_zero   14
-rr6      15
+b0       1
+e0       2
+i0       3
+ii1      4
+ii2      5
+ii3      6
+ii4      7
+ii5      8
+ii7      9
+neg12345 10
+r0       11
+r456     12
+r_zero   13
+rr6      14

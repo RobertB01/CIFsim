@@ -38,11 +38,6 @@
                 <DINT/>
               </type>
             </variable>
-            <variable address="%Q*" name="dvar_M_aut">
-              <type>
-                <derived name="enum_E"/>
-              </type>
-            </variable>
           </struct>
         </baseType>
       </dataType>
@@ -60,15 +55,6 @@
               </type>
             </variable>
           </struct>
-        </baseType>
-      </dataType>
-      <dataType name="enum_E">
-        <baseType>
-          <enum>
-            <values>
-              <value name="elit_X"/>
-            </values>
-          </enum>
         </baseType>
       </dataType>
     </dataTypes>
@@ -382,7 +368,6 @@ IF first THEN
     state0.dvar_M_aut_x := 10;
     state0.dvar_M_aut_y := func_f1(10);
     state0.dvar_M_aut_z := func_f3(0);
-    state0.dvar_M_aut := elit_X;
 ELSE
     // Update continuous variables for time delay.
 

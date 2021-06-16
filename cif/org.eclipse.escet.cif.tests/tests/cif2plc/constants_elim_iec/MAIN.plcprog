@@ -53,7 +53,6 @@ IF first THEN
 
     // Initialize state variables for initial state.
     state0.dvar_M_aut_y := 0;
-    state0.dvar_M_aut := elit_X;
 ELSE
     // Update continuous variables for time delay.
 

@@ -1069,16 +1069,6 @@ static int A2ITypePrint(A2IType *array, char *dest, int start, int end);
 static A2IType A2ITypeFromSimulink(real_T *vec);
 static void A2ITypeToSimulink(real_T *vec, A2IType *arr);
 
-enum Enumvarious_ {
-    _various_l1,
-    _various_l2,
-    _various_X,
-};
-typedef enum Enumvarious_ variousEnum;
-
-static const char *enum_names[];
-static int EnumTypePrint(variousEnum value, char *dest, int start, int end);
-
 /* CIF type: list[3] int[0..5] */
 struct A3I_struct {
     int_T data[3];
@@ -1091,6 +1081,15 @@ static void A3ITypeModify(A3IType *array, IntType index, int_T value);
 static int A3ITypePrint(A3IType *array, char *dest, int start, int end);
 static A3IType A3ITypeFromSimulink(real_T *vec);
 static void A3ITypeToSimulink(real_T *vec, A3IType *arr);
+
+enum Enumvarious_ {
+    _various_l1,
+    _various_l2,
+};
+typedef enum Enumvarious_ variousEnum;
+
+static const char *enum_names[];
+static int EnumTypePrint(variousEnum value, char *dest, int start, int end);
 
 /* }}} */
 
@@ -1251,17 +1250,6 @@ static void A2ITypeToSimulink(real_T *vec, A2IType *arr) {
     for (i = 0; i < 2; i++) vec[i] = IntToSimulink(arr->data[i]);
 }
 
-static int EnumTypePrint(variousEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
-    dest[start] = '\0';
-    return start;
-}
-
 /**
  * Compare two arrays for equality.
  * @param left First array to compare.
@@ -1344,6 +1332,17 @@ static A3IType A3ITypeFromSimulink(real_T *vec) {
 static void A3ITypeToSimulink(real_T *vec, A3IType *arr) {
     int i;
     for (i = 0; i < 3; i++) vec[i] = IntToSimulink(arr->data[i]);
+}
+
+static int EnumTypePrint(variousEnum value, char *dest, int start, int end) {
+    int last = end - 1;
+    const char *lit_name = enum_names[value];
+    while (start < last && *lit_name) {
+        dest[start++] = *lit_name;
+        lit_name++;
+    }
+    dest[start] = '\0';
+    return start;
 }
 
 /* }}} */
@@ -1439,7 +1438,6 @@ const char *evt_names[] = { /** < Event names. */
 static const char *enum_names[] = {
     "l1",
     "l2",
-    "X",
 };
 
 /**
@@ -1458,7 +1456,7 @@ static BoolType GuardEval01(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    return ((modes[0]) == (_various_X)) && (((modes[1]) == (_various_X)) && (((modes[2]) == (_various_l2)) && ((cstate[1]) >= (2))));
+    return ((modes[0]) == (_various_l2)) && ((cstate[1]) >= (2));
 }
 
 /* Event execution. */
@@ -1473,14 +1471,14 @@ static BoolType ExecEvent0(SimStruct *sim_struct) {
     int_T *modes = ssGetModeVector(sim_struct);
     real_T *cstate = ssGetContStates(sim_struct);
 
-    BoolType guard = (modes[2]) == (_various_l1);
+    BoolType guard = (modes[0]) == (_various_l1);
     if (!guard) return FALSE;
 
     #if PRINT_OUTPUT
         PrintOutput(e1_, TRUE);
     #endif
 
-    modes[2] = _various_l2;
+    modes[0] = _various_l2;
 
     #if PRINT_OUTPUT
         PrintOutput(e1_, FALSE);
@@ -1508,7 +1506,7 @@ static BoolType ExecEvent1(SimStruct *sim_struct) {
     work->g_rcv_v_ = IntegerMultiply(work->g_rcv_v2_, IntegerAdd(z_(sim_struct), work->g_snd_a_));
     work->g_snd_a_ = IntegerAdd(work->g_snd_a_, 1);
     cstate[1] = 0.0;
-    modes[2] = _various_l1;
+    modes[0] = _various_l1;
 
     #if PRINT_OUTPUT
         PrintOutput(g_h1_, FALSE);
@@ -1578,21 +1576,18 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 11)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 8)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
-    ssSetOutputPortWidth(sim_struct, 2, 1);
+    ssSetOutputPortWidth(sim_struct, 2, 2);
     ssSetOutputPortWidth(sim_struct, 3, 1);
     ssSetOutputPortWidth(sim_struct, 4, 1);
-    ssSetOutputPortWidth(sim_struct, 5, 2);
+    ssSetOutputPortWidth(sim_struct, 5, 1);
     ssSetOutputPortWidth(sim_struct, 6, 1);
     ssSetOutputPortWidth(sim_struct, 7, 1);
-    ssSetOutputPortWidth(sim_struct, 8, 1);
-    ssSetOutputPortWidth(sim_struct, 9, 1);
-    ssSetOutputPortWidth(sim_struct, 10, 1);
 
-    for (idx = 0; idx < 11; idx++) {
+    for (idx = 0; idx < 8; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1607,7 +1602,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 4);
+    ssSetNumModes(sim_struct, 1);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 1);
@@ -1653,14 +1648,11 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     (work->a_li_).data[0] = 0;
     (work->a_li_).data[1] = 0;
     work->a_x_ = 2;
-    modes[3] = _various_X;
     work->g_rcv_v_ = 0;
     work->g_rcv_v2_ = work->g_rcv_v_;
-    modes[1] = _various_X;
     work->g_snd_a_ = IntegerAdd((5) + (3), inc_(sim_struct, work->g_rcv_v_));
-    modes[0] = _various_X;
     cstate[1] = 0.0;
-    modes[2] = _various_l1;
+    modes[0] = _various_l1;
 }
 #endif
 /* }}} */
@@ -1706,36 +1698,27 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
 
     real_T *y;
     y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = IntToSimulink(modes[3]);
-
-    y = ssGetOutputPortSignal(sim_struct, 1);
-    *y = IntToSimulink(modes[1]);
-
-    y = ssGetOutputPortSignal(sim_struct, 2);
     *y = IntToSimulink(modes[0]);
 
-    y = ssGetOutputPortSignal(sim_struct, 3);
-    *y = IntToSimulink(modes[2]);
-
-    y = ssGetOutputPortSignal(sim_struct, 4);
+    y = ssGetOutputPortSignal(sim_struct, 1);
     *y = RealToSimulink(cstate[1]);
 
-    y = ssGetOutputPortSignal(sim_struct, 5);
+    y = ssGetOutputPortSignal(sim_struct, 2);
     A2ITypeToSimulink(y, &work->a_li_);
 
-    y = ssGetOutputPortSignal(sim_struct, 6);
+    y = ssGetOutputPortSignal(sim_struct, 3);
     *y = IntToSimulink(work->a_x_);
 
-    y = ssGetOutputPortSignal(sim_struct, 7);
+    y = ssGetOutputPortSignal(sim_struct, 4);
     *y = IntToSimulink(work->g_rcv_v_);
 
-    y = ssGetOutputPortSignal(sim_struct, 8);
+    y = ssGetOutputPortSignal(sim_struct, 5);
     *y = IntToSimulink(work->g_rcv_v2_);
 
-    y = ssGetOutputPortSignal(sim_struct, 9);
+    y = ssGetOutputPortSignal(sim_struct, 6);
     *y = IntToSimulink(work->g_snd_a_);
 
-    y = ssGetOutputPortSignal(sim_struct, 10);
+    y = ssGetOutputPortSignal(sim_struct, 7);
     *y = IntToSimulink(z_(sim_struct));
 }
 /* }}} */

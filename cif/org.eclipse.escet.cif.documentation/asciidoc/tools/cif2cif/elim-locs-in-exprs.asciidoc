@@ -41,8 +41,9 @@ indexterm:[eliminate the use of locations in expressions,implementation]
 
 === Implementation details
 
-For each automaton for which a location is used (referred to) in an expression (such as a guard, invariant, or equation), a location pointer variable is introduced, with as value the current location of the automaton.
+For each automaton with two or more locations, and for which a location is used (referred to) in an expression (such as a guard, invariant, or equation), a location pointer variable is introduced, with as value the current location of the automaton.
 The values for such a new variables are part of a newly created enumeration that has a value (an enumeration literal) for each location of the automaton.
+For automata with exactly one location, no location pointer variable is created.
 
 To initialize the new location pointer variable, the variable itself is initialized to `any` (meaning any value in its domain), and initialization predicates are added to all locations that could potentially be initial locations.
 For automata with exactly one initial state, the initial value of the location pointer variable is set directly, instead of using initialization predicates.
@@ -50,6 +51,7 @@ For automata with exactly one initial state, the initial value of the location p
 All edges in the automaton that change the current location of that automaton, get an additional assignment to update the location pointer variable.
 
 All uses of the locations of the automaton in expressions (that is, all location reference expressions) are changed to equality binary expressions for the location pointer variable and the enumeration literal corresponding to the location.
+For references to a location of an automaton with exactly one location, all uses of this location are changed to `true`.
 
 For instance, the following specification:
 

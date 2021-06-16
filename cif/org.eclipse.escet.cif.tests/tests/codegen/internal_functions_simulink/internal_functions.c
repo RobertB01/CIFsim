@@ -1079,14 +1079,6 @@ typedef struct T2IR_struct T2IRType;
 static BoolType T2IRTypeEquals(T2IRType *left, T2IRType *right);
 static int T2IRTypePrint(T2IRType *tuple, char *dest, int start, int end);
 
-enum Enuminternal_functions_ {
-    _internal_functions_X,
-};
-typedef enum Enuminternal_functions_ internal_functionsEnum;
-
-static const char *enum_names[];
-static int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end);
-
 /* CIF type: list[3] int */
 struct A3I_struct {
     int_T data[3];
@@ -1299,17 +1291,6 @@ static int T2IRTypePrint(T2IRType *tuple, char *dest, int start, int end) {
     if (start < last) { dest[start++] = ' '; }
     start = RealTypePrint(tuple->_field1, dest, start, end);
     if (start < last) { dest[start++] = ')'; }
-    dest[start] = '\0';
-    return start;
-}
-
-static int EnumTypePrint(internal_functionsEnum value, char *dest, int start, int end) {
-    int last = end - 1;
-    const char *lit_name = enum_names[value];
-    while (start < last && *lit_name) {
-        dest[start++] = *lit_name;
-        lit_name++;
-    }
     dest[start] = '\0';
     return start;
 }
@@ -1901,9 +1882,7 @@ const char *evt_names[] = { /** < Event names. */
 };
 
 /** Enum names. */
-static const char *enum_names[] = {
-    "X",
-};
+${enum-names-list}
 
 /**
  * Reset 'loaded' status of all input variables.
@@ -1943,7 +1922,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     }
 
     /* Outputs. */
-    if (!ssSetNumOutputPorts(sim_struct, 22)) return;
+    if (!ssSetNumOutputPorts(sim_struct, 21)) return;
 
     ssSetOutputPortWidth(sim_struct, 0, 1);
     ssSetOutputPortWidth(sim_struct, 1, 1);
@@ -1957,18 +1936,17 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetOutputPortWidth(sim_struct, 9, 1);
     ssSetOutputPortWidth(sim_struct, 10, 1);
     ssSetOutputPortWidth(sim_struct, 11, 1);
-    ssSetOutputPortWidth(sim_struct, 12, 1);
+    ssSetOutputPortWidth(sim_struct, 12, 4);
     ssSetOutputPortWidth(sim_struct, 13, 4);
-    ssSetOutputPortWidth(sim_struct, 14, 4);
+    ssSetOutputPortWidth(sim_struct, 14, 1);
     ssSetOutputPortWidth(sim_struct, 15, 1);
     ssSetOutputPortWidth(sim_struct, 16, 1);
     ssSetOutputPortWidth(sim_struct, 17, 1);
     ssSetOutputPortWidth(sim_struct, 18, 1);
     ssSetOutputPortWidth(sim_struct, 19, 1);
     ssSetOutputPortWidth(sim_struct, 20, 1);
-    ssSetOutputPortWidth(sim_struct, 21, 1);
 
-    for (idx = 0; idx < 22; idx++) {
+    for (idx = 0; idx < 21; idx++) {
         ssSetOutputPortDataType(sim_struct, idx, SS_DOUBLE);
         ssSetOutputPortComplexSignal(sim_struct, idx, COMPLEX_NO);
     }
@@ -1983,7 +1961,7 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
     ssSetNumPWork(sim_struct, 1);
 
     /* Modes. */
-    ssSetNumModes(sim_struct, 1);
+    ssSetNumModes(sim_struct, 0);
 
     ssSetNumSampleTimes(sim_struct, 1);
     ssSetNumNonsampledZCs(sim_struct, 0);
@@ -2058,7 +2036,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
     work->aut_v18_ = fu3_(sim_struct);
     work->aut_v19_ = fr_(sim_struct);
     work->aut_combi_ = IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(IntegerAdd(work->aut_v00_, work->aut_v01_), work->aut_v02_), work->aut_v03_), work->aut_v04_), work->aut_v05_), work->aut_v06_), work->aut_v07_), work->aut_v08_), FloorFunction(work->aut_v09_)), work->aut_v10_), A4ITypeProject(&(work->aut_v11_), 0)), A4ITypeProject(&(work->aut_v12_), 0)), work->aut_v13_), work->aut_v14_), work->aut_v15_), work->aut_v16_), work->aut_v17_), work->aut_v18_), work->aut_v19_);
-    modes[0] = _internal_functions_X;
 }
 #endif
 /* }}} */
@@ -2100,69 +2077,66 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
 
     real_T *y;
     y = ssGetOutputPortSignal(sim_struct, 0);
-    *y = IntToSimulink(modes[0]);
-
-    y = ssGetOutputPortSignal(sim_struct, 1);
     *y = IntToSimulink(work->aut_combi_);
 
-    y = ssGetOutputPortSignal(sim_struct, 2);
+    y = ssGetOutputPortSignal(sim_struct, 1);
     *y = IntToSimulink(work->aut_v00_);
 
-    y = ssGetOutputPortSignal(sim_struct, 3);
+    y = ssGetOutputPortSignal(sim_struct, 2);
     *y = IntToSimulink(work->aut_v01_);
 
-    y = ssGetOutputPortSignal(sim_struct, 4);
+    y = ssGetOutputPortSignal(sim_struct, 3);
     *y = IntToSimulink(work->aut_v02_);
 
-    y = ssGetOutputPortSignal(sim_struct, 5);
+    y = ssGetOutputPortSignal(sim_struct, 4);
     *y = IntToSimulink(work->aut_v03_);
 
-    y = ssGetOutputPortSignal(sim_struct, 6);
+    y = ssGetOutputPortSignal(sim_struct, 5);
     *y = IntToSimulink(work->aut_v04_);
 
-    y = ssGetOutputPortSignal(sim_struct, 7);
+    y = ssGetOutputPortSignal(sim_struct, 6);
     *y = IntToSimulink(work->aut_v05_);
 
-    y = ssGetOutputPortSignal(sim_struct, 8);
+    y = ssGetOutputPortSignal(sim_struct, 7);
     *y = IntToSimulink(work->aut_v06_);
 
-    y = ssGetOutputPortSignal(sim_struct, 9);
+    y = ssGetOutputPortSignal(sim_struct, 8);
     *y = IntToSimulink(work->aut_v07_);
 
-    y = ssGetOutputPortSignal(sim_struct, 10);
+    y = ssGetOutputPortSignal(sim_struct, 9);
     *y = IntToSimulink(work->aut_v08_);
 
-    y = ssGetOutputPortSignal(sim_struct, 11);
+    y = ssGetOutputPortSignal(sim_struct, 10);
     *y = RealToSimulink(work->aut_v09_);
 
-    y = ssGetOutputPortSignal(sim_struct, 12);
+    y = ssGetOutputPortSignal(sim_struct, 11);
     *y = IntToSimulink(work->aut_v10_);
 
-    y = ssGetOutputPortSignal(sim_struct, 13);
+    y = ssGetOutputPortSignal(sim_struct, 12);
     A4ITypeToSimulink(y, &work->aut_v11_);
 
-    y = ssGetOutputPortSignal(sim_struct, 14);
+    y = ssGetOutputPortSignal(sim_struct, 13);
     A4ITypeToSimulink(y, &work->aut_v12_);
 
-    y = ssGetOutputPortSignal(sim_struct, 15);
+    y = ssGetOutputPortSignal(sim_struct, 14);
     *y = IntToSimulink(work->aut_v13_);
 
-    y = ssGetOutputPortSignal(sim_struct, 16);
+    y = ssGetOutputPortSignal(sim_struct, 15);
     *y = IntToSimulink(work->aut_v14_);
 
-    y = ssGetOutputPortSignal(sim_struct, 17);
+    y = ssGetOutputPortSignal(sim_struct, 16);
     *y = IntToSimulink(work->aut_v15_);
 
-    y = ssGetOutputPortSignal(sim_struct, 18);
+    y = ssGetOutputPortSignal(sim_struct, 17);
     *y = IntToSimulink(work->aut_v16_);
 
-    y = ssGetOutputPortSignal(sim_struct, 19);
+    y = ssGetOutputPortSignal(sim_struct, 18);
     *y = IntToSimulink(work->aut_v17_);
 
-    y = ssGetOutputPortSignal(sim_struct, 20);
+    y = ssGetOutputPortSignal(sim_struct, 19);
     *y = IntToSimulink(work->aut_v18_);
 
-    y = ssGetOutputPortSignal(sim_struct, 21);
+    y = ssGetOutputPortSignal(sim_struct, 20);
     *y = IntToSimulink(work->aut_v19_);
 }
 /* }}} */

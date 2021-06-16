@@ -15,11 +15,12 @@ automaton p2:
   disc bool LOC_l1;
   disc bool LOC_l12;
   disc LOCS_p22 LP_p22 = LOC_l13;
-  enum LOCS_p22 = LOC_l13;
+  enum LOCS_p22 = LOC_l13, LOC_l2;
   invariant LP_p2 or LOCS_p2 or LOC_l1 or LOC_l12;
   location l1:
     initial;
-    edge when LP_p2 or LP_p22 = LOC_l13;
+    edge when LP_p2 or LP_p22 = LOC_l13 do LP_p22 := LOC_l2 goto l2;
+  location l2;
 end
 automaton p3:
   location l:
@@ -30,12 +31,10 @@ automaton p4a:
   enum LOCS_p4a = LOC_l1, LOC_l2;
   location l1:
     initial;
-    edge when p4b.LP_p4b = p4b.LOC_l do LP_p4a := LOC_l2 goto l2;
+    edge when true do LP_p4a := LOC_l2 goto l2;
   location l2;
 end
 automaton p4b:
-  disc LOCS_p4b LP_p4b = LOC_l;
-  enum LOCS_p4b = LOC_l;
   invariant p4a.LP_p4a = p4a.LOC_l2;
   location l:
     initial;
@@ -82,9 +81,14 @@ automaton p6:
     edge do if x: y := 0 else y := 1 end, x := false, LP_p6 := LOC_l1 goto l1;
 end
 automaton p_switch1:
-  alg real x1 = switch LP_p_switch1: else 1.0 end;
-  disc LOCS_p_switch1 LP_p_switch1 = LOC_l1;
-  enum LOCS_p_switch1 = LOC_l1;
+  alg real x1 = 1.0;
+  alg real x2 = 2.0;
+  alg real x3 = 3.0;
+  alg real x4 = 1.0;
+  alg real x5 = 2.0;
+  alg real x6 = 3.0;
+  alg real x7 = switch true: case true: 5.0 else 6.0 end;
+  alg real x8 = switch false: case true: 5.0 else 6.0 end;
   location l1:
     initial;
 end

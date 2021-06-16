@@ -55,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
@@ -114,7 +115,7 @@ public class LinearizeMerge extends LinearizeBase {
         LocRefExprCreator creator = new LocRefExprCreator() {
             @Override
             public Expression create(Location loc) {
-                return lpIntroducer.createEquality(loc);
+                return lpIntroducer.createLocRef(loc);
             }
         };
 
@@ -263,7 +264,7 @@ public class LinearizeMerge extends LinearizeBase {
                         }
 
                         // Add 'loc and guards' : 'value' pair.
-                        Expression lexpr = lpIntroducer.createEquality(loc);
+                        Expression lexpr = lpIntroducer.createLocRef(loc);
 
                         Expression guards = createConjunction(deepclone(edge.getGuards()));
 
@@ -341,7 +342,7 @@ public class LinearizeMerge extends LinearizeBase {
                     }
 
                     // Get 'loc and guards', 'loc', 'updates' triple.
-                    Expression lexpr = lpIntroducer.createEquality(loc);
+                    Expression lexpr = lpIntroducer.createLocRef(loc);
 
                     Expression guards = createConjunction(deepclone(edge.getGuards()));
 
@@ -367,10 +368,17 @@ public class LinearizeMerge extends LinearizeBase {
     private void addUpdates(List<Triple<Expression, Location, List<Update>>> triples, List<Update> updates) {
         // If no triples, or only triples without updates, then nothing to add.
         boolean allEmpty = true;
+
+        // Save a variable that can be updated, in case we have to construct a dummy update later. If such a variable
+        // is not found, then no dummy update has to be created. Hence, there won't be problems with the variable
+        // being null.
+        Expression updatableVar = null;
+
         for (Triple<Expression, Location, List<Update>> trip: triples) {
             if (!trip.third.isEmpty()) {
                 // Has an update.
                 allEmpty = false;
+                updatableVar = getUpdatedVarRefExpr(first(trip.third));
                 break;
             }
         }
@@ -399,12 +407,24 @@ public class LinearizeMerge extends LinearizeBase {
             // Get location.
             Location loc = trip.second;
 
-            // Add dummy location pointer update.
-            BinaryExpression lexpr = lpIntroducer.createEquality(loc);
+            // Add dummy update.
+            Expression lexpr = lpIntroducer.createLocRef(loc);
 
             Assignment asgn = newAssignment();
-            asgn.setAddressable(lexpr.getLeft());
-            asgn.setValue(lexpr.getRight());
+            if (lexpr instanceof BinaryExpression) {
+                // The automaton has has multiple locations and this is a 'var = lit' binary expression. Create a
+                // 'var := lit' assignment, where 'var' is the location pointer.
+                BinaryExpression binExpr = (BinaryExpression)lexpr;
+                asgn.setAddressable(binExpr.getLeft());
+                asgn.setValue(binExpr.getRight());
+            } else if (lexpr instanceof BoolExpression) {
+                // The automaton has exactly one location and this is a 'true' boolean expression. Create a 'var := var'
+                // assignment, where 'var' is the updateable variable we found before.
+                asgn.setAddressable(deepclone(updatableVar));
+                asgn.setValue(deepclone(updatableVar));
+            } else {
+                throw new RuntimeException("Unexpected expression: " + lexpr.toString());
+            }
 
             tripUpdates.add(asgn);
         }
@@ -430,5 +450,24 @@ public class LinearizeMerge extends LinearizeBase {
         }
 
         updates.add(rslt);
+    }
+
+    /**
+     * Returns an expression that references (a part of) a variable. For an assignment this is the addressable, for an
+     * if-update this is a variable updated by the first 'then'.
+     *
+     * @param update The update to retrieve a variable from.
+     * @return An expression that references (a part of) a variable.
+     */
+    private Expression getUpdatedVarRefExpr(Update update) {
+        if (update instanceof Assignment) {
+            Assignment ass = (Assignment)update;
+            return ass.getAddressable();
+        } else if (update instanceof IfUpdate) {
+            IfUpdate ifUpdate = (IfUpdate)update;
+            return getUpdatedVarRefExpr(first(ifUpdate.getThens()));
+        } else {
+            throw new RuntimeException("Unexpected update: " + update.toString());
+        }
     }
 }
