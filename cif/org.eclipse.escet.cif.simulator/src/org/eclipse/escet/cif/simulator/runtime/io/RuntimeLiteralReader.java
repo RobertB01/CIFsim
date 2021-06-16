@@ -672,7 +672,7 @@ public class RuntimeLiteralReader {
         } catch (InputOutputException ex) {
             // Currently literal resource reading is only used internally, so
             // we expect no exceptions here.
-            String name = RuntimeEnumUtils.getCifName(enumClass);
+            String name = RuntimeEnumUtils.getEnumCifName(enumClass);
             String msg = fmt("Failed to read literal of type \"%s\".", name);
             throw new RuntimeException(msg, ex);
         }
@@ -693,7 +693,7 @@ public class RuntimeLiteralReader {
                 return readEnumLiteral(stream, enumClass);
             }
         } catch (InputOutputException ex) {
-            String name = RuntimeEnumUtils.getCifName(enumClass);
+            String name = RuntimeEnumUtils.getEnumCifName(enumClass);
             String msg = fmt("Failed to read literal of type \"%s\".", name);
             throw new InputOutputException(msg, ex);
         }
@@ -713,7 +713,7 @@ public class RuntimeLiteralReader {
         try {
             return readEnumLiteralInternal(stream, enumClass);
         } catch (InputOutputException ex) {
-            String name = RuntimeEnumUtils.getCifName(enumClass);
+            String name = RuntimeEnumUtils.getEnumCifName(enumClass);
             String msg = fmt("Failed to read literal of type \"%s\".", name);
             throw new InputOutputException(msg, ex);
         }
@@ -739,22 +739,21 @@ public class RuntimeLiteralReader {
             throw new InputOutputException(msg, ex);
         }
 
-        // Loop up the literal from the enumeration Java class.
-        T rslt;
-        try {
-            rslt = Enum.valueOf(enumClass, name);
-        } catch (IllegalArgumentException ex) {
-            String msg = fmt("Identifier \"%s\" is not the name of an expected enumeration literal", name);
-            String lineColMsg = stream.getLineColMsg();
-            if (lineColMsg != null) {
-                msg += ", " + lineColMsg;
+        // Look up the literal from the enumeration Java class.
+        for (T enumConstant: enumClass.getEnumConstants()) {
+            if (enumConstant.toString().equals(name)) {
+                return enumConstant;
             }
-            msg += ".";
-            throw new InputOutputException(msg);
         }
 
-        // Return enumeration literal;
-        return rslt;
+        // Result not found.
+        String msg = fmt("Identifier \"%s\" is not the name of an expected enumeration literal", name);
+        String lineColMsg = stream.getLineColMsg();
+        if (lineColMsg != null) {
+            msg += ", " + lineColMsg;
+        }
+        msg += ".";
+        throw new InputOutputException(msg);
     }
 
     /**

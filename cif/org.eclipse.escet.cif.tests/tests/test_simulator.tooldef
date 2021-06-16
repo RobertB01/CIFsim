@@ -75,6 +75,7 @@ map(string:list string) test_options = {
     "simulator/init/no_init_disc_var2.cif":                          ["--init=p.x:3"],
     "simulator/init/no_init_disc_var3.cif":                          ["--init=p.x:3"],
     "simulator/init/no_init_disc_var4.cif":                          ["--init=p.x:3"],
+    "simulator/misc/java_keywords_enum_literals.cif":                ["--init=p.x:new"],
     "simulator/ode/stiff.cif":                                       ["-t0.001 --solver-int-minstep=1e-6 --solver-int-atol=1e-6 --solver-int-rtol=1e-6 --trajdata=on --debug=ode"],
     "simulator/ode/tank_controlled.cif":                             ["--trajdata=on --debug=ode"],
     "simulator/ode/time_in_guard.cif":                               ["--debug=ode"],

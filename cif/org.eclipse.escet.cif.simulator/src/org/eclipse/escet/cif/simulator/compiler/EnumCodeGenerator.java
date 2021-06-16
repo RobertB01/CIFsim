@@ -48,7 +48,7 @@ public class EnumCodeGenerator {
      */
     public static void gencodeEnums(CifCompilerContext ctxt) {
         // Get representatives mapping.
-        Map<EnumDecl, EnumDecl> reprsMap = ctxt.getEnumReprs();
+        Map<EnumDecl, EnumDecl> reprsMap = ctxt.getEnumDeclReprs();
 
         // Get names of the enumerations, per representative.
         Map<EnumDecl, List<String>> namesMap = map();
@@ -90,15 +90,28 @@ public class EnumCodeGenerator {
             // Add literals.
             CodeBox c = file.body;
             for (int i = 0; i < lits.size() - 1; i++) {
-                c.add("%s,", lits.get(i).getName());
+                EnumLiteral lit = lits.get(i);
+                c.add("%s(\"%s\"),", ctxt.getEnumConstName(lit), lit.getName());
             }
-            c.add("%s;", last(lits).getName());
+            c.add("%s(\"%s\");", ctxt.getEnumConstName(last(lits)), last(lits).getName());
 
-            // Add 'getCifName' method.
+            // Add 'getEnumCifName' method.
             c.add();
-            c.add("public static String getCifName() {");
+            c.add("public static String getEnumCifName() {");
             c.indent();
             c.add("return %s;", Strings.stringToJava(absName));
+            c.dedent();
+            c.add("}");
+
+            // Add 'cifLiteralName' variable.
+            c.add();
+            c.add("private final String cifLiteralName;");
+
+            // Add constructor.
+            c.add();
+            c.add("%s(String cifLiteralName) {", className);
+            c.indent();
+            c.add("this.cifLiteralName = cifLiteralName;");
             c.dedent();
             c.add("}");
 
@@ -107,19 +120,19 @@ public class EnumCodeGenerator {
             c.add("@Override");
             c.add("public String toString() {");
             c.indent();
-            c.add("return name();");
+            c.add("return cifLiteralName;");
             c.dedent();
             c.add("}");
         }
     }
 
     /**
-     * Returns a mapping from enumerations to their representatives, which may be themselves.
+     * Returns a mapping from enumeration declarations to their representatives, which may be themselves.
      *
      * @param spec The specification.
-     * @return The mapping from enumerations to their representatives.
+     * @return The mapping from enumeration declarations to their representatives.
      */
-    public static Map<EnumDecl, EnumDecl> getEnumReprs(Specification spec) {
+    public static Map<EnumDecl, EnumDecl> getEnumDeclReprs(Specification spec) {
         // Collect all the enumerations from the specification.
         List<EnumDecl> enums = list();
         collectEnums(spec, enums);
