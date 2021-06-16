@@ -696,16 +696,16 @@ public class SynthesisToCifConverter {
         // Relabel requirement invariants in automata.
         if (component instanceof Automaton) {
             Automaton aut = (Automaton)component;
-            relabelReqInvsToSup(aut.getInvariants());
+            relabelRequirementInvariants(aut.getInvariants());
             for (Location loc: aut.getLocations()) {
-                relabelReqInvsToSup(loc.getInvariants());
+                relabelRequirementInvariants(loc.getInvariants());
             }
             return;
         }
 
         // Relabel invariants in the group.
         Group group = (Group)component;
-        relabelReqInvsToSup(group.getInvariants());
+        relabelRequirementInvariants(group.getInvariants());
 
         // Recursively relabel for groups.
         for (Component child: group.getComponents()) {
@@ -718,7 +718,7 @@ public class SynthesisToCifConverter {
      *
      * @param invs The invariants to relabel.
      */
-    private static void relabelReqInvsToSup(List<Invariant> invs) {
+    private static void relabelRequirementInvariants(List<Invariant> invs) {
         for (Invariant inv: invs) {
             if (inv.getSupKind() == SupKind.REQUIREMENT) {
                 inv.setSupKind(SupKind.SUPERVISOR);
