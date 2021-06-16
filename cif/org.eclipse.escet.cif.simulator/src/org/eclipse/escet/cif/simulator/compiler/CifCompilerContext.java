@@ -553,11 +553,10 @@ public class CifCompilerContext {
     }
 
     /**
-     * Returns the unique generated name for the enumeration constant that is generated for the given enumeration
-     * literal.
+     * Returns the generated name for the enumeration constant that is generated for the given enumeration literal.
      *
-     * @param enumLit The enumeration literal for which to get the unique name.
-     * @return The unique generated name of the enumeration constant.
+     * @param enumLit The enumeration literal for which to get the name.
+     * @return The generated name of the enumeration constant.
      */
     public String getEnumConstName(EnumLiteral enumLit) {
         return ENUM_LIT_CONST_PREFIX + "_" + enumLit.getName();
