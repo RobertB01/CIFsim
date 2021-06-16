@@ -87,6 +87,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Alphabet;
@@ -202,7 +203,7 @@ public class SynthesisToCifConverter {
         }
 
         // Relabel requirement automata from input model to supervisors.
-        relabelRequirements(spec);
+        relabelRequirementAutomata(spec);
 
         // Remove requirements.
         //
@@ -229,6 +230,9 @@ public class SynthesisToCifConverter {
             // invariants.
             throw new RuntimeException("Unexpected error.", ex);
         }
+
+        // Relabel the remaining requirement invariants from the input model to supervisors.
+        relabelRequirementInvariants(spec);
 
         // Construct new supervisor automaton.
         supervisor = createSupervisorAutomaton(supName);
@@ -666,8 +670,8 @@ public class SynthesisToCifConverter {
      *
      * @param component The component in which to recursively apply the relabeling.
      */
-    private static void relabelRequirements(ComplexComponent component) {
-        // Relabel requirements as supervisor.
+    private static void relabelRequirementAutomata(ComplexComponent component) {
+        // Relabel requirement automata as supervisor.
         if (component instanceof Automaton) {
             Automaton aut = (Automaton)component;
             if (aut.getKind() == SupKind.REQUIREMENT) {
@@ -679,7 +683,46 @@ public class SynthesisToCifConverter {
         // Recursively relabel for groups.
         Group group = (Group)component;
         for (Component child: group.getComponents()) {
-            relabelRequirements((ComplexComponent)child);
+            relabelRequirementAutomata((ComplexComponent)child);
+        }
+    }
+
+    /**
+     * Recursively relabel requirement invariants to supervisors.
+     *
+     * @param component The component in which to recursively apply the relabeling.
+     */
+    private static void relabelRequirementInvariants(ComplexComponent component) {
+        // Relabel requirement invariants in automata.
+        if (component instanceof Automaton) {
+            Automaton aut = (Automaton)component;
+            relabelRequirementInvariants(aut.getInvariants());
+            for (Location loc: aut.getLocations()) {
+                relabelRequirementInvariants(loc.getInvariants());
+            }
+            return;
+        }
+
+        // Relabel invariants in the group.
+        Group group = (Group)component;
+        relabelRequirementInvariants(group.getInvariants());
+
+        // Recursively relabel for groups.
+        for (Component child: group.getComponents()) {
+            relabelRequirementInvariants((ComplexComponent)child);
+        }
+    }
+
+    /**
+     * Relabel requirement invariants to supervisor.
+     *
+     * @param invs The invariants to relabel.
+     */
+    private static void relabelRequirementInvariants(List<Invariant> invs) {
+        for (Invariant inv: invs) {
+            if (inv.getSupKind() == SupKind.REQUIREMENT) {
+                inv.setSupKind(SupKind.SUPERVISOR);
+            }
         }
     }
 

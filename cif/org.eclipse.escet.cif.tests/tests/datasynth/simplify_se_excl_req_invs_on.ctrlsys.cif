@@ -22,6 +22,6 @@ supervisor automaton sup:
     edge e2c when 2 <= p2.x and p2.x <= 5;
     edge e2d when not(p2.x = 2 or p2.x = 3);
 end
-requirement invariant e2b needs p2.x >= 3;
-requirement invariant p2.x = 1 disables e2c;
-requirement invariant e2d needs p2.x >= 4;
+supervisor invariant e2b needs p2.x >= 3;
+supervisor invariant p2.x = 1 disables e2c;
+supervisor invariant e2d needs p2.x >= 4;
