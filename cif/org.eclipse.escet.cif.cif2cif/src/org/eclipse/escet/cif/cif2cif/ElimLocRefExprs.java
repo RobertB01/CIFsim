@@ -210,9 +210,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * @param litPrefix The prefix to use for the new enumeration literals.
      * @param considerLocsForRename Whether to consider the names of the locations of the automaton for renaming to
      *     ensure unique names.
-     * @param addInitPreds Whether to add initially predicates for the initialization the introduced location pointer
-     *     variables. Note that if the automaton has exactly one initial location, the location pointer variable is
-     *     initialized in its declaration, regardless of the value of this parameter.
+     * @param addInitPreds Whether to add initialization predicates for the initialization the introduced location
+     *     pointer variables. Note that if the automaton has exactly one initial location, the location pointer
+     *     variable is initialized in its declaration, regardless of the value of this parameter.
      * @param optimized Whether to perform an optimized transformation (only add location pointer variables to automata
      *     for which a location is referenced in an expression).
      * @param absVarNamesMap Mapping from location pointer variables to their absolute names, where the name of the
