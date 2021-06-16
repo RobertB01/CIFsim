@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
+import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
@@ -319,6 +320,10 @@ public class CifToPlcTrans {
         // Eliminate component definition/instantiation, to avoid having to
         // handle them.
         new ElimComponentDefInst().transform(spec);
+
+        // Eliminate state/event exclusion invariants, to avoid having to
+        // handle them.
+        new ElimStateEvtExclInvs().transform(spec);
 
         // Simplify the specification, to increase the supported subset. Since
         // simplification of values fills in all constants, we can also remove
