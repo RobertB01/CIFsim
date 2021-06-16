@@ -242,7 +242,7 @@ public class ExprCodeGenerator {
         } else if (expr instanceof EnumLiteralExpression) {
             EnumLiteral lit = ((EnumLiteralExpression)expr).getLiteral();
             EnumDecl enumDecl = (EnumDecl)lit.eContainer();
-            return fmt("%s.%s", ctxt.getEnumClassName(enumDecl), ctxt.getEnumValueName(lit));
+            return fmt("%s.%s", ctxt.getEnumClassName(enumDecl), ctxt.getEnumConstName(lit));
         } else if (expr instanceof FunctionExpression) {
             Function func = ((FunctionExpression)expr).getFunction();
             return fmt("%s.%s", ctxt.getFuncClassName(func), ctxt.getFuncFieldName(func));

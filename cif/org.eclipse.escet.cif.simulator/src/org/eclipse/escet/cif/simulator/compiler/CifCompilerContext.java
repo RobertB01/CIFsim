@@ -126,7 +126,7 @@ public class CifCompilerContext {
     public static final String ENUM_DECL_CLS_PREFIX = "E";
 
     /** Prefix for values for enumeration literals. */
-    public static final String ENUM_LIT_VALUE_PREFIX = "elit";
+    public static final String ENUM_LIT_CONST_PREFIX = "elit";
 
     /** Prefix for classes for events. */
     public static final String EVENT_CLS_PREFIX = "Event";
@@ -314,13 +314,6 @@ public class CifCompilerContext {
      * @see #getEnumDeclReprs
      */
     private Map<EnumDecl, EnumDecl> enumDeclReprs = null;
-
-    /**
-     * Mapping from enumeration literals to their representatives. Is {@code null} until computed (when needed).
-     *
-     * @see #getEnumLitReprs
-     */
-    private Map<EnumLiteral, EnumLiteral> enumLitReprs = null;
 
     /**
      * Mapping from {@link CifTypeUtils#normalizeType normalized} container types to their unique generated default
@@ -560,14 +553,14 @@ public class CifCompilerContext {
     }
 
     /**
-     * Returns the unique generated name for the enumeration value that is generated for the given enumeration literal.
+     * Returns the unique generated name for the enumeration constant that is generated for the given enumeration
+     * literal.
      *
      * @param enumLit The enumeration literal for which to get the unique name.
-     * @return The unique generated name of the enumeration value.
+     * @return The unique generated name of the enumeration constant.
      */
-    public String getEnumValueName(EnumLiteral enumLit) {
-        // Not all enumeration literals have a value, only the representatives do.
-        return getName(getEnumLitReprs().get(enumLit), ENUM_LIT_VALUE_PREFIX, false);
+    public String getEnumConstName(EnumLiteral enumLit) {
+        return ENUM_LIT_CONST_PREFIX + "_" + enumLit.getName();
     }
 
     /**
@@ -1126,18 +1119,6 @@ public class CifCompilerContext {
             enumDeclReprs = EnumCodeGenerator.getEnumDeclReprs(spec);
         }
         return enumDeclReprs;
-    }
-
-    /**
-     * Returns the mapping from enumeration literals to their representatives.
-     *
-     * @return The mapping from enumeration literals to their representatives.
-     */
-    public Map<EnumLiteral, EnumLiteral> getEnumLitReprs() {
-        if (enumLitReprs == null) {
-            enumLitReprs = EnumCodeGenerator.getEnumLitReprs(getEnumDeclReprs());
-        }
-        return enumLitReprs;
     }
 
     /**

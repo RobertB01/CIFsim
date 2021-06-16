@@ -740,9 +740,9 @@ public class RuntimeLiteralReader {
         }
 
         // Look up the literal from the enumeration Java class.
-        for (T enumElem: enumClass.getEnumConstants()) {
-            if (enumElem.toString().equals(name)) {
-                return enumElem;
+        for (T enumConstant: enumClass.getEnumConstants()) {
+            if (enumConstant.toString().equals(name)) {
+                return enumConstant;
             }
         }
 

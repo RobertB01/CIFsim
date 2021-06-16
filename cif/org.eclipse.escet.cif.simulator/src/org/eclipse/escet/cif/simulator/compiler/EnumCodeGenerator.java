@@ -91,9 +91,9 @@ public class EnumCodeGenerator {
             CodeBox c = file.body;
             for (int i = 0; i < lits.size() - 1; i++) {
                 EnumLiteral lit = lits.get(i);
-                c.add("%s(\"%s\"),", ctxt.getEnumValueName(lit), lit.getName());
+                c.add("%s(\"%s\"),", ctxt.getEnumConstName(lit), lit.getName());
             }
-            c.add("%s(\"%s\");", ctxt.getEnumValueName(last(lits)), last(lits).getName());
+            c.add("%s(\"%s\");", ctxt.getEnumConstName(last(lits)), last(lits).getName());
 
             // Add 'getEnumCifName' method.
             c.add();
@@ -162,26 +162,6 @@ public class EnumCodeGenerator {
             }
         }
         return rslt;
-    }
-
-    /**
-     * Returns a mapping from enumeration literals to their representatives, which may be themselves.
-     *
-     * @param enumReprs The mapping from enumeration declarations to their representatives.
-     * @return The mapping from enumeration literals to their representatives.
-     */
-    public static Map<EnumLiteral, EnumLiteral> getEnumLitReprs(Map<EnumDecl, EnumDecl> enumReprs) {
-        Map<EnumLiteral, EnumLiteral> enumLitReprs = map();
-
-        for (Entry<EnumDecl, EnumDecl> enumRep: enumReprs.entrySet()) {
-            List<EnumLiteral> originalLits = enumRep.getKey().getLiterals();
-            List<EnumLiteral> representativeLits = enumRep.getValue().getLiterals();
-
-            for (int i = 0; i < originalLits.size(); i++) {
-                enumLitReprs.put(originalLits.get(i), representativeLits.get(i));
-            }
-        }
-        return enumLitReprs;
     }
 
     /**
