@@ -1,0 +1,317 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+# Multi-value decision diagrams package
+
+A user-friendly pure Java implementation.
+
+
+## Goals
+
+Decision trees are a useful data structure to store a large amount of relations.
+Most software packages in this area aim for maximum storage and efficiency,
+implement them with binary decision diagrams (BDDs) and leave all details of
+handling nodes to the end-application for maximum flexibility.
+
+This package uses multi-value decision diagrams (MDDs) instead, and attempts to
+keep details of handling nodes away from the application programmer. The
+advantage of these choices is that using the package is simpler, in particular
+with variables that have more than two possible values. The downside is that
+this implementation is less feature rich, and is less efficient.
+
+As a result, this package works well for applications that need to manipulate
+relations with many variables with a larger domain, where usage of the
+application is not expected to go near the limits of the computer running it.
+
+
+## Variables and relations
+
+The elementary relation in a decision diagram is equality between a variable and
+a value in its domain, for example `i == 5`.
+
+Normally, there is more than one variable,
+and relations use combined equalities through conjunction (the `and` operator)
+and disjunction (the `or` operator).
+
+Example:
+
+----
+X ::=    (i == 5 and j == 1)
+      or (i == 2 and j == 1)
+----
+
+The example shows a relation named `X` that holds when `j` is equal to `1`, and
+`i` must be either `2` or `5`.
+
+The package itself provides constant relations `ONE` to express `true` (the relation
+that always holds), and `ZERO` to express `false` (the relation that never
+holds).
+
+
+## Combining relations
+
+You can have more than one relation at the same time and combine them. For
+example if you also have relations
+
+----
+X ::=    (i == 5 and j == 1)
+      or (i == 2 and j == 1)
+
+Y ::= i == 5 and k == 3
+----
+
+then `Z ::= X and Y` becomes
+
+----
+Z ::= i == 5 and j == 1 and k == 3
+----
+
+The `i == 2` alternative of `X` does not occur in the new relation since `Y`
+does not hold for that value of `i`. Also note that all equalities are preserved
+from both relations, the `j == 1` equality and the `k == 3` equality are part of
+`Z` even though only one of the input relations stated them. The reason is that
+if an alternative in a relation does not say anything about a variable, it is
+assumed it may have any value (the not mentioned variable is independent).
+
+
+This also works if both relations are a disjunction. For example `P ::= X and Q`
+with
+
+----
+X ::=    (i == 5 and j == 1)
+      or (i == 2 and j == 1)
+
+Q ::=    (i == 5            and k == 5)
+      or (i == 5            and k == 3)
+      or (i == 3            and k == 1)
+      or (i == 2 and j == 1 and k == 4)
+----
+
+gives
+
+----
+P ::=    (i == 5 and j == 1 and k == 5)
+      or (i == 5 and j == 1 and k == 3)
+      or (i == 2 and j == 1 and k == 4)
+----
+
+All combined alternatives of `X` and `Q` that are not trivially false due to
+conflicting equalities become part of the result.
+
+From a logical point of view the above is simple Boolean algebra, but if you
+change your view on what `X` and `Q` express you can see the hidden power
+of decision diagrams.
+
+Instead of _X holds when j is equal to 1 and i must be either 2 or
+5_, read `X` as a function from `i` to `j`, that is, _when i equals 2 then j
+equals 1 or when i equals 5 then j equals 1_.
+Similarly, relation `Q` can be read as a function from `i` and `j` to `k`, that
+is, _when i equals 5 then k becomes 5 or 3, if
+i equals 3  then k becomes 1, if i equals 2 and j equals 1 then
+k equals 4_.
+
+If you look at what `P` contains in the function view, you can see you get the
+conjunction of both functions. In one `X and Q` step you computed the combined
+function for all values of all variables at the same time!
+
+An example of this property is used below, computing the result of an
+assignment.
+
+
+## Computing
+
+So far, relations just say when they hold or how input and output of functions
+relate. However, you can also use relations to
+compute new values by being creative with the variables.
+
+For example, say you want to flip an integer variable between `0` and `1` in an
+assignment (if it is `0` it becomes `1`, if it is `1` it becomes `0`).
+You would normally write `i := 1 - i` but how to express this assignment as a relation?
+
+The key point is to understand that the `i` value at the left-hand side is not the
+same as the `i` value at the right-hand side.
+The right-hand side value exists until performing the assignment, the value of
+the left-hand side exists only after the assignment. For clarity, the left-hand
+side `i` is written as `i+`, and we get `i+ := 1 - i`.
+Now this can be expressed as a function between variables `i+` and `i`:
+
+----
+A ::=    (i+ == 0 and i == 1)
+      or (i+ == 1 and i == 0)
+----
+
+You can read the first line of the `A` relation as '`when `i` equals `1`, `i+`
+must equal `0``'. With another relation that represents the value of all current
+variables like
+
+----
+C ::= i == 0 and j == 3
+----
+
+you select the correct line in `A` with `A and C`, yielding relation `U` that
+says
+
+----
+U ::= i+ == 1 and i == 0 and j == 3
+----
+
+Almost there, except `i+` must become `i` and the existing `i` should be removed.
+This is what variable replacement does. Apply `replace(i+, i)` on `U` and you
+get a new `D` relation
+
+----
+D ::= i == 1 and j == 3
+----
+
+This relation is just like the `C` relation, it contains all variables with
+their existing values. In other words we computed `i := 1 - i` from state `C`,
+resulting in state `D`.
+
+While this example is quite easy, there is no inherent upper limit to what you
+can consider to be an '`assignment`'. Basically anything that you can describe as
+a function between input and output works.
+
+Thus if you construct a relation `E` that expresses the input - output relation
+of all edges of an automaton, and you have a relation `C` expressing the current
+state, then `C and E` followed by `replace` for all variables (assuming that `E`
+is complete for all variables), you get a new state `C'` containing the combined result
+of taking one of the edges.
+
+
+## Practical usage
+
+After this short and possibly mind-blowing introduction on decision diagrams in
+particular in the multi-valued variation, below some practical information on
+using the `common.multivaluetrees` package.
+
+### Variables
+
+As you typically work with variables in several variations, like `i` and `i+`
+in the explanation above, this has to be defined first. The core functionality
+provided for that is in `common.multivaluetrees.VarInfoBuilder`. The class is
+generic over the type of variables. As a convenience, the
+`common.multivaluetrees.SimpleVarInfoBuilder` class has been created using
+`common.multivaluetrees.SimpleVarVariable` variables (with a name, a lower
+bound, and a number of valid values).
+
+After creating an instance providing the number of variations that you have,
+add the variables as you like. The order of adding is also the order of the
+variable nodes in the tree from the root towards the bottom `ONE` or `ZERO`
+terminator nodes.
+The elementary function is `addVariable(<variable>, <variation>)` which adds
+a node level for variable `<variable>` and usage index `<variation>` (running
+from `0` to the number of variations excluding the upper bound).
+
+As you usually want to have all variations for a variable, and often want them
+on consecutive node levels in the tree, `addVariable(<variable>)` adds all
+variations in one call. For a list of variables,
+`addVariablesGroupOnVariables(<list-variables>)` does the same for each variable
+in the list. First `N` variations for the first variable, then `N` variations
+for the second variable, and so on.
+If you want the same variation near each other instead,
+`addVariablesGroupOnSubIndex(<list-variables>)` exists.
+
+Each call adds one or more `VarInfo` instances to the builder. A `VarInfo`
+instance is the equivalent of eg `i` and `i+` above.
+The `VarInfoBuilder` instance also stores the relation between variables and
+their `VarInfo` instances. With a variable you can ask it for all related
+`VarInfo` instances (or just one instance), with a `VarInfo` instance you can
+ask for the associated variable.
+
+### Trees and relations
+
+The `VarInfo` instances from the builder are used to construct multi-value
+nodes, and eventually trees of such nodes. This is done in the
+`common.multivaluetrees.Tree` class, the work horse in multi-value diagram
+computations. Constructing it is a simple `Tree t = new Tree();` which gives
+you an empty tree.
+
+Constructed relations in `t` are represented by `common.multivaluetrees.Node`
+objects. These objects should be considered to be read-only. They can be stored
+anywhere in the application. Modifying a `Node` object is not possible, but you
+can create a new (updated) object and store that, similar to for example
+`Integer` objects in the standard Java library.
+
+You can read the information inside a `Node`. The only somewhat useful operation
+that you can perform on `Node n` is
+`n.dumpGraphLines("n-descrption");` which dumps a human-readable representation
+of the relation expressed in the node. You may however also want to check out
+`t.dumpGraph(Node n)` which should provide better output.
+
+
+The `Tree t` object is where nodes are created and stored. It provides the
+following features:
+
+[cols="1,2", options="header"]
+|===
+| Feature | Description
+
+| `Node Tree.ZERO`
+| Constant expressing the `false` relation.
+
+| `Node Tree.ONE`
+| Constant expressing the `true` relation.
+
+| `Node t.buildEqualityValue(VarInfo varInfo, int value)`
+| Construct the elementary `var == value` relation, see also below.
+
+| `Node t.conjunct(Node a, Node b)`
+| Construct a conjunction ('`and`' operator) of relations `a` and `b`.
+
+| `Node t.multiConjunct(Node... nodes)`
+| Construct a conjunction ('`and`' operator) of one or more relations.
+
+| `Node t.disjunct(Node a, Node b)`
+| Construct a disjunction ('`or`' operator) of relations `a` and `b`.
+
+| `Node t.multiDisjunct(Node... nodes)`
+| Construct a disjunction ('`or`' operator) of one or more relations.
+
+| `Node t.invert(Node n)`
+| Construct an inverted relation ('`not`' operator) of relation `n`.
+
+| `Node t.replace(Node n, VarInfo oldVar, VarInfo newVar)`
+| Construct a new relation from relation `n`, where the equality over `oldVar`
+is replaced by the equality over `newVar`, see also below.
+
+| `Node t.abstract(Node n, VarInfo[] abstractions)`
+| Abstracts from the supplied variables. The variable is replaced by a
+disjunction of its children.
+
+| `String t.dumpGraph(Node n)`
+| Output a human readable description of relation `n`
+|===
+
+* The fool-proof way to build a relation from the ground up is to use `Node
+t.buildEqualityValue(VarInfo varInfo, int value)`, combined
+with `Node t.conjunct(Node a, Node b)` ('`and`' operator) and `Node
+t.disjunct(Node a, Node b)` ('`or`' operator) calls.
++
+There is also `Node t.buildEqualityIndex(VarInfo varInfo, int index)` and `Node
+t.buildEqualityIndex(VarInfo varInfo, int index, Node sub)`. These calls are
+more efficient, but ignore the lower bound (internally, the variable range is
+shifted to make the lower bound equal to `0`), and the latter function assumes
+you build the relation bottom up (`VarInfo` instances of last to first calls in
+the `VarInfoBuilder`).
+
+* The `Node t.replace(Node n, VarInfo oldVar, VarInfo newVar)` is simple and has
+few requirements, but it is not very efficient variable replacement. For
+mass-replacement, `Node t.adjacentReplacements(Node n, VariableReplacement[]
+replacements)` is better where the variable replacement instances are
+constructed with `VariableReplacement(VarInfo oldVar, VarInfo newVar)`. The
+`oldVar` and `newVar` variables should be on adjacent levels in the tree, and
+`replacements` must be ordered top-down.
+
+* A somewhat exotic method is `Node t.assign(Node n, VarInfo varInfo, int
+index)`. It selects the
+relation where the `varInfo` variable has the `index` value (with shifted
+lower bound), and eliminates that variable as well.

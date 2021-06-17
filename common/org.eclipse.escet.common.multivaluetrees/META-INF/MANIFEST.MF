@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ESCET Multivaluetrees
+Bundle-SymbolicName: org.eclipse.escet.common.multivaluetrees;singleton:=true
+Bundle-Version: 0.2.0.qualifier
+Automatic-Module-Name: org.eclipse.escet.common.multivaluetrees
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.2.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.2.0"
+Bundle-Vendor: Eclipse ESCET
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.escet.common.multivaluetrees
