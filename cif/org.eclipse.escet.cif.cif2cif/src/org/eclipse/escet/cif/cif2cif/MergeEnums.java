@@ -13,13 +13,13 @@
 
 package org.eclipse.escet.cif.cif2cif;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumDecl;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEnumLiteral;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +130,7 @@ public class MergeEnums extends CifWalker implements CifToCifTransformation {
         String name = "E";
         if (names.contains(name)) {
             String oldName = name;
-            name = CifScopeUtils.getUniqueName(name, names, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, names, Collections.emptySet());
             warn("Merged enumeration \"%s\" is renamed to \"%s\".", oldName, name);
         }
         mergedEnum.setName(name);

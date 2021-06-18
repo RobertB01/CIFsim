@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.datasynth.conversion;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlphabet;
@@ -742,7 +741,7 @@ public class SynthesisToCifConverter {
         Set<String> curNames;
         curNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (curNames.contains(supName)) {
-            name = CifScopeUtils.getUniqueName(name, curNames, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, curNames, Collections.emptySet());
             warn("Supervisor automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name, supName);
         }
         aut.setName(name);

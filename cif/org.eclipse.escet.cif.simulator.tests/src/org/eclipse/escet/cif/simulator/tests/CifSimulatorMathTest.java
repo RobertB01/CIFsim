@@ -15,9 +15,9 @@ package org.eclipse.escet.cif.simulator.tests;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
-import static java.util.Collections.EMPTY_LIST;
-import static java.util.Collections.EMPTY_MAP;
-import static java.util.Collections.EMPTY_SET;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
 import static org.eclipse.escet.cif.common.CifEvalUtils.objToStr;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -39,13 +39,12 @@ import org.junit.Test;
 /** Unit tests for the {@link CifSimulatorMath} class. */
 @SuppressWarnings("javadoc")
 public class CifSimulatorMathTest {
-    @SuppressWarnings("deprecation")
     @Test
     public void testAndOr() {
-        Boolean t1 = new Boolean(true);
-        Boolean t2 = new Boolean(true);
-        Boolean f1 = new Boolean(false);
-        Boolean f2 = new Boolean(false);
+        Boolean t1 = true;
+        Boolean t2 = true;
+        Boolean f1 = false;
+        Boolean f2 = false;
 
         assertEquals(true, t1 || t2);
         assertEquals(true, t1 || f1);
@@ -145,12 +144,11 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testAddList() {
         assertEquals(list(1, 2, 3), CifSimulatorMath.addList(list(1), list(2, 3)));
-        assertEquals(list(1, 2), CifSimulatorMath.addList(EMPTY_LIST, list(1, 2)));
-        assertEquals(list(1, 2), CifSimulatorMath.addList(list(1, 2), EMPTY_LIST));
-        assertEquals(EMPTY_LIST, CifSimulatorMath.addList(EMPTY_LIST, EMPTY_LIST));
+        assertEquals(list(1, 2), CifSimulatorMath.addList(emptyList(), list(1, 2)));
+        assertEquals(list(1, 2), CifSimulatorMath.addList(list(1, 2), emptyList()));
+        assertEquals(emptyList(), CifSimulatorMath.addList(emptyList(), emptyList()));
     }
 
     @Test
@@ -369,14 +367,14 @@ public class CifSimulatorMathTest {
 
     @Test
     public void testEmptyList() {
-        assertEquals(true, CifSimulatorMath.empty(EMPTY_LIST));
+        assertEquals(true, CifSimulatorMath.empty(emptyList()));
         assertEquals(false, CifSimulatorMath.empty(list(1)));
         assertEquals(false, CifSimulatorMath.empty(list(1, 2)));
     }
 
     @Test
     public void testEmptySet() {
-        assertEquals(true, CifSimulatorMath.empty(EMPTY_SET));
+        assertEquals(true, CifSimulatorMath.empty(emptySet()));
         assertEquals(false, CifSimulatorMath.empty(set(1)));
         assertEquals(false, CifSimulatorMath.empty(set(1, 2)));
     }
@@ -390,7 +388,7 @@ public class CifSimulatorMathTest {
         d23.put(2, 2.0);
         d23.put(3, 3.0);
 
-        assertEquals(true, CifSimulatorMath.empty(EMPTY_MAP));
+        assertEquals(true, CifSimulatorMath.empty(emptyMap()));
         assertEquals(false, CifSimulatorMath.empty(d1));
         assertEquals(false, CifSimulatorMath.empty(d23));
     }
@@ -600,26 +598,24 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testInList() {
         assertEquals(true, CifSimulatorMath.in(1, list(1)));
         assertEquals(true, CifSimulatorMath.in(1, list(1, 2)));
         assertEquals(true, CifSimulatorMath.in(1, list(1, 1, 2)));
 
-        assertEquals(false, CifSimulatorMath.in(3, EMPTY_LIST));
+        assertEquals(false, CifSimulatorMath.in(3, emptyList()));
         assertEquals(false, CifSimulatorMath.in(3, list(1)));
         assertEquals(false, CifSimulatorMath.in(3, list(1, 2)));
         assertEquals(false, CifSimulatorMath.in(3, list(1, 1, 2)));
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testInSet() {
         assertEquals(true, CifSimulatorMath.in(1, set(1)));
         assertEquals(true, CifSimulatorMath.in(1, set(1, 2)));
         assertEquals(true, CifSimulatorMath.in(1, set(1, 1, 2)));
 
-        assertEquals(false, CifSimulatorMath.in(3, EMPTY_SET));
+        assertEquals(false, CifSimulatorMath.in(3, emptySet()));
         assertEquals(false, CifSimulatorMath.in(3, set(1)));
         assertEquals(false, CifSimulatorMath.in(3, set(1, 2)));
         assertEquals(false, CifSimulatorMath.in(3, set(1, 1, 2)));
@@ -642,13 +638,12 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testIntersection() {
-        assertEquals(EMPTY_SET, CifSimulatorMath.intersection(EMPTY_SET, EMPTY_SET));
+        assertEquals(emptySet(), CifSimulatorMath.intersection(emptySet(), emptySet()));
 
-        assertEquals(EMPTY_SET, CifSimulatorMath.intersection(EMPTY_SET, set(1)));
+        assertEquals(emptySet(), CifSimulatorMath.intersection(emptySet(), set(1)));
 
-        assertEquals(EMPTY_SET, CifSimulatorMath.intersection(set(1), EMPTY_SET));
+        assertEquals(emptySet(), CifSimulatorMath.intersection(set(1), emptySet()));
 
         assertEquals(set(1), CifSimulatorMath.intersection(set(1), set(1)));
 
@@ -1147,7 +1142,7 @@ public class CifSimulatorMathTest {
 
     @Test
     public void testSizeList() {
-        assertEquals(0, CifSimulatorMath.size(EMPTY_LIST));
+        assertEquals(0, CifSimulatorMath.size(emptyList()));
         assertEquals(1, CifSimulatorMath.size(list(1)));
         assertEquals(2, CifSimulatorMath.size(list(1, 1)));
         assertEquals(2, CifSimulatorMath.size(list(1, 2)));
@@ -1158,7 +1153,7 @@ public class CifSimulatorMathTest {
 
     @Test
     public void testSizeSet() {
-        assertEquals(0, CifSimulatorMath.size(EMPTY_SET));
+        assertEquals(0, CifSimulatorMath.size(emptySet()));
         assertEquals(1, CifSimulatorMath.size(set(1)));
         assertEquals(1, CifSimulatorMath.size(set(1, 1)));
         assertEquals(2, CifSimulatorMath.size(set(1, 2)));
@@ -1262,11 +1257,10 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testSubset() {
-        assertEquals(true, CifSimulatorMath.subset(EMPTY_SET, EMPTY_SET));
-        assertEquals(true, CifSimulatorMath.subset(EMPTY_SET, set(1)));
-        assertEquals(false, CifSimulatorMath.subset(set(1), EMPTY_SET));
+        assertEquals(true, CifSimulatorMath.subset(emptySet(), emptySet()));
+        assertEquals(true, CifSimulatorMath.subset(emptySet(), set(1)));
+        assertEquals(false, CifSimulatorMath.subset(set(1), emptySet()));
         assertEquals(true, CifSimulatorMath.subset(set(1), set(1)));
 
         assertEquals(false, CifSimulatorMath.subset(set(1, 2), set(1)));
@@ -1300,18 +1294,17 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testSubtractSet() {
-        assertEquals(EMPTY_SET, CifSimulatorMath.subtract(EMPTY_SET, EMPTY_SET));
-        assertEquals(EMPTY_SET, CifSimulatorMath.subtract(EMPTY_SET, set(1)));
-        assertEquals(set(1), CifSimulatorMath.subtract(set(1), EMPTY_SET));
-        assertEquals(EMPTY_SET, CifSimulatorMath.subtract(set(1), set(1)));
+        assertEquals(emptySet(), CifSimulatorMath.subtract(emptySet(), emptySet()));
+        assertEquals(emptySet(), CifSimulatorMath.subtract(emptySet(), set(1)));
+        assertEquals(set(1), CifSimulatorMath.subtract(set(1), emptySet()));
+        assertEquals(emptySet(), CifSimulatorMath.subtract(set(1), set(1)));
 
         assertEquals(set(2), CifSimulatorMath.subtract(set(1, 2), set(1)));
-        assertEquals(EMPTY_SET, CifSimulatorMath.subtract(set(1), set(1, 2)));
+        assertEquals(emptySet(), CifSimulatorMath.subtract(set(1), set(1, 2)));
 
-        assertEquals(EMPTY_SET, CifSimulatorMath.subtract(set(1, 1), set(1)));
-        assertEquals(EMPTY_SET, CifSimulatorMath.subtract(set(1), set(1, 1)));
+        assertEquals(emptySet(), CifSimulatorMath.subtract(set(1, 1), set(1)));
+        assertEquals(emptySet(), CifSimulatorMath.subtract(set(1), set(1, 1)));
 
         assertEquals(set(1, 3), CifSimulatorMath.subtract(set(1, 2, 3, 4), set(5, 4, 2)));
     }
@@ -1391,7 +1384,6 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testSubtractDictList() {
         Map<Integer, Double> empty = map();
 
@@ -1416,9 +1408,9 @@ public class CifSimulatorMathTest {
         d134.put(3, 3.0);
         d134.put(4, 4.0);
 
-        assertEquals(empty, CifSimulatorMath.subtract(empty, EMPTY_LIST));
+        assertEquals(empty, CifSimulatorMath.subtract(empty, emptyList()));
         assertEquals(empty, CifSimulatorMath.subtract(empty, list(1)));
-        assertEquals(d1, CifSimulatorMath.subtract(d1, EMPTY_LIST));
+        assertEquals(d1, CifSimulatorMath.subtract(d1, emptyList()));
         assertEquals(empty, CifSimulatorMath.subtract(d1, list(1)));
 
         assertEquals(empty, CifSimulatorMath.subtract(d1, list(1)));
@@ -1438,7 +1430,6 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testSubtractDictSet() {
         Map<Integer, Double> empty = map();
 
@@ -1463,9 +1454,9 @@ public class CifSimulatorMathTest {
         d134.put(3, 3.0);
         d134.put(4, 4.0);
 
-        assertEquals(empty, CifSimulatorMath.subtract(empty, EMPTY_SET));
+        assertEquals(empty, CifSimulatorMath.subtract(empty, emptySet()));
         assertEquals(empty, CifSimulatorMath.subtract(empty, set(1)));
-        assertEquals(d1, CifSimulatorMath.subtract(d1, EMPTY_SET));
+        assertEquals(d1, CifSimulatorMath.subtract(d1, emptySet()));
         assertEquals(empty, CifSimulatorMath.subtract(d1, set(1)));
 
         assertEquals(empty, CifSimulatorMath.subtract(d1, set(1)));
@@ -1624,11 +1615,10 @@ public class CifSimulatorMathTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testUnion() {
-        assertEquals(EMPTY_SET, CifSimulatorMath.union(EMPTY_SET, EMPTY_SET));
-        assertEquals(set(1), CifSimulatorMath.union(EMPTY_SET, set(1)));
-        assertEquals(set(1), CifSimulatorMath.union(set(1), EMPTY_SET));
+        assertEquals(emptySet(), CifSimulatorMath.union(emptySet(), emptySet()));
+        assertEquals(set(1), CifSimulatorMath.union(emptySet(), set(1)));
+        assertEquals(set(1), CifSimulatorMath.union(set(1), emptySet()));
         assertEquals(set(1), CifSimulatorMath.union(set(1), set(1)));
 
         assertEquals(set(1, 2), CifSimulatorMath.union(set(1, 2), set(1)));

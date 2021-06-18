@@ -13,17 +13,16 @@
 
 package org.eclipse.escet.common.java.tests;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.escet.common.java.ListProductIterator;
 import org.junit.Test;
 
 /** Unit tests for the {@link ListProductIterator} class. */
-@SuppressWarnings("unchecked")
 public class ListProductIteratorTest {
     /** Test input. */
     public List<List<Integer>> input;
@@ -50,7 +49,7 @@ public class ListProductIteratorTest {
     /** Test with empty and non-empty sub-lists. */
     @Test
     public void testProductIteratorEmptyNonEmpty() {
-        input = list(list(1, 2), EMPTY_LIST, list(3));
+        input = list(list(1, 2), Collections.emptyList(), list(3));
         output = list();
         test();
     }

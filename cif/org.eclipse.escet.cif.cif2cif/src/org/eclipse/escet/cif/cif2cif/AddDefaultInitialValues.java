@@ -13,13 +13,13 @@
 
 package org.eclipse.escet.cif.cif2cif;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newVariableValue;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +74,7 @@ public class AddDefaultInitialValues extends CifWalker implements CifToCifTransf
                 String name = "_f";
                 if (used.contains(name)) {
                     String oldName = name;
-                    name = CifScopeUtils.getUniqueName(name, used, EMPTY_SET);
+                    name = CifScopeUtils.getUniqueName(name, used, Collections.emptySet());
                     warn("Function \"%s\", introduced for the default value of a function type, is renamed to \"%s\".",
                             oldName, name);
                 }

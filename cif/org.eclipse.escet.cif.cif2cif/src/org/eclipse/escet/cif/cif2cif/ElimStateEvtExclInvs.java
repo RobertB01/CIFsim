@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.cif2cif;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
@@ -29,6 +28,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -248,7 +248,7 @@ public class ElimStateEvtExclInvs implements CifToCifTransformation {
         String name = proposedName;
         Set<String> usedNames = CifScopeUtils.getSymbolNamesForScope(parent, null);
         if (usedNames.contains(name)) {
-            name = CifScopeUtils.getUniqueName(name, usedNames, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, usedNames, Collections.emptySet());
         }
 
         // Create and add automaton.

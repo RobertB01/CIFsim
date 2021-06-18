@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.eventdisabler;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifScopeUtils.getSymbolNamesForScope;
 import static org.eclipse.escet.cif.common.CifScopeUtils.getUniqueName;
@@ -39,6 +38,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -478,7 +478,7 @@ public class EventDisabler {
         Set<String> names = getSymbolNamesForScope(resultSpec, null);
         String autName = "event_disabler";
         if (names.contains(autName)) {
-            autName = getUniqueName(autName, names, EMPTY_SET);
+            autName = getUniqueName(autName, names, Collections.emptySet());
         }
         aut.setName(autName);
 

@@ -170,7 +170,7 @@ public class AlgDerInvalidations {
     public Set<VariableWrapper> getAffecting(VariableWrapper d) {
         Set<VariableWrapper> affecting = invalidatedAlgDerivs.get(d);
         if (affecting == null) {
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
         return affecting;
     }

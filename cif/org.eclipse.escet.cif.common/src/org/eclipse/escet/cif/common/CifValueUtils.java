@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.common;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.eclipse.escet.cif.common.CifEquationUtils.getDerivativesForContVar;
 import static org.eclipse.escet.cif.common.CifEquationUtils.getValuesForAlgVar;
 import static org.eclipse.escet.cif.common.CifTypeUtils.makeTupleType;
@@ -49,6 +48,7 @@ import static org.eclipse.escet.common.java.Lists.listc;
 
 import java.util.ArrayDeque;
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
@@ -1792,7 +1792,7 @@ public class CifValueUtils {
     public static List<Expression> flattenBinExpr(List<Expression> exprs, BinaryOperator operator) {
         // Optimize for no expressions.
         if (exprs.size() == 0) {
-            return EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         // Collect recursively all children of the requested operator, in a

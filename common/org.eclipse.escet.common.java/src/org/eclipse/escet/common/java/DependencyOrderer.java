@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.common.java;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
@@ -21,6 +20,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -155,7 +155,7 @@ public abstract class DependencyOrderer<T> {
     public List<T> computeOrder(boolean restrict) {
         // If no objects added, then result is trivial.
         if (unorderedObjects == null) {
-            return EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         // Set up direct dependencies administration.

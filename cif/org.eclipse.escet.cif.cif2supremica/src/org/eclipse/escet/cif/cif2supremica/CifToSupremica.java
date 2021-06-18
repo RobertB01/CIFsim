@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.cif2supremica;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifAddressableUtils.collectAddrVars;
 import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
 import static org.eclipse.escet.cif.common.CifScopeUtils.getSymbolNamesForScope;
@@ -40,6 +39,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.str;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -992,21 +992,21 @@ public class CifToSupremica {
         Set<String> names = getSymbolNamesForScope(spec, null);
         String evtName = "u_inv_bad";
         if (names.contains(evtName)) {
-            evtName = getUniqueName(evtName, names, EMPTY_SET);
+            evtName = getUniqueName(evtName, names, Collections.emptySet());
         }
         names.add(evtName);
 
         // Get name for 'inv_req' automaton.
         String reqName = "inv_req";
         if (names.contains(reqName)) {
-            reqName = getUniqueName(reqName, names, EMPTY_SET);
+            reqName = getUniqueName(reqName, names, Collections.emptySet());
         }
         names.add(reqName);
 
         // Get name for 'inv_plant' automaton.
         String plantName = "inv_plant";
         if (names.contains(plantName)) {
-            plantName = getUniqueName(plantName, names, EMPTY_SET);
+            plantName = getUniqueName(plantName, names, Collections.emptySet());
         }
         names.add(plantName);
 

@@ -13,12 +13,12 @@
 
 package org.eclipse.escet.common.app.framework;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -321,7 +321,7 @@ public class Paths {
                 resourceURI = resourceURI.trimSegments(segments.length);
                 segments[0] = "resource";
                 resourceURI = resourceURI.appendSegments(segments);
-                if (handler.exists(resourceURI, EMPTY_MAP)) {
+                if (handler.exists(resourceURI, Collections.emptyMap())) {
                     // Exists as workspace path.
                     return resourceURI;
                 }
@@ -330,7 +330,7 @@ public class Paths {
                 resourceURI = resourceURI.trimSegments(segments.length);
                 segments[0] = "plugin";
                 resourceURI = resourceURI.appendSegments(segments);
-                if (handler.exists(resourceURI, EMPTY_MAP)) {
+                if (handler.exists(resourceURI, Collections.emptyMap())) {
                     // Exists as plug-in path.
                     return resourceURI;
                 }

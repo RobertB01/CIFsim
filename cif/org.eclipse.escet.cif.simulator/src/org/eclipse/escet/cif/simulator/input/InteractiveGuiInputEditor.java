@@ -574,7 +574,7 @@ public class InteractiveGuiInputEditor<S extends RuntimeState> extends ControlEd
      */
     public void chooseNoTransition(S state) {
         // Store transitions for later.
-        this.transitions = Collections.EMPTY_LIST;
+        this.transitions = Collections.emptyList();
         this.state = state;
 
         // Get whether reset is possible, and how many transitions can be

@@ -137,7 +137,7 @@ public class ElimTauEvent extends CifWalker implements CifToCifTransformation {
         Set<String> names = CifScopeUtils.getSymbolNamesForScope(aut, null);
         if (names.contains(name)) {
             String oldName = name;
-            name = CifScopeUtils.getUniqueName(name, names, Collections.EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, names, Collections.emptySet());
             warn("Event \"%s\", introduced for the elimination of the \"tau\" event, is renamed to \"%s\".", oldName,
                     name);
         }

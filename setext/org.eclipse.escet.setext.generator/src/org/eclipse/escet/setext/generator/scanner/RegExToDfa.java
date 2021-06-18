@@ -562,7 +562,7 @@ public class RegExToDfa {
             RegExChar c = (RegExChar)re;
             Set<RegExChar> mapEntry = followposMap.get(c);
             if (mapEntry == null) {
-                followposMap.put(c, Collections.EMPTY_SET);
+                followposMap.put(c, Collections.emptySet());
             }
         } else if (re instanceof RegExOpt) {
             // a? = a | e
