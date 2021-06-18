@@ -38,6 +38,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
+import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
 import org.eclipse.escet.cif.cif2cif.RemoveCifSvgDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
@@ -631,6 +632,10 @@ public abstract class CodeGen {
         // Eliminate component definition/instantiation, to get a concrete
         // specification, without via references, etc.
         new ElimComponentDefInst().transform(spec);
+
+        // Eliminate state/event exclusion invariants, to avoid having to
+        // handle them.
+        new ElimStateEvtExclInvs().transform(spec);
 
         // Initialize original declaration names. With component
         // definition/instantiation eliminated, we have all concrete objects.

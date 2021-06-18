@@ -101,25 +101,5 @@ invariant tanh(q.r) > 0;                // 'tanh' stdlib func.
 
 invariant [f2][q.i]() > 0;              // func call non simple.
 
-event e;
-
-invariant e needs p.x > 1;              // State/event exclusion invariant.
-invariant p.x > 1 disables e;           // State/event exclusion invariant.
-
-group g2:
-  invariant e needs p.x > 1;            // State/event exclusion invariant.
-  invariant p.x > 1 disables e;         // State/event exclusion invariant.
-
-  automaton aut:
-    invariant e needs p.x > 1;          // State/event exclusion invariant.
-    invariant p.x > 1 disables e;       // State/event exclusion invariant.
-
-    location:
-      initial;
-      invariant e needs p.x > 1;        // State/event exclusion invariant.
-      invariant p.x > 1 disables e;     // State/event exclusion invariant.
-  end
-end
-
 print pre  "a" when post time > 1;       // Print pre text post when.
 print post "a" when pre  time > 2;       // Print post text pre when.

@@ -34,10 +34,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -132,15 +130,9 @@ public class CodeGenPreChecker extends CifWalker {
             problems.add(msg);
         }
 
-        // Invariants.
+        // State invariants, as state/event exclusion invariants are eliminated.
         List<Expression> invPreds = listc(comp.getInvariants().size());
         for (Invariant inv: comp.getInvariants()) {
-            if (inv.getInvKind() != InvKind.STATE) {
-                String msg = fmt("Unsupported %s: state/event exclusion invariants are currently not supported.",
-                        CifTextUtils.getComponentText1(comp));
-                problems.add(msg);
-                continue;
-            }
             invPreds.add(inv.getPredicate());
         }
         if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
@@ -183,15 +175,9 @@ public class CodeGenPreChecker extends CifWalker {
             problems.add(msg);
         }
 
-        // Invariants.
+        // State invariants, as state/event exclusion invariants are eliminated.
         List<Expression> invPreds = listc(loc.getInvariants().size());
         for (Invariant inv: loc.getInvariants()) {
-            if (inv.getInvKind() != InvKind.STATE) {
-                String msg = fmt("Unsupported %s: state/event exclusion invariants are currently not supported.",
-                        CifTextUtils.getLocationText1(loc));
-                problems.add(msg);
-                continue;
-            }
             invPreds.add(inv.getPredicate());
         }
         if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {

@@ -1,8 +1,6 @@
 WARNING: File "codegen/unsupported1.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
 ERROR: Code generation to C99 failed for CIF file "codegen/unsupported1.cif".
 CAUSE: CIF code generator failed due to unsatisfied preconditions:
- - Unsupported automaton "g2.aut": state/event exclusion invariants are currently not supported.
- - Unsupported automaton "g2.aut": state/event exclusion invariants are currently not supported.
  - Unsupported automaton "p": initialization predicates in components are currently not supported.
  - Unsupported automaton "p": state invariants in components are currently not supported.
  - Unsupported automaton "p2": automata without an initial location are currently not supported.
@@ -48,19 +46,13 @@ CAUSE: CIF code generator failed due to unsatisfied preconditions:
  - Unsupported function "f1": external user-defined functions are currently not supported.
  - Unsupported group "g": initialization predicates in components are currently not supported.
  - Unsupported group "g": state invariants in components are currently not supported.
- - Unsupported group "g2": state/event exclusion invariants are currently not supported.
- - Unsupported group "g2": state/event exclusion invariants are currently not supported.
  - Unsupported location "a" of automaton "p": state invariants in locations are currently not supported.
  - Unsupported location "a" of automaton "p": urgent locations are currently not supported.
  - Unsupported location "b" of automaton "p": urgent edges are currently not supported.
- - Unsupported location of automaton "g2.aut": state/event exclusion invariants are currently not supported.
- - Unsupported location of automaton "g2.aut": state/event exclusion invariants are currently not supported.
  - Unsupported print declaration: print declarations with post/target state text and pre/source state filtering ("when") are currently not supported.
  - Unsupported print declaration: print declarations with pre/source state text and post/target state filtering ("when") are currently not supported.
  - Unsupported specification: initialization predicates in components are currently not supported.
  - Unsupported specification: state invariants in components are currently not supported.
- - Unsupported specification: state/event exclusion invariants are currently not supported.
- - Unsupported specification: state/event exclusion invariants are currently not supported.
  - Unsupported type "dict(int:bool)": dictionary types are currently not supported.
  - Unsupported type "dist bool": distribution types are currently not supported.
  - Unsupported type "func int(int)": function types are currently not supported. That is, calling functions is supported, but using them as data is not supported.
