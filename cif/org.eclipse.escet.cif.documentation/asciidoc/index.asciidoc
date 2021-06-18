@@ -563,6 +563,8 @@ include::tools/cif2plc/twincat.asciidoc[]
 
 :leveloffset: -1
 
+include::tools/controller-checker.asciidoc[]
+
 :leveloffset: -2
 
 === Miscellaneous tools

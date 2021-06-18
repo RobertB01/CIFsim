@@ -1,0 +1,199 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[tools-chapter-controller-checker]]
+== Controller property checker
+
+indexterm:[controller property checker]
+indexterm:[tools,controller property checker]
+The controller property checker application can be used to determine if a supervisor to be implemented as a controller satisfies *finite response*.
+Finite response assures that there are no loops consisting of controllable events.
+It is possible that loops exist in the nonreachable part of the state space.
+In that case, false positives may be reported.
+
+The algorithm for finite response is based on the following paper: F.F.H. Reijnen, A.T. Hofkamp, J.M. van de Mortel-Fronczak, M.A. Reniers, and J.E. Rooda: Finite Response and Confluence of State-based Supervisory Controllers. In: proceedings of the 15th International Conference on Automation Science and Engineering, 2019. pp. 509-516. IEEE.
+
+
+indexterm:[controller property checker,start]
+
+=== Starting the transformation
+
+The transformation can be started in the following ways:
+
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF implementation tools[Apply controller checks...].
+
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Apply controller checks...].
+
+* Use the `cifctrlcheck` tool in a ToolDef script.
+See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
+
+* Use the `cifctrlcheck` command line tool.
+
+indexterm:[controller property checker,options]
+
+[[tools-controller-checker-options]]
+=== Options
+
+
+Besides the general application options, this application has the following options:
+
+* _Input file path_: The absolute or relative file system path to the input CIF specification.
+  
+* _Print output_: If set, additional output is printed to the console. 
+This additional output includes which loops were found.
+
+
+indexterm:[controller property checker,supported specifications]
+
+=== Supported specifications
+
+
+The CIF controller property checker supports a subset of CIF specifications.
+The following restrictions apply:
+
+* Channels (events with data types) are not supported.
+
+* Continuous variables are not supported.
+
+* Equations are not supported.
+
+* State invariants are not supported.
+
+* Functions are not supported.
+
+* Events not declared as controllable or uncontrollable are not supported.
+  This includes the ``tau`` event, both explicitly used on edges, as well as implicitly for edges without explicitly mentioned events.
+
+* Multi-assignments on edges (such as ``do (x, y) := (1, 2)``) are not supported.
+However, it is allowed to use multiple assignments on an edge (such as ``do x := 1, y := 2``).
+
+* Only discrete/input variables with a boolean type, ranged integer type (e.g. ``int[0..5]``), or enumeration type are supported.
+
+* Only the following expressions are supported: boolean literal values (``true`` and ``false``), integer literal values, enumeration literal values, binary expressions (partially, see below), unary expressions (partially, see below), casts that don't change the type, `if` expressions, `switch` expressions, and references to constants, discrete variables, input variables, algebraic variables, and locations.
+
+* Only the following binary operators are supported: logical equivalence (`<=>`), logical implication (`=>`), logical conjunction (`and` on boolean operands), logical disjunction (`or` on boolean operands), addition (`+`) on integer operands, subtraction (`-`) on integer operands, multiplication (`*`) on integer operands, integer division (`div`), integer modulus (`mod`), equality (`=`) on integer operands, inequality (`!=`) on integer operands, less than (`<`) on integer operands, less than or equal to (`<=`) on integer operands, greater than (`>`) on integer operands, and greater than or equal to (`>=`) on integer operands.
+
+* Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on an integer operand, and plus (`+`) on an integer operand.
+
+* Automata with non-determinism for events are not supported. 
+That is, automata that have locations with multiple outgoing edges for the same event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
+Note that this check may lead to false positives, as the check is an over-approximation and guard overlap may be detected for unreachable states.
+
+
+indexterm:[controller property checker,preprocessing]
+
+=== Preprocessing
+
+The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be checked:
+
+* <<tools-cif2cif-chapter-remove-io-decls>>
+
+* <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+* <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
+
+* <<tools-cif2cif-chapter-elim-monitors>>
+
+* <<tools-cif2cif-chapter-elim-self>>
+
+* <<tools-cif2cif-chapter-elim-type-decls>>
+
+* <<tools-cif2cif-chapter-elim-locs-in-exprs>>
+
+* <<tools-cif2cif-chapter-enums-to-ints>>
+
+* <<tools-cif2cif-chapter-elim-if-updates>>
+
+* <<tools-cif2cif-chapter-elim-alg-vars>>
+
+* <<tools-cif2cif-chapter-elim-consts>>
+
+* <<tools-cif2cif-chapter-simplify-values>>
+
+
+indexterm:[controller property checker,finite response]
+
+=== Finite response
+
+A model has finite response if there do not exist loops that consist of only controllable events.
+For example, the automaton in the example below has finite-response, because between event `c_on` and `c_off`, the value of `Sensor` has to change via an uncontrollable event.
+
+
+[source, cif]
+----
+automaton Actuator:
+  controllable c_on, c_off;
+
+  location Off:
+    initial;
+    edge c_on when Sensor.On goto On;
+  location On:
+    edge c_off when Sensor.Off goto Off;
+end
+
+automaton Sensor:
+  uncontrollable u_on, u_off;
+
+  location Off:
+    initial;
+    edge u_on goto On;
+  location On:
+    edge u_off goto Off;
+end
+----
+
+indexterm:[controller checker property,implementation]
+
+=== Implementation details
+
+Finite response for a model is determined as follows.
+
+. Find controllable-event loops in component models, for this guards and updates are <<tools-controllercheck-implicitloops>>.
+
+. Find variables that are never updated by controllable events, this includes by definition all input variables.
+
+. For all events in a loop, determine if there guards are mutually exclusive.
+For this, only the variables found in step 2 are considered.
+For the guards, all other component and requirement models are included.
+
+. If there are events in the alphabet of a component model, but not in any of its controllable-event loops, this event is removed from the set of controllable events.
+
+. If the set of controllable events changed, repeat the process.
+
+. If the set of controllable events is empty, the model has finite response.
+Otherwise, it can not be concluded there is finite response.
+
+
+indexterm:[controller checker property,implicit loops]
+
+[[tools-controllercheck-implicitloops]]
+=== Implicit loops
+
+While determining loops in the component models, only explicit loops are considered.
+That is, the algorithm omits guards and updates of the variables.
+For that reason, in the example below, `c_on` and `c_off` are two independent loops (instead of `c_on, c_off`).
+To reduce the number of false positives, it is advised to used locations instead of variables whenever possible.
+
+
+[source, cif]
+----
+automaton Actuator:
+  controllable c_on, c_off;
+  disc bool on = false;
+  location:
+    initial;
+    edge c_on  when not on do on := true;
+    edge c_off when     on do on := false;
+end
+----
