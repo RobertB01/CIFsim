@@ -1,0 +1,3 @@
+ERROR: CIF 3 controller properties check application failed due to unsatisfied preconditions.
+Problems:
+ - Error at File "ctrlcheck/non_determinism.cif": line 16, columns 12 .. 13: Edges with event 'A.a' may be non-deterministic, which is not supported.
