@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
@@ -24,9 +37,9 @@ public class EventLoopSearch {
     }
 
     /**
-     * Search for event loops in an automaton, where the loop consists of events from a specific set of events.
-     * The loop can be reachable from any location of the automaton (also locations that are not reachable from the
-     * initial location).
+     * Search for event loops in an automaton, where the loop consists of events from a specific set of events. The loop
+     * can be reachable from any location of the automaton (also locations that are not reachable from the initial
+     * location).
      *
      * @param aut The automaton in which to search for the event loops.
      * @param loopEvents The events that can form an event loop.
@@ -47,7 +60,9 @@ public class EventLoopSearch {
         // Store which loops are found.
         Set<EventLoop> eventLoops = set();
         for (Location loc: aut.getLocations()) {
-            if (visitedLocations.contains(loc)) continue;
+            if (visitedLocations.contains(loc)) {
+                continue;
+            }
             searchLoopFromLocation(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations);
         }
         return eventLoops;
@@ -55,8 +70,8 @@ public class EventLoopSearch {
 
     /**
      * Searches all event loops reachable from a given location, and saves these in {@code EventLoops}. The events to
-     * search for in the loops can be specified.
-     * Warning: only the loops that can be reached by the specified events are returned.
+     * search for in the loops can be specified. Warning: only the loops that can be reached by the specified events are
+     * returned.
      *
      * @param rootLoc The root location for searching.
      * @param loopEvents The events that can form a loop (e.g., the forcible events).
@@ -66,15 +81,17 @@ public class EventLoopSearch {
      * @param visitedLocations The locations that have been visited at least once when searching for loops.
      */
     private static void searchLoopFromLocation(Location rootLoc, Set<Event> loopEvents,
-                                               Map<Location, Integer> stackIndex, List<Event> stack,
-                                               Set<EventLoop> eventLoops, Set<Location> visitedLocations)
+            Map<Location, Integer> stackIndex, List<Event> stack, Set<EventLoop> eventLoops,
+            Set<Location> visitedLocations)
     {
-        visitedLocations.add(rootLoc);  // Add the root location to the set of visited locations.
+        visitedLocations.add(rootLoc); // Add the root location to the set of visited locations.
         stackIndex.put(rootLoc, stack.size()); // Put the root location on top of the stack.
         // Consider successors of rootLoc.
         for (Edge edge: rootLoc.getEdges()) {
             // Only consider successor reachable via the loop events.
-            if (isEmptyIntersection(loopEvents, getEvents(edge))) continue;
+            if (isEmptyIntersection(loopEvents, getEvents(edge))) {
+                continue;
+            }
 
             Integer loopStartIndex;
             if (edge.getTarget() == null) { // selfloop.
@@ -84,11 +101,14 @@ public class EventLoopSearch {
             }
 
             for (Event event: getEvents(edge)) {
-                if (!loopEvents.contains(event)) continue;
+                if (!loopEvents.contains(event)) {
+                    continue;
+                }
 
                 if (loopStartIndex == null) { // A new location has been found.
                     stack.add(event);
-                    searchLoopFromLocation(edge.getTarget(), loopEvents, stackIndex, stack, eventLoops, visitedLocations);
+                    searchLoopFromLocation(edge.getTarget(), loopEvents, stackIndex, stack, eventLoops,
+                            visitedLocations);
                     stack.remove(stack.size() - 1);
                 } else { // A previously visited location has been found.
                     stack.add(event);

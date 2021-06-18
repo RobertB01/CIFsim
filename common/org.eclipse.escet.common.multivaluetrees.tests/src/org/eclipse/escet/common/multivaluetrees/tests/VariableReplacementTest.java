@@ -15,13 +15,12 @@ package org.eclipse.escet.common.multivaluetrees.tests;
 
 import static org.junit.Assert.assertSame;
 
-import org.junit.Test;
-
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.SimpleVarInfoBuilder;
 import org.eclipse.escet.common.multivaluetrees.SimpleVariable;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
 public class VariableReplacementTest {

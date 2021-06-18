@@ -1,3 +1,16 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.cif.controllercheck;
 
 import static org.eclipse.escet.common.java.Lists.list;
@@ -5,14 +18,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.escet.common.app.framework.Application;
-import org.eclipse.escet.common.app.framework.io.AppStreams;
-import org.eclipse.escet.common.app.framework.options.InputFileOption;
-import org.eclipse.escet.common.app.framework.options.Option;
-import org.eclipse.escet.common.app.framework.options.OptionCategory;
-import org.eclipse.escet.common.app.framework.options.Options;
-import org.eclipse.escet.common.app.framework.output.IOutputComponent;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
@@ -30,6 +35,14 @@ import org.eclipse.escet.cif.controllercheck.options.PrintOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.app.framework.io.AppStreams;
+import org.eclipse.escet.common.app.framework.options.InputFileOption;
+import org.eclipse.escet.common.app.framework.options.Option;
+import org.eclipse.escet.common.app.framework.options.OptionCategory;
+import org.eclipse.escet.common.app.framework.options.Options;
+import org.eclipse.escet.common.app.framework.output.IOutputComponent;
+import org.eclipse.escet.common.app.framework.output.OutputProvider;
 
 /** Application class for the controller properties check application. */
 public class ControllerCheckApp extends Application<IOutputComponent> {
@@ -73,7 +86,9 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         OutputProvider.dbg("Loading CIF specification \"%s\"...", InputFileOption.getPath());
         CifReader cifReader = new CifReader().init();
         Specification spec = cifReader.read();
-        if (isTerminationRequested()) return 0;
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Pre-processing.
         // Cif automata structure normalization.
@@ -90,28 +105,36 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         final boolean considerLocsForRename = true;
         final boolean addInitPreds = true;
         final boolean optimized = false;
-        final String defaultLocName = "S";
         final Map<DiscVariable, String> absVarNamesMap = null;
         final boolean optInits = true;
-        ElimLocRefExprs transformer = new ElimLocRefExprs(varPrefix, enumPrefix, litPrefix, considerLocsForRename, addInitPreds, optimized, defaultLocName, absVarNamesMap, optInits);
+        ElimLocRefExprs transformer = new ElimLocRefExprs(varPrefix, enumPrefix, litPrefix, considerLocsForRename,
+                addInitPreds, optimized, absVarNamesMap, optInits);
         transformer.transform(spec);
 
         new EnumsToInts().transform(spec);
-        if (isTerminationRequested()) return 0;
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
-        // Cif automaton edges normalization.
+        // CIF automaton edges normalization.
         new ElimIfUpdates().transform(spec);
-        if (isTerminationRequested()) return 0;
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Simplify expressions.
         new ElimAlgVariables().transform(spec);
         new ElimConsts().transform(spec);
         new SimplifyValues().transform(spec);
-        if (isTerminationRequested()) return 0;
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Pre-check.
         new ControllerCheckPreChecker().check(spec);
-        if (isTerminationRequested()) return 0;
+        if (isTerminationRequested()) {
+            return 0;
+        }
 
         // Check for finite response.
         OutputProvider.dbg("Checking for finite response...");
@@ -134,14 +157,13 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         checkOpts.add(Options.getInstance(InputFileOption.class));
         checkOpts.add(Options.getInstance(PrintOutputOption.class));
         OptionCategory synthCat;
-        synthCat = new OptionCategory("Controller properties checks", "Controller properties check options.",
-                                      list(), checkOpts);
+        synthCat = new OptionCategory("Controller properties checks", "Controller properties check options.", list(),
+                checkOpts);
 
         List<OptionCategory> cats = list(generalCat, synthCat);
         OptionCategory options;
         options = new OptionCategory("CIF Controller properties check Options",
-                                     "All options for the CIF controller properties check tool.",
-                                     cats, list());
+                "All options for the CIF controller properties check tool.", cats, list());
         return options;
     }
 }

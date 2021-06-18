@@ -1,7 +1,19 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
 package org.eclipse.escet.cif.controllercheck;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
-import static org.eclipse.escet.cif.databased.multivaluesynthesis.MvSpecBuilder.convertVariables;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -14,14 +26,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
-import org.eclipse.escet.cif.databased.multivaluesynthesis.MvSpecBuilder;
-import org.eclipse.escet.cif.databased.multivaluetrees.Node;
-import org.eclipse.escet.cif.databased.multivaluetrees.Tree;
-import org.eclipse.escet.cif.databased.multivaluetrees.TreeVariable;
+import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
+import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -55,10 +64,13 @@ import org.eclipse.escet.cif.metamodel.cif.types.SetType;
 import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
+import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
-import nl.tue.position.v1x0x0.common.PositionUtils;
-import nl.tue.position.v1x0x0.metamodel.position.PositionObject;
+import org.eclipse.escet.common.multivaluetrees.Node;
+import org.eclipse.escet.common.multivaluetrees.Tree;
+import org.eclipse.escet.common.position.common.PositionUtils;
+import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /** Pre-condition checker for the controller properties checker. */
 public class ControllerCheckPreChecker extends CifWalker {
@@ -69,11 +81,11 @@ public class ControllerCheckPreChecker extends CifWalker {
     private Set<Location> locations = set();
 
     /**
-     * Verify whether the provided specification fulfills the pre-conditions
-     * of the controller properties check tool.
+     * Verify whether the provided specification fulfills the pre-conditions of the controller properties check tool.
      *
-     * <p>If problems are found, they are presented to the user, and execution is
-     * terminated.</p>
+     * <p>
+     * If problems are found, they are presented to the user, and execution is terminated.
+     * </p>
      *
      * @param spec Specification to check.
      * @throws UnsupportedException If a precondition is violated.
@@ -83,19 +95,22 @@ public class ControllerCheckPreChecker extends CifWalker {
         walkSpecification(spec);
 
         // Determinism is checked via MDDs, it can only be verified if there are no problems.
-        if (problems.isEmpty()) verifyDeterminsm(spec);
+        if (problems.isEmpty()) {
+            verifyDeterminsm(spec);
+        }
 
         // If no problems found, we're done.
-        if (problems.isEmpty()) return;
+        if (problems.isEmpty()) {
+            return;
+        }
 
         // Problem(s) found, the specification is unsupported.
         StringBuilder sb = new StringBuilder();
-        sb.append("CIF 3 controller properties check application failed " +
-                  "due to unsatisfied preconditions.\n" +
-                  "Problems:");
+        sb.append("CIF 3 controller properties check application failed " + "due to unsatisfied preconditions.\n"
+                + "Problems:");
 
         Collections.sort(problems, Strings.SORTER);
-        for (String problem : problems) {
+        for (String problem: problems) {
             sb.append("\n - ");
             sb.append(problem);
         }
@@ -129,9 +144,9 @@ public class ControllerCheckPreChecker extends CifWalker {
         // Construct a MDD tree builder
         final int READINDEX = 0;
         final int WRITEINDEX = 1;
-
-        TreeVariable[] treeVars = convertVariables(variables, READINDEX, WRITEINDEX);
-        MvSpecBuilder builder = new MvSpecBuilder(treeVars, READINDEX, WRITEINDEX);
+        CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(2);
+        cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
+        MvSpecBuilder builder = new MvSpecBuilder(cifVarInfoBuilder, READINDEX, WRITEINDEX);
 
         // Verify determinism for each location.
         for (Location loc: locations) {
@@ -166,7 +181,9 @@ public class ControllerCheckPreChecker extends CifWalker {
         // Verify collected edges.
         for (Entry<Event, List<List<Expression>>> entry: edgesPredsByEvent.entrySet()) {
             List<List<Expression>> edgeGuards = entry.getValue();
-            if (edgeGuards.size() == 1) continue;
+            if (edgeGuards.size() == 1) {
+                continue;
+            }
 
             // Convert guards to MDD tree and determine mutually exclusiveness.
             List<Node> edgeGuardNodes = listc(edgeGuards.size());
@@ -207,7 +224,6 @@ public class ControllerCheckPreChecker extends CifWalker {
         Expression addressable = asg.getAddressable();
         if (addressable instanceof ProjectionExpression) {
             addProblem(addressable, "Partial assignment is not supported.");
-
         } else if (addressable instanceof TupleExpression) {
             addProblem(addressable, "Multi-assignment is not supported.");
         }
@@ -261,11 +277,13 @@ public class ControllerCheckPreChecker extends CifWalker {
     protected void preprocessDiscVariable(DiscVariable dvar) {
         CifType dtype = CifTypeUtils.normalizeType(dvar.getType());
 
-        if (dtype instanceof BoolType) return;
+        if (dtype instanceof BoolType) {
+            return;
+        }
         if (!(dtype instanceof IntType)) {
             String varName = CifTextUtils.getAbsName(dvar, false);
-            String msg = fmt("Discrete variable '%s' must have a boolean type, a ranged integer type, or an " +
-                             "enumeration type.", varName);
+            String msg = fmt("Discrete variable '%s' must have a boolean type, a ranged integer type, or an "
+                    + "enumeration type.", varName);
             addProblem(dvar, msg);
             return;
         }
