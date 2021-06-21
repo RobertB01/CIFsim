@@ -614,7 +614,7 @@ public class CifToYedModelDiagram extends CifToYedDiagram {
         MemoryCodeBox code2 = new MemoryCodeBox(CifPrettyPrinter.INDENT);
         if (filters.contains(ModelFilter.LOC_DECLS)) {
             CifPrettyPrinter pprinter2 = new CifPrettyPrinter(code2);
-            pprinter2.addInitInvEqnsMarked(Collections.EMPTY_LIST, loc.getInvariants(), loc.getEquations(),
+            pprinter2.addInitInvEqnsMarked(Collections.emptyList(), loc.getInvariants(), loc.getEquations(),
                     loc.getMarkeds(), true);
             if (loc.isUrgent()) {
                 code2.add("urgent;");

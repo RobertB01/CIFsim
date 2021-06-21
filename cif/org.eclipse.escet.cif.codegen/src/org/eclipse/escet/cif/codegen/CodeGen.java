@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.codegen;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.codegen.updates.tree.UpdateData.generateAssignment;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.first;
@@ -29,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -348,7 +348,7 @@ public abstract class CodeGen {
         // choose a different name.
         if (targetNames.contains(targetName)) {
             String oldName = targetName;
-            targetName = CifScopeUtils.getUniqueName(targetName, targetNames, EMPTY_SET);
+            targetName = CifScopeUtils.getUniqueName(targetName, targetNames, Collections.emptySet());
 
             String origName = origDeclNames.get(obj);
             if (origName == null) {

@@ -336,7 +336,7 @@ public final class CifSimulator {
             SimulationResult simulationResult;
             if (optionEndTime != null && state.getTime() >= optionEndTime) {
                 // User-provided end time is reached. No more transitions.
-                transitions = Collections.EMPTY_LIST;
+                transitions = Collections.emptyList();
                 simulationResult = SimulationResult.ENDTIME_REACHED;
             } else {
                 // Get the maximum allowed end time for the next time transition.

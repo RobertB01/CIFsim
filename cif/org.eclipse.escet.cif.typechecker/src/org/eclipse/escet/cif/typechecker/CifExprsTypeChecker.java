@@ -2403,7 +2403,7 @@ public class CifExprsTypeChecker {
         rslt.setPosition(expr.position);
 
         // Get AST arguments.
-        List<AExpression> astArgs = (expr.arguments == null) ? Collections.EMPTY_LIST : expr.arguments;
+        List<AExpression> astArgs = (expr.arguments == null) ? Collections.emptyList() : expr.arguments;
 
         // Transform function expression.
         Expression fexpr = transExpression(expr.function, NO_TYPE_HINT, scope, context, tchecker);
@@ -2557,7 +2557,7 @@ public class CifExprsTypeChecker {
         mmStdLib.setPosition(astStdLib.position);
 
         // Get AST arguments.
-        List<AExpression> astArgs = (astCall.arguments == null) ? Collections.EMPTY_LIST : astCall.arguments;
+        List<AExpression> astArgs = (astCall.arguments == null) ? Collections.emptyList() : astCall.arguments;
 
         // Check argument count.
         switch (func) {

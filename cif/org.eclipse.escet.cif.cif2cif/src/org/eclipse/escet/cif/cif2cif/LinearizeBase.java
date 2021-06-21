@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.cif2cif;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifValueUtils.createConjunction;
 import static org.eclipse.escet.cif.common.CifValueUtils.createDisjunction;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeFalse;
@@ -360,7 +359,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         String name = "M"; // 'M' for 'Merged'.
         if (specNames.contains(name)) {
             String oldName = name;
-            name = CifScopeUtils.getUniqueName(name, specNames, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, specNames, Collections.emptySet());
             warn("Merged automaton \"%s\" is renamed to \"%s\".", oldName, name);
         }
         specNames.add(name);
@@ -448,7 +447,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         String name = "L"; // 'L' for 'Location'.
         if (autNames.contains(name)) {
             String oldName = name;
-            name = CifScopeUtils.getUniqueName(name, autNames, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, autNames, Collections.emptySet());
             warn("Merged location \"%s\" is renamed to \"%s\".", oldName, name);
         }
         autNames.add(name);
@@ -935,7 +934,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         String name = "u";
         if (autNames.contains(name)) {
             String oldName = name;
-            name = CifScopeUtils.getUniqueName(name, autNames, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, autNames, Collections.emptySet());
             warn("Variable \"%s\", introduced during linearization to enforce urgency, is renamed to \"%s\".", oldName,
                     name);
         }

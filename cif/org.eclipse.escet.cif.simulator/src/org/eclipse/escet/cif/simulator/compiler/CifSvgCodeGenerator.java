@@ -386,7 +386,7 @@ public class CifSvgCodeGenerator {
         }
 
         if (interactiveIds.isEmpty()) {
-            c.add("return Collections.EMPTY_SET;");
+            c.add("return Collections.emptySet();");
         } else {
             c.add("return set(%s);", StringUtils.join(interactiveIds, ", "));
         }

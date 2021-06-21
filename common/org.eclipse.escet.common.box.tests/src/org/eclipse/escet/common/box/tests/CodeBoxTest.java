@@ -13,11 +13,12 @@
 
 package org.eclipse.escet.common.box.tests;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Collections;
 
 import org.eclipse.escet.common.box.CodeBox;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public abstract class CodeBoxTest extends BoxTestsBase {
     public void testEmpty() {
         CodeBox box = createCodeBox();
         assertTrue(box.isEmpty());
-        assertEqualLists(EMPTY_LIST, box.getLines());
+        assertEqualLists(Collections.emptyList(), box.getLines());
         assertTrue(box.isEmpty());
         box.add();
         assertFalse(box.isEmpty());

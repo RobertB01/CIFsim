@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.simulator.compiler;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifScopeUtils.getUniqueName;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
@@ -526,7 +525,7 @@ public class CifCompilerContext {
 
             // Get final name.
             if (usedNames.contains(name)) {
-                name = getUniqueName(name, usedNames, EMPTY_SET);
+                name = getUniqueName(name, usedNames, Collections.emptySet());
             }
 
             // Add name.
