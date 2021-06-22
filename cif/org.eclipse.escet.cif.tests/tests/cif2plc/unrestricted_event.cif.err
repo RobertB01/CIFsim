@@ -1,2 +1,0 @@
-WARNING: Generating PLC code for a specification without input variables may make it impossible to connect to input ports.
-ERROR: Event "g_e" is unrestricted (always enabled), and would result in infinitely running PLC code.

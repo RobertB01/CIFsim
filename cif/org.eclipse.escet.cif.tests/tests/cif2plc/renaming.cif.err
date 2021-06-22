@@ -1,4 +1,0 @@
-WARNING: PLC name "alg_g_z" is renamed to "alg_g_z2".
-WARNING: PLC name "alg_g_w_W" is renamed to "alg_g_w_W2".
-WARNING: PLC name "alg_g_a_X" is renamed to "alg_g_a_X2".
-WARNING: Generating PLC code for a specification without input variables may make it impossible to connect to input ports.

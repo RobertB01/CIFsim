@@ -1,2 +1,0 @@
-ERROR: PLC code generation failed for CIF file "cif2plc/non_static_eval_init_pred.cif".
-CAUSE: Predicate "p.x > 0" can not statically be evaluated to a single value.
