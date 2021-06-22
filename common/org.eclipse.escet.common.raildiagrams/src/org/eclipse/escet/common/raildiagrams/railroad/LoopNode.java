@@ -47,8 +47,10 @@ public class LoopNode extends DiagramElement {
      *
      * @param forward Child diagram in the forward part of the loop.
      * @param backward Child diagram in the backward part of the loop.
+     * @param id Identifying number of the diagram element.
      */
-    public LoopNode(DiagramElement forward, DiagramElement backward) {
+    public LoopNode(DiagramElement forward, DiagramElement backward, int id) {
+        super(id);
         this.forward = forward;
         this.backward = backward;
     }

@@ -20,6 +20,15 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 
 /** Empty node, that is, "()" in the input file. */
 public class EmptyNode extends DiagramElement {
+    /**
+     * Constructor of the {@link EmptyNode} class.
+     *
+     * @param id Identifying number of the diagram element.
+     */
+    public EmptyNode(int id) {
+        super(id);
+    }
+
     @Override
     public void create(Configuration config, int direction) {
         double railwidth = config.getRailWidth();

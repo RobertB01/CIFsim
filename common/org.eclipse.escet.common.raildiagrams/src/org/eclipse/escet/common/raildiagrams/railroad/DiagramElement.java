@@ -34,6 +34,9 @@ public abstract class DiagramElement {
     /** Sub-diagrams of the element. */
     private final List<ProxyDiagramElement> childDiagramElements = list();
 
+    /** Identifying number of the diagram element. */
+    public final int id;
+
     /** Variable holding the X coordinate of the left side of the diagram element. */
     public final Variable left;
 
@@ -49,8 +52,13 @@ public abstract class DiagramElement {
     /** Variable holding the Y coordinate of the top side of the diagram element rail connection point. */
     public final Variable connectTop;
 
-    /** Constructor of the {@link DiagramElement} class. */
-    public DiagramElement() {
+    /**
+     * Constructor of the {@link DiagramElement} class.
+     *
+     * @param id Identifying number of the diagram element.
+     */
+    public DiagramElement(int id) {
+        this.id = id;
         left = solver.newVar("diagram.left");
         right = solver.newVar("diagram.right");
         top = solver.newVar("diagram.top");

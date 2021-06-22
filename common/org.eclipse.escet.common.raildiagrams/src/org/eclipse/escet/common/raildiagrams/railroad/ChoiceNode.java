@@ -43,8 +43,10 @@ public class ChoiceNode extends DiagramElement {
      * Choice between alternatives.
      *
      * @param alts Alternatives to choose from.
+     * @param id Identifying number of the diagram element.
      */
-    public ChoiceNode(List<DiagramElement> alts) {
+    public ChoiceNode(List<DiagramElement> alts, int id) {
+        super(id);
         this.alts = alts;
         Assert.check(alts.size() > 1);
     }

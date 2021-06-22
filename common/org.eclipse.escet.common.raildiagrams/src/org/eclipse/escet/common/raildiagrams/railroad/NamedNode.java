@@ -43,9 +43,10 @@ public class NamedNode extends DiagramElement {
      * Constructor of the {@link NamedNode} class.
      *
      * @param name Name of the node to refer to.
+     * @param id Identifying number of the diagram element.
      */
-    public NamedNode(String name) {
-        this(name, null);
+    public NamedNode(String name, int id) {
+        this(name, null, id);
     }
 
     /**
@@ -57,8 +58,10 @@ public class NamedNode extends DiagramElement {
      *
      * @param name Name of the node to refer to.
      * @param text Text of the node.
+     * @param id Identifying number of the diagram element.
      */
-    public NamedNode(String name, String text) {
+    public NamedNode(String name, String text, int id) {
+        super(id);
         this.name = name;
         this.text = text;
 

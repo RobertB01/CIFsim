@@ -42,8 +42,10 @@ public class SequenceNode extends DiagramElement {
      * Constructor of the SequenceNode.java class.
      *
      * @param rows Rows of the sequence.
+     * @param id Identifying number of the diagram element.
      */
-    public SequenceNode(List<SequenceRow> rows) {
+    public SequenceNode(List<SequenceRow> rows, int id) {
+        super(id);
         this.rows = rows;
 
         // Initialize the {@link SequencRow#hasNextRow} field.
