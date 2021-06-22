@@ -1,8 +1,9 @@
-WARNING: File "cif2plc/invalid.cif": Semantic warning at line 47, column 7: Automaton "p2" has no initial location.
-WARNING: File "cif2plc/invalid.cif": Semantic warning at line 71, column 17: Discrete variable "q.v9" is not used anywhere in the specification.
+WARNING: File "cif2plc/invalid.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
+WARNING: File "cif2plc/invalid.cif": Semantic warning at line 73, column 17: Discrete variable "q.v9" is not used anywhere in the specification.
 ERROR: PLC code generation failed for CIF file "cif2plc/invalid.cif".
 CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported automaton "p": initialization predicates in components are currently not supported.
+ - Unsupported automaton "p": state invariants in components are currently not supported.
  - Unsupported automaton "p2": automata without an initial location are currently not supported.
  - Unsupported automaton "p3": automata with multiple initial locations are currently not supported.
  - Unsupported discrete variable "p.x": the variable has multiple potential initial values.
@@ -66,6 +67,7 @@ CAUSE: CIF PLC code generator failed due to unsatisfied preconditions:
  - Unsupported function "f2": the internal user-defined function contains a "continue" statement.
  - Unsupported group "g": initialization predicates in components are currently not supported.
  - Unsupported group "g": state invariants in components are currently not supported.
+ - Unsupported location "a" of automaton "p": state invariants in locations are currently not supported.
  - Unsupported location "a" of automaton "p": urgent locations are currently not supported.
  - Unsupported location "b" of automaton "p": urgent edges are currently not supported.
  - Unsupported specification: initialization predicates in components are currently not supported.

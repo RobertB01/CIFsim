@@ -22,11 +22,13 @@ end
 plant p:
   disc int x in any;                    // Discrete variable any init value.
   disc int y in {1, 2};                 // Discrete variable multi init value.
+  plant invariant y > 2;                // Invariant in automaton.
 
   initial x > 2;                        // Initial in automaton.
 
   location a:
     initial;
+    plant invariant x > 3;              // Invariant in location.
     urgent;                             // Urgent location.
     edge when true goto b;
 
