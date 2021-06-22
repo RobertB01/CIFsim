@@ -693,16 +693,20 @@ public abstract class CodeGen {
         // For the specification, we ignore the component definitions (have
         // already been eliminated), equations (eliminated due to
         // linearization), initialization predicates (should not exist, or
-        // are trivially 'true', precondition), invariants (should not exist,
-        // precondition), and marker predicates (have no effect).
+        // are trivially 'true', precondition), state invariants (should not
+        // exist, or are trivially 'true', precondition), state/event
+        // exclusion invariants (have already been eliminated) and marker
+        // predicates (have no effect).
         Assert.check(spec.getDefinitions().isEmpty());
 
         // Get automaton. There is exactly one (precondition and result of
         // linearization). We ignore the alphabet (equal to the events on the
         // edges, after linearization), monitors (no longer present after
         // linearizaton), initialization predicates (should not exist, or
-        // are trivially 'true', precondition), invariants (should not exist,
-        // precondition), and marker predicates (have no effect).
+        // are trivially 'true', precondition), state invariants (should not
+        // exist, or are trivially 'true', precondition), state/event
+        // exclusion invariants (have already been eliminated) and marker
+        // predicates (have no effect).
         Assert.check(spec.getComponents().size() == 1);
         Component comp = first(spec.getComponents());
         Automaton aut = (Automaton)comp;
@@ -777,11 +781,13 @@ public abstract class CodeGen {
         addPrints(ctxt);
 
         // Get single linearized location. We ignore the initialization
-        // predicates (should be trivially 'true', precondition), invariant
-        // predicates (should not exist, precondition), marker predicates
-        // (have no effect), urgency (should have no urgency, precondition),
-        // equations (have all been eliminated by linearization), and name
-        // (irrelevant after linearization).
+        // predicates (should be trivially 'true', precondition), state
+        // invariant (should not exist, or are trivially 'true',
+        // precondition), state/event exclusion invariants (have already
+        // been eliminated), marker predicates (have no effect), urgency
+        // (should have no urgency, precondition), equations (have all
+        // been eliminated by linearization), and name (irrelevant after
+        // linearization).
         Assert.check(aut.getLocations().size() == 1);
         Location loc = first(aut.getLocations());
 
@@ -850,7 +856,7 @@ public abstract class CodeGen {
     protected abstract void addFunctions(CodeContext ctxt);
 
     /**
-     * Add code (substitutions) for the one merged enumeration.
+     * Add code (substitutions) for the merged enumeration (at most one).
      *
      * @param enumDecl The merged enumeration declaration.
      * @param ctxt Code generation context.
