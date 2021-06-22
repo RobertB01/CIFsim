@@ -102,10 +102,6 @@ However, it is allowed to use multiple assignments on an edge (such as `do x := 
 
 * Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on an integer operand, and plus (`pass:c[+]`) on an integer operand.
 
-* Only state invariants are supported.
-State/event exclusion invariants are not supported.
-To allow state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
-
 * The controllability of events is ignored.
 
 * The supervisory kinds of automata are ignored.
@@ -126,6 +122,8 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 * <<tools-cif2cif-chapter-elim-tau-event>>
 
+* <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
+
 * <<tools-cif2cif-chapter-elim-monitors>>
 
 indexterm:[CIF to UPPAAL transformer,transformation result]
@@ -135,7 +133,7 @@ indexterm:[CIF to UPPAAL transformer,transformation result]
 CIF features synchronizing events, while UPPAAL only supports channels.
 A `SendAut` automaton/template is added to the UPPAAL system to ensure proper event synchronization.
 The UPPAAL template has a single location, and self loops for every event in the CIF specification.
-The guards of the self loops express the conditions under which the events are globally enabled (guard wise) in the CIF specification.
+The guards of the self loops express the conditions (from edge guards and state/event exclusion invariants) under which the events are globally enabled (guard wise) in the CIF specification.
 Every CIF event is a broadcast channel in UPPAAL.
 If the self loop is enabled (guard wise), the `SendAut` template broadcasts over the channel.
 All the other templates (for the CIF automata) receive the event.
@@ -157,7 +155,7 @@ The `SendAut` automaton assigns the current values of all variables to their 'ol
 The assignments on the edges of the other automata then use the 'old' variables to compute the new values of the variables.
 As the values of the 'old' variables are only used during the transitions, the 'old' variables are _meta_ variables in the UPPAAL system.
 
-The invariants from CIF components are added to the location of the `SendAut` template.
+The state invariants from CIF components are added to the location of the `SendAut` template.
 
 For CIF variables with an `int` type, the UPPAAL type is `int[-2147483648,2147483647]`.
 

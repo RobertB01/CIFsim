@@ -10,7 +10,9 @@ meta int[0,1] OLDLP_p = 1;
 int[0,0] LP_r = 0;
 meta int[0,0] OLDLP_r = 0;
 int[0,0] LP_s = 0;
-meta int[0,0] OLDLP_s = 0;</declaration>
+meta int[0,0] OLDLP_s = 0;
+int[0,0] LP_RequirementStateEvtExcls = 0;
+meta int[0,0] OLDLP_RequirementStateEvtExcls = 0;</declaration>
   <template>
     <name>Template_p</name>
     <location id="id0">
@@ -62,28 +64,41 @@ meta int[0,0] OLDLP_s = 0;</declaration>
     </transition>
   </template>
   <template>
-    <name>Template_SendAut</name>
+    <name>Template_RequirementStateEvtExcls</name>
     <location id="id4"/>
     <init ref="id4"/>
     <transition>
       <source ref="id4"/>
       <target ref="id4"/>
+      <label kind="guard">(p_v) == (0)</label>
+      <label kind="synchronisation">p_e2?</label>
+      <label kind="assignment">LP_RequirementStateEvtExcls = 0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Template_SendAut</name>
+    <location id="id5"/>
+    <init ref="id5"/>
+    <transition>
+      <source ref="id5"/>
+      <target ref="id5"/>
       <label kind="guard">((((LP_p == 0) &amp;&amp; (false)) || ((LP_p == 1) &amp;&amp; (true))) &amp;&amp; (true)) &amp;&amp; ((true) &amp;&amp; ((true) &amp;&amp; (true)))</label>
       <label kind="synchronisation">e1!</label>
-      <label kind="assignment">OLD_p_v = p_v, OLDLP_p = LP_p, OLDLP_r = LP_r, OLDLP_s = LP_s</label>
+      <label kind="assignment">OLD_p_v = p_v, OLDLP_p = LP_p, OLDLP_r = LP_r, OLDLP_s = LP_s, OLDLP_RequirementStateEvtExcls = LP_RequirementStateEvtExcls</label>
     </transition>
     <transition>
-      <source ref="id4"/>
-      <target ref="id4"/>
-      <label kind="guard">(((LP_p == 0) &amp;&amp; (true)) || ((LP_p == 1) &amp;&amp; (false))) &amp;&amp; ((true) &amp;&amp; (true))</label>
+      <source ref="id5"/>
+      <target ref="id5"/>
+      <label kind="guard">((((LP_p == 0) &amp;&amp; (true)) || ((LP_p == 1) &amp;&amp; (false))) &amp;&amp; (true)) &amp;&amp; ((true) &amp;&amp; ((true) &amp;&amp; ((p_v) == (0))))</label>
       <label kind="synchronisation">p_e2!</label>
-      <label kind="assignment">OLD_p_v = p_v, OLDLP_p = LP_p, OLDLP_r = LP_r, OLDLP_s = LP_s</label>
+      <label kind="assignment">OLD_p_v = p_v, OLDLP_p = LP_p, OLDLP_r = LP_r, OLDLP_s = LP_s, OLDLP_RequirementStateEvtExcls = LP_RequirementStateEvtExcls</label>
     </transition>
   </template>
   <system>p = Template_p();
 r = Template_r();
 s = Template_s();
+RequirementStateEvtExcls = Template_RequirementStateEvtExcls();
 SendAut = Template_SendAut();
 
-system p, r, s, SendAut;</system>
+system p, r, s, RequirementStateEvtExcls, SendAut;</system>
 </nta>

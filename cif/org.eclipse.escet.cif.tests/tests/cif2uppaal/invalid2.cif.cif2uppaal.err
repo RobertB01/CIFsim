@@ -29,8 +29,6 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
  - Unsupported expression "sqrt(-1.0)": function calls are currently not supported.
  - Unsupported expression "sqrt(-1.0)": function calls are currently not supported.
  - Unsupported group "g": initialization predicates in components are currently not supported.
- - Unsupported group "g": state/event exclusion invariants are currently not supported.
- - Unsupported group "g": state/event exclusion invariants are currently not supported.
  - Unsupported location of automaton "g.a5": edges with conditional updates ('if' updates) are currently not supported.
  - Unsupported location of automaton "g.a5": edges with multi-assignments are currently not supported.
  - Unsupported location of automaton "g.a5": edges with partial variable assignments are currently not supported.

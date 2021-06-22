@@ -36,3 +36,5 @@ automaton s:
     initial;
     edge e1;
 end
+
+requirement p.e2 needs p.v = 0;   // State/event exclusion invariant.
