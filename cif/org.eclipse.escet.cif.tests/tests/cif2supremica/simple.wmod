@@ -88,5 +88,31 @@
         </EdgeList>
       </Graph>
     </SimpleComponent>
+    <SimpleComponent Kind="SPEC" Name="RequirementStateEvtExcls">
+      <Graph Deterministic="false">
+        <NodeList>
+          <SimpleNode Initial="true" Name="X">
+            <EventList>
+              <SimpleIdentifier Name=":accepting"/>
+            </EventList>
+          </SimpleNode>
+        </NodeList>
+        <EdgeList>
+          <Edge Source="X" Target="X">
+            <LabelBlock>
+              <SimpleIdentifier Name="c"/>
+            </LabelBlock>
+            <GuardActionBlock>
+              <Guards>
+                <BinaryExpression Operator="==">
+                  <SimpleIdentifier Name="p:v"/>
+                  <IntConstant Value="0"/>
+                </BinaryExpression>
+              </Guards>
+            </GuardActionBlock>
+          </Edge>
+        </EdgeList>
+      </Graph>
+    </SimpleComponent>
   </ComponentList>
 </Module>

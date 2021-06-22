@@ -41,7 +41,7 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported function "f": user-defined functions are currently unsupported.
  - Unsupported location "l" of automaton "p": edges with multi-assignments are currently unsupported.
  - Unsupported location "l" of automaton "p": edges with partial variable assignments are currently unsupported.
- - Unsupported location "l" of automaton "p": invariants in locations are currently unsupported.
+ - Unsupported location "l" of automaton "p": state invariants in locations are currently unsupported.
  - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
  - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
  - Unsupported type "dict(bool:bool)": dictionary types are currently not supported.
