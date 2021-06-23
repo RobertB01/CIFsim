@@ -166,21 +166,26 @@ public class CifToSupremicaPreChecker extends CifWalker {
             }
         }
 
-        // Check supervisory and invariant kinds of invariants.
+        // Check supervisory and invariant kinds of invariants. State invariants must be requirements. State/event
+        // exclusion invariants are transformed into automata and must have a kind.
         for (Invariant inv: comp.getInvariants()) {
             SupKind supKind = CifInvariantUtils.getSupKind(inv);
-            if (supKind != SupKind.REQUIREMENT) {
-                String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
-                String msg = fmt("Unsupported %s: unsupported %s invariant \"%s\".", getComponentText1(comp), kindTxt,
-                        invToStr(inv, false));
-                problems.add(msg);
-            }
 
-            InvKind invKind = inv.getInvKind();
-            if (invKind != InvKind.STATE) {
-                String msg = fmt("Unsupported %s: unsupported state/event exclusion invariant \"%s\".",
-                        getComponentText1(comp), invToStr(inv, false));
-                problems.add(msg);
+            if (inv.getInvKind() == InvKind.STATE) {
+                if (supKind != SupKind.REQUIREMENT) {
+                    String kindTxt = (supKind == SupKind.NONE) ? "kindless" : CifTextUtils.kindToStr(supKind);
+                    String msg = fmt("Unsupported %s: unsupported %s state invariant \"%s\".", getComponentText1(comp),
+                            kindTxt, invToStr(inv, false));
+                    problems.add(msg);
+                }
+            } else if (inv.getInvKind() == InvKind.EVENT_NEEDS || inv.getInvKind() == InvKind.EVENT_DISABLES) {
+                if (supKind == SupKind.NONE) {
+                    String msg = fmt("Unsupported %s: unsupported kindless state/event exclusion invariant \"%s\".",
+                            getComponentText1(comp), invToStr(inv, false));
+                    problems.add(msg);
+                }
+            } else {
+                Assert.fail("Unexpected invariant kind.");
             }
         }
     }
@@ -342,17 +347,19 @@ public class CifToSupremicaPreChecker extends CifWalker {
             }
         }
 
-        // No invariants in locations. We would need to change 'invariant X'
+        // No state invariants in locations. We would need to change 'invariant X'
         // in location 'L' to 'invariant L => X' (in the automaton), but
-        // references to locations are not supported by Supremica. We do
+        // references to locations are not supported by the transformation. We do
         // eliminate location references, so we could make a CIF to CIF
-        // transformation that lifts invariants out of locations to the
+        // transformation that lifts state invariants out of locations to the
         // surrounding automaton, and apply that transformation before the
         // elimination of location references.
-        if (!loc.getInvariants().isEmpty()) {
-            String msg = fmt("Unsupported %s: invariants in locations are currently unsupported.",
-                    getLocationText1(loc));
-            problems.add(msg);
+        for (Invariant inv: loc.getInvariants()) {
+            if (inv.getInvKind() == InvKind.STATE) {
+                String msg = fmt("Unsupported %s: state invariants in locations are currently unsupported.",
+                        getLocationText1(loc));
+                problems.add(msg);
+            }
         }
     }
 

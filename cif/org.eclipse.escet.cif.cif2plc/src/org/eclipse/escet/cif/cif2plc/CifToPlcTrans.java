@@ -48,6 +48,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimConsts;
+import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
@@ -320,6 +321,10 @@ public class CifToPlcTrans {
         // handle them.
         new ElimComponentDefInst().transform(spec);
 
+        // Eliminate state/event exclusion invariants, to avoid having to
+        // handle them.
+        new ElimStateEvtExclInvs().transform(spec);
+
         // Simplify the specification, to increase the supported subset. Since
         // simplification of values fills in all constants, we can also remove
         // the constants. However, this may lead to large amounts of
@@ -386,8 +391,9 @@ public class CifToPlcTrans {
         initProject();
 
         // Get automaton. We ignore the alphabet, monitors (no longer exist),
-        // initialization predicates and invariants (should not exist), and
-        // marker predicates (have no effect).
+        // initialization predicates and state invariants (should not exist,
+        // or trivially 'true'), state/event exclusion invariants (no longer
+        // exist), and marker predicates (have no effect).
         Assert.check(spec.getDefinitions().isEmpty());
         Assert.check(spec.getComponents().size() == 1);
         Component comp = first(spec.getComponents());
@@ -433,8 +439,7 @@ public class CifToPlcTrans {
                     + "to input ports.");
         }
         if (stateVars.isEmpty()) {
-            // Can't happen currently, due to linearization requiring at least
-            // one automaton, for which a location pointer variable is added.
+            // Happens in situations where all automata have exactly one location and no variables.
             warn("Generating PLC code for a specification without state variables may make it impossible to connect "
                     + "to output ports.");
         }
@@ -624,8 +629,10 @@ public class CifToPlcTrans {
         main.body.add("progress := FALSE;");
 
         // Get single linearized location. We ignore the initialization
-        // predicates (should be trivially 'true'), invariants (should not
-        // exist), and marker predicates (have no effect).
+        // predicates (should be trivially 'true'), state invariants
+        // (should not exist, or trivially 'true'), state/event
+        // exclusion invariants (no longer exist), and marker predicates
+        // (have no effect).
         Assert.check(aut.getLocations().size() == 1);
         Location loc = first(aut.getLocations());
 
@@ -798,7 +805,7 @@ public class CifToPlcTrans {
      * @param enumDecl The enumeration declaration.
      */
     private void transEnum(EnumDecl enumDecl) {
-        // Note that after linearization we have exactly one enumeration.
+        // Note that after linearization we have at most one enumeration.
         List<String> litNames = listc(enumDecl.getLiterals().size());
         for (EnumLiteral lit: enumDecl.getLiterals()) {
             litNames.add(getPlcName(lit));
@@ -1828,7 +1835,7 @@ public class CifToPlcTrans {
         } else if (expr instanceof LocationExpression) {
             throw new RuntimeException("loc expr unexpected in lin spec");
         } else if (expr instanceof EnumLiteralExpression) {
-            // We have only a single enumeration after linearization. There is
+            // We have at most a single enumeration after linearization. There is
             // no need to prefix literals with the enumeration, as the literal
             // names are globally unique as well.
             EnumLiteral lit = ((EnumLiteralExpression)expr).getLiteral();

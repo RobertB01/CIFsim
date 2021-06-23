@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event e;
+input int x;
+
+invariant e needs x > 1;              // Needs in specification.
+invariant x > 1 disables e;           // Disables in specification.
+
+group g2:
+  invariant e needs x > 1;            // Needs in group.
+  invariant x > 1 disables e;         // Disables in group.
+
+  automaton aut:
+    disc int z = 0;
+    invariant e needs x > 1;          // Needs in automaton.
+    invariant x > 1 disables e;       // Disables in automaton.
+
+    location:
+      initial;
+      invariant e needs x > 1;        // Needs in location.
+      invariant x > 1 disables e;     // Disables in location.
+      edge e do z := 1;
+  end
+end

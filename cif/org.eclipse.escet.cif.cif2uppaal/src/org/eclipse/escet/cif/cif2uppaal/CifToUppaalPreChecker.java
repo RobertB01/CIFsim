@@ -32,12 +32,10 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -131,31 +129,6 @@ public class CifToUppaalPreChecker extends CifWalker {
         if (autCount == 0) {
             String msg = "Specifications without automata are currently not supported.";
             problems.add(msg);
-        }
-    }
-
-    @Override
-    protected void postprocessInvariant(Invariant inv) {
-        // Only state invariants.
-        switch (inv.getInvKind()) {
-            case EVENT_DISABLES:
-            case EVENT_NEEDS: {
-                EObject parent = inv.eContainer();
-                String parentTxt;
-                if (parent instanceof Location) {
-                    parentTxt = CifTextUtils.getLocationText1((Location)parent);
-                } else {
-                    parentTxt = CifTextUtils.getComponentText1((ComplexComponent)parent);
-                }
-
-                String msg = fmt("Unsupported %s: state/event exclusion invariants are currently not supported.",
-                        parentTxt);
-                problems.add(msg);
-                break;
-            }
-
-            case STATE:
-                break;
         }
     }
 

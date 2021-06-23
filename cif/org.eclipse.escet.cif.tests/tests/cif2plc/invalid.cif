@@ -22,9 +22,9 @@ end
 plant p:
   disc int x in any;                    // Discrete variable any init value.
   disc int y in {1, 2};                 // Discrete variable multi init value.
+  plant invariant y > 2;                // Invariant in automaton.
 
   initial x > 2;                        // Initial in automaton.
-  plant invariant y > 2;                // Invariant in automaton.
 
   location a:
     initial;
@@ -119,26 +119,6 @@ invariant sinh(q.r) > 0;                // 'sinh' stdlib func.
 invariant tanh(q.r) > 0;                // 'tanh' stdlib func.
 
 invariant [f2][q.i]() > 0;              // func call non simple.
-
-event e;
-
-invariant e needs p.x > 1;              // State/event exclusion invariant.
-invariant p.x > 1 disables e;           // State/event exclusion invariant.
-
-group g2:
-  invariant e needs p.x > 1;            // State/event exclusion invariant.
-  invariant p.x > 1 disables e;         // State/event exclusion invariant.
-
-  automaton aut:
-    invariant e needs p.x > 1;          // State/event exclusion invariant.
-    invariant p.x > 1 disables e;       // State/event exclusion invariant.
-
-    location:
-      initial;
-      invariant e needs p.x > 1;        // State/event exclusion invariant.
-      invariant p.x > 1 disables e;     // State/event exclusion invariant.
-  end
-end
 
 func int f(int x):
   list[5] int p;

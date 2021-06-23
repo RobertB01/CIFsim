@@ -71,7 +71,4 @@ group g:
       edge do li[0] := 3;               // Partial asgn, proj, list type.
       edge do if true: x := 1 end;      // 'if' update.
   end
-
-  invariant evt needs a5.x > 0;         // State/event exclusion invariant.
-  invariant a5.x > 0 disables evt;      // State/event exclusion invariant.
 end

@@ -28,7 +28,6 @@ plant p:
   location l:
     initial;
     plant invariant b;                      // Invariant in location.
-    plant invariant u needs b;              // Invariant in location.
 
     edge u do tbb[a] := true;               // Proj (+field ref), tuple type.
     edge u do i := if true: 1 else 2 end;   // 'if' expr.
