@@ -7,7 +7,7 @@ ERROR: CIF to mCRL2 transformation failed due to unsatisfied preconditions:
  - Continuous variable "g.p.cnt" is unsupported in the transformation.
  - Continuous variable "g.x" is unsupported in the transformation.
  - Continuous variable "g.y" is unsupported in the transformation.
- - Discrete variable "g.p.lb" does not have a boolean or integer type.
+ - Discrete variable "g.p.lb" does not have a boolean, integer, or enumeration type.
  - Discrete variable "g.p.x1" does not have a single initial value.
  - Discrete variable "g.p.x2" does not have a single initial value.
  - Equations are not supported in group "g".
