@@ -782,7 +782,7 @@ public abstract class CodeGen {
 
         // Get single linearized location. We ignore the initialization
         // predicates (should be trivially 'true', precondition), state
-        // invariant (should not exist, or are trivially 'true',
+        // invariants (should not exist, or are trivially 'true',
         // precondition), state/event exclusion invariants (have already
         // been eliminated), marker predicates (have no effect), urgency
         // (should have no urgency, precondition), equations (have all

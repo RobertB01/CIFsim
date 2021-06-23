@@ -629,9 +629,10 @@ public class CifToPlcTrans {
         main.body.add("progress := FALSE;");
 
         // Get single linearized location. We ignore the initialization
-        // predicates (should be trivially 'true'), invariants (should not
-        // exist, or trivially 'true'), state/event exclusion invariants
-        // (no longer exist), and marker predicates (have no effect).
+        // predicates (should be trivially 'true'), state invariants
+        // (should not exist, or trivially 'true'), state/event
+        // exclusion invariants (no longer exist), and marker predicates
+        // (have no effect).
         Assert.check(aut.getLocations().size() == 1);
         Location loc = first(aut.getLocations());
 

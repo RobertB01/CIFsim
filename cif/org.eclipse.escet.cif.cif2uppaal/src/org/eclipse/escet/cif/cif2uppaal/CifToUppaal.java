@@ -396,7 +396,7 @@ public class CifToUppaal {
             }
 
             // Add invariant 'label' element. Only state invariants
-            // as state/event exclusion invariants are eliminated.
+            // as state/event exclusion invariants have been eliminated.
             List<Invariant> invs = loc.getInvariants();
             List<Expression> invPreds = listc(invs.size());
             for (Invariant inv: invs) {
@@ -918,7 +918,7 @@ public class CifToUppaal {
      */
     private static void collectComponentStateInvs(ComplexComponent comp, List<Expression> invs) {
         // Add all state invariant predicates of the component.
-        // State/event exclusion invariants are eliminated.
+        // State/event exclusion invariants have been eliminated.
         for (Invariant inv: comp.getInvariants()) {
             Assert.check(inv.getInvKind() == InvKind.STATE);
             invs.add(inv.getPredicate());
