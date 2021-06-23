@@ -77,8 +77,6 @@ The following restrictions apply:
 
 * The transformer ignores the supervisory kind of the automata.
 
-* Algebraic variables are not supported.
-
 * Continuous variables are not supported.
 
 * Input variables are not supported.
@@ -91,7 +89,7 @@ The following restrictions apply:
 
 * Marker predicates are ignored.
 
-* Discrete variables must have type `bool` or `int`.
+* Discrete variables must have type `bool`, `enum`, or `int`.
 The latter may have a range.
 
 * Multiple potential initial values are not supported.
@@ -120,14 +118,14 @@ In automata, there are a number of extra conditions:
 
 * Location references are not supported.
 
-* All expressions and sub-expressions must be of type `bool` or `int`.
+* All expressions and sub-expressions must be of type `bool`, `enum`, or `int`.
 The latter may have a range.
 
 * Boolean constants, discrete variables, and operators `and`, `or`, `==`, `>=`, `>`, `+<=+`, `<`, `!=`, and `not` are allowed.
 
-* Integer constants, discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` are allowed.
+* Enumeration constants, discrete variables, and operators `==` and `!=` are allowed.
 
-However, some of these limitations are resolved by preprocessing of the specification, as explained in the next section.
+* Integer constants, discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` are allowed.
 
 indexterm:[CIF to mCRL2 transformer,preprocessing]
 
