@@ -18,6 +18,8 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /** Helper class with file size related functionality. */
 public class FileSizes {
@@ -43,7 +45,8 @@ public class FileSizes {
      * @return The human readable representation of the file size.
      */
     public static String formatFileSizeEx(long size) {
-        return fmt("%s bytes (~%s)", new DecimalFormat("###,###,###,###,###,###,##0").format(size),
+        return fmt("%s bytes (~%s)",
+                new DecimalFormat("###,###,###,###,###,###,##0", new DecimalFormatSymbols(Locale.US)).format(size),
                 formatFileSize(size, false));
     }
 
@@ -69,7 +72,7 @@ public class FileSizes {
             scale++;
         }
         StringBuilder result = new StringBuilder();
-        result.append(new DecimalFormat("##0.###").format(value));
+        result.append(new DecimalFormat("##0.###", new DecimalFormatSymbols(Locale.US)).format(value));
         result.append(' ');
         result.append((si ? SI_NAMES : IEEE_1541_2002_NAMES)[scale]);
         return result.toString();
