@@ -58,8 +58,10 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 
 * Validation
+** Check the embedded Maven version, by navigating to menu:Run[Run Configurations...], selecting the _build_ launch configuration under _Maven Build_, and observing the _Maven Runtime_ version.
+** Upgrade the Maven version if needed, using the separate list of instructions.
 ** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
-** Ensure no errors or warning during Maven build.
+** Ensure no errors or warnings during Maven build.
 
 To upgrade to a new Tycho version:
 
@@ -67,7 +69,7 @@ To upgrade to a new Tycho version:
 * Update version in `org.eclipse.escet.configuration/pom.xml`.
 * Check Tycho release notes for changes and adapt as necessary.
 * Run a <<developer-building-and-testing-chapter-index,Maven build>>.
-* Ensure no errors or warning during Maven build.
+* Ensure no errors or warnings during Maven build.
 
 To upgrade to a new Java version:
 
@@ -89,4 +91,9 @@ To upgrade to a new Java version:
 ** Update `dev-env-setup.asciidoc` to match new Java version.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 ** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
-** Ensure no errors or warning during Maven build.
+** Ensure no errors or warnings during Maven build.
+
+To upgrade to a new Maven version:
+
+** Update Maven version in `Jenkinsfile`.
+** Update Maven version in `misc/license-check-dependencies/Jenkinsfile`.
