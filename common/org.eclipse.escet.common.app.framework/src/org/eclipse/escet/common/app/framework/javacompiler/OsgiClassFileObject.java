@@ -19,7 +19,6 @@ import java.net.URI;
 import javax.tools.SimpleJavaFileObject;
 
 /** Run-time Java compiler file object that uses an OSGi loader to obtain compiled Java classes. */
-@SuppressWarnings("restriction")
 public class OsgiClassFileObject extends SimpleJavaFileObject {
     /** The absolute name of the Java class. */
     protected final String absClassName;

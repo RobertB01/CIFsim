@@ -36,9 +36,9 @@
                 <configuration>
                     <compilerArgs>
                         <arg>--add-modules</arg>
-                        <arg>java.base,java.management,java.xml</arg>
+                        <arg>java.base,java.management,java.xml,java.compiler</arg>
                         <arg>--limit-modules</arg>
-                        <arg>java.base,java.management,java.xml</arg>
+                        <arg>java.base,java.management,java.xml,java.compiler</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
