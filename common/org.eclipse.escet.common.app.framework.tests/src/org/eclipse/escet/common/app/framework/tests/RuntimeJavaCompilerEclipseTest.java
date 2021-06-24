@@ -13,10 +13,7 @@
 
 package org.eclipse.escet.common.app.framework.tests;
 
-import org.junit.Ignore;
-
 /** {@link RuntimeJavaCompilerTest} with "eclipse" Java compiler. */
-@Ignore
 public class RuntimeJavaCompilerEclipseTest extends RuntimeJavaCompilerTest {
     @Override
     protected String getCompilerName() {
