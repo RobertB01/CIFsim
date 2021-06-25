@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -36,7 +36,7 @@ public class EventLoop {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Event evt : events) {
+        for (Event evt: events) {
             sb.append((sb.length() == 0) ? "(" : " ");
             sb.append(getAbsName(evt));
         }
