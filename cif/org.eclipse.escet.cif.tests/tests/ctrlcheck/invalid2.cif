@@ -1,0 +1,60 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant p:
+  uncontrollable u;
+
+  disc bool b;
+  disc int i;                                      // Rangeless int type.
+  disc real r = 1.2;                               // Real type/expr.
+  disc list bool lb = [true];                      // List type/expr.
+  disc set bool sb = {true};                       // Set type/expr.
+  disc string str = "a";                           // String type/expr.
+  disc tuple(bool a,b) tbb = (true, false);        // Tuple type/expr.
+  disc dict(bool:bool) dbb = {true:false};         // Dict type/expr.
+  disc dist bool db = constant(true);              // Dist type/expr, fcall (+stdlib).
+  disc func bool(bool) fbb = f;                    // Func type (+expr).
+
+  location l:
+    initial;
+
+    edge u do tbb[a] := true;           // Proj (+field ref), tuple type.
+    edge u do r := <real>1;             // Real type, cast.
+    edge u do r := <real>1.0;           // Real type, cast (ok).
+    edge u do lb := lb[:];              // List type, slicing.
+    edge u do r := time;                // Real type, 'time' variable.
+    edge u do sb := {true} or {false};  // Set type, 'or' on sets.
+    edge u do sb := {true} and {false}; // Set type, 'and' on sets.
+    edge u do r := r + r;               // Real type, '+' on real.
+    edge u do r := r - r;               // Real type, '-' on real.
+    edge u do r := r * r;               // Real type, '*' on real.
+    edge u do r := r / r;               // Real type, '/' on real.
+    edge u do i := i div i;             // Rangeless int type and 'div'.
+    edge u do i := i mod i;             // Rangeless int type and 'mod'.
+    edge u do b := i < i;               // Rangeless int type and '<'.
+    edge u do b := i <= i;              // Rangeless int type and '<='.
+    edge u do b := i > i;               // Rangeless int type and '>'.
+    edge u do b := i >= i;              // Rangeless int type and '>='.
+    edge u do b := true in sb;          // Set type, 'in' on set.
+    edge u do b := sb sub sb;           // Set type, 'sub' on set.
+    edge u do (b, db) := sample db;     // Dict type/sample, multi-asgn.
+    edge u do i := +i;                  // Rangeless int type and '+'.
+    edge u do i := -i;                  // Rangeless int type and '-'.
+    edge u do str := "a";               // String type/expr.
+    edge u do dbb := {true:true};       // Dict type/expr.
+    edge u do fbb := f;                 // Func type/expr.
+end
+
+func bool f(bool p):                               // User defined function.
+  return p;
+end

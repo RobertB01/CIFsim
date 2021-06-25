@@ -107,17 +107,10 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         final boolean optimized = false;
         final Map<DiscVariable, String> absVarNamesMap = null;
         final boolean optInits = true;
-        ElimLocRefExprs transformer = new ElimLocRefExprs(varPrefix, enumPrefix, litPrefix, considerLocsForRename,
-                addInitPreds, optimized, absVarNamesMap, optInits);
-        transformer.transform(spec);
+        new ElimLocRefExprs(varPrefix, enumPrefix, litPrefix, considerLocsForRename, addInitPreds, optimized,
+                absVarNamesMap, optInits).transform(spec);
 
         new EnumsToInts().transform(spec);
-        if (isTerminationRequested()) {
-            return 0;
-        }
-
-        // CIF automaton edges normalization.
-        new ElimIfUpdates().transform(spec);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -132,6 +125,18 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
         // Pre-check.
         new ControllerCheckPreChecker().check(spec);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Eliminate if updates, does not support multi-assignments or partial variable assignments.
+        new ElimIfUpdates().transform(spec);
+        if (isTerminationRequested()) {
+            return 0;
+        }
+
+        // Non-determinism check.
+        new ControllerCheckDeterminismChecker().check(spec);
         if (isTerminationRequested()) {
             return 0;
         }

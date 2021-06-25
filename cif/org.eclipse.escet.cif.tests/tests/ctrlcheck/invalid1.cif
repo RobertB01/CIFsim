@@ -1,0 +1,46 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+group g:
+  event e1;                         // Not (un)controllable.
+  controllable int[0..5] e2;        // Event with data type.
+
+  automaton a:
+    location:
+      initial;
+      edge e1, e2, tau;             // Explicit 'tau'.
+      edge when true;               // Implicit 'tau'.
+  end
+
+  plant p0:
+    disc int[1..2] x1;
+    disc int[1..2] x2;
+    cont cnt der 1.0;               // Continuous variable, real type/value.
+    disc list bool lb = [true];     // List type/expr.
+
+    location l1:
+      initial;
+      edge e1
+      do x1 := 1, x2 := 2;
+
+      edge e1
+      do (x1, x2) := (1, 2);        // Multi-assignment, tuple expr/type.
+
+      edge e1
+      do lb[0] := true;             // Partial var asgn, proj expr, list type.
+
+      plant invariant 5 = 7;        // State invariant in location.
+  end
+
+  invariant 8 = 9;                  // State invariant in component.
+end

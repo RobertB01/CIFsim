@@ -10,15 +10,16 @@
 // SPDX-License-Identifier: MIT
 /////////////////////////////////////////////////////////////////////////////////
 
-automaton A:
+automaton p:
   controllable a, b;
   input bool x, y;
-  location l0:
+  location:
     initial;
-    edge a when x goto l1;
-    edge a when not x or y goto l2;
-    edge b when x goto l1;
-    edge b when not x goto l2;
-   location l1;
-   location l2;
+    // Non-deterministic.
+    edge a when x;
+    edge a when not x or y;
+
+    // Deterministic.
+    edge b when x;
+    edge b when not x;
 end

@@ -113,13 +113,13 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 * <<tools-cif2cif-chapter-enums-to-ints>>
 
-* <<tools-cif2cif-chapter-elim-if-updates>>
-
 * <<tools-cif2cif-chapter-elim-alg-vars>>
 
 * <<tools-cif2cif-chapter-elim-consts>>
 
 * <<tools-cif2cif-chapter-simplify-values>>
+
+* <<tools-cif2cif-chapter-elim-if-updates>>
 
 
 indexterm:[controller property checker,finite response]
