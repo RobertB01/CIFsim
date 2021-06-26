@@ -31,7 +31,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
@@ -57,13 +56,14 @@ public class RuntimeJavaCompiler {
     private final Iterable<String> options;
 
     /** Diagnostics that resulted from compilation. */
-    private final DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+    private final RuntimeDiagnosticCollector<JavaFileObject> diagnostics = DEBUG
+            ? new RuntimeDebugDiagnosticCollector<>() : new RuntimeDiagnosticCollector<>();
 
     /** File manager used to resolve input files and store output files. */
     private final RuntimeJavaFileManager fileManager;
 
     /** Collected compiler output. */
-    private final CharArrayWriter output = new CharArrayWriter();
+    private final CharArrayWriter output = DEBUG ? new RuntimeDebugWriter() : new CharArrayWriter();
 
     /**
      * Constructor for the {@link RuntimeJavaCompiler} class. Uses the {@link #getJavaCompiler default} Java compiler,
@@ -239,7 +239,7 @@ public class RuntimeJavaCompiler {
      *
      * @return The diagnostics that resulted from compilation.
      */
-    public DiagnosticCollector<JavaFileObject> getDiagnostics() {
+    public RuntimeDiagnosticCollector<JavaFileObject> getDiagnostics() {
         return diagnostics;
     }
 
