@@ -79,7 +79,6 @@ To upgrade to a new Java version:
 ** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
 ** Update Java versions in `org.eclipse.jdt.core.prefs` files.
 ** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
-** Update Java `source` and `target` versions in `RuntimeJavaCompiler` class.
 ** Update Java version for `executionEnvironment` in `org.eclipse.escet.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
 ** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.

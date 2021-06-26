@@ -167,7 +167,19 @@ public class RuntimeJavaCompiler {
      * @return The default compiler options.
      */
     public static List<String> getDefaultCompilerOptions() {
-        return list("-nowarn", "-source", "11", "-target", "11");
+        // Initialize options.
+        List<String> options = list();
+
+        // No warnings for runtime in-memory compilation, to prevent floods of warnings for generated code.
+        options.add("-nowarn");
+
+        // Compilation result must be compatible with the current JVM, to be able to load the compiled classes into
+        // the JVM after compilation.
+        String javaVersion = Integer.toString(Runtime.version().feature());
+        options.addAll(list("-source", javaVersion, "-target", javaVersion));
+
+        // Return default options.
+        return options;
     }
 
     /**
