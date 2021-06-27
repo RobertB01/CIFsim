@@ -63,6 +63,10 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 ** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
 ** Ensure no errors or warnings during Maven build.
 
+* Dependency information
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` and update `DEPENDENCIES.txt` according to the output.
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` to ensure `DEPENDENCIES.txt` is up-to-date.
+
 To upgrade to a new Tycho version:
 
 * Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
@@ -91,6 +95,8 @@ To upgrade to a new Java version:
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 ** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
 ** Ensure no errors or warnings during Maven build.
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` and update `DEPENDENCIES.txt` according to the output.
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` to ensure `DEPENDENCIES.txt` is up-to-date.
 
 To upgrade to a new Maven version:
 
