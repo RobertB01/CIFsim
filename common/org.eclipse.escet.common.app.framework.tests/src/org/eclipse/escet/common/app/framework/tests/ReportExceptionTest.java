@@ -25,10 +25,7 @@ import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.io.MemAppStream;
 import org.eclipse.escet.common.app.framework.management.AppManager;
-import org.eclipse.escet.common.app.framework.options.GuiMode;
-import org.eclipse.escet.common.app.framework.options.GuiOption;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
-import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.junit.Test;
@@ -319,14 +316,11 @@ public class ReportExceptionTest {
             }
         };
 
-        // Configure application.
-        Options.set(GuiOption.class, GuiMode.OFF);
-
         // Add application to application manager.
         AppManager.add(app, null);
 
         // Run application.
-        app.run(new String[] {}, false);
+        app.run(new String[] {"--gui=off"}, false);
 
         // Remove application from application manager.
         AppManager.remove(app);
