@@ -400,6 +400,8 @@
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
+          name="org.jsoup"/>
+      <requirement
           name="org.knowm.xchart"/>
       <requirement
           name="*"/>
