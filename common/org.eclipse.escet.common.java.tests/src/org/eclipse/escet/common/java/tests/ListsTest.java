@@ -24,12 +24,14 @@ import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.set2list;
+import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -660,5 +662,22 @@ public class ListsTest {
                 assertEquals(expected, actual);
             }
         }
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testSingle() {
+        assertEquals(false, single(list(false)));
+        assertEquals(123, (int)single(list(123)));
+        assertEquals("abc", single(list("abc")));
+        assertEquals(list(), single(list(list())));
+        assertEquals(list(456), single(list(list(456))));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testSingleNotOneElement() {
+        assertThrows(IllegalArgumentException.class, () -> single(list()));
+        assertThrows(IllegalArgumentException.class, () -> single(list(1, 2)));
     }
 }

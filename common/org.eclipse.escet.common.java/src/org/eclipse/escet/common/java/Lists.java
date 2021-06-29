@@ -328,4 +328,19 @@ public final class Lists {
         // Using normal List.subList method to get the view.
         return lst.subList(b, e);
     }
+
+    /**
+     * Returns the single element from the given list.
+     *
+     * @param <T> The type of the elements of the list.
+     * @param list The list for which to get the single element.
+     * @return The single element.
+     * @throws IllegalArgumentException If the list does not have exactly one element.
+     */
+    public static <T> T single(List<T> list) {
+        if (list.size() != 1) {
+            throw new IllegalArgumentException("List does not have exactly one element: " + list);
+        }
+        return list.get(0);
+    }
 }
