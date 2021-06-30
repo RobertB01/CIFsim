@@ -37,6 +37,7 @@ import org.eclipse.escet.common.raildiagrams.config.ConfigFileOption;
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.parser.RailRoadDiagramParser;
 import org.eclipse.escet.common.raildiagrams.railroad.RailRule;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
 import org.eclipse.escet.setext.runtime.DebugMode;
 import org.eclipse.escet.setext.runtime.SyntaxWarning;
@@ -144,9 +145,10 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
             }
 
             // Paint graphics to the image.
+            boolean dumpAbsCoords = config.getDebugSetting(DebugDisplayKind.ABS_COORDINATES);
             double top = 0;
             for (RailRule rule: rules) {
-                rule.paint(0, top, gd);
+                rule.paint(0, top, gd, dumpAbsCoords);
                 Size2D size = rule.getSize();
                 top += Math.ceil(size.height);
                 if (isTerminationRequested()) {

@@ -13,6 +13,10 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
+
 import java.awt.Color;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
@@ -21,6 +25,7 @@ import org.eclipse.escet.common.raildiagrams.config.NameKind;
 import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
@@ -36,7 +41,7 @@ public class BranchLabelNode extends DiagramElement {
      * @param id Identifying number of the diagram element.
      */
     public BranchLabelNode(String labelText, int id) {
-        super(id);
+        super("branch-label", id);
         this.labelText = labelText;
     }
 
@@ -56,6 +61,11 @@ public class BranchLabelNode extends DiagramElement {
         TextSizeOffset textSizeOffset = config.getTextSizeOffset(labelText, NameKind.LABEL);
         Size2D textSize = textSizeOffset.size;
         Position2D textOffset = textSizeOffset.offset;
+
+        if (dodbg() && config.getDebugSetting(DebugDisplayKind.STRUCTURE)) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+        }
 
         // Compute size of the box holding the text, and the position of the text in it.
         double labelWidth;
@@ -86,6 +96,23 @@ public class BranchLabelNode extends DiagramElement {
         solver.addEq(textArea.bottom, 0, rail.top);
         solver.addEq(connectTop, 0, rail.top);
         solver.addEq(bottom, 0, rail.bottom);
+
         solver.solve("branch-label");
+
+        if (dodbg()) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+                solver.dumpRelations();
+                dbg();
+            }
+
+            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+                dumpElementBox();
+                textArea.dump(solver, 0, 0);
+                rail.dump(solver, 0, 0);
+                dbg();
+            }
+        }
     }
 }

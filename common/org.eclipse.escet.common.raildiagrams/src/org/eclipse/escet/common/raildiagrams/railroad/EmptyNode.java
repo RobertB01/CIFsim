@@ -13,10 +13,15 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
+
 import java.awt.Color;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Empty node, that is, "()" in the input file. */
 public class EmptyNode extends DiagramElement {
@@ -26,7 +31,7 @@ public class EmptyNode extends DiagramElement {
      * @param id Identifying number of the diagram element.
      */
     public EmptyNode(int id) {
-        super(id);
+        super("empty", id);
     }
 
     @Override
@@ -45,5 +50,19 @@ public class EmptyNode extends DiagramElement {
         solver.addEq(connectTop, 0, hline.top);
 
         solver.solve("empty-node");
+
+        if (dodbg()) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+
+            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 }

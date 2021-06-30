@@ -30,7 +30,7 @@ import org.eclipse.escet.common.raildiagrams.solver.Variable;
 /** Abstract representative of a sub-diagram. */
 public class ProxyDiagramElement {
     /** The real diagram element. */
-    private DiagramElement child;
+    public final DiagramElement child;
 
     /** Variable holding the X coordinate of the left side of the diagram element. */
     public final Variable left;
@@ -145,8 +145,9 @@ public class ProxyDiagramElement {
      * @param left Coordinate of the left edge.
      * @param top Coordinate of the top edge.
      * @param gd Graphics rendering handle.
+     * @param dumpAbsCoords Whether to dump the absolute coordinates of the elements for debugging.
      */
-    public void paint(double left, double top, Graphics2D gd) {
-        child.paint(left, top, gd);
+    public void paint(double left, double top, Graphics2D gd, boolean dumpAbsCoords) {
+        child.paint(left, top, gd, dumpAbsCoords);
     }
 }

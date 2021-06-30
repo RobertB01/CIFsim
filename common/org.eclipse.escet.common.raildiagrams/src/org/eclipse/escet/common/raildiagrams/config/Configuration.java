@@ -15,6 +15,7 @@ package org.eclipse.escet.common.raildiagrams.config;
 
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.makeUppercase;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Configuration data of the diagrams. */
 public class Configuration {
@@ -243,6 +245,22 @@ public class Configuration {
     }
 
     /**
+     * Obtain whether debug output for the given kind is switched on.
+     *
+     * @param kind Kind of debug output.
+     * @return Whether the requested kind of debug output was enabled.
+     * @note Function decides enabled if the setting is not explicitly false.
+     */
+    public boolean getDebugSetting(DebugDisplayKind kind) {
+        String propName = "debug." + kind.name().toLowerCase(Locale.US);
+        String text = getPropertyValue(propName);
+        if (text == null) {
+            text = "";
+        }
+        return decodeBool(text, true);
+    }
+
+    /**
      * Get the text of a property by its name.
      *
      * @param key Name of the property to look for.
@@ -285,6 +303,32 @@ public class Configuration {
             return defaultColor;
         }
         return new Color(red, green, blue);
+    }
+
+    /**
+     * Convert a piece of text to a boolean value.
+     *
+     * @param valueText Text to convert.
+     * @param defaultValue Value to use if the conversion fails.
+     * @return The result value.
+     */
+    private boolean decodeBool(String valueText, boolean defaultValue) {
+        valueText = makeUppercase(valueText);
+
+        final String[] trueStrings = new String[] {"TRUE", "YES", "1"};
+        for (String trueStr: trueStrings) {
+            if (trueStr.equals(valueText)) {
+                return true;
+            }
+        }
+
+        final String[] falseStrings = new String[] {"FALSE", "NO", "0"};
+        for (String falseStr: falseStrings) {
+            if (falseStr.equals(valueText)) {
+                return false;
+            }
+        }
+        return defaultValue;
     }
 
     /**

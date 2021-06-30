@@ -14,8 +14,9 @@
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
 
@@ -27,6 +28,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Iteration node in the diagram. */
 public class LoopNode extends DiagramElement {
@@ -50,7 +52,7 @@ public class LoopNode extends DiagramElement {
      * @param id Identifying number of the diagram element.
      */
     public LoopNode(DiagramElement forward, DiagramElement backward, int id) {
-        super(id);
+        super("loop", id);
         this.forward = forward;
         this.backward = backward;
     }
@@ -63,8 +65,6 @@ public class LoopNode extends DiagramElement {
         double leftPadding = config.getRealValue("loop.padding.left");
         double rightPadding = config.getRealValue("loop.padding.right");
         double interrowPadding = config.getRealValue("loop.padding.vertical");
-
-        dbg("computing loop");
 
         // Loop elements at the left.
         VertLine leftVertLine = new VertLine(solver, "loop-left-vert", railColor, railWidth);
@@ -102,10 +102,9 @@ public class LoopNode extends DiagramElement {
         solver.addEq(exit.top, 0, connectTop);
         solver.addLe(exit.left, arcSize + rightPadding, exit.right);
 
-        idbg();
         forward.create(config, direction);
         backward.create(config, -direction);
-        ddbg();
+
         forwProxy = addDiagramElement(forward, "proxy-forward");
         backwProxy = addDiagramElement(backward, "proxy-back");
         solver.addEq(top, 0, forwProxy.top);
@@ -125,8 +124,20 @@ public class LoopNode extends DiagramElement {
             connectArcHlineProxyArc(tlArc, forwExtend, forwProxy, trArc, railWidth);
             connectArcProxyHLineArc(blArc, backwProxy, backwExtend, brArc, railWidth);
         }
-
         solver.solve("loop");
+        if (dodbg()) {
+            writeDumpHeaderElements(this, list(forward, backward));
+            dbg();
+
+            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 
     /**

@@ -103,23 +103,12 @@ public class Solver {
         addRelation(leRel);
     }
 
-    /**
-     * Dump the variables and relations for debugging.
-     *
-     * @param header Header line stating where or when the dump is coming from.
-     */
-    public void dumpRelations(String header) {
+    /** Dump the variables and relations for debugging. */
+    public void dumpRelations() {
         if (!dodbg()) {
             return;
         }
 
-        dbg("====== " + header + "=======");
-        dbg("Variables:");
-        idbg();
-        for (Variable v: variables) {
-            dbg("%s", v);
-        }
-        ddbg();
         dbg("Relations:");
         idbg();
         for (VariableRelation r: relations) {
@@ -140,7 +129,6 @@ public class Solver {
      * @param name Name of the node containing the variables and relations, for debugging purposes.
      */
     public void solve(String name) {
-        dumpRelations("Initial state (" + name + ")");
         equalityClusters = list();
         varsToCluster = map();
 
@@ -380,7 +368,7 @@ public class Solver {
                 if (cluster.remoteSmallers.isEmpty()) {
                     // First cluster in the chain.
                     double cValue = cluster.getMinimalValidC();
-                    dbg("Smallest cluster: minimal C = %f", cValue);
+//                    dbg("Smallest cluster: minimal C = %f", cValue);
                     cluster.assignVariables(varValues, cValue);
                     assignedClusters.add(cluster);
                     addSuccessorClusters(cluster.remoteBiggers, nextActiveClusters);
@@ -388,7 +376,7 @@ public class Solver {
                 } else if (allSmallerDone(cluster.remoteSmallers, assignedClusters)) {
                     // All predecessors done.
                     double cValue = cluster.getMinimalValidC(varValues);
-                    dbg("next cluster: minimal C = %f", cValue);
+//                    dbg("next cluster: minimal C = %f", cValue);
                     cluster.assignVariables(varValues, cValue);
                     assignedClusters.add(cluster);
                     addSuccessorClusters(cluster.remoteBiggers, nextActiveClusters);

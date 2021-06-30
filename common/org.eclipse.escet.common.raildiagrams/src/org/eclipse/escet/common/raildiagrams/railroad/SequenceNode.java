@@ -15,10 +15,13 @@ package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.getElementName;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
 import java.util.List;
@@ -32,6 +35,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Node for a sequence of child nodes. */
 public class SequenceNode extends DiagramElement {
@@ -45,7 +49,7 @@ public class SequenceNode extends DiagramElement {
      * @param id Identifying number of the diagram element.
      */
     public SequenceNode(List<SequenceRow> rows, int id) {
-        super(id);
+        super("sequence", id);
         this.rows = rows;
 
         // Initialize the {@link SequencRow#hasNextRow} field.
@@ -66,8 +70,6 @@ public class SequenceNode extends DiagramElement {
         double paddingInterrow = config.getRealValue("sequence.padding.interrow");
         double arcRadius = config.getRealValue("sequence.arc-radius");
 
-        dbg("computing sequence");
-
         // Construct the constraints.
         HorLine connect = null; // Line passed between rows, connecting them.
         List<VertLine> verticalLines = (rows.size() < 2) ? null : listc(rows.size() - 1); // Vertical lines after rows.
@@ -75,9 +77,7 @@ public class SequenceNode extends DiagramElement {
         for (SequenceRow row: rows) {
             // Solve the child elements of the row.
             String rowNumStr = fmt("%d", i);
-            idbg();
             row.create(config, direction, this, rowNumStr);
-            ddbg();
 
             // Build the sequence graphics.
             if (direction > 0) {
@@ -155,6 +155,32 @@ public class SequenceNode extends DiagramElement {
         }
 
         solver.solve("sequence");
+
+        if (dodbg()) {
+            writeDumpHeaderElements(this, null);
+            idbg();
+            boolean first = true;
+            for (SequenceRow row: rows) {
+                if (first) {
+                    first = false;
+                } else {
+                    dbg();
+                }
+                for (DiagramElement element: row.elements) {
+                    dbg("Child %s", getElementName(element));
+                }
+            }
+            ddbg();
+
+            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 
     /**
