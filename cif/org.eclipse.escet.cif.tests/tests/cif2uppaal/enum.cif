@@ -11,18 +11,14 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-automaton buf:
-  event c1, c2;
+event e1;
 
-  disc int[0..10] v = 5;
-  disc bool z = true;
-  alg int[1..1] w = 1;                      // Algebraic variable.
+enum enm = lit1, lit2;
 
-  location:                                 // Non-determinism for event 'c2'.
+automaton p:
+  disc enm v = lit1;
+  
+  location:
     initial;
-
-    edge c1 when v < 7 do v := v + w;
-    edge c2 when v > 3 do v := v - w;
-    edge c2 do v := 10, z := false;         // Multiple assignments.
-    edge c2 when v > 3, v < 7 do v := 10;   // Multiple guards.
+    edge e1 when v = lit1 do v := lit2;
 end
