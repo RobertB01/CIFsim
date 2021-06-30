@@ -19,15 +19,15 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 
-/** Class representing the events in a forcible-event loop. */
+/** Class representing the events in an event loop. */
 public class EventLoop {
-    /** All events that occur in the forcible-event loop. */
+    /** All events that occur in the event loop. */
     public final Set<Event> events;
 
     /**
      * Constructor of the {@link EventLoop} class.
      *
-     * @param events All events that occur in the forcible-event loop.
+     * @param events The events that occur in the event loop.
      */
     public EventLoop(Set<Event> events) {
         this.events = events;

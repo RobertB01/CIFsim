@@ -60,49 +60,58 @@ import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
-/**
- * Class for checking a Cif 3 specification has finite response.
- */
+/** Class for checking a CIF specification has finite response. */
 public class FiniteResponseChecker {
     /** Automata of the specification. */
     private List<Automaton> automata = list();
 
-    /** Variables of the specification. */
+    /** Discrete and input Variables of the specification. */
     private List<Declaration> variables = list();
 
     /**
-     * The forcible event set. Iteratively, this set is updated if an event is found in the alphabet of an automaton,
-     * but not in any of its potential forcible-event loops.
+     * The controllable event set. Iteratively, this set is updated. If an event is found in the alphabet of an
+     * automaton, but not in any of its potential controllable-event loops, it is removed from this set.
      */
-    private Set<Event> forcibleEvents = set();
+    private Set<Event> controllableEvents = set();
 
-    /** Whether the forcible events have changed after the last computation of the forcible independent variables. */
-    private boolean forcibleEventsChanged = true;
+    /**
+     * Whether the controllable events have changed after the last computation of the controllable independent
+     * variables.
+     */
+    private boolean controllableEventsChanged = true;
 
-    /** Mapping between events and the variables updated by edges labeled with that event. */
+    /**
+     * Mapping between events and the variables updated by edges labeled with that event. IS {@code null} until
+     * computed, see {@link #collectEventVarUpdate}.
+     */
     private Map<Event, Set<Declaration>> eventVarUpdate;
 
-    /** Variables that are not forcible independent, i.e., their value is can be updated by a forcible event. */
-    VarInfo[] nonFIVinfos;
+    /**
+     * Discrete variables that are not controllable independent, i.e., their value can be updated by an edge labeled
+     * with a controllable event.
+     */
 
-    /** Mapping between events and their global guard as a MDD node. */
+    /**
+     * Mapping between events and their global guard as a MDD node. Is {@code null} until computed, see
+     * {@link #collectGlobalGuards}.
+     */
     private Map<Event, Node> globalGuards;
 
     /** Builder for the MDD tree. */
     private MvSpecBuilder builder;
 
     /**
-     * Performs the finite response checker for a Cif 3 specification.
+     * Performs the finite response checker for a CIF specification.
      *
      * @param spec The specification to check for finite response.
-     * @return {@code true} if the specification has finite response.
+     * @return {@code true} if the specification has finite response, {@code false} if finite response cannot be
+     *     guaranteed.
      */
     public boolean checkSystem(Specification spec) {
-        // Initially, the forcible events are the controllable events in the system.
         collectAutomata(spec, automata);
         collectDiscAndInputVariables(spec, variables);
-        collectControllableEvents(spec, forcibleEvents);
-        eventVarUpdate = getEventVarUpdate();
+        collectControllableEvents(spec, controllableEvents);
+        eventVarUpdate = collectEventVarUpdate();
 
         if (automata.isEmpty()) {
             OutputProvider.out("The specification has finite response.");
@@ -110,7 +119,7 @@ public class FiniteResponseChecker {
             return true;
         }
 
-        if (forcibleEvents.isEmpty()) {
+        if (controllableEvents.isEmpty()) {
             OutputProvider.out("The specification has finite response.");
             OutputProvider.out("Warning: the specification contains 0 forcible events.");
             return true;
@@ -124,31 +133,31 @@ public class FiniteResponseChecker {
         builder = new MvSpecBuilder(cifVarInfoBuilder, readIndex, writeIndex);
 
         // Get the global guards in the tree.
-        globalGuards = collectGlobalGuards(forcibleEvents);
+        globalGuards = collectGlobalGuards(controllableEvents);
 
-        // Check all automata for forcible-event loops. If an automata has a forcible event in its alphabet, but not
-        // in any of its potential forcible loops, then this event is removed from the forcible-event set. We keep
-        // repeating the search until the forcible event set is not updated anymore or the set is empty.
+        // Check all automata for controllable-event loops. If an automata has a controllable event in its alphabet, but
+        // not in any of its potential controllable loops, then this event is removed from the controllable-event set.
+        // We keep repeating the search until the controllable-event set is not updated anymore or the set is empty.
         int oldSize;
         int iterationNumber = 1;
 
         do {
             OutputProvider.dbg(fmt("Iteration %d.", iterationNumber));
             iterationNumber++;
-            oldSize = forcibleEvents.size();
+            oldSize = controllableEvents.size();
 
             for (Automaton aut: automata) {
                 checkAutomaton(aut);
             }
-        } while (oldSize != forcibleEvents.size() && !forcibleEvents.isEmpty());
+        } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
 
-        if (!forcibleEvents.isEmpty()) {
+        if (!controllableEvents.isEmpty()) {
             OutputProvider.out("The specification does not have finite response, at least one forcible-event "
                     + "loop was found.");
 
             if (PrintOutputOption.print()) {
                 OutputProvider.out("The following events might still occur in a forcible loop.");
-                for (Event event: forcibleEvents) {
+                for (Event event: controllableEvents) {
                     OutputProvider.out(getAbsName(event) + ", ");
                 }
             }
@@ -156,91 +165,96 @@ public class FiniteResponseChecker {
             OutputProvider.out("The specification has finite response.");
         }
 
-        return forcibleEvents.isEmpty();
+        return controllableEvents.isEmpty();
     }
 
     /**
-     * Checks an automaton on the existence of potential forcible-event loops, i.e., loops in the automaton that are not
-     * forcible unconnectable. This function removes events from {@code forcibleEvents} if they occur in the alphabet of
-     * the automaton, but not in any potential loop.
+     * Checks an automaton on the existence of potential controllable-event loops, i.e., loops in the automaton that are
+     * not controllable unconnectable. This function removes events from {@link #controllableEvents} if they occur in
+     * the alphabet of the automaton, but not in any potential controllable-event loop.
      *
-     * @param aut The automaton to check for potential forcible-event loops.
+     * @param aut The automaton to check for potential controllable-event loops.
      */
     private void checkAutomaton(Automaton aut) {
-        // Check if the automaton has any forcible events in its alphabet.
-        if (isEmptyIntersection(getAlphabet(aut), forcibleEvents)) {
+        // Check if the automaton has any controllable events in its alphabet.
+        if (isEmptyIntersection(getAlphabet(aut), controllableEvents)) {
             return;
         }
 
-        // Find the forcible-event loops in the automata. Here we ignore guards and updates.
-        Set<EventLoop> forcibleLoops = searchEventLoops(aut, forcibleEvents);
+        // Find the controllable-event loops in the automata. Here we ignore guards and updates, only use location,
+        // edges, and events..
+        Set<EventLoop> controllableEventLoops = searchEventLoops(aut, controllableEvents);
 
         // Print the results.
-        if (!forcibleLoops.isEmpty()) {
+        if (!controllableEventLoops.isEmpty()) {
             OutputProvider.dbg();
-            OutputProvider.dbg(fmt("The following events have initially been encountered in a forcible-event loop "
-                    + "of automaton %s", aut.getName()));
-            for (EventLoop eventLoop: forcibleLoops) {
+            OutputProvider.dbg(fmt("The following events have initially been encountered in a controllable-event loop "
+                    + "of automaton %s", getAbsName(aut)));
+            for (EventLoop eventLoop: controllableEventLoops) {
                 OutputProvider.dbg("* " + eventLoop.toString());
             }
             OutputProvider.dbg(); // Print empty line.
         }
 
-        // Calculate the non forcible independent variables. As we later have to abstract from these in the
-        // global guards. Variables are cached, only calculate when the forcible event set has changed.
-        if (forcibleEventsChanged) {
-            forcibleEventsChanged = false;
+        // Calculate the non controllable independent variables. As we later have to abstract from these in the
+        // global guards. Variables are cached, only calculate when the controllable event set has changed.
+        VarInfo[] nonCtrlIndependentVarsInfos = null;
+        if (controllableEventsChanged) {
+            controllableEventsChanged = false;
 
             BitSet bits = new BitSet(builder.cifVarInfoBuilder.varInfos.size());
-            for (Event evt: forcibleEvents) {
+            for (Event evt: controllableEvents) {
                 for (Declaration var: eventVarUpdate.getOrDefault(evt, set())) {
                     VarInfo varInfo = builder.cifVarInfoBuilder.getVarInfo(var, 0);
                     bits.set(varInfo.level);
                 }
             }
 
-            nonFIVinfos = new VarInfo[bits.cardinality()];
+            nonCtrlIndependentVarsInfos = new VarInfo[bits.cardinality()];
             int nextFree = 0;
             for (int level = bits.nextSetBit(0); level >= 0; level = bits.nextSetBit(level + 1)) {
-                nonFIVinfos[nextFree] = builder.cifVarInfoBuilder.varInfos.get(level);
+                nonCtrlIndependentVarsInfos[nextFree] = builder.cifVarInfoBuilder.varInfos.get(level);
                 nextFree++;
             }
         }
 
-        // Collect which events occur in potential-forcible loops.
-        Set<Event> evtsInPotentialFLoop = set();
+        // Collect which events occur in potential controllable-event loops.
+        Set<Event> eventsInPotentialControllableLoops = set();
 
-        // Check for if the loop is forcible unconnectable, if not, it is a potential forcible loop in the system.
-        for (EventLoop forcibleLoop: forcibleLoops) {
-            if (isUnconnectable(forcibleLoop, nonFIVinfos)) {
-                OutputProvider.dbg(fmt("%s is forcible-unconnectable", forcibleLoop.toString()));
+        // Check for if the loop is controllable unconnectable, if not, it is a potential controllable-event loop in the
+        // system.
+        for (EventLoop controllableEventLoop: controllableEventLoops) {
+            if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
+                OutputProvider.dbg(fmt("%s is forcible-unconnectable", controllableEventLoop.toString()));
             } else {
-                OutputProvider.dbg(fmt("Warning: %s is not forcible-unconnectable", forcibleLoop.toString()));
-                evtsInPotentialFLoop.addAll(forcibleLoop.events);
+                OutputProvider.dbg(fmt("Warning: %s is not forcible-unconnectable", controllableEventLoop.toString()));
+                eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
             }
         }
 
-        // Determine which events are in the alphabet of the automaton, but not in any of its potential forcible loops.
-        Set<Event> eventsInAlphabetNotInLoop = Sets.difference(getAlphabet(aut), evtsInPotentialFLoop);
+        // Determine which events are in the alphabet of the automaton, but not in any of its potential
+        // controllable-event loops.
+        Set<Event> eventsInAlphabetNotInLoop = Sets.difference(getAlphabet(aut), eventsInPotentialControllableLoops);
 
-        // Remove the events that are in the alphabet of the automaton, but not in any of its potential forcible loops
-        // from the forcible event set. If the set changes, update ForcibleEventsChanged.
-        forcibleEventsChanged = forcibleEvents.removeAll(eventsInAlphabetNotInLoop);
+        // Remove the events that are in the alphabet of the automaton, but not in any of its potential
+        // controllable-event loops from the controllable event set.
+        controllableEventsChanged = controllableEvents.removeAll(eventsInAlphabetNotInLoop);
     }
 
     /**
-     * Checks whether the forcible loop is forcible unconnectable. Forcible unconnectabiility is checked after
-     * abstracting from the events in nonFIV.
+     * Checks whether the controllable-event loop is controllable unconnectable. Controllable unconnectable is checked
+     * after abstracting from the events that are might change their value due to other controllable events.
      *
-     * @param forcibleLoop The loop to check to be forcible unconnectable.
-     * @param nonFIV The variables that are updated by forcible events, not forcible independent variables.
+     * @param controllableEventLoop The loop to check to be controllable unconnectable.
+     * @param nonCtrlIndependentVarsInfos The variables that are updated by forcible events, not forcible independent
+     *     variables.
      * @return {@code true} if the loop is forcible unconnectable, {@code false} otherwise.
      */
-    private boolean isUnconnectable(EventLoop forcibleLoop, VarInfo[] nonFIV) {
+    private boolean isUnconnectable(EventLoop controllableEventLoop, VarInfo[] nonCtrlIndependentVarsInfos) {
         Node n = Tree.ONE;
-        for (Event evt: forcibleLoop.events) {
+        for (Event evt: controllableEventLoop.events) {
             Node g = globalGuards.get(evt);
-            Node gAbstract = builder.tree.variableAbstractions(g, nonFIV);
+            Node gAbstract = builder.tree.variableAbstractions(g, nonCtrlIndependentVarsInfos);
             n = builder.tree.conjunct(n, gAbstract);
             if (n == Tree.ZERO) {
                 return true;
@@ -254,9 +268,8 @@ public class FiniteResponseChecker {
      *
      * @return The constructed mapping.
      */
-    private Map<Event, Set<Declaration>> getEventVarUpdate() {
+    private Map<Event, Set<Declaration>> collectEventVarUpdate() {
         Map<Event, Set<Declaration>> eventVarUpdate = map();
-        // Iterate over all edges in the specification, and determine their updates.
         for (Automaton aut: automata) {
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
@@ -265,7 +278,7 @@ public class FiniteResponseChecker {
                             Assignment assignment = (Assignment)update;
                             collectEventsAddressable(assignment.getAddressable(), getEvents(edge), eventVarUpdate);
                         } else {
-                            // 'If' updates are not supported.
+                            // 'If' updates should have been eliminated.
                             throw new AssertionError(fmt("Unexpected update encountered: '%s'.", update.toString()));
                         }
                     }
@@ -295,7 +308,7 @@ public class FiniteResponseChecker {
                 eventVarUpdate.put(evt, vars);
             }
         } else {
-            // Partial assignments and multi-assignments are not supported.
+            // Partial assignments and multi-assignments should be eliminated.
             throw new AssertionError(fmt("Unexpected addressable encountered: '%s'.", addressable.toString()));
         }
     }
@@ -310,10 +323,12 @@ public class FiniteResponseChecker {
      * @return A mapping between events and their global guards as a MDD node.
      */
     public Map<Event, Node> collectGlobalGuards(Set<Event> events) {
-        Map<Event, List<Expression>> eventGlobalGuard = map();
+        // An event is enabled in the specification if all of the global guard expressions evaluate to 'true'.
+        Map<Event, List<Expression>> eventGlobalGuards = map();
 
         for (Automaton aut: automata) {
-            Map<Event, List<Expression>> eventAutomGuard = map();
+            // An event is enabled in an automaton if any of the automaton guard expressions evaluate to 'true'.
+            Map<Event, List<Expression>> eventAutGuards = map();
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
                     Set<Event> intersection = intersection(getEvents(edge), events);
@@ -321,30 +336,30 @@ public class FiniteResponseChecker {
                         continue;
                     }
 
-                    // An edge with a guard, labeled with an event from the supplied set has been found. If the edge
-                    // contains multiple guards, the guards are combined via 'and'.
+                    // An edge with a guard, labeled with an event from the supplied set has been found. The edge is
+                    // enabled if all expression evaluate to 'true'. Therefore, the guards are combined via 'and'.
                     for (Event evt: intersection) {
-                        List<Expression> edgeGuards = eventAutomGuard.getOrDefault(evt, list());
-                        edgeGuards.add(createConjunction(deepclone(edge.getGuards())));
-                        eventAutomGuard.put(evt, edgeGuards);
+                        List<Expression> automGuards = eventAutGuards.getOrDefault(evt, list());
+                        automGuards.add(createConjunction(deepclone(edge.getGuards())));
+                        eventAutGuards.put(evt, automGuards);
                     }
                 }
             }
 
             // An event is enabled in an automaton if at least one edge with that event is enabled. Hence,
             // the automaton guards are combined via 'or'.
-            for (Entry<Event, List<Expression>> entry: eventAutomGuard.entrySet()) {
-                List<Expression> globalGuard = eventGlobalGuard.getOrDefault(entry.getKey(), list());
-                globalGuard.add(createDisjunction(entry.getValue()));
-                eventGlobalGuard.put(entry.getKey(), globalGuard);
+            for (Entry<Event, List<Expression>> entry: eventAutGuards.entrySet()) {
+                List<Expression> globalGuards = eventGlobalGuards.getOrDefault(entry.getKey(), list());
+                globalGuards.add(createDisjunction(entry.getValue()));
+                eventGlobalGuards.put(entry.getKey(), globalGuards);
             }
         }
 
         Map<Event, Node> eventNode = mapc(events.size());
         for (Event event: events) {
-            List<Expression> globalGuard = eventGlobalGuard.getOrDefault(event, Collections.emptyList());
-            Node nodeGuard = globalGuard.isEmpty() ? Tree.ONE
-                    : builder.getPredicateConvertor().convert(globalGuard).get(1);
+            List<Expression> globalGuards = eventGlobalGuards.getOrDefault(event, Collections.emptyList());
+            Node nodeGuard = globalGuards.isEmpty() ? Tree.ONE
+                    : builder.getPredicateConvertor().convert(globalGuards).get(1);
             eventNode.put(event, nodeGuard);
         }
         return eventNode;

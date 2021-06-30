@@ -63,7 +63,7 @@ public class EventLoopSearch {
             if (visitedLocations.contains(loc)) {
                 continue;
             }
-            searchLoopFromLocation(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations);
+            searchEventLoops(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations);
         }
         return eventLoops;
     }
@@ -80,12 +80,15 @@ public class EventLoopSearch {
      * @param eventLoops The event loops that have been found in the specified automaton, modified in place.
      * @param visitedLocations The locations that have been visited at least once when searching for loops.
      */
-    private static void searchLoopFromLocation(Location rootLoc, Set<Event> loopEvents,
+    private static void searchEventLoops(Location rootLoc, Set<Event> loopEvents,
             Map<Location, Integer> stackIndex, List<Event> stack, Set<EventLoop> eventLoops,
             Set<Location> visitedLocations)
     {
-        visitedLocations.add(rootLoc); // Add the root location to the set of visited locations.
-        stackIndex.put(rootLoc, stack.size()); // Put the root location on top of the stack.
+        visitedLocations.add(rootLoc);
+
+        // Put the root location on top of the stack.
+        stackIndex.put(rootLoc, stack.size());
+
         // Consider successors of rootLoc.
         for (Edge edge: rootLoc.getEdges()) {
             // Only consider successor reachable via the loop events.
@@ -94,7 +97,8 @@ public class EventLoopSearch {
             }
 
             Integer loopStartIndex;
-            if (edge.getTarget() == null) { // selfloop.
+            if (edge.getTarget() == null) {
+                // selfloop.
                 loopStartIndex = stackIndex.get(rootLoc);
             } else {
                 loopStartIndex = stackIndex.get(edge.getTarget());
@@ -105,19 +109,21 @@ public class EventLoopSearch {
                     continue;
                 }
 
-                if (loopStartIndex == null) { // A new location has been found.
+                if (loopStartIndex == null) {
+                    // A new location has been found.
                     stack.add(event);
-                    searchLoopFromLocation(edge.getTarget(), loopEvents, stackIndex, stack, eventLoops,
-                            visitedLocations);
+                    searchEventLoops(edge.getTarget(), loopEvents, stackIndex, stack, eventLoops, visitedLocations);
                     stack.remove(stack.size() - 1);
-                } else { // A previously visited location has been found.
+                } else {
+                    // A previously visited location has been found. Thus, we found a loop.
                     stack.add(event);
                     eventLoops.add(retrieveLoopFromStack(loopStartIndex, stack));
                     stack.remove(stack.size() - 1);
                 }
             }
         }
-        stackIndex.remove(rootLoc); // Remove the root location from the stack, as we are finished.
+        // Remove the root location from the stack, as we are finished.
+        stackIndex.remove(rootLoc);
     }
 
     /**
