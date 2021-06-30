@@ -170,7 +170,7 @@ public class NamedNode extends DiagramElement {
         solver.addEq(top, 0, topLine.top);
         solver.addEq(bottom, 0, bottomLine.bottom);
 
-        solver.solve("named-node");
+        solver.solve("named-node", config);
 
         if (dodbg()) {
             writeDumpHeaderElements(this, null);

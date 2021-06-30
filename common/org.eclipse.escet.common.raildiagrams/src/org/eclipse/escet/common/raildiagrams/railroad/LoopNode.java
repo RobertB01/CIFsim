@@ -124,7 +124,7 @@ public class LoopNode extends DiagramElement {
             connectArcHlineProxyArc(tlArc, forwExtend, forwProxy, trArc, railWidth);
             connectArcProxyHLineArc(blArc, backwProxy, backwExtend, brArc, railWidth);
         }
-        solver.solve("loop");
+        solver.solve("loop", config);
         if (dodbg()) {
             writeDumpHeaderElements(this, list(forward, backward));
             dbg();

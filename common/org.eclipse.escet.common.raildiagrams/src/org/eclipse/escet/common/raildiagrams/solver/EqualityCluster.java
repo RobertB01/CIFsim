@@ -13,14 +13,19 @@
 
 package org.eclipse.escet.common.raildiagrams.solver;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -88,8 +93,10 @@ public class EqualityCluster {
      * The caller should ensure the set provided relations only contain variables where both sides are already in the
      * cluster, and that the set is complete, eventually linking all variables to the shared common variable.
      * </p>
+     *
+     * @param dumpSolving Whether to dump details of solving the position equations.
      */
-    public void initialize() {
+    public void initialize(boolean dumpSolving) {
         // Singleton equality cluster have no equations to initialize from.
         if (equalities.isEmpty()) {
             Assert.check(variables.size() == 1);
@@ -128,13 +135,13 @@ public class EqualityCluster {
                     variables.put(eqRel.a, offsetA);
                     variables.put(eqRel.b, offsetB);
                     Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
-//                    if (dodbg()) {
-//                        dbg();
-//                        dbg("%s:", eqRel);
-//                        idbg();
-//                        dbg("init-eq, first: %s = %.1f, %s = %.1f", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
-//                        ddbg();
-//                    }
+                    if (dumpSolving && dodbg()) {
+                        dbg();
+                        dbg("%s:", eqRel);
+                        idbg();
+                        dbg("init-eq, first: %s = %.1f, %s = %.1f", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
+                        ddbg();
+                    }
                     first = false;
                     // eqRel completely done.
                     continue;
@@ -164,13 +171,13 @@ public class EqualityCluster {
                         offsetA = offsetB + eqRel.offset;
                         variables.put(eqRel.a, offsetA);
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
-//                        if (dodbg()) {
-//                            dbg();
-//                            dbg("[add-A] %s:", eqRel);
-//                            idbg();
-//                            dbg("init-eq, new a: %s = %1f, %s = %.1f", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
-//                            ddbg();
-//                        }
+                        if (dumpSolving && dodbg()) {
+                            dbg();
+                            dbg("[add-A] %s:", eqRel);
+                            idbg();
+                            dbg("init-eq, new a: %s = %1f, %s = %.1f", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
+                            ddbg();
+                        }
                         continue;
                     }
                 } else {
@@ -190,17 +197,19 @@ public class EqualityCluster {
                         offsetB = offsetA - eqRel.offset;
                         variables.put(eqRel.b, offsetB);
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
-//                        if (dodbg()) {
-//                            dbg();
-//                            dbg("[add-B] %s:", eqRel);
-//                            idbg();
-//                            dbg("init-eq, new b: %s = %1f, %s = %.1f", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
-//                            ddbg();
-//                        }
+                        if (dumpSolving && dodbg()) {
+                            dbg();
+                            dbg("[add-B] %s:", eqRel);
+                            idbg();
+                            dbg("init-eq, new b: %s = %1f, %s = %.1f", eqRel.a, 100 - offsetA, eqRel.b, 100 - offsetB);
+                            ddbg();
+                        }
                         continue;
                     } else {
                         // Both are here. There are cycles in the equality relations.
-                        dumpEqualityCycle(eqRel);
+                        if (dumpSolving) {
+                            dumpEqualityCycle(eqRel);
+                        }
 
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON,
                                 fmt("eqRel=%s, offsetA=%f, offsetB=%f", eqRel, offsetA, offsetB));
@@ -230,12 +239,12 @@ public class EqualityCluster {
             return;
         }
 
-//        dbg("Equality cluster of %s:", name);
-//        idbg();
-//        for (Entry<Variable, Double> entry: variables.entrySet()) {
-//            dbg("C == %s + %s", entry.getKey(), entry.getValue());
-//        }
-//        ddbg();
+        dbg("Equality cluster of %s:", name);
+        idbg();
+        for (Entry<Variable, Double> entry: variables.entrySet()) {
+            dbg("C == %s + %s", entry.getKey(), entry.getValue());
+        }
+        ddbg();
     }
 
     /**
@@ -244,21 +253,21 @@ public class EqualityCluster {
      * @param eqRel Equality relation that introduced a cycle.
      */
     private void dumpEqualityCycle(EqRelation eqRel) {
-//        List<Variable> addedVars = list();
-//        Set<EqRelation> addedRels = set();
-//        Map<Variable, EqRelation> relByVar = map();
-//        addedVars.add(eqRel.a);
-//        int idx = findCycle(addedVars, addedRels, relByVar);
-//        if (idx >= 0) {
-//            dbg("Cycle with %s:", addedVars.get(idx));
-//            idbg();
-//            for (; idx < addedVars.size(); idx++) {
-//                Variable w = addedVars.get(idx);
-//                EqRelation r = relByVar.get(w);
-//                dbg("%s due to %s", w, r != null ? r : "-");
-//            }
-//            ddbg();
-//        }
+        List<Variable> addedVars = list();
+        Set<EqRelation> addedRels = set();
+        Map<Variable, EqRelation> relByVar = map();
+        addedVars.add(eqRel.a);
+        int idx = findCycle(addedVars, addedRels, relByVar);
+        if (idx >= 0) {
+            dbg("Cycle with %s:", addedVars.get(idx));
+            idbg();
+            for (; idx < addedVars.size(); idx++) {
+                Variable w = addedVars.get(idx);
+                EqRelation r = relByVar.get(w);
+                dbg("%s due to %s", w, r != null ? r : "-");
+            }
+            ddbg();
+        }
     }
 
     /**
@@ -306,11 +315,12 @@ public class EqualityCluster {
      * </p>
      *
      * @param leRel Less-equal relation to check.
+     * @param dumpSolving Whether to dump details of solving the position equations.
      */
-    public void checkLeRelation(LeRelation leRel) {
-//        if (dodbg()) {
-//            dbg("checkLEReleation: %s", leRel);
-//        }
+    public void checkLeRelation(LeRelation leRel, boolean dumpSolving) {
+        if (dumpSolving && dodbg()) {
+            dbg("checkLEReleation: %s", leRel);
+        }
         double offsetA = variables.get(leRel.a);
         double offsetB = variables.get(leRel.b);
         // A + offsetA = C
@@ -331,8 +341,9 @@ public class EqualityCluster {
      *
      * @param varValues Storage of variable assignments.
      * @param cValue The common C value to use for assigning variables.
+     * @param dumpSolving Whether to dump details of solving the position equations.
      */
-    public void assignVariables(double[] varValues, double cValue) {
+    public void assignVariables(double[] varValues, double cValue, boolean dumpSolving) {
         for (Entry<Variable, Double> entry: variables.entrySet()) {
             double varValue = cValue - entry.getValue();
             Assert.check(varValue > -Solver.EPSILON); // Variable should be non-negative.
@@ -343,17 +354,17 @@ public class EqualityCluster {
             varValues[varIndex] = varValue;
         }
         // Dump the variables in increasing value.
-        if (dodbg()) {
-//            List<Variable> sortedVars = listc(variables.size());
-//            for (Variable v: variables.keySet()) {
-//                sortedVars.add(v);
-//            }
-//            Collections.sort(sortedVars, new VarValueComparer(varValues));
-//            idbg();
-//            for (Variable v: sortedVars) {
-//                dbg("%s = %f", v, varValues[v.index]);
-//            }
-//            ddbg();
+        if (dumpSolving && dodbg()) {
+            List<Variable> sortedVars = listc(variables.size());
+            for (Variable v: variables.keySet()) {
+                sortedVars.add(v);
+            }
+            Collections.sort(sortedVars, new VarValueComparer(varValues));
+            idbg();
+            for (Variable v: sortedVars) {
+                dbg("%s = %f", v, varValues[v.index]);
+            }
+            ddbg();
         }
     }
 

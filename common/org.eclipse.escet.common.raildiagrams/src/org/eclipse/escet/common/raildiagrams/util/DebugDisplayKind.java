@@ -21,6 +21,9 @@ public enum DebugDisplayKind {
     /** Display equations. */
     EQUATIONS,
 
+    /** Display details of solving the position equations. */
+    SOLVER,
+
     /** Display relative coordinates. */
     REL_COORDINATES,
 

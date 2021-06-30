@@ -97,7 +97,7 @@ public class BranchLabelNode extends DiagramElement {
         solver.addEq(connectTop, 0, rail.top);
         solver.addEq(bottom, 0, rail.bottom);
 
-        solver.solve("branch-label");
+        solver.solve("branch-label", config);
 
         if (dodbg()) {
             writeDumpHeaderElements(this, null);

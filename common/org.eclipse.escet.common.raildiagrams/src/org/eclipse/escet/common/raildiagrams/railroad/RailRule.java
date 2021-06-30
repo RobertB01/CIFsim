@@ -89,7 +89,7 @@ public class RailRule extends DiagramElement {
         solver.addEq(tbox.bottom, diagramTopPadding, rootProxy.top);
         solver.addEq(rootProxy.bottom, bottomRulePadding, bottom);
 
-        solver.solve("rule");
+        solver.solve("rule", config);
 
         if (dodbg()) {
             writeDumpHeaderElements(this, list(rootNode));

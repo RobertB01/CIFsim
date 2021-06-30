@@ -154,7 +154,7 @@ public class SequenceNode extends DiagramElement {
             solver.addEq(topUp.top, 0, connectTop);
         }
 
-        solver.solve("sequence");
+        solver.solve("sequence", config);
 
         if (dodbg()) {
             writeDumpHeaderElements(this, null);

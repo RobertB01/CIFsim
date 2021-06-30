@@ -49,7 +49,7 @@ public class EmptyNode extends DiagramElement {
         solver.addEq(right, 0, hline.right);
         solver.addEq(connectTop, 0, hline.top);
 
-        solver.solve("empty-node");
+        solver.solve("empty-node", config);
 
         if (dodbg()) {
             writeDumpHeaderElements(this, null);

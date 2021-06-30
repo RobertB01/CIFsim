@@ -149,7 +149,7 @@ public class ChoiceNode extends DiagramElement {
             i++;
         }
 
-        solver.solve("choice");
+        solver.solve("choice", config);
 
         if (dodbg()) {
             writeDumpHeaderElements(this, alts);
