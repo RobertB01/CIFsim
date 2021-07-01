@@ -1,7 +1,6 @@
 ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
  - Unsupported declaration "f": user-defined functions are currently not supported.
  - Unsupported declaration "p.db": initial value "constant(true)" of the discrete variable is too complex to evaluate statically.
- - Unsupported declaration "p.enm": enumerations are currently not supported.
  - Unsupported expression ""a"": string literal expressions are currently not supported.
  - Unsupported expression ""a"": string literal expressions are currently not supported.
  - Unsupported expression "(p.b, p.db)": tuple expressions are currently not supported.
@@ -55,10 +54,6 @@ ERROR: CIF to UPPAAL transformation failed due to unsatisfied preconditions:
  - Unsupported type "list bool": list types are currently not supported.
  - Unsupported type "list bool": list types are currently not supported.
  - Unsupported type "list[1] bool": list types are currently not supported.
- - Unsupported type "p.enm": enumeration types are currently not supported.
- - Unsupported type "p.enm": enumeration types are currently not supported.
- - Unsupported type "p.enm": enumeration types are currently not supported.
- - Unsupported type "p.enm": enumeration types are currently not supported.
  - Unsupported type "real": real types are currently not supported.
  - Unsupported type "real": real types are currently not supported.
  - Unsupported type "real": real types are currently not supported.
