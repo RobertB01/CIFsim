@@ -1,0 +1,50 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+automaton A:
+controllable a, b, c, d, e, f, g, h, i, j, k, l, m, o, p, q, r, s, t;
+uncontrollable n;
+location l1:
+  initial;
+  edge a goto l2;
+location l2:
+  edge b goto l3;
+  edge c goto l4;
+  edge d goto l5;
+location l3:
+  edge e goto l6;
+location l4:
+  edge f goto l5;
+  edge g goto l7;
+location l5:
+  edge h goto l2;
+  edge i goto l6;
+  edge j goto l7;
+location l6:
+  edge k goto l3;
+  edge l goto l8;
+location l7:
+  edge m goto l8;
+  edge n goto l10;
+location l8:
+  edge o goto l7;
+location l9:
+  edge p goto l7;
+location l10:
+  edge q goto l9;
+  edge r goto l11;
+location l11:
+  edge s goto l12;
+location l12:
+  edge t goto l10;
+end

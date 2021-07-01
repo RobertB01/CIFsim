@@ -1,0 +1,42 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant Actuator:
+  controllable c_on, c_off;
+  location Off:
+    initial;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+
+plant StartButton:
+  uncontrollable u_pushed, u_released;
+  location Released:
+    initial;
+    edge u_pushed goto Pushed;
+  location Pushed:
+    edge u_released goto Released;
+end
+
+plant StopButton:
+  uncontrollable u_pushed, u_released;
+  location Released:
+    initial;
+    edge u_pushed goto Pushed;
+  location Pushed:
+    edge u_released goto Released;
+end
+
+requirement Actuator.c_on needs StartButton.Pushed;
+requirement Actuator.c_off needs StopButton.Pushed;

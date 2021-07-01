@@ -20,7 +20,9 @@ import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
+import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 
 /**
  * CIF collect utility methods. This is not about collections of values, but about collecting certain kinds of objects
@@ -77,6 +79,31 @@ public class CifCollectUtils {
             // Collect recursively.
             for (Component child: ((Group)comp).getComponents()) {
                 collectAutomata((ComplexComponent)child, automata);
+            }
+        }
+    }
+
+    /**
+     * Collect the discrete and input variables declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp The component.
+     * @param variables The discrete and input variables collected so far. Is modified in-place.
+     */
+    public static void collectDiscAndInputVariables(ComplexComponent comp, List<Declaration> variables) {
+        for (Declaration decl: comp.getDeclarations()) {
+            if (decl instanceof DiscVariable || decl instanceof InputVariable) {
+                variables.add(decl);
+            }
+        }
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child : ((Group)comp).getComponents()) {
+                collectDiscAndInputVariables((ComplexComponent)child, variables);
             }
         }
     }

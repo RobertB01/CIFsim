@@ -48,6 +48,7 @@ _Real-time testing, code generation, and implementation_
 
 * <<tools-codegen-chapter-index>>
 * <<tools-cif2plc-chapter-index>>
+* <<tools-chapter-controller-checker>>
 
 _Miscellaneous_
 

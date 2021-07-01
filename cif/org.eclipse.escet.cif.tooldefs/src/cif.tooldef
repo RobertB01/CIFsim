@@ -335,3 +335,17 @@ tool int ciftrim(list string args = [], string stdin = "-", string stdout = "-",
     return app("org.eclipse.escet.cif.eventbased", "org.eclipse.escet.cif.eventbased.apps.TrimApplication", args, stdin, stdout, stderr,
                appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
 end
+
+// controller check
+tool int cifctrlcheck(string... args, string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.controllercheck", "org.eclipse.escet.cif.controllercheck.ControllerCheckApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+
+tool int cifctrlcheck(list string args = [], string stdin = "-", string stdout = "-", string stderr = "-",
+                 bool appendOut = false, bool appendErr = false, bool errToOut = false, bool ignoreNonZeroExitCode = false):
+    return app("org.eclipse.escet.cif.controllercheck", "org.eclipse.escet.cif.controllercheck.ControllerCheckApp", args, stdin, stdout, stderr,
+               appendOut, appendErr, errToOut, ignoreNonZeroExitCode);
+end
+

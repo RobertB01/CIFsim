@@ -1,0 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant X:
+  controllable a, b, c;
+  location A:
+    initial;
+    edge a goto B;
+  location B:
+    edge b goto C;
+  location C:
+    edge c goto A;
+end
+
+input int[0..2] Y;
+
+requirement X.a needs Y = 0 or Y = 2;
+requirement X.b needs Y = 0 or Y = 1;
+requirement X.c needs Y = 1 or Y = 2;
