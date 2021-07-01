@@ -21,32 +21,32 @@ public class PrintOutputOption extends BooleanOption {
     /** Constructor for the {@link PrintOutputOption} class. */
     public PrintOutputOption() {
         super(// name.
-              "Print control loops",
+                "Print control loops",
 
-              // description.
-              "Whether to print the events that appear in control loops in the console (BOOL=yes) or not (BOOL=no). "
-              + "[DEFAULT=yes]",
+                // description.
+                "Whether to print the events that appear in control loops in the console (BOOL=yes) or not (BOOL=no). "
+                        + "[DEFAULT=yes]",
 
-              // cmdShort.
-              null,
+                // cmdShort.
+                null,
 
-              // cmdLong.
-              "printEvents",
+                // cmdLong.
+                "printEvents",
 
-              // cmdValue.
-              "BOOL",
+                // cmdValue.
+                "BOOL",
 
-              // defaultValue.
-              true,
+                // defaultValue.
+                true,
 
-              // showInDialog.
-              true,
+                // showInDialog.
+                true,
 
-              // optDialogDescr.
-              "Print events that appear in control loops to the console.",
+                // optDialogDescr.
+                "Print events that appear in control loops to the console.",
 
-              // optDialogCheckboxText.
-              "Print events.");
+                // optDialogCheckboxText.
+                "Print events.");
     }
 
     /**

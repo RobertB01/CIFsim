@@ -52,10 +52,14 @@ public class ControllerCheckDeterminismChecker {
     public List<String> problems = list();
 
     /**
-     * Verifies whether a specification is deterministic, that is automata that have locations with multiple outgoing
-     * edges for the same event, with overlapping guards (e.g. x > 1 and x < 4), are not supported.
+     * Check that a specification is supported.
+     *
+     * <p>
+     * As only deterministic specifications are supported, check that the specification is deterministic.
+     * </p>
      *
      * @param spec The specification to check.
+     * @throws UnsupportedException If the specification is not deterministic.
      */
     public void check(Specification spec) {
         List<Declaration> variables = list();
@@ -81,7 +85,11 @@ public class ControllerCheckDeterminismChecker {
     }
 
     /**
-     * Verifies whether a group is deterministic. A group is deterministic if all contained automata are deterministic.
+     * Verifies that a group is deterministic.
+     *
+     * <p>
+     * A group is deterministic if all its contained automata are deterministic.
+     * </p>
      *
      * @param group The group to check.
      * @param builder The builder for the MDD tree.
@@ -102,8 +110,11 @@ public class ControllerCheckDeterminismChecker {
     }
 
     /**
-     * Verifies whether an automaton is deterministic. An automaton is deterministic if all its locations are
-     * deterministic.
+     * Verifies that an automaton is deterministic.
+     *
+     * <p>
+     * An automaton is deterministic if all its locations are deterministic.
+     * </p>
      *
      * @param aut The automaton to check.
      * @param builder The builder for the MDD tree.
@@ -115,8 +126,12 @@ public class ControllerCheckDeterminismChecker {
     }
 
     /**
-     * Verifies whether a location is deterministic, that is a location with multiple outgoing edges for the same event,
-     * with overlapping guards (e.g. x > 1 and x < 4), is not supported.
+     * Verifies that a location is deterministic by not finding non-determinism for an event.
+     *
+     * <p>
+     * An event in a location is non-deterministic if there is more than one edge for the same event enabled at the same
+     * time. This typically happens with overlapping guards (e.g. x &gt; 1 and x &lt; 4).
+     * </p>
      *
      * @param loc The location to check.
      * @param builder The builder for the MDD tree.

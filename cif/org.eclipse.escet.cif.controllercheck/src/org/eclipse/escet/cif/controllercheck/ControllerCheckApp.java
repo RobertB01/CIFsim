@@ -142,7 +142,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
 
         // Check for finite response.
-        OutputProvider.dbg("Checking for finite response...");
+        OutputProvider.out("Checking for finite response...");
         new FiniteResponseChecker().checkSystem(spec);
 
         return 0;

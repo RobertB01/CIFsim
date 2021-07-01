@@ -74,15 +74,14 @@ public class EventLoopSearch {
      * returned.
      *
      * @param rootLoc The root location for searching.
-     * @param loopEvents The events that can form a loop (e.g., the forcible events).
+     * @param loopEvents The events that can form a loop (e.g., the controllable events).
      * @param stackIndex Provides the index for a location on the stack.
      * @param stack The stack on which the path from the root location to the current location is saved.
      * @param eventLoops The event loops that have been found in the specified automaton, modified in place.
      * @param visitedLocations The locations that have been visited at least once when searching for loops.
      */
-    private static void searchEventLoops(Location rootLoc, Set<Event> loopEvents,
-            Map<Location, Integer> stackIndex, List<Event> stack, Set<EventLoop> eventLoops,
-            Set<Location> visitedLocations)
+    private static void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
+            List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations)
     {
         visitedLocations.add(rootLoc);
 

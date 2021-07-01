@@ -21,12 +21,13 @@ import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
-import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
@@ -34,6 +35,8 @@ import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
+import org.eclipse.escet.cif.metamodel.cif.Equation;
+import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
@@ -72,13 +75,12 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 
 /** Pre-condition checker for the controller properties checker. */
 public class ControllerCheckPreChecker extends CifWalker {
     /** Precondition violations found so far. */
-    public List<String> problems = list();
+    public Set<String> problems = set();
 
     /**
      * Checks the CIF specification to make sure it satisfies the preconditions for the checker.
@@ -91,10 +93,13 @@ public class ControllerCheckPreChecker extends CifWalker {
         walkSpecification(spec);
 
         // If we have any problems, the specification is unsupported.
-        Collections.sort(problems, Strings.SORTER);
         if (!problems.isEmpty()) {
+            List<String> foundProblems = listc(problems.size());
+            foundProblems.addAll(problems);
+            Collections.sort(foundProblems, Strings.SORTER);
+
             String msg = "CIF controller properties check application failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(problems, "\n - ");
+                    + StringUtils.join(foundProblems, "\n - ");
             throw new UnsupportedException(msg);
         }
     }
@@ -127,27 +132,30 @@ public class ControllerCheckPreChecker extends CifWalker {
         // Check for multi-assignment and partial variable assignment.
         if (asgn.getAddressable() instanceof TupleExpression) {
             // Multi-assignment unsupported.
-            EObject loc = asgn;
-            while (!(loc instanceof Location)) {
-                loc = loc.eContainer();
-            }
-            Assert.check(loc instanceof Location);
-
+            Location loc = getContainingLocation(asgn);
             String msg = fmt("Unsupported %s: edges with multi-assignments are currently unsupported.",
-                    getLocationText1((Location)loc));
+                    getLocationText1(loc));
             problems.add(msg);
         } else if (asgn.getAddressable() instanceof ProjectionExpression) {
             // Partial variable assignment unsupported.
-            EObject loc = asgn;
-            while (!(loc instanceof Location)) {
-                loc = loc.eContainer();
-            }
-            Assert.check(loc instanceof Location);
-
+            Location loc = getContainingLocation(asgn);
             String msg = fmt("Unsupported %s: edges with partial variable assignments are currently unsupported.",
-                    getLocationText1((Location)loc));
+                    getLocationText1(loc));
             problems.add(msg);
         }
+    }
+
+    /**
+     * Find the containing {@link Location} instance of an object.
+     *
+     * @param obj Object in a location.
+     * @return The containing {@link Location} instance.
+     */
+    private Location getContainingLocation(EObject obj) {
+        while (!(obj instanceof Location)) {
+            obj = obj.eContainer();
+        }
+        return (Location)obj;
     }
 
     @Override
@@ -201,6 +209,23 @@ public class ControllerCheckPreChecker extends CifWalker {
         String msg = fmt("Unsupported function \"%s\": user-defined functions are currently unsupported.",
                 getAbsName(func));
         problems.add(msg);
+    }
+
+    @Override
+    protected void preprocessEquation(Equation eqn) {
+        // Equations are unsupported.
+        String msg = fmt("Unsupported equation \"%s\": equations are currently unsupported.", getAbsName(eqn));
+        problems.add(msg);
+    }
+
+    @Override
+    protected void preprocessInvariant(Invariant inv) {
+        // State invariants are unsupported.
+        if (inv.getInvKind().equals(InvKind.STATE)) {
+            String msg = fmt("Unsupported invariant \"%s\": state invariants are currently unsupported.",
+                    getAbsName(inv));
+            problems.add(msg);
+        }
     }
 
     // Type checks.

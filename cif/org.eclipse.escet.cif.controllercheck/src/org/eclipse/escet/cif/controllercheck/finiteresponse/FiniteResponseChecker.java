@@ -21,6 +21,10 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifValueUtils.createConjunction;
 import static org.eclipse.escet.cif.common.CifValueUtils.createDisjunction;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.map;
@@ -54,7 +58,6 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
-import org.eclipse.escet.common.app.framework.output.OutputProvider;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -114,14 +117,24 @@ public class FiniteResponseChecker {
         eventVarUpdate = collectEventVarUpdate();
 
         if (automata.isEmpty()) {
-            OutputProvider.out("The specification has finite response.");
-            OutputProvider.out("Warning: the specification contains 0 automata.");
+            warn("The specification contains 0 automata.");
+
+            out();
+            iout();
+            out("CONCLUSION:");
+            out("The specification has finite response.");
+            dout();
             return true;
         }
 
         if (controllableEvents.isEmpty()) {
-            OutputProvider.out("The specification has finite response.");
-            OutputProvider.out("Warning: the specification contains 0 forcible events.");
+            warn("The specification contains 0 controllable events.");
+
+            out();
+            iout();
+            out("CONCLUSION:");
+            out("The specification has finite response.");
+            dout();
             return true;
         }
 
@@ -142,28 +155,41 @@ public class FiniteResponseChecker {
         int iterationNumber = 1;
 
         do {
-            OutputProvider.dbg(fmt("Iteration %d.", iterationNumber));
+            out("Iteration %d.", iterationNumber);
             iterationNumber++;
             oldSize = controllableEvents.size();
 
+            iout();
             for (Automaton aut: automata) {
                 checkAutomaton(aut);
             }
+            dout();
         } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
 
         if (!controllableEvents.isEmpty()) {
-            OutputProvider.out("The specification does not have finite response, at least one forcible-event "
-                    + "loop was found.");
-
+            out();
+            iout();
+            out("CONCLUSION:");
+            out("ERROR, the specification does NOT have finite response.");
+            out();
+            out("At least one controllable event loop was found.");
             if (PrintOutputOption.print()) {
-                OutputProvider.out("The following events might still occur in a forcible loop.");
+                out("The following events might still occur in a controllable loop:");
+                iout();
                 for (Event event: controllableEvents) {
-                    OutputProvider.out(getAbsName(event) + ", ");
+                    out("- %s", getAbsName(event));
                 }
+                dout();
             }
+            dout();
         } else {
-            OutputProvider.out("The specification has finite response.");
+            out();
+            iout();
+            out("CONCLUSION:");
+            out("The specification has finite response.");
+            dout();
         }
+        out();
 
         return controllableEvents.isEmpty();
     }
@@ -187,13 +213,14 @@ public class FiniteResponseChecker {
 
         // Print the results.
         if (!controllableEventLoops.isEmpty()) {
-            OutputProvider.dbg();
-            OutputProvider.dbg(fmt("The following events have initially been encountered in a controllable-event loop "
-                    + "of automaton %s", getAbsName(aut)));
+            out("The following events have initially been encountered in a controllable-event loop "
+                    + "of automaton %s:", getAbsName(aut));
+            iout();
             for (EventLoop eventLoop: controllableEventLoops) {
-                OutputProvider.dbg("* " + eventLoop.toString());
+                out("* " + eventLoop.toString());
             }
-            OutputProvider.dbg(); // Print empty line.
+            dout();
+            out();
         }
 
         // Calculate the non controllable independent variables. As we later have to abstract from these in the
@@ -221,13 +248,13 @@ public class FiniteResponseChecker {
         // Collect which events occur in potential controllable-event loops.
         Set<Event> eventsInPotentialControllableLoops = set();
 
-        // Check for if the loop is controllable unconnectable, if not, it is a potential controllable-event loop in the
+        // Check that the loop is controllable unconnectable. If not, it is a potential controllable-event loop in the
         // system.
         for (EventLoop controllableEventLoop: controllableEventLoops) {
             if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
-                OutputProvider.dbg(fmt("%s is forcible-unconnectable", controllableEventLoop.toString()));
+                out("%s is controllable unconnectable", controllableEventLoop.toString());
             } else {
-                OutputProvider.dbg(fmt("Warning: %s is not forcible-unconnectable", controllableEventLoop.toString()));
+                warn("%s is not controllabe unconnectable", controllableEventLoop.toString());
                 eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
             }
         }
@@ -246,9 +273,9 @@ public class FiniteResponseChecker {
      * after abstracting from the events that are might change their value due to other controllable events.
      *
      * @param controllableEventLoop The loop to check to be controllable unconnectable.
-     * @param nonCtrlIndependentVarsInfos The variables that are updated by forcible events, not forcible independent
-     *     variables.
-     * @return {@code true} if the loop is forcible unconnectable, {@code false} otherwise.
+     * @param nonCtrlIndependentVarsInfos The variables that are updated by controllable events, not controllable
+     *     independent variables.
+     * @return {@code true} if the loop is controllable unconnectable, {@code false} otherwise.
      */
     private boolean isUnconnectable(EventLoop controllableEventLoop, VarInfo[] nonCtrlIndependentVarsInfos) {
         Node n = Tree.ONE;
