@@ -23,9 +23,13 @@ The release notes may refer to issues, the details for which can be found at the
 
 See also the Eclipse ESCET link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
+
 === Version 0.2
 
-TBD
+Language changes:
+
+- A switch case key must now have a type that is compatible (ignoring ranges) with the type of the switch value, rather than the type needing to be fully contained in the type of the switch value.
+This is a backward compatible change (issue #105).
 
 Deprecations and removals:
 
@@ -50,17 +54,34 @@ See the documentation of the PLC code generator for further details (issue #78).
 Improvements and fixes:
 
 - Various fixes for handling component definition/instantiation as well as references via component instantiations and component parameters (issues #25, #39 and #66).
+- CIF type checker now properly detects cycles for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue #106).
+- CIF to CIF 'eliminate the use of locations in expressions' transformation no longer generates location pointer variables for automata with exactly one location (issue #99).
+- CIF to CIF linearize transformations no longer generate location pointer variables for automata with exactly one location (issue #99).
 - CIF to CIF linearize merge transformation no longer crashes for channels without a sender (issue #56).
+- CIF to CIF 'component definition/instantiation' transformation no longer produces invalid results for models with algebraic parameters with `int` type instantiated with a constant value (issue #105).
+- CIF simulator no longer crashes on enumeration literals that have a name that is a Java keyword (issue #104).
+- CIF simulator initialization fixed to properly account for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue #106).
 - CIF simulator now correctly determines initial value for locations without initialization predicates, when those locations are used in initial values of variables (issue #37).
 - CIF simulator no longer crashes on assignments to dictionaries with non-int keys (issue #47).
+- CIF simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
 - CIF simulator is now more robust for larger numbers of state invariants in components (issue #49).
+- CIF data-based synthesis now supports state/event exclusion plant invariants (issue #84).
+- CIF data-based synthesis now properly ensures requirement invariants are rebranded as supervisor invariants in the synthesis output (issue #117).
 - CIF data-based synthesis documentation, debug output and warnings improved/fixed regarding invariants vs requirement invariants and controlled vs uncontrolled system (issue #83).
+- CIF PLC code generator now supports state/event exclusion invariants (issue #94).
+- CIF PLC code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue #99).
 - CIF PLC code generator now creates output folder if it does not yet exist, rather than giving an error, if IEC 61131-3 output is requested (issue #74).
 - CIF PLC code generator documentation now correctly indicates the order in which CIF to CIF transformations are applied (issue #78).
 - CIF PLC code generator PLCOpen XML output fixes for PLC tasks (issue #75).
-- CIF to mCRL2 transformation precondition check messages improved to avoid duplicates for multiple initial locations (issue #60).
-- CIF to mCRL2 documentation updated to reflect that input variables are not supported (issue #59).
-- CIF to Supremica and CIF to UPPAAL precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue #58).
+- CIF code generator now supports state/event exclusion invariants (issue #94).
+- CIF code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue #99).
+- CIF to mCRL2 transformation now supports algebraic variables (issue #120).
+- CIF to mCRL2 transformation precondition check messages and documentation improvements (issues #59, #60 and #120).
+- CIF to Supremica precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue #58).
+- CIF to Supremica transformation now supports state/event exclusion invariants (issue #94).
+- CIF to UPPAAL precondition check message wording for discrete variables with multiple potential initial values has been fixed (issue #58).
+- CIF to UPPAAL transformation now supports state/event exclusion invariants (issue #94).
+- CIF to UPPAAL transformation now supports algebraic variables and enumerations (issue #129).
 - CIF tutorial updated to remove explanation of list subtraction operator that doesn't exist in the language and implementation (issue #77).
 - CIF documentation updated to fix two broken links (issue #80).
 
