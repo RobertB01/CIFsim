@@ -17,7 +17,7 @@ p2/orbit/p2.eclipse-plugin/org.apache.batik.awt.util/1.14.0.v20210324-0332, Apac
 p2/orbit/p2.eclipse-plugin/org.apache.batik.bridge/1.14.0.v20210324-0332, Apache-2.0, approved, #196
 p2/orbit/p2.eclipse-plugin/org.apache.batik.constants/1.14.0.v20210324-0332, Apache-2.0, approved, #196
 p2/orbit/p2.eclipse-plugin/org.apache.batik.css/1.14.0.v20210324-0332, Apache-2.0, approved, #196
-p2/orbit/p2.eclipse-plugin/org.apache.batik.dom.svg/1.14.0.v20210324-0332, unknown, restricted, none
+p2/orbit/p2.eclipse-plugin/org.apache.batik.dom.svg/1.14.0.v20210324-0332, Apache-2.0, approved, #196
 p2/orbit/p2.eclipse-plugin/org.apache.batik.dom/1.14.0.v20210324-0332, Apache-2.0, approved, #196
 p2/orbit/p2.eclipse-plugin/org.apache.batik.ext/1.14.0.v20210324-0332, Apache-2.0, approved, #196
 p2/orbit/p2.eclipse-plugin/org.apache.batik.gvt/1.14.0.v20210324-0332, Apache-2.0, approved, #196
