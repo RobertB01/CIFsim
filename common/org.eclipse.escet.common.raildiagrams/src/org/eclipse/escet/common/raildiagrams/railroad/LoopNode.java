@@ -125,15 +125,18 @@ public class LoopNode extends DiagramElement {
             connectArcProxyHLineArc(blArc, backwProxy, backwExtend, brArc, railWidth);
         }
         solver.solve("loop", config);
-        if (dodbg()) {
+
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
             writeDumpHeaderElements(this, list(forward, backward));
             dbg();
 
-            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+            if (dumpEquations) {
                 solver.dumpRelations();
                 dbg();
             }
-            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+            if (dumpRelCoords) {
                 dumpElementBox();
                 dbg();
             }

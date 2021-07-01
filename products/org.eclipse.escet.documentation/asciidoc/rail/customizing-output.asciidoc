@@ -544,7 +544,17 @@ Other nodes all have some space at either end, making it less apparent in those 
 
 === Debugging
 
-There are four flags for checking and debugging diagrams.
+A diagram is actually a tree of simpler diagrams where at each node in the tree a set of position equations is solved for positioning all elements in its sub-tree.
+This happens in two sweeps through the tree.
+First a bottom-up computation of size and relative position of elements in their sub-tree is performed.
+In the second top-down sweep assignment of horizontal and vertical absolute offsets to all nodes is performed, giving all elements their final absolute position in the diagram.
+Output is produced by a walk over all nodes in the tree, and copying the elements with their absolute positions to the output.
+
+There are several flags for generating detailed output of the above process to support debugging at several points in the computations.
+
+==== Hierarchy
+
+To view the tree hierarchy in the diagram, the `debug.structure` flag can be used.
 
 [cols="2,1,3", options="header"]
 |===
@@ -555,6 +565,19 @@ There are four flags for checking and debugging diagrams.
 | `debug.structure`
 | Boolean
 | Dump internal structure of the diagram.
+|===
+
+==== Constraint solving
+
+Positions are computed by solving two sets of constraint equations at each node in the tree, one for horizontal positioning, and one for vertical positioning.
+The `debug.equations` flag shows the variables and equations, the `debug.solver` shows the solving process.
+Due to the large number of variables and equations in a typical diagram, enabling these settings produces a lot of detailed debug output.
+
+[cols="2,1,3", options="header"]
+|===
+| Property name
+| Value type
+| Description
 
 | `debug.equations`
 | Boolean
@@ -563,23 +586,32 @@ There are four flags for checking and debugging diagrams.
 | `debug.solver`
 | Boolean
 | Dump reasoning and deciding edge position values for the graphical elements.
-This is highly detailed information.
+|===
+
+==== Coordinates
+
+To debug problems in produced output, the following flags are useful.
+The `debug.rel_coordinates` flag shows position information at each level of the tree separately, this is mostly useful to find problems at a single level of a diagram.
+The `debug.abs_coordinates` flag shows the same position information, except all coordinates use the same top-left origin, enabling verification of positions between different levels in the hierarchy.
+
+[cols="2,1,3", options="header"]
+|===
+| Property name
+| Value type
+| Description
 
 | `debug.rel_coordinates`
 | Boolean
-| Dump coordinates of the graphical elements and child positions within each element.
+| Dump coordinates of the graphical elements and child node positions within each element.
 
 | `debug.abs_coordinates`
 | Boolean
-| Dump coordinates of the graphical elements and child positions in the entire diagram.
+| Dump absolute coordinates of the graphical elements and child node positions of the diagram.
 |===
 
-The `debug.structure` flag gives a short overview of the structure.
-The other dump flags use the same structure of output.
-
-The `debug.rel_coordinates` dumps coordinates of each single element.
-It is mostly useful for checking correctness of an element type.
-The `debug.abs_coordinates` is almost the same, except it dumps coordinates relative to the top-left corner of the diagram, enabling checking positions between different elements.
+Note that positions are stated as inclusive horizontal and vertical edge positions everywhere.
+This means that element `x[1--1], y[1--2]` is one unit wide horizontally, and two units vertically.
+Also, an element `x[2--7], y[1--2]` is directly next to the previous element, there is no space between them.
 
 
 === Default property values

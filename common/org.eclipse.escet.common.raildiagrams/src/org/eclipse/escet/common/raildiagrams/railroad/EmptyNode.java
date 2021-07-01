@@ -51,15 +51,17 @@ public class EmptyNode extends DiagramElement {
 
         solver.solve("empty-node", config);
 
-        if (dodbg()) {
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
             writeDumpHeaderElements(this, null);
             dbg();
 
-            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+            if (dumpEquations) {
                 solver.dumpRelations();
                 dbg();
             }
-            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+            if (dumpRelCoords) {
                 dumpElementBox();
                 dbg();
             }

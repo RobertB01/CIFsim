@@ -156,7 +156,9 @@ public class SequenceNode extends DiagramElement {
 
         solver.solve("sequence", config);
 
-        if (dodbg()) {
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
             writeDumpHeaderElements(this, null);
             idbg();
             boolean first = true;
@@ -172,11 +174,11 @@ public class SequenceNode extends DiagramElement {
             }
             ddbg();
 
-            if (config.getDebugSetting(DebugDisplayKind.EQUATIONS)) {
+            if (dumpEquations) {
                 solver.dumpRelations();
                 dbg();
             }
-            if (config.getDebugSetting(DebugDisplayKind.REL_COORDINATES)) {
+            if (dumpRelCoords) {
                 dumpElementBox();
                 dbg();
             }

@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.raildiagrams.config;
 
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.eclipse.escet.common.java.Strings.makeUppercase;
 
@@ -26,6 +27,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +40,12 @@ import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 public class Configuration {
     /** Compiled pattern to match RGB values. */
     private static final Pattern RGB_PATTERN = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*");
+
+    /** Textual values that mean {@code true}. */
+    private static final Set<String> TRUE_BOOL_VALUES = set("TRUE", "YES", "1");
+
+    /** Textual values that mean {@code false}. */
+    private static final Set<String> FALSE_BOOL_VALUES = set("FALSE", "NO", "0");
 
     /** Stored key/value pairs of the properties of the rail diagram generator. */
     private Map<String, String> defaultProperties = map();
@@ -249,7 +257,7 @@ public class Configuration {
      *
      * @param kind Kind of debug output.
      * @return Whether the requested kind of debug output was enabled.
-     * @note Function decides enabled if the setting is not explicitly false.
+     * @note Function returns {@code true} if the setting is not explicitly set to {@code false}.
      */
     public boolean getDebugSetting(DebugDisplayKind kind) {
         String propName = "debug." + kind.name().toLowerCase(Locale.US);
@@ -315,18 +323,11 @@ public class Configuration {
     private boolean decodeBool(String valueText, boolean defaultValue) {
         valueText = makeUppercase(valueText);
 
-        final String[] trueStrings = new String[] {"TRUE", "YES", "1"};
-        for (String trueStr: trueStrings) {
-            if (trueStr.equals(valueText)) {
-                return true;
-            }
+        if (TRUE_BOOL_VALUES.contains(valueText)) {
+            return true;
         }
-
-        final String[] falseStrings = new String[] {"FALSE", "NO", "0"};
-        for (String falseStr: falseStrings) {
-            if (falseStr.equals(valueText)) {
-                return false;
-            }
+        if (FALSE_BOOL_VALUES.contains(valueText)) {
+            return false;
         }
         return defaultValue;
     }
