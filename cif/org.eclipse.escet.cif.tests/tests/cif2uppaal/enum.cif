@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -17,7 +17,7 @@ enum enm = lit1, lit2;
 
 automaton p:
   disc enm v = lit1;
-  
+
   location:
     initial;
     edge e1 when v = lit1 do v := lit2;
