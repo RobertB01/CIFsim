@@ -25,8 +25,8 @@ public class AutomatonNameOption extends StringOption {
     /** Constructor of the {@link AutomatonNameOption} class. */
     public AutomatonNameOption() {
         super("Resulting statespace automaton name",
-                "The name of the resulting statespace automaton. " + "[DEFAULT=\"statespace\"]", 'n', "name", "NAME",
-                null, true, true, "The name of the resulting " + "statespace automaton.", "Name:");
+                "The name of the resulting statespace automaton. [DEFAULT=\"statespace\"]", 'n', "name", "NAME", null,
+                true, true, "The name of the resulting statespace automaton.", "Name:");
     }
 
     /**

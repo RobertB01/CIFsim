@@ -1861,7 +1861,7 @@ public class CifToSynthesisConverter {
                     SupKind kind = CifInvariantUtils.getSupKind(inv);
                     if (kind != SupKind.REQUIREMENT) {
                         String msg = fmt(
-                                "Unsupported %s: for state invariants, only requirement invariants are " + "supported.",
+                                "Unsupported %s: for state invariants, only requirement invariants are supported.",
                                 CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
                         continue;
@@ -2023,8 +2023,9 @@ public class CifToSynthesisConverter {
                     if (!synthAut.alphabet.contains(event)) {
                         String msg = fmt(
                                 "State/event exclusion invariant \"%s\" of %s has no effect, as event \"%s\" is not in "
-                                + "the alphabet of any automaton.", CifTextUtils.invToStr(inv, false),
-                                CifTextUtils.getLocationText2(loc), CifTextUtils.getAbsName(event));
+                                        + "the alphabet of any automaton.",
+                                CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
+                                CifTextUtils.getAbsName(event));
                         warn(msg);
 
                         // Skip the rest as we won't use this invariant for synthesis.
