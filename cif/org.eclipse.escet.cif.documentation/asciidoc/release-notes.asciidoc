@@ -58,7 +58,6 @@ Improvements and fixes:
 - CIF to CIF 'eliminate the use of locations in expressions' transformation no longer generates location pointer variables for automata with exactly one location (issue #99).
 - CIF to CIF linearize transformations no longer generate location pointer variables for automata with exactly one location (issue #99).
 - CIF to CIF linearize merge transformation no longer crashes for channels without a sender (issue #56).
-- CIF to CIF 'component definition/instantiation' transformation no longer produces invalid results for models with algebraic parameters with `int` type instantiated with a constant value (issue #105).
 - CIF simulator no longer crashes on enumeration literals that have a name that is a Java keyword (issue #104).
 - CIF simulator initialization fixed to properly account for algebraic variables and derivatives of continuous variables defined via equations per location of an automaton (issue #106).
 - CIF simulator now correctly determines initial value for locations without initialization predicates, when those locations are used in initial values of variables (issue #37).
@@ -66,7 +65,8 @@ Improvements and fixes:
 - CIF simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
 - CIF simulator is now more robust for larger numbers of state invariants in components (issue #49).
 - CIF data-based synthesis now supports state/event exclusion plant invariants (issue #84).
-- CIF data-based synthesis now properly ensures requirement invariants are rebranded as supervisor invariants in the synthesis output (issue #117).
+- CIF data-based synthesis now properly ensures requirement invariants are rebranded as supervisor invariants in the synthesis output.
+Therefore, simulating a synthesized supervisor no longer gives warnings for simulating requirement invariants (issues #116 and #117).
 - CIF data-based synthesis documentation, debug output and warnings improved/fixed regarding invariants vs requirement invariants and controlled vs uncontrolled system (issue #83).
 - CIF PLC code generator now supports state/event exclusion invariants (issue #94).
 - CIF PLC code generator no longer generates location pointer variables for automata with exactly one location when performing linearization as preprocessing (issue #99).
