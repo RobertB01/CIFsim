@@ -1861,7 +1861,7 @@ public class CifToSynthesisConverter {
                     SupKind kind = CifInvariantUtils.getSupKind(inv);
                     if (kind != SupKind.REQUIREMENT) {
                         String msg = fmt(
-                                "Unsupported %s: for state invariants, only requirement invariants are " + "supported.",
+                                "Unsupported %s: for state invariants, only requirement invariants are supported.",
                                 CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
                         continue;
