@@ -1,0 +1,70 @@
+plant automaton p:
+  controllable c0;
+  controllable c1;
+  controllable c2;
+  controllable c3;
+  controllable c4;
+  controllable c5;
+  controllable c6;
+  controllable c7;
+  controllable c8;
+  controllable c9;
+  controllable c10;
+  controllable c11;
+  disc int[0..10] x;
+  disc int[0..10] y;
+  location l1:
+    initial;
+    marked;
+    edge c0 when false;
+    edge c1;
+    edge c2;
+    edge c3 when x < 5;
+    edge c4 when x < 5;
+    edge c5;
+    edge c6 when y = 5;
+    edge c7 when y = 4 do y := y + 1;
+    edge c8 goto l2;
+    edge c10 when false;
+    edge c10 when false;
+    edge c11;
+    edge c11 when false;
+  location l2;
+  location l3:
+    edge c9;
+end
+plant automaton q:
+  uncontrollable u0;
+  uncontrollable u1;
+  uncontrollable u2;
+  disc int[0..10] x;
+  location l1:
+    initial;
+    marked;
+    edge u0 when false;
+    edge u1;
+    edge u2 when x < 5;
+end
+supervisor automaton sup:
+  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c10, p.c11, p.c9;
+  location:
+    initial;
+    marked;
+    edge p.c0 when false;
+    edge p.c1 when false;
+    edge p.c10 when false;
+    edge p.c11 when p.x = 0 and (p.y = 0 and q.x = 0);
+    edge p.c2 when false;
+    edge p.c3 when false;
+    edge p.c4 when false;
+    edge p.c5 when false;
+    edge p.c6 when false;
+    edge p.c7 when false;
+    edge p.c8 when false;
+    edge p.c9 when false;
+end
+plant invariant p.c2 needs false;
+plant invariant p.c4 needs p.x >= 5;
+plant invariant p.c5 needs p.x > 5;
+plant invariant q.u1 needs false;
+plant invariant q.u2 needs q.x >= 5;
