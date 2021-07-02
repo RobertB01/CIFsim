@@ -13,9 +13,11 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.raildiagrams.graphics.TextArea.makeTextArea;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
 
@@ -24,6 +26,7 @@ import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.config.NameKind;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** Diagram of a production rule. */
@@ -39,8 +42,10 @@ public class RailRule extends DiagramElement {
      *
      * @param ruleName Optional name of the diagram.
      * @param rootNode Diagram to draw.
+     * @param id Identifying number of the diagram element.
      */
-    public RailRule(String ruleName, DiagramElement rootNode) {
+    public RailRule(String ruleName, DiagramElement rootNode, int id) {
+        super("rule", id);
         this.ruleName = ruleName;
         this.rootNode = rootNode;
     }
@@ -59,7 +64,7 @@ public class RailRule extends DiagramElement {
         Color railColor = config.getRailColor();
 
         // Add header with the rule name.
-        String prefix = "rule";
+        String prefix = kindName;
         String text = config.getNameText(ruleName, NameKind.HEADER);
         TextArea tbox = makeTextArea(solver, prefix + ".name.txt", config, NameKind.HEADER, text);
         addGraphic(tbox);
@@ -69,24 +74,38 @@ public class RailRule extends DiagramElement {
         solver.addLe(tbox.right, rightRulePadding, right);
 
         // Add the diagram.
-        idbg();
         rootNode.create(config, direction);
-        ddbg();
         ProxyDiagramElement rootProxy = addDiagramElement(rootNode, "root-node");
         HorLine leadLine = new HorLine(solver, "diagram.lead", railColor, railWidth);
         rootProxy.connectLeft(solver, leadLine);
         solver.addEq(leadLine.left, leadWidth, leadLine.right);
         solver.addEq(left, diagramIndent, leadLine.left);
-        HorLine trailLine = new HorLine(solver, "diagram.lead", railColor, railWidth);
-        rootProxy.connectRight(solver, trailLine);
-        solver.addEq(trailLine.left, trailWidth, trailLine.right);
-        solver.addLe(trailLine.right, rightRulePadding, right); // Title may be longer than the diagram.
-        addGraphics(leadLine, trailLine);
+        HorLine tailLine = new HorLine(solver, "diagram.tail", railColor, railWidth);
+        rootProxy.connectRight(solver, tailLine);
+        solver.addEq(tailLine.left, trailWidth, tailLine.right);
+        solver.addLe(tailLine.right, rightRulePadding, right); // Title may be longer than the diagram.
+        addGraphics(leadLine, tailLine);
 
         solver.addEq(tbox.bottom, diagramTopPadding, rootProxy.top);
         solver.addEq(rootProxy.bottom, bottomRulePadding, bottom);
 
-        solver.solve("rule");
+        solver.solve("rule", config);
+
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
+            writeDumpHeaderElements(this, list(rootNode));
+            dbg();
+
+            if (dumpEquations) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (dumpRelCoords) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 
     /**

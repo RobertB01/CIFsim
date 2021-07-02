@@ -14,6 +14,8 @@
 package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
 
@@ -29,6 +31,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
 /** A node referring to another diagram. */
@@ -43,9 +46,10 @@ public class NamedNode extends DiagramElement {
      * Constructor of the {@link NamedNode} class.
      *
      * @param name Name of the node to refer to.
+     * @param id Identifying number of the diagram element.
      */
-    public NamedNode(String name) {
-        this(name, null);
+    public NamedNode(String name, int id) {
+        this(name, null, id);
     }
 
     /**
@@ -57,8 +61,10 @@ public class NamedNode extends DiagramElement {
      *
      * @param name Name of the node to refer to.
      * @param text Text of the node.
+     * @param id Identifying number of the diagram element.
      */
-    public NamedNode(String name, String text) {
+    public NamedNode(String name, String text, int id) {
+        super("name", id);
         this.name = name;
         this.text = text;
 
@@ -79,8 +85,6 @@ public class NamedNode extends DiagramElement {
         double cornerRadius = config.getCornerRadius(nameKind);
         double boxLineWidth = config.getBoxLineWidth(nameKind);
         Color boxColor = config.getBoxColor(nameKind);
-
-        dbg("compute named node");
 
         // Construct the text graphic itself.
         FontData font = config.getFont(nameKind);
@@ -134,7 +138,7 @@ public class NamedNode extends DiagramElement {
             TopLeftArc tlArc = new TopLeftArc(solver, "name-tlarc", boxColor, cornerRadius, boxLineWidth);
             tlArc.connectLine(solver, topLine);
             tlArc.connectLine(solver, leftLine);
-            TopRightArc trArc = new TopRightArc(solver, "name-tlarc", boxColor, cornerRadius, boxLineWidth);
+            TopRightArc trArc = new TopRightArc(solver, "name-trarc", boxColor, cornerRadius, boxLineWidth);
             trArc.connectLine(solver, topLine);
             trArc.connectLine(solver, rightLine);
             BottomRightArc brArc = new BottomRightArc(solver, "name-brarc", boxColor, cornerRadius, boxLineWidth);
@@ -166,7 +170,23 @@ public class NamedNode extends DiagramElement {
         solver.addEq(top, 0, topLine.top);
         solver.addEq(bottom, 0, bottomLine.bottom);
 
-        solver.solve("named-node");
+        solver.solve("named-node", config);
+
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+
+            if (dumpEquations) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (dumpRelCoords) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 
     /**

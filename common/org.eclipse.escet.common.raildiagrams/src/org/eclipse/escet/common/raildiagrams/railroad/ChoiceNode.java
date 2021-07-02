@@ -15,9 +15,11 @@ package org.eclipse.escet.common.raildiagrams.railroad;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
 
 import java.awt.Color;
 import java.util.List;
@@ -30,6 +32,7 @@ import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TopLeftArc;
 import org.eclipse.escet.common.raildiagrams.graphics.TopRightArc;
 import org.eclipse.escet.common.raildiagrams.graphics.VertLine;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Node that builds a diagram to pick one of the child nodes. */
 public class ChoiceNode extends DiagramElement {
@@ -43,8 +46,10 @@ public class ChoiceNode extends DiagramElement {
      * Choice between alternatives.
      *
      * @param alts Alternatives to choose from.
+     * @param id Identifying number of the diagram element.
      */
-    public ChoiceNode(List<DiagramElement> alts) {
+    public ChoiceNode(List<DiagramElement> alts, int id) {
+        super("choice", id);
         this.alts = alts;
         Assert.check(alts.size() > 1);
     }
@@ -61,8 +66,6 @@ public class ChoiceNode extends DiagramElement {
         ProxyDiagramElement topElement = null;
         TopRightArc leftArcDown = null;
         TopLeftArc rightArcDown = null;
-
-        dbg("computing choice");
 
         int i = 0;
         ProxyDiagramElement prevElement = null;
@@ -145,6 +148,23 @@ public class ChoiceNode extends DiagramElement {
             prevElement = altProxy;
             i++;
         }
-        solver.solve("choice");
+
+        solver.solve("choice", config);
+
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
+            writeDumpHeaderElements(this, alts);
+            dbg();
+
+            if (dumpEquations) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (dumpRelCoords) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 }

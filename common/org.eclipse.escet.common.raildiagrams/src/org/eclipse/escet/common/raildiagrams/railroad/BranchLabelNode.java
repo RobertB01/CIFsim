@@ -13,6 +13,10 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
+
 import java.awt.Color;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
@@ -21,6 +25,7 @@ import org.eclipse.escet.common.raildiagrams.config.NameKind;
 import org.eclipse.escet.common.raildiagrams.config.TextSizeOffset;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
 import org.eclipse.escet.common.raildiagrams.graphics.TextArea;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 import org.eclipse.escet.common.raildiagrams.util.Position2D;
 import org.eclipse.escet.common.raildiagrams.util.Size2D;
 
@@ -33,8 +38,10 @@ public class BranchLabelNode extends DiagramElement {
      * Constructor of the {@link BranchLabelNode} class.
      *
      * @param labelText Text of the label.
+     * @param id Identifying number of the diagram element.
      */
-    public BranchLabelNode(String labelText) {
+    public BranchLabelNode(String labelText, int id) {
+        super("branch-label", id);
         this.labelText = labelText;
     }
 
@@ -54,6 +61,11 @@ public class BranchLabelNode extends DiagramElement {
         TextSizeOffset textSizeOffset = config.getTextSizeOffset(labelText, NameKind.LABEL);
         Size2D textSize = textSizeOffset.size;
         Position2D textOffset = textSizeOffset.offset;
+
+        if (dodbg() && config.getDebugSetting(DebugDisplayKind.STRUCTURE)) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+        }
 
         // Compute size of the box holding the text, and the position of the text in it.
         double labelWidth;
@@ -84,6 +96,25 @@ public class BranchLabelNode extends DiagramElement {
         solver.addEq(textArea.bottom, 0, rail.top);
         solver.addEq(connectTop, 0, rail.top);
         solver.addEq(bottom, 0, rail.bottom);
-        solver.solve("branch-label");
+
+        solver.solve("branch-label", config);
+
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+            if (dumpEquations) {
+                solver.dumpRelations();
+                dbg();
+            }
+
+            if (dumpRelCoords) {
+                dumpElementBox();
+                textArea.dump(solver, 0, 0);
+                rail.dump(solver, 0, 0);
+                dbg();
+            }
+        }
     }
 }
