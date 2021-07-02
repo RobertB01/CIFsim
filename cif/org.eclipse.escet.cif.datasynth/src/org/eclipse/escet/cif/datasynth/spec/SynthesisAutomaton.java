@@ -60,13 +60,19 @@ public class SynthesisAutomaton {
     public List<Event> inputVarEvents;
 
     /**
-     * Information on the variables of the specification, including location pointer variables. This the order used
+     * Information on the variables of the specification, including location pointer variables. This is the order used
      * whenever variables are ordered.
      */
     public SynthesisVariable[] variables;
 
     /** The linearized edges. */
     public List<SynthesisEdge> edges;
+
+    /** Mapping from events to their corresponding linearized edges. */
+    public Map<Event, List<SynthesisEdge>> eventEdges;
+
+    /** The events that are disabled before synthesis. */
+    public Set<Event> disabledEvents;
 
     /**
      * Initialization predicates for each of the synthesis variables. Predicates are obtained from the initial values as

@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
@@ -98,6 +99,12 @@ public class CifDataSynthesis {
                 return;
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
+
+            // Check edges.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            checkInputEdges(aut);
 
             // Prepare for actual synthesis. Allow applying edges from here on.
             for (SynthesisEdge edge: aut.edges) {
@@ -192,6 +199,9 @@ public class CifDataSynthesis {
                 return;
             }
             determineOutputGuards(aut, dbgEnabled);
+
+            // Check edges.
+            checkOutputEdges(aut);
 
             // Separate debug output from what is to come.
             if (dbgEnabled) {
@@ -537,7 +547,7 @@ public class CifDataSynthesis {
                 return;
             }
             BDD plant = aut.stateEvtExclPlants.get(edge.event);
-            if (plant == null || plant.isOne()) {
+            if (plant == null || plant.isOne() || edge.guard.isZero()) {
                 continue;
             }
 
@@ -780,6 +790,88 @@ public class CifDataSynthesis {
             bdd.free();
         }
         aut.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Checks the system for problems with events that are never enabled in the input specification. Saves the disabled
+     * events.
+     *
+     * @param aut The automaton on which to perform synthesis.
+     */
+    private static void checkInputEdges(SynthesisAutomaton aut) {
+        aut.disabledEvents = setc(aut.alphabet.size());
+
+        EVENTS:
+        for (Event event: aut.alphabet) {
+            // Skip events for input variables and events that are globally disabled.
+            if (aut.eventEdges.get(event) == null) {
+                continue;
+            }
+
+            // Check whether the combined state/event exclusion plants are 'false'.
+            if (aut.stateEvtExclPlants.get(event).isZero()) {
+                warn("Event %s is never enabled in the input specification, taking into account only state/event "
+                        + "exclusion plants.", event.getName());
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the combined state/event exclusion requirements are 'false'.
+            if (event.getControllable() && aut.stateEvtExclsReqInvs.get(event).isZero()) {
+                warn("Event %s is never enabled in the input specification, taking into account only state/event "
+                        + "exclusion requirements.", event.getName());
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Checker whether the guards on edges of automata are all 'false'. There might be multiple edges for an
+            // event.
+            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.origGuard.isZero()).count() == 0) {
+                warn("Event %s is never enabled in the input specification, taking into account only automaton guards.",
+                        event.getName());
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the linearized edges are all 'false'. There might be multiple edges for an event.
+            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
+                warn("Event %s is never enabled in the input specification, taking into account automaton guards and "
+                        + "state/event exclusion invariants.", event.getName());
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Checker whether the linearized edges together with the state requirement invariants are all 'false'.
+            // There might be multiple edges for an event.
+            for (SynthesisEdge edge: aut.eventEdges.get(event)) {
+                BDD enabledExpression = edge.guard.id().andWith(aut.reqInv.id());
+                if (!enabledExpression.isZero()) {
+                    enabledExpression.free();
+                    continue EVENTS;
+                }
+                enabledExpression.free();
+            }
+            warn("Event %s is never enabled in the input specification, taking into account automaton guards and "
+                    + "invariants.", event.getName());
+            aut.disabledEvents.add(event);
+        }
+    }
+
+    /**
+     * Checks the system for problems with events that are disabled by the supervisor.
+     *
+     * <p>
+     * Does not report problems for events that were already disabled before synthesis.
+     * </p>
+     *
+     * @param aut The automaton on which to perform synthesis.
+     */
+    private static void checkOutputEdges(SynthesisAutomaton aut) {
+        for (Event controllable: aut.controllables) {
+            if (aut.outputGuards.get(controllable).isZero() && !aut.disabledEvents.contains(controllable)) {
+                warn("Event %s is disabled by the supervisor.", controllable.getName());
+            }
+        }
     }
 
     /**
