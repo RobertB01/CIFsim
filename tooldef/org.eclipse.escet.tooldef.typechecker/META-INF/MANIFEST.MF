@@ -6,19 +6,19 @@ Bundle-Version: 0.3.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.escet.tooldef.metamodel;bundle-version="0.2.0",
- org.eclipse.escet.tooldef.metamodel.java;bundle-version="0.2.0",
- org.eclipse.escet.setext.runtime;bundle-version="0.2.0",
- org.eclipse.escet.common.java;bundle-version="0.2.0",
- org.eclipse.escet.common.emf;bundle-version="0.2.0",
- org.eclipse.escet.common.typechecker;bundle-version="0.2.0",
+Require-Bundle: org.eclipse.escet.tooldef.metamodel;bundle-version="0.3.0",
+ org.eclipse.escet.tooldef.metamodel.java;bundle-version="0.3.0",
+ org.eclipse.escet.setext.runtime;bundle-version="0.3.0",
+ org.eclipse.escet.common.java;bundle-version="0.3.0",
+ org.eclipse.escet.common.emf;bundle-version="0.3.0",
+ org.eclipse.escet.common.typechecker;bundle-version="0.3.0",
  org.apache.commons.lang;bundle-version="2.6.0",
- org.eclipse.escet.tooldef.common;bundle-version="0.2.0",
+ org.eclipse.escet.tooldef.common;bundle-version="0.3.0",
  org.eclipse.core.runtime;bundle-version="3.17.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.2.0",
- org.eclipse.escet.tooldef.parser;bundle-version="0.2.0",
- org.eclipse.escet.tooldef.runtime;bundle-version="0.2.0",
- org.eclipse.escet.common.position.common;bundle-version="0.2.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.3.0",
+ org.eclipse.escet.tooldef.parser;bundle-version="0.3.0",
+ org.eclipse.escet.tooldef.runtime;bundle-version="0.3.0",
+ org.eclipse.escet.common.position.common;bundle-version="0.3.0",
  org.eclipse.ui;bundle-version="3.115.0"
 Export-Package: org.eclipse.escet.tooldef.typechecker
 Automatic-Module-Name: org.eclipse.escet.tooldef.typechecker
