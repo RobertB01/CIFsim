@@ -17,7 +17,7 @@
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
-      license-feature-version="0.2.0.qualifier">
+      license-feature-version="0.3.0.qualifier">
 
    <description>
       Eclipse ESCET tooling for the CIF language.
@@ -32,8 +32,8 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="0.2.0.qualifier"/>
-      <import feature="org.eclipse.escet.setext.feature" version="0.2.0.qualifier"/>
+      <import feature="org.eclipse.escet.common.feature" version="0.3.0.qualifier"/>
+      <import feature="org.eclipse.escet.setext.feature" version="0.3.0.qualifier"/>
       <import feature="com.github.javabdd.feature" version="1.0.1.qualifier"/>
       <import plugin="org.apache.commons.io"/>
       <import plugin="org.apache.commons.lang"/>
