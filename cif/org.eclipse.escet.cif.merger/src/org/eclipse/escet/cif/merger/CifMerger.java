@@ -29,7 +29,6 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newInputVaria
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newLocationExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newRealType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newTypeRef;
-import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
@@ -45,17 +44,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.cif2cif.RefReplace;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
@@ -176,17 +171,8 @@ public class CifMerger {
         mergedComp.getInitials().addAll(otherComp.getInitials());
         mergedComp.getMarkeds().addAll(otherComp.getMarkeds());
 
-        // Merge invariants. Warn about kind changes. For moved invariants,
-        // make kinds implicit if possible.
-        checkInvMerge(mergedComp, otherComp);
-        int oldInvCount = mergedComp.getInvariants().size();
+        // Merge invariants.
         mergedComp.getInvariants().addAll(otherComp.getInvariants());
-        for (int i = oldInvCount; i < mergedComp.getInvariants().size(); i++) {
-            // Make supervisory kind of moved invariant implicit, if
-            // possible/applicable.
-            Invariant inv = mergedComp.getInvariants().get(i);
-            CifInvariantUtils.makeSupKindImplicit(inv);
-        }
 
         // Merge equations.
         mergedComp.getEquations().addAll(otherComp.getEquations());
@@ -201,49 +187,6 @@ public class CifMerger {
 
         // Return the merged group.
         return mergedComp;
-    }
-
-    /**
-     * Checks for side effects of merging invariants of one component into another.
-     *
-     * @param merged The merged component, into which to merge the invariants.
-     * @param other The other component, from which to obtain the invariants to merge.
-     */
-    private void checkInvMerge(ComplexComponent merged, ComplexComponent other) {
-        // Invariants from 'other' without a supervisory kind, may get and
-        // implicit supervisory kind when merged into 'merged'. This can only
-        // happen if 'other' is a group, and 'merged' is an automaton with a
-        // supervisory kind. It can also only happen for invariants from
-        // 'other' that don't have an explicit supervisory kind.
-
-        // Check for automaton/group merger. Merging from an automaton is not
-        // possible. Merging into a group can't give an implicit supervisory
-        // kind.
-        Assert.check(other instanceof Group);
-        if (merged instanceof Group) {
-            return;
-        }
-
-        // Check for automaton with supervisory kind that can be inherited.
-        Assert.check(merged instanceof Automaton);
-        Automaton aut = (Automaton)merged;
-        SupKind autKind = aut.getKind();
-        if (autKind == SupKind.NONE) {
-            return;
-        }
-
-        // Check for invariants of 'other' without an explicit supervisory
-        // kind.
-        for (Invariant inv: other.getInvariants()) {
-            if (CifInvariantUtils.hasExplicitSupKind(inv)) {
-                continue;
-            }
-
-            warn("Merging group \"%s\" into %s automaton \"%s\" leads to kindless invariant \"%s\" from the "
-                    + "group implicitly becoming a %s invariant.", CifTextUtils.getAbsName(merged),
-                    CifTextUtils.kindToStr(autKind), CifTextUtils.getAbsName(merged), CifTextUtils.invToStr(inv, false),
-                    CifTextUtils.kindToStr(autKind));
-        }
     }
 
     /**

@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.ExternalCrossReferencer;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -102,8 +101,7 @@ public class RemoveRequirements implements CifToCifTransformation {
         Iterator<Invariant> invIter = comp.getInvariants().iterator();
         while (invIter.hasNext()) {
             Invariant inv = invIter.next();
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.REQUIREMENT) {
+            if (inv.getSupKind() != SupKind.REQUIREMENT) {
                 continue;
             }
             switch (inv.getInvKind()) {
@@ -150,8 +148,7 @@ public class RemoveRequirements implements CifToCifTransformation {
                 invIter = loc.getInvariants().iterator();
                 while (invIter.hasNext()) {
                     Invariant inv = invIter.next();
-                    SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.REQUIREMENT) {
+                    if (inv.getSupKind() != SupKind.REQUIREMENT) {
                         continue;
                     }
                     switch (inv.getInvKind()) {

@@ -52,7 +52,6 @@ import java.util.Set;
 import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifSortUtils;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
@@ -537,47 +536,19 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
             mergedAut.getMarkeds().addAll(aut.getMarkeds());
         }
 
-        // We keep the invariants from the specification in the specification,
-        // to avoid them getting an implicit kind, if the merged automaton
-        // has a supervisory kind that invariants can inherit. For the
-        // invariants from the automata, we have two cases. The first case is
-        // that all original automata have the same supervisory kind. The
-        // merged automaton then gets that supervisory kind as well, and the
-        // default supervisory kinds of invariants are not affected. The second
-        // case is that the original automata have different supervisory kinds,
-        // and the merged automaton gets no supervisory kind, which invariants
-        // can't inherit. In the latter case, we need to give the original
-        // invariants their inherited supervisory kinds explicitly, to ensure
-        // they remain in effect after moving them to the merged automaton. If
-        // they originally already had an explicit supervisory kind, it is
-        // kept, and if the original automaton did not have an inheritable
-        // supervisory kind, the invariant doesn't get an explicit supervisory
-        // kind, and remains kindless after moving to the merged automaton,
-        // which also does not have an inheritable supervisory kind. All in
-        // all, we simply need to give the invariants from the automata their
-        // inherited supervisory kind explicitly, and just move them to the
-        // merged automaton. The defaults/conjunctions are similar to the
-        // initial/marker predicates case above.
+        // We keep the invariants from the specification in the specification.
+        // We move invariants in automata to the merged automaton. Defaults/conjunctions
+        // are similar to the initial/marker predicates case above.
         for (Automaton aut: auts) {
-            // Set inherited supervisory kinds explicitly.
-            for (Invariant inv: aut.getInvariants()) {
-                CifInvariantUtils.makeSupKindExplicit(inv);
-            }
-
-            // Move invariants to merged automaton.
             mergedAut.getInvariants().addAll(aut.getInvariants());
         }
 
         // Invariants in locations have 'true' default, and use conjunctions
         // to combine (within a location). They are combined with invariants of
         // the original automata and specification using conjunctions as well.
-        // Supervisory kinds are made explicit as discussed above.
         for (Automaton aut: auts) {
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: copy(loc.getInvariants())) {
-                    // Set inherited supervisory kind explicitly.
-                    CifInvariantUtils.makeSupKindExplicit(inv);
-
                     // Modify 'loc' to 'loc => inv'.
                     Expression lexpr = lpIntroducer.createLocRef(loc);
 

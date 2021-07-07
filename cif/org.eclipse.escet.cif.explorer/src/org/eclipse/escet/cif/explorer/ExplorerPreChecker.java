@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifMath;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -224,7 +223,7 @@ public class ExplorerPreChecker extends CifWalker {
         }
 
         String msg;
-        switch (CifInvariantUtils.getSupKind(inv)) {
+        switch (inv.getSupKind()) {
             case NONE:
                 if (params.contains(CheckParameters.ALLOW_NON_INVS)) {
                     break;
