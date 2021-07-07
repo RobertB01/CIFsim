@@ -374,52 +374,6 @@ Type declarations and enumerations can be merged, as long as the type of the typ
 
 User-defined functions can never be merged with other objects of the same name.
 
-indexterm:[CIF merger,invariants]
-
-=== Invariants
-
-Merging a group with an automaton, may change the supervisory kinds of the invariants of the group.
-For instance, consider the following CIF specifications:
-
-
-[source, cif]
-----
-group x:
-  input int y;
-  invariant y = 1;
-end
-----
-
-[source, cif]
-----
-plant automaton x:
-  disc int y;
-end
-----
-
-When merged, this leads to the following CIF specification:
-
-
-[source, cif]
-----
-plant automaton x:
-  disc int y;
-  invariant y = 1;
-end
-----
-
-In the original group `x`, the invariant did not have a supervisory kind.
-After merging, the invariant still does not specify a supervisory kind.
-However, since it is now specified in an automaton `x` of kind `plant`, the invariant <<lang-tut-extensions-synthesis-invkind-implicit,implicitly>> becomes a plant invariant as well.
-
-When an invariant gets an implicit supervisory kind as a result of merging, the merge tool prints a warning to the console.
-
-To get rid of the warning, the invariant in group `x` can be declared explicitly as being a `plant` invariant.
-The supervisory kind then matches the supervisory kind of automaton `x`.
-When the group and automaton are merged, the invariant keeps its explicit supervisory `plant` kind.
-The merge result is thus the same as the earlier merge result, as in both cases the invariant in the merged specification is interpreted as a print invariant.
-However, in this last case, no warning is printed to the console.
-
 indexterm:[CIF merger,merge problems]
 
 === Merge problems
