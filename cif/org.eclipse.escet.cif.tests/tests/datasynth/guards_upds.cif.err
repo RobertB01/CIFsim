@@ -1,2 +1,2 @@
-WARNING: Event a is disabled by the supervisor.
-WARNING: Event b is disabled by the supervisor.
+WARNING: Event "a" is disabled by the supervisor.
+WARNING: Event "b" is disabled by the supervisor.

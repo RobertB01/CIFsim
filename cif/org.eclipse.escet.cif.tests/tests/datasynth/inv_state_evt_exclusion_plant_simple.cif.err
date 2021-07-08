@@ -1,1 +1,1 @@
-WARNING: Event u is never enabled in the input specification, taking into account only state/event exclusion plants.
+WARNING: Event "u" is never enabled in the input specification, taking into account only state/event exclusion plants.

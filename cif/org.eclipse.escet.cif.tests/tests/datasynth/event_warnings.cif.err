@@ -1,15 +1,15 @@
 WARNING: File "datasynth/event_warnings.cif": Semantic warning at line 35, column 12: Location "l3" is not reachable from any of the initial locations of automaton "p".
-WARNING: Event c0 is never enabled in the input specification, taking into account only automaton guards.
-WARNING: Event c1 is never enabled in the input specification, taking into account only state/event exclusion requirements.
-WARNING: Event c2 is never enabled in the input specification, taking into account only state/event exclusion plants.
-WARNING: Event c3 is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
-WARNING: Event c4 is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
-WARNING: Event c5 is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
-WARNING: Event c6 is never enabled in the input specification, taking into account automaton guards and invariants.
-WARNING: Event c10 is never enabled in the input specification, taking into account only automaton guards.
-WARNING: Event u0 is never enabled in the input specification, taking into account only automaton guards.
-WARNING: Event u1 is never enabled in the input specification, taking into account only state/event exclusion plants.
-WARNING: Event u2 is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
-WARNING: Event c7 is disabled by the supervisor.
-WARNING: Event c8 is disabled by the supervisor.
-WARNING: Event c9 is disabled by the supervisor.
+WARNING: Event "p.c0" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "p.c1" is never enabled in the input specification, taking into account only state/event exclusion requirements.
+WARNING: Event "p.c2" is never enabled in the input specification, taking into account only state/event exclusion plants.
+WARNING: Event "p.c3" is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
+WARNING: Event "p.c4" is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
+WARNING: Event "p.c5" is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
+WARNING: Event "p.c6" is never enabled in the input specification, taking into account automaton guards and invariants.
+WARNING: Event "p.c10" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "q.u0" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "q.u1" is never enabled in the input specification, taking into account only state/event exclusion plants.
+WARNING: Event "q.u2" is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
+WARNING: Event "p.c7" is disabled by the supervisor.
+WARNING: Event "p.c8" is disabled by the supervisor.
+WARNING: Event "p.c9" is disabled by the supervisor.
