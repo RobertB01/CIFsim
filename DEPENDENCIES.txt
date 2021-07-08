@@ -3,9 +3,9 @@ maven/mavencentral/org.apache.ant/ant-junit/1.10.9, Apache-2.0 AND W3C AND Licen
 maven/mavencentral/org.apache.ant/ant-launcher/1.10.9, Apache-2.0 AND W3C AND LicenseRef-Public-Domain, approved, CQ15560
 maven/mavencentral/org.apache.ant/ant/1.10.9, Apache-2.0 AND W3C AND LicenseRef-Public-Domain, approved, CQ15560
 maven/mavencentral/org.codehaus.groovy/groovy-ant/3.0.8, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.codehaus.groovy/groovy-groovydoc/3.0.8, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.codehaus.groovy/groovy-groovydoc/3.0.8, Apache-2.0, approved, #819
 maven/mavencentral/org.codehaus.groovy/groovy-json/3.0.8, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.codehaus.groovy/groovy/3.0.8, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.codehaus.groovy/groovy/3.0.8, Apache-2.0, approved, #818
 p2/orbit/p2.eclipse-plugin/com.ibm.icu/67.1.0.v20200706-1749, ICU AND Unicode-TOU AND BSD-3-Clause AND BSD-2-Clause AND LicenseRef-ipadic-license AND LicenseRef-Public-Domain, approved, CQ22320
 p2/orbit/p2.eclipse-plugin/com.sun.jna.platform/5.8.0.v20210406-1004, Apache-2.0 OR LGPL-2.1-or-later, approved, CQ23218
 p2/orbit/p2.eclipse-plugin/com.sun.jna/5.8.0.v20210503-0343, Apache-2.0 OR LGPL-2.1-or-later, approved, CQ23217
