@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET CIF Documentation Utils (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.cif.documentation.utils;singleton:=true
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.3.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.cif.documentation.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.escet.cif.documentation.utils
-Require-Bundle: org.eclipse.escet.cif.simulator;bundle-version="0.2.0",
+Require-Bundle: org.eclipse.escet.cif.simulator;bundle-version="0.3.0",
  org.apache.commons.lang3;bundle-version="3.1.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.2.0",
- org.eclipse.escet.common.java;bundle-version="0.2.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.3.0",
+ org.eclipse.escet.common.java;bundle-version="0.3.0",
  org.apache.commons.math3;bundle-version="3.5.0"

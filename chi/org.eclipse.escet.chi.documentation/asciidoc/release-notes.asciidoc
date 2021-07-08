@@ -24,6 +24,11 @@ The release notes may refer to issues, the details for which can be found at the
 See also the Eclipse ESCET link:https://www.eclipse.org/escet/escet/#release-notes-chapter-index[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
 
+=== Version 0.3
+
+TBD
+
+
 === Version 0.2
 
 Improvements and fixes:
