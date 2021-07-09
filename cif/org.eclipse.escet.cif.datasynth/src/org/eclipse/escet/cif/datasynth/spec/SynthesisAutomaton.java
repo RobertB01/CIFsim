@@ -57,7 +57,7 @@ public class SynthesisAutomaton {
     public Set<Event> controllables;
 
     /** The temporary events created for the input variables. */
-    public List<Event> inputVarEvents;
+    public Set<Event> inputVarEvents;
 
     /**
      * Information on the variables of the specification, including location pointer variables. This is the order used

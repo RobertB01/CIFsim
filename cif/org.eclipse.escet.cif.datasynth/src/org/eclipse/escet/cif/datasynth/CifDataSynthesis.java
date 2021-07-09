@@ -809,18 +809,20 @@ public class CifDataSynthesis {
     private static void checkInputEdges(SynthesisAutomaton aut) {
         aut.disabledEvents = setc(aut.alphabet.size());
 
-        EVENTS:
         for (Event event: aut.alphabet) {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
 
-            // Skip events for input variables as they have no edges. Skip events that are in the alphabet, but never on
-            // an edge, as the type checker reports these.
+            // Skip events for input variables as they have no edges.
+            if (aut.inputVarEvents.contains(event)) {
+                continue;
+            }
+
+            // Skip events that in the alphabet, but never on an edge as these are globally disabled. Note, the type
+            // checker reports these already.
             if (aut.eventEdges.get(event) == null) {
-                if (event.getControllable()) {
-                    aut.disabledEvents.add(event);
-                }
+                aut.disabledEvents.add(event);
                 continue;
             }
 
@@ -860,16 +862,20 @@ public class CifDataSynthesis {
 
             // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
             // requirement invariants are all 'false'. There might be multiple edges for an event.
+            boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
-                    continue EVENTS;
+                    alwaysDisabled = false;
                 }
             }
-            warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards and "
-                    + "invariants.", CifTextUtils.getAbsName(event));
-            aut.disabledEvents.add(event);
+
+            if (alwaysDisabled) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
+                        + "and invariants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+            }
         }
     }
 

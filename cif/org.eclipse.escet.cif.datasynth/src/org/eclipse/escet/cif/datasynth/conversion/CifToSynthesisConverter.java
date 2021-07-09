@@ -2740,7 +2740,7 @@ public class CifToSynthesisConverter {
      */
     private void addInputVariableEdges(SynthesisAutomaton synthAut) {
         // Initialization.
-        synthAut.inputVarEvents = list();
+        synthAut.inputVarEvents = set();
 
         // Add for each input variable.
         for (SynthesisVariable var: synthAut.variables) {
