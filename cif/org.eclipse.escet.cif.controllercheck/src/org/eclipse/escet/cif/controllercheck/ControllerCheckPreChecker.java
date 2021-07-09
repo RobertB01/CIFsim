@@ -36,7 +36,6 @@ import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
-import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
@@ -216,16 +215,6 @@ public class ControllerCheckPreChecker extends CifWalker {
         // Equations are unsupported.
         String msg = fmt("Unsupported equation \"%s\": equations are currently unsupported.", getAbsName(eqn));
         problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessInvariant(Invariant inv) {
-        // State invariants are unsupported.
-        if (inv.getInvKind().equals(InvKind.STATE)) {
-            String msg = fmt("Unsupported invariant \"%s\": state invariants are currently unsupported.",
-                    getAbsName(inv));
-            problems.add(msg);
-        }
     }
 
     // Type checks.
