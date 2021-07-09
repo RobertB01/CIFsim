@@ -1,1 +1,10 @@
-The specification has finite response.
+Checking for finite response...
+Iteration 1.
+    The following events have initially been encountered in a controllable-event loop of automaton Actuator:
+        * (Actuator.c_on Actuator.c_off)
+    
+    (Actuator.c_on Actuator.c_off) is controllable unconnectable
+
+    CONCLUSION:
+    The specification has finite response.
+

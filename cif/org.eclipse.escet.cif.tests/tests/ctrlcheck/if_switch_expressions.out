@@ -1,6 +1,58 @@
-The specification does not have finite response, at least one forcible-event loop was found.
-The following events might still occur in a forcible loop.
-Aut1.c_a, 
-Aut1.c_b, 
-Aut4.c_a, 
-Aut4.c_b, 
+Checking for finite response...
+Iteration 1.
+    The following events have initially been encountered in a controllable-event loop of automaton Aut1:
+        * (Aut1.c_a Aut1.c_b)
+    
+    (Aut1.c_a Aut1.c_b) is not controllabe unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton Aut2:
+        * (Aut2.c_a Aut2.c_b)
+    
+    (Aut2.c_a Aut2.c_b) is controllable unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton Aut3:
+        * (Aut3.c_a Aut3.c_b)
+    
+    (Aut3.c_a Aut3.c_b) is controllable unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton Aut4:
+        * (Aut4.c_a Aut4.c_b)
+    
+    (Aut4.c_a Aut4.c_b) is not controllabe unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton Aut5:
+        * (Aut5.c_a Aut5.c_b)
+    
+    (Aut5.c_a Aut5.c_b) is controllable unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton Aut6:
+        * (Aut6.c_a Aut6.c_b)
+    
+    (Aut6.c_a Aut6.c_b) is controllable unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton RequirementStateEvtExcls:
+        * (Aut1.c_a)
+        * (Aut4.c_a)
+    
+    (Aut1.c_a) is not controllabe unconnectable
+    (Aut4.c_a) is not controllabe unconnectable
+Iteration 2.
+    The following events have initially been encountered in a controllable-event loop of automaton Aut1:
+        * (Aut1.c_a Aut1.c_b)
+    
+    (Aut1.c_a Aut1.c_b) is not controllabe unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton Aut4:
+        * (Aut4.c_a Aut4.c_b)
+    
+    (Aut4.c_a Aut4.c_b) is not controllabe unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton RequirementStateEvtExcls:
+        * (Aut1.c_a)
+        * (Aut4.c_a)
+    
+    (Aut1.c_a) is not controllabe unconnectable
+    (Aut4.c_a) is not controllabe unconnectable
+
+    CONCLUSION:
+    ERROR, the specification does NOT have finite response.
+    
+    At least one controllable event loop was found.
+    The following events might still occur in a controllable loop:
+        - Aut1.c_a
+        - Aut1.c_b
+        - Aut4.c_a
+        - Aut4.c_b
+

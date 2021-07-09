@@ -14,7 +14,6 @@ ERROR: CIF controller properties check application failed due to unsatisfied pre
  - Unsupported location "l1" of automaton "g.p0": edges with partial variable assignments are currently unsupported.
  - Unsupported location "l1" of automaton "g.p0": state invariants in locations are currently not supported.
  - Unsupported type "list bool": list types are currently not supported.
- - Unsupported type "list bool": list types are currently not supported.
  - Unsupported type "list[1] bool": list types are currently not supported.
  - Unsupported type "real": real types are currently not supported.
  - Unsupported type "tuple(int[1..1]; int[2..2])": tuple types are currently not supported.

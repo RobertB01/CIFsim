@@ -1,50 +1,53 @@
 Loading CIF specification "ctrlcheck/strongly_connected_component2.cif"...
 Checking for finite response...
 Iteration 1.
-
-The following events have initially been encountered in a forcible-event loop of automaton A
-* (A.e A.k)
-* (A.o A.m)
-* (A.n A.q A.p)
-* (A.r A.s A.t)
-* (A.c A.f A.h)
-* (A.d A.h)
-
-Warning: (A.e A.k) is not forcible-unconnectable
-Warning: (A.o A.m) is not forcible-unconnectable
-Warning: (A.n A.q A.p) is not forcible-unconnectable
-Warning: (A.r A.s A.t) is not forcible-unconnectable
-Warning: (A.c A.f A.h) is not forcible-unconnectable
-Warning: (A.d A.h) is not forcible-unconnectable
+    The following events have initially been encountered in a controllable-event loop of automaton A:
+        * (A.e A.k)
+        * (A.o A.m)
+        * (A.n A.q A.p)
+        * (A.r A.s A.t)
+        * (A.c A.f A.h)
+        * (A.d A.h)
+    
+    (A.e A.k) is not controllabe unconnectable
+    (A.o A.m) is not controllabe unconnectable
+    (A.n A.q A.p) is not controllabe unconnectable
+    (A.r A.s A.t) is not controllabe unconnectable
+    (A.c A.f A.h) is not controllabe unconnectable
+    (A.d A.h) is not controllabe unconnectable
 Iteration 2.
+    The following events have initially been encountered in a controllable-event loop of automaton A:
+        * (A.c A.f A.h)
+        * (A.d A.h)
+        * (A.e A.k)
+        * (A.m A.o)
+        * (A.n A.q A.p)
+        * (A.r A.s A.t)
+    
+    (A.c A.f A.h) is not controllabe unconnectable
+    (A.d A.h) is not controllabe unconnectable
+    (A.e A.k) is not controllabe unconnectable
+    (A.m A.o) is not controllabe unconnectable
+    (A.n A.q A.p) is not controllabe unconnectable
+    (A.r A.s A.t) is not controllabe unconnectable
 
-The following events have initially been encountered in a forcible-event loop of automaton A
-* (A.c A.f A.h)
-* (A.d A.h)
-* (A.e A.k)
-* (A.m A.o)
-* (A.n A.q A.p)
-* (A.r A.s A.t)
+    CONCLUSION:
+    ERROR, the specification does NOT have finite response.
+    
+    At least one controllable event loop was found.
+    The following events might still occur in a controllable loop:
+        - A.c
+        - A.d
+        - A.e
+        - A.f
+        - A.h
+        - A.k
+        - A.m
+        - A.n
+        - A.o
+        - A.p
+        - A.q
+        - A.r
+        - A.s
+        - A.t
 
-Warning: (A.c A.f A.h) is not forcible-unconnectable
-Warning: (A.d A.h) is not forcible-unconnectable
-Warning: (A.e A.k) is not forcible-unconnectable
-Warning: (A.m A.o) is not forcible-unconnectable
-Warning: (A.n A.q A.p) is not forcible-unconnectable
-Warning: (A.r A.s A.t) is not forcible-unconnectable
-The specification does not have finite response, at least one forcible-event loop was found.
-The following events might still occur in a forcible loop.
-A.c, 
-A.d, 
-A.e, 
-A.f, 
-A.h, 
-A.k, 
-A.m, 
-A.n, 
-A.o, 
-A.p, 
-A.q, 
-A.r, 
-A.s, 
-A.t, 

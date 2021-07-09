@@ -1,9 +1,11 @@
 Loading CIF specification "ctrlcheck/has_finite_response_debug.cif"...
 Checking for finite response...
 Iteration 1.
+    The following events have initially been encountered in a controllable-event loop of automaton Actuator:
+        * (Actuator.c_on Actuator.c_off)
+    
+    (Actuator.c_on Actuator.c_off) is controllable unconnectable
 
-The following events have initially been encountered in a forcible-event loop of automaton Actuator
-* (Actuator.c_on Actuator.c_off)
+    CONCLUSION:
+    The specification has finite response.
 
-(Actuator.c_on Actuator.c_off) is forcible-unconnectable
-The specification has finite response.
