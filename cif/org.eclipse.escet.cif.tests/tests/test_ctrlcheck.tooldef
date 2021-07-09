@@ -16,15 +16,7 @@ from "lib:cif" import cifctrlcheck;
 string test_path = "ctrlcheck";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
-map(string:list string) test_options = {
-     "ctrlcheck/has_finite_response_debug.cif": ["-m debug"],
-     "ctrlcheck/mult_events_edge.cif": ["-m debug"],
-     "ctrlcheck/mult_iterations_debug.cif": ["-m debug"],
-     "ctrlcheck/no_finite_response_debug.cif" : ["-m debug"],
-     "ctrlcheck/strongly_connected_component1.cif": ["-m debug"],
-     "ctrlcheck/strongly_connected_component2.cif": ["-m debug"],
-     "ctrlcheck/strongly_connected_component3.cif": ["-m debug"]
-};
+map(string:list string) test_options = {};
 set string test_skip = {};
 
 // Initialize counts.
