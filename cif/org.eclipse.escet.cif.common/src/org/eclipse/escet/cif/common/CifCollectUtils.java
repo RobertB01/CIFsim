@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.common;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -57,6 +58,32 @@ public class CifCollectUtils {
         if (comp instanceof Group) {
             for (Component child: ((Group)comp).getComponents()) {
                 collectEvents((ComplexComponent)child, events);
+            }
+        }
+    }
+
+    /**
+     * Collect the controllable events declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp The component.
+     * @param ctrlEvents The controllable events collected so far. Is modified in-place.
+     */
+    public static void collectControllableEvents(ComplexComponent comp, Collection<Event> ctrlEvents) {
+        // Collect locally.
+        for (Declaration decl: comp.getDeclarations()) {
+            if (decl instanceof Event && ((Event)decl).getControllable() != null && ((Event)decl).getControllable()) {
+                ctrlEvents.add((Event)decl);
+            }
+        }
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child: ((Group)comp).getComponents()) {
+                collectControllableEvents((ComplexComponent)child, ctrlEvents);
             }
         }
     }

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
+import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEvents;
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
@@ -44,9 +45,6 @@ import java.util.Set;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
 import org.eclipse.escet.cif.controllercheck.options.PrintOutputOption;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Component;
-import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -388,27 +386,5 @@ public class FiniteResponseChecker {
             eventNode.put(event, nodeGuard);
         }
         return eventNode;
-    }
-
-    /**
-     * Collect the controllable events declared in the given component (recursively).
-     *
-     * @param comp The component.
-     * @param ctrlEvents The controllable events collected so far. Is modified in-place.
-     */
-    public static void collectControllableEvents(ComplexComponent comp, Set<Event> ctrlEvents) {
-        // Collect locally.
-        for (Declaration decl: comp.getDeclarations()) {
-            if (decl instanceof Event && ((Event)decl).getControllable()) {
-                ctrlEvents.add((Event)decl);
-            }
-        }
-
-        // Collect recursively.
-        if (comp instanceof Group) {
-            for (Component child: ((Group)comp).getComponents()) {
-                collectControllableEvents((ComplexComponent)child, ctrlEvents);
-            }
-        }
     }
 }
