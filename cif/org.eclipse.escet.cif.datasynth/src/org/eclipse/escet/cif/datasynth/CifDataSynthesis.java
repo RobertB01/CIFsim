@@ -30,6 +30,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -104,7 +105,9 @@ public class CifDataSynthesis {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            checkInputEdges(aut);
+            if (EventWarnOption.isEnabled()) {
+                checkInputEdges(aut);
+            }
 
             // Prepare for actual synthesis. Allow applying edges from here on.
             for (SynthesisEdge edge: aut.edges) {
@@ -204,7 +207,9 @@ public class CifDataSynthesis {
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            checkOutputEdges(aut);
+            if (EventWarnOption.isEnabled()) {
+                checkOutputEdges(aut);
+            }
 
             // Separate debug output from what is to come.
             if (dbgEnabled) {

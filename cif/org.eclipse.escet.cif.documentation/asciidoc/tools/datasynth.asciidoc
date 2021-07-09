@@ -85,6 +85,10 @@ For more information, see the section on <<tools-datasynth-forward-reach,forward
 By default, no statistics are printed.
 For more information, see the section on <<tools-datasynth-stats,statistics>> below.
 
+* _Event warning_: Whether to warn for events that are never enabled in the input specification or always disabled by the supervisor.
+Is enabled by default.
+Disabling this warning may increase the performance of synthesis.
+
 Internally during synthesis, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 There are various options that can influence the use of BDDs.
 The following options are part of the _BDD_ sub-category of the _Synthesis_ category:
