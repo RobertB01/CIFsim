@@ -13,7 +13,7 @@
 
 package org.eclipse.escet.cif.common;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -43,7 +43,7 @@ public class CifCollectUtils {
      * @param comp The component.
      * @param events The events collected so far. Is modified in-place.
      */
-    public static void collectEvents(ComplexComponent comp, List<Event> events) {
+    public static void collectEvents(ComplexComponent comp, Collection<Event> events) {
         // Collect locally.
         for (Declaration decl: comp.getDeclarations()) {
             if (decl instanceof Event) {
@@ -69,7 +69,7 @@ public class CifCollectUtils {
      * @param comp The component.
      * @param automata The automata collected so far. Is modified in-place.
      */
-    public static void collectAutomata(ComplexComponent comp, List<Automaton> automata) {
+    public static void collectAutomata(ComplexComponent comp, Collection<Automaton> automata) {
         if (comp instanceof Automaton) {
             // Add automaton.
             automata.add((Automaton)comp);
