@@ -16,7 +16,7 @@ package org.eclipse.escet.cif.controllercheck.options;
 import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
-/** Clustering with bus option. */
+/** Print events in control loops as output option. */
 public class PrintOutputOption extends BooleanOption {
     /** Constructor for the {@link PrintOutputOption} class. */
     public PrintOutputOption() {
