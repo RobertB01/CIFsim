@@ -143,9 +143,9 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
         // Check for finite response.
         OutputProvider.out("Checking for finite response...");
-        new FiniteResponseChecker().checkSystem(spec);
+        boolean finiteResponse = new FiniteResponseChecker().checkSystem(spec);
 
-        return 0;
+        return finiteResponse ? 0 : 1;
     }
 
     @Override
