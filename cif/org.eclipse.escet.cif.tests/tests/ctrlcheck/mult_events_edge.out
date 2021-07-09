@@ -1,22 +1,17 @@
-Loading CIF specification "ctrlcheck/mult_events_edge.cif"...
 Checking for finite response...
-Iteration 1.
-    The following events have initially been encountered in a controllable-event loop of automaton A:
-        * (A.a A.c A.e)
-        * (A.a A.d A.e)
-        * (A.b A.c A.e)
-        * (A.b A.d A.e)
-    
-    (A.a A.c A.e) is not controllabe unconnectable
-    (A.a A.d A.e) is not controllabe unconnectable
-    (A.b A.c A.e) is not controllabe unconnectable
-    (A.b A.d A.e) is not controllabe unconnectable
 
-    CONCLUSION:
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.a A.c A.e), which is not controllable unconnectable.
+        (A.a A.d A.e), which is not controllable unconnectable.
+        (A.b A.c A.e), which is not controllable unconnectable.
+        (A.b A.d A.e), which is not controllable unconnectable.
+
+CONCLUSION:
     ERROR, the specification does NOT have finite response.
     
-    At least one controllable event loop was found.
-    The following events might still occur in a controllable loop:
+    At least one controllable-event loop was found.
+    The following events might still occur in a controllable-event loop:
         - A.a
         - A.b
         - A.c

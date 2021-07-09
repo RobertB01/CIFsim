@@ -1,37 +1,26 @@
-Loading CIF specification "ctrlcheck/strongly_connected_component1.cif"...
 Checking for finite response...
-Iteration 1.
-    The following events have initially been encountered in a controllable-event loop of automaton A:
-        * (A.e A.g)
-        * (A.h A.m)
-        * (A.l A.k)
-        * (A.o)
-        * (A.a A.c A.i)
-    
-    (A.e A.g) is not controllabe unconnectable
-    (A.h A.m) is not controllabe unconnectable
-    (A.l A.k) is not controllabe unconnectable
-    (A.o) is not controllabe unconnectable
-    (A.a A.c A.i) is not controllabe unconnectable
-Iteration 2.
-    The following events have initially been encountered in a controllable-event loop of automaton A:
-        * (A.a A.c A.i)
-        * (A.e A.g)
-        * (A.h A.m)
-        * (A.o)
-        * (A.k A.l)
-    
-    (A.a A.c A.i) is not controllabe unconnectable
-    (A.e A.g) is not controllabe unconnectable
-    (A.h A.m) is not controllabe unconnectable
-    (A.o) is not controllabe unconnectable
-    (A.k A.l) is not controllabe unconnectable
 
-    CONCLUSION:
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.e A.g), which is not controllable unconnectable.
+        (A.h A.m), which is not controllable unconnectable.
+        (A.l A.k), which is not controllable unconnectable.
+        (A.o), which is not controllable unconnectable.
+        (A.a A.c A.i), which is not controllable unconnectable.
+
+Iteration 2.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.a A.c A.i), which is not controllable unconnectable.
+        (A.e A.g), which is not controllable unconnectable.
+        (A.h A.m), which is not controllable unconnectable.
+        (A.o), which is not controllable unconnectable.
+        (A.k A.l), which is not controllable unconnectable.
+
+CONCLUSION:
     ERROR, the specification does NOT have finite response.
     
-    At least one controllable event loop was found.
-    The following events might still occur in a controllable loop:
+    At least one controllable-event loop was found.
+    The following events might still occur in a controllable-event loop:
         - A.a
         - A.c
         - A.e
