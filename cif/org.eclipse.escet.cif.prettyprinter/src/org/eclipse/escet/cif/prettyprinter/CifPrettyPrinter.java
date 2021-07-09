@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.prettyprinter;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.eclipse.escet.cif.common.CifTextUtils.controllabilityToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.escapeIdentifier;
 import static org.eclipse.escet.cif.common.CifTextUtils.functionToStr;
@@ -27,6 +26,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -859,7 +859,7 @@ public final class CifPrettyPrinter {
         add(alpha);
         add(monitors);
 
-        addCompBody(decls, EMPTY_LIST, EMPTY_LIST, initials, invs, eqns, markeds, ioDecls);
+        addCompBody(decls, Collections.emptyList(), Collections.emptyList(), initials, invs, eqns, markeds, ioDecls);
 
         for (Location loc: locs) {
             add(loc);

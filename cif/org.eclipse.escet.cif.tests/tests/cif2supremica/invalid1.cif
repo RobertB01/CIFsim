@@ -84,8 +84,8 @@ group g:
   plant      invariant 9 = 9;       // Non-requirement invariant in component.
   supervisor invariant 10 = 10;     // Non-requirement invariant in component.
 
-  requirement invariant e1 needs p0.x1 > 0;    // State/event exclusion invariant.
-  requirement invariant p0.x1 > 0 disables e1; // State/event exclusion invariant.
+             invariant e1 needs p0.x1 > 0;    // Kindless state/event exclusion invariant.
+             invariant p0.x1 > 0 disables e1; // Kindless state/event exclusion invariant.
 
   func bool f(bool p):              // User defined function.
     return p;

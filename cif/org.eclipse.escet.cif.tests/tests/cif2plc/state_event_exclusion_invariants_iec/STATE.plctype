@@ -1,0 +1,6 @@
+TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_g2_aut_z AT %Q*: DINT;
+    END_STRUCT;
+END_TYPE

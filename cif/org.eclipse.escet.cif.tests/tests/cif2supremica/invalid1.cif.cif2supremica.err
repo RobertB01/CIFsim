@@ -34,20 +34,20 @@ ERROR: CIF to Supremica transformation failed due to unsatisfied preconditions:
  - Unsupported expression "sqrt(-2.0)": function calls are currently not supported.
  - Unsupported function "g.f": user-defined functions are currently unsupported.
  - Unsupported group "g": initialization predicates are currently only supported in locations.
- - Unsupported group "g": unsupported kindless invariant "8 = 8".
+ - Unsupported group "g": unsupported kindless state invariant "8 = 8".
+ - Unsupported group "g": unsupported kindless state/event exclusion invariant "g.e1 needs g.p0.x1 > 0".
+ - Unsupported group "g": unsupported kindless state/event exclusion invariant "g.p0.x1 > 0 disables g.e1".
  - Unsupported group "g": unsupported marker predicate "1 > 2".
  - Unsupported group "g": unsupported marker predicate "2 = 2".
  - Unsupported group "g": unsupported marker predicate "g.p0.cnt = 1.2".
  - Unsupported group "g": unsupported marker predicate "not false".
- - Unsupported group "g": unsupported plant invariant "9 = 9".
- - Unsupported group "g": unsupported state/event exclusion invariant "g.e1 needs g.p0.x1 > 0".
- - Unsupported group "g": unsupported state/event exclusion invariant "g.p0.x1 > 0 disables g.e1".
- - Unsupported group "g": unsupported supervisor invariant "10 = 10".
+ - Unsupported group "g": unsupported plant state invariant "9 = 9".
+ - Unsupported group "g": unsupported supervisor state invariant "10 = 10".
  - Unsupported location of automaton "g.p0": edges with 'if' updates are currently unsupported.
  - Unsupported location of automaton "g.p0": edges with multi-assignments are currently unsupported.
  - Unsupported location of automaton "g.p0": edges with partial variable assignments are currently unsupported.
  - Unsupported location of automaton "g.p0": urgent locations are currently unsupported.
- - Unsupported location of automaton "g.p1": invariants in locations are currently unsupported.
+ - Unsupported location of automaton "g.p1": state invariants in locations are currently unsupported.
  - Unsupported location of automaton "g.snd": urgent edges are currently unsupported.
  - Unsupported type "func real(real)": function types are currently not supported.
  - Unsupported type "func real(real)": function types are currently not supported.

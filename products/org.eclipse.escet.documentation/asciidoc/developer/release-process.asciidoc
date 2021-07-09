@@ -64,7 +64,7 @@ Also remove the version for the pom itself, to prevent a warning that the versio
 
 ** Manually adapt the `<version>` of the target platform in `org.eclipse.escet.configuration/pom.xml`.
 
-** Verify that the `version` of all `feature.xml` files in `org.eclipse.escet.*` projects .xml` are properly updated.
+** Verify that the `version` of all `feature.xml` files in `org.eclipse.escet.*` projects are properly updated.
 The old version should no longer be present.
 This should mostly be automatic.
 Manually adapt it where necessary.

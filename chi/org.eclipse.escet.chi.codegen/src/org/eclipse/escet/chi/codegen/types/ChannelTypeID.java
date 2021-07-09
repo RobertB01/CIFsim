@@ -38,7 +38,7 @@ public class ChannelTypeID extends StateLessObjectTypeID {
      * @param tid Data type of data being transported. {@code null} means a 'void' channel.
      */
     public ChannelTypeID(TypeID tid) {
-        super(false, TypeKind.CHANNEL, (tid == null) ? Collections.EMPTY_LIST : list(tid));
+        super(false, TypeKind.CHANNEL, (tid == null) ? Collections.emptyList() : list(tid));
     }
 
     @Override

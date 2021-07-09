@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.explorer;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifValueUtils.makeTrue;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlphabet;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAutomaton;
@@ -29,6 +28,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -151,7 +151,7 @@ public class CifAutomatonBuilder {
         String name = sugName;
         Set<String> names = CifScopeUtils.getSymbolNamesForScope(spec, null);
         if (names.contains(name)) {
-            name = CifScopeUtils.getUniqueName(name, names, EMPTY_SET);
+            name = CifScopeUtils.getUniqueName(name, names, Collections.emptySet());
             warn("Resulting statespace automaton is named \"%s\" instead of \"%s\" to avoid a naming conflict.", name,
                     sugName);
         }

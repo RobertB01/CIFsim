@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.escet.common.app.framework.javacompiler.JavaCharSeqInputFileObject;
@@ -325,8 +326,16 @@ public abstract class RuntimeJavaCompilerTest {
      * @return A new run-time Java compiler.
      */
     private RuntimeJavaCompiler newCompiler(ClassLoader dependencyLoader) {
+        // Get compiler name/options.
         String name = getCompilerName();
-        return new RuntimeJavaCompiler(name, dependencyLoader);
+        List<String> options = RuntimeJavaCompiler.getDefaultCompilerOptions();
+
+        // Disable annotation processing. JDT compiler uses non-OSGi-compatible class loading via reflection to load
+        // the annotation processor cloass. This leads to class not found errors for the Maven build.
+        options.add("-proc:none");
+
+        // Create the Java compiler.
+        return new RuntimeJavaCompiler(name, options, dependencyLoader);
     }
 
     /**

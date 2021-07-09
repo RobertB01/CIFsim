@@ -47,7 +47,7 @@ public abstract class TypeID {
      * @param kind Type kind of the type.
      */
     public TypeID(boolean needsCoordinator, TypeKind kind) {
-        this(needsCoordinator, kind, Collections.EMPTY_LIST);
+        this(needsCoordinator, kind, Collections.emptyList());
     }
 
     /**

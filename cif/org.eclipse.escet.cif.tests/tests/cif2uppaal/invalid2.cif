@@ -44,9 +44,7 @@ group g:
       initial x1 + x2 + x3 + x4 = 1;    // Too complex init pred in location.
   end
 
-  enum enm = lit1, lit2;                // Enumeration.
   cont c der 1.0;                       // Continuous variable, real expr/type.
-  alg bool x = true;                    // Algebraic variable.
   input bool i;                         // Input variable.
 
   func bool f(bool p):                  // User-defined function.
@@ -71,7 +69,4 @@ group g:
       edge do li[0] := 3;               // Partial asgn, proj, list type.
       edge do if true: x := 1 end;      // 'if' update.
   end
-
-  invariant evt needs a5.x > 0;         // State/event exclusion invariant.
-  invariant a5.x > 0 disables evt;      // State/event exclusion invariant.
 end

@@ -1,0 +1,12 @@
+CONFIGURATION Untitled1
+    VAR_GLOBAL // INPUTS
+        ivar_x AT %I*: DINT;
+    END_VAR
+    VAR_GLOBAL // TIMERS
+        timer0: TON;
+        timer1: TON;
+        curTimer: INT := 0;
+    END_VAR
+    TASK PlcTask(INTERVAL := t#10ms, PRIORITY := 20);
+    PROGRAM MAIN WITH PlcTask: MAIN;
+END_CONFIGURATION

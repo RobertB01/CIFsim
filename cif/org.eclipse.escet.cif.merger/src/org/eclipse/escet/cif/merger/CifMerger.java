@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.merger;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.eclipse.escet.cif.common.CifEvalUtils.objToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.controllabilityToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
@@ -37,6 +36,7 @@ import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -131,7 +131,7 @@ public class CifMerger {
         Specification merged = (Specification)merge((ComplexComponent)spec1, (ComplexComponent)spec2);
 
         // Reroute references for merged declarations.
-        RefReplace replacer = new RefReplace(refExprReplacements, refTypeReplacements, EMPTY_MAP);
+        RefReplace replacer = new RefReplace(refExprReplacements, refTypeReplacements, Collections.emptyMap());
         replacer.transform(merged);
 
         // Return the merged specification.

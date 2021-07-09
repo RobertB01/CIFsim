@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.cif2supremica;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.cif.common.CifAddressableUtils.collectAddrVars;
 import static org.eclipse.escet.cif.common.CifEvalUtils.evalPreds;
 import static org.eclipse.escet.cif.common.CifScopeUtils.getSymbolNamesForScope;
@@ -40,6 +39,7 @@ import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.str;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +54,7 @@ import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimLocRefExprs;
 import org.eclipse.escet.cif.cif2cif.ElimMonitors;
 import org.eclipse.escet.cif.cif2cif.ElimSelf;
+import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTypeDecls;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
@@ -138,8 +139,8 @@ public class CifToSupremica {
         new CifToSupremicaPreChecker().check(spec);
         preprocess(spec, elimEnums);
 
-        // Modify the CIF specification for invariants.
-        modifyInvariants(spec);
+        // Modify the CIF specification for state invariants.
+        modifyStateInvariants(spec);
 
         // Modify the CIF specification to ensure proper jumping behavior.
         modifyJumping(spec);
@@ -202,6 +203,10 @@ public class CifToSupremica {
         // have them.
         new ElimComponentDefInst().transform(spec);
 
+        // Eliminate state/event exclusion requirements, as Supremica doesn't
+        // have them.
+        new ElimStateEvtExclInvs().transform(spec);
+
         // Add default initial values, to ease transformation to Supremica.
         new AddDefaultInitialValues().transform(spec);
 
@@ -214,9 +219,9 @@ public class CifToSupremica {
         // directly.
         new ElimAlgVariables().transform(spec);
 
-        // Eliminate location references in expressions, as Supremica does not
-        // current support this. The 'aut.curr' variable may be introduced in
-        // future versions, but doesn't currently work.
+        // Eliminate location references in expressions, as the transformation
+        // does not currently support this. Locations references may be expressed
+        // as 'aut == loc' in Supremica version 2.5.
         new ElimLocRefExprs().transform(spec);
 
         // Eliminate type declarations, as Supremica does not have a compatible
@@ -917,8 +922,8 @@ public class CifToSupremica {
 
     /**
      * Collects state invariants, recursively. Only invariants in components are collected, as it is a precondition of
-     * the transformation that locations don't have any invariants. Also, only state invariants are collected, as it is
-     * a precondition that no other invariants are present.
+     * the transformation that locations don't have any invariants. Also, only state invariants are collected, as
+     * state/event exclusion invariants have been eliminated.
      *
      * @param comp The CIF component in which to recursively look for state invariants.
      * @param invs The state invariants collected so far. Is modified in-place.
@@ -961,8 +966,8 @@ public class CifToSupremica {
 
     /**
      * Modifies the CIF specification so that subsequent conversions will correctly handle state invariants. Assumes
-     * that all invariants are to be interpreted as requirements, as guaranteed by the precondition checker. Also
-     * assumes that all invariants are state invariants, as guaranteed by the precondition checker.
+     * that all state invariants are to be interpreted as requirements, as guaranteed by the precondition checker. Also
+     * assumes that all invariants are state invariants, as state/event exclusion invariants have been eliminated.
      *
      * <p>
      * A new uncontrollable event {@code u_inv_bad} is added to the specification. It is renamed if the name is not
@@ -974,7 +979,7 @@ public class CifToSupremica {
      *
      * @param spec The CIF specification. Is modified in-place.
      */
-    private static void modifyInvariants(Specification spec) {
+    private static void modifyStateInvariants(Specification spec) {
         // Collect state invariants, and skip if none found.
         List<Invariant> stateInvs = list();
         collectStateInvs(spec, stateInvs);
@@ -992,21 +997,21 @@ public class CifToSupremica {
         Set<String> names = getSymbolNamesForScope(spec, null);
         String evtName = "u_inv_bad";
         if (names.contains(evtName)) {
-            evtName = getUniqueName(evtName, names, EMPTY_SET);
+            evtName = getUniqueName(evtName, names, Collections.emptySet());
         }
         names.add(evtName);
 
         // Get name for 'inv_req' automaton.
         String reqName = "inv_req";
         if (names.contains(reqName)) {
-            reqName = getUniqueName(reqName, names, EMPTY_SET);
+            reqName = getUniqueName(reqName, names, Collections.emptySet());
         }
         names.add(reqName);
 
         // Get name for 'inv_plant' automaton.
         String plantName = "inv_plant";
         if (names.contains(plantName)) {
-            plantName = getUniqueName(plantName, names, EMPTY_SET);
+            plantName = getUniqueName(plantName, names, Collections.emptySet());
         }
         names.add(plantName);
 

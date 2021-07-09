@@ -28,19 +28,28 @@ See also the release notes for the specific tools for more information:
 - link:https://www.eclipse.org/escet/tooldef/#release-notes-chapter-index[ToolDef release notes]
 - link:https://www.eclipse.org/escet/setext/#setext-readme-release-notes[SeText release notes]
 
-=== Version 0.2
+
+=== Version 0.3
 
 TBD
+
+
+=== Version 0.2
 
 Improvements and fixes:
 
 - Various documentation updates, including simpler installation instructions (issues #30 and #31).
-- This release is based on Java 11.
-Java is now included again in the release and no longer needs to be installed separately (issues #29 and #30).
-- Linux command line scripts now work from any directory rather than only from the `bin` directory that contains them (issue #88).
+- Java 11 is now included in the release and Java thus no longer needs to be installed separately (issues #29 and #30).
+- The Eclipse ESCET IDE now includes the Eclipse Marketplace (issue #71).
+- Linux command line scripts now work properly from any directory rather than only from the `bin` directory that contains them (issue #88).
 - macOS releases are now packaged as `.dmg` files and with proper entitlements (issue #31).
-- This release is based on Eclipse 2021-03 (issue #28).
+- Eclipse ESCET downloads now contain a folder in the root of the archive, to properly support unpacking in e.g. a downloads directory (issue #87).
+- This release is based on Eclipse 2021-06 (issues #28 and #121).
+- Improved Eclipse ESCET download filenames (issues #87 and #92).
+- Improved Eclipse ESCET version numbers in documentation, plugin/feature versions, and Eclipse ESCET IDE about dialog (issues #92 and #103).
 - Non-release builds now indicate they are a development build in the Eclipse About dialog (issue #26).
+- Eclipse ESCET downloads for Linux previously included an 'executable' `about.html` file (issue #90).
+- Crash reports now indicate where and how to report issues (issue #33).
 
 
 === Version 0.1

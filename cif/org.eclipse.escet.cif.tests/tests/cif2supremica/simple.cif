@@ -38,3 +38,5 @@ supervisor s:
     marked;
     edge c;
 end
+
+requirement c needs p.v = 0;    // State/event exclusion invariant.

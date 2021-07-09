@@ -137,13 +137,14 @@ public class Cif2Mcrl2PreChecker {
 
         checkComponent(aut);
 
-        // Check type of the discrete variables.
+        // Check type of the discrete variables. Only support Boolean and (ranged) integer types. Enumeration types
+        // are supported as they are converted to integers during preprocessing.
         for (Declaration decl: aut.getDeclarations()) {
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
                 CifType tp = CifTypeUtils.normalizeType(dv.getType());
                 if (!(tp instanceof BoolType) && !(tp instanceof IntType)) {
-                    msg = fmt("Discrete variable \"%s\" does not have a boolean or integer type.",
+                    msg = fmt("Discrete variable \"%s\" does not have a boolean, integer, or enumeration type.",
                             CifTextUtils.getAbsName(dv));
                     problems.add(msg);
                     continue;
@@ -362,12 +363,9 @@ public class Cif2Mcrl2PreChecker {
 
         for (Declaration decl: decls) {
             if (decl instanceof AlgVariable) {
-                msg = fmt("Algebraic variable \"%s\" is unsupported in the transformation.",
-                        CifTextUtils.getAbsName(decl));
-                problems.add(msg);
-                continue;
+                // Eliminated during preprocessing.
             } else if (decl instanceof Constant) {
-                continue;
+                // Eliminated during preprocessing.
             } else if (decl instanceof Event) {
                 continue;
             } else if (decl instanceof ContVariable) {
@@ -381,9 +379,7 @@ public class Cif2Mcrl2PreChecker {
                 continue;
             } else if (decl instanceof DiscVariable) {
                 continue;
-            }
-
-            if (decl instanceof InputVariable) {
+            } else if (decl instanceof InputVariable) {
                 msg = fmt("Input variable \"%s\" is unsupported in the transformation.", CifTextUtils.getAbsName(decl));
                 problems.add(msg);
                 continue;

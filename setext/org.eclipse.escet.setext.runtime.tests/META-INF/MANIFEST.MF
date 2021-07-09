@@ -2,17 +2,17 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET SeText Runtime Tests (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.setext.runtime.tests;singleton:=true
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 0.3.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.2.0",
+Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.3.0",
  org.junit;bundle-version="4.12.0",
- org.eclipse.escet.common.app.framework;bundle-version="0.2.0",
+ org.eclipse.escet.common.app.framework;bundle-version="0.3.0",
  org.apache.commons.lang;bundle-version="2.6.0",
- org.eclipse.escet.common.typechecker;bundle-version="0.2.0",
+ org.eclipse.escet.common.typechecker;bundle-version="0.3.0",
  org.eclipse.jface.text;bundle-version="3.16.100",
- org.eclipse.escet.setext.runtime;bundle-version="0.2.0",
- org.eclipse.escet.common.position.metamodel;bundle-version="0.2.0",
+ org.eclipse.escet.setext.runtime;bundle-version="0.3.0",
+ org.eclipse.escet.common.position.metamodel;bundle-version="0.3.0",
  org.apache.commons.io;bundle-version="2.6.0"
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.setext.runtime.tests

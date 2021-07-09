@@ -14,11 +14,11 @@
 plant p:
   uncontrollable u;
 
-  enum enm = lit1, lit2;                    // Enumeration.
+  enum enm = lit1, lit2;
 
   disc bool b;
   disc int i;
-  disc enm e = lit1;                        // Enum type.
+  disc enm e = lit1;
   disc real r = 1.2;                        // Real type/expr.
   disc list bool lb = [true];               // List type/expr.
   disc set bool sb = {true};                // Set type/expr.
@@ -59,7 +59,7 @@ plant p:
     edge u do str := "a";                   // String type/expr.
     edge u do dbb := {true:true};           // Dict type/expr.
     edge u do fbb := f;                     // Func type/expr.
-    edge u do e := lit2;                    // Enum type.
+    edge u do e := lit2;
 end
 
 func bool f(bool p):                        // User defined function.

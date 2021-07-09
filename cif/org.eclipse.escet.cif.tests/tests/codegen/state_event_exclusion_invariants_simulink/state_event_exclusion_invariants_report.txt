@@ -1,0 +1,20 @@
+Input/output report of the state_event_exclusion_invariants.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+No variables are available here.
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+x 1
+
+Outputs
+-------
+No variables are available here.

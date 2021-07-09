@@ -330,7 +330,7 @@ public class BuiltInGenericTools {
         OutputStream outStream = null;
         if (ioErr == null) {
             if (stdout.equals("")) {
-                outStream = new NullOutputStream();
+                outStream = NullOutputStream.NULL_OUTPUT_STREAM;
             } else if (stdout.equals("-")) {
                 outStream = tooldefStreams.out.asOutputStream();
             } else {
@@ -353,7 +353,7 @@ public class BuiltInGenericTools {
             if (errToOut) {
                 errStream = outStream;
             } else if (stderr.equals("")) {
-                errStream = new NullOutputStream();
+                errStream = NullOutputStream.NULL_OUTPUT_STREAM;
             } else if (stderr.equals("-")) {
                 errStream = tooldefStreams.err.asOutputStream();
             } else {

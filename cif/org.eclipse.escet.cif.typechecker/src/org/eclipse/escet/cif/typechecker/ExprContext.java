@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.cif.typechecker;
 
-import static java.util.Collections.EMPTY_SET;
 import static org.eclipse.escet.common.java.Sets.copy;
 
 import java.util.Collections;
@@ -24,7 +23,7 @@ import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 /** Expression type checking context. */
 public class ExprContext {
     /** Default (empty) expression context. */
-    public static final ExprContext DEFAULT_CTXT = new ExprContext(EMPTY_SET, null);
+    public static final ExprContext DEFAULT_CTXT = new ExprContext(Collections.emptySet(), null);
 
     /** The exceptional context conditions. Is immutable. */
     public final Set<Condition> conditions;

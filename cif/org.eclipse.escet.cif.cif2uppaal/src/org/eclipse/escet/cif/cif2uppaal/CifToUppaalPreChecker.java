@@ -32,22 +32,18 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
-import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
@@ -73,7 +69,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.DictType;
 import org.eclipse.escet.cif.metamodel.cif.types.DistType;
-import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.cif.types.FuncType;
 import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.cif.metamodel.cif.types.ListType;
@@ -131,31 +126,6 @@ public class CifToUppaalPreChecker extends CifWalker {
         if (autCount == 0) {
             String msg = "Specifications without automata are currently not supported.";
             problems.add(msg);
-        }
-    }
-
-    @Override
-    protected void postprocessInvariant(Invariant inv) {
-        // Only state invariants.
-        switch (inv.getInvKind()) {
-            case EVENT_DISABLES:
-            case EVENT_NEEDS: {
-                EObject parent = inv.eContainer();
-                String parentTxt;
-                if (parent instanceof Location) {
-                    parentTxt = CifTextUtils.getLocationText1((Location)parent);
-                } else {
-                    parentTxt = CifTextUtils.getComponentText1((ComplexComponent)parent);
-                }
-
-                String msg = fmt("Unsupported %s: state/event exclusion invariants are currently not supported.",
-                        parentTxt);
-                problems.add(msg);
-                break;
-            }
-
-            case STATE:
-                break;
         }
     }
 
@@ -242,25 +212,9 @@ public class CifToUppaalPreChecker extends CifWalker {
     }
 
     @Override
-    protected void preprocessEnumDecl(EnumDecl enumDecl) {
-        // Enumerations not supported.
-        String msg = fmt("Unsupported declaration \"%s\": enumerations are currently not supported.",
-                getAbsName(enumDecl));
-        problems.add(msg);
-    }
-
-    @Override
     protected void preprocessContVariable(ContVariable var) {
         // Continuous variables not supported.
         String msg = fmt("Unsupported declaration \"%s\": continuous variables are currently not supported.",
-                getAbsName(var));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessAlgVariable(AlgVariable var) {
-        // Algebraic variables not supported.
-        String msg = fmt("Unsupported declaration \"%s\": algebraic variables are currently not supported.",
                 getAbsName(var));
         problems.add(msg);
     }
@@ -360,12 +314,6 @@ public class CifToUppaalPreChecker extends CifWalker {
 
         String msg = fmt("Unsupported %s: edges with conditional updates ('if' updates) are currently not supported.",
                 getLocationText1((Location)loc));
-        problems.add(msg);
-    }
-
-    @Override
-    protected void preprocessEnumType(EnumType type) {
-        String msg = fmt("Unsupported type \"%s\": enumeration types are currently not supported.", typeToStr(type));
         problems.add(msg);
     }
 

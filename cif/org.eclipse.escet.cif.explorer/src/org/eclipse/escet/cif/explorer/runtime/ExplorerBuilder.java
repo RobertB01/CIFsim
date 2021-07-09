@@ -427,7 +427,7 @@ public class ExplorerBuilder {
             Map<Location, CollectedInvariants> evtLocInvs;
             evtLocInvs = stateEvtExclInvs.get(event);
             if (evtLocInvs == null) {
-                evtLocInvs = Collections.EMPTY_MAP;
+                evtLocInvs = Collections.emptyMap();
             }
             EventUsage eu = new EventUsage(event, alphabetIndices, monitorAuts, sendIndices, recvIndices, evtLocInvs);
             eventUsages.add(eu);

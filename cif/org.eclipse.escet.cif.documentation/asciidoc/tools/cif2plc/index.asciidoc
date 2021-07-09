@@ -140,10 +140,7 @@ See the <<tools-cif2plc-progbody>> section for more information.
 
 * Initialization predicates outside locations are not supported, except if it can be determined statically that they are trivially `true`.
 
-* State invariants in components are not supported, except if it can be determined statically that they are trivially `true`.
-
-* State/event exclusion invariants (in components as well as locations) are not supported.
-To allow state/event exclusion invariants to be used in the input, manually eliminate them first using the <<tools-cif2cif-chapter-elim-state-event-excl-invs>> CIF to CIF transformation.
+* State invariants (in components as well as locations) are not supported, except if it can be determined statically that they are trivially `true`.
 
 * Discrete variables with multiple initial values (including `any`) are not supported.
 
@@ -152,8 +149,6 @@ To allow state/event exclusion invariants to be used in the input, manually elim
 * Urgent locations are not supported.
 
 * Initialization predicates in locations that can not be statically evaluated are not supported.
-
-* State invariants in locations are not supported, except if it can be determined statically that they are trivially `true`.
 
 * Automata that do not have exactly one initial location are not supported.
 
@@ -209,6 +204,8 @@ indexterm:[CIF PLC code generator,preprocessing]
 The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
+
+* <<tools-cif2cif-chapter-elim-state-event-excl-invs>>
 
 * <<tools-cif2cif-chapter-simplify-values>> (if _Simplify values_ option is enabled)
 

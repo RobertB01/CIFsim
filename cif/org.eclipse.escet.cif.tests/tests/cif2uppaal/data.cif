@@ -16,12 +16,13 @@ automaton buf:
 
   disc int[0..10] v = 5;
   disc bool z = true;
+  alg int[1..1] w = 1;                      // Algebraic variable.
 
   location:                                 // Non-determinism for event 'c2'.
     initial;
 
-    edge c1 when v < 7 do v := v + 1;
-    edge c2 when v > 3 do v := v - 1;
+    edge c1 when v < 7 do v := v + w;
+    edge c2 when v > 3 do v := v - w;
     edge c2 do v := 10, z := false;         // Multiple assignments.
     edge c2 when v > 3, v < 7 do v := 10;   // Multiple guards.
 end
