@@ -254,7 +254,7 @@ public class FiniteResponseChecker {
             if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
                 out("%s is controllable unconnectable", controllableEventLoop.toString());
             } else {
-                warn("%s is not controllabe unconnectable", controllableEventLoop.toString());
+                out("%s is not controllabe unconnectable", controllableEventLoop.toString());
                 eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
             }
         }
