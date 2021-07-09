@@ -93,6 +93,7 @@ public class FiniteResponseChecker {
      * Discrete variables that are not controllable independent, i.e., their value can be updated by an edge labeled
      * with a controllable event.
      */
+    private VarInfo[] nonCtrlIndependentVarsInfos = null;
 
     /**
      * Mapping between events and their global guard as a MDD node. Is {@code null} until computed, see
@@ -225,7 +226,6 @@ public class FiniteResponseChecker {
 
         // Calculate the non controllable independent variables. As we later have to abstract from these in the
         // global guards. Variables are cached, only calculate when the controllable event set has changed.
-        VarInfo[] nonCtrlIndependentVarsInfos = null;
         if (controllableEventsChanged) {
             controllableEventsChanged = false;
 
