@@ -29,7 +29,9 @@ The following restrictions apply:
 
 * Component definitions and component instantiations are not supported.
 
-* Using (referring to) requirement automata or declarations from requirement automata from outside requirement automata.
+* Using (referring to) requirement automata or declarations from requirement automata from outside requirement automata is not supported.
+
+* Kindless, plant, or supervisor invariants in locations of a requirement automaton are not supported.
 
 Specifications where requirement automata or declarations declared in requirement automata are used (referred to) from outside requirement automata are not supported.
 By removing the requirement automata, those uses (references) become invalid, as the automata or declarations that are referenced no longer exist.

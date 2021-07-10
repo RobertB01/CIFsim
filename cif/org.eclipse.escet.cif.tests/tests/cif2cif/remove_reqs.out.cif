@@ -43,6 +43,12 @@ group g:
   invariant 15 = 15;
   plant invariant 16 = 16;
   supervisor invariant 18 = 18;
+  invariant 51 = 51;
+  plant invariant 52 = 52;
+  supervisor invariant 54 = 54;
+  invariant 71 = 71;
+  plant invariant 72 = 72;
+  supervisor invariant 74 = 74;
 end
 invariant 1 = 1;
 plant invariant 2 = 2;
