@@ -1,0 +1,23 @@
+WARNING: Event "e02" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "e20" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "e21" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "e40" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "e03" is disabled by the supervisor.
+WARNING: Event "e04" is disabled by the supervisor.
+WARNING: Event "e07" is disabled by the supervisor.
+WARNING: Event "e09" is disabled by the supervisor.
+WARNING: Event "e10" is disabled by the supervisor.
+WARNING: Event "e13" is disabled by the supervisor.
+WARNING: Event "e15" is disabled by the supervisor.
+WARNING: Event "e16" is disabled by the supervisor.
+WARNING: Event "e17" is disabled by the supervisor.
+WARNING: Event "e23" is disabled by the supervisor.
+WARNING: Event "e26" is disabled by the supervisor.
+WARNING: Event "e28" is disabled by the supervisor.
+WARNING: Event "e29" is disabled by the supervisor.
+WARNING: Event "e32" is disabled by the supervisor.
+WARNING: Event "e35" is disabled by the supervisor.
+WARNING: Event "e36" is disabled by the supervisor.
+WARNING: Event "e37" is disabled by the supervisor.
+WARNING: Event "e38" is disabled by the supervisor.
+WARNING: Event "e43" is disabled by the supervisor.

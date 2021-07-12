@@ -2232,22 +2232,31 @@ public class CifToSynthesisConverter {
 
             // Create and add synthesis edges.
             synthAut.edges = listc(cifEdges.size());
+            synthAut.eventEdges = mapc(synthAut.alphabet.size());
             for (Edge cifEdge: cifEdges) {
                 // Check for termination.
                 if (synthAut.env.isTerminationRequested()) {
                     break;
                 }
 
-                // Create and add edge.
+                // Create edge.
                 SynthesisEdge synthEdge = new SynthesisEdge(synthAut);
                 synthEdge.edge = cifEdge;
-                synthAut.edges.add(synthEdge);
 
                 // Set event.
                 Assert.check(cifEdge.getEvents().size() == 1);
                 EdgeEvent edgeEvent = first(cifEdge.getEvents());
                 Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
                 synthEdge.event = event;
+
+                // Add edge.
+                synthAut.edges.add(synthEdge);
+                List<SynthesisEdge> synthEdges = synthAut.eventEdges.get(event);
+                if (synthEdges == null) {
+                    synthEdges = list();
+                    synthAut.eventEdges.put(event, synthEdges);
+                }
+                synthEdges.add(synthEdge);
 
                 // Convert and set guards.
                 BDD guard;
@@ -2732,7 +2741,7 @@ public class CifToSynthesisConverter {
      */
     private void addInputVariableEdges(SynthesisAutomaton synthAut) {
         // Initialization.
-        synthAut.inputVarEvents = list();
+        synthAut.inputVarEvents = set();
 
         // Add for each input variable.
         for (SynthesisVariable var: synthAut.variables) {

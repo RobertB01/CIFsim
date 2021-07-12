@@ -1,1 +1,2 @@
 WARNING: File "datasynth/plant_alphabet.cif": Semantic warning at line 27, column 16: The alphabet of automaton "p2" globally disables event "c2", as the event is not used on any of the edges of the automaton.
+WARNING: Event "c1" is disabled by the supervisor.

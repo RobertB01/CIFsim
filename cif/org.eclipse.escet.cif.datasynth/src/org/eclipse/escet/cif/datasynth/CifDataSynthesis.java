@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
@@ -29,6 +30,7 @@ import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -98,6 +100,14 @@ public class CifDataSynthesis {
                 return;
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
+
+            // Check edges.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            if (EventWarnOption.isEnabled()) {
+                checkInputEdges(aut);
+            }
 
             // Prepare for actual synthesis. Allow applying edges from here on.
             for (SynthesisEdge edge: aut.edges) {
@@ -192,6 +202,14 @@ public class CifDataSynthesis {
                 return;
             }
             determineOutputGuards(aut, dbgEnabled);
+
+            // Check edges.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            if (EventWarnOption.isEnabled()) {
+                checkOutputEdges(aut);
+            }
 
             // Separate debug output from what is to come.
             if (dbgEnabled) {
@@ -537,7 +555,7 @@ public class CifDataSynthesis {
                 return;
             }
             BDD plant = aut.stateEvtExclPlants.get(edge.event);
-            if (plant == null || plant.isOne()) {
+            if (plant == null || plant.isOne() || edge.guard.isZero()) {
                 continue;
             }
 
@@ -780,6 +798,104 @@ public class CifDataSynthesis {
             bdd.free();
         }
         aut.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Checks the system for problems with events that are never enabled in the input specification. Saves the disabled
+     * events.
+     *
+     * @param aut The automaton on which to perform synthesis.
+     */
+    private static void checkInputEdges(SynthesisAutomaton aut) {
+        aut.disabledEvents = setc(aut.alphabet.size());
+
+        for (Event event: aut.alphabet) {
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            // Skip events for input variables as they have no edges.
+            if (aut.inputVarEvents.contains(event)) {
+                continue;
+            }
+
+            // Skip events that are in the alphabet, but never on an edge as these are globally disabled. Note, the type
+            // checker reports these already.
+            if (aut.eventEdges.get(event) == null) {
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the combined state/event exclusion plants are 'false'.
+            if (aut.stateEvtExclPlants.get(event).isZero()) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account only state/event "
+                        + "exclusion plants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the combined state/event exclusion requirements are 'false'.
+            if (event.getControllable() && aut.stateEvtExclsReqInvs.get(event).isZero()) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account only state/event "
+                        + "exclusion requirements.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the guards on edges of automata are all 'false'. There might be multiple edges for an
+            // event.
+            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.origGuard.isZero()).count() == 0) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account only automaton "
+                        + "guards.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the guards on edges of automata combined with state/event exclusion invariants are all
+            // 'false'. There might be multiple edges for an event.
+            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
+                        + "and state/event exclusion invariants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
+            // requirement invariants are all 'false'. There might be multiple edges for an event.
+            boolean alwaysDisabled = true;
+            for (SynthesisEdge edge: aut.eventEdges.get(event)) {
+                BDD enabledExpression = edge.guard.and(aut.reqInv);
+                if (!enabledExpression.isZero()) {
+                    enabledExpression.free();
+                    alwaysDisabled = false;
+                    break;
+                }
+            }
+
+            if (alwaysDisabled) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
+                        + "and invariants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+        }
+    }
+
+    /**
+     * Checks the system for problems with events that are disabled by the supervisor.
+     *
+     * <p>
+     * Does not report problems for events that were already disabled before synthesis.
+     * </p>
+     *
+     * @param aut The automaton on which synthesis was performed.
+     */
+    private static void checkOutputEdges(SynthesisAutomaton aut) {
+        for (Event controllable: aut.controllables) {
+            if (aut.outputGuards.get(controllable).isZero() && !aut.disabledEvents.contains(controllable)) {
+                warn("Event \"%s\" is disabled by the supervisor.", CifTextUtils.getAbsName(controllable));
+            }
+        }
     }
 
     /**
