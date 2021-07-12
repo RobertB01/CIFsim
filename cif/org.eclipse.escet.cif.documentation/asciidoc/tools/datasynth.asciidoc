@@ -734,6 +734,7 @@ Specifying a statistics kind twice leads to a warning being printed to the conso
 
 indexterm:[data-based supervisory controller synthesis,checks]
 
+[[tools-detasynth-early-prob-detect]]
 === Early problem detection
 
 The synthesis algorithm checks the specification for common issues, for early detection of problems that will lead to an empty supervisor.
@@ -1027,6 +1028,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Statistics
 | <<tools-datasynth-stats>>
 | Statistics output on console
+| Disable for better performance
+
+| Warning
+| Event warning
+| <<tools-detasynth-early-prob-detect>>
+| Warning for never enabled events
 | Disable for better performance
 |===
 

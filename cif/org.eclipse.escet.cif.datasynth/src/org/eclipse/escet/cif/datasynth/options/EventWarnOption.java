@@ -44,7 +44,8 @@ public class EventWarnOption extends BooleanOption {
                 true,
 
                 // optDialogDescr
-                "Warn for events that are never enabled, or don't warn.",
+                "Whether to warn for events that are never enabled in the input specification or always disabled by "
+                        + "the synthesized supervisor.",
 
                 // optDialogCheckboxText
                 "Warn for never enabled events");

@@ -819,7 +819,7 @@ public class CifDataSynthesis {
                 continue;
             }
 
-            // Skip events that in the alphabet, but never on an edge as these are globally disabled. Note, the type
+            // Skip events that are in the alphabet, but never on an edge as these are globally disabled. Note, the type
             // checker reports these already.
             if (aut.eventEdges.get(event) == null) {
                 aut.disabledEvents.add(event);
@@ -868,6 +868,7 @@ public class CifDataSynthesis {
                 if (!enabledExpression.isZero()) {
                     enabledExpression.free();
                     alwaysDisabled = false;
+                    break;
                 }
             }
 
@@ -875,6 +876,7 @@ public class CifDataSynthesis {
                 warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
                         + "and invariants.", CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
+                continue;
             }
         }
     }
