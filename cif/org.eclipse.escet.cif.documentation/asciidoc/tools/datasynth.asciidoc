@@ -1030,7 +1030,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Statistics output on console
 | Disable for better performance
 
-| Warning
+| Warnings
 | Event warning
 | <<tools-detasynth-early-prob-detect>>
 | Warning for never enabled events
