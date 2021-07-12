@@ -1,10 +1,9 @@
 Checking for finite response...
-Iteration 1.
-    The following events have initially been encountered in a controllable-event loop of automaton test:
-        * (test.c)
-    
-    (test.c) is controllable unconnectable
 
-    CONCLUSION:
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton test:
+        (test.c), which is controllable unconnectable.
+
+CONCLUSION:
     The specification has finite response.
 

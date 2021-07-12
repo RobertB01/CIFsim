@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectAutomata;
+import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEvents;
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
@@ -44,9 +45,6 @@ import java.util.Set;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
 import org.eclipse.escet.cif.controllercheck.options.PrintOutputOption;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Component;
-import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -156,6 +154,7 @@ public class FiniteResponseChecker {
         int iterationNumber = 1;
 
         do {
+            out();
             out("Iteration %d.", iterationNumber);
             iterationNumber++;
             oldSize = controllableEvents.size();
@@ -167,15 +166,17 @@ public class FiniteResponseChecker {
             dout();
         } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
 
+        // Print the result. There is finite response whenever there are no more controllable events left. Otherwise,
+        // finite response cannot be guaranteed.
+        out();
+        out("CONCLUSION:");
+        iout();
         if (!controllableEvents.isEmpty()) {
-            out();
-            iout();
-            out("CONCLUSION:");
             out("ERROR, the specification does NOT have finite response.");
             out();
-            out("At least one controllable event loop was found.");
+            out("At least one controllable-event loop was found.");
             if (PrintOutputOption.print()) {
-                out("The following events might still occur in a controllable loop:");
+                out("The following events might still occur in a controllable-event loop:");
                 iout();
                 for (Event event: controllableEvents) {
                     out("- %s", getAbsName(event));
@@ -184,9 +185,6 @@ public class FiniteResponseChecker {
             }
             dout();
         } else {
-            out();
-            iout();
-            out("CONCLUSION:");
             out("The specification has finite response.");
             dout();
         }
@@ -209,23 +207,12 @@ public class FiniteResponseChecker {
         }
 
         // Find the controllable-event loops in the automata. Here we ignore guards and updates, only use location,
-        // edges, and events..
+        // edges, and events.
         Set<EventLoop> controllableEventLoops = searchEventLoops(aut, controllableEvents);
 
-        // Print the results.
-        if (!controllableEventLoops.isEmpty()) {
-            out("The following events have initially been encountered in a controllable-event loop "
-                    + "of automaton %s:", getAbsName(aut));
-            iout();
-            for (EventLoop eventLoop: controllableEventLoops) {
-                out("* " + eventLoop.toString());
-            }
-            dout();
-            out();
-        }
-
-        // Calculate the non controllable independent variables. As we later have to abstract from these in the
-        // global guards. Variables are cached, only calculate when the controllable event set has changed.
+        // Calculate the non-controllable independent variables. That are the variables that can be updated by
+        // controllable events. We later have to abstract from these in the global guards. Variables are cached, only
+        // calculate when the controllable event set has changed.
         if (controllableEventsChanged) {
             controllableEventsChanged = false;
 
@@ -248,29 +235,38 @@ public class FiniteResponseChecker {
         // Collect which events occur in potential controllable-event loops.
         Set<Event> eventsInPotentialControllableLoops = set();
 
-        // Check that the loop is controllable unconnectable. If not, it is a potential controllable-event loop in the
-        // system.
+        // Print output if controllable-event loops were found.
+        if (!controllableEventLoops.isEmpty()) {
+            out("The following events have been encountered in a controllable-event loop of automaton %s:",
+                    getAbsName(aut));
+            iout();
+        }
+
+        // Check whether the loop is controllable unconnectable. If it is not, it is a potential controllable-event loop
+        // in the system. Print the result.
         for (EventLoop controllableEventLoop: controllableEventLoops) {
             if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
-                out("%s is controllable unconnectable", controllableEventLoop.toString());
+                out("%s, which is controllable unconnectable.", controllableEventLoop.toString());
             } else {
-                out("%s is not controllabe unconnectable", controllableEventLoop.toString());
+                out("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
                 eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
             }
         }
+        dout();
 
         // Determine which events are in the alphabet of the automaton, but not in any of its potential
         // controllable-event loops.
         Set<Event> eventsInAlphabetNotInLoop = Sets.difference(getAlphabet(aut), eventsInPotentialControllableLoops);
 
-        // Remove the events that are in the alphabet of the automaton, but not in any of its potential
-        // controllable-event loops from the controllable event set.
+        // If there are controllable events that are in the alphabet of the automaton, but not in any of its potential
+        // controllable-event loops, these events cannot occur in any controllable-event loops of other automata. Remove
+        // these events from the controllable event set.
         controllableEventsChanged = controllableEvents.removeAll(eventsInAlphabetNotInLoop);
     }
 
     /**
      * Checks whether the controllable-event loop is controllable unconnectable. Controllable unconnectable is checked
-     * after abstracting from the events that are might change their value due to other controllable events.
+     * after abstracting from the events that might change their value due to the updates of other controllable events.
      *
      * @param controllableEventLoop The loop to check to be controllable unconnectable.
      * @param nonCtrlIndependentVarsInfos The variables that are updated by controllable events, not controllable
@@ -390,27 +386,5 @@ public class FiniteResponseChecker {
             eventNode.put(event, nodeGuard);
         }
         return eventNode;
-    }
-
-    /**
-     * Collect the controllable events declared in the given component (recursively).
-     *
-     * @param comp The component.
-     * @param ctrlEvents The controllable events collected so far. Is modified in-place.
-     */
-    public static void collectControllableEvents(ComplexComponent comp, Set<Event> ctrlEvents) {
-        // Collect locally.
-        for (Declaration decl: comp.getDeclarations()) {
-            if (decl instanceof Event && ((Event)decl).getControllable()) {
-                ctrlEvents.add((Event)decl);
-            }
-        }
-
-        // Collect recursively.
-        if (comp instanceof Group) {
-            for (Component child: ((Group)comp).getComponents()) {
-                collectControllableEvents((ComplexComponent)child, ctrlEvents);
-            }
-        }
     }
 }
