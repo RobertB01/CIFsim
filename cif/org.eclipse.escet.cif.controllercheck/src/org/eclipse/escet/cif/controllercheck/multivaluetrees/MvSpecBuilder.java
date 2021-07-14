@@ -24,7 +24,7 @@ import org.eclipse.escet.common.multivaluetrees.Tree;
  * </p>
  */
 public class MvSpecBuilder {
-    /** Storage of the relation between nodes in the tree and Cif variables. */
+    /** Storage of the relation between nodes in the tree and CIF variables. */
     public final CifVarInfoBuilder cifVarInfoBuilder;
 
     /** Storage and manipulation of multi-value trees. */
@@ -42,7 +42,7 @@ public class MvSpecBuilder {
     /**
      * Constructor of the {@link MvSpecBuilder} class.
      *
-     * @param cifVarInfoBuilder Storage of the relation between nodes in the tree and Cif variables.
+     * @param cifVarInfoBuilder Storage of the relation between nodes in the tree and CIF variables.
      * @param readIndex Variable sub-index for the current version of a variable.
      * @param writeIndex Variable sub-index for the next version of a variable.
      */

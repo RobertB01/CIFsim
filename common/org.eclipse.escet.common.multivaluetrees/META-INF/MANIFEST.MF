@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Multivaluetrees (Incubation)
+Bundle-Name: ESCET Common Multivalue Trees (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.common.multivaluetrees;singleton:=true
 Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11

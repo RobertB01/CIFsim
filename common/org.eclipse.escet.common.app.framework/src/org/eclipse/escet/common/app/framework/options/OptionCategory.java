@@ -53,10 +53,10 @@ public class OptionCategory {
     /**
      * Constructor for the {@link OptionCategory} class.
      *
-     * @param name The name of the option category.
+     * @param name The name of the option category. Ideally a single word for sub-categories.
      * @param description The description of the option category.
-     * @param categories The options that are part of this option category, not including any options from
-     *     sub-categories.
+     * @param categories The sub-categories that are part of this option category, not including any sub-categories of
+     *     the sub-categories.
      * @param options The options that are part of this option category, not including any options from sub-categories.
      */
     @SuppressWarnings("rawtypes")

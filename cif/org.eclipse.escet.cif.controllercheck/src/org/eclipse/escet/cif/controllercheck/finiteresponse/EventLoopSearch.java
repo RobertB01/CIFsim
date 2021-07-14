@@ -69,16 +69,18 @@ public class EventLoopSearch {
     }
 
     /**
-     * Searches all event loops reachable from a given location, and saves these in {@code EventLoops}. The events to
+     * Searches all event loops reachable from a given location, and saves these in {@code eventLoops}. The events to
      * search for in the loops can be specified. Warning: only the loops that can be reached by the specified events are
      * returned.
      *
      * @param rootLoc The root location for searching.
      * @param loopEvents The events that can form a loop (e.g., the controllable events).
-     * @param stackIndex Provides the index for a location on the stack.
-     * @param stack The stack on which the path from the root location to the current location is saved.
-     * @param eventLoops The event loops that have been found in the specified automaton, modified in place.
-     * @param visitedLocations The locations that have been visited at least once when searching for loops.
+     * @param stackIndex Provides the index for a location on the stack. Modified in place.
+     * @param stack The stack on which the path from the root location to the current location is saved. Modified in
+     *     place.
+     * @param eventLoops The event loops that have been found in the specified automaton. Modified in place.
+     * @param visitedLocations The locations that have been visited at least once when searching for loops. Modified in
+     *     place.
      */
     private static void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
             List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations)

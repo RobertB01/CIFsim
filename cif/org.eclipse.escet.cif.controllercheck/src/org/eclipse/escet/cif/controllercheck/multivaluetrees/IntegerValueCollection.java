@@ -22,14 +22,12 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
 
-/** Class holding a collection of integer result values and the set nodes that produce them. */
+/** Class holding a collection of integer result values and the set of nodes that produce them. */
 public class IntegerValueCollection {
     /** Values and their nodes. */
     public final Map<Integer, Node> valueNodes;
 
-    /**
-     * Constructor of the {@link IntegerValueCollection} class with default number of entries in the collection.
-     */
+    /** Constructor of the {@link IntegerValueCollection} class with default number of entries in the collection. */
     public IntegerValueCollection() {
         valueNodes = map();
     }
@@ -48,7 +46,7 @@ public class IntegerValueCollection {
      *
      * @param tree Nodes store.
      * @param value Result value associated with 'node'.
-     * @param node Node expression the conditions when the value is reached.
+     * @param node Node expressing the conditions when the value is reached.
      */
     public void addValue(Tree tree, Integer value, Node node) {
         Node n = valueNodes.get(value);

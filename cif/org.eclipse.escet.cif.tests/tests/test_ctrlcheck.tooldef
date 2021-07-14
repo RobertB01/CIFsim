@@ -1,3 +1,4 @@
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
@@ -39,6 +40,7 @@ for i in reverse(range(tests)):
         skipped = skipped + 1;
     end
 end
+
 // Test all tests.
 for test in tests:
     // Get test specific options.

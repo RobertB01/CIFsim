@@ -17,21 +17,21 @@ import org.eclipse.escet.common.app.framework.options.BooleanOption;
 import org.eclipse.escet.common.app.framework.options.Options;
 
 /** Print events in control loops as output option. */
-public class PrintOutputOption extends BooleanOption {
-    /** Constructor for the {@link PrintOutputOption} class. */
-    public PrintOutputOption() {
+public class PrintControlLoopsOutputOption extends BooleanOption {
+    /** Constructor for the {@link PrintControlLoopsOutputOption} class. */
+    public PrintControlLoopsOutputOption() {
         super(// name.
                 "Print control loops",
 
                 // description.
-                "Whether to print the events that appear in control loops in the console (BOOL=yes) or not (BOOL=no). "
+                "Whether to print the events that appear in control loops to the console (BOOL=yes) or not (BOOL=no). "
                         + "[DEFAULT=yes]",
 
                 // cmdShort.
                 null,
 
                 // cmdLong.
-                "printEvents",
+                "print-events",
 
                 // cmdValue.
                 "BOOL",
@@ -54,7 +54,7 @@ public class PrintOutputOption extends BooleanOption {
      *
      * @return {@code true} if output printing is requested, {@code false} otherwise.
      */
-    public static boolean print() {
-        return Options.get(PrintOutputOption.class);
+    public static boolean isPrintControlLoopsEnabled() {
+        return Options.get(PrintControlLoopsOutputOption.class);
     }
 }

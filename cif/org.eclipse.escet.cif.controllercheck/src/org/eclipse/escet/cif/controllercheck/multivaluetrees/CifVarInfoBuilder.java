@@ -25,12 +25,12 @@ import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.multivaluetrees.VarInfoBuilder;
 
-/** {@link VarInfoBuilder} for boolean and ranged integer discrete and input Cif variables. */
+/** {@link VarInfoBuilder} for boolean and ranged integer discrete and input CIF variables. */
 public class CifVarInfoBuilder extends VarInfoBuilder<Declaration> {
     /**
      * Constructor of the {@link CifVarInfoBuilder} class.
      *
-     * @param numSubIndices Number of uses for a single Cif variable.
+     * @param numSubIndices Number of uses for a single CIF variable.
      * @see VarInfoBuilder
      */
     public CifVarInfoBuilder(int numSubIndices) {

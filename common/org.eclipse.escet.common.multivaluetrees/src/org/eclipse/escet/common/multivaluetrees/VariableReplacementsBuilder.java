@@ -18,7 +18,7 @@ import java.util.TreeSet;
 import org.eclipse.escet.common.java.Assert;
 
 /**
- * Class for constructing an array of {@link VariableReplacement}, for use in {#link Tree#adjacentReplacements}.
+ * Class for constructing an array of {@link VariableReplacement}, for use in {@link Tree#adjacentReplacements}.
  *
  * @param <V> Variable type used by the {@link VarInfo} builder.
  */

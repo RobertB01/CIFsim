@@ -79,7 +79,7 @@ public class ConvertExpression {
      * </p>
      *
      * @param var Variable to convert.
-     * @return Collection of values and the associated node for the variable.
+     * @return Collection of values and the associated nodes for the variable.
      */
     private IntegerValueCollection getVariable(Declaration var) {
         IntegerValueCollection collection = variableValues.get(var);
@@ -180,8 +180,9 @@ public class ConvertExpression {
                 case PLUS:
                     return subColl;
 
-// Cases that should never happen.
-//                case SAMPLE:
+                // Cases that should never happen.
+                // case SAMPLE:
+
                 default:
                     throw new AssertionError(fmt("Unexpected unary operator '%s'.", unExpr.getOperator()));
             }
@@ -272,10 +273,11 @@ public class ConvertExpression {
                 case MULTIPLICATION:
                     return performIntOp(leftColl, rightColl, multiplicationOp);
 
-// Cases that should never happen.
-//                case SUBSET:
-//                case DIVISION:
-//                case ELEMENT_OF:
+                // Cases that should never happen.
+                // case SUBSET:
+                // case DIVISION:
+                // case ELEMENT_OF:
+
                 default:
                     throw new AssertionError(fmt("Unexpected binary operator '%s'.", binExpr.getOperator()));
             }
@@ -555,7 +557,7 @@ public class ConvertExpression {
      *
      * <p>
      * Note that illegal values from the collection are simply ignored, however this also happens while converting the
-     * expression (eg division by zero). If all is well, the synthesis algorithm should sweep this part of the state
+     * expression (e.g. division by zero). If all is well, the synthesis algorithm should sweep this part of the state
      * space into the bad state.
      * </p>
      *
@@ -585,7 +587,7 @@ public class ConvertExpression {
      *
      * @param destVar Variable to assign to.
      * @param rhs Value to write.
-     * @return multi-value tree expressing the assignment.
+     * @return Multi-value tree expressing the assignment.
      */
     public Node convertAssignment(Declaration destVar, Expression rhs) {
         IntegerValueCollection collection = convert(rhs);
@@ -597,7 +599,7 @@ public class ConvertExpression {
      *
      * @param destVar Variable to assign to.
      * @param rhs Value to write.
-     * @return multi-value tree expressing the assignment.
+     * @return Multi-value tree expressing the assignment.
      */
     public Node convertToEquality(Declaration destVar, Expression rhs) {
         IntegerValueCollection collection = convert(rhs);

@@ -56,11 +56,11 @@ public class VariableReplacement implements Comparable<VariableReplacement> {
     }
 
     /**
-     * If the old variable at the top relative to the new variable?
+     * Is the old variable at the top relative to the new variable?
      *
      * @return Whether the old variable is closer to the top of the tree.
      */
-    public boolean oldAtTop() {
+    public boolean isOldAtTop() {
         return topLevel == oldVar.level;
     }
 

@@ -23,9 +23,9 @@ import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.java.Sets.sortedstrings;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +74,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.StringType;
 import org.eclipse.escet.cif.metamodel.cif.types.TupleType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
-import org.eclipse.escet.common.java.Strings;
 
 /** Pre-condition checker for the controller properties checker. */
 public class ControllerCheckPreChecker extends CifWalker {
@@ -93,12 +92,8 @@ public class ControllerCheckPreChecker extends CifWalker {
 
         // If we have any problems, the specification is unsupported.
         if (!problems.isEmpty()) {
-            List<String> foundProblems = listc(problems.size());
-            foundProblems.addAll(problems);
-            Collections.sort(foundProblems, Strings.SORTER);
-
             String msg = "CIF controller properties check application failed due to unsatisfied preconditions:\n - "
-                    + StringUtils.join(foundProblems, "\n - ");
+                    + StringUtils.join(sortedstrings(problems), "\n - ");
             throw new UnsupportedException(msg);
         }
     }
@@ -172,6 +167,7 @@ public class ControllerCheckPreChecker extends CifWalker {
     }
 
     // Declaration checks.
+
     @Override
     protected void preprocessEvent(Event event) {
         // Event must be controllable or uncontrollable.
@@ -218,6 +214,7 @@ public class ControllerCheckPreChecker extends CifWalker {
     }
 
     // Type checks.
+
     @Override
     protected void preprocessDictType(DictType type) {
         String msg = fmt("Unsupported type \"%s\": dictionary types are currently not supported.", typeToStr(type));
@@ -279,6 +276,7 @@ public class ControllerCheckPreChecker extends CifWalker {
     }
 
     // Expression checks.
+
     @Override
     protected void preprocessBinaryExpression(BinaryExpression expr) {
         BinaryOperator op = expr.getOperator();

@@ -65,7 +65,7 @@ public class ControllerCheckDeterminismChecker {
         List<Declaration> variables = list();
         collectDiscAndInputVariables(spec, variables);
 
-        // Construct a MDD tree builder
+        // Construct a MDD tree builder.
         final int READINDEX = 0;
         final int WRITEINDEX = 1;
         CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(1);

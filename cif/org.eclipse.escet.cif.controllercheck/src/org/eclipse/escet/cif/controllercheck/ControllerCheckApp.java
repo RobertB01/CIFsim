@@ -31,7 +31,7 @@ import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
 import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecker;
-import org.eclipse.escet.cif.controllercheck.options.PrintOutputOption;
+import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -91,7 +91,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         }
 
         // Pre-processing.
-        // Cif automata structure normalization.
+        // CIF automata structure normalization.
         new RemoveIoDecls(true, true).transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimStateEvtExclInvs().transform(spec);
@@ -160,12 +160,11 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
 
         List<Option> checkOpts = list();
         checkOpts.add(Options.getInstance(InputFileOption.class));
-        checkOpts.add(Options.getInstance(PrintOutputOption.class));
-        OptionCategory synthCat;
-        synthCat = new OptionCategory("Controller properties checks", "Controller properties check options.", list(),
-                checkOpts);
+        checkOpts.add(Options.getInstance(PrintControlLoopsOutputOption.class));
+        OptionCategory checksCat;
+        checksCat = new OptionCategory("Checks", "Controller properties check options.", list(), checkOpts);
 
-        List<OptionCategory> cats = list(generalCat, synthCat);
+        List<OptionCategory> cats = list(generalCat, checksCat);
         OptionCategory options;
         options = new OptionCategory("CIF Controller properties check Options",
                 "All options for the CIF controller properties check tool.", cats, list());

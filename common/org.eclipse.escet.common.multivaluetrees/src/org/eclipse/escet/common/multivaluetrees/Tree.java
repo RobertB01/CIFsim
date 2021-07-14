@@ -30,8 +30,8 @@ import org.eclipse.escet.common.java.Assert;
  * Trees of multi-value nodes in increasing levels from the roots.
  *
  * <p>
- * A node is associated with a particular use of a variable, eg 'current value' or 'next value'. The tree code uses the
- * {@link VarInfo} class to link variables to nodes.
+ * A node is associated with a particular use of a variable, e.g. 'current value' or 'next value'. The tree code uses
+ * the {@link VarInfo} class to link variables to nodes.
  * </p>
  */
 public class Tree {
@@ -192,7 +192,7 @@ public class Tree {
     }
 
     /**
-     * Apply conjunction on each child in 'aChilds' and corresponding entry in `bChilds`.
+     * Apply conjunction on each child in 'aChilds' and corresponding entry in 'bChilds'.
      *
      * @param aChilds Child nodes of one side of the conjunction.
      * @param bChilds Child nodes of the other side of the conjunction.
@@ -221,7 +221,7 @@ public class Tree {
     }
 
     /**
-     * Apply conjunction on each child in 'aChilds' and `bNode`.
+     * Apply conjunction on each child in 'aChilds' and 'bNode'.
      *
      * @param aChilds Child nodes of one side of the conjunction.
      * @param bNode Other side of the conjunction for all 'aChilds'.
@@ -325,7 +325,7 @@ public class Tree {
     }
 
     /**
-     * Apply disjunction on each child in 'aChilds' and corresponding entry in `bChilds`.
+     * Apply disjunction on each child in 'aChilds' and corresponding entry in 'bChilds'.
      *
      * @param aChilds Child nodes of one side of the disjunction.
      * @param bChilds Child nodes of the other side of the disjunction.
@@ -354,7 +354,7 @@ public class Tree {
     }
 
     /**
-     * Apply disjunction on each child in 'aChilds' and `bNode`.
+     * Apply disjunction on each child in 'aChilds' and 'bNode'.
      *
      * @param aChilds Child nodes of one side of the disjunction.
      * @param bNode Other side of the disjunction for all 'aChilds'.
@@ -627,7 +627,7 @@ public class Tree {
 
         VariableReplacement vr = replacements[replaceIndex];
         if (level == vr.topLevel) {
-            if (vr.oldAtTop()) {
+            if (vr.isOldAtTop()) {
                 // Old variable here, new variable at the child if it exists.
                 Node[] childs = new Node[vr.oldVar.length];
                 for (int i = 0; i < vr.oldVar.length; i++) {
@@ -671,7 +671,7 @@ public class Tree {
 
         // level == replacements[replaceIndex].topLevel + 1 (topLevel apparently doesn't exist).
         Assert.check(level == vr.topLevel + 1);
-        if (vr.oldAtTop()) {
+        if (vr.isOldAtTop()) {
             // Only 'new' variable exists, relabel it as 'old'.
             Node[] childs = new Node[vr.oldVar.length];
             for (int i = 0; i < vr.oldVar.length; i++) {

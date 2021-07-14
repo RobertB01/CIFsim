@@ -33,7 +33,6 @@ import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.intersection;
 import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 import static org.eclipse.escet.common.java.Sets.set;
-import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.BitSet;
 import java.util.Collections;
@@ -44,7 +43,7 @@ import java.util.Set;
 
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.CifVarInfoBuilder;
 import org.eclipse.escet.cif.controllercheck.multivaluetrees.MvSpecBuilder;
-import org.eclipse.escet.cif.controllercheck.options.PrintOutputOption;
+import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -56,6 +55,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.Tree;
@@ -66,7 +66,7 @@ public class FiniteResponseChecker {
     /** Automata of the specification. */
     private List<Automaton> automata = list();
 
-    /** Discrete and input Variables of the specification. */
+    /** Discrete and input variables of the specification. */
     private List<Declaration> variables = list();
 
     /**
@@ -82,7 +82,7 @@ public class FiniteResponseChecker {
     private boolean controllableEventsChanged = true;
 
     /**
-     * Mapping between events and the variables updated by edges labeled with that event. IS {@code null} until
+     * Mapping between events and the variables updated by edges labeled with that event. Is {@code null} until
      * computed, see {@link #collectEventVarUpdate}.
      */
     private Map<Event, Set<Declaration>> eventVarUpdate;
@@ -175,7 +175,7 @@ public class FiniteResponseChecker {
             out("ERROR, the specification does NOT have finite response.");
             out();
             out("At least one controllable-event loop was found.");
-            if (PrintOutputOption.print()) {
+            if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
                 out("The following events might still occur in a controllable-event loop:");
                 iout();
                 for (Event event: controllableEvents) {
@@ -302,7 +302,7 @@ public class FiniteResponseChecker {
                             collectEventsAddressable(assignment.getAddressable(), getEvents(edge), eventVarUpdate);
                         } else {
                             // 'If' updates should have been eliminated.
-                            throw new AssertionError(fmt("Unexpected update encountered: '%s'.", update.toString()));
+                            Assert.fail("Unexpected update encountered: " + update.toString());
                         }
                     }
                 }
@@ -331,8 +331,8 @@ public class FiniteResponseChecker {
                 eventVarUpdate.put(evt, vars);
             }
         } else {
-            // Partial assignments and multi-assignments should be eliminated.
-            throw new AssertionError(fmt("Unexpected addressable encountered: '%s'.", addressable.toString()));
+            // Partial assignments and multi-assignments should have been eliminated.
+            Assert.fail("Unexpected addressable encountered: " + addressable.toString());
         }
     }
 
@@ -345,7 +345,7 @@ public class FiniteResponseChecker {
      * @param events The events for which to collect the global guards.
      * @return A mapping between events and their global guards as a MDD node.
      */
-    public Map<Event, Node> collectGlobalGuards(Set<Event> events) {
+    private Map<Event, Node> collectGlobalGuards(Set<Event> events) {
         // An event is enabled in the specification if all of the global guard expressions evaluate to 'true'.
         Map<Event, List<Expression>> eventGlobalGuards = map();
 

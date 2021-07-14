@@ -63,7 +63,7 @@ public class SynthesisEdge {
     /** Precomputed '{@link #guard} and {@link #update}'. Is {@code null} if not available. */
     public BDD updateGuard;
 
-    /** Precomputed '{@link #guard} and {@link #update} and {#link #errorNot}'. Is {@code null} if not available. */
+    /** Precomputed '{@link #guard} and {@link #update} and {@link #errorNot}'. Is {@code null} if not available. */
     public BDD updateGuardErrorNot;
 
     /**

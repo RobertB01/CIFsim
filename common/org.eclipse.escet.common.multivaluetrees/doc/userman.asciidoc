@@ -221,7 +221,7 @@ If you want the same variation near each other instead,
 `addVariablesGroupOnSubIndex(<list-variables>)` exists.
 
 Each call adds one or more `VarInfo` instances to the builder. A `VarInfo`
-instance is the equivalent of eg `i` and `i+` above.
+instance is the equivalent of e.g. `i` and `i+` above.
 The `VarInfoBuilder` instance also stores the relation between variables and
 their `VarInfo` instances. With a variable you can ask it for all related
 `VarInfo` instances (or just one instance), with a `VarInfo` instance you can
@@ -243,7 +243,7 @@ can create a new (updated) object and store that, similar to for example
 
 You can read the information inside a `Node`. The only somewhat useful operation
 that you can perform on `Node n` is
-`n.dumpGraphLines("n-descrption");` which dumps a human-readable representation
+`n.dumpGraphLines("a-description-of-n");` which dumps a human-readable representation
 of the relation expressed in the node. You may however also want to check out
 `t.dumpGraph(Node n)` which should provide better output.
 
@@ -288,7 +288,7 @@ is replaced by the equality over `newVar`, see also below.
 disjunction of its children.
 
 | `String t.dumpGraph(Node n)`
-| Output a human readable description of relation `n`
+| Output a human readable description of relation `n`.
 |===
 
 * The fool-proof way to build a relation from the ground up is to use `Node

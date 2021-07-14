@@ -65,7 +65,7 @@ The following restrictions apply:
 
 * Continuous variables are not supported.
 
-* State invariants are ignored.
+* State invariants are not supported, unless they are trivially `true`.
 
 * Functions are not supported.
 
@@ -79,12 +79,12 @@ However, it is allowed to use multiple assignments on an edge (such as ``do x :=
 
 * Only the following expressions are supported: boolean literal values (``true`` and ``false``), integer literal values, enumeration literal values, binary expressions (partially, see below), unary expressions (partially, see below), casts that don't change the type, `if` expressions, `switch` expressions, and references to constants, discrete variables, input variables, algebraic variables, and locations.
 
-* Only the following binary operators are supported: logical equivalence (`<=>`), logical implication (`=>`), logical conjunction (`and` on boolean operands), logical disjunction (`or` on boolean operands), addition (`+`) on integer operands, subtraction (`-`) on integer operands, multiplication (`*`) on integer operands, integer division (`div`), integer modulus (`mod`), equality (`=`) on integer operands, inequality (`!=`) on integer operands, less than (`<`) on integer operands, less than or equal to (`<=`) on integer operands, greater than (`>`) on integer operands, and greater than or equal to (`>=`) on integer operands.
+* Only the following binary operators are supported: logical equivalence (`+<=>+`), logical implication (`+=>+`), logical conjunction (`and` on boolean operands), logical disjunction (`or` on boolean operands), addition (`+`) on integer operands, subtraction (`-`) on integer operands, multiplication (`*`) on integer operands, integer division (`div`), integer modulus (`mod`), equality (`=`) on integer, integer or enumeration operands, inequality (`!=`) on boolean, integer or enumeration operands, less than (`<`) on integer operands, less than or equal to (`+<=+`) on integer operands, greater than (`>`) on integer operands, and greater than or equal to (`>=`) on integer operands.
 
 * Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on an integer operand, and plus (`+`) on an integer operand.
 
-* Automata with non-determinism for events are not supported. 
-That is, automata that have locations with multiple outgoing edges for the same event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
+* Automata with non-determinism for controllable events are not supported.
+That is, automata that have locations with multiple outgoing edges for the same controllable event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
 Note that this check may lead to false positives, as the check is an over-approximation and guard overlap may be detected for unreachable states.
 
 
@@ -126,7 +126,6 @@ indexterm:[controller property checker,finite response]
 A model has finite response if there do not exist event loops that consist of only controllable events.
 For example, the automaton in the example below has finite-response, because between event `c_on` and `c_off`, the location of `Sensor` has to change via an uncontrollable event.
 
-
 [source, cif]
 ----
 automaton Actuator:
@@ -153,7 +152,6 @@ end
 The model below does not have finite response.
 Whenever `StartButton` and `StopButton` are both equal to `true`, the motor keeps starting and stopping.
 
-
 [source, cif]
 ----
 input bool StartButton, StopButton;
@@ -179,9 +177,10 @@ Finite response for a model is determined as follows.
 . Find controllable-event loops in automata. 
 For this, guards and updates are omitted, also see <<tools-controllercheck-falsepositives,false positives>>.
 
-. Find variables that are never updated by controllable events, this includes by definition all input variables.
+. Find variables that are never updated by controllable events.
+This includes by definition all input variables.
 
-. For all events in a controllable-event loop, determine if the guards are mutually exclusive.
+. For all events in a controllable-event loop, determine whether the guards are mutually exclusive.
 For this, only the variables found in step 2 are considered.
 For the guards, all other edge guards and state/event exclusion conditions are included.
 
@@ -209,7 +208,6 @@ While determining loops in the automata, only explicit loops are considered.
 That is, the algorithm omits guards and updates of the variables.
 For that reason, in the example below, `c_on` and `c_off` are two independent loops (instead of `c_on, c_off` if the guards and update were included).
 To reduce the number of false positives, it is advised to used locations instead of variables whenever possible.
-
 
 [source, cif]
 ----

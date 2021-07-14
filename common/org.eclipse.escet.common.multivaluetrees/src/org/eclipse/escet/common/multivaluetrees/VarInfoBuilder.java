@@ -85,7 +85,7 @@ public abstract class VarInfoBuilder<V> {
      * @return The created {@link VarInfo} instance.
      * @note While allowed, it is not required to store the returned instance. The builder has facilities to query them
      *     afterwards.
-     * @throws AssertionError if the combination of variable and kind of use has already been created before in this
+     * @throws AssertionError If the combination of variable and kind of use has already been created before in this
      *     builder.
      */
     public VarInfo addVariable(V var, int subIndex) {
@@ -172,7 +172,7 @@ public abstract class VarInfoBuilder<V> {
      * @param var Variable to query.
      * @param subIdx Index of the kind of use of the variable.
      * @return The {@link VarInfo} entry related to that use of the variable.
-     * @throws AssertionError if the {@link VarInfo} entry does not exist.
+     * @throws AssertionError If the {@link VarInfo} entry does not exist.
      */
     public VarInfo getVarInfo(V var, int subIdx) {
         VarInfo[] varInfos = getVarInfos(var);
