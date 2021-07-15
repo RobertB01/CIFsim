@@ -113,6 +113,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -123,6 +124,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
@@ -2912,6 +2914,21 @@ public class CifToSynthesisConverter {
             int locIdx = aut.getLocations().indexOf(loc);
             Assert.check(locIdx >= 0);
             return var.domain.ithVar(locIdx);
+        } else if (pred instanceof ConstantExpression) {
+            // Boolean constant reference.
+            Constant constant = ((ConstantExpression)pred).getConstant();
+            Assert.check(normalizeType(constant.getType()) instanceof BoolType);
+
+            // Evaluate the constant's value.
+            Object valueObj;
+            try {
+                valueObj = CifEvalUtils.eval(constant.getValue(), initial);
+            } catch (CifEvalException ex) {
+                String msg = fmt("Failed to statically evaluate the value of constant \"%s\".", getAbsName(constant));
+                throw new InvalidInputException(msg, ex);
+            }
+
+            return (boolean)valueObj ? synthAut.factory.one() : synthAut.factory.zero();
         } else if (pred instanceof UnaryExpression) {
             // Inverse unary expression.
             UnaryExpression upred = (UnaryExpression)pred;
