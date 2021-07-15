@@ -189,6 +189,24 @@ include::app-framework/execution.asciidoc[]
 
 :leveloffset: -1
 
+// Multi-value Decision Diagrams
+
+include::multivalue/index.asciidoc[]
+
+:leveloffset: +1
+
+include::multivalue/goals.asciidoc[]
+
+include::multivalue/variables-and-relations.asciidoc[]
+
+include::multivalue/combining-relations.asciidoc[]
+
+include::multivalue/computing.asciidoc[]
+
+include::multivalue/practical-usage.asciidoc[]
+
+:leveloffset: -1
+
 // Rail diagram generator
 
 include::rail/index.asciidoc[]
