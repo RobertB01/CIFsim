@@ -15,19 +15,15 @@ include::_part_attributes.asciidoc[]
 [[multivalue-computing]]
 == Computing
 
-So far, relations just say when they hold or how input and output of functions
-relate. However, you can also use relations to
-compute new values by being creative with the variables.
+So far, relations just say when they hold or how input and output of functions relate.
+However, you can also use relations to compute new values by being creative with the variables.
 
-For example, say you want to flip an integer variable between `0` and `1` in an
-assignment (if it is `0` it becomes `1`, if it is `1` it becomes `0`).
+For example, say you want to flip an integer variable between `0` and `1` in an assignment (if it is `0` it becomes `1`, if it is `1` it becomes `0`).
 You would normally write `i := 1 - i` but how to express this assignment as a relation?
 
-The key point is to understand that the `i` value at the left-hand side is not the
-same as the `i` value at the right-hand side.
-The right-hand side value exists until performing the assignment, the value of
-the left-hand side exists only after the assignment. For clarity, the left-hand
-side `i` is written as `i+`, and we get `i+ := 1 - i`.
+The key point is to understand that the `i` value at the left-hand side is not the same as the `i` value at the right-hand side.
+The right-hand side value exists until performing the assignment, the value of the left-hand side exists only after the assignment.
+For clarity, the left-hand side `i` is written as `i+`, and we get `i+ := 1 - i`.
 Now this can be expressed as a function between variables `i+` and `i`:
 
 ----
@@ -35,39 +31,30 @@ A ::=    (i+ == 0 and i == 1)
       or (i+ == 1 and i == 0)
 ----
 
-You can read the first line of the `A` relation as '`when `i` equals `1`, `i+`
-must equal `0``'. With another relation that represents the value of all current
-variables like
+You can read the first line of the `A` relation as '`when `i` equals `1`, `i+` must equal `0`'.
+With another relation that represents the value of all current variables like
 
 ----
 C ::= i == 0 and j == 3
 ----
 
-you select the correct line in `A` with `A and C`, yielding relation `U` that
-says
+you select the correct line in `A` with `A and C`, yielding relation `U` that says
 
 ----
 U ::= i+ == 1 and i == 0 and j == 3
 ----
 
 Almost there, except `i+` must become `i` and the existing `i` should be removed.
-This is what variable replacement does. Apply `replace(i+, i)` on `U` and you
-get a new `D` relation
+This is what variable replacement does. Apply `replace(i+, i)` on `U` and you get a new `D` relation
 
 ----
 D ::= i == 1 and j == 3
 ----
 
-This relation is just like the `C` relation, it contains all variables with
-their existing values. In other words we computed `i := 1 - i` from state `C`,
-resulting in state `D`.
+This relation is just like the `C` relation, it contains all variables with their existing values.
+In other words we computed `i := 1 - i` from state `C`, resulting in state `D`.
 
-While this example is quite easy, there is no inherent upper limit to what you
-can consider to be an '`assignment`'. Basically anything that you can describe as
-a function between input and output works.
+While this example is quite easy, there is no inherent upper limit to what you can consider to be an '`assignment`'.
+Basically anything that you can describe as a function between input and output works.
 
-Thus if you construct a relation `E` that expresses the input - output relation
-of all edges of an automaton, and you have a relation `C` expressing the current
-state, then `C and E` followed by `replace` for all variables (assuming that `E`
-is complete for all variables), you get a new state `C'` containing the combined result
-of taking one of the edges.
+Thus if you construct a relation `E` that expresses the input - output relation of all edges of an automaton, and you have a relation `C` expressing the current state, then `C and E` followed by `replace` for all variables (assuming that `E` is complete for all variables), you get a new state `C'` containing the combined result of taking one of the edges.

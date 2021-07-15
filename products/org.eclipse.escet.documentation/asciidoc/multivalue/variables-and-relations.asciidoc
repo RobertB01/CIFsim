@@ -15,12 +15,9 @@ include::_part_attributes.asciidoc[]
 [[multivalue-variables-and-relations]]
 == Variables and relations
 
-The elementary relation in a decision diagram is equality between a variable and
-a value in its domain, for example `i == 5`.
+The elementary relation in a decision diagram is equality between a variable and a value in its domain, for example `i == 5`.
 
-Normally, there is more than one variable,
-and relations use combined equalities through conjunction (the `and` operator)
-and disjunction (the `or` operator).
+Normally, there is more than one variable, and relations use combined equalities through conjunction (the `and` operator) and disjunction (the `or` operator).
 
 Example:
 
@@ -29,9 +26,6 @@ X ::=    (i == 5 and j == 1)
       or (i == 2 and j == 1)
 ----
 
-The example shows a relation named `X` that holds when `j` is equal to `1`, and
-`i` must be either `2` or `5`.
+The example shows a relation named `X` that holds when `j` is equal to `1`, and `i` must be either `2` or `5`.
 
-The library itself provides constant relations `ONE` to express `true` (the relation
-that always holds), and `ZERO` to express `false` (the relation that never
-holds).
+The library itself provides constant relations `ONE` to express `true` (the relation that always holds), and `ZERO` to express `false` (the relation that never holds).

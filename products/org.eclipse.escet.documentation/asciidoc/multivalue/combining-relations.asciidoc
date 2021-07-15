@@ -15,8 +15,8 @@ include::_part_attributes.asciidoc[]
 [[multivalue-combining-relations]]
 == Combining relations
 
-You can have more than one relation at the same time and combine them. For
-example if you also have relations
+You can have more than one relation at the same time and combine them.
+For example if you also have relations
 
 ----
 X ::=    (i == 5 and j == 1)
@@ -31,16 +31,11 @@ then `Z ::= X and Y` becomes
 Z ::= i == 5 and j == 1 and k == 3
 ----
 
-The `i == 2` alternative of `X` does not occur in the new relation since `Y`
-does not hold for that value of `i`. Also note that all equalities are preserved
-from both relations, the `j == 1` equality and the `k == 3` equality are part of
-`Z` even though only one of the input relations stated them. The reason is that
-if an alternative in a relation does not say anything about a variable, it is
-assumed it may have any value (the not mentioned variable is independent).
+The `i == 2` alternative of `X` does not occur in the new relation since `Y` does not hold for that value of `i`.
+Also note that all equalities are preserved from both relations, the `j == 1` equality and the `k == 3` equality are part of `Z` even though only one of the input relations stated them.
+The reason is that if an alternative in a relation does not say anything about a variable, it is assumed it may have any value (the not mentioned variable is independent).
 
-
-This also works if both relations are a disjunction. For example `P ::= X and Q`
-with
+This also works if both relations are a disjunction. For example `P ::= X and Q` with
 
 ----
 X ::=    (i == 5 and j == 1)
@@ -60,24 +55,14 @@ P ::=    (i == 5 and j == 1 and k == 5)
       or (i == 2 and j == 1 and k == 4)
 ----
 
-All combined alternatives of `X` and `Q` that are not trivially false due to
-conflicting equalities become part of the result.
+All combined alternatives of `X` and `Q` that are not trivially false due to conflicting equalities become part of the result.
 
-From a logical point of view the above is simple Boolean algebra, but if you
-change your view on what `X` and `Q` express you can see the hidden power
-of decision diagrams.
+From a logical point of view the above is simple Boolean algebra, but if you change your view on what `X` and `Q` express you can see the hidden power of decision diagrams.
 
-Instead of _X holds when j is equal to 1 and i must be either 2 or
-5_, read `X` as a function from `i` to `j`, that is, _when i equals 2 then j
-equals 1 or when i equals 5 then j equals 1_.
-Similarly, relation `Q` can be read as a function from `i` and `j` to `k`, that
-is, _when i equals 5 then k becomes 5 or 3, if
-i equals 3  then k becomes 1, if i equals 2 and j equals 1 then
-k equals 4_.
+Instead of _X holds when j is equal to 1 and i must be either 2 or 5_, read `X` as a function from `i` to `j`, that is, _when i equals 2 then j equals 1 or when i equals 5 then j equals 1_.
+Similarly, relation `Q` can be read as a function from `i` and `j` to `k`, that is, _when i equals 5 then k becomes 5 or 3, if i equals 3  then k becomes 1, if i equals 2 and j equals 1 then k equals 4_.
 
-If you look at what `P` contains in the function view, you can see you get the
-conjunction of both functions. In one `X and Q` step you computed the combined
-function for all values of all variables at the same time!
+If you look at what `P` contains in the function view, you can see you get the conjunction of both functions.
+In one `X and Q` step you computed the combined function for all values of all variables at the same time!
 
-An example of this property is used below, computing the result of an
-assignment.
+An example of this property is used below, computing the result of an assignment.
