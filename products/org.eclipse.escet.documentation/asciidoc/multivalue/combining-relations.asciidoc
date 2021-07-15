@@ -13,7 +13,7 @@
 include::_part_attributes.asciidoc[]
 
 [[multivalue-combining-relations]]
-## Combining relations
+== Combining relations
 
 You can have more than one relation at the same time and combine them. For
 example if you also have relations

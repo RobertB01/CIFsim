@@ -13,7 +13,7 @@
 include::_part_attributes.asciidoc[]
 
 [[multivalue-computing]]
-## Computing
+== Computing
 
 So far, relations just say when they hold or how input and output of functions
 relate. However, you can also use relations to

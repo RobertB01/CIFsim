@@ -13,13 +13,13 @@
 include::_part_attributes.asciidoc[]
 
 [[multivalue-practical-usage]]
-## Practical usage
+== Practical usage
 
 After this short and possibly mind-blowing introduction on decision diagrams in
 particular in the multi-valued variation, below some practical information on
-using the `common.multivaluetrees` package.
+using the `common.multivaluetrees` library.
 
-### Variables
+=== Variables
 
 As you typically work with variables in several variations, like `i` and `i+`
 in the explanation above, this has to be defined first. The core functionality
@@ -53,7 +53,7 @@ their `VarInfo` instances. With a variable you can ask it for all related
 `VarInfo` instances (or just one instance), with a `VarInfo` instance you can
 ask for the associated variable.
 
-### Trees and relations
+=== Trees and relations
 
 The `VarInfo` instances from the builder are used to construct multi-value
 nodes, and eventually trees of such nodes. This is done in the
