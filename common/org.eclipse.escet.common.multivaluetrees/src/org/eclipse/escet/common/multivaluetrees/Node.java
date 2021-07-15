@@ -48,7 +48,7 @@ public class Node {
      * @param varInfo Variable represented by this node.
      * @param childs Child nodes.
      */
-    public Node(VarInfo varInfo, Node[] childs) {
+    Node(VarInfo varInfo, Node[] childs) {
         this.varInfo = varInfo;
         this.childs = childs;
 

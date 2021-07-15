@@ -1675,7 +1675,18 @@ public class CifTypeUtils {
     }
 
     /**
-     * Get the type of a variable declaration.
+     * Get the type of a variable-like declaration that holds value.
+     *
+     * <p>
+     * <ul>
+     * The following declarations are supported:
+     * <li>{@link AlgVariable}</li>
+     * <li>{@link Constant}</li>
+     * <li>{@link ContVariable}</li>
+     * <li>{@link DiscVariable}</li>
+     * <li>{@link InputVariable}</li>
+     * </ul>
+     * </p>
      *
      * @param decl Declaration to inspect.
      * @return The type of the variable.
@@ -1692,15 +1703,14 @@ public class CifTypeUtils {
         if (decl instanceof ContVariable) {
             return newRealType();
         }
-        if (decl instanceof InputVariable) {
-            InputVariable inputVar = (InputVariable)decl;
-            return inputVar.getType();
-        }
         if (decl instanceof DiscVariable) {
             DiscVariable discVar = (DiscVariable)decl;
             return discVar.getType();
         }
+        if (decl instanceof InputVariable) {
+            InputVariable inputVar = (InputVariable)decl;
+            return inputVar.getType();
+        }
         throw new RuntimeException("Unknown variable: " + decl);
     }
-
 }

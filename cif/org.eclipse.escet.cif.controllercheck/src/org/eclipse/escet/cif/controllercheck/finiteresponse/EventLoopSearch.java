@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -97,13 +98,8 @@ public class EventLoopSearch {
                 continue;
             }
 
-            Integer loopStartIndex;
-            if (edge.getTarget() == null) {
-                // selfloop.
-                loopStartIndex = stackIndex.get(rootLoc);
-            } else {
-                loopStartIndex = stackIndex.get(edge.getTarget());
-            }
+            Location edgeTargetLoc = CifEdgeUtils.getTarget(edge);
+            Integer loopStartIndex = stackIndex.get(edgeTargetLoc);
 
             for (Event event: getEvents(edge)) {
                 if (!loopEvents.contains(event)) {
@@ -113,7 +109,7 @@ public class EventLoopSearch {
                 if (loopStartIndex == null) {
                     // A new location has been found.
                     stack.add(event);
-                    searchEventLoops(edge.getTarget(), loopEvents, stackIndex, stack, eventLoops, visitedLocations);
+                    searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, eventLoops, visitedLocations);
                     stack.remove(stack.size() - 1);
                 } else {
                     // A previously visited location has been found. Thus, we found a loop.

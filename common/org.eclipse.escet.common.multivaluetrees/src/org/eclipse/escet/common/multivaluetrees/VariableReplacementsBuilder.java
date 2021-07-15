@@ -29,6 +29,16 @@ public class VariableReplacementsBuilder<V> {
     /** Ordered collection of added variable replacements. */
     private TreeSet<VariableReplacement> replacements;
 
+    /**
+     * Constructor of the {@link VariableReplacementsBuilder} class.
+     *
+     * @param varInfoBuilder Storage of the relation between node levels and variables.
+     */
+    public VariableReplacementsBuilder(VarInfoBuilder<V> varInfoBuilder) {
+        this.varInfoBuilder = varInfoBuilder;
+        replacements = new TreeSet<>();
+    }
+
     /** Remove all added replacements. */
     public void clear() {
         replacements.clear();
@@ -116,15 +126,5 @@ public class VariableReplacementsBuilder<V> {
         varRepls = replacements.toArray(varRepls);
         clear();
         return varRepls;
-    }
-
-    /**
-     * Constructor of the {@link VariableReplacementsBuilder} class.
-     *
-     * @param varInfoBuilder Storage of the relation between node levels and variables.
-     */
-    public VariableReplacementsBuilder(VarInfoBuilder<V> varInfoBuilder) {
-        this.varInfoBuilder = varInfoBuilder;
-        replacements = new TreeSet<>();
     }
 }
