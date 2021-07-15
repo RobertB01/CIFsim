@@ -183,11 +183,10 @@ public class FiniteResponseChecker {
                 }
                 dout();
             }
-            dout();
         } else {
             out("The specification has finite response.");
-            dout();
         }
+        dout();
         out();
 
         return controllableEvents.isEmpty();
