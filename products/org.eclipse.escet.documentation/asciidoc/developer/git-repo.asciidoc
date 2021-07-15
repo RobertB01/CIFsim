@@ -159,6 +159,9 @@ User interface of the active applications.
 | `org.eclipse.escet.common.java`
 | Common _Java_ functions and classes, in particular the _Lists_, _Sets_, _Maps_ and _Strings_ classes.
 
+| `org.eclipse.escet.common.multivaluetrees`
+| A pure Java implementation of Multi-value Decision Diagrams (MDDs).
+
 | `org.eclipse.escet.common.position.common`
 | Common functions for (text-file) positions in source files.
 
