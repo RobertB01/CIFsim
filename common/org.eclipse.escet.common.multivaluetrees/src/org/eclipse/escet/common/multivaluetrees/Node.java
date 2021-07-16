@@ -126,8 +126,11 @@ public class Node {
             if (i > 0) {
                 sb.append(' ');
             }
-//            sb.append(i + varInfo.lower);
-//            sb.append("=");
+            // For larger nodes, also add the node value.
+            if (varInfo.length > 6) {
+                sb.append(i + varInfo.lower);
+                sb.append("=");
+            }
             sb.append(childNodeNames.get(i));
         }
         sb.append("]");
