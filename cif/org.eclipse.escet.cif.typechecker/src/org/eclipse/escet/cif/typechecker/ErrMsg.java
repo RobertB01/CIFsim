@@ -342,11 +342,6 @@ public enum ErrMsg {
     // Location.markedTypes
     MARKED_NON_BOOL("Marker predicate must be of type \"bool\", but is of type \"%s\".", 1, ERROR),
 
-    // Invariant.inherited
-    INV_INHERIT_KIND("Invariant does not specify a supervisory kind and thus implicitly inherits supervisory kind "
-            + "\"%s\" from %s. This is deprecated. Please explicitly specify the kind before the \"invariant\" "
-            + "keyword.", 2, WARNING),
-
     // Print.txtPreType
     // Print.txtPostType
     PRINT_TXT_COMP_TYPE(

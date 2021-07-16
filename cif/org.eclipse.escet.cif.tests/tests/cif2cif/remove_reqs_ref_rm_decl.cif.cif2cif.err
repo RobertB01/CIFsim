@@ -1,8 +1,0 @@
-ERROR: File "cif2cif/remove_reqs_ref_rm_decl.cif": Unsatisfied precondition for CIF to CIF transformation.
-CAUSE: Removing requirements from a CIF specification failed due to the remaining part of the specification using declarations that are declared in the requirement automata that are to be removed:
- - Requirement automaton "a" contains declaration "x" that is used somewhere in the top level scope of the specification.
- - Requirement automaton "a" contains declaration "y" that is used somewhere in the top level scope of the specification.
- - Requirement automaton "g.h.i.j.r" contains declaration "l1" that is used somewhere in group "g.h".
- - Requirement automaton "g.h.i.j.r" is used somewhere in group "g.h".
- - Requirement automaton "h.i.a" contains declaration "x" that is used somewhere in group "h".
- - Requirement automaton "h.i.a" contains declaration "y" that is used somewhere in group "h".

@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.ExternalCrossReferencer;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -48,12 +47,13 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * In-place transformation that removes requirements.
  *
  * <p>
- * Precondition: Specifications with component definitions/instantiations are currently not supported.
- * </p>
- *
- * <p>
- * Precondition: Removing requirement automata or declarations from requirement automata that are being used (referred
- * to) in what remains after removal of requirements is not supported.
+ * Precondition:
+ * <ul>
+ * <li>Specifications with component definitions/instantiations are currently not supported.</li>
+ * <li>Removing requirement automata or declarations from requirement automata that are being used (referred
+ * to) in what remains after removal of requirements is not supported.</li>
+ * <li>Invariants that may not be removed in locations of requirement automata (if removed) are not supported.</li>
+ * </ul>
  * </p>
  */
 public class RemoveRequirements implements CifToCifTransformation {
@@ -65,6 +65,9 @@ public class RemoveRequirements implements CifToCifTransformation {
 
     /** Whether to remove state requirement invariants. */
     public boolean removeStateReqInvs = true;
+
+    /** Violations found so far. */
+    private final Set<String> problemMessages = set();
 
     /**
      * Mapping from removed requirement automata to their absolute names. Is initialized before removal, and filled
@@ -90,6 +93,15 @@ public class RemoveRequirements implements CifToCifTransformation {
         // Check for references to removed declarations. They are no longer
         // valid, meaning the removal failed.
         checkRefs(spec);
+
+        // Report problems.
+        if (!problemMessages.isEmpty()) {
+            String msg = "Removing requirements from a CIF specification failed due to the remaining part of the "
+                    + "specification using declarations that are declared in the requirement automata that are to be "
+                    + "removed, or a location of a requirement automaton contains invariants that cannot be removed:\n "
+                    + "- " + StringUtils.join(sortedstrings(problemMessages), "\n - ");
+            throw new CifToCifPreconditionException(msg);
+        }
     }
 
     /**
@@ -102,23 +114,8 @@ public class RemoveRequirements implements CifToCifTransformation {
         Iterator<Invariant> invIter = comp.getInvariants().iterator();
         while (invIter.hasNext()) {
             Invariant inv = invIter.next();
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.REQUIREMENT) {
-                continue;
-            }
-            switch (inv.getInvKind()) {
-                case STATE:
-                    if (removeStateReqInvs) {
-                        invIter.remove();
-                    }
-                    break;
-
-                case EVENT_DISABLES:
-                case EVENT_NEEDS:
-                    if (removeStateEvtExclReqInvs) {
-                        invIter.remove();
-                    }
-                    break;
+            if (shouldRemoveInvariant(inv)) {
+                invIter.remove();
             }
         }
 
@@ -129,18 +126,25 @@ public class RemoveRequirements implements CifToCifTransformation {
             while (childIter.hasNext()) {
                 Component child = childIter.next();
 
-                // Remove child requirement automata.
+                // Remove child requirement automata if requested.
                 if (child instanceof Automaton) {
                     SupKind kind = ((Automaton)child).getKind();
                     if (kind == SupKind.REQUIREMENT && removeReqAuts) {
+                        // Automaton to be removed, move invariants that may not be removed to the parent.
+                        moveInvariantsFromAut((Automaton)child);
                         absReqAutNames.put((Automaton)child, CifTextUtils.getAbsName(child));
                         childIter.remove();
                         continue;
+                    } else {
+                        // Automaton not to be removed, remove invariants in that automaton.
+                        removeRequirements((ComplexComponent)child);
                     }
                 }
 
-                // Recursively remove in group or automaton.
-                removeRequirements((ComplexComponent)child);
+                // Recursively remove in group.
+                if (child instanceof Group) {
+                    removeRequirements((ComplexComponent)child);
+                }
             }
         }
 
@@ -149,24 +153,8 @@ public class RemoveRequirements implements CifToCifTransformation {
             for (Location loc: ((Automaton)comp).getLocations()) {
                 invIter = loc.getInvariants().iterator();
                 while (invIter.hasNext()) {
-                    Invariant inv = invIter.next();
-                    SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.REQUIREMENT) {
-                        continue;
-                    }
-                    switch (inv.getInvKind()) {
-                        case STATE:
-                            if (removeStateReqInvs) {
-                                invIter.remove();
-                            }
-                            break;
-
-                        case EVENT_DISABLES:
-                        case EVENT_NEEDS:
-                            if (removeStateEvtExclReqInvs) {
-                                invIter.remove();
-                            }
-                            break;
+                    if (shouldRemoveInvariant(invIter.next())) {
+                        invIter.remove();
                     }
                 }
             }
@@ -174,11 +162,73 @@ public class RemoveRequirements implements CifToCifTransformation {
     }
 
     /**
+     * Checks whether an invariant should be removed in the specification, or if it should remain.
+     *
+     * @param inv The invariant.
+     * @return {@code true} if it should be removed, {@code false} otherwise.
+     */
+    private boolean shouldRemoveInvariant(Invariant inv) {
+        if (inv.getSupKind() != SupKind.REQUIREMENT) {
+            return false;
+        }
+        switch (inv.getInvKind()) {
+            case STATE:
+                if (removeStateReqInvs) {
+                    return true;
+                }
+                break;
+
+            case EVENT_DISABLES:
+            case EVENT_NEEDS:
+                if (removeStateEvtExclReqInvs) {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * Moves the invariants that should not be removed to the parent component. If invariants in locations are
+     * encountered that may not be removed, a problem message is added to {@link #problemMessages}.
+     *
+     * @param aut The automaton to move the invariants for.
+     */
+    private void moveInvariantsFromAut(Automaton aut) {
+        Assert.check(aut.eContainer() instanceof ComplexComponent);
+        ComplexComponent parent = ((ComplexComponent)aut.eContainer());
+
+        Iterator<Invariant> invIter = aut.getInvariants().iterator();
+        while (invIter.hasNext()) {
+            Invariant inv = invIter.next();
+            if (!shouldRemoveInvariant(inv)) {
+                invIter.remove();
+                parent.getInvariants().add(inv);
+            }
+        }
+
+        // Assert that all invariants in locations may be removed. We can't move them, since we cannot refer to the
+        // location.
+        for (Location loc: aut.getLocations()) {
+            for (Invariant inv: loc.getInvariants()) {
+                if (!shouldRemoveInvariant(inv)) {
+                    // Problems found. Construct message.
+                    SupKind supKind = inv.getSupKind();
+                    String kindTxt = supKind == SupKind.NONE ? "kindless" : CifTextUtils.kindToStr(supKind);
+                    String locTxt = loc.getName() == null ? "Location" : fmt("Location \"%s\"", loc.getName());
+                    String msg = fmt("%s of requirement automaton \"%s\" contains a %s invariant.", locTxt,
+                            CifTextUtils.getAbsName(aut), kindTxt);
+                    problemMessages.add(msg);
+                }
+            }
+        }
+    }
+
+    /**
      * Checks a specification for references to removed declarations. They are no longer valid, meaning the removal
-     * failed.
+     * failed. Problems are added to {@link #problemMessages}.
      *
      * @param spec The specification to check.
-     * @throws CifToCifPreconditionException If a reference to a removed declaration is found.
      */
     private void checkRefs(Specification spec) {
         // Find references to objects outside of the specification.
@@ -189,7 +239,6 @@ public class RemoveRequirements implements CifToCifTransformation {
         }
 
         // Problems found. Construct messages.
-        Set<String> messages = set();
         for (Entry<EObject, Collection<Setting>> problem: problems.entrySet()) {
             PositionObject removedObj = (PositionObject)problem.getKey();
             Collection<Setting> problemRefs = problem.getValue();
@@ -243,14 +292,8 @@ public class RemoveRequirements implements CifToCifTransformation {
                 }
                 String msg = fmt("Requirement automaton \"%s\" %sis used somewhere in %s.", absReqName, declTxt,
                         scopeTxt);
-                messages.add(msg);
+                problemMessages.add(msg);
             }
         }
-
-        // Report problems.
-        String msg = "Removing requirements from a CIF specification failed due to the remaining part of the "
-                + "specification using declarations that are declared in the requirement automata that are to be "
-                + "removed:\n - " + StringUtils.join(sortedstrings(messages), "\n - ");
-        throw new CifToCifPreconditionException(msg);
     }
 }

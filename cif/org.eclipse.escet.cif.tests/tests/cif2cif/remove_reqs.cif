@@ -75,6 +75,7 @@ group g:
   end
 
   requirement r1:
+    // Don't remove non-requirement invariants.
                 invariant 51 = 51;
     plant       invariant 52 = 52;
     requirement invariant 53 = 53;
@@ -83,10 +84,7 @@ group g:
     location:
       initial;
 
-                  invariant 151 = 151;
-      plant       invariant 152 = 152;
       requirement invariant 153 = 153;
-      supervisor  invariant 154 = 154;
   end
 
   supervisor s:
@@ -105,6 +103,7 @@ group g:
   end
 
   requirement r2:
+    // Don't remove non-requirement invariants.
                 invariant 71 = 71;
     plant       invariant 72 = 72;
     requirement invariant 73 = 73;
@@ -113,9 +112,6 @@ group g:
     location:
       initial;
 
-                  invariant 171 = 171;
-      plant       invariant 172 = 172;
       requirement invariant 173 = 173;
-      supervisor  invariant 174 = 174;
   end
 end

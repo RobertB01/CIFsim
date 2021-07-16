@@ -33,7 +33,6 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -515,11 +514,10 @@ public class SimplifyValues extends CifWalker implements CifToCifTransformation 
             }
 
             // Get entry for supervisory kind.
-            SupKind supKind = CifInvariantUtils.getSupKind(inv);
-            List<Invariant> entryInvs = supKindToInvs.get(supKind);
+            List<Invariant> entryInvs = supKindToInvs.get(inv.getSupKind());
             if (entryInvs == null) {
                 entryInvs = list();
-                supKindToInvs.put(supKind, entryInvs);
+                supKindToInvs.put(inv.getSupKind(), entryInvs);
             }
             entryInvs.add(inv);
         }

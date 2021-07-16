@@ -28,7 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
@@ -502,17 +501,6 @@ public abstract class ParentScope<T extends PositionObject> extends SymbolScope<
                 inv.setPredicate(invPred);
                 inv.setEvent(eventRef);
                 mmInvs.add(inv);
-
-                // Warn about inheriting automaton kind.
-                if (supKind == SupKind.NONE) {
-                    SupKind inherited = CifInvariantUtils.getInheritableSupKind(inv);
-                    if (inherited != null) {
-                        Assert.check(scope instanceof AutScope || scope instanceof AutDefScope);
-                        tchecker.addProblem(ErrMsg.INV_INHERIT_KIND, astInv.position, CifTextUtils.kindToStr(inherited),
-                                scope.getAbsText());
-                        // Non-fatal error.
-                    }
-                }
             }
         }
     }

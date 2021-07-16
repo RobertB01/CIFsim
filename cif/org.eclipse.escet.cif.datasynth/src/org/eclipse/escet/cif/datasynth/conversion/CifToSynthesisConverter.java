@@ -71,7 +71,6 @@ import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifGuardUtils;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -1815,10 +1814,8 @@ public class CifToSynthesisConverter {
                 continue;
             }
 
-            // Check kind. Also set kind explicitly, as it is needed for later removal.
-            CifInvariantUtils.makeSupKindExplicit(inv);
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.REQUIREMENT) {
+            // Check kind.
+            if (inv.getSupKind() != SupKind.REQUIREMENT) {
                 String msg = fmt("Unsupported %s: for state invariants, only requirement invariants are supported.",
                         CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
@@ -1858,10 +1855,8 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    // Check kind. Also set kind explicitly, as it is needed for later removal.
-                    CifInvariantUtils.makeSupKindExplicit(inv);
-                    SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.REQUIREMENT) {
+                    // Check kind.
+                    if (inv.getSupKind() != SupKind.REQUIREMENT) {
                         String msg = fmt(
                                 "Unsupported %s: for state invariants, only requirement invariants are supported.",
                                 CifTextUtils.getLocationText1(loc));
@@ -1933,10 +1928,8 @@ public class CifToSynthesisConverter {
                 continue;
             }
 
-            // Check kind. Also set kind explicitly, as it is needed for later removal.
-            CifInvariantUtils.makeSupKindExplicit(inv);
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.PLANT && kind != SupKind.REQUIREMENT) {
+            // Check kind.
+            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
                 String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and requirement "
                         + "invariants are supported.", CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
@@ -1980,17 +1973,17 @@ public class CifToSynthesisConverter {
             }
 
             // Store copies of the BDD.
-            if (kind == SupKind.PLANT) {
+            if (inv.getSupKind() == SupKind.PLANT) {
                 storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv.id());
                 conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv.id());
-            } else if (kind == SupKind.REQUIREMENT) {
+            } else if (inv.getSupKind() == SupKind.REQUIREMENT) {
                 storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv.id());
                 conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv.id());
                 if (Boolean.TRUE.equals(event.getControllable())) {
                     conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv.id());
                 }
             } else {
-                throw new RuntimeException("Unexpected kind: " + kind);
+                throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
             }
 
             // Free the original BDD.
@@ -2010,10 +2003,8 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    // Check kind. Also set kind explicitly, as it is needed for later removal.
-                    CifInvariantUtils.makeSupKindExplicit(inv);
-                    SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.PLANT && kind != SupKind.REQUIREMENT) {
+                    // Check kind.
+                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
                         String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and "
                                 + "requirement invariants are supported.", CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
@@ -2073,17 +2064,17 @@ public class CifToSynthesisConverter {
                     }
 
                     // Store copies of the BDD.
-                    if (kind == SupKind.PLANT) {
+                    if (inv.getSupKind() == SupKind.PLANT) {
                         storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv.id());
                         conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv.id());
-                    } else if (kind == SupKind.REQUIREMENT) {
+                    } else if (inv.getSupKind() == SupKind.REQUIREMENT) {
                         storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv.id());
                         conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv.id());
                         if (Boolean.TRUE.equals(event.getControllable())) {
                             conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv.id());
                         }
                     } else {
-                        throw new RuntimeException("Unexpected kind: " + kind);
+                        throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
                     }
 
                     // Free the original BDD.

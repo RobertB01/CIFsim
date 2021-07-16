@@ -541,18 +541,7 @@ enabled/disabled.
 }
 
 \newcommand{\featdocuInvariantsupKind}{
-The supervisory kind of the invariant. If \cifenumlit{SupKind.None}, and the
-invariant is specified in an automaton or a location of an automaton, the
-invariant implicitly inherits the automaton supervisory kind. If not specified,
-and the invariant is not specified in an automaton or a location of an
-automaton, the invariant has no kind (\cifenumlit{SupKind.None}).
-
-\begin{constraints}
-\citemnf{Invariant.inherited}
-  The invariant must not have a supervisory kind inherited from the automaton.
-  Kind inheritance is deprecated, as this can be confusing for end users. To
-  get rid of the warning, specify the supervisory kind explicitly.
-\end{constraints}
+The supervisory kind of the invariant.
 }
 
 % IoDecl (abstract class)

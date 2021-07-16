@@ -24,7 +24,6 @@ import static org.eclipse.escet.common.java.Pair.pair;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -304,8 +303,7 @@ public class EventCodeGenerator {
             c.add();
 
             // Warn about requirement invariants.
-            SupKind supKind = CifInvariantUtils.getSupKind(inv);
-            if (supKind == SupKind.REQUIREMENT) {
+            if (inv.getSupKind() == SupKind.REQUIREMENT) {
                 warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", invTxt, compTxt);
             }
         }
@@ -392,8 +390,7 @@ public class EventCodeGenerator {
                 c.add("}");
 
                 // Warn about requirement invariants.
-                SupKind supKind = CifInvariantUtils.getSupKind(inv);
-                if (supKind == SupKind.REQUIREMENT) {
+                if (inv.getSupKind() == SupKind.REQUIREMENT) {
                     warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", invTxt, locTxt);
                 }
             }

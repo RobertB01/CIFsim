@@ -57,3 +57,15 @@ group g:
     end
   end
 end
+
+// Location invariants indirectly refer to locations and are not supported.
+// We could optimize for automata with exactly one location.
+requirement k:
+  location b:
+    initial;
+
+                invariant 131 = 131;
+    plant       invariant 132 = 132;
+    requirement invariant 133 = 133;
+    supervisor  invariant 134 = 134;
+end
