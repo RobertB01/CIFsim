@@ -549,7 +549,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         for (Automaton aut: auts) {
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: copy(loc.getInvariants())) {
-                    // Modify 'loc' to 'loc => inv'.
+                    // Modify 'inv' to 'loc => inv'.
                     Expression lexpr = lpIntroducer.createLocRef(loc);
 
                     BinaryExpression bexpr = newBinaryExpression();

@@ -71,7 +71,7 @@ This location is both initial and marked.
 All initialization and marker predicates from all the original automata (including ones from locations) are merged together.
 They are put in the new automaton, and restrict the initialization and marker predicates of location `L`.
 
-Invariants (with the same supervisory kind) of the original automata (including ones from locations) are merged together in a similar way as the initialization and marker predicates.
+Invariants of the original automata (including ones from locations) are merged together in a similar way as the initialization and marker predicates.
 
 For the `tau` event, a self loop is created per original `tau` edge.
 For all other events, the link:http://en.wikipedia.org/wiki/Cartesian_product[Cartesian product] of all edges is created, combining the edges in all possible combinations.

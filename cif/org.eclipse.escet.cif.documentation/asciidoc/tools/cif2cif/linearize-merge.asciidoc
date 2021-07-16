@@ -71,7 +71,7 @@ This location is both initial and marked.
 All initialization and marker predicates from all the original automata (including ones from locations) are merged together.
 They are put in the new automaton, and restrict the initialization and marker predicates of location `L`.
 
-Invariants (with the same supervisory kind) of the original automata (including ones from locations) are merged together in a similar way as the initialization and marker predicates.
+Invariants of the original automata (including ones from locations) are merged together in a similar way as the initialization and marker predicates.
 
 For the `tau` event, a self loop is created per original `tau` edge.
 For all other events, the edges are merged, resulting in a single self loop for each non-`tau` event.

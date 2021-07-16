@@ -47,13 +47,13 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * In-place transformation that removes requirements.
  *
  * <p>
- * Precondition: Specifications with component definitions/instantiations are currently not supported.
- * </p>
- *
- * <p>
- * Precondition: Removing requirement automata or declarations from requirement automata that are being used (referred
- * to) in what remains after removal of requirements is not supported. Invariants that may not be removed in locations
- * of requirement automata (if removed) are not supported.
+ * Precondition:
+ * <ul>
+ * <li>Specifications with component definitions/instantiations are currently not supported.</li>
+ * <li>Removing requirement automata or declarations from requirement automata that are being used (referred
+ * to) in what remains after removal of requirements is not supported.</li>
+ * <li>Invariants that may not be removed in locations of requirement automata (if removed) are not supported.</li>
+ * </ul>
  * </p>
  */
 public class RemoveRequirements implements CifToCifTransformation {
@@ -114,7 +114,7 @@ public class RemoveRequirements implements CifToCifTransformation {
         Iterator<Invariant> invIter = comp.getInvariants().iterator();
         while (invIter.hasNext()) {
             Invariant inv = invIter.next();
-            if (removeInvariant(inv)) {
+            if (shouldRemoveInvariant(inv)) {
                 invIter.remove();
             }
         }
@@ -131,7 +131,7 @@ public class RemoveRequirements implements CifToCifTransformation {
                     SupKind kind = ((Automaton)child).getKind();
                     if (kind == SupKind.REQUIREMENT && removeReqAuts) {
                         // Automaton to be removed, move invariants that may not be removed to the parent.
-                        moveInvariantsAut((Automaton)child);
+                        moveInvariantsFromAut((Automaton)child);
                         absReqAutNames.put((Automaton)child, CifTextUtils.getAbsName(child));
                         childIter.remove();
                         continue;
@@ -153,7 +153,7 @@ public class RemoveRequirements implements CifToCifTransformation {
             for (Location loc: ((Automaton)comp).getLocations()) {
                 invIter = loc.getInvariants().iterator();
                 while (invIter.hasNext()) {
-                    if (removeInvariant(invIter.next())) {
+                    if (shouldRemoveInvariant(invIter.next())) {
                         invIter.remove();
                     }
                 }
@@ -167,7 +167,7 @@ public class RemoveRequirements implements CifToCifTransformation {
      * @param inv The invariant.
      * @return {@code true} if it should be removed, {@code false} otherwise.
      */
-    private boolean removeInvariant(Invariant inv) {
+    private boolean shouldRemoveInvariant(Invariant inv) {
         if (inv.getSupKind() != SupKind.REQUIREMENT) {
             return false;
         }
@@ -194,14 +194,14 @@ public class RemoveRequirements implements CifToCifTransformation {
      *
      * @param aut The automaton to move the invariants for.
      */
-    private void moveInvariantsAut(Automaton aut) {
+    private void moveInvariantsFromAut(Automaton aut) {
         Assert.check(aut.eContainer() instanceof ComplexComponent);
         ComplexComponent parent = ((ComplexComponent)aut.eContainer());
 
         Iterator<Invariant> invIter = aut.getInvariants().iterator();
         while (invIter.hasNext()) {
             Invariant inv = invIter.next();
-            if (!removeInvariant(inv)) {
+            if (!shouldRemoveInvariant(inv)) {
                 invIter.remove();
                 parent.getInvariants().add(inv);
             }
@@ -211,7 +211,7 @@ public class RemoveRequirements implements CifToCifTransformation {
         // location.
         for (Location loc: aut.getLocations()) {
             for (Invariant inv: loc.getInvariants()) {
-                if (!removeInvariant(inv)) {
+                if (!shouldRemoveInvariant(inv)) {
                     // Problems found. Construct message.
                     SupKind supKind = inv.getSupKind();
                     String kindTxt = supKind == SupKind.NONE ? "kindless" : CifTextUtils.kindToStr(supKind);
