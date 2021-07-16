@@ -49,7 +49,7 @@ Constructing it is a simple `Tree t = new Tree();` which gives you an empty tree
 Constructed relations in `t` are represented by `common.multivaluetrees.Node` objects.
 These objects should be considered to be read-only.
 They can be stored anywhere in the application.
-Modifying a `Node` object is not possible, but you can create a new (updated) object and store that, similar to for example `Integer` objects in the standard Java library.
+Modifying a `Node` object is not possible, but you can create a new (updated) object and store that.
 
 You can read the information inside a `Node`.
 The only somewhat useful operation that you can perform on `Node n` is `n.dumpGraphLines("a-description-of-n");` which dumps a human-readable representation of the relation expressed in the node.
