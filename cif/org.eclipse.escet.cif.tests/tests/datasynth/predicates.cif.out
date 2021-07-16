@@ -18,23 +18,23 @@ CIF variables and location pointers:
   Total                                       9      44        128         196         ~65%
 
 Applying automatic variable ordering:
-  Number of hyperedges: 103
+  Number of hyperedges: 105
 
   Applying FORCE algorithm:
     Maximum number of iterations: 30
 
-    Total span:                  183 (total)                 1.78 (avg/edge) [before]
-    Total span:                  103 (total)                 1.00 (avg/edge) [iteration 1]
-    Total span:                   92 (total)                 0.89 (avg/edge) [iteration 2]
-    Total span:                   92 (total)                 0.89 (avg/edge) [iteration 3]
-    Total span:                   92 (total)                 0.89 (avg/edge) [after]
+    Total span:                  183 (total)                 1.74 (avg/edge) [before]
+    Total span:                  103 (total)                 0.98 (avg/edge) [iteration 1]
+    Total span:                   92 (total)                 0.88 (avg/edge) [iteration 2]
+    Total span:                   92 (total)                 0.88 (avg/edge) [iteration 3]
+    Total span:                   92 (total)                 0.88 (avg/edge) [after]
 
   Applying sliding window algorithm:
     Window length: 4
 
-    Total span:                   92 (total)                 0.89 (avg/edge) [before]
-    Total span:                   88 (total)                 0.85 (avg/edge) [window 3..6]
-    Total span:                   88 (total)                 0.85 (avg/edge) [after]
+    Total span:                   92 (total)                 0.88 (avg/edge) [before]
+    Total span:                   88 (total)                 0.84 (avg/edge) [window 3..6]
+    Total span:                   88 (total)                 0.84 (avg/edge) [after]
 
   Variable order changed.
 
@@ -133,6 +133,8 @@ Uncontrolled system:
     Edge: (event: e43) (guard: p.l0 and (p.x3 = 1 or p.x3 = 3))
     Edge: (event: e44) (guard: p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1)
     Edge: (event: e45) (guard: p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)))
+    Edge: (event: e46) (guard: p.l0)
+    Edge: (event: e47) (guard: false)
 
 Restricting behavior using state/event exclusion plants.
 
@@ -226,6 +228,7 @@ Edge (event: e42) (guard: p.l0 and (p.x3 = 2 or p.x3 = 3)): guard: p.l0 and (p.x
 Edge (event: e43) (guard: p.l0 and (p.x3 = 1 or p.x3 = 3)): guard: p.l0 and (p.x3 = 1 or p.x3 = 3) -> false.
 Edge (event: e44) (guard: p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1): guard: p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1 -> <bdd 22n 1p>.
 Edge (event: e45) (guard: p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))): guard: p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) -> <bdd 22n 1p>.
+Edge (event: e46) (guard: p.l0): guard: p.l0 -> <bdd 22n 1p>.
 
 Final synthesis result:
   State: (controlled-behavior: <bdd 22n 1p>)
@@ -274,6 +277,8 @@ Final synthesis result:
     Edge: (event: e43) (guard: p.l0 and (p.x3 = 1 or p.x3 = 3) -> false)
     Edge: (event: e44) (guard: p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1 -> <bdd 22n 1p>)
     Edge: (event: e45) (guard: p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4)) -> <bdd 22n 1p>)
+    Edge: (event: e46) (guard: p.l0 -> <bdd 22n 1p>)
+    Edge: (event: e47) (guard: false)
 
 Controlled system:                     exactly 1 state.
 
@@ -306,6 +311,7 @@ Simplification of controlled system under the assumption of the plants:
   Event e42: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and (p.x3 = 2 or p.x3 = 3)].
   Event e44: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1].
   Event e45: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 2 or p.x3 = 3)) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))].
+  Event e46: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume p.l0].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/predicates.ctrlsys.real.cif".

@@ -187,6 +187,7 @@ For state/event exclusion invariants, both plant and requirement invariants are 
 * Only discrete/input variables with a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type are supported.
 For integer types, ranges that include negative integer values are not supported.
 For algebraic variables and algebraic parameters of components, all types are supported.
+For constants, all types are supported.
 
 * Discrete variables must have supported initial values.
 If explicit initial values are given, they must be supported predicates (for boolean variables) or supported expressions as described below (for all other variables).
@@ -203,6 +204,8 @@ The supported predicates are:
 * Boolean literals (`true`, `false`).
 
 * Discrete/input/algebraic boolean variables (`x`, for `x` a discrete, input, or algebraic variable with a boolean type).
+
+* Boolean constants (`x`, for `x` a constant with a boolean type).
 
 * Locations (`aut.loc`, for `aut` and automaton and `loc` a location of that automaton).
 
@@ -238,6 +241,8 @@ The supported expressions are:
 * An enumeration literal/value.
 
 * Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a discrete, input, or algebraic variable with an integer or enumeration type).
+
+* Integer/enumeration constants (`x`, for `x` a constant with an integer or enumeration type).
 
 * `+i` for `i` a supported integer expression.
 

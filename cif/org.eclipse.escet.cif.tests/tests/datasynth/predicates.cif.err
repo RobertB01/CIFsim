@@ -2,6 +2,7 @@ WARNING: Event "e02" is never enabled in the input specification, taking into ac
 WARNING: Event "e20" is never enabled in the input specification, taking into account only automaton guards.
 WARNING: Event "e21" is never enabled in the input specification, taking into account only automaton guards.
 WARNING: Event "e40" is never enabled in the input specification, taking into account only automaton guards.
+WARNING: Event "e47" is never enabled in the input specification, taking into account only automaton guards.
 WARNING: Event "e03" is disabled by the supervisor.
 WARNING: Event "e04" is disabled by the supervisor.
 WARNING: Event "e07" is disabled by the supervisor.
