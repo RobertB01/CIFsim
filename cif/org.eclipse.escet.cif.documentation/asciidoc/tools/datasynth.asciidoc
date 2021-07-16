@@ -242,7 +242,7 @@ The supported expressions are:
 
 * Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a discrete, input, or algebraic variable with an integer or enumeration type).
 
-* integer/enumeration constants (`x`, for `x` a constant with an integer or enumeration type).
+* Integer/enumeration constants (`x`, for `x` a constant with an integer or enumeration type).
 
 * `+i` for `i` a supported integer expression.
 
