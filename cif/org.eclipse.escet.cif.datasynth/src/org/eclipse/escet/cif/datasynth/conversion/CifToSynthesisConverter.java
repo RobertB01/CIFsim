@@ -3420,11 +3420,11 @@ public class CifToSynthesisConverter {
                 int len = Math.max(rslt.length(), caseVector.length());
                 rslt.resize(len);
                 caseVector.resize(len);
-                CifBddBitVector elifRslt = caseVector.ifThenElse(rslt, caseGuard);
+                CifBddBitVector caseRslt = caseVector.ifThenElse(rslt, caseGuard);
                 caseGuard.free();
                 caseVector.free();
                 rslt.free();
-                rslt = elifRslt;
+                rslt = caseRslt;
             }
 
             // Return converted switch expression.
