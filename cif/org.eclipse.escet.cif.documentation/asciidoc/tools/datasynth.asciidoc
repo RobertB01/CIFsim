@@ -233,6 +233,8 @@ The supported predicates are:
 
 * Conditional expressions (`if` expressions) with supported guard and resulting value predicates.
 
+* `Switch` expressions with supported control value and resulting value predicates.
+
 Only limited forms of integer and enumeration expressions (for binary comparisons, initial values of variables, right hand sides of assignments, etc) are supported.
 The supported expressions are:
 
@@ -252,6 +254,8 @@ The supported expressions are:
 That is, `j` must essentially be constant.
 
 * Conditional expressions (`if` expressions) with supported guard predicates and supported resulting values.
+
+* `Switch` expressions with supported control values and supported resulting values.
 
 * Any other valid CIF expression (computation) that that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
 That is, the computation must essentially represent a fixed/constant value.
