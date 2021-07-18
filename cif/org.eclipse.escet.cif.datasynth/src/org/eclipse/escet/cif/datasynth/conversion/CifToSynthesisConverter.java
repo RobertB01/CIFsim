@@ -21,6 +21,8 @@ import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.DIS
 import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.IMPLICATION;
 import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.INTEGER_DIVISION;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
@@ -30,9 +32,11 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.filter;
 import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
@@ -134,6 +138,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
@@ -3034,6 +3040,30 @@ public class CifToSynthesisConverter {
 
             // Return converted conditional expression.
             return rslt;
+        } else if (pred instanceof SwitchExpression) {
+            // Switch expression with boolean result values.
+            SwitchExpression switchPred = (SwitchExpression)pred;
+            Expression value = switchPred.getValue();
+            List<SwitchCase> cases = switchPred.getCases();
+
+            // Convert else.
+            BDD rslt = convertPred(last(cases).getValue(), initial, synthAut);
+
+            // Convert cases.
+            for (int i = cases.size() - 2; i >= 0; i--) {
+                SwitchCase cse = cases.get(i);
+                Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
+                        deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
+                BDD caseGuard = convertPred(caseGuardExpr, initial, synthAut);
+                BDD caseThen = convertPred(cse.getValue(), initial, synthAut);
+                BDD caseRslt = caseGuard.ite(caseThen, rslt);
+                caseGuard.free();
+                caseThen.free();
+                rslt.free();
+                rslt = caseRslt;
+            }
+
+            return rslt;
         } else {
             // Others: unsupported.
             String msg = fmt("predicate is not supported.");
@@ -3364,6 +3394,40 @@ public class CifToSynthesisConverter {
             rslt = ifRslt;
 
             // Return converted conditional expression.
+            return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
+        }
+
+        // Switch expression
+        if (expr instanceof SwitchExpression) {
+            SwitchExpression switchExpr = (SwitchExpression)expr;
+            Expression value = switchExpr.getValue();
+            List<SwitchCase> cases = switchExpr.getCases();
+
+            // Convert else.
+            CifBddBitVectorAndCarry elseRslt = convertExpr(last(cases).getValue(), initial, synthAut, false, partMsg);
+            Assert.check(elseRslt.carry.isZero());
+            CifBddBitVector rslt = elseRslt.vector;
+
+            // Convert cases.
+            for (int i = cases.size() - 2; i >= 0; i--) {
+                SwitchCase cse = cases.get(i);
+                Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
+                        deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
+                BDD caseGuard = convertPred(caseGuardExpr, initial, synthAut);
+                CifBddBitVectorAndCarry caseThen = convertExpr(cse.getValue(), initial, synthAut, false, partMsg);
+                Assert.check(caseThen.carry.isZero());
+                CifBddBitVector caseVector = caseThen.vector;
+                int len = Math.max(rslt.length(), caseVector.length());
+                rslt.resize(len);
+                caseVector.resize(len);
+                CifBddBitVector caseRslt = caseVector.ifThenElse(rslt, caseGuard);
+                caseGuard.free();
+                caseVector.free();
+                rslt.free();
+                rslt = caseRslt;
+            }
+
+            // Return converted switch expression.
             return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
         }
 
