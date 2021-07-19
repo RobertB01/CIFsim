@@ -26,8 +26,8 @@ public class VarInfo {
     /** Lowest allowed value of the variable (at index value 0). */
     public final int lower;
 
-    /** Index in the kind of use for the variable. */
-    public final int subIndex;
+    /** Kind of use for the variable. */
+    public final int useKind;
 
     /** Name of the variable. */
     public final String name;
@@ -41,15 +41,15 @@ public class VarInfo {
      *
      * @param level Level of the variable in the tree, smaller is closer to the root.
      * @param name Name of the variable.
-     * @param subIndex Index in the kind of use for the variable.
+     * @param useKind Kind of use for the variable.
      * @param lower Lowest allowed value of the variable.
      * @param length Number of values in the domain of the variable.
      */
-    public VarInfo(int level, String name, int subIndex, int lower, int length) {
+    public VarInfo(int level, String name, int useKind, int lower, int length) {
         this.level = level;
         this.length = length;
         this.lower = lower;
-        this.subIndex = subIndex;
+        this.useKind = useKind;
         this.name = name;
     }
 
@@ -64,6 +64,6 @@ public class VarInfo {
 
     @Override
     public String toString() {
-        return fmt("%s#%d[%d..%d]", name, subIndex, lower, getUpper());
+        return fmt("%s#%d[%d..%d]", name, useKind, lower, getUpper());
     }
 }

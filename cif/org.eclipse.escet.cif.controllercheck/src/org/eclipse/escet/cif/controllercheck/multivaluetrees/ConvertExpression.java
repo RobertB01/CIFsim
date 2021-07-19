@@ -47,11 +47,11 @@ public class ConvertExpression {
     /** Multi-value nodes storage. */
     public final Tree tree;
 
-    /** Kind-value for readable variables in the converted expressions. */
-    public final int readIndex;
+    /** Use-kind value for readable variables in the converted expressions. */
+    public final int readUseKind;
 
-    /** Kind-value for writable variables in the converted expressions. */
-    public final int writeIndex;
+    /** Use-kind value for writable variables in the converted expressions. */
+    public final int writeUseKind;
 
     /** Available integer variables, lazily extended. */
     private Map<Declaration, IntegerValueCollection> variableValues = map();
@@ -61,14 +61,14 @@ public class ConvertExpression {
      *
      * @param cifVarInfoBuilder {@link VarInfo} builder containing the conversion between variables and tree nodes.
      * @param tree Multi-value nodes storage.
-     * @param readIndex Kind-value for reading variables in the converted expressions.
-     * @param writeIndex Kind-value for writing variables in the converted expressions.
+     * @param readUseKind Use-kind value for reading variables in the converted expressions.
+     * @param writeUseKind Use-kind value for writing variables in the converted expressions.
      */
-    public ConvertExpression(CifVarInfoBuilder cifVarInfoBuilder, Tree tree, int readIndex, int writeIndex) {
+    public ConvertExpression(CifVarInfoBuilder cifVarInfoBuilder, Tree tree, int readUseKind, int writeUseKind) {
         this.cifVarInfoBuilder = cifVarInfoBuilder;
         this.tree = tree;
-        this.readIndex = readIndex;
-        this.writeIndex = writeIndex;
+        this.readUseKind = readUseKind;
+        this.writeUseKind = writeUseKind;
     }
 
     /**
@@ -88,7 +88,7 @@ public class ConvertExpression {
         }
 
         // Variable is accessed for the first time, construct a collection for it.
-        VarInfo readInfo = cifVarInfoBuilder.getVarInfo(var, readIndex);
+        VarInfo readInfo = cifVarInfoBuilder.getVarInfo(var, readUseKind);
         collection = new IntegerValueCollection(readInfo.length);
         for (int idx = 0; idx < readInfo.length; idx++) {
             Node n = tree.buildEqualityIndex(readInfo, idx);
@@ -578,11 +578,11 @@ public class ConvertExpression {
      *
      * @param destVar Variable to relate to the values.
      * @param collection Collection of available values with their conditions.
-     * @param kindIndex The variable kind to relate the value to.
+     * @param useKind The variable use-kind to relate the value to.
      * @return Multi-value tree expressing the assignment or comparison.
      */
-    private Node assignCollection(Declaration destVar, IntegerValueCollection collection, int kindIndex) {
-        VarInfo writeInfo = cifVarInfoBuilder.getVarInfo(destVar, kindIndex);
+    private Node assignCollection(Declaration destVar, IntegerValueCollection collection, int useKind) {
+        VarInfo writeInfo = cifVarInfoBuilder.getVarInfo(destVar, useKind);
 
         Node n = Tree.ZERO;
         for (int idx = 0; idx < writeInfo.length; idx++) {
@@ -606,7 +606,7 @@ public class ConvertExpression {
      */
     public Node convertAssignment(Declaration destVar, Expression rhs) {
         IntegerValueCollection collection = convert(rhs);
-        return assignCollection(destVar, collection, writeIndex);
+        return assignCollection(destVar, collection, writeUseKind);
     }
 
     /**
@@ -618,6 +618,6 @@ public class ConvertExpression {
      */
     public Node convertToEquality(Declaration destVar, Expression rhs) {
         IntegerValueCollection collection = convert(rhs);
-        return assignCollection(destVar, collection, readIndex);
+        return assignCollection(destVar, collection, readUseKind);
     }
 }

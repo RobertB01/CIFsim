@@ -20,19 +20,19 @@ After this short and possibly mind-blowing introduction on decision diagrams in 
 
 === Variables
 
-As you typically work with variables in several variations, like `i` and `i+` in the explanation above, this has to be defined first.
+As you typically work with variables in several use-kinds, like `i` and `i+` in the explanation above, this has to be defined first.
 The core functionality provided for that is in `common.multivaluetrees.VarInfoBuilder`.
 The class is generic over the type of variables.
 As a convenience, the `common.multivaluetrees.SimpleVarInfoBuilder` class has been created using `common.multivaluetrees.SimpleVarVariable` variables (with a name, a lower bound, and a number of valid values).
 
-After creating an instance providing the number of variations that you have, add the variables as you like.
+After creating an instance providing the number of use-kinds that you have, add the variables as you like.
 The order of adding is also the order of the variable nodes in the tree from the root towards the bottom `ONE` or `ZERO` terminator nodes.
-The elementary function is `addVariable(<variable>, <variation>)` which adds a node level for variable `<variable>` and usage index `<variation>` (running from `0` to the number of variations excluding the upper bound).
+The elementary function is `addVariable(<variable>, <use-kind>)` which adds a node level for variable `<variable>` and usage index `<use-kind>` (running from `0` to the number of use-kinds excluding the upper bound).
 
-As you usually want to have all variations for a variable, and often want them on consecutive node levels in the tree, `addVariable(<variable>)` adds all variations in one call.
+As you usually want to have all use-kinds for a variable, and often want them on consecutive node levels in the tree, `addVariable(<variable>)` adds all use-kinds in one call.
 For a list of variables, `addVariablesGroupOnVariables(<list-variables>)` does the same for each variable in the list.
-First `N` variations for the first variable, then `N` variations for the second variable, and so on.
-If you want the same variation near each other instead, `addVariablesGroupOnSubIndex(<list-variables>)` exists.
+First `N` use-kinds for the first variable, then `N` use-kinds for the second variable, and so on.
+If you want the same use-kinds near each other instead, `addVariablesGroupOnUseKind(<list-variables>)` exists.
 
 Each call adds one or more `VarInfo` instances to the builder.
 A `VarInfo` instance is the equivalent of e.g. `i` and `i+` above.

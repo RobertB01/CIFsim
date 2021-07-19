@@ -30,11 +30,11 @@ public class MvSpecBuilder {
     /** Storage and manipulation of multi-value trees. */
     public final Tree tree;
 
-    /** Variable kind index for reading a variable ('old' value). */
-    public final int readIndex;
+    /** Variable use-kind for reading a variable ('old' value). */
+    public final int readUseKind;
 
-    /** Variable kind index for writing a variable ('new' value). */
-    public final int writeIndex;
+    /** Variable use-kind for writing a variable ('new' value). */
+    public final int writeUseKind;
 
     /** Expression converter for converting predicates. Uses 'readIndex' to access variables. */
     private ConvertExpression predicateConvertor = null;
@@ -43,14 +43,14 @@ public class MvSpecBuilder {
      * Constructor of the {@link MvSpecBuilder} class.
      *
      * @param cifVarInfoBuilder Storage of the relation between nodes in the tree and CIF variables.
-     * @param readIndex Variable sub-index for the current version of a variable.
-     * @param writeIndex Variable sub-index for the next version of a variable.
+     * @param readUseKind Variable use-kind for the current value of a variable.
+     * @param writeUseKind Variable use kind for the next value of a variable.
      */
-    public MvSpecBuilder(CifVarInfoBuilder cifVarInfoBuilder, int readIndex, int writeIndex) {
+    public MvSpecBuilder(CifVarInfoBuilder cifVarInfoBuilder, int readUseKind, int writeUseKind) {
         this.cifVarInfoBuilder = cifVarInfoBuilder;
         this.tree = new Tree();
-        this.readIndex = readIndex;
-        this.writeIndex = writeIndex;
+        this.readUseKind = readUseKind;
+        this.writeUseKind = writeUseKind;
     }
 
     /**
@@ -60,7 +60,7 @@ public class MvSpecBuilder {
      */
     public ConvertExpression getPredicateConvertor() {
         if (predicateConvertor == null) {
-            predicateConvertor = new ConvertExpression(cifVarInfoBuilder, tree, readIndex, writeIndex);
+            predicateConvertor = new ConvertExpression(cifVarInfoBuilder, tree, readUseKind, writeUseKind);
         }
         return predicateConvertor;
     }

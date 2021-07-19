@@ -30,11 +30,11 @@ public class CifVarInfoBuilder extends VarInfoBuilder<Declaration> {
     /**
      * Constructor of the {@link CifVarInfoBuilder} class.
      *
-     * @param numSubIndices Number of uses for a single CIF variable.
+     * @param numUseKinds Number of use-kinds for a single CIF variable.
      * @see VarInfoBuilder
      */
-    public CifVarInfoBuilder(int numSubIndices) {
-        super(numSubIndices);
+    public CifVarInfoBuilder(int numUseKinds) {
+        super(numUseKinds);
     }
 
     @Override

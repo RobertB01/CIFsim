@@ -27,15 +27,15 @@ import org.eclipse.escet.common.java.Assert;
  * @param <V> Variable class linked to {@link VarInfo} instances.
  */
 public abstract class VarInfoBuilder<V> {
-    /** Number of uses of a variable within the application. */
-    public final int numSubIndices;
+    /** Number of use-kinds of variables within the application. */
+    public final int numUseKinds;
 
     /**
      * All the {@link VarInfo} instances ordered by variable.
      *
      * <p>
-     * The array indices correspond with the kind of use (one use for one variable corresponds with one
-     * {@link VarInfo}).
+     * The array indices correspond with the use-kinds, each kind of use for a variable has its own
+     * {@link VarInfo}.
      * </p>
      */
     private final Map<V, VarInfo[]> varInfosByVariable = map();
@@ -44,7 +44,7 @@ public abstract class VarInfoBuilder<V> {
      * All the variables, accessible by {@link VarInfo} instance.
      *
      * <p>
-     * The kind of use of the variable can be found in {@link VarInfo#subIndex} of the key.
+     * The use-kind of the variable can be found in {@link VarInfo#useKind} of the key.
      * </p>
      */
     private final Map<VarInfo, V> variableByVarInfo = map();
@@ -61,49 +61,49 @@ public abstract class VarInfoBuilder<V> {
     /**
      * Constructor of the {@link VarInfoBuilder} class.
      *
-     * @param numSubIndices Number of uses for a variable.
-     * @note Each use gets a non-negative number up to and excluding 'numSubIndices'. Multi-value code doesn't use or
-     *     care about these numbers, for consistency between applications it's recommended to use {@code 0} for reading,
-     *     and {@code 1} for writing a variable.
+     * @param numUseKinds Number of use-kinds for a variable.
+     * @note Each kind of use gets a non-negative number up to and excluding 'numUseKinds'. Multi-value tree code
+     *     doesn't use or care about these numbers, for consistency between applications it's recommended to use
+     *     value {@code 0} for reading and {@code 1} for writing of a variable.
      */
-    public VarInfoBuilder(int numSubIndices) {
-        this.numSubIndices = numSubIndices;
+    public VarInfoBuilder(int numUseKinds) {
+        this.numUseKinds = numUseKinds;
         varInfos.add(null); // First entry is not used.
     }
 
     /**
-     * Elementary method to construct a {@link VarInfo} from a variable and its use.
+     * Elementary method to construct a {@link VarInfo} from a variable and its kind of use.
      *
      * <p>
-     * It is allowed to skip creation of some uses for a variable if so desired. The corresponding {@link VarInfo}
+     * It is allowed to skip creation of some kinds of use for a variable if so desired. The corresponding {@link VarInfo}
      * instance will not be created, and querying it will yield {@code null}. You cannot insert nodes in the tree for
      * non-existing {@link VarInfo} instances.
      * </p>
      *
      * @param var Variable to associate with the new {@link VarInfo} instance.
-     * @param subIndex Kind of use of the variable for the new {@link VarInfo} instance.
+     * @param useKind Kind of use of the variable for the new {@link VarInfo} instance.
      * @return The created {@link VarInfo} instance.
      * @note While allowed, it is not required to store the returned instance. The builder has facilities to query them
      *     afterwards.
      * @throws AssertionError If the combination of variable and kind of use has already been created before in this
      *     builder.
      */
-    public VarInfo addVariable(V var, int subIndex) {
-        Assert.check(subIndex >= 0 && subIndex < numSubIndices);
+    public VarInfo addVariable(V var, int useKind) {
+        Assert.check(useKind >= 0 && useKind < numUseKinds);
 
         VarInfo[] vis = varInfosByVariable.get(var);
         if (vis == null) {
-            vis = new VarInfo[numSubIndices];
+            vis = new VarInfo[numUseKinds];
             varInfosByVariable.put(var, vis);
         }
-        Assert.check(vis[subIndex] == null, "Varinfo is already created.");
+        Assert.check(vis[useKind] == null, "Varinfo is already created.");
 
         String name = getName(var);
         int lower = getLowerBound(var);
         int length = getNumValues(var);
-        VarInfo vi = new VarInfo(varInfos.size(), name, subIndex, lower, length);
+        VarInfo vi = new VarInfo(varInfos.size(), name, useKind, lower, length);
         varInfos.add(vi);
-        vis[subIndex] = vi;
+        vis[useKind] = vi;
         variableByVarInfo.put(vi, var);
         return vi;
     }
@@ -117,8 +117,8 @@ public abstract class VarInfoBuilder<V> {
      *     afterwards.
      */
     public VarInfo[] addVariable(V var) {
-        for (int subIndex = 0; subIndex < numSubIndices; subIndex++) {
-            addVariable(var, subIndex);
+        for (int useKind = 0; useKind < numUseKinds; useKind++) {
+            addVariable(var, useKind);
         }
         return varInfosByVariable.get(var);
     }
@@ -145,10 +145,10 @@ public abstract class VarInfoBuilder<V> {
      * @note Uses of the first given variable will be closer to the root, uses of the last variable will be closer to
      *     the {@link Tree#ZERO} and {@link Tree#ONE} nodes.
      */
-    public void addVariablesGroupOnSubIndex(List<V> vars) {
-        for (int subIndex = 0; subIndex < numSubIndices; subIndex++) {
+    public void addVariablesGroupOnUseKind(List<V> vars) {
+        for (int useKind = 0; useKind < numUseKinds; useKind++) {
             for (V var: vars) {
-                addVariable(var, subIndex);
+                addVariable(var, useKind);
             }
         }
     }
@@ -170,14 +170,14 @@ public abstract class VarInfoBuilder<V> {
      * Get the {@link VarInfo} entry for a particular use of a variable.
      *
      * @param var Variable to query.
-     * @param subIdx Index of the kind of use of the variable.
+     * @param useKind Index of the kind of use of the variable.
      * @return The {@link VarInfo} entry related to that use of the variable.
      * @throws AssertionError If the {@link VarInfo} entry does not exist.
      */
-    public VarInfo getVarInfo(V var, int subIdx) {
+    public VarInfo getVarInfo(V var, int useKind) {
         VarInfo[] varInfos = getVarInfos(var);
-        Assert.notNull(varInfos[subIdx]);
-        return varInfos[subIdx];
+        Assert.notNull(varInfos[useKind]);
+        return varInfos[useKind];
     }
 
     /**

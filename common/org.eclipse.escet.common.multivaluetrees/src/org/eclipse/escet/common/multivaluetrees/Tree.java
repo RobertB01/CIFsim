@@ -135,7 +135,7 @@ public class Tree {
      * Build equality condition for a variable for a given value index of the variable.
      *
      * @param varInfo Variable to use in the equality.
-     * @param index Desired index of the variable in the tree.
+     * @param index Desired value index of the variable in the tree.
      * @return Tree with the constructed condition (that is, a single node).
      */
     public Node buildEqualityIndex(VarInfo varInfo, int index) {
@@ -146,7 +146,7 @@ public class Tree {
      * Build equality condition for a variable for a given value at a given index on top of an existing tree.
      *
      * @param varInfo Variable to use in the equality.
-     * @param index Desired index of the variable in the tree.
+     * @param index Desired value index of the variable in the tree.
      * @param sub Existing tree to build the equality on.
      * @return Tree with the constructed condition (that is, a single node).
      */
@@ -517,7 +517,7 @@ public class Tree {
      *
      * @param n Node to modify for the assignment.
      * @param varInfo Variable to assign.
-     * @param index Value of the variable.
+     * @param index Value index of the variable.
      * @return Sub-expression that holds for that value, excluding the variable and its value.
      */
     public Node assign(Node n, VarInfo varInfo, int index) {

@@ -18,11 +18,11 @@ public class SimpleVarInfoBuilder extends VarInfoBuilder<SimpleVariable> {
     /**
      * Constructor of the {@link SimpleVarInfoBuilder} class.
      *
-     * @param numSubIndices Number of uses for a single variable.
+     * @param numUseKinds Number of use-kinds for a single variable.
      * @see VarInfoBuilder
      */
-    public SimpleVarInfoBuilder(int numSubIndices) {
-        super(numSubIndices);
+    public SimpleVarInfoBuilder(int numUseKinds) {
+        super(numUseKinds);
     }
 
     @Override
