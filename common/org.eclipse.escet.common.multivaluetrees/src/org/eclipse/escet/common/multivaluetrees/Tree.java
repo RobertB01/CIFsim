@@ -714,14 +714,14 @@ public class Tree {
         //
         // result = false
         // for value in domain(variable):
-        // // Select a value of the new variable.
-        // sub = assign(a, newVar, value)
-        // // Eliminate the old variable in the sub-expression.
-        // sub2 = disjunct([assign(sub, oldVar, val) for val in domain(variable)])
-        // // Build a new sub-expression wit the same value for the old variable
-        // sub3 = conjunct(sub2, buildEqualityValue(oldVar, value))
-        // // and merge it into the overall tree.
-        // result = disjunct([result, sub3)
+        // .. // Select a value of the new variable.
+        // .. sub = assign(a, newVar, value)
+        // .. // Eliminate the old variable in the sub-expression.
+        // .. sub2 = disjunct([assign(sub, oldVar, val) for val in domain(variable)])
+        // .. // Build a new sub-expression wit the same value for the old variable
+        // .. sub3 = conjunct(sub2, buildEqualityValue(oldVar, value))
+        // .. // and merge it into the overall tree.
+        // .. result = disjunct([result, sub3)
         // return result
         //
         // In reality, all things are done at the same time. Two cases are
