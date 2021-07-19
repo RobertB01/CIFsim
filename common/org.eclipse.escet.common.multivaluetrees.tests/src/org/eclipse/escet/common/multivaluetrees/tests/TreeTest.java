@@ -332,6 +332,8 @@ public class TreeTest {
     /** Adjacent replace test with 'old' variable at top-level. */
     @Test
     public void replaceAdjacentVarsOldNewTest() {
+        final boolean DEBUG = false;
+
         Tree t = new Tree();
         VarInfo vi1 = svb.getVarInfo(v1, 0);
         VarInfo vi2 = svb.getVarInfo(v2, 0);
@@ -374,11 +376,16 @@ public class TreeTest {
                             n = t.conjunct(vi1eq5, n);
                             m = t.conjunct(vi1eq5, m);
                         }
-                        // System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
-                        // System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+
+                        if (DEBUG) {
+                            System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
+                            System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                        }
                         Node p = t.adjacentReplacements(n, replacements);
-                        // System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
-                        // System.out.printf("\n\n");
+                        if (DEBUG) {
+                            System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
+                            System.out.printf("\n\n");
+                        }
                         assertSame(p, m);
                     }
                 }
@@ -389,6 +396,8 @@ public class TreeTest {
     /** Adjacent replace test with 'new' variable at top-level. */
     @Test
     public void replaceAdjacentVarsNewOldTest() {
+        final boolean DEBUG = false;
+
         Tree t = new Tree();
         VarInfo vi1 = svb.getVarInfo(v1, 0);
         VarInfo vi2 = svb.getVarInfo(v2, 0);
@@ -431,11 +440,15 @@ public class TreeTest {
                             n = t.conjunct(vi1eq5, n);
                             m = t.conjunct(vi1eq5, m);
                         }
-                        // System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
-                        // System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                        if (DEBUG) {
+                            System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
+                            System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                        }
                         Node p = t.adjacentReplacements(n, replacements);
-                        // System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
-                        // System.out.printf("\n\n");
+                        if (DEBUG) {
+                            System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
+                            System.out.printf("\n\n");
+                        }
                         assertSame(p, m);
                     }
                 }
@@ -445,6 +458,8 @@ public class TreeTest {
 
     @Test
     public void replaceOldNewTest() {
+        final boolean DEBUG = false;
+
         SimpleVariable v1 = new SimpleVariable("v1", 5, 5); // int[5..9] v1
         SimpleVariable v2 = new SimpleVariable("v2", 5, 5); // int[5..9] v2
         SimpleVariable v3 = new SimpleVariable("v3", 5, 5); // int[5..9] v3
@@ -497,12 +512,15 @@ public class TreeTest {
                                 n = t.conjunct(n, vi1eq5);
                                 m = t.conjunct(m, vi1eq5);
                             }
-                            // System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
-                            // System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                            if (DEBUG) {
+                                System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
+                                System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                            }
                             Node p = t.replace(n, vi2, vi4);
-                            // System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
-                            // System.out.printf("\n\n");
-                            // if (p != m) p = t.replace(n, vi2, vi4);
+                            if (DEBUG) {
+                                System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
+                                System.out.printf("\n\n");
+                            }
                             assertSame(p, m);
                         }
                     }
@@ -513,6 +531,8 @@ public class TreeTest {
 
     @Test
     public void replaceNewOldTest() {
+        final boolean DEBUG = false;
+
         SimpleVariable v1 = new SimpleVariable("v1", 5, 5); // int[5..9] v1
         SimpleVariable v2 = new SimpleVariable("v2", 5, 5); // int[5..9] v2
         SimpleVariable v3 = new SimpleVariable("v3", 5, 5); // int[5..9] v3
@@ -565,12 +585,15 @@ public class TreeTest {
                                 n = t.conjunct(n, vi1eq5);
                                 m = t.conjunct(m, vi1eq5);
                             }
-                            // System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
-                            // System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                            if (DEBUG) {
+                                System.out.printf("Input node:\n%s\n", t.dumpGraph(n));
+                                System.out.printf("Expected output node:\n%s\n", t.dumpGraph(m));
+                            }
                             Node p = t.replace(n, vi4, vi2);
-                            // System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
-                            // System.out.printf("\n\n");
-                            // if (p != m) p = t.replace(n, vi4, vi2);
+                            if (DEBUG) {
+                                System.out.printf("Real output node:\n%s\n", t.dumpGraph(p));
+                                System.out.printf("\n\n");
+                            }
                             assertSame(p, m);
                         }
                     }
