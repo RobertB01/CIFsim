@@ -405,7 +405,11 @@ public class ConvertExpression {
     private static class AdditionOp implements BinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
-            return leftValue + rightValue;
+            long rslt = (long)leftValue + (long)rightValue;
+            if (Integer.MIN_VALUE <= rslt && rslt <= Integer.MAX_VALUE) {
+                return Integer.valueOf((int)rslt);
+            }
+            return null;
         }
     }
 
@@ -413,7 +417,11 @@ public class ConvertExpression {
     private static class SubtractionOp implements BinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
-            return leftValue - rightValue;
+            long rslt = (long)leftValue - (long)rightValue;
+            if (Integer.MIN_VALUE <= rslt && rslt <= Integer.MAX_VALUE) {
+                return Integer.valueOf((int)rslt);
+            }
+            return null;
         }
     }
 
@@ -421,7 +429,11 @@ public class ConvertExpression {
     private static class MultiplicationOp implements BinaryOperation {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
-            return leftValue * rightValue;
+            long rslt = (long)leftValue * (long)rightValue;
+            if (Integer.MIN_VALUE <= rslt && rslt <= Integer.MAX_VALUE) {
+                return Integer.valueOf((int)rslt);
+            }
+            return null;
         }
     }
 
@@ -430,6 +442,9 @@ public class ConvertExpression {
         @Override
         public Integer perform(Integer leftValue, Integer rightValue) {
             if (rightValue == 0) {
+                return null;
+            }
+            if (leftValue == Integer.MIN_VALUE && rightValue == -1) {
                 return null;
             }
             return leftValue / rightValue;
