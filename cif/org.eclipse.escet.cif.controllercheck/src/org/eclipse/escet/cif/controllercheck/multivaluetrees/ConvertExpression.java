@@ -308,16 +308,14 @@ public class ConvertExpression {
             Expression value = switchExpr.getValue();
             List<SwitchCase> cases = switchExpr.getCases();
 
-            // Assumes no switch expressions with 'self'.
-            Assert.check(!CifTypeUtils.isAutRefExpr(value));
-
             // Convert else.
             IntegerValueCollection rslt = convert(last(cases).getValue());
 
             // Convert cases.
             for (int i = cases.size() - 2; i >= 0; i--) {
                 SwitchCase cse = cases.get(i);
-                IntegerValueCollection caseGuard = performBoolOp(convert(value), convert(cse.getKey()), equalOp);
+                IntegerValueCollection caseGuard = CifTypeUtils.isAutRefExpr(value) ? convert(value)
+                        : performBoolOp(convert(value), convert(cse.getKey()), equalOp);
                 IntegerValueCollection caseThen = convert(cse.getValue());
                 rslt = ifThenElse(caseGuard, caseThen, rslt);
             }
