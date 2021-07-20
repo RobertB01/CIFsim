@@ -18,9 +18,9 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF simulator,start]
 The CIF simulator can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:Simulate CIF specification...[].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF simulation, validation and verification tools[Simulate CIF specification...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose menu:Simulate CIF specification...[].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF simulation, validation and verification tools[Simulate CIF specification...].
 
 * Use the `cifsim` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.

@@ -31,9 +31,9 @@ indexterm:[controller property checker,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF implementation tools[Apply controller checks...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF simulation, validation and verification tools[Apply controller checks...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Apply controller checks...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF simulation, validation and verification tools[Apply controller checks...].
 
 * Use the `cifctrlcheck` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.

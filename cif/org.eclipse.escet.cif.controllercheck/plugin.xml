@@ -41,13 +41,12 @@
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
                icon="icons/controllercheck.png"
-               id="org.eclipse.escet.cif.menu.implementation"
-               label="CIF implemen&amp;tation tools">
+               id="org.eclipse.escet.cif.menu.validation"
+               label="CIF simul&amp;ation, validation and verification tools">
             <command
                   commandId="org.eclipse.escet.cif.controllercheck.ControllerCheckCommand"
                   icon="icons/controllercheck.png"
-                  label="Apply controller checks..."
-                  style="push">
+                  label="Apply &amp;controller checks...">
                <visibleWhen>
                   <or>
                      <with variable="activeMenuSelection">

@@ -35,20 +35,17 @@ _Supervisory controller synthesis_
 * <<tools-eventbased-chapter-index>>
 * <<tools-chapter-cif2supremica>>
 
-_Simulation, validation, and visualization_
+_Simulation, validation, and verification_
 
 * <<tools-cifsim-chapter-index>>
-
-_Verification_
-
 * <<tools-chapter-cif2mcrl2>>
 * <<tools-chapter-cif2uppaal>>
+* <<tools-chapter-controller-checker>>
 
 _Real-time testing, code generation, and implementation_
 
 * <<tools-codegen-chapter-index>>
 * <<tools-cif2plc-chapter-index>>
-* <<tools-chapter-controller-checker>>
 
 _Miscellaneous_
 
