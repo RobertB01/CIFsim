@@ -35,7 +35,7 @@ import static org.eclipse.escet.common.java.Sets.isEmptyIntersection;
 import static org.eclipse.escet.common.java.Sets.set;
 
 import java.util.BitSet;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -147,6 +147,19 @@ public class FiniteResponseChecker {
         // Get the global guards in the tree.
         globalGuards = collectGlobalGuards(controllableEvents);
 
+        // Remove controllable events that are always disabled.
+        Iterator<Event> evtIterator = controllableEvents.iterator();
+        Event evt;
+        while (evtIterator.hasNext()) {
+            evt = evtIterator.next();
+            Node n = globalGuards.get(evt);
+            Assert.check(n != null);
+
+            if (n == Tree.ZERO) {
+                evtIterator.remove();
+            }
+        }
+
         // Check all automata for controllable-event loops. If an automata has a controllable event in its alphabet, but
         // not in any of its potential controllable loops, then this event is removed from the controllable-event set.
         // We keep repeating the search until the controllable-event set is not updated anymore or the set is empty.
@@ -239,19 +252,19 @@ public class FiniteResponseChecker {
             out("The following events have been encountered in a controllable-event loop of automaton %s:",
                     getAbsName(aut));
             iout();
-        }
 
-        // Check whether the loop is controllable unconnectable. If it is not, it is a potential controllable-event loop
-        // in the system. Print the result.
-        for (EventLoop controllableEventLoop: controllableEventLoops) {
-            if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
-                out("%s, which is controllable unconnectable.", controllableEventLoop.toString());
-            } else {
-                out("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
-                eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
+            // Check whether the loop is controllable unconnectable. If it is not, it is a potential controllable-event
+            // loop in the system. Print the result.
+            for (EventLoop controllableEventLoop: controllableEventLoops) {
+                if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
+                    out("%s, which is controllable unconnectable.", controllableEventLoop.toString());
+                } else {
+                    out("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
+                    eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
+                }
             }
+            dout();
         }
-        dout();
 
         // Determine which events are in the alphabet of the automaton, but not in any of its potential
         // controllable-event loops.
@@ -346,41 +359,56 @@ public class FiniteResponseChecker {
      */
     private Map<Event, Node> collectGlobalGuards(Set<Event> events) {
         // An event is enabled in the specification if all of the global guard expressions evaluate to 'true'.
-        Map<Event, List<Expression>> eventGlobalGuards = map();
+        Map<Event, List<Expression>> eventGlobalGuards = mapc(events.size());
+
+        // Initialize the global guards.
+        for (Event evt: events) {
+            eventGlobalGuards.put(evt, list());
+        }
 
         for (Automaton aut: automata) {
-            // An event is enabled in an automaton if any of the automaton guard expressions evaluate to 'true'.
-            Map<Event, List<Expression>> eventAutGuards = map();
+            // An event is enabled in an automaton if any of the automaton guards evaluate to 'true'.
+            // Initialize the automaton guard to 'false'. Events in the alphabet but not on any edge are regarded as
+            // always disabled.
+            Set<Event> controllableAlphabet = intersection(getAlphabet(aut), events);
+            Map<Event, List<Expression>> eventAutGuards = mapc(controllableAlphabet.size());
+            for (Event evt: controllableAlphabet) {
+                eventAutGuards.put(evt, list());
+            }
+            // Find the automaton guards.
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
-                    Set<Event> intersection = intersection(getEvents(edge), events);
-                    if (intersection.isEmpty() || edge.getGuards().isEmpty()) {
+                    Set<Event> intersection = intersection(getEvents(edge), controllableAlphabet);
+                    if (intersection.isEmpty()) {
                         continue;
                     }
 
-                    // An edge with a guard, labeled with an event from the supplied set has been found. The edge is
-                    // enabled if all expression evaluate to 'true'. Therefore, the guards are combined via 'and'.
+                    // An edge labeled with an event from the supplied set has been found. The edge is enabled if all
+                    // edge guards evaluate to 'true'. Therefore, the guards are combined via 'and'. If there are no
+                    // guards, 'true' is added to 'automGuards'.
                     for (Event evt: intersection) {
-                        List<Expression> automGuards = eventAutGuards.getOrDefault(evt, list());
+                        List<Expression> automGuards = eventAutGuards.get(evt);
                         automGuards.add(createConjunction(deepclone(edge.getGuards())));
-                        eventAutGuards.put(evt, automGuards);
                     }
                 }
             }
 
             // An event is enabled in an automaton if at least one edge with that event is enabled. Hence,
-            // the automaton guards are combined via 'or'.
+            // the automaton guards are combined via 'or'. If an event is in the alphabet, but not labeled on any edge,
+            // 'false' is added to 'eventGlobalGuards'.
             for (Entry<Event, List<Expression>> entry: eventAutGuards.entrySet()) {
-                List<Expression> globalGuards = eventGlobalGuards.getOrDefault(entry.getKey(), list());
+                List<Expression> globalGuards = eventGlobalGuards.get(entry.getKey());
                 globalGuards.add(createDisjunction(entry.getValue()));
-                eventGlobalGuards.put(entry.getKey(), globalGuards);
             }
         }
 
+        // Convert the collected global guards to an MDD tree.
         Map<Event, Node> eventNode = mapc(events.size());
         for (Event event: events) {
-            List<Expression> globalGuards = eventGlobalGuards.getOrDefault(event, Collections.emptyList());
-            Node nodeGuard = globalGuards.isEmpty() ? Tree.ONE
+            List<Expression> globalGuards = eventGlobalGuards.get(event);
+
+            // If there are no global guards for an event, that event is always disabled.
+            Node nodeGuard = globalGuards.isEmpty() ? Tree.ZERO
                     : builder.getPredicateConvertor().convert(globalGuards).get(1);
             eventNode.put(event, nodeGuard);
         }

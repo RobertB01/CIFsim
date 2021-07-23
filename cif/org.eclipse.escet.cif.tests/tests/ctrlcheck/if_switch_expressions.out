@@ -3,14 +3,10 @@ Checking for finite response...
 Iteration 1.
     The following events have been encountered in a controllable-event loop of automaton Aut1:
         (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton Aut2:
-        (Aut2.c_a Aut2.c_b), which is controllable unconnectable.
     The following events have been encountered in a controllable-event loop of automaton Aut3:
         (Aut3.c_a Aut3.c_b), which is controllable unconnectable.
     The following events have been encountered in a controllable-event loop of automaton Aut4:
         (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
-    The following events have been encountered in a controllable-event loop of automaton Aut5:
-        (Aut5.c_a Aut5.c_b), which is controllable unconnectable.
     The following events have been encountered in a controllable-event loop of automaton Aut6:
         (Aut6.c_a Aut6.c_b), which is controllable unconnectable.
     The following events have been encountered in a controllable-event loop of automaton RequirementStateEvtExcls:
