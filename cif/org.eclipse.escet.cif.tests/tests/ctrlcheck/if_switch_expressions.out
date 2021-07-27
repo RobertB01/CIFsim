@@ -1,3 +1,4 @@
+Loading CIF specification "ctrlcheck/if_switch_expressions.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -31,4 +32,3 @@ CONCLUSION:
         - Aut1.c_b
         - Aut4.c_a
         - Aut4.c_b
-

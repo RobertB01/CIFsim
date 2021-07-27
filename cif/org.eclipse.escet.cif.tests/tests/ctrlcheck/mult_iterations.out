@@ -1,3 +1,4 @@
+Loading CIF specification "ctrlcheck/mult_iterations.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -15,4 +16,3 @@ Iteration 2.
 
 CONCLUSION:
     The specification has finite response.
-

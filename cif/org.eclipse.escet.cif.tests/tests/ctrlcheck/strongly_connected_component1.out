@@ -1,3 +1,4 @@
+Loading CIF specification "ctrlcheck/strongly_connected_component1.cif"...
 Checking for finite response...
 
 Iteration 1.
@@ -31,4 +32,3 @@ CONCLUSION:
         - A.l
         - A.m
         - A.o
-

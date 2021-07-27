@@ -22,7 +22,10 @@ import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifValueUtils.createConjunction;
 import static org.eclipse.escet.cif.common.CifValueUtils.createDisjunction;
 import static org.eclipse.escet.cif.controllercheck.finiteresponse.EventLoopSearch.searchEventLoops;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.ddbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dout;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.idbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.iout;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
@@ -119,8 +122,8 @@ public class FiniteResponseChecker {
             warn("The specification contains 0 automata.");
 
             out();
-            iout();
             out("CONCLUSION:");
+            iout();
             out("The specification has finite response.");
             dout();
             return true;
@@ -130,8 +133,8 @@ public class FiniteResponseChecker {
             warn("The specification contains 0 controllable events.");
 
             out();
-            iout();
             out("CONCLUSION:");
+            iout();
             out("The specification has finite response.");
             dout();
             return true;
@@ -167,21 +170,21 @@ public class FiniteResponseChecker {
         int iterationNumber = 1;
 
         do {
-            out();
-            out("Iteration %d.", iterationNumber);
+            dbg();
+            dbg("Iteration %d.", iterationNumber);
             iterationNumber++;
             oldSize = controllableEvents.size();
 
-            iout();
+            idbg();
             for (Automaton aut: automata) {
                 checkAutomaton(aut);
             }
-            dout();
+            ddbg();
         } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
 
         // Print the result. There is finite response whenever there are no more controllable events left. Otherwise,
         // finite response cannot be guaranteed.
-        out();
+        dbg();
         out("CONCLUSION:");
         iout();
         if (!controllableEvents.isEmpty()) {
@@ -200,7 +203,6 @@ public class FiniteResponseChecker {
             out("The specification has finite response.");
         }
         dout();
-        out();
 
         return controllableEvents.isEmpty();
     }
@@ -249,21 +251,21 @@ public class FiniteResponseChecker {
 
         // Print output if controllable-event loops were found.
         if (!controllableEventLoops.isEmpty()) {
-            out("The following events have been encountered in a controllable-event loop of automaton %s:",
+            dbg("The following events have been encountered in a controllable-event loop of automaton %s:",
                     getAbsName(aut));
-            iout();
+            idbg();
 
             // Check whether the loop is controllable unconnectable. If it is not, it is a potential controllable-event
             // loop in the system. Print the result.
             for (EventLoop controllableEventLoop: controllableEventLoops) {
                 if (isUnconnectable(controllableEventLoop, nonCtrlIndependentVarsInfos)) {
-                    out("%s, which is controllable unconnectable.", controllableEventLoop.toString());
+                    dbg("%s, which is controllable unconnectable.", controllableEventLoop.toString());
                 } else {
-                    out("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
+                    dbg("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
                     eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
                 }
             }
-            dout();
+            ddbg();
         }
 
         // Determine which events are in the alphabet of the automaton, but not in any of its potential
