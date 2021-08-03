@@ -239,6 +239,30 @@ public final class Lists {
     }
 
     /**
+     * Determines whether two lists are shifted copies of each other.
+     *
+     * @param <T> The type of the elements of the list.
+     * @param lst1 The first list.
+     * @param lst2 The second list.
+     * @return {@code true} if the lists are shifted copies, {@code false} otherwise.
+     */
+    public static <T> boolean isShiftedCopy(List<T> lst1, List<T> lst2) {
+        if (lst1.size() != lst2.size()) {
+            return false;
+        }
+
+        int n = lst1.size();
+        List<T> twiceLst1 = concat(lst1, lst1);
+        for (int i = 0; i < n; i++) {
+            if (twiceLst1.subList(i, i + n).equals(lst2)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns a reversed, shallow copy of a list.
      *
      * @param <TR> The type of the elements of the resulting list.

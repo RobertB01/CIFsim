@@ -131,7 +131,7 @@ public class EventLoopSearch {
      * @return The event loop on top of the stack.
      */
     private static EventLoop retrieveLoopFromStack(Integer fromIndex, List<Event> stack) {
-        Set<Event> events = setc(stack.size() - fromIndex);
+        List<Event> events = listc(stack.size() - fromIndex);
         events.addAll(stack.subList(fromIndex, stack.size()));
         return new EventLoop(events);
     }

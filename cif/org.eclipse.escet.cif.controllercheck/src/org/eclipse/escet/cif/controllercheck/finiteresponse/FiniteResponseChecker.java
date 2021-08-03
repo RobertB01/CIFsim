@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.common.CifCollectUtils.collectControllableEv
 import static org.eclipse.escet.cif.common.CifCollectUtils.collectDiscAndInputVariables;
 import static org.eclipse.escet.cif.common.CifEventUtils.getAlphabet;
 import static org.eclipse.escet.cif.common.CifEventUtils.getEvents;
+import static org.eclipse.escet.cif.common.CifSortUtils.sortCifObjects;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifValueUtils.createConjunction;
 import static org.eclipse.escet.cif.common.CifValueUtils.createDisjunction;
@@ -31,6 +32,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.intersection;
@@ -194,7 +196,9 @@ public class FiniteResponseChecker {
             if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
                 out("The following events might still occur in a controllable-event loop:");
                 iout();
-                for (Event event: controllableEvents) {
+                List<Event> orderedEvents = set2list(controllableEvents);
+                sortCifObjects(orderedEvents);
+                for (Event event: orderedEvents) {
                     out("- %s", getAbsName(event));
                 }
                 dout();

@@ -19,6 +19,7 @@ import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.filter;
 import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Lists.isShiftedCopy;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -28,6 +29,7 @@ import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -517,6 +519,23 @@ public class ListsTest {
     public void testFirstEmpty() {
         List<Object> l = list();
         first(l);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testIsShiftedCopy() {
+        RuntimeException e1 = new NullPointerException();
+        RuntimeException e2 = new IllegalArgumentException();
+        RuntimeException e3 = new RuntimeException();
+        List<RuntimeException> exs1 = list(e1, e2, e3);
+        List<RuntimeException> exs2 = list(e3, e1, e2);
+        List<RuntimeException> exs3 = list(e1, e3, e2);
+
+        assertTrue(isShiftedCopy(exs1, exs1));
+        assertTrue(isShiftedCopy(exs1, exs2));
+        assertTrue(isShiftedCopy(exs2, exs1));
+        assertFalse(isShiftedCopy(exs1, exs3));
+        assertFalse(isShiftedCopy(exs3, exs1));
     }
 
     @Test

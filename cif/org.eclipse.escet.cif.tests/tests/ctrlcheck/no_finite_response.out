@@ -13,5 +13,5 @@ CONCLUSION:
     
     At least one controllable-event loop was found.
     The following events might still occur in a controllable-event loop:
-        - Actuator.c_on
         - Actuator.c_off
+        - Actuator.c_on

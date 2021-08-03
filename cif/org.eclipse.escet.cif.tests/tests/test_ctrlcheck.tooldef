@@ -27,6 +27,7 @@ map(string:list string) test_options = {
     "ctrlcheck/mult_iterations.cif":               ["--output-mode=debug"],
     "ctrlcheck/no_finite_response.cif":            ["--output-mode=debug"],
     "ctrlcheck/self_loop.cif":                     ["--output-mode=debug"],
+    "ctrlcheck/special_loops.cif":                 ["--output-mode=debug"],
     "ctrlcheck/strongly_connected_component1.cif": ["--output-mode=debug"],
     "ctrlcheck/strongly_connected_component2.cif": ["--output-mode=debug"],
     "ctrlcheck/strongly_connected_component3.cif": ["--output-mode=debug"],
