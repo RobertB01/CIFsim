@@ -199,15 +199,19 @@ indexterm:[controller checker property,false positives]
 === False positives
 
 This check is an over-approximation of the existence of controllable event-loops.
-Therefore, the check may result in false positives (i.e., the checks outputs that there is no finite-response, that may be incorrect.)
+As a result, the check might indicate that the specification may not have finite response, while in reality it has finite response.
+When the check indicates that there is finite response, this is always correct.
 
-It is possible that loops exist in the nonreachable part of the state space.
-In that case, false positives may be reported.
+To avoid false positives, use the <<tools-chapter-cif-explorer,CIF explorer>> to compute the untimed statespace.
+
+False positives may be reported in the following situations:
+* Loops exist in the nonreachable part of the statespace.
+* Edges contain guards or updates.
 
 While determining loops in the automata, only explicit loops are considered.
 That is, the algorithm omits guards and updates of the variables.
 For that reason, in the example below, `c_on` and `c_off` are two independent loops (instead of `c_on, c_off` if the guards and update were included).
-To reduce the number of false positives, it is advised to used locations instead of variables whenever possible.
+To reduce the number of false positives, it is advised to use locations instead of variables whenever possible.
 
 [source, cif]
 ----
