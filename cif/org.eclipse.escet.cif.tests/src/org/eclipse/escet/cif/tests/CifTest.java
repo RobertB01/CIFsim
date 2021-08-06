@@ -152,8 +152,8 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
 
     /** CIF controller checker tests. */
     @Test
-    public void testCtrlcheck() {
-        test("tests/test_ctrlcheck.tooldef");
+    public void testControllerCheck() {
+        test("tests/test_controllercheck.tooldef");
     }
 
     /** Data synthesis tests. */

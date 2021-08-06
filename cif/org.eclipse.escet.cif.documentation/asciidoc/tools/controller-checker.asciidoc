@@ -35,10 +35,10 @@ The transformation can be started in the following ways:
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF simulation, validation and verification tools[Apply controller checks...].
 
-* Use the `cifctrlcheck` tool in a ToolDef script.
+* Use the `cifcontrollercheck` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
-* Use the `cifctrlcheck` command line tool.
+* Use the `cifcontrollercheck` command line tool.
 
 indexterm:[controller property checker,options]
 

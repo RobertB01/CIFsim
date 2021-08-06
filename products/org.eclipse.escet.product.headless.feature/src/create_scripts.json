@@ -97,7 +97,7 @@
             "class_name": "org.eclipse.escet.cif.eventbased.apps.NonconflictingCheckApplication"
         },
         {
-            "script_name": "cifctrlcheck",
+            "script_name": "cifcontrollercheck",
             "plugin_name": "org.eclipse.escet.cif.controllercheck",
             "class_name": "org.eclipse.escet.cif.controllercheck.ControllerCheckApp"
         },

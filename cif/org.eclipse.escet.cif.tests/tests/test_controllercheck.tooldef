@@ -11,27 +11,27 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-from "lib:cif" import cifctrlcheck;
+from "lib:cif" import cifcontrollercheck;
 
 // Configuration.
-string test_path = "ctrlcheck";
+string test_path = "controllercheck";
 string test_pattern = "*.cif";
 list string default_options = ["--devmode=1"];
 
 map(string:list string) test_options = {
-    "ctrlcheck/disabled_evts.cif":                 ["--output-mode=debug"],
-    "ctrlcheck/has_finite_response.cif":           ["--output-mode=debug"],
-    "ctrlcheck/if_switch_expressions.cif":         ["--output-mode=debug"],
-    "ctrlcheck/input_variable.cif":                ["--output-mode=debug"],
-    "ctrlcheck/mult_events_edge.cif":              ["--output-mode=debug"],
-    "ctrlcheck/mult_iterations.cif":               ["--output-mode=debug"],
-    "ctrlcheck/no_finite_response.cif":            ["--output-mode=debug"],
-    "ctrlcheck/self_loop.cif":                     ["--output-mode=debug"],
-    "ctrlcheck/special_loops.cif":                 ["--output-mode=debug"],
-    "ctrlcheck/strongly_connected_component1.cif": ["--output-mode=debug"],
-    "ctrlcheck/strongly_connected_component2.cif": ["--output-mode=debug"],
-    "ctrlcheck/strongly_connected_component3.cif": ["--output-mode=debug"],
-    "ctrlcheck/three_part_loop.cif":               ["--output-mode=debug"],
+    "controllercheck/disabled_evts.cif":                 ["--output-mode=debug"],
+    "controllercheck/has_finite_response.cif":           ["--output-mode=debug"],
+    "controllercheck/if_switch_expressions.cif":         ["--output-mode=debug"],
+    "controllercheck/input_variable.cif":                ["--output-mode=debug"],
+    "controllercheck/mult_events_edge.cif":              ["--output-mode=debug"],
+    "controllercheck/mult_iterations.cif":               ["--output-mode=debug"],
+    "controllercheck/no_finite_response.cif":            ["--output-mode=debug"],
+    "controllercheck/self_loop.cif":                     ["--output-mode=debug"],
+    "controllercheck/special_loops.cif":                 ["--output-mode=debug"],
+    "controllercheck/strongly_connected_component1.cif": ["--output-mode=debug"],
+    "controllercheck/strongly_connected_component2.cif": ["--output-mode=debug"],
+    "controllercheck/strongly_connected_component3.cif": ["--output-mode=debug"],
+    "controllercheck/three_part_loop.cif":               ["--output-mode=debug"],
 };
 set string test_skip = {};
 
@@ -75,7 +75,7 @@ for test in tests:
 
     // Execute.
     options = options;
-    cifctrlcheck([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
+    cifcontrollercheck([test] + options, stdout=test_out_real, stderr=test_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
     bool stderr_diff = diff(test_err_exp, test_err_real, missingAsEmpty=true, warnOnDiff=true);
