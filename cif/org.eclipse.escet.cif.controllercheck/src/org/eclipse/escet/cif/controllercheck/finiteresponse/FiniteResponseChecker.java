@@ -60,6 +60,8 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.common.app.framework.AppEnv;
+import org.eclipse.escet.common.app.framework.AppEnvData;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.multivaluetrees.Node;
@@ -68,6 +70,9 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 
 /** Class for checking a CIF specification has finite response. */
 public class FiniteResponseChecker {
+    /** The application context to use. */
+    public final AppEnvData env = AppEnv.getData();
+
     /** Automata of the specification. */
     private List<Automaton> automata = list();
 
@@ -120,6 +125,10 @@ public class FiniteResponseChecker {
         collectControllableEvents(spec, controllableEvents);
         eventVarUpdate = collectEventVarUpdate();
 
+        if (env.isTerminationRequested()) {
+            return false;
+        }
+
         if (automata.isEmpty()) {
             warn("The specification contains 0 automata.");
 
@@ -149,8 +158,16 @@ public class FiniteResponseChecker {
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         builder = new MvSpecBuilder(cifVarInfoBuilder, readIndex, writeIndex);
 
+        if (env.isTerminationRequested()) {
+            return false;
+        }
+
         // Get the global guards in the tree.
         globalGuards = collectGlobalGuards(controllableEvents);
+
+        if (env.isTerminationRequested()) {
+            return false;
+        }
 
         // Remove controllable events that are always disabled.
         Iterator<Event> evtIterator = controllableEvents.iterator();
@@ -163,6 +180,10 @@ public class FiniteResponseChecker {
             if (n == Tree.ZERO) {
                 evtIterator.remove();
             }
+        }
+
+        if (env.isTerminationRequested()) {
+            return false;
         }
 
         // Check all automata for controllable-event loops. If an automata has a controllable event in its alphabet, but
@@ -180,6 +201,10 @@ public class FiniteResponseChecker {
             idbg();
             for (Automaton aut: automata) {
                 checkAutomaton(aut);
+
+                if (env.isTerminationRequested()) {
+                    return false;
+                }
             }
             ddbg();
         } while (oldSize != controllableEvents.size() && !controllableEvents.isEmpty());
@@ -226,7 +251,10 @@ public class FiniteResponseChecker {
 
         // Find the controllable-event loops in the automata. Here we ignore guards and updates, only use location,
         // edges, and events.
-        Set<EventLoop> controllableEventLoops = searchEventLoops(aut, controllableEvents);
+        Set<EventLoop> controllableEventLoops = searchEventLoops(aut, controllableEvents, env);
+        if (env.isTerminationRequested()) {
+            return;
+        }
 
         // Calculate the non-controllable independent variables. That are the variables that can be updated by
         // controllable events. We later have to abstract from these in the global guards. Variables are cached, only
@@ -250,6 +278,10 @@ public class FiniteResponseChecker {
             }
         }
 
+        if (env.isTerminationRequested()) {
+            return;
+        }
+
         // Collect which events occur in potential controllable-event loops.
         Set<Event> eventsInPotentialControllableLoops = set();
 
@@ -267,6 +299,10 @@ public class FiniteResponseChecker {
                 } else {
                     dbg("%s, which is not controllable unconnectable.", controllableEventLoop.toString());
                     eventsInPotentialControllableLoops.addAll(controllableEventLoop.events);
+                }
+
+                if (env.isTerminationRequested()) {
+                    return;
                 }
             }
             ddbg();
@@ -405,6 +441,10 @@ public class FiniteResponseChecker {
             for (Entry<Event, List<Expression>> entry: eventAutGuards.entrySet()) {
                 List<Expression> globalGuards = eventGlobalGuards.get(entry.getKey());
                 globalGuards.add(createDisjunction(entry.getValue()));
+            }
+
+            if (env.isTerminationRequested()) {
+                return null;
             }
         }
 

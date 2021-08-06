@@ -29,6 +29,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.common.app.framework.AppEnvData;
 
 /** Static class with loop finding functions, based on Tarjan's strongly connected component algorithm. */
 public class EventLoopSearch {
@@ -44,9 +45,10 @@ public class EventLoopSearch {
      *
      * @param aut The automaton in which to search for the event loops.
      * @param loopEvents The events that can form an event loop.
+     * @param env The application context to use.
      * @return The event loops in the specified automaton.
      */
-    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents) {
+    public static Set<EventLoop> searchEventLoops(Automaton aut, Set<Event> loopEvents, AppEnvData env) {
         // Stack stores all the edges that we traverse, when searching for loops.
         List<Event> stack = listc(aut.getLocations().size() + 1);
 
@@ -64,7 +66,11 @@ public class EventLoopSearch {
             if (visitedLocations.contains(loc)) {
                 continue;
             }
-            searchEventLoops(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations);
+            searchEventLoops(loc, loopEvents, stackIndex, stack, eventLoops, visitedLocations, env);
+
+            if (env.isTerminationRequested()) {
+                return null;
+            }
         }
         return eventLoops;
     }
@@ -82,10 +88,15 @@ public class EventLoopSearch {
      * @param eventLoops The event loops that have been found in the specified automaton. Modified in place.
      * @param visitedLocations The locations that have been visited at least once when searching for loops. Modified in
      *     place.
+     * @param env The application context to use.
      */
     private static void searchEventLoops(Location rootLoc, Set<Event> loopEvents, Map<Location, Integer> stackIndex,
-            List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations)
+            List<Event> stack, Set<EventLoop> eventLoops, Set<Location> visitedLocations, AppEnvData env)
     {
+        if (env.isTerminationRequested()) {
+            return;
+        }
+
         visitedLocations.add(rootLoc);
 
         // Put the root location on top of the stack.
@@ -109,13 +120,17 @@ public class EventLoopSearch {
                 if (loopStartIndex == null) {
                     // A new location has been found.
                     stack.add(event);
-                    searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, eventLoops, visitedLocations);
+                    searchEventLoops(edgeTargetLoc, loopEvents, stackIndex, stack, eventLoops, visitedLocations, env);
                     stack.remove(stack.size() - 1);
                 } else {
                     // A previously visited location has been found. Thus, we found a loop.
                     stack.add(event);
                     eventLoops.add(retrieveLoopFromStack(loopStartIndex, stack));
                     stack.remove(stack.size() - 1);
+                }
+
+                if (env.isTerminationRequested()) {
+                    return;
                 }
             }
         }
