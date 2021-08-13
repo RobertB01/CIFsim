@@ -198,7 +198,7 @@ public class TwinCatWriter {
         List<Node> tasks = execXPath(doc, query);
         if (tasks.size() != 1) {
             String msg = fmt("Found %d tasks with name \"%s\" in \"%s\".", tasks.size(), task.name,
-                    plcProjFile.getPath());
+                    xaeProjFile.getPath());
             throw new InvalidOptionException(msg);
         }
         Element taskElem = (Element)first(tasks);
