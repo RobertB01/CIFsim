@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="ifExprFunc2">
+    <Declaration>
+      <![CDATA[FUNCTION ifExprFunc2: BOOL
+VAR_INPUT
+    farg_f2_p: BOOL;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[IF (farg_f2_p) THEN
+    ifExprFunc2 := TRUE;
+ELSE
+    ifExprFunc2 := TRUE;
+END_IF;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

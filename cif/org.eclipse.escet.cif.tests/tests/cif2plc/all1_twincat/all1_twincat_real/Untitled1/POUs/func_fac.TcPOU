@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_fac">
+    <Declaration>
+      <![CDATA[FUNCTION func_fac: DINT
+VAR_INPUT
+    farg_fac_a: DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[func_fac := ifExprFunc1(farg_fac_a);
+RETURN;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

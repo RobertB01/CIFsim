@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_add3">
+    <Declaration>
+      <![CDATA[FUNCTION func_add3: LREAL
+VAR_INPUT
+    farg_add3_a: DINT;
+    farg_add3_b: DINT;
+    farg_add3_c: DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[func_add3 := ((farg_add3_a) + (DINT_TO_LREAL(farg_add3_b))) + (farg_add3_c);
+RETURN;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

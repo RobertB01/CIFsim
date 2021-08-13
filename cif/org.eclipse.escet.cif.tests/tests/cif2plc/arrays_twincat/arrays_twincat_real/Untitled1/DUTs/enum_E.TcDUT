@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="enum_E">
+    <Declaration>
+      <![CDATA[TYPE enum_E:
+    (elit_l1, elit_l2, elit_l3, elit_l4, elit_l5, elit_l6, elit_l7, elit_l8);
+END_TYPE]]>
+    </Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

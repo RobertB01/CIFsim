@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="makeArray2">
+    <Declaration>
+      <![CDATA[FUNCTION makeArray2: ARRAY[0..0] of DINT
+VAR_INPUT
+    elem0: DINT;
+END_VAR
+VAR
+    rslt: ARRAY[0..0] of DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[rslt[0] := elem0;
+makeArray2 := rslt;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>
