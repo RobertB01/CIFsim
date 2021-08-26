@@ -35,7 +35,7 @@ p2/orbit/p2.eclipse-plugin/org.apache.commons.logging/1.2.0.v20180409-1502, Apac
 p2/orbit/p2.eclipse-plugin/org.apache.commons.math3/3.6.1.v20200817-1830, , approved, orbit
 p2/orbit/p2.eclipse-plugin/org.apache.felix.scr/2.1.24.v20200924-1939, , approved, CQ22609
 p2/orbit/p2.eclipse-plugin/org.apache.xalan/2.7.2.v20201124-1837, Apache-2.0, approved, CQ9587
-p2/orbit/p2.eclipse-plugin/org.apache.xerces/2.12.1.v20210115-0812, , approved, CQ16951
+p2/orbit/p2.eclipse-plugin/org.apache.xerces/2.12.1.v20210115-0812, Apache-2.0 AND W3C-19980720, approved, CQ16951
 p2/orbit/p2.eclipse-plugin/org.apache.xml.resolver/1.2.0.v201005080400, Apache-2.0, approved, CQ1441
 p2/orbit/p2.eclipse-plugin/org.apache.xmlgraphics/2.6.0.v20210409-0748, Apache-2.0, approved, CQ23228
 p2/orbit/p2.eclipse-plugin/org.bouncycastle.bcpg/1.65.0.v20200527-1955, Apache-2.0, approved, CQ21975
