@@ -50,9 +50,9 @@ supervisor automaton sup:
   location:
     initial;
     marked;
-    edge p.c0 when false;
+    edge p.c0 when true;
     edge p.c1 when false;
-    edge p.c10 when false;
+    edge p.c10 when true;
     edge p.c11 when p.x = 0 and (p.y = 0 and q.x = 0);
     edge p.c2 when false;
     edge p.c3 when false;

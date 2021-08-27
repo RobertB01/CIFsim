@@ -203,14 +203,6 @@ public class CifDataSynthesis {
             }
             determineOutputGuards(aut, dbgEnabled);
 
-            // Check edges.
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-            if (EventWarnOption.isEnabled()) {
-                checkOutputEdges(aut);
-            }
-
             // Separate debug output from what is to come.
             if (dbgEnabled) {
                 dbg();
@@ -882,17 +874,18 @@ public class CifDataSynthesis {
     }
 
     /**
-     * Checks the system for problems with events that are disabled by the supervisor.
+     * Checks the system for problems with events that are disabled in the global controlled system.
      *
      * <p>
      * Does not report problems for events that were already disabled before synthesis.
      * </p>
      *
      * @param aut The automaton on which synthesis was performed.
+     * @param ctrlGuards The global guards in the controlled system for the controllable events.
      */
-    private static void checkOutputEdges(SynthesisAutomaton aut) {
-        for (Event controllable: aut.controllables) {
-            if (aut.outputGuards.get(controllable).isZero() && !aut.disabledEvents.contains(controllable)) {
+    private static void checkOutputEdges(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards) {
+        for (Event controllable: ctrlGuards.keySet()) {
+            if (ctrlGuards.get(controllable).isZero() && !aut.disabledEvents.contains(controllable)) {
                 warn("Event \"%s\" is disabled by the supervisor.", CifTextUtils.getAbsName(controllable));
             }
         }
@@ -1592,6 +1585,14 @@ public class CifDataSynthesis {
             ctrlGuards.put(synthEdge.event, ctrl);
         }
 
+        // Check global controlled system edges.
+        if (EventWarnOption.isEnabled()) {
+            checkOutputEdges(aut, ctrlGuards);
+        }
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+
         // Get simplifications to perform.
         EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
         List<String> assumptionTxts = list();
@@ -1842,7 +1843,13 @@ public class CifDataSynthesis {
             BDD assumption = assumptions.get(controllable);
 
             // Simplify.
-            BDD newGuard = guard.simplify(assumption);
+            BDD newGuard;
+            if (assumption.isZero() && guard.isZero()) {
+                // Special case for events that are assumed to be never enabled, the supervisor does not restrict them.
+                newGuard = aut.factory.one();
+            } else {
+                newGuard = guard.simplify(assumption);
+            }
             if (aut.env.isTerminationRequested()) {
                 return;
             }
