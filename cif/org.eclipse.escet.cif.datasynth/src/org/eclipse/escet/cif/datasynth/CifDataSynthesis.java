@@ -886,7 +886,7 @@ public class CifDataSynthesis {
     private static void checkOutputEdges(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards) {
         for (Event controllable: ctrlGuards.keySet()) {
             if (ctrlGuards.get(controllable).isZero() && !aut.disabledEvents.contains(controllable)) {
-                warn("Event \"%s\" is disabled by the supervisor.", CifTextUtils.getAbsName(controllable));
+                warn("Event \"%s\" is disabled in the controlled system.", CifTextUtils.getAbsName(controllable));
             }
         }
     }
@@ -1586,11 +1586,11 @@ public class CifDataSynthesis {
         }
 
         // Check global controlled system edges.
-        if (EventWarnOption.isEnabled()) {
-            checkOutputEdges(aut, ctrlGuards);
-        }
         if (aut.env.isTerminationRequested()) {
             return;
+        }
+        if (EventWarnOption.isEnabled()) {
+            checkOutputEdges(aut, ctrlGuards);
         }
 
         // Get simplifications to perform.

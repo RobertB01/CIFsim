@@ -10,6 +10,6 @@ WARNING: Event "p.c10" is never enabled in the input specification, taking into 
 WARNING: Event "q.u0" is never enabled in the input specification, taking into account only automaton guards.
 WARNING: Event "q.u1" is never enabled in the input specification, taking into account only state/event exclusion plants.
 WARNING: Event "q.u2" is never enabled in the input specification, taking into account automaton guards and state/event exclusion invariants.
-WARNING: Event "p.c7" is disabled by the supervisor.
-WARNING: Event "p.c8" is disabled by the supervisor.
-WARNING: Event "p.c9" is disabled by the supervisor.
+WARNING: Event "p.c7" is disabled in the controlled system.
+WARNING: Event "p.c8" is disabled in the controlled system.
+WARNING: Event "p.c9" is disabled in the controlled system.
