@@ -290,6 +290,7 @@ Initial (added by supervisor):         true
 
 Simplification of controlled system under the assumption of the plants:
   Event e01: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume p.l0].
+  Event e02: guard: false -> true [assume false].
   Event e05: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume (0 <= p.x1 and p.x1 <= 3 or 8 <= p.x1 and p.x1 <= 11) and p.l0 or 4 <= p.x1 and (p.x1 <= 7 and p.l0)].
   Event e06: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume (p.x1 = 0 or p.x1 = 2 or (p.x1 = 8 or p.x1 = 10)) and p.l0 or (p.x1 = 4 or p.x1 = 6) and p.l0 or ((p.x1 = 1 or p.x1 = 9) and p.l0 or (p.x1 = 5 and p.l0 or (p.x1 = 3 or p.x1 = 7) and p.l0))].
   Event e08: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume (p.x1 = 0 or p.x1 = 2 or (p.x1 = 4 or (p.x1 = 6 or p.x1 = 8)) or (p.x1 = 10 or (p.x1 = 12 or p.x1 = 14) or (p.x1 = 16 or (p.x1 = 18 or p.x1 = 20)))) and p.l0 or (p.x1 = 1 or p.x1 = 5 or (p.x1 = 9 or (p.x1 = 13 or p.x1 = 17))) and p.l0 or ((p.x1 = 3 or p.x1 = 19) and p.l0 or (p.x1 = 7 or p.x1 = 15) and p.l0)].
@@ -298,6 +299,8 @@ Simplification of controlled system under the assumption of the plants:
   Event e14: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume (p.x1 = 0 or p.x1 = 2 or (p.x1 = 4 or (p.x1 = 6 or p.x1 = 8)) or (p.x1 = 10 or (p.x1 = 12 or p.x1 = 14) or (p.x1 = 16 or (p.x1 = 18 or p.x1 = 20)))) and p.l0 or (p.x1 = 1 or p.x1 = 5 or (p.x1 = 9 or (p.x1 = 13 or p.x1 = 17))) and p.l0 or ((p.x1 = 3 or p.x1 = 19) and p.l0 or (p.x1 = 7 or p.x1 = 15) and p.l0)].
   Event e18: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume p.l0].
   Event e19: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume p.l0].
+  Event e20: guard: false -> true [assume false].
+  Event e21: guard: false -> true [assume false].
   Event e22: guard: <bdd 22n 1p> -> p.bt and not p.bf and ((p.x1 = 2 or p.x1 = 6 or (p.x1 = 10 or (p.x1 = 14 or p.x1 = 18))) and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume (p.x1 = 12 or p.x1 = 13) and p.l0 or (p.x1 = 10 or p.x1 = 11) and p.l0].
   Event e24: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume (p.x1 = 0 or p.x1 = 1) and p.l0 or (p.x1 = 8 or p.x1 = 9) and p.l0 or ((p.x1 = 4 or p.x1 = 5 or (p.x1 = 12 or (p.x1 = 13 or p.x1 = 20))) and p.l0 or (p.x1 = 2 or p.x1 = 3 or (p.x1 = 6 or (p.x1 = 7 or p.x1 = 10)) or (p.x1 = 11 or p.x1 = 14 or (p.x1 = 15 or (p.x1 = 18 or p.x1 = 19)))) and p.l0)].
   Event e25: guard: <bdd 22n 1p> -> p.bt and not p.bf and ((p.x1 = 2 or p.x1 = 6 or (p.x1 = 10 or (p.x1 = 14 or p.x1 = 18))) and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume (p.x1 = 8 or p.x1 = 12) and p.l0 or (p.x1 = 10 and p.l0 or p.x1 = 17 and p.l0) or (p.x1 = 9 and p.l0 or p.x1 = 13 and p.l0 or ((p.x1 = 3 or p.x1 = 11) and p.l0 or p.x1 = 7 and p.l0))].
@@ -307,11 +310,13 @@ Simplification of controlled system under the assumption of the plants:
   Event e33: guard: <bdd 22n 1p> -> p.bt and (not p.bf and p.x1 = 10) and (p.x3 = 2 and p.x4 = 3 and (p.x2 = 10 and p.v1 = X)) [assume p.l0 and (p.v1 = X and p.v2 = Y) or p.l0 and (p.v1 = Y and p.v2 = X)].
   Event e34: guard: <bdd 22n 1p> -> p.bt and (not p.bf and p.x1 = 10) and (p.x3 = 2 and p.x4 = 3 and (p.x2 = 10 and p.v2 = Y)) [assume p.l0 and p.v1 = X].
   Event e39: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume <bdd 23n 32p>].
+  Event e40: guard: false -> true [assume false].
   Event e41: guard: <bdd 22n 1p> -> p.bt and (not p.bf and p.x1 = 10) and (p.x3 = 2 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and (p.x3 = 0 and p.x4 = 5) or p.l0 and (p.x3 = 2 and p.x4 = 3) or (p.l0 and (p.x3 = 1 and p.x4 = 4) or p.l0 and (p.x3 = 3 and p.x4 = 2))].
   Event e42: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and (p.x3 = 2 or p.x3 = 3)].
   Event e44: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and p.x3 = 2 or p.l0 and p.x3 = 1].
   Event e45: guard: <bdd 22n 1p> -> p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 2 or p.x3 = 3)) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y)) [assume p.l0 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))].
   Event e46: guard: <bdd 22n 1p> -> <bdd 21n 1p> [assume p.l0].
+  Event e47: guard: false -> true [assume false].
 
 Constructing output CIF specification.
 Writing output CIF file "datasynth/predicates.ctrlsys.real.cif".

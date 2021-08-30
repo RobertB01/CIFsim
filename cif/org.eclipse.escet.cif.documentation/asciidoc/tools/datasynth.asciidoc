@@ -85,7 +85,7 @@ For more information, see the section on <<tools-datasynth-forward-reach,forward
 By default, no statistics are printed.
 For more information, see the section on <<tools-datasynth-stats,statistics>> below.
 
-* _Event warning_: Whether to warn for events that are never enabled in the input specification or always disabled by the supervisor.
+* _Event warning_: Whether to warn for events that are never enabled in the input specification or never enabled in the controlled system.
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
@@ -448,7 +448,7 @@ The resulting supervisor has exactly one self loop edge for each of the controll
 These self loops represent the possible conditions under which the supervisor allows the events to occur in the controlled system.
 The exact predicates may vary, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
 
-If there are controllable events that are never allowed by the supervisor, a warning is printed to the console.
+If there are controllable events that are never enabled in the controlled system, a warning is printed to the console.
 
 The resulting supervisor may have an initialization predicate that restricts the states in which the system may be initialized (may start), on top of the initialization constraints already present in the uncontrolled system.
 For more information on this initialization predicate, see the section on <<tools-datasynth-init,initialization>> below.
@@ -1041,7 +1041,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 
 | Warnings
 | Event warning
-| <<tools-detasynth-early-prob-detect>>
+| <<tools-detasynth-early-prob-detect>> and <<tools-datasynth-supervisor>>
 | Warning for never enabled events
 | Disable for better performance
 |===
