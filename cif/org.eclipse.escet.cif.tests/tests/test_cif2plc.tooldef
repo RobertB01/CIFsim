@@ -39,7 +39,7 @@ map(string:list string) test_options = {
 set string test_skip = {};
 
 /* Creates an empty TwinCAT solution directory. That is, it contains the minimum files and file contents to generate
-TwinCAT PLC code with the CIF to PLC tool. A solution directory is create at the `slnDirPath`. The solution directory
+TwinCAT PLC code with the CIF to PLC tool. A solution directory is created at the `slnDirPath`. The solution directory
 contains an empty TwinCAT solution file (.sln file) and a TwinCAT XAE project directory. The TwinCAT XAE project
 directory contains a TwinCAT XAE project file (.tsproj file) that contains the `taskName`, and a PLC project directory,
 named `plcProjName`. The PLC project directory contains two files: a PLC project file (.plcproj file) named
