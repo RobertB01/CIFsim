@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="MAIN">
+    <Declaration>
+      <![CDATA[PROGRAM MAIN
+VAR_OUTPUT
+    timerValue0: TIME;
+    timerValue1: TIME;
+END_VAR
+VAR
+    cnt: LINT;
+    first: BOOL := TRUE;
+    curTimerValue: TIME;
+    state0: STATE;
+    curTime: LREAL;
+    loopsKilled: LINT;
+END_VAR
+VAR_TEMP
+    lastTimerValue: TIME;
+    curDeltaTime: TIME;
+    curDeltaSecs: LREAL;
+    state1: STATE;
+    progress: BOOL;
+    loopCount: INT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.dvar_M_p_b := TRUE;
+    state0.dvar_M_p_x := 0;
+    state0.dvar_M_p_y := 1.23;
+    state0.dvar_M_p_ve := elit_LIT1;
+    state0.dvar_M_p_v1 := 0;
+    state0.dvar_M_p_v2 := makeTupleStruct_1(0.0, 0.0);
+    state0.dvar_M_p_v3 := makeTupleStruct_2(makeTupleStruct_1(0.0, 0.0), 0.0);
+    state0.dvar_M_p_tv := makeTupleStruct_3(0, 0);
+    state0.dvar_M_p_j := 0;
+    state0.dvar_M_p_r := 1000000.0;
+    state0.cvar_M_p_t := 0.0;
+    state0.cvar_M_p_t2 := 1.0;
+    state0.cvar_M_p_t3 := 0.0;
+    state0.dvar_M_p := elit_l1;
+ELSE
+    // Update continuous variables for time delay.
+    state1.cvar_M_p_t := state0.cvar_M_p_t + curDeltaSecs * derivcvar_M_p_t(state0);
+    state1.cvar_M_p_t2 := state0.cvar_M_p_t2 + curDeltaSecs * derivcvar_M_p_t2(state0);
+    state1.cvar_M_p_t3 := state0.cvar_M_p_t3 + curDeltaSecs * derivcvar_M_p_t3(state0);
+
+    state0.curTime := curTime;
+    state0.cvar_M_p_t := state1.cvar_M_p_t;
+    state0.cvar_M_p_t2 := state1.cvar_M_p_t2;
+    state0.cvar_M_p_t3 := state1.cvar_M_p_t3;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_v1 := func_f1(state0.dvar_M_p_x);
+            state1.dvar_M_p := elit_l2;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l2) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_v2 := alg_g_algeb2(state0);
+            state1.dvar_M_p := elit_l3;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l3) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_y := (func_f2(0.0)) + (func_f2(state0.dvar_M_p_y));
+            state1.dvar_M_p := elit_l4;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l4) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_x := ((func_fac(4)) + (func_fac2(4))) + (func_fac3(4));
+            state1.dvar_M_p := elit_l5;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l5) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_tv := makeTupleStruct_3(1, 2);
+            state1.dvar_M_p := elit_l6;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l6) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_x := proj0_TupleStruct_3(makeTupleStruct_3(3, 4));
+            state1.dvar_M_p_j := proj1_TupleStruct_3(makeTupleStruct_3(3, 4));
+            state1.dvar_M_p := elit_l7;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l7) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_x := proj0_TupleStruct_3(state0.dvar_M_p_tv);
+            state1.dvar_M_p_j := proj1_TupleStruct_3(state0.dvar_M_p_tv);
+            state1.dvar_M_p := elit_l8;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l8) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_tv.field0 := 5;
+            state1.dvar_M_p := elit_l9;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l9) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_tv.field1 := proj0_TupleStruct_3(makeTupleStruct_3(6, 7));
+            state1.dvar_M_p_j := proj1_TupleStruct_3(makeTupleStruct_3(6, 7));
+            state1.dvar_M_p := elit_l10;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l10) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_v3.field0.field1 := 7.8;
+            state1.dvar_M_p := elit_l11;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l11) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_v3 := makeTupleStruct_2(makeTupleStruct_1(1.2, 3.4), 5.6);
+            state1.dvar_M_p := elit_l12;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l12) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_j := (state0.dvar_M_p_j) + (1);
+            state1.dvar_M_p := elit_l13;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l13) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_b := FALSE;
+            state1.dvar_M_p := elit_l14;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l14) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            IF (NOT(state0.dvar_M_p_b)) THEN
+                state1.dvar_M_p_ve := elit_LIT2;
+            END_IF;
+            state1.dvar_M_p := elit_l15;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_l15) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_r := (ivar_g_inp) + (10.0);
+            state1.dvar_M_p := elit_l16;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+
+    // Protect against events that are always enabled.
+    loopCount := loopCount + 1;
+    IF loopCount >= 100 THEN
+        loopsKilled := loopsKilled + 1;
+        EXIT;
+    END_IF;
+END_WHILE;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

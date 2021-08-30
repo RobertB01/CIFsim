@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Project>
+  <ItemGroup>
+    <Compile Include="POUs\func_pf.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\makeArray0.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\projArray0.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\normProjIdx.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\func_lf.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\func_llf.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\makeArray1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\makeArray2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\projArray1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\STATE.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\enum_E.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\INPUTS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\TIMERS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Folder Include="DUTs"/>
+    <Folder Include="GVLs"/>
+    <Folder Include="POUs"/>
+  </ItemGroup>
+</Project>

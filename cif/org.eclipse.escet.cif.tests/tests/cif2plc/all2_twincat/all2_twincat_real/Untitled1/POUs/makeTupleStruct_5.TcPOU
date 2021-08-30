@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="makeTupleStruct_5">
+    <Declaration>
+      <![CDATA[FUNCTION makeTupleStruct_5: TupleStruct_5
+VAR_INPUT
+    field0: LREAL;
+    field1: LREAL;
+    field2: LREAL;
+    field3: LREAL;
+    field4: LREAL;
+    field5: LREAL;
+    field6: LREAL;
+    field7: LREAL;
+    field8: LREAL;
+    field9: LREAL;
+    field10: LREAL;
+    field11: LREAL;
+    field12: LREAL;
+    field13: LREAL;
+    field14: LREAL;
+    field15: LREAL;
+    field16: LREAL;
+    field17: LREAL;
+    field18: LREAL;
+    field19: LREAL;
+    field20: LREAL;
+    field21: LREAL;
+    field22: LREAL;
+    field23: LREAL;
+    field24: LREAL;
+    field25: LREAL;
+    field26: LREAL;
+    field27: LREAL;
+    field28: LREAL;
+    field29: LREAL;
+    field30: LREAL;
+    field31: LREAL;
+    field32: LREAL;
+    field33: LREAL;
+    field34: LREAL;
+    field35: LREAL;
+    field36: LREAL;
+    field37: LREAL;
+    field38: LREAL;
+    field39: LREAL;
+    field40: LREAL;
+    field41: LREAL;
+    field42: LREAL;
+    field43: LREAL;
+    field44: LREAL;
+    field45: LREAL;
+    field46: LREAL;
+    field47: LREAL;
+    field48: LREAL;
+    field49: LREAL;
+    field50: LREAL;
+    field51: LREAL;
+    field52: LREAL;
+    field53: LREAL;
+    field54: LREAL;
+    field55: LREAL;
+    field56: LREAL;
+    field57: LREAL;
+    field58: LREAL;
+END_VAR
+VAR
+    rslt: TupleStruct_5;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[rslt.field0 := field0;
+rslt.field1 := field1;
+rslt.field2 := field2;
+rslt.field3 := field3;
+rslt.field4 := field4;
+rslt.field5 := field5;
+rslt.field6 := field6;
+rslt.field7 := field7;
+rslt.field8 := field8;
+rslt.field9 := field9;
+rslt.field10 := field10;
+rslt.field11 := field11;
+rslt.field12 := field12;
+rslt.field13 := field13;
+rslt.field14 := field14;
+rslt.field15 := field15;
+rslt.field16 := field16;
+rslt.field17 := field17;
+rslt.field18 := field18;
+rslt.field19 := field19;
+rslt.field20 := field20;
+rslt.field21 := field21;
+rslt.field22 := field22;
+rslt.field23 := field23;
+rslt.field24 := field24;
+rslt.field25 := field25;
+rslt.field26 := field26;
+rslt.field27 := field27;
+rslt.field28 := field28;
+rslt.field29 := field29;
+rslt.field30 := field30;
+rslt.field31 := field31;
+rslt.field32 := field32;
+rslt.field33 := field33;
+rslt.field34 := field34;
+rslt.field35 := field35;
+rslt.field36 := field36;
+rslt.field37 := field37;
+rslt.field38 := field38;
+rslt.field39 := field39;
+rslt.field40 := field40;
+rslt.field41 := field41;
+rslt.field42 := field42;
+rslt.field43 := field43;
+rslt.field44 := field44;
+rslt.field45 := field45;
+rslt.field46 := field46;
+rslt.field47 := field47;
+rslt.field48 := field48;
+rslt.field49 := field49;
+rslt.field50 := field50;
+rslt.field51 := field51;
+rslt.field52 := field52;
+rslt.field53 := field53;
+rslt.field54 := field54;
+rslt.field55 := field55;
+rslt.field56 := field56;
+rslt.field57 := field57;
+rslt.field58 := field58;
+makeTupleStruct_5 := rslt;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

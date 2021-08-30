@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="proj1_TupleStruct_2">
+    <Declaration>
+      <![CDATA[FUNCTION proj1_TupleStruct_2: ARRAY[0..1] of DINT
+VAR_INPUT
+    tuple: TupleStruct_2;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[proj1_TupleStruct_2 := tuple.field1;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

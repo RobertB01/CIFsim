@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="MAIN">
+    <Declaration>
+      <![CDATA[PROGRAM MAIN
+VAR_OUTPUT
+    timerValue0: TIME;
+    timerValue1: TIME;
+END_VAR
+VAR
+    cnt: LINT;
+    first: BOOL := TRUE;
+    curTimerValue: TIME;
+    state0: STATE;
+    curTime: LREAL;
+    loopsKilled: LINT;
+END_VAR
+VAR_TEMP
+    lastTimerValue: TIME;
+    curDeltaTime: TIME;
+    curDeltaSecs: LREAL;
+    state1: STATE;
+    progress: BOOL;
+    loopCount: INT;
+    b1: BOOL;
+    b2: BOOL;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(IN:=curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.cvar_c := 0.0;
+    state0.dvar_M_aut_r := 0.0;
+    state0.dvar_M_aut_b := FALSE;
+    state0.dvar_M_aut_i := 0;
+    state0.dvar_M_aut_tii := makeTupleStruct_1(field0:=0, field1:=0);
+    state0.dvar_M_aut_i2 := 1;
+    state0.dvar_M_aut_i3 := 1;
+    state0.dvar_M_aut := elit_l1;
+ELSE
+    // Update continuous variables for time delay.
+    state1.cvar_c := state0.cvar_c + curDeltaSecs * derivcvar_c(state:=state0);
+
+    state0.curTime := curTime;
+    state0.cvar_c := state1.cvar_c;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "M.aut_e".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_aut) = (elit_l1);
+        IF b1 THEN
+            b2 := state0.dvar_M_aut_b;
+            b2 := b2 OR (state0.dvar_M_aut_b);
+            b2 := b2 OR (state0.dvar_M_aut_b);
+            b1 := b1 AND (b2);
+        END_IF;
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ivar_inp;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ((alg_a(state:=state0)) + (state0.cvar_c)) + (derivcvar_c(state:=state0));
+            state1.dvar_M_aut := elit_l2;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := DINT_TO_LREAL(IN:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := NOT(IN1:=state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := NOT(IN1:=state0.dvar_M_aut_b) OR (state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := DINT_TO_LREAL(IN:=state0.dvar_M_aut_i) / (state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := func_f1(farg_f1_p:=state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := func_f2(farg_f2_p:=state0.dvar_M_aut_b);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_b := ifExprFunc3(state:=state0);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := proj0_TupleStruct_1(tuple:=state0.dvar_M_aut_tii);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ABS(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_r, IN2:=1.0/3);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXP(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := LN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := LOG(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := MIN(IN1:=state0.dvar_M_aut_i, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MIN(IN1:=DINT_TO_LREAL(IN:=state0.dvar_M_aut_i), IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MIN(IN1:=state0.dvar_M_aut_r, IN2:=DINT_TO_LREAL(IN:=state0.dvar_M_aut_i));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MIN(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := MAX(IN1:=state0.dvar_M_aut_i, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MAX(IN1:=DINT_TO_LREAL(IN:=state0.dvar_M_aut_i), IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MAX(IN1:=state0.dvar_M_aut_r, IN2:=DINT_TO_LREAL(IN:=state0.dvar_M_aut_i));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := MAX(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_i := LREAL_TO_DINT(IN:=EXPT(IN1:=DINT_TO_LREAL(IN:=state0.dvar_M_aut_i2), IN2:=state0.dvar_M_aut_i3));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_i, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=DINT_TO_LREAL(IN:=state0.dvar_M_aut_i), IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_i);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := EXPT(IN1:=state0.dvar_M_aut_r, IN2:=state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := SQRT(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ASIN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ACOS(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := ATAN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := SIN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := COS(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := TAN(state0.dvar_M_aut_r);
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_tii := makeTupleStruct_1(field0:=state0.dvar_M_aut_i, field1:=(state0.dvar_M_aut_i) + (1));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_aut) = (elit_l1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_aut_r := proj0_TupleStruct_2(tuple:=makeTupleStruct_2(field0:=(state0.dvar_M_aut_r) * (2.0), field1:=(state0.dvar_M_aut_i) + (1)));
+            state1.dvar_M_aut_i := proj1_TupleStruct_2(tuple:=makeTupleStruct_2(field0:=(state0.dvar_M_aut_r) * (2.0), field1:=(state0.dvar_M_aut_i) + (1)));
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+
+    // Protect against events that are always enabled.
+    loopCount := loopCount + 1;
+    IF loopCount >= 100 THEN
+        loopsKilled := loopsKilled + 1;
+        EXIT;
+    END_IF;
+END_WHILE;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

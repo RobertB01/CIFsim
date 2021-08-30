@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="proj40_TupleStruct_5">
+    <Declaration>
+      <![CDATA[FUNCTION proj40_TupleStruct_5: LREAL
+VAR_INPUT
+    tuple: TupleStruct_5;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[proj40_TupleStruct_5 := tuple.field40;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

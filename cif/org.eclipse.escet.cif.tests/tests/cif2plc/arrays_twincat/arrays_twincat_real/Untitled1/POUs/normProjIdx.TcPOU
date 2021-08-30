@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="normProjIdx">
+    <Declaration>
+      <![CDATA[FUNCTION normProjIdx: DINT
+VAR_INPUT
+    idx: DINT;
+    size: DINT;
+END_VAR
+VAR
+    tmp: DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[tmp := idx;
+IF tmp < 0 THEN
+    tmp := size + tmp;
+END_IF;
+normProjIdx := tmp;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

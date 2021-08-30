@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="makeArray0">
+    <Declaration>
+      <![CDATA[FUNCTION makeArray0: ARRAY[0..1] of TupleStruct_1
+VAR_INPUT
+    elem0: TupleStruct_1;
+    elem1: TupleStruct_1;
+END_VAR
+VAR
+    rslt: ARRAY[0..1] of TupleStruct_1;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[rslt[0] := elem0;
+rslt[1] := elem1;
+makeArray0 := rslt;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>
