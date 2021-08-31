@@ -14,3 +14,4 @@ WARNING: Event "p.c7" is disabled in the controlled system.
 WARNING: Event "p.c8" is disabled in the controlled system.
 WARNING: Event "p.c9" is disabled in the controlled system.
 WARNING: Event "p.c12" is disabled in the controlled system.
+WARNING: Event "c_synch" is disabled in the controlled system.
