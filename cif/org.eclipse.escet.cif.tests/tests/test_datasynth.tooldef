@@ -33,6 +33,7 @@ map(string:list string) test_options = {
     "datasynth/bdd_dbg_maxpaths.cif":                     ["--bdd-dbg-maxpaths=2"],
     "datasynth/bdd_out_nodes.cif":                        ["-t nodes -p n"],
     "datasynth/dining_philosophers4.cif":                 [opt_simplify_all],
+    "datasynth/event_warnings.cif":                       ["--forward-reach=on"],
     "datasynth/forward_reach_off.cif":                    ["--forward-reach=off --bdd-simplify="],
     "datasynth/forward_reach_on.cif":                     ["--forward-reach=on  --bdd-simplify="],
     "datasynth/inv_state_evt_exclusion_plant_simple.cif": ["--event-warn=false"],

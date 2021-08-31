@@ -449,6 +449,8 @@ These self loops represent the possible conditions under which the supervisor al
 The exact predicates may vary, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
 
 If there are controllable events that are never enabled in the controlled system, a warning is printed to the console.
+In some cases, an event is only enabled in the unreachable part of the statespace.
+If <<tools-datasynth-forward-reach,forward reachability>> is enabled, a warning is printed in such case.
 
 The resulting supervisor may have an initialization predicate that restricts the states in which the system may be initialized (may start), on top of the initialization constraints already present in the uncontrolled system.
 For more information on this initialization predicate, see the section on <<tools-datasynth-init,initialization>> below.

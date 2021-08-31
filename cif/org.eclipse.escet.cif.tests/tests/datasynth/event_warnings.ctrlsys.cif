@@ -11,8 +11,10 @@ plant automaton p:
   controllable c9;
   controllable c10;
   controllable c11;
+  controllable c12;
   disc int[0..10] x;
   disc int[0..10] y;
+  disc int[0..1] z = 1;
   location l1:
     initial;
     marked;
@@ -25,13 +27,14 @@ plant automaton p:
     edge c6 when y = 5;
     edge c7 when y = 4 do y := y + 1;
     edge c8 goto l2;
+    edge c9 when z = 1 do z := z + 1;
     edge c10 when false;
     edge c10 when false;
     edge c11;
     edge c11 when false;
   location l2;
   location l3:
-    edge c9;
+    edge c12;
 end
 plant automaton q:
   uncontrollable u0;
@@ -46,14 +49,15 @@ plant automaton q:
     edge u2 when x < 5;
 end
 supervisor automaton sup:
-  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c10, p.c11, p.c9;
+  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12;
   location:
     initial;
     marked;
     edge p.c0 when true;
     edge p.c1 when false;
     edge p.c10 when true;
-    edge p.c11 when p.x = 0 and (p.y = 0 and q.x = 0);
+    edge p.c11 when p.x = 0 and p.y = 0 and (p.z = 1 and q.x = 0);
+    edge p.c12 when false;
     edge p.c2 when false;
     edge p.c3 when false;
     edge p.c4 when false;
