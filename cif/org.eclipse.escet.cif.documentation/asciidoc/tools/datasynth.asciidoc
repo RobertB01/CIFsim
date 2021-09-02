@@ -658,7 +658,7 @@ As such, the simplification prevents such invariants from being removed from the
 This applies to some of the other simplifications as well.
 For instance, the simplification over state/event exclusion requirement invariants leads to them being part of the output as well.
 This may affect whether other tools can handle the resulting supervisor model as input, depending on what kind of features they support.
-In particular, for code generation, simplification of the guards with respect to the state requirement invariants and state/event exclusion requirement invariants may need to be disabled.
+In particular, for code generation, simplification of the guards with respect to the state requirement invariants may need to be disabled.
 
 indexterm:[data-based supervisory controller synthesis,debugging]
 
