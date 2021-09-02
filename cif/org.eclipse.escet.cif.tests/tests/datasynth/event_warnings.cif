@@ -12,8 +12,9 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant p:
-  controllable c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11;
+  controllable c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12;
   disc int[0..10] x, y;
+  disc int[0..1] z = 1;
   location l1:
     initial; marked;
     edge c0 when false;                // Never enabled due to 'false' automaton guard.
@@ -25,6 +26,7 @@ plant p:
     edge c6 when y = 5;                // Never enabled due to 'false' combination of guard and state requirement.
     edge c7 when y = 4 do y := y + 1;  // Never enabled due to reaching 'y = 5', which is not allowed.
     edge c8 goto l2;                   // Never enabled after synthesis because of transition to deadlock location.
+    edge c9 when z = 1 do z := z + 1;  // Never enabled due to variable out of domain after assignment.
 
     edge c10 when false;               // For two edges labeled with the same event, only one warning.
     edge c10 when false;
@@ -33,7 +35,7 @@ plant p:
     edge c11 when false;               // disabled.
   location l2;
   location l3:
-    edge c9;                           // Never enabled due to origin location being unreachable.
+    edge c12;                          // Never enabled due to origin location being unreachable.
 end
 
 requirement p.c1 needs false;
@@ -58,3 +60,24 @@ end
 
 plant q.u1 needs false;
 plant q.u2 needs q.x >= 5;
+
+// c_synch is never enabled because it is either disabled by automaton a or by automaton b.
+controllable c_off, c_synch;
+
+plant a:
+  location l1:
+    initial; marked;
+    edge c_off goto l2;
+    edge c_synch;
+  location l2:
+    marked;
+end
+
+plant b:
+  location l1:
+    initial; marked;
+    edge c_off goto l2;
+  location l2:
+    marked;
+    edge c_synch;
+end

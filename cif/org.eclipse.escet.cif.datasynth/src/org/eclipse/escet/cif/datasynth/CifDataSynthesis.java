@@ -885,9 +885,15 @@ public class CifDataSynthesis {
      */
     private static void checkOutputEdges(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards) {
         for (Event controllable: ctrlGuards.keySet()) {
-            if (ctrlGuards.get(controllable).isZero() && !aut.disabledEvents.contains(controllable)) {
+            // Determine when a controllable event is enabled in controlled statespace.
+            BDD ctrlGuardStatespace = ctrlGuards.get(controllable).and(aut.ctrlBeh);
+
+            // Warn for events that are never enabled.
+            if (ctrlGuardStatespace.isZero() && !aut.disabledEvents.contains(controllable)) {
                 warn("Event \"%s\" is disabled in the controlled system.", CifTextUtils.getAbsName(controllable));
+                continue;
             }
+            ctrlGuardStatespace.free();
         }
     }
 
