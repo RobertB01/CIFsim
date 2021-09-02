@@ -1,5 +1,4 @@
 controllable c_off;
-controllable c_on;
 controllable c_synch;
 plant automaton p:
   controllable c0;
@@ -59,7 +58,6 @@ plant automaton a:
     edge c_synch;
   location l2:
     marked;
-    edge c_on;
 end
 plant automaton b:
   location l1:
@@ -68,16 +66,14 @@ plant automaton b:
     edge c_off goto l2;
   location l2:
     marked;
-    edge c_on;
     edge c_synch;
 end
 supervisor automaton sup:
-  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, c_off, c_synch, c_on;
+  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, c_off, c_synch;
   location:
     initial;
     marked;
     edge c_off when p.x = 0 and p.l1 and (p.y = 0 and (p.z = 1 and q.x = 0));
-    edge c_on when p.x = 0 and p.l1 and (p.y = 0 and (p.z = 1 and q.x = 0));
     edge c_synch when false;
     edge p.c0 when true;
     edge p.c1 when false;
