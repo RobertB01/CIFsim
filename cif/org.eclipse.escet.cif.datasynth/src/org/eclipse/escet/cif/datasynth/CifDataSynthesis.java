@@ -914,9 +914,12 @@ public class CifDataSynthesis {
      *
      * @param aut The automaton on which synthesis was performed.
      * @param events The events for which to compute the linearized guards.
+     * @param useOrigGuard Whether to use the original guard or the current guard on the synthesis edge.
      * @return The linearized guards.
      */
-    private static Map<Event, BDD> determineLinearizedGuards(SynthesisAutomaton aut, Set<Event> events) {
+    private static Map<Event, BDD> determineLinearizedGuards(SynthesisAutomaton aut, Set<Event> events,
+            boolean useOrigGuard)
+    {
         Map<Event, BDD> linearizedGuards = mapc(events.size());
 
         // Initialize guards to 'false'.
@@ -938,7 +941,7 @@ public class CifDataSynthesis {
             BDD guard = linearizedGuards.get(synthEdge.event);
 
             // Update guards. Frees the guards of the edge.
-            guard = guard.orWith(synthEdge.guard);
+            guard = useOrigGuard ? guard.orWith(synthEdge.origGuard) : guard.orWith(synthEdge.guard);
 
             // Store updated guard.
             linearizedGuards.put(synthEdge.event, guard);
@@ -1608,7 +1611,7 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        Map<Event, BDD> ctrlGuards = determineLinearizedGuards(aut, aut.controllables);
+        Map<Event, BDD> ctrlGuards = determineLinearizedGuards(aut, aut.controllables, false);
 
         // Check global controlled system edges.
         if (aut.env.isTerminationRequested()) {
@@ -1617,7 +1620,7 @@ public class CifDataSynthesis {
         if (EventWarnOption.isEnabled()) {
             // Determine the linearized guards for the uncontrollable events.
             Set<Event> uncontrollables = Sets.difference(aut.alphabet, aut.controllables, aut.inputVarEvents);
-            Map<Event, BDD> unctrlGuards = determineLinearizedGuards(aut, uncontrollables);
+            Map<Event, BDD> unctrlGuards = determineLinearizedGuards(aut, uncontrollables, false);
 
             // Warn for output edges of controllable events that are never enabled.
             if (aut.env.isTerminationRequested()) {
@@ -1662,41 +1665,13 @@ public class CifDataSynthesis {
         if (simplifications.contains(BddSimplify.GUARDS_PLANTS)) {
             assumptionTxts.add("plants");
 
-            // Initialize global uncontrolled system guards to 'false', for all controllable events.
-            Map<Event, BDD> unctrlGuards = mapc(aut.controllables.size());
-            for (Event controllable: aut.controllables) {
-                unctrlGuards.put(controllable, aut.factory.zero());
-            }
+            // Compute the global uncontrolled system guards, for all controllable events.
+            Map<Event, BDD> unctrlGuards = determineLinearizedGuards(aut, aut.controllables, true);
 
-            // Compute global uncontrolled system guards, for all controllable events. This is done by combining the
-            // guards of all edges, per event.
+            // Add guards to the assumptions.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            for (SynthesisEdge synthEdge: aut.edges) {
-                // Skip edges with uncontrollable events, as those events are not in the alphabet (the supervisor can't
-                // restrict them).
-                if (!synthEdge.event.getControllable()) {
-                    continue;
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-
-                // Get current guards.
-                BDD unctrl = unctrlGuards.get(synthEdge.event);
-
-                // Update guards. Frees the guards of the edge.
-                unctrl = unctrl.orWith(synthEdge.origGuard);
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-
-                // Store updated guard.
-                unctrlGuards.put(synthEdge.event, unctrl);
-            }
-
-            // Add guards to the assumptions.
             for (Event controllable: aut.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = unctrlGuards.get(controllable);
