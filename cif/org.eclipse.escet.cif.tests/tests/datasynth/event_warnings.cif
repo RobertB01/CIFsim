@@ -61,14 +61,16 @@ end
 plant q.u1 needs false;
 plant q.u2 needs q.x >= 5;
 
-// c_synch is never enabled because it is either disabled by automaton a or by automaton b.
+// c_synch and u_synch are never enabled because they are either disabled by automaton a or by automaton b.
 controllable c_off, c_synch;
+uncontrollable u_synch;
 
 plant a:
   location l1:
     initial; marked;
     edge c_off goto l2;
     edge c_synch;
+    edge u_synch;
   location l2:
     marked;
 end
@@ -80,4 +82,5 @@ plant b:
   location l2:
     marked;
     edge c_synch;
+    edge u_synch;
 end
