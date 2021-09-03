@@ -150,8 +150,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     private final boolean optInits;
 
     /**
-     * Whether to create equality binary expressions that reference the new location pointer variable as additional
-     * guards for edges.
+     * Whether to add equality binary expressions that reference the new location pointer variable to the guards of
+     * edges.
      */
     private final boolean addEdgeGuards;
 
@@ -196,8 +196,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * transformation.</li>
      * <li>Allows optimization of initialization of location pointers, by analyzing declarations (used for instance in
      * initialization predicates) to see whether they have constant values.</li>
-     * <li>Does not create additional equality binary expressions that reference the new location pointer to add as
-     * guards.</li>
+     * <li>Does not add equality binary expressions that reference the new location pointer to the guards of edges.</li>
      * </ul>
      */
     public ElimLocRefExprs() {
@@ -229,9 +228,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *     mapping.
      * @param optInits Whether to allow optimization of initialization of location pointers, by analyzing declarations
      *     (used for instance in initialization predicates) to see whether they have constant values.
-     * @param addEdgeGuards Whether to create equality binary expressions that reference the new location pointer
-     *     variable as a guard for edges. Note that only if {@code skipNotReferenceds} is disabled, these expressions
-     *     are created for all edges in the specification.
+     * @param addEdgeGuards Whether to add equality binary expressions that reference the new location pointer variable
+     *     to the guards of edges. Note that only if {@code optimized} is disabled, these expressions are created for
+     *     all edges in the specification (of automata with at least two locations).
      *
      */
     public ElimLocRefExprs(String varPrefix, String enumPrefix, String litPrefix, boolean considerLocsForRename,

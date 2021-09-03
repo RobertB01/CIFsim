@@ -239,12 +239,12 @@ public final class Lists {
     }
 
     /**
-     * Determines whether two lists are shifted copies of each other.
+     * Determines whether two lists are equal or shifted copies of each other.
      *
      * @param <T> The type of the elements of the list.
      * @param lst1 The first list.
      * @param lst2 The second list.
-     * @return {@code true} if the lists are shifted copies, {@code false} otherwise.
+     * @return {@code true} if the lists are equal or shifted copies, {@code false} otherwise.
      */
     public static <T> boolean areEqualOrShifted(List<T> lst1, List<T> lst2) {
         if (lst1.size() != lst2.size()) {

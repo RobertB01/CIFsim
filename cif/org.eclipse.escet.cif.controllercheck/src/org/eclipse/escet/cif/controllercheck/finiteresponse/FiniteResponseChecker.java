@@ -443,8 +443,8 @@ public class FiniteResponseChecker {
             // the automaton guards are combined via 'or'. If an event is in the alphabet, but not labeled on any edge,
             // 'false' is added to 'eventGlobalGuards'.
             for (Entry<Event, List<Expression>> entry: eventsAutGuards.entrySet()) {
-                List<Expression> globalGuards = eventsGlobalGuards.get(entry.getKey());
-                globalGuards.add(createDisjunction(entry.getValue()));
+                List<Expression> eventglobalGuards = eventsGlobalGuards.get(entry.getKey());
+                eventglobalGuards.add(createDisjunction(entry.getValue()));
             }
 
             if (env.isTerminationRequested()) {

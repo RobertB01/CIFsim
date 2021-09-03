@@ -175,7 +175,7 @@ indexterm:[controller checker property,implementation]
 The model is assumed not to contain runtime errors, such as division by zero or accessing out of bounds values.
 The finite response check silently discards any such behavior.
 One way to get a model without runtime errors is to use supervisor synthesis to compute it, since that computation removes such behavior from its input.
-ESCET contains two supervisor synthesis tools, these are explained at <<tools-chapter-datasynth>> and <<tools-eventbased-chapter-supervisorsynthesis>>.
+For more information, see the <<tools-chapter-datasynth,data-based>> and <<tools-eventbased-chapter-supervisorsynthesis,event-based>> supervisor synthesis tools.
 
 Finite response for a model is determined as follows.
 
@@ -210,7 +210,8 @@ When the check indicates that there is finite response, this is always correct.
 To avoid false positives, use the <<tools-chapter-cif-explorer,CIF explorer>> to compute the untimed statespace.
 
 False positives may be reported in the following situations:
-* Loops exist in the nonreachable part of the statespace.
+
+* Loops exist in the non-reachable part of the statespace.
 * Edges contain guards or updates.
 
 While determining loops in the automata, only explicit loops are considered.
