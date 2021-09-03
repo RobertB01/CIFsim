@@ -40,11 +40,11 @@ See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-sc
 
 * Use the `cifcontrollercheck` command line tool.
 
+
 indexterm:[controller property checker,options]
 
 [[tools-controller-checker-options]]
 === Options
-
 
 Besides the general application options, this application has the following options:
 
@@ -56,7 +56,6 @@ Besides the general application options, this application has the following opti
 indexterm:[controller property checker,supported specifications]
 
 === Supported specifications
-
 
 The CIF controller property checker supports a subset of CIF specifications.
 The following restrictions apply:
