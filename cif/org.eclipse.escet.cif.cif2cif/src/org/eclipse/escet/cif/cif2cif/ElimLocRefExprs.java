@@ -563,6 +563,29 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     }
 
     /**
+     * Adds equality binary expression that references the location pointer, as guards to the edges of the given
+     * automaton.
+     *
+     * @param aut The automaton.
+     * @param var The location pointer variable.
+     * @param enumDecl The enumeration.
+     */
+    private void addEdgeGuards(Automaton aut, DiscVariable var, EnumDecl enumDecl) {
+        List<Location> locs = aut.getLocations();
+        for (int idx = 0; idx < locs.size(); idx++) {
+            // Get location.
+            Location loc = locs.get(idx);
+
+            // Process all edges.
+            for (Edge edge: loc.getEdges()) {
+                // Add guard.
+                Expression guard = createEquality(var, enumDecl, idx);
+                edge.getGuards().add(guard);
+            }
+        }
+    }
+
+    /**
      * Adds updates to the edges of the given automaton, to update the location pointer variable of that automaton, if
      * needed.
      *
@@ -589,29 +612,6 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
                 // Add assignment.
                 Update asgn = createLocUpdate(edge.getTarget());
                 edge.getUpdates().add(asgn);
-            }
-        }
-    }
-
-    /**
-     * Adds equality binary expression that references the location pointer, as guards to the edges of the given
-     * automaton.
-     *
-     * @param aut The automaton.
-     * @param var The location pointer variable.
-     * @param enumDecl The enumeration.
-     */
-    private void addEdgeGuards(Automaton aut, DiscVariable var, EnumDecl enumDecl) {
-        List<Location> locs = aut.getLocations();
-        for (int idx = 0; idx < locs.size(); idx++) {
-            // Get location.
-            Location loc = locs.get(idx);
-
-            // Process all edges.
-            for (Edge edge: loc.getEdges()) {
-                // Add guard.
-                Expression guard = createEquality(var, enumDecl, idx);
-                edge.getGuards().add(guard);
             }
         }
     }
