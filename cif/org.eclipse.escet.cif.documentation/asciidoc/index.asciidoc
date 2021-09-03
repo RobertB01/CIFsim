@@ -523,7 +523,9 @@ include::tools/cifsim/debug-gen-code.asciidoc[]
 
 include::tools/cifsim/test-mode.asciidoc[]
 
-:leveloffset: -1
+:leveloffset: -3
+
+:leveloffset: +2
 
 include::tools/cif2mcrl2.asciidoc[]
 
@@ -559,7 +561,9 @@ include::tools/cif2plc/index.asciidoc[]
 
 include::tools/cif2plc/twincat.asciidoc[]
 
-:leveloffset: -3
+:leveloffset: -1
+
+:leveloffset: -2
 
 === Miscellaneous tools
 

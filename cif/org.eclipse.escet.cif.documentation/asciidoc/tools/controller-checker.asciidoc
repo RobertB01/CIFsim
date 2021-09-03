@@ -172,6 +172,11 @@ indexterm:[controller checker property,implementation]
 
 === Implementation details
 
+The model is assumed not to contain runtime errors, such as division by zero or accessing out of bounds values.
+The finite response check silently discards any such behavior.
+One way to get a model without runtime errors is to use supervisor synthesis to compute it, since that computation removes such behavior from its input.
+ESCET contains two supervisor synthesis tools, these are explained at <<tools-chapter-datasynth>> and <<tools-eventbased-chapter-supervisorsynthesis>>.
+
 Finite response for a model is determined as follows.
 
 . Find controllable-event loops in automata. 
@@ -211,7 +216,7 @@ False positives may be reported in the following situations:
 While determining loops in the automata, only explicit loops are considered.
 That is, the algorithm omits guards and updates of the variables.
 For that reason, in the example below, `c_on` and `c_off` are two independent loops (instead of `c_on, c_off` if the guards and update were included).
-To reduce the number of false positives, it is advised to use locations instead of variables whenever possible.
+To reduce the number of false positives, it is advised to use locations instead of variables whenever possible or eliminate the variables using the <<tools-chapter-cif-explorer,CIF explorer>> before performing the check.
 
 [source, cif]
 ----

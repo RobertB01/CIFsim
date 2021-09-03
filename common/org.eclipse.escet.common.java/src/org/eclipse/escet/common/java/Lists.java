@@ -246,15 +246,22 @@ public final class Lists {
      * @param lst2 The second list.
      * @return {@code true} if the lists are shifted copies, {@code false} otherwise.
      */
-    public static <T> boolean isShiftedCopy(List<T> lst1, List<T> lst2) {
+    public static <T> boolean areEqualOrShifted(List<T> lst1, List<T> lst2) {
         if (lst1.size() != lst2.size()) {
             return false;
         }
+        if (lst1 == lst2 || lst1.equals(lst2)) {
+            return true;
+        }
 
+        // For all offsets i in lst1, compare the second part of lst1 with the first part of lst2, and
+        // compare the first part of lst1 with the second part of lst2.
         int n = lst1.size();
-        List<T> twiceLst1 = concat(lst1, lst1);
-        for (int i = 0; i < n; i++) {
-            if (twiceLst1.subList(i, i + n).equals(lst2)) {
+        for (int i = 1; i < n; i++) {
+            if (!lst1.subList(i, n).equals(lst2.subList(0, n - i))) {
+                continue;
+            }
+            if (lst1.subList(0, i).equals(lst2.subList(n - i, n))) {
                 return true;
             }
         }

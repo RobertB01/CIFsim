@@ -36,7 +36,7 @@ failures = failures + tooldef("test_codegen.tooldef", ignoreNonZeroExitCode=true
 failures = failures + tooldef("test_cif2plc.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_cif2supremica.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_cif2uppaal.tooldef", ignoreNonZeroExitCode=true);
-failures = failures + tooldef("test_ctrlcheck.tooldef", ignoreNonZeroExitCode=true);
+failures = failures + tooldef("test_controllercheck.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_datasynth.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_event_disabler.tooldef", ignoreNonZeroExitCode=true);
 failures = failures + tooldef("test_explorer.tooldef", ignoreNonZeroExitCode=true);

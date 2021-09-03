@@ -71,7 +71,7 @@ import org.eclipse.escet.common.multivaluetrees.VarInfo;
 /** Class for checking a CIF specification has finite response. */
 public class FiniteResponseChecker {
     /** The application context to use. */
-    public final AppEnvData env = AppEnv.getData();
+    private final AppEnvData env = AppEnv.getData();
 
     /** Automata of the specification. */
     private List<Automaton> automata = list();
@@ -175,7 +175,7 @@ public class FiniteResponseChecker {
         while (evtIterator.hasNext()) {
             evt = evtIterator.next();
             Node n = globalGuards.get(evt);
-            Assert.check(n != null);
+            Assert.notNull(n);
 
             if (n == Tree.ZERO) {
                 evtIterator.remove();
@@ -203,6 +203,7 @@ public class FiniteResponseChecker {
                 checkAutomaton(aut);
 
                 if (env.isTerminationRequested()) {
+                    ddbg();
                     return false;
                 }
             }
@@ -302,6 +303,7 @@ public class FiniteResponseChecker {
                 }
 
                 if (env.isTerminationRequested()) {
+                    ddbg();
                     return;
                 }
             }
@@ -401,22 +403,24 @@ public class FiniteResponseChecker {
      */
     private Map<Event, Node> collectGlobalGuards(Set<Event> events) {
         // An event is enabled in the specification if all of the global guard expressions evaluate to 'true'.
-        Map<Event, List<Expression>> eventGlobalGuards = mapc(events.size());
+        Map<Event, List<Expression>> eventsGlobalGuards = mapc(events.size());
 
         // Initialize the global guards.
         for (Event evt: events) {
-            eventGlobalGuards.put(evt, list());
+            eventsGlobalGuards.put(evt, list());
         }
 
+        // Collect global guards from all automata.
         for (Automaton aut: automata) {
             // An event is enabled in an automaton if any of the automaton guards evaluate to 'true'.
             // Initialize the automaton guard to 'false'. Events in the alphabet but not on any edge are regarded as
             // always disabled.
             Set<Event> controllableAlphabet = intersection(getAlphabet(aut), events);
-            Map<Event, List<Expression>> eventAutGuards = mapc(controllableAlphabet.size());
+            Map<Event, List<Expression>> eventsAutGuards = mapc(controllableAlphabet.size());
             for (Event evt: controllableAlphabet) {
-                eventAutGuards.put(evt, list());
+                eventsAutGuards.put(evt, list());
             }
+
             // Find the automaton guards.
             for (Location loc: aut.getLocations()) {
                 for (Edge edge: loc.getEdges()) {
@@ -429,8 +433,8 @@ public class FiniteResponseChecker {
                     // edge guards evaluate to 'true'. Therefore, the guards are combined via 'and'. If there are no
                     // guards, 'true' is added to 'automGuards'.
                     for (Event evt: intersection) {
-                        List<Expression> automGuards = eventAutGuards.get(evt);
-                        automGuards.add(createConjunction(deepclone(edge.getGuards())));
+                        List<Expression> eventAutGuards = eventsAutGuards.get(evt);
+                        eventAutGuards.add(createConjunction(deepclone(edge.getGuards())));
                     }
                 }
             }
@@ -438,8 +442,8 @@ public class FiniteResponseChecker {
             // An event is enabled in an automaton if at least one edge with that event is enabled. Hence,
             // the automaton guards are combined via 'or'. If an event is in the alphabet, but not labeled on any edge,
             // 'false' is added to 'eventGlobalGuards'.
-            for (Entry<Event, List<Expression>> entry: eventAutGuards.entrySet()) {
-                List<Expression> globalGuards = eventGlobalGuards.get(entry.getKey());
+            for (Entry<Event, List<Expression>> entry: eventsAutGuards.entrySet()) {
+                List<Expression> globalGuards = eventsGlobalGuards.get(entry.getKey());
                 globalGuards.add(createDisjunction(entry.getValue()));
             }
 
@@ -451,11 +455,11 @@ public class FiniteResponseChecker {
         // Convert the collected global guards to an MDD tree.
         Map<Event, Node> eventNode = mapc(events.size());
         for (Event event: events) {
-            List<Expression> globalGuards = eventGlobalGuards.get(event);
+            List<Expression> eventGlobalGuards = eventsGlobalGuards.get(event);
 
             // If there are no global guards for an event, that event is always disabled.
-            Node nodeGuard = globalGuards.isEmpty() ? Tree.ZERO
-                    : builder.getPredicateConvertor().convert(globalGuards).get(1);
+            Node nodeGuard = eventGlobalGuards.isEmpty() ? Tree.ZERO
+                    : builder.getPredicateConvertor().convert(eventGlobalGuards).get(1);
             eventNode.put(event, nodeGuard);
         }
         return eventNode;

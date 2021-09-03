@@ -721,7 +721,7 @@ public class Tree {
         // .. // Build a new sub-expression wit the same value for the old variable
         // .. sub3 = conjunct(sub2, buildEqualityValue(oldVar, value))
         // .. // and merge it into the overall tree.
-        // .. result = disjunct([result, sub3)
+        // .. result = disjunct(result, sub3)
         // return result
         //
         // In reality, all things are done at the same time. Two cases are

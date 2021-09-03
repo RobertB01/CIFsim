@@ -14,7 +14,7 @@
 package org.eclipse.escet.cif.controllercheck.finiteresponse;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
-import static org.eclipse.escet.common.java.Lists.isShiftedCopy;
+import static org.eclipse.escet.common.java.Lists.areEqualOrShifted;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class EventLoop {
             return false;
         }
         EventLoop otherLoop = (EventLoop)other;
-        return isShiftedCopy(events, otherLoop.events);
+        return areEqualOrShifted(events, otherLoop.events);
     }
 
     @Override

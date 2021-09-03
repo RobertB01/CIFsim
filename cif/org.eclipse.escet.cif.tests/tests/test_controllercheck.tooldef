@@ -16,23 +16,9 @@ from "lib:cif" import cifcontrollercheck;
 // Configuration.
 string test_path = "controllercheck";
 string test_pattern = "*.cif";
-list string default_options = ["--devmode=1"];
+list string default_options = ["--devmode=1", "--output-mode=debug"];
 
-map(string:list string) test_options = {
-    "controllercheck/disabled_evts.cif":                 ["--output-mode=debug"],
-    "controllercheck/has_finite_response.cif":           ["--output-mode=debug"],
-    "controllercheck/if_switch_expressions.cif":         ["--output-mode=debug"],
-    "controllercheck/input_variable.cif":                ["--output-mode=debug"],
-    "controllercheck/mult_events_edge.cif":              ["--output-mode=debug"],
-    "controllercheck/mult_iterations.cif":               ["--output-mode=debug"],
-    "controllercheck/no_finite_response.cif":            ["--output-mode=debug"],
-    "controllercheck/self_loop.cif":                     ["--output-mode=debug"],
-    "controllercheck/special_loops.cif":                 ["--output-mode=debug"],
-    "controllercheck/strongly_connected_component1.cif": ["--output-mode=debug"],
-    "controllercheck/strongly_connected_component2.cif": ["--output-mode=debug"],
-    "controllercheck/strongly_connected_component3.cif": ["--output-mode=debug"],
-    "controllercheck/three_part_loop.cif":               ["--output-mode=debug"],
-};
+map(string:list string) test_options = {};
 set string test_skip = {};
 
 // Initialize counts.
