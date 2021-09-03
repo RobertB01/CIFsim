@@ -107,8 +107,9 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         final boolean optimized = false;
         final Map<DiscVariable, String> absVarNamesMap = null;
         final boolean optInits = true;
+        final boolean addEdgeGuards = true;
         new ElimLocRefExprs(varPrefix, enumPrefix, litPrefix, considerLocsForRename, addInitPreds, optimized,
-                absVarNamesMap, optInits).transform(spec);
+                absVarNamesMap, optInits, addEdgeGuards).transform(spec);
 
         new EnumsToInts().transform(spec);
         if (isTerminationRequested()) {
