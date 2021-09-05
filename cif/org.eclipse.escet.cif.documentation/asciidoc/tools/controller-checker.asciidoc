@@ -179,7 +179,7 @@ For more information, see the <<tools-chapter-datasynth,data-based>> and <<tools
 Finite response for a model is determined as follows.
 
 . Find controllable-event loops in automata. 
-For this, guards and updates are omitted, also see <<tools-controllercheck-falsepositives,false positives>>.
+For this, guards and updates are omitted, also see <<tools-controllercheck-falsenegatives,false negatives>>.
 
 . Find variables that are never updated by controllable events.
 This includes by definition all input variables.
@@ -194,21 +194,21 @@ For the guards, all other edge guards and state/event exclusion conditions are i
 
 . If the set of controllable events is empty, the model has finite response.
 Otherwise, it can not be concluded there is finite response.
-Note that the check is an over-approximation, and there may be <<tools-controllercheck-falsepositives,false positives>>.
+Note that the check is an over-approximation, and there may be <<tools-controllercheck-falsenegatives,false negatives>>.
 
 
-indexterm:[controller checker property,false positives]
+indexterm:[controller checker property,false negatives]
 
-[[tools-controllercheck-falsepositives]]
-=== False positives
+[[tools-controllercheck-falsenegatives]]
+=== False negatives
 
 This check is an over-approximation of the existence of controllable event-loops.
 As a result, the check might indicate that the specification may not have finite response, while in reality it has finite response.
 When the check indicates that there is finite response, this is always correct.
 
-To avoid false positives, use the <<tools-chapter-cif-explorer,CIF explorer>> to compute the untimed statespace.
+To avoid false negatives, use the <<tools-chapter-cif-explorer,CIF explorer>> to compute the untimed statespace.
 
-False positives may be reported in the following situations:
+False negatives may be reported in the following situations:
 
 * Loops exist in the non-reachable part of the statespace.
 * Edges contain guards or updates.
@@ -216,7 +216,7 @@ False positives may be reported in the following situations:
 While determining loops in the automata, only explicit loops are considered.
 That is, the algorithm omits guards and updates of the variables.
 For that reason, in the example below, `c_on` and `c_off` are two independent loops (instead of `c_on, c_off` if the guards and update were included).
-To reduce the number of false positives, it is advised to use locations instead of variables whenever possible or eliminate the variables using the <<tools-chapter-cif-explorer,CIF explorer>> before performing the check.
+To reduce the number of false negatives, it is advised to use locations instead of variables whenever possible or eliminate the variables using the <<tools-chapter-cif-explorer,CIF explorer>> before performing the check.
 
 [source, cif]
 ----
