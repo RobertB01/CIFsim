@@ -8,7 +8,7 @@ Iteration 1.
         (B.a B.a), which is not controllable unconnectable.
 
 CONCLUSION:
-    ERROR, the specification does NOT have finite response.
+    ERROR, the specification may NOT have finite response.
     
     At least one controllable-event loop was found.
     The following events might still occur in a controllable-event loop:

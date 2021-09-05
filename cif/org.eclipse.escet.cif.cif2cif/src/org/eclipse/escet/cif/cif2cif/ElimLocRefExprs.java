@@ -580,7 +580,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             for (Edge edge: loc.getEdges()) {
                 // Add guard.
                 Expression guard = createEquality(var, enumDecl, idx);
-                edge.getGuards().add(guard);
+                edge.getGuards().add(0, guard);
             }
         }
     }

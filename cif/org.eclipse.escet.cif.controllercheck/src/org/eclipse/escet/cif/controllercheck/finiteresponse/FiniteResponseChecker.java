@@ -216,7 +216,7 @@ public class FiniteResponseChecker {
         out("CONCLUSION:");
         iout();
         if (!controllableEvents.isEmpty()) {
-            out("ERROR, the specification does NOT have finite response.");
+            out("ERROR, the specification may NOT have finite response.");
             out();
             out("At least one controllable-event loop was found.");
             if (PrintControlLoopsOutputOption.isPrintControlLoopsEnabled()) {
