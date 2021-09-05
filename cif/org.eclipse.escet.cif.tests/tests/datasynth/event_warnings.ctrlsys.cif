@@ -1,5 +1,6 @@
 controllable c_off;
 controllable c_synch;
+uncontrollable u_synch;
 plant automaton p:
   controllable c0;
   controllable c1;
@@ -56,6 +57,7 @@ plant automaton a:
     marked;
     edge c_off goto l2;
     edge c_synch;
+    edge u_synch;
   location l2:
     marked;
 end
@@ -67,6 +69,7 @@ plant automaton b:
   location l2:
     marked;
     edge c_synch;
+    edge u_synch;
 end
 supervisor automaton sup:
   alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, c_off, c_synch;
