@@ -14,7 +14,9 @@
 package org.eclipse.escet.common.raildiagrams.config;
 
 import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.makeUppercase;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -25,17 +27,25 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Configuration data of the diagrams. */
 public class Configuration {
     /** Compiled pattern to match RGB values. */
     private static final Pattern RGB_PATTERN = Pattern.compile("\\s*(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*");
+
+    /** Textual values that mean {@code true}. */
+    private static final Set<String> TRUE_BOOL_VALUES = set("TRUE", "YES", "1");
+
+    /** Textual values that mean {@code false}. */
+    private static final Set<String> FALSE_BOOL_VALUES = set("FALSE", "NO", "0");
 
     /** Stored key/value pairs of the properties of the rail diagram generator. */
     private Map<String, String> defaultProperties = map();
@@ -243,6 +253,22 @@ public class Configuration {
     }
 
     /**
+     * Obtain whether debug output for the given kind is switched on.
+     *
+     * @param kind Kind of debug output.
+     * @return Whether the requested kind of debug output was enabled.
+     * @note Function returns {@code true} if the setting is not explicitly set to {@code false}.
+     */
+    public boolean getDebugSetting(DebugDisplayKind kind) {
+        String propName = "debug." + kind.name().toLowerCase(Locale.US);
+        String text = getPropertyValue(propName);
+        if (text == null) {
+            text = "";
+        }
+        return decodeBool(text, true);
+    }
+
+    /**
      * Get the text of a property by its name.
      *
      * @param key Name of the property to look for.
@@ -285,6 +311,25 @@ public class Configuration {
             return defaultColor;
         }
         return new Color(red, green, blue);
+    }
+
+    /**
+     * Convert a piece of text to a boolean value.
+     *
+     * @param valueText Text to convert.
+     * @param defaultValue Value to use if the conversion fails.
+     * @return The result value.
+     */
+    private boolean decodeBool(String valueText, boolean defaultValue) {
+        valueText = makeUppercase(valueText);
+
+        if (TRUE_BOOL_VALUES.contains(valueText)) {
+            return true;
+        }
+        if (FALSE_BOOL_VALUES.contains(valueText)) {
+            return false;
+        }
+        return defaultValue;
     }
 
     /**

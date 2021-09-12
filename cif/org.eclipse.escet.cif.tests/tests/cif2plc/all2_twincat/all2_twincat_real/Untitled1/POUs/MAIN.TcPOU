@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="MAIN">
+    <Declaration>
+      <![CDATA[PROGRAM MAIN
+VAR_OUTPUT
+    timerValue0: TIME;
+    timerValue1: TIME;
+END_VAR
+VAR
+    cnt: LINT;
+    first: BOOL := TRUE;
+    curTimerValue: TIME;
+    state0: STATE;
+    curTime: LREAL;
+    loopsKilled: LINT;
+END_VAR
+VAR_TEMP
+    lastTimerValue: TIME;
+    curDeltaTime: TIME;
+    curDeltaSecs: LREAL;
+    state1: STATE;
+    progress: BOOL;
+    loopCount: INT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.dvar_M_p_vt := TRUE;
+    state0.dvar_M_p_vf := FALSE;
+    state0.dvar_M_p_vr2 := 2;
+    state0.dvar_M_p_vr3 := 3;
+    state0.dvar_M_p_v0 := 0;
+    state0.dvar_M_p_v1 := 1;
+    state0.dvar_M_p_v2 := 2;
+    state0.dvar_M_p_v3 := 3;
+    state0.dvar_M_p_v123 := 123;
+    state0.dvar_M_p_vn1 := -1;
+    state0.dvar_M_p_vn2 := -2;
+    state0.dvar_M_p_v00 := 0.0;
+    state0.dvar_M_p_v01 := 0.1;
+    state0.dvar_M_p_v05 := 0.5;
+    state0.dvar_M_p_v10 := 1.0;
+    state0.dvar_M_p_v20 := 2.0;
+    state0.dvar_M_p_v30 := 3.0;
+    state0.dvar_M_p_v270 := 27.0;
+    state0.dvar_M_p_vn01 := -0.1;
+    state0.dvar_M_p_vn10 := -1.0;
+    state0.dvar_M_p_e := 2.71828182846;
+    state0.dvar_M_p_ve1 := elit_l1;
+    state0.dvar_M_p_ve2 := elit_l2;
+    state0.dvar_M_p_ve3 := elit_l3;
+    state0.dvar_M_p_ve4 := elit_l4;
+    state0.dvar_M_p_vbir := makeTupleStruct_2(FALSE, 0, 0.0);
+    state0.dvar_M_p_vb := makeTupleStruct_3(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE);
+    state0.dvar_M_p_vi := makeTupleStruct_4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    state0.dvar_M_p_vr := makeTupleStruct_5(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    state0.dvar_M_p := elit_m1;
+ELSE
+    // Update continuous variables for time delay.
+
+    state0.curTime := curTime;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_m1) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_vb := makeTupleStruct_3(NOT(state0.dvar_M_p_vf), NOT(state0.dvar_M_p_vt), NOT(state0.dvar_M_p_vf) OR (state0.dvar_M_p_vf), NOT(state0.dvar_M_p_vf) OR (state0.dvar_M_p_vt), NOT(state0.dvar_M_p_vt) OR (state0.dvar_M_p_vf), NOT(state0.dvar_M_p_vt) OR (state0.dvar_M_p_vt), (state0.dvar_M_p_vf) = (state0.dvar_M_p_vf), (state0.dvar_M_p_vf) = (state0.dvar_M_p_vt), (state0.dvar_M_p_vt) = (state0.dvar_M_p_vf), (state0.dvar_M_p_vt) = (state0.dvar_M_p_vt), (state0.dvar_M_p_vf) AND (state0.dvar_M_p_vf), (state0.dvar_M_p_vf) AND (state0.dvar_M_p_vt), (state0.dvar_M_p_vt) AND (state0.dvar_M_p_vf), (state0.dvar_M_p_vt) AND (state0.dvar_M_p_vt), (state0.dvar_M_p_vf) OR (state0.dvar_M_p_vf), (state0.dvar_M_p_vf) OR (state0.dvar_M_p_vt), (state0.dvar_M_p_vt) OR (state0.dvar_M_p_vf), (state0.dvar_M_p_vt) OR (state0.dvar_M_p_vt), (state0.dvar_M_p_v0) < (state0.dvar_M_p_v1), (state0.dvar_M_p_v1) < (state0.dvar_M_p_v1), (state0.dvar_M_p_v2) < (state0.dvar_M_p_v1), (state0.dvar_M_p_v0) <= (state0.dvar_M_p_v1), (state0.dvar_M_p_v1) <= (state0.dvar_M_p_v1), (state0.dvar_M_p_v2) <= (state0.dvar_M_p_v1), (state0.dvar_M_p_v0) > (state0.dvar_M_p_v1), (state0.dvar_M_p_v1) > (state0.dvar_M_p_v1), (state0.dvar_M_p_v2) > (state0.dvar_M_p_v1), (state0.dvar_M_p_v0) >= (state0.dvar_M_p_v1), (state0.dvar_M_p_v1) >= (state0.dvar_M_p_v1), (state0.dvar_M_p_v2) >= (state0.dvar_M_p_v1), (state0.dvar_M_p_v0) < (state0.dvar_M_p_v10), (state0.dvar_M_p_v1) < (state0.dvar_M_p_v10), (state0.dvar_M_p_v2) < (state0.dvar_M_p_v10), (state0.dvar_M_p_v0) <= (state0.dvar_M_p_v10), (state0.dvar_M_p_v1) <= (state0.dvar_M_p_v10), (state0.dvar_M_p_v2) <= (state0.dvar_M_p_v10), (state0.dvar_M_p_v0) > (state0.dvar_M_p_v10), (state0.dvar_M_p_v1) > (state0.dvar_M_p_v10), (state0.dvar_M_p_v2) > (state0.dvar_M_p_v10), (state0.dvar_M_p_v0) >= (state0.dvar_M_p_v10), (state0.dvar_M_p_v1) >= (state0.dvar_M_p_v10), (state0.dvar_M_p_v2) >= (state0.dvar_M_p_v10), (state0.dvar_M_p_v00) < (state0.dvar_M_p_v1), (state0.dvar_M_p_v10) < (state0.dvar_M_p_v1), (state0.dvar_M_p_v20) < (state0.dvar_M_p_v1), (state0.dvar_M_p_v00) <= (state0.dvar_M_p_v1), (state0.dvar_M_p_v10) <= (state0.dvar_M_p_v1), (state0.dvar_M_p_v20) <= (state0.dvar_M_p_v1), (state0.dvar_M_p_v00) > (state0.dvar_M_p_v1), (state0.dvar_M_p_v10) > (state0.dvar_M_p_v1), (state0.dvar_M_p_v20) > (state0.dvar_M_p_v1), (state0.dvar_M_p_v00) >= (state0.dvar_M_p_v1), (state0.dvar_M_p_v10) >= (state0.dvar_M_p_v1), (state0.dvar_M_p_v20) >= (state0.dvar_M_p_v1), (state0.dvar_M_p_v00) < (state0.dvar_M_p_v10), (state0.dvar_M_p_v10) < (state0.dvar_M_p_v10), (state0.dvar_M_p_v20) < (state0.dvar_M_p_v10), (state0.dvar_M_p_v00) <= (state0.dvar_M_p_v10), (state0.dvar_M_p_v10) <= (state0.dvar_M_p_v10), (state0.dvar_M_p_v20) <= (state0.dvar_M_p_v10), (state0.dvar_M_p_v00) > (state0.dvar_M_p_v10), (state0.dvar_M_p_v10) > (state0.dvar_M_p_v10), (state0.dvar_M_p_v20) > (state0.dvar_M_p_v10), (state0.dvar_M_p_v00) >= (state0.dvar_M_p_v10), (state0.dvar_M_p_v10) >= (state0.dvar_M_p_v10), (state0.dvar_M_p_v20) >= (state0.dvar_M_p_v10), (state0.dvar_M_p_vt) = (TRUE), (state0.dvar_M_p_vt) = (FALSE), (state0.dvar_M_p_vf) = (TRUE), (state0.dvar_M_p_vf) = (FALSE), (state0.dvar_M_p_v0) = (0), (state0.dvar_M_p_v0) = (1), (state0.dvar_M_p_v1) = (0), (state0.dvar_M_p_v1) = (1), (state0.dvar_M_p_v00) = (0.0), (state0.dvar_M_p_v00) = (1.0), (state0.dvar_M_p_v10) = (0.0), (state0.dvar_M_p_v10) = (1.0), (state0.dvar_M_p_ve1) = (elit_l2), (state0.dvar_M_p_ve1) = (elit_l1), (state0.dvar_M_p_ve2) = (elit_l2), (state0.dvar_M_p_ve2) = (elit_l1), (state0.dvar_M_p_ve3) = (elit_l3), (state0.dvar_M_p_ve3) = (elit_l4), (state0.dvar_M_p_ve4) = (elit_l3), (state0.dvar_M_p_ve4) = (elit_l4), (state0.dvar_M_p_vt) <> (TRUE), (state0.dvar_M_p_vt) <> (FALSE), (state0.dvar_M_p_vf) <> (TRUE), (state0.dvar_M_p_vf) <> (FALSE), (state0.dvar_M_p_v0) <> (0), (state0.dvar_M_p_v0) <> (1), (state0.dvar_M_p_v1) <> (0), (state0.dvar_M_p_v1) <> (1), (state0.dvar_M_p_v00) <> (0.0), (state0.dvar_M_p_v00) <> (1.0), (state0.dvar_M_p_v10) <> (0.0), (state0.dvar_M_p_v10) <> (1.0), (state0.dvar_M_p_ve1) <> (elit_l2), (state0.dvar_M_p_ve1) <> (elit_l1));
+            state1.dvar_M_p_vi := makeTupleStruct_4(-(state0.dvar_M_p_vn1), -(-(state0.dvar_M_p_vn2)), -(state0.dvar_M_p_v3), state0.dvar_M_p_v2, state0.dvar_M_p_vn2, state0.dvar_M_p_v123, (state0.dvar_M_p_v2) + (state0.dvar_M_p_v3), (state0.dvar_M_p_v2) - (state0.dvar_M_p_v3), (state0.dvar_M_p_v2) * (state0.dvar_M_p_v3), 1, -1, -1, 1, 3, 3, -3, -3, (state0.dvar_M_p_v1) MOD (state0.dvar_M_p_v0), ifExprFunc1(state0), ifExprFunc2(state0), ifExprFunc3(state0), ifExprFunc4(state0), ifExprFunc5(state0), ifExprFunc6(state0), ifExprFunc7(state0), ABS(state0.dvar_M_p_vn1), ABS(state0.dvar_M_p_vn2), MIN(state0.dvar_M_p_v0, state0.dvar_M_p_v1), MIN(state0.dvar_M_p_v1, state0.dvar_M_p_v1), MIN(state0.dvar_M_p_v2, state0.dvar_M_p_v1), MAX(state0.dvar_M_p_v0, state0.dvar_M_p_v1), MAX(state0.dvar_M_p_v1, state0.dvar_M_p_v1), MAX(state0.dvar_M_p_v2, state0.dvar_M_p_v1), LREAL_TO_DINT(EXPT(DINT_TO_LREAL(state0.dvar_M_p_vr2), state0.dvar_M_p_vr3)), proj0_TupleStruct_1(func_dup(234)));
+            state1.dvar_M_p_vr := makeTupleStruct_5(DINT_TO_LREAL(state0.dvar_M_p_v123), state0.dvar_M_p_v00, -(state0.dvar_M_p_vn01), -(-(state0.dvar_M_p_vn10)), -(state0.dvar_M_p_v05), state0.dvar_M_p_v01, state0.dvar_M_p_vn01, (state0.dvar_M_p_v20) + (state0.dvar_M_p_v3), (state0.dvar_M_p_v2) + (state0.dvar_M_p_v30), (state0.dvar_M_p_v20) + (state0.dvar_M_p_v30), (state0.dvar_M_p_v20) - (state0.dvar_M_p_v3), (state0.dvar_M_p_v2) - (state0.dvar_M_p_v30), (state0.dvar_M_p_v20) - (state0.dvar_M_p_v30), (state0.dvar_M_p_v20) * (state0.dvar_M_p_v3), (state0.dvar_M_p_v2) * (state0.dvar_M_p_v30), (state0.dvar_M_p_v20) * (state0.dvar_M_p_v30), DINT_TO_LREAL(state0.dvar_M_p_v2) / (state0.dvar_M_p_v3), (state0.dvar_M_p_v20) / (state0.dvar_M_p_v3), (state0.dvar_M_p_v2) / (state0.dvar_M_p_v30), (state0.dvar_M_p_v20) / (state0.dvar_M_p_v30), ABS(state0.dvar_M_p_vn01), ABS(state0.dvar_M_p_vn10), EXPT(state0.dvar_M_p_v270, 1.0/3), EXP(LN(LN(state0.dvar_M_p_e))), LOG(EXPT(10.0, state0.dvar_M_p_v3)), MIN(DINT_TO_LREAL(state0.dvar_M_p_v0), state0.dvar_M_p_v10), MIN(DINT_TO_LREAL(state0.dvar_M_p_v1), state0.dvar_M_p_v10), MIN(DINT_TO_LREAL(state0.dvar_M_p_v2), state0.dvar_M_p_v10), MIN(state0.dvar_M_p_v00, DINT_TO_LREAL(state0.dvar_M_p_v1)), MIN(state0.dvar_M_p_v10, DINT_TO_LREAL(state0.dvar_M_p_v1)), MIN(state0.dvar_M_p_v20, DINT_TO_LREAL(state0.dvar_M_p_v1)), MIN(state0.dvar_M_p_v00, state0.dvar_M_p_v10), MIN(state0.dvar_M_p_v10, state0.dvar_M_p_v10), MIN(state0.dvar_M_p_v20, state0.dvar_M_p_v10), MAX(DINT_TO_LREAL(state0.dvar_M_p_v0), state0.dvar_M_p_v10), MAX(DINT_TO_LREAL(state0.dvar_M_p_v1), state0.dvar_M_p_v10), MAX(DINT_TO_LREAL(state0.dvar_M_p_v2), state0.dvar_M_p_v10), MAX(state0.dvar_M_p_v00, DINT_TO_LREAL(state0.dvar_M_p_v1)), MAX(state0.dvar_M_p_v10, DINT_TO_LREAL(state0.dvar_M_p_v1)), MAX(state0.dvar_M_p_v20, DINT_TO_LREAL(state0.dvar_M_p_v1)), MAX(state0.dvar_M_p_v00, state0.dvar_M_p_v10), MAX(state0.dvar_M_p_v10, state0.dvar_M_p_v10), MAX(state0.dvar_M_p_v20, state0.dvar_M_p_v10), EXPT(state0.dvar_M_p_v00, state0.dvar_M_p_v00), EXPT(state0.dvar_M_p_v2, state0.dvar_M_p_v3), EXPT(DINT_TO_LREAL(state0.dvar_M_p_v2), state0.dvar_M_p_v30), EXPT(state0.dvar_M_p_v20, state0.dvar_M_p_v3), EXPT(state0.dvar_M_p_v20, state0.dvar_M_p_v30), SQRT(state0.dvar_M_p_v00), SQRT(state0.dvar_M_p_v01), SQRT(state0.dvar_M_p_v10), SQRT(state0.dvar_M_p_v20), SIN(state0.dvar_M_p_v05), COS(state0.dvar_M_p_v05), TAN(state0.dvar_M_p_v05), ASIN(state0.dvar_M_p_v05), ACOS(state0.dvar_M_p_v05), ATAN(state0.dvar_M_p_v05), func_add3(state0.dvar_M_p_v1, state0.dvar_M_p_v2, state0.dvar_M_p_v3));
+            state1.dvar_M_p_vbir := makeTupleStruct_2(state0.dvar_M_p_vt, state0.dvar_M_p_v123, state0.dvar_M_p_v10);
+            state1.dvar_M_p := elit_m2;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        IF (state0.dvar_M_p) = (elit_m2) THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_vbir.field1 := (proj1_TupleStruct_2(state0.dvar_M_p_vbir)) + (state0.dvar_M_p_v1);
+            state1.dvar_M_p := elit_m3;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+
+    // Protect against events that are always enabled.
+    loopCount := loopCount + 1;
+    IF loopCount >= 100 THEN
+        loopsKilled := loopsKilled + 1;
+        EXIT;
+    END_IF;
+END_WHILE;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

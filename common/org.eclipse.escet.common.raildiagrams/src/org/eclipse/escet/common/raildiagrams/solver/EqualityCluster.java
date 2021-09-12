@@ -93,8 +93,10 @@ public class EqualityCluster {
      * The caller should ensure the set provided relations only contain variables where both sides are already in the
      * cluster, and that the set is complete, eventually linking all variables to the shared common variable.
      * </p>
+     *
+     * @param dumpSolving Whether to dump details of solving the position equations.
      */
-    public void initialize() {
+    public void initialize(boolean dumpSolving) {
         // Singleton equality cluster have no equations to initialize from.
         if (equalities.isEmpty()) {
             Assert.check(variables.size() == 1);
@@ -133,7 +135,7 @@ public class EqualityCluster {
                     variables.put(eqRel.a, offsetA);
                     variables.put(eqRel.b, offsetB);
                     Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
-                    if (dodbg()) {
+                    if (dumpSolving && dodbg()) {
                         dbg();
                         dbg("%s:", eqRel);
                         idbg();
@@ -169,7 +171,7 @@ public class EqualityCluster {
                         offsetA = offsetB + eqRel.offset;
                         variables.put(eqRel.a, offsetA);
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
-                        if (dodbg()) {
+                        if (dumpSolving && dodbg()) {
                             dbg();
                             dbg("[add-A] %s:", eqRel);
                             idbg();
@@ -195,7 +197,7 @@ public class EqualityCluster {
                         offsetB = offsetA - eqRel.offset;
                         variables.put(eqRel.b, offsetB);
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON);
-                        if (dodbg()) {
+                        if (dumpSolving && dodbg()) {
                             dbg();
                             dbg("[add-B] %s:", eqRel);
                             idbg();
@@ -205,7 +207,9 @@ public class EqualityCluster {
                         continue;
                     } else {
                         // Both are here. There are cycles in the equality relations.
-                        dumpEqualityCycle(eqRel);
+                        if (dumpSolving) {
+                            dumpEqualityCycle(eqRel);
+                        }
 
                         Assert.check(Math.abs(-offsetA + eqRel.offset + offsetB) < Solver.EPSILON,
                                 fmt("eqRel=%s, offsetA=%f, offsetB=%f", eqRel, offsetA, offsetB));
@@ -311,9 +315,10 @@ public class EqualityCluster {
      * </p>
      *
      * @param leRel Less-equal relation to check.
+     * @param dumpSolving Whether to dump details of solving the position equations.
      */
-    public void checkLeRelation(LeRelation leRel) {
-        if (dodbg()) {
+    public void checkLeRelation(LeRelation leRel, boolean dumpSolving) {
+        if (dumpSolving && dodbg()) {
             dbg("checkLEReleation: %s", leRel);
         }
         double offsetA = variables.get(leRel.a);
@@ -336,8 +341,9 @@ public class EqualityCluster {
      *
      * @param varValues Storage of variable assignments.
      * @param cValue The common C value to use for assigning variables.
+     * @param dumpSolving Whether to dump details of solving the position equations.
      */
-    public void assignVariables(double[] varValues, double cValue) {
+    public void assignVariables(double[] varValues, double cValue, boolean dumpSolving) {
         for (Entry<Variable, Double> entry: variables.entrySet()) {
             double varValue = cValue - entry.getValue();
             Assert.check(varValue > -Solver.EPSILON); // Variable should be non-negative.
@@ -348,7 +354,7 @@ public class EqualityCluster {
             varValues[varIndex] = varValue;
         }
         // Dump the variables in increasing value.
-        if (dodbg()) {
+        if (dumpSolving && dodbg()) {
             List<Variable> sortedVars = listc(variables.size());
             for (Variable v: variables.keySet()) {
                 sortedVars.add(v);

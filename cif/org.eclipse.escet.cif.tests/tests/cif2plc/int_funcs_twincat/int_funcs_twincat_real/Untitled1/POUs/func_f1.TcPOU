@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_f1">
+    <Declaration>
+      <![CDATA[FUNCTION func_f1: DINT
+VAR_INPUT
+    farg2_f1_x: DINT;
+END_VAR
+VAR
+    farg_f1_x: DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[farg_f1_x := farg2_f1_x;
+IF ((farg_f1_x) <= (0)) THEN
+    func_f1 := farg_f1_x;
+    RETURN;
+END_IF;
+farg_f1_x := (farg_f1_x) + (1);
+func_f1 := func_f2(farg_f1_x);
+RETURN;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

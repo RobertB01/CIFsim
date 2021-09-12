@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Project>
+  <ItemGroup>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\STATE.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\INPUTS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\TIMERS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Folder Include="DUTs"/>
+    <Folder Include="GVLs"/>
+    <Folder Include="POUs"/>
+  </ItemGroup>
+</Project>

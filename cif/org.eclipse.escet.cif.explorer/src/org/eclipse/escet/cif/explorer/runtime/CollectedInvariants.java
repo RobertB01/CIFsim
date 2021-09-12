@@ -18,7 +18,6 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 
@@ -42,7 +41,7 @@ public class CollectedInvariants {
      * @param inv Invariant to add.
      */
     public void add(Invariant inv) {
-        switch (CifInvariantUtils.getSupKind(inv)) {
+        switch (inv.getSupKind()) {
             case NONE:
                 if (noneInvariants == null) {
                     noneInvariants = list();

@@ -13,13 +13,27 @@
 
 package org.eclipse.escet.common.raildiagrams.railroad;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dodbg;
+import static org.eclipse.escet.common.raildiagrams.util.DumpSupportFunctions.writeDumpHeaderElements;
+
 import java.awt.Color;
 
 import org.eclipse.escet.common.raildiagrams.config.Configuration;
 import org.eclipse.escet.common.raildiagrams.graphics.HorLine;
+import org.eclipse.escet.common.raildiagrams.util.DebugDisplayKind;
 
 /** Empty node, that is, "()" in the input file. */
 public class EmptyNode extends DiagramElement {
+    /**
+     * Constructor of the {@link EmptyNode} class.
+     *
+     * @param id Identifying number of the diagram element.
+     */
+    public EmptyNode(int id) {
+        super("empty", id);
+    }
+
     @Override
     public void create(Configuration config, int direction) {
         double railwidth = config.getRailWidth();
@@ -35,6 +49,22 @@ public class EmptyNode extends DiagramElement {
         solver.addEq(right, 0, hline.right);
         solver.addEq(connectTop, 0, hline.top);
 
-        solver.solve("empty-node");
+        solver.solve("empty-node", config);
+
+        boolean dumpEquations = config.getDebugSetting(DebugDisplayKind.EQUATIONS);
+        boolean dumpRelCoords = config.getDebugSetting(DebugDisplayKind.REL_COORDINATES);
+        if ((dumpEquations || dumpRelCoords) && dodbg()) {
+            writeDumpHeaderElements(this, null);
+            dbg();
+
+            if (dumpEquations) {
+                solver.dumpRelations();
+                dbg();
+            }
+            if (dumpRelCoords) {
+                dumpElementBox();
+                dbg();
+            }
+        }
     }
 }

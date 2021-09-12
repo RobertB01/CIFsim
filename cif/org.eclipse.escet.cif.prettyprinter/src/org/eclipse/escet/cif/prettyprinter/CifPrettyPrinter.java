@@ -33,7 +33,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.Associativity;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifMath;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -336,10 +335,8 @@ public final class CifPrettyPrinter {
         if (!invs.isEmpty()) {
             for (Invariant inv: invs) {
                 StringBuilder line = new StringBuilder();
-                SupKind kind = CifInvariantUtils.getSupKind(inv);
-                if (kind != SupKind.NONE) {
-                    // Use explicit kind, as implicit kind is deprecated.
-                    line.append(kindToStr(kind));
+                if (inv.getSupKind() != SupKind.NONE) {
+                    line.append(kindToStr(inv.getSupKind()));
                     line.append(" ");
                 }
                 line.append("invariant ");

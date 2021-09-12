@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.common.raildiagrams.graphics;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+
 import java.awt.Graphics2D;
 
 import org.eclipse.escet.common.raildiagrams.solver.Solver;
@@ -20,6 +22,9 @@ import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
 /** An area in a diagram. */
 public abstract class Area {
+    /** Name of the area. */
+    public final String prefix;
+
     /** Position of the top of the area. */
     public final Variable top;
 
@@ -39,6 +44,7 @@ public abstract class Area {
      * @param prefix Name prefix for the variables.
      */
     public Area(Solver solver, String prefix) {
+        this.prefix = prefix;
         top = solver.newVar(prefix + ".top");
         bottom = solver.newVar(prefix + ".bottom");
         left = solver.newVar(prefix + ".left");
@@ -46,6 +52,19 @@ public abstract class Area {
 
         solver.addLe(left, 0, right);
         solver.addLe(top, 0, bottom);
+    }
+
+    /**
+     * Dump coordinates of the area to debug output.
+     *
+     * @param solver Solver storing the relative positions.
+     * @param xOffset Horizontal offset of the element in the picture.
+     * @param yOffset Vertical offset of the element in the picture.
+     */
+    public void dump(Solver solver, double xOffset, double yOffset) {
+        dbg("%s: x[%.1f--%.1f], y[%.1f--%.1f]", prefix, xOffset + solver.getVarValue(left),
+                xOffset + solver.getVarValue(right), yOffset + solver.getVarValue(top),
+                yOffset + solver.getVarValue(bottom));
     }
 
     /**

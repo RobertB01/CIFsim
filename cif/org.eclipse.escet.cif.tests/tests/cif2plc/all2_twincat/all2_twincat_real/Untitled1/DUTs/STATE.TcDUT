@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="STATE">
+    <Declaration>
+      <![CDATA[TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_p_vt AT %Q*: BOOL;
+        dvar_M_p_vf AT %Q*: BOOL;
+        dvar_M_p_vr2 AT %Q*: DINT;
+        dvar_M_p_vr3 AT %Q*: DINT;
+        dvar_M_p_v0 AT %Q*: DINT;
+        dvar_M_p_v1 AT %Q*: DINT;
+        dvar_M_p_v2 AT %Q*: DINT;
+        dvar_M_p_v3 AT %Q*: DINT;
+        dvar_M_p_v123 AT %Q*: DINT;
+        dvar_M_p_vn1 AT %Q*: DINT;
+        dvar_M_p_vn2 AT %Q*: DINT;
+        dvar_M_p_v00 AT %Q*: LREAL;
+        dvar_M_p_v01 AT %Q*: LREAL;
+        dvar_M_p_v05 AT %Q*: LREAL;
+        dvar_M_p_v10 AT %Q*: LREAL;
+        dvar_M_p_v20 AT %Q*: LREAL;
+        dvar_M_p_v30 AT %Q*: LREAL;
+        dvar_M_p_v270 AT %Q*: LREAL;
+        dvar_M_p_vn01 AT %Q*: LREAL;
+        dvar_M_p_vn10 AT %Q*: LREAL;
+        dvar_M_p_e AT %Q*: LREAL;
+        dvar_M_p_ve1 AT %Q*: enum_E;
+        dvar_M_p_ve2 AT %Q*: enum_E;
+        dvar_M_p_ve3 AT %Q*: enum_E;
+        dvar_M_p_ve4 AT %Q*: enum_E;
+        dvar_M_p_vbir AT %Q*: TupleStruct_2;
+        dvar_M_p_vb AT %Q*: TupleStruct_3;
+        dvar_M_p_vi AT %Q*: TupleStruct_4;
+        dvar_M_p_vr AT %Q*: TupleStruct_5;
+        dvar_M_p AT %Q*: enum_E;
+    END_STRUCT
+END_TYPE]]>
+    </Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

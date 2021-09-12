@@ -41,6 +41,20 @@ import org.eclipse.escet.setext.runtime.Token;
  * </ul>
  */
 public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks, RailRoadDiagramParser.Hooks {
+    /** Next available id for a diagram element. */
+    private int nextId = 1;
+
+    /**
+     * Get a fresh id for a diagram element.
+     *
+     * @return The fresh id.
+     */
+    private int getId() {
+        int id = nextId;
+        nextId++;
+        return id;
+    }
+
     @Override
     public void setParser(Parser<?> parser) {
         // Nothing to do.
@@ -67,14 +81,14 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
 
     @Override // rule : body1;
     public RailRule parserule1(List<DiagramElement> l1) {
-        DiagramElement seq = l1.size() < 2 ? l1.get(0) : new SequenceNode(list(new SequenceRow(l1)));
-        return new RailRule(null, seq);
+        DiagramElement seq = l1.size() < 2 ? l1.get(0) : new SequenceNode(list(new SequenceRow(l1)), getId());
+        return new RailRule(null, seq, getId());
     }
 
     @Override // rule : @IDENTIFIER COLON body1;
     public RailRule parserule2(Token t1, List<DiagramElement> l3) {
         DiagramElement body = makeChoice(l3);
-        return new RailRule(t1.text, body);
+        return new RailRule(t1.text, body, getId());
     }
 
     @Override // body1 : body2;
@@ -84,7 +98,7 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
 
     @Override // body1 : @BR_STRING body2;
     public List<DiagramElement> parsebody12(Token t1, DiagramElement d2) {
-        DiagramElement label = new BranchLabelNode(t1.text);
+        DiagramElement label = new BranchLabelNode(t1.text, getId());
         return list(makeSequenceRow(list(label, d2)));
     }
 
@@ -98,7 +112,7 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
     @Override // body1 : body1 PIPE @BR_STRING body2;
     public List<DiagramElement> parsebody14(List<DiagramElement> l1, Token t3, DiagramElement d4) {
         List<DiagramElement> elms = copy(l1);
-        DiagramElement label = new BranchLabelNode(t3.text);
+        DiagramElement label = new BranchLabelNode(t3.text, getId());
         elms.add(makeSequenceRow(list(label, d4)));
         return elms;
     }
@@ -110,16 +124,16 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
 
     @Override // body2 : body3 STAR body5;
     public DiagramElement parsebody22(List<Optional<DiagramElement>> l1, Optional<DiagramElement> o3) {
-        DiagramElement rhs = o3.isPresent() ? o3.get() : new EmptyNode();
-        LoopNode loop = new LoopNode(makeSequenceMultiRow(l1), rhs);
-        return new ChoiceNode(list(new EmptyNode(), loop));
+        DiagramElement rhs = o3.isPresent() ? o3.get() : new EmptyNode(getId());
+        LoopNode loop = new LoopNode(makeSequenceMultiRow(l1), rhs, getId());
+        return new ChoiceNode(list(new EmptyNode(getId()), loop), getId());
     }
 
     @Override // body2 : body3 PLUS body5;
     public DiagramElement parsebody23(List<Optional<DiagramElement>> l1, Optional<DiagramElement> o3) {
-        DiagramElement rhs = o3.isPresent() ? o3.get() : new EmptyNode();
+        DiagramElement rhs = o3.isPresent() ? o3.get() : new EmptyNode(getId());
         DiagramElement forward = makeSequenceMultiRow(l1);
-        return new LoopNode(forward, rhs);
+        return new LoopNode(forward, rhs, getId());
     }
 
     @Override // body3 : body4;
@@ -141,19 +155,19 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
 
     @Override // body4 : body5 QUEST;
     public Optional<DiagramElement> parsebody42(Optional<DiagramElement> o1) {
-        DiagramElement rhs = o1.isPresent() ? o1.get() : new EmptyNode();
-        List<DiagramElement> elms = list(new EmptyNode(), rhs);
-        return Optional.of(new ChoiceNode(elms));
+        DiagramElement rhs = o1.isPresent() ? o1.get() : new EmptyNode(getId());
+        List<DiagramElement> elms = list(new EmptyNode(getId()), rhs);
+        return Optional.of(new ChoiceNode(elms, getId()));
     }
 
     @Override // body5 : @SQUOTE_STRING;
     public Optional<DiagramElement> parsebody51(Token t1) {
-        return Optional.of(new NamedNode(null, t1.text));
+        return Optional.of(new NamedNode(null, t1.text, getId()));
     }
 
     @Override // body5 : @DQUOTE_STRING;
     public Optional<DiagramElement> parsebody52(Token t1) {
-        return Optional.of(new NamedNode(null, t1.text));
+        return Optional.of(new NamedNode(null, t1.text, getId()));
     }
 
     @Override // body5 : PAROPEN body1 PARCLOSE;
@@ -168,12 +182,12 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
 
     @Override // body5 : PAROPEN PARCLOSE;
     public Optional<DiagramElement> parsebody55() {
-        return Optional.of(new EmptyNode());
+        return Optional.of(new EmptyNode(getId()));
     }
 
     @Override // body5 : @IDENTIFIER;
     public Optional<DiagramElement> parsebody56(Token t1) {
-        return Optional.of(new NamedNode(t1.text));
+        return Optional.of(new NamedNode(t1.text, getId()));
     }
 
     /**
@@ -186,7 +200,7 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
         if (choices.size() == 1) {
             return choices.get(0);
         }
-        return new ChoiceNode(choices);
+        return new ChoiceNode(choices, getId());
     }
 
     /**
@@ -214,7 +228,7 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
         if (rows.size() == 1 && rows.get(0).elements.size() == 1) {
             return first(first(rows).elements);
         }
-        return new SequenceNode(rows);
+        return new SequenceNode(rows, getId());
     }
 
     /**
@@ -227,6 +241,6 @@ public final class RailRoadDiagramHooks implements RailRoadDiagramScanner.Hooks,
         if (sequence.size() == 1) {
             return sequence.get(0);
         }
-        return new SequenceNode(list(new SequenceRow(sequence)));
+        return new SequenceNode(list(new SequenceRow(sequence)), getId());
     }
 }

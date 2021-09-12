@@ -1084,8 +1084,7 @@ public class CifTextUtils {
      * </p>
      *
      * @param inv The CIF invariant to convert.
-     * @param inclPrefix Whether to include the supervisory kind (if specified) and 'invariant' keyword as a prefix. If
-     *     enabled, supervisory kinds inherited from automata are used, if applicable.
+     * @param inclPrefix Whether to include the supervisory kind (if specified) and 'invariant' keyword as a prefix.
      * @return The textual representation of the CIF invariant.
      * @see #exprToStr
      */
@@ -1093,9 +1092,8 @@ public class CifTextUtils {
         StringBuilder txt = new StringBuilder();
 
         if (inclPrefix) {
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.NONE) {
-                txt.append(kindToStr(kind));
+            if (inv.getSupKind() != SupKind.NONE) {
+                txt.append(kindToStr(inv.getSupKind()));
                 txt.append(" ");
             }
             txt.append("invariant ");

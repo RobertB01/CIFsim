@@ -29,6 +29,7 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 
 * Update target platform and address any issues
 ** Let Oomph regenerate the target platform, and commit any changes.
+** Force a rebuild in Eclipse (menu:Project[Clean...]).
 ** Check workspace for any errors/warnings and address them if any.
 ** Check _New and Noteworthy_ (release notes) of the new Eclipse version for changes and adapt as necessary.
 

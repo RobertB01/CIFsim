@@ -21,6 +21,8 @@ import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.DIS
 import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.IMPLICATION;
 import static org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator.INTEGER_DIVISION;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAssignment;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newEvent;
@@ -30,9 +32,11 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newMonitors;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSpecification;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
+import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.filter;
 import static org.eclipse.escet.common.java.Lists.first;
+import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.set2list;
@@ -71,7 +75,6 @@ import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifGuardUtils;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifLocationUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -113,6 +116,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Monitors;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
 import org.eclipse.escet.cif.metamodel.cif.automata.impl.EdgeEventImpl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -123,6 +127,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
@@ -133,6 +138,8 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.InputVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IntExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.LocationExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TupleExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
@@ -1813,10 +1820,8 @@ public class CifToSynthesisConverter {
                 continue;
             }
 
-            // Check kind. Also set kind explicitly, as it is needed for later removal.
-            CifInvariantUtils.makeSupKindExplicit(inv);
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.REQUIREMENT) {
+            // Check kind.
+            if (inv.getSupKind() != SupKind.REQUIREMENT) {
                 String msg = fmt("Unsupported %s: for state invariants, only requirement invariants are supported.",
                         CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
@@ -1856,12 +1861,10 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    // Check kind. Also set kind explicitly, as it is needed for later removal.
-                    CifInvariantUtils.makeSupKindExplicit(inv);
-                    SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.REQUIREMENT) {
+                    // Check kind.
+                    if (inv.getSupKind() != SupKind.REQUIREMENT) {
                         String msg = fmt(
-                                "Unsupported %s: for state invariants, only requirement invariants are " + "supported.",
+                                "Unsupported %s: for state invariants, only requirement invariants are supported.",
                                 CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
                         continue;
@@ -1931,10 +1934,8 @@ public class CifToSynthesisConverter {
                 continue;
             }
 
-            // Check kind. Also set kind explicitly, as it is needed for later removal.
-            CifInvariantUtils.makeSupKindExplicit(inv);
-            SupKind kind = CifInvariantUtils.getSupKind(inv);
-            if (kind != SupKind.PLANT && kind != SupKind.REQUIREMENT) {
+            // Check kind.
+            if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
                 String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and requirement "
                         + "invariants are supported.", CifTextUtils.getComponentText1(comp));
                 problems.add(msg);
@@ -1978,17 +1979,17 @@ public class CifToSynthesisConverter {
             }
 
             // Store copies of the BDD.
-            if (kind == SupKind.PLANT) {
+            if (inv.getSupKind() == SupKind.PLANT) {
                 storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, compInv.id());
                 conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, compInv.id());
-            } else if (kind == SupKind.REQUIREMENT) {
+            } else if (inv.getSupKind() == SupKind.REQUIREMENT) {
                 storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, compInv.id());
                 conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, compInv.id());
                 if (Boolean.TRUE.equals(event.getControllable())) {
                     conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, compInv.id());
                 }
             } else {
-                throw new RuntimeException("Unexpected kind: " + kind);
+                throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
             }
 
             // Free the original BDD.
@@ -2008,10 +2009,8 @@ public class CifToSynthesisConverter {
                         continue;
                     }
 
-                    // Check kind. Also set kind explicitly, as it is needed for later removal.
-                    CifInvariantUtils.makeSupKindExplicit(inv);
-                    SupKind kind = CifInvariantUtils.getSupKind(inv);
-                    if (kind != SupKind.PLANT && kind != SupKind.REQUIREMENT) {
+                    // Check kind.
+                    if (inv.getSupKind() != SupKind.PLANT && inv.getSupKind() != SupKind.REQUIREMENT) {
                         String msg = fmt("Unsupported %s: for state/event exclusion invariants, only plant and "
                                 + "requirement invariants are supported.", CifTextUtils.getLocationText1(loc));
                         problems.add(msg);
@@ -2023,8 +2022,9 @@ public class CifToSynthesisConverter {
                     if (!synthAut.alphabet.contains(event)) {
                         String msg = fmt(
                                 "State/event exclusion invariant \"%s\" of %s has no effect, as event \"%s\" is not in "
-                                + "the alphabet of any automaton.", CifTextUtils.invToStr(inv, false),
-                                CifTextUtils.getLocationText2(loc), CifTextUtils.getAbsName(event));
+                                        + "the alphabet of any automaton.",
+                                CifTextUtils.invToStr(inv, false), CifTextUtils.getLocationText2(loc),
+                                CifTextUtils.getAbsName(event));
                         warn(msg);
 
                         // Skip the rest as we won't use this invariant for synthesis.
@@ -2070,17 +2070,17 @@ public class CifToSynthesisConverter {
                     }
 
                     // Store copies of the BDD.
-                    if (kind == SupKind.PLANT) {
+                    if (inv.getSupKind() == SupKind.PLANT) {
                         storeStateEvtExclInv(synthAut.stateEvtExclPlantLists, event, locInv.id());
                         conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclPlants, event, locInv.id());
-                    } else if (kind == SupKind.REQUIREMENT) {
+                    } else if (inv.getSupKind() == SupKind.REQUIREMENT) {
                         storeStateEvtExclInv(synthAut.stateEvtExclReqLists, event, locInv.id());
                         conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclReqs, event, locInv.id());
                         if (Boolean.TRUE.equals(event.getControllable())) {
                             conjunctAndStoreStateEvtExclInv(synthAut.stateEvtExclsReqInvs, event, locInv.id());
                         }
                     } else {
-                        throw new RuntimeException("Unexpected kind: " + kind);
+                        throw new RuntimeException("Unexpected kind: " + inv.getSupKind());
                     }
 
                     // Free the original BDD.
@@ -2231,22 +2231,31 @@ public class CifToSynthesisConverter {
 
             // Create and add synthesis edges.
             synthAut.edges = listc(cifEdges.size());
+            synthAut.eventEdges = mapc(synthAut.alphabet.size());
             for (Edge cifEdge: cifEdges) {
                 // Check for termination.
                 if (synthAut.env.isTerminationRequested()) {
                     break;
                 }
 
-                // Create and add edge.
+                // Create edge.
                 SynthesisEdge synthEdge = new SynthesisEdge(synthAut);
                 synthEdge.edge = cifEdge;
-                synthAut.edges.add(synthEdge);
 
                 // Set event.
                 Assert.check(cifEdge.getEvents().size() == 1);
                 EdgeEvent edgeEvent = first(cifEdge.getEvents());
                 Event event = CifEventUtils.getEventFromEdgeEvent(edgeEvent);
                 synthEdge.event = event;
+
+                // Add edge.
+                synthAut.edges.add(synthEdge);
+                List<SynthesisEdge> synthEdges = synthAut.eventEdges.get(event);
+                if (synthEdges == null) {
+                    synthEdges = list();
+                    synthAut.eventEdges.put(event, synthEdges);
+                }
+                synthEdges.add(synthEdge);
 
                 // Convert and set guards.
                 BDD guard;
@@ -2731,7 +2740,7 @@ public class CifToSynthesisConverter {
      */
     private void addInputVariableEdges(SynthesisAutomaton synthAut) {
         // Initialization.
-        synthAut.inputVarEvents = list();
+        synthAut.inputVarEvents = set();
 
         // Add for each input variable.
         for (SynthesisVariable var: synthAut.variables) {
@@ -2902,6 +2911,21 @@ public class CifToSynthesisConverter {
             int locIdx = aut.getLocations().indexOf(loc);
             Assert.check(locIdx >= 0);
             return var.domain.ithVar(locIdx);
+        } else if (pred instanceof ConstantExpression) {
+            // Boolean constant reference.
+            Constant constant = ((ConstantExpression)pred).getConstant();
+            Assert.check(normalizeType(constant.getType()) instanceof BoolType);
+
+            // Evaluate the constant's value.
+            Object valueObj;
+            try {
+                valueObj = CifEvalUtils.eval(constant.getValue(), initial);
+            } catch (CifEvalException ex) {
+                String msg = fmt("Failed to statically evaluate the value of constant \"%s\".", getAbsName(constant));
+                throw new InvalidInputException(msg, ex);
+            }
+
+            return (boolean)valueObj ? synthAut.factory.one() : synthAut.factory.zero();
         } else if (pred instanceof UnaryExpression) {
             // Inverse unary expression.
             UnaryExpression upred = (UnaryExpression)pred;
@@ -3015,6 +3039,30 @@ public class CifToSynthesisConverter {
             rslt = elifRslt;
 
             // Return converted conditional expression.
+            return rslt;
+        } else if (pred instanceof SwitchExpression) {
+            // Switch expression with boolean result values.
+            SwitchExpression switchPred = (SwitchExpression)pred;
+            Expression value = switchPred.getValue();
+            List<SwitchCase> cases = switchPred.getCases();
+
+            // Convert else.
+            BDD rslt = convertPred(last(cases).getValue(), initial, synthAut);
+
+            // Convert cases.
+            for (int i = cases.size() - 2; i >= 0; i--) {
+                SwitchCase cse = cases.get(i);
+                Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
+                        deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
+                BDD caseGuard = convertPred(caseGuardExpr, initial, synthAut);
+                BDD caseThen = convertPred(cse.getValue(), initial, synthAut);
+                BDD caseRslt = caseGuard.ite(caseThen, rslt);
+                caseGuard.free();
+                caseThen.free();
+                rslt.free();
+                rslt = caseRslt;
+            }
+
             return rslt;
         } else {
             // Others: unsupported.
@@ -3346,6 +3394,40 @@ public class CifToSynthesisConverter {
             rslt = ifRslt;
 
             // Return converted conditional expression.
+            return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
+        }
+
+        // Switch expression
+        if (expr instanceof SwitchExpression) {
+            SwitchExpression switchExpr = (SwitchExpression)expr;
+            Expression value = switchExpr.getValue();
+            List<SwitchCase> cases = switchExpr.getCases();
+
+            // Convert else.
+            CifBddBitVectorAndCarry elseRslt = convertExpr(last(cases).getValue(), initial, synthAut, false, partMsg);
+            Assert.check(elseRslt.carry.isZero());
+            CifBddBitVector rslt = elseRslt.vector;
+
+            // Convert cases.
+            for (int i = cases.size() - 2; i >= 0; i--) {
+                SwitchCase cse = cases.get(i);
+                Expression caseGuardExpr = CifTypeUtils.isAutRefExpr(value) ? cse.getKey() : newBinaryExpression(
+                        deepclone(value), BinaryOperator.EQUAL, null, deepclone(cse.getKey()), newBoolType());
+                BDD caseGuard = convertPred(caseGuardExpr, initial, synthAut);
+                CifBddBitVectorAndCarry caseThen = convertExpr(cse.getValue(), initial, synthAut, false, partMsg);
+                Assert.check(caseThen.carry.isZero());
+                CifBddBitVector caseVector = caseThen.vector;
+                int len = Math.max(rslt.length(), caseVector.length());
+                rslt.resize(len);
+                caseVector.resize(len);
+                CifBddBitVector caseRslt = caseVector.ifThenElse(rslt, caseGuard);
+                caseGuard.free();
+                caseVector.free();
+                rslt.free();
+                rslt = caseRslt;
+            }
+
+            // Return converted switch expression.
             return new CifBddBitVectorAndCarry(rslt, synthAut.factory.zero());
         }
 

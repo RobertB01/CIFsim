@@ -43,7 +43,11 @@ controllable e42;
 controllable e43;
 controllable e44;
 controllable e45;
+controllable e46;
+controllable e47;
 const int[1..1] z = 1;
+const bool t = true;
+const bool f = false;
 enum E = X, Y;
 plant automaton p:
   disc bool bt = true;
@@ -102,16 +106,18 @@ plant automaton p:
     edge e43 when x3 mod 2 = 1;
     edge e44 when (x3 + 1) div 2 = 1;
     edge e45 when (x3 + 1) mod 2 = 1;
+    edge e46 when t;
+    edge e47 when f;
   location l1:
     marked false;
 end
 supervisor automaton sup:
-  alphabet e01, e02, e03, e04, e05, e06, e07, e08, e09, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45;
+  alphabet e01, e02, e03, e04, e05, e06, e07, e08, e09, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45, e46, e47;
   location:
     initial;
     marked;
     edge e01 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
-    edge e02 when false;
+    edge e02 when true;
     edge e03 when false;
     edge e04 when false;
     edge e05 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
@@ -129,8 +135,8 @@ supervisor automaton sup:
     edge e17 when false;
     edge e18 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
     edge e19 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
-    edge e20 when false;
-    edge e21 when false;
+    edge e20 when true;
+    edge e21 when true;
     edge e22 when p.bt and not p.bf and ((p.x1 = 2 or p.x1 = 6 or (p.x1 = 10 or (p.x1 = 14 or p.x1 = 18))) and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
     edge e23 when false;
     edge e24 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
@@ -149,10 +155,12 @@ supervisor automaton sup:
     edge e37 when false;
     edge e38 when false;
     edge e39 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
-    edge e40 when false;
+    edge e40 when true;
     edge e41 when p.bt and (not p.bf and p.x1 = 10) and (p.x3 = 2 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
     edge e42 when p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
     edge e43 when false;
     edge e44 when p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 0 or (p.x3 = 2 or p.x3 = 4))) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
     edge e45 when p.bt and not p.bf and (p.x1 = 10 and (p.x3 = 2 or p.x3 = 3)) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
+    edge e46 when p.bt and not p.bf and (p.x1 = 10 and p.x3 = 2) and (p.x4 = 3 and p.x2 = 10 and (p.v1 = X and p.v2 = Y));
+    edge e47 when true;
 end

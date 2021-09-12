@@ -1,0 +1,34 @@
+controllable c_off;
+controllable c_synch;
+uncontrollable u_synch;
+group p:
+  controllable c0;
+  controllable c1;
+  controllable c2;
+  controllable c3;
+  controllable c4;
+  controllable c5;
+  controllable c6;
+  controllable c7;
+  controllable c8;
+  controllable c9;
+  controllable c10;
+  controllable c11;
+  controllable c12;
+end
+group q:
+  uncontrollable u0;
+  uncontrollable u1;
+  uncontrollable u2;
+end
+automaton statespace:
+  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, q.u0, q.u1, q.u2, c_off, c_synch, u_synch;
+  location loc1:
+    initial;
+    marked;
+    edge p.c11;
+    edge c_off goto loc2;
+  location loc2:
+    marked;
+    edge p.c11;
+end

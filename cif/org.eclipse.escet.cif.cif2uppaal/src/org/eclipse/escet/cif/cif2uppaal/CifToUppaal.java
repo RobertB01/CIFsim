@@ -35,10 +35,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimMonitors;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.ElimTauEvent;
+import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.common.CifEdgeUtils;
 import org.eclipse.escet.cif.common.CifEvalException;
@@ -144,6 +146,8 @@ public class CifToUppaal {
         new ElimComponentDefInst().transform(spec);
         new ElimTauEvent().transform(spec);
         new ElimStateEvtExclInvs().transform(spec);
+        new ElimAlgVariables().transform(spec);
+        new EnumsToInts().transform(spec);
 
         // Check preconditions.
         new CifToUppaalPreChecker().check(spec);

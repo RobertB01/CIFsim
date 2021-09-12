@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Project>
+  <ItemGroup>
+    <Compile Include="POUs\alg_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\alg_g_a_x.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\alg_g_z.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\alg_g_z2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\alg_g_w_w.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\alg_g_w_W2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\alg_g_a_X2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\STATE.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\TIMERS.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
+    <Folder Include="DUTs"/>
+    <Folder Include="GVLs"/>
+    <Folder Include="POUs"/>
+  </ItemGroup>
+</Project>
