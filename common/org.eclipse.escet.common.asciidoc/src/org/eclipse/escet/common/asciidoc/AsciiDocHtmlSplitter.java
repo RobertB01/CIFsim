@@ -124,11 +124,11 @@ public class AsciiDocHtmlSplitter {
         System.out.println(sourceFiles.size() + " source file(s) analyzed.");
 
         // Generate multiple HTML files, one per source file.
-        System.out.println("Generating HTML files at: " + outputRootPath.toString());
+        System.out.println("Generating adapted/splitted HTML files at: " + outputRootPath.toString());
         for (SourceFile sourceFile: sourceFiles) {
             // Get the adapted HTML.
             Document sourceFileHtmlDoc = generatedHtmlDoc.clone();
-            adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles);
+            adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles, sourceRootPath);
 
             // Write HTML.
             Path outputPath = outputRootPath.resolve(sourceFile.relPath);
@@ -138,6 +138,7 @@ public class AsciiDocHtmlSplitter {
         }
 
         // Copy single AsciiDoc-generated HTML file to output directory as well.
+        System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
         Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
         Assert.check(!Files.exists(singlePathOutputPath));
         Files.copy(singleHtmlPagePath, singlePathOutputPath);
@@ -174,7 +175,7 @@ public class AsciiDocHtmlSplitter {
         List<SourceFile> sourceFiles = listc(sourcePaths.size());
         for (Path sourcePath: sourcePaths) {
             // Debug.
-            // System.out.println(sourcePath);
+            System.out.println("Analyzing source file: " + sourcePath);
 
             // Skip special files.
             String fileName = sourcePath.getFileName().toString();
@@ -236,10 +237,15 @@ public class AsciiDocHtmlSplitter {
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      * @param sourceFiles All AsciiDoc source files.
+     * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
+     *     the root 'index.asciidoc' file.
      */
     private static void adaptGeneratedHtmlForSourceFile(Document doc, SourceFile sourceFile,
-            List<SourceFile> sourceFiles)
+            List<SourceFile> sourceFiles, Path sourceRootPath)
     {
+        // Debug.
+        System.out.println("Generating adapted/splitted HTML file for: " + sourceFile.relPath);
+
         // Adapt HTML page title.
         doc.title(sourceFile.title + " | " + doc.title());
 
@@ -314,6 +320,8 @@ public class AsciiDocHtmlSplitter {
                     minHeaderNr = Math.min(headerNr, minHeaderNr);
                 }
             }
+            Assert.check(minHeaderNr > 0);
+            Assert.check(minHeaderNr < Integer.MAX_VALUE);
 
             // Normalize header numbers to ensure minimum header number is '2'.
             for (Element elem: elemContent.getAllElements()) {
@@ -342,26 +350,44 @@ public class AsciiDocHtmlSplitter {
                 }
                 for (SourceFile otherSourceFile: sourceFiles) {
                     if (otherSourceFile.ids.contains(id)) {
-                        String newHref = getHref(sourceFile, otherSourceFile, id);
+                        String newHref = getFileOrSectionHref(sourceFile, otherSourceFile, id);
                         aElem.attr("href", newHref);
                         continue LOOP_A_ELEMS;
                     }
                 }
-                Assert.fail("No source file found that defined 'a' 'href' id: " + id);
+                Assert.fail("No source file found that defines 'a' 'href' id: " + id);
             }
 
-            // Get reference. Skip 'http' references etc.
+            // Get referenced URI. Skip 'http' and 'https' references etc.
             URI uri = URI.create(href);
-            if (uri.getScheme() != null) {
+            String uriScheme = uri.getScheme();
+            if ("http".equals(uriScheme) || "https".equals(uriScheme)) {
                 continue;
             }
+
+            // Handle relative paths.
+            Assert.check(uriScheme == null, uriScheme);
+            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
+            Assert.check(uri.getHost() == null, uri.getHost());
+            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
+            Assert.check(uri.getAuthority() == null, uri.getAuthority());
+            Assert.check(uri.getQuery() == null, uri.getQuery());
+            Assert.check(uri.getFragment() == null, uri.getFragment());
+            Assert.notNull(uri.getPath());
+            Assert.check(href.equals(uri.getPath()));
+            String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(href,
+                    sourceRootPath.toString());
+            String rootPathForNewRelHref = sourceFile.absPath.getParent().toString();
+            String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
+                    rootPathForNewRelHref);
+            aElem.attr("href", newRelHref);
         }
 
         // Add root index file to TOC.
         Element elemTocSectLevel1 = single(doc.select("#toc ul.sectlevel1"));
         Element elemTocHomeLi = elemTocSectLevel1.prependElement("li");
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
-        elemTocHomeA.attr("href", getHref(sourceFile, first(sourceFiles), null));
+        elemTocHomeA.attr("href", getFileOrSectionHref(sourceFile, first(sourceFiles), null));
         elemTocHomeA.appendText(first(sourceFiles).title);
     }
 
@@ -443,7 +469,9 @@ public class AsciiDocHtmlSplitter {
     }
 
     /**
-     * Get an 'href' value from a given source file to a section in another source file.
+     * Get an 'href' value from a given source file to a section in another source file. If the section in the other
+     * source file is the first section, an href to the entire file is returned. Otherwise, a reference to the section
+     * within the file is returned.
      *
      * @param sourceFile The source file from which the 'href' is referenced.
      * @param otherSourceFile The other source file to which the 'href' should point.
@@ -451,7 +479,7 @@ public class AsciiDocHtmlSplitter {
      *     entire file.
      * @return The 'href' value.
      */
-    private static String getHref(SourceFile sourceFile, SourceFile otherSourceFile, String id) {
+    private static String getFileOrSectionHref(SourceFile sourceFile, SourceFile otherSourceFile, String id) {
         Path relPath = sourceFile.absPath.getParent().relativize(otherSourceFile.absPath);
         relPath = sourcePathToOutputPath(relPath);
         String href = relPath.toString();
@@ -483,7 +511,7 @@ public class AsciiDocHtmlSplitter {
         /** The absolute path of the source file. */
         Path absPath;
 
-        /** The relative path of the source file, from the directory that contains the root 'index.asciifile' file. */
+        /** The relative path of the source file, from the directory that contains the root 'index.asciidoc' file. */
         Path relPath;
 
         /**
