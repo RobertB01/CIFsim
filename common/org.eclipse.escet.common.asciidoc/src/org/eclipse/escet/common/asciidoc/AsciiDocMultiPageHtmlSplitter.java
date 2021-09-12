@@ -54,17 +54,21 @@ import org.jsoup.select.Elements;
 import org.jsoup.select.NodeVisitor;
 
 /**
- * AsciiDoc HTML splitter. Split single AsciiDoc-generated HTML file into multiple HTML files, matching the content and
- * directory structure of the AsciiDoc source files from which the single HTML file was generated.
+ * AsciiDoc multi-page HTML splitter.
+ *
+ * <p>
+ * Splits a single AsciiDoc-generated HTML file into multiple HTML files, matching the content and directory structure
+ * of the AsciiDoc source files from which the single HTML file was generated.
+ * </p>
  *
  * <p>
  * This class is meant for application to Eclipse ESCET documentation projects, and may not be suitable for all
  * AsciiDoc-generated HTML files.
  * </p>
  */
-public class AsciiDocHtmlSplitter {
-    /** Constructor for the {@link AsciiDocHtmlSplitter} class. */
-    private AsciiDocHtmlSplitter() {
+public class AsciiDocMultiPageHtmlSplitter {
+    /** Constructor for the {@link AsciiDocMultiPageHtmlSplitter} class. */
+    private AsciiDocMultiPageHtmlSplitter() {
         // Static class.
     }
 
