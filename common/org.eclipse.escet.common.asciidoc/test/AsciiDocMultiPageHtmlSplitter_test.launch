@@ -11,6 +11,6 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.eclipse.escet.common.asciidoc.AsciiDocMultiPageHtmlSplitter"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="org.eclipse.escet.common.asciidoc"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../../setext/org.eclipse.escet.setext.documentation/asciidoc test/index.html test/output"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../../setext/org.eclipse.escet.setext.documentation/asciidoc ../../setext/org.eclipse.escet.setext.documentation/target/website/index.html test/output"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.eclipse.escet.common.asciidoc"/>
 </launchConfiguration>

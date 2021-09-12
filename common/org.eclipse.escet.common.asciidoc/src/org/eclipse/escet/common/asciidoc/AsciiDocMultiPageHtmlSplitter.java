@@ -16,6 +16,7 @@ package org.eclipse.escet.common.asciidoc;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
@@ -343,6 +344,22 @@ public class AsciiDocMultiPageHtmlSplitter {
             }
         }
 
+        // Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
+        String curPageHref = "#" + sourceFile.sourceId;
+        List<Element> tocLinkElems = doc.select("#toc a");
+        int tocLinkCurPageCount = 0;
+        for (Element tocLinkElem: tocLinkElems) {
+            if (curPageHref.equals(tocLinkElem.attr("href"))) {
+                tocLinkElem.addClass("toc-cur-page");
+                tocLinkCurPageCount++;
+            }
+        }
+        if (sourceFile.isRootIndexFile) {
+            Assert.check(tocLinkCurPageCount == 0, String.valueOf(tocLinkCurPageCount));
+        } else {
+            Assert.check(tocLinkCurPageCount == 1, String.valueOf(tocLinkCurPageCount));
+        }
+
         // Update 'a.href' references. This must be done after partitioning.
         LOOP_A_ELEMS:
         for (Element aElem: doc.select("a")) {
@@ -436,7 +453,29 @@ public class AsciiDocMultiPageHtmlSplitter {
         Element elemTocHomeLi = elemTocSectLevel1.prependElement("li");
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
         elemTocHomeA.attr("href", getFileOrSectionHref(sourceFile, first(sourceFiles), null));
+        if (sourceFile.isRootIndexFile) {
+            elemTocHomeA.addClass("toc-cur-page");
+        }
         elemTocHomeA.appendText(first(sourceFiles).title);
+
+        // Add breadcrumbs. This must be done after partitioning. Not added for the root index file.
+        if (!sourceFile.isRootIndexFile) {
+            Element elemBreadcrumbsDiv = elemContent.prependElement("div");
+            elemBreadcrumbsDiv.attr("id", "breadcrumbs");
+
+            for (SourceFile breadcrumb: sourceFile.breadcrumbs) {
+                if (elemBreadcrumbsDiv.childNodeSize() > 0) {
+                    elemBreadcrumbsDiv.appendText(" > ");
+                }
+                boolean isSelfBreadcrumb = sourceFile == breadcrumb;
+                Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
+                elemBreadcrumb.addClass("breadcrumb");
+                if (!isSelfBreadcrumb) {
+                    elemBreadcrumb.attr("href", getFileOrSectionHref(sourceFile, breadcrumb, null));
+                }
+                elemBreadcrumb.text(breadcrumb.isRootIndexFile ? docOriginalTitle : breadcrumb.title);
+            }
+        }
     }
 
     /**
@@ -482,6 +521,10 @@ public class AsciiDocMultiPageHtmlSplitter {
                     SourceFile elemSourceFile = idToSources.get(id);
                     if (elemSourceFile != null) {
                         stack.push(pair(elemSourceFile, depth));
+
+                        // Store reversed stack as breadcrumbs.
+                        elemSourceFile.breadcrumbs = reverse(
+                                stack.stream().map(e -> e.left).collect(Collectors.toList()));
                     }
                 }
 
@@ -517,9 +560,13 @@ public class AsciiDocMultiPageHtmlSplitter {
     }
 
     /**
-     * Get an 'href' value from a given source file to a section in another source file. If the section in the other
-     * source file is the first section, an href to the entire file is returned. Otherwise, a reference to the section
-     * within the file is returned.
+     * Get an 'href' value from a given source file to (a section in) another source file:
+     * <ul>
+     * <li>If no section id is given, a reference to the entire file is returned.</li>
+     * <li>If the section in the other source file is the first section, a reference to the entire file is
+     * returned.</li>
+     * <li>Otherwise, a reference to the section within the file is returned.</li>
+     * </ul>
      *
      * @param sourceFile The source file from which the 'href' is referenced.
      * @param otherSourceFile The other source file to which the 'href' should point.
@@ -576,6 +623,12 @@ public class AsciiDocMultiPageHtmlSplitter {
 
         /** Is this source file the root 'index.asciidoc' file ({@code true}) or not ({@code false})? */
         boolean isRootIndexFile;
+
+        /**
+         * The breadcrumbs for this source file, starting from the home page (first element) to the given source file
+         * (last element). Remains {@code null} for the {@link #isRootIndexFile root index file}.
+         */
+        List<SourceFile> breadcrumbs;
 
         /** The unique ids defined in the generated HTML 'content' for this source file, in order. */
         Set<String> ids = set();
