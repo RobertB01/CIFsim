@@ -13,7 +13,6 @@
 
 package org.eclipse.escet.common.asciidoc;
 
-import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.reverse;
@@ -186,7 +185,9 @@ public class AsciiDocMultiPageHtmlSplitter {
             String fileName = sourcePath.getFileName().toString();
             if (fileName.toString().startsWith("_")) {
                 Assert.check(
-                        fileName.equals("_part_attributes.asciidoc") || fileName.equals("_root_attributes.asciidoc"));
+                        fileName.equals("_root_attributes.asciidoc") || fileName.equals("_part_attributes.asciidoc")
+                                || fileName.equals("_local_attributes.asciidoc"),
+                        fileName);
                 continue;
             }
 
@@ -224,8 +225,8 @@ public class AsciiDocMultiPageHtmlSplitter {
                 Assert.check(idIndex + 1 == titleIndex);
 
                 // Sanity check: no markup in id/title.
-                Assert.check(sourceFile.sourceId.matches("[a-z-]+"), sourceFile.sourceId);
-                Assert.check(sourceFile.title.matches("([a-zA-Z0-9 ]|[a-zA-Z][\\-/][a-zA-Z])+"), sourceFile.title);
+                Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
+                Assert.check(sourceFile.title.matches("([a-zA-Z0-9, ]|[a-zA-Z][\\-/'][a-zA-Z])+"), sourceFile.title);
 
                 // Sanity check: stripped title.
                 Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
@@ -436,27 +437,50 @@ public class AsciiDocMultiPageHtmlSplitter {
             aElem.attr("src", newRelSrc);
         }
 
-        // Check that all 'link.href' references can be ignored.
+        // Update 'link.href' references. This must be done after partitioning.
         for (Element aElem: doc.select("link")) {
             String href = aElem.attr("href");
             if (href == null || href.isBlank()) {
                 throw new RuntimeException("Invalid 'link.href': " + sourceFile.relPath.toString());
             }
 
+            // Get referenced URI. Skip 'http' and 'https' references etc.
             URI uri = URI.create(href);
             String uriScheme = uri.getScheme();
-            Assert.check("http".equals(uriScheme) || "https".equals(uriScheme), uriScheme);
+            if ("http".equals(uriScheme) || "https".equals(uriScheme)) {
+                continue;
+            }
+
+            // Handle relative paths.
+            Assert.check(uriScheme == null, uriScheme);
+            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
+            Assert.check(uri.getHost() == null, uri.getHost());
+            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
+            Assert.check(uri.getAuthority() == null, uri.getAuthority());
+            Assert.check(uri.getQuery() == null, uri.getQuery());
+            Assert.check(uri.getFragment() == null, uri.getFragment());
+            Assert.notNull(uri.getPath());
+            Assert.check(href.equals(uri.getPath()));
+            String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(href,
+                    sourceRootPath.toString());
+            String rootPathForNewRelHref = sourceFile.absPath.getParent().toString();
+            String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
+                    rootPathForNewRelHref);
+            Assert.check(!newRelHref.contains("\\"));
+            aElem.attr("href", newRelHref);
         }
 
         // Add root index file to TOC.
+        SourceFile rootSourceFile = single(
+                sourceFiles.stream().filter(s -> s.isRootIndexFile).collect(Collectors.toList()));
         Element elemTocSectLevel1 = single(doc.select("#toc ul.sectlevel1"));
         Element elemTocHomeLi = elemTocSectLevel1.prependElement("li");
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
-        elemTocHomeA.attr("href", getFileOrSectionHref(sourceFile, first(sourceFiles), null));
+        elemTocHomeA.attr("href", getFileOrSectionHref(sourceFile, rootSourceFile, null));
         if (sourceFile.isRootIndexFile) {
             elemTocHomeA.addClass("toc-cur-page");
         }
-        elemTocHomeA.appendText(first(sourceFiles).title);
+        elemTocHomeA.appendText(rootSourceFile.title);
 
         // Add breadcrumbs. This must be done after partitioning. Not added for the root index file.
         if (!sourceFile.isRootIndexFile) {
