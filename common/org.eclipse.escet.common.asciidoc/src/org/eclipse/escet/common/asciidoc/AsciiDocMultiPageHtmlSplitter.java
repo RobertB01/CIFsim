@@ -251,7 +251,12 @@ public class AsciiDocMultiPageHtmlSplitter {
         System.out.println("Generating adapted/splitted HTML file for: " + sourceFile.relPath);
 
         // Adapt HTML page title.
-        doc.title(sourceFile.title + " | " + doc.title());
+        String docOriginalTitle = doc.title();
+        doc.title(sourceFile.title + " | " + docOriginalTitle);
+
+        // Adapt TOC title.
+        Element elemTocTitle = single(doc.select("div#toctitle"));
+        elemTocTitle.text(docOriginalTitle);
 
         // Move title/copyright/version from HTML body to footer. Not needed for root index file.
         if (!sourceFile.isRootIndexFile) {
@@ -338,12 +343,12 @@ public class AsciiDocMultiPageHtmlSplitter {
             }
         }
 
-        // Update references. This must be done after partitioning.
+        // Update 'a.href' references. This must be done after partitioning.
         LOOP_A_ELEMS:
         for (Element aElem: doc.select("a")) {
             String href = aElem.attr("href");
             if (href == null || href.isBlank()) {
-                throw new RuntimeException("Invalid 'a' 'href': " + sourceFile.relPath.toString());
+                throw new RuntimeException("Invalid 'a.href': " + sourceFile.relPath.toString());
             }
 
             // Handle '#' references, originally pointing to within the single AsciiDoc-generated HTML file.
@@ -359,7 +364,7 @@ public class AsciiDocMultiPageHtmlSplitter {
                         continue LOOP_A_ELEMS;
                     }
                 }
-                Assert.fail("No source file found that defines 'a' 'href' id: " + id);
+                Assert.fail("No source file found that defines 'a.href' id: " + id);
             }
 
             // Get referenced URI. Skip 'http' and 'https' references etc.
@@ -384,7 +389,46 @@ public class AsciiDocMultiPageHtmlSplitter {
             String rootPathForNewRelHref = sourceFile.absPath.getParent().toString();
             String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
                     rootPathForNewRelHref);
+            Assert.check(!newRelHref.contains("\\"));
             aElem.attr("href", newRelHref);
+        }
+
+        // Update 'img.src' references. This must be done after partitioning.
+        for (Element aElem: doc.select("img")) {
+            String src = aElem.attr("src");
+            if (src == null || src.isBlank()) {
+                throw new RuntimeException("Invalid 'img.src': " + sourceFile.relPath.toString());
+            }
+
+            // Handle relative paths.
+            URI uri = URI.create(src);
+            Assert.check(uri.getScheme() == null, uri.getScheme());
+            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
+            Assert.check(uri.getHost() == null, uri.getHost());
+            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
+            Assert.check(uri.getAuthority() == null, uri.getAuthority());
+            Assert.check(uri.getQuery() == null, uri.getQuery());
+            Assert.check(uri.getFragment() == null, uri.getFragment());
+            Assert.notNull(uri.getPath());
+            Assert.check(src.equals(uri.getPath()));
+            String srcAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(src, sourceRootPath.toString());
+            String rootPathForNewRelSrc = sourceFile.absPath.getParent().toString();
+            String newRelSrc = org.eclipse.escet.common.app.framework.Paths.getRelativePath(srcAbsTarget,
+                    rootPathForNewRelSrc);
+            Assert.check(!newRelSrc.contains("\\"));
+            aElem.attr("src", newRelSrc);
+        }
+
+        // Check that all 'link.href' references can be ignored.
+        for (Element aElem: doc.select("link")) {
+            String href = aElem.attr("href");
+            if (href == null || href.isBlank()) {
+                throw new RuntimeException("Invalid 'link.href': " + sourceFile.relPath.toString());
+            }
+
+            URI uri = URI.create(href);
+            String uriScheme = uri.getScheme();
+            Assert.check("http".equals(uriScheme) || "https".equals(uriScheme), uriScheme);
         }
 
         // Add root index file to TOC.
@@ -486,7 +530,7 @@ public class AsciiDocMultiPageHtmlSplitter {
     private static String getFileOrSectionHref(SourceFile sourceFile, SourceFile otherSourceFile, String id) {
         Path relPath = sourceFile.absPath.getParent().relativize(otherSourceFile.absPath);
         relPath = sourcePathToOutputPath(relPath);
-        String href = relPath.toString();
+        String href = relPath.toString().replace('\\', '/');
         if (id != null) {
             String firstId = otherSourceFile.ids.isEmpty() ? null : otherSourceFile.ids.iterator().next();
             if (!Objects.equals(id, firstId)) { // Add section id if not the page title id.
