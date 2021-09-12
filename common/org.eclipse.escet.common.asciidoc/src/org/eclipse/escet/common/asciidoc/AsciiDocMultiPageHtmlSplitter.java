@@ -20,6 +20,7 @@ import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
 import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.IOException;
 import java.net.URI;
@@ -42,6 +43,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.Pair;
@@ -221,15 +223,24 @@ public class AsciiDocMultiPageHtmlSplitter {
                 Assert.check(titleLine.startsWith("== "));
                 sourceFile.title = titleLine.substring(3); // == Title
 
+                // Sanitize title.
+                Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0); // Balanced backticks.
+                sourceFile.title = sourceFile.title.replace("`", ""); // Remove backticks.
+
                 // Sanity check: source id is the id for the page title header.
                 Assert.check(idIndex + 1 == titleIndex);
 
-                // Sanity check: no markup in id/title.
-                Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
-                Assert.check(sourceFile.title.matches("([a-zA-Z0-9, ]|[a-zA-Z][\\-/'][a-zA-Z])+"), sourceFile.title);
-
                 // Sanity check: stripped title.
                 Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
+
+                // Sanity check: no markup in id/title.
+                Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
+                String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
+                String patternTitleWordWithSpecialChar = "[a-zA-Z0-9][\\-/'][a-zA-Z0-9]";
+                String patternTitleWord = fmt("%s|%s", patternTitleWordNormalChars, patternTitleWordWithSpecialChar);
+                String patternTitleWordWithParentheses = fmt("\\((%s)+\\)", patternTitleWord);
+                String patternTitle = fmt("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
+                Assert.check(sourceFile.title.matches(patternTitle), sourceFile.title);
             }
         }
 
@@ -340,6 +351,7 @@ public class AsciiDocMultiPageHtmlSplitter {
                 if (matcher.matches()) {
                     int headerNr = Integer.parseInt(matcher.group(1), 10);
                     int newHeaderNr = headerNr - minHeaderNr + 2;
+                    Assert.check(newHeaderNr <= 6); // Only h1-h6 are defined in HTML.
                     elem.tagName("h" + newHeaderNr);
                 }
             }
@@ -358,6 +370,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         if (sourceFile.isRootIndexFile) {
             Assert.check(tocLinkCurPageCount == 0, String.valueOf(tocLinkCurPageCount));
         } else {
+            // If the TOC level is too limited, the page will not be in the TOC, and this will fail (count is zero).
             Assert.check(tocLinkCurPageCount == 1, String.valueOf(tocLinkCurPageCount));
         }
 
@@ -366,7 +379,9 @@ public class AsciiDocMultiPageHtmlSplitter {
         for (Element aElem: doc.select("a")) {
             String href = aElem.attr("href");
             if (href == null || href.isBlank()) {
-                throw new RuntimeException("Invalid 'a.href': " + sourceFile.relPath.toString());
+                // Occurs for bibliography entries. But then they have no child nodes, and are thus not clickable.
+                Assert.check(aElem.childNodeSize() == 0);
+                continue;
             }
 
             // Handle '#' references, originally pointing to within the single AsciiDoc-generated HTML file.
@@ -415,7 +430,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         for (Element aElem: doc.select("img")) {
             String src = aElem.attr("src");
             if (src == null || src.isBlank()) {
-                throw new RuntimeException("Invalid 'img.src': " + sourceFile.relPath.toString());
+                throw new RuntimeException("Undefined 'img.src': " + sourceFile.relPath.toString());
             }
 
             // Handle relative paths.
@@ -441,7 +456,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         for (Element aElem: doc.select("link")) {
             String href = aElem.attr("href");
             if (href == null || href.isBlank()) {
-                throw new RuntimeException("Invalid 'link.href': " + sourceFile.relPath.toString());
+                throw new RuntimeException("Undefined 'link.href': " + sourceFile.relPath.toString());
             }
 
             // Get referenced URI. Skip 'http' and 'https' references etc.

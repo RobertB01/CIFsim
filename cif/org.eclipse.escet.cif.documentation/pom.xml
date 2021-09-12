@@ -116,7 +116,7 @@
                                 <doctype>book</doctype>
                                 <icons>font</icons>
                                 <toc>left</toc>
-                                <toclevels>3</toclevels>
+                                <toclevels>7</toclevels>
                                 <html-output>true</html-output>
                                 <website-output>true</website-output>
                             </attributes>

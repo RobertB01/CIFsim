@@ -333,9 +333,13 @@ include::tools/cifsim/index.asciidoc[]
 
 :leveloffset: -2
 
+:leveloffset: +1
+
 ==== Simulation basics
 
-:leveloffset: +3
+:leveloffset: -1
+
+:leveloffset: +4
 
 include::tools/cifsim/supported.asciidoc[]
 
@@ -349,11 +353,15 @@ include::tools/cifsim/traces.asciidoc[]
 
 include::tools/cifsim/repeated-simulation.asciidoc[]
 
-:leveloffset: -3
+:leveloffset: -4
+
+:leveloffset: +1
 
 ==== Simulation input/Output
 
-:leveloffset: +3
+:leveloffset: -1
+
+:leveloffset: +4
 
 include::tools/cifsim/input/index.asciidoc[]
 
@@ -463,11 +471,15 @@ include::tools/cifsim/output/realtime.asciidoc[]
 
 :leveloffset: -1
 
-:leveloffset: -3
+:leveloffset: -4
+
+:leveloffset: +1
 
 ==== Simulation advanced topics
 
-:leveloffset: +3
+:leveloffset: -1
+
+:leveloffset: +4
 
 include::tools/cifsim/options.asciidoc[]
 
@@ -495,11 +507,15 @@ include::tools/cifsim/solver/options-root.asciidoc[]
 
 include::tools/cifsim/java-compiler.asciidoc[]
 
-:leveloffset: -3
+:leveloffset: -4
+
+:leveloffset: +1
 
 ==== Simulation miscellaneous topics
 
-:leveloffset: +3
+:leveloffset: -1
+
+:leveloffset: +4
 
 include::tools/cifsim/complete-mode.asciidoc[]
 
@@ -511,11 +527,15 @@ include::tools/cifsim/profiling.asciidoc[]
 
 include::tools/cifsim/distr-seeds.asciidoc[]
 
-:leveloffset: -3
+:leveloffset: -4
+
+:leveloffset: +1
 
 ==== Simulation developer topics
 
-:leveloffset: +3
+:leveloffset: -1
+
+:leveloffset: +4
 
 include::tools/cifsim/max-time-point-tol.asciidoc[]
 
@@ -523,7 +543,7 @@ include::tools/cifsim/debug-gen-code.asciidoc[]
 
 include::tools/cifsim/test-mode.asciidoc[]
 
-:leveloffset: -3
+:leveloffset: -4
 
 === Verification tools
 
