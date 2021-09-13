@@ -28,6 +28,29 @@ See also the Eclipse ESCET link:https://www.eclipse.org/escet/escet/#release-not
 
 TBD
 
+Language changes:
+
+- Removed inheritence of a supervisory kind for invariants.
+This was deprecated over 6 years ago and already led to warnings in the specification.
+Invariants without a supervisory kind specification (plant, requirement, supervisor) that reside in an automaton or location of an automaton, and where that automaton has a supervisory kind, now no longer inherit the supervisory kind of that automaton.
+Instead they remain kindless.
+This is a backward incompatible change (issue #139).
+
+New features:
+
+- CIF data-based synthesis has a new option to print warnings for events that are never enabled in the input specification or the synthesized controlled system.
+This new option is enabled by default (issues #108, #150, #162 and #164).
+- CIF data-based synthesis now supports boolean constants in predicates (issue #143).
+- CIF data-based synthesis now supports switch expressions (issue #148).
+
+Improvements and fixes:
+
+- CIF to CIF transformation to remove requirements no longer supports removing requirement automata that contain locations with non-requirement (kindless, plant, or supervisor) invariants, preventing the loss of invariants (issue #140).
+- CIF to CIF transformation to remove requirements now properly moves invariants from requirement automata to their parents, rather than also removing them (issue #140).
+- CIF data-based synthesis simplification of supervisor guards for `false` guards under `false` assumption now correctly results in `true` simplified guards, to indicate the supervisor doesn't enforce a restriction (issue #144).
+- CIF data-based synthesis documentation updated to reflect that code generator tools support state/event exclusion invariants (issue #163).
+- CIF PLC code generator error message now indicates correct TwinCAT XAE project file path (issue #154).
+
 
 === Version 0.2
 
