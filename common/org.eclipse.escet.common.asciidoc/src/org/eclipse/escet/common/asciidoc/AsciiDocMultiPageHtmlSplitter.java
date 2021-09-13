@@ -265,6 +265,49 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Debug.
         System.out.println("Generating adapted/splitted HTML file for: " + sourceFile.relPath);
 
+        // Adapt page and TOC titles.
+        String docOriginalTitle = adaptPageAndTocTitles(doc, sourceFile);
+
+        // Move title/copyright/version from HTML body to footer. Not needed for root index file.
+        moveFromHeaderToFooter(doc, sourceFile);
+
+        // Partition HTML file 'content' for the AsciiDoc source files.
+        // We do this again for every source file, as each source file has a clone of the original HTML document.
+        partitionContent(doc, sourceFiles);
+
+        // Remove all content that should not be on this page.
+        removeNonPageContent(doc, sourceFile, sourceFiles);
+
+        // Remove empty paragraphs and sections.
+        removeEmptyParagraphsAndSections(doc);
+
+        // Normalize content headers. Not needed for root index file.
+        normalizeContentHeaders(doc, sourceFile);
+
+        // Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
+        highlightCurrentPageInToc(doc, sourceFile);
+
+        // Update references. This must be done after partitioning.
+        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath);
+
+        // Add home page (root index file) to TOC.
+        addHomePageToToc(doc, sourceFile, sourceFiles);
+
+        // Add breadcrumbs. This must be done after partitioning. Not added for the root index file.
+        addBreadcrumbs(doc, sourceFile, docOriginalTitle);
+
+        // Add link to single-page HTML version.
+        addLinkToSinglePageHtmlVersion(doc, sourceFile);
+    }
+
+    /**
+     * Adapt page and TOC titles.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @return The original HTML page title.
+     */
+    private static String adaptPageAndTocTitles(Document doc, SourceFile sourceFile) {
         // Adapt HTML page title.
         String docOriginalTitle = doc.title();
         doc.title(sourceFile.title + " | " + docOriginalTitle);
@@ -273,35 +316,135 @@ public class AsciiDocMultiPageHtmlSplitter {
         Element elemTocTitle = single(doc.select("div#toctitle"));
         elemTocTitle.text(docOriginalTitle);
 
-        // Move title/copyright/version from HTML body to footer. Not needed for root index file.
-        if (!sourceFile.isRootIndexFile) {
-            Element elemBodyFooterText = single(doc.select("#footer-text"));
-            elemBodyFooterText.prependElement("br");
+        // Return the original document title.
+        return docOriginalTitle;
+    }
 
-            // Move copyright/version.
-            Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
-            elemBodyCopyrightVersion.remove();
-            Assert.check(elemBodyCopyrightVersion.children().size() == 3);
-            Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
-            Assert.check(elemBodyCopyrightVersionSpans.size() == 2);
-            elemBodyCopyrightVersionSpans.removeAttr("id");
-            elemBodyCopyrightVersionSpans.removeAttr("class");
-            for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
-                elemBodyFooterText.prependChild(elem);
-                elemBodyFooterText.prepend(" | ");
-            }
-
-            // Move title.
-            Element elemBodyTitle = single(doc.select("#header h1"));
-            Assert.check(elemBodyTitle.children().isEmpty());
-            elemBodyTitle.tagName("span");
-            elemBodyFooterText.prependChild(elemBodyTitle);
+    /**
+     * Move title/copyright/version from HTML body to footer.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     */
+    private static void moveFromHeaderToFooter(Document doc, SourceFile sourceFile) {
+        // Skip root index file.
+        if (sourceFile.isRootIndexFile) {
+            return;
         }
 
-        // Partition HTML file 'content' for the AsciiDoc source files.
-        // We do this again for every source file, as each source file has a clone of the original HTML document.
-        partitionContent(doc, sourceFiles);
+        // Prepare footer.
+        Element elemBodyFooterText = single(doc.select("#footer-text"));
+        elemBodyFooterText.prependElement("br");
 
+        // Move copyright/version.
+        Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
+        elemBodyCopyrightVersion.remove();
+        Assert.check(elemBodyCopyrightVersion.children().size() == 3);
+        Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
+        Assert.check(elemBodyCopyrightVersionSpans.size() == 2);
+        elemBodyCopyrightVersionSpans.removeAttr("id");
+        elemBodyCopyrightVersionSpans.removeAttr("class");
+        for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
+            elemBodyFooterText.prependChild(elem);
+            elemBodyFooterText.prepend(" | ");
+        }
+
+        // Move title.
+        Element elemBodyTitle = single(doc.select("#header h1"));
+        Assert.check(elemBodyTitle.children().isEmpty());
+        elemBodyTitle.tagName("span");
+        elemBodyFooterText.prependChild(elemBodyTitle);
+    }
+
+    /**
+     * Partition the 'content' of the AsciiDoc-generated HTML file to the AsciiDoc source files. Also collects all ids
+     * for the partitions.
+     *
+     * @param doc The HTML document for which to partition the 'content'.
+     * @param sourceFiles The AsciDoc source files. Are modified in-place.
+     */
+    private static void partitionContent(Document doc, List<SourceFile> sourceFiles) {
+        // Clear old partition.
+        for (SourceFile sourceFile: sourceFiles) {
+            sourceFile.nodes = list();
+        }
+
+        // Get root source file and map ids to other source files.
+        Map<String, SourceFile> idToSources = mapc(sourceFiles.size());
+        SourceFile rootSourceFile = null;
+        for (SourceFile sourceFile: sourceFiles) {
+            sourceFile.nodes = list();
+            if (sourceFile.isRootIndexFile) {
+                Assert.check(rootSourceFile == null, sourceFile.relPath.toString());
+                rootSourceFile = sourceFile;
+            } else {
+                SourceFile prev = idToSources.put(sourceFile.sourceId, sourceFile);
+                Assert.check(prev == null);
+            }
+        }
+        Assert.notNull(rootSourceFile);
+        Assert.check(idToSources.size() + 1 == sourceFiles.size());
+
+        // Walk over HTML 'content' and assign all nodes to a single source file.
+        Deque<Pair<SourceFile, Integer>> stack = new LinkedList<>();
+        stack.push(pair(rootSourceFile, 0));
+
+        Element elemContent = single(doc.select("#content"));
+        elemContent.children().traverse(new NodeVisitor() {
+            @Override
+            public void head(Node node, int depth) {
+                // Detect new source file.
+                if (node instanceof Element) {
+                    String id = ((Element)node).id();
+                    SourceFile elemSourceFile = idToSources.get(id);
+                    if (elemSourceFile != null) {
+                        stack.push(pair(elemSourceFile, depth));
+
+                        // Store reversed stack as breadcrumbs.
+                        elemSourceFile.breadcrumbs = reverse(
+                                stack.stream().map(e -> e.left).collect(Collectors.toList()));
+                    }
+                }
+
+                // Collect id. Store for current source file.
+                if (node instanceof Element) {
+                    String id = ((Element)node).id();
+                    if (!id.isBlank()) {
+                        stack.peek().left.ids.add(id);
+                    }
+                }
+
+                // Detect sibling node of other nodes of current source file. This ensures we don't collect all nodes,
+                // but only 'root' ones, not all descendants of 'root' nodes.
+                if (depth == stack.peek().right) {
+                    stack.peek().left.nodes.add(node);
+                }
+            }
+
+            @Override
+            public void tail(Node node, int depth) {
+                // Detect end of source file.
+                if (depth < stack.peek().right) {
+                    stack.pop();
+                }
+            }
+        });
+        Assert.check(stack.size() == 1);
+
+        // Ensure content for each source file.
+        for (SourceFile sourceFile: sourceFiles) {
+            Assert.check(!sourceFile.nodes.isEmpty(), sourceFile.relPath.toString());
+        }
+    }
+
+    /**
+     * Remove all content that should not be on this page.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param sourceFiles All AsciiDoc source files.
+     */
+    private static void removeNonPageContent(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles) {
         // Remove all content outside the source file content (outside the page). Not needed for root index file.
         Element elemContent = single(doc.select("#content"));
         if (!sourceFile.isRootIndexFile) {
@@ -322,7 +465,14 @@ public class AsciiDocMultiPageHtmlSplitter {
                 }
             }
         }
+    }
 
+    /**
+     * Remove empty paragraphs and sections.
+     *
+     * @param doc The HTML document to modify in-place.
+     */
+    private static void removeEmptyParagraphsAndSections(Document doc) {
         // Remove empty paragraphs.
         for (Element pElem: doc.select("p")) {
             if (pElem.attributes().size() == 0 && hasNoContent(pElem.childNodes())) {
@@ -337,6 +487,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         }
 
         // Remove empty sections.
+        Element elemContent = single(doc.select("#content"));
         for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
             for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
                 if (hasNoContent(sectElem.childNodes())) {
@@ -353,35 +504,53 @@ public class AsciiDocMultiPageHtmlSplitter {
                 }
             }
         }
+    }
 
-        // Normalize content headers. Not needed for root index file.
-        if (!sourceFile.isRootIndexFile) {
-            // Find minimum header number.
-            Pattern headerPattern = Pattern.compile("h(\\d+)");
-            int minHeaderNr = Integer.MAX_VALUE;
-            for (Element elem: elemContent.getAllElements()) {
-                Matcher matcher = headerPattern.matcher(elem.tagName());
-                if (matcher.matches()) {
-                    int headerNr = Integer.parseInt(matcher.group(1), 10);
-                    minHeaderNr = Math.min(headerNr, minHeaderNr);
-                }
-            }
-            Assert.check(minHeaderNr > 0);
-            Assert.check(minHeaderNr < Integer.MAX_VALUE);
-
-            // Normalize header numbers to ensure minimum header number is '2'.
-            for (Element elem: elemContent.getAllElements()) {
-                Matcher matcher = headerPattern.matcher(elem.tagName());
-                if (matcher.matches()) {
-                    int headerNr = Integer.parseInt(matcher.group(1), 10);
-                    int newHeaderNr = headerNr - minHeaderNr + 2;
-                    Assert.check(newHeaderNr <= 6); // Only h1-h6 are defined in HTML.
-                    elem.tagName("h" + newHeaderNr);
-                }
-            }
+    /**
+     * Normalize content headers.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     */
+    private static void normalizeContentHeaders(Document doc, SourceFile sourceFile) {
+        // Skip root index file.
+        if (sourceFile.isRootIndexFile) {
+            return;
         }
 
-        // Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
+        // Find minimum header number.
+        Element elemContent = single(doc.select("#content"));
+        Pattern headerPattern = Pattern.compile("h(\\d+)");
+        int minHeaderNr = Integer.MAX_VALUE;
+        for (Element elem: elemContent.getAllElements()) {
+            Matcher matcher = headerPattern.matcher(elem.tagName());
+            if (matcher.matches()) {
+                int headerNr = Integer.parseInt(matcher.group(1), 10);
+                minHeaderNr = Math.min(headerNr, minHeaderNr);
+            }
+        }
+        Assert.check(minHeaderNr > 0);
+        Assert.check(minHeaderNr < Integer.MAX_VALUE);
+
+        // Normalize header numbers to ensure minimum header number is '2'.
+        for (Element elem: elemContent.getAllElements()) {
+            Matcher matcher = headerPattern.matcher(elem.tagName());
+            if (matcher.matches()) {
+                int headerNr = Integer.parseInt(matcher.group(1), 10);
+                int newHeaderNr = headerNr - minHeaderNr + 2;
+                Assert.check(newHeaderNr <= 6); // Only h1-h6 are defined in HTML.
+                elem.tagName("h" + newHeaderNr);
+            }
+        }
+    }
+
+    /**
+     * Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     */
+    private static void highlightCurrentPageInToc(Document doc, SourceFile sourceFile) {
         String curPageHref = "#" + sourceFile.sourceId;
         List<Element> tocLinkElems = doc.select("#toc a");
         int tocLinkCurPageCount = 0;
@@ -397,7 +566,20 @@ public class AsciiDocMultiPageHtmlSplitter {
             // If the TOC level is too limited, the page will not be in the TOC, and this will fail (count is zero).
             Assert.check(tocLinkCurPageCount == 1, String.valueOf(tocLinkCurPageCount));
         }
+    }
 
+    /**
+     * Update references. This must be done after partitioning.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param sourceFiles All AsciiDoc source files.
+     * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
+     *     the root 'index.asciidoc' file.
+     */
+    private static void updateReferences(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles,
+            Path sourceRootPath)
+    {
         // Update 'a.href' references. This must be done after partitioning.
         LOOP_A_ELEMS:
         for (Element aElem: doc.select("a")) {
@@ -508,8 +690,16 @@ public class AsciiDocMultiPageHtmlSplitter {
             Assert.check(!newRelHref.contains("\\"));
             linkElem.attr("href", newRelHref);
         }
+    }
 
-        // Add root index file to TOC.
+    /**
+     * Add home page (root index file) to TOC.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param sourceFiles All AsciiDoc source files.
+     */
+    private static void addHomePageToToc(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles) {
         SourceFile rootSourceFile = single(
                 sourceFiles.stream().filter(s -> s.isRootIndexFile).collect(Collectors.toList()));
         Element elemTocSectLevel1 = single(doc.select("#toc ul.sectlevel1"));
@@ -520,27 +710,48 @@ public class AsciiDocMultiPageHtmlSplitter {
             elemTocHomeA.addClass("toc-cur-page");
         }
         elemTocHomeA.appendText(rootSourceFile.title);
+    }
 
-        // Add breadcrumbs. This must be done after partitioning. Not added for the root index file.
-        if (!sourceFile.isRootIndexFile) {
-            Element elemBreadcrumbsDiv = elemContent.prependElement("div");
-            elemBreadcrumbsDiv.attr("id", "breadcrumbs");
-
-            for (SourceFile breadcrumb: sourceFile.breadcrumbs) {
-                if (elemBreadcrumbsDiv.childNodeSize() > 0) {
-                    elemBreadcrumbsDiv.appendText(" > ");
-                }
-                boolean isSelfBreadcrumb = sourceFile == breadcrumb;
-                Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
-                elemBreadcrumb.addClass("breadcrumb");
-                if (!isSelfBreadcrumb) {
-                    elemBreadcrumb.attr("href", getFileOrSectionHref(sourceFile, breadcrumb, null));
-                }
-                elemBreadcrumb.text(breadcrumb.isRootIndexFile ? docOriginalTitle : breadcrumb.title);
-            }
+    /**
+     * Add breadcrumbs. This must be done after partitioning.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param docOriginalTitle The original HTML page title.
+     */
+    private static void addBreadcrumbs(Document doc, SourceFile sourceFile, String docOriginalTitle) {
+        // Skip root index file.
+        if (sourceFile.isRootIndexFile) {
+            return;
         }
 
-        // Add link to single-page HTML version.
+        // Prepare breadcrumbs element.
+        Element elemContent = single(doc.select("#content"));
+        Element elemBreadcrumbsDiv = elemContent.prependElement("div");
+        elemBreadcrumbsDiv.attr("id", "breadcrumbs");
+
+        // Add breadcrumbs.
+        for (SourceFile breadcrumb: sourceFile.breadcrumbs) {
+            if (elemBreadcrumbsDiv.childNodeSize() > 0) {
+                elemBreadcrumbsDiv.appendText(" > ");
+            }
+            boolean isSelfBreadcrumb = sourceFile == breadcrumb;
+            Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
+            elemBreadcrumb.addClass("breadcrumb");
+            if (!isSelfBreadcrumb) {
+                elemBreadcrumb.attr("href", getFileOrSectionHref(sourceFile, breadcrumb, null));
+            }
+            elemBreadcrumb.text(breadcrumb.isRootIndexFile ? docOriginalTitle : breadcrumb.title);
+        }
+    }
+
+    /**
+     * Add link to single-page HTML version.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     */
+    private static void addLinkToSinglePageHtmlVersion(Document doc, SourceFile sourceFile) {
         if (sourceFile.isRootIndexFile) {
             Element elemPdfTip = single(doc.select("div.tip td.content:contains(as a PDF as well)"));
             elemPdfTip.appendText("Or use the ");
@@ -548,87 +759,6 @@ public class AsciiDocMultiPageHtmlSplitter {
             elemPdfTipA.attr("href", "index-single-page.html");
             elemPdfTipA.text("single-page HTML");
             elemPdfTip.appendText(" version.");
-        }
-    }
-
-    /**
-     * Partition the 'content' of the AsciiDoc-generated HTML file to the AsciiDoc source files. Also collects all ids
-     * for the partitions.
-     *
-     * @param doc The HTML document for which to partition the 'content'.
-     * @param sourceFiles The AsciDoc source files. Are modified in-place.
-     */
-    private static void partitionContent(Document doc, List<SourceFile> sourceFiles) {
-        // Clear old partition.
-        for (SourceFile sourceFile: sourceFiles) {
-            sourceFile.nodes = list();
-        }
-
-        // Get root source file and map ids to other source files.
-        Map<String, SourceFile> idToSources = mapc(sourceFiles.size());
-        SourceFile rootSourceFile = null;
-        for (SourceFile sourceFile: sourceFiles) {
-            sourceFile.nodes = list();
-            if (sourceFile.isRootIndexFile) {
-                Assert.check(rootSourceFile == null, sourceFile.relPath.toString());
-                rootSourceFile = sourceFile;
-            } else {
-                SourceFile prev = idToSources.put(sourceFile.sourceId, sourceFile);
-                Assert.check(prev == null);
-            }
-        }
-        Assert.notNull(rootSourceFile);
-        Assert.check(idToSources.size() + 1 == sourceFiles.size());
-
-        // Walk over HTML 'content' and assign all nodes to a single source file.
-        Deque<Pair<SourceFile, Integer>> stack = new LinkedList<>();
-        stack.push(pair(rootSourceFile, 0));
-
-        Element elemContent = single(doc.select("#content"));
-        elemContent.children().traverse(new NodeVisitor() {
-            @Override
-            public void head(Node node, int depth) {
-                // Detect new source file.
-                if (node instanceof Element) {
-                    String id = ((Element)node).id();
-                    SourceFile elemSourceFile = idToSources.get(id);
-                    if (elemSourceFile != null) {
-                        stack.push(pair(elemSourceFile, depth));
-
-                        // Store reversed stack as breadcrumbs.
-                        elemSourceFile.breadcrumbs = reverse(
-                                stack.stream().map(e -> e.left).collect(Collectors.toList()));
-                    }
-                }
-
-                // Collect id. Store for current source file.
-                if (node instanceof Element) {
-                    String id = ((Element)node).id();
-                    if (!id.isBlank()) {
-                        stack.peek().left.ids.add(id);
-                    }
-                }
-
-                // Detect sibling node of other nodes of current source file. This ensures we don't collect all nodes,
-                // but only 'root' ones, not all descendants of 'root' nodes.
-                if (depth == stack.peek().right) {
-                    stack.peek().left.nodes.add(node);
-                }
-            }
-
-            @Override
-            public void tail(Node node, int depth) {
-                // Detect end of source file.
-                if (depth < stack.peek().right) {
-                    stack.pop();
-                }
-            }
-        });
-        Assert.check(stack.size() == 1);
-
-        // Ensure content for each source file.
-        for (SourceFile sourceFile: sourceFiles) {
-            Assert.check(!sourceFile.nodes.isEmpty(), sourceFile.relPath.toString());
         }
     }
 
