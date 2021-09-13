@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.common.asciidoc;
 
+import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.reverse;
@@ -52,6 +53,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.jsoup.select.NodeVisitor;
 
@@ -321,11 +323,33 @@ public class AsciiDocMultiPageHtmlSplitter {
             }
         }
 
+        // Remove empty paragraphs.
+        for (Element pElem: doc.select("p")) {
+            if (pElem.attributes().size() == 0 && hasNoContent(pElem.childNodes())) {
+                pElem.remove();
+            }
+        }
+
+        for (Element paragraphDivElem: doc.select("div.paragraph")) {
+            if (hasNoContent(paragraphDivElem.childNodes())) {
+                paragraphDivElem.remove();
+            }
+        }
+
         // Remove empty sections.
-        for (int i = 0; i < 99; i++) {
-            for (Element elem: elemContent.select("div.sect" + Integer.toString(i))) {
-                if (elem.children().isEmpty()) {
-                    elem.remove();
+        for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
+            for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
+                if (hasNoContent(sectElem.childNodes())) {
+                    // Completely empty section.
+                    sectElem.remove();
+                } else if (sectElem.children().size() == 1) {
+                    Element sectChildElem = sectElem.child(0);
+                    List<Node> sectChildNodes = copy(sectElem.childNodes());
+                    sectChildNodes.remove(sectChildElem);
+                    if (sectChildElem.tagName().matches("h\\d+") && hasNoContent(sectChildNodes)) {
+                        // Section with only a wrapper header name (all actual content is on other pages).
+                        sectElem.remove();
+                    }
                 }
             }
         }
@@ -427,8 +451,8 @@ public class AsciiDocMultiPageHtmlSplitter {
         }
 
         // Update 'img.src' references. This must be done after partitioning.
-        for (Element aElem: doc.select("img")) {
-            String src = aElem.attr("src");
+        for (Element imgElem: doc.select("img")) {
+            String src = imgElem.attr("src");
             if (src == null || src.isBlank()) {
                 throw new RuntimeException("Undefined 'img.src': " + sourceFile.relPath.toString());
             }
@@ -449,12 +473,12 @@ public class AsciiDocMultiPageHtmlSplitter {
             String newRelSrc = org.eclipse.escet.common.app.framework.Paths.getRelativePath(srcAbsTarget,
                     rootPathForNewRelSrc);
             Assert.check(!newRelSrc.contains("\\"));
-            aElem.attr("src", newRelSrc);
+            imgElem.attr("src", newRelSrc);
         }
 
         // Update 'link.href' references. This must be done after partitioning.
-        for (Element aElem: doc.select("link")) {
-            String href = aElem.attr("href");
+        for (Element linkElem: doc.select("link")) {
+            String href = linkElem.attr("href");
             if (href == null || href.isBlank()) {
                 throw new RuntimeException("Undefined 'link.href': " + sourceFile.relPath.toString());
             }
@@ -482,7 +506,7 @@ public class AsciiDocMultiPageHtmlSplitter {
             String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
                     rootPathForNewRelHref);
             Assert.check(!newRelHref.contains("\\"));
-            aElem.attr("href", newRelHref);
+            linkElem.attr("href", newRelHref);
         }
 
         // Add root index file to TOC.
@@ -514,6 +538,16 @@ public class AsciiDocMultiPageHtmlSplitter {
                 }
                 elemBreadcrumb.text(breadcrumb.isRootIndexFile ? docOriginalTitle : breadcrumb.title);
             }
+        }
+
+        // Add link to single-page HTML version.
+        if (sourceFile.isRootIndexFile) {
+            Element elemPdfTip = single(doc.select("div.tip td.content:contains(as a PDF as well)"));
+            elemPdfTip.appendText("Or use the ");
+            Element elemPdfTipA = elemPdfTip.appendElement("a");
+            elemPdfTipA.attr("href", "index-single-page.html");
+            elemPdfTipA.text("single-page HTML");
+            elemPdfTip.appendText(" version.");
         }
     }
 
@@ -638,6 +672,27 @@ public class AsciiDocMultiPageHtmlSplitter {
         fileName = Strings.slice(fileName, 0, -".asciidoc".length());
         fileName += ".html";
         return sourcePath.resolveSibling(fileName);
+    }
+
+    /**
+     * Do the given nodes contain no content? That is, are they all {@link TextNode#isBlank blank} {@link TextNode}s?
+     *
+     * @param nodes The nodes to check.
+     * @return {@code true} if all the nodes have no content, {@code false} otherwise.
+     */
+    private static boolean hasNoContent(List<Node> nodes) {
+        for (Node node: nodes) {
+            if (node instanceof Element) {
+                return false;
+            } else if (node instanceof TextNode) {
+                if (!((TextNode)node).isBlank()) {
+                    return false;
+                }
+            } else {
+                Assert.fail("Unexpected node: " + node.getClass().getName());
+            }
+        }
+        return true;
     }
 
     /** Information about an AsciiDoc source file. */
