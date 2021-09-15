@@ -89,7 +89,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @throws IOException In case of an I/O error.
      */
     public static void main(String[] args) throws IOException {
-        Assert.check(args.length == 3);
+        Assert.check(args.length == 3, args.toString());
 
         Path sourceRootPath = Paths.get(args[0]);
         Path singleHtmlPagePath = Paths.get(args[1]);
@@ -110,8 +110,8 @@ public class AsciiDocMultiPageHtmlSplitter {
      */
     public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath) throws IOException {
         // Check inputs exist.
-        Assert.check(Files.isDirectory(sourceRootPath));
-        Assert.check(Files.isRegularFile(singleHtmlPagePath));
+        Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath.toString());
+        Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath.toString());
 
         // Ensure empty directory for output.
         if (Files.isDirectory(outputRootPath)) {
@@ -148,7 +148,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Copy single AsciiDoc-generated HTML file to output directory as well.
         System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
         Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
-        Assert.check(!Files.exists(singlePathOutputPath));
+        Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
         Files.copy(singleHtmlPagePath, singlePathOutputPath);
 
         // Done.
@@ -215,22 +215,24 @@ public class AsciiDocMultiPageHtmlSplitter {
                 int idIndex = IntStream.range(0, sourceContent.size())
                         .filter(i -> sourceContent.get(i).startsWith("[[")).findFirst().getAsInt();
                 String idLine = sourceContent.get(idIndex);
-                Assert.check(idLine.endsWith("]]"));
+                Assert.check(idLine.endsWith("]]"), idLine);
                 sourceFile.sourceId = Strings.slice(idLine, 2, -2); // [[id]]
 
                 // Get title.
                 int titleIndex = IntStream.range(0, sourceContent.size())
                         .filter(i -> sourceContent.get(i).startsWith("=")).findFirst().getAsInt();
                 String titleLine = sourceContent.get(titleIndex);
-                Assert.check(titleLine.startsWith("== "));
+                Assert.check(titleLine.startsWith("== "), titleLine);
                 sourceFile.title = titleLine.substring(3); // == Title
 
-                // Sanitize title.
-                Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0); // Balanced backticks.
-                sourceFile.title = sourceFile.title.replace("`", ""); // Remove backticks.
+                // Sanitize title:
+                // Balanced backticks.
+                Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0, sourceFile.title);
+                // Remove backticks.
+                sourceFile.title = sourceFile.title.replace("`", "");
 
                 // Sanity check: source id is the id for the page title header.
-                Assert.check(idIndex + 1 == titleIndex);
+                Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
 
                 // Sanity check: stripped title.
                 Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
@@ -339,9 +341,9 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Move copyright/version.
         Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
         elemBodyCopyrightVersion.remove();
-        Assert.check(elemBodyCopyrightVersion.children().size() == 3);
+        Assert.check(elemBodyCopyrightVersion.children().size() == 3, elemBodyCopyrightVersion.toString());
         Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
-        Assert.check(elemBodyCopyrightVersionSpans.size() == 2);
+        Assert.check(elemBodyCopyrightVersionSpans.size() == 2, elemBodyCopyrightVersionSpans.toString());
         elemBodyCopyrightVersionSpans.removeAttr("id");
         elemBodyCopyrightVersionSpans.removeAttr("class");
         for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
@@ -351,7 +353,7 @@ public class AsciiDocMultiPageHtmlSplitter {
 
         // Move title.
         Element elemBodyTitle = single(doc.select("#header h1"));
-        Assert.check(elemBodyTitle.children().isEmpty());
+        Assert.check(elemBodyTitle.children().isEmpty(), elemBodyTitle.toString());
         elemBodyTitle.tagName("span");
         elemBodyFooterText.prependChild(elemBodyTitle);
     }
@@ -383,7 +385,7 @@ public class AsciiDocMultiPageHtmlSplitter {
             }
         }
         Assert.notNull(rootSourceFile);
-        Assert.check(idToSources.size() + 1 == sourceFiles.size());
+        Assert.check(idToSources.size() + 1 == sourceFiles.size(), idToSources.size() + " / " + sourceFiles.size());
 
         // Walk over HTML 'content' and assign all nodes to a single source file.
         Deque<Pair<SourceFile, Integer>> stack = new LinkedList<>();
@@ -429,7 +431,7 @@ public class AsciiDocMultiPageHtmlSplitter {
                 }
             }
         });
-        Assert.check(stack.size() == 1);
+        Assert.check(stack.size() == 1, String.valueOf(stack.size()));
 
         // Ensure content for each source file.
         for (SourceFile sourceFile: sourceFiles) {
@@ -529,8 +531,8 @@ public class AsciiDocMultiPageHtmlSplitter {
                 minHeaderNr = Math.min(headerNr, minHeaderNr);
             }
         }
-        Assert.check(minHeaderNr > 0);
-        Assert.check(minHeaderNr < Integer.MAX_VALUE);
+        Assert.check(minHeaderNr > 0, String.valueOf(minHeaderNr));
+        Assert.check(minHeaderNr < Integer.MAX_VALUE, String.valueOf(minHeaderNr));
 
         // Normalize header numbers to ensure minimum header number is '2'.
         for (Element elem: elemContent.getAllElements()) {
@@ -538,7 +540,7 @@ public class AsciiDocMultiPageHtmlSplitter {
             if (matcher.matches()) {
                 int headerNr = Integer.parseInt(matcher.group(1), 10);
                 int newHeaderNr = headerNr - minHeaderNr + 2;
-                Assert.check(newHeaderNr <= 6); // Only h1-h6 are defined in HTML.
+                Assert.check(newHeaderNr <= 6, String.valueOf(newHeaderNr)); // Only h1-h6 are defined in HTML.
                 elem.tagName("h" + newHeaderNr);
             }
         }
@@ -580,34 +582,64 @@ public class AsciiDocMultiPageHtmlSplitter {
     private static void updateReferences(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles,
             Path sourceRootPath)
     {
-        // Update 'a.href' references. This must be done after partitioning.
-        LOOP_A_ELEMS:
-        for (Element aElem: doc.select("a")) {
-            String href = aElem.attr("href");
-            if (href == null || href.isBlank()) {
-                // Occurs for bibliography entries. But then they have no child nodes, and are thus not clickable.
-                Assert.check(aElem.childNodeSize() == 0);
-                continue;
+        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "a", "href", true, true);
+        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "img", "src", false, false);
+        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "link", "href", false, false);
+    }
+
+    /**
+     * Update references. This must be done after partitioning.
+     *
+     * @param doc The HTML document to modify in-place.
+     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param sourceFiles All AsciiDoc source files.
+     * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
+     *     the root 'index.asciidoc' file.
+     * @param tagName The tag name of elements for which to update references.
+     * @param attrName The attribute name that contains the reference.
+     * @param allowEmptyRefIfNoChildren Whether to allow empty references (attribute values) if the element has no child
+     *     nodes ({@code true}), or disallow empty references altogether ({@code false}).
+     * @param allowSectionRefs Whether to allow section references ({@code #...}) as references ({@code true}) or not
+     *     ({@code false}).
+     */
+    private static void updateReferences(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles,
+            Path sourceRootPath, String tagName, String attrName, boolean allowEmptyRefIfNoChildren,
+            boolean allowSectionRefs)
+    {
+        ELEMS_LOOP:
+        for (Element elem: doc.select(tagName)) {
+            // Get attribute value.
+            String ref = elem.attr(attrName);
+            if (ref == null || ref.isBlank()) {
+                if (allowEmptyRefIfNoChildren) {
+                    // Occurs for 'a.href' for bibliography entries.
+                    // But then they have no child nodes, and are thus not clickable.
+                    Assert.check(elem.childNodeSize() == 0, String.valueOf(elem.childNodeSize()));
+                    continue;
+                } else {
+                    throw new RuntimeException(
+                            fmt("Undefined '%s.%s': %s", tagName, attrName, sourceFile.relPath.toString()));
+                }
             }
 
             // Handle '#' references, originally pointing to within the single AsciiDoc-generated HTML file.
-            if (href.startsWith("#")) {
-                String id = href.substring(1);
+            if (allowSectionRefs && ref.startsWith("#")) {
+                String id = ref.substring(1);
                 if (sourceFile.ids.contains(id)) {
                     continue; // Still within this HTML file.
                 }
                 for (SourceFile otherSourceFile: sourceFiles) {
                     if (otherSourceFile.ids.contains(id)) {
                         String newHref = getFileOrSectionHref(sourceFile, otherSourceFile, id);
-                        aElem.attr("href", newHref);
-                        continue LOOP_A_ELEMS;
+                        elem.attr("href", newHref);
+                        continue ELEMS_LOOP;
                     }
                 }
-                Assert.fail("No source file found that defines 'a.href' id: " + id);
+                Assert.fail(fmt("No source file found that defines '%s.%s' id: %s", tagName, attrName, id));
             }
 
             // Get referenced URI. Skip 'http' and 'https' references etc.
-            URI uri = URI.create(href);
+            URI uri = URI.create(ref);
             String uriScheme = uri.getScheme();
             if ("http".equals(uriScheme) || "https".equals(uriScheme)) {
                 continue;
@@ -622,73 +654,13 @@ public class AsciiDocMultiPageHtmlSplitter {
             Assert.check(uri.getQuery() == null, uri.getQuery());
             Assert.check(uri.getFragment() == null, uri.getFragment());
             Assert.notNull(uri.getPath());
-            Assert.check(href.equals(uri.getPath()));
-            String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(href,
-                    sourceRootPath.toString());
+            Assert.check(ref.equals(uri.getPath()), ref + " / " + uri.getPath());
+            String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(ref, sourceRootPath.toString());
             String rootPathForNewRelHref = sourceFile.absPath.getParent().toString();
             String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
                     rootPathForNewRelHref);
-            Assert.check(!newRelHref.contains("\\"));
-            aElem.attr("href", newRelHref);
-        }
-
-        // Update 'img.src' references. This must be done after partitioning.
-        for (Element imgElem: doc.select("img")) {
-            String src = imgElem.attr("src");
-            if (src == null || src.isBlank()) {
-                throw new RuntimeException("Undefined 'img.src': " + sourceFile.relPath.toString());
-            }
-
-            // Handle relative paths.
-            URI uri = URI.create(src);
-            Assert.check(uri.getScheme() == null, uri.getScheme());
-            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
-            Assert.check(uri.getHost() == null, uri.getHost());
-            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
-            Assert.check(uri.getAuthority() == null, uri.getAuthority());
-            Assert.check(uri.getQuery() == null, uri.getQuery());
-            Assert.check(uri.getFragment() == null, uri.getFragment());
-            Assert.notNull(uri.getPath());
-            Assert.check(src.equals(uri.getPath()));
-            String srcAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(src, sourceRootPath.toString());
-            String rootPathForNewRelSrc = sourceFile.absPath.getParent().toString();
-            String newRelSrc = org.eclipse.escet.common.app.framework.Paths.getRelativePath(srcAbsTarget,
-                    rootPathForNewRelSrc);
-            Assert.check(!newRelSrc.contains("\\"));
-            imgElem.attr("src", newRelSrc);
-        }
-
-        // Update 'link.href' references. This must be done after partitioning.
-        for (Element linkElem: doc.select("link")) {
-            String href = linkElem.attr("href");
-            if (href == null || href.isBlank()) {
-                throw new RuntimeException("Undefined 'link.href': " + sourceFile.relPath.toString());
-            }
-
-            // Get referenced URI. Skip 'http' and 'https' references etc.
-            URI uri = URI.create(href);
-            String uriScheme = uri.getScheme();
-            if ("http".equals(uriScheme) || "https".equals(uriScheme)) {
-                continue;
-            }
-
-            // Handle relative paths.
-            Assert.check(uriScheme == null, uriScheme);
-            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
-            Assert.check(uri.getHost() == null, uri.getHost());
-            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
-            Assert.check(uri.getAuthority() == null, uri.getAuthority());
-            Assert.check(uri.getQuery() == null, uri.getQuery());
-            Assert.check(uri.getFragment() == null, uri.getFragment());
-            Assert.notNull(uri.getPath());
-            Assert.check(href.equals(uri.getPath()));
-            String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(href,
-                    sourceRootPath.toString());
-            String rootPathForNewRelHref = sourceFile.absPath.getParent().toString();
-            String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
-                    rootPathForNewRelHref);
-            Assert.check(!newRelHref.contains("\\"));
-            linkElem.attr("href", newRelHref);
+            Assert.check(!newRelHref.contains("\\"), newRelHref);
+            elem.attr(attrName, newRelHref);
         }
     }
 
@@ -798,7 +770,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      */
     private static Path sourcePathToOutputPath(Path sourcePath) {
         String fileName = sourcePath.getFileName().toString();
-        Assert.check(fileName.endsWith(".asciidoc"));
+        Assert.check(fileName.endsWith(".asciidoc"), fileName);
         fileName = Strings.slice(fileName, 0, -".asciidoc".length());
         fileName += ".html";
         return sourcePath.resolveSibling(fileName);
