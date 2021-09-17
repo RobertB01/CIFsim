@@ -30,9 +30,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -85,17 +87,24 @@ public class AsciiDocMultiPageHtmlSplitter {
      *     <li>The path to the single AsciiDoc-generated HTML file.</li>
      *     <li>The path to the directory in which to write output. Is removed if it already exists. Is created if it
      *     does not yet exist.</li>
+     *     <li>{@code --eclipse-help} for Eclipse help HTML or {@code --website} for website HTML.</li>
      *     </ul>
      * @throws IOException In case of an I/O error.
      */
     public static void main(String[] args) throws IOException {
-        Assert.check(args.length == 3, args.toString());
+        System.out.println("Command line arguments: " + Arrays.toString(args));
+        Assert.check(args.length == 4, args.toString());
 
         Path sourceRootPath = Paths.get(args[0]);
         Path singleHtmlPagePath = Paths.get(args[1]);
         Path outputRootPath = Paths.get(args[2]);
 
-        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath);
+        String htmlTypeText = args[3];
+        Assert.check(htmlTypeText.startsWith("--"));
+        htmlTypeText = htmlTypeText.substring(2).replace("-", "_").toUpperCase(Locale.US);
+        HtmlType htmlType = HtmlType.valueOf(htmlTypeText);
+
+        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType);
     }
 
     /**
@@ -106,9 +115,12 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param singleHtmlPagePath The path to the single AsciiDoc-generated HTML file.
      * @param outputRootPath The path to the directory in which to write output. Is removed if it already exists. Is
      *     created if it does not yet exist.
+     * @param htmlType The HTML type.
      * @throws IOException In case of an I/O error.
      */
-    public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath) throws IOException {
+    public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType)
+            throws IOException
+    {
         // Check inputs exist.
         Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath.toString());
         Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath.toString());
@@ -120,23 +132,39 @@ public class AsciiDocMultiPageHtmlSplitter {
         Files.createDirectories(outputRootPath);
 
         // Read and parse single AsciiDoc-generated HTML file.
-        System.out.println("Reading AsciiDoc-generated HTML file: " + singleHtmlPagePath.toString());
+        System.out.println("Reading AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
         String generatedHtmlContent = Files.readString(singleHtmlPagePath, StandardCharsets.UTF_8);
         Document generatedHtmlDoc = Jsoup.parse(generatedHtmlContent);
 
         // Find and analyze AsciiDoc source files.
-        System.out.println("Analyzing source files: " + sourceRootPath.toString());
+        System.out.println("Analyzing AsciiDoc source files: " + sourceRootPath.toString());
         sourceRootPath = sourceRootPath.toAbsolutePath().normalize();
         List<Path> sourcePaths = getSourcePaths(sourceRootPath);
-        List<SourceFile> sourceFiles = analyzeSourceFiles(sourceRootPath, sourcePaths);
-        System.out.println(sourceFiles.size() + " source file(s) analyzed.");
+        List<SourceFile> sourceFiles = listc(sourcePaths.size());
+        for (Path sourcePath: sourcePaths) {
+            SourceFile sourceFile;
+            try {
+                sourceFile = analyzeSourceFile(sourceRootPath, sourcePath);
+            } catch (Throwable e) {
+                throw new RuntimeException("Failed to analyze AsciiDoc source file: " + sourcePath, e);
+            }
+            if (sourceFile != null) {
+                sourceFiles.add(sourceFile);
+            }
+        }
+        System.out.println(sourceFiles.size() + " AsciiDoc source file(s) analyzed.");
 
         // Generate multiple HTML files, one per source file.
         System.out.println("Generating adapted/splitted HTML files at: " + outputRootPath.toString());
         for (SourceFile sourceFile: sourceFiles) {
             // Get the adapted HTML.
             Document sourceFileHtmlDoc = generatedHtmlDoc.clone();
-            adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles, sourceRootPath);
+            try {
+                adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles, sourceRootPath, htmlType);
+            } catch (Throwable e) {
+                throw new RuntimeException(
+                        "Failed to adapt generated HTML for AsciiDoc source file: " + sourceFile.absPath, e);
+            }
 
             // Write HTML.
             Path outputPath = outputRootPath.resolve(sourceFile.relPath);
@@ -146,13 +174,15 @@ public class AsciiDocMultiPageHtmlSplitter {
         }
 
         // Copy single AsciiDoc-generated HTML file to output directory as well.
-        System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
-        Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
-        Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
-        Files.copy(singleHtmlPagePath, singlePathOutputPath);
+        if (htmlType == HtmlType.WEBSITE) {
+            System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
+            Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
+            Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
+            Files.copy(singleHtmlPagePath, singlePathOutputPath);
+        }
 
         // Done.
-        System.out.println("DONE: HTML file(s) generated.");
+        System.out.println("DONE: AsciiDoc multi-page HTML split completed.");
     }
 
     /**
@@ -172,84 +202,75 @@ public class AsciiDocMultiPageHtmlSplitter {
     }
 
     /**
-     * Analyze AsciiDoc source files.
+     * Analyze AsciiDoc source file.
      *
      * @param sourceRootPath The path to the root directory that contains the AsciiDoc source files.
-     * @param sourcePaths The AsciiDoc source file paths.
-     * @return Information about the AsciiDoc source files.
+     * @param sourcePath The AsciiDoc source file path.
+     * @return Information about the AsciiDoc source file, or {@code null} if source file was skipped.
      * @throws IOException In case of an I/O error.
      */
-    private static List<SourceFile> analyzeSourceFiles(Path sourceRootPath, List<Path> sourcePaths) throws IOException {
-        List<SourceFile> sourceFiles = listc(sourcePaths.size());
-        for (Path sourcePath: sourcePaths) {
-            // Debug.
-            System.out.println("Analyzing source file: " + sourcePath);
+    private static SourceFile analyzeSourceFile(Path sourceRootPath, Path sourcePath) throws IOException {
+        // Skip special files.
+        String fileName = sourcePath.getFileName().toString();
+        if (fileName.toString().startsWith("_")) {
+            Assert.check(fileName.equals("_root_attributes.asciidoc") || fileName.equals("_part_attributes.asciidoc")
+                    || fileName.equals("_local_attributes.asciidoc"), fileName);
+            return null;
+        }
 
-            // Skip special files.
-            String fileName = sourcePath.getFileName().toString();
-            if (fileName.toString().startsWith("_")) {
-                Assert.check(
-                        fileName.equals("_root_attributes.asciidoc") || fileName.equals("_part_attributes.asciidoc")
-                                || fileName.equals("_local_attributes.asciidoc"),
-                        fileName);
-                continue;
-            }
+        // Initialize data structure.
+        SourceFile sourceFile = new SourceFile();
+        sourceFile.absPath = sourcePath.toAbsolutePath().normalize();
+        sourceFile.relPath = sourceRootPath.relativize(sourcePath);
+        sourceFile.isRootIndexFile = sourcePath.getParent().equals(sourceRootPath)
+                && sourcePath.getFileName().toString().equals("index.asciidoc");
 
-            // Initialize data structure.
-            SourceFile sourceFile = new SourceFile();
-            sourceFile.absPath = sourcePath.toAbsolutePath().normalize();
-            sourceFile.relPath = sourceRootPath.relativize(sourcePath);
-            sourceFiles.add(sourceFile);
-            sourceFile.isRootIndexFile = sourcePath.getParent().equals(sourceRootPath)
-                    && sourcePath.getFileName().toString().equals("index.asciidoc");
+        // Read source content.
+        List<String> sourceContent = Files.readAllLines(sourcePath, StandardCharsets.UTF_8);
 
-            // Read source content.
-            List<String> sourceContent = Files.readAllLines(sourcePath, StandardCharsets.UTF_8);
+        // Get page title and source id.
+        if (sourceFile.isRootIndexFile) {
+            sourceFile.sourceId = null;
+            sourceFile.title = "Home";
+        } else {
+            // Get source id.
+            int idIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("[["))
+                    .findFirst().getAsInt();
+            String idLine = sourceContent.get(idIndex);
+            Assert.check(idLine.endsWith("]]"), idLine);
+            sourceFile.sourceId = Strings.slice(idLine, 2, -2); // [[id]]
 
-            // Get page title and source id.
-            if (sourceFile.isRootIndexFile) {
-                sourceFile.sourceId = null;
-                sourceFile.title = "Home";
-            } else {
-                // Get source id.
-                int idIndex = IntStream.range(0, sourceContent.size())
-                        .filter(i -> sourceContent.get(i).startsWith("[[")).findFirst().getAsInt();
-                String idLine = sourceContent.get(idIndex);
-                Assert.check(idLine.endsWith("]]"), idLine);
-                sourceFile.sourceId = Strings.slice(idLine, 2, -2); // [[id]]
+            // Get title.
+            int titleIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("="))
+                    .findFirst().getAsInt();
+            String titleLine = sourceContent.get(titleIndex);
+            Assert.check(titleLine.startsWith("== "), titleLine);
+            sourceFile.title = titleLine.substring(3); // == Title
 
-                // Get title.
-                int titleIndex = IntStream.range(0, sourceContent.size())
-                        .filter(i -> sourceContent.get(i).startsWith("=")).findFirst().getAsInt();
-                String titleLine = sourceContent.get(titleIndex);
-                Assert.check(titleLine.startsWith("== "), titleLine);
-                sourceFile.title = titleLine.substring(3); // == Title
+            // Sanitize title:
+            // Balanced backticks.
+            Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0, sourceFile.title);
+            // Remove backticks.
+            sourceFile.title = sourceFile.title.replace("`", "");
 
-                // Sanitize title:
-                // Balanced backticks.
-                Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0, sourceFile.title);
-                // Remove backticks.
-                sourceFile.title = sourceFile.title.replace("`", "");
+            // Sanity check: source id is the id for the page title header.
+            Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
 
-                // Sanity check: source id is the id for the page title header.
-                Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
+            // Sanity check: stripped title.
+            Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
 
-                // Sanity check: stripped title.
-                Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
-
-                // Sanity check: no markup in id/title.
-                Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
-                String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
-                String patternTitleWordWithSpecialChar = "[a-zA-Z0-9][\\-/'][a-zA-Z0-9]";
-                String patternTitleWord = fmt("%s|%s", patternTitleWordNormalChars, patternTitleWordWithSpecialChar);
-                String patternTitleWordWithParentheses = fmt("\\((%s)+\\)", patternTitleWord);
-                String patternTitle = fmt("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
-                Assert.check(sourceFile.title.matches(patternTitle), sourceFile.title);
-            }
+            // Sanity check: no markup in id/title.
+            Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
+            String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
+            String patternTitleWordWithSpecialChar = "[a-zA-Z0-9][\\-/'][a-zA-Z0-9]";
+            String patternTitleWord = fmt("%s|%s", patternTitleWordNormalChars, patternTitleWordWithSpecialChar);
+            String patternTitleWordWithParentheses = fmt("\\((%s)+\\)", patternTitleWord);
+            String patternTitle = fmt("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
+            Assert.check(sourceFile.title.matches(patternTitle), sourceFile.title);
         }
 
         // Return the information.
-        return sourceFiles;
+        return sourceFile;
     }
 
     /**
@@ -260,15 +281,13 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param sourceFiles All AsciiDoc source files.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
+     * @param htmlType The HTML type.
      */
     private static void adaptGeneratedHtmlForSourceFile(Document doc, SourceFile sourceFile,
-            List<SourceFile> sourceFiles, Path sourceRootPath)
+            List<SourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
     {
-        // Debug.
-        System.out.println("Generating adapted/splitted HTML file for: " + sourceFile.relPath);
-
         // Adapt page and TOC titles.
-        String docOriginalTitle = adaptPageAndTocTitles(doc, sourceFile);
+        String docOriginalTitle = adaptPageAndTocTitles(doc, sourceFile, htmlType);
 
         // Move title/copyright/version from HTML body to footer. Not needed for root index file.
         moveFromHeaderToFooter(doc, sourceFile);
@@ -287,19 +306,25 @@ public class AsciiDocMultiPageHtmlSplitter {
         normalizeContentHeaders(doc, sourceFile);
 
         // Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
-        highlightCurrentPageInToc(doc, sourceFile);
+        if (htmlType == HtmlType.WEBSITE) {
+            highlightCurrentPageInToc(doc, sourceFile);
+        }
 
         // Update references. This must be done after partitioning.
         updateReferences(doc, sourceFile, sourceFiles, sourceRootPath);
 
         // Add home page (root index file) to TOC.
-        addHomePageToToc(doc, sourceFile, sourceFiles);
+        if (htmlType == HtmlType.WEBSITE) {
+            addHomePageToToc(doc, sourceFile, sourceFiles);
+        }
 
         // Add breadcrumbs. This must be done after partitioning. Not added for the root index file.
         addBreadcrumbs(doc, sourceFile, docOriginalTitle);
 
         // Add link to single-page HTML version.
-        addLinkToSinglePageHtmlVersion(doc, sourceFile);
+        if (htmlType == HtmlType.WEBSITE) {
+            addLinkToSinglePageHtmlVersion(doc, sourceFile);
+        }
     }
 
     /**
@@ -307,16 +332,19 @@ public class AsciiDocMultiPageHtmlSplitter {
      *
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param htmlType The HTML type.
      * @return The original HTML page title.
      */
-    private static String adaptPageAndTocTitles(Document doc, SourceFile sourceFile) {
+    private static String adaptPageAndTocTitles(Document doc, SourceFile sourceFile, HtmlType htmlType) {
         // Adapt HTML page title.
         String docOriginalTitle = doc.title();
         doc.title(sourceFile.title + " | " + docOriginalTitle);
 
         // Adapt TOC title.
-        Element elemTocTitle = single(doc.select("div#toctitle"));
-        elemTocTitle.text(docOriginalTitle);
+        if (htmlType == HtmlType.WEBSITE) {
+            Element elemTocTitle = single(doc.select("div#toctitle"));
+            elemTocTitle.text(docOriginalTitle);
+        }
 
         // Return the original document title.
         return docOriginalTitle;
@@ -834,5 +862,14 @@ public class AsciiDocMultiPageHtmlSplitter {
          * recomputed for each new HTML file, to ensure the proper cloned nodes are present.
          */
         List<Node> nodes;
+    }
+
+    /** HTML type. */
+    enum HtmlType {
+        /** Eclipse help. */
+        ECLIPSE_HELP,
+
+        /** Website. */
+        WEBSITE;
     }
 }
