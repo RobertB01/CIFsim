@@ -32,15 +32,15 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
-/** AsciiDoc-generated single-page HTML adaptor. */
-class AsciiDocHtmlAdaptor {
-    /** Constructor for the {@link AsciiDocHtmlAdaptor} class. */
-    private AsciiDocHtmlAdaptor() {
+/** AsciiDoc-generated single-page HTML modifier. */
+class AsciiDocHtmlModifier {
+    /** Constructor for the {@link AsciiDocHtmlModifier} class. */
+    private AsciiDocHtmlModifier() {
         // Static class.
     }
 
     /**
-     * Adapt single AsciiDoc-generated HTML file to match an AsciiDoc source file.
+     * Modify single AsciiDoc-generated HTML file to match an AsciiDoc source file.
      *
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
@@ -50,11 +50,11 @@ class AsciiDocHtmlAdaptor {
      * @param htmlType The HTML type.
      * @return The TOC.
      */
-    static AsciiDocTocEntry adaptGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
+    static AsciiDocTocEntry modifyGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
             List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
     {
-        // Adapt page and TOC titles.
-        String docOriginalTitle = adaptPageAndTocTitles(doc, sourceFile, htmlType);
+        // Modify page and TOC titles.
+        String docOriginalTitle = modifyPageAndTocTitles(doc, sourceFile, htmlType);
 
         // Move title/copyright/version from HTML body to footer. Not needed for root index file.
         moveFromHeaderToFooter(doc, sourceFile);
@@ -98,19 +98,19 @@ class AsciiDocHtmlAdaptor {
     }
 
     /**
-     * Adapt page and TOC titles.
+     * Modify page and TOC titles.
      *
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      * @param htmlType The HTML type.
      * @return The original HTML page title.
      */
-    private static String adaptPageAndTocTitles(Document doc, AsciiDocSourceFile sourceFile, HtmlType htmlType) {
-        // Adapt HTML page title.
+    private static String modifyPageAndTocTitles(Document doc, AsciiDocSourceFile sourceFile, HtmlType htmlType) {
+        // Modify HTML page title.
         String docOriginalTitle = doc.title();
         doc.title(sourceFile.title + " | " + docOriginalTitle);
 
-        // Adapt TOC title.
+        // Modify TOC title.
         if (htmlType == HtmlType.WEBSITE) {
             Element elemTocTitle = single(doc.select("div#toctitle"));
             elemTocTitle.text(docOriginalTitle);

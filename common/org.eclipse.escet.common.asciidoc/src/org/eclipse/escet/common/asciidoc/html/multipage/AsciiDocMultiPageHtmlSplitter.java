@@ -131,17 +131,17 @@ public class AsciiDocMultiPageHtmlSplitter {
         System.out.println(sourceFiles.size() + " AsciiDoc source file(s) analyzed.");
 
         // Generate multiple HTML files, one per source file.
-        System.out.println("Generating adapted/splitted HTML files at: " + outputRootPath.toString());
+        System.out.println("Generating modified/splitted HTML files at: " + outputRootPath.toString());
         AsciiDocTocEntry toc = null;
         for (AsciiDocSourceFile sourceFile: sourceFiles) {
-            // Get the adapted HTML.
+            // Get the modified HTML.
             Document sourceFileHtmlDoc = generatedHtmlDoc.clone();
             try {
-                toc = AsciiDocHtmlAdaptor.adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles,
+                toc = AsciiDocHtmlModifier.modifyGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles,
                         sourceRootPath, htmlType);
             } catch (Throwable e) {
                 throw new RuntimeException(
-                        "Failed to adapt generated HTML for AsciiDoc source file: " + sourceFile.absPath, e);
+                        "Failed to modify generated HTML for AsciiDoc source file: " + sourceFile.absPath, e);
             }
 
             // Write HTML.
