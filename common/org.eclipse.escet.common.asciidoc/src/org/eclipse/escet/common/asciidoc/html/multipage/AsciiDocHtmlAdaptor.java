@@ -11,47 +11,30 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-package org.eclipse.escet.common.asciidoc;
+package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import static org.eclipse.escet.common.java.Lists.copy;
 import static org.eclipse.escet.common.java.Lists.list;
-import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
-import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Lists;
 import org.eclipse.escet.common.java.Pair;
-import org.eclipse.escet.common.java.Strings;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -59,218 +42,11 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.jsoup.select.NodeVisitor;
 
-/**
- * AsciiDoc multi-page HTML splitter.
- *
- * <p>
- * Splits a single AsciiDoc-generated HTML file into multiple HTML files, matching the content and directory structure
- * of the AsciiDoc source files from which the single HTML file was generated.
- * </p>
- *
- * <p>
- * This class is meant for application to Eclipse ESCET documentation projects, and may not be suitable for all
- * AsciiDoc-generated HTML files.
- * </p>
- */
-public class AsciiDocMultiPageHtmlSplitter {
-    /** Constructor for the {@link AsciiDocMultiPageHtmlSplitter} class. */
-    private AsciiDocMultiPageHtmlSplitter() {
+/** AsciiDoc-generated single-page HTML adaptor. */
+public class AsciiDocHtmlAdaptor {
+    /** Constructor for the {@link AsciiDocHtmlAdaptor} class. */
+    private AsciiDocHtmlAdaptor() {
         // Static class.
-    }
-
-    /**
-     * Main method of the AsciiDoc HTML splitter.
-     *
-     * @param args The command line arguments:
-     *     <ul>
-     *     <li>The path to the root directory that contains the AsciiDoc source files.</li>
-     *     <li>The path to the single AsciiDoc-generated HTML file.</li>
-     *     <li>The path to the directory in which to write output. Is removed if it already exists. Is created if it
-     *     does not yet exist.</li>
-     *     <li>{@code --eclipse-help} for Eclipse help HTML or {@code --website} for website HTML.</li>
-     *     </ul>
-     * @throws IOException In case of an I/O error.
-     */
-    public static void main(String[] args) throws IOException {
-        System.out.println("Command line arguments: " + Arrays.toString(args));
-        Assert.check(args.length == 4, args.toString());
-
-        Path sourceRootPath = Paths.get(args[0]);
-        Path singleHtmlPagePath = Paths.get(args[1]);
-        Path outputRootPath = Paths.get(args[2]);
-
-        String htmlTypeText = args[3];
-        Assert.check(htmlTypeText.startsWith("--"));
-        htmlTypeText = htmlTypeText.substring(2).replace("-", "_").toUpperCase(Locale.US);
-        HtmlType htmlType = HtmlType.valueOf(htmlTypeText);
-
-        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType);
-    }
-
-    /**
-     * Split single AsciiDoc-generated HTML file into multiple HTML files, matching the content and directory structure
-     * of the AsciiDoc source files from which the single HTML file was generated.
-     *
-     * @param sourceRootPath The path to the root directory that contains the AsciiDoc source files.
-     * @param singleHtmlPagePath The path to the single AsciiDoc-generated HTML file.
-     * @param outputRootPath The path to the directory in which to write output. Is removed if it already exists. Is
-     *     created if it does not yet exist.
-     * @param htmlType The HTML type.
-     * @throws IOException In case of an I/O error.
-     */
-    public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType)
-            throws IOException
-    {
-        // Check inputs exist.
-        Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath.toString());
-        Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath.toString());
-
-        // Ensure empty directory for output.
-        if (Files.isDirectory(outputRootPath)) {
-            FileUtils.deleteDirectory(outputRootPath.toFile());
-        }
-        Files.createDirectories(outputRootPath);
-
-        // Read and parse single AsciiDoc-generated HTML file.
-        System.out.println("Reading AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
-        String generatedHtmlContent = Files.readString(singleHtmlPagePath, StandardCharsets.UTF_8);
-        Document generatedHtmlDoc = Jsoup.parse(generatedHtmlContent);
-
-        // Find and analyze AsciiDoc source files.
-        System.out.println("Analyzing AsciiDoc source files: " + sourceRootPath.toString());
-        sourceRootPath = sourceRootPath.toAbsolutePath().normalize();
-        List<Path> sourcePaths = getSourcePaths(sourceRootPath);
-        List<SourceFile> sourceFiles = listc(sourcePaths.size());
-        for (Path sourcePath: sourcePaths) {
-            SourceFile sourceFile;
-            try {
-                sourceFile = analyzeSourceFile(sourceRootPath, sourcePath);
-            } catch (Throwable e) {
-                throw new RuntimeException("Failed to analyze AsciiDoc source file: " + sourcePath, e);
-            }
-            if (sourceFile != null) {
-                sourceFiles.add(sourceFile);
-            }
-        }
-        System.out.println(sourceFiles.size() + " AsciiDoc source file(s) analyzed.");
-
-        // Generate multiple HTML files, one per source file.
-        System.out.println("Generating adapted/splitted HTML files at: " + outputRootPath.toString());
-        for (SourceFile sourceFile: sourceFiles) {
-            // Get the adapted HTML.
-            Document sourceFileHtmlDoc = generatedHtmlDoc.clone();
-            try {
-                adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles, sourceRootPath, htmlType);
-            } catch (Throwable e) {
-                throw new RuntimeException(
-                        "Failed to adapt generated HTML for AsciiDoc source file: " + sourceFile.absPath, e);
-            }
-
-            // Write HTML.
-            Path outputPath = outputRootPath.resolve(sourceFile.relPath);
-            outputPath = sourcePathToOutputPath(outputPath);
-            Files.createDirectories(outputPath.getParent());
-            Files.writeString(outputPath, sourceFileHtmlDoc.outerHtml(), StandardCharsets.UTF_8);
-        }
-
-        // Copy single AsciiDoc-generated HTML file to output directory as well.
-        if (htmlType == HtmlType.WEBSITE) {
-            System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
-            Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
-            Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
-            Files.copy(singleHtmlPagePath, singlePathOutputPath);
-        }
-
-        // Done.
-        System.out.println("DONE: AsciiDoc multi-page HTML split completed.");
-    }
-
-    /**
-     * Returns the AsciiDoc source file paths.
-     *
-     * @param sourceRootPath The path to the root directory that contains the AsciiDoc source files.
-     * @return The AsciiDoc source file paths.
-     * @throws IOException In case of an I/O error.
-     */
-    private static List<Path> getSourcePaths(Path sourceRootPath) throws IOException {
-        BiPredicate<Path, BasicFileAttributes> filter = (p, a) -> p.getFileName().toString().endsWith(".asciidoc");
-        List<Path> sourcePaths;
-        try (Stream<Path> pathStream = Files.find(sourceRootPath, Integer.MAX_VALUE, filter)) {
-            sourcePaths = pathStream.collect(Collectors.toList());
-        }
-        return sourcePaths;
-    }
-
-    /**
-     * Analyze AsciiDoc source file.
-     *
-     * @param sourceRootPath The path to the root directory that contains the AsciiDoc source files.
-     * @param sourcePath The AsciiDoc source file path.
-     * @return Information about the AsciiDoc source file, or {@code null} if source file was skipped.
-     * @throws IOException In case of an I/O error.
-     */
-    private static SourceFile analyzeSourceFile(Path sourceRootPath, Path sourcePath) throws IOException {
-        // Skip special files.
-        String fileName = sourcePath.getFileName().toString();
-        if (fileName.toString().startsWith("_")) {
-            Assert.check(fileName.equals("_root_attributes.asciidoc") || fileName.equals("_part_attributes.asciidoc")
-                    || fileName.equals("_local_attributes.asciidoc"), fileName);
-            return null;
-        }
-
-        // Initialize data structure.
-        SourceFile sourceFile = new SourceFile();
-        sourceFile.absPath = sourcePath.toAbsolutePath().normalize();
-        sourceFile.relPath = sourceRootPath.relativize(sourcePath);
-        sourceFile.isRootIndexFile = sourcePath.getParent().equals(sourceRootPath)
-                && sourcePath.getFileName().toString().equals("index.asciidoc");
-
-        // Read source content.
-        List<String> sourceContent = Files.readAllLines(sourcePath, StandardCharsets.UTF_8);
-
-        // Get page title and source id.
-        if (sourceFile.isRootIndexFile) {
-            sourceFile.sourceId = null;
-            sourceFile.title = "Home";
-        } else {
-            // Get source id.
-            int idIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("[["))
-                    .findFirst().getAsInt();
-            String idLine = sourceContent.get(idIndex);
-            Assert.check(idLine.endsWith("]]"), idLine);
-            sourceFile.sourceId = Strings.slice(idLine, 2, -2); // [[id]]
-
-            // Get title.
-            int titleIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("="))
-                    .findFirst().getAsInt();
-            String titleLine = sourceContent.get(titleIndex);
-            Assert.check(titleLine.startsWith("== "), titleLine);
-            sourceFile.title = titleLine.substring(3); // == Title
-
-            // Sanitize title:
-            // Balanced backticks.
-            Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0, sourceFile.title);
-            // Remove backticks.
-            sourceFile.title = sourceFile.title.replace("`", "");
-
-            // Sanity check: source id is the id for the page title header.
-            Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
-
-            // Sanity check: stripped title.
-            Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
-
-            // Sanity check: no markup in id/title.
-            Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
-            String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
-            String patternTitleWordWithSpecialChar = "[a-zA-Z0-9][\\-/'][a-zA-Z0-9]";
-            String patternTitleWord = fmt("%s|%s", patternTitleWordNormalChars, patternTitleWordWithSpecialChar);
-            String patternTitleWordWithParentheses = fmt("\\((%s)+\\)", patternTitleWord);
-            String patternTitle = fmt("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
-            Assert.check(sourceFile.title.matches(patternTitle), sourceFile.title);
-        }
-
-        // Return the information.
-        return sourceFile;
     }
 
     /**
@@ -283,8 +59,8 @@ public class AsciiDocMultiPageHtmlSplitter {
      *     the root 'index.asciidoc' file.
      * @param htmlType The HTML type.
      */
-    private static void adaptGeneratedHtmlForSourceFile(Document doc, SourceFile sourceFile,
-            List<SourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
+    static void adaptGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
+            List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
     {
         // Adapt page and TOC titles.
         String docOriginalTitle = adaptPageAndTocTitles(doc, sourceFile, htmlType);
@@ -335,7 +111,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param htmlType The HTML type.
      * @return The original HTML page title.
      */
-    private static String adaptPageAndTocTitles(Document doc, SourceFile sourceFile, HtmlType htmlType) {
+    private static String adaptPageAndTocTitles(Document doc, AsciiDocSourceFile sourceFile, HtmlType htmlType) {
         // Adapt HTML page title.
         String docOriginalTitle = doc.title();
         doc.title(sourceFile.title + " | " + docOriginalTitle);
@@ -356,7 +132,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      */
-    private static void moveFromHeaderToFooter(Document doc, SourceFile sourceFile) {
+    private static void moveFromHeaderToFooter(Document doc, AsciiDocSourceFile sourceFile) {
         // Skip root index file.
         if (sourceFile.isRootIndexFile) {
             return;
@@ -393,22 +169,22 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param doc The HTML document for which to partition the 'content'.
      * @param sourceFiles The AsciDoc source files. Are modified in-place.
      */
-    private static void partitionContent(Document doc, List<SourceFile> sourceFiles) {
+    private static void partitionContent(Document doc, List<AsciiDocSourceFile> sourceFiles) {
         // Clear old partition.
-        for (SourceFile sourceFile: sourceFiles) {
+        for (AsciiDocSourceFile sourceFile: sourceFiles) {
             sourceFile.nodes = list();
         }
 
         // Get root source file and map ids to other source files.
-        Map<String, SourceFile> idToSources = mapc(sourceFiles.size());
-        SourceFile rootSourceFile = null;
-        for (SourceFile sourceFile: sourceFiles) {
+        Map<String, AsciiDocSourceFile> idToSources = mapc(sourceFiles.size());
+        AsciiDocSourceFile rootSourceFile = null;
+        for (AsciiDocSourceFile sourceFile: sourceFiles) {
             sourceFile.nodes = list();
             if (sourceFile.isRootIndexFile) {
                 Assert.check(rootSourceFile == null, sourceFile.relPath.toString());
                 rootSourceFile = sourceFile;
             } else {
-                SourceFile prev = idToSources.put(sourceFile.sourceId, sourceFile);
+                AsciiDocSourceFile prev = idToSources.put(sourceFile.sourceId, sourceFile);
                 Assert.check(prev == null);
             }
         }
@@ -416,7 +192,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         Assert.check(idToSources.size() + 1 == sourceFiles.size(), idToSources.size() + " / " + sourceFiles.size());
 
         // Walk over HTML 'content' and assign all nodes to a single source file.
-        Deque<Pair<SourceFile, Integer>> stack = new LinkedList<>();
+        Deque<Pair<AsciiDocSourceFile, Integer>> stack = new LinkedList<>();
         stack.push(pair(rootSourceFile, 0));
 
         Element elemContent = single(doc.select("#content"));
@@ -426,7 +202,7 @@ public class AsciiDocMultiPageHtmlSplitter {
                 // Detect new source file.
                 if (node instanceof Element) {
                     String id = ((Element)node).id();
-                    SourceFile elemSourceFile = idToSources.get(id);
+                    AsciiDocSourceFile elemSourceFile = idToSources.get(id);
                     if (elemSourceFile != null) {
                         stack.push(pair(elemSourceFile, depth));
 
@@ -462,7 +238,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         Assert.check(stack.size() == 1, String.valueOf(stack.size()));
 
         // Ensure content for each source file.
-        for (SourceFile sourceFile: sourceFiles) {
+        for (AsciiDocSourceFile sourceFile: sourceFiles) {
             Assert.check(!sourceFile.nodes.isEmpty(), sourceFile.relPath.toString());
         }
     }
@@ -474,7 +250,9 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      * @param sourceFiles All AsciiDoc source files.
      */
-    private static void removeNonPageContent(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles) {
+    private static void removeNonPageContent(Document doc, AsciiDocSourceFile sourceFile,
+            List<AsciiDocSourceFile> sourceFiles)
+    {
         // Remove all content outside the source file content (outside the page). Not needed for root index file.
         Element elemContent = single(doc.select("#content"));
         if (!sourceFile.isRootIndexFile) {
@@ -488,7 +266,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         }
 
         // Remove content from other source files. Removes sub-pages.
-        for (SourceFile otherSourceFile: sourceFiles) {
+        for (AsciiDocSourceFile otherSourceFile: sourceFiles) {
             if (otherSourceFile != sourceFile && !otherSourceFile.isRootIndexFile) {
                 for (Node node: otherSourceFile.nodes) {
                     node.remove();
@@ -542,7 +320,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      */
-    private static void normalizeContentHeaders(Document doc, SourceFile sourceFile) {
+    private static void normalizeContentHeaders(Document doc, AsciiDocSourceFile sourceFile) {
         // Skip root index file.
         if (sourceFile.isRootIndexFile) {
             return;
@@ -580,7 +358,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      */
-    private static void highlightCurrentPageInToc(Document doc, SourceFile sourceFile) {
+    private static void highlightCurrentPageInToc(Document doc, AsciiDocSourceFile sourceFile) {
         String curPageHref = "#" + sourceFile.sourceId;
         List<Element> tocLinkElems = doc.select("#toc a");
         int tocLinkCurPageCount = 0;
@@ -607,8 +385,8 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
      */
-    private static void updateReferences(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles,
-            Path sourceRootPath)
+    private static void updateReferences(Document doc, AsciiDocSourceFile sourceFile,
+            List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath)
     {
         updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "a", "href", true, true);
         updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "img", "src", false, false);
@@ -630,9 +408,9 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param allowSectionRefs Whether to allow section references ({@code #...}) as references ({@code true}) or not
      *     ({@code false}).
      */
-    private static void updateReferences(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles,
-            Path sourceRootPath, String tagName, String attrName, boolean allowEmptyRefIfNoChildren,
-            boolean allowSectionRefs)
+    private static void updateReferences(Document doc, AsciiDocSourceFile sourceFile,
+            List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, String tagName, String attrName,
+            boolean allowEmptyRefIfNoChildren, boolean allowSectionRefs)
     {
         ELEMS_LOOP:
         for (Element elem: doc.select(tagName)) {
@@ -656,7 +434,7 @@ public class AsciiDocMultiPageHtmlSplitter {
                 if (sourceFile.ids.contains(id)) {
                     continue; // Still within this HTML file.
                 }
-                for (SourceFile otherSourceFile: sourceFiles) {
+                for (AsciiDocSourceFile otherSourceFile: sourceFiles) {
                     if (otherSourceFile.ids.contains(id)) {
                         String newHref = getFileOrSectionHref(sourceFile, otherSourceFile, id);
                         elem.attr("href", newHref);
@@ -699,8 +477,10 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      * @param sourceFiles All AsciiDoc source files.
      */
-    private static void addHomePageToToc(Document doc, SourceFile sourceFile, List<SourceFile> sourceFiles) {
-        SourceFile rootSourceFile = single(
+    private static void addHomePageToToc(Document doc, AsciiDocSourceFile sourceFile,
+            List<AsciiDocSourceFile> sourceFiles)
+    {
+        AsciiDocSourceFile rootSourceFile = single(
                 sourceFiles.stream().filter(s -> s.isRootIndexFile).collect(Collectors.toList()));
         Element elemTocSectLevel1 = single(doc.select("#toc ul.sectlevel1"));
         Element elemTocHomeLi = elemTocSectLevel1.prependElement("li");
@@ -719,7 +499,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      * @param docOriginalTitle The original HTML page title.
      */
-    private static void addBreadcrumbs(Document doc, SourceFile sourceFile, String docOriginalTitle) {
+    private static void addBreadcrumbs(Document doc, AsciiDocSourceFile sourceFile, String docOriginalTitle) {
         // Skip root index file.
         if (sourceFile.isRootIndexFile) {
             return;
@@ -731,7 +511,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         elemBreadcrumbsDiv.attr("id", "breadcrumbs");
 
         // Add breadcrumbs.
-        for (SourceFile breadcrumb: sourceFile.breadcrumbs) {
+        for (AsciiDocSourceFile breadcrumb: sourceFile.breadcrumbs) {
             if (elemBreadcrumbsDiv.childNodeSize() > 0) {
                 elemBreadcrumbsDiv.appendText(" > ");
             }
@@ -751,7 +531,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param doc The HTML document to modify in-place.
      * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      */
-    private static void addLinkToSinglePageHtmlVersion(Document doc, SourceFile sourceFile) {
+    private static void addLinkToSinglePageHtmlVersion(Document doc, AsciiDocSourceFile sourceFile) {
         if (sourceFile.isRootIndexFile) {
             Element elemPdfTip = single(doc.select("div.tip td.content:contains(as a PDF as well)"));
             elemPdfTip.appendText("Or use the ");
@@ -777,9 +557,11 @@ public class AsciiDocMultiPageHtmlSplitter {
      *     entire file.
      * @return The 'href' value.
      */
-    private static String getFileOrSectionHref(SourceFile sourceFile, SourceFile otherSourceFile, String id) {
+    private static String getFileOrSectionHref(AsciiDocSourceFile sourceFile, AsciiDocSourceFile otherSourceFile,
+            String id)
+    {
         Path relPath = sourceFile.absPath.getParent().relativize(otherSourceFile.absPath);
-        relPath = sourcePathToOutputPath(relPath);
+        relPath = AsciiDocMultiPageHtmlSplitter.sourcePathToOutputPath(relPath);
         String href = relPath.toString().replace('\\', '/');
         if (id != null) {
             String firstId = otherSourceFile.ids.isEmpty() ? null : otherSourceFile.ids.iterator().next();
@@ -788,20 +570,6 @@ public class AsciiDocMultiPageHtmlSplitter {
             }
         }
         return href;
-    }
-
-    /**
-     * Converts an AsciiDoc source file path into a generated output HTML file path.
-     *
-     * @param sourcePath The AsciiDoc source file path.
-     * @return The generated output HTML file path.
-     */
-    private static Path sourcePathToOutputPath(Path sourcePath) {
-        String fileName = sourcePath.getFileName().toString();
-        Assert.check(fileName.endsWith(".asciidoc"), fileName);
-        fileName = Strings.slice(fileName, 0, -".asciidoc".length());
-        fileName += ".html";
-        return sourcePath.resolveSibling(fileName);
     }
 
     /**
@@ -823,53 +591,5 @@ public class AsciiDocMultiPageHtmlSplitter {
             }
         }
         return true;
-    }
-
-    /** Information about an AsciiDoc source file. */
-    private static class SourceFile {
-        /** The absolute path of the source file. */
-        Path absPath;
-
-        /** The relative path of the source file, from the directory that contains the root 'index.asciidoc' file. */
-        Path relPath;
-
-        /**
-         * The id of the first header in the source file. Is {@code null} for the {@link #isRootIndexFile root index
-         * file}.
-         */
-        String sourceId;
-
-        /**
-         * The title of the first header in the source file, and thus the title of the source file itself. Is
-         * {@code "Home"} for the {@link #isRootIndexFile root index file}.
-         */
-        String title;
-
-        /** Is this source file the root 'index.asciidoc' file ({@code true}) or not ({@code false})? */
-        boolean isRootIndexFile;
-
-        /**
-         * The breadcrumbs for this source file, starting from the home page (first element) to the given source file
-         * (last element). Remains {@code null} for the {@link #isRootIndexFile root index file}.
-         */
-        List<SourceFile> breadcrumbs;
-
-        /** The unique ids defined in the generated HTML 'content' for this source file, in order. */
-        Set<String> ids = set();
-
-        /**
-         * The 'content' nodes in the single AsciiDoc-generated HTML file, associated with this source file. Is
-         * recomputed for each new HTML file, to ensure the proper cloned nodes are present.
-         */
-        List<Node> nodes;
-    }
-
-    /** HTML type. */
-    enum HtmlType {
-        /** Eclipse help. */
-        ECLIPSE_HELP,
-
-        /** Website. */
-        WEBSITE;
     }
 }

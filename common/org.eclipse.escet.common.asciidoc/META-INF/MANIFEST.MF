@@ -7,7 +7,7 @@ Bundle-Vendor: Eclipse ESCET
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.escet.common.asciidoc
-Export-Package: org.eclipse.escet.common.asciidoc
+Export-Package: org.eclipse.escet.common.asciidoc.html.multipage
 Require-Bundle: org.eclipse.escet.common.java;bundle-version="0.3.0",
  org.apache.commons.io;bundle-version="2.8.0",
  org.jsoup;bundle-version="1.8.3",
