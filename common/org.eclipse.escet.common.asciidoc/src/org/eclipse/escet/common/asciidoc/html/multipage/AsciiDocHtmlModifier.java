@@ -53,15 +53,16 @@ class AsciiDocHtmlModifier {
     static AsciiDocTocEntry modifyGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
             List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
     {
+        // Partition HTML file 'content' for the AsciiDoc source files.
+        // We do this again for every source file, as each source file has a clone of the original HTML document.
+        // We do this first, as several modifications in this method rely on this information.
+        AsciiDocTocEntry toc = AsciiDocHtmlAnalyzer.partitionContent(doc, sourceFiles);
+
         // Modify page and TOC titles.
         String docOriginalTitle = modifyPageAndTocTitles(doc, sourceFile, htmlType);
 
         // Move title/copyright/version from HTML body to footer. Not needed for root index file.
         moveFromHeaderToFooter(doc, sourceFile);
-
-        // Partition HTML file 'content' for the AsciiDoc source files.
-        // We do this again for every source file, as each source file has a clone of the original HTML document.
-        AsciiDocTocEntry toc = AsciiDocHtmlAnalyzer.partitionContent(doc, sourceFiles);
 
         // Remove all content that should not be on this page.
         removeNonPageContent(doc, sourceFile, sourceFiles);
@@ -85,8 +86,11 @@ class AsciiDocHtmlModifier {
             addHomePageToToc(doc, sourceFile, sourceFiles);
         }
 
-        // Add breadcrumbs. This must be done after partitioning. Not added for the root index file.
-        addBreadcrumbs(doc, sourceFile, docOriginalTitle);
+        // Add breadcrumbs. This must be done after partitioning. Not added for the root index file. Not added for
+        // Eclipse help, as Eclipse help already has breadcrumbs built-in.
+        if (htmlType != HtmlType.ECLIPSE_HELP) {
+            addBreadcrumbs(doc, sourceFile, docOriginalTitle);
+        }
 
         // Add link to single-page HTML version.
         if (htmlType == HtmlType.WEBSITE) {

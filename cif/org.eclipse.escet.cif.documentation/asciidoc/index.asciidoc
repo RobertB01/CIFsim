@@ -357,7 +357,7 @@ include::tools/cifsim/repeated-simulation.asciidoc[]
 
 :leveloffset: +1
 
-==== Simulation input/Output
+==== Simulation input/output
 
 :leveloffset: -1
 

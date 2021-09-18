@@ -55,9 +55,9 @@
                             <attributes>
                                 <attribute-missing>warn</attribute-missing>
                                 <linkcss>true</linkcss>
-                                <imgsdir>../../images</imgsdir>
+                                <imgsdir>images</imgsdir>
                                 <icons>font</icons>
-                                <sectanchors>true</sectanchors>
+                                <sectanchors>false</sectanchors>
                                 <html-output>true</html-output>
                                 <eclipse-help-output>true</eclipse-help-output>
                             </attributes>

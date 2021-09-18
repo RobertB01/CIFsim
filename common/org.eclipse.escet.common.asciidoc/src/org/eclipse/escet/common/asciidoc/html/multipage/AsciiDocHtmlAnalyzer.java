@@ -69,7 +69,7 @@ class AsciiDocHtmlAnalyzer {
             }
         }
         if (rootSourceFile == null) {
-            throw new AssertionError("rootSourceFile == nul;");
+            throw new AssertionError("rootSourceFile == null");
         }
         Assert.check(idToSources.size() + 1 == sourceFiles.size(), idToSources.size() + " / " + sourceFiles.size());
 
@@ -78,7 +78,7 @@ class AsciiDocHtmlAnalyzer {
         sourceFileStack.push(pair(rootSourceFile, 0));
 
         Deque<Pair<AsciiDocTocEntry, Integer>> tocStack = new LinkedList<>();
-        tocStack.push(pair(new AsciiDocTocEntry(rootSourceFile, rootSourceFile.title, null), 0));
+        tocStack.push(pair(new AsciiDocTocEntry(rootSourceFile, doc.title(), null), 0));
 
         Element elemContent = single(doc.select("#content"));
         elemContent.children().traverse(new NodeVisitor() {
