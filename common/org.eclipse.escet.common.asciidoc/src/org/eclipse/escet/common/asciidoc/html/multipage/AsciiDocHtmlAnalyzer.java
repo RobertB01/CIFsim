@@ -44,11 +44,12 @@ class AsciiDocHtmlAnalyzer {
      *
      * @param doc The HTML document for which to partition the 'content'.
      * @param sourceFiles The AsciDoc source files. Are modified in-place.
+     * @return The TOC.
      * @see AsciiDocSourceFile#nodes
      * @see AsciiDocSourceFile#ids
      * @see AsciiDocSourceFile#breadcrumbs
      */
-    static void partitionContent(Document doc, List<AsciiDocSourceFile> sourceFiles) {
+    static AsciiDocTocEntry partitionContent(Document doc, List<AsciiDocSourceFile> sourceFiles) {
         // Clear old partition.
         for (AsciiDocSourceFile sourceFile: sourceFiles) {
             sourceFile.nodes = list();
@@ -67,27 +68,50 @@ class AsciiDocHtmlAnalyzer {
                 Assert.check(prev == null);
             }
         }
-        Assert.notNull(rootSourceFile);
+        if (rootSourceFile == null) {
+            throw new AssertionError("rootSourceFile == nul;");
+        }
         Assert.check(idToSources.size() + 1 == sourceFiles.size(), idToSources.size() + " / " + sourceFiles.size());
 
-        // Walk over HTML 'content' and assign all nodes to a single source file.
-        Deque<Pair<AsciiDocSourceFile, Integer>> stack = new LinkedList<>();
-        stack.push(pair(rootSourceFile, 0));
+        // Walk over HTML 'content' and assign all nodes to a single source file. Also create the TOC.
+        Deque<Pair<AsciiDocSourceFile, Integer>> sourceFileStack = new LinkedList<>();
+        sourceFileStack.push(pair(rootSourceFile, 0));
+
+        Deque<Pair<AsciiDocTocEntry, Integer>> tocStack = new LinkedList<>();
+        tocStack.push(pair(new AsciiDocTocEntry(rootSourceFile, rootSourceFile.title, null), 0));
 
         Element elemContent = single(doc.select("#content"));
         elemContent.children().traverse(new NodeVisitor() {
             @Override
             public void head(Node node, int depth) {
-                // Detect new source file.
+                // Detect new source file. Add TOC entry.
                 if (node instanceof Element) {
-                    String id = ((Element)node).id();
+                    Element elem = (Element)node;
+                    String id = elem.id();
                     AsciiDocSourceFile elemSourceFile = idToSources.get(id);
                     if (elemSourceFile != null) {
-                        stack.push(pair(elemSourceFile, depth));
+                        // New source file.
+                        Assert.check(elemSourceFile.sourceId.equals(id));
+                        sourceFileStack.push(pair(elemSourceFile, depth));
+
+                        AsciiDocTocEntry curTocEntry = tocStack.peek().left;
+                        AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(elemSourceFile, elemSourceFile.title,
+                                elemSourceFile.sourceId);
+                        curTocEntry.children.add(newTocEntry);
+                        tocStack.push(pair(newTocEntry, depth));
 
                         // Store reversed stack as breadcrumbs.
                         elemSourceFile.breadcrumbs = reverse(
-                                stack.stream().map(e -> e.left).collect(Collectors.toList()));
+                                sourceFileStack.stream().map(e -> e.left).collect(Collectors.toList()));
+                    } else {
+                        // Same source file.
+                        if (elem.tagName().matches("h\\d+")) {
+                            String entryTitle = elem.text();
+                            AsciiDocTocEntry curTocEntry = tocStack.peek().left;
+                            AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(curTocEntry.sourceFile, entryTitle, id);
+                            curTocEntry.children.add(newTocEntry);
+                            tocStack.push(pair(newTocEntry, depth));
+                        }
                     }
                 }
 
@@ -95,30 +119,40 @@ class AsciiDocHtmlAnalyzer {
                 if (node instanceof Element) {
                     String id = ((Element)node).id();
                     if (!id.isBlank()) {
-                        stack.peek().left.ids.add(id);
+                        sourceFileStack.peek().left.ids.add(id);
                     }
                 }
 
                 // Detect sibling node of other nodes of current source file. This ensures we don't collect all nodes,
                 // but only 'root' ones, not all descendants of 'root' nodes.
-                if (depth == stack.peek().right) {
-                    stack.peek().left.nodes.add(node);
+                if (depth == sourceFileStack.peek().right) {
+                    sourceFileStack.peek().left.nodes.add(node);
                 }
             }
 
             @Override
             public void tail(Node node, int depth) {
                 // Detect end of source file.
-                if (depth < stack.peek().right) {
-                    stack.pop();
+                if (depth < sourceFileStack.peek().right) {
+                    sourceFileStack.pop();
+                }
+
+                // Detect end of TOC entry.
+                if (depth < tocStack.peek().right) {
+                    tocStack.pop();
                 }
             }
         });
-        Assert.check(stack.size() == 1, String.valueOf(stack.size()));
+        Assert.check(sourceFileStack.size() == 1, String.valueOf(sourceFileStack.size()));
+        Assert.check(tocStack.size() == 1, String.valueOf(tocStack.size()));
 
         // Ensure content for each source file.
         for (AsciiDocSourceFile sourceFile: sourceFiles) {
             Assert.check(!sourceFile.nodes.isEmpty(), sourceFile.relPath.toString());
         }
+
+        // Return the TOC.
+        Assert.check(tocStack.peek().right == 0, String.valueOf(tocStack.peek().right));
+        return tocStack.pop().left;
     }
 }

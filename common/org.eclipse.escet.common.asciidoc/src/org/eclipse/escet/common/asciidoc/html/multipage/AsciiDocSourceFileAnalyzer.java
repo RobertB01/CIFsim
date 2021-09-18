@@ -27,7 +27,7 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 
 /** AsciiDoc source file analyzer. */
-public class AsciiDocSourceFileAnalyzer {
+class AsciiDocSourceFileAnalyzer {
     /** Constructor for the {@link AsciiDocSourceFileAnalyzer} class. */
     private AsciiDocSourceFileAnalyzer() {
         // Static class.

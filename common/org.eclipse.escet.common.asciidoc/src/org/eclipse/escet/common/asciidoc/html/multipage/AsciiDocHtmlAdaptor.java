@@ -20,7 +20,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 /** AsciiDoc-generated single-page HTML adaptor. */
-public class AsciiDocHtmlAdaptor {
+class AsciiDocHtmlAdaptor {
     /** Constructor for the {@link AsciiDocHtmlAdaptor} class. */
     private AsciiDocHtmlAdaptor() {
         // Static class.
@@ -49,8 +48,9 @@ public class AsciiDocHtmlAdaptor {
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
      * @param htmlType The HTML type.
+     * @return The TOC.
      */
-    static void adaptGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
+    static AsciiDocTocEntry adaptGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
             List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
     {
         // Adapt page and TOC titles.
@@ -61,7 +61,7 @@ public class AsciiDocHtmlAdaptor {
 
         // Partition HTML file 'content' for the AsciiDoc source files.
         // We do this again for every source file, as each source file has a clone of the original HTML document.
-        AsciiDocHtmlAnalyzer.partitionContent(doc, sourceFiles);
+        AsciiDocTocEntry toc = AsciiDocHtmlAnalyzer.partitionContent(doc, sourceFiles);
 
         // Remove all content that should not be on this page.
         removeNonPageContent(doc, sourceFile, sourceFiles);
@@ -92,6 +92,9 @@ public class AsciiDocHtmlAdaptor {
         if (htmlType == HtmlType.WEBSITE) {
             addLinkToSinglePageHtmlVersion(doc, sourceFile);
         }
+
+        // Return TOC.
+        return toc;
     }
 
     /**
@@ -346,7 +349,7 @@ public class AsciiDocHtmlAdaptor {
                 }
                 for (AsciiDocSourceFile otherSourceFile: sourceFiles) {
                     if (otherSourceFile.ids.contains(id)) {
-                        String newHref = getFileOrSectionHref(sourceFile, otherSourceFile, id);
+                        String newHref = AsciiDocHtmlUtil.getFileOrSectionHref(sourceFile, otherSourceFile, id);
                         elem.attr("href", newHref);
                         continue ELEMS_LOOP;
                     }
@@ -395,7 +398,7 @@ public class AsciiDocHtmlAdaptor {
         Element elemTocSectLevel1 = single(doc.select("#toc ul.sectlevel1"));
         Element elemTocHomeLi = elemTocSectLevel1.prependElement("li");
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
-        elemTocHomeA.attr("href", getFileOrSectionHref(sourceFile, rootSourceFile, null));
+        elemTocHomeA.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(sourceFile, rootSourceFile, null));
         if (sourceFile.isRootIndexFile) {
             elemTocHomeA.addClass("toc-cur-page");
         }
@@ -429,7 +432,7 @@ public class AsciiDocHtmlAdaptor {
             Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
             elemBreadcrumb.addClass("breadcrumb");
             if (!isSelfBreadcrumb) {
-                elemBreadcrumb.attr("href", getFileOrSectionHref(sourceFile, breadcrumb, null));
+                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(sourceFile, breadcrumb, null));
             }
             elemBreadcrumb.text(breadcrumb.isRootIndexFile ? docOriginalTitle : breadcrumb.title);
         }
@@ -450,36 +453,6 @@ public class AsciiDocHtmlAdaptor {
             elemPdfTipA.text("single-page HTML");
             elemPdfTip.appendText(" version.");
         }
-    }
-
-    /**
-     * Get an 'href' value from a given source file to (a section in) another source file:
-     * <ul>
-     * <li>If no section id is given, a reference to the entire file is returned.</li>
-     * <li>If the section in the other source file is the first section, a reference to the entire file is
-     * returned.</li>
-     * <li>Otherwise, a reference to the section within the file is returned.</li>
-     * </ul>
-     *
-     * @param sourceFile The source file from which the 'href' is referenced.
-     * @param otherSourceFile The other source file to which the 'href' should point.
-     * @param id The id of the section in the other source file to which to refer, or {@code null} to refer to the
-     *     entire file.
-     * @return The 'href' value.
-     */
-    private static String getFileOrSectionHref(AsciiDocSourceFile sourceFile, AsciiDocSourceFile otherSourceFile,
-            String id)
-    {
-        Path relPath = sourceFile.absPath.getParent().relativize(otherSourceFile.absPath);
-        relPath = AsciiDocMultiPageHtmlSplitter.sourcePathToOutputPath(relPath);
-        String href = relPath.toString().replace('\\', '/');
-        if (id != null) {
-            String firstId = otherSourceFile.ids.isEmpty() ? null : otherSourceFile.ids.iterator().next();
-            if (!Objects.equals(id, firstId)) { // Add section id if not the page title id.
-                href += "#" + id;
-            }
-        }
-        return href;
     }
 
     /**

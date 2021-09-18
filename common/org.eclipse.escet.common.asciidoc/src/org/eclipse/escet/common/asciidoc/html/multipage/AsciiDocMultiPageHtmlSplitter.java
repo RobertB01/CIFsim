@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.escet.common.app.framework.XmlSupport;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Strings;
 import org.jsoup.Jsoup;
@@ -131,11 +132,12 @@ public class AsciiDocMultiPageHtmlSplitter {
 
         // Generate multiple HTML files, one per source file.
         System.out.println("Generating adapted/splitted HTML files at: " + outputRootPath.toString());
+        AsciiDocTocEntry toc = null;
         for (AsciiDocSourceFile sourceFile: sourceFiles) {
             // Get the adapted HTML.
             Document sourceFileHtmlDoc = generatedHtmlDoc.clone();
             try {
-                AsciiDocHtmlAdaptor.adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles,
+                toc = AsciiDocHtmlAdaptor.adaptGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles,
                         sourceRootPath, htmlType);
             } catch (Throwable e) {
                 throw new RuntimeException(
@@ -148,13 +150,22 @@ public class AsciiDocMultiPageHtmlSplitter {
             Files.createDirectories(outputPath.getParent());
             Files.writeString(outputPath, sourceFileHtmlDoc.outerHtml(), StandardCharsets.UTF_8);
         }
+        Assert.notNull(toc);
 
-        // Copy single AsciiDoc-generated HTML file to output directory as well.
+        // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {
             System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
             Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
             Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
             Files.copy(singleHtmlPagePath, singlePathOutputPath);
+        }
+
+        // Generate Eclipse help 'toc.xml' file.
+        if (htmlType == HtmlType.ECLIPSE_HELP) {
+            Path tocXmlPath = outputRootPath.resolve("toc.xml");
+            System.out.println("Generating Eclipse help TOC at: " + tocXmlPath.toString());
+            org.w3c.dom.Document tocXmlDoc = AsciiDocEclipseHelpTocUtil.tocToEclipseHelpXml(toc);
+            XmlSupport.writeFile(tocXmlDoc, "TOC", tocXmlPath.toString());
         }
 
         // Done.
