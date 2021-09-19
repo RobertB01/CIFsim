@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from Eclipse ESCET" sequenceNumber="32">
+<target name="Generated from Eclipse ESCET" sequenceNumber="33">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="com.google.guava" version="0.0.0"/>
       <unit id="org.apache.commons.exec" version="0.0.0"/>
       <unit id="org.apache.commons.lang" version="0.0.0"/>
       <unit id="org.apache.commons.lang3" version="0.0.0"/>

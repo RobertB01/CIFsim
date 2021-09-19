@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import static org.eclipse.escet.common.java.Lists.listc;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -107,20 +108,22 @@ public class AsciiDocMultiPageHtmlSplitter {
         }
         Files.createDirectories(outputRootPath);
 
-        // Read and parse single AsciiDoc-generated HTML file.
+        // Read and parse AsciiDoc-generated single-page HTML file.
         System.out.println("Reading AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
         String generatedHtmlContent = Files.readString(singleHtmlPagePath, StandardCharsets.UTF_8);
-        Document generatedHtmlDoc = Jsoup.parse(generatedHtmlContent);
+        Document singlePageDoc = Jsoup.parse(generatedHtmlContent);
 
-        // Find and analyze AsciiDoc source files.
-        System.out.println("Analyzing AsciiDoc source files: " + sourceRootPath.toString());
+        // Find AsciiDoc source files.
+        System.out.println("Finding and analyzing AsciiDoc source files located in: " + sourceRootPath.toString());
         sourceRootPath = sourceRootPath.toAbsolutePath().normalize();
         List<Path> sourcePaths = getSourcePaths(sourceRootPath);
+
+        // Analyze AsciiDoc source files.
         List<AsciiDocSourceFile> sourceFiles = listc(sourcePaths.size());
         for (Path sourcePath: sourcePaths) {
             AsciiDocSourceFile sourceFile;
             try {
-                sourceFile = AsciiDocSourceFileAnalyzer.analyzeSourceFile(sourceRootPath, sourcePath);
+                sourceFile = AsciiDocSourceFileAnalyzer.analyze(sourceRootPath, sourcePath);
             } catch (Throwable e) {
                 throw new RuntimeException("Failed to analyze AsciiDoc source file: " + sourcePath, e);
             }
@@ -128,29 +131,22 @@ public class AsciiDocMultiPageHtmlSplitter {
                 sourceFiles.add(sourceFile);
             }
         }
-        System.out.println(sourceFiles.size() + " AsciiDoc source file(s) analyzed.");
+        System.out.println(fmt("%d AsciiDoc source files found, %d analyzed.", sourcePaths.size(), sourceFiles.size()));
 
-        // Generate multiple HTML files, one per source file.
-        System.out.println("Generating modified/splitted HTML files at: " + outputRootPath.toString());
-        AsciiDocTocEntry toc = null;
-        for (AsciiDocSourceFile sourceFile: sourceFiles) {
-            // Get the modified HTML.
-            Document sourceFileHtmlDoc = generatedHtmlDoc.clone();
-            try {
-                toc = AsciiDocHtmlModifier.modifyGeneratedHtmlForSourceFile(sourceFileHtmlDoc, sourceFile, sourceFiles,
-                        sourceRootPath, htmlType);
-            } catch (Throwable e) {
-                throw new RuntimeException(
-                        "Failed to modify generated HTML for AsciiDoc source file: " + sourceFile.absPath, e);
-            }
+        // Analyze AsciiDoc-generated single-page HTML file.
+        System.out.println("Analyzing AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
+        AsciiDocHtmlPages htmlPages = new AsciiDocHtmlPages(sourceFiles);
+        AsciiDocHtmlAnalyzer.analyze(singlePageDoc, htmlPages);
 
-            // Write HTML.
-            Path outputPath = outputRootPath.resolve(sourceFile.relPath);
-            outputPath = sourcePathToOutputPath(outputPath);
+        // Generate multiple HTML files, one per page.
+        System.out.println("Generating multi-page HTML files at: " + outputRootPath.toString());
+        AsciiDocHtmlModifier.modifyPages(singlePageDoc, htmlPages, sourceRootPath, htmlType);
+        for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
+            Path sourcePath = outputRootPath.resolve(htmlPage.sourceFile.relPath);
+            Path outputPath = sourcePathToOutputPath(sourcePath);
             Files.createDirectories(outputPath.getParent());
-            Files.writeString(outputPath, sourceFileHtmlDoc.outerHtml(), StandardCharsets.UTF_8);
+            Files.writeString(outputPath, htmlPage.doc.outerHtml(), StandardCharsets.UTF_8);
         }
-        Assert.notNull(toc);
 
         // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {
@@ -164,7 +160,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         if (htmlType == HtmlType.ECLIPSE_HELP) {
             Path tocXmlPath = outputRootPath.resolve("toc.xml");
             System.out.println("Generating Eclipse help TOC at: " + tocXmlPath.toString());
-            org.w3c.dom.Document tocXmlDoc = AsciiDocEclipseHelpTocUtil.tocToEclipseHelpXml(toc);
+            org.w3c.dom.Document tocXmlDoc = AsciiDocEclipseHelpTocUtil.tocToEclipseHelpXml(htmlPages.toc);
             XmlSupport.writeFile(tocXmlDoc, "TOC", tocXmlPath.toString());
         }
 

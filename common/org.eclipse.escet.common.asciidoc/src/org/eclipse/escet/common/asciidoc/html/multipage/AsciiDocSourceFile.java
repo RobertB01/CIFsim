@@ -13,48 +13,47 @@
 
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
-import static org.eclipse.escet.common.java.Sets.set;
-
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Set;
-
-import org.jsoup.nodes.Node;
 
 /** Information about an AsciiDoc source file. */
 class AsciiDocSourceFile {
     /** The absolute path of the source file. */
-    Path absPath;
+    final Path absPath;
 
     /** The relative path of the source file, from the directory that contains the root 'index.asciidoc' file. */
-    Path relPath;
+    final Path relPath;
 
     /**
      * The id of the first header in the source file. Is {@code null} for the {@link #isRootIndexFile root index file}.
      */
-    String sourceId;
+    final String sourceId;
 
     /**
      * The title of the first header in the source file, and thus the title of the source file itself. Is {@code "Home"}
      * for the {@link #isRootIndexFile root index file}.
      */
-    String title;
+    final String title;
 
     /** Is this source file the root 'index.asciidoc' file ({@code true}) or not ({@code false})? */
-    boolean isRootIndexFile;
+    final boolean isRootIndexFile;
 
     /**
-     * The breadcrumbs for this source file, starting from the home page (first element) to the given source file (last
-     * element). Remains {@code null} for the {@link #isRootIndexFile root index file}.
+     * Constructor for the {@link AsciiDocSourceFile} class.
+     *
+     * @param absPath The absolute path of the source file.
+     * @param relPath The relative path of the source file, from the directory that contains the root 'index.asciidoc'
+     *     file.
+     * @param sourceId The id of the first header in the source file. Is {@code null} for the {@link #isRootIndexFile
+     *     root index file}.
+     * @param title The title of the first header in the source file, and thus the title of the source file itself. Is
+     *     {@code "Home"} for the {@link #isRootIndexFile root index file}.
+     * @param isRootIndexFile Is this source file the root 'index.asciidoc' file ({@code true}) or not ({@code false})?
      */
-    List<AsciiDocSourceFile> breadcrumbs;
-
-    /** The unique ids defined in the generated HTML 'content' for this source file, in order. */
-    Set<String> ids = set();
-
-    /**
-     * The 'content' nodes in the single AsciiDoc-generated HTML file, associated with this source file. Is recomputed
-     * for each new HTML file, to ensure the proper cloned nodes are present.
-     */
-    List<Node> nodes;
+    AsciiDocSourceFile(Path absPath, Path relPath, String sourceId, String title, boolean isRootIndexFile) {
+        this.absPath = absPath;
+        this.relPath = relPath;
+        this.sourceId = sourceId;
+        this.title = title;
+        this.isRootIndexFile = isRootIndexFile;
+    }
 }

@@ -336,6 +336,8 @@
         </detail>
       </annotation>
       <requirement
+          name="com.google.guava"/>
+      <requirement
           name="io.github.java-diff-utils"/>
       <requirement
           name="javax.inject"/>

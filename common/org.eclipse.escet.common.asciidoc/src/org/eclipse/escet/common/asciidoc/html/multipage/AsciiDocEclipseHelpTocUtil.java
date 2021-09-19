@@ -70,7 +70,7 @@ class AsciiDocEclipseHelpTocUtil {
         // Set attributes.
         elem.setAttribute("label", entry.title);
         String refAttrName = (node instanceof Document) ? "topic" : "href";
-        String refTxt = AsciiDocHtmlUtil.getFileOrSectionHref(rootEntry.sourceFile, entry.sourceFile, entry.refId);
+        String refTxt = AsciiDocHtmlUtil.getFileOrSectionHref(rootEntry.page, entry.page, entry.refId);
         elem.setAttribute(refAttrName, refTxt);
 
         // Recursively add child TOC entries.

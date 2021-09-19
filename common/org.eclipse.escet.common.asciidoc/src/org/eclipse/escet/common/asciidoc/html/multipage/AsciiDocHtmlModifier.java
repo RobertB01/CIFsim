@@ -14,12 +14,26 @@
 package org.eclipse.escet.common.asciidoc.html.multipage;
 
 import static org.eclipse.escet.common.java.Lists.copy;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.single;
+import static org.eclipse.escet.common.java.Maps.copy;
+import static org.eclipse.escet.common.java.Maps.map;
+import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Sets.difference;
+import static org.eclipse.escet.common.java.Sets.intersection;
+import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.net.URI;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -32,6 +46,10 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
+
 /** AsciiDoc-generated single-page HTML modifier. */
 class AsciiDocHtmlModifier {
     /** Constructor for the {@link AsciiDocHtmlModifier} class. */
@@ -40,102 +58,278 @@ class AsciiDocHtmlModifier {
     }
 
     /**
-     * Modify single AsciiDoc-generated HTML file to match an AsciiDoc source file.
+     * Modify the AsciiDoc-generated single-page HTML file for each multi-page HTML page.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
-     * @param sourceFiles All AsciiDoc source files.
+     * @param singlePageDoc The AsciiDoc-generated single-page HTML document.
+     * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
      * @param htmlType The HTML type.
-     * @return The TOC.
      */
-    static AsciiDocTocEntry modifyGeneratedHtmlForSourceFile(Document doc, AsciiDocSourceFile sourceFile,
-            List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, HtmlType htmlType)
+    static void modifyPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
+            HtmlType htmlType)
     {
-        // Partition HTML file 'content' for the AsciiDoc source files.
-        // We do this again for every source file, as each source file has a clone of the original HTML document.
-        // We do this first, as several modifications in this method rely on this information.
-        AsciiDocTocEntry toc = AsciiDocHtmlAnalyzer.partitionContent(doc, sourceFiles);
-
-        // Modify page and TOC titles.
-        String docOriginalTitle = modifyPageAndTocTitles(doc, sourceFile, htmlType);
-
-        // Move title/copyright/version from HTML body to footer. Not needed for root index file.
-        moveFromHeaderToFooter(doc, sourceFile);
-
-        // Remove all content that should not be on this page.
-        removeNonPageContent(doc, sourceFile, sourceFiles);
-
-        // Remove empty paragraphs and sections.
-        removeEmptyParagraphsAndSections(doc);
-
-        // Normalize content headers. Not needed for root index file.
-        normalizeContentHeaders(doc, sourceFile);
-
-        // Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
-        if (htmlType == HtmlType.WEBSITE) {
-            highlightCurrentPageInToc(doc, sourceFile);
+        // Give each multi-page HTML page a clone of the original single-page HTML file.
+        for (AsciiDocHtmlPage page: htmlPages.pages) {
+            page.doc = singlePageDoc.clone();
         }
 
-        // Update references. This must be done after partitioning.
-        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath);
-
-        // Add home page (root index file) to TOC.
-        if (htmlType == HtmlType.WEBSITE) {
-            addHomePageToToc(doc, sourceFile, sourceFiles);
+        // Determine multi-page HTML nodes, for each page, per cloned document of each page.
+        for (AsciiDocHtmlPage page: htmlPages.pages) {
+            page.multiPageNodesPerPage = mapc(htmlPages.pages.size());
+            for (AsciiDocHtmlPage otherPage: htmlPages.pages) {
+                List<Node> otherDocNodes = determineClonedNodes(singlePageDoc, otherPage.doc, page.singlePageNodes);
+                page.multiPageNodesPerPage.put(otherPage, otherDocNodes);
+            }
         }
 
-        // Add breadcrumbs. This must be done after partitioning. Not added for the root index file. Not added for
-        // Eclipse help, as Eclipse help already has breadcrumbs built-in.
-        if (htmlType != HtmlType.ECLIPSE_HELP) {
-            addBreadcrumbs(doc, sourceFile, docOriginalTitle);
-        }
+        // Determine new section ids.
+        determineNewSectionIds(htmlPages);
 
-        // Add link to single-page HTML version.
-        if (htmlType == HtmlType.WEBSITE) {
-            addLinkToSinglePageHtmlVersion(doc, sourceFile);
-        }
+        // Modify the pages, per page.
+        for (AsciiDocHtmlPage page: htmlPages.pages) {
+            try {
+                // Modify page title.
+                String docOriginalTitle = modifyPageTitle(page);
 
-        // Return TOC.
-        return toc;
+                // Modify TOC title.
+                if (htmlType == HtmlType.WEBSITE) {
+                    modifyTocTitle(page.doc, docOriginalTitle);
+                }
+
+                // Move title/copyright/version from HTML body to footer.
+                if (page != htmlPages.homePage) {
+                    moveFromHeaderToFooter(page.doc);
+                }
+
+                // Remove all content that should not be on this page.
+                removeNonPageContent(page, htmlPages);
+
+                // Remove empty paragraphs and sections.
+                removeEmptyParagraphsAndSections(page.doc);
+
+                // Normalize content headers.
+                if (page != htmlPages.homePage) {
+                    normalizeContentHeaders(page.doc);
+                }
+
+                // Highlight current page in TOC. This must be done before updating TOC entry links.
+                if (htmlType == HtmlType.WEBSITE) {
+                    highlightCurrentPageInToc(page, htmlPages);
+                }
+
+                // Renamed defined section ids.
+                renameDefinedSectionIds(page);
+
+                // Rename section ids in TOC.
+                renameSectionIdsInToc(page, htmlPages.toc);
+
+                // Update references.
+                updateReferences(page, htmlPages, sourceRootPath);
+
+                // Add home page (root index file) to TOC.
+                if (htmlType == HtmlType.WEBSITE) {
+                    addHomePageToToc(page, htmlPages.homePage);
+                }
+
+                // Add breadcrumbs. Not added for Eclipse help, as Eclipse help already has breadcrumbs built-in. Not
+                // added for the home page as it has no ancestors.
+                if (htmlType != HtmlType.ECLIPSE_HELP && page != htmlPages.homePage) {
+                    addBreadcrumbs(page, htmlPages.homePage, docOriginalTitle);
+                }
+
+                // Add link to single-page HTML version.
+                if (htmlType == HtmlType.WEBSITE && page == htmlPages.homePage) {
+                    addLinkToSinglePageHtmlVersion(page);
+                }
+            } catch (Throwable e) {
+                throw new RuntimeException(
+                        "Failed to modify HTML document for AsciiDoc multi-html page: " + page.sourceFile.relPath, e);
+            }
+        }
     }
 
     /**
-     * Modify page and TOC titles.
+     * Determines the cloned nodes of the given cloned multi-page document, matching the single-page nodes from the
+     * single-page document.
+     *
+     * @param singlePageDoc The single-page document.
+     * @param multiPageDoc The cloned multi-page document, that is a clone of the single-page document, without
+     *     modifications.
+     * @param singlePageNodes The single-page nodes.
+     * @return The nodes from the cloned multi-page document.
+     */
+    private static List<Node> determineClonedNodes(Document singlePageDoc, Document multiPageDoc,
+            List<Node> singlePageNodes)
+    {
+        // Sanity check.
+        Assert.check(singlePageDoc != multiPageDoc);
+
+        // Determine the cloned nodes, per node.
+        List<Node> multiPageNodes = listc(singlePageNodes.size());
+        for (Node singlePageNode: singlePageNodes) {
+            // Get path.
+            LinkedList<Node> path = new LinkedList<>();
+            Node curNode = singlePageNode;
+            while (!(curNode instanceof Document)) {
+                if (curNode == null) {
+                    throw new AssertionError("No document for node.");
+                }
+                path.addFirst(curNode);
+                curNode = curNode.parentNode();
+            }
+
+            // Re-play path on clone.
+            curNode = multiPageDoc;
+            for (Node pathNode: path) {
+                int idx = pathNode.siblingIndex();
+                curNode = curNode.childNode(idx);
+            }
+
+            // Sanity checks.
+            if (singlePageNode.getClass() != curNode.getClass()) {
+                Assert.fail(singlePageNode.getClass() + " / " + curNode.getClass());
+            }
+            if (singlePageNode instanceof Element) {
+                Element singlePageElem = (Element)singlePageNode;
+                Element curElem = (Element)curNode;
+                if (!singlePageElem.tagName().equals(curElem.tagName())) {
+                    Assert.fail(singlePageElem.tagName() + " / " + curElem.tagName());
+                }
+            }
+
+            // Add node.
+            multiPageNodes.add(curNode);
+        }
+        return multiPageNodes;
+    }
+
+    /**
+     * Determine new section ids, based on the section titles.
+     *
+     * <p>
+     * Examples of sub-optimal section ids in AsciiDoc-generated single-page HTML files:
+     * <ul>
+     * <li>For multiple sections that are named 'Exercises', and with a configured prefix 'tut', the section ids are
+     * named 'tut-exercises', 'tut-exercises-2', etc. If they are from different source files, it is not necessary to
+     * postfix them with numbers to ensure uniqueness per multi-page HTML file.</li>
+     * <li>To ensure globally unique ids, sections are given hierarchical ids when specifying them manually. E.g.
+     * 'lang-tut-basics-automata-events'. For multi-page HTML files, these prefixes are not necessary.</li>
+     * </ul>
+     * </p>
+     *
+     * @param htmlPages The multi-page HTML pages.
+     */
+    private static void determineNewSectionIds(AsciiDocHtmlPages htmlPages) {
+        // Determine section id renames, for the entire TOC (all pages).
+        Map<String, String> renames = map();
+        fillSectionIdRenameMap(htmlPages.toc, renames);
+
+        // We need unique ids, per page.
+        for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
+            // Get page renames.
+            Map<String, String> pageRenames = copy(renames);
+            pageRenames.keySet().retainAll(htmlPage.singlePageIds);
+
+            // Ensure no duplicate new ids for this page.
+            boolean duplicateFound;
+            do {
+                duplicateFound = false;
+                ListMultimap<String, String> inversePageRenames = Multimaps.invertFrom(Multimaps.forMap(pageRenames),
+                        ArrayListMultimap.create());
+                for (Entry<String, Collection<String>> entry: inversePageRenames.asMap().entrySet()) {
+                    Collection<String> oldIds = entry.getValue();
+                    if (oldIds.size() > 1) {
+                        // Duplicate new id, as new id is used for multiple old ids.
+                        duplicateFound = true;
+                        String newId = entry.getKey();
+                        int nr = 0;
+                        for (String oldId: oldIds) {
+                            nr++;
+                            pageRenames.put(oldId, newId + Integer.toString(nr));
+                        }
+                        break;
+                    }
+                }
+            } while (duplicateFound);
+
+            // Check no overlap between remaining existing ids and new ids for this page.
+            Set<String> remainingExistingIds = difference(htmlPage.singlePageIds, pageRenames.keySet());
+            Set<String> pageNewIds = list2set(pageRenames.values().stream().collect(Collectors.toList()));
+            Set<String> overlapRemainingVsNewIds = intersection(remainingExistingIds, pageNewIds);
+            Assert.check(overlapRemainingVsNewIds.isEmpty(),
+                    "Overlap between new section IDs and remaining non-section IDs: " + overlapRemainingVsNewIds
+                            + " on page: " + htmlPage.sourceFile.relPath);
+
+            // Set the new page ids.
+            htmlPage.sectionIdRenames = pageRenames;
+            htmlPage.multiPageIds = htmlPage.singlePageIds.stream().map(id -> pageRenames.getOrDefault(id, id))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+    }
+
+    /**
+     * Fill the given section id rename mapping.
+     *
+     * @param tocEntry The TOC entry to process.
+     * @param renames The mapping of old section ids to new section ids. Is modified in-place.
+     */
+    private static void fillSectionIdRenameMap(AsciiDocTocEntry tocEntry, Map<String, String> renames) {
+        // Determine new id.
+        String newId = tocEntry.title;
+        newId = newId.strip();
+        newId = newId.replaceAll("[^a-zA-Z0-9]", "-");
+        newId = newId.toLowerCase(Locale.US);
+        while (newId.contains("--")) {
+            newId = newId.replace("--", "-");
+        }
+        while (newId.startsWith("-")) {
+            newId = newId.substring(1);
+        }
+        while (newId.endsWith("-")) {
+            newId = newId.substring(0, newId.length() - 1);
+        }
+        Assert.check(!newId.isEmpty());
+
+        // Store new id.
+        String previous = renames.put(tocEntry.refId, newId);
+        Assert.check(previous == null, previous);
+
+        // Process children.
+        for (AsciiDocTocEntry childEntry: tocEntry.children) {
+            fillSectionIdRenameMap(childEntry, renames);
+        }
+    }
+
+    /**
+     * Modify page title.
+     *
+     * @param page The multi-page HTML page to modify in-place.
+     * @return The original page title.
+     */
+    private static String modifyPageTitle(AsciiDocHtmlPage page) {
+        String docOriginalTitle = page.doc.title();
+        page.doc.title(page.sourceFile.title + " | " + docOriginalTitle);
+        return docOriginalTitle;
+    }
+
+    /**
+     * Modify TOC title.
      *
      * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
-     * @param htmlType The HTML type.
-     * @return The original HTML page title.
+     * @param docOriginalTitle The original page title.
      */
-    private static String modifyPageAndTocTitles(Document doc, AsciiDocSourceFile sourceFile, HtmlType htmlType) {
-        // Modify HTML page title.
-        String docOriginalTitle = doc.title();
-        doc.title(sourceFile.title + " | " + docOriginalTitle);
-
-        // Modify TOC title.
-        if (htmlType == HtmlType.WEBSITE) {
-            Element elemTocTitle = single(doc.select("div#toctitle"));
-            elemTocTitle.text(docOriginalTitle);
-        }
-
-        // Return the original document title.
-        return docOriginalTitle;
+    private static void modifyTocTitle(Document doc, String docOriginalTitle) {
+        Element elemTocTitle = single(doc.select("div#toctitle"));
+        elemTocTitle.text(docOriginalTitle);
     }
 
     /**
      * Move title/copyright/version from HTML body to footer.
      *
      * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      */
-    private static void moveFromHeaderToFooter(Document doc, AsciiDocSourceFile sourceFile) {
-        // Skip root index file.
-        if (sourceFile.isRootIndexFile) {
-            return;
-        }
-
+    private static void moveFromHeaderToFooter(Document doc) {
         // Prepare footer.
         Element elemBodyFooterText = single(doc.select("#footer-text"));
         elemBodyFooterText.prependElement("br");
@@ -163,29 +357,26 @@ class AsciiDocHtmlModifier {
     /**
      * Remove all content that should not be on this page.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
-     * @param sourceFiles All AsciiDoc source files.
+     * @param page The multi-page HTML page to modify in-place.
+     * @param htmlPages The multi-page HTML pages.
      */
-    private static void removeNonPageContent(Document doc, AsciiDocSourceFile sourceFile,
-            List<AsciiDocSourceFile> sourceFiles)
-    {
-        // Remove all content outside the source file content (outside the page). Not needed for root index file.
-        Element elemContent = single(doc.select("#content"));
-        if (!sourceFile.isRootIndexFile) {
+    private static void removeNonPageContent(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages) {
+        // Remove all content outside the page. Not needed for home page.
+        if (page != htmlPages.homePage) {
             // Remove all content.
+            Element elemContent = single(page.doc.select("#content"));
             elemContent.children().remove();
 
             // Re-add content for this source file.
-            for (Node node: sourceFile.nodes) {
+            for (Node node: page.multiPageNodesPerPage.get(page)) {
                 elemContent.appendChild(node);
             }
         }
 
-        // Remove content from other source files. Removes sub-pages.
-        for (AsciiDocSourceFile otherSourceFile: sourceFiles) {
-            if (otherSourceFile != sourceFile && !otherSourceFile.isRootIndexFile) {
-                for (Node node: otherSourceFile.nodes) {
+        // Remove content from other pages. Removes sub-pages.
+        for (AsciiDocHtmlPage otherPage: htmlPages.pages) {
+            if (otherPage != page && otherPage != htmlPages.homePage) {
+                for (Node node: otherPage.multiPageNodesPerPage.get(page)) {
                     node.remove();
                 }
             }
@@ -200,13 +391,13 @@ class AsciiDocHtmlModifier {
     private static void removeEmptyParagraphsAndSections(Document doc) {
         // Remove empty paragraphs.
         for (Element pElem: doc.select("p")) {
-            if (pElem.attributes().size() == 0 && hasNoContent(pElem.childNodes())) {
+            if (pElem.attributes().size() == 0 && haveNoContent(pElem.childNodes())) {
                 pElem.remove();
             }
         }
 
         for (Element paragraphDivElem: doc.select("div.paragraph")) {
-            if (hasNoContent(paragraphDivElem.childNodes())) {
+            if (haveNoContent(paragraphDivElem.childNodes())) {
                 paragraphDivElem.remove();
             }
         }
@@ -215,14 +406,14 @@ class AsciiDocHtmlModifier {
         Element elemContent = single(doc.select("#content"));
         for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
             for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
-                if (hasNoContent(sectElem.childNodes())) {
+                if (haveNoContent(sectElem.childNodes())) {
                     // Completely empty section.
                     sectElem.remove();
                 } else if (sectElem.children().size() == 1) {
                     Element sectChildElem = sectElem.child(0);
                     List<Node> sectChildNodes = copy(sectElem.childNodes());
                     sectChildNodes.remove(sectChildElem);
-                    if (sectChildElem.tagName().matches("h\\d+") && hasNoContent(sectChildNodes)) {
+                    if (sectChildElem.tagName().matches("h\\d+") && haveNoContent(sectChildNodes)) {
                         // Section with only a wrapper header name (all actual content is on other pages).
                         sectElem.remove();
                     }
@@ -235,14 +426,8 @@ class AsciiDocHtmlModifier {
      * Normalize content headers.
      *
      * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
      */
-    private static void normalizeContentHeaders(Document doc, AsciiDocSourceFile sourceFile) {
-        // Skip root index file.
-        if (sourceFile.isRootIndexFile) {
-            return;
-        }
-
+    private static void normalizeContentHeaders(Document doc) {
         // Find minimum header number.
         Element elemContent = single(doc.select("#content"));
         Pattern headerPattern = Pattern.compile("h(\\d+)");
@@ -270,14 +455,15 @@ class AsciiDocHtmlModifier {
     }
 
     /**
-     * Highlight current page in TOC. This must be done after partitioning, but before updating TOC entry links.
+     * Highlight current page in TOC.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param page The multi-page HTML page to modify in-place.
+     * @param htmlPages The multi-page HTML pages.
      */
-    private static void highlightCurrentPageInToc(Document doc, AsciiDocSourceFile sourceFile) {
-        String curPageHref = "#" + sourceFile.sourceId;
-        List<Element> tocLinkElems = doc.select("#toc a");
+    private static void highlightCurrentPageInToc(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages) {
+        // Add extra class to current page in TOC.
+        String curPageHref = "#" + page.sourceFile.sourceId; // Section id renaming has not yet been applied.
+        List<Element> tocLinkElems = page.doc.select("#toc a");
         int tocLinkCurPageCount = 0;
         for (Element tocLinkElem: tocLinkElems) {
             if (curPageHref.equals(tocLinkElem.attr("href"))) {
@@ -285,37 +471,85 @@ class AsciiDocHtmlModifier {
                 tocLinkCurPageCount++;
             }
         }
-        if (sourceFile.isRootIndexFile) {
+
+        // Sanity checks.
+        if (htmlPages.homePage == page) {
             Assert.check(tocLinkCurPageCount == 0, String.valueOf(tocLinkCurPageCount));
         } else {
-            // If the TOC level is too limited, the page will not be in the TOC, and this will fail (count is zero).
+            // If the TOC level setting used to generate the single page HTML file is too limited, the page will not be
+            // in the TOC, and this will fail (count is zero).
             Assert.check(tocLinkCurPageCount == 1, String.valueOf(tocLinkCurPageCount));
         }
     }
 
     /**
-     * Update references. This must be done after partitioning.
+     * Rename defined section id.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
-     * @param sourceFiles All AsciiDoc source files.
+     * @param page The multi-page HTML page to modify in-place.
+     */
+    private static void renameDefinedSectionIds(AsciiDocHtmlPage page) {
+        int i = 2;
+        while (true) {
+            Elements sectionHeaderElements = page.doc.select("#content h" + i);
+            for (Element elem: sectionHeaderElements) {
+                // Get current section id.
+                String elemId = elem.attr("id");
+                Assert.notNull(elemId, elem.tagName());
+
+                // Get new section id.
+                String newId = page.sectionIdRenames.get(elemId);
+                Assert.notNull(newId, elemId);
+
+                // Rename.
+                elem.attr("id", newId);
+            }
+            if (sectionHeaderElements.isEmpty()) {
+                break;
+            }
+            i++;
+        }
+    }
+
+    /**
+     * Rename section ids in TOC.
+     *
+     * @param page The multi-page HTML page to modify in-place.
+     * @param tocEntry The TOC entry to modify in-place.
+     */
+    private static void renameSectionIdsInToc(AsciiDocHtmlPage page, AsciiDocTocEntry tocEntry) {
+        // Rename this TOC entry.
+        if (tocEntry.page == page && tocEntry.refId != null) {
+            String newRefId = page.sectionIdRenames.get(tocEntry.refId);
+            Assert.notNull(newRefId, tocEntry.refId);
+            tocEntry.refId = newRefId;
+            Assert.check(tocEntry.page.multiPageIds.contains(newRefId), newRefId);
+        }
+
+        // Rename children.
+        for (AsciiDocTocEntry childEntry: tocEntry.children) {
+            renameSectionIdsInToc(page, childEntry);
+        }
+    }
+
+    /**
+     * Update references.
+     *
+     * @param page The multi-page HTML page to modify in-place.
+     * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
      */
-    private static void updateReferences(Document doc, AsciiDocSourceFile sourceFile,
-            List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath)
-    {
-        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "a", "href", true, true);
-        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "img", "src", false, false);
-        updateReferences(doc, sourceFile, sourceFiles, sourceRootPath, "link", "href", false, false);
+    private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath) {
+        updateReferences(page, htmlPages, sourceRootPath, "a", "href", true, true);
+        updateReferences(page, htmlPages, sourceRootPath, "img", "src", false, false);
+        updateReferences(page, htmlPages, sourceRootPath, "link", "href", false, false);
     }
 
     /**
      * Update references. This must be done after partitioning.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
-     * @param sourceFiles All AsciiDoc source files.
+     * @param page The multi-page HTML page to modify in-place.
+     * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
      * @param tagName The tag name of elements for which to update references.
@@ -325,12 +559,11 @@ class AsciiDocHtmlModifier {
      * @param allowSectionRefs Whether to allow section references ({@code #...}) as references ({@code true}) or not
      *     ({@code false}).
      */
-    private static void updateReferences(Document doc, AsciiDocSourceFile sourceFile,
-            List<AsciiDocSourceFile> sourceFiles, Path sourceRootPath, String tagName, String attrName,
-            boolean allowEmptyRefIfNoChildren, boolean allowSectionRefs)
+    private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
+            String tagName, String attrName, boolean allowEmptyRefIfNoChildren, boolean allowSectionRefs)
     {
         ELEMS_LOOP:
-        for (Element elem: doc.select(tagName)) {
+        for (Element elem: page.doc.select(tagName)) {
             // Get attribute value.
             String ref = elem.attr(attrName);
             if (ref == null || ref.isBlank()) {
@@ -341,24 +574,21 @@ class AsciiDocHtmlModifier {
                     continue;
                 } else {
                     throw new RuntimeException(
-                            fmt("Undefined '%s.%s': %s", tagName, attrName, sourceFile.relPath.toString()));
+                            fmt("Undefined '%s.%s' for %s", tagName, attrName, page.sourceFile.relPath));
                 }
             }
 
             // Handle '#' references, originally pointing to within the single AsciiDoc-generated HTML file.
             if (allowSectionRefs && ref.startsWith("#")) {
                 String id = ref.substring(1);
-                if (sourceFile.ids.contains(id)) {
-                    continue; // Still within this HTML file.
-                }
-                for (AsciiDocSourceFile otherSourceFile: sourceFiles) {
-                    if (otherSourceFile.ids.contains(id)) {
-                        String newHref = AsciiDocHtmlUtil.getFileOrSectionHref(sourceFile, otherSourceFile, id);
+                for (AsciiDocHtmlPage targetPage: htmlPages.pages) {
+                    if (targetPage.singlePageIds.contains(id)) {
+                        String newHref = AsciiDocHtmlUtil.getFileOrSectionHref(page, targetPage, id);
                         elem.attr("href", newHref);
                         continue ELEMS_LOOP;
                     }
                 }
-                Assert.fail(fmt("No source file found that defines '%s.%s' id: %s", tagName, attrName, id));
+                Assert.fail(fmt("No page found that defines '%s.%s' id: %s", tagName, attrName, id));
             }
 
             // Get referenced URI. Skip 'http' and 'https' references etc.
@@ -379,7 +609,7 @@ class AsciiDocHtmlModifier {
             Assert.notNull(uri.getPath());
             Assert.check(ref.equals(uri.getPath()), ref + " / " + uri.getPath());
             String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(ref, sourceRootPath.toString());
-            String rootPathForNewRelHref = sourceFile.absPath.getParent().toString();
+            String rootPathForNewRelHref = page.sourceFile.absPath.getParent().toString();
             String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
                     rootPathForNewRelHref);
             Assert.check(!newRelHref.contains("\\"), newRelHref);
@@ -388,75 +618,62 @@ class AsciiDocHtmlModifier {
     }
 
     /**
-     * Add home page (root index file) to TOC.
+     * Add home page to TOC.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
-     * @param sourceFiles All AsciiDoc source files.
+     * @param page The multi-page HTML page to modify in-place.
+     * @param homePage The multi-page HTML home page.
      */
-    private static void addHomePageToToc(Document doc, AsciiDocSourceFile sourceFile,
-            List<AsciiDocSourceFile> sourceFiles)
-    {
-        AsciiDocSourceFile rootSourceFile = single(
-                sourceFiles.stream().filter(s -> s.isRootIndexFile).collect(Collectors.toList()));
-        Element elemTocSectLevel1 = single(doc.select("#toc ul.sectlevel1"));
+    private static void addHomePageToToc(AsciiDocHtmlPage page, AsciiDocHtmlPage homePage) {
+        Element elemTocSectLevel1 = single(page.doc.select("#toc ul.sectlevel1"));
         Element elemTocHomeLi = elemTocSectLevel1.prependElement("li");
         Element elemTocHomeA = elemTocHomeLi.prependElement("a");
-        elemTocHomeA.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(sourceFile, rootSourceFile, null));
-        if (sourceFile.isRootIndexFile) {
+        elemTocHomeA.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, homePage, null));
+        if (page == homePage) {
             elemTocHomeA.addClass("toc-cur-page");
         }
-        elemTocHomeA.appendText(rootSourceFile.title);
+        elemTocHomeA.appendText(homePage.sourceFile.title);
     }
 
     /**
-     * Add breadcrumbs. This must be done after partitioning.
+     * Add breadcrumbs.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param page The multi-page HTML page to modify in-place.
+     * @param homePage The multi-page HTML home page.
      * @param docOriginalTitle The original HTML page title.
      */
-    private static void addBreadcrumbs(Document doc, AsciiDocSourceFile sourceFile, String docOriginalTitle) {
-        // Skip root index file.
-        if (sourceFile.isRootIndexFile) {
-            return;
-        }
-
+    private static void addBreadcrumbs(AsciiDocHtmlPage page, AsciiDocHtmlPage homePage, String docOriginalTitle) {
         // Prepare breadcrumbs element.
-        Element elemContent = single(doc.select("#content"));
+        Element elemContent = single(page.doc.select("#content"));
         Element elemBreadcrumbsDiv = elemContent.prependElement("div");
         elemBreadcrumbsDiv.attr("id", "breadcrumbs");
 
         // Add breadcrumbs.
-        for (AsciiDocSourceFile breadcrumb: sourceFile.breadcrumbs) {
+        for (AsciiDocHtmlPage breadcrumb: page.breadcrumbs) {
             if (elemBreadcrumbsDiv.childNodeSize() > 0) {
                 elemBreadcrumbsDiv.appendText(" > ");
             }
-            boolean isSelfBreadcrumb = sourceFile == breadcrumb;
+            boolean isSelfBreadcrumb = breadcrumb == page;
             Element elemBreadcrumb = elemBreadcrumbsDiv.appendElement(isSelfBreadcrumb ? "span" : "a");
             elemBreadcrumb.addClass("breadcrumb");
             if (!isSelfBreadcrumb) {
-                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(sourceFile, breadcrumb, null));
+                elemBreadcrumb.attr("href", AsciiDocHtmlUtil.getFileOrSectionHref(page, breadcrumb, null));
             }
-            elemBreadcrumb.text(breadcrumb.isRootIndexFile ? docOriginalTitle : breadcrumb.title);
+            elemBreadcrumb.text(breadcrumb == homePage ? docOriginalTitle : breadcrumb.sourceFile.title);
         }
     }
 
     /**
      * Add link to single-page HTML version.
      *
-     * @param doc The HTML document to modify in-place.
-     * @param sourceFile The AsciiDoc source file for which to modify the HTML document.
+     * @param homePage The multi-page HTML home page to modify in-place.
      */
-    private static void addLinkToSinglePageHtmlVersion(Document doc, AsciiDocSourceFile sourceFile) {
-        if (sourceFile.isRootIndexFile) {
-            Element elemPdfTip = single(doc.select("div.tip td.content:contains(as a PDF as well)"));
-            elemPdfTip.appendText("Or use the ");
-            Element elemPdfTipA = elemPdfTip.appendElement("a");
-            elemPdfTipA.attr("href", "index-single-page.html");
-            elemPdfTipA.text("single-page HTML");
-            elemPdfTip.appendText(" version.");
-        }
+    private static void addLinkToSinglePageHtmlVersion(AsciiDocHtmlPage homePage) {
+        Element elemPdfTip = single(homePage.doc.select("div.tip td.content:contains(as a PDF as well)"));
+        elemPdfTip.appendText("Or use the ");
+        Element elemPdfTipA = elemPdfTip.appendElement("a");
+        elemPdfTipA.attr("href", "index-single-page.html");
+        elemPdfTipA.text("single-page HTML");
+        elemPdfTip.appendText(" version.");
     }
 
     /**
@@ -465,7 +682,7 @@ class AsciiDocHtmlModifier {
      * @param nodes The nodes to check.
      * @return {@code true} if all the nodes have no content, {@code false} otherwise.
      */
-    private static boolean hasNoContent(List<Node> nodes) {
+    private static boolean haveNoContent(List<Node> nodes) {
         for (Node node: nodes) {
             if (node instanceof Element) {
                 return false;

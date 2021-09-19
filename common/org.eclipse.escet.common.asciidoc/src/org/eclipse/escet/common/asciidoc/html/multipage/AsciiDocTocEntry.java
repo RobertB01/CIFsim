@@ -18,15 +18,15 @@ import static org.eclipse.escet.common.java.Lists.list;
 import java.util.List;
 
 /** AsciiDoc Table of Contents (TOC) entry, corresponding to a section in an AsciiDoc document. */
-public class AsciiDocTocEntry {
-    /** The AsciiDoc source file that defines the section represented by this TOC entry. */
-    final AsciiDocSourceFile sourceFile;
+class AsciiDocTocEntry {
+    /** The AsciiDoc multi-page HTML page that contains the section represented by this TOC entry. */
+    final AsciiDocHtmlPage page;
 
     /** The title of the TOC entry. */
     final String title;
 
     /** The HTML reference ID for the TOC entry, or {@code null} for the root TOC entry. */
-    final String refId;
+    String refId;
 
     /** The child TOC entries. */
     final List<AsciiDocTocEntry> children = list();
@@ -34,12 +34,12 @@ public class AsciiDocTocEntry {
     /**
      * Constructor for the {@link AsciiDocTocEntry} class.
      *
-     * @param sourceFile The AsciiDoc source file that defines the section represented by this TOC entry.
+     * @param page The AsciiDoc multi-page HTML page that contains the section represented by this TOC entry.
      * @param title The title of the TOC entry.
      * @param refId The HTML reference ID for the TOC entry, or {@code null} for the root TOC entry.
      */
-    AsciiDocTocEntry(AsciiDocSourceFile sourceFile, String title, String refId) {
-        this.sourceFile = sourceFile;
+    AsciiDocTocEntry(AsciiDocHtmlPage page, String title, String refId) {
+        this.page = page;
         this.title = title;
         this.refId = refId;
     }

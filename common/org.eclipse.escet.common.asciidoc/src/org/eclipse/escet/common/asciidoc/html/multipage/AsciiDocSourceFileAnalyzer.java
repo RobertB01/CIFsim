@@ -41,7 +41,7 @@ class AsciiDocSourceFileAnalyzer {
      * @return Information about the AsciiDoc source file, or {@code null} if source file was skipped.
      * @throws IOException In case of an I/O error.
      */
-    static AsciiDocSourceFile analyzeSourceFile(Path sourceRootPath, Path sourcePath) throws IOException {
+    static AsciiDocSourceFile analyze(Path sourceRootPath, Path sourcePath) throws IOException {
         // Skip special files.
         String fileName = sourcePath.getFileName().toString();
         if (fileName.toString().startsWith("_")) {
@@ -50,58 +50,60 @@ class AsciiDocSourceFileAnalyzer {
             return null;
         }
 
-        // Initialize data structure.
-        AsciiDocSourceFile sourceFile = new AsciiDocSourceFile();
-        sourceFile.absPath = sourcePath.toAbsolutePath().normalize();
-        sourceFile.relPath = sourceRootPath.relativize(sourcePath);
-        sourceFile.isRootIndexFile = sourcePath.getParent().equals(sourceRootPath)
-                && sourcePath.getFileName().toString().equals("index.asciidoc");
-
         // Read source content.
         List<String> sourceContent = Files.readAllLines(sourcePath, StandardCharsets.UTF_8);
 
+        // Get paths and determine whether it is the root index file.
+        Path absPath = sourcePath.toAbsolutePath().normalize();
+        Path relPath = sourceRootPath.relativize(sourcePath);
+        boolean isRootIndexFile = sourcePath.getParent().equals(sourceRootPath)
+                && sourcePath.getFileName().toString().equals("index.asciidoc");
+
         // Get page title and source id.
-        if (sourceFile.isRootIndexFile) {
-            sourceFile.sourceId = null;
-            sourceFile.title = "Home";
+        String sourceId;
+        String title;
+        if (isRootIndexFile) {
+            sourceId = null;
+            title = "Home";
         } else {
             // Get source id.
             int idIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("[["))
                     .findFirst().getAsInt();
             String idLine = sourceContent.get(idIndex);
             Assert.check(idLine.endsWith("]]"), idLine);
-            sourceFile.sourceId = Strings.slice(idLine, 2, -2); // [[id]]
+            sourceId = Strings.slice(idLine, 2, -2); // [[id]]
+
+            // Sanity check: no markup in id.
+            Assert.check(sourceId.matches("[a-z0-9-]+"), sourceId);
 
             // Get title.
             int titleIndex = IntStream.range(0, sourceContent.size()).filter(i -> sourceContent.get(i).startsWith("="))
                     .findFirst().getAsInt();
             String titleLine = sourceContent.get(titleIndex);
             Assert.check(titleLine.startsWith("== "), titleLine);
-            sourceFile.title = titleLine.substring(3); // == Title
-
-            // Sanitize title:
-            // Balanced backticks.
-            Assert.check(StringUtils.countMatches(sourceFile.title, "`") % 2 == 0, sourceFile.title);
-            // Remove backticks.
-            sourceFile.title = sourceFile.title.replace("`", "");
+            title = titleLine.substring(3); // == Title
 
             // Sanity check: source id is the id for the page title header.
             Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
 
-            // Sanity check: stripped title.
-            Assert.check(sourceFile.title.equals(sourceFile.title.strip()), sourceFile.title);
+            // Sanitize title.
+            // - Check for balanced backticks and remove backticks.
+            Assert.check(StringUtils.countMatches(title, "`") % 2 == 0, title);
+            title = title.replace("`", "");
 
-            // Sanity check: no markup in id/title.
-            Assert.check(sourceFile.sourceId.matches("[a-z0-9-]+"), sourceFile.sourceId);
+            // Sanity check: stripped title.
+            Assert.check(title.equals(title.strip()), title);
+
+            // Sanity check: no markup in title.
             String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
             String patternTitleWordWithSpecialChar = "[a-zA-Z0-9][\\-/'][a-zA-Z0-9]";
             String patternTitleWord = fmt("%s|%s", patternTitleWordNormalChars, patternTitleWordWithSpecialChar);
             String patternTitleWordWithParentheses = fmt("\\((%s)+\\)", patternTitleWord);
             String patternTitle = fmt("(%s|%s)+", patternTitleWord, patternTitleWordWithParentheses);
-            Assert.check(sourceFile.title.matches(patternTitle), sourceFile.title);
+            Assert.check(title.matches(patternTitle), title);
         }
 
         // Return the information.
-        return sourceFile;
+        return new AsciiDocSourceFile(absPath, relPath, sourceId, title, isRootIndexFile);
     }
 }

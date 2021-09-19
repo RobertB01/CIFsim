@@ -95,8 +95,8 @@ All processes finished at time 2.25
 
 The three actions are done in 2.25 time units (2.25 minutes).
 
-[[tut-servers-with-time]]
-=== Servers with time
+[[tut-servers-adding-time]]
+=== Adding time
 
 Adding time to the model allows answering questions about time, often performance questions ('how many products can I make in this situation?').
 Two things are needed:
@@ -541,7 +541,7 @@ Two or three components are 'glued' together in one assemble process, followed i
 
 .. Change the model to using time units of one second (that is, one time unit means one second of simulated time).
 
-.. Predict the resulting throughput and flow time for a deterministic case like in <<tut-servers-with-time>>, with `ta = 4` and `ts = 5`.
+.. Predict the resulting throughput and flow time for a deterministic case like in <<tut-servers-adding-time>>, with `ta = 4` and `ts = 5`.
 Verify the prediction with an experiment, and explain the result.
 
 . Extend the model <<tut-figure-controlled-factory,A controlled factory>> in <<tut-buffer-exercises,Buffer exercises>> with a single deterministic server taking `4.0` time units to model the production capacity of the factory.

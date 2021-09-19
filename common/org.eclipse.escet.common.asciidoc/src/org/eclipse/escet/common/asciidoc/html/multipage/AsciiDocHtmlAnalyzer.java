@@ -18,10 +18,11 @@ import static org.eclipse.escet.common.java.Lists.reverse;
 import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Pair.pair;
+import static org.eclipse.escet.common.java.Sets.set;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -40,101 +41,100 @@ class AsciiDocHtmlAnalyzer {
     }
 
     /**
-     * Partition the 'content' of the AsciiDoc-generated HTML file to the AsciiDoc source files.
+     * Analyzes the AsciiDoc-generated single-page HTML:
+     * <ul>
+     * <li>Partition the 'content' to the various multi-page HTML pages.</li>
+     * <li>Build a Table of Contents (TOC).</li>
+     * </ul>
      *
-     * @param doc The HTML document for which to partition the 'content'.
-     * @param sourceFiles The AsciDoc source files. Are modified in-place.
-     * @return The TOC.
-     * @see AsciiDocSourceFile#nodes
-     * @see AsciiDocSourceFile#ids
-     * @see AsciiDocSourceFile#breadcrumbs
+     * @param doc The AsciiDoc-generated single-page HTML document for which to partition the 'content'.
+     * @param htmlPages The multi-page HTML pages. Are modified in-place.
      */
-    static AsciiDocTocEntry partitionContent(Document doc, List<AsciiDocSourceFile> sourceFiles) {
-        // Clear old partition.
-        for (AsciiDocSourceFile sourceFile: sourceFiles) {
-            sourceFile.nodes = list();
+    static void analyze(Document doc, AsciiDocHtmlPages htmlPages) {
+        // Check that not yet partitioned, and initialize.
+        for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
+            Assert.check(htmlPage.breadcrumbs == null);
+            Assert.check(htmlPage.singlePageIds == null);
+            Assert.check(htmlPage.singlePageNodes == null);
+            htmlPage.singlePageIds = set();
+            htmlPage.singlePageNodes = list();
         }
 
-        // Get root source file and map ids to other source files.
-        Map<String, AsciiDocSourceFile> idToSources = mapc(sourceFiles.size());
-        AsciiDocSourceFile rootSourceFile = null;
-        for (AsciiDocSourceFile sourceFile: sourceFiles) {
-            sourceFile.nodes = list();
-            if (sourceFile.isRootIndexFile) {
-                Assert.check(rootSourceFile == null, sourceFile.relPath.toString());
-                rootSourceFile = sourceFile;
-            } else {
-                AsciiDocSourceFile prev = idToSources.put(sourceFile.sourceId, sourceFile);
-                Assert.check(prev == null);
+        // Map ids of non-home pages to their pages.
+        Map<String, AsciiDocHtmlPage> idToPages = mapc(htmlPages.pages.size());
+        for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
+            if (!htmlPage.sourceFile.isRootIndexFile) {
+                AsciiDocHtmlPage prev = idToPages.put(htmlPage.sourceFile.sourceId, htmlPage);
+                if (prev != null) {
+                    Assert.fail(fmt("Duplicate source id: %s, for sources: %s and %s", htmlPage.sourceFile.sourceId,
+                            prev.sourceFile.relPath, htmlPage.sourceFile.relPath));
+                }
             }
         }
-        if (rootSourceFile == null) {
-            throw new AssertionError("rootSourceFile == null");
-        }
-        Assert.check(idToSources.size() + 1 == sourceFiles.size(), idToSources.size() + " / " + sourceFiles.size());
+        Assert.check(idToPages.size() + 1 == htmlPages.pages.size(), idToPages.size() + " / " + htmlPages.pages.size());
 
-        // Walk over HTML 'content' and assign all nodes to a single source file. Also create the TOC.
-        Deque<Pair<AsciiDocSourceFile, Integer>> sourceFileStack = new LinkedList<>();
-        sourceFileStack.push(pair(rootSourceFile, 0));
+        // Walk over HTML 'content' and assign all nodes to a single page. Also create the TOC.
+        Deque<Pair<AsciiDocHtmlPage, Integer>> pageStack = new LinkedList<>();
+        pageStack.push(pair(htmlPages.homePage, 0));
 
         Deque<Pair<AsciiDocTocEntry, Integer>> tocStack = new LinkedList<>();
-        tocStack.push(pair(new AsciiDocTocEntry(rootSourceFile, doc.title(), null), 0));
+        tocStack.push(pair(new AsciiDocTocEntry(htmlPages.homePage, doc.title(), null), 0));
 
         Element elemContent = single(doc.select("#content"));
         elemContent.children().traverse(new NodeVisitor() {
             @Override
             public void head(Node node, int depth) {
-                // Detect new source file. Add TOC entry.
+                // Detect new page. Add TOC entry.
                 if (node instanceof Element) {
                     Element elem = (Element)node;
                     String id = elem.id();
-                    AsciiDocSourceFile elemSourceFile = idToSources.get(id);
-                    if (elemSourceFile != null) {
-                        // New source file.
-                        Assert.check(elemSourceFile.sourceId.equals(id));
-                        sourceFileStack.push(pair(elemSourceFile, depth));
+                    AsciiDocHtmlPage elemPage = idToPages.get(id);
+                    if (elemPage != null) {
+                        // New page.
+                        Assert.check(elemPage.sourceFile.sourceId.equals(id));
+                        pageStack.push(pair(elemPage, depth));
 
                         AsciiDocTocEntry curTocEntry = tocStack.peek().left;
-                        AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(elemSourceFile, elemSourceFile.title,
-                                elemSourceFile.sourceId);
+                        AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(elemPage, elemPage.sourceFile.title,
+                                elemPage.sourceFile.sourceId);
                         curTocEntry.children.add(newTocEntry);
                         tocStack.push(pair(newTocEntry, depth));
 
                         // Store reversed stack as breadcrumbs.
-                        elemSourceFile.breadcrumbs = reverse(
-                                sourceFileStack.stream().map(e -> e.left).collect(Collectors.toList()));
+                        elemPage.breadcrumbs = reverse(
+                                pageStack.stream().map(e -> e.left).collect(Collectors.toList()));
                     } else {
-                        // Same source file.
+                        // Same page.
                         if (elem.tagName().matches("h\\d+")) {
                             String entryTitle = elem.text();
                             AsciiDocTocEntry curTocEntry = tocStack.peek().left;
-                            AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(curTocEntry.sourceFile, entryTitle, id);
+                            AsciiDocTocEntry newTocEntry = new AsciiDocTocEntry(curTocEntry.page, entryTitle, id);
                             curTocEntry.children.add(newTocEntry);
                             tocStack.push(pair(newTocEntry, depth));
                         }
                     }
                 }
 
-                // Collect id. Store for current source file.
+                // Collect id. Store for current page.
                 if (node instanceof Element) {
                     String id = ((Element)node).id();
                     if (!id.isBlank()) {
-                        sourceFileStack.peek().left.ids.add(id);
+                        pageStack.peek().left.singlePageIds.add(id);
                     }
                 }
 
-                // Detect sibling node of other nodes of current source file. This ensures we don't collect all nodes,
-                // but only 'root' ones, not all descendants of 'root' nodes.
-                if (depth == sourceFileStack.peek().right) {
-                    sourceFileStack.peek().left.nodes.add(node);
+                // Detect sibling node of other nodes of current page. This ensures we don't collect all nodes, but
+                // only 'root' ones, not all descendants of 'root' nodes.
+                if (depth == pageStack.peek().right) {
+                    pageStack.peek().left.singlePageNodes.add(node);
                 }
             }
 
             @Override
             public void tail(Node node, int depth) {
-                // Detect end of source file.
-                if (depth < sourceFileStack.peek().right) {
-                    sourceFileStack.pop();
+                // Detect end of page.
+                if (depth < pageStack.peek().right) {
+                    pageStack.pop();
                 }
 
                 // Detect end of TOC entry.
@@ -143,16 +143,16 @@ class AsciiDocHtmlAnalyzer {
                 }
             }
         });
-        Assert.check(sourceFileStack.size() == 1, String.valueOf(sourceFileStack.size()));
+        Assert.check(pageStack.size() == 1, String.valueOf(pageStack.size()));
         Assert.check(tocStack.size() == 1, String.valueOf(tocStack.size()));
 
-        // Ensure content for each source file.
-        for (AsciiDocSourceFile sourceFile: sourceFiles) {
-            Assert.check(!sourceFile.nodes.isEmpty(), sourceFile.relPath.toString());
+        // Ensure content for each page.
+        for (AsciiDocHtmlPage page: htmlPages.pages) {
+            Assert.check(!page.singlePageNodes.isEmpty(), "No nodes for page: " + page.sourceFile.relPath.toString());
         }
 
         // Return the TOC.
         Assert.check(tocStack.peek().right == 0, String.valueOf(tocStack.peek().right));
-        return tocStack.pop().left;
+        htmlPages.toc = tocStack.pop().left;
     }
 }
