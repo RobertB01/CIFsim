@@ -423,6 +423,27 @@ class AsciiDocHtmlModifier {
     }
 
     /**
+     * Do the given nodes contain no content? That is, are they all {@link TextNode#isBlank blank} {@link TextNode}s?
+     *
+     * @param nodes The nodes to check.
+     * @return {@code true} if all the nodes have no content, {@code false} otherwise.
+     */
+    private static boolean haveNoContent(List<Node> nodes) {
+        for (Node node: nodes) {
+            if (node instanceof Element) {
+                return false;
+            } else if (node instanceof TextNode) {
+                if (!((TextNode)node).isBlank()) {
+                    return false;
+                }
+            } else {
+                Assert.fail("Unexpected node: " + node.getClass().getName());
+            }
+        }
+        return true;
+    }
+
+    /**
      * Normalize content headers.
      *
      * @param doc The HTML document to modify in-place.
@@ -674,26 +695,5 @@ class AsciiDocHtmlModifier {
         elemPdfTipA.attr("href", "index-single-page.html");
         elemPdfTipA.text("single-page HTML");
         elemPdfTip.appendText(" version.");
-    }
-
-    /**
-     * Do the given nodes contain no content? That is, are they all {@link TextNode#isBlank blank} {@link TextNode}s?
-     *
-     * @param nodes The nodes to check.
-     * @return {@code true} if all the nodes have no content, {@code false} otherwise.
-     */
-    private static boolean haveNoContent(List<Node> nodes) {
-        for (Node node: nodes) {
-            if (node instanceof Element) {
-                return false;
-            } else if (node instanceof TextNode) {
-                if (!((TextNode)node).isBlank()) {
-                    return false;
-                }
-            } else {
-                Assert.fail("Unexpected node: " + node.getClass().getName());
-            }
-        }
-        return true;
     }
 }
