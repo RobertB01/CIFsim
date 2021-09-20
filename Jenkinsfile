@@ -15,7 +15,7 @@ pipeline {
     agent {
         // The 'centos-7' pod template allows UI tests.
         kubernetes {
-            label 'centos-7'
+            inheritFrom 'centos-7'
         }
     }
 
