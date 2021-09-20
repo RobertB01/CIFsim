@@ -311,7 +311,7 @@ public class SeTextGenerator {
             code.add(imp);
         }
 
-        // Add class javadoc.
+        // Add class JavaDoc.
         code.add();
         code.add("/**");
         code.add(" * %s.", spec.scannerClass.getSimpleClassName());
@@ -887,7 +887,7 @@ public class SeTextGenerator {
             code.add(imp);
         }
 
-        // Add class javadoc.
+        // Add class JavaDoc.
         code.add();
         code.add("/**");
         code.add(" * %s.", start.javaType.getSimpleClassName());
@@ -1605,8 +1605,8 @@ public class SeTextGenerator {
                     String argName = typeTxt.substring(0, 1).toLowerCase(Locale.US);
                     argName += str(pi + 1);
 
-                    // Add parameter javadoc and parameter text.
-                    code.add(" * @param %s %s.", argName, part.name);
+                    // Add parameter JavaDoc and parameter text.
+                    code.add(" * @param %s {@code %s}.", argName, part.name);
                     argTxts.add(typeTxt + " " + argName);
                 }
 
@@ -1732,7 +1732,7 @@ public class SeTextGenerator {
             interfaceClasses.add(start.javaType.getSimpleClassName());
         }
 
-        // Add class javadoc.
+        // Add class JavaDoc.
         code.add();
         code.add("/**");
         code.add(" * Call back hook methods for:");

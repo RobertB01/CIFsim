@@ -96331,7 +96331,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Program : EndSimpleProgram;}</p>
          *
-         * @param l1 EndSimpleProgram.
+         * @param l1 {@code EndSimpleProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseProgram2(List<Declaration> l1);
@@ -96341,7 +96341,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Program : EndSimpleProgram SEMICOLTK;}</p>
          *
-         * @param l1 EndSimpleProgram.
+         * @param l1 {@code EndSimpleProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseProgram3(List<Declaration> l1);
@@ -96351,7 +96351,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Program : EndCompoundProgram;}</p>
          *
-         * @param l1 EndCompoundProgram.
+         * @param l1 {@code EndCompoundProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseProgram4(List<Declaration> l1);
@@ -96361,7 +96361,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Program : EndCompoundProgram SEMICOLTK;}</p>
          *
-         * @param l1 EndCompoundProgram.
+         * @param l1 {@code EndCompoundProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseProgram5(List<Declaration> l1);
@@ -96371,7 +96371,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimpleProgram : SimpleProgram;}</p>
          *
-         * @param l1 SimpleProgram.
+         * @param l1 {@code SimpleProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndSimpleProgram1(List<Declaration> l1);
@@ -96381,8 +96381,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimpleProgram : EndSimpleProgram SEMICOLTK SimpleProgram;}</p>
          *
-         * @param l1 EndSimpleProgram.
-         * @param l3 SimpleProgram.
+         * @param l1 {@code EndSimpleProgram}.
+         * @param l3 {@code SimpleProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndSimpleProgram2(List<Declaration> l1, List<Declaration> l3);
@@ -96392,8 +96392,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimpleProgram : EndCompoundProgram SEMICOLTK SimpleProgram;}</p>
          *
-         * @param l1 EndCompoundProgram.
-         * @param l3 SimpleProgram.
+         * @param l1 {@code EndCompoundProgram}.
+         * @param l3 {@code SimpleProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndSimpleProgram3(List<Declaration> l1, List<Declaration> l3);
@@ -96403,8 +96403,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimpleProgram : EndCompoundProgram SimpleProgram;}</p>
          *
-         * @param l1 EndCompoundProgram.
-         * @param l2 SimpleProgram.
+         * @param l1 {@code EndCompoundProgram}.
+         * @param l2 {@code SimpleProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndSimpleProgram4(List<Declaration> l1, List<Declaration> l2);
@@ -96414,7 +96414,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompoundProgram : CompoundProgram;}</p>
          *
-         * @param l1 CompoundProgram.
+         * @param l1 {@code CompoundProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndCompoundProgram1(List<Declaration> l1);
@@ -96424,8 +96424,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompoundProgram : EndCompoundProgram CompoundProgram;}</p>
          *
-         * @param l1 EndCompoundProgram.
-         * @param l2 CompoundProgram.
+         * @param l1 {@code EndCompoundProgram}.
+         * @param l2 {@code CompoundProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndCompoundProgram2(List<Declaration> l1, List<Declaration> l2);
@@ -96435,8 +96435,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompoundProgram : EndCompoundProgram SEMICOLTK CompoundProgram;}</p>
          *
-         * @param l1 EndCompoundProgram.
-         * @param l3 CompoundProgram.
+         * @param l1 {@code EndCompoundProgram}.
+         * @param l3 {@code CompoundProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndCompoundProgram3(List<Declaration> l1, List<Declaration> l3);
@@ -96446,8 +96446,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompoundProgram : EndSimpleProgram SEMICOLTK CompoundProgram;}</p>
          *
-         * @param l1 EndSimpleProgram.
-         * @param l3 CompoundProgram.
+         * @param l1 {@code EndSimpleProgram}.
+         * @param l3 {@code CompoundProgram}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEndCompoundProgram4(List<Declaration> l1, List<Declaration> l3);
@@ -96457,10 +96457,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @PROCKW @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 PROCKW.
-         * @param t2 IDENTIFIERTK.
-         * @param p6 Body.
-         * @param t7 ENDKW.
+         * @param t1 {@code PROCKW}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param p6 {@code Body}.
+         * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram01(Token t1, Token t2, ParserBody p6, Token t7);
@@ -96470,11 +96470,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @PROCKW Type @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 PROCKW.
-         * @param t2 Type.
-         * @param t3 IDENTIFIERTK.
-         * @param p7 Body.
-         * @param t8 ENDKW.
+         * @param t1 {@code PROCKW}.
+         * @param t2 {@code Type}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param p7 {@code Body}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram02(Token t1, Type t2, Token t3, ParserBody p7, Token t8);
@@ -96484,11 +96484,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @PROCKW @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 PROCKW.
-         * @param t2 IDENTIFIERTK.
-         * @param l4 FormalParameters.
-         * @param p7 Body.
-         * @param t8 ENDKW.
+         * @param t1 {@code PROCKW}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param l4 {@code FormalParameters}.
+         * @param p7 {@code Body}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram03(Token t1, Token t2, List<VariableDeclaration> l4, ParserBody p7, Token t8);
@@ -96498,12 +96498,12 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @PROCKW Type @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 PROCKW.
-         * @param t2 Type.
-         * @param t3 IDENTIFIERTK.
-         * @param l5 FormalParameters.
-         * @param p8 Body.
-         * @param t9 ENDKW.
+         * @param t1 {@code PROCKW}.
+         * @param t2 {@code Type}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param l5 {@code FormalParameters}.
+         * @param p8 {@code Body}.
+         * @param t9 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram04(Token t1, Type t2, Token t3, List<VariableDeclaration> l5, ParserBody p8, Token t9);
@@ -96513,11 +96513,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @FUNCKW Type @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param t2 Type.
-         * @param t3 IDENTIFIERTK.
-         * @param p7 Body.
-         * @param t8 ENDKW.
+         * @param t1 {@code FUNCKW}.
+         * @param t2 {@code Type}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param p7 {@code Body}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram05(Token t1, Type t2, Token t3, ParserBody p7, Token t8);
@@ -96527,12 +96527,12 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @FUNCKW Type @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param t2 Type.
-         * @param t3 IDENTIFIERTK.
-         * @param l5 FormalParameters.
-         * @param p8 Body.
-         * @param t9 ENDKW.
+         * @param t1 {@code FUNCKW}.
+         * @param t2 {@code Type}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param l5 {@code FormalParameters}.
+         * @param p8 {@code Body}.
+         * @param t9 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram06(Token t1, Type t2, Token t3, List<VariableDeclaration> l5, ParserBody p8, Token t9);
@@ -96542,10 +96542,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @MODELKW @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 MODELKW.
-         * @param t2 IDENTIFIERTK.
-         * @param p6 Body.
-         * @param t7 ENDKW.
+         * @param t1 {@code MODELKW}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param p6 {@code Body}.
+         * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram07(Token t1, Token t2, ParserBody p6, Token t7);
@@ -96555,11 +96555,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @MODELKW Type @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 MODELKW.
-         * @param t2 Type.
-         * @param t3 IDENTIFIERTK.
-         * @param p7 Body.
-         * @param t8 ENDKW.
+         * @param t1 {@code MODELKW}.
+         * @param t2 {@code Type}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param p7 {@code Body}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram08(Token t1, Type t2, Token t3, ParserBody p7, Token t8);
@@ -96569,11 +96569,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @MODELKW @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 MODELKW.
-         * @param t2 IDENTIFIERTK.
-         * @param l4 FormalParameters.
-         * @param p7 Body.
-         * @param t8 ENDKW.
+         * @param t1 {@code MODELKW}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param l4 {@code FormalParameters}.
+         * @param p7 {@code Body}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram09(Token t1, Token t2, List<VariableDeclaration> l4, ParserBody p7, Token t8);
@@ -96583,12 +96583,12 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @MODELKW Type @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 MODELKW.
-         * @param t2 Type.
-         * @param t3 IDENTIFIERTK.
-         * @param l5 FormalParameters.
-         * @param p8 Body.
-         * @param t9 ENDKW.
+         * @param t1 {@code MODELKW}.
+         * @param t2 {@code Type}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param l5 {@code FormalParameters}.
+         * @param p8 {@code Body}.
+         * @param t9 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram10(Token t1, Type t2, Token t3, List<VariableDeclaration> l5, ParserBody p8, Token t9);
@@ -96598,10 +96598,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @XPERKW @IDENTIFIERTK PAROPENTK PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 XPERKW.
-         * @param t2 IDENTIFIERTK.
-         * @param p6 Body.
-         * @param t7 ENDKW.
+         * @param t1 {@code XPERKW}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param p6 {@code Body}.
+         * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram11(Token t1, Token t2, ParserBody p6, Token t7);
@@ -96611,11 +96611,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundProgram : @XPERKW @IDENTIFIERTK PAROPENTK FormalParameters PARCLOSETK COLONTK Body @ENDKW;}</p>
          *
-         * @param t1 XPERKW.
-         * @param t2 IDENTIFIERTK.
-         * @param l4 FormalParameters.
-         * @param p7 Body.
-         * @param t8 ENDKW.
+         * @param t1 {@code XPERKW}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param l4 {@code FormalParameters}.
+         * @param p7 {@code Body}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseCompoundProgram12(Token t1, Token t2, List<VariableDeclaration> l4, ParserBody p7, Token t8);
@@ -96625,7 +96625,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleProgram : TYPEKW TypeDefList;}</p>
          *
-         * @param l2 TypeDefList.
+         * @param l2 {@code TypeDefList}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseSimpleProgram1(List<Declaration> l2);
@@ -96635,7 +96635,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleProgram : CONSTKW ConstantDefList;}</p>
          *
-         * @param l2 ConstantDefList.
+         * @param l2 {@code ConstantDefList}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseSimpleProgram2(List<Declaration> l2);
@@ -96645,7 +96645,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleProgram : ENUMKW EnumDefList;}</p>
          *
-         * @param l2 EnumDefList.
+         * @param l2 {@code EnumDefList}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseSimpleProgram3(List<Declaration> l2);
@@ -96655,8 +96655,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TypeDefList : @IDENTIFIERTK BECOMESTK Type;}</p>
          *
-         * @param t1 IDENTIFIERTK.
-         * @param t3 Type.
+         * @param t1 {@code IDENTIFIERTK}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseTypeDefList1(Token t1, Type t3);
@@ -96666,9 +96666,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TypeDefList : TypeDefList COMMATK @IDENTIFIERTK BECOMESTK Type;}</p>
          *
-         * @param l1 TypeDefList.
-         * @param t3 IDENTIFIERTK.
-         * @param t5 Type.
+         * @param l1 {@code TypeDefList}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param t5 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseTypeDefList2(List<Declaration> l1, Token t3, Type t5);
@@ -96678,9 +96678,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ConstantDefList : Type @IDENTIFIERTK BECOMESTK Expression;}</p>
          *
-         * @param t1 Type.
-         * @param t2 IDENTIFIERTK.
-         * @param e4 Expression.
+         * @param t1 {@code Type}.
+         * @param t2 {@code IDENTIFIERTK}.
+         * @param e4 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseConstantDefList1(Type t1, Token t2, Expression e4);
@@ -96690,10 +96690,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ConstantDefList : ConstantDefList COMMATK Type @IDENTIFIERTK BECOMESTK Expression;}</p>
          *
-         * @param l1 ConstantDefList.
-         * @param t3 Type.
-         * @param t4 IDENTIFIERTK.
-         * @param e6 Expression.
+         * @param l1 {@code ConstantDefList}.
+         * @param t3 {@code Type}.
+         * @param t4 {@code IDENTIFIERTK}.
+         * @param e6 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseConstantDefList2(List<Declaration> l1, Type t3, Token t4, Expression e6);
@@ -96703,8 +96703,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EnumDefList : @IDENTIFIERTK BECOMESTK CUROPENTK IdentifierList CURCLOSETK;}</p>
          *
-         * @param t1 IDENTIFIERTK.
-         * @param l4 IdentifierList.
+         * @param t1 {@code IDENTIFIERTK}.
+         * @param l4 {@code IdentifierList}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEnumDefList1(Token t1, List<ParserIdentifier> l4);
@@ -96714,9 +96714,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EnumDefList : EnumDefList COMMATK @IDENTIFIERTK BECOMESTK CUROPENTK IdentifierList CURCLOSETK;}</p>
          *
-         * @param l1 EnumDefList.
-         * @param t3 IDENTIFIERTK.
-         * @param l6 IdentifierList.
+         * @param l1 {@code EnumDefList}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param l6 {@code IdentifierList}.
          * @return The parser call back hook result.
          */
         public List<Declaration> parseEnumDefList2(List<Declaration> l1, Token t3, List<ParserIdentifier> l6);
@@ -96726,8 +96726,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Body : VarDefinitionList StatementList;}</p>
          *
-         * @param l1 VarDefinitionList.
-         * @param l2 StatementList.
+         * @param l1 {@code VarDefinitionList}.
+         * @param l2 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public ParserBody parseBody1(List<VariableDeclaration> l1, List<Statement> l2);
@@ -96737,7 +96737,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Body : StatementList;}</p>
          *
-         * @param l1 StatementList.
+         * @param l1 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public ParserBody parseBody2(List<Statement> l1);
@@ -96747,7 +96747,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code StatementList : EndSimple;}</p>
          *
-         * @param l1 EndSimple.
+         * @param l1 {@code EndSimple}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseStatementList1(List<Statement> l1);
@@ -96757,7 +96757,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code StatementList : EndSimple SEMICOLTK;}</p>
          *
-         * @param l1 EndSimple.
+         * @param l1 {@code EndSimple}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseStatementList2(List<Statement> l1);
@@ -96767,7 +96767,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code StatementList : EndCompound;}</p>
          *
-         * @param l1 EndCompound.
+         * @param l1 {@code EndCompound}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseStatementList3(List<Statement> l1);
@@ -96777,7 +96777,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code StatementList : EndCompound SEMICOLTK;}</p>
          *
-         * @param l1 EndCompound.
+         * @param l1 {@code EndCompound}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseStatementList4(List<Statement> l1);
@@ -96787,7 +96787,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimple : SimpleStatement;}</p>
          *
-         * @param s1 SimpleStatement.
+         * @param s1 {@code SimpleStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndSimple1(Statement s1);
@@ -96797,8 +96797,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimple : EndSimple SEMICOLTK SimpleStatement;}</p>
          *
-         * @param l1 EndSimple.
-         * @param s3 SimpleStatement.
+         * @param l1 {@code EndSimple}.
+         * @param s3 {@code SimpleStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndSimple2(List<Statement> l1, Statement s3);
@@ -96808,8 +96808,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimple : EndCompound SEMICOLTK SimpleStatement;}</p>
          *
-         * @param l1 EndCompound.
-         * @param s3 SimpleStatement.
+         * @param l1 {@code EndCompound}.
+         * @param s3 {@code SimpleStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndSimple3(List<Statement> l1, Statement s3);
@@ -96819,8 +96819,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndSimple : EndCompound SimpleStatement;}</p>
          *
-         * @param l1 EndCompound.
-         * @param s2 SimpleStatement.
+         * @param l1 {@code EndCompound}.
+         * @param s2 {@code SimpleStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndSimple4(List<Statement> l1, Statement s2);
@@ -96830,7 +96830,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompound : CompoundStatement;}</p>
          *
-         * @param s1 CompoundStatement.
+         * @param s1 {@code CompoundStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndCompound1(Statement s1);
@@ -96840,8 +96840,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompound : EndCompound CompoundStatement;}</p>
          *
-         * @param l1 EndCompound.
-         * @param s2 CompoundStatement.
+         * @param l1 {@code EndCompound}.
+         * @param s2 {@code CompoundStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndCompound2(List<Statement> l1, Statement s2);
@@ -96851,8 +96851,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompound : EndCompound SEMICOLTK CompoundStatement;}</p>
          *
-         * @param l1 EndCompound.
-         * @param s3 CompoundStatement.
+         * @param l1 {@code EndCompound}.
+         * @param s3 {@code CompoundStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndCompound3(List<Statement> l1, Statement s3);
@@ -96862,8 +96862,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndCompound : EndSimple SEMICOLTK CompoundStatement;}</p>
          *
-         * @param l1 EndSimple.
-         * @param s3 CompoundStatement.
+         * @param l1 {@code EndSimple}.
+         * @param s3 {@code CompoundStatement}.
          * @return The parser call back hook result.
          */
         public List<Statement> parseEndCompound4(List<Statement> l1, Statement s3);
@@ -96873,10 +96873,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundStatement : @FORKW IdentifierList INKW Expression COLONTK StatementList ENDKW;}</p>
          *
-         * @param t1 FORKW.
-         * @param l2 IdentifierList.
-         * @param e4 Expression.
-         * @param l6 StatementList.
+         * @param t1 {@code FORKW}.
+         * @param l2 {@code IdentifierList}.
+         * @param e4 {@code Expression}.
+         * @param l6 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public Statement parseCompoundStatement1(Token t1, List<ParserIdentifier> l2, Expression e4, List<Statement> l6);
@@ -96886,9 +96886,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundStatement : @WHILEKW Expression COLONTK StatementList ENDKW;}</p>
          *
-         * @param t1 WHILEKW.
-         * @param e2 Expression.
-         * @param l4 StatementList.
+         * @param t1 {@code WHILEKW}.
+         * @param e2 {@code Expression}.
+         * @param l4 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public Statement parseCompoundStatement2(Token t1, Expression e2, List<Statement> l4);
@@ -96898,11 +96898,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundStatement : @IFKW Expression COLONTK StatementList ElifsOpt ElseOpt ENDKW;}</p>
          *
-         * @param t1 IFKW.
-         * @param e2 Expression.
-         * @param l4 StatementList.
-         * @param l5 ElifsOpt.
-         * @param i6 ElseOpt.
+         * @param t1 {@code IFKW}.
+         * @param e2 {@code Expression}.
+         * @param l4 {@code StatementList}.
+         * @param l5 {@code ElifsOpt}.
+         * @param i6 {@code ElseOpt}.
          * @return The parser call back hook result.
          */
         public Statement parseCompoundStatement3(Token t1, Expression e2, List<Statement> l4, List<IfCase> l5, IfCase i6);
@@ -96912,8 +96912,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompoundStatement : @SELECTKW Selections ENDKW;}</p>
          *
-         * @param t1 SELECTKW.
-         * @param l2 Selections.
+         * @param t1 {@code SELECTKW}.
+         * @param l2 {@code Selections}.
          * @return The parser call back hook result.
          */
         public Statement parseCompoundStatement4(Token t1, List<SelectCase> l2);
@@ -96923,7 +96923,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @PASSKW;}</p>
          *
-         * @param t1 PASSKW.
+         * @param t1 {@code PASSKW}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement01(Token t1);
@@ -96933,7 +96933,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @BREAKKW;}</p>
          *
-         * @param t1 BREAKKW.
+         * @param t1 {@code BREAKKW}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement02(Token t1);
@@ -96943,7 +96943,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @CONTINUEKW;}</p>
          *
-         * @param t1 CONTINUEKW.
+         * @param t1 {@code CONTINUEKW}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement03(Token t1);
@@ -96953,9 +96953,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : ExprList @BECOMESTK ExprList;}</p>
          *
-         * @param l1 ExprList.
-         * @param t2 BECOMESTK.
-         * @param l3 ExprList.
+         * @param l1 {@code ExprList}.
+         * @param t2 {@code BECOMESTK}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement04(List<Expression> l1, Token t2, List<Expression> l3);
@@ -96965,8 +96965,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @DELAYKW Expression;}</p>
          *
-         * @param t1 DELAYKW.
-         * @param e2 Expression.
+         * @param t1 {@code DELAYKW}.
+         * @param e2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement05(Token t1, Expression e2);
@@ -96976,8 +96976,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @RUNKW Instances;}</p>
          *
-         * @param t1 RUNKW.
-         * @param l2 Instances.
+         * @param t1 {@code RUNKW}.
+         * @param l2 {@code Instances}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement06(Token t1, List<CreateCase> l2);
@@ -96987,8 +96987,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @STARTKW Instances;}</p>
          *
-         * @param t1 STARTKW.
-         * @param l2 Instances.
+         * @param t1 {@code STARTKW}.
+         * @param l2 {@code Instances}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement07(Token t1, List<CreateCase> l2);
@@ -96998,8 +96998,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @CLOSEKW PAROPENTK Expression PARCLOSETK;}</p>
          *
-         * @param t1 CLOSEKW.
-         * @param e3 Expression.
+         * @param t1 {@code CLOSEKW}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement08(Token t1, Expression e3);
@@ -97009,8 +97009,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @FINISHKW ExprList;}</p>
          *
-         * @param t1 FINISHKW.
-         * @param l2 ExprList.
+         * @param t1 {@code FINISHKW}.
+         * @param l2 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement09(Token t1, List<Expression> l2);
@@ -97020,8 +97020,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @WRITEKW PAROPENTK ExprList PARCLOSETK;}</p>
          *
-         * @param t1 WRITEKW.
-         * @param l3 ExprList.
+         * @param t1 {@code WRITEKW}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement10(Token t1, List<Expression> l3);
@@ -97031,8 +97031,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @WRITELNKW PAROPENTK ExprList PARCLOSETK;}</p>
          *
-         * @param t1 WRITELNKW.
-         * @param l3 ExprList.
+         * @param t1 {@code WRITELNKW}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement11(Token t1, List<Expression> l3);
@@ -97042,8 +97042,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @RETURNKW ExprList;}</p>
          *
-         * @param t1 RETURNKW.
-         * @param l2 ExprList.
+         * @param t1 {@code RETURNKW}.
+         * @param l2 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement12(Token t1, List<Expression> l2);
@@ -97053,8 +97053,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @EXITKW ExprList;}</p>
          *
-         * @param t1 EXITKW.
-         * @param l2 ExprList.
+         * @param t1 {@code EXITKW}.
+         * @param l2 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement13(Token t1, List<Expression> l2);
@@ -97064,7 +97064,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : @EXITKW;}</p>
          *
-         * @param t1 EXITKW.
+         * @param t1 {@code EXITKW}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement14(Token t1);
@@ -97074,7 +97074,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SimpleStatement : CommStatement;}</p>
          *
-         * @param s1 CommStatement.
+         * @param s1 {@code CommStatement}.
          * @return The parser call back hook result.
          */
         public Statement parseSimpleStatement15(Statement s1);
@@ -97084,8 +97084,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CommStatement : Expression @SENDTK;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 SENDTK.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code SENDTK}.
          * @return The parser call back hook result.
          */
         public Statement parseCommStatement1(Expression e1, Token t2);
@@ -97095,9 +97095,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CommStatement : Expression @SENDTK ExprList;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 SENDTK.
-         * @param l3 ExprList.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code SENDTK}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseCommStatement2(Expression e1, Token t2, List<Expression> l3);
@@ -97107,8 +97107,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CommStatement : Expression @RECEIVETK;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 RECEIVETK.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code RECEIVETK}.
          * @return The parser call back hook result.
          */
         public Statement parseCommStatement3(Expression e1, Token t2);
@@ -97118,9 +97118,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CommStatement : Expression @RECEIVETK ExprList;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 RECEIVETK.
-         * @param l3 ExprList.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code RECEIVETK}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Statement parseCommStatement4(Expression e1, Token t2, List<Expression> l3);
@@ -97139,10 +97139,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElifsOpt : ElifsOpt @ELIFKW Expression COLONTK StatementList;}</p>
          *
-         * @param l1 ElifsOpt.
-         * @param t2 ELIFKW.
-         * @param e3 Expression.
-         * @param l5 StatementList.
+         * @param l1 {@code ElifsOpt}.
+         * @param t2 {@code ELIFKW}.
+         * @param e3 {@code Expression}.
+         * @param l5 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public List<IfCase> parseElifsOpt2(List<IfCase> l1, Token t2, Expression e3, List<Statement> l5);
@@ -97161,8 +97161,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElseOpt : @ELSEKW COLONTK StatementList;}</p>
          *
-         * @param t1 ELSEKW.
-         * @param l3 StatementList.
+         * @param t1 {@code ELSEKW}.
+         * @param l3 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public IfCase parseElseOpt2(Token t1, List<Statement> l3);
@@ -97172,7 +97172,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Instances : EndIterated;}</p>
          *
-         * @param l1 EndIterated.
+         * @param l1 {@code EndIterated}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseInstances1(List<CreateCase> l1);
@@ -97182,7 +97182,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Instances : EndIterated COMMATK;}</p>
          *
-         * @param l1 EndIterated.
+         * @param l1 {@code EndIterated}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseInstances2(List<CreateCase> l1);
@@ -97192,7 +97192,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Instances : EndInstance;}</p>
          *
-         * @param l1 EndInstance.
+         * @param l1 {@code EndInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseInstances3(List<CreateCase> l1);
@@ -97202,7 +97202,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Instances : EndInstance COMMATK;}</p>
          *
-         * @param l1 EndInstance.
+         * @param l1 {@code EndInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseInstances4(List<CreateCase> l1);
@@ -97212,9 +97212,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Unwinds : UNWINDKW IdentifierList @INKW Expression;}</p>
          *
-         * @param l2 IdentifierList.
-         * @param t3 INKW.
-         * @param e4 Expression.
+         * @param l2 {@code IdentifierList}.
+         * @param t3 {@code INKW}.
+         * @param e4 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Unwind> parseUnwinds1(List<ParserIdentifier> l2, Token t3, Expression e4);
@@ -97224,10 +97224,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Unwinds : Unwinds COMMATK IdentifierList @INKW Expression;}</p>
          *
-         * @param l1 Unwinds.
-         * @param l3 IdentifierList.
-         * @param t4 INKW.
-         * @param e5 Expression.
+         * @param l1 {@code Unwinds}.
+         * @param l3 {@code IdentifierList}.
+         * @param t4 {@code INKW}.
+         * @param e5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Unwind> parseUnwinds2(List<Unwind> l1, List<ParserIdentifier> l3, Token t4, Expression e5);
@@ -97237,9 +97237,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code IteratedInstance : Unwinds @COLONTK Instances ENDKW;}</p>
          *
-         * @param l1 Unwinds.
-         * @param t2 COLONTK.
-         * @param l3 Instances.
+         * @param l1 {@code Unwinds}.
+         * @param t2 {@code COLONTK}.
+         * @param l3 {@code Instances}.
          * @return The parser call back hook result.
          */
         public CreateCase parseIteratedInstance1(List<Unwind> l1, Token t2, List<CreateCase> l3);
@@ -97249,7 +97249,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ProcessInstance : Expression;}</p>
          *
-         * @param e1 Expression.
+         * @param e1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public CreateCase parseProcessInstance1(Expression e1);
@@ -97259,9 +97259,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ProcessInstance : Expression @BECOMESTK Expression;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 BECOMESTK.
-         * @param e3 Expression.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code BECOMESTK}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public CreateCase parseProcessInstance2(Expression e1, Token t2, Expression e3);
@@ -97271,7 +97271,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndInstance : ProcessInstance;}</p>
          *
-         * @param c1 ProcessInstance.
+         * @param c1 {@code ProcessInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndInstance1(CreateCase c1);
@@ -97281,8 +97281,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndInstance : EndIterated ProcessInstance;}</p>
          *
-         * @param l1 EndIterated.
-         * @param c2 ProcessInstance.
+         * @param l1 {@code EndIterated}.
+         * @param c2 {@code ProcessInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndInstance2(List<CreateCase> l1, CreateCase c2);
@@ -97292,8 +97292,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndInstance : EndIterated COMMATK ProcessInstance;}</p>
          *
-         * @param l1 EndIterated.
-         * @param c3 ProcessInstance.
+         * @param l1 {@code EndIterated}.
+         * @param c3 {@code ProcessInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndInstance3(List<CreateCase> l1, CreateCase c3);
@@ -97303,8 +97303,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndInstance : EndInstance COMMATK ProcessInstance;}</p>
          *
-         * @param l1 EndInstance.
-         * @param c3 ProcessInstance.
+         * @param l1 {@code EndInstance}.
+         * @param c3 {@code ProcessInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndInstance4(List<CreateCase> l1, CreateCase c3);
@@ -97314,7 +97314,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndIterated : IteratedInstance;}</p>
          *
-         * @param c1 IteratedInstance.
+         * @param c1 {@code IteratedInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndIterated1(CreateCase c1);
@@ -97324,8 +97324,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndIterated : EndInstance COMMATK IteratedInstance;}</p>
          *
-         * @param l1 EndInstance.
-         * @param c3 IteratedInstance.
+         * @param l1 {@code EndInstance}.
+         * @param c3 {@code IteratedInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndIterated2(List<CreateCase> l1, CreateCase c3);
@@ -97335,8 +97335,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndIterated : EndIterated IteratedInstance;}</p>
          *
-         * @param l1 EndIterated.
-         * @param c2 IteratedInstance.
+         * @param l1 {@code EndIterated}.
+         * @param c2 {@code IteratedInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndIterated3(List<CreateCase> l1, CreateCase c2);
@@ -97346,8 +97346,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code EndIterated : EndIterated COMMATK IteratedInstance;}</p>
          *
-         * @param l1 EndIterated.
-         * @param c3 IteratedInstance.
+         * @param l1 {@code EndIterated}.
+         * @param c3 {@code IteratedInstance}.
          * @return The parser call back hook result.
          */
         public List<CreateCase> parseEndIterated4(List<CreateCase> l1, CreateCase c3);
@@ -97357,7 +97357,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Selections : SelectionAlt;}</p>
          *
-         * @param s1 SelectionAlt.
+         * @param s1 {@code SelectionAlt}.
          * @return The parser call back hook result.
          */
         public List<SelectCase> parseSelections1(SelectCase s1);
@@ -97367,8 +97367,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Selections : Selections ALTKW SelectionAlt;}</p>
          *
-         * @param l1 Selections.
-         * @param s3 SelectionAlt.
+         * @param l1 {@code Selections}.
+         * @param s3 {@code SelectionAlt}.
          * @return The parser call back hook result.
          */
         public List<SelectCase> parseSelections2(List<SelectCase> l1, SelectCase s3);
@@ -97378,7 +97378,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SelectionAlt : SelectCondition;}</p>
          *
-         * @param p1 SelectCondition.
+         * @param p1 {@code SelectCondition}.
          * @return The parser call back hook result.
          */
         public SelectCase parseSelectionAlt1(ParserSelectCondition p1);
@@ -97388,9 +97388,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SelectionAlt : SelectCondition @COLONTK StatementList;}</p>
          *
-         * @param p1 SelectCondition.
-         * @param t2 COLONTK.
-         * @param l3 StatementList.
+         * @param p1 {@code SelectCondition}.
+         * @param t2 {@code COLONTK}.
+         * @param l3 {@code StatementList}.
          * @return The parser call back hook result.
          */
         public SelectCase parseSelectionAlt2(ParserSelectCondition p1, Token t2, List<Statement> l3);
@@ -97400,8 +97400,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SelectionAlt : Unwinds COLONTK SelectionAlt ENDKW;}</p>
          *
-         * @param l1 Unwinds.
-         * @param s3 SelectionAlt.
+         * @param l1 {@code Unwinds}.
+         * @param s3 {@code SelectionAlt}.
          * @return The parser call back hook result.
          */
         public SelectCase parseSelectionAlt3(List<Unwind> l1, SelectCase s3);
@@ -97411,7 +97411,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SelectCondition : Expression;}</p>
          *
-         * @param e1 Expression.
+         * @param e1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public ParserSelectCondition parseSelectCondition1(Expression e1);
@@ -97421,8 +97421,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SelectCondition : Expression COMMATK CommStatement;}</p>
          *
-         * @param e1 Expression.
-         * @param s3 CommStatement.
+         * @param e1 {@code Expression}.
+         * @param s3 {@code CommStatement}.
          * @return The parser call back hook result.
          */
         public ParserSelectCondition parseSelectCondition2(Expression e1, Statement s3);
@@ -97432,7 +97432,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SelectCondition : CommStatement;}</p>
          *
-         * @param s1 CommStatement.
+         * @param s1 {@code CommStatement}.
          * @return The parser call back hook result.
          */
         public ParserSelectCondition parseSelectCondition3(Statement s1);
@@ -97442,8 +97442,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FormalParameters : Type IdentifierList;}</p>
          *
-         * @param t1 Type.
-         * @param l2 IdentifierList.
+         * @param t1 {@code Type}.
+         * @param l2 {@code IdentifierList}.
          * @return The parser call back hook result.
          */
         public List<VariableDeclaration> parseFormalParameters1(Type t1, List<ParserIdentifier> l2);
@@ -97453,9 +97453,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FormalParameters : FormalParameters SEMICOLTK Type IdentifierList;}</p>
          *
-         * @param l1 FormalParameters.
-         * @param t3 Type.
-         * @param l4 IdentifierList.
+         * @param l1 {@code FormalParameters}.
+         * @param t3 {@code Type}.
+         * @param l4 {@code IdentifierList}.
          * @return The parser call back hook result.
          */
         public List<VariableDeclaration> parseFormalParameters2(List<VariableDeclaration> l1, Type t3, List<ParserIdentifier> l4);
@@ -97465,8 +97465,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code VarDefinitionList : Type VarNames SEMICOLTK;}</p>
          *
-         * @param t1 Type.
-         * @param l2 VarNames.
+         * @param t1 {@code Type}.
+         * @param l2 {@code VarNames}.
          * @return The parser call back hook result.
          */
         public List<VariableDeclaration> parseVarDefinitionList1(Type t1, List<ParserVarValue> l2);
@@ -97476,9 +97476,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code VarDefinitionList : VarDefinitionList Type VarNames SEMICOLTK;}</p>
          *
-         * @param l1 VarDefinitionList.
-         * @param t2 Type.
-         * @param l3 VarNames.
+         * @param l1 {@code VarDefinitionList}.
+         * @param t2 {@code Type}.
+         * @param l3 {@code VarNames}.
          * @return The parser call back hook result.
          */
         public List<VariableDeclaration> parseVarDefinitionList2(List<VariableDeclaration> l1, Type t2, List<ParserVarValue> l3);
@@ -97488,7 +97488,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code VarNames : @IDENTIFIERTK;}</p>
          *
-         * @param t1 IDENTIFIERTK.
+         * @param t1 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public List<ParserVarValue> parseVarNames1(Token t1);
@@ -97498,8 +97498,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code VarNames : @IDENTIFIERTK BECOMESTK Expression;}</p>
          *
-         * @param t1 IDENTIFIERTK.
-         * @param e3 Expression.
+         * @param t1 {@code IDENTIFIERTK}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ParserVarValue> parseVarNames2(Token t1, Expression e3);
@@ -97509,8 +97509,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code VarNames : VarNames COMMATK @IDENTIFIERTK;}</p>
          *
-         * @param l1 VarNames.
-         * @param t3 IDENTIFIERTK.
+         * @param l1 {@code VarNames}.
+         * @param t3 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public List<ParserVarValue> parseVarNames3(List<ParserVarValue> l1, Token t3);
@@ -97520,9 +97520,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code VarNames : VarNames COMMATK @IDENTIFIERTK BECOMESTK Expression;}</p>
          *
-         * @param l1 VarNames.
-         * @param t3 IDENTIFIERTK.
-         * @param e5 Expression.
+         * @param l1 {@code VarNames}.
+         * @param t3 {@code IDENTIFIERTK}.
+         * @param e5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ParserVarValue> parseVarNames4(List<ParserVarValue> l1, Token t3, Expression e5);
@@ -97532,7 +97532,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @VOIDKW;}</p>
          *
-         * @param t1 VOIDKW.
+         * @param t1 {@code VOIDKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType1(Token t1);
@@ -97542,7 +97542,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @BOOLKW;}</p>
          *
-         * @param t1 BOOLKW.
+         * @param t1 {@code BOOLKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType2(Token t1);
@@ -97552,7 +97552,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @INTKW;}</p>
          *
-         * @param t1 INTKW.
+         * @param t1 {@code INTKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType3(Token t1);
@@ -97562,7 +97562,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @REALKW;}</p>
          *
-         * @param t1 REALKW.
+         * @param t1 {@code REALKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType4(Token t1);
@@ -97572,7 +97572,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @STRINGKW;}</p>
          *
-         * @param t1 STRINGKW.
+         * @param t1 {@code STRINGKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType5(Token t1);
@@ -97582,7 +97582,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @FILEKW;}</p>
          *
-         * @param t1 FILEKW.
+         * @param t1 {@code FILEKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType6(Token t1);
@@ -97592,7 +97592,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @INSTKW;}</p>
          *
-         * @param t1 INSTKW.
+         * @param t1 {@code INSTKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType7(Token t1);
@@ -97602,7 +97602,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ElementaryType : @TIMERKW;}</p>
          *
-         * @param t1 TIMERKW.
+         * @param t1 {@code TIMERKW}.
          * @return The parser call back hook result.
          */
         public Type parseElementaryType8(Token t1);
@@ -97612,7 +97612,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : ElementaryType;}</p>
          *
-         * @param t1 ElementaryType.
+         * @param t1 {@code ElementaryType}.
          * @return The parser call back hook result.
          */
         public Type parseType01(Type t1);
@@ -97622,9 +97622,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @MATRIXKW PAROPENTK Expression COMMATK Expression PARCLOSETK;}</p>
          *
-         * @param t1 MATRIXKW.
-         * @param e3 Expression.
-         * @param e5 Expression.
+         * @param t1 {@code MATRIXKW}.
+         * @param e3 {@code Expression}.
+         * @param e5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Type parseType02(Token t1, Expression e3, Expression e5);
@@ -97634,8 +97634,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @SETKW Type;}</p>
          *
-         * @param t1 SETKW.
-         * @param t2 Type.
+         * @param t1 {@code SETKW}.
+         * @param t2 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType03(Token t1, Type t2);
@@ -97645,8 +97645,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @LISTKW Type;}</p>
          *
-         * @param t1 LISTKW.
-         * @param t2 Type.
+         * @param t1 {@code LISTKW}.
+         * @param t2 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType04(Token t1, Type t2);
@@ -97656,9 +97656,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @LISTKW PAROPENTK Expression PARCLOSETK Type;}</p>
          *
-         * @param t1 LISTKW.
-         * @param e3 Expression.
-         * @param t5 Type.
+         * @param t1 {@code LISTKW}.
+         * @param e3 {@code Expression}.
+         * @param t5 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType05(Token t1, Expression e3, Type t5);
@@ -97668,8 +97668,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @CHANKW Type;}</p>
          *
-         * @param t1 CHANKW.
-         * @param t2 Type.
+         * @param t1 {@code CHANKW}.
+         * @param t2 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType06(Token t1, Type t2);
@@ -97679,8 +97679,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @CHANKW RECEIVETK Type;}</p>
          *
-         * @param t1 CHANKW.
-         * @param t3 Type.
+         * @param t1 {@code CHANKW}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType07(Token t1, Type t3);
@@ -97690,8 +97690,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @CHANKW SENDTK Type;}</p>
          *
-         * @param t1 CHANKW.
-         * @param t3 Type.
+         * @param t1 {@code CHANKW}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType08(Token t1, Type t3);
@@ -97701,8 +97701,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @CHANKW SENDRECEIVETK Type;}</p>
          *
-         * @param t1 CHANKW.
-         * @param t3 Type.
+         * @param t1 {@code CHANKW}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType09(Token t1, Type t3);
@@ -97712,9 +97712,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @DICTKW PAROPENTK Type COLONTK Type PARCLOSETK;}</p>
          *
-         * @param t1 DICTKW.
-         * @param t3 Type.
-         * @param t5 Type.
+         * @param t1 {@code DICTKW}.
+         * @param t3 {@code Type}.
+         * @param t5 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType10(Token t1, Type t3, Type t5);
@@ -97724,8 +97724,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @TUPLEKW PAROPENTK TupleTypeList PARCLOSETK;}</p>
          *
-         * @param t1 TUPLEKW.
-         * @param l3 TupleTypeList.
+         * @param t1 {@code TUPLEKW}.
+         * @param l3 {@code TupleTypeList}.
          * @return The parser call back hook result.
          */
         public Type parseType11(Token t1, List<TupleField> l3);
@@ -97735,8 +97735,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @FUNCKW Type PAROPENTK PARCLOSETK;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param t2 Type.
+         * @param t1 {@code FUNCKW}.
+         * @param t2 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType12(Token t1, Type t2);
@@ -97746,9 +97746,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @FUNCKW Type PAROPENTK TypeList PARCLOSETK;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param t2 Type.
-         * @param l4 TypeList.
+         * @param t1 {@code FUNCKW}.
+         * @param t2 {@code Type}.
+         * @param l4 {@code TypeList}.
          * @return The parser call back hook result.
          */
         public Type parseType13(Token t1, Type t2, List<Type> l4);
@@ -97758,8 +97758,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @PROCKW PAROPENTK TypeList PARCLOSETK;}</p>
          *
-         * @param t1 PROCKW.
-         * @param l3 TypeList.
+         * @param t1 {@code PROCKW}.
+         * @param l3 {@code TypeList}.
          * @return The parser call back hook result.
          */
         public Type parseType14(Token t1, List<Type> l3);
@@ -97769,7 +97769,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @PROCKW PAROPENTK PARCLOSETK;}</p>
          *
-         * @param t1 PROCKW.
+         * @param t1 {@code PROCKW}.
          * @return The parser call back hook result.
          */
         public Type parseType15(Token t1);
@@ -97779,9 +97779,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @PROCKW Type PAROPENTK TypeList PARCLOSETK;}</p>
          *
-         * @param t1 PROCKW.
-         * @param t2 Type.
-         * @param l4 TypeList.
+         * @param t1 {@code PROCKW}.
+         * @param t2 {@code Type}.
+         * @param l4 {@code TypeList}.
          * @return The parser call back hook result.
          */
         public Type parseType16(Token t1, Type t2, List<Type> l4);
@@ -97791,8 +97791,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @PROCKW Type PAROPENTK PARCLOSETK;}</p>
          *
-         * @param t1 PROCKW.
-         * @param t2 Type.
+         * @param t1 {@code PROCKW}.
+         * @param t2 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType17(Token t1, Type t2);
@@ -97802,8 +97802,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @DISTKW Type;}</p>
          *
-         * @param t1 DISTKW.
-         * @param t2 Type.
+         * @param t1 {@code DISTKW}.
+         * @param t2 {@code Type}.
          * @return The parser call back hook result.
          */
         public Type parseType18(Token t1, Type t2);
@@ -97813,7 +97813,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Type : @IDENTIFIERTK;}</p>
          *
-         * @param t1 IDENTIFIERTK.
+         * @param t1 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public Type parseType19(Token t1);
@@ -97823,7 +97823,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TupleTypeList : TupleType;}</p>
          *
-         * @param l1 TupleType.
+         * @param l1 {@code TupleType}.
          * @return The parser call back hook result.
          */
         public List<TupleField> parseTupleTypeList1(List<TupleField> l1);
@@ -97833,8 +97833,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TupleTypeList : TupleTypeList SEMICOLTK TupleType;}</p>
          *
-         * @param l1 TupleTypeList.
-         * @param l3 TupleType.
+         * @param l1 {@code TupleTypeList}.
+         * @param l3 {@code TupleType}.
          * @return The parser call back hook result.
          */
         public List<TupleField> parseTupleTypeList2(List<TupleField> l1, List<TupleField> l3);
@@ -97844,8 +97844,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TupleType : Type IdentifierList;}</p>
          *
-         * @param t1 Type.
-         * @param l2 IdentifierList.
+         * @param t1 {@code Type}.
+         * @param l2 {@code IdentifierList}.
          * @return The parser call back hook result.
          */
         public List<TupleField> parseTupleType1(Type t1, List<ParserIdentifier> l2);
@@ -97855,7 +97855,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TypeList : Type;}</p>
          *
-         * @param t1 Type.
+         * @param t1 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<Type> parseTypeList1(Type t1);
@@ -97865,8 +97865,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code TypeList : TypeList COMMATK Type;}</p>
          *
-         * @param l1 TypeList.
-         * @param t3 Type.
+         * @param l1 {@code TypeList}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<Type> parseTypeList2(List<Type> l1, Type t3);
@@ -97876,7 +97876,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code IdentifierList : @IDENTIFIERTK;}</p>
          *
-         * @param t1 IDENTIFIERTK.
+         * @param t1 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public List<ParserIdentifier> parseIdentifierList1(Token t1);
@@ -97886,8 +97886,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code IdentifierList : IdentifierList COMMATK @IDENTIFIERTK;}</p>
          *
-         * @param l1 IdentifierList.
-         * @param t3 IDENTIFIERTK.
+         * @param l1 {@code IdentifierList}.
+         * @param t3 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public List<ParserIdentifier> parseIdentifierList2(List<ParserIdentifier> l1, Token t3);
@@ -97906,7 +97906,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code OptExpression : Expression;}</p>
          *
-         * @param e1 Expression.
+         * @param e1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Expression parseOptExpression2(Expression e1);
@@ -97916,7 +97916,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExprList : Expression;}</p>
          *
-         * @param e1 Expression.
+         * @param e1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Expression> parseExprList1(Expression e1);
@@ -97926,8 +97926,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExprList : ExprList COMMATK Expression;}</p>
          *
-         * @param l1 ExprList.
-         * @param e3 Expression.
+         * @param l1 {@code ExprList}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Expression> parseExprList2(List<Expression> l1, Expression e3);
@@ -97937,7 +97937,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MatExprList : ExprList;}</p>
          *
-         * @param l1 ExprList.
+         * @param l1 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public List<MatrixRow> parseMatExprList1(List<Expression> l1);
@@ -97947,8 +97947,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MatExprList : MatExprList SEMICOLTK ExprList;}</p>
          *
-         * @param l1 MatExprList.
-         * @param l3 ExprList.
+         * @param l1 {@code MatExprList}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public List<MatrixRow> parseMatExprList2(List<MatrixRow> l1, List<Expression> l3);
@@ -97958,7 +97958,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Expression : AndExpression;}</p>
          *
-         * @param e1 AndExpression.
+         * @param e1 {@code AndExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseExpression1(Expression e1);
@@ -97968,9 +97968,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code Expression : Expression @ORKW AndExpression;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 ORKW.
-         * @param e3 AndExpression.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code ORKW}.
+         * @param e3 {@code AndExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseExpression2(Expression e1, Token t2, Expression e3);
@@ -97980,7 +97980,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code AndExpression : NotExpression;}</p>
          *
-         * @param e1 NotExpression.
+         * @param e1 {@code NotExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseAndExpression1(Expression e1);
@@ -97990,9 +97990,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code AndExpression : AndExpression @ANDKW NotExpression;}</p>
          *
-         * @param e1 AndExpression.
-         * @param t2 ANDKW.
-         * @param e3 NotExpression.
+         * @param e1 {@code AndExpression}.
+         * @param t2 {@code ANDKW}.
+         * @param e3 {@code NotExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseAndExpression2(Expression e1, Token t2, Expression e3);
@@ -98002,7 +98002,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code NotExpression : CompareExpression;}</p>
          *
-         * @param e1 CompareExpression.
+         * @param e1 {@code CompareExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseNotExpression1(Expression e1);
@@ -98012,8 +98012,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code NotExpression : @NOTKW NotExpression;}</p>
          *
-         * @param t1 NOTKW.
-         * @param e2 NotExpression.
+         * @param t1 {@code NOTKW}.
+         * @param e2 {@code NotExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseNotExpression2(Token t1, Expression e2);
@@ -98023,7 +98023,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : AddExpression;}</p>
          *
-         * @param e1 AddExpression.
+         * @param e1 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression1(Expression e1);
@@ -98033,9 +98033,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @LTTK AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 LTTK.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code LTTK}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression2(Expression e1, Token t2, Expression e3);
@@ -98045,9 +98045,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @LETK AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 LETK.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code LETK}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression3(Expression e1, Token t2, Expression e3);
@@ -98057,9 +98057,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @EQTK AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 EQTK.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code EQTK}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression4(Expression e1, Token t2, Expression e3);
@@ -98069,9 +98069,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @NETK AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 NETK.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code NETK}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression5(Expression e1, Token t2, Expression e3);
@@ -98081,9 +98081,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @GETK AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 GETK.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code GETK}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression6(Expression e1, Token t2, Expression e3);
@@ -98093,9 +98093,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @GTTK AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 GTTK.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code GTTK}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression7(Expression e1, Token t2, Expression e3);
@@ -98105,9 +98105,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @INKW AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 INKW.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code INKW}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression8(Expression e1, Token t2, Expression e3);
@@ -98117,9 +98117,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code CompareExpression : CompareExpression @SUBKW AddExpression;}</p>
          *
-         * @param e1 CompareExpression.
-         * @param t2 SUBKW.
-         * @param e3 AddExpression.
+         * @param e1 {@code CompareExpression}.
+         * @param t2 {@code SUBKW}.
+         * @param e3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseCompareExpression9(Expression e1, Token t2, Expression e3);
@@ -98129,7 +98129,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code AddExpression : MulExpression;}</p>
          *
-         * @param e1 MulExpression.
+         * @param e1 {@code MulExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseAddExpression1(Expression e1);
@@ -98139,9 +98139,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code AddExpression : AddExpression @PLUSTK MulExpression;}</p>
          *
-         * @param e1 AddExpression.
-         * @param t2 PLUSTK.
-         * @param e3 MulExpression.
+         * @param e1 {@code AddExpression}.
+         * @param t2 {@code PLUSTK}.
+         * @param e3 {@code MulExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseAddExpression2(Expression e1, Token t2, Expression e3);
@@ -98151,9 +98151,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code AddExpression : AddExpression @MINUSTK MulExpression;}</p>
          *
-         * @param e1 AddExpression.
-         * @param t2 MINUSTK.
-         * @param e3 MulExpression.
+         * @param e1 {@code AddExpression}.
+         * @param t2 {@code MINUSTK}.
+         * @param e3 {@code MulExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseAddExpression3(Expression e1, Token t2, Expression e3);
@@ -98163,7 +98163,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MulExpression : PowerExpression;}</p>
          *
-         * @param e1 PowerExpression.
+         * @param e1 {@code PowerExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseMulExpression1(Expression e1);
@@ -98173,9 +98173,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MulExpression : MulExpression @ASTERISKTK PowerExpression;}</p>
          *
-         * @param e1 MulExpression.
-         * @param t2 ASTERISKTK.
-         * @param e3 PowerExpression.
+         * @param e1 {@code MulExpression}.
+         * @param t2 {@code ASTERISKTK}.
+         * @param e3 {@code PowerExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseMulExpression2(Expression e1, Token t2, Expression e3);
@@ -98185,9 +98185,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MulExpression : MulExpression @SLASHTK PowerExpression;}</p>
          *
-         * @param e1 MulExpression.
-         * @param t2 SLASHTK.
-         * @param e3 PowerExpression.
+         * @param e1 {@code MulExpression}.
+         * @param t2 {@code SLASHTK}.
+         * @param e3 {@code PowerExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseMulExpression3(Expression e1, Token t2, Expression e3);
@@ -98197,9 +98197,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MulExpression : MulExpression @DIVKW PowerExpression;}</p>
          *
-         * @param e1 MulExpression.
-         * @param t2 DIVKW.
-         * @param e3 PowerExpression.
+         * @param e1 {@code MulExpression}.
+         * @param t2 {@code DIVKW}.
+         * @param e3 {@code PowerExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseMulExpression4(Expression e1, Token t2, Expression e3);
@@ -98209,9 +98209,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code MulExpression : MulExpression @MODKW PowerExpression;}</p>
          *
-         * @param e1 MulExpression.
-         * @param t2 MODKW.
-         * @param e3 PowerExpression.
+         * @param e1 {@code MulExpression}.
+         * @param t2 {@code MODKW}.
+         * @param e3 {@code PowerExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseMulExpression5(Expression e1, Token t2, Expression e3);
@@ -98221,7 +98221,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code PowerExpression : UnaryExpression;}</p>
          *
-         * @param e1 UnaryExpression.
+         * @param e1 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public Expression parsePowerExpression1(Expression e1);
@@ -98231,9 +98231,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code PowerExpression : PowerExpression @CARETTK UnaryExpression;}</p>
          *
-         * @param e1 PowerExpression.
-         * @param t2 CARETTK.
-         * @param e3 UnaryExpression.
+         * @param e1 {@code PowerExpression}.
+         * @param t2 {@code CARETTK}.
+         * @param e3 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public Expression parsePowerExpression2(Expression e1, Token t2, Expression e3);
@@ -98243,7 +98243,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code UnaryExpression : SampleExpression;}</p>
          *
-         * @param e1 SampleExpression.
+         * @param e1 {@code SampleExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseUnaryExpression1(Expression e1);
@@ -98253,8 +98253,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code UnaryExpression : @MINUSTK UnaryExpression;}</p>
          *
-         * @param t1 MINUSTK.
-         * @param e2 UnaryExpression.
+         * @param t1 {@code MINUSTK}.
+         * @param e2 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseUnaryExpression2(Token t1, Expression e2);
@@ -98264,8 +98264,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code UnaryExpression : @PLUSTK UnaryExpression;}</p>
          *
-         * @param t1 PLUSTK.
-         * @param e2 UnaryExpression.
+         * @param t1 {@code PLUSTK}.
+         * @param e2 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseUnaryExpression3(Token t1, Expression e2);
@@ -98275,7 +98275,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SampleExpression : FuncExpression;}</p>
          *
-         * @param e1 FuncExpression.
+         * @param e1 {@code FuncExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseSampleExpression1(Expression e1);
@@ -98285,8 +98285,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code SampleExpression : @SAMPLEKW FuncExpression;}</p>
          *
-         * @param t1 SAMPLEKW.
-         * @param e2 FuncExpression.
+         * @param t1 {@code SAMPLEKW}.
+         * @param e2 {@code FuncExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseSampleExpression2(Token t1, Expression e2);
@@ -98296,7 +98296,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : ExpressionFactor;}</p>
          *
-         * @param e1 ExpressionFactor.
+         * @param e1 {@code ExpressionFactor}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression01(Expression e1);
@@ -98306,8 +98306,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : @READKW PAROPENTK Type PARCLOSETK;}</p>
          *
-         * @param t1 READKW.
-         * @param t3 Type.
+         * @param t1 {@code READKW}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression02(Token t1, Type t3);
@@ -98317,9 +98317,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : @READKW PAROPENTK Expression COMMATK Type PARCLOSETK;}</p>
          *
-         * @param t1 READKW.
-         * @param e3 Expression.
-         * @param t5 Type.
+         * @param t1 {@code READKW}.
+         * @param e3 {@code Expression}.
+         * @param t5 {@code Type}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression03(Token t1, Expression e3, Type t5);
@@ -98329,8 +98329,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : @CHANNELKW PAROPENTK Type PARCLOSETK;}</p>
          *
-         * @param t1 CHANNELKW.
-         * @param t3 Type.
+         * @param t1 {@code CHANNELKW}.
+         * @param t3 {@code Type}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression04(Token t1, Type t3);
@@ -98340,9 +98340,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression @DOTTK @IDENTIFIERTK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param t2 DOTTK.
-         * @param t3 IDENTIFIERTK.
+         * @param e1 {@code FuncExpression}.
+         * @param t2 {@code DOTTK}.
+         * @param t3 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression05(Expression e1, Token t2, Token t3);
@@ -98352,9 +98352,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression @SQOPENTK Expression SQCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param t2 SQOPENTK.
-         * @param e3 Expression.
+         * @param e1 {@code FuncExpression}.
+         * @param t2 {@code SQOPENTK}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression06(Expression e1, Token t2, Expression e3);
@@ -98364,10 +98364,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression @SQOPENTK OptExpression COLONTK OptExpression SQCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param t2 SQOPENTK.
-         * @param e3 OptExpression.
-         * @param e5 OptExpression.
+         * @param e1 {@code FuncExpression}.
+         * @param t2 {@code SQOPENTK}.
+         * @param e3 {@code OptExpression}.
+         * @param e5 {@code OptExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression07(Expression e1, Token t2, Expression e3, Expression e5);
@@ -98377,11 +98377,11 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression @SQOPENTK OptExpression COLONTK OptExpression COLONTK OptExpression SQCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param t2 SQOPENTK.
-         * @param e3 OptExpression.
-         * @param e5 OptExpression.
-         * @param e7 OptExpression.
+         * @param e1 {@code FuncExpression}.
+         * @param t2 {@code SQOPENTK}.
+         * @param e3 {@code OptExpression}.
+         * @param e5 {@code OptExpression}.
+         * @param e7 {@code OptExpression}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression08(Expression e1, Token t2, Expression e3, Expression e5, Expression e7);
@@ -98391,10 +98391,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression CUROPENTK Expression CURCLOSETK @PAROPENTK ExprList PARCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param e3 Expression.
-         * @param t5 PAROPENTK.
-         * @param l6 ExprList.
+         * @param e1 {@code FuncExpression}.
+         * @param e3 {@code Expression}.
+         * @param t5 {@code PAROPENTK}.
+         * @param l6 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression09(Expression e1, Expression e3, Token t5, List<Expression> l6);
@@ -98404,9 +98404,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression CUROPENTK Expression CURCLOSETK @PAROPENTK PARCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param e3 Expression.
-         * @param t5 PAROPENTK.
+         * @param e1 {@code FuncExpression}.
+         * @param e3 {@code Expression}.
+         * @param t5 {@code PAROPENTK}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression10(Expression e1, Expression e3, Token t5);
@@ -98416,9 +98416,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression @PAROPENTK ExprList PARCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param t2 PAROPENTK.
-         * @param l3 ExprList.
+         * @param e1 {@code FuncExpression}.
+         * @param t2 {@code PAROPENTK}.
+         * @param l3 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression11(Expression e1, Token t2, List<Expression> l3);
@@ -98428,8 +98428,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code FuncExpression : FuncExpression @PAROPENTK PARCLOSETK;}</p>
          *
-         * @param e1 FuncExpression.
-         * @param t2 PAROPENTK.
+         * @param e1 {@code FuncExpression}.
+         * @param t2 {@code PAROPENTK}.
          * @return The parser call back hook result.
          */
         public Expression parseFuncExpression12(Expression e1, Token t2);
@@ -98439,7 +98439,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @TIMEKW;}</p>
          *
-         * @param t1 TIMEKW.
+         * @param t1 {@code TIMEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor01(Token t1);
@@ -98449,7 +98449,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @TRUEKW;}</p>
          *
-         * @param t1 TRUEKW.
+         * @param t1 {@code TRUEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor02(Token t1);
@@ -98459,7 +98459,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @FALSEKW;}</p>
          *
-         * @param t1 FALSEKW.
+         * @param t1 {@code FALSEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor03(Token t1);
@@ -98469,7 +98469,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @NUMBERTK;}</p>
          *
-         * @param t1 NUMBERTK.
+         * @param t1 {@code NUMBERTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor04(Token t1);
@@ -98479,7 +98479,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @REALTK;}</p>
          *
-         * @param t1 REALTK.
+         * @param t1 {@code REALTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor05(Token t1);
@@ -98489,7 +98489,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @STRINGTK;}</p>
          *
-         * @param t1 STRINGTK.
+         * @param t1 {@code STRINGTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor06(Token t1);
@@ -98499,8 +98499,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : LTTK Type GTTK @SQOPENTK SQCLOSETK;}</p>
          *
-         * @param t2 Type.
-         * @param t4 SQOPENTK.
+         * @param t2 {@code Type}.
+         * @param t4 {@code SQOPENTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor07(Type t2, Token t4);
@@ -98510,8 +98510,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SQOPENTK MatExprList SQCLOSETK;}</p>
          *
-         * @param t1 SQOPENTK.
-         * @param l2 MatExprList.
+         * @param t1 {@code SQOPENTK}.
+         * @param l2 {@code MatExprList}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor08(Token t1, List<MatrixRow> l2);
@@ -98521,8 +98521,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : LTTK Type GTTK @CUROPENTK CURCLOSETK;}</p>
          *
-         * @param t2 Type.
-         * @param t4 CUROPENTK.
+         * @param t2 {@code Type}.
+         * @param t4 {@code CUROPENTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor09(Type t2, Token t4);
@@ -98532,9 +98532,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : LTTK Type COLONTK Type GTTK @CUROPENTK CURCLOSETK;}</p>
          *
-         * @param t2 Type.
-         * @param t4 Type.
-         * @param t6 CUROPENTK.
+         * @param t2 {@code Type}.
+         * @param t4 {@code Type}.
+         * @param t6 {@code CUROPENTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor10(Type t2, Type t4, Token t6);
@@ -98544,8 +98544,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @CUROPENTK ExprList CURCLOSETK;}</p>
          *
-         * @param t1 CUROPENTK.
-         * @param l2 ExprList.
+         * @param t1 {@code CUROPENTK}.
+         * @param l2 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor11(Token t1, List<Expression> l2);
@@ -98555,8 +98555,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @CUROPENTK DictPairs CURCLOSETK;}</p>
          *
-         * @param t1 CUROPENTK.
-         * @param l2 DictPairs.
+         * @param t1 {@code CUROPENTK}.
+         * @param l2 {@code DictPairs}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor12(Token t1, List<DictionaryPair> l2);
@@ -98566,7 +98566,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : PAROPENTK ExprList PARCLOSETK;}</p>
          *
-         * @param l2 ExprList.
+         * @param l2 {@code ExprList}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor13(List<Expression> l2);
@@ -98576,7 +98576,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @IDENTIFIERTK;}</p>
          *
-         * @param t1 IDENTIFIERTK.
+         * @param t1 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor14(Token t1);
@@ -98586,9 +98586,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : ElementaryType @PAROPENTK Expression PARCLOSETK;}</p>
          *
-         * @param t1 ElementaryType.
-         * @param t2 PAROPENTK.
-         * @param e3 Expression.
+         * @param t1 {@code ElementaryType}.
+         * @param t2 {@code PAROPENTK}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor15(Type t1, Token t2, Expression e3);
@@ -98598,10 +98598,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @MATRIXKW PAROPENTK Expression COMMATK Expression COMMATK Expression PARCLOSETK;}</p>
          *
-         * @param t1 MATRIXKW.
-         * @param e3 Expression.
-         * @param e5 Expression.
-         * @param e7 Expression.
+         * @param t1 {@code MATRIXKW}.
+         * @param e3 {@code Expression}.
+         * @param e5 {@code Expression}.
+         * @param e7 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor16(Token t1, Expression e3, Expression e5, Expression e7);
@@ -98611,8 +98611,8 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SETKW PAROPENTK Expression PARCLOSETK;}</p>
          *
-         * @param t1 SETKW.
-         * @param e3 Expression.
+         * @param t1 {@code SETKW}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor17(Token t1, Expression e3);
@@ -98622,7 +98622,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ABSKW;}</p>
          *
-         * @param t1 ABSKW.
+         * @param t1 {@code ABSKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor18(Token t1);
@@ -98632,7 +98632,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SIGNKW;}</p>
          *
-         * @param t1 SIGNKW.
+         * @param t1 {@code SIGNKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor19(Token t1);
@@ -98642,7 +98642,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @MAXKW;}</p>
          *
-         * @param t1 MAXKW.
+         * @param t1 {@code MAXKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor20(Token t1);
@@ -98652,7 +98652,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @MINKW;}</p>
          *
-         * @param t1 MINKW.
+         * @param t1 {@code MINKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor21(Token t1);
@@ -98662,7 +98662,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @CEILKW;}</p>
          *
-         * @param t1 CEILKW.
+         * @param t1 {@code CEILKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor22(Token t1);
@@ -98672,7 +98672,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @FLOORKW;}</p>
          *
-         * @param t1 FLOORKW.
+         * @param t1 {@code FLOORKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor23(Token t1);
@@ -98682,7 +98682,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ROUNDKW;}</p>
          *
-         * @param t1 ROUNDKW.
+         * @param t1 {@code ROUNDKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor24(Token t1);
@@ -98692,7 +98692,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @CBRTKW;}</p>
          *
-         * @param t1 CBRTKW.
+         * @param t1 {@code CBRTKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor25(Token t1);
@@ -98702,7 +98702,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SQRTKW;}</p>
          *
-         * @param t1 SQRTKW.
+         * @param t1 {@code SQRTKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor26(Token t1);
@@ -98712,7 +98712,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @EXPKW;}</p>
          *
-         * @param t1 EXPKW.
+         * @param t1 {@code EXPKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor27(Token t1);
@@ -98722,7 +98722,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @LNKW;}</p>
          *
-         * @param t1 LNKW.
+         * @param t1 {@code LNKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor28(Token t1);
@@ -98732,7 +98732,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @LOGKW;}</p>
          *
-         * @param t1 LOGKW.
+         * @param t1 {@code LOGKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor29(Token t1);
@@ -98742,7 +98742,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ACOSHKW;}</p>
          *
-         * @param t1 ACOSHKW.
+         * @param t1 {@code ACOSHKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor30(Token t1);
@@ -98752,7 +98752,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ACOSKW;}</p>
          *
-         * @param t1 ACOSKW.
+         * @param t1 {@code ACOSKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor31(Token t1);
@@ -98762,7 +98762,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ASINHKW;}</p>
          *
-         * @param t1 ASINHKW.
+         * @param t1 {@code ASINHKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor32(Token t1);
@@ -98772,7 +98772,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ASINKW;}</p>
          *
-         * @param t1 ASINKW.
+         * @param t1 {@code ASINKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor33(Token t1);
@@ -98782,7 +98782,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ATANHKW;}</p>
          *
-         * @param t1 ATANHKW.
+         * @param t1 {@code ATANHKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor34(Token t1);
@@ -98792,7 +98792,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ATANKW;}</p>
          *
-         * @param t1 ATANKW.
+         * @param t1 {@code ATANKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor35(Token t1);
@@ -98802,7 +98802,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @COSHKW;}</p>
          *
-         * @param t1 COSHKW.
+         * @param t1 {@code COSHKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor36(Token t1);
@@ -98812,7 +98812,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @COSKW;}</p>
          *
-         * @param t1 COSKW.
+         * @param t1 {@code COSKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor37(Token t1);
@@ -98822,7 +98822,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SINHKW;}</p>
          *
-         * @param t1 SINHKW.
+         * @param t1 {@code SINHKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor38(Token t1);
@@ -98832,7 +98832,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SINKW;}</p>
          *
-         * @param t1 SINKW.
+         * @param t1 {@code SINKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor39(Token t1);
@@ -98842,7 +98842,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @TANHKW;}</p>
          *
-         * @param t1 TANHKW.
+         * @param t1 {@code TANHKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor40(Token t1);
@@ -98852,7 +98852,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @TANKW;}</p>
          *
-         * @param t1 TANKW.
+         * @param t1 {@code TANKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor41(Token t1);
@@ -98862,7 +98862,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @BERNOULLIKW;}</p>
          *
-         * @param t1 BERNOULLIKW.
+         * @param t1 {@code BERNOULLIKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor42(Token t1);
@@ -98872,7 +98872,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @BETAKW;}</p>
          *
-         * @param t1 BETAKW.
+         * @param t1 {@code BETAKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor43(Token t1);
@@ -98882,7 +98882,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @BINOMIALKW;}</p>
          *
-         * @param t1 BINOMIALKW.
+         * @param t1 {@code BINOMIALKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor44(Token t1);
@@ -98892,7 +98892,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @CONSTANTKW;}</p>
          *
-         * @param t1 CONSTANTKW.
+         * @param t1 {@code CONSTANTKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor45(Token t1);
@@ -98902,7 +98902,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @LOGNORMALKW;}</p>
          *
-         * @param t1 LOGNORMALKW.
+         * @param t1 {@code LOGNORMALKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor46(Token t1);
@@ -98912,7 +98912,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @EXPONENTIALKW;}</p>
          *
-         * @param t1 EXPONENTIALKW.
+         * @param t1 {@code EXPONENTIALKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor47(Token t1);
@@ -98922,7 +98922,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ERLANGKW;}</p>
          *
-         * @param t1 ERLANGKW.
+         * @param t1 {@code ERLANGKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor48(Token t1);
@@ -98932,7 +98932,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @GAMMAKW;}</p>
          *
-         * @param t1 GAMMAKW.
+         * @param t1 {@code GAMMAKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor49(Token t1);
@@ -98942,7 +98942,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @GEOMETRICKW;}</p>
          *
-         * @param t1 GEOMETRICKW.
+         * @param t1 {@code GEOMETRICKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor50(Token t1);
@@ -98952,7 +98952,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @NORMALKW;}</p>
          *
-         * @param t1 NORMALKW.
+         * @param t1 {@code NORMALKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor51(Token t1);
@@ -98962,7 +98962,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @POISSONKW;}</p>
          *
-         * @param t1 POISSONKW.
+         * @param t1 {@code POISSONKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor52(Token t1);
@@ -98972,7 +98972,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @RANDOMKW;}</p>
          *
-         * @param t1 RANDOMKW.
+         * @param t1 {@code RANDOMKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor53(Token t1);
@@ -98982,7 +98982,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @TRIANGLEKW;}</p>
          *
-         * @param t1 TRIANGLEKW.
+         * @param t1 {@code TRIANGLEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor54(Token t1);
@@ -98992,7 +98992,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @UNIFORMKW;}</p>
          *
-         * @param t1 UNIFORMKW.
+         * @param t1 {@code UNIFORMKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor55(Token t1);
@@ -99002,7 +99002,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @WEIBULLKW;}</p>
          *
-         * @param t1 WEIBULLKW.
+         * @param t1 {@code WEIBULLKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor56(Token t1);
@@ -99012,7 +99012,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @DICTKEYSKW;}</p>
          *
-         * @param t1 DICTKEYSKW.
+         * @param t1 {@code DICTKEYSKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor57(Token t1);
@@ -99022,7 +99022,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @DICTVALUESKW;}</p>
          *
-         * @param t1 DICTVALUESKW.
+         * @param t1 {@code DICTVALUESKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor58(Token t1);
@@ -99032,7 +99032,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @EMPTYKW;}</p>
          *
-         * @param t1 EMPTYKW.
+         * @param t1 {@code EMPTYKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor59(Token t1);
@@ -99042,7 +99042,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SIZEKW;}</p>
          *
-         * @param t1 SIZEKW.
+         * @param t1 {@code SIZEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor60(Token t1);
@@ -99052,7 +99052,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @POPKW;}</p>
          *
-         * @param t1 POPKW.
+         * @param t1 {@code POPKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor61(Token t1);
@@ -99062,7 +99062,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @ENUMERATEKW;}</p>
          *
-         * @param t1 ENUMERATEKW.
+         * @param t1 {@code ENUMERATEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor62(Token t1);
@@ -99072,7 +99072,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @RANGEKW;}</p>
          *
-         * @param t1 RANGEKW.
+         * @param t1 {@code RANGEKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor63(Token t1);
@@ -99082,7 +99082,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @DELKW;}</p>
          *
-         * @param t1 DELKW.
+         * @param t1 {@code DELKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor64(Token t1);
@@ -99092,7 +99092,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @INSERTKW;}</p>
          *
-         * @param t1 INSERTKW.
+         * @param t1 {@code INSERTKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor65(Token t1);
@@ -99102,7 +99102,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @SORTKW;}</p>
          *
-         * @param t1 SORTKW.
+         * @param t1 {@code SORTKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor66(Token t1);
@@ -99112,7 +99112,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @FINISHEDKW;}</p>
          *
-         * @param t1 FINISHEDKW.
+         * @param t1 {@code FINISHEDKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor67(Token t1);
@@ -99122,7 +99122,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @READYKW;}</p>
          *
-         * @param t1 READYKW.
+         * @param t1 {@code READYKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor68(Token t1);
@@ -99132,7 +99132,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @OPENKW;}</p>
          *
-         * @param t1 OPENKW.
+         * @param t1 {@code OPENKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor69(Token t1);
@@ -99142,7 +99142,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @EOLKW;}</p>
          *
-         * @param t1 EOLKW.
+         * @param t1 {@code EOLKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor70(Token t1);
@@ -99152,7 +99152,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @EOFKW;}</p>
          *
-         * @param t1 EOFKW.
+         * @param t1 {@code EOFKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor71(Token t1);
@@ -99162,7 +99162,7 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code ExpressionFactor : @NEWLINESKW;}</p>
          *
-         * @param t1 NEWLINESKW.
+         * @param t1 {@code NEWLINESKW}.
          * @return The parser call back hook result.
          */
         public Expression parseExpressionFactor72(Token t1);
@@ -99172,9 +99172,9 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code DictPairs : Expression @COLONTK Expression;}</p>
          *
-         * @param e1 Expression.
-         * @param t2 COLONTK.
-         * @param e3 Expression.
+         * @param e1 {@code Expression}.
+         * @param t2 {@code COLONTK}.
+         * @param e3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<DictionaryPair> parseDictPairs1(Expression e1, Token t2, Expression e3);
@@ -99184,10 +99184,10 @@ public final class ChiParser extends Parser<List<Declaration>> {
          *
          * <p>{@code DictPairs : DictPairs COMMATK Expression @COLONTK Expression;}</p>
          *
-         * @param l1 DictPairs.
-         * @param e3 Expression.
-         * @param t4 COLONTK.
-         * @param e5 Expression.
+         * @param l1 {@code DictPairs}.
+         * @param e3 {@code Expression}.
+         * @param t4 {@code COLONTK}.
+         * @param e5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<DictionaryPair> parseDictPairs2(List<DictionaryPair> l1, Expression e3, Token t4, Expression e5);
