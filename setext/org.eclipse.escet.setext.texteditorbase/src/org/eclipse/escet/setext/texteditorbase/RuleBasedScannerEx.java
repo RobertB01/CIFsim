@@ -34,7 +34,7 @@ public class RuleBasedScannerEx extends RuleBasedScanner {
     /**
      * Returns the 0-based offset into the document of the next character to be read.
      *
-     * @return the 0-based offset into the document of the next character to be read.
+     * @return The 0-based offset into the document of the next character to be read.
      * @see #getInternalDocument
      */
     public int getInternalOffset() {

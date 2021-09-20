@@ -28,7 +28,7 @@ public class ParserSelectCondition {
     /**
      * Return the position at the left of the condition.
      *
-     * @return the left position.
+     * @return The left position.
      */
     public Position getLeftPosition() {
         if (expr != null) {

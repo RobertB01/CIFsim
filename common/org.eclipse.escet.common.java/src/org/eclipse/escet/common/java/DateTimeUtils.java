@@ -95,7 +95,7 @@ public class DateTimeUtils {
      *
      * @param duration The duration in milliseconds.
      * @param omitZero Whether to omit zero values. If duration is zero however, the milliseconds are always shown.
-     * @return the duration in a readable form.
+     * @return The duration in a readable form.
      */
     public static String durationToString(long duration, boolean omitZero) {
         long x = duration;

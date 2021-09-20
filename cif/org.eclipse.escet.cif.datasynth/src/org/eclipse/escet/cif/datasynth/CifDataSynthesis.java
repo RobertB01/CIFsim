@@ -1411,7 +1411,7 @@ public class CifDataSynthesis {
      * Prints the number of states in the controlled system, as debug output.
      *
      * @param aut The synthesis automaton.
-     * @param emptySup whether the supervisor is empty.
+     * @param emptySup Whether the supervisor is empty.
      * @param doForward Whether to do forward reachability during synthesis.
      * @param dbgEnabled Whether debug output is enabled.
      */

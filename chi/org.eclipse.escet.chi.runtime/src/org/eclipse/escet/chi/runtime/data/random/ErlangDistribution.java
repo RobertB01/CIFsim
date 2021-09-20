@@ -79,8 +79,8 @@ public class ErlangDistribution extends DoubleDistribution {
      *
      * @param randGen1 First random generator to use (and update).
      * @param randGen2 Second random generator to use (and update).
-     * @param m m-parameter.
-     * @param k Scale parameter.
+     * @param m The m parameter.
+     * @param k The k parameter.
      * @return Sample of the k-erlang distribution.
      */
     public static double drawErlang(RandomGenerator randGen1, RandomGenerator randGen2, int k, double m) {
