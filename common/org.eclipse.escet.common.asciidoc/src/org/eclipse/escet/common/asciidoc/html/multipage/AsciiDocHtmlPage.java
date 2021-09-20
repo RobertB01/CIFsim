@@ -46,10 +46,17 @@ public class AsciiDocHtmlPage {
     /** The 'content' nodes belonging to this page, for the single-page HTML document. */
     List<Node> singlePageNodes;
 
-    /** The 'content' nodes belonging to this page, per multi-page HTML page, for the {@link #doc} of that page. */
-    Map<AsciiDocHtmlPage, List<Node>> multiPageNodesPerPage;
+    /**
+     * The 'content' nodes belonging to this page, for the cloned HTML document of one of the multi-page HTML pages. Is
+     * {@code null} if not yet or no longer available. Is recomputed for the cloned documents for each of the pages, for
+     * the current page that is being processed.
+     */
+    List<Node> multiPageNodes;
 
-    /** The multi-page HTML document for this page. It is a modified clone of the single-page HTML document. */
+    /**
+     * The multi-page HTML document for this page. It is a modified clone of the single-page HTML document. Is
+     * {@code null} if not yet or no longer available.
+     */
     Document doc;
 
     /**

@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Strings;
 
 /** AsciiDoc multi-page HTML utility methods. */
 class AsciiDocHtmlUtil {
@@ -46,7 +47,7 @@ class AsciiDocHtmlUtil {
             href = "";
         } else {
             Path relPath = fromPage.sourceFile.absPath.getParent().relativize(toPage.sourceFile.absPath);
-            relPath = AsciiDocMultiPageHtmlSplitter.sourcePathToOutputPath(relPath);
+            relPath = sourcePathToOutputPath(relPath);
             href = relPath.toString().replace('\\', '/');
         }
 
@@ -65,5 +66,19 @@ class AsciiDocHtmlUtil {
             href = "#";
         }
         return href;
+    }
+
+    /**
+     * Converts an AsciiDoc source file path into a generated output HTML file path.
+     *
+     * @param sourcePath The AsciiDoc source file path.
+     * @return The generated output HTML file path.
+     */
+    static Path sourcePathToOutputPath(Path sourcePath) {
+        String fileName = sourcePath.getFileName().toString();
+        Assert.check(fileName.endsWith(".asciidoc"), fileName);
+        fileName = Strings.slice(fileName, 0, -".asciidoc".length());
+        fileName += ".html";
+        return sourcePath.resolveSibling(fileName);
     }
 }

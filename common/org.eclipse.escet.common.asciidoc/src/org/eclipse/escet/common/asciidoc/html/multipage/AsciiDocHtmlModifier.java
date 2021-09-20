@@ -18,13 +18,14 @@ import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Lists.single;
 import static org.eclipse.escet.common.java.Maps.copy;
 import static org.eclipse.escet.common.java.Maps.map;
-import static org.eclipse.escet.common.java.Maps.mapc;
 import static org.eclipse.escet.common.java.Sets.difference;
 import static org.eclipse.escet.common.java.Sets.intersection;
 import static org.eclipse.escet.common.java.Sets.list2set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -58,37 +59,34 @@ class AsciiDocHtmlModifier {
     }
 
     /**
-     * Modify the AsciiDoc-generated single-page HTML file for each multi-page HTML page.
+     * Modify the AsciiDoc-generated single-page HTML file for each multi-page HTML page, and write the modified pages
+     * to disk.
      *
      * @param singlePageDoc The AsciiDoc-generated single-page HTML document.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
      *     the root 'index.asciidoc' file.
+     * @param outputRootPath The path to the directory in which to write output.
      * @param htmlType The HTML type.
      */
-    static void modifyPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
-            HtmlType htmlType)
+    static void generateAndWriteModifiedPages(Document singlePageDoc, AsciiDocHtmlPages htmlPages, Path sourceRootPath,
+            Path outputRootPath, HtmlType htmlType)
     {
-        // Give each multi-page HTML page a clone of the original single-page HTML file.
-        for (AsciiDocHtmlPage page: htmlPages.pages) {
-            page.doc = singlePageDoc.clone();
-        }
-
-        // Determine multi-page HTML nodes, for each page, per cloned document of each page.
-        for (AsciiDocHtmlPage page: htmlPages.pages) {
-            page.multiPageNodesPerPage = mapc(htmlPages.pages.size());
-            for (AsciiDocHtmlPage otherPage: htmlPages.pages) {
-                List<Node> otherDocNodes = determineClonedNodes(singlePageDoc, otherPage.doc, page.singlePageNodes);
-                page.multiPageNodesPerPage.put(otherPage, otherDocNodes);
-            }
-        }
-
         // Determine new section ids.
         determineNewSectionIds(htmlPages);
 
         // Modify the pages, per page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
             try {
+                // Clone the original single-page HTML file for this page.
+                page.doc = singlePageDoc.clone();
+
+                // Determine multi-page HTML nodes for each page, for the cloned document of this page. Do this before
+                // any modifications to the document itself.
+                for (AsciiDocHtmlPage somePage: htmlPages.pages) {
+                    somePage.multiPageNodes = determineClonedNodes(singlePageDoc, page.doc, somePage.singlePageNodes);
+                }
+
                 // Modify page title.
                 String docOriginalTitle = modifyPageTitle(page);
 
@@ -104,6 +102,9 @@ class AsciiDocHtmlModifier {
 
                 // Remove all content that should not be on this page.
                 removeNonPageContent(page, htmlPages);
+                for (AsciiDocHtmlPage somePage: htmlPages.pages) {
+                    somePage.multiPageNodes = null;
+                }
 
                 // Remove empty paragraphs and sections.
                 removeEmptyParagraphsAndSections(page.doc);
@@ -142,6 +143,13 @@ class AsciiDocHtmlModifier {
                 if (htmlType == HtmlType.WEBSITE && page == htmlPages.homePage) {
                     addLinkToSinglePageHtmlVersion(page);
                 }
+
+                // Write modified page to disk.
+                Path sourcePath = outputRootPath.resolve(page.sourceFile.relPath);
+                Path outputPath = AsciiDocHtmlUtil.sourcePathToOutputPath(sourcePath);
+                Files.createDirectories(outputPath.getParent());
+                Files.writeString(outputPath, page.doc.outerHtml(), StandardCharsets.UTF_8);
+                page.doc = null;
             } catch (Throwable e) {
                 throw new RuntimeException(
                         "Failed to modify HTML document for AsciiDoc multi-html page: " + page.sourceFile.relPath, e);
@@ -368,7 +376,7 @@ class AsciiDocHtmlModifier {
             elemContent.children().remove();
 
             // Re-add content for this source file.
-            for (Node node: page.multiPageNodesPerPage.get(page)) {
+            for (Node node: page.multiPageNodes) {
                 elemContent.appendChild(node);
             }
         }
@@ -376,7 +384,7 @@ class AsciiDocHtmlModifier {
         // Remove content from other pages. Removes sub-pages.
         for (AsciiDocHtmlPage otherPage: htmlPages.pages) {
             if (otherPage != page && otherPage != htmlPages.homePage) {
-                for (Node node: otherPage.multiPageNodesPerPage.get(page)) {
+                for (Node node: otherPage.multiPageNodes) {
                     node.remove();
                 }
             }

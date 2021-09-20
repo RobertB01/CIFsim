@@ -32,7 +32,6 @@ import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.escet.common.app.framework.XmlSupport;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.java.Strings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -138,15 +137,10 @@ public class AsciiDocMultiPageHtmlSplitter {
         AsciiDocHtmlPages htmlPages = new AsciiDocHtmlPages(sourceFiles);
         AsciiDocHtmlAnalyzer.analyze(singlePageDoc, htmlPages);
 
-        // Generate multiple HTML files, one per page.
+        // Generate and write multiple HTML files, one per page.
         System.out.println("Generating multi-page HTML files at: " + outputRootPath.toString());
-        AsciiDocHtmlModifier.modifyPages(singlePageDoc, htmlPages, sourceRootPath, htmlType);
-        for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
-            Path sourcePath = outputRootPath.resolve(htmlPage.sourceFile.relPath);
-            Path outputPath = sourcePathToOutputPath(sourcePath);
-            Files.createDirectories(outputPath.getParent());
-            Files.writeString(outputPath, htmlPage.doc.outerHtml(), StandardCharsets.UTF_8);
-        }
+        AsciiDocHtmlModifier.generateAndWriteModifiedPages(singlePageDoc, htmlPages, sourceRootPath, outputRootPath,
+                htmlType);
 
         // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {
@@ -182,19 +176,5 @@ public class AsciiDocMultiPageHtmlSplitter {
             sourcePaths = pathStream.collect(Collectors.toList());
         }
         return sourcePaths;
-    }
-
-    /**
-     * Converts an AsciiDoc source file path into a generated output HTML file path.
-     *
-     * @param sourcePath The AsciiDoc source file path.
-     * @return The generated output HTML file path.
-     */
-    static Path sourcePathToOutputPath(Path sourcePath) {
-        String fileName = sourcePath.getFileName().toString();
-        Assert.check(fileName.endsWith(".asciidoc"), fileName);
-        fileName = Strings.slice(fileName, 0, -".asciidoc".length());
-        fileName += ".html";
-        return sourcePath.resolveSibling(fileName);
     }
 }
