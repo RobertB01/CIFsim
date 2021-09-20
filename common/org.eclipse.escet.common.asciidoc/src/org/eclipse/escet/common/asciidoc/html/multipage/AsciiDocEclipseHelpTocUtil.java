@@ -17,6 +17,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.eclipse.escet.common.java.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -71,6 +72,10 @@ class AsciiDocEclipseHelpTocUtil {
         elem.setAttribute("label", entry.title);
         String refAttrName = (node instanceof Document) ? "topic" : "href";
         String refTxt = AsciiDocHtmlUtil.getFileOrSectionHref(rootEntry.page, entry.page, entry.refId);
+        if (node instanceof Document) {
+            Assert.check(refTxt.equals("#"));
+            refTxt = "index.html";
+        }
         elem.setAttribute(refAttrName, refTxt);
 
         // Recursively add child TOC entries.
