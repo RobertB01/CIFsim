@@ -11,6 +11,8 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
+event e;
+
 func bool f1():
   int x1 = [1, 2, 3][3];
   int x2 = [1, 2, 3][4];
@@ -42,4 +44,49 @@ func bool f3():
   z[3] := 5;
 
   return true;
+end
+
+automaton ok:
+  disc list[2] int v;
+  disc list[2..2] int w;
+
+  location:
+    initial;
+    edge e do v[0] := 5;
+    edge e do v[1] := 5;
+    edge e do v[-1] := 5;
+    edge e do v[-2] := 5;
+
+    edge e do w[0] := 5;
+    edge e do w[1] := 5;
+    edge e do w[-1] := 5;
+    edge e do w[-2] := 5;
+end
+
+automaton err_pos2:
+  disc list[2] int v;
+  location:
+    initial;
+    edge e do v[2] := 5;
+end
+
+automaton err_pos3:
+  disc list[2..2] int v;
+  location:
+    initial;
+    edge e do v[3] := 5;
+end
+
+automaton err_neg3:
+  disc list[2..2] int v;
+  location:
+    initial;
+    edge e do v[-3] := 5;
+end
+
+automaton err_neg4:
+  disc list[2] int v;
+  location:
+    initial;
+    edge e do v[-4] := 5;
 end
