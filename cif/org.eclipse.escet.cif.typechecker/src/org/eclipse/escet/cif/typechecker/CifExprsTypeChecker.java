@@ -2084,19 +2084,30 @@ public class CifExprsTypeChecker {
             ListType ltype = (ListType)nctype;
             IntType intType = (IntType)nitype;
             if (!CifTypeUtils.isRangeless(ltype) && !CifTypeUtils.isRangeless(intType)) {
-                long u = ltype.getUpper();
-                long a = intType.getLower();
-                long b = intType.getUpper();
+                long listUpper = ltype.getUpper();
+                long indexLower = intType.getLower();
+                long indexUpper = intType.getUpper();
 
-                if (a >= 0 && b >= 0 && a >= u) {
-                    // Index lower bound larger or equal to list size upper
-                    // bound, so index for sure does not exist in the list.
-                    // This check is incomplete. Remaining cases checked at
-                    // runtime.
-                    tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
-                            CifTextUtils.typeToStr(nitype));
-                    throw new SemanticException();
+                // Verifying projection bounds only makes sense for sane bounds on the sub-expressions.
+                if (listUpper >= 0 && indexLower <= indexUpper) {
+                    // Check that the lowest possible index is not above the longest list size.
+                    if (indexLower >= listUpper) {
+                        tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
+                                CifTextUtils.typeToStr(nitype));
+                        throw new SemanticException();
+                    }
+                    // Check that the negative index nearest to 0 is not above the longest list size.
+                    if (indexUpper < 0) {
+                        long normalizedIndex = indexUpper + listUpper;
+                        if (normalizedIndex < 0) {
+                            tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
+                                    CifTextUtils.typeToStr(nitype));
+                            throw new SemanticException();
+                        }
+                    }
                 }
+
+                // This check is incomplete. Remaining cases are checked at runtime.
             }
 
             resultType = deepclone(((ListType)nctype).getElementType());
