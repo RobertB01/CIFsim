@@ -19,18 +19,15 @@ Follow these instructions to set up an Eclipse ESCET development environment.
 
 indexterm:[installer]
 indexterm:[oomph]
-
-Get the Eclipse Installer:
-
-* Go to link:https://www.eclipse.org/[] in a browser.
-* Click on the big btn:[Download] button at the top right.
-* Download Eclipse Installer, 64 bit edition, using the btn:[Download 64 bit] button.
-
 indexterm:[oomph, setup]
 indexterm:[development, environment]
 
 To create a development environment for the first time:
 
+* Get the Eclipse Installer:
+** Go to link:https://www.eclipse.org/[] in a browser.
+** Click on the big btn:[Download] button at the top right.
+** Download Eclipse Installer, 64 bit edition, using the btn:[Download x86_64] button.
 * Start the Eclipse Installer that you downloaded.
 * Use the hamburger menu at the top right to switch to advanced mode.
 * For Windows:
@@ -43,6 +40,13 @@ Select a directory of your choosing.
 
 To create a development environment for a non-first time:
 
+* Ensure you are using the latest version of the Eclipse Installer:
+** One option is to download it again, as per the 'first time' instructions above.
+** Another option is to update your existing Eclipse Installer.
+In the Eclipse Installer, when in advanced mode, click the 'Install available updates' button.
+This button with the two-arrows icon is located at the bottom-left part of the window, next to the version number.
+Wait for the update to complete and the Eclipse Installer to restart.
+If the button is disabled (grey), you are already using the latest version.
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
 ** Select _2021-06_ for _Product Version_.
@@ -79,8 +83,6 @@ If this is not automatically shown, click the rotating arrows icon in the status
 
 If you have any issues during setting up the development environment, consider the following:
 
-* Make sure to use a recent version of the Eclipse Installer.
-These versions include a recent JRE, which includes up-to-date certificates, preventing issues when accessing https URLs.
 * You can set the following environment variables to force the use of IPv4, in case of any issues accessing/downloading remote files:
 +
 [source]
