@@ -305,7 +305,6 @@ After modifying `eclipse.ini`, restart the Eclipse ESCET IDE or command line scr
 
 indexterm:[ECLIPSE_HOME]
 indexterm:[vmargs]
-indexterm:[start_eclipse]
 indexterm:[launcher.appendVmargs]
 indexterm:[appendVmargs]
 
