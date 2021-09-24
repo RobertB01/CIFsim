@@ -253,10 +253,10 @@ public class ResourceManager {
     /**
      * Saves an {@link EObject} as EMF resource.
      *
-     * @param obj the {@link EObject} to save
-     * @param resourcePath the path to save the resource to; either a local file system path (absolute or relative), or
+     * @param obj The {@link EObject} to save.
+     * @param resourcePath The path to save the resource to; either a local file system path (absolute or relative), or
      *     a URI
-     * @throws EMFResourceException if saving fails
+     * @throws EMFResourceException if saving fails.
      */
     public static void saveResource(EObject obj, String resourcePath) throws EMFResourceException {
         URI resourceUri = Paths.createEmfURI(resourcePath);
@@ -266,10 +266,10 @@ public class ResourceManager {
     /**
      * Saves an {@link EObject} as EMF resource.
      *
-     * @param obj the {@link EObject} to save
+     * @param obj The {@link EObject} to save.
      * @param resourceUri The URI to save the resource to; relative local file system paths are resolved against the
      *     current working directory of the application.
-     * @throws EMFResourceException if saving fails
+     * @throws EMFResourceException if saving fails.
      */
     public static void saveResource(EObject obj, URI resourceUri) throws EMFResourceException {
         dbg("Saving resource to: " + resourceUri);

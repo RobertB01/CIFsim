@@ -171,7 +171,7 @@ public class GrammarItem {
     /**
      * Returns a lookahead grammar item for this grammar item, without any lookahead symbols.
      *
-     * @return a lookahead grammar item for this grammar item, without any lookahead symbols.
+     * @return A lookahead grammar item for this grammar item, without any lookahead symbols.
      */
     public LookaheadItem toLookaheadItem() {
         Set<Terminal> lookaheads = set();

@@ -646,7 +646,7 @@ public final class ExpectedTermsParser extends Parser<Integer> {
          *
          * <p>{@code S : AKW X BKW;}</p>
          *
-         * @param d2 X.
+         * @param d2 {@code X}.
          * @return The parser call back hook result.
          */
         public Integer parseS1(Double d2);
@@ -656,7 +656,7 @@ public final class ExpectedTermsParser extends Parser<Integer> {
          *
          * <p>{@code S : BKW X AKW;}</p>
          *
-         * @param d2 X.
+         * @param d2 {@code X}.
          * @return The parser call back hook result.
          */
         public Integer parseS2(Double d2);

@@ -1700,7 +1700,7 @@ public final class ChiHooks implements ChiScanner.Hooks, ChiParser.Hooks {
     /**
      * Construct a sequence of data variables from a sequence of names (identifiers).
      *
-     * @param isParam variable names are parameters of a process/model/function.
+     * @param isParam Variable names are parameters of a process/model/function.
      * @param names Sequence of names.
      * @param tp Tpye of the names (may be null).
      * @return Sequence of untyped uninitialized data variables.
@@ -1720,7 +1720,7 @@ public final class ChiHooks implements ChiScanner.Hooks, ChiParser.Hooks {
     /**
      * Unfold variable names to a list of variable declarations.
      *
-     * @param isParam variable names are parameters of a process/model/function.
+     * @param isParam Variable names are parameters of a process/model/function.
      * @param type Type of the var names.
      * @param vnames Variable names to unfold.
      * @return Variable declarations containing the variable names.
