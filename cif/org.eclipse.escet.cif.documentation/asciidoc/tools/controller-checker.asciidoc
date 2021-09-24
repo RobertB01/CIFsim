@@ -64,7 +64,7 @@ The following restrictions apply:
 
 * Continuous variables are not supported.
 
-* State invariants are ignored.
+* State invariants are not supported, unless they are trivially `true`.
 
 * Functions are not supported.
 

@@ -15,22 +15,28 @@ package org.eclipse.escet.cif.controllercheck;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
+import static org.eclipse.escet.cif.common.CifTextUtils.getComponentText1;
 import static org.eclipse.escet.cif.common.CifTextUtils.getLocationText1;
 import static org.eclipse.escet.cif.common.CifTextUtils.operatorToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isRangeless;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Sets.sortedstrings;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifTypeUtils;
+import org.eclipse.escet.cif.common.CifValueUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
+import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Equation;
+import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -41,6 +47,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DictExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.FunctionCallExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ListExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
@@ -92,6 +99,20 @@ public class ControllerCheckPreChecker extends CifWalker {
     }
 
     @Override
+    protected void preprocessComplexComponent(ComplexComponent comp) {
+        // State invariants, as state/event exclusion invariants have been eliminated.
+        List<Expression> invPreds = listc(comp.getInvariants().size());
+        for (Invariant inv: comp.getInvariants()) {
+            invPreds.add(inv.getPredicate());
+        }
+        if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
+            String msg = fmt("Unsupported %s: state invariants in components are currently not supported.",
+                    getComponentText1(comp));
+            problems.add(msg);
+        }
+    }
+
+    @Override
     protected void preprocessEdge(Edge edge) {
         // Tau unsupported.
         if (edge.getEvents().isEmpty()) {
@@ -129,6 +150,20 @@ public class ControllerCheckPreChecker extends CifWalker {
             obj = obj.eContainer();
         }
         return (Location)obj;
+    }
+
+    @Override
+    protected void preprocessLocation(Location loc) {
+        // State invariants, as state/event exclusion invariants have been eliminated.
+        List<Expression> invPreds = listc(loc.getInvariants().size());
+        for (Invariant inv: loc.getInvariants()) {
+            invPreds.add(inv.getPredicate());
+        }
+        if (!CifValueUtils.isTriviallyTrue(invPreds, false, true)) {
+            String msg = fmt("Unsupported %s: state invariants in locations are currently not supported.",
+                    getLocationText1(loc));
+            problems.add(msg);
+        }
     }
 
     // Declaration checks.

@@ -38,5 +38,9 @@ group g:
 
       edge e1
       do lb[0] := true;             // Partial var asgn, proj expr, list type.
+
+      plant invariant 5 = 7;        // State invariant in location.
   end
+
+  invariant 8 = 9;                  // State invariant in component.
 end
