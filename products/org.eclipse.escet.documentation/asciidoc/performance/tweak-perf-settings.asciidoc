@@ -298,7 +298,7 @@ Settings on lines before the `-vmargs` line are the settings for the launcher th
 Note that the default `eclipse.ini` file supplied with Eclipse may already contain some of the settings.
 If so, don't add the setting again.
 Instead, change the value of the existing setting.
-The settings that are present by default, as well as their values, may change from release to release.
+The settings that are present by default, as well as their values, may change from version to version.
 
 After modifying `eclipse.ini`, restart the Eclipse ESCET IDE or command line script for the changes to take effect.
 
