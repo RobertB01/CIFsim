@@ -63,4 +63,4 @@ Click the btn:[OK] button to confirm.
 
 indexterm:[perspective,default layout]
 indexterm:[perspective,default views]
-Whenever a new release changes the default layout of a perspective, for instance by adding a new default view, you can reset the perspective to get the new view, or you can <<use-terminology-view-open,open>> that view it manually.
+Whenever a new version changes the default layout of a perspective, for instance by adding a new default view, you can reset the perspective to get the new view, or you can <<use-terminology-view-open,open>> that view it manually.
