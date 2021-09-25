@@ -234,9 +234,9 @@ indexterm:[controller checker property,runtime errors]
 The model is assumed not to contain runtime errors, such as division by zero, modulus of zero, or assigning out of bounds values.
 The finite response check silently discards any such behavior.
 
-When PLC code is generated for models with runetime errors, finite response cannot be guaranteed as the resulting code may not behave as the CIF specification (see <<tools-cif2plc-generatedcode,generated code>>). 
+When PLC code is generated for models with runtime errors, finite response cannot be guaranteed as the resulting code may not behave as the CIF specification (see <<tools-cif2plc-generatedcode,generated code>>). 
 
-One way to get a model without runtime errors is to use supervisor synthesis to compute it, since that computation removes such behavior from its input.
+One way to get a model without runtime errors is to use supervisor synthesis to compute it, since that removes such behavior from its input.
 For more information, see the <<tools-chapter-datasynth,data-based>> and <<tools-eventbased-chapter-supervisorsynthesis,event-based>> supervisor synthesis tools.
-Alternatively, the <<tools-chapter-cif-explorer,CIF explorer>> may be used to verify that the specification does not contain runetime errors.
+Alternatively, the <<tools-chapter-cif-explorer,CIF explorer>> may be used to verify that the specification does not contain runtime errors.
 
