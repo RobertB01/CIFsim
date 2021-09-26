@@ -93,7 +93,7 @@ include::language-reference/builtins/file.asciidoc[]
 
 // Tool manual
 
-include::tools/index.asciidoc[]
+include::tools.asciidoc[]
 
 // Release notes
 

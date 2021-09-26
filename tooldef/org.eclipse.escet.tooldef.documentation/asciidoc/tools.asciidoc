@@ -10,7 +10,7 @@
 // SPDX-License-Identifier: MIT
 /////////////////////////////////////////////////////////////////////////////////
 
-include::_part_attributes.asciidoc[]
+include::_root_attributes.asciidoc[]
 
 indexterm:[tooling]
 
@@ -57,6 +57,6 @@ To execute a ToolDef script in the Eclipse IDE, right click the file or an open 
 Alternatively, choose menu:Execute ToolDef...[] to first shown an option dialog, where several options that influence how the script is executed, before actually executing the script.
 
 It is also possible to start executing a script by pressing kbd:[F10], while a `.tooldef` file is selected or an open text for such a file has the focus.
-Finally, clicking the corresponding toolbar icon (image:{tools-imgsdir}/tooldef_icon.png[]) has the same effect.
+Finally, clicking the corresponding toolbar icon (image:{imgsdir}/tooldef_icon.png[]) has the same effect.
 
 Execution of ToolDef script can be manually terminated by means of the termination features of the _Applications_ view.
