@@ -16,8 +16,8 @@
 // Defining an alternative 'imgsdir' attribute avoids this problem and images will be visible in the preview.
 // For specific parts of the documentation, we introduce an additional attribute, to allow shorter relative paths.
 // Changes to attributes require a restart of Eclipse to become effective in the asciidoc editor.
-ifndef::imgsdir[:lang-ref-imgsdir: ../images/lang-ref]
-ifdef::imgsdir[:lang-ref-imgsdir: {imgsdir}/lang-ref]
+ifndef::imgsdir[:lang-ref-imgsdir: ../images/language-reference]
+ifdef::imgsdir[:lang-ref-imgsdir: {imgsdir}/language-reference]
 
 // Defining a unique prefix for all sections in this part of the documentation to avoid duplication of reference ids.
 // Note that this only works for section ids and not for figures, tables, etc. (and there is no alternative attribute for this).

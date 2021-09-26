@@ -1,3 +1,4 @@
+
 /////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
@@ -258,13 +259,13 @@ include::language-tutorial/extensions/synthesis.asciidoc[]
 
 // Language reference manual
 
-include::lang-ref/index.asciidoc[]
+include::language-reference/index.asciidoc[]
 
 :leveloffset: +1
 
-include::lang-ref/syntax/lexical.asciidoc[]
+include::language-reference/syntax/lexical.asciidoc[]
 
-include::lang-ref/syntax/grammar.asciidoc[]
+include::language-reference/syntax/grammar.asciidoc[]
 
 :leveloffset: -1
 
