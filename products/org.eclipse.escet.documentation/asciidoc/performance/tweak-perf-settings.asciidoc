@@ -57,7 +57,7 @@ indexterm:[memory,out of memory]
 This section explains a 'quick and dirty' solution that gives Eclipse more memory, resolving the most common performance problems and out-of-memory errors.
 
 Find the `eclipse.ini` file.
-By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `Eclipse.app/Contents/MacOS` directory inside the Eclipse ESCET installation directory.
+By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `EclipseESCET-vNNN.app/Contents/Eclipse` directory, with `vNNN` the version number, inside the Eclipse ESCET installation directory.
 Modify the last line (usually `-Xmx4g`).
 Replace it by the following to change the maximum available memory from 4 link:https://en.wikipedia.org/wiki/Gibibyte[GiB] to 8 GiB:
 
@@ -288,7 +288,7 @@ indexterm:[vmargs]
 
 There are several ways to supply the command line arguments for the settings to Java.
 The easiest way to do it, when using Eclipse, is to modify the `eclipse.ini` file.
-By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `Eclipse.app/Contents/MacOS` directory inside the Eclipse ESCET installation directory.
+By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `EclipseESCET-vNNN.app/Contents/Eclipse` directory, with `vNNN` the version number, inside the Eclipse ESCET installation directory.
 
 Each of the settings you want to change should be added to the `eclipse.ini` text file, in the command line syntax.
 Each setting must be put on a line _by itself_.
