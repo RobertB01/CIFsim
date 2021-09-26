@@ -17,7 +17,7 @@ indexterm:[release, notes]
 [[release-notes-chapter-index]]
 == ToolDef release notes
 
-The release notes for the releases of ToolDef and the associated tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
+The release notes for the versions of ToolDef and the associated tools, as part of the Eclipse ESCET project, are listed below in reverse chronological order.
 
 The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
 
