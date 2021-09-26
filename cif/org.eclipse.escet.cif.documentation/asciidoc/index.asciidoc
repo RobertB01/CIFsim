@@ -692,11 +692,11 @@ include::release-notes.asciidoc[]
 
 // Developers
 
-include::dev/index.asciidoc[]
+include::developers/index.asciidoc[]
 
 :leveloffset: +1
 
-include::dev/lang-modify.asciidoc[]
+include::developers/lang-modify.asciidoc[]
 
 :leveloffset: -1
 
