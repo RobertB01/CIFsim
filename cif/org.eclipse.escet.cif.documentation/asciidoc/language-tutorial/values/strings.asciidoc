@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-strings]]
+[[lang-tut-values-chapter-strings]]
 == Strings
 
 indexterm:[string]

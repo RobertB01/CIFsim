@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-stat-evt-excl-invariants]]
+[[lang-tut-data-chapter-stat-evt-excl-invariants]]
 == State/event exclusion invariants
 
 indexterm:[invariant]

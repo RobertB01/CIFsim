@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse1-chapter-type-declarations]]
+[[lang-tut-reuse1-chapter-type-declarations]]
 == Type declarations
 
 indexterm:[type declaration]
 indexterm:[type,declaration]
-Consider this slightly modified version of an example from the lesson on <<tut-reuse1-chapter-constants,constants>>:
+Consider this slightly modified version of an example from the lesson on <<lang-tut-reuse1-chapter-constants,constants>>:
 
 
 [source, cif]
@@ -49,7 +49,7 @@ const Durations M2_DURATION = {A: 1.8, B: 4.2, C: 3.9};
 A type declaration with name `Durations` is introduced, and `Durations` can then be used wherever a type is expected, instead of `dict(ProductType:real)`.
 In the example above, `Durations` is used as type of the two constants.
 The original specification and the one with the type declaration have the same constants, with effectively the same type.
-That is, in both specification the value of constant `M1_DURATION` is a <<tut-values-chapter-dictionaries,dictionary>> with three key/value pairs.
+That is, in both specification the value of constant `M1_DURATION` is a <<lang-tut-values-chapter-dictionaries,dictionary>> with three key/value pairs.
 
-Type declarations can be used to give a type a name, similar to how <<tut-reuse1-chapter-constants,constants>> can be used to give fixed values a name, and <<tut-reuse1-chapter-algebraic-variables,algebraic variables>> can be used to give computations a name.
+Type declarations can be used to give a type a name, similar to how <<lang-tut-reuse1-chapter-constants,constants>> can be used to give fixed values a name, and <<lang-tut-reuse1-chapter-algebraic-variables,algebraic variables>> can be used to give computations a name.
 The benefits are also similar, as type declarations can be used to make specifications more concise, to increase readability, and to make it easier to consistently change types throughout the specification.

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-read-write]]
+[[lang-tut-data-chapter-read-write]]
 == Global read, local write
 
 indexterm:[variable,read]
@@ -78,7 +78,7 @@ That is, a custom never enters the first queue if it is full, but it also never 
 
 The state space of this specification is as follows:
 
-image::{tut-imgsdir}/data/supermarket_state_space.png[]
+image::{lang-tut-imgsdir}/data/supermarket_state_space.png[]
 
 The states are labeled with the counts of the first and second queues.
 

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-discvar-change]]
+[[lang-tut-data-chapter-discvar-change]]
 == Discrete variable value changes
 
 indexterm:[discrete variable,value change]
@@ -37,7 +37,7 @@ automaton lamp:
 end
 ----
 
-This is the same `lamp` automaton as used in the lesson on <<tut-basics-chapter-automata,automata>>, but with a `count` variable added.
+This is the same `lamp` automaton as used in the lesson on <<lang-tut-basics-chapter-automata,automata>>, but with a `count` variable added.
 This variable is used to count the number of times that the lamp has been turned on.
 The edge for the `turn_on` event increments the value of the variable by one, each time the lamp is turned on.
 
@@ -45,6 +45,6 @@ The edge for the `turn_off` event does not assign a value to a variable, so vari
 
 The state space of this specification is:
 
-image::{tut-imgsdir}/data/discvar_change_state_space.png[]
+image::{lang-tut-imgsdir}/data/discvar_change_state_space.png[]
 
 The states are labeled with the name of the current location of automaton `lamp` and the current value of variable `count`.

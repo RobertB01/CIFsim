@@ -12,15 +12,15 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-functions-chapter-intro]]
+[[lang-tut-functions-chapter-intro]]
 == Functions
 
 indexterm:[function]
 indexterm:[function,standard library]
 Functions can be used to compute values from other values.
 CIF has many built-in functions, called _standard library functions_.
-An example is the `size` function, which takes a <<tut-values-chapter-lists,list>> and returns the number of elements of the list.
-Another example is the `abs` function, which takes an <<tut-values-chapter-integers,integer>> or <<tut-values-chapter-reals,real>> number and computes the absolute value of that number.
+An example is the `size` function, which takes a <<lang-tut-values-chapter-lists,list>> and returns the number of elements of the list.
+Another example is the `abs` function, which takes an <<lang-tut-values-chapter-integers,integer>> or <<lang-tut-values-chapter-reals,real>> number and computes the absolute value of that number.
 
 indexterm:[function,user-defined]
 While many built-in functions are available, they may not always suffice.

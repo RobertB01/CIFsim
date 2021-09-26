@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-bounded-lists-and-arrays]]
+[[lang-tut-values-chapter-bounded-lists-and-arrays]]
 == Bounded lists and arrays
 
 indexterm:[list,limits]
 indexterm:[list,maximum size]
-CIF can only represent <<tut-values-chapter-lists,lists>> (type `list`) with at most 2,147,483,647 (= 2^31^ - 1) elements.
+CIF can only represent <<lang-tut-values-chapter-lists,lists>> (type `list`) with at most 2,147,483,647 (= 2^31^ - 1) elements.
 Using lists with more elements results in the CIF model being invalid, and leads to runtime errors.
 For instance, consider the following CIF specification:
 

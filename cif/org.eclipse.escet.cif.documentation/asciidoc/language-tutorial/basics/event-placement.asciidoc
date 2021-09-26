@@ -12,11 +12,11 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-basics-chapter-event-placement]]
+[[lang-tut-basics-chapter-event-placement]]
 == Event declaration placement
 
 indexterm:[event,placement]
-Consider the following CIF specification (the producer/consumer example from the lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>):
+Consider the following CIF specification (the producer/consumer example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>):
 
 
 [source, cif]
@@ -116,5 +116,5 @@ end
 This specification also has the same behavior.
 Only the placement of the event declarations has changed.
 
-The place where an event is declared is of no influence to the implicit (default) <<tut-basics-chapter-alphabet,alphabets>> of the automata.
+The place where an event is declared is of no influence to the implicit (default) <<lang-tut-basics-chapter-alphabet,alphabets>> of the automata.
 The implicit alphabet of an automaton is determined solely based on the events that occur on the edges of that automaton.

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-init-preds]]
+[[lang-tut-data-chapter-init-preds]]
 == Initialization predicates
 
 indexterm:[initialization,predicate]

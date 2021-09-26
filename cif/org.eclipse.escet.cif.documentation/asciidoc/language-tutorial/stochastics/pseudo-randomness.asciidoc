@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-stochastics-chapter-pseudo-randomness]]
+[[lang-tut-stochastics-chapter-pseudo-randomness]]
 == Pseudo-randomness
 
 So far, the lessons on stochastics used the mathematical notion of stochastic distribution to describe how to model stochastic behavior.
@@ -68,7 +68,7 @@ end
 
 The `bernoulli` function to create a link:http://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] with parameter `0.5` (the chance for `true`).
 This Bernoulli distribution, along with its parameter and the seed, are stored in variable `d`.
-When the distribution in variable `d` is sampled (`sample d`), the result is both a sampled value, and a distribution (as a <<tut-values-chapter-tuples,tuple>>).
+When the distribution in variable `d` is sampled (`sample d`), the result is both a sampled value, and a distribution (as a <<lang-tut-values-chapter-tuples,tuple>>).
 The distribution is the same distribution with the same parameters, but with an updated seed.
 The sampled value is usually stored in a variable (`outcome` in this case).
 The changed distribution is usually assigned to the same variable that contains the distribution that is sampled, to ensure that we can use the same variable for the next sampling.

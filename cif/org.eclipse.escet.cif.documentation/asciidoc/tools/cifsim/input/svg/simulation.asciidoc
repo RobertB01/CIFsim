@@ -40,7 +40,7 @@ The mouse click (and _not_ the release) makes that the input component will inte
 Then, when asked to choose a next transition, it will apply the input mapping for the interactive SVG element that was clicked.
 The event that results from the input mapping is then chosen.
 If the event is not enabled at that time, simulation ends in deadlock.
-To prevent such deadlocks, you can use a <<tut-data-chapter-monitoring,monitor>> automaton.
+To prevent such deadlocks, you can use a <<lang-tut-data-chapter-monitoring,monitor>> automaton.
 If multiple transitions are possible for that event, the choice (between the transitions for that event only) is deferred to the <<tools-cifsim-input-chapter-automatic,automatic input component>>, which makes a choice based on its own settings.
 Note that multiple transitions are only possible if <<tools-cifsim-chapter-complete-mode,complete mode>> is enabled.
 

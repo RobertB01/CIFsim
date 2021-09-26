@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-asgn-old-vs-new]]
+[[lang-tut-data-chapter-asgn-old-vs-new]]
 == Old and new values in assignments
 
 This lesson explains old and new values of variables in assignments, multiple assignments, and the order of assignments.
@@ -93,7 +93,7 @@ Variable `y` becomes two.
 
 The state space of this somewhat artificial example is as follows:
 
-image::{tut-imgsdir}/data/swapper_state_space.png[]
+image::{lang-tut-imgsdir}/data/swapper_state_space.png[]
 
 The states are labeled with the values of variables `x` and `y`.
 
@@ -148,7 +148,7 @@ Once they leave the first conveyor, they move onto the second one.
 Once they exit from the second conveyor, they leave the system.
 The positions of the left sides of the boxes are in range zero to seven, as indicated in the following figure:
 
-image::{tut-imgsdir}/data/conveyor.png[]
+image::{lang-tut-imgsdir}/data/conveyor.png[]
 
 This system can be modeled using the following CIF specification:
 
@@ -197,7 +197,7 @@ The box keeps moving (event `move`) on the second conveyor until it reaches posi
 At position 7 it leaves (event `exit2`) the second conveyor, and the system.
 
 Both automata synchronize over the `move` event, meaning that the boxes on both conveyors move at the same time.
-Both automata <<tut-data-chapter-monitoring,monitor>> that event to ensure it is never blocked if only the other conveyor can actually move.
+Both automata <<lang-tut-data-chapter-monitoring,monitor>> that event to ensure it is never blocked if only the other conveyor can actually move.
 
 Both automata synchronize over the `exit1` event.
 The first conveyor resets is own position (variable `pos`) to zero.
@@ -207,7 +207,7 @@ This is not influenced by the assignment to variable `pos` of `conveyor1` to zer
 
 The state space of this specification is as follows:
 
-image::{tut-imgsdir}/data/conveyor_state_space.png[]
+image::{lang-tut-imgsdir}/data/conveyor_state_space.png[]
 
 The states are labeled with the values of the `pos` variables of the automata for the first and second conveyors.
 

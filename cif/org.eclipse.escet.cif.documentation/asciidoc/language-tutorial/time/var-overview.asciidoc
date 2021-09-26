@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-var-overview]]
+[[lang-tut-time-chapter-var-overview]]
 == Variables overview
 
 indexterm:[variable]
@@ -27,15 +27,15 @@ The following table gives an overview:
 | Can be assigned
 | Can change as time progresses
 
-| <<tut-data-chapter-discrete-variables,Discrete variable>>
+| <<lang-tut-data-chapter-discrete-variables,Discrete variable>>
 | *yes*
 | no
 
-| <<tut-reuse1-chapter-algebraic-variables,Algebraic variable>>
+| <<lang-tut-reuse1-chapter-algebraic-variables,Algebraic variable>>
 | no
 | *yes*
 
-| <<tut-time-chapter-continuous-variables,Continuous variable>>
+| <<lang-tut-time-chapter-continuous-variables,Continuous variable>>
 | *yes*
 | *yes*
 

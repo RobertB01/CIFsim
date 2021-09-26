@@ -12,11 +12,11 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-imports-libraries]]
+[[lang-tut-reuse2-chapter-imports-libraries]]
 == Imports and libraries
 
 indexterm:[import,library]
-Using <<tut-reuse2-chapter-imports,imports>>, it is possible to make libraries that can be used by multiple CIF specifications.
+Using <<lang-tut-reuse2-chapter-imports,imports>>, it is possible to make libraries that can be used by multiple CIF specifications.
 For instance, consider the following CIF specification in file `math.cif`:
 
 
@@ -60,7 +60,7 @@ The import as used above, only works if both CIF files are in the same directory
 Library files however, are often placed in a different directory.
 Consider the same two CIF files, but organized into directories (or folders) as follows:
 
-image::{tut-imgsdir}/reuse2/library_dir_tree.png[]
+image::{lang-tut-imgsdir}/reuse2/library_dir_tree.png[]
 
 Directory `system` contains a sub-directories named `libraries`, which contains the `math.cif` library.
 The `system` directory also contains the `counter.cif` file.

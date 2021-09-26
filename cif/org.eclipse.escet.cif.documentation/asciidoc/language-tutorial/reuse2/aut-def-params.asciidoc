@@ -12,13 +12,13 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-aut-def-params]]
+[[lang-tut-reuse2-chapter-aut-def-params]]
 == Parametrized automaton definitions
 
 indexterm:[automaton definition parameter]
 indexterm:[automaton definition,parameters]
 indexterm:[automaton instantiation,arguments]
-In the <<tut-reuse2-chapter-aut-def-inst,previous lesson>>, automaton definition/instantiation was used to obtain two identical automata, while only having to specify their behavior once.
+In the <<lang-tut-reuse2-chapter-aut-def-inst,previous lesson>>, automaton definition/instantiation was used to obtain two identical automata, while only having to specify their behavior once.
 What we have seen so far, is enough for exactly identical automata, but not for nearly identical automata.
 Consider the following two nearly identical consumers:
 
@@ -67,4 +67,4 @@ The automaton instantiations `consumer1` and `consumer2` provide an argument (`2
 That is, the instantiations indicate their `capacity`.
 Using parameters, the `Consumer` automaton definition models the behavior of both automata `consumer1` and `consumer2`, even though they have different capacities.
 
-The details of the different kind of parameters of automaton definitions are explained in the <<tut-reuse2-chapter-aut-def-param-kinds,next lesson>>.
+The details of the different kind of parameters of automaton definitions are explained in the <<lang-tut-reuse2-chapter-aut-def-param-kinds,next lesson>>.

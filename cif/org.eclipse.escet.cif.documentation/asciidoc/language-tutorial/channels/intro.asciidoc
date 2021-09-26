@@ -12,14 +12,14 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-channels-chapter-intro]]
+[[lang-tut-channels-chapter-intro]]
 == Channels
 
 indexterm:[channel]
 indexterm:[event,channel]
 Consider the following figure of a producer and two consumers, where rectangles represent entities and the arrows represent the data that is communicated:
 
-image::{tut-imgsdir}/channels/producer_consumer.png[]
+image::{lang-tut-imgsdir}/channels/producer_consumer.png[]
 
 The producer creates products, identified by a unique identification number.
 Each product produced by the producer, is provided either to the first or to the second consumer.
@@ -64,7 +64,7 @@ The producer then moves on to the next product, by increasing its current identi
 We can identify two problems in this model.
 
 The first problem is that we need two events in order for the producer to provide products to _either_ the one consumer _or_ the other consumer.
-If we used only one event, both consumers would need to use that event, have the event in their <<tut-basics-chapter-alphabet,alphabet>>, and would thus have to simultaneously participate in the <<tut-basics-chapter-synchronizing-events,synchronization>>.
+If we used only one event, both consumers would need to use that event, have the event in their <<lang-tut-basics-chapter-alphabet,alphabet>>, and would thus have to simultaneously participate in the <<lang-tut-basics-chapter-synchronizing-events,synchronization>>.
 A consequence of having an event per consumer, is that the `producer` automaton has both events on its edge.
 Adding a third consumer entails having to add another event, as well as having to modify the edge of the `producer` automaton.
 This is not a nice scalable solution.
@@ -132,8 +132,8 @@ end
 
 indexterm:[channel,declaration]
 The `provide1` and `provide2` events have been replaced by a single channel named `provide`.
-Channels are declared similar to events, but have a <<tut-values-chapter-types-values-exprs,data type>> that indicates the type of <<tut-values-chapter-types-values-exprs,values>> that are communicated over the channel.
-In this case <<tut-values-chapter-integers,integers>> are communicated.
+Channels are declared similar to events, but have a <<lang-tut-values-chapter-types-values-exprs,data type>> that indicates the type of <<lang-tut-values-chapter-types-values-exprs,values>> that are communicated over the channel.
+In this case <<lang-tut-values-chapter-integers,integers>> are communicated.
 
 indexterm:[channel,send]
 indexterm:[!]

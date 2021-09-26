@@ -12,14 +12,14 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse1-chapter-algebraic-variables]]
+[[lang-tut-reuse1-chapter-algebraic-variables]]
 == Algebraic variables
 
 indexterm:[algebraic variable]
 indexterm:[variable,algebraic]
 Consider a conveyor belt with a product on it:
 
-image::{tut-imgsdir}/reuse1/conveyor.png[]
+image::{lang-tut-imgsdir}/reuse1/conveyor.png[]
 
 The product starts at the left side, at position `0`.
 There is a sensor that can detect the product between positions `13` and `14`.
@@ -63,7 +63,7 @@ However, if the variable would have been updated on multiple edges, the sensor v
 Furthermore, when adding another edge that updates the `position` variable, the edge needs to be adapted to also update the `sensor` discrete variable, which can easily be forgotten.
 Using an algebraic variable, the value computation needs to be specified only once, and no changes to its value are needed, as the value always remains consistent with its definition.
 
-Algebraic variables can be used to give an <<tut-values-chapter-types-values-exprs,expression>> (computations) a name, similar to how <<tut-reuse1-chapter-constants,constants>> can be used to give fixed values a name.
+Algebraic variables can be used to give an <<lang-tut-values-chapter-types-values-exprs,expression>> (computations) a name, similar to how <<lang-tut-reuse1-chapter-constants,constants>> can be used to give fixed values a name.
 The benefits of using an algebraic variable are similar to the benefits of using constants.
 Both can be used to improve readability, and to make it easier to consistently change the model.
 

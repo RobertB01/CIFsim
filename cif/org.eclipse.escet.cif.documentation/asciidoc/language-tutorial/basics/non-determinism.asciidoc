@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-basics-chapter-non-determinism]]
+[[lang-tut-basics-chapter-non-determinism]]
 == Non-determinism
 
 indexterm:[non-determinism]
@@ -25,7 +25,7 @@ Different communities also use different definitions, and some communities only 
 
 One cause of non-determinism is that multiple events are enabled, leading to multiple possible transitions.
 In other words, there are multiple possible traces through the state space.
-During the lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>, we already encountered this form of non-determinism, as transitions for the `produce` and `consume` events could be performed in arbitrary order.
+During the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>, we already encountered this form of non-determinism, as transitions for the `produce` and `consume` events could be performed in arbitrary order.
 
 
 === Non-determinism for single event
@@ -81,6 +81,6 @@ In both the `heads` and `tails` locations, the coin can be picked up again, maki
 The coin can be tossed again and again, repeating the behavior forever.
 The following figure shows the state space of this specification:
 
-image::{tut-imgsdir}/basics/coin_toss_state_space.png[]
+image::{lang-tut-imgsdir}/basics/coin_toss_state_space.png[]
 
 The states are labeled with the first letters of the current locations of the two automata.

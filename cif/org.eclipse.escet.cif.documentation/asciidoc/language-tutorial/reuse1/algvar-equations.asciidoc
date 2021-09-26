@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse1-chapter-algvar-equations]]
+[[lang-tut-reuse1-chapter-algvar-equations]]
 == Algebraic variables and equations
 
 indexterm:[algebraic variable,equation]
@@ -54,7 +54,7 @@ Algebraic variable `+can_drive+` indicates whether you can currently drive the c
 As the value calculation indicates, the car can be driven whenever it is `idle` or `moving`.
 That is, it can't be driven if the car is `broken` or a mechanic is `repairing` it.
 
-In the example above, the value of the algebraic variable is defined with the declaration, as was already explained in the lesson that introduced <<tut-reuse1-chapter-algebraic-variables,algebraic variables>>.
+In the example above, the value of the algebraic variable is defined with the declaration, as was already explained in the lesson that introduced <<lang-tut-reuse1-chapter-algebraic-variables,algebraic variables>>.
 However, it also possible to specify the value separately, using an equation:
 
 

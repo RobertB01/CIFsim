@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-extensions-chapter-synthesis]]
+[[lang-tut-extensions-chapter-synthesis]]
 == Supervisory controller synthesis
 
 indexterm:[supervisory controller synthesis]
@@ -132,7 +132,7 @@ The third and last invariant is identical to the second invariant, except that t
 It is also a requirement invariant, but written in a shorter form.
 
 There are two forms of invariants:
-<<tut-data-chapter-stat-invariants,state invariants>> and <<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>.
+<<lang-tut-data-chapter-stat-invariants,state invariants>> and <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>.
 Both forms can be used for synthesis.
 For instance, consider the following example of a counter:
 
@@ -185,7 +185,7 @@ For instance, a motor may be available that makes it possible for the part to mo
 That motor may then be controlled using controllable on and off events.
 Stopping the motor then makes the part stop moving, ensuring that the part never reaches its outer position, indirectly preventing the limit sensor from turning on, and the corresponding event from happening.
 
-Events and <<tut-channels-chapter-intro,channels>> in CIF are declared using the `event` keyword.
+Events and <<lang-tut-channels-chapter-intro,channels>> in CIF are declared using the `event` keyword.
 For controllable events, the `event` keyword may be preceded or replaced by the `controllable` keyword.
 Similarly, for uncontrollable events, the `event` keyword may be preceded or replaced by the `uncontrollable` keyword.
 Similar to event declarations, for <<lang-tut-reuse2-aut-def-param-kinds-event,event parameters>> the `event` keyword may by preceded or replaced by the `controllable` or `uncontrollable` keyword, for controllable and uncontrollable event parameters respectively.
@@ -238,8 +238,8 @@ end
 
 In this example location `off` is both initial and marked, while location `on` is neither initial nor marked.
 
-Marker predicates are very similar to <<tut-data-chapter-init-preds,initialization predicates>>, as by default, locations are not marked, similar to how by default locations are not initial.
-Marker predicates can be specified in locations, automata, <<tut-reuse2-chapter-groups,groups>>, and the top level of the specification (which can be seen as a group), similar to initialization predicates.
+Marker predicates are very similar to <<lang-tut-data-chapter-init-preds,initialization predicates>>, as by default, locations are not marked, similar to how by default locations are not initial.
+Marker predicates can be specified in locations, automata, <<lang-tut-reuse2-chapter-groups,groups>>, and the top level of the specification (which can be seen as a group), similar to initialization predicates.
 
 The following specification shows an example of a variable that is only marked for a certain value:
 

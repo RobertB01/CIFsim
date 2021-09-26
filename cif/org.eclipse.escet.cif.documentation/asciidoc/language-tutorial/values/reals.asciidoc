@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-reals]]
+[[lang-tut-values-chapter-reals]]
 == Reals
 
 indexterm:[real]

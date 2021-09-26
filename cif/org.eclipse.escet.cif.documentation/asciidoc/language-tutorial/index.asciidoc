@@ -14,7 +14,7 @@ include::_part_attributes.asciidoc[]
 
 indexterm:[tutorial,language]
 
-[[tut-chapter-index]]
+[[lang-tut-chapter-index]]
 == Language tutorial
 
 This tutorial introduces the CIF language.
@@ -61,235 +61,235 @@ The lessons introduce new concepts, one by one, and are meant to be read in the 
 [[lang-tut-basics]]
 *Basics*
 
-<<tut-basics-chapter-automata>>::
+<<lang-tut-basics-chapter-automata>>::
 Explains automata, locations, events, edges, transitions, and more.
 
-<<tut-basics-chapter-synchronizing-events>>::
+<<lang-tut-basics-chapter-synchronizing-events>>::
 Explains event synchronization, enabledness, traces, and state spaces.
 
-<<tut-basics-chapter-non-determinism>>::
+<<lang-tut-basics-chapter-non-determinism>>::
 Explains multiple causes of non-determinism.
 
-<<tut-basics-chapter-alphabet>>::
+<<lang-tut-basics-chapter-alphabet>>::
 Explains alphabets for both individual automata and entire specifications.
 
-<<tut-basics-chapter-event-placement>>::
+<<lang-tut-basics-chapter-event-placement>>::
 Explains the placement of event declarations.
 
-<<tut-basics-chapter-shorter-notations>>::
+<<lang-tut-basics-chapter-shorter-notations>>::
 Explains several shorter notations, including self loops, declaring multiple events with a single declaration, multiple events on an edge, and nameless locations.
 
 
 [[lang-tut-data]]
 *Data*
 
-<<tut-data-chapter-discrete-variables>>::
+<<lang-tut-data-chapter-discrete-variables>>::
 Explains discrete variables, guards, and updates.
 
-<<tut-data-chapter-discvar-change>>::
+<<lang-tut-data-chapter-discvar-change>>::
 Explains how and when discrete variables can change value.
 
-<<tut-data-chapter-loc-var-duality1>>::
+<<lang-tut-data-chapter-loc-var-duality1>>::
 Explains the duality between locations and variables using a model of a counter.
 
-<<tut-data-chapter-loc-var-duality2>>::
+<<lang-tut-data-chapter-loc-var-duality2>>::
 Explains the duality between locations and variables using a model of a lamp.
 
-<<tut-data-chapter-read-write>>::
+<<lang-tut-data-chapter-read-write>>::
 Explains the concepts of global read and local write.
 
-<<tut-data-chapter-monitoring>>::
+<<lang-tut-data-chapter-monitoring>>::
 Explains monitoring, self loops, and monitor automata.
 
-<<tut-data-chapter-asgn-old-vs-new>>::
+<<lang-tut-data-chapter-asgn-old-vs-new>>::
 Explains old and new values of variables in assignments, multiple assignments, and the order of assignments.
 
-<<tut-data-chapter-tau-event>>::
+<<lang-tut-data-chapter-tau-event>>::
 Explains the `tau` event.
 
-<<tut-data-chapter-discvar-init>>::
+<<lang-tut-data-chapter-discvar-init>>::
 Explains initialization of discrete variables, including the use of default values and multiple potential initial values.
 
-<<tut-data-chapter-init-preds>>::
+<<lang-tut-data-chapter-init-preds>>::
 Explains initialization in general, and initialization predicates in particular.
 
-<<tut-data-chapter-locs-as-var>>::
+<<lang-tut-data-chapter-locs-as-var>>::
 Explains the use of locations as variables.
 
-<<tut-data-chapter-stat-invariants>>::
+<<lang-tut-data-chapter-stat-invariants>>::
 Explains state (exclusion) invariants.
 
-<<tut-data-chapter-stat-evt-excl-invariants>>::
+<<lang-tut-data-chapter-stat-evt-excl-invariants>>::
 Explains state/event exclusion invariants.
 
 
 [[lang-tut-values]]
 *Types and values*
 
-<<tut-values-chapter-types-values-exprs>>::
+<<lang-tut-values-chapter-types-values-exprs>>::
 Explains the concepts of types, values, and expressions, as an introduction for the other lessons in this category.
 
-<<tut-values-chapter-overview>>::
+<<lang-tut-values-chapter-overview>>::
 Provides an overview of the available values, and divides them into categories.
 
-<<tut-values-chapter-integers>>::
+<<lang-tut-values-chapter-integers>>::
 Explains integer types, values, and commonly used expressions.
 
-<<tut-values-chapter-integer-ranges>>::
+<<lang-tut-values-chapter-integer-ranges>>::
 Explains integer ranges.
 
-<<tut-values-chapter-reals>>::
+<<lang-tut-values-chapter-reals>>::
 Explains real types, values, and commonly used expressions.
 
-<<tut-values-chapter-booleans>>::
+<<lang-tut-values-chapter-booleans>>::
 Explains boolean types, values, and commonly used expressions.
 
-<<tut-values-chapter-strings>>::
+<<lang-tut-values-chapter-strings>>::
 Explains string types, values, and commonly used expressions.
 
-<<tut-values-chapter-enumerations>>::
+<<lang-tut-values-chapter-enumerations>>::
 Explains enumeration types, values, and commonly used expressions.
 
-<<tut-values-chapter-tuples>>::
+<<lang-tut-values-chapter-tuples>>::
 Explains tuple types, values, and commonly used expressions.
 
-<<tut-values-chapter-lists>>::
+<<lang-tut-values-chapter-lists>>::
 Explains list types, values, and commonly used expressions.
 
-<<tut-values-chapter-bounded-lists-and-arrays>>::
+<<lang-tut-values-chapter-bounded-lists-and-arrays>>::
 Explains bounded lists, arrays, and their relations with regular lists.
 
-<<tut-values-chapter-sets>>::
+<<lang-tut-values-chapter-sets>>::
 Explains set types, values, and commonly used expressions.
 
-<<tut-values-chapter-dictionaries>>::
+<<lang-tut-values-chapter-dictionaries>>::
 Explains dictionary types, values, and commonly used expressions.
 
-<<tut-values-chapter-combining-values>>::
+<<lang-tut-values-chapter-combining-values>>::
 Explains how to combine values of different types.
 
 
 [[lang-tut-reuse1]]
 *Scalable solutions and reuse (1/2)*
 
-<<tut-reuse1-chapter-constants>>::
+<<lang-tut-reuse1-chapter-constants>>::
 Explains the use of constants.
 
-<<tut-reuse1-chapter-algebraic-variables>>::
+<<lang-tut-reuse1-chapter-algebraic-variables>>::
 Explains the use of algebraic variables.
 
-<<tut-reuse1-chapter-algvar-equations>>::
+<<lang-tut-reuse1-chapter-algvar-equations>>::
 Explains the use of equations to specify values of algebraic variables.
 
-<<tut-reuse1-chapter-type-declarations>>::
+<<lang-tut-reuse1-chapter-type-declarations>>::
 Explains the use of type declarations.
 
 
 [[lang-tut-time]]
 *Time*
 
-<<tut-time-chapter-intro>>::
+<<lang-tut-time-chapter-intro>>::
 Introduces the concept of timing.
 
-<<tut-time-chapter-continuous-variables>>::
+<<lang-tut-time-chapter-continuous-variables>>::
 Explains the use of continuous variables.
 
-<<tut-time-chapter-contvar-equations>>::
+<<lang-tut-time-chapter-contvar-equations>>::
 Explains the use of equations to specify values of continuous variables.
 
-<<tut-time-chapter-equations>>::
+<<lang-tut-time-chapter-equations>>::
 Show the use of equations for both continuous and algebraic variables, by means of an example of a link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system].
 
-<<tut-time-chapter-var-overview>>::
+<<lang-tut-time-chapter-var-overview>>::
 Provides an overview of the different kinds of variables in CIF, and their main differences.
 
-<<tut-time-chapter-urgency>>::
+<<lang-tut-time-chapter-urgency>>::
 Explains the concept of urgency, as well as the different forms of urgency.
 
-<<tut-time-chapter-deadlock-livelock>>::
+<<lang-tut-time-chapter-deadlock-livelock>>::
 Explains the concepts of deadlock and livelock.
 
 
 [[lang-tut-channels]]
 *Channel communication*
 
-<<tut-channels-chapter-intro>>::
+<<lang-tut-channels-chapter-intro>>::
 Explains point-to-point channels and data communication.
 
-<<tut-channels-chapter-void>>::
+<<lang-tut-channels-chapter-void>>::
 Explains `void` channels that do not communicate any data.
 
-<<tut-channels-chapter-chan-sync-combi>>::
+<<lang-tut-channels-chapter-chan-sync-combi>>::
 Explains how channel communication can be combined with event synchronization, further restricting the communication.
 
 
 [[lang-tut-functions]]
 *Functions*
 
-<<tut-functions-chapter-intro>>::
+<<lang-tut-functions-chapter-intro>>::
 Introduces functions, and explains the different kind of functions.
 
-<<tut-functions-chapter-internal-functions>>::
+<<lang-tut-functions-chapter-internal-functions>>::
 Explains internal user-defined functions.
 
-<<tut-functions-chapter-statements>>::
+<<lang-tut-functions-chapter-statements>>::
 Explains the different statements that can be used in internal user-defined functions.
 
-<<tut-functions-chapter-functions-as-values>>::
+<<lang-tut-functions-chapter-functions-as-values>>::
 Explains using functions as values, allowing functions to be passed around.
 
 
 [[lang-tut-reuse2]]
 *Scalable solutions and reuse (2/2)*
 
-<<tut-reuse2-chapter-aut-def-inst>>::
+<<lang-tut-reuse2-chapter-aut-def-inst>>::
 Explains using automaton definition and instantiation for reuse.
 
-<<tut-reuse2-chapter-aut-def-params>>::
+<<lang-tut-reuse2-chapter-aut-def-params>>::
 Explains parametrized automaton definitions.
 
-<<tut-reuse2-chapter-aut-def-param-kinds>>::
+<<lang-tut-reuse2-chapter-aut-def-param-kinds>>::
 Explains the different kinds of parameters of automaton definitions.
 
-<<tut-reuse2-chapter-groups>>::
+<<lang-tut-reuse2-chapter-groups>>::
 Explains hierarchical structuring using groups.
 
-<<tut-reuse2-chapter-group-defs>>::
+<<lang-tut-reuse2-chapter-group-defs>>::
 Explains groups definitions and parametrized group definitions.
 
-<<tut-reuse2-chapter-imports>>::
+<<lang-tut-reuse2-chapter-imports>>::
 Explains splitting CIF specifications over multiple files using imports.
 
-<<tut-reuse2-chapter-imports-libraries>>::
+<<lang-tut-reuse2-chapter-imports-libraries>>::
 Explains how to create libraries that can be used by multiple CIF specifications using imports, as well as how to use imports to include CIF specifications from other directories.
 
-<<tut-reuse2-chapter-imports-groups>>::
+<<lang-tut-reuse2-chapter-imports-groups>>::
 Explains how imports and groups interact.
 
-<<tut-reuse2-chapter-namespaces>>::
+<<lang-tut-reuse2-chapter-namespaces>>::
 Explains namespaces, and how they can be used together with imports.
 
-<<tut-reuse2-chapter-input-variables>>::
+<<lang-tut-reuse2-chapter-input-variables>>::
 Explains input variables, how they can be used for coupling with other models and systems, and their relation to imports.
 
 
 [[lang-tut-stochastics]]
 *Stochastics*
 
-<<tut-stochastics-chapter-intro>>::
+<<lang-tut-stochastics-chapter-intro>>::
 Introduction to stochastic distributions, which allow for sampling, making it possible to produce random values.
 
-<<tut-stochastics-chapter-discrete-continuous-constant>>::
+<<lang-tut-stochastics-chapter-discrete-continuous-constant>>::
 Explains the different categories of stochastic distributions: discrete, continuous, and constant distributions.
 
-<<tut-stochastics-chapter-pseudo-randomness>>::
+<<lang-tut-stochastics-chapter-pseudo-randomness>>::
 Explains how computers implement stochastics using pseudo-random number generators, and how this affects the use of stochastics in CIF.
 
 
 [[lang-tut-extensions]]
 *Language extensions*
 
-<<tut-extensions-chapter-synthesis>>::
+<<lang-tut-extensions-chapter-synthesis>>::
 Explains how to extend a model to make it suitable for supervisory controller synthesis.
 
 <<tools-cifsim-output-print-chapter-index,Print output>>::

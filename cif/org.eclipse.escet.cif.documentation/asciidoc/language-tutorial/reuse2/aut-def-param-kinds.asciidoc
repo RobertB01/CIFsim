@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-aut-def-param-kinds]]
+[[lang-tut-reuse2-chapter-aut-def-param-kinds]]
 == Automaton definition parameters
 
 indexterm:[automaton definition,parameters]
 indexterm:[automaton instantiation,arguments]
-In the <<tut-reuse2-chapter-aut-def-params,previous lesson>>, an automaton definition with parameter was used.
+In the <<lang-tut-reuse2-chapter-aut-def-params,previous lesson>>, an automaton definition with parameter was used.
 The parameter was an algebraic parameter, which is only one of the different kinds of automaton definition parameters.
 This lesson explains each of them:
 
@@ -36,7 +36,7 @@ indexterm:[automaton definition parameter,algebraic]
 [[lang-tut-reuse2-aut-def-param-kinds-alg]]
 === Algebraic parameters
 
-An algebraic parameter is similar to an <<tut-reuse1-chapter-algebraic-variables,algebraic variable>>.
+An algebraic parameter is similar to an <<lang-tut-reuse1-chapter-algebraic-variables,algebraic variable>>.
 Arbitrary values or expressions of matching type can be provided as arguments in automaton instantiations.
 For instance, consider the following partial CIF specification:
 
@@ -87,7 +87,7 @@ indexterm:[automaton definition parameter,event]
 [[lang-tut-reuse2-aut-def-param-kinds-event]]
 === Event parameters
 
-Event parameters allow different instantiations to synchronize with different events or to communicate over different <<tut-channels-chapter-intro,channels>>.
+Event parameters allow different instantiations to synchronize with different events or to communicate over different <<lang-tut-channels-chapter-intro,channels>>.
 For instance, consider the following partial CIF specification:
 
 
@@ -116,7 +116,7 @@ The second buffer (`buffer2`) accepts products via the `pass_along` channel, and
 The first buffer uses the `pass_along` channel as its `provide` channel parameter, and the second buffer uses that same `pass_along` channel as its `accept` channel parameter.
 The first buffer thus provides its items to the second buffer.
 
-Event and channel parameters can be used inside an automaton definition, wherever an event or channel is expected, e.g. on edges and in <<tut-basics-chapter-alphabet,alphabets>> if <<lang-tut-basics-alphabet-explicit,explicitly specified>>.
+Event and channel parameters can be used inside an automaton definition, wherever an event or channel is expected, e.g. on edges and in <<lang-tut-basics-chapter-alphabet,alphabets>> if <<lang-tut-basics-alphabet-explicit,explicitly specified>>.
 The event or channel that is provided by the instantiation is essentially filled in wherever the parameter is used.
 The above is equivalent to:
 
@@ -201,7 +201,7 @@ indexterm:[automaton definition parameter,location]
 [[lang-tut-reuse2-aut-def-param-kinds-loc]]
 === Location parameters
 
-An earlier lesson explained how a <<tut-data-chapter-locs-as-var,location can be used as a variable>>.
+An earlier lesson explained how a <<lang-tut-data-chapter-locs-as-var,location can be used as a variable>>.
 Using location parameters, automaton definitions can be supplied with different locations.
 For instance, consider the following CIF specification:
 
@@ -234,7 +234,7 @@ Therefore, automaton definition `Machine` is parametrized with a location parame
 This parameter is used as a guard that determines whether a transition from location `+heat_up+` to location `processing` is allowed.
 Automaton instantiation `machine1` provides the first machine with the `processing` location of the second machine, by using `machine2.processing` as its instantiation argument.
 
-Location parameters can be used inside an automaton definition, wherever a <<tut-values-chapter-booleans,boolean>> value is expected, e.g. in guards.
+Location parameters can be used inside an automaton definition, wherever a <<lang-tut-values-chapter-booleans,boolean>> value is expected, e.g. in guards.
 The location that is provided by the instantiation is essentially filled in wherever the parameter is used.
 The above is equivalent to:
 

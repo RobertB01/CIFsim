@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-loc-var-duality1]]
+[[lang-tut-data-chapter-loc-var-duality1]]
 == Location/variable duality (1/2)
 
 indexterm:[location,versus variable]
 indexterm:[variable,versus location]
-The lesson that <<tut-data-chapter-discrete-variables,introduces discrete variables>>, uses an example of a counter.
+The lesson that <<lang-tut-data-chapter-discrete-variables,introduces discrete variables>>, uses an example of a counter.
 The actual count was modeled using a variable:
 
 

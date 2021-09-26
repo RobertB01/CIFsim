@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-discvar-init]]
+[[lang-tut-data-chapter-discvar-init]]
 == Initial values of discrete variables
 
 indexterm:[discrete variable,initial value]
@@ -37,8 +37,8 @@ disc int x;
 disc bool y;
 ----
 
-The default value of <<tut-values-chapter-integers,integer typed>> variables is `0`.
-The default value of <<tut-values-chapter-booleans,boolean typed>> variables is `false`.
+The default value of <<lang-tut-values-chapter-integers,integer typed>> variables is `0`.
+The default value of <<lang-tut-values-chapter-booleans,boolean typed>> variables is `false`.
 
 // TODO: Refer to future reference manual for complete overview?
 
@@ -54,9 +54,9 @@ disc int x in {1, 2, 4};
 ----
 
 This declares a variable `x` that has three potential initial values.
-Variables can only have one value at a time, so an initial value has to be chosen from the <<tut-values-chapter-sets,set>> of potential initial values.
+Variables can only have one value at a time, so an initial value has to be chosen from the <<lang-tut-values-chapter-sets,set>> of potential initial values.
 In other words, initially the value of variable `x` is either `1`, `2`, or `4`.
-For information on how to store multiple values in a single variable, see the lessons on types and values, in particular those on <<tut-values-chapter-tuples,tuples>>, <<tut-values-chapter-lists,lists>>, and <<tut-values-chapter-sets,sets>>.
+For information on how to store multiple values in a single variable, see the lessons on types and values, in particular those on <<lang-tut-values-chapter-tuples,tuples>>, <<lang-tut-values-chapter-lists,lists>>, and <<lang-tut-values-chapter-sets,sets>>.
 
 indexterm:[initial value,any]
 

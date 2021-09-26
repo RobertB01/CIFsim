@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-intro]]
+[[lang-tut-time-chapter-intro]]
 == Timing
 
 indexterm:[timing]
@@ -40,7 +40,7 @@ As time progresses, the value of variable `time` is automatically updated to ens
 
 In this lesson, absolute time will be used.
 In most models, it is easier to use relative time.
-This can be achieved with <<tut-time-chapter-continuous-variables,continuous variables>>, discussed in the next lesson.
+This can be achieved with <<lang-tut-time-chapter-continuous-variables,continuous variables>>, discussed in the next lesson.
 
 
 === Timed guards
@@ -90,7 +90,7 @@ indexterm:[transition,time]
 
 The state space of the above specification is:
 
-image::{tut-imgsdir}/time/user_state_space.png[]
+image::{lang-tut-imgsdir}/time/user_state_space.png[]
 
 The states are labeled with the names of the current locations of automaton `user` and the current values of variable `time`.
 The transitions labeled with event names are _event transitions_.
@@ -107,7 +107,7 @@ By default, all events in CIF are _urgent_.
 Events being urgent means that edges are taken as soon as possible.
 In other words, event transitions take priority over time transitions.
 Time can only progress if no event transitions are possible.
-For further details on urgency, see the future <<tut-time-chapter-urgency,urgency>> lesson.
+For further details on urgency, see the future <<lang-tut-time-chapter-urgency,urgency>> lesson.
 
 
 === Numeric time

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-combining-values]]
+[[lang-tut-values-chapter-combining-values]]
 == Combining values
 
 Values of different types can usually be arbitrarily combined.

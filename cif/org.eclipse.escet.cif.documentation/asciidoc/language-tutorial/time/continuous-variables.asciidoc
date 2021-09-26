@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-continuous-variables]]
+[[lang-tut-time-chapter-continuous-variables]]
 == Continuous variables
 
 indexterm:[continuous variable]
 indexterm:[variable,continuous]
-In the lesson that introduced <<tut-time-chapter-intro,timing>>, variable `time` was used.
+In the lesson that introduced <<lang-tut-time-chapter-intro,timing>>, variable `time` was used.
 Variable `time` uses absolute model time, i.e. the total amount of time that has passed since the start of the simulation.
 It is usually easier to use relative model time, i.e. a certain amount of time passes after a certain event.
 This is where _continuous variables_ are ideal.
@@ -61,11 +61,11 @@ This means that automaton `machine` remains in the `producing` location for thre
  It will thus always take three units after entering the  `producing` location, before the guard becomes enabled, and the `finished` event can take place.
 The state space is as follows:
 
-image::{tut-imgsdir}/time/machine_state_space.png[]
+image::{lang-tut-imgsdir}/time/machine_state_space.png[]
 
 The states are labeled with the first letters of the names of the current locations of automaton `machine` and the current values of variables `time` and `t`.
 
-Continuous variables always have <<tut-values-chapter-reals,real>> values.
+Continuous variables always have <<lang-tut-values-chapter-reals,real>> values.
 Similar to discrete variables, if their initial value is not specified, it is `0.0`:
 
 
@@ -81,4 +81,4 @@ Similar to algebraic variables, it is always equal to its definition.
 In the case of variable `t`, its derivative is always `1`.
 The values of variables `time`, `t`, and `t'` as time progresses are:
 
-image::{tut-imgsdir}/time/machine_plot.png[]
+image::{lang-tut-imgsdir}/time/machine_plot.png[]

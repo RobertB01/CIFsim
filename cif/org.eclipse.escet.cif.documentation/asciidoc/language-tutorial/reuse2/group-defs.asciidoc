@@ -12,13 +12,13 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-group-defs]]
+[[lang-tut-reuse2-chapter-group-defs]]
 == Group definitions
 
 indexterm:[group,definition]
 indexterm:[group,instantiation]
 indexterm:[component,group instantiation]
-Similar to how <<tut-reuse2-chapter-aut-def-inst,automaton definitions>> can be used for reuse of automata, group definitions can be used for reuse of groups:
+Similar to how <<lang-tut-reuse2-chapter-aut-def-inst,automaton definitions>> can be used for reuse of automata, group definitions can be used for reuse of groups:
 
 
 [source, cif]
@@ -86,4 +86,4 @@ group factory1:
 end
 ----
 
-Group definitions may be <<tut-reuse2-chapter-aut-def-params,parametrized>> using the same <<tut-reuse2-chapter-aut-def-param-kinds,kinds of parameters>> as automaton definitions.
+Group definitions may be <<lang-tut-reuse2-chapter-aut-def-params,parametrized>> using the same <<lang-tut-reuse2-chapter-aut-def-param-kinds,kinds of parameters>> as automaton definitions.

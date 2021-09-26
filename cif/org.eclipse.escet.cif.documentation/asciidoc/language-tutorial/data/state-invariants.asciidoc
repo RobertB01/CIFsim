@@ -12,13 +12,13 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-stat-invariants]]
+[[lang-tut-data-chapter-stat-invariants]]
 == State (exclusion) invariants
 
 indexterm:[invariant]
 indexterm:[invariant,state]
 indexterm:[state,invariant]
-The lesson on <<tut-data-chapter-discrete-variables,discrete variables>> used the following CIF specification:
+The lesson on <<lang-tut-data-chapter-discrete-variables,discrete variables>> used the following CIF specification:
 
 
 [source, cif]
@@ -143,7 +143,7 @@ You can of course also use `+2 * x + 3 <= 100+` as guard, instead of `+x <= 48+`
 However, this duplicates part of the update in the guard.
 
 So far, all invariants have been specified in automata.
-They may however also be specified outside of the automata, similar to <<tut-data-chapter-init-preds,initialization predicates>>.
+They may however also be specified outside of the automata, similar to <<lang-tut-data-chapter-init-preds,initialization predicates>>.
 It is generally recommended to place an invariant inside an automaton if the condition only applies to declarations from that automaton, and to place it outside of the automata if the condition applies to declarations of multiple automata.
 
 indexterm:[location,invariant]

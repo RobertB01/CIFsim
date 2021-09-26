@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-basics-chapter-shorter-notations]]
+[[lang-tut-basics-chapter-shorter-notations]]
 == Shorter notations
 
 This lessons explains several short notations, that can be used for easier modeling, can reduce the size of the specification, and make specifications easier to read.

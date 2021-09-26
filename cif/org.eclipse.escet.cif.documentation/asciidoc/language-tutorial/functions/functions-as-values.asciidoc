@@ -12,10 +12,10 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-functions-chapter-functions-as-values]]
+[[lang-tut-functions-chapter-functions-as-values]]
 == Functions as values
 
-Functions can be used as <<tut-values-chapter-types-values-exprs,values>>.
+Functions can be used as <<lang-tut-values-chapter-types-values-exprs,values>>.
 By treating them as data, they can be stored in variables, and passed to other functions.
 This lesson shows one example of how that can be useful.
 

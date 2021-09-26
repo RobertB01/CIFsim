@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-monitoring]]
+[[lang-tut-data-chapter-monitoring]]
 == Monitoring
 
 indexterm:[monitoring]
@@ -64,13 +64,13 @@ This also switches the location to the location for the other consumer, where on
 === The monitoring problem
 
 There is a problem with the `+detect_changeover+` automaton.
-In its `a` location, it disables the `+provide_a+` event, as there is no edge for that event, and the automaton has that event in its (implicit) <<tut-basics-chapter-alphabet,alphabet>>.
+In its `a` location, it disables the `+provide_a+` event, as there is no edge for that event, and the automaton has that event in its (implicit) <<lang-tut-basics-chapter-alphabet,alphabet>>.
 This means that after a product is provided to consumer 'a', no more products can be provided to that same consumer, until the producer provides a product to the consumer 'b', and the automaton switches to the corresponding `b` location.
 However, the idea is that the producer can provide products to either consumer, at all times, as that is the way it is intended.
 The `+detect_changeover+` automaton currently prevents behavior that is present in the `producer`, while it is only meant to _observe_ or _monitor_ products being provided.
 The state space of the specification is:
 
-image::{tut-imgsdir}/data/monitoring_problem_state_space.png[]
+image::{lang-tut-imgsdir}/data/monitoring_problem_state_space.png[]
 
 The states are labeled with the first letters of the names of the current locations of the automata.
 Note how the `i/a` and `i/b` locations only have outgoing transitions for either the `+provide_a+` transition or the `+provide_b+` transition.
@@ -109,7 +109,7 @@ The edge is a <<lang-tut-basics-shorter-notations-self-loop,self loop>>, meaning
 This means that essentially the event is ignored by the `+detect_changeover+` automaton, as the edge also has no updates.
 The state space of the modified specification is:
 
-image::{tut-imgsdir}/data/monitoring_fixed_state_space.png[]
+image::{lang-tut-imgsdir}/data/monitoring_fixed_state_space.png[]
 
 Now, whenever the `+provide_a+` event is possible, the `+provide_b+` event is also possible, and vice versa, just as in the `producer` automaton.
 The `+detect_changeover+` automaton no longer restricts the occurrence of the events; it only monitors them.

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-stochastics-chapter-discrete-continuous-constant]]
+[[lang-tut-stochastics-chapter-discrete-continuous-constant]]
 == Discrete, continuous, and constant distributions
 
 CIF features over a dozen different stochastic distributions.
@@ -30,7 +30,7 @@ indexterm:[stochastics,discrete]
 === Discrete distributions
 
 Discrete distributions can result in only a limited number of possible values.
-The lesson that <<tut-stochastics-chapter-intro,introduced stochastics>> used the discrete link:http://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] to model link:http://en.wikipedia.org/wiki/Coin_toss[tossing of a coin], which can result in either heads or tails.
+The lesson that <<lang-tut-stochastics-chapter-intro,introduced stochastics>> used the discrete link:http://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] to model link:http://en.wikipedia.org/wiki/Coin_toss[tossing of a coin], which can result in either heads or tails.
 
 Throwing a link:http://en.wikipedia.org/wiki/Dice[dice] can result in six possible outcomes: 1, 2, 3, 4, 5, and 6.
 For a fair dice, each of the outcomes is equally likely, with chance 1/6.
@@ -52,7 +52,7 @@ automaton dice:
 end
 ----
 
-The `uniform` function is used to create a uniform integer distribution that produces <<tut-values-chapter-integers,integer>> samples from the range [1..7) (inclusive on the left side, exclusive on the right side).
+The `uniform` function is used to create a uniform integer distribution that produces <<lang-tut-values-chapter-integers,integer>> samples from the range [1..7) (inclusive on the left side, exclusive on the right side).
 Each sample is stored in `result` and added to the `results`.
 If we were to simulate this model forever, the `results` list would contain equal amounts of each of the six values.
 
@@ -80,7 +80,7 @@ The `normal` function is used to create a normal distribution with a mean of `2.
 The sampled weight is stored in the `weight` variable each time the distribution is sampled.
 The probability of the different weights as a result of the used normal distribution is depicted in the following figure:
 
-image::{tut-imgsdir}/stochastics/pennies.png[]
+image::{lang-tut-imgsdir}/stochastics/pennies.png[]
 
 indexterm:[stochastics,constant]
 

@@ -38,7 +38,7 @@ By sharing such a script with others, they can simulate the same model with the 
 
 Another use of scripts is to repeatedly execute the same tool, but with different parameters.
 A good example is <<tools-cifsim-chapter-repeated-simulation,repeatedly simulating>> a model.
-Instead of manually simulating a model with <<tut-stochastics-chapter-intro,stochastics>> hundreds or even thousands of times, which can be very time consuming, a script can be used to automate this task.
+Instead of manually simulating a model with <<lang-tut-stochastics-chapter-intro,stochastics>> hundreds or even thousands of times, which can be very time consuming, a script can be used to automate this task.
 The script can then also be used to automatically collect the results, and process them.
 Others can use the same script to repeat the experiments and verify the results, or to perform similar experiments.
 

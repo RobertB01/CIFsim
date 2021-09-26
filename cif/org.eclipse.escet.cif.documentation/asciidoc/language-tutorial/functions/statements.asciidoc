@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-functions-chapter-statements]]
+[[lang-tut-functions-chapter-statements]]
 == Function statements
 
 indexterm:[function,statements]
@@ -35,7 +35,7 @@ indexterm:[function statements,assignment]
 [[lang-tut-functions-statements-assignment]]
 === Assignment statement
 
-Assignments in functions are very similar to assignments to <<tut-data-chapter-discrete-variables,discrete variables>>.
+Assignments in functions are very similar to assignments to <<lang-tut-data-chapter-discrete-variables,discrete variables>>.
 For instance:
 
 
@@ -91,7 +91,7 @@ indexterm:[function statements,return]
 
 The execution of a function ends when a `return` statement is encountered.
 The value following the `return` statement is the result of the entire function.
-Consider again the `return` statement from the `mean` function from the <<tut-functions-chapter-internal-functions,previous lesson>>:
+Consider again the `return` statement from the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
 
 // Copied from: functions/internal-functions
 
@@ -108,7 +108,7 @@ indexterm:[function statements,while]
 === While statement
 
 The `while` statements allows for repeated execution of the statements in its body, as long as the condition of the `while` loop holds.
-Consider again the `mean` function from the <<tut-functions-chapter-internal-functions,previous lesson>>:
+Consider again the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
 
 // Copied from: functions/internal-functions
 

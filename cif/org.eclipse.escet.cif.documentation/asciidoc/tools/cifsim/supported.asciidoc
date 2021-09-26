@@ -21,9 +21,9 @@ The following restrictions apply:
 
 * Input variables are currently not supported.
 
-* Time dependent <<tut-data-chapter-stat-invariants,state invariants>> are not supported.
+* Time dependent <<lang-tut-data-chapter-stat-invariants,state invariants>> are not supported.
 This applies only to state invariants.
-<<tut-data-chapter-stat-evt-excl-invariants,State/event exclusion invariants>> are supported.
+<<lang-tut-data-chapter-stat-evt-excl-invariants,State/event exclusion invariants>> are supported.
 
 Specifications with component definitions/instantiations are not natively supported by the CIF simulator.
 Therefore, they are automatically eliminated by the simulator, as a preprocessing step, using the CIF to CIF transformation to <<tools-cif2cif-chapter-elim-comp-def-inst,eliminate component definition/instantiation>>.

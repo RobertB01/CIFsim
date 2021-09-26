@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-lists]]
+[[lang-tut-values-chapter-lists]]
 == Lists
 
 indexterm:[list]
@@ -94,7 +94,7 @@ As with the non-negative indices, using a negative index that is out of range of
 To obtain a non-negative index from a negative index, add the negative index to the length of the list: `3 + -1 = 2`, `3 + -2 = 1`, and `3 + -3 = 0`.
 The following figure visualizes a list, with non-negative indexing (at the top) and negative indexing (at the bottom):
 
-image::{tut-imgsdir}/values/list_indices.png[]
+image::{lang-tut-imgsdir}/values/list_indices.png[]
 
 indexterm:[list,slicing]
 Besides obtaining a single element from a list, it is also possible to obtain a sub-range of the elements of a list, called a _slice_.
@@ -136,7 +136,7 @@ The fifth slice includes all elements, as both the begin and end index are omitt
 The slice is thus identical to the list in `x`.
 The following figure graphically represents the slices:
 
-image::{tut-imgsdir}/values/list_slicing.png[]
+image::{lang-tut-imgsdir}/values/list_slicing.png[]
 
 indexterm:[list,concatenation]
 Lists can be combined into new lists.

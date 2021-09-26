@@ -12,13 +12,13 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-basics-chapter-alphabet]]
+[[lang-tut-basics-chapter-alphabet]]
 == Alphabet
 
 indexterm:[alphabet]
 indexterm:[automaton,alphabet]
 
-The lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>> described how events that are used in multiple automata exhibit synchronizing behavior.
+The lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>> described how events that are used in multiple automata exhibit synchronizing behavior.
 That is, if the event is used in multiple automata, they must all enable that event in order for a transition to be possible.
 If one of them can not perform the event, the event is disabled, and none of the automata can perform a transition for that event.
 
@@ -31,7 +31,7 @@ indexterm:[alphabet,implicit]
 === Default and implicit alphabets
 
 By default, the alphabet of an automaton implicitly contains all the events that occur on the edges of the automaton.
-For instance, consider the following CIF specification (the producer/consumer example from the lesson on <<tut-basics-chapter-synchronizing-events,synchronizing events>>):
+For instance, consider the following CIF specification (the producer/consumer example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>):
 
 
 [source, cif]

@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-namespaces]]
+[[lang-tut-reuse2-chapter-namespaces]]
 == Namespaces
 
 indexterm:[namespace]
 indexterm:[group,namespace]
-When using <<tut-reuse2-chapter-imports-groups,imports and groups>> to model large hierarchical systems, it is a common pattern to have groups around the entire specification:
+When using <<lang-tut-reuse2-chapter-imports-groups,imports and groups>> to model large hierarchical systems, it is a common pattern to have groups around the entire specification:
 
 
 [source, cif]

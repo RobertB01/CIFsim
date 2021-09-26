@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-channels-chapter-void]]
+[[lang-tut-channels-chapter-void]]
 == Dataless channels
 
 indexterm:[void]
@@ -31,7 +31,7 @@ It is then sufficient to communicate that a product is being 'transferred'.
 No further data is needed.
 While it is possible to communicate dummy values, dataless channels provide a better solution in such cases.
 
-Consider again the producer/consumer example from the <<tut-channels-chapter-intro,previous lesson>>, with one producer and two consumers, but without identification numbers for the products:
+Consider again the producer/consumer example from the <<lang-tut-channels-chapter-intro,previous lesson>>, with one producer and two consumers, but without identification numbers for the products:
 
 // Copied and adapted from: channels/intro
 

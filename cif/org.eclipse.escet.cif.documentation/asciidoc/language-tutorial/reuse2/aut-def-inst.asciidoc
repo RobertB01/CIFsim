@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-aut-def-inst]]
+[[lang-tut-reuse2-chapter-aut-def-inst]]
 == Automaton definition/instantiation
 
 indexterm:[automaton definition]
@@ -25,7 +25,7 @@ indexterm:[component instantiation]
 Parts of a system that are nearly identical, are often modeled as nearly identical automata.
 Having to specify them multiple times can be burdensome.
 It can also hinder scalability, as changes to one of them usually need to be applied to the others as well.
-Consider again the producer/consumer example from the <<tut-channels-chapter-intro,lesson that introduced channels>>:
+Consider again the producer/consumer example from the <<lang-tut-channels-chapter-intro,lesson that introduced channels>>:
 
 // Copied from: channels/intro
 

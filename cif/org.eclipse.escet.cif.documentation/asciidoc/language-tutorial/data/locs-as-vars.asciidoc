@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-locs-as-var]]
+[[lang-tut-data-chapter-locs-as-var]]
 == Using locations as variables
 
 indexterm:[location,as variable]
@@ -62,7 +62,7 @@ They finish their processing cycle by cooling down, before starting the cycle fo
 To ensure that a machine can not claim the resource if the other machine has already claimed it, the edges going to the `processing` locations have a guard that states that it is only allowed to claim the resource and start processing, if the other machine has not already claimed the resource.
 The state space of this specification is:
 
-image::{tut-imgsdir}/data/mutex_state_space.png[]
+image::{lang-tut-imgsdir}/data/mutex_state_space.png[]
 
 The states are labeled with the first letters of the names of the current locations of the automata.
 

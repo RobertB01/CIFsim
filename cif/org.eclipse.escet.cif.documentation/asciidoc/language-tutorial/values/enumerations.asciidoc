@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-enumerations]]
+[[lang-tut-values-chapter-enumerations]]
 == Enumerations
 
 indexterm:[enumeration]

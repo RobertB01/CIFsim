@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-deadlock-livelock]]
+[[lang-tut-time-chapter-deadlock-livelock]]
 == Deadlock and livelock
 
 This lesson explains the concepts of deadlock and livelock.

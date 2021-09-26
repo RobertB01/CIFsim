@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-discrete-variables]]
+[[lang-tut-data-chapter-discrete-variables]]
 == Discrete variables
 
 This lesson introduces discrete variables.
@@ -69,4 +69,4 @@ This specification represents a counter that can be repeatedly incremented and d
 
 The state space of the `counter` automaton is as follows:
 
-image::{tut-imgsdir}/data/counter_state_space.png[]
+image::{lang-tut-imgsdir}/data/counter_state_space.png[]

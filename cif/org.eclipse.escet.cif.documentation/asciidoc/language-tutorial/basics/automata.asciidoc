@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-basics-chapter-automata]]
+[[lang-tut-basics-chapter-automata]]
 == Automata
 
 indexterm:[component]

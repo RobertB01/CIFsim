@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-dictionaries]]
+[[lang-tut-values-chapter-dictionaries]]
 == Dictionaries
 
 indexterm:[dictionary]

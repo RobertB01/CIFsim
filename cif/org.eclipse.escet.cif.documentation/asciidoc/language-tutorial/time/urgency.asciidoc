@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-urgency]]
+[[lang-tut-time-chapter-urgency]]
 == Urgency
 
 indexterm:[urgency]
@@ -57,7 +57,7 @@ end
 This automaton represents a use case, which goes from one location to the next.
 The state space is:
 
-image::{tut-imgsdir}/time/usecase_nonurg_state_space.png[]
+image::{lang-tut-imgsdir}/time/usecase_nonurg_state_space.png[]
 
 The states are labeled with the names of the current locations of automaton `use_case` and the current values of variable time.
 At the end of the use case, no events are possible, and thus time can progress infinitely.
@@ -81,4 +81,4 @@ end
 
 The resulting state space is:
 
-image::{tut-imgsdir}/time/usecase_urgloc_state_space.png[]
+image::{lang-tut-imgsdir}/time/usecase_urgloc_state_space.png[]

@@ -12,13 +12,13 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-types-values-exprs]]
+[[lang-tut-values-chapter-types-values-exprs]]
 == Types, values, and expressions
 
 This lesson explains the difference between types, values, and expressions.
 These concepts have already been used in previous lessons, but this lesson names them explicitly, and also explains the relations between them.
 Furthermore, this lesson serves as an introduction for the coming lessons, which rely heavily on these concepts.
-Consider the following declarations of <<tut-data-chapter-discrete-variables,discrete variables>>:
+Consider the following declarations of <<lang-tut-data-chapter-discrete-variables,discrete variables>>:
 
 
 [source, cif]

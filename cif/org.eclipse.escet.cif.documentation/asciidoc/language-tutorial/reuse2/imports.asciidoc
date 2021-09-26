@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-imports]]
+[[lang-tut-reuse2-chapter-imports]]
 == Imports
 
 indexterm:[import]
@@ -81,4 +81,4 @@ The `producer.cif` file contains only its own content, while the `consumer.cif` 
 If one CIF specification is merged into another CIF specification, the names of the declarations in both CIF specifications must be different.
 It is not allowed to have declarations with the same name in multiple CIF specifications.
 For instance, in the example above, if the `provide` event were declared in both CIF specifications, the imports would be invalid.
-Exceptions to this rule are discussed in one of the next lessons, which explains the relation between <<tut-reuse2-chapter-imports-groups,imports and groups>>.
+Exceptions to this rule are discussed in one of the next lessons, which explains the relation between <<lang-tut-reuse2-chapter-imports-groups,imports and groups>>.

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-booleans]]
+[[lang-tut-values-chapter-booleans]]
 == Booleans
 
 indexterm:[boolean]

@@ -12,13 +12,13 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-equations]]
+[[lang-tut-time-chapter-equations]]
 == Equations
 
 indexterm:[equation,benefit]
 Consider the following link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
 
-image::{tut-imgsdir}/time/tank.png[]
+image::{lang-tut-imgsdir}/time/tank.png[]
 
 Variable `V` models the water volume of a tank.
 The water volume of the tank changes based on the incoming flow of water `Qi` and outgoing flow of water `Qo`.
@@ -53,4 +53,4 @@ equation Qo = sqrt(V);
 
 The values of the variables as time passes are shown in the following figure:
 
-image::{tut-imgsdir}/time/tank_plot.png[]
+image::{lang-tut-imgsdir}/time/tank_plot.png[]

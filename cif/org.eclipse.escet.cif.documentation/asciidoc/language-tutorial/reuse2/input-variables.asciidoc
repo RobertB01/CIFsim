@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse2-chapter-input-variables]]
+[[lang-tut-reuse2-chapter-input-variables]]
 == Input variables
 
 indexterm:[input variable]
@@ -150,7 +150,7 @@ automaton valve:
 end
 ----
 
-Using input variables to couple CIF specifications is somewhat similar to using <<tut-reuse2-chapter-imports,imports>> to split a CIF specification over multiple files.
+Using input variables to couple CIF specifications is somewhat similar to using <<lang-tut-reuse2-chapter-imports,imports>> to split a CIF specification over multiple files.
 There are however important differences.
 
 The first difference is that when using imports, one CIF specification is coupled to another CIF specification.

@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-reuse1-chapter-constants]]
+[[lang-tut-reuse1-chapter-constants]]
 == Constants
 
 indexterm:[constant]
@@ -90,5 +90,5 @@ const dict(ProductType:real) DURATION = {A: 3.5, B: 5.7, C: 0.8};
 This example declares a `ProductType` enumeration, with three different product types: `A`, `B`, and `C`.
 The `DURATION` constant indicates for each product type, how long it takes to produce a product of that type.
 Products of type `A` can be produced in 3.5 hours, products of type `B` in 5.7 hours, etc.
-To get the production duration of products of type `C`, <<tut-values-chapter-types-values-exprs,expression>> `DURATION[C]` can be used.
-For more information, see the lessons on <<tut-values-chapter-enumerations,enumerations>> and <<tut-values-chapter-dictionaries,dictionaries>>.
+To get the production duration of products of type `C`, <<lang-tut-values-chapter-types-values-exprs,expression>> `DURATION[C]` can be used.
+For more information, see the lessons on <<lang-tut-values-chapter-enumerations,enumerations>> and <<lang-tut-values-chapter-dictionaries,dictionaries>>.

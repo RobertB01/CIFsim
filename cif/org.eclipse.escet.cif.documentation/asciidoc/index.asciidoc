@@ -45,7 +45,7 @@ endif::website-output[]
 The documentation consists of:
 
 * <<introduction-chapter-index,CIF introduction>>
-* <<tut-chapter-index,CIF language tutorial>>
+* <<lang-tut-chapter-index,CIF language tutorial>>
 * <<lang-ref-chapter-index,CIF language reference manual>>
 * <<tools-chapter-index,CIF tool manual>>
 * <<examples-chapter-index,CIF examples>>

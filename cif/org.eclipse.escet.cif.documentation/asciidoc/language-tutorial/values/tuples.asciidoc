@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-values-chapter-tuples]]
+[[lang-tut-values-chapter-tuples]]
 == Tuples
 
 indexterm:[tuple]

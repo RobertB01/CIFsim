@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-basics-chapter-synchronizing-events]]
+[[lang-tut-basics-chapter-synchronizing-events]]
 == Synchronizing events
 
 indexterm:[event,synchronize]
@@ -135,7 +135,7 @@ indexterm:[state space]
 All possible traces together form the _state space_, which represents all the possible behavior of a system.
 For the producer/consumer example, the state space is:
 
-image::{tut-imgsdir}/basics/producer_consumer_state_space_finite.png[]
+image::{lang-tut-imgsdir}/basics/producer_consumer_state_space_finite.png[]
 
 Here the circles represent the states of the specification, which are a combination of the states of the two automata.
 The labels of the circles indicate the state, as a combination of the first letters of the locations of the automata.
@@ -150,7 +150,7 @@ Essential here is that the state space shown above has duplicate states.
 That is, several states have the same label, and allow for the same future behavior.
 By reusing states, a finite representation of the state space can be made, which shows the entire possible infinite behavior of the producer/consumer specification:
 
-image::{tut-imgsdir}/basics/producer_consumer_state_space_infinite.png[]
+image::{lang-tut-imgsdir}/basics/producer_consumer_state_space_infinite.png[]
 
 === Concluding remarks
 

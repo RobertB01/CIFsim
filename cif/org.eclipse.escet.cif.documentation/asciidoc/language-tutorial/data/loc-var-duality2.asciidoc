@@ -12,12 +12,12 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-loc-var-duality2]]
+[[lang-tut-data-chapter-loc-var-duality2]]
 == Location/variable duality (2/2)
 
 indexterm:[location,versus variable]
 indexterm:[variable,versus location]
-The lesson that <<tut-basics-chapter-automata,introduces automata>>, used an example of a lamp:
+The lesson that <<lang-tut-basics-chapter-automata,introduces automata>>, used an example of a lamp:
 
 
 [source, cif]
@@ -53,7 +53,7 @@ end
 ----
 
 This alternate automaton uses a single variable named `on`.
-The <<tut-values-chapter-types-values-exprs,data type>> of the variable is `bool`, which means that the variable can only have one of two possible values: `true` or `false`.
+The <<lang-tut-values-chapter-types-values-exprs,data type>> of the variable is `bool`, which means that the variable can only have one of two possible values: `true` or `false`.
 If variable `on` has value `true`, the lamp is on, and if it has value `false` it is off.
 Initially, the lamp is on, as the initial value of the variable is `true`.
 The automaton has only one location, with two edges.
@@ -88,4 +88,4 @@ While it is possible to model a lamp like this, this automaton duplicates the in
 This makes the automaton larger and more complex than it needs to be.
 In general, it is usually better to choose either a variable, or multiple locations, to express something, and not both.
 In several future lessons, we'll see that combining multiple locations with variables is useful, but not to express the same thing.
-Furthermore, an other future lesson explains how to <<tut-data-chapter-locs-as-var,use a location as a variable>>.
+Furthermore, an other future lesson explains how to <<lang-tut-data-chapter-locs-as-var,use a location as a variable>>.

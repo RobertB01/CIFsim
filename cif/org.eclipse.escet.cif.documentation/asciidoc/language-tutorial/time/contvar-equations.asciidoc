@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-time-chapter-contvar-equations]]
+[[lang-tut-time-chapter-contvar-equations]]
 == Continuous variables and equations
 
 indexterm:[continuous variable,equation]
@@ -37,7 +37,7 @@ end
 This specification models a `person` walking back and forth.
 Every time that the person has walked `10` time units, (s)he will `turn` around, walking in the other direction.
 
-In the example above, the derivative of the continuous variable is defined with the declaration, as was already explained in the lesson that introduced <<tut-time-chapter-continuous-variables,continuous variables>>.
+In the example above, the derivative of the continuous variable is defined with the declaration, as was already explained in the lesson that introduced <<lang-tut-time-chapter-continuous-variables,continuous variables>>.
 However, it also possible to specify the derivative separately, using an equation:
 
 
@@ -108,9 +108,9 @@ This means that every time unit, the position decreases by `2`.
 That is, the person back to the original position, but at twice the speed.
 The values of variables `time`, `pos`, and `pos'` as time progresses are:
 
-image::{tut-imgsdir}/time/person_plot.png[]
+image::{lang-tut-imgsdir}/time/person_plot.png[]
 
-As with <<tut-reuse1-chapter-algvar-equations,algebraic variables>>, every continuous variable must have a unique derivative in every situation.
+As with <<lang-tut-reuse1-chapter-algvar-equations,algebraic variables>>, every continuous variable must have a unique derivative in every situation.
 Continuous variables must thus have a derivative with their declaration, a single equation in the same component, or an equation in every location of the automaton.
 For every continuous variable, one of the three variants must be chosen.
 It is allowed to choose a different variant for different continuous variables, but it is not allowed to use multiple variants for the same continuous variable.

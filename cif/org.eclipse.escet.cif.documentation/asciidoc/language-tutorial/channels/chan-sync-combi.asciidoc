@@ -12,11 +12,11 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-channels-chapter-chan-sync-combi]]
+[[lang-tut-channels-chapter-chan-sync-combi]]
 == Combining channel communication with event synchronization
 
 indexterm:[channel,synchronization]
-Consider again the producer/consumer example with two producers and two consumers, from a <<tut-channels-chapter-intro,previous lesson>>:
+Consider again the producer/consumer example with two producers and two consumers, from a <<lang-tut-channels-chapter-intro,previous lesson>>:
 
 // Copied from: channels/intro
 
@@ -103,7 +103,7 @@ It only allows the `provide` event when less than five products have been provid
 If five or more products have been provided, it disables the `provide` event.
 
 In the `controller` automaton, the `provide` channel is used as an event rather than a channel.
-When one of the producers and one of the consumers together perform a channel communication, the `controller` automaton that has the `provide` event in its <<tut-basics-chapter-alphabet,alphabet>>, must synchronize with it.
+When one of the producers and one of the consumers together perform a channel communication, the `controller` automaton that has the `provide` event in its <<lang-tut-basics-chapter-alphabet,alphabet>>, must synchronize with it.
 This allows the `controller` to impose additional restrictions on the channel communication, allowing or forbidding it in certain cases.
 The `controller` is added as a separate process, which improves scalability.
 
@@ -117,4 +117,4 @@ Automata that send or receive over a channel, do not have that channel in their 
 Only automata that synchronize with an event or channel have that event or channel in their alphabet.
 
 Automata that synchronize over a channel can be used to further _restrict_ the allowed channel communications, as shown in the above example.
-It is however also possible for the additional synchronizing automata to <<tut-data-chapter-monitoring,monitor>> (observe) the channel communication.
+It is however also possible for the additional synchronizing automata to <<lang-tut-data-chapter-monitoring,monitor>> (observe) the channel communication.

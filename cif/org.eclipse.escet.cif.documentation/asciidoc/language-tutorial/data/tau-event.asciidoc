@@ -12,7 +12,7 @@
 
 include::../_part_attributes.asciidoc[]
 
-[[tut-data-chapter-tau-event]]
+[[lang-tut-data-chapter-tau-event]]
 == The `tau` event
 
 indexterm:[tau]
@@ -51,7 +51,7 @@ The machine them provides (event `provide`) them to the second machine.
 The second machine currently just accepts the products provided by the first machine, but would in reality likely perform its own processing as well.
 The state space of the specification is as follows:
 
-image::{tut-imgsdir}/data/tau_event_state_space1.png[]
+image::{lang-tut-imgsdir}/data/tau_event_state_space1.png[]
 
 The states are labeled with the names of the current locations of automaton `machine1`.
 Since automaton `machine2` has only a single location, its current location does not change, and it is therefore not included in the state names.
@@ -85,7 +85,7 @@ By omitting the event from an edge, the `tau` is used for that edge.
 The `tau` event is an event that is implicitly always present without declaring it.
 The state space of this modified specification is:
 
-image::{tut-imgsdir}/data/tau_event_state_space2.png[]
+image::{lang-tut-imgsdir}/data/tau_event_state_space2.png[]
 
 indexterm:[synchronization,tau]
 indexterm:[tau,synchronization]
@@ -93,7 +93,7 @@ The `tau` event does not synchronize.
 You can think of this as each automaton having its own local `tau` event, and since then they are different events, they do not synchronize.
 If multiple automata can perform a transition for an edge with the `tau` event, this leads to potential transitions for each of those edges.
 Since they are all labeled with the `tau` event, it is impossible to distinguish them solely based on their label.
-This is a form of <<tut-basics-chapter-non-determinism,non-determinism>>.
+This is a form of <<lang-tut-basics-chapter-non-determinism,non-determinism>>.
 
 Using the `tau` events saves having to declare a local event, and also saves having to put that event on the edge.
 It thus leads to smaller specifications.
