@@ -49,22 +49,22 @@ This allows to separate concerns, and also to work in a more agile way, e.g.:
 
 ** Issues can be addressed more quickly.
 ** Merge requests can be reviewed more easily as they are not as big.
-** Merge issues are less likely to occur, as branches have a shorter lifespan.
+** Merge conflicts are less likely to occur, as branches are smaller and have a shorter lifespan.
 
-* If a new feature is split up into multiple issues, these can be related together using an epic.
-In such cases, add the issues to the epic to track the progress of the new feature using the epic.
+* If a new feature is split up into multiple issues, the issues can be linked to each other.
+Issues can also be linked together for other reasons, e.g. if an issue requires that another issue is addressed first.
+See the _Linked issues_ section of the issue.
 
 * Attach the appropriate link:https://gitlab.eclipse.org/eclipse/escet/escet/-/labels[predefined labels] to the issue:
 
 ** Either something is broken ('Bug' label) or we want something more, different, better, etc ('Enhancement' label).
+Removal of deprecated and obsolete functionality, code, documentation, etc is also considered an enhancement.
 
 ** Add all relevant component labels (e.g. 'Chi' and 'CIF' labels).
 Typically at least one such label should be present, but it is also possible to add multiple labels if the issue involves multiple components.
 The components correspond to the directories in the root of our <<developer-git-repo-chapter-index,Git repository>>.
 
 ** The Eclipse ESCET project committers can add the 'Help Wanted' label to an issue to indicate that they don't have the time to work on the issue, and that help from the community is wanted.
-
-* Link the issue to any other issues, as relevant, e.g. if an issue requires that another issue is addressed first.
 
 
 indexterm:[release]
@@ -73,16 +73,15 @@ indexterm:[milestone]
 === Releases and milestones
 
 For every software version a GitLab milestone is created, to track its scope and progress.
-First the scope is discussed and agreed upon.
-Then, a GitLab milestone is created, the relevant issues are created if not yet present, and the issues are associated with the milestone.
-The issues can then be picked up to be addressed.
+Typically all open issues are assigned to the current work-in-progress version.
+During the work on that version, issues that can't be resolved before the final release of that version are moved to the next version.
 
 A single GitLab milestone is used per software version.
-Each software version has one or more milestone releases, followed by one or more release candidates, and is completed by a final release.
+Each software version has one or more milestone releases (`M1`, `M2`, etc), followed by one or more release candidates (`RC1`, `RC2`, etc), and is completed by a final release.
 
 See also:
 
-* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET milestones]
+* link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET GitLab milestones]
 
 
 === Working on issues
@@ -92,8 +91,11 @@ The process to work on issues is as follows:
 * Unassigned issues can be picked up.
 
 * Assign yourself to the issue when you are working on an issue, such that others won't start working on it as well.
+You then 'own' the issue and nobody should work on the issue without discussing with you first.
+A contributor can discuss with the project committers through issue comments, and they can assign the contributor to the issue.
 
 * Unassign yourself if you are no longer working on an issue, don't plan to continue, and the issue is not finished.
+A contributor can ask the project committers to be unassigned.
 
 * Don't unassign yourself after finishing the work, just close the issue.
 
@@ -107,24 +109,30 @@ The Eclipse ESCET project roughly follows the link:https://nvie.com/posts/a-succ
 The `master` branch is thus for released content only, and the current development status is captured in the `develop` branch.
 
 If possible, we approach the somewhat heavy GitFlow branching model in a practical way, reducing overhead.
+We may for instance skip release branches, merging `develop` to `master` directly.
 
 When creating and working with branches, consider the following:
 
 * Always work in a branch for the issue.
-That is, never commit directly to the `develop` branch, but always use a merge request from a feature branch.
+Use a merge request from a feature branch to merge your changes to `develop`.
+Direct commits to the `develop` branch have been disabled.
+
+* Ideally address each issue in a separate branch.
+This makes it easier to keep track of things.
+It also makes it easier for reviewers.
 
 * Branches for work on issues (feature branches) should be relatively short lived.
-This makes it easier to keep the overview, allows for more agile development, and reduces the chance for merge conflicts.
+This makes it easier to keep the overview, allows for more agile development and faster reviews, and reduces the chance for merge conflicts.
 
 * The GitFlow branching model allows for sub teams that share work but don't push that to 'origin' (yet).
 It also allows feature branches that live only locally on a developer's PC and not on 'origin'.
 To be transparent, Eclipse Foundation open source projects don't do this.
-We push to our GitLab server regularly, to ensure that the community can see what the project is working on.
+We push to our GitLab server regularly, to ensure that the community can see what the project committers are working on.
 
 * We have no strict branch naming rules.
-You can Let GitLab create the branch for the issue.
+You can let GitLab create the branch for the issue.
 For an issue with number #2 named 'Test', it will create a branch named `2-test`.
-This includes the issue number, which makes it easy to relate a branch to an issue, without having to look inside the branch for commits (if there even are any).
+This starts with the issue number, which makes it easy to relate a branch to an issue, without having to look inside the branch for commits (if there even are any).
 It also includes the issue name, which is convenient as it indicates what the branch is about, without having to look up the issue.
 
 * There are many ways to create a branch.
@@ -137,21 +145,44 @@ Typically the defaults suffice.
 Click the _Create branch_ button to create the branch.
 
 * We prefer not to create a draft merge request with the creation of the branch, as then commits in the branch lead to commits on the merge requests, which lead to notification emails.
+Instead, work in the branch until it is ready for review, and then create a merge request for it.
+
+* The person that is assigned to an issue 'owns' that issue, and may create branches for it.
+They then also 'own' those branches, and nobody should commit in those branches unless discussed with and agreed to by the branch owner.
+
+* A branch owner may perform a rebase on a branch.
+However, this should be carefully considered, taking into account Git's well-known 'Golden Rule of Rebasing'.
+Only perform a rebase if you understand the potential pitfalls of rewriting history.
+Never rebase a branch that is shared with others that have been given 'permission' to work on the branch as well.
+Never rebase a branch when other branches are based on it.
+Never rebase a branch once a merge request is created for it, e.g. to avoid confusion for reviewers, and to prevent rewriting history in case a snapshot of the merge request is submitted to the Eclipse Foundation IP team as part of a Contribution Questionnaire (CQ).
+A safer alternative to rebasing is merging, which leads to an extra merge commit and a more complicated history.
+If you fully understand rebasing and employ it carefully, it can be a powerful to maintain a simpler and cleaner history.
+Rebasing local commits that have not yet been pushed to the remote public repository is always at your own discretion.
+
 
 indexterm:[commit]
 
 === Commits
 
-As is standard for Git commits, the first line of the commit message must be a short summary, and must not exceed 72 characters.
+Consider the following regarding commits:
 
+* Project committers working on an issue in a a branch must commit regularly, to allow the other project committers and the rest of the community to see what they're working on.
+This is mandatory as per the Eclipse Foundation transparency principle.
+
+* If a branch involves significant changes, consider using multiple commits that may be easier to review.
+This is especially useful when renaming directories, files, methods, etc, or moving them.
+Typically renames and moves should be done in separate commits, without any other changes in them.
+
+* As is standard for Git commits, the first line of the commit message must be a short summary, and must not exceed 72 characters.
++
 For the Eclipse ESCET project, this line must start with the issue number, to allow GitLab to link commits to issues.
-For instance: `#1 commit summary`.
-In case a commit relates to multiple issues, list each of them, e.g. `#1 #2 commit summary`.
+For instance: `#1 Commit summary.`.
+In case a commit relates to multiple issues, list each of them, e.g. `#1 #2 Commit summary.`.
 Merge commits are exempt from this rule.
 
-Furthermore, all commits must adhere to the requirements as defined by the Eclipse Foundation:
-
-* link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records] (Eclipse Foundation Project Handbook)
+* All commits must adhere to the requirements as defined by the Eclipse Foundation.
+See link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records] in the Eclipse Foundation Project Handbook.
 
 If you are not an Eclipse ESCET project committer, with write access to our Git repository, see the information on <<developer-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
 
