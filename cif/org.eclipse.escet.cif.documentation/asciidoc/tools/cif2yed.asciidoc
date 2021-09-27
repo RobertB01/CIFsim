@@ -129,9 +129,9 @@ The option value to use on the command line, for this kind of diagrams, is `mode
 
 A diagram of the model itself, with all its details.
 That is, the diagram can be used instead of the textual representation of the model, without loss of details.
-Changes with respect to the textual representation include among others elimination of <<tut-reuse2-chapter-imports,imports>>, and the loss of comments and textual layout.
+Changes with respect to the textual representation include among others elimination of <<lang-tut-reuse2-chapter-imports,imports>>, and the loss of comments and textual layout.
 
-All components (<<tut-basics-chapter-automata,automata>>, <<tut-reuse2-chapter-groups,groups>>, automaton <<tut-reuse2-chapter-aut-def-inst,instantiations>>, and group instantiations) and components <<tut-reuse2-chapter-aut-def-inst,definitions>> (automata and group definitions) are visualized in a hierarchical manner, as rectangles contained in other rectangles.
+All components (<<lang-tut-basics-chapter-automata,automata>>, <<lang-tut-reuse2-chapter-groups,groups>>, automaton <<lang-tut-reuse2-chapter-aut-def-inst,instantiations>>, and group instantiations) and components <<lang-tut-reuse2-chapter-aut-def-inst,definitions>> (automata and group definitions) are visualized in a hierarchical manner, as rectangles contained in other rectangles.
 Automaton and group instantiations are grouped together into a single node in the diagram.
 All of them can be closed (collapsed) and opened (expanded) in yEd, allowing to hide unimportant details while focusing on only a part of the diagram.
 The header of the component or component definition is shown at the top of the rectangle, while for instantiations the word `Instantiations` is used as header.
@@ -149,7 +149,7 @@ A component instantiation (group/automaton instantiation)
 
 For instantiations, the complete instantiations are shown as code block in the body of the rectangle.
 
-For the declarations (e.g. <<tut-data-chapter-discrete-variables,variables>>), <<tut-data-chapter-stat-invariants,invariants>>, I/O declarations (e.g. <<tools-cifsim-output-svgviz-chapter-cifsvg,SVG declarations>>), etc a block of code is used.
+For the declarations (e.g. <<lang-tut-data-chapter-discrete-variables,variables>>), <<lang-tut-data-chapter-stat-invariants,invariants>>, I/O declarations (e.g. <<tools-cifsim-output-svgviz-chapter-cifsvg,SVG declarations>>), etc a block of code is used.
 Code blocks use header and background colors that are distinct from the colors used for components, component definitions, and component instantiations:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_code_header.png[]
@@ -160,9 +160,9 @@ A code block (background)
 
 For automata, the <<lang-tut-basics-automata-location,locations>> are visualized as rectangles with rounded colors.
 Their names (if applicable), invariants, equations, etc are shown as code in the rectangles.
-The <<tut-data-chapter-init-preds,initialization>> of the location (if present and not `false`) is visualized as an incoming arrow without source location, with a label indicating the initialization predicates if they are not `true`.
+The <<lang-tut-data-chapter-init-preds,initialization>> of the location (if present and not `false`) is visualized as an incoming arrow without source location, with a label indicating the initialization predicates if they are not `true`.
 <<lang-tut-basics-edge,Edges>> are visualized as arrows between locations, with arrows to the source location itself for self loop edges.
-The events, guards, `now` keywords (for <<tut-time-chapter-urgency,urgent>> edges), and updates are put as labels on the edges.
+The events, guards, `now` keywords (for <<lang-tut-time-chapter-urgency,urgent>> edges), and updates are put as labels on the edges.
 Locations use a background color that is distinct from the colors used for components, component definitions, and code blocks:
 
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_loc_bg.png[]
@@ -229,10 +229,10 @@ Adding a feature that is already present or removing a feature that is not prese
 The option value to use on the command line, for this kind of diagrams, is `relations`.
 
 A diagram of only the <<lang-tut-basics-automata-events,event>> and data relations.
-The diagram can be used to see which events are used by which <<tut-basics-chapter-automata,automata>> (are in the <<tut-basics-chapter-alphabet,alphabet>> of those automata).
+The diagram can be used to see which events are used by which <<lang-tut-basics-chapter-automata,automata>> (are in the <<lang-tut-basics-chapter-alphabet,alphabet>> of those automata).
 It can also be used to see which data (variables, locations, etc) exist in the model and where they are used.
-Furthermore, it can also be used to see how events and data are passed via automaton and group <<tut-reuse2-chapter-aut-def-inst,instantiations>>.
-Events, variables, and locations can thereby potentially be renamed if the <<tut-reuse2-chapter-aut-def-params,parameters>> of the corresponding automaton or <<tut-reuse2-chapter-groups,group>> <<tut-reuse2-chapter-aut-def-inst,definitions>> have different names than the events, variables, and locations that are passed via the instantiations.
+Furthermore, it can also be used to see how events and data are passed via automaton and group <<lang-tut-reuse2-chapter-aut-def-inst,instantiations>>.
+Events, variables, and locations can thereby potentially be renamed if the <<lang-tut-reuse2-chapter-aut-def-params,parameters>> of the corresponding automaton or <<lang-tut-reuse2-chapter-groups,group>> <<lang-tut-reuse2-chapter-aut-def-inst,definitions>> have different names than the events, variables, and locations that are passed via the instantiations.
 
 All components (automata, groups, automaton instantiations, and group instantiations) and component definitions (automaton and group definitions) are visualized in a hierarchical manner, as rectangles contained in other rectangles.
 Automaton and group instantiations are unfolded to their contents (the body of the corresponding automaton or group definition).
@@ -270,17 +270,17 @@ A component instantiation (group/automaton instantiation)
 * image:{tools-imgsdir}/cif2yed/cif2yed_color_wrap_box_header.png[]
 A wrapping box for components (incl. instantiations) or component definitions
 
-Event <<lang-tut-basics-automata-events,declarations>>, <<tut-data-chapter-discrete-variables,discrete variables>>, <<tut-time-chapter-continuous-variables,continuous variables>>, <<tut-reuse1-chapter-algebraic-variables,algebraic variables>>, <<tut-reuse2-chapter-input-variables,input variables>>, and <<lang-tut-basics-automata-location,locations>> are all visualized as rectangles with a thick border.
+Event <<lang-tut-basics-automata-events,declarations>>, <<lang-tut-data-chapter-discrete-variables,discrete variables>>, <<lang-tut-time-chapter-continuous-variables,continuous variables>>, <<lang-tut-reuse1-chapter-algebraic-variables,algebraic variables>>, <<lang-tut-reuse2-chapter-input-variables,input variables>>, and <<lang-tut-basics-automata-location,locations>> are all visualized as rectangles with a thick border.
 The text in the rectangle is a keyword (`event`, `disc`, `cont`, etc), followed by the name of the declaration.
-For <<tut-channels-chapter-intro,channels>> (events with a data type), the name is followed by `!?~`.
+For <<lang-tut-channels-chapter-intro,channels>> (events with a data type), the name is followed by `!?~`.
 
-Event, location, and algebraic <<tut-reuse2-chapter-aut-def-params,parameters>> are visualized as octagons with a thin dashed border.
+Event, location, and algebraic <<lang-tut-reuse2-chapter-aut-def-params,parameters>> are visualized as octagons with a thin dashed border.
 The text in the rectangle is a keyword (`event`, `location`, etc), followed by the name of the parameter.
-For <<tut-channels-chapter-intro,channels>> (events with a data type), the name is followed by the <<lang-tut-reuse2-aut-def-param-kinds-event-restrictions,event parameter usage restriction flags>> (e.g. `!` for send, `?` for receive, and/or `~` for synchronization).
+For <<lang-tut-channels-chapter-intro,channels>> (events with a data type), the name is followed by the <<lang-tut-reuse2-aut-def-param-kinds-event-restrictions,event parameter usage restriction flags>> (e.g. `!` for send, `?` for receive, and/or `~` for synchronization).
 For channel parameters without flags, `!?~` is used as text after the name of the parameter.
 
 Uses of events and data are visualized as circles.
-For uses of events by automata (event in the alphabet of the automaton), the circles indicate the type of use: `!` if the automaton sends over the channel, `?` if the automaton receives over the channel, and no text if the automaton <<tut-basics-chapter-synchronizing-events,synchronizes>> over the event (the event is in the alphabet of the automaton).
+For uses of events by automata (event in the alphabet of the automaton), the circles indicate the type of use: `!` if the automaton sends over the channel, `?` if the automaton receives over the channel, and no text if the automaton <<lang-tut-basics-chapter-synchronizing-events,synchronizes>> over the event (the event is in the alphabet of the automaton).
 For data uses, the circles never contain text.
 
 Different colors are used for declarations, parameters, and uses, as well as for events and data:
@@ -324,7 +324,7 @@ In all other cases, an undirected edge is used.
 
 Location parameters of component instantiations are coupled to the actual location (or location parameter) that is provided by the instantiation, using a directed edge from the actual location to the parameter, to indicate the flow of data.
 Similarly, algebraic parameters are related to the actual arguments.
-However, for algebraic parameters, an <<tut-values-chapter-types-values-exprs,expression>> may be provided.
+However, for algebraic parameters, an <<lang-tut-values-chapter-types-values-exprs,expression>> may be provided.
 For each variable, location, and parameter used in the actual argument, a directed edge is added.
 Duplicate edges are avoided.
 

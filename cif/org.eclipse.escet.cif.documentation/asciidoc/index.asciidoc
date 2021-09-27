@@ -1,3 +1,4 @@
+
 /////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
@@ -45,7 +46,7 @@ endif::website-output[]
 The documentation consists of:
 
 * <<introduction-chapter-index,CIF introduction>>
-* <<tut-chapter-index,CIF language tutorial>>
+* <<lang-tut-chapter-index,CIF language tutorial>>
 * <<lang-ref-chapter-index,CIF language reference manual>>
 * <<tools-chapter-index,CIF tool manual>>
 * <<examples-chapter-index,CIF examples>>
@@ -63,23 +64,23 @@ include::introduction.asciidoc[]
 
 // Language tutorial
 
-include::tutorial/index.asciidoc[]
+include::language-tutorial/index.asciidoc[]
 
 === Basics
 
 :leveloffset: +2
 
-include::tutorial/basics/automata.asciidoc[]
+include::language-tutorial/basics/automata.asciidoc[]
 
-include::tutorial/basics/synchronization.asciidoc[]
+include::language-tutorial/basics/synchronization.asciidoc[]
 
-include::tutorial/basics/non-determinism.asciidoc[]
+include::language-tutorial/basics/non-determinism.asciidoc[]
 
-include::tutorial/basics/alphabet.asciidoc[]
+include::language-tutorial/basics/alphabet.asciidoc[]
 
-include::tutorial/basics/event-placement.asciidoc[]
+include::language-tutorial/basics/event-placement.asciidoc[]
 
-include::tutorial/basics/shorter-notations.asciidoc[]
+include::language-tutorial/basics/shorter-notations.asciidoc[]
 
 :leveloffset: -2
 
@@ -87,31 +88,31 @@ include::tutorial/basics/shorter-notations.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/data/discrete-variables.asciidoc[]
+include::language-tutorial/data/discrete-variables.asciidoc[]
 
-include::tutorial/data/discvar-change.asciidoc[]
+include::language-tutorial/data/discvar-change.asciidoc[]
 
-include::tutorial/data/loc-var-duality1.asciidoc[]
+include::language-tutorial/data/loc-var-duality1.asciidoc[]
 
-include::tutorial/data/loc-var-duality2.asciidoc[]
+include::language-tutorial/data/loc-var-duality2.asciidoc[]
 
-include::tutorial/data/read-write.asciidoc[]
+include::language-tutorial/data/read-write.asciidoc[]
 
-include::tutorial/data/monitoring.asciidoc[]
+include::language-tutorial/data/monitoring.asciidoc[]
 
-include::tutorial/data/asgn-old-vs-new.asciidoc[]
+include::language-tutorial/data/asgn-old-vs-new.asciidoc[]
 
-include::tutorial/data/tau-event.asciidoc[]
+include::language-tutorial/data/tau-event.asciidoc[]
 
-include::tutorial/data/discvar-init.asciidoc[]
+include::language-tutorial/data/discvar-init.asciidoc[]
 
-include::tutorial/data/init-preds.asciidoc[]
+include::language-tutorial/data/init-preds.asciidoc[]
 
-include::tutorial/data/locs-as-vars.asciidoc[]
+include::language-tutorial/data/locs-as-vars.asciidoc[]
 
-include::tutorial/data/state-invariants.asciidoc[]
+include::language-tutorial/data/state-invariants.asciidoc[]
 
-include::tutorial/data/state-evt-excl-invariants.asciidoc[]
+include::language-tutorial/data/state-evt-excl-invariants.asciidoc[]
 
 :leveloffset: -2
 
@@ -119,33 +120,33 @@ include::tutorial/data/state-evt-excl-invariants.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/values/types-values-exprs.asciidoc[]
+include::language-tutorial/values/types-values-exprs.asciidoc[]
 
-include::tutorial/values/overview.asciidoc[]
+include::language-tutorial/values/overview.asciidoc[]
 
-include::tutorial/values/integers.asciidoc[]
+include::language-tutorial/values/integers.asciidoc[]
 
-include::tutorial/values/integer-ranges.asciidoc[]
+include::language-tutorial/values/integer-ranges.asciidoc[]
 
-include::tutorial/values/reals.asciidoc[]
+include::language-tutorial/values/reals.asciidoc[]
 
-include::tutorial/values/booleans.asciidoc[]
+include::language-tutorial/values/booleans.asciidoc[]
 
-include::tutorial/values/strings.asciidoc[]
+include::language-tutorial/values/strings.asciidoc[]
 
-include::tutorial/values/enumerations.asciidoc[]
+include::language-tutorial/values/enumerations.asciidoc[]
 
-include::tutorial/values/tuples.asciidoc[]
+include::language-tutorial/values/tuples.asciidoc[]
 
-include::tutorial/values/lists.asciidoc[]
+include::language-tutorial/values/lists.asciidoc[]
 
-include::tutorial/values/bounded-lists-and-arrays.asciidoc[]
+include::language-tutorial/values/bounded-lists-and-arrays.asciidoc[]
 
-include::tutorial/values/sets.asciidoc[]
+include::language-tutorial/values/sets.asciidoc[]
 
-include::tutorial/values/dictionaries.asciidoc[]
+include::language-tutorial/values/dictionaries.asciidoc[]
 
-include::tutorial/values/combining-values.asciidoc[]
+include::language-tutorial/values/combining-values.asciidoc[]
 
 :leveloffset: -2
 
@@ -153,13 +154,13 @@ include::tutorial/values/combining-values.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/reuse1/constants.asciidoc[]
+include::language-tutorial/reuse1/constants.asciidoc[]
 
-include::tutorial/reuse1/algebraic-variables.asciidoc[]
+include::language-tutorial/reuse1/algebraic-variables.asciidoc[]
 
-include::tutorial/reuse1/algvar-equations.asciidoc[]
+include::language-tutorial/reuse1/algvar-equations.asciidoc[]
 
-include::tutorial/reuse1/type-declarations.asciidoc[]
+include::language-tutorial/reuse1/type-declarations.asciidoc[]
 
 :leveloffset: -2
 
@@ -167,19 +168,19 @@ include::tutorial/reuse1/type-declarations.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/time/intro.asciidoc[]
+include::language-tutorial/time/intro.asciidoc[]
 
-include::tutorial/time/continuous-variables.asciidoc[]
+include::language-tutorial/time/continuous-variables.asciidoc[]
 
-include::tutorial/time/contvar-equations.asciidoc[]
+include::language-tutorial/time/contvar-equations.asciidoc[]
 
-include::tutorial/time/equations.asciidoc[]
+include::language-tutorial/time/equations.asciidoc[]
 
-include::tutorial/time/var-overview.asciidoc[]
+include::language-tutorial/time/var-overview.asciidoc[]
 
-include::tutorial/time/urgency.asciidoc[]
+include::language-tutorial/time/urgency.asciidoc[]
 
-include::tutorial/time/deadlock-livelock.asciidoc[]
+include::language-tutorial/time/deadlock-livelock.asciidoc[]
 
 :leveloffset: -2
 
@@ -187,11 +188,11 @@ include::tutorial/time/deadlock-livelock.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/channels/intro.asciidoc[]
+include::language-tutorial/channels/intro.asciidoc[]
 
-include::tutorial/channels/void.asciidoc[]
+include::language-tutorial/channels/void.asciidoc[]
 
-include::tutorial/channels/chan-sync-combi.asciidoc[]
+include::language-tutorial/channels/chan-sync-combi.asciidoc[]
 
 :leveloffset: -2
 
@@ -199,13 +200,13 @@ include::tutorial/channels/chan-sync-combi.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/functions/intro.asciidoc[]
+include::language-tutorial/functions/intro.asciidoc[]
 
-include::tutorial/functions/internal-functions.asciidoc[]
+include::language-tutorial/functions/internal-functions.asciidoc[]
 
-include::tutorial/functions/statements.asciidoc[]
+include::language-tutorial/functions/statements.asciidoc[]
 
-include::tutorial/functions/functions-as-values.asciidoc[]
+include::language-tutorial/functions/functions-as-values.asciidoc[]
 
 :leveloffset: -2
 
@@ -213,25 +214,25 @@ include::tutorial/functions/functions-as-values.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/reuse2/aut-def-inst.asciidoc[]
+include::language-tutorial/reuse2/aut-def-inst.asciidoc[]
 
-include::tutorial/reuse2/aut-def-params.asciidoc[]
+include::language-tutorial/reuse2/aut-def-params.asciidoc[]
 
-include::tutorial/reuse2/aut-def-param-kinds.asciidoc[]
+include::language-tutorial/reuse2/aut-def-param-kinds.asciidoc[]
 
-include::tutorial/reuse2/groups.asciidoc[]
+include::language-tutorial/reuse2/groups.asciidoc[]
 
-include::tutorial/reuse2/group-defs.asciidoc[]
+include::language-tutorial/reuse2/group-defs.asciidoc[]
 
-include::tutorial/reuse2/imports.asciidoc[]
+include::language-tutorial/reuse2/imports.asciidoc[]
 
-include::tutorial/reuse2/imports-libraries.asciidoc[]
+include::language-tutorial/reuse2/imports-libraries.asciidoc[]
 
-include::tutorial/reuse2/imports-groups.asciidoc[]
+include::language-tutorial/reuse2/imports-groups.asciidoc[]
 
-include::tutorial/reuse2/namespaces.asciidoc[]
+include::language-tutorial/reuse2/namespaces.asciidoc[]
 
-include::tutorial/reuse2/input-variables.asciidoc[]
+include::language-tutorial/reuse2/input-variables.asciidoc[]
 
 :leveloffset: -2
 
@@ -239,11 +240,11 @@ include::tutorial/reuse2/input-variables.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/stochastics/intro.asciidoc[]
+include::language-tutorial/stochastics/intro.asciidoc[]
 
-include::tutorial/stochastics/discrete-continuous-constant.asciidoc[]
+include::language-tutorial/stochastics/discrete-continuous-constant.asciidoc[]
 
-include::tutorial/stochastics/pseudo-randomness.asciidoc[]
+include::language-tutorial/stochastics/pseudo-randomness.asciidoc[]
 
 :leveloffset: -2
 
@@ -251,20 +252,20 @@ include::tutorial/stochastics/pseudo-randomness.asciidoc[]
 
 :leveloffset: +2
 
-include::tutorial/extensions/synthesis.asciidoc[]
+include::language-tutorial/extensions/synthesis.asciidoc[]
 
 :leveloffset: -2
 
 
 // Language reference manual
 
-include::lang-ref/index.asciidoc[]
+include::language-reference/index.asciidoc[]
 
 :leveloffset: +1
 
-include::lang-ref/syntax/lexical.asciidoc[]
+include::language-reference/syntax/lexical.asciidoc[]
 
-include::lang-ref/syntax/grammar.asciidoc[]
+include::language-reference/syntax/grammar.asciidoc[]
 
 :leveloffset: -1
 
@@ -691,11 +692,11 @@ include::release-notes.asciidoc[]
 
 // Developers
 
-include::dev/index.asciidoc[]
+include::developers/index.asciidoc[]
 
 :leveloffset: +1
 
-include::dev/lang-modify.asciidoc[]
+include::developers/lang-modify.asciidoc[]
 
 :leveloffset: -1
 

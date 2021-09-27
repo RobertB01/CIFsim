@@ -1,0 +1,153 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-basics-chapter-shorter-notations]]
+== Shorter notations
+
+This lessons explains several short notations, that can be used for easier modeling, can reduce the size of the specification, and make specifications easier to read.
+The following topics are discussed:
+
+* <<lang-tut-basics-shorter-notations-self-loop>>
+
+* <<lang-tut-basics-shorter-notations-evt-decl-mult>>
+
+* <<lang-tut-basics-shorter-notations-edge-mult-evt>>
+
+* <<lang-tut-basics-shorter-notations-loc-nameless>>
+
+indexterm:[self loop]
+indexterm:[edge,self loop]
+
+[[lang-tut-basics-shorter-notations-self-loop]]
+=== Self loop
+
+A self loop is an edge that goes to the location from which it originated.
+Consider the following example:
+
+
+[source, cif]
+----
+automaton a:
+  event e;
+
+  location x:
+    edge e goto x;
+end
+----
+
+The edge in location `x` of automaton `a` goes to location `x`.
+The effect of the `e` event is that automaton `a` remains in its `x` location.
+A self loop can be used to allow a certain event, essentially ignoring it for that location.
+
+The following short notation can be used for self loops:
+
+
+[source, cif]
+----
+automaton a:
+  event e;
+
+  location x:
+    edge e; // Goto omitted for self loop.
+end
+----
+
+The `goto` part of the edge can be omitted for self loop.
+This can help make the model easier to read, as the resulting location does not have to be checked against the source location of the edge, to see whether they match.
+
+indexterm:[event,declaration]
+indexterm:[declaration,multiple]
+
+[[lang-tut-basics-shorter-notations-evt-decl-mult]]
+=== Declaring multiple events with a single declaration
+
+Several of the previous lessons already showed that multiple events can be declared using a single event declaration:
+
+
+[source, cif]
+----
+event a, b, c; // Single declaration declares multiple events.
+----
+
+This is equivalent to using multiple event declarations that each declare a single event:
+
+
+[source, cif]
+----
+event a; // Multiple declarations each declare a single event.
+event b;
+event c;
+----
+
+Using a single declaration to declare multiple events can help reduce the length of a specification.
+
+indexterm:[edge,multiple events]
+indexterm:[event,multiple on edge]
+
+[[lang-tut-basics-shorter-notations-edge-mult-evt]]
+=== Multiple events on an edge
+
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton a:
+  event e, f;
+
+  location loc:
+    edge e goto loc; // Two edges that only differ in the event.
+    edge f goto loc;
+end
+----
+
+This can also be written more compactly, as follows:
+
+
+[source, cif]
+----
+automaton a:
+  event e, f;
+
+  location loc:
+    edge e, f goto loc; // Edge with two events.
+end
+----
+
+An edge with two or more events means exactly the same as having individual edges for the different events.
+That is, a choice is made between them.
+It does _not_ specify that event `f` can only happen after event `e` has already happened.
+Both automata thus have the exact same behavior.
+
+indexterm:[location,nameless]
+
+[[lang-tut-basics-shorter-notations-loc-nameless]]
+=== Nameless location
+
+Several of the examples above show automata with a single location.
+For such automata, the name of the location is optional:
+
+
+[source, cif]
+----
+automaton a:
+  event e;
+
+  location:
+    edge e;
+end
+----
+
+Since the location has no name, there is no way to refer to it in a `goto`, and thus only self loop edges can be used.
+Leaving out the name prevents having to come up with a dummy name, which can clutter the specification.

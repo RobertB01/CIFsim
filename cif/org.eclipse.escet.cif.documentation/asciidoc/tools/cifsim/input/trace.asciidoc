@@ -82,7 +82,7 @@ For the implicit time mode, the simulator delays if a time transition is possibl
 For the explicit time mode, if the current event command was preceded by an explicit time command, the simulator delays if a time transition is possible, and otherwise (current command not preceded by time command or no time transition possible) simulation results in deadlock.
 Upon deadlock, simulation <<tools-cifsim-chapter-termination,ends>>, and a warning is printed to the console to indicate the event that was not enabled.
 +
-If multiple transitions are possible for the event, due to <<tut-basics-chapter-non-determinism,non-determinism>>, the strict option (see above) determines if and how the simulator proceeds.
+If multiple transitions are possible for the event, due to <<lang-tut-basics-chapter-non-determinism,non-determinism>>, the strict option (see above) determines if and how the simulator proceeds.
 
 * _time_
 +

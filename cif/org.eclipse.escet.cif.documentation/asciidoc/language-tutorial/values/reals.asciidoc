@@ -1,0 +1,85 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-values-chapter-reals]]
+== Reals
+
+indexterm:[real]
+indexterm:[type,real]
+indexterm:[real,type]
+indexterm:[value,real]
+indexterm:[real,value]
+indexterm:[literal,real]
+indexterm:[real,literal]
+Reals or real numbers are numbers with a fractional part.
+Examples include `1.56` and `-2.7e6` (scientific notation for 2.7 million).
+Real numbers must either have a fraction or use the scientific notation, to distinguish them from integer numbers.
+The default value of reals (`real` type) is `0.0`.
+Several standard arithmetic operators and functions are available to work with reals, including the following:
+
+[source, cif]
+----
++1.23           // 1.23
+--1.2           // 1.2
+
+1.5 + 0.5       // 2.0
+1.5 - 0.5       // 1.0
+1.5 * 0.5       // 0.75
+1.5 / 0.5       // 3.0
+
+pow(3.5, 2.0)   // 7.0      (3.5 to to the power of 2, or 3.5 * 3.5)
+abs(-1.5)       // 1.5      (absolute value)
+min(1.5, 0.5)   // 0.5      (minimum value)
+max(1.5, 0.5)   // 1.5      (maximum value)
+
+sqrt(16.0)      // 4.0      (square root)
+cbrt(16.0)      // 2.0      (cube root)
+
+sin(1.0)        // 0.841... (sine)
+cos(1.0)        // 0.540... (cosine)
+tan(1.0)        // 1.557... (tangent)
+
+log(100.0)      // 2.0      (logarithm to base 10)
+ln(100.0)       // 4.605... (natural logarithm)
+----
+
+Real values can be compared to other real values, as well as to integer values:
+
+[source, cif]
+----
+x < y       // less than
+x <= y      // less than or equal to
+x = y       // equal to
+x != y      // not equal to
+x >= y      // larger than or equal to
+x > y       // larger than
+----
+
+Integer numbers can often be written where real numbers are expected.
+Real values and integer values can also often be combined using arithmetic operators and functions.
+Furthermore, it is possible to convert between them, e.g as follows:
+
+[source, cif]
+----
+sqrt(16)    // 4.0 (16 interpreted as 16.0)
+1 + 0.5     // 1.5 (addition of an integer number and a real number)
+max(0.5, 1) // 1.0 (maximum of an integer number and a real number)
+
+<real>1     // 1.0 (cast from integer to real, explicit conversion)
+round(1.6)  // 2   (round real to closest integer, half up)
+ceil(0.7)   // 1   (round real up to integer)
+floor(0.7)  // 0   (round real down to integer)
+----
+
+// TODO: link to future ref manual
