@@ -115,8 +115,10 @@ For more information, including the specific format of commit messages, please s
 A contribution by a non-committer will be reviewed by the project committers.
 This includes adherence to the project's <<developer-coding-standards-chapter-index,coding standards>>.
 Discussions regarding the contribution will typically take place in the associated merge request (or issue).
-You can address the feedback yourself, by committing and pushing additional commits to the source branch of the merge request.
-These will then be automatically picked up by GitLab.
+
+Align with the project committers on who will address the review feedback.
+If you address the feedback yourself, you can commit and push additional commits to the source branch of the merge request.
+These will then automatically be picked up by GitLab.
 Once the committers agree with the contribution, they will merge the contribution into the project's official Git repository.
 
 Remember that contributions are always welcome, and contributions don't have to be perfect.
