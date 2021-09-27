@@ -20,7 +20,11 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBinaryExpr
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariable;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newDiscVariableExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newElifExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSwitchCase;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSwitchExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newVariableValue;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -44,7 +48,11 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
+import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
@@ -215,6 +223,41 @@ public class ExpressionConverterTest {
         testIntegerOperator(BinaryOperator.MULTIPLICATION);
     }
 
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testIfExpression() {
+        // Create expression 'if b1: 0 elif b2: 1 else 2 end'.
+        DiscVariableExpression b1Expr = newDiscVariableExpression(null, newBoolType(), b1);
+        DiscVariableExpression b2Expr = newDiscVariableExpression(null, newBoolType(), b2);
+
+        ElifExpression elifExpr = newElifExpression(list(b2Expr), null, makeInt(1));
+        IfExpression ifExpr = newIfExpression(list(elifExpr), makeInt(2), list(b1Expr), null, makeInt(0), newIntType());
+
+        // Convert expression.
+        IntegerValueCollection binExprIVC = convert.convert(ifExpr);
+
+        // Compare result.
+        compareBinExprResult(binExprIVC, ifExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testSwitchExpression() {
+        // Create expression 'switch i1: case 0: i2 else 1 end'.
+        DiscVariableExpression i1Expr = newDiscVariableExpression(null, newIntType(INT_LOWER, null, INT_UPPER), i1);
+        DiscVariableExpression i2Expr = newDiscVariableExpression(null, newIntType(INT_LOWER, null, INT_UPPER), i2);
+
+        SwitchCase switchCase0 = newSwitchCase(makeInt(0), null, i2Expr);
+        SwitchCase switchCaseElse = newSwitchCase(null, null, makeInt(1));
+        SwitchExpression switchExpr = newSwitchExpression(list(switchCase0, switchCaseElse), null, newIntType(), i1Expr);
+
+        // Convert expression.
+        IntegerValueCollection binExprIVC = convert.convert(switchExpr);
+
+        // Compare result.
+        compareBinExprResult(binExprIVC, switchExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
+    }
+
     /**
      * Creates a binary expression 'b1 binOp b2', with b1 and b2 Boolean typed discrete variables and binOp the supplied
      * binary operator. The binary expression is converted to a MDD. The conversion result is compared with the expected
@@ -268,14 +311,14 @@ public class ExpressionConverterTest {
      * @param lower The lowest possible value of the variable, either 0 for Booleans or `lower` for ranged integers
      * @param upper The highest possible value of the variable, either 1 for Booleans or `upper` for ranged integers.
      */
-    public void compareBinExprResult(IntegerValueCollection expression, BinaryExpression binExpr, DiscVariable var1,
+    public void compareBinExprResult(IntegerValueCollection expression, Expression binExpr, DiscVariable var1,
             DiscVariable var2, VarInfo var1Info, VarInfo var2Info, int lower, int upper)
     {
         for (int var1Value = lower; var1Value < upper + 1; var1Value++) {
             for (int var2Value = lower; var2Value < upper + 1; var2Value++) {
                 // Set the (initial) value of the discrete variables.
-                Expression var1ValueExpr = null;
-                Expression var2ValueExpr = null;
+                Expression var1ValueExpr;
+                Expression var2ValueExpr;
                 if (var1.getType() instanceof BoolType && var2.getType() instanceof BoolType) {
                     var1ValueExpr = var1Value == 1 ? makeTrue() : makeFalse();
                     var2ValueExpr = var2Value == 1 ? makeTrue() : makeFalse();
@@ -316,17 +359,17 @@ public class ExpressionConverterTest {
                 // For all possible results, only the value node of the expected result should evaluate to 'true', all
                 // other nodes should evaluate to 'false'. If the result cannot be computed, all value nodes should
                 // evaluate to 'false'.
-                int correctValueFound = 0;
+                int correctValuesFound = 0;
                 for (Entry<Integer, Node> valueNode: expression.valueNodes.entrySet()) {
                     if (valueNode.getKey() == expectedResult) {
                         assertTrue(valueNode.getValue().evaluate(valuations));
-                        correctValueFound++;
+                        correctValuesFound++;
                     } else {
                         assertFalse(valueNode.getValue().evaluate(valuations));
                     }
                 }
 
-                assertTrue(correctValueFound == 1 || expectedResult == null);
+                assertTrue(correctValuesFound == 1 || expectedResult == null);
             }
         }
     }
