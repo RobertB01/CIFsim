@@ -18,6 +18,7 @@ indexterm:[development, process]
 == Development process
 
 NOTE: If you want to contribute to the Eclipse ESCET project, please refer to the specific <<developer-contributing-chapter-index,contributing>> information.
+Most of the information on this page will however also be applicable to and relevant for contributors, but not all of it.
 
 The Eclipse ESCET project primarily uses GitLab for its development:
 
@@ -66,6 +67,9 @@ The components correspond to the directories in the root of our <<developer-git-
 
 ** The Eclipse ESCET project committers can add the 'Help Wanted' label to an issue to indicate that they don't have the time to work on the issue, and that help from the community is wanted.
 
+** If you don't have permissions to add the labels, the project committers will add them.
+If they forget, you can remind them via a comment.
+
 
 indexterm:[release]
 indexterm:[milestone]
@@ -92,12 +96,16 @@ The process to work on issues is as follows:
 
 * Assign yourself to the issue when you are working on an issue, such that others won't start working on it as well.
 You then 'own' the issue and nobody should work on the issue without discussing with you first.
-A contributor can discuss with the project committers through issue comments, and they can assign the contributor to the issue.
++
+As a contributor, you can't assign yourself to an issue.
+In that case, you can discuss with the project committers through issue comments, and they can assign you to the issue.
 
 * Unassign yourself if you are no longer working on an issue, don't plan to continue, and the issue is not finished.
 A contributor can ask the project committers to be unassigned.
 
-* Don't unassign yourself after finishing the work, just close the issue.
+* Don't unassign yourself after finishing the issue.
+It is enough to close the issue.
+The issue may also be closed automatically when an associated <<developer-development-process-merge-requests,merge request>> is merged.
 
 
 indexterm:[branch]
@@ -136,13 +144,16 @@ This starts with the issue number, which makes it easy to relate a branch to an 
 It also includes the issue name, which is convenient as it indicates what the branch is about, without having to look up the issue.
 
 * There are many ways to create a branch.
-One way is to create it from the GitLab issue.
++
+For project committers, one way to create a branch is from the GitLab issue.
 On the web page for a GitLab issue, there is a _Create merge request_ button.
 Select the arrow to the right of it to show more options.
 Select _Create branch_.
 Adapt the _Branch name_ and _Source_ as needed.
 Typically the defaults suffice.
 Click the _Create branch_ button to create the branch.
++
+For contributors, see the <<developer-contributing-chapter-index,contributing>> section for the recommended approach.
 
 * We prefer not to create a draft merge request with the creation of the branch, as then commits in the branch lead to commits on the merge requests, which lead to notification emails.
 Instead, work in the branch until it is ready for review, and then create a merge request for it.
@@ -173,12 +184,13 @@ This is mandatory as per the Eclipse Foundation transparency principle.
 * If a branch involves significant changes, consider using multiple commits that may be easier to review.
 This is especially useful when renaming directories, files, methods, etc, or moving them.
 Typically renames and moves should be done in separate commits, without any other changes in them.
+The same goes for large scale code reformatting, whitespace changes, etc.
 
 * As is standard for Git commits, the first line of the commit message must be a short summary, and must not exceed 72 characters.
 +
 For the Eclipse ESCET project, this line must start with the issue number, to allow GitLab to link commits to issues.
-For instance: `#1 Commit summary.`.
-In case a commit relates to multiple issues, list each of them, e.g. `#1 #2 Commit summary.`.
+For instance `#NNN Commit summary.` for issue `NNN`.
+In case a commit relates to multiple issues, list each of them, e.g. `#1 #2 Commit summary.` for issues 1 and 2.
 Merge commits are exempt from this rule.
 
 * All commits must adhere to the requirements as defined by the Eclipse Foundation.
@@ -189,6 +201,7 @@ If you are not an Eclipse ESCET project committer, with write access to our Git 
 
 indexterm:[merge request]
 
+[[developer-development-process-merge-requests]]
 === Merge requests
 
 Once the work on an issue is done and pushed to a branch, it must be reviewed before it is merged back.
@@ -203,8 +216,8 @@ Select the _Merge request_ button next to the branch to be merged.
 
 ** Start the merge request title with the related issue number(s), to allow easier tracking of merge requests back to issues.
 
-** If you include `Closes #nnn` in the description of the merge request, with `nnn` an issue number, that issue will automatically be closed once the merge request is merged.
-Use `Addresses #nnn` instead, if the merge request addresses part of the issue, but work remains, to prevent the issue from being closed.
+** If you include `Closes #NNN` in the description of the merge request, with `NNN` an issue number, that issue will automatically be closed once the merge request is merged.
+Use `Addresses #NNN` instead, if the merge request addresses part of the issue, but work remains, to prevent the issue from being closed.
 Always include either of them to ensure the merge request is properly linked to the issues it addresses.
 Include multiple of them if appropriate.
 
