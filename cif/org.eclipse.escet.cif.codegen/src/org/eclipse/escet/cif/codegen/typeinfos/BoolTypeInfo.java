@@ -63,7 +63,7 @@ public abstract class BoolTypeInfo extends TypeInfo {
     /**
      * Convert a binary short circuit expression (a 'x {implies, or, and} y') to the target language.
      *
-     * @param expr expression to convert.
+     * @param expr Expression to convert.
      * @param dest Storage destination if available, else {@code null}.
      * @param ctxt Code context.
      * @return Result of the conversion.

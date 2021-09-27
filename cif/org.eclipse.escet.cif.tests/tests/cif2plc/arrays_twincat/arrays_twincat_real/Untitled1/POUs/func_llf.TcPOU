@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_llf">
+    <Declaration>
+      <![CDATA[FUNCTION func_llf: ARRAY[0..1] of ARRAY[0..4] of DINT
+VAR_INPUT
+    farg_llf_x: DINT;
+    farg_llf_y: DINT;
+END_VAR
+VAR
+    fvar_llf_r: ARRAY[0..1] of ARRAY[0..4] of DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[// Initialize local variables.
+fvar_llf_r := makeArray1(makeArray0(1, 2, 3, 4, 5), makeArray0(1, 2, 3, 4, 5));
+
+// Actual function body.
+fvar_llf_r[normProjIdx(0, 2)][normProjIdx(farg_llf_x, 5)] := farg_llf_y;
+func_llf := fvar_llf_r;
+RETURN;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

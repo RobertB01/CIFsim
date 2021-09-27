@@ -321,7 +321,7 @@ public class TypeIDCreation {
     /**
      * Make a type ID for a set type.
      *
-     * @param st set type.
+     * @param st Set type.
      * @param ctxt Code generator context.
      * @return Constructed type ID.
      */

@@ -114,8 +114,8 @@ invariant lamp.on or lamp.off;      // Regular/kindless invariant.
 plant lamp:
   event turn_on, turn_off;
 
-  requirement invariant not off;    // Explicit requirement invariant. Long form.
-  requirement not off;              // Explicit requirement invariant. Short form.
+  requirement invariant not off;    // Requirement invariant. Long form.
+  requirement not off;              // Requirement invariant. Short form.
 
   location off:
     initial;
@@ -130,42 +130,6 @@ The first invariant, above the `lamp` automaton, does not specify an additional 
 The second invariant, in the `lamp` automaton, explicitly specifies a `requirement` kind and is therefore a requirement invariant.
 The third and last invariant is identical to the second invariant, except that the `invariant` keyword has been omitted.
 It is also a requirement invariant, but written in a shorter form.
-
-[[lang-tut-extensions-synthesis-invkind-implicit]]
-Invariants without an additional keyword to specify their supervisory kind, are regular invariants or kindless invariants.
-However, if such an invariant is placed in an automaton that has a supervisory kind, the invariant inherits the supervisory kind of that automaton.
-This is a deprecated feature that will result in a warning.
-To get rid of the warning, explicitly specify the supervisory kind of the invariant.
-
-For instance, consider the following CIF specification:
-
-
-[source, cif]
-----
-plant lamp:
-  event turn_on, turn_off;
-
-  invariant on or off;          // Inherits 'plant' kind from automaton.
-  plant invariant on or off;    // Explicit plant invariant. Long form.
-  plant on or off;              // Explicit plant invariant. Short form.
-
-  location off:
-    initial;
-    edge turn_on goto on;
-
-  location on:
-    edge turn_off goto off;
-end
-----
-
-The first invariant has no explicit supervisory kind specified, and therefore inherits the `plant` supervisory kind from the automaton.
-It is thus an invariant that is implicitly a plant invariant.
-This results in a warning.
-The second invariant is identical, except for the explicit specification of the `plant` kind.
-It is also a plant invariant, but due to the explicit kind specification, there is no warning.
-The third and last invariant is identical to the second invariant, except that the `invariant` keyword has been omitted.
-It is also explicitly a plant invariant, but written in a shorter form.
-Due to the explicit use of the `plant` keyword, this variant also gets no warning.
 
 There are two forms of invariants:
 <<tut-data-chapter-stat-invariants,state invariants>> and <<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>.

@@ -51,6 +51,11 @@
       value="None"/>
   <setupTask
       xsi:type="setup:VariableTask"
+      name="eclipse.escet.git.clone.url"
+      defaultValue="https://gitlab.eclipse.org/eclipse/escet/escet.git"
+      label="Eclipse ESCET Git clone URL"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
       name="eclipse.user.name"
       label="Eclipse Foundation account full name">
     <annotation
@@ -270,7 +275,7 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="org.eclipse.escet.git.clone"
-      remoteURI="https://gitlab.eclipse.org/eclipse/escet/escet.git">
+      remoteURI="${eclipse.escet.git.clone.url}">
     <configSections
         name="user">
       <properties

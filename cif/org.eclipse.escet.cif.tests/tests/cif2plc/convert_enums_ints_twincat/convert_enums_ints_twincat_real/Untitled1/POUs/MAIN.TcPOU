@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="MAIN">
+    <Declaration>
+      <![CDATA[PROGRAM MAIN
+VAR_OUTPUT
+    timerValue0: TIME;
+    timerValue1: TIME;
+END_VAR
+VAR
+    cnt: LINT;
+    first: BOOL := TRUE;
+    curTimerValue: TIME;
+    state0: STATE;
+    curTime: LREAL;
+    loopsKilled: LINT;
+END_VAR
+VAR_TEMP
+    lastTimerValue: TIME;
+    curDeltaTime: TIME;
+    curDeltaSecs: LREAL;
+    state1: STATE;
+    progress: BOOL;
+    loopCount: INT;
+    b1: BOOL;
+    b2: BOOL;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[
+// Handle 'time' and cycle time.
+cnt := cnt + 1;
+
+timer0(IN := curTimer = 0, PT := T#1D);
+timer1(IN := curTimer = 1, PT := T#1D);
+timerValue0 := timer0.ET;
+timerValue1 := timer1.ET;
+
+lastTimerValue := curTimerValue;
+IF curTimer = 0 THEN
+    curTimerValue := timerValue0;
+ELSE
+    curTimerValue := timerValue1;
+END_IF;
+curDeltaTime := curTimerValue - lastTimerValue;
+curDeltaSecs := TIME_TO_LREAL(curDeltaTime) / 1000;
+curTime := curTime + curDeltaSecs;
+
+IF cnt MOD 10 = 0 THEN
+    curTimer := 1 - curTimer;
+    curTimerValue := T#0S;
+    timer0(IN := curTimer = 0, PT := T#1D);
+    timer1(IN := curTimer = 1, PT := T#1D);
+    timerValue0 := timer0.ET;
+    timerValue1 := timer1.ET;
+END_IF;
+
+IF first THEN
+    first := FALSE;
+
+    // Initialize state variables for initial state.
+    state0.dvar_M_hw_button := 4;
+    state0.dvar_M_hw_lamp_bit := FALSE;
+    state0.dvar_M_hw_lamp := 1;
+    state0.dvar_M_sup := 6;
+    state0.cvar_M_timer_t := 0.0;
+    state0.dvar_M_timer := 0;
+ELSE
+    // Update continuous variables for time delay.
+    state1.cvar_M_timer_t := state0.cvar_M_timer_t + curDeltaSecs * derivcvar_M_timer_t(state0);
+
+    state0.curTime := curTime;
+    state0.cvar_M_timer_t := state1.cvar_M_timer_t;
+END_IF;
+
+// Event loop.
+WHILE TRUE DO
+    progress := FALSE;
+
+    // Event "button_push".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_hw_button) = (4);
+        b1 := b1 AND (ivar_M_hw_button_bit);
+        IF b1 THEN
+            b2 := (state0.dvar_M_sup) = (6);
+            b2 := b2 OR ((state0.dvar_M_sup) = (10));
+            b2 := b2 OR ((state0.dvar_M_sup) = (11));
+            b2 := b2 OR ((state0.dvar_M_sup) = (13));
+            b2 := b2 OR ((state0.dvar_M_sup) = (15));
+            b1 := b1 AND (b2);
+        END_IF;
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_hw_button := 3;
+            IF ((state0.dvar_M_sup) = (6)) THEN
+                state1.dvar_M_sup := 8;
+            ELSIF ((state0.dvar_M_sup) = (10)) THEN
+                state1.dvar_M_sup := 8;
+            ELSIF ((state0.dvar_M_sup) = (11)) THEN
+                state1.dvar_M_sup := 9;
+            ELSIF ((state0.dvar_M_sup) = (13)) THEN
+                state1.dvar_M_sup := 12;
+            ELSIF ((state0.dvar_M_sup) = (15)) THEN
+                state1.dvar_M_sup := 14;
+            END_IF;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "button_release".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_hw_button) = (3);
+        b1 := b1 AND (NOT(ivar_M_hw_button_bit));
+        IF b1 THEN
+            b2 := (state0.dvar_M_sup) = (8);
+            b2 := b2 OR ((state0.dvar_M_sup) = (9));
+            b2 := b2 OR ((state0.dvar_M_sup) = (12));
+            b2 := b2 OR ((state0.dvar_M_sup) = (14));
+            b2 := b2 OR ((state0.dvar_M_sup) = (7));
+            b1 := b1 AND (b2);
+        END_IF;
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_hw_button := 4;
+            IF ((state0.dvar_M_sup) = (8)) THEN
+                state1.dvar_M_sup := 10;
+            ELSIF ((state0.dvar_M_sup) = (9)) THEN
+                state1.dvar_M_sup := 11;
+            ELSIF ((state0.dvar_M_sup) = (12)) THEN
+                state1.dvar_M_sup := 13;
+            ELSIF ((state0.dvar_M_sup) = (14)) THEN
+                state1.dvar_M_sup := 15;
+            ELSIF ((state0.dvar_M_sup) = (7)) THEN
+                state1.dvar_M_sup := 6;
+            END_IF;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "lamp_off".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_hw_lamp) = (2);
+        IF b1 THEN
+            b2 := (state0.dvar_M_sup) = (14);
+            b2 := b2 OR ((state0.dvar_M_sup) = (15));
+            b1 := b1 AND (b2);
+        END_IF;
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_hw_lamp_bit := FALSE;
+            state1.dvar_M_hw_lamp := 1;
+            IF ((state0.dvar_M_sup) = (14)) THEN
+                state1.dvar_M_sup := 7;
+            ELSIF ((state0.dvar_M_sup) = (15)) THEN
+                state1.dvar_M_sup := 6;
+            END_IF;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "lamp_on".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_hw_lamp) = (1);
+        IF b1 THEN
+            b2 := (state0.dvar_M_sup) = (8);
+            b2 := b2 OR ((state0.dvar_M_sup) = (10));
+            b1 := b1 AND (b2);
+        END_IF;
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_hw_lamp_bit := TRUE;
+            state1.dvar_M_hw_lamp := 2;
+            IF ((state0.dvar_M_sup) = (8)) THEN
+                state1.dvar_M_sup := 9;
+            ELSIF ((state0.dvar_M_sup) = (10)) THEN
+                state1.dvar_M_sup := 11;
+            END_IF;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "M.timer_start".
+    IF NOT progress THEN
+        b2 := (state0.dvar_M_sup) = (9);
+        b2 := b2 OR ((state0.dvar_M_sup) = (11));
+        b1 := b2;
+        b1 := b1 AND ((state0.dvar_M_timer) = (0));
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            IF ((state0.dvar_M_sup) = (9)) THEN
+                state1.dvar_M_sup := 12;
+            ELSIF ((state0.dvar_M_sup) = (11)) THEN
+                state1.dvar_M_sup := 13;
+            END_IF;
+            state1.cvar_M_timer_t := 0.0;
+            state1.dvar_M_timer := 5;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "M.timer_timeout".
+    IF NOT progress THEN
+        b2 := (state0.dvar_M_sup) = (12);
+        b2 := b2 OR ((state0.dvar_M_sup) = (13));
+        b1 := b2;
+        b1 := b1 AND ((state0.dvar_M_timer) = (5));
+        b1 := b1 AND ((state0.cvar_M_timer_t) >= (3.0));
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            IF ((state0.dvar_M_sup) = (12)) THEN
+                state1.dvar_M_sup := 14;
+            ELSIF ((state0.dvar_M_sup) = (13)) THEN
+                state1.dvar_M_sup := 15;
+            END_IF;
+            state1.dvar_M_timer := 0;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Done with events?
+    IF NOT progress THEN
+        EXIT;
+    END_IF;
+
+    // Protect against events that are always enabled.
+    loopCount := loopCount + 1;
+    IF loopCount >= 100 THEN
+        loopsKilled := loopsKilled + 1;
+        EXIT;
+    END_IF;
+END_WHILE;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

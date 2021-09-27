@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_fac3">
+    <Declaration>
+      <![CDATA[FUNCTION func_fac3: DINT
+VAR_INPUT
+    farg2_fac3_a: DINT;
+END_VAR
+VAR
+    farg_fac3_a: DINT;
+    fvar_fac3_rslt: DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[farg_fac3_a := farg2_fac3_a;
+// Initialize local variables.
+fvar_fac3_rslt := 1;
+
+// Actual function body.
+WHILE (TRUE) DO
+    IF ((farg_fac3_a) < (1)) THEN
+        EXIT;
+    END_IF;
+    fvar_fac3_rslt := (fvar_fac3_rslt) * (farg_fac3_a);
+    farg_fac3_a := (farg_fac3_a) - (1);
+END_WHILE;
+func_fac3 := fvar_fac3_rslt;
+RETURN;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

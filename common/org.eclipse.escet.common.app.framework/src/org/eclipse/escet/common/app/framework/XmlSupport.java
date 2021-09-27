@@ -15,9 +15,10 @@ package org.eclipse.escet.common.app.framework;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -64,30 +65,18 @@ public class XmlSupport {
             xmlTrans.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, docType.getSystemId());
         }
 
-        // Set input/output.
+        // Transform in-memory tree to the XML file.
         DOMSource source = new DOMSource(doc);
-        FileOutputStream xmlStream;
-        try {
-            xmlStream = new FileOutputStream(absPath);
-        } catch (FileNotFoundException ex) {
+        try (OutputStream xmlStream = new BufferedOutputStream(new FileOutputStream(absPath))) {
+            StreamResult result = new StreamResult(xmlStream);
+            try {
+                xmlTrans.transform(source, result);
+            } catch (TransformerException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (IOException ex) {
             String msg = fmt("Failed to write the %s file to \"%s\".", typeName, absPath);
             throw new InputOutputException(msg, ex);
-        }
-        StreamResult result = new StreamResult(xmlStream);
-
-        // Transform in-memory tree to the XML file.
-        try {
-            xmlTrans.transform(source, result);
-        } catch (TransformerException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Close the file.
-        try {
-            xmlStream.close();
-        } catch (IOException e) {
-            String msg = fmt("Failed to close file \"%s\".", absPath);
-            throw new InputOutputException(msg, e);
         }
     }
 }

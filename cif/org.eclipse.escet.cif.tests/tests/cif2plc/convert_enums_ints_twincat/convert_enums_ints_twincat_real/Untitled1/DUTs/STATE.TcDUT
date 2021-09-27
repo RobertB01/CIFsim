@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <DUT Name="STATE">
+    <Declaration>
+      <![CDATA[TYPE STATE:
+    STRUCT
+        curTime: LREAL;
+        dvar_M_hw_button AT %Q*: DINT;
+        dvar_M_hw_lamp_bit AT %Q*: BOOL;
+        dvar_M_hw_lamp AT %Q*: DINT;
+        dvar_M_sup AT %Q*: DINT;
+        cvar_M_timer_t AT %Q*: LREAL;
+        dvar_M_timer AT %Q*: DINT;
+    END_STRUCT
+END_TYPE]]>
+    </Declaration>
+    <ObjectProperties/>
+  </DUT>
+</TcPlcObject>

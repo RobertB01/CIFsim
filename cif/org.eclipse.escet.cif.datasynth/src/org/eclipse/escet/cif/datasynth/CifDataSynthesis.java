@@ -18,17 +18,20 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Maps.mapc;
+import static org.eclipse.escet.common.java.Sets.setc;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.datasynth.bdd.BddUtils;
 import org.eclipse.escet.cif.datasynth.options.BddSimplify;
 import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
+import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
@@ -37,6 +40,7 @@ import org.eclipse.escet.cif.datasynth.spec.SynthesisVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
 import org.eclipse.escet.common.app.framework.exceptions.InvalidInputException;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 
 import com.github.javabdd.BDD;
@@ -98,6 +102,14 @@ public class CifDataSynthesis {
                 return;
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
+
+            // Check edges.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            if (EventWarnOption.isEnabled()) {
+                checkInputEdges(aut);
+            }
 
             // Prepare for actual synthesis. Allow applying edges from here on.
             for (SynthesisEdge edge: aut.edges) {
@@ -187,11 +199,25 @@ public class CifDataSynthesis {
                 throw new InvalidInputException("Empty supervisor.");
             }
 
+            // Determine the guards for the controllable events.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            Map<Event, BDD> ctrlGuards = determineGuards(aut, aut.controllables, false);
+
+            // Check edges.
+            if (EventWarnOption.isEnabled()) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                checkOutputEdges(aut, ctrlGuards);
+            }
+
             // Determine the output of synthesis (2/2).
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            determineOutputGuards(aut, dbgEnabled);
+            determineOutputGuards(aut, ctrlGuards, dbgEnabled);
 
             // Separate debug output from what is to come.
             if (dbgEnabled) {
@@ -537,7 +563,7 @@ public class CifDataSynthesis {
                 return;
             }
             BDD plant = aut.stateEvtExclPlants.get(edge.event);
-            if (plant == null || plant.isOne()) {
+            if (plant == null || plant.isOne() || edge.guard.isZero()) {
                 continue;
             }
 
@@ -780,6 +806,87 @@ public class CifDataSynthesis {
             bdd.free();
         }
         aut.stateEvtExclReqs = null;
+    }
+
+    /**
+     * Checks the system for problems with events that are never enabled in the input specification. Saves the disabled
+     * events.
+     *
+     * @param aut The automaton on which to perform synthesis.
+     */
+    private static void checkInputEdges(SynthesisAutomaton aut) {
+        aut.disabledEvents = setc(aut.alphabet.size());
+
+        for (Event event: aut.alphabet) {
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            // Skip events for input variables as they have no edges.
+            if (aut.inputVarEvents.contains(event)) {
+                continue;
+            }
+
+            // Skip events that are in the alphabet, but never on an edge as these are globally disabled. Note, the type
+            // checker reports these already.
+            if (aut.eventEdges.get(event) == null) {
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the combined state/event exclusion plants are 'false'.
+            if (aut.stateEvtExclPlants.get(event).isZero()) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account only state/event "
+                        + "exclusion plants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the combined state/event exclusion requirements are 'false'.
+            if (event.getControllable() && aut.stateEvtExclsReqInvs.get(event).isZero()) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account only state/event "
+                        + "exclusion requirements.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the guards on edges of automata are all 'false'. There might be multiple edges for an
+            // event.
+            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.origGuard.isZero()).count() == 0) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account only automaton "
+                        + "guards.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the guards on edges of automata combined with state/event exclusion invariants are all
+            // 'false'. There might be multiple edges for an event.
+            if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
+                        + "and state/event exclusion invariants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+
+            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
+            // requirement invariants are all 'false'. There might be multiple edges for an event.
+            boolean alwaysDisabled = true;
+            for (SynthesisEdge edge: aut.eventEdges.get(event)) {
+                BDD enabledExpression = edge.guard.and(aut.reqInv);
+                if (!enabledExpression.isZero()) {
+                    enabledExpression.free();
+                    alwaysDisabled = false;
+                    break;
+                }
+            }
+
+            if (alwaysDisabled) {
+                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
+                        + "and invariants.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+        }
     }
 
     /**
@@ -1304,7 +1411,7 @@ public class CifDataSynthesis {
      * Prints the number of states in the controlled system, as debug output.
      *
      * @param aut The synthesis automaton.
-     * @param emptySup whether the supervisor is empty.
+     * @param emptySup Whether the supervisor is empty.
      * @param doForward Whether to do forward reachability during synthesis.
      * @param dbgEnabled Whether debug output is enabled.
      */
@@ -1427,56 +1534,130 @@ public class CifDataSynthesis {
     }
 
     /**
+     * Computes the global guards for the given events. This is done by combining the guards of all edges, per event.
+     *
+     * <p>
+     * The guard BDDs on the edges are consumed.
+     * </p>
+     *
+     * @param aut The automaton on which synthesis was performed.
+     * @param events The events for which to compute the guards.
+     * @param useOrigGuards Whether to use the original guard or the current guard on the synthesis edge.
+     * @return The guards.
+     */
+    private static Map<Event, BDD> determineGuards(SynthesisAutomaton aut, Set<Event> events, boolean useOrigGuards) {
+        Map<Event, BDD> guards = mapc(events.size());
+
+        // Initialize guards to 'false'.
+        for (Event event: events) {
+            guards.put(event, aut.factory.zero());
+        }
+
+        // Compute linearized guards. This is done by combining the guards of all edges, per event.
+        for (SynthesisEdge synthEdge: aut.edges) {
+            // Skip the edges for other events.
+            if (!events.contains(synthEdge.event)) {
+                continue;
+            }
+            if (aut.env.isTerminationRequested()) {
+                return null;
+            }
+
+            // Get current guard.
+            BDD guard = guards.get(synthEdge.event);
+
+            // Update guard. Frees the guard of the edge.
+            guard = useOrigGuards ? guard.orWith(synthEdge.origGuard) : guard.orWith(synthEdge.guard);
+
+            // Store updated guard.
+            guards.put(synthEdge.event, guard);
+        }
+
+        return guards;
+    }
+
+    /**
+     * Checks the system for problems with events that are disabled in the global controlled system.
+     *
+     * <p>
+     * Does not report problems for events that were already disabled before synthesis.
+     * </p>
+     *
+     * @param aut The automaton on which synthesis was performed.
+     * @param ctrlGuards The guards in the controlled system for the controllable events to check.
+     */
+    private static void checkOutputEdges(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards) {
+        // Determine the guards for the uncontrollable events.
+        Set<Event> uncontrollables = Sets.difference(aut.alphabet, aut.controllables, aut.inputVarEvents);
+        Map<Event, BDD> unctrlGuards = determineGuards(aut, uncontrollables, false);
+
+        // Warn for controllable events never enabled in the controlled system.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        warnEventsDisabled(aut, ctrlGuards);
+
+        // Warn for uncontrollable events never enabled in the controlled system.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        warnEventsDisabled(aut, unctrlGuards);
+
+        // Free no longer needed predicates.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        for (BDD bdd: unctrlGuards.values()) {
+            bdd.free();
+        }
+    }
+
+    /**
+     * Warns for events that are disabled in the global controlled system.
+     *
+     * <p>
+     * Does not report problems for events that were already disabled before synthesis.
+     * </p>
+     *
+     * @param aut The automaton on which synthesis was performed.
+     * @param guards The guards in the controlled system for the events.
+     */
+    private static void warnEventsDisabled(SynthesisAutomaton aut, Map<Event, BDD> guards) {
+        for (Event event: guards.keySet()) {
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            // Determine when the event is enabled in controlled statespace.
+            BDD ctrlBehGuard = guards.get(event).and(aut.ctrlBeh);
+
+            // Warn for events that are never enabled.
+            if (ctrlBehGuard.isZero() && !aut.disabledEvents.contains(event)) {
+                warn("Event \"%s\" is disabled in the controlled system.", CifTextUtils.getAbsName(event));
+                aut.disabledEvents.add(event);
+                continue;
+            }
+            ctrlBehGuard.free();
+        }
+    }
+
+    /**
      * Determines the synthesis output, related to guards of controllable events, that is to end up in the resulting CIF
      * model.
      *
      * <p>
-     * It takes the controlled system guards of the linearized edges with controllable events, and merges them for each
-     * event. It then applies simplification as requested.
+     * It takes the controlled system guards of the controllable events. It then applies simplification as requested.
      * </p>
      *
      * @param aut The synthesis result.
+     * @param ctrlGuards The guards in the controlled system for the controllable events.
      * @param dbgEnabled Whether debug output is enabled.
      */
-    private static void determineOutputGuards(SynthesisAutomaton aut, boolean dbgEnabled) {
-        // Initialize global controlled system guards to 'false', for all controllable events.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
-        Map<Event, BDD> ctrlGuards = mapc(aut.controllables.size());
-        for (Event controllable: aut.controllables) {
-            ctrlGuards.put(controllable, aut.factory.zero());
-        }
-
-        // Compute global controlled system guards, for all controllable events. This is done by combining the guards of
-        // all edges, per event.
-        if (aut.env.isTerminationRequested()) {
-            return;
-        }
-        for (SynthesisEdge synthEdge: aut.edges) {
-            // Skip edges with uncontrollable events, as those events are not in the alphabet (the supervisor can't
-            // restrict them).
-            if (!synthEdge.event.getControllable()) {
-                continue;
-            }
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            // Get current guards.
-            BDD ctrl = ctrlGuards.get(synthEdge.event);
-
-            // Update guards. Frees the guards of the edge.
-            ctrl = ctrl.orWith(synthEdge.guard);
-            if (aut.env.isTerminationRequested()) {
-                return;
-            }
-
-            // Store updated guard.
-            ctrlGuards.put(synthEdge.event, ctrl);
-        }
-
+    private static void determineOutputGuards(SynthesisAutomaton aut, Map<Event, BDD> ctrlGuards, boolean dbgEnabled) {
         // Get simplifications to perform.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
         EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
         List<String> assumptionTxts = list();
 
@@ -1495,41 +1676,13 @@ public class CifDataSynthesis {
         if (simplifications.contains(BddSimplify.GUARDS_PLANTS)) {
             assumptionTxts.add("plants");
 
-            // Initialize global uncontrolled system guards to 'false', for all controllable events.
-            Map<Event, BDD> unctrlGuards = mapc(aut.controllables.size());
-            for (Event controllable: aut.controllables) {
-                unctrlGuards.put(controllable, aut.factory.zero());
-            }
+            // Compute the global uncontrolled system guards, for all controllable events.
+            Map<Event, BDD> unctrlGuards = determineGuards(aut, aut.controllables, true);
 
-            // Compute global uncontrolled system guards, for all controllable events. This is done by combining the
-            // guards of all edges, per event.
+            // Add guards to the assumptions.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
-            for (SynthesisEdge synthEdge: aut.edges) {
-                // Skip edges with uncontrollable events, as those events are not in the alphabet (the supervisor can't
-                // restrict them).
-                if (!synthEdge.event.getControllable()) {
-                    continue;
-                }
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-
-                // Get current guards.
-                BDD unctrl = unctrlGuards.get(synthEdge.event);
-
-                // Update guards. Frees the guards of the edge.
-                unctrl = unctrl.orWith(synthEdge.origGuard);
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-
-                // Store updated guard.
-                unctrlGuards.put(synthEdge.event, unctrl);
-            }
-
-            // Add guards to the assumptions.
             for (Event controllable: aut.controllables) {
                 BDD assumption = assumptions.get(controllable);
                 BDD extra = unctrlGuards.get(controllable);
@@ -1726,7 +1879,13 @@ public class CifDataSynthesis {
             BDD assumption = assumptions.get(controllable);
 
             // Simplify.
-            BDD newGuard = guard.simplify(assumption);
+            BDD newGuard;
+            if (assumption.isZero() && guard.isZero()) {
+                // Special case for events that are assumed to be never enabled, the supervisor does not restrict them.
+                newGuard = aut.factory.one();
+            } else {
+                newGuard = guard.simplify(assumption);
+            }
             if (aut.env.isTerminationRequested()) {
                 return;
             }

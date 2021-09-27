@@ -100434,7 +100434,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SupKind : @PLANTKW;}</p>
          *
-         * @param t1 PLANTKW.
+         * @param t1 {@code PLANTKW}.
          * @return The parser call back hook result.
          */
         public Token parseSupKind1(Token t1);
@@ -100444,7 +100444,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SupKind : @REQUIREMENTKW;}</p>
          *
-         * @param t1 REQUIREMENTKW.
+         * @param t1 {@code REQUIREMENTKW}.
          * @return The parser call back hook result.
          */
         public Token parseSupKind2(Token t1);
@@ -100454,7 +100454,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SupKind : @SUPERVISORKW;}</p>
          *
-         * @param t1 SUPERVISORKW.
+         * @param t1 {@code SUPERVISORKW}.
          * @return The parser call back hook result.
          */
         public Token parseSupKind3(Token t1);
@@ -100464,7 +100464,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ACOSHKW;}</p>
          *
-         * @param t1 ACOSHKW.
+         * @param t1 {@code ACOSHKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction01(Token t1);
@@ -100474,7 +100474,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ACOSKW;}</p>
          *
-         * @param t1 ACOSKW.
+         * @param t1 {@code ACOSKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction02(Token t1);
@@ -100484,7 +100484,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ASINHKW;}</p>
          *
-         * @param t1 ASINHKW.
+         * @param t1 {@code ASINHKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction03(Token t1);
@@ -100494,7 +100494,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ASINKW;}</p>
          *
-         * @param t1 ASINKW.
+         * @param t1 {@code ASINKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction04(Token t1);
@@ -100504,7 +100504,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ATANHKW;}</p>
          *
-         * @param t1 ATANHKW.
+         * @param t1 {@code ATANHKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction05(Token t1);
@@ -100514,7 +100514,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ATANKW;}</p>
          *
-         * @param t1 ATANKW.
+         * @param t1 {@code ATANKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction06(Token t1);
@@ -100524,7 +100524,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @COSHKW;}</p>
          *
-         * @param t1 COSHKW.
+         * @param t1 {@code COSHKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction07(Token t1);
@@ -100534,7 +100534,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @COSKW;}</p>
          *
-         * @param t1 COSKW.
+         * @param t1 {@code COSKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction08(Token t1);
@@ -100544,7 +100544,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @SINHKW;}</p>
          *
-         * @param t1 SINHKW.
+         * @param t1 {@code SINHKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction09(Token t1);
@@ -100554,7 +100554,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @SINKW;}</p>
          *
-         * @param t1 SINKW.
+         * @param t1 {@code SINKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction10(Token t1);
@@ -100564,7 +100564,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @TANHKW;}</p>
          *
-         * @param t1 TANHKW.
+         * @param t1 {@code TANHKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction11(Token t1);
@@ -100574,7 +100574,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @TANKW;}</p>
          *
-         * @param t1 TANKW.
+         * @param t1 {@code TANKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction12(Token t1);
@@ -100584,7 +100584,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ABSKW;}</p>
          *
-         * @param t1 ABSKW.
+         * @param t1 {@code ABSKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction13(Token t1);
@@ -100594,7 +100594,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @CBRTKW;}</p>
          *
-         * @param t1 CBRTKW.
+         * @param t1 {@code CBRTKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction14(Token t1);
@@ -100604,7 +100604,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @CEILKW;}</p>
          *
-         * @param t1 CEILKW.
+         * @param t1 {@code CEILKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction15(Token t1);
@@ -100614,7 +100614,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @DELKW;}</p>
          *
-         * @param t1 DELKW.
+         * @param t1 {@code DELKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction16(Token t1);
@@ -100624,7 +100624,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @EMPTYKW;}</p>
          *
-         * @param t1 EMPTYKW.
+         * @param t1 {@code EMPTYKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction17(Token t1);
@@ -100634,7 +100634,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @EXPKW;}</p>
          *
-         * @param t1 EXPKW.
+         * @param t1 {@code EXPKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction18(Token t1);
@@ -100644,7 +100644,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @FLOORKW;}</p>
          *
-         * @param t1 FLOORKW.
+         * @param t1 {@code FLOORKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction19(Token t1);
@@ -100654,7 +100654,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @FMTKW;}</p>
          *
-         * @param t1 FMTKW.
+         * @param t1 {@code FMTKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction20(Token t1);
@@ -100664,7 +100664,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @LNKW;}</p>
          *
-         * @param t1 LNKW.
+         * @param t1 {@code LNKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction21(Token t1);
@@ -100674,7 +100674,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @LOGKW;}</p>
          *
-         * @param t1 LOGKW.
+         * @param t1 {@code LOGKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction22(Token t1);
@@ -100684,7 +100684,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @MAXKW;}</p>
          *
-         * @param t1 MAXKW.
+         * @param t1 {@code MAXKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction23(Token t1);
@@ -100694,7 +100694,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @MINKW;}</p>
          *
-         * @param t1 MINKW.
+         * @param t1 {@code MINKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction24(Token t1);
@@ -100704,7 +100704,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @POPKW;}</p>
          *
-         * @param t1 POPKW.
+         * @param t1 {@code POPKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction25(Token t1);
@@ -100714,7 +100714,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @POWKW;}</p>
          *
-         * @param t1 POWKW.
+         * @param t1 {@code POWKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction26(Token t1);
@@ -100724,7 +100724,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ROUNDKW;}</p>
          *
-         * @param t1 ROUNDKW.
+         * @param t1 {@code ROUNDKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction27(Token t1);
@@ -100734,7 +100734,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @SCALEKW;}</p>
          *
-         * @param t1 SCALEKW.
+         * @param t1 {@code SCALEKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction28(Token t1);
@@ -100744,7 +100744,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @SIGNKW;}</p>
          *
-         * @param t1 SIGNKW.
+         * @param t1 {@code SIGNKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction29(Token t1);
@@ -100754,7 +100754,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @SIZEKW;}</p>
          *
-         * @param t1 SIZEKW.
+         * @param t1 {@code SIZEKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction30(Token t1);
@@ -100764,7 +100764,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @SQRTKW;}</p>
          *
-         * @param t1 SQRTKW.
+         * @param t1 {@code SQRTKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction31(Token t1);
@@ -100774,7 +100774,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @BERNOULLIKW;}</p>
          *
-         * @param t1 BERNOULLIKW.
+         * @param t1 {@code BERNOULLIKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction32(Token t1);
@@ -100784,7 +100784,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @BETAKW;}</p>
          *
-         * @param t1 BETAKW.
+         * @param t1 {@code BETAKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction33(Token t1);
@@ -100794,7 +100794,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @BINOMIALKW;}</p>
          *
-         * @param t1 BINOMIALKW.
+         * @param t1 {@code BINOMIALKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction34(Token t1);
@@ -100804,7 +100804,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @CONSTANTKW;}</p>
          *
-         * @param t1 CONSTANTKW.
+         * @param t1 {@code CONSTANTKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction35(Token t1);
@@ -100814,7 +100814,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @ERLANGKW;}</p>
          *
-         * @param t1 ERLANGKW.
+         * @param t1 {@code ERLANGKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction36(Token t1);
@@ -100824,7 +100824,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @EXPONENTIALKW;}</p>
          *
-         * @param t1 EXPONENTIALKW.
+         * @param t1 {@code EXPONENTIALKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction37(Token t1);
@@ -100834,7 +100834,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @GAMMAKW;}</p>
          *
-         * @param t1 GAMMAKW.
+         * @param t1 {@code GAMMAKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction38(Token t1);
@@ -100844,7 +100844,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @GEOMETRICKW;}</p>
          *
-         * @param t1 GEOMETRICKW.
+         * @param t1 {@code GEOMETRICKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction39(Token t1);
@@ -100854,7 +100854,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @LOGNORMALKW;}</p>
          *
-         * @param t1 LOGNORMALKW.
+         * @param t1 {@code LOGNORMALKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction40(Token t1);
@@ -100864,7 +100864,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @NORMALKW;}</p>
          *
-         * @param t1 NORMALKW.
+         * @param t1 {@code NORMALKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction41(Token t1);
@@ -100874,7 +100874,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @POISSONKW;}</p>
          *
-         * @param t1 POISSONKW.
+         * @param t1 {@code POISSONKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction42(Token t1);
@@ -100884,7 +100884,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @RANDOMKW;}</p>
          *
-         * @param t1 RANDOMKW.
+         * @param t1 {@code RANDOMKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction43(Token t1);
@@ -100894,7 +100894,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @TRIANGLEKW;}</p>
          *
-         * @param t1 TRIANGLEKW.
+         * @param t1 {@code TRIANGLEKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction44(Token t1);
@@ -100904,7 +100904,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @UNIFORMKW;}</p>
          *
-         * @param t1 UNIFORMKW.
+         * @param t1 {@code UNIFORMKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction45(Token t1);
@@ -100914,7 +100914,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StdLibFunction : @WEIBULLKW;}</p>
          *
-         * @param t1 WEIBULLKW.
+         * @param t1 {@code WEIBULLKW}.
          * @return The parser call back hook result.
          */
         public Token parseStdLibFunction46(Token t1);
@@ -100924,7 +100924,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Specification : GroupBody;}</p>
          *
-         * @param a1 GroupBody.
+         * @param a1 {@code GroupBody}.
          * @return The parser call back hook result.
          */
         public ASpecification parseSpecification1(AGroupBody a1);
@@ -100934,7 +100934,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupBody : OptGroupDecls;}</p>
          *
-         * @param l1 OptGroupDecls.
+         * @param l1 {@code OptGroupDecls}.
          * @return The parser call back hook result.
          */
         public AGroupBody parseGroupBody1(List<ADecl> l1);
@@ -100944,9 +100944,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutomatonBody : OptAutDecls Locations OptIoDecls;}</p>
          *
-         * @param l1 OptAutDecls.
-         * @param l2 Locations.
-         * @param l3 OptIoDecls.
+         * @param l1 {@code OptAutDecls}.
+         * @param l2 {@code Locations}.
+         * @param l3 {@code OptIoDecls}.
          * @return The parser call back hook result.
          */
         public AAutomatonBody parseAutomatonBody1(List<ADecl> l1, List<ALocation> l2, List<AIoDecl> l3);
@@ -100965,8 +100965,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptGroupDecls : OptGroupDecls GroupDecl;}</p>
          *
-         * @param l1 OptGroupDecls.
-         * @param a2 GroupDecl.
+         * @param l1 {@code OptGroupDecls}.
+         * @param a2 {@code GroupDecl}.
          * @return The parser call back hook result.
          */
         public List<ADecl> parseOptGroupDecls2(List<ADecl> l1, ADecl a2);
@@ -100976,7 +100976,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : Decl;}</p>
          *
-         * @param a1 Decl.
+         * @param a1 {@code Decl}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl01(ADecl a1);
@@ -100986,8 +100986,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : @IMPORTKW Imports SEMICOLTK;}</p>
          *
-         * @param t1 IMPORTKW.
-         * @param l2 Imports.
+         * @param t1 {@code IMPORTKW}.
+         * @param l2 {@code Imports}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl02(Token t1, List<AImport> l2);
@@ -100997,8 +100997,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : @NAMESPACEKW @IDENTIFIERTK SEMICOLTK;}</p>
          *
-         * @param t1 NAMESPACEKW.
-         * @param t2 IDENTIFIERTK.
+         * @param t1 {@code NAMESPACEKW}.
+         * @param t2 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl03(Token t1, Token t2);
@@ -101008,8 +101008,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : @NAMESPACEKW @RELATIVENAMETK SEMICOLTK;}</p>
          *
-         * @param t1 NAMESPACEKW.
-         * @param t2 RELATIVENAMETK.
+         * @param t1 {@code NAMESPACEKW}.
+         * @param t2 {@code RELATIVENAMETK}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl04(Token t1, Token t2);
@@ -101019,11 +101019,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : @FUNCKW Types Identifier FuncParams COLONTK FuncBody;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param l2 Types.
-         * @param a3 Identifier.
-         * @param l4 FuncParams.
-         * @param a6 FuncBody.
+         * @param t1 {@code FUNCKW}.
+         * @param l2 {@code Types}.
+         * @param a3 {@code Identifier}.
+         * @param l4 {@code FuncParams}.
+         * @param a6 {@code FuncBody}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl05(Token t1, List<ACifType> l2, AIdentifier a3, List<AFuncParam> l4, AFuncBody a6);
@@ -101033,10 +101033,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : Identifier COLONTK Name ActualParms @SEMICOLTK;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Name.
-         * @param l4 ActualParms.
-         * @param t5 SEMICOLTK.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Name}.
+         * @param l4 {@code ActualParms}.
+         * @param t5 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl06(AIdentifier a1, AName a3, List<AExpression> l4, Token t5);
@@ -101046,11 +101046,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : @GROUPKW DEFKW Identifier FormalParms COLONTK GroupBody @ENDKW;}</p>
          *
-         * @param t1 GROUPKW.
-         * @param a3 Identifier.
-         * @param l4 FormalParms.
-         * @param a6 GroupBody.
-         * @param t7 ENDKW.
+         * @param t1 {@code GROUPKW}.
+         * @param a3 {@code Identifier}.
+         * @param l4 {@code FormalParms}.
+         * @param a6 {@code GroupBody}.
+         * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl07(Token t1, AIdentifier a3, List<AFormalParameter> l4, AGroupBody a6, Token t7);
@@ -101060,12 +101060,12 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : OptSupKind @AUTOMATONKW DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW;}</p>
          *
-         * @param t1 OptSupKind.
-         * @param t2 AUTOMATONKW.
-         * @param a4 Identifier.
-         * @param l5 FormalParms.
-         * @param a7 AutomatonBody.
-         * @param t8 ENDKW.
+         * @param t1 {@code OptSupKind}.
+         * @param t2 {@code AUTOMATONKW}.
+         * @param a4 {@code Identifier}.
+         * @param l5 {@code FormalParms}.
+         * @param a7 {@code AutomatonBody}.
+         * @param t8 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl08(Token t1, Token t2, AIdentifier a4, List<AFormalParameter> l5, AAutomatonBody a7, Token t8);
@@ -101075,11 +101075,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : SupKind DEFKW Identifier FormalParms COLONTK AutomatonBody @ENDKW;}</p>
          *
-         * @param t1 SupKind.
-         * @param a3 Identifier.
-         * @param l4 FormalParms.
-         * @param a6 AutomatonBody.
-         * @param t7 ENDKW.
+         * @param t1 {@code SupKind}.
+         * @param a3 {@code Identifier}.
+         * @param l4 {@code FormalParms}.
+         * @param a6 {@code AutomatonBody}.
+         * @param t7 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl09(Token t1, AIdentifier a3, List<AFormalParameter> l4, AAutomatonBody a6, Token t7);
@@ -101089,10 +101089,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : @GROUPKW Identifier COLONTK GroupBody @ENDKW;}</p>
          *
-         * @param t1 GROUPKW.
-         * @param a2 Identifier.
-         * @param a4 GroupBody.
-         * @param t5 ENDKW.
+         * @param t1 {@code GROUPKW}.
+         * @param a2 {@code Identifier}.
+         * @param a4 {@code GroupBody}.
+         * @param t5 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl10(Token t1, AIdentifier a2, AGroupBody a4, Token t5);
@@ -101102,11 +101102,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : OptSupKind @AUTOMATONKW Identifier COLONTK AutomatonBody @ENDKW;}</p>
          *
-         * @param t1 OptSupKind.
-         * @param t2 AUTOMATONKW.
-         * @param a3 Identifier.
-         * @param a5 AutomatonBody.
-         * @param t6 ENDKW.
+         * @param t1 {@code OptSupKind}.
+         * @param t2 {@code AUTOMATONKW}.
+         * @param a3 {@code Identifier}.
+         * @param a5 {@code AutomatonBody}.
+         * @param t6 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl11(Token t1, Token t2, AIdentifier a3, AAutomatonBody a5, Token t6);
@@ -101116,10 +101116,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code GroupDecl : SupKind Identifier COLONTK AutomatonBody @ENDKW;}</p>
          *
-         * @param t1 SupKind.
-         * @param a2 Identifier.
-         * @param a4 AutomatonBody.
-         * @param t5 ENDKW.
+         * @param t1 {@code SupKind}.
+         * @param a2 {@code Identifier}.
+         * @param a4 {@code AutomatonBody}.
+         * @param t5 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseGroupDecl12(Token t1, AIdentifier a2, AAutomatonBody a4, Token t5);
@@ -101138,8 +101138,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptAutDecls : OptAutDecls AutDecl;}</p>
          *
-         * @param l1 OptAutDecls.
-         * @param a2 AutDecl.
+         * @param l1 {@code OptAutDecls}.
+         * @param a2 {@code AutDecl}.
          * @return The parser call back hook result.
          */
         public List<ADecl> parseOptAutDecls2(List<ADecl> l1, ADecl a2);
@@ -101149,7 +101149,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutDecl : Decl;}</p>
          *
-         * @param a1 Decl.
+         * @param a1 {@code Decl}.
          * @return The parser call back hook result.
          */
         public ADecl parseAutDecl1(ADecl a1);
@@ -101159,8 +101159,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutDecl : @ALPHABETKW Events SEMICOLTK;}</p>
          *
-         * @param t1 ALPHABETKW.
-         * @param l2 Events.
+         * @param t1 {@code ALPHABETKW}.
+         * @param l2 {@code Events}.
          * @return The parser call back hook result.
          */
         public ADecl parseAutDecl2(Token t1, List<AName> l2);
@@ -101170,7 +101170,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutDecl : @ALPHABETKW SEMICOLTK;}</p>
          *
-         * @param t1 ALPHABETKW.
+         * @param t1 {@code ALPHABETKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseAutDecl3(Token t1);
@@ -101180,8 +101180,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutDecl : @MONITORKW Events SEMICOLTK;}</p>
          *
-         * @param t1 MONITORKW.
-         * @param l2 Events.
+         * @param t1 {@code MONITORKW}.
+         * @param l2 {@code Events}.
          * @return The parser call back hook result.
          */
         public ADecl parseAutDecl4(Token t1, List<AName> l2);
@@ -101191,7 +101191,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutDecl : @MONITORKW SEMICOLTK;}</p>
          *
-         * @param t1 MONITORKW.
+         * @param t1 {@code MONITORKW}.
          * @return The parser call back hook result.
          */
         public ADecl parseAutDecl5(Token t1);
@@ -101201,9 +101201,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AutDecl : @DISCKW Type DiscDecls SEMICOLTK;}</p>
          *
-         * @param t1 DISCKW.
-         * @param a2 Type.
-         * @param l3 DiscDecls.
+         * @param t1 {@code DISCKW}.
+         * @param a2 {@code Type}.
+         * @param l3 {@code DiscDecls}.
          * @return The parser call back hook result.
          */
         public ADecl parseAutDecl6(Token t1, ACifType a2, List<ADiscVariable> l3);
@@ -101213,8 +101213,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @TYPEKW TypeDefs SEMICOLTK;}</p>
          *
-         * @param t1 TYPEKW.
-         * @param l2 TypeDefs.
+         * @param t1 {@code TYPEKW}.
+         * @param l2 {@code TypeDefs}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl01(Token t1, List<ATypeDef> l2);
@@ -101224,9 +101224,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : ENUMKW Identifier EQTK @CUROPENTK Identifiers CURCLOSETK SEMICOLTK;}</p>
          *
-         * @param a2 Identifier.
-         * @param t4 CUROPENTK.
-         * @param l5 Identifiers.
+         * @param a2 {@code Identifier}.
+         * @param t4 {@code CUROPENTK}.
+         * @param l5 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl02(AIdentifier a2, Token t4, List<AIdentifier> l5);
@@ -101236,8 +101236,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : ENUMKW Identifier EQTK Identifiers SEMICOLTK;}</p>
          *
-         * @param a2 Identifier.
-         * @param l4 Identifiers.
+         * @param a2 {@code Identifier}.
+         * @param l4 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl03(AIdentifier a2, List<AIdentifier> l4);
@@ -101247,9 +101247,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : OptControllability @EVENTKW Identifiers SEMICOLTK;}</p>
          *
-         * @param t1 OptControllability.
-         * @param t2 EVENTKW.
-         * @param l3 Identifiers.
+         * @param t1 {@code OptControllability}.
+         * @param t2 {@code EVENTKW}.
+         * @param l3 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl04(Token t1, Token t2, List<AIdentifier> l3);
@@ -101259,10 +101259,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : OptControllability @EVENTKW EventType Identifiers SEMICOLTK;}</p>
          *
-         * @param t1 OptControllability.
-         * @param t2 EVENTKW.
-         * @param a3 EventType.
-         * @param l4 Identifiers.
+         * @param t1 {@code OptControllability}.
+         * @param t2 {@code EVENTKW}.
+         * @param a3 {@code EventType}.
+         * @param l4 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl05(Token t1, Token t2, ACifType a3, List<AIdentifier> l4);
@@ -101272,8 +101272,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : Controllability Identifiers SEMICOLTK;}</p>
          *
-         * @param t1 Controllability.
-         * @param l2 Identifiers.
+         * @param t1 {@code Controllability}.
+         * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl06(Token t1, List<AIdentifier> l2);
@@ -101283,9 +101283,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : Controllability EventType Identifiers SEMICOLTK;}</p>
          *
-         * @param t1 Controllability.
-         * @param a2 EventType.
-         * @param l3 Identifiers.
+         * @param t1 {@code Controllability}.
+         * @param a2 {@code EventType}.
+         * @param l3 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl07(Token t1, ACifType a2, List<AIdentifier> l3);
@@ -101295,9 +101295,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @CONSTKW Type ConstantDefs SEMICOLTK;}</p>
          *
-         * @param t1 CONSTKW.
-         * @param a2 Type.
-         * @param l3 ConstantDefs.
+         * @param t1 {@code CONSTKW}.
+         * @param a2 {@code Type}.
+         * @param l3 {@code ConstantDefs}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl08(Token t1, ACifType a2, List<AConstant> l3);
@@ -101307,9 +101307,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @ALGKW Type AlgVarsDefs SEMICOLTK;}</p>
          *
-         * @param t1 ALGKW.
-         * @param a2 Type.
-         * @param l3 AlgVarsDefs.
+         * @param t1 {@code ALGKW}.
+         * @param a2 {@code Type}.
+         * @param l3 {@code AlgVarsDefs}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl09(Token t1, ACifType a2, List<AAlgVariable> l3);
@@ -101319,9 +101319,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @INPUTKW Type Identifiers SEMICOLTK;}</p>
          *
-         * @param t1 INPUTKW.
-         * @param a2 Type.
-         * @param l3 Identifiers.
+         * @param t1 {@code INPUTKW}.
+         * @param a2 {@code Type}.
+         * @param l3 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl10(Token t1, ACifType a2, List<AIdentifier> l3);
@@ -101331,8 +101331,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @CONTKW ContDecls SEMICOLTK;}</p>
          *
-         * @param t1 CONTKW.
-         * @param l2 ContDecls.
+         * @param t1 {@code CONTKW}.
+         * @param l2 {@code ContDecls}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl11(Token t1, List<AContVariable> l2);
@@ -101342,8 +101342,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @EQUATIONKW Equations SEMICOLTK;}</p>
          *
-         * @param t1 EQUATIONKW.
-         * @param l2 Equations.
+         * @param t1 {@code EQUATIONKW}.
+         * @param l2 {@code Equations}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl12(Token t1, List<AEquation> l2);
@@ -101353,8 +101353,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @INITIALKW Expressions SEMICOLTK;}</p>
          *
-         * @param t1 INITIALKW.
-         * @param l2 Expressions.
+         * @param t1 {@code INITIALKW}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl13(Token t1, List<AExpression> l2);
@@ -101364,7 +101364,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : InvariantDecls;}</p>
          *
-         * @param a1 InvariantDecls.
+         * @param a1 {@code InvariantDecls}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl14(AInvariantDecl a1);
@@ -101374,8 +101374,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : @MARKEDKW Expressions SEMICOLTK;}</p>
          *
-         * @param t1 MARKEDKW.
-         * @param l2 Expressions.
+         * @param t1 {@code MARKEDKW}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl15(Token t1, List<AExpression> l2);
@@ -101385,7 +101385,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Decl : IoDecl;}</p>
          *
-         * @param a1 IoDecl.
+         * @param a1 {@code IoDecl}.
          * @return The parser call back hook result.
          */
         public ADecl parseDecl16(AIoDecl a1);
@@ -101395,7 +101395,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Identifier : @IDENTIFIERTK;}</p>
          *
-         * @param t1 IDENTIFIERTK.
+         * @param t1 {@code IDENTIFIERTK}.
          * @return The parser call back hook result.
          */
         public AIdentifier parseIdentifier1(Token t1);
@@ -101405,7 +101405,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Imports : StringToken;}</p>
          *
-         * @param a1 StringToken.
+         * @param a1 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public List<AImport> parseImports1(AStringToken a1);
@@ -101415,8 +101415,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Imports : Imports COMMATK StringToken;}</p>
          *
-         * @param l1 Imports.
-         * @param a3 StringToken.
+         * @param l1 {@code Imports}.
+         * @param a3 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public List<AImport> parseImports2(List<AImport> l1, AStringToken a3);
@@ -101426,7 +101426,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code StringToken : @STRINGTK;}</p>
          *
-         * @param t1 STRINGTK.
+         * @param t1 {@code STRINGTK}.
          * @return The parser call back hook result.
          */
         public AStringToken parseStringToken1(Token t1);
@@ -101436,8 +101436,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code TypeDefs : Identifier EQTK Type;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Type.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<ATypeDef> parseTypeDefs1(AIdentifier a1, ACifType a3);
@@ -101447,9 +101447,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code TypeDefs : TypeDefs COMMATK Identifier EQTK Type;}</p>
          *
-         * @param l1 TypeDefs.
-         * @param a3 Identifier.
-         * @param a5 Type.
+         * @param l1 {@code TypeDefs}.
+         * @param a3 {@code Identifier}.
+         * @param a5 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<ATypeDef> parseTypeDefs2(List<ATypeDef> l1, AIdentifier a3, ACifType a5);
@@ -101459,8 +101459,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ConstantDefs : Identifier EQTK Expression;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Expression.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AConstant> parseConstantDefs1(AIdentifier a1, AExpression a3);
@@ -101470,9 +101470,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ConstantDefs : ConstantDefs COMMATK Identifier EQTK Expression;}</p>
          *
-         * @param l1 ConstantDefs.
-         * @param a3 Identifier.
-         * @param a5 Expression.
+         * @param l1 {@code ConstantDefs}.
+         * @param a3 {@code Identifier}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AConstant> parseConstantDefs2(List<AConstant> l1, AIdentifier a3, AExpression a5);
@@ -101482,7 +101482,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AlgVarsDefs : Identifier;}</p>
          *
-         * @param a1 Identifier.
+         * @param a1 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public List<AAlgVariable> parseAlgVarsDefs1(AIdentifier a1);
@@ -101492,8 +101492,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AlgVarsDefs : Identifier EQTK Expression;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Expression.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AAlgVariable> parseAlgVarsDefs2(AIdentifier a1, AExpression a3);
@@ -101503,8 +101503,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AlgVarsDefs : AlgVarsDefs COMMATK Identifier;}</p>
          *
-         * @param l1 AlgVarsDefs.
-         * @param a3 Identifier.
+         * @param l1 {@code AlgVarsDefs}.
+         * @param a3 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public List<AAlgVariable> parseAlgVarsDefs3(List<AAlgVariable> l1, AIdentifier a3);
@@ -101514,9 +101514,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AlgVarsDefs : AlgVarsDefs COMMATK Identifier EQTK Expression;}</p>
          *
-         * @param l1 AlgVarsDefs.
-         * @param a3 Identifier.
-         * @param a5 Expression.
+         * @param l1 {@code AlgVarsDefs}.
+         * @param a3 {@code Identifier}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AAlgVariable> parseAlgVarsDefs4(List<AAlgVariable> l1, AIdentifier a3, AExpression a5);
@@ -101535,7 +101535,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncParams : PAROPENTK FuncParamDecls PARCLOSETK;}</p>
          *
-         * @param l2 FuncParamDecls.
+         * @param l2 {@code FuncParamDecls}.
          * @return The parser call back hook result.
          */
         public List<AFuncParam> parseFuncParams2(List<AFuncParam> l2);
@@ -101545,8 +101545,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncParamDecls : Type Identifiers;}</p>
          *
-         * @param a1 Type.
-         * @param l2 Identifiers.
+         * @param a1 {@code Type}.
+         * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public List<AFuncParam> parseFuncParamDecls1(ACifType a1, List<AIdentifier> l2);
@@ -101556,9 +101556,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncParamDecls : FuncParamDecls SEMICOLTK Type Identifiers;}</p>
          *
-         * @param l1 FuncParamDecls.
-         * @param a3 Type.
-         * @param l4 Identifiers.
+         * @param l1 {@code FuncParamDecls}.
+         * @param a3 {@code Type}.
+         * @param l4 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public List<AFuncParam> parseFuncParamDecls2(List<AFuncParam> l1, ACifType a3, List<AIdentifier> l4);
@@ -101568,9 +101568,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncBody : FuncVarDecls FuncStatements @ENDKW;}</p>
          *
-         * @param l1 FuncVarDecls.
-         * @param l2 FuncStatements.
-         * @param t3 ENDKW.
+         * @param l1 {@code FuncVarDecls}.
+         * @param l2 {@code FuncStatements}.
+         * @param t3 {@code ENDKW}.
          * @return The parser call back hook result.
          */
         public AFuncBody parseFuncBody1(List<ADiscVariableDecl> l1, List<AFuncStatement> l2, Token t3);
@@ -101580,7 +101580,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncBody : StringToken SEMICOLTK;}</p>
          *
-         * @param a1 StringToken.
+         * @param a1 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public AFuncBody parseFuncBody2(AStringToken a1);
@@ -101599,9 +101599,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncVarDecls : FuncVarDecls Type FuncVarDecl SEMICOLTK;}</p>
          *
-         * @param l1 FuncVarDecls.
-         * @param a2 Type.
-         * @param l3 FuncVarDecl.
+         * @param l1 {@code FuncVarDecls}.
+         * @param a2 {@code Type}.
+         * @param l3 {@code FuncVarDecl}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariableDecl> parseFuncVarDecls2(List<ADiscVariableDecl> l1, ACifType a2, List<ADiscVariable> l3);
@@ -101611,7 +101611,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncVarDecl : Identifier;}</p>
          *
-         * @param a1 Identifier.
+         * @param a1 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariable> parseFuncVarDecl1(AIdentifier a1);
@@ -101621,8 +101621,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncVarDecl : Identifier EQTK Expression;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Expression.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariable> parseFuncVarDecl2(AIdentifier a1, AExpression a3);
@@ -101632,8 +101632,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncVarDecl : FuncVarDecl COMMATK Identifier;}</p>
          *
-         * @param l1 FuncVarDecl.
-         * @param a3 Identifier.
+         * @param l1 {@code FuncVarDecl}.
+         * @param a3 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariable> parseFuncVarDecl3(List<ADiscVariable> l1, AIdentifier a3);
@@ -101643,9 +101643,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncVarDecl : FuncVarDecl COMMATK Identifier EQTK Expression;}</p>
          *
-         * @param l1 FuncVarDecl.
-         * @param a3 Identifier.
-         * @param a5 Expression.
+         * @param l1 {@code FuncVarDecl}.
+         * @param a3 {@code Identifier}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariable> parseFuncVarDecl4(List<ADiscVariable> l1, AIdentifier a3, AExpression a5);
@@ -101655,7 +101655,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatements : FuncStatement;}</p>
          *
-         * @param a1 FuncStatement.
+         * @param a1 {@code FuncStatement}.
          * @return The parser call back hook result.
          */
         public List<AFuncStatement> parseFuncStatements1(AFuncStatement a1);
@@ -101665,8 +101665,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatements : FuncStatements FuncStatement;}</p>
          *
-         * @param l1 FuncStatements.
-         * @param a2 FuncStatement.
+         * @param l1 {@code FuncStatements}.
+         * @param a2 {@code FuncStatement}.
          * @return The parser call back hook result.
          */
         public List<AFuncStatement> parseFuncStatements2(List<AFuncStatement> l1, AFuncStatement a2);
@@ -101676,9 +101676,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatement : Addressables @BECOMESTK Expressions SEMICOLTK;}</p>
          *
-         * @param l1 Addressables.
-         * @param t2 BECOMESTK.
-         * @param l3 Expressions.
+         * @param l1 {@code Addressables}.
+         * @param t2 {@code BECOMESTK}.
+         * @param l3 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public AFuncStatement parseFuncStatement1(List<AExpression> l1, Token t2, List<AExpression> l3);
@@ -101688,11 +101688,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatement : @IFKW Expressions COLONTK FuncStatements OptElifFuncStats OptElseFuncStat ENDKW;}</p>
          *
-         * @param t1 IFKW.
-         * @param l2 Expressions.
-         * @param l4 FuncStatements.
-         * @param l5 OptElifFuncStats.
-         * @param a6 OptElseFuncStat.
+         * @param t1 {@code IFKW}.
+         * @param l2 {@code Expressions}.
+         * @param l4 {@code FuncStatements}.
+         * @param l5 {@code OptElifFuncStats}.
+         * @param a6 {@code OptElseFuncStat}.
          * @return The parser call back hook result.
          */
         public AFuncStatement parseFuncStatement2(Token t1, List<AExpression> l2, List<AFuncStatement> l4, List<AElifFuncStatement> l5, AElseFuncStatement a6);
@@ -101702,9 +101702,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatement : @WHILEKW Expressions COLONTK FuncStatements ENDKW;}</p>
          *
-         * @param t1 WHILEKW.
-         * @param l2 Expressions.
-         * @param l4 FuncStatements.
+         * @param t1 {@code WHILEKW}.
+         * @param l2 {@code Expressions}.
+         * @param l4 {@code FuncStatements}.
          * @return The parser call back hook result.
          */
         public AFuncStatement parseFuncStatement3(Token t1, List<AExpression> l2, List<AFuncStatement> l4);
@@ -101714,7 +101714,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatement : @BREAKKW SEMICOLTK;}</p>
          *
-         * @param t1 BREAKKW.
+         * @param t1 {@code BREAKKW}.
          * @return The parser call back hook result.
          */
         public AFuncStatement parseFuncStatement4(Token t1);
@@ -101724,7 +101724,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatement : @CONTINUEKW SEMICOLTK;}</p>
          *
-         * @param t1 CONTINUEKW.
+         * @param t1 {@code CONTINUEKW}.
          * @return The parser call back hook result.
          */
         public AFuncStatement parseFuncStatement5(Token t1);
@@ -101734,8 +101734,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncStatement : @RETURNKW Expressions SEMICOLTK;}</p>
          *
-         * @param t1 RETURNKW.
-         * @param l2 Expressions.
+         * @param t1 {@code RETURNKW}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public AFuncStatement parseFuncStatement6(Token t1, List<AExpression> l2);
@@ -101754,10 +101754,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptElifFuncStats : OptElifFuncStats @ELIFKW Expressions COLONTK FuncStatements;}</p>
          *
-         * @param l1 OptElifFuncStats.
-         * @param t2 ELIFKW.
-         * @param l3 Expressions.
-         * @param l5 FuncStatements.
+         * @param l1 {@code OptElifFuncStats}.
+         * @param t2 {@code ELIFKW}.
+         * @param l3 {@code Expressions}.
+         * @param l5 {@code FuncStatements}.
          * @return The parser call back hook result.
          */
         public List<AElifFuncStatement> parseOptElifFuncStats2(List<AElifFuncStatement> l1, Token t2, List<AExpression> l3, List<AFuncStatement> l5);
@@ -101776,8 +101776,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptElseFuncStat : @ELSEKW FuncStatements;}</p>
          *
-         * @param t1 ELSEKW.
-         * @param l2 FuncStatements.
+         * @param t1 {@code ELSEKW}.
+         * @param l2 {@code FuncStatements}.
          * @return The parser call back hook result.
          */
         public AElseFuncStatement parseOptElseFuncStat2(Token t1, List<AFuncStatement> l2);
@@ -101787,7 +101787,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Events : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public List<AName> parseEvents1(AName a1);
@@ -101797,8 +101797,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Events : Events COMMATK Name;}</p>
          *
-         * @param l1 Events.
-         * @param a3 Name.
+         * @param l1 {@code Events}.
+         * @param a3 {@code Name}.
          * @return The parser call back hook result.
          */
         public List<AName> parseEvents2(List<AName> l1, AName a3);
@@ -101808,10 +101808,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CoreEdge : EdgeEvents OptEdgeGuard OptEdgeUrgent OptEdgeUpdate;}</p>
          *
-         * @param l1 EdgeEvents.
-         * @param l2 OptEdgeGuard.
-         * @param p3 OptEdgeUrgent.
-         * @param l4 OptEdgeUpdate.
+         * @param l1 {@code EdgeEvents}.
+         * @param l2 {@code OptEdgeGuard}.
+         * @param p3 {@code OptEdgeUrgent}.
+         * @param l4 {@code OptEdgeUpdate}.
          * @return The parser call back hook result.
          */
         public ACoreEdge parseCoreEdge1(List<AEdgeEvent> l1, List<AExpression> l2, Position p3, List<AUpdate> l4);
@@ -101821,9 +101821,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CoreEdge : WHENKW Expressions OptEdgeUrgent OptEdgeUpdate;}</p>
          *
-         * @param l2 Expressions.
-         * @param p3 OptEdgeUrgent.
-         * @param l4 OptEdgeUpdate.
+         * @param l2 {@code Expressions}.
+         * @param p3 {@code OptEdgeUrgent}.
+         * @param l4 {@code OptEdgeUpdate}.
          * @return The parser call back hook result.
          */
         public ACoreEdge parseCoreEdge2(List<AExpression> l2, Position p3, List<AUpdate> l4);
@@ -101833,8 +101833,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CoreEdge : @NOWKW OptEdgeUpdate;}</p>
          *
-         * @param t1 NOWKW.
-         * @param l2 OptEdgeUpdate.
+         * @param t1 {@code NOWKW}.
+         * @param l2 {@code OptEdgeUpdate}.
          * @return The parser call back hook result.
          */
         public ACoreEdge parseCoreEdge3(Token t1, List<AUpdate> l2);
@@ -101844,7 +101844,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CoreEdge : DOKW Updates;}</p>
          *
-         * @param l2 Updates.
+         * @param l2 {@code Updates}.
          * @return The parser call back hook result.
          */
         public ACoreEdge parseCoreEdge4(List<AUpdate> l2);
@@ -101863,7 +101863,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptEdgeGuard : WHENKW Expressions;}</p>
          *
-         * @param l2 Expressions.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public List<AExpression> parseOptEdgeGuard2(List<AExpression> l2);
@@ -101882,7 +101882,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptEdgeUrgent : @NOWKW;}</p>
          *
-         * @param t1 NOWKW.
+         * @param t1 {@code NOWKW}.
          * @return The parser call back hook result.
          */
         public Position parseOptEdgeUrgent2(Token t1);
@@ -101901,7 +101901,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptEdgeUpdate : DOKW Updates;}</p>
          *
-         * @param l2 Updates.
+         * @param l2 {@code Updates}.
          * @return The parser call back hook result.
          */
         public List<AUpdate> parseOptEdgeUpdate2(List<AUpdate> l2);
@@ -101911,7 +101911,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvents : EdgeEvent;}</p>
          *
-         * @param a1 EdgeEvent.
+         * @param a1 {@code EdgeEvent}.
          * @return The parser call back hook result.
          */
         public List<AEdgeEvent> parseEdgeEvents1(AEdgeEvent a1);
@@ -101921,8 +101921,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvents : EdgeEvents COMMATK EdgeEvent;}</p>
          *
-         * @param l1 EdgeEvents.
-         * @param a3 EdgeEvent.
+         * @param l1 {@code EdgeEvents}.
+         * @param a3 {@code EdgeEvent}.
          * @return The parser call back hook result.
          */
         public List<AEdgeEvent> parseEdgeEvents2(List<AEdgeEvent> l1, AEdgeEvent a3);
@@ -101932,7 +101932,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvent : @TAUKW;}</p>
          *
-         * @param t1 TAUKW.
+         * @param t1 {@code TAUKW}.
          * @return The parser call back hook result.
          */
         public AEdgeEvent parseEdgeEvent1(Token t1);
@@ -101942,7 +101942,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvent : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public AEdgeEvent parseEdgeEvent2(AName a1);
@@ -101952,8 +101952,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvent : Name @EXCLAMATIONTK;}</p>
          *
-         * @param a1 Name.
-         * @param t2 EXCLAMATIONTK.
+         * @param a1 {@code Name}.
+         * @param t2 {@code EXCLAMATIONTK}.
          * @return The parser call back hook result.
          */
         public AEdgeEvent parseEdgeEvent3(AName a1, Token t2);
@@ -101963,9 +101963,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvent : Name @EXCLAMATIONTK Expression;}</p>
          *
-         * @param a1 Name.
-         * @param t2 EXCLAMATIONTK.
-         * @param a3 Expression.
+         * @param a1 {@code Name}.
+         * @param t2 {@code EXCLAMATIONTK}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AEdgeEvent parseEdgeEvent4(AName a1, Token t2, AExpression a3);
@@ -101975,8 +101975,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EdgeEvent : Name @QUESTIONTK;}</p>
          *
-         * @param a1 Name.
-         * @param t2 QUESTIONTK.
+         * @param a1 {@code Name}.
+         * @param t2 {@code QUESTIONTK}.
          * @return The parser call back hook result.
          */
         public AEdgeEvent parseEdgeEvent5(AName a1, Token t2);
@@ -101986,7 +101986,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Locations : Location;}</p>
          *
-         * @param a1 Location.
+         * @param a1 {@code Location}.
          * @return The parser call back hook result.
          */
         public List<ALocation> parseLocations1(ALocation a1);
@@ -101996,8 +101996,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Locations : Locations Location;}</p>
          *
-         * @param l1 Locations.
-         * @param a2 Location.
+         * @param l1 {@code Locations}.
+         * @param a2 {@code Location}.
          * @return The parser call back hook result.
          */
         public List<ALocation> parseLocations2(List<ALocation> l1, ALocation a2);
@@ -102007,7 +102007,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Location : @LOCATIONKW SEMICOLTK;}</p>
          *
-         * @param t1 LOCATIONKW.
+         * @param t1 {@code LOCATIONKW}.
          * @return The parser call back hook result.
          */
         public ALocation parseLocation1(Token t1);
@@ -102017,8 +102017,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Location : @LOCATIONKW Identifier SEMICOLTK;}</p>
          *
-         * @param t1 LOCATIONKW.
-         * @param a2 Identifier.
+         * @param t1 {@code LOCATIONKW}.
+         * @param a2 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public ALocation parseLocation2(Token t1, AIdentifier a2);
@@ -102028,8 +102028,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Location : @LOCATIONKW COLONTK LocationElements;}</p>
          *
-         * @param t1 LOCATIONKW.
-         * @param l3 LocationElements.
+         * @param t1 {@code LOCATIONKW}.
+         * @param l3 {@code LocationElements}.
          * @return The parser call back hook result.
          */
         public ALocation parseLocation3(Token t1, List<ALocationElement> l3);
@@ -102039,9 +102039,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Location : @LOCATIONKW Identifier COLONTK LocationElements;}</p>
          *
-         * @param t1 LOCATIONKW.
-         * @param a2 Identifier.
-         * @param l4 LocationElements.
+         * @param t1 {@code LOCATIONKW}.
+         * @param a2 {@code Identifier}.
+         * @param l4 {@code LocationElements}.
          * @return The parser call back hook result.
          */
         public ALocation parseLocation4(Token t1, AIdentifier a2, List<ALocationElement> l4);
@@ -102051,7 +102051,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElements : LocationElement;}</p>
          *
-         * @param a1 LocationElement.
+         * @param a1 {@code LocationElement}.
          * @return The parser call back hook result.
          */
         public List<ALocationElement> parseLocationElements1(ALocationElement a1);
@@ -102061,8 +102061,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElements : LocationElements LocationElement;}</p>
          *
-         * @param l1 LocationElements.
-         * @param a2 LocationElement.
+         * @param l1 {@code LocationElements}.
+         * @param a2 {@code LocationElement}.
          * @return The parser call back hook result.
          */
         public List<ALocationElement> parseLocationElements2(List<ALocationElement> l1, ALocationElement a2);
@@ -102072,7 +102072,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @INITIALKW SEMICOLTK;}</p>
          *
-         * @param t1 INITIALKW.
+         * @param t1 {@code INITIALKW}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement1(Token t1);
@@ -102082,8 +102082,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @INITIALKW Expressions SEMICOLTK;}</p>
          *
-         * @param t1 INITIALKW.
-         * @param l2 Expressions.
+         * @param t1 {@code INITIALKW}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement2(Token t1, List<AExpression> l2);
@@ -102093,7 +102093,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : InvariantDecls;}</p>
          *
-         * @param a1 InvariantDecls.
+         * @param a1 {@code InvariantDecls}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement3(AInvariantDecl a1);
@@ -102103,8 +102103,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @EQUATIONKW Equations SEMICOLTK;}</p>
          *
-         * @param t1 EQUATIONKW.
-         * @param l2 Equations.
+         * @param t1 {@code EQUATIONKW}.
+         * @param l2 {@code Equations}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement4(Token t1, List<AEquation> l2);
@@ -102114,7 +102114,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @MARKEDKW SEMICOLTK;}</p>
          *
-         * @param t1 MARKEDKW.
+         * @param t1 {@code MARKEDKW}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement5(Token t1);
@@ -102124,8 +102124,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @MARKEDKW Expressions SEMICOLTK;}</p>
          *
-         * @param t1 MARKEDKW.
-         * @param l2 Expressions.
+         * @param t1 {@code MARKEDKW}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement6(Token t1, List<AExpression> l2);
@@ -102135,7 +102135,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @URGENTKW SEMICOLTK;}</p>
          *
-         * @param t1 URGENTKW.
+         * @param t1 {@code URGENTKW}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement7(Token t1);
@@ -102145,8 +102145,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @EDGEKW CoreEdge SEMICOLTK;}</p>
          *
-         * @param t1 EDGEKW.
-         * @param a2 CoreEdge.
+         * @param t1 {@code EDGEKW}.
+         * @param a2 {@code CoreEdge}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement8(Token t1, ACoreEdge a2);
@@ -102156,9 +102156,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code LocationElement : @EDGEKW CoreEdge GOTOKW Identifier SEMICOLTK;}</p>
          *
-         * @param t1 EDGEKW.
-         * @param a2 CoreEdge.
-         * @param a4 Identifier.
+         * @param t1 {@code EDGEKW}.
+         * @param a2 {@code CoreEdge}.
+         * @param a4 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public ALocationElement parseLocationElement9(Token t1, ACoreEdge a2, AIdentifier a4);
@@ -102177,7 +102177,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ActualParms : PAROPENTK Expressions PARCLOSETK;}</p>
          *
-         * @param l2 Expressions.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public List<AExpression> parseActualParms2(List<AExpression> l2);
@@ -102196,7 +102196,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalParms : PAROPENTK FormalDecls PARCLOSETK;}</p>
          *
-         * @param l2 FormalDecls.
+         * @param l2 {@code FormalDecls}.
          * @return The parser call back hook result.
          */
         public List<AFormalParameter> parseFormalParms2(List<AFormalParameter> l2);
@@ -102206,7 +102206,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDecls : FormalDeclaration;}</p>
          *
-         * @param a1 FormalDeclaration.
+         * @param a1 {@code FormalDeclaration}.
          * @return The parser call back hook result.
          */
         public List<AFormalParameter> parseFormalDecls1(AFormalParameter a1);
@@ -102216,8 +102216,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDecls : FormalDecls SEMICOLTK FormalDeclaration;}</p>
          *
-         * @param l1 FormalDecls.
-         * @param a3 FormalDeclaration.
+         * @param l1 {@code FormalDecls}.
+         * @param a3 {@code FormalDeclaration}.
          * @return The parser call back hook result.
          */
         public List<AFormalParameter> parseFormalDecls2(List<AFormalParameter> l1, AFormalParameter a3);
@@ -102227,9 +102227,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : OptControllability @EVENTKW EventParamIds;}</p>
          *
-         * @param t1 OptControllability.
-         * @param t2 EVENTKW.
-         * @param l3 EventParamIds.
+         * @param t1 {@code OptControllability}.
+         * @param t2 {@code EVENTKW}.
+         * @param l3 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration1(Token t1, Token t2, List<AFormalEventParameterPart> l3);
@@ -102239,10 +102239,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : OptControllability @EVENTKW EventType EventParamIds;}</p>
          *
-         * @param t1 OptControllability.
-         * @param t2 EVENTKW.
-         * @param a3 EventType.
-         * @param l4 EventParamIds.
+         * @param t1 {@code OptControllability}.
+         * @param t2 {@code EVENTKW}.
+         * @param a3 {@code EventType}.
+         * @param l4 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration2(Token t1, Token t2, ACifType a3, List<AFormalEventParameterPart> l4);
@@ -102252,8 +102252,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : Controllability EventParamIds;}</p>
          *
-         * @param t1 Controllability.
-         * @param l2 EventParamIds.
+         * @param t1 {@code Controllability}.
+         * @param l2 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration3(Token t1, List<AFormalEventParameterPart> l2);
@@ -102263,9 +102263,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : Controllability EventType EventParamIds;}</p>
          *
-         * @param t1 Controllability.
-         * @param a2 EventType.
-         * @param l3 EventParamIds.
+         * @param t1 {@code Controllability}.
+         * @param a2 {@code EventType}.
+         * @param l3 {@code EventParamIds}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration4(Token t1, ACifType a2, List<AFormalEventParameterPart> l3);
@@ -102275,8 +102275,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : Name Identifiers;}</p>
          *
-         * @param a1 Name.
-         * @param l2 Identifiers.
+         * @param a1 {@code Name}.
+         * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration5(AName a1, List<AIdentifier> l2);
@@ -102286,8 +102286,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : @LOCATIONKW Identifiers;}</p>
          *
-         * @param t1 LOCATIONKW.
-         * @param l2 Identifiers.
+         * @param t1 {@code LOCATIONKW}.
+         * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration6(Token t1, List<AIdentifier> l2);
@@ -102297,9 +102297,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FormalDeclaration : @ALGKW Type Identifiers;}</p>
          *
-         * @param t1 ALGKW.
-         * @param a2 Type.
-         * @param l3 Identifiers.
+         * @param t1 {@code ALGKW}.
+         * @param a2 {@code Type}.
+         * @param l3 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public AFormalParameter parseFormalDeclaration7(Token t1, ACifType a2, List<AIdentifier> l3);
@@ -102309,7 +102309,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventParamIds : EventParamId;}</p>
          *
-         * @param a1 EventParamId.
+         * @param a1 {@code EventParamId}.
          * @return The parser call back hook result.
          */
         public List<AFormalEventParameterPart> parseEventParamIds1(AFormalEventParameterPart a1);
@@ -102319,8 +102319,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventParamIds : EventParamIds COMMATK EventParamId;}</p>
          *
-         * @param l1 EventParamIds.
-         * @param a3 EventParamId.
+         * @param l1 {@code EventParamIds}.
+         * @param a3 {@code EventParamId}.
          * @return The parser call back hook result.
          */
         public List<AFormalEventParameterPart> parseEventParamIds2(List<AFormalEventParameterPart> l1, AFormalEventParameterPart a3);
@@ -102330,8 +102330,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventParamId : Identifier OptEventParamFlags;}</p>
          *
-         * @param a1 Identifier.
-         * @param l2 OptEventParamFlags.
+         * @param a1 {@code Identifier}.
+         * @param l2 {@code OptEventParamFlags}.
          * @return The parser call back hook result.
          */
         public AFormalEventParameterPart parseEventParamId1(AIdentifier a1, List<AEventParamFlag> l2);
@@ -102350,8 +102350,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptEventParamFlags : OptEventParamFlags EventParamFlag;}</p>
          *
-         * @param l1 OptEventParamFlags.
-         * @param a2 EventParamFlag.
+         * @param l1 {@code OptEventParamFlags}.
+         * @param a2 {@code EventParamFlag}.
          * @return The parser call back hook result.
          */
         public List<AEventParamFlag> parseOptEventParamFlags2(List<AEventParamFlag> l1, AEventParamFlag a2);
@@ -102361,7 +102361,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventParamFlag : @EXCLAMATIONTK;}</p>
          *
-         * @param t1 EXCLAMATIONTK.
+         * @param t1 {@code EXCLAMATIONTK}.
          * @return The parser call back hook result.
          */
         public AEventParamFlag parseEventParamFlag1(Token t1);
@@ -102371,7 +102371,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventParamFlag : @QUESTIONTK;}</p>
          *
-         * @param t1 QUESTIONTK.
+         * @param t1 {@code QUESTIONTK}.
          * @return The parser call back hook result.
          */
         public AEventParamFlag parseEventParamFlag2(Token t1);
@@ -102381,7 +102381,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventParamFlag : @TILDETK;}</p>
          *
-         * @param t1 TILDETK.
+         * @param t1 {@code TILDETK}.
          * @return The parser call back hook result.
          */
         public AEventParamFlag parseEventParamFlag3(Token t1);
@@ -102391,7 +102391,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DiscDecls : DiscDecl;}</p>
          *
-         * @param a1 DiscDecl.
+         * @param a1 {@code DiscDecl}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariable> parseDiscDecls1(ADiscVariable a1);
@@ -102401,8 +102401,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DiscDecls : DiscDecls COMMATK DiscDecl;}</p>
          *
-         * @param l1 DiscDecls.
-         * @param a3 DiscDecl.
+         * @param l1 {@code DiscDecls}.
+         * @param a3 {@code DiscDecl}.
          * @return The parser call back hook result.
          */
         public List<ADiscVariable> parseDiscDecls2(List<ADiscVariable> l1, ADiscVariable a3);
@@ -102412,7 +102412,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DiscDecl : Identifier;}</p>
          *
-         * @param a1 Identifier.
+         * @param a1 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public ADiscVariable parseDiscDecl1(AIdentifier a1);
@@ -102422,8 +102422,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DiscDecl : Identifier INKW @ANYKW;}</p>
          *
-         * @param a1 Identifier.
-         * @param t3 ANYKW.
+         * @param a1 {@code Identifier}.
+         * @param t3 {@code ANYKW}.
          * @return The parser call back hook result.
          */
         public ADiscVariable parseDiscDecl2(AIdentifier a1, Token t3);
@@ -102433,8 +102433,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DiscDecl : Identifier EQTK Expression;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Expression.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public ADiscVariable parseDiscDecl3(AIdentifier a1, AExpression a3);
@@ -102444,8 +102444,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DiscDecl : Identifier INKW CUROPENTK Expressions CURCLOSETK;}</p>
          *
-         * @param a1 Identifier.
-         * @param l4 Expressions.
+         * @param a1 {@code Identifier}.
+         * @param l4 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public ADiscVariable parseDiscDecl4(AIdentifier a1, List<AExpression> l4);
@@ -102455,7 +102455,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ContDecls : ContDecl;}</p>
          *
-         * @param a1 ContDecl.
+         * @param a1 {@code ContDecl}.
          * @return The parser call back hook result.
          */
         public List<AContVariable> parseContDecls1(AContVariable a1);
@@ -102465,8 +102465,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ContDecls : ContDecls COMMATK ContDecl;}</p>
          *
-         * @param l1 ContDecls.
-         * @param a3 ContDecl.
+         * @param l1 {@code ContDecls}.
+         * @param a3 {@code ContDecl}.
          * @return The parser call back hook result.
          */
         public List<AContVariable> parseContDecls2(List<AContVariable> l1, AContVariable a3);
@@ -102476,8 +102476,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ContDecl : Identifier OptDerivative;}</p>
          *
-         * @param a1 Identifier.
-         * @param a2 OptDerivative.
+         * @param a1 {@code Identifier}.
+         * @param a2 {@code OptDerivative}.
          * @return The parser call back hook result.
          */
         public AContVariable parseContDecl1(AIdentifier a1, AExpression a2);
@@ -102487,9 +102487,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ContDecl : Identifier EQTK Expression OptDerivative;}</p>
          *
-         * @param a1 Identifier.
-         * @param a3 Expression.
-         * @param a4 OptDerivative.
+         * @param a1 {@code Identifier}.
+         * @param a3 {@code Expression}.
+         * @param a4 {@code OptDerivative}.
          * @return The parser call back hook result.
          */
         public AContVariable parseContDecl2(AIdentifier a1, AExpression a3, AExpression a4);
@@ -102508,7 +102508,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptDerivative : DERKW Expression;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseOptDerivative2(AExpression a2);
@@ -102518,7 +102518,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Equations : Equation;}</p>
          *
-         * @param a1 Equation.
+         * @param a1 {@code Equation}.
          * @return The parser call back hook result.
          */
         public List<AEquation> parseEquations1(AEquation a1);
@@ -102528,8 +102528,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Equations : Equations COMMATK Equation;}</p>
          *
-         * @param l1 Equations.
-         * @param a3 Equation.
+         * @param l1 {@code Equations}.
+         * @param a3 {@code Equation}.
          * @return The parser call back hook result.
          */
         public List<AEquation> parseEquations2(List<AEquation> l1, AEquation a3);
@@ -102539,9 +102539,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Equation : Identifier APOSTROPHETK @EQTK Expression;}</p>
          *
-         * @param a1 Identifier.
-         * @param t3 EQTK.
-         * @param a4 Expression.
+         * @param a1 {@code Identifier}.
+         * @param t3 {@code EQTK}.
+         * @param a4 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AEquation parseEquation1(AIdentifier a1, Token t3, AExpression a4);
@@ -102551,9 +102551,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Equation : Identifier @EQTK Expression;}</p>
          *
-         * @param a1 Identifier.
-         * @param t2 EQTK.
-         * @param a3 Expression.
+         * @param a1 {@code Identifier}.
+         * @param t2 {@code EQTK}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AEquation parseEquation2(AIdentifier a1, Token t2, AExpression a3);
@@ -102563,9 +102563,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code InvariantDecls : OptSupKind @INVARIANTKW Invariants SEMICOLTK;}</p>
          *
-         * @param t1 OptSupKind.
-         * @param t2 INVARIANTKW.
-         * @param l3 Invariants.
+         * @param t1 {@code OptSupKind}.
+         * @param t2 {@code INVARIANTKW}.
+         * @param l3 {@code Invariants}.
          * @return The parser call back hook result.
          */
         public AInvariantDecl parseInvariantDecls1(Token t1, Token t2, List<AInvariant> l3);
@@ -102575,8 +102575,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code InvariantDecls : SupKind Invariants SEMICOLTK;}</p>
          *
-         * @param t1 SupKind.
-         * @param l2 Invariants.
+         * @param t1 {@code SupKind}.
+         * @param l2 {@code Invariants}.
          * @return The parser call back hook result.
          */
         public AInvariantDecl parseInvariantDecls2(Token t1, List<AInvariant> l2);
@@ -102586,7 +102586,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariants : Invariant;}</p>
          *
-         * @param a1 Invariant.
+         * @param a1 {@code Invariant}.
          * @return The parser call back hook result.
          */
         public List<AInvariant> parseInvariants1(AInvariant a1);
@@ -102596,8 +102596,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariants : Invariants COMMATK Invariant;}</p>
          *
-         * @param l1 Invariants.
-         * @param a3 Invariant.
+         * @param l1 {@code Invariants}.
+         * @param a3 {@code Invariant}.
          * @return The parser call back hook result.
          */
         public List<AInvariant> parseInvariants2(List<AInvariant> l1, AInvariant a3);
@@ -102607,7 +102607,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariant : Expression;}</p>
          *
-         * @param a1 Expression.
+         * @param a1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AInvariant parseInvariant1(AExpression a1);
@@ -102617,9 +102617,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariant : Name @NEEDSKW Expression;}</p>
          *
-         * @param a1 Name.
-         * @param t2 NEEDSKW.
-         * @param a3 Expression.
+         * @param a1 {@code Name}.
+         * @param t2 {@code NEEDSKW}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AInvariant parseInvariant2(AName a1, Token t2, AExpression a3);
@@ -102629,9 +102629,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariant : NonEmptySetExpression @NEEDSKW Expression;}</p>
          *
-         * @param a1 NonEmptySetExpression.
-         * @param t2 NEEDSKW.
-         * @param a3 Expression.
+         * @param a1 {@code NonEmptySetExpression}.
+         * @param t2 {@code NEEDSKW}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AInvariant parseInvariant3(ASetExpression a1, Token t2, AExpression a3);
@@ -102641,9 +102641,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariant : Expression @DISABLESKW Name;}</p>
          *
-         * @param a1 Expression.
-         * @param t2 DISABLESKW.
-         * @param a3 Name.
+         * @param a1 {@code Expression}.
+         * @param t2 {@code DISABLESKW}.
+         * @param a3 {@code Name}.
          * @return The parser call back hook result.
          */
         public AInvariant parseInvariant4(AExpression a1, Token t2, AName a3);
@@ -102653,9 +102653,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Invariant : Expression @DISABLESKW NamesSet;}</p>
          *
-         * @param a1 Expression.
-         * @param t2 DISABLESKW.
-         * @param l3 NamesSet.
+         * @param a1 {@code Expression}.
+         * @param t2 {@code DISABLESKW}.
+         * @param l3 {@code NamesSet}.
          * @return The parser call back hook result.
          */
         public AInvariant parseInvariant5(AExpression a1, Token t2, List<AName> l3);
@@ -102665,7 +102665,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code NamesSet : CUROPENTK Names CURCLOSETK;}</p>
          *
-         * @param l2 Names.
+         * @param l2 {@code Names}.
          * @return The parser call back hook result.
          */
         public List<AName> parseNamesSet1(List<AName> l2);
@@ -102675,7 +102675,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Names : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public List<AName> parseNames1(AName a1);
@@ -102685,8 +102685,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Names : Names COMMATK Name;}</p>
          *
-         * @param l1 Names.
-         * @param a3 Name.
+         * @param l1 {@code Names}.
+         * @param a3 {@code Name}.
          * @return The parser call back hook result.
          */
         public List<AName> parseNames2(List<AName> l1, AName a3);
@@ -102696,7 +102696,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Updates : Update;}</p>
          *
-         * @param a1 Update.
+         * @param a1 {@code Update}.
          * @return The parser call back hook result.
          */
         public List<AUpdate> parseUpdates1(AUpdate a1);
@@ -102706,8 +102706,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Updates : Updates COMMATK Update;}</p>
          *
-         * @param l1 Updates.
-         * @param a3 Update.
+         * @param l1 {@code Updates}.
+         * @param a3 {@code Update}.
          * @return The parser call back hook result.
          */
         public List<AUpdate> parseUpdates2(List<AUpdate> l1, AUpdate a3);
@@ -102717,9 +102717,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Update : Addressable @BECOMESTK Expression;}</p>
          *
-         * @param a1 Addressable.
-         * @param t2 BECOMESTK.
-         * @param a3 Expression.
+         * @param a1 {@code Addressable}.
+         * @param t2 {@code BECOMESTK}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AUpdate parseUpdate1(AExpression a1, Token t2, AExpression a3);
@@ -102729,11 +102729,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Update : @IFKW Expressions COLONTK Updates OptElifUpdates OptElseUpdate ENDKW;}</p>
          *
-         * @param t1 IFKW.
-         * @param l2 Expressions.
-         * @param l4 Updates.
-         * @param l5 OptElifUpdates.
-         * @param l6 OptElseUpdate.
+         * @param t1 {@code IFKW}.
+         * @param l2 {@code Expressions}.
+         * @param l4 {@code Updates}.
+         * @param l5 {@code OptElifUpdates}.
+         * @param l6 {@code OptElseUpdate}.
          * @return The parser call back hook result.
          */
         public AUpdate parseUpdate2(Token t1, List<AExpression> l2, List<AUpdate> l4, List<AElifUpdate> l5, List<AUpdate> l6);
@@ -102743,7 +102743,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Addressables : Addressable;}</p>
          *
-         * @param a1 Addressable.
+         * @param a1 {@code Addressable}.
          * @return The parser call back hook result.
          */
         public List<AExpression> parseAddressables1(AExpression a1);
@@ -102753,8 +102753,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Addressables : Addressables COMMATK Addressable;}</p>
          *
-         * @param l1 Addressables.
-         * @param a3 Addressable.
+         * @param l1 {@code Addressables}.
+         * @param a3 {@code Addressable}.
          * @return The parser call back hook result.
          */
         public List<AExpression> parseAddressables2(List<AExpression> l1, AExpression a3);
@@ -102764,7 +102764,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Addressable : Identifier;}</p>
          *
-         * @param a1 Identifier.
+         * @param a1 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public AExpression parseAddressable1(AIdentifier a1);
@@ -102774,8 +102774,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Addressable : Identifier Projections;}</p>
          *
-         * @param a1 Identifier.
-         * @param l2 Projections.
+         * @param a1 {@code Identifier}.
+         * @param l2 {@code Projections}.
          * @return The parser call back hook result.
          */
         public AExpression parseAddressable2(AIdentifier a1, List<AProjectionExpression> l2);
@@ -102785,9 +102785,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Addressable : @PAROPENTK Addressable COMMATK Addressables PARCLOSETK;}</p>
          *
-         * @param t1 PAROPENTK.
-         * @param a2 Addressable.
-         * @param l4 Addressables.
+         * @param t1 {@code PAROPENTK}.
+         * @param a2 {@code Addressable}.
+         * @param l4 {@code Addressables}.
          * @return The parser call back hook result.
          */
         public AExpression parseAddressable3(Token t1, AExpression a2, List<AExpression> l4);
@@ -102797,7 +102797,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Projections : Projection;}</p>
          *
-         * @param a1 Projection.
+         * @param a1 {@code Projection}.
          * @return The parser call back hook result.
          */
         public List<AProjectionExpression> parseProjections1(AProjectionExpression a1);
@@ -102807,8 +102807,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Projections : Projections Projection;}</p>
          *
-         * @param l1 Projections.
-         * @param a2 Projection.
+         * @param l1 {@code Projections}.
+         * @param a2 {@code Projection}.
          * @return The parser call back hook result.
          */
         public List<AProjectionExpression> parseProjections2(List<AProjectionExpression> l1, AProjectionExpression a2);
@@ -102818,8 +102818,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Projection : @SQOPENTK Expression SQCLOSETK;}</p>
          *
-         * @param t1 SQOPENTK.
-         * @param a2 Expression.
+         * @param t1 {@code SQOPENTK}.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AProjectionExpression parseProjection1(Token t1, AExpression a2);
@@ -102838,10 +102838,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptElifUpdates : OptElifUpdates @ELIFKW Expressions COLONTK Updates;}</p>
          *
-         * @param l1 OptElifUpdates.
-         * @param t2 ELIFKW.
-         * @param l3 Expressions.
-         * @param l5 Updates.
+         * @param l1 {@code OptElifUpdates}.
+         * @param t2 {@code ELIFKW}.
+         * @param l3 {@code Expressions}.
+         * @param l5 {@code Updates}.
          * @return The parser call back hook result.
          */
         public List<AElifUpdate> parseOptElifUpdates2(List<AElifUpdate> l1, Token t2, List<AExpression> l3, List<AUpdate> l5);
@@ -102860,7 +102860,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptElseUpdate : ELSEKW Updates;}</p>
          *
-         * @param l2 Updates.
+         * @param l2 {@code Updates}.
          * @return The parser call back hook result.
          */
         public List<AUpdate> parseOptElseUpdate2(List<AUpdate> l2);
@@ -102870,7 +102870,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Identifiers : Identifier;}</p>
          *
-         * @param a1 Identifier.
+         * @param a1 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public List<AIdentifier> parseIdentifiers1(AIdentifier a1);
@@ -102880,8 +102880,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Identifiers : Identifiers COMMATK Identifier;}</p>
          *
-         * @param l1 Identifiers.
-         * @param a3 Identifier.
+         * @param l1 {@code Identifiers}.
+         * @param a3 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public List<AIdentifier> parseIdentifiers2(List<AIdentifier> l1, AIdentifier a3);
@@ -102900,7 +102900,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptSupKind : SupKind;}</p>
          *
-         * @param t1 SupKind.
+         * @param t1 {@code SupKind}.
          * @return The parser call back hook result.
          */
         public Token parseOptSupKind2(Token t1);
@@ -102919,7 +102919,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptControllability : Controllability;}</p>
          *
-         * @param t1 Controllability.
+         * @param t1 {@code Controllability}.
          * @return The parser call back hook result.
          */
         public Token parseOptControllability2(Token t1);
@@ -102929,7 +102929,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Controllability : @CONTROLLABLEKW;}</p>
          *
-         * @param t1 CONTROLLABLEKW.
+         * @param t1 {@code CONTROLLABLEKW}.
          * @return The parser call back hook result.
          */
         public Token parseControllability1(Token t1);
@@ -102939,7 +102939,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Controllability : @UNCONTROLLABLEKW;}</p>
          *
-         * @param t1 UNCONTROLLABLEKW.
+         * @param t1 {@code UNCONTROLLABLEKW}.
          * @return The parser call back hook result.
          */
         public Token parseControllability2(Token t1);
@@ -102958,8 +102958,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptIoDecls : OptIoDecls IoDecl;}</p>
          *
-         * @param l1 OptIoDecls.
-         * @param a2 IoDecl.
+         * @param l1 {@code OptIoDecls}.
+         * @param a2 {@code IoDecl}.
          * @return The parser call back hook result.
          */
         public List<AIoDecl> parseOptIoDecls2(List<AIoDecl> l1, AIoDecl a2);
@@ -102969,7 +102969,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : SvgFile;}</p>
          *
-         * @param a1 SvgFile.
+         * @param a1 {@code SvgFile}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl1(ASvgFile a1);
@@ -102979,7 +102979,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : SvgCopy;}</p>
          *
-         * @param a1 SvgCopy.
+         * @param a1 {@code SvgCopy}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl2(ASvgCopy a1);
@@ -102989,7 +102989,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : SvgMove;}</p>
          *
-         * @param a1 SvgMove.
+         * @param a1 {@code SvgMove}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl3(ASvgMove a1);
@@ -102999,7 +102999,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : SvgOut;}</p>
          *
-         * @param a1 SvgOut.
+         * @param a1 {@code SvgOut}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl4(ASvgOut a1);
@@ -103009,7 +103009,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : SvgIn;}</p>
          *
-         * @param a1 SvgIn.
+         * @param a1 {@code SvgIn}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl5(ASvgIn a1);
@@ -103019,7 +103019,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : PrintFile;}</p>
          *
-         * @param a1 PrintFile.
+         * @param a1 {@code PrintFile}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl6(APrintFile a1);
@@ -103029,7 +103029,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code IoDecl : Print;}</p>
          *
-         * @param a1 Print.
+         * @param a1 {@code Print}.
          * @return The parser call back hook result.
          */
         public AIoDecl parseIoDecl7(APrint a1);
@@ -103039,8 +103039,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgFile : @SVGFILEKW StringToken SEMICOLTK;}</p>
          *
-         * @param t1 SVGFILEKW.
-         * @param a2 StringToken.
+         * @param t1 {@code SVGFILEKW}.
+         * @param a2 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public ASvgFile parseSvgFile1(Token t1, AStringToken a2);
@@ -103059,8 +103059,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptSvgFile : @FILEKW StringToken;}</p>
          *
-         * @param t1 FILEKW.
-         * @param a2 StringToken.
+         * @param t1 {@code FILEKW}.
+         * @param a2 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public ASvgFile parseOptSvgFile2(Token t1, AStringToken a2);
@@ -103070,12 +103070,12 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgCopy : @SVGCOPYKW IDKW Expression OptSvgCopyPre OptSvgCopyPost OptSvgFile @SEMICOLTK;}</p>
          *
-         * @param t1 SVGCOPYKW.
-         * @param a3 Expression.
-         * @param a4 OptSvgCopyPre.
-         * @param a5 OptSvgCopyPost.
-         * @param a6 OptSvgFile.
-         * @param t7 SEMICOLTK.
+         * @param t1 {@code SVGCOPYKW}.
+         * @param a3 {@code Expression}.
+         * @param a4 {@code OptSvgCopyPre}.
+         * @param a5 {@code OptSvgCopyPost}.
+         * @param a6 {@code OptSvgFile}.
+         * @param t7 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
         public ASvgCopy parseSvgCopy1(Token t1, AExpression a3, AExpression a4, AExpression a5, ASvgFile a6, Token t7);
@@ -103094,7 +103094,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptSvgCopyPre : PREKW Expression;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseOptSvgCopyPre2(AExpression a2);
@@ -103113,7 +103113,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptSvgCopyPost : POSTKW Expression;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseOptSvgCopyPost2(AExpression a2);
@@ -103123,12 +103123,12 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgMove : @SVGMOVEKW IDKW Expression TOKW Expression COMMATK Expression OptSvgFile @SEMICOLTK;}</p>
          *
-         * @param t1 SVGMOVEKW.
-         * @param a3 Expression.
-         * @param a5 Expression.
-         * @param a7 Expression.
-         * @param a8 OptSvgFile.
-         * @param t9 SEMICOLTK.
+         * @param t1 {@code SVGMOVEKW}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Expression}.
+         * @param a7 {@code Expression}.
+         * @param a8 {@code OptSvgFile}.
+         * @param t9 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
         public ASvgMove parseSvgMove1(Token t1, AExpression a3, AExpression a5, AExpression a7, ASvgFile a8, Token t9);
@@ -103138,12 +103138,12 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgOut : @SVGOUTKW IDKW Expression SvgAttr VALUEKW Expression OptSvgFile @SEMICOLTK;}</p>
          *
-         * @param t1 SVGOUTKW.
-         * @param a3 Expression.
-         * @param a4 SvgAttr.
-         * @param a6 Expression.
-         * @param a7 OptSvgFile.
-         * @param t8 SEMICOLTK.
+         * @param t1 {@code SVGOUTKW}.
+         * @param a3 {@code Expression}.
+         * @param a4 {@code SvgAttr}.
+         * @param a6 {@code Expression}.
+         * @param a7 {@code OptSvgFile}.
+         * @param t8 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
         public ASvgOut parseSvgOut1(Token t1, AExpression a3, AStringToken a4, AExpression a6, ASvgFile a7, Token t8);
@@ -103153,7 +103153,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgAttr : ATTRKW StringToken;}</p>
          *
-         * @param a2 StringToken.
+         * @param a2 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public AStringToken parseSvgAttr1(AStringToken a2);
@@ -103163,7 +103163,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgAttr : @TEXTKW;}</p>
          *
-         * @param t1 TEXTKW.
+         * @param t1 {@code TEXTKW}.
          * @return The parser call back hook result.
          */
         public AStringToken parseSvgAttr2(Token t1);
@@ -103173,11 +103173,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgIn : @SVGINKW IDKW Expression EVENTKW SvgInEvent OptSvgFile @SEMICOLTK;}</p>
          *
-         * @param t1 SVGINKW.
-         * @param a3 Expression.
-         * @param a5 SvgInEvent.
-         * @param a6 OptSvgFile.
-         * @param t7 SEMICOLTK.
+         * @param t1 {@code SVGINKW}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code SvgInEvent}.
+         * @param a6 {@code OptSvgFile}.
+         * @param t7 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
         public ASvgIn parseSvgIn1(Token t1, AExpression a3, ASvgInEvent a5, ASvgFile a6, Token t7);
@@ -103187,7 +103187,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgInEvent : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public ASvgInEvent parseSvgInEvent1(AName a1);
@@ -103197,10 +103197,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgInEvent : IFKW Expression COLONTK Name OptSvgInEventElifs ELSEKW Name ENDKW;}</p>
          *
-         * @param a2 Expression.
-         * @param a4 Name.
-         * @param l5 OptSvgInEventElifs.
-         * @param a7 Name.
+         * @param a2 {@code Expression}.
+         * @param a4 {@code Name}.
+         * @param l5 {@code OptSvgInEventElifs}.
+         * @param a7 {@code Name}.
          * @return The parser call back hook result.
          */
         public ASvgInEvent parseSvgInEvent2(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5, AName a7);
@@ -103210,9 +103210,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgInEvent : IFKW Expression COLONTK Name SvgInEventElifs ENDKW;}</p>
          *
-         * @param a2 Expression.
-         * @param a4 Name.
-         * @param l5 SvgInEventElifs.
+         * @param a2 {@code Expression}.
+         * @param a4 {@code Name}.
+         * @param l5 {@code SvgInEventElifs}.
          * @return The parser call back hook result.
          */
         public ASvgInEvent parseSvgInEvent3(AExpression a2, AName a4, List<ASvgInEventIfEntry> l5);
@@ -103231,7 +103231,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptSvgInEventElifs : SvgInEventElifs;}</p>
          *
-         * @param l1 SvgInEventElifs.
+         * @param l1 {@code SvgInEventElifs}.
          * @return The parser call back hook result.
          */
         public List<ASvgInEventIfEntry> parseOptSvgInEventElifs2(List<ASvgInEventIfEntry> l1);
@@ -103241,8 +103241,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgInEventElifs : ELIFKW Expression COLONTK Name;}</p>
          *
-         * @param a2 Expression.
-         * @param a4 Name.
+         * @param a2 {@code Expression}.
+         * @param a4 {@code Name}.
          * @return The parser call back hook result.
          */
         public List<ASvgInEventIfEntry> parseSvgInEventElifs1(AExpression a2, AName a4);
@@ -103252,9 +103252,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SvgInEventElifs : SvgInEventElifs ELIFKW Expression COLONTK Name;}</p>
          *
-         * @param l1 SvgInEventElifs.
-         * @param a3 Expression.
-         * @param a5 Name.
+         * @param l1 {@code SvgInEventElifs}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Name}.
          * @return The parser call back hook result.
          */
         public List<ASvgInEventIfEntry> parseSvgInEventElifs2(List<ASvgInEventIfEntry> l1, AExpression a3, AName a5);
@@ -103264,8 +103264,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFile : @PRINTFILEKW StringToken SEMICOLTK;}</p>
          *
-         * @param t1 PRINTFILEKW.
-         * @param a2 StringToken.
+         * @param t1 {@code PRINTFILEKW}.
+         * @param a2 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public APrintFile parsePrintFile1(Token t1, AStringToken a2);
@@ -103275,12 +103275,12 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Print : @PRINTKW PrintTxt OptPrintFors OptPrintWhen OptPrintFile @SEMICOLTK;}</p>
          *
-         * @param t1 PRINTKW.
-         * @param a2 PrintTxt.
-         * @param l3 OptPrintFors.
-         * @param a4 OptPrintWhen.
-         * @param a5 OptPrintFile.
-         * @param t6 SEMICOLTK.
+         * @param t1 {@code PRINTKW}.
+         * @param a2 {@code PrintTxt}.
+         * @param l3 {@code OptPrintFors}.
+         * @param a4 {@code OptPrintWhen}.
+         * @param a5 {@code OptPrintFile}.
+         * @param t6 {@code SEMICOLTK}.
          * @return The parser call back hook result.
          */
         public APrint parsePrint1(Token t1, APrintTxt a2, List<APrintFor> l3, APrintWhen a4, APrintFile a5, Token t6);
@@ -103290,7 +103290,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintTxt : Expression;}</p>
          *
-         * @param a1 Expression.
+         * @param a1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintTxt parsePrintTxt1(AExpression a1);
@@ -103300,7 +103300,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintTxt : PREKW Expression;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintTxt parsePrintTxt2(AExpression a2);
@@ -103310,7 +103310,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintTxt : POSTKW Expression;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintTxt parsePrintTxt3(AExpression a2);
@@ -103320,8 +103320,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintTxt : PREKW Expression POSTKW Expression;}</p>
          *
-         * @param a2 Expression.
-         * @param a4 Expression.
+         * @param a2 {@code Expression}.
+         * @param a4 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintTxt parsePrintTxt4(AExpression a2, AExpression a4);
@@ -103340,7 +103340,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptPrintFors : FORKW PrintFors;}</p>
          *
-         * @param l2 PrintFors.
+         * @param l2 {@code PrintFors}.
          * @return The parser call back hook result.
          */
         public List<APrintFor> parseOptPrintFors2(List<APrintFor> l2);
@@ -103350,7 +103350,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFors : PrintFor;}</p>
          *
-         * @param a1 PrintFor.
+         * @param a1 {@code PrintFor}.
          * @return The parser call back hook result.
          */
         public List<APrintFor> parsePrintFors1(APrintFor a1);
@@ -103360,8 +103360,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFors : PrintFors COMMATK PrintFor;}</p>
          *
-         * @param l1 PrintFors.
-         * @param a3 PrintFor.
+         * @param l1 {@code PrintFors}.
+         * @param a3 {@code PrintFor}.
          * @return The parser call back hook result.
          */
         public List<APrintFor> parsePrintFors2(List<APrintFor> l1, APrintFor a3);
@@ -103371,7 +103371,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFor : @EVENTKW;}</p>
          *
-         * @param t1 EVENTKW.
+         * @param t1 {@code EVENTKW}.
          * @return The parser call back hook result.
          */
         public APrintFor parsePrintFor1(Token t1);
@@ -103381,7 +103381,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFor : @TIMEKW;}</p>
          *
-         * @param t1 TIMEKW.
+         * @param t1 {@code TIMEKW}.
          * @return The parser call back hook result.
          */
         public APrintFor parsePrintFor2(Token t1);
@@ -103391,7 +103391,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFor : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public APrintFor parsePrintFor3(AName a1);
@@ -103401,7 +103401,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFor : @INITIALKW;}</p>
          *
-         * @param t1 INITIALKW.
+         * @param t1 {@code INITIALKW}.
          * @return The parser call back hook result.
          */
         public APrintFor parsePrintFor4(Token t1);
@@ -103411,7 +103411,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code PrintFor : @FINALKW;}</p>
          *
-         * @param t1 FINALKW.
+         * @param t1 {@code FINALKW}.
          * @return The parser call back hook result.
          */
         public APrintFor parsePrintFor5(Token t1);
@@ -103430,7 +103430,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptPrintWhen : WHENKW Expression;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintWhen parseOptPrintWhen2(AExpression a2);
@@ -103440,7 +103440,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptPrintWhen : WHENKW PREKW Expression;}</p>
          *
-         * @param a3 Expression.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintWhen parseOptPrintWhen3(AExpression a3);
@@ -103450,7 +103450,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptPrintWhen : WHENKW POSTKW Expression;}</p>
          *
-         * @param a3 Expression.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintWhen parseOptPrintWhen4(AExpression a3);
@@ -103460,8 +103460,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptPrintWhen : WHENKW PREKW Expression POSTKW Expression;}</p>
          *
-         * @param a3 Expression.
-         * @param a5 Expression.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public APrintWhen parseOptPrintWhen5(AExpression a3, AExpression a5);
@@ -103480,7 +103480,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptPrintFile : FILEKW StringToken;}</p>
          *
-         * @param a2 StringToken.
+         * @param a2 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public APrintFile parseOptPrintFile2(AStringToken a2);
@@ -103490,7 +103490,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Types : Type;}</p>
          *
-         * @param a1 Type.
+         * @param a1 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<ACifType> parseTypes1(ACifType a1);
@@ -103500,8 +103500,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Types : Types COMMATK Type;}</p>
          *
-         * @param l1 Types.
-         * @param a3 Type.
+         * @param l1 {@code Types}.
+         * @param a3 {@code Type}.
          * @return The parser call back hook result.
          */
         public List<ACifType> parseTypes2(List<ACifType> l1, ACifType a3);
@@ -103511,7 +103511,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventType : @VOIDKW;}</p>
          *
-         * @param t1 VOIDKW.
+         * @param t1 {@code VOIDKW}.
          * @return The parser call back hook result.
          */
         public ACifType parseEventType1(Token t1);
@@ -103521,7 +103521,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code EventType : Type;}</p>
          *
-         * @param a1 Type.
+         * @param a1 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseEventType2(ACifType a1);
@@ -103531,7 +103531,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @BOOLKW;}</p>
          *
-         * @param t1 BOOLKW.
+         * @param t1 {@code BOOLKW}.
          * @return The parser call back hook result.
          */
         public ACifType parseType01(Token t1);
@@ -103541,7 +103541,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @INTKW;}</p>
          *
-         * @param t1 INTKW.
+         * @param t1 {@code INTKW}.
          * @return The parser call back hook result.
          */
         public ACifType parseType02(Token t1);
@@ -103551,9 +103551,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @INTKW SQOPENTK Expression DOTDOTTK Expression SQCLOSETK;}</p>
          *
-         * @param t1 INTKW.
-         * @param a3 Expression.
-         * @param a5 Expression.
+         * @param t1 {@code INTKW}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public ACifType parseType03(Token t1, AExpression a3, AExpression a5);
@@ -103563,7 +103563,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @REALKW;}</p>
          *
-         * @param t1 REALKW.
+         * @param t1 {@code REALKW}.
          * @return The parser call back hook result.
          */
         public ACifType parseType04(Token t1);
@@ -103573,7 +103573,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @STRINGKW;}</p>
          *
-         * @param t1 STRINGKW.
+         * @param t1 {@code STRINGKW}.
          * @return The parser call back hook result.
          */
         public ACifType parseType05(Token t1);
@@ -103583,8 +103583,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @LISTKW Type;}</p>
          *
-         * @param t1 LISTKW.
-         * @param a2 Type.
+         * @param t1 {@code LISTKW}.
+         * @param a2 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType06(Token t1, ACifType a2);
@@ -103594,9 +103594,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @LISTKW SQOPENTK Expression SQCLOSETK Type;}</p>
          *
-         * @param t1 LISTKW.
-         * @param a3 Expression.
-         * @param a5 Type.
+         * @param t1 {@code LISTKW}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType07(Token t1, AExpression a3, ACifType a5);
@@ -103606,10 +103606,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @LISTKW SQOPENTK Expression DOTDOTTK Expression SQCLOSETK Type;}</p>
          *
-         * @param t1 LISTKW.
-         * @param a3 Expression.
-         * @param a5 Expression.
-         * @param a7 Type.
+         * @param t1 {@code LISTKW}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Expression}.
+         * @param a7 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType08(Token t1, AExpression a3, AExpression a5, ACifType a7);
@@ -103619,8 +103619,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @SETKW Type;}</p>
          *
-         * @param t1 SETKW.
-         * @param a2 Type.
+         * @param t1 {@code SETKW}.
+         * @param a2 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType09(Token t1, ACifType a2);
@@ -103630,9 +103630,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @DICTKW PAROPENTK Type COLONTK Type PARCLOSETK;}</p>
          *
-         * @param t1 DICTKW.
-         * @param a3 Type.
-         * @param a5 Type.
+         * @param t1 {@code DICTKW}.
+         * @param a3 {@code Type}.
+         * @param a5 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType10(Token t1, ACifType a3, ACifType a5);
@@ -103642,8 +103642,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @TUPLEKW PAROPENTK Fields PARCLOSETK;}</p>
          *
-         * @param t1 TUPLEKW.
-         * @param l3 Fields.
+         * @param t1 {@code TUPLEKW}.
+         * @param l3 {@code Fields}.
          * @return The parser call back hook result.
          */
         public ACifType parseType11(Token t1, List<AField> l3);
@@ -103653,8 +103653,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @FUNCKW Type PAROPENTK PARCLOSETK;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param a2 Type.
+         * @param t1 {@code FUNCKW}.
+         * @param a2 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType12(Token t1, ACifType a2);
@@ -103664,9 +103664,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @FUNCKW Type PAROPENTK Types PARCLOSETK;}</p>
          *
-         * @param t1 FUNCKW.
-         * @param a2 Type.
-         * @param l4 Types.
+         * @param t1 {@code FUNCKW}.
+         * @param a2 {@code Type}.
+         * @param l4 {@code Types}.
          * @return The parser call back hook result.
          */
         public ACifType parseType13(Token t1, ACifType a2, List<ACifType> l4);
@@ -103676,8 +103676,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : @DISTKW Type;}</p>
          *
-         * @param t1 DISTKW.
-         * @param a2 Type.
+         * @param t1 {@code DISTKW}.
+         * @param a2 {@code Type}.
          * @return The parser call back hook result.
          */
         public ACifType parseType14(Token t1, ACifType a2);
@@ -103687,7 +103687,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Type : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public ACifType parseType15(AName a1);
@@ -103697,7 +103697,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Fields : Field;}</p>
          *
-         * @param a1 Field.
+         * @param a1 {@code Field}.
          * @return The parser call back hook result.
          */
         public List<AField> parseFields1(AField a1);
@@ -103707,8 +103707,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Fields : Fields SEMICOLTK Field;}</p>
          *
-         * @param l1 Fields.
-         * @param a3 Field.
+         * @param l1 {@code Fields}.
+         * @param a3 {@code Field}.
          * @return The parser call back hook result.
          */
         public List<AField> parseFields2(List<AField> l1, AField a3);
@@ -103718,8 +103718,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Field : Type Identifiers;}</p>
          *
-         * @param a1 Type.
-         * @param l2 Identifiers.
+         * @param a1 {@code Type}.
+         * @param l2 {@code Identifiers}.
          * @return The parser call back hook result.
          */
         public AField parseField1(ACifType a1, List<AIdentifier> l2);
@@ -103729,7 +103729,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Expressions : Expression;}</p>
          *
-         * @param a1 Expression.
+         * @param a1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AExpression> parseExpressions1(AExpression a1);
@@ -103739,8 +103739,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Expressions : Expressions COMMATK Expression;}</p>
          *
-         * @param l1 Expressions.
-         * @param a3 Expression.
+         * @param l1 {@code Expressions}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AExpression> parseExpressions2(List<AExpression> l1, AExpression a3);
@@ -103759,7 +103759,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptExpression : Expression;}</p>
          *
-         * @param a1 Expression.
+         * @param a1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseOptExpression2(AExpression a1);
@@ -103769,7 +103769,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Expression : OrExpression;}</p>
          *
-         * @param a1 OrExpression.
+         * @param a1 {@code OrExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpression1(AExpression a1);
@@ -103779,9 +103779,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Expression : OrExpression @IMPLIESTK OrExpression;}</p>
          *
-         * @param a1 OrExpression.
-         * @param t2 IMPLIESTK.
-         * @param a3 OrExpression.
+         * @param a1 {@code OrExpression}.
+         * @param t2 {@code IMPLIESTK}.
+         * @param a3 {@code OrExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpression2(AExpression a1, Token t2, AExpression a3);
@@ -103791,9 +103791,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Expression : OrExpression @EQUIVALENCETK OrExpression;}</p>
          *
-         * @param a1 OrExpression.
-         * @param t2 EQUIVALENCETK.
-         * @param a3 OrExpression.
+         * @param a1 {@code OrExpression}.
+         * @param t2 {@code EQUIVALENCETK}.
+         * @param a3 {@code OrExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpression3(AExpression a1, Token t2, AExpression a3);
@@ -103803,7 +103803,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OrExpression : AndExpression;}</p>
          *
-         * @param a1 AndExpression.
+         * @param a1 {@code AndExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseOrExpression1(AExpression a1);
@@ -103813,9 +103813,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OrExpression : OrExpression @ORKW AndExpression;}</p>
          *
-         * @param a1 OrExpression.
-         * @param t2 ORKW.
-         * @param a3 AndExpression.
+         * @param a1 {@code OrExpression}.
+         * @param t2 {@code ORKW}.
+         * @param a3 {@code AndExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseOrExpression2(AExpression a1, Token t2, AExpression a3);
@@ -103825,7 +103825,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AndExpression : CompareExpression;}</p>
          *
-         * @param a1 CompareExpression.
+         * @param a1 {@code CompareExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseAndExpression1(AExpression a1);
@@ -103835,9 +103835,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AndExpression : AndExpression @ANDKW CompareExpression;}</p>
          *
-         * @param a1 AndExpression.
-         * @param t2 ANDKW.
-         * @param a3 CompareExpression.
+         * @param a1 {@code AndExpression}.
+         * @param t2 {@code ANDKW}.
+         * @param a3 {@code CompareExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseAndExpression2(AExpression a1, Token t2, AExpression a3);
@@ -103847,7 +103847,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : AddExpression;}</p>
          *
-         * @param a1 AddExpression.
+         * @param a1 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression1(AExpression a1);
@@ -103857,9 +103857,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @LTTK AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 LTTK.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code LTTK}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression2(AExpression a1, Token t2, AExpression a3);
@@ -103869,9 +103869,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @LETK AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 LETK.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code LETK}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression3(AExpression a1, Token t2, AExpression a3);
@@ -103881,9 +103881,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @EQTK AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 EQTK.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code EQTK}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression4(AExpression a1, Token t2, AExpression a3);
@@ -103893,9 +103893,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @NETK AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 NETK.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code NETK}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression5(AExpression a1, Token t2, AExpression a3);
@@ -103905,9 +103905,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @GETK AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 GETK.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code GETK}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression6(AExpression a1, Token t2, AExpression a3);
@@ -103917,9 +103917,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @GTTK AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 GTTK.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code GTTK}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression7(AExpression a1, Token t2, AExpression a3);
@@ -103929,9 +103929,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @INKW AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 INKW.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code INKW}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression8(AExpression a1, Token t2, AExpression a3);
@@ -103941,9 +103941,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code CompareExpression : CompareExpression @SUBKW AddExpression;}</p>
          *
-         * @param a1 CompareExpression.
-         * @param t2 SUBKW.
-         * @param a3 AddExpression.
+         * @param a1 {@code CompareExpression}.
+         * @param t2 {@code SUBKW}.
+         * @param a3 {@code AddExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseCompareExpression9(AExpression a1, Token t2, AExpression a3);
@@ -103953,7 +103953,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AddExpression : MulExpression;}</p>
          *
-         * @param a1 MulExpression.
+         * @param a1 {@code MulExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseAddExpression1(AExpression a1);
@@ -103963,9 +103963,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AddExpression : AddExpression @PLUSTK MulExpression;}</p>
          *
-         * @param a1 AddExpression.
-         * @param t2 PLUSTK.
-         * @param a3 MulExpression.
+         * @param a1 {@code AddExpression}.
+         * @param t2 {@code PLUSTK}.
+         * @param a3 {@code MulExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseAddExpression2(AExpression a1, Token t2, AExpression a3);
@@ -103975,9 +103975,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code AddExpression : AddExpression @MINUSTK MulExpression;}</p>
          *
-         * @param a1 AddExpression.
-         * @param t2 MINUSTK.
-         * @param a3 MulExpression.
+         * @param a1 {@code AddExpression}.
+         * @param t2 {@code MINUSTK}.
+         * @param a3 {@code MulExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseAddExpression3(AExpression a1, Token t2, AExpression a3);
@@ -103987,7 +103987,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code MulExpression : UnaryExpression;}</p>
          *
-         * @param a1 UnaryExpression.
+         * @param a1 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseMulExpression1(AExpression a1);
@@ -103997,9 +103997,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code MulExpression : MulExpression @ASTERISKTK UnaryExpression;}</p>
          *
-         * @param a1 MulExpression.
-         * @param t2 ASTERISKTK.
-         * @param a3 UnaryExpression.
+         * @param a1 {@code MulExpression}.
+         * @param t2 {@code ASTERISKTK}.
+         * @param a3 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseMulExpression2(AExpression a1, Token t2, AExpression a3);
@@ -104009,9 +104009,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code MulExpression : MulExpression @SLASHTK UnaryExpression;}</p>
          *
-         * @param a1 MulExpression.
-         * @param t2 SLASHTK.
-         * @param a3 UnaryExpression.
+         * @param a1 {@code MulExpression}.
+         * @param t2 {@code SLASHTK}.
+         * @param a3 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseMulExpression3(AExpression a1, Token t2, AExpression a3);
@@ -104021,9 +104021,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code MulExpression : MulExpression @DIVKW UnaryExpression;}</p>
          *
-         * @param a1 MulExpression.
-         * @param t2 DIVKW.
-         * @param a3 UnaryExpression.
+         * @param a1 {@code MulExpression}.
+         * @param t2 {@code DIVKW}.
+         * @param a3 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseMulExpression4(AExpression a1, Token t2, AExpression a3);
@@ -104033,9 +104033,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code MulExpression : MulExpression @MODKW UnaryExpression;}</p>
          *
-         * @param a1 MulExpression.
-         * @param t2 MODKW.
-         * @param a3 UnaryExpression.
+         * @param a1 {@code MulExpression}.
+         * @param t2 {@code MODKW}.
+         * @param a3 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseMulExpression5(AExpression a1, Token t2, AExpression a3);
@@ -104045,7 +104045,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code UnaryExpression : FuncExpression;}</p>
          *
-         * @param a1 FuncExpression.
+         * @param a1 {@code FuncExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseUnaryExpression1(AExpression a1);
@@ -104055,8 +104055,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code UnaryExpression : @MINUSTK UnaryExpression;}</p>
          *
-         * @param t1 MINUSTK.
-         * @param a2 UnaryExpression.
+         * @param t1 {@code MINUSTK}.
+         * @param a2 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseUnaryExpression2(Token t1, AExpression a2);
@@ -104066,8 +104066,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code UnaryExpression : @PLUSTK UnaryExpression;}</p>
          *
-         * @param t1 PLUSTK.
-         * @param a2 UnaryExpression.
+         * @param t1 {@code PLUSTK}.
+         * @param a2 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseUnaryExpression3(Token t1, AExpression a2);
@@ -104077,8 +104077,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code UnaryExpression : @NOTKW UnaryExpression;}</p>
          *
-         * @param t1 NOTKW.
-         * @param a2 UnaryExpression.
+         * @param t1 {@code NOTKW}.
+         * @param a2 {@code UnaryExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseUnaryExpression4(Token t1, AExpression a2);
@@ -104088,8 +104088,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code UnaryExpression : @SAMPLEKW FuncExpression;}</p>
          *
-         * @param t1 SAMPLEKW.
-         * @param a2 FuncExpression.
+         * @param t1 {@code SAMPLEKW}.
+         * @param a2 {@code FuncExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseUnaryExpression5(Token t1, AExpression a2);
@@ -104099,7 +104099,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : ExpressionFactor;}</p>
          *
-         * @param a1 ExpressionFactor.
+         * @param a1 {@code ExpressionFactor}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression1(AExpression a1);
@@ -104109,9 +104109,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : FuncExpression @SQOPENTK Expression SQCLOSETK;}</p>
          *
-         * @param a1 FuncExpression.
-         * @param t2 SQOPENTK.
-         * @param a3 Expression.
+         * @param a1 {@code FuncExpression}.
+         * @param t2 {@code SQOPENTK}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression2(AExpression a1, Token t2, AExpression a3);
@@ -104121,10 +104121,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : FuncExpression @SQOPENTK OptExpression COLONTK OptExpression SQCLOSETK;}</p>
          *
-         * @param a1 FuncExpression.
-         * @param t2 SQOPENTK.
-         * @param a3 OptExpression.
-         * @param a5 OptExpression.
+         * @param a1 {@code FuncExpression}.
+         * @param t2 {@code SQOPENTK}.
+         * @param a3 {@code OptExpression}.
+         * @param a5 {@code OptExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression3(AExpression a1, Token t2, AExpression a3, AExpression a5);
@@ -104134,8 +104134,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : FuncExpression @PAROPENTK PARCLOSETK;}</p>
          *
-         * @param a1 FuncExpression.
-         * @param t2 PAROPENTK.
+         * @param a1 {@code FuncExpression}.
+         * @param t2 {@code PAROPENTK}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression4(AExpression a1, Token t2);
@@ -104145,9 +104145,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : FuncExpression @PAROPENTK Expressions PARCLOSETK;}</p>
          *
-         * @param a1 FuncExpression.
-         * @param t2 PAROPENTK.
-         * @param l3 Expressions.
+         * @param a1 {@code FuncExpression}.
+         * @param t2 {@code PAROPENTK}.
+         * @param l3 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression5(AExpression a1, Token t2, List<AExpression> l3);
@@ -104157,7 +104157,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : StdLibFunction PAROPENTK PARCLOSETK;}</p>
          *
-         * @param t1 StdLibFunction.
+         * @param t1 {@code StdLibFunction}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression6(Token t1);
@@ -104167,8 +104167,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code FuncExpression : StdLibFunction PAROPENTK Expressions PARCLOSETK;}</p>
          *
-         * @param t1 StdLibFunction.
-         * @param l3 Expressions.
+         * @param t1 {@code StdLibFunction}.
+         * @param l3 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public AExpression parseFuncExpression7(Token t1, List<AExpression> l3);
@@ -104178,7 +104178,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @TRUEKW;}</p>
          *
-         * @param t1 TRUEKW.
+         * @param t1 {@code TRUEKW}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor01(Token t1);
@@ -104188,7 +104188,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @FALSEKW;}</p>
          *
-         * @param t1 FALSEKW.
+         * @param t1 {@code FALSEKW}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor02(Token t1);
@@ -104198,7 +104198,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @NUMBERTK;}</p>
          *
-         * @param t1 NUMBERTK.
+         * @param t1 {@code NUMBERTK}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor03(Token t1);
@@ -104208,7 +104208,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @REALTK;}</p>
          *
-         * @param t1 REALTK.
+         * @param t1 {@code REALTK}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor04(Token t1);
@@ -104218,7 +104218,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : StringToken;}</p>
          *
-         * @param a1 StringToken.
+         * @param a1 {@code StringToken}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor05(AStringToken a1);
@@ -104228,7 +104228,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @TIMEKW;}</p>
          *
-         * @param t1 TIMEKW.
+         * @param t1 {@code TIMEKW}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor06(Token t1);
@@ -104238,7 +104238,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @SQOPENTK SQCLOSETK;}</p>
          *
-         * @param t1 SQOPENTK.
+         * @param t1 {@code SQOPENTK}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor07(Token t1);
@@ -104248,8 +104248,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @SQOPENTK Expressions SQCLOSETK;}</p>
          *
-         * @param t1 SQOPENTK.
-         * @param l2 Expressions.
+         * @param t1 {@code SQOPENTK}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor08(Token t1, List<AExpression> l2);
@@ -104259,7 +104259,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @CUROPENTK CURCLOSETK;}</p>
          *
-         * @param t1 CUROPENTK.
+         * @param t1 {@code CUROPENTK}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor09(Token t1);
@@ -104269,7 +104269,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : NonEmptySetExpression;}</p>
          *
-         * @param a1 NonEmptySetExpression.
+         * @param a1 {@code NonEmptySetExpression}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor10(ASetExpression a1);
@@ -104279,8 +104279,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @CUROPENTK DictPairs CURCLOSETK;}</p>
          *
-         * @param t1 CUROPENTK.
-         * @param l2 DictPairs.
+         * @param t1 {@code CUROPENTK}.
+         * @param l2 {@code DictPairs}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor11(Token t1, List<ADictPair> l2);
@@ -104290,9 +104290,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @PAROPENTK Expression COMMATK Expressions PARCLOSETK;}</p>
          *
-         * @param t1 PAROPENTK.
-         * @param a2 Expression.
-         * @param l4 Expressions.
+         * @param t1 {@code PAROPENTK}.
+         * @param a2 {@code Expression}.
+         * @param l4 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor12(Token t1, AExpression a2, List<AExpression> l4);
@@ -104302,9 +104302,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @LTTK Type GTTK ExpressionFactor;}</p>
          *
-         * @param t1 LTTK.
-         * @param a2 Type.
-         * @param a4 ExpressionFactor.
+         * @param t1 {@code LTTK}.
+         * @param a2 {@code Type}.
+         * @param a4 {@code ExpressionFactor}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor13(Token t1, ACifType a2, AExpression a4);
@@ -104314,11 +104314,11 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @IFKW Expressions COLONTK Expression OptElifExprs ELSEKW Expression ENDKW;}</p>
          *
-         * @param t1 IFKW.
-         * @param l2 Expressions.
-         * @param a4 Expression.
-         * @param l5 OptElifExprs.
-         * @param a7 Expression.
+         * @param t1 {@code IFKW}.
+         * @param l2 {@code Expressions}.
+         * @param a4 {@code Expression}.
+         * @param l5 {@code OptElifExprs}.
+         * @param a7 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor14(Token t1, List<AExpression> l2, AExpression a4, List<AElifExpression> l5, AExpression a7);
@@ -104328,9 +104328,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @SWITCHKW Expression COLONTK SwitchBody ENDKW;}</p>
          *
-         * @param t1 SWITCHKW.
-         * @param a2 Expression.
-         * @param l4 SwitchBody.
+         * @param t1 {@code SWITCHKW}.
+         * @param a2 {@code Expression}.
+         * @param l4 {@code SwitchBody}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor15(Token t1, AExpression a2, List<ASwitchCase> l4);
@@ -104340,7 +104340,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : PAROPENTK Expression PARCLOSETK;}</p>
          *
-         * @param a2 Expression.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor16(AExpression a2);
@@ -104350,7 +104350,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : Name;}</p>
          *
-         * @param a1 Name.
+         * @param a1 {@code Name}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor17(AName a1);
@@ -104360,8 +104360,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : Name @APOSTROPHETK;}</p>
          *
-         * @param a1 Name.
-         * @param t2 APOSTROPHETK.
+         * @param a1 {@code Name}.
+         * @param t2 {@code APOSTROPHETK}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor18(AName a1, Token t2);
@@ -104371,7 +104371,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @QUESTIONTK;}</p>
          *
-         * @param t1 QUESTIONTK.
+         * @param t1 {@code QUESTIONTK}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor19(Token t1);
@@ -104381,7 +104381,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code ExpressionFactor : @SELFKW;}</p>
          *
-         * @param t1 SELFKW.
+         * @param t1 {@code SELFKW}.
          * @return The parser call back hook result.
          */
         public AExpression parseExpressionFactor20(Token t1);
@@ -104391,8 +104391,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code NonEmptySetExpression : @CUROPENTK Expressions CURCLOSETK;}</p>
          *
-         * @param t1 CUROPENTK.
-         * @param l2 Expressions.
+         * @param t1 {@code CUROPENTK}.
+         * @param l2 {@code Expressions}.
          * @return The parser call back hook result.
          */
         public ASetExpression parseNonEmptySetExpression1(Token t1, List<AExpression> l2);
@@ -104402,9 +104402,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DictPairs : Expression @COLONTK Expression;}</p>
          *
-         * @param a1 Expression.
-         * @param t2 COLONTK.
-         * @param a3 Expression.
+         * @param a1 {@code Expression}.
+         * @param t2 {@code COLONTK}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ADictPair> parseDictPairs1(AExpression a1, Token t2, AExpression a3);
@@ -104414,10 +104414,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code DictPairs : DictPairs COMMATK Expression @COLONTK Expression;}</p>
          *
-         * @param l1 DictPairs.
-         * @param a3 Expression.
-         * @param t4 COLONTK.
-         * @param a5 Expression.
+         * @param l1 {@code DictPairs}.
+         * @param a3 {@code Expression}.
+         * @param t4 {@code COLONTK}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ADictPair> parseDictPairs2(List<ADictPair> l1, AExpression a3, Token t4, AExpression a5);
@@ -104436,10 +104436,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code OptElifExprs : OptElifExprs @ELIFKW Expressions COLONTK Expression;}</p>
          *
-         * @param l1 OptElifExprs.
-         * @param t2 ELIFKW.
-         * @param l3 Expressions.
-         * @param a5 Expression.
+         * @param l1 {@code OptElifExprs}.
+         * @param t2 {@code ELIFKW}.
+         * @param l3 {@code Expressions}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<AElifExpression> parseOptElifExprs2(List<AElifExpression> l1, Token t2, List<AExpression> l3, AExpression a5);
@@ -104449,7 +104449,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SwitchBody : SwitchCases;}</p>
          *
-         * @param l1 SwitchCases.
+         * @param l1 {@code SwitchCases}.
          * @return The parser call back hook result.
          */
         public List<ASwitchCase> parseSwitchBody1(List<ASwitchCase> l1);
@@ -104459,9 +104459,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SwitchBody : SwitchCases @ELSEKW Expression;}</p>
          *
-         * @param l1 SwitchCases.
-         * @param t2 ELSEKW.
-         * @param a3 Expression.
+         * @param l1 {@code SwitchCases}.
+         * @param t2 {@code ELSEKW}.
+         * @param a3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ASwitchCase> parseSwitchBody2(List<ASwitchCase> l1, Token t2, AExpression a3);
@@ -104471,8 +104471,8 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SwitchBody : @ELSEKW Expression;}</p>
          *
-         * @param t1 ELSEKW.
-         * @param a2 Expression.
+         * @param t1 {@code ELSEKW}.
+         * @param a2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ASwitchCase> parseSwitchBody3(Token t1, AExpression a2);
@@ -104482,9 +104482,9 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SwitchCases : @CASEKW Expression COLONTK Expression;}</p>
          *
-         * @param t1 CASEKW.
-         * @param a2 Expression.
-         * @param a4 Expression.
+         * @param t1 {@code CASEKW}.
+         * @param a2 {@code Expression}.
+         * @param a4 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ASwitchCase> parseSwitchCases1(Token t1, AExpression a2, AExpression a4);
@@ -104494,10 +104494,10 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code SwitchCases : SwitchCases @CASEKW Expression COLONTK Expression;}</p>
          *
-         * @param l1 SwitchCases.
-         * @param t2 CASEKW.
-         * @param a3 Expression.
-         * @param a5 Expression.
+         * @param l1 {@code SwitchCases}.
+         * @param t2 {@code CASEKW}.
+         * @param a3 {@code Expression}.
+         * @param a5 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<ASwitchCase> parseSwitchCases2(List<ASwitchCase> l1, Token t2, AExpression a3, AExpression a5);
@@ -104507,7 +104507,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Name : Identifier;}</p>
          *
-         * @param a1 Identifier.
+         * @param a1 {@code Identifier}.
          * @return The parser call back hook result.
          */
         public AName parseName1(AIdentifier a1);
@@ -104517,7 +104517,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Name : @RELATIVENAMETK;}</p>
          *
-         * @param t1 RELATIVENAMETK.
+         * @param t1 {@code RELATIVENAMETK}.
          * @return The parser call back hook result.
          */
         public AName parseName2(Token t1);
@@ -104527,7 +104527,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Name : @ABSOLUTENAMETK;}</p>
          *
-         * @param t1 ABSOLUTENAMETK.
+         * @param t1 {@code ABSOLUTENAMETK}.
          * @return The parser call back hook result.
          */
         public AName parseName3(Token t1);
@@ -104537,7 +104537,7 @@ public final class CifParser extends Parser<ASpecification> {
          *
          * <p>{@code Name : @ROOTNAMETK;}</p>
          *
-         * @param t1 ROOTNAMETK.
+         * @param t1 {@code ROOTNAMETK}.
          * @return The parser call back hook result.
          */
         public AName parseName4(Token t1);

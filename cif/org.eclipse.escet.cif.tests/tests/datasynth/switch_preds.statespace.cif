@@ -1,0 +1,59 @@
+controllable inc_x;
+controllable inc_y;
+controllable done;
+automaton statespace:
+  alphabet inc_x, inc_y, done;
+  location loc1:
+    initial;
+    edge inc_x goto loc2;
+    edge inc_y goto loc3;
+  location loc2:
+    edge inc_x goto loc4;
+    edge inc_y goto loc5;
+  location loc3:
+    edge inc_x goto loc5;
+    edge inc_y goto loc6;
+    edge done goto loc7;
+  location loc4:
+    edge inc_x goto loc8;
+    edge inc_y goto loc9;
+  location loc5:
+    edge inc_x goto loc9;
+    edge inc_y goto loc10;
+  location loc6:
+    edge inc_x goto loc10;
+    edge inc_y goto loc11;
+  location loc7:
+    marked;
+  location loc8:
+    edge inc_y goto loc12;
+  location loc9:
+    edge inc_x goto loc12;
+    edge inc_y goto loc13;
+  location loc10:
+    edge inc_x goto loc13;
+    edge inc_y goto loc14;
+    edge done goto loc15;
+  location loc11:
+    edge inc_x goto loc14;
+  location loc12:
+    edge inc_y goto loc16;
+  location loc13:
+    edge inc_x goto loc16;
+    edge inc_y goto loc17;
+    edge done goto loc18;
+  location loc14:
+    edge inc_x goto loc17;
+  location loc15:
+    marked;
+  location loc16:
+    edge inc_y goto loc19;
+  location loc17:
+    edge inc_x goto loc19;
+  location loc18:
+    marked;
+  location loc19:
+    edge done goto loc20;
+  location loc20:
+    marked;
+end

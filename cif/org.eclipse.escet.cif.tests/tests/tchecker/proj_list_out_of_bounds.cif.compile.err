@@ -1,6 +1,10 @@
-ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 15, column 21: Can't project a list of type "list[3] int[1..3]", with an index of type "int[3..3]", as the index is out of bounds for the list.
-ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 16, column 21: Can't project a list of type "list[3] int[1..3]", with an index of type "int[4..4]", as the index is out of bounds for the list.
-ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 26, column 21: Can't project a list of type "list[3] int[1..3]", with an index of type "int[3..4]", as the index is out of bounds for the list.
-ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 34, column 4: Can't project a list of type "list[3] int", with an index of type "int[3..3]", as the index is out of bounds for the list.
-ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 42, column 4: Can't project a list of type "list[0..3] int", with an index of type "int[3..3]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 17, column 21: Can't project a list of type "list[3] int[1..3]", with an index of type "int[3..3]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 18, column 21: Can't project a list of type "list[3] int[1..3]", with an index of type "int[4..4]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 28, column 21: Can't project a list of type "list[3] int[1..3]", with an index of type "int[3..4]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 36, column 4: Can't project a list of type "list[3] int", with an index of type "int[3..3]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 44, column 4: Can't project a list of type "list[0..3] int", with an index of type "int[3..3]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 70, column 16: Can't project a list of type "list[2] int", with an index of type "int[2..2]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 77, column 16: Can't project a list of type "list[2] int", with an index of type "int[3..3]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 84, column 16: Can't project a list of type "list[2] int", with an index of type "int[-3..-3]", as the index is out of bounds for the list.
+ERROR: File "tchecker/proj_list_out_of_bounds.cif": Semantic error at line 91, column 16: Can't project a list of type "list[2] int", with an index of type "int[-4..-4]", as the index is out of bounds for the list.
 ERROR: Failed to load CIF file "tchecker/proj_list_out_of_bounds.cif": the file has errors.

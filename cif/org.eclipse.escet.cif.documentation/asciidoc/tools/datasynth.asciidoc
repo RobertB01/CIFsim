@@ -85,6 +85,10 @@ For more information, see the section on <<tools-datasynth-forward-reach,forward
 By default, no statistics are printed.
 For more information, see the section on <<tools-datasynth-stats,statistics>> below.
 
+* _Event warning_: Whether to warn for events that are never enabled in the input specification or never enabled in the controlled system.
+Is enabled by default.
+Disabling this warning may increase the performance of synthesis.
+
 Internally during synthesis, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 There are various options that can influence the use of BDDs.
 The following options are part of the _BDD_ sub-category of the _Synthesis_ category:
@@ -183,6 +187,7 @@ For state/event exclusion invariants, both plant and requirement invariants are 
 * Only discrete/input variables with a boolean type, ranged integer type (e.g. `int[0..5]`), or enumeration type are supported.
 For integer types, ranges that include negative integer values are not supported.
 For algebraic variables and algebraic parameters of components, all types are supported.
+For constants, all types are supported.
 
 * Discrete variables must have supported initial values.
 If explicit initial values are given, they must be supported predicates (for boolean variables) or supported expressions as described below (for all other variables).
@@ -199,6 +204,8 @@ The supported predicates are:
 * Boolean literals (`true`, `false`).
 
 * Discrete/input/algebraic boolean variables (`x`, for `x` a discrete, input, or algebraic variable with a boolean type).
+
+* Boolean constants (`x`, for `x` a constant with a boolean type).
 
 * Locations (`aut.loc`, for `aut` and automaton and `loc` a location of that automaton).
 
@@ -226,6 +233,8 @@ The supported predicates are:
 
 * Conditional expressions (`if` expressions) with supported guard and resulting value predicates.
 
+* `Switch` expressions with supported control value and resulting value predicates.
+
 Only limited forms of integer and enumeration expressions (for binary comparisons, initial values of variables, right hand sides of assignments, etc) are supported.
 The supported expressions are:
 
@@ -235,6 +244,8 @@ The supported expressions are:
 
 * Discrete/input/algebraic integer/enumeration variables (`x`, for `x` a discrete, input, or algebraic variable with an integer or enumeration type).
 
+* Integer/enumeration constants (`x`, for `x` a constant with an integer or enumeration type).
+
 * `+i` for `i` a supported integer expression.
 
 * `i + j` for `i` and `j` supported integer expressions.
@@ -243,6 +254,8 @@ The supported expressions are:
 That is, `j` must essentially be constant.
 
 * Conditional expressions (`if` expressions) with supported guard predicates and supported resulting values.
+
+* `Switch` expressions with supported control values and supported resulting values.
 
 * Any other valid CIF expression (computation) that that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
 That is, the computation must essentially represent a fixed/constant value.
@@ -434,6 +447,10 @@ In such cases, a warning is printed to the console to inform the user.
 The resulting supervisor has exactly one self loop edge for each of the controllable events in the alphabet of the controlled system (which is equal to the alphabet of the uncontrolled system).
 These self loops represent the possible conditions under which the supervisor allows the events to occur in the controlled system.
 The exact predicates may vary, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
+
+If there are controllable events that are never enabled in the controlled system, a warning is printed to the console.
+Enabling <<tools-datasynth-forward-reach,forward reachability>> ensures that warnings are also printed for events that are only enabled in the unreachable part of the statespace.
+Disabling forward reachability may lead to false negatives, i.e. such cases may not be reported.
 
 The resulting supervisor may have an initialization predicate that restricts the states in which the system may be initialized (may start), on top of the initialization constraints already present in the uncontrolled system.
 For more information on this initialization predicate, see the section on <<tools-datasynth-init,initialization>> below.
@@ -643,7 +660,7 @@ As such, the simplification prevents such invariants from being removed from the
 This applies to some of the other simplifications as well.
 For instance, the simplification over state/event exclusion requirement invariants leads to them being part of the output as well.
 This may affect whether other tools can handle the resulting supervisor model as input, depending on what kind of features they support.
-In particular, for code generation, simplification of the guards with respect to the state requirement invariants and state/event exclusion requirement invariants may need to be disabled.
+In particular, for code generation, simplification of the guards with respect to the state requirement invariants may need to be disabled.
 
 indexterm:[data-based supervisory controller synthesis,debugging]
 
@@ -728,11 +745,16 @@ Specifying a statistics kind twice leads to a warning being printed to the conso
 
 indexterm:[data-based supervisory controller synthesis,checks]
 
+[[tools-detasynth-early-prob-detect]]
 === Early problem detection
 
 The synthesis algorithm checks the specification for common issues, for early detection of problems that will lead to an empty supervisor.
 If such a problem is detected, a warning is printed to the console.
 Among others, checks are included for no initial states/variables, no marked states, and no states due to the state requirement invariants.
+
+The synthesis algorithm also checks whether there are events that are never enabled in the input specification.
+If such a problem is detected, a warning is printed to the console.
+Among others, checks are included for events that are forbidden by automaton guards, event/state exclusion plant and requirement invariants, and state plant invariants.
 
 indexterm:[data-based supervisory controller synthesis,variable order]
 
@@ -1017,6 +1039,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Statistics
 | <<tools-datasynth-stats>>
 | Statistics output on console
+| Disable for better performance
+
+| Warnings
+| Event warning
+| <<tools-detasynth-early-prob-detect>> and <<tools-datasynth-supervisor>>
+| Warning for never enabled events
 | Disable for better performance
 |===
 

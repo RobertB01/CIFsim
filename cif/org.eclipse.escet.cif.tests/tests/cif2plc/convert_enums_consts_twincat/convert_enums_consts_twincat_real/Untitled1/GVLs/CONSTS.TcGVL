@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <GVL Name="CONSTS">
+    <Declaration>
+      <![CDATA[VAR_GLOBAL CONSTANT // CONSTS
+    const_Idle: DINT := 0;
+    const_Off: DINT := 1;
+    const_On: DINT := 2;
+    const_Pushed: DINT := 3;
+    const_Released: DINT := 4;
+    const_Running: DINT := 5;
+    const_s1: DINT := 6;
+    const_s10: DINT := 7;
+    const_s2: DINT := 8;
+    const_s3: DINT := 9;
+    const_s4: DINT := 10;
+    const_s5: DINT := 11;
+    const_s6: DINT := 12;
+    const_s7: DINT := 13;
+    const_s8: DINT := 14;
+    const_s9: DINT := 15;
+END_VAR]]>
+    </Declaration>
+    <ObjectProperties/>
+  </GVL>
+</TcPlcObject>

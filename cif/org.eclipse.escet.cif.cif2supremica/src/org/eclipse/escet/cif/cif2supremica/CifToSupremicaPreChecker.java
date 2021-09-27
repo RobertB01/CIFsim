@@ -35,7 +35,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.escet.cif.common.CifEvalException;
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.RangeCompat;
@@ -169,7 +168,7 @@ public class CifToSupremicaPreChecker extends CifWalker {
         // Check supervisory and invariant kinds of invariants. State invariants must be requirements. State/event
         // exclusion invariants are transformed into automata and must have a kind.
         for (Invariant inv: comp.getInvariants()) {
-            SupKind supKind = CifInvariantUtils.getSupKind(inv);
+            SupKind supKind = inv.getSupKind();
 
             if (inv.getInvKind() == InvKind.STATE) {
                 if (supKind != SupKind.REQUIREMENT) {

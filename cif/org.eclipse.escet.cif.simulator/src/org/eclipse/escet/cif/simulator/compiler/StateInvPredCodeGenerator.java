@@ -26,7 +26,6 @@ import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 
-import org.eclipse.escet.cif.common.CifInvariantUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
@@ -252,8 +251,7 @@ public class StateInvPredCodeGenerator {
         checkInvTimeConstant(inv);
 
         // Warn about requirement invariants.
-        SupKind kind = CifInvariantUtils.getSupKind(inv);
-        if (kind == SupKind.REQUIREMENT) {
+        if (inv.getSupKind() == SupKind.REQUIREMENT) {
             warn("Invariant \"%s\" of %s is a requirement, but will be simulated as a plant.", predTxt, parentText);
         }
     }

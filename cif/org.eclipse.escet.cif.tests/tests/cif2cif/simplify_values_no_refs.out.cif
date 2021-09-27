@@ -972,8 +972,8 @@ automaton p9:
     initial;
 end
 plant automaton p10:
-  plant invariant p1.X;
-  plant invariant p2.X;
+  invariant p1.X;
+  invariant p2.X;
   plant invariant p3.X;
   plant invariant p1.X;
   requirement invariant p4.X;
@@ -982,8 +982,8 @@ plant automaton p10:
   supervisor invariant p4.Y;
   location:
     initial;
-    plant invariant p1.X;
-    plant invariant p2.X;
+    invariant p1.X;
+    invariant p2.X;
     plant invariant p3.X;
     plant invariant p1.X;
     requirement invariant p4.X;
@@ -992,6 +992,8 @@ plant automaton p10:
     supervisor invariant p4.Y;
 end
 plant automaton p11:
+  invariant p1.X;
+  invariant p2.X;
   plant invariant false;
   requirement invariant p4.X;
   requirement invariant p1.X;
@@ -999,6 +1001,8 @@ plant automaton p11:
   supervisor invariant p4.Y;
   location:
     initial;
+    invariant p1.X;
+    invariant p2.X;
     plant invariant false;
     requirement invariant p4.X;
     requirement invariant p1.X;

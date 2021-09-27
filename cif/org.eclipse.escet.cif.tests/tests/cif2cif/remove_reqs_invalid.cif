@@ -1,0 +1,71 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+// Test the detection of problems occurring when the part of the specification
+// that remains, refers to a declaration that was part of a removed requirement
+// automaton.
+
+alg int z = a.x + a.y + a.y;
+
+requirement a:
+  const int x = 5;
+  alg int y = x;
+
+  location:
+    initial;
+end
+
+// ---
+
+group h:
+  alg int z = i.a.x + i.a.y + i.a.y;
+
+  group i:
+    requirement a:
+      const int x = 5;
+      alg int y = x;
+
+      location:
+        initial;
+    end
+  end
+end
+
+// ---
+
+group g:
+  group h:
+    invariant switch i.j.r: case l1: true end;
+
+    group i:
+      group j:
+        requirement r:
+          location l1:
+            initial;
+        end
+      end
+    end
+  end
+end
+
+// Location invariants indirectly refer to locations and are not supported.
+// We could optimize for automata with exactly one location.
+requirement k:
+  location b:
+    initial;
+
+                invariant 131 = 131;
+    plant       invariant 132 = 132;
+    requirement invariant 133 = 133;
+    supervisor  invariant 134 = 134;
+end

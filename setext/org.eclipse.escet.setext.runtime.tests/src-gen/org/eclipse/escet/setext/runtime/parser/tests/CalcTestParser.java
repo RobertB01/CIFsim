@@ -2208,7 +2208,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Program : Statements;}</p>
          *
-         * @param l1 Statements.
+         * @param l1 {@code Statements}.
          * @return The parser call back hook result.
          */
         public List<Double> parseProgram2(List<Double> l1);
@@ -2218,7 +2218,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Statements : Statement SEMICOL;}</p>
          *
-         * @param l1 Statement.
+         * @param l1 {@code Statement}.
          * @return The parser call back hook result.
          */
         public List<Double> parseStatements1(List<Double> l1);
@@ -2228,8 +2228,8 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Statements : Statements Statement SEMICOL;}</p>
          *
-         * @param l1 Statements.
-         * @param l2 Statement.
+         * @param l1 {@code Statements}.
+         * @param l2 {@code Statement}.
          * @return The parser call back hook result.
          */
         public List<Double> parseStatements2(List<Double> l1, List<Double> l2);
@@ -2248,8 +2248,8 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Statement : @NAME EQUALS Expression;}</p>
          *
-         * @param t1 NAME.
-         * @param d3 Expression.
+         * @param t1 {@code NAME}.
+         * @param d3 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Double> parseStatement2(Token t1, Double d3);
@@ -2259,7 +2259,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Statement : Expression;}</p>
          *
-         * @param d1 Expression.
+         * @param d1 {@code Expression}.
          * @return The parser call back hook result.
          */
         public List<Double> parseStatement3(Double d1);
@@ -2269,7 +2269,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Expression : TimesExpression;}</p>
          *
-         * @param d1 TimesExpression.
+         * @param d1 {@code TimesExpression}.
          * @return The parser call back hook result.
          */
         public Double parseExpression1(Double d1);
@@ -2279,8 +2279,8 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Expression : Expression PLUS TimesExpression;}</p>
          *
-         * @param d1 Expression.
-         * @param d3 TimesExpression.
+         * @param d1 {@code Expression}.
+         * @param d3 {@code TimesExpression}.
          * @return The parser call back hook result.
          */
         public Double parseExpression2(Double d1, Double d3);
@@ -2290,8 +2290,8 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code Expression : Expression MINUS TimesExpression;}</p>
          *
-         * @param d1 Expression.
-         * @param d3 TimesExpression.
+         * @param d1 {@code Expression}.
+         * @param d3 {@code TimesExpression}.
          * @return The parser call back hook result.
          */
         public Double parseExpression3(Double d1, Double d3);
@@ -2301,7 +2301,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code TimesExpression : MinusExpression;}</p>
          *
-         * @param d1 MinusExpression.
+         * @param d1 {@code MinusExpression}.
          * @return The parser call back hook result.
          */
         public Double parseTimesExpression1(Double d1);
@@ -2311,8 +2311,8 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code TimesExpression : TimesExpression TIMES MinusExpression;}</p>
          *
-         * @param d1 TimesExpression.
-         * @param d3 MinusExpression.
+         * @param d1 {@code TimesExpression}.
+         * @param d3 {@code MinusExpression}.
          * @return The parser call back hook result.
          */
         public Double parseTimesExpression2(Double d1, Double d3);
@@ -2322,8 +2322,8 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code TimesExpression : TimesExpression DIVIDE MinusExpression;}</p>
          *
-         * @param d1 TimesExpression.
-         * @param d3 MinusExpression.
+         * @param d1 {@code TimesExpression}.
+         * @param d3 {@code MinusExpression}.
          * @return The parser call back hook result.
          */
         public Double parseTimesExpression3(Double d1, Double d3);
@@ -2333,7 +2333,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code MinusExpression : BaseExpression;}</p>
          *
-         * @param d1 BaseExpression.
+         * @param d1 {@code BaseExpression}.
          * @return The parser call back hook result.
          */
         public Double parseMinusExpression1(Double d1);
@@ -2343,7 +2343,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code MinusExpression : MINUS MinusExpression;}</p>
          *
-         * @param d2 MinusExpression.
+         * @param d2 {@code MinusExpression}.
          * @return The parser call back hook result.
          */
         public Double parseMinusExpression2(Double d2);
@@ -2353,7 +2353,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code BaseExpression : @NUMBER;}</p>
          *
-         * @param t1 NUMBER.
+         * @param t1 {@code NUMBER}.
          * @return The parser call back hook result.
          */
         public Double parseBaseExpression1(Token t1);
@@ -2363,7 +2363,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code BaseExpression : @NAME;}</p>
          *
-         * @param t1 NAME.
+         * @param t1 {@code NAME}.
          * @return The parser call back hook result.
          */
         public Double parseBaseExpression2(Token t1);
@@ -2382,7 +2382,7 @@ public final class CalcTestParser extends Parser<List<Double>> {
          *
          * <p>{@code BaseExpression : LPAREN Expression RPAREN;}</p>
          *
-         * @param d2 Expression.
+         * @param d2 {@code Expression}.
          * @return The parser call back hook result.
          */
         public Double parseBaseExpression4(Double d2);

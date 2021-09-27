@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_dup">
+    <Declaration>
+      <![CDATA[FUNCTION func_dup: TupleStruct_1
+VAR_INPUT
+    farg_dup_a: DINT;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[func_dup := makeTupleStruct_1(farg_dup_a, farg_dup_a);
+RETURN;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>

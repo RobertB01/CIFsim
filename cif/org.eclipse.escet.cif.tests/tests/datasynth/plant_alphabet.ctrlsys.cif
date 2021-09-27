@@ -21,5 +21,5 @@ supervisor automaton sup:
     initial;
     marked;
     edge c1 when false;
-    edge c2 when false;
+    edge c2 when true;
 end

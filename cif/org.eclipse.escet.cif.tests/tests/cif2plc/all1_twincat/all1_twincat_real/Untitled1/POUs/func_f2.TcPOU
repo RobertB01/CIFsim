@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<TcPlcObject ProductVersion="3.1.0.18" Version="1.1.0.1">
+  <POU Name="func_f2">
+    <Declaration>
+      <![CDATA[FUNCTION func_f2: LREAL
+VAR_INPUT
+    farg_f2_y: LREAL;
+END_VAR
+VAR
+    fvar_f2_z: LREAL;
+END_VAR]]>
+    </Declaration>
+    <Implementation>
+      <ST>
+        <![CDATA[// Initialize local variables.
+fvar_f2_z := farg_f2_y;
+
+// Actual function body.
+IF ((farg_f2_y) > (0)) THEN
+    func_f2 := fvar_f2_z;
+    RETURN;
+ELSE
+    func_f2 := (fvar_f2_z) + (1.0);
+    RETURN;
+END_IF;]]>
+      </ST>
+    </Implementation>
+    <ObjectProperties/>
+  </POU>
+</TcPlcObject>
