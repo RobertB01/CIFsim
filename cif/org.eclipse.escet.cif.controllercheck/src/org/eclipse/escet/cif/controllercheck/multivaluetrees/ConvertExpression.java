@@ -199,7 +199,7 @@ public class ConvertExpression {
                     for (int val = 0; val < 2; val++) {
                         Node lnode = leftColl.getExist(val);
                         Node rnode = rightColl.getExist(val);
-                        tree.disjunct(trueVal, tree.conjunct(lnode, rnode));
+                        trueVal = tree.disjunct(trueVal, tree.conjunct(lnode, rnode));
                     }
                     IntegerValueCollection collection = new IntegerValueCollection(2);
                     collection.addValue(tree, 1, trueVal);

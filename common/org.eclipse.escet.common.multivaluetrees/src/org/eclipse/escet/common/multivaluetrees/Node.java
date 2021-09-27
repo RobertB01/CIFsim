@@ -139,6 +139,36 @@ public class Node {
         return myName;
     }
 
+    /**
+     * Evaluates the node for a given valuation.
+     *
+     * @param valuations The valuation that contains the values for all variables in the expression.
+     * @return {@code true} if the expression evaluates to true, {@code false} if the expression evaluates to false, or
+     *     {@code null} if the expression cannot be evaluated.
+     */
+    public Boolean evaluate(Map<VarInfo, Integer> valuations) {
+        Node curNode = this;
+
+        while (true) {
+            if (curNode.equals(Tree.ONE)) {
+                return true;
+            }
+            if (curNode.equals(Tree.ZERO)) {
+                return false;
+            }
+
+            VarInfo variable = curNode.varInfo;
+            Integer value = valuations.get(variable);
+            if (value == null) {
+                // No value for the variable supplied. Expression cannot be evaluated.
+                return null;
+            }
+
+            int index = value - varInfo.lower;
+            curNode = curNode.childs[index];
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
