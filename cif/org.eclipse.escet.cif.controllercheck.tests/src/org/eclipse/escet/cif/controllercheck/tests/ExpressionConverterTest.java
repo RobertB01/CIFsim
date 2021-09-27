@@ -25,6 +25,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIfExpressi
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newIntType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSwitchCase;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newSwitchExpression;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newUnaryExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newVariableValue;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -48,12 +49,15 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
+import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.DiscVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ElifExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.IfExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchCase;
 import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.UnaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
@@ -229,6 +233,77 @@ public class ExpressionConverterTest {
 
     @Test
     @SuppressWarnings("javadoc")
+    public void testInverse() {
+        // Create expression 'not b1'.
+        DiscVariableExpression b1Expr = newDiscVariableExpression(null, newBoolType(), b1);
+
+        UnaryExpression unaryExpr = newUnaryExpression(b1Expr, UnaryOperator.INVERSE, null, newBoolType());
+
+        // Convert expression.
+        IntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
+
+        // Compare result.
+        compareExprResult(unaryExprIVC, unaryExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testNegate() {
+        // Create expression '-i1'.
+        DiscVariableExpression i1Expr = newDiscVariableExpression(null, newBoolType(), i1);
+
+        UnaryExpression unaryExpr = newUnaryExpression(i1Expr, UnaryOperator.NEGATE, null, newIntType());
+
+        // Convert expression.
+        IntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
+
+        // Compare result.
+        compareExprResult(unaryExprIVC, unaryExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testPlus() {
+        // Create expression '+i1'.
+        DiscVariableExpression i1Expr = newDiscVariableExpression(null, newBoolType(), i1);
+
+        UnaryExpression unaryExpr = newUnaryExpression(i1Expr, UnaryOperator.PLUS, null, newIntType());
+
+        // Convert expression.
+        IntegerValueCollection unaryExprIVC = convert.convert(unaryExpr);
+
+        // Compare result.
+        compareExprResult(unaryExprIVC, unaryExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testTrue() {
+        // Create expression 'true'.
+        BoolExpression boolExpr = makeTrue();
+
+        // Convert expression.
+        IntegerValueCollection boolExprIVC = convert.convert(boolExpr);
+
+        // Compare result.
+        compareExprResult(boolExprIVC, boolExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testFalse() {
+        // Create expression 'true'.
+        BoolExpression boolExpr = makeFalse();
+
+        // Convert expression.
+        IntegerValueCollection boolExprIVC = convert.convert(boolExpr);
+
+        // Compare result.
+        compareExprResult(boolExprIVC, boolExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
     public void testIfExpression() {
         // Create expression 'if b1: 0 elif b2: 1 else 2 end'.
         DiscVariableExpression b1Expr = newDiscVariableExpression(null, newBoolType(), b1);
@@ -238,10 +313,10 @@ public class ExpressionConverterTest {
         IfExpression ifExpr = newIfExpression(list(elifExpr), makeInt(2), list(b1Expr), null, makeInt(0), newIntType());
 
         // Convert expression.
-        IntegerValueCollection binExprIVC = convert.convert(ifExpr);
+        IntegerValueCollection ifExprIVC = convert.convert(ifExpr);
 
         // Compare result.
-        compareExprResult(binExprIVC, ifExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+        compareExprResult(ifExprIVC, ifExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
     }
 
     @Test
@@ -257,10 +332,10 @@ public class ExpressionConverterTest {
                 i1Expr);
 
         // Convert expression.
-        IntegerValueCollection binExprIVC = convert.convert(switchExpr);
+        IntegerValueCollection switchExprIVC = convert.convert(switchExpr);
 
         // Compare result.
-        compareExprResult(binExprIVC, switchExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
+        compareExprResult(switchExprIVC, switchExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
     }
 
     /**
