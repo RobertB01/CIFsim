@@ -44,7 +44,6 @@ SPDX-License-Identifier: MIT
         <asciidoctorj.diagram.version>2.1.0</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.4</asciidoctorj.pdf.version>
         <jruby.version>9.2.15.0</jruby.version>
-        <geneclipsetoc.version>1.0.3</geneclipsetoc.version>
 
         <!-- Checkstyle version. Should match version used by Eclipse Checkstyle Plugin. -->
         <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
@@ -73,12 +72,6 @@ SPDX-License-Identifier: MIT
         <pluginRepository>
             <id>eclipse.cbi</id>
             <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
-        </pluginRepository>
-
-        <!-- bsi-software maven plugins. For geneclipsetoc plugin. -->
-        <pluginRepository>
-            <id>bsi-software.geneclipsetoc</id>
-            <url>https://bsi-software.github.io/geneclipsetoc/</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -267,13 +260,6 @@ SPDX-License-Identifier: MIT
                             <last-update-label>false</last-update-label>
                         </attributes>
                     </configuration>
-                </plugin>
-
-                <!-- Eclipse help documentation Table Of Contents (TOC) generation configuration. -->
-                <plugin>
-                    <groupId>com.bsiag.geneclipsetoc</groupId>
-                    <artifactId>geneclipsetoc-maven-plugin</artifactId>
-                    <version>${geneclipsetoc.version}</version>
                 </plugin>
 
                 <!-- Eclipse Dash, license check, configuration. -->
