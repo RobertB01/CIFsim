@@ -54,7 +54,7 @@ you need an Eclipse Foundation account. It can easily be created at
 https://accounts.eclipse.org/user/register.
 
 Please start each commit message with the issue number, e.g.
-`#1 Commit summary.`.
+`#NNN Commit summary.` for issue `NNN`.
 
 
 ## Eclipse Contributor Agreement

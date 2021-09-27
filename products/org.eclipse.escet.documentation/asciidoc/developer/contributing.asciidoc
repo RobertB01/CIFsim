@@ -35,10 +35,10 @@ The following topics are discussed:
 It is often a good idea to first discuss your contribution with the project's community and committers, before creating the actual code (e.g. patches), documentation, etc of your contribution.
 Discussions can take place via an <<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<developer-chapter-index,'dev' list>>.
 
+To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please make sure an issue already exists or create a new issue for it in the <<developer-issue-tracking-chapter-index,issue tracker>>.
+
 To create issues, reply to issues, contribute patches and merge requests, etc, you need an Eclipse Foundation account.
 It can easily be created at https://accounts.eclipse.org/user/register.
-
-To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please first create an issue in the <<developer-issue-tracking-chapter-index,issue tracker>>.
 
 The easiest way to contribute the actual contribution, is to use GitLab:
 
@@ -71,7 +71,7 @@ It also allows syncing back changes from the official Eclipse ESCET `develop` br
 To create branches in your fork, navigate to `https://gitlab.eclipse.org/<username>/escet/-/branches`, with `<username>` replaced by your Eclipse Foundation account username.
 There click _New branch_ to create a new branch from `develop`.
 
-** Please start each commit message with the issue number, e.g. `#1 Commit summary.`.
+** Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
 See our <<developer-development-process-chapter-index,development process>> for more information.
 
 * Once you've finished work on your contribution, create a merge request for it:
@@ -95,7 +95,7 @@ Ideally it starts with the issue number, similar to the first line of a commit m
 
 ** Describe your changes under _Description_.
 
-** You may optionally select _Reviewers_, etc.
+** You may optionally make other changes to the merge request.
 
 ** Click _Submit merge request_ to submit the merge request to the Eclipse ESCET project committers for review.
 
