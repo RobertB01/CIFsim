@@ -35,6 +35,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -56,45 +57,48 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.SwitchExpression;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.common.multivaluetrees.Node;
 import org.eclipse.escet.common.multivaluetrees.VarInfo;
+import org.junit.Before;
 import org.junit.Test;
 
-/** Tests of the expression convert. */
+/** Tests of the expression converter. */
 public class ExpressionConverterTest {
     /** Lower value for integer variables in the test. */
-    public static final Integer INT_LOWER = -5;
+    private static final Integer INT_LOWER = -5;
 
     /** Upper value for integer variables in the test. */
-    public static final Integer INT_UPPER = 5;
+    private static final Integer INT_UPPER = 5;
 
     /** Boolean typed discrete variable. */
-    public static DiscVariable b1;
+    private DiscVariable b1;
 
     /** Boolean typed discrete variable. */
-    public static DiscVariable b2;
+    private DiscVariable b2;
 
     /** Ranged integer typed discrete variable. */
-    public static DiscVariable i1;
+    private DiscVariable i1;
 
     /** Ranged integer typed discrete variable. */
-    public static DiscVariable i2;
+    private DiscVariable i2;
 
     /** Corresponding MDD variable for b1. */
-    public static VarInfo b1VarInfo;
+    private VarInfo b1VarInfo;
 
     /** Corresponding MDD variable for b2. */
-    public static VarInfo b2VarInfo;
+    private VarInfo b2VarInfo;
 
     /** Corresponding MDD variable for i1. */
-    public static VarInfo i1VarInfo;
+    private VarInfo i1VarInfo;
 
     /** Corresponding MDD variable for i2. */
-    public static VarInfo i2VarInfo;
+    private VarInfo i2VarInfo;
 
     /** The MDD expression converter. */
-    public static ConvertExpression convert;
+    private ConvertExpression convert;
 
-    static {
-        // Create cif variables.
+    @Before
+    @SuppressWarnings("javadoc")
+    public void beforeTest() {
+        // Create CIF variables.
         b1 = newDiscVariable("b1", null, newBoolType(), null);
         b2 = newDiscVariable("b1", null, newBoolType(), null);
         i1 = newDiscVariable("i1", null, newIntType(INT_LOWER, null, INT_UPPER), null);
@@ -106,13 +110,13 @@ public class ExpressionConverterTest {
         variables.add(i1);
         variables.add(i2);
 
-        // Construct the MDD tree.
+        // Get MDD expression converter.
         final int readIndex = 0;
         final int writeIndex = 1;
         CifVarInfoBuilder cifVarInfoBuilder = new CifVarInfoBuilder(2);
         cifVarInfoBuilder.addVariablesGroupOnVariable(variables);
         MvSpecBuilder builder = new MvSpecBuilder(cifVarInfoBuilder, readIndex, writeIndex);
-        convert = builder.getPredicateConvertor();
+        convert = builder.getExpressionConvertor();
 
         // Get the corresponding MDD variables.
         b1VarInfo = cifVarInfoBuilder.getVarInfos(b1)[readIndex];
@@ -237,7 +241,7 @@ public class ExpressionConverterTest {
         IntegerValueCollection binExprIVC = convert.convert(ifExpr);
 
         // Compare result.
-        compareBinExprResult(binExprIVC, ifExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+        compareExprResult(binExprIVC, ifExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
     }
 
     @Test
@@ -249,23 +253,24 @@ public class ExpressionConverterTest {
 
         SwitchCase switchCase0 = newSwitchCase(makeInt(0), null, i2Expr);
         SwitchCase switchCaseElse = newSwitchCase(null, null, makeInt(1));
-        SwitchExpression switchExpr = newSwitchExpression(list(switchCase0, switchCaseElse), null, newIntType(), i1Expr);
+        SwitchExpression switchExpr = newSwitchExpression(list(switchCase0, switchCaseElse), null, newIntType(),
+                i1Expr);
 
         // Convert expression.
         IntegerValueCollection binExprIVC = convert.convert(switchExpr);
 
         // Compare result.
-        compareBinExprResult(binExprIVC, switchExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
+        compareExprResult(binExprIVC, switchExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
     }
 
     /**
-     * Creates a binary expression 'b1 binOp b2', with b1 and b2 Boolean typed discrete variables and binOp the supplied
-     * binary operator. The binary expression is converted to a MDD. The conversion result is compared with the expected
-     * result, obtained from evaluating the cif expression.
+     * Creates a binary expression 'b1 binOperator b2', with b1 and b2 Boolean typed discrete variables and
+     * {@code binOperator} the supplied binary operator. The binary expression is converted to a MDD. The conversion
+     * result is compared with the expected result, obtained from evaluating the CIF expression.
      *
      * @param binOperator The binary operator to use.
      */
-    public void testBooleanOperator(BinaryOperator binOperator) {
+    private void testBooleanOperator(BinaryOperator binOperator) {
         // Create expression 'b1 binOperator b2'.
         DiscVariableExpression b1Expr = newDiscVariableExpression(null, newBoolType(), b1);
         DiscVariableExpression b2Expr = newDiscVariableExpression(null, newBoolType(), b2);
@@ -275,17 +280,17 @@ public class ExpressionConverterTest {
         IntegerValueCollection binExprIVC = convert.convert(binExpr);
 
         // Compare result.
-        compareBinExprResult(binExprIVC, binExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
+        compareExprResult(binExprIVC, binExpr, b1, b2, b1VarInfo, b2VarInfo, 0, 1);
     }
 
     /**
-     * Creates a binary expression 'i1 binOp i2', with i1 and i2 (ranged) integer typed discrete variables and binOp the
-     * supplied binary operator. The binary expression is converted to a MDD. The conversion result is compared with the
-     * expected result, obtained from evaluating the cif expression.
+     * Creates a binary expression 'i1 binOperator i2', with i1 and i2 (ranged) integer typed discrete variables and
+     * {@code binOperator} the supplied binary operator. The binary expression is converted to a MDD. The conversion
+     * result is compared with the expected result, obtained from evaluating the CIF expression.
      *
      * @param binOperator The binary operator to use.
      */
-    public void testIntegerOperator(BinaryOperator binOperator) {
+    private void testIntegerOperator(BinaryOperator binOperator) {
         // Create expression 'i1 binOperator i2'.
         DiscVariableExpression i1Expr = newDiscVariableExpression(null, newIntType(INT_LOWER, null, INT_UPPER), i1);
         DiscVariableExpression i2Expr = newDiscVariableExpression(null, newIntType(INT_LOWER, null, INT_UPPER), i2);
@@ -295,27 +300,29 @@ public class ExpressionConverterTest {
         IntegerValueCollection binExprIVC = convert.convert(binExpr);
 
         // Compare result.
-        compareBinExprResult(binExprIVC, binExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
+        compareExprResult(binExprIVC, binExpr, i1, i2, i1VarInfo, i2VarInfo, INT_LOWER, INT_UPPER);
     }
 
     /**
-     * Compares the MDD conversion of a binary expression with the expected result for a range of values (between lower
-     * and upper).
+     * Compares the MDD conversion of a CIF expression with two variables, with the expected result for a range of
+     * values (between lower and upper).
      *
      * @param expression The converted MDD expression.
-     * @param binExpr The original cif expression.
-     * @param var1 The left-hand side variable.
-     * @param var2 The right-hand side variable.
-     * @param var1Info The converted left-hand side variable.
-     * @param var2Info The converted right-hand side variable.
-     * @param lower The lowest possible value of the variable, either 0 for Booleans or `lower` for ranged integers
-     * @param upper The highest possible value of the variable, either 1 for Booleans or `upper` for ranged integers.
+     * @param cifExpr The original CIF expression.
+     * @param var1 The first variable.
+     * @param var2 The second variable.
+     * @param var1Info The converted first variable.
+     * @param var2Info The converted second variable.
+     * @param lower The lowest possible value of the variables, either {@code 0} for Booleans or the lower bound for
+     *     ranged integers.
+     * @param upper The highest possible value of the variables, either {@code 1} for Booleans or the upper bound for
+     *     ranged integers.
      */
-    public void compareBinExprResult(IntegerValueCollection expression, Expression binExpr, DiscVariable var1,
+    private void compareExprResult(IntegerValueCollection expression, Expression cifExpr, DiscVariable var1,
             DiscVariable var2, VarInfo var1Info, VarInfo var2Info, int lower, int upper)
     {
-        for (int var1Value = lower; var1Value < upper + 1; var1Value++) {
-            for (int var2Value = lower; var2Value < upper + 1; var2Value++) {
+        for (int var1Value = lower; var1Value <= upper; var1Value++) {
+            for (int var2Value = lower; var2Value <= upper; var2Value++) {
                 // Set the (initial) value of the discrete variables.
                 Expression var1ValueExpr;
                 Expression var2ValueExpr;
@@ -332,10 +339,10 @@ public class ExpressionConverterTest {
                 var1.setValue(vvalue1);
                 var2.setValue(vvalue2);
 
-                // Determine the expected result, obtained from evaluating the cif expression.
+                // Determine the expected result, obtained from evaluating the CIF expression.
                 Object evalResult;
                 try {
-                    evalResult = CifEvalUtils.eval(binExpr, true);
+                    evalResult = CifEvalUtils.eval(cifExpr, true);
                 } catch (CifEvalException e) {
                     // This exception is thrown for division by zero or modulus of zero. In that case, the MDD will
                     // be null.
@@ -352,20 +359,20 @@ public class ExpressionConverterTest {
                 }
 
                 // MDD result.
-                Map<VarInfo, Integer> valuations = mapc(2);
-                valuations.put(var1Info, var1Value);
-                valuations.put(var2Info, var2Value);
+                Map<VarInfo, Integer> valuation = mapc(2);
+                valuation.put(var1Info, var1Value);
+                valuation.put(var2Info, var2Value);
 
                 // For all possible results, only the value node of the expected result should evaluate to 'true', all
                 // other nodes should evaluate to 'false'. If the result cannot be computed, all value nodes should
                 // evaluate to 'false'.
                 int correctValuesFound = 0;
                 for (Entry<Integer, Node> valueNode: expression.valueNodes.entrySet()) {
-                    if (valueNode.getKey() == expectedResult) {
-                        assertTrue(valueNode.getValue().evaluate(valuations));
+                    if (Objects.equals(valueNode.getKey(), expectedResult)) {
+                        assertTrue(valueNode.getValue().evaluate(valuation));
                         correctValuesFound++;
                     } else {
-                        assertFalse(valueNode.getValue().evaluate(valuations));
+                        assertFalse(valueNode.getValue().evaluate(valuation));
                     }
                 }
 

@@ -459,7 +459,7 @@ public class FiniteResponseChecker {
 
             // If there are no global guards for an event, that event is always disabled.
             Node nodeGuard = eventGlobalGuards.isEmpty() ? Tree.ZERO
-                    : builder.getPredicateConvertor().convert(eventGlobalGuards).get(1);
+                    : builder.getExpressionConvertor().convert(eventGlobalGuards).get(1);
             eventNode.put(event, nodeGuard);
         }
         return eventNode;

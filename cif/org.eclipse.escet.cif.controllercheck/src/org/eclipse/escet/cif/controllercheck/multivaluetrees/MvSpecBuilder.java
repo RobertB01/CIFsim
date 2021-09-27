@@ -36,8 +36,8 @@ public class MvSpecBuilder {
     /** Variable use-kind for writing a variable ('new' value). */
     public final int writeUseKind;
 
-    /** Expression converter for converting predicates. Uses 'readIndex' to access variables. */
-    private ConvertExpression predicateConvertor = null;
+    /** Expression converter. Uses 'readIndex' to access variables. */
+    private ConvertExpression expressionConvertor = null;
 
     /**
      * Constructor of the {@link MvSpecBuilder} class.
@@ -54,14 +54,14 @@ public class MvSpecBuilder {
     }
 
     /**
-     * Get the expression converter for predicate conversion.
+     * Get the expression converter.
      *
-     * @return Converter for converting predicates.
+     * @return Converter for converting expressions.
      */
-    public ConvertExpression getPredicateConvertor() {
-        if (predicateConvertor == null) {
-            predicateConvertor = new ConvertExpression(cifVarInfoBuilder, tree, readUseKind, writeUseKind);
+    public ConvertExpression getExpressionConvertor() {
+        if (expressionConvertor == null) {
+            expressionConvertor = new ConvertExpression(cifVarInfoBuilder, tree, readUseKind, writeUseKind);
         }
-        return predicateConvertor;
+        return expressionConvertor;
     }
 }

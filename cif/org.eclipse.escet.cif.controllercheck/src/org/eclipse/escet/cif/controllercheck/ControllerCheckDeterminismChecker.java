@@ -167,7 +167,7 @@ public class ControllerCheckDeterminismChecker {
             // Convert guards to MDD tree and determine mutually exclusiveness.
             List<Node> edgeGuardNodes = listc(edgeGuards.size());
             for (List<Expression> edgeGuard: edgeGuards) {
-                Node edgeGuardNode = builder.getPredicateConvertor().convert(edgeGuard).get(1);
+                Node edgeGuardNode = builder.getExpressionConvertor().convert(edgeGuard).get(1);
                 edgeGuardNodes.add(edgeGuardNode);
             }
 

@@ -142,11 +142,10 @@ public class Node {
     /**
      * Evaluates the node for a given valuation.
      *
-     * @param valuations The valuation that contains the values for all variables in the expression.
-     * @return {@code true} if the expression evaluates to true, {@code false} if the expression evaluates to false, or
-     *     {@code null} if the expression cannot be evaluated.
+     * @param valuation The valuation that contains the values for all variables in the expression.
+     * @return {@code true} if the expression evaluates to true, {@code false} if the expression evaluates to false.
      */
-    public Boolean evaluate(Map<VarInfo, Integer> valuations) {
+    public Boolean evaluate(Map<VarInfo, Integer> valuation) {
         Node curNode = this;
 
         while (true) {
@@ -158,10 +157,9 @@ public class Node {
             }
 
             VarInfo variable = curNode.varInfo;
-            Integer value = valuations.get(variable);
+            Integer value = valuation.get(variable);
             if (value == null) {
-                // No value for the variable supplied. Expression cannot be evaluated.
-                return null;
+                throw new RuntimeException("No value in valuation for: " + variable);
             }
 
             int index = value - varInfo.lower;

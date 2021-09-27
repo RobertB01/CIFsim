@@ -263,7 +263,7 @@ public class ConvertExpression {
                     return performBoolOp(leftColl, rightColl, lessThanOp);
 
                 case ADDITION:
-                    return performIntOp(leftColl, rightColl, additionOP);
+                    return performIntOp(leftColl, rightColl, additionOp);
                 case SUBTRACTION:
                     return performIntOp(leftColl, rightColl, subtractionOp);
                 case INTEGER_DIVISION:
@@ -479,7 +479,7 @@ public class ConvertExpression {
     private final GreaterEqualOp greaterEqualOp = new GreaterEqualOp();
 
     /** Addition operator instance. */
-    private final AdditionOp additionOP = new AdditionOp();
+    private final AdditionOp additionOp = new AdditionOp();
 
     /** Subtraction operator instance. */
     private final SubtractionOp subtractionOp = new SubtractionOp();
