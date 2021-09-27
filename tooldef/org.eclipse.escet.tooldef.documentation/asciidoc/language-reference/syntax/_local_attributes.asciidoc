@@ -13,4 +13,4 @@
 // Local attributes only for this folder.
 
 // Due to property caching in Eclipse AsciiDoctor editor, use a unique name per directory.
-:incdir-lang-ref-syntax: ../../../images/lang-ref/syntax
+:incdir-lang-ref-syntax: ../../../images/language-reference/syntax
