@@ -31,7 +31,13 @@ See also the release notes for the specific tools for more information:
 
 === Version 0.3
 
-TBD
+Improvements and fixes:
+
+- The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
+- Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
+- Fixed macOS-specific instructions for tweaking Java performance settings via `eclipse.ini` (issue #179).
+- Removed unsupported in-place update instructions from the documentation (issue #166).
+- Several small documentation fixes and improvements (issue #166).
 
 
 === Version 0.2

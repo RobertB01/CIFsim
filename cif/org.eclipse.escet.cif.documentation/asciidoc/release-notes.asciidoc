@@ -26,11 +26,9 @@ See also the Eclipse ESCET link:https://www.eclipse.org/escet/escet/#release-not
 
 === Version 0.3
 
-TBD
-
 Language changes:
 
-- Removed inheritence of a supervisory kind for invariants.
+- Removed inheritance of a supervisory kind for invariants.
 This was deprecated over 6 years ago and already led to warnings in the specification.
 Invariants without a supervisory kind specification (plant, requirement, supervisor) that reside in an automaton or location of an automaton, and where that automaton has a supervisory kind, now no longer inherit the supervisory kind of that automaton.
 Instead they remain kindless.
@@ -38,6 +36,7 @@ This is a backward incompatible change (issue #139).
 
 New features:
 
+- CIF controller property checker application added to check supervisory controllers for finite response (issue #122).
 - CIF data-based synthesis has a new option to print warnings for events that are never enabled in the input specification or the synthesized controlled system.
 This new option is enabled by default (issues #108, #150, #162 and #164).
 - CIF data-based synthesis now supports boolean constants in predicates (issue #143).
@@ -50,6 +49,11 @@ Improvements and fixes:
 - CIF data-based synthesis simplification of supervisor guards for `false` guards under `false` assumption now correctly results in `true` simplified guards, to indicate the supervisor doesn't enforce a restriction (issue #144).
 - CIF data-based synthesis documentation updated to reflect that code generator tools support state/event exclusion invariants (issue #163).
 - CIF PLC code generator error message now indicates correct TwinCAT XAE project file path (issue #154).
+- CIF type checker improved to report more issues for list projections with impossible bounds, rather than deferring to runtime checks (issue #177).
+- The CIF simulator, CIF to UPPAAL transformation, and CIF to mCRL2 transformation are now all under the 'CIF simulation, validation and verification tools' part of right-click menus on CIF files and editors (issue #122).
+- The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
+- Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
+- Several small documentation fixes and improvements (issues #36 and #166).
 
 
 === Version 0.2
