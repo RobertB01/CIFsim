@@ -620,10 +620,10 @@ class AsciiDocHtmlModifier {
                 Assert.fail(fmt("No page found that defines '%s.%s' id: %s", tagName, attrName, id));
             }
 
-            // Get referenced URI. Skip 'http' and 'https' references etc.
+            // Get referenced URI. Skip 'http', 'https' and 'mailto' references.
             URI uri = URI.create(ref);
             String uriScheme = uri.getScheme();
-            if ("http".equals(uriScheme) || "https".equals(uriScheme)) {
+            if ("http".equals(uriScheme) || "https".equals(uriScheme) || "mailto".equals(uriScheme)) {
                 continue;
             }
 

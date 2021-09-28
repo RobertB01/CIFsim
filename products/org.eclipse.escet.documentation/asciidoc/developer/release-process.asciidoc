@@ -175,7 +175,7 @@ See e.g. https://dev.eclipse.org/ipzilla/show_bug.cgi?id=23179.
 
 ** Ask the EMO to schedule the release review and make it public.
 Consider that release reviews are to be scheduled to happen on the 1st or 3rd Wednesday of a month.
-See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent to emo@eclipse.org).
+See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent to \emo@eclipse.org).
 
 ** Ensure the release review is successful before performing the release.
 
