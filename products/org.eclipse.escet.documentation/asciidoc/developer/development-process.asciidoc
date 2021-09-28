@@ -209,7 +209,7 @@ Reviews are done via merge requests.
 The process is as follows:
 
 * Create a merge request for merging the branch.
-You can create a merge request from the Eclipse ESCET Gitlab https://gitlab.eclipse.org/eclipse/escet/escet/-/branches[Branches page].
+You can create a merge request from the Eclipse ESCET Gitlab link:https://gitlab.eclipse.org/eclipse/escet/escet/-/branches[Branches page].
 Select the _Merge request_ button next to the branch to be merged.
 
 ** Typically a branch is created from and merged back to the `develop` branch, but this can be changed if needed.
