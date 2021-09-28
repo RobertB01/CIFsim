@@ -1,0 +1,25 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[multivalue-goals]]
+== Goals
+
+Decision trees are a useful data structure to store a large amount of relations.
+Most software libraries in this area aim for maximum storage and efficiency, implement them with binary decision diagrams (BDDs) and leave all details of handling nodes to the end-application for maximum flexibility.
+
+This library uses multi-value decision diagrams (MDDs) instead, and attempts to keep details of handling nodes away from the application programmer.
+The advantage of these choices is that using the library is simpler, in particular with variables that have more than two possible values.
+The downside is that this implementation is less feature rich, and is less efficient.
+
+As a result, this library works well for applications that need to manipulate relations with many variables with a larger domain, where usage of the application is not expected to go near the limits of the computer running it.

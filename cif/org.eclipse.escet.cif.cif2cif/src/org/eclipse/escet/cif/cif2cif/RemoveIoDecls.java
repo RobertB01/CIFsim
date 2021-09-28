@@ -49,7 +49,7 @@ public class RemoveIoDecls implements CifToCifTransformation {
     }
 
     /**
-     * Constructor for the {@link RemoveIoDecls} class.declarations.
+     * Constructor for the {@link RemoveIoDecls} class.
      *
      * @param removePrintDecls Whether to remove print and print file declarations.
      * @param removeCifSvgDecls Whether to remove CIF/SVG declarations.

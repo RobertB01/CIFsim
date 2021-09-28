@@ -14,6 +14,7 @@
 package org.eclipse.escet.common.java.tests;
 
 import static org.eclipse.escet.common.java.Lists.add;
+import static org.eclipse.escet.common.java.Lists.areEqualOrShifted;
 import static org.eclipse.escet.common.java.Lists.cast;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.copy;
@@ -29,6 +30,7 @@ import static org.eclipse.escet.common.java.Lists.slice;
 import static org.eclipse.escet.common.java.Sets.set;
 import static org.eclipse.escet.common.java.Strings.fmt;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
@@ -519,6 +521,56 @@ public class ListsTest {
     public void testFirstEmpty() {
         List<Object> l = list();
         first(l);
+    }
+
+    /**
+     * Verify that the {@link Lists#areEqualOrShifted areEqualOrShifted} check is commutative.
+     *
+     * @param a First argument of the {@link Lists#areEqualOrShifted areEqualOrShifted} function.
+     * @param b Second argument of the {@link Lists#areEqualOrShifted areEqualOrShifted} function.
+     * @return The result of the {@link Lists#areEqualOrShifted areEqualOrShifted} check.
+     */
+    private boolean commutativeAreEqualOrShiftedCheck(List<RuntimeException> a, List<RuntimeException> b) {
+        boolean expected = areEqualOrShifted(a, b);
+        assertEquals(expected, areEqualOrShifted(b, a));
+        return expected;
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testAreEqualOrShifted1() {
+        RuntimeException e1 = new NullPointerException();
+        RuntimeException e2 = new IllegalArgumentException();
+        RuntimeException e3 = new RuntimeException();
+        List<RuntimeException> shortList = list(e1, e2);
+        List<RuntimeException> exs1 = list(e1, e2, e3);
+        List<RuntimeException> exs2 = list(e3, e1, e2);
+        List<RuntimeException> exs3 = list(e1, e3, e2);
+
+        assertFalse(areEqualOrShifted(exs1, shortList));
+        assertTrue(areEqualOrShifted(exs1, exs1));
+        assertTrue(areEqualOrShifted(exs1, copy(exs1)));
+        assertTrue(commutativeAreEqualOrShiftedCheck(exs1, exs2));
+        assertFalse(commutativeAreEqualOrShiftedCheck(exs1, exs3));
+    }
+
+    @Test
+    @SuppressWarnings("javadoc")
+    public void testAreEqualOrShifted2() {
+        RuntimeException p = new NullPointerException();
+        RuntimeException x = new IllegalArgumentException();
+        List<RuntimeException> ppp = list(p, p, p);
+        List<RuntimeException> ppx = list(p, p, x);
+        List<RuntimeException> pxp = list(p, x, p);
+        List<RuntimeException> xpp = list(x, p, p);
+
+        assertFalse(commutativeAreEqualOrShiftedCheck(ppp, ppx));
+        assertFalse(commutativeAreEqualOrShiftedCheck(ppp, pxp));
+        assertFalse(commutativeAreEqualOrShiftedCheck(ppp, xpp));
+
+        assertTrue(commutativeAreEqualOrShiftedCheck(pxp, ppx));
+        assertTrue(commutativeAreEqualOrShiftedCheck(xpp, ppx));
+        assertTrue(commutativeAreEqualOrShiftedCheck(xpp, pxp));
     }
 
     @Test

@@ -32,6 +32,9 @@ The following table shows the relation between the names of the ToolDef tools in
 | `cifdatasynth`
 | <<tools-chapter-datasynth>>
 
+| `cifcontrollercheck`
+| <<tools-chapter-controller-checker>>
+
 | `cif2supremica`
 | <<tools-chapter-cif2supremica>>
 

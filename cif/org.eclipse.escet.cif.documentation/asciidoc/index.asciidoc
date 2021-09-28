@@ -326,7 +326,7 @@ include::tools/cif2supremica.asciidoc[]
 
 :leveloffset: -2
 
-=== Simulation, validation, and visualization tools
+=== Simulation, validation, and verification tools
 
 :leveloffset: +2
 
@@ -546,13 +546,13 @@ include::tools/cifsim/test-mode.asciidoc[]
 
 :leveloffset: -4
 
-=== Verification tools
-
 :leveloffset: +2
 
 include::tools/cif2mcrl2.asciidoc[]
 
 include::tools/cif2uppaal.asciidoc[]
+
+include::tools/controller-checker.asciidoc[]
 
 :leveloffset: -2
 

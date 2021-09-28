@@ -61,6 +61,7 @@ The following information is available for developers of the toolkit:
 
 * <<developer-chapter-index>>
 * <<app-framework-chapter-index>>
+* <<multivalue-chapter-index>>
 * <<rail-chapter-index>>
 
 // Introduction
@@ -186,6 +187,24 @@ include::app-framework/implement-your-application.asciidoc[]
 include::app-framework/registration.asciidoc[]
 
 include::app-framework/execution.asciidoc[]
+
+:leveloffset: -1
+
+// Multi-value Decision Diagrams
+
+include::multivalue/index.asciidoc[]
+
+:leveloffset: +1
+
+include::multivalue/goals.asciidoc[]
+
+include::multivalue/variables-and-relations.asciidoc[]
+
+include::multivalue/combining-relations.asciidoc[]
+
+include::multivalue/computing.asciidoc[]
+
+include::multivalue/practical-usage.asciidoc[]
 
 :leveloffset: -1
 

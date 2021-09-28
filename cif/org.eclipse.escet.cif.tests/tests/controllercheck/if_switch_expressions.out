@@ -1,0 +1,34 @@
+Loading CIF specification "controllercheck/if_switch_expressions.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton Aut1:
+        (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton Aut3:
+        (Aut3.c_a Aut3.c_b), which is controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton Aut4:
+        (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton Aut6:
+        (Aut6.c_a Aut6.c_b), which is controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton RequirementStateEvtExcls:
+        (Aut1.c_a), which is not controllable unconnectable.
+        (Aut4.c_a), which is not controllable unconnectable.
+
+Iteration 2.
+    The following events have been encountered in a controllable-event loop of automaton Aut1:
+        (Aut1.c_a Aut1.c_b), which is not controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton Aut4:
+        (Aut4.c_a Aut4.c_b), which is not controllable unconnectable.
+    The following events have been encountered in a controllable-event loop of automaton RequirementStateEvtExcls:
+        (Aut1.c_a), which is not controllable unconnectable.
+        (Aut4.c_a), which is not controllable unconnectable.
+
+CONCLUSION:
+    ERROR, the specification may NOT have finite response.
+    
+    At least one controllable-event loop was found.
+    The following events might still occur in a controllable-event loop:
+        - Aut1.c_a
+        - Aut1.c_b
+        - Aut4.c_a
+        - Aut4.c_b

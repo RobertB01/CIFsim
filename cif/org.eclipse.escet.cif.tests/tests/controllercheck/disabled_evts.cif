@@ -1,0 +1,27 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+controllable c_a; // Disabled via alphabet of A.
+controllable c_b; // Globally disabled, not in any alphabet.
+
+plant A:
+  alphabet c_a;
+  location l1:
+    initial;
+end
+
+plant B:
+  location l2:
+    initial;
+    edge c_a;
+end

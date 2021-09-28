@@ -1,0 +1,35 @@
+Loading CIF specification "controllercheck/strongly_connected_component3.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.e A.k), which is not controllable unconnectable.
+        (A.o A.m), which is not controllable unconnectable.
+        (A.c A.f A.h), which is not controllable unconnectable.
+        (A.d A.h), which is not controllable unconnectable.
+        (A.r A.s A.t), which is not controllable unconnectable.
+
+Iteration 2.
+    The following events have been encountered in a controllable-event loop of automaton A:
+        (A.c A.f A.h), which is not controllable unconnectable.
+        (A.d A.h), which is not controllable unconnectable.
+        (A.e A.k), which is not controllable unconnectable.
+        (A.m A.o), which is not controllable unconnectable.
+        (A.r A.s A.t), which is not controllable unconnectable.
+
+CONCLUSION:
+    ERROR, the specification may NOT have finite response.
+    
+    At least one controllable-event loop was found.
+    The following events might still occur in a controllable-event loop:
+        - A.c
+        - A.d
+        - A.e
+        - A.f
+        - A.h
+        - A.k
+        - A.m
+        - A.o
+        - A.r
+        - A.s
+        - A.t

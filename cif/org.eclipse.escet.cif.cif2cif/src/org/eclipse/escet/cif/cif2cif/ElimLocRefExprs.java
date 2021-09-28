@@ -150,6 +150,12 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     private final boolean optInits;
 
     /**
+     * Whether to add equality binary expressions that reference the new location pointer variable to the guards of
+     * edges.
+     */
+    private final boolean addEdgeGuards;
+
+    /**
      * The phase of the transformation. The first phase (value {@code 1}) is to find the automata for which locations
      * are referenced in expressions. The second phase (value {@code 2}) is to perform the actual transformation. Value
      * is {@code 0} until transformation is started.
@@ -190,10 +196,11 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * transformation.</li>
      * <li>Allows optimization of initialization of location pointers, by analyzing declarations (used for instance in
      * initialization predicates) to see whether they have constant values.</li>
+     * <li>Does not add equality binary expressions that reference the new location pointer to the guards of edges.</li>
      * </ul>
      */
     public ElimLocRefExprs() {
-        this("LP_", "LOCS_", "LOC_", true, true, true, null, true);
+        this("LP_", "LOCS_", "LOC_", true, true, true, null, true, false);
     }
 
     /**
@@ -210,9 +217,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * @param litPrefix The prefix to use for the new enumeration literals.
      * @param considerLocsForRename Whether to consider the names of the locations of the automaton for renaming to
      *     ensure unique names.
-     * @param addInitPreds Whether to add initially predicates for the initialization the introduced location pointer
-     *     variables. Note that if the automaton has exactly one initial location, the location pointer variable is
-     *     initialized in its declaration, regardless of the value of this parameter.
+     * @param addInitPreds Whether to add initialization predicates for the initialization the introduced location
+     *     pointer variables. Note that if the automaton has exactly one initial location, the location pointer variable
+     *     is initialized in its declaration, regardless of the value of this parameter.
      * @param optimized Whether to perform an optimized transformation (only add location pointer variables to automata
      *     for which a location is referenced in an expression).
      * @param absVarNamesMap Mapping from location pointer variables to their absolute names, where the name of the
@@ -221,9 +228,14 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *     mapping.
      * @param optInits Whether to allow optimization of initialization of location pointers, by analyzing declarations
      *     (used for instance in initialization predicates) to see whether they have constant values.
+     * @param addEdgeGuards Whether to add equality binary expressions that reference the new location pointer variable
+     *     to the guards of edges. Note that only if {@code optimized} is disabled, these expressions are created for
+     *     all edges in the specification (of automata with at least two locations).
+     *
      */
     public ElimLocRefExprs(String varPrefix, String enumPrefix, String litPrefix, boolean considerLocsForRename,
-            boolean addInitPreds, boolean optimized, Map<DiscVariable, String> absVarNamesMap, boolean optInits)
+            boolean addInitPreds, boolean optimized, Map<DiscVariable, String> absVarNamesMap, boolean optInits,
+            boolean addEdgeGuards)
     {
         this.varPrefix = varPrefix;
         this.enumPrefix = enumPrefix;
@@ -233,6 +245,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         this.optimized = optimized;
         this.absVarNamesMap = absVarNamesMap;
         this.optInits = optInits;
+        this.addEdgeGuards = addEdgeGuards;
     }
 
     /**
@@ -399,6 +412,11 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             // Ensure proper initialization of the location pointer variable.
             addInits(aut, var, enumDecl);
 
+            // Add guards to edges, if requested.
+            if (addEdgeGuards) {
+                addEdgeGuards(aut, var, enumDecl);
+            }
+
             // Add updates to edges, if needed.
             addUpdates(aut, var, enumDecl);
         }
@@ -541,6 +559,29 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
 
             // Add initialization predicate.
             loc.getInitials().add(pred);
+        }
+    }
+
+    /**
+     * Adds equality binary expression that references the location pointer, as guards to the edges of the given
+     * automaton.
+     *
+     * @param aut The automaton.
+     * @param var The location pointer variable.
+     * @param enumDecl The enumeration.
+     */
+    private void addEdgeGuards(Automaton aut, DiscVariable var, EnumDecl enumDecl) {
+        List<Location> locs = aut.getLocations();
+        for (int idx = 0; idx < locs.size(); idx++) {
+            // Get location.
+            Location loc = locs.get(idx);
+
+            // Process all edges.
+            for (Edge edge: loc.getEdges()) {
+                // Add guard.
+                Expression guard = createEquality(var, enumDecl, idx);
+                edge.getGuards().add(0, guard);
+            }
         }
     }
 

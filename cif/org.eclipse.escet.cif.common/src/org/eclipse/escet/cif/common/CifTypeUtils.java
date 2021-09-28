@@ -34,8 +34,14 @@ import java.util.List;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
+import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
+import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
@@ -1666,5 +1672,45 @@ public class CifTypeUtils {
         }
         type.setReturnType(makeTupleType(deepclone(func.getReturnTypes())));
         return type;
+    }
+
+    /**
+     * Get the type of a variable-like declaration that holds value.
+     *
+     * <p>
+     * <ul>
+     * The following declarations are supported:
+     * <li>{@link AlgVariable}</li>
+     * <li>{@link Constant}</li>
+     * <li>{@link ContVariable}</li>
+     * <li>{@link DiscVariable}</li>
+     * <li>{@link InputVariable}</li>
+     * </ul>
+     * </p>
+     *
+     * @param decl Declaration to inspect.
+     * @return The type of the variable.
+     */
+    public static CifType getVariableType(Declaration decl) {
+        if (decl instanceof AlgVariable) {
+            AlgVariable algVar = (AlgVariable)decl;
+            return algVar.getType();
+        }
+        if (decl instanceof Constant) {
+            Constant constant = (Constant)decl;
+            return constant.getType();
+        }
+        if (decl instanceof ContVariable) {
+            return newRealType();
+        }
+        if (decl instanceof DiscVariable) {
+            DiscVariable discVar = (DiscVariable)decl;
+            return discVar.getType();
+        }
+        if (decl instanceof InputVariable) {
+            InputVariable inputVar = (InputVariable)decl;
+            return inputVar.getType();
+        }
+        throw new RuntimeException("Unknown variable: " + decl);
     }
 }

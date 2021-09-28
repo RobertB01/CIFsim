@@ -183,11 +183,12 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * for all automata with at least two locations. We don't allow the optimization of initialization of location
      * pointers, by analyzing declarations (used for instance in initialization predicates) to see whether they have
      * constant values, as that would mean we can't easily modify the linearization result, e.g. similar to when
-     * constants are inlined.
+     * constants are inlined. We don't add additional location pointer guards on the edges. We do that as part of the
+     * linearization instead.
      * </p>
      */
     protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs("", "TMP_", "", false, false, false,
-            absLpNamesMap, false);
+            absLpNamesMap, false, false);
 
     /**
      * Per automaton, all the alphabets. The automata are sorted in ascending order based on their absolute names

@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+plant Actuator2:
+  controllable c_on, c_off;
+  location Off:
+    initial;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+
+plant Actuator1:
+  controllable c_on, c_off;
+  location Off:
+    initial;
+    edge c_on goto On;
+  location On:
+    edge c_off goto Off;
+end
+
+input bool Sensor;
+
+requirement Actuator1.c_on  needs Sensor;
+requirement Actuator1.c_off needs not Sensor;
+
+requirement Actuator2.c_on  needs Actuator1.On;
+requirement Actuator2.c_off needs Actuator1.Off;

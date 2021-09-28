@@ -150,6 +150,12 @@ public class CifTest extends ToolDefBasedPluginUnitTest {
         test("tests/test_cif2uppaal.tooldef");
     }
 
+    /** CIF controller checker tests. */
+    @Test
+    public void testControllerCheck() {
+        test("tests/test_controllercheck.tooldef");
+    }
+
     /** Data synthesis tests. */
     @Test
     public void testDataSynth() {

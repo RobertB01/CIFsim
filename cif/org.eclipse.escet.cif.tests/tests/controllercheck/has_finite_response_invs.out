@@ -1,0 +1,9 @@
+Loading CIF specification "controllercheck/has_finite_response_invs.cif"...
+Checking for finite response...
+
+Iteration 1.
+    The following events have been encountered in a controllable-event loop of automaton Actuator:
+        (Actuator.c_on Actuator.c_off), which is controllable unconnectable.
+
+CONCLUSION:
+    The specification has finite response.

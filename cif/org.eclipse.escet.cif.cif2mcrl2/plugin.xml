@@ -41,8 +41,8 @@
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
          <menu
                icon="icons/cif_to_mcrl2.png"
-               id="org.eclipse.escet.cif.menu.verification"
-               label="CIF verific&amp;ation tools">
+               id="org.eclipse.escet.cif.menu.validation"
+               label="CIF simul&amp;ation, validation and verification tools">
             <command
                   commandId="org.eclipse.escet.cif.cif2mcrl2.CifToMcrl2Command"
                   icon="icons/cif_to_mcrl2.png"

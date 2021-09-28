@@ -240,6 +240,7 @@ In that case the output is not compliant with the IEC 61131-3 standard.
 
 indexterm:[CIF PLC code generator,generated code]
 
+[[tools-cif2plc-generatedcode]]
 === Generated PLC code
 
 The bodies of the programs and functions in the generated PLC code use Structured Text as programming language.

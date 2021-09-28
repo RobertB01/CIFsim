@@ -28,9 +28,9 @@ indexterm:[CIF to UPPAAL transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF verification tools[Convert CIF to UPPAAL...].
+* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF simulation, validation and verification tools[Convert CIF to UPPAAL...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF verification tools[Convert CIF to UPPAAL...].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF simulation, validation and verification tools[Convert CIF to UPPAAL...].
 
 * Use the `cif2uppaal` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
