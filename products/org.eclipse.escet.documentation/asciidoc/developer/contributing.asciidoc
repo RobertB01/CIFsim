@@ -19,10 +19,13 @@ indexterm:[patches]
 == Contributing
 
 Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
+We welcome your contributions.
 
 The following topics are discussed:
 
 * <<developer-contributing-contribute>>
+* <<developer-contributing-keep-sync-official-repo>>
+* <<developer-contributing-collab-committers>>
 * <<developer-contributing-become-committer>>
 
 
@@ -32,25 +35,69 @@ The following topics are discussed:
 It is often a good idea to first discuss your contribution with the project's community and committers, before creating the actual code (e.g. patches), documentation, etc of your contribution.
 Discussions can take place via an <<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<developer-chapter-index,'dev' list>>.
 
-To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please first create an issue in the <<developer-issue-tracking-chapter-index,issue tracker>>.
+To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please make sure an issue already exists or create a new issue for it in the <<developer-issue-tracking-chapter-index,issue tracker>>.
+
+To create issues, reply to issues, contribute patches and merge requests, etc, you need an Eclipse Foundation account.
+It can easily be created at https://accounts.eclipse.org/user/register.
 
 The easiest way to contribute the actual contribution, is to use GitLab:
 
-* Ensure you're logged in to the Eclipse Foundation GitLab:
+* Create a fork of the official Eclipse ESCET GitLab repository under your own account:
 
-** link:https://gitlab.eclipse.org[Eclipse Foundation GitLab]
+** Navigate to https://gitlab.eclipse.org/eclipse/escet/escet.
 
-* Clone the official Eclipse ESCET Git repository.
-You can click the 'Fork' button at the top right of the page.
+** Click _Sign in_ at the top-right of the page to sign in with your Eclipse Foundation account.
+
+** Once back at https://gitlab.eclipse.org/eclipse/escet/escet, click the _Fork_ button at the top-right of the page.
 This creates a fork of the official repository under your own account.
 
-** link:https://gitlab.eclipse.org/eclipse/escet/escet[Official Eclipse ESCET Git repository]
+* Set up a development environment to work on your contribution:
 
-* Make your changes in the forked repository under your own account.
+** You can find your fork at `https://gitlab.eclipse.org/<username>/escet`, with `<username>` replaced by your Eclipse Foundation account username.
 
-* Create a merge request of those changes from the forked repository under your own account.
-As the target, select the official Eclipse ESCET repository from which you forked earlier.
-Typically, you should target the `develop` branch.
+** Click the _Clone_ button near the top-right of the page and observe the `https` URL.
+
+** Follow the <<developer-dev-env-setup-chapter-index,development environment setup>> instructions to set up a properly configured development environment.
+You need the `https` URL of your fork for this.
+
+* Make your changes in the forked repository under your own account:
+
+** If you followed the development environment setup instructions, your development environment contains a clone of your forked repository, all set up to commit and push to the upstream forked repository.
+
+** Make your changes in a branch of your forked repository, rather than in `develop`.
+This allows you to work on multiple contributions at once.
+It also allows syncing back changes from the official Eclipse ESCET `develop` branch to the `develop` branch of your forked repository, while you're working in a branch.
++
+To create branches in your fork, navigate to `https://gitlab.eclipse.org/<username>/escet/-/branches`, with `<username>` replaced by your Eclipse Foundation account username.
+There click _New branch_ to create a new branch from `develop`.
+
+** Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
+See our <<developer-development-process-chapter-index,development process>> for more information.
+
+* Once you've finished work on your contribution, create a merge request for it:
+
+** Navigate to `https://gitlab.eclipse.org/<username>/escet/-/branches`, with `<username>` replaced by your Eclipse Foundation account username.
+
+** Click _Merge request_ next to the branch for which you which to create the merge request.
+
+** On the _New Merge Request_ page that is shown, click on _Change branches_.
+
+** Change for _Target branch_ the repository to `eclipse/escet/escet` (the official Eclipse ESCET GitLab repository).
+
+** As target branch typically `develop` should be selected.
+
+** Your forked repository (e.g. `<username>/escet`) and branch should already be selected for _Source branch_.
+
+** Click _Compare branches and continue_ to confirm.
+
+** Select an appropriate title.
+Ideally it starts with the issue number, similar to the first line of a commit message.
+
+** Describe your changes under _Description_.
+
+** You may optionally make other changes to the merge request.
+
+** Click _Submit merge request_ to submit the merge request to the Eclipse ESCET project committers for review.
 
 indexterm:[ECA]
 
@@ -60,24 +107,84 @@ Before your contribution can be accepted by the project team, you must electroni
 
 The non-committer that authored the commit, must have an Eclipse Foundation Account and must have a signed Eclipse Contributor Agreement (ECA) on file.
 The name and email address of the commits must match the corresponding information on the Eclipse Foundation Account.
-
 For more information, including the specific format of commit messages, please see the Eclipse Foundation Project Handbook:
 
 * link:https://www.eclipse.org/projects/handbook[Eclipse Foundation Project Handbook]
 * link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records]
 
-Always start a commit message with the issue number, e.g. `#1 Some commit message`.
-
 A contribution by a non-committer will be reviewed by the project committers.
 This includes adherence to the project's <<developer-coding-standards-chapter-index,coding standards>>.
-Discussions regarding the contribution will take place in the associated issue and/or merge request.
-If the committers agree with the contribution, they will commit the contribution into the project's Git repository.
+Discussions regarding the contribution will typically take place in the associated merge request (or issue).
+
+Align with the project committers on who will address the review feedback.
+If you address the feedback yourself, you can commit and push additional commits to the source branch of the merge request.
+These will then automatically be picked up by GitLab.
+Once the committers agree with the contribution, they will merge the contribution into the project's official Git repository.
 
 Remember that contributions are always welcome, and contributions don't have to be perfect.
 The project's developers can help to improve your contribution.
-If you need any help, just ask the project's developers using the issue or the project's <<develop-dev-list,'dev' list>>.
+If you need any help regarding the content of your contribution, the steps above, or anything else, just ask the project's developers via the issue or the project's <<develop-dev-list,'dev' list>>.
 
 See for more information our <<developer-development-process-chapter-index,development process>>.
+
+
+[[developer-contributing-keep-sync-official-repo]]
+=== Keeping in sync with the official Eclipse ESCET GitLab repository
+
+If you've <<developer-dev-env-setup-chapter-index,set up a development environment>> for your forked repository, it will at some point get out of sync with new developments on the official Eclipse ESCET GitLab repository.
+To sync those changes to your forked repository and to the local clone of your forked repository, follow these steps:
+
+* Navigate in a command prompt or shell to your local Git clone of your forked repository.
+It is typically located in the `git/escet` directory within the directory that contains your development environment.
+
+* Add the official Eclipse ESCET GitLab repository as `upstream` remote repository to your local repository, by executing:
+
+** `git remote add upstream https://gitlab.eclipse.org/eclipse/escet/escet.git`
+
+* You now have `upstream` as a remote repository that connects to the official Eclipse ESCET GitLab repository.
+You will also still have `origin` as a remote repository that connects to your forked repository on the Eclipse Foundation GitLab server.
+Adding the `upstream` remote repository is a one-time only step.
+The remaining steps can be repeated whenever desired, to resync your `develop` branch to the `develop` branch of the official Eclipse ESCET GitLab repository.
+
+* Locally, switch to the `develop` branch, by executing:
+
+** `git checkout develop`
+
+* Fetch all changes from the `upstream` repository, by executing:
+
+** `git fetch upstream`
+
+* Update your local `develop` branch with the changes from the `develop` branch of the `upstream` repository, by executing:
+
+** `git pull upstream develop`
+
+* Push the changes to your forked repository on the Eclipse Foundation GitLab server, by executing:
+
+** `git push origin develop`
+
+We recommend that you remove feature branches once your contribution has been accepted into the official Eclipse ESCET GitLab repository's `develop` branch.
+Then, use these steps to resync your local `develop` branch and the `develop` branch of your forked repository with your own contribution.
+You are then back in sync and ready to start work on your next contribution.
+Using this process it is also possible to work on multiple contributions at once, via separate feature branches.
+
+
+[[developer-contributing-collab-committers]]
+=== Collaborating with project committers on a contribution
+
+During a review of your contribution, the project committers may provide some feedback on how to improve your contribution.
+While you can address any review comments yourself, sometimes it is useful to collaborate with the project committers on a contribution.
+
+This is somewhat more complex, due to the fact that only the project committers have write access to the project's official Git repository, while only contributors have write access to their own forks.
+There is no single repository where both the project committers and contributors have write access.
+
+The solution is for the project committers to create a new branch in the official Git repository, based on the contributor's branch from their forked repository.
+The project committers can then make changes and push them to the official Git repository.
+Contributors can then merge those changes into their own branch in their own forked repository.
+They can then add their own changes again, the project committers can merge those changes into their branch, etc.
+This can be repeated until the work is done and everything is in the branch used by the project committers.
+They can then merge their branch into the `develop` branch of the official Git repository, via a merge request.
+This process also works if multiple contributors are involved.
+Some alignment between all parties involved is typically desired to e.g. prevent merge conflicts.
 
 
 [[developer-contributing-become-committer]]

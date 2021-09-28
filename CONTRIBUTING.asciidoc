@@ -15,8 +15,10 @@ visualization, formal verification, real-time testing, and code generation.
 
 For more information, see:
 
- * Project home: https://projects.eclipse.org/projects/technology.escet
  * Website: https://eclipse.org/escet
+ * GitLab: https://gitlab.eclipse.org/eclipse/escet/escet
+ * Jenkins: https://ci.eclipse.org/escet/
+ * Project home: https://projects.eclipse.org/projects/technology.escet
 
 
 ## Developer resources
@@ -43,9 +45,16 @@ This project uses GitLab to track ongoing development and issues:
 Be sure to search for existing issues before you create another one. Remember
 that contributions are always welcome!
 
-To contribute source code (e.g. patches), please use GitLab:
+To contribute source code (e.g. patches) via GitLab, see:
 
- * https://gitlab.eclipse.org/eclipse/escet/escet/-/merge_requests
+ * https://www.eclipse.org/escet/escet/#developer-contributing-chapter-index
+
+To create issues, reply to issues, contribute patches and merge requests, etc,
+you need an Eclipse Foundation account. It can easily be created at
+https://accounts.eclipse.org/user/register.
+
+Please start each commit message with the issue number, e.g.
+`#NNN Commit summary.` for issue `NNN`.
 
 
 ## Eclipse Contributor Agreement
