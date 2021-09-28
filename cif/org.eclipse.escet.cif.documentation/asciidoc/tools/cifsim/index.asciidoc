@@ -29,7 +29,7 @@ Powerful visualization features allow for interactive visualization-based valida
 * <<tools-cifsim-chapter-traces>>
 * <<tools-cifsim-chapter-repeated-simulation>>
 
-*Input/Output*
+*Input/output*
 
 * <<tools-cifsim-input-chapter-index>>
 * <<tools-cifsim-chapter-env-events>> (non-urgent events)

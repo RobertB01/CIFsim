@@ -1,0 +1,122 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-reuse1-chapter-algvar-equations]]
+== Algebraic variables and equations
+
+indexterm:[algebraic variable,equation]
+indexterm:[equation,algebraic variable]
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton car:
+  event start, stop, breakdown, start_repair, repaired;
+
+  alg bool can_drive = idle or moving;
+
+  location idle:
+    initial;
+    edge start goto moving;
+
+  location moving:
+    edge stop goto idle;
+    edge breakdown goto broken;
+
+  location broken:
+    edge start_repair goto repairing;
+
+  location repairing:
+    edge repaired goto idle;
+end
+----
+
+The `car` is initially `idle`.
+Once you `start` driving, the car is `moving`.
+Once you `stop` driving, the car is `idle` again.
+While `moving` it is possible for a `breakdown` to occur, meaning the car is `broken`.
+Once a mechanic starts the repair (`+start_repair+`), the mechanic is `repairing` the car.
+Once it is `repaired`, the car is `idle`, and you can `start` driving it again, etc.
+
+Algebraic variable `+can_drive+` indicates whether you can currently drive the car.
+As the value calculation indicates, the car can be driven whenever it is `idle` or `moving`.
+That is, it can't be driven if the car is `broken` or a mechanic is `repairing` it.
+
+In the example above, the value of the algebraic variable is defined with the declaration, as was already explained in the lesson that introduced <<lang-tut-reuse1-chapter-algebraic-variables,algebraic variables>>.
+However, it also possible to specify the value separately, using an equation:
+
+
+[source, cif]
+----
+automaton car:
+  event start, stop, breakdown, start_repair, repaired;
+
+  alg bool can_drive;
+
+  equation can_drive = idle or moving;
+
+  // Locations omitted for brevity.
+end
+----
+
+This allows for separation of variable declarations and equations.
+Both variants have the same algebraic variable with the same value.
+An equation of an algebraic variable must be placed in the same component as where the algebraic variable is declared.
+In the example above, the equation for algebraic variable `+can_drive+` must be placed in automaton `car`, as that is where the algebraic variable is declared.
+
+For algebraic variables declared in automata, it is also possible to specify the value using an equation per location of the automaton:
+
+
+[source, cif]
+----
+automaton car:
+  event start, stop, breakdown, start_repair, repaired;
+
+  alg bool can_drive;
+
+  location idle:
+    initial;
+    equation can_drive = true;
+
+    edge start goto moving;
+
+  location moving:
+    equation can_drive = true;
+
+    edge stop goto idle;
+    edge breakdown goto broken;
+
+  location broken:
+    equation can_drive = false;
+
+    edge start_repair goto repairing;
+
+  location repairing:
+    equation can_drive = false;
+
+    edge repaired goto idle;
+end
+----
+
+Every algebraic variable must have a unique value in every situation.
+Algebraic variables must thus have a value with their declaration, a single equation in the same component, or an equation in every location of the automaton.
+For every algebraic variable, one of the three variants must be chosen.
+It is allowed to choose a different variant for different algebraic variables, but it is not allowed to use multiple variants for the same algebraic variable.
+
+Which variant fits best for a specific algebraic variable, depends on the situation.
+One of the benefits of using an equation per location, is that the equations are checked for completeness.
+If you add a new location, you must add an equation to that location as well, as otherwise the model is invalid (incomplete).
+This means you can't forget to specify the value of the algebraic variable for that new location.
+If you use a value with the declaration or a single equation in the component, you might forget to update the value for the changes you made to the automaton.

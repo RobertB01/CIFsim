@@ -1,0 +1,219 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-functions-chapter-statements]]
+== Function statements
+
+indexterm:[function,statements]
+This lesson explains the different statements that can be used in internal user-defined functions:
+
+* <<lang-tut-functions-statements-assignment>>
+
+* <<lang-tut-functions-statements-if>>
+
+* <<lang-tut-functions-statements-return>>
+
+* <<lang-tut-functions-statements-while>>
+
+* <<lang-tut-functions-statements-break>>
+
+* <<lang-tut-functions-statements-continue>>
+
+indexterm:[function statements,assignment]
+
+[[lang-tut-functions-statements-assignment]]
+=== Assignment statement
+
+Assignments in functions are very similar to assignments to <<lang-tut-data-chapter-discrete-variables,discrete variables>>.
+For instance:
+
+
+[source, cif]
+----
+x := x + 1;
+----
+
+Besides local variables, it also allowed to assign new values to the parameters.
+Changes to parameters only have effect inside the function itself.
+
+For <<lang-tut-data-asgn-old-vs-new-multi,multi-assignments>>, the outer parentheses are not needed:
+
+
+[source, cif]
+----
+// Multi-assignment on an edge.
+edge do (x, y) := (1, 2);
+
+// Multi-assignment in a function.
+x, y := 1, 2;
+----
+
+indexterm:[function statements,if]
+
+[[lang-tut-functions-statements-if]]
+=== If statement
+
+It is possible to perform different calculations under different circumstances.
+Consider the following function:
+
+
+[source, cif]
+----
+func int signum(real x):
+  if x > 0:
+    return 1;
+  elif x < 0:
+    return -1;
+  else
+    return 0;
+  end
+end
+----
+
+This `signum` function takes a real number `x` and returns its link:http://en.wikipedia.org/wiki/Signum_function[sign].
+The `if` statement is used to detect the different situations, and to return the correct result in each of those situations.
+
+indexterm:[function statements,return]
+
+[[lang-tut-functions-statements-return]]
+=== Return statement
+
+The execution of a function ends when a `return` statement is encountered.
+The value following the `return` statement is the result of the entire function.
+Consider again the `return` statement from the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
+
+// Copied from: functions/internal-functions
+
+[source,cif]
+----
+return sum / length;
+----
+In this case, the `sum` of the input values is divided by the number of input elements (variable `length`) to obtain the mean of the input values.
+The mean of the input values is the result of the function.
+
+indexterm:[function statements,while]
+
+[[lang-tut-functions-statements-while]]
+=== While statement
+
+The `while` statements allows for repeated execution of the statements in its body, as long as the condition of the `while` loop holds.
+Consider again the `mean` function from the <<lang-tut-functions-chapter-internal-functions,previous lesson>>:
+
+// Copied from: functions/internal-functions
+
+[source,cif]
+----
+func real mean(list real vs):
+  int length = size(vs);
+  int index = 0;
+  real sum = 0;
+
+  while index < length:
+    sum := sum + vs[index];
+    index := index + 1;
+  end
+  return sum / length;
+end
+----
+
+The `mean` function processes each of its input values, using a `while` loop.
+As long as the condition (`index < length`) holds, the body of the `while` is executed over an over.
+The body consists of two assignments.
+The first assignment obtains an input value (`vs[index]`) and adds it to the `sum`.
+The second statement increases the index, to proceed with the next input value.
+After the two assignments have been executed, the condition of the `while` is evaluated again.
+If the condition still holds, the two assignments are executed again, etc.
+When the condition no longer holds, the `while` statement is done, and execution proceeds with the next statement, the `return` statement.
+
+indexterm:[function statements,break]
+
+[[lang-tut-functions-statements-break]]
+=== Break statement
+
+A `break` statement 'jumps out' of a `while` statement, continuing with the first statement after the `while`.
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+// Get the first 'n' values from 'xs' that are not 'bad'.
+func list int first_n(list int xs; int n; int bad):
+  int index = 0;
+  int x;
+  list int result = [];
+
+  while index < size(xs):
+    x := xs[index];
+    if x != bad:
+      result := result + [x];
+    end
+    if size(result) = n:
+      break;
+    end
+    index := index + 1;
+  end
+  return result;
+end
+
+// The value of 'y' is [1, 5, 3].
+alg list int y = first_n([1, 2, 5, 3, 4, 1, 3], 3, 2);
+----
+
+The `first_n` function takes a list of integer numbers `xs`, and returns a list `result` with the first `n` numbers from `xs` that are not `bad`.
+A `while` loop is used to process each of the numbers in list `xs`.
+The current number is stored in variable `x`.
+If the current number is not the same as `bad`, it is added to the `result`.
+If the `result` then contains `n` values, the `break` statement is used to break out of the `while` loop and continue execution at the first statement after the `while` loop, which is the `return` statement.
+If less than `n` values are in the result, `index` is incremented to ensure the next number of the list is processed in the next iteration of the `while` loop.
+The `return` statement at the end of the function is used to return the `result` list, which contains at most `n` values.
+
+indexterm:[function statements,continue]
+
+[[lang-tut-functions-statements-continue]]
+=== Continue statement
+
+A `continue` statement 'jumps over' the remaining statements in the body of a `while` statement, and continues with the next iteration of that `while` statement.
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+// Get the values from 'xs' that are greater than 5.
+func list int filter_gt5(list int xs):
+  int index = 0;
+  int x;
+  list int result = [];
+
+  while index < size(xs):
+    x := xs[index];
+    index := index + 1;
+    if x <= 5:
+      continue;
+    end
+    result := result + [x];
+  end
+  return result;
+end
+
+// The value of 'y' is [8, 7, 6].
+alg list int y = filter_gt5([1, 8, 5, 7, 4, 6, 3]);
+----
+
+The `+filter_gt5+` function takes a list of integer numbers, and returns a filtered list that only contains those integer number that are greater than 5.
+A `while` loop is used to process each of the numbers in list `xs`.
+The current number is stored in variable `x`, and `index` is incremented to ensure the next number of the list is processed in the next iteration of the `while` loop.
+If the current number is not greater than 5, the remaining statements in the body of the `while` are skipped, meaning `x` is not added to the `result`.
+The `while` loop then continues with the next iteration, for the next number in `xs`.
+If the current number (`x`) is greater than 5, execution continues after the `if` statement, and the number is added to the `result`.
+After all numbers in the list have been processed, the filtered `result` list is returned to the caller of the function.

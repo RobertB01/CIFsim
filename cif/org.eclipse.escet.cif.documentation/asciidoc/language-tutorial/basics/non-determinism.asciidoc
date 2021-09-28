@@ -1,0 +1,86 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-basics-chapter-non-determinism]]
+== Non-determinism
+
+indexterm:[non-determinism]
+Depending on the context in which it is used, non-determinism can mean different things.
+One definition is having multiple possible traces through the state space of a system.
+Another definition is having multiple possible transitions for a certain event, for a certain state.
+Different communities also use different definitions, and some communities only use one of the definitions, and use a different name to refer to the other concept.
+
+=== Non-determinism between events
+
+One cause of non-determinism is that multiple events are enabled, leading to multiple possible transitions.
+In other words, there are multiple possible traces through the state space.
+During the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>, we already encountered this form of non-determinism, as transitions for the `produce` and `consume` events could be performed in arbitrary order.
+
+
+=== Non-determinism for single event
+
+Another cause of non-determinism is the presence of multiple outgoing edges of a single location for the same event.
+This can lead to multiple possible transitions for a that event, for a single state.
+For instance, consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton coin:
+  event toss, land, pick_up;
+
+  location hand:
+    initial;
+    edge toss goto air;
+
+  location air:
+    edge land goto ground;
+
+  location ground:
+    edge pick_up goto hand;
+end
+
+automaton outcome:
+  location unknown:
+    initial;
+    edge coin.land goto heads; // First way to land.
+    edge coin.land goto tails; // Second way to land.
+
+  location heads:
+    edge pick_up goto unknown;
+
+  location tails:
+    edge pick_up goto unknown;
+end
+----
+
+The `coin` automaton represents a single coin.
+Initially, it is in the `hand` of a person.
+That person can `toss` the coin up into the `air`, eventually causing it to fall and `land` on the `ground`.
+It can be picked up (event `pick_up`), causing it to once again be in the `hand` of a person.
+
+The `outcome` automaton registers the outcome of the link:http://en.wikipedia.org/wiki/Coin_toss[coin toss].
+Initially, the outcome is `unknown`.
+Whenever the coin is tossed, it lands (event `land` from automaton `coin`) on the ground with either the `heads` or `tails` side up.
+The `unknown` location of the `outcome` automaton has two edges for the same event.
+This leads to two possible transitions, one to the `heads` location, and one to the `tails` location.
+This is a non-deterministic choice, as the model does not specify which transition is chosen, or even which choice is more likely.
+
+In both the `heads` and `tails` locations, the coin can be picked up again, making the outcome `unknown`.
+The coin can be tossed again and again, repeating the behavior forever.
+The following figure shows the state space of this specification:
+
+image::{lang-tut-imgsdir}/basics/coin_toss_state_space.png[]
+
+The states are labeled with the first letters of the current locations of the two automata.

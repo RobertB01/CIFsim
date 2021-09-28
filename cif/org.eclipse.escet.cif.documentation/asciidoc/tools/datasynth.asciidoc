@@ -19,7 +19,7 @@ indexterm:[data-based supervisory controller synthesis]
 indexterm:[tools,data-based supervisory controller synthesis]
 indexterm:[synthesis,data-based]
 The data-based supervisory controller synthesis tool performs data-based supervisory controller synthesis, or simply data-based synthesis.
-It can be used to <<tut-extensions-chapter-synthesis,synthesize>> a supervisor for an untimed CIF specification, with data (e.g. <<tut-data-chapter-discrete-variables,discrete variables>>).
+It can be used to <<lang-tut-extensions-chapter-synthesis,synthesize>> a supervisor for an untimed CIF specification, with data (e.g. <<lang-tut-data-chapter-discrete-variables,discrete variables>>).
 For a CIF specification with plants and requirements, the tool computes a supervisor.
 The supervisor restricts the plants in such a way that the resulting controlled system satisfies the following properties:
 
@@ -332,7 +332,7 @@ indexterm:[data-based supervisory controller synthesis,requirements]
 === Supported requirements
 
 Three types of requirements are supported:
-<<tut-data-chapter-stat-invariants,state invariants>>, <<tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
+<<lang-tut-data-chapter-stat-invariants,state invariants>>, <<lang-tut-data-chapter-stat-evt-excl-invariants,state/event exclusion invariants>>, and <<lang-tut-extensions-synthesis-autkind,requirement automata>>.
 
 State invariants are global conditions over the values of variables (and locations of automata) that must always hold.
 Such requirements are sometimes also called mutual state exclusions.
@@ -430,11 +430,11 @@ The requirement automata are changed to supervisor automata.
 Some or all of the requirement invariants may be <<tools-cif2cif-chapter-remove-reqs,removed>>, depending on the <<tools-datasynth-simplification,simplifications>> that are applied.
 The remaining requirement invariants are changed to supervisor invariants.
 An additional external supervisor automaton is added.
-Also, depending on the simplifications that are applied, the requirement automata may serve as <<tut-data-chapter-monitoring,monitors>> or _observers_ for the external supervisor, or may actually impose the requirement restrictions.
+Also, depending on the simplifications that are applied, the requirement automata may serve as <<lang-tut-data-chapter-monitoring,monitors>> or _observers_ for the external supervisor, or may actually impose the requirement restrictions.
 An external supervisor is a `supervisor` automaton that adds restrictions to the uncontrolled system (the plants), and potentially the requirement automata, depending on the simplifications that are applied.
 The supervisor uses the same events as the plants, and refers to plant and requirement locations and variables in its conditions.
 
-By default, the resulting external supervisor automaton is put in the empty <<tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
+By default, the resulting external supervisor automaton is put in the empty <<lang-tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
 That is, the supervisor automaton is not put in any groups.
 See the <<tools-datasynth-supervisor-namespace>> section for more information.
 
@@ -458,7 +458,7 @@ For more information on this initialization predicate, see the section on <<tool
 [[tools-datasynth-supervisor-namespace]]
 ==== Namespace
 
-As indicated above, by default the resulting supervisor automaton is put in the empty <<tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
+As indicated above, by default the resulting supervisor automaton is put in the empty <<lang-tut-reuse2-chapter-namespaces,namespace>>, at the top level of the resulting specification.
 That is, the supervisor automaton is not put in any groups.
 
 It is possible to add a namespace to the entire resulting specification.

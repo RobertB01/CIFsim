@@ -17,8 +17,8 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF simulator,stochastic distributions]
 indexterm:[seed,stochastic distributions]
-<<tut-stochastics-chapter-intro,Stochastics>> can be used to model randomness in CIF models.
-The CIF simulator exhibits <<tut-stochastics-chapter-pseudo-randomness,pseudo-randomness>>.
+<<lang-tut-stochastics-chapter-intro,Stochastics>> can be used to model randomness in CIF models.
+The CIF simulator exhibits <<lang-tut-stochastics-chapter-pseudo-randomness,pseudo-randomness>>.
 This page explains how to influence that pseudo-randomness.
 
 The randomness of the stochastic distributions is implemented in the CIF simulator using link:http://en.wikipedia.org/wiki/Pseudorandom_number_generator[pseudorandom number generators] (PRNGs).

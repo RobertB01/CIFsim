@@ -1,0 +1,160 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-data-chapter-init-preds]]
+== Initialization predicates
+
+indexterm:[initialization,predicate]
+_Initialization predicates_ can be used to specify the allowed initial locations of automata, as well as to restrict the allowed initial values of variables.
+
+indexterm:[location,initial]
+
+[[lang-tut-data-init-preds-aut]]
+=== Initial locations of automata
+
+Initialization predicates can be used to specify the allowed initial locations of automata:
+
+
+[source, cif]
+----
+automaton a:
+  location loc1:
+    initial;
+
+  location loc2:
+    initial true;
+
+  location loc3;
+
+  location loc4:
+    initial false;
+end
+----
+
+Automaton `a` has four locations.
+Location `loc1` has the `initial` keyword, and is thus allowed to be the initial location.
+Location `loc2` also uses the `initial` keyword, but additionally specifies a predicate that indicates under which conditions the location may be the initial location.
+Since it is `true`, which always holds, it does not impose any additional restrictions, and can thus always be the initial location.
+In fact, this is identical to location `loc1`, which did not specify a predicate, in which case it default to `true` as well.
+
+Location `loc3` does not specify anything about initialization, and thus can never be the initial location.
+Location `loc4` can only be the initial location if `false` holds.
+Since `false` never holds, location `loc4` can never be the initial location.
+In fact, this is identical to location `loc3`, which did not specify any initialization at all, in which case it default to `false` as well.
+
+Locations `loc1` and `loc2` are the potential initial locations, while locations `loc3` and `loc4` can not be chosen as initial locations of automaton `a`.
+Since an automaton can only have one current location, an initial location has to be chosen from the potential initial locations.
+In other words, the initial location of automaton `a` is either location `loc1` or location `loc2`.
+
+indexterm:[initialization,consistency]
+
+=== Consistency between initial locations and initial values
+
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton odd_even:
+  event inc, dec;
+  disc int n = 5;
+
+  location odd:
+    initial;
+    edge inc do n := n + 1 goto even;
+    edge dec do n := n - 1 goto even;
+
+  location even:
+    edge inc do n := n + 1 goto odd;
+    edge dec do n := n - 1 goto odd;
+end
+----
+
+Automaton `+odd_even+` keeps track of a value (`n`) that can constantly be incremented (event `inc`) and decremented (event `dec`) by one.
+It has two locations, that keep track of the `odd`/`even` status of value `n`.
+Currently, the initial value is `5`, which is odd.
+Therefore, the `initial` keyword is specified in the `odd` location.
+However, if we change the initial value of variable `n` to `6`, we have to change the initial location as well, to ensure consistent initialization.
+To automatically keep the initial location consistent with the initial value of variable `n`, we can change the specification to the following:
+
+
+[source, cif]
+----
+automaton odd_even:
+  event inc, dec;
+  disc int n = 5;
+
+  location odd:
+    initial n mod 2 = 1; // Initial location if 'n' is odd.
+    edge inc do n := n + 1 goto even;
+    edge dec do n := n - 1 goto even;
+
+  location even:
+    initial n mod 2 = 0; // Initial location if 'n' is even.
+    edge inc do n := n + 1 goto odd;
+    edge dec do n := n - 1 goto odd;
+end
+----
+
+In this specification, location `odd` can only be the initial location if the value is odd (the value link:http://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is congruent to one), and location `even` can only be the initial location if the value is even.
+Changing the initial value of variable `n` then also changes the potential initial locations.
+Since the value is always odd or even, and can't be both odd and even, automaton `+odd_even+` always has exactly one potential initial location.
+
+indexterm:[initialization,restricted]
+
+=== Restricting initialization
+
+Initialization predicates can also be used to restrict the initial values of variables.
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton a:
+  disc int x in any;
+
+  initial x mod 2 = 1;
+
+  location ...
+end
+----
+
+In this partial automaton, variable `x` can be initialized to any integer value, as indicated by its `int` type and the `any` keyword.
+However, the initialization predicate states that initially, the value of `x` module two must be congruent to one.
+That is, the value of variable `x` must initially be odd.
+
+It is allowed to specify initialization predicates inside automata, but it is also allowed to place them outside of them:
+
+
+[source, cif]
+----
+automaton a:
+  disc int x in any;
+
+  location ...
+end
+
+automaton b:
+  disc int x in any;
+
+  location ...
+end
+
+initial a.x = 2 * b.x;
+----
+
+Here, two automata each declare a variable that can have arbitrary initial values.
+The initialization predicate specifies that the initial value of variable `x` from automaton `b` must be twice the initial value of variable `x` from automaton `a`.
+
+It is generally recommended to place an initialization predicate inside an automaton if the condition only applies to declarations from that automaton, and to place it outside of the automata if the condition applies to declarations of multiple automata.

@@ -61,15 +61,15 @@ include::introduction.asciidoc[]
 
 // Language reference manual
 
-include::lang-ref/index.asciidoc[]
+include::language-reference/index.asciidoc[]
 
 === Syntax
 
 :leveloffset: +2
 
-include::lang-ref/syntax/lexical.asciidoc[]
+include::language-reference/syntax/lexical.asciidoc[]
 
-include::lang-ref/syntax/grammar.asciidoc[]
+include::language-reference/syntax/grammar.asciidoc[]
 
 :leveloffset: -2
 
@@ -77,23 +77,23 @@ include::lang-ref/syntax/grammar.asciidoc[]
 
 :leveloffset: +2
 
-include::lang-ref/builtins/operators.asciidoc[]
+include::language-reference/builtins/operators.asciidoc[]
 
-include::lang-ref/builtins/data.asciidoc[]
+include::language-reference/builtins/data.asciidoc[]
 
-include::lang-ref/builtins/io.asciidoc[]
+include::language-reference/builtins/io.asciidoc[]
 
-include::lang-ref/builtins/generic.asciidoc[]
+include::language-reference/builtins/generic.asciidoc[]
 
-include::lang-ref/builtins/path.asciidoc[]
+include::language-reference/builtins/path.asciidoc[]
 
-include::lang-ref/builtins/file.asciidoc[]
+include::language-reference/builtins/file.asciidoc[]
 
 :leveloffset: -2
 
 // Tool manual
 
-include::tools/index.asciidoc[]
+include::tools.asciidoc[]
 
 // Release notes
 

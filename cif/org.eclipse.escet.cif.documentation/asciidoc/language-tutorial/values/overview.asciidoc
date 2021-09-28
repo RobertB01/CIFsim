@@ -1,0 +1,70 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-values-chapter-overview]]
+== Values overview
+
+The values of CIF (and their types) can be categorized into different categories: elementary values, container values, and miscellaneous values.
+Elementary values represent single values, such as a single number.
+Container values represent multiple values.
+The different container values combine or store the values in different ways.
+The elementary and container values are described in the remainder of this part of the tutorial.
+The miscellaneous values are special, and are explained later in the tutorial.
+The remainder of this lesson gives an overview of the values available per category, along with short descriptions of each of the different kinds of values.
+
+*Elementary values*
+
+<<lang-tut-values-chapter-booleans,Booleans>>::
+Represents truth values of for instance guards and other conditions.
+The only two possible values are `true` and `false`.
+
+<<lang-tut-values-chapter-integers,Integers>>::
+Represent integer numbers, such as `-123` and `5`.
+
+<<lang-tut-values-chapter-enumerations,Enumerations>>::
+Represent enumerated values, which are collections of names each representing a different value.
+For instance, a enumeration named `color` could have values `red`, `green`, and `blue`.
+
+<<lang-tut-values-chapter-reals,Reals>>::
+Represent real numbers, such as `1.56` and `-2.7e6` (scientific notation for 2.7 million).
+
+<<lang-tut-values-chapter-strings,Strings>>::
+Represent textual values, such as `"hello world"` and `"some text"`.
+
+*Container values*
+
+<<lang-tut-values-chapter-tuples,Tuples>>::
+Tuples have two or more ordered values, each of which can have a different type.
+For instance: `(1, true, 5.0)`.
+
+<<lang-tut-values-chapter-lists,Lists>>::
+Lists have zero or more ordered values, each of which has the same type, and possibly with duplicates.
+For instance: `[1, 5, 2, 1]`.
+
+<<lang-tut-values-chapter-sets,Sets>>::
+Sets have zero or more unordered values, each of which has the same type, and without any duplicates.
+For instance: `{1, 5, 2}`.
+
+<<lang-tut-values-chapter-dictionaries,Dictionaries>>::
+Dictionaries have keys and associated values.
+The keys are unique and each map to a value.
+For instance: `{1: true, 2: false, 3: false}`.
+
+*Miscellaneous values*
+
+<<lang-tut-functions-chapter-functions-as-values,Functions>>::
+Functions take values and use them to compute other values, possibly using complex and lengthy calculations.
+
+<<lang-tut-stochastics-chapter-intro,Distributions>>::
+Stochastic distributions allow for sampling, making it possible to produce random values.

@@ -20,7 +20,7 @@ indexterm:[CIF simulator,repeated simulation]
 indexterm:[performance,repeated simulation]
 When simulating a CIF model, the simulator reads the CIF file, checks it for validity, generates link:http://oracle.com/java[Java] code, <<tools-cifsim-chapter-java-compiler,compiles>> the code, and uses the compiled code using the actual simulation.
 All of this takes a bit of time, or even quite some time, depending on the size of the model.
-This situation is not ideal for repeated simulations, for instance when trying different scenarios or use cases, when simulating with different <<tools-cifsim-chapter-options,options>>, or when repeating simulations with various different <<tools-cifsim-chapter-init,initializations>> or due to <<tut-stochastics-chapter-intro,stochastic>> behavior.
+This situation is not ideal for repeated simulations, for instance when trying different scenarios or use cases, when simulating with different <<tools-cifsim-chapter-options,options>>, or when repeating simulations with various different <<tools-cifsim-chapter-init,initializations>> or due to <<lang-tut-stochastics-chapter-intro,stochastic>> behavior.
 The startup time for the first simulation is also present for the second simulation, etc.
 
 It would be much better to generate and compile the code just once, and then simulate multiple times using the already compiled code, significantly reducing the startup time of the simulations.

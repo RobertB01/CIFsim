@@ -68,7 +68,7 @@ indexterm:[time,in a function]
 indexterm:[function,use of time]
 A function is a mathematical function: the result of a function is the same for the same values of input parameters.
 A function has no _side-effect_, and it cannot access variables outside the body.
-For example, it cannot access `time` (explained in <<tut-servers-with-time,Servers with time>>) directly, it has to be passed in through the parameter list.
+For example, it cannot access `time` (explained in <<tut-chapter-servers-with-time>>) directly, it has to be passed in through the parameter list.
 
 A function that calculates the sign of a real number, is:
 

@@ -1,0 +1,122 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-data-chapter-tau-event]]
+== The `tau` event
+
+indexterm:[tau]
+indexterm:[tau event]
+indexterm:[tau,event]
+indexterm:[event,tau]
+Events allow for synchronization, allowing for interaction between automata based on events.
+If however an automaton has an edge that performs some internal processing, the event may not always be relevant.
+Consider for instance the following CIF specification:
+
+
+[source, cif]
+----
+automaton machine1:
+  event process, provide;
+  disc int id = 0;
+
+  location processing:
+    initial;
+    edge process do id := id + 1 goto providing;
+
+  location providing:
+    edge provide goto processing;
+end
+
+automaton machine2:
+  location:
+    initial;
+    edge machine1.provide;
+end
+----
+
+The specification models two machines.
+Products enter the first machine, which processes them (event `process`) and assigns them an `id`.
+The machine them provides (event `provide`) them to the second machine.
+The second machine currently just accepts the products provided by the first machine, but would in reality likely perform its own processing as well.
+The state space of the specification is as follows:
+
+image::{lang-tut-imgsdir}/data/tau_event_state_space1.png[]
+
+The states are labeled with the names of the current locations of automaton `machine1`.
+Since automaton `machine2` has only a single location, its current location does not change, and it is therefore not included in the state names.
+
+The `provide` event synchronizes over both automata, while the `process` event is local to the first machine.
+The `process` event is not essential, and could be left out:
+
+
+[source, cif]
+----
+automaton machine1:
+  event provide;                         // No more 'process' event.
+  disc int id = 0;
+
+  location processing:
+    initial;
+    edge do id := id + 1 goto providing; // No more event on the edge.
+
+  location providing:
+    edge provide goto processing;
+end
+
+automaton machine2:
+  location:
+    initial;
+    edge machine1.provide;
+end
+----
+
+By omitting the event from an edge, the `tau` is used for that edge.
+The `tau` event is an event that is implicitly always present without declaring it.
+The state space of this modified specification is:
+
+image::{lang-tut-imgsdir}/data/tau_event_state_space2.png[]
+
+indexterm:[synchronization,tau]
+indexterm:[tau,synchronization]
+The `tau` event does not synchronize.
+You can think of this as each automaton having its own local `tau` event, and since then they are different events, they do not synchronize.
+If multiple automata can perform a transition for an edge with the `tau` event, this leads to potential transitions for each of those edges.
+Since they are all labeled with the `tau` event, it is impossible to distinguish them solely based on their label.
+This is a form of <<lang-tut-basics-chapter-non-determinism,non-determinism>>.
+
+Using the `tau` events saves having to declare a local event, and also saves having to put that event on the edge.
+It thus leads to smaller specifications.
+However, as explained above, if `tau` is used on multiple edges of multiple automata, the different `tau` transitions can no longer be distinguished from each other in the state space.
+The use of the `tau` event is thus always a trade-off.
+
+indexterm:[tau,explicit]
+It is also possible to explicitly use the `tau` event:
+
+
+[source, cif]
+----
+edge tau goto ...;
+----
+
+The `tau` event can thus be used instead of 'regular' events, and may even be combined with 'regular' events on the same edge:
+
+
+[source, cif]
+----
+edge provide, tau goto ...;
+----
+
+indexterm:[tau,implicit]
+indexterm:[edge,no events]
+Omitting the events from an edge defaults to a single `tau` event, as shown in one of the examples above.

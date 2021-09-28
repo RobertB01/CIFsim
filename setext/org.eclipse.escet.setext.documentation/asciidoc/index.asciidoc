@@ -47,7 +47,7 @@ The following topics are discussed:
 
 * <<setext-reference-manual>>
 * <<setext-using-in-an-eclipse-plugin-project>>
-* <<setext-limitations-issues>>
+* <<setext-limitations>>
 * <<setext-release-notes,SeText release notes>>
 * <<setext-legal,Legal information>>
 
@@ -84,9 +84,9 @@ include::reference-manual/generated-scanners-parsers.asciidoc[]
 
 include::using-in-an-eclipse-plugin-project.asciidoc[]
 
-// Limitations and issues
+// Limitations
 
-include::limitations-issues.asciidoc[]
+include::limitations.asciidoc[]
 
 // Release notes
 

@@ -1,0 +1,130 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-values-chapter-dictionaries]]
+== Dictionaries
+
+indexterm:[dictionary]
+indexterm:[type,dictionary]
+indexterm:[dictionary,type]
+indexterm:[value,dictionary]
+indexterm:[dictionary,value]
+indexterm:[dictionary,pair]
+A dictionary is an unordered collection of _keys_ and associated _values_.
+A key with its associated value is called a key/value _pair_.
+Consider the following:
+
+
+[source, cif]
+----
+disc dict(string:int) age = {"eve": 32, "john": 34, "adam": 25};
+----
+
+indexterm:[literal,dictionary]
+indexterm:[dictionary,literal]
+Variable `age` has as value a dictionary consisting of pairs of strings (the keys) and integers (the values).
+In this example, each string represents a person's name, and each integer represents the age of that person.
+Variable `age` is initialized with a literal dictionary, containing three key/value pairs.
+You can think of the dictionary as storing the information that `eve` is `32` years old, or that the age of `eve` is `32`.
+
+As with sets, dictionaries are unordered.
+The order of the key/value pairs is irrelevant, `{"eve": 32, "adam": 25}` is the same dictionary as `{"adam": 25, "eve": 32}`.
+For readability, key/value pairs of dictionary literals are normally written in increasing order of their keys.
+`{"adam": 25, "eve": 32}` is thus preferred over `{"eve": 32, "adam": 25}`, as `adam` goes before `eve` in a phone book.
+
+Dictionary literals are often written using multiple lines, to get two 'columns' for the keys and values, which can improve readability:
+
+
+[source, cif]
+----
+disc dict(string:int) age = {"eve":  32,
+                             "john": 34,
+                             "adam": 25};
+----
+
+The default value for dictionary types, is an empty dictionary.
+The following two variables thus have the same initial value:
+
+
+[source, cif]
+----
+disc dict(string:int) x1 = {};  // Explicitly initialized as empty.
+disc dict(string:int) x2;       // Implicitly initialized as empty.
+----
+
+Every key of a dictionary is unique, but they may be associated with the same value.
+For the above example with ages, the names (keys) are used to uniquely identify people, but multiple people may have the same age (values).
+It is not allowed to have the same key twice, in a dictionary literal, regardless of whether they map to the same value or to different values:
+
+
+[source, cif]
+----
+disc dict(int:int) x1 = {1: 2, 1: 2};  // Invalid due to duplicate key '1'.
+disc dict(int:int) x2 = {1: 2, 1: 3};  // Invalid due to duplicate key '1'.
+----
+
+The values of a dictionary can be obtained by _projection_ on that dictionary, using the keys:
+
+
+[source, cif]
+----
+disc dict(string:int) age = {"adam": 25, "eve": 32, "john": 34};
+disc int i;
+
+edge ... do i := age["adam"];   // 'i' becomes '25'
+edge ... do i := age["eve"];    // 'i' becomes '32'
+edge ... do i := age["carl"];   // error (there is no "carl" key)
+----
+
+Projection using a key that exists in the dictionary, results in the associated value.
+Projection using a key that does not exist in the dictionary, leads to a runtime error.
+
+It is possible to modify single elements of a dictionary, as follows:
+
+
+[source, cif]
+----
+disc dict(string:int) age = {"adam": 25, "eve": 32, "john": 34};
+
+edge ... do age["eve"] := 33;  // Changes eve's age.
+edge ... do age["bob"] := 47;  // Adds a new key/value pair.
+----
+
+The age of `eve` is changed from `32` to `33`.
+The age is thus replaced by a new age.
+The age of `bob` is set to `47`.
+Since there was no key/value pair for that person in the dictionary, a new key/value pair is added.
+After the updates of both edges, the value of variable `age` is `{"adam": 25, "bob": 47, "eve": 33, "john": 34}`.
+
+Several other standard operators and functions are available to work with dictionaries, including the following:
+
+[source, cif]
+----
+{"a": 1, "b": 2} = {"b": 2, "a": 1}     // true (equality check)
+{"a": 1, "b": 2} = {"a": 1, "b": 3}     // false
+
+"a" in {"a": 1, "b": 2}                 // true (key existence check)
+"c" in {"a": 1, "b": 2}                 // false
+
+{"a": 1, "b": 2} + {"b": 3, "c": 4}     // {"a": 1, "b": 3, "c": 4} (add/overwrite pairs)
+
+{"a": 1, "b": 2} - {"b": 3, "c": 4}     // {"a": 1} (removal based on keys)
+{"a": 1, "b": 2} - {"b", "c"}           // {"a": 1}
+{"a": 1, "b": 2} - ["b", "c"]           // {"a": 1}
+
+empty({"a": 1, "b": 2})                 // false (empty check)
+size({"a": 1, "b": 2})                  // 2 (count pairs)
+----
+
+// TODO: link to future ref manual

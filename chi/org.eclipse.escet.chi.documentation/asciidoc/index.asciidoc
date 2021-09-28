@@ -111,7 +111,7 @@ include::tutorial/experiments.asciidoc[]
 
 // Tutorial - Visualization
 
-include::tutorial/svg-vis.asciidoc[]
+include::tutorial/svg-visualization.asciidoc[]
 
 include::tutorial/svg-example.asciidoc[]
 
@@ -123,7 +123,7 @@ include::reference-manual/index.asciidoc[]
 
 :leveloffset: +1
 
-include::reference-manual/global.asciidoc[]
+include::reference-manual/globals.asciidoc[]
 
 include::reference-manual/statements.asciidoc[]
 
@@ -139,7 +139,7 @@ include::reference-manual/lexicals.asciidoc[]
 
 include::reference-manual/migration.asciidoc[]
 
-include::reference-manual/svg-ref.asciidoc[]
+include::reference-manual/svg-visualization.asciidoc[]
 
 :leveloffset: -1
 
@@ -151,7 +151,7 @@ include::tool-manual/index.asciidoc[]
 
 include::tool-manual/operation.asciidoc[]
 
-include::tool-manual/commandline.asciidoc[]
+include::tool-manual/command-line.asciidoc[]
 
 :leveloffset: -1
 

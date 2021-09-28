@@ -1,0 +1,58 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-reuse2-chapter-namespaces]]
+== Namespaces
+
+indexterm:[namespace]
+indexterm:[group,namespace]
+When using <<lang-tut-reuse2-chapter-imports-groups,imports and groups>> to model large hierarchical systems, it is a common pattern to have groups around the entire specification:
+
+
+[source, cif]
+----
+group factory:
+  group machine1:
+    group part1:
+      automaton sensor1:
+        ...
+      end
+
+      automaton actuator1:
+        ...
+      end
+    end
+  end
+end
+----
+
+The groups around the entire specification lead to additional link:http://en.wikipedia.org/wiki/Indentation_%28typesetting%29[indentation].
+As this is a common pattern, the CIF language provides _namespaces_ to reduce the impact of large numbers of top level groups:
+
+
+[source, cif]
+----
+namespace factory.machine1.part1;
+
+automaton sensor1:
+  ...
+end
+
+automaton actuator1:
+  ...
+end
+----
+
+The `factory.machine1.part1` namespace has exactly the same effect as the original three groups.
+Both specifications can thus be considered identical.

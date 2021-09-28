@@ -1,0 +1,109 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::../_part_attributes.asciidoc[]
+
+[[lang-tut-data-chapter-locs-as-var]]
+== Using locations as variables
+
+indexterm:[location,as variable]
+Consider the following CIF specification:
+
+
+[source, cif]
+----
+automaton machine1:
+  event start1, done1, reset1;
+  disc bool claimed = false;
+
+  location idle:
+    initial;
+    edge start1 when not machine2.claimed do claimed := true goto processing;
+
+  location processing:
+    edge done1 do claimed := false goto cool_down;
+
+  location cool_down:
+    edge reset1 goto idle;
+end
+
+automaton machine2:
+  event start2, done2, reset2;
+  disc bool claimed = false;
+
+  location idle:
+    initial;
+    edge start1 when not machine1.claimed do claimed := true goto processing;
+
+  location processing:
+    edge done1 do claimed := false goto cool_down;
+
+  location cool_down:
+    edge reset1 goto idle;
+end
+----
+
+This specification models two machines, which produce products.
+The machines share a common resource, which may only be used by at most one of them, at any time (see link:http://en.wikipedia.org/wiki/Mutual_exclusion[mutual exclusion]).
+Initially, the machines are `idle`.
+Then, they warm themselves up.
+Once they start processing, they set their boolean variable `claimed` to `true` to indicate that they claimed the shared resource.
+After processing, the machines release the resource, by setting `claimed` to `false`.
+They finish their processing cycle by cooling down, before starting the cycle for the next product.
+To ensure that a machine can not claim the resource if the other machine has already claimed it, the edges going to the `processing` locations have a guard that states that it is only allowed to claim the resource and start processing, if the other machine has not already claimed the resource.
+The state space of this specification is:
+
+image::{lang-tut-imgsdir}/data/mutex_state_space.png[]
+
+The states are labeled with the first letters of the names of the current locations of the automata.
+
+The specification can alternatively be modeled as follows:
+
+
+[source, cif]
+----
+automaton machine1:
+  event start1, done1, reset1;
+
+  location idle:
+    initial;
+    edge start1 when not machine2.processing goto processing;
+
+  location processing:
+    edge done1 cool_down;
+
+  location cool_down:
+    edge reset1 goto idle;
+end
+
+automaton machine2:
+  event start2, done2, reset2;
+
+  location idle:
+    initial;
+    edge start1 when not machine1.processing goto processing;
+
+  location processing:
+    edge done1 cool_down;
+
+  location cool_down:
+    edge reset1 goto idle;
+end
+----
+
+The `claimed` variables and corresponding updates have been removed, and the guards no longer use those variables.
+Instead, the edge for the `start1` event now refers to the `processing` location of automaton `machine2`.
+The guard states that the first machine can perform the `start1` event, only if the second machine is not currently in its `processing` location.
+In other words, the guard states that the first machine can start processing as long as the second machine is not currently busy processing (and thus using the shared resource).
+
+The `processing` location of automaton `machine2` is used as a boolean variable.
+Using the location as a variable saves having to declare another variable (`claimed`) that essentially holds the same information, and needs to be explicitly updated (on two separate edges) to the correct value.
