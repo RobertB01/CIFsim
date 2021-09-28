@@ -138,6 +138,9 @@ These plugins contain:
 | The <<use-apps-view,Applications view>>.
 User interface of the active applications.
 
+| `org.eclipse.escet.common.asciidoc`
+| Common functionality related to _AsciiDoc_ documentation.
+
 | `org.eclipse.escet.common.box`
 | Library to generate formatted code-like text.
 
