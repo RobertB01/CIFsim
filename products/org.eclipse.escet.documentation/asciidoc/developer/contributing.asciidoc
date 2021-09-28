@@ -53,7 +53,7 @@ This creates a fork of the official repository under your own account.
 
 * Set up a development environment to work on your contribution:
 
-** You can find your fork at `https://gitlab.eclipse.org/<username>/escet`, with `<username>` replaced by your Eclipse Foundation account username.
+** You can find your fork at `+https://gitlab.eclipse.org/<username>/escet+`, with `<username>` replaced by your Eclipse Foundation account username.
 
 ** Click the _Clone_ button near the top-right of the page and observe the `https` URL.
 
@@ -68,7 +68,7 @@ You need the `https` URL of your fork for this.
 This allows you to work on multiple contributions at once.
 It also allows syncing back changes from the official Eclipse ESCET `develop` branch to the `develop` branch of your forked repository, while you're working in a branch.
 +
-To create branches in your fork, navigate to `https://gitlab.eclipse.org/<username>/escet/-/branches`, with `<username>` replaced by your Eclipse Foundation account username.
+To create branches in your fork, navigate to `+https://gitlab.eclipse.org/<username>/escet/-/branches+`, with `<username>` replaced by your Eclipse Foundation account username.
 There click _New branch_ to create a new branch from `develop`.
 
 ** Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
@@ -76,7 +76,7 @@ See our <<developer-development-process-chapter-index,development process>> for 
 
 * Once you've finished work on your contribution, create a merge request for it:
 
-** Navigate to `https://gitlab.eclipse.org/<username>/escet/-/branches`, with `<username>` replaced by your Eclipse Foundation account username.
+** Navigate to `+https://gitlab.eclipse.org/<username>/escet/-/branches+`, with `<username>` replaced by your Eclipse Foundation account username.
 
 ** Click _Merge request_ next to the branch for which you which to create the merge request.
 
