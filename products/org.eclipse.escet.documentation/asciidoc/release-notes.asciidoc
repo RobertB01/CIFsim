@@ -23,10 +23,10 @@ The release notes may refer to issues, the details for which can be found at the
 
 See also the release notes for the specific tools for more information:
 
-- link:https://www.eclipse.org/escet/cif/#release-notes-chapter-index[CIF release notes]
-- link:https://www.eclipse.org/escet/chi/#release-notes-chapter-index[Chi release notes]
-- link:https://www.eclipse.org/escet/tooldef/#release-notes-chapter-index[ToolDef release notes]
-- link:https://www.eclipse.org/escet/setext/#setext-readme-release-notes[SeText release notes]
+- link:https://eclipse.org/escet/cif/release-notes.html[CIF release notes]
+- link:https://eclipse.org/escet/chi/release-notes.html[Chi release notes]
+- link:https://eclipse.org/escet/tooldef/release-notes.html[ToolDef release notes]
+- link:https://eclipse.org/escet/setext/release-notes.html[SeText release notes]
 
 
 === Version 0.3

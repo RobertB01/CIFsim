@@ -222,10 +222,10 @@ That same wiki page also notes that "Although you can link directly to `download
 Using this script allows you to view download statistics and allows users to pick a nearby mirror site for their download." It further indicates that "P2 repositories are not normally accessed via the mirror selection script." The _Find a Mirror_ script also transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
 
 * Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
-For a version `v0.1`, the website can be accessed at `\https://www.eclipse.org/escet/v0.1`.
+For a version `v0.1`, the website can be accessed at `\https://eclipse.org/escet/v0.1`.
 It may take a few minutes for the Git repository to be synced to the webserver and for the website for the new version to become available.
 
-* If the website for the new release is to be the standard visible website for the project (at `https://www.eclipse.org/escet`), it has to be manually replaced.
+* If the website for the new release is to be the standard visible website for the project (at `https://eclipse.org/escet`), it has to be manually replaced.
 This is to ensure that a bugfix release for an older version doesn't override the standard visible website.
 The following steps explain how to 'promote' a website for a specific version to become the standard visible website:
 
@@ -261,7 +261,7 @@ E.g. use `git push`.
 If successful you should see the changes at the Git server's web view, at https://git.eclipse.org/c/www.eclipse.org/escet.git/.
 
 ** It may take a few minutes for the Git repository to be synced to the webserver, and for the new standard visible website to become available.
-The standard visible website can be accessed at `https://www.eclipse.org/escet`.
+The standard visible website can be accessed at `https://eclipse.org/escet`.
 Depending on browser cache settings and other factors, it may be necessary to force refresh your browser for it to pick up the changes on the server.
 
 * Remove/archive old releases:
