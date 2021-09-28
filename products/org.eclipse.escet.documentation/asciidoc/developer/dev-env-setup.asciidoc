@@ -70,7 +70,7 @@ The new development environment will be put at `<root_installation_folder>/<inst
 *** Committers with write access to the Eclipse ESCET official GitLab repository can use the default URL `https://gitlab.eclipse.org/eclipse/escet/escet.git`.
 *** Contributors can use the same URL, but as they don't have write access, they will not be able to push to the remote repository.
 They can instead make a fork of the official Git repository, as described in the <<developer-contributing-chapter-index,contributing>> section.
-Then they can fill in the URL of their clone instead, i.e. `https://gitlab.eclipse.org/<username>/<cloned_repo_name>.git`, with `<username>` replaced by their Eclipse Foundation account username, and `<cloned_repo_name>` replaced by the name of the cloned repistory, which defaults to `escet`.
+Then they can fill in the URL of their clone instead, i.e. `+https://gitlab.eclipse.org/<username>/<cloned_repo_name>.git+`, with `<username>` replaced by their Eclipse Foundation account username, and `<cloned_repo_name>` replaced by the name of the cloned repistory, which defaults to `escet`.
 ** For _Eclipse Foundation account full name_ fill in your full name (first and last name) matching the full name in your Eclipse Foundation account.
 This will be used as name for Git commits.
 ** For _Eclipse Foundation account email address_ fill in the email address associated with your Eclipse Foundation account.
