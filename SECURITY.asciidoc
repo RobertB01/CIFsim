@@ -10,8 +10,8 @@ security team.
 
 ## Supported Versions
 
-Whenever Eclipse ESCET fixes a vulnerability, it will be included in the next
-release.
+Whenever the Eclipse ESCET project fixes a vulnerability, it will be included
+in the next release.
 
 
 ## Reporting a Vulnerability
