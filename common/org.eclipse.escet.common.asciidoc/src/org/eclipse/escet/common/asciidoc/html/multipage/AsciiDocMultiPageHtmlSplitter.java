@@ -69,7 +69,7 @@ public class AsciiDocMultiPageHtmlSplitter {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Command line arguments: " + Arrays.toString(args));
-        Assert.check(args.length == 4, args.toString());
+        Assert.check(args.length == 4, args);
 
         Path sourceRootPath = Paths.get(args[0]);
         Path singleHtmlPagePath = Paths.get(args[1]);
@@ -98,8 +98,8 @@ public class AsciiDocMultiPageHtmlSplitter {
             throws IOException
     {
         // Check inputs exist.
-        Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath.toString());
-        Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath.toString());
+        Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath);
+        Assert.check(Files.isRegularFile(singleHtmlPagePath), singleHtmlPagePath);
 
         // Ensure empty directory for output.
         if (Files.isDirectory(outputRootPath)) {
@@ -146,7 +146,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         if (htmlType == HtmlType.WEBSITE) {
             System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
             Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
-            Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath.toString());
+            Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath);
             Files.copy(singleHtmlPagePath, singlePathOutputPath);
         }
 
