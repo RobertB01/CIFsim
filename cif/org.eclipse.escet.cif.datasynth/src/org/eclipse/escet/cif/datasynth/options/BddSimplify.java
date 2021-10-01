@@ -35,6 +35,9 @@ public enum BddSimplify {
      */
     GUARDS_SE_EXCL_REQ_INVS,
 
+    /** Supervisor guards of controllable events wrt state plant invariants from the input specification. */
+    GUARDS_STATE_PLANT_INVS,
+
     /** Supervisor guards of controllable events wrt state requirement invariants from the input specification. */
     GUARDS_STATE_REQ_INVS,
 
@@ -44,5 +47,8 @@ public enum BddSimplify {
     /**
      * Initialization predicate of the controlled system wrt the initialization predicate of the uncontrolled system.
      */
-    INITIAL_UNCTRL;
+    INITIAL_UNCTRL,
+
+    /** Initialization predicate of the controlled system wrt the state plant invariants. */
+    INITIAL_STATE_PLANT_INVS;
 }

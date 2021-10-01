@@ -130,6 +130,26 @@ public class SynthesisEdge {
     }
 
     /**
+     * Global edge initialization for {@link #apply applying} the edge. Must be invoked only once per edge. Must be
+     * invoked after {@link #apply applying} and before any invocation of {@link #preApply} or {@link #apply}.
+     *
+     * @param doForward Whether to do forward reachability during synthesis.
+     */
+    public void updateGuardPred(boolean doForward) {
+        Assert.check(update == null);
+        Assert.check(updateGuard != null);
+        BDD updateGuardNew = updateGuard.and(guard);
+        updateGuard.free();
+        updateGuard = updateGuardNew;
+
+        // If we do forward reachability, update 'updateGuardErrorNot'.
+        if (doForward) {
+            updateGuardErrorNot.free();
+            updateGuardErrorNot = updateGuard.and(errorNot);
+        }
+    }
+
+    /**
      * Local edge initialization for {@link #apply applying} the edge. Must be invoked only once per reachability loop.
      * Must be invoked after an invocation of {@link #initApply}. Must be invoked before any invocation of
      * {@link #apply} in that same reachability loop.
@@ -211,9 +231,10 @@ public class SynthesisEdge {
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
      *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
      *     providing 'true'.
+     * @param applyRuntime Whether to apply apply the runtime error predicates.
      * @return The resulting predicate.
      */
-    public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction) {
+    public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction, boolean applyRuntime) {
         // Apply the edge.
         if (forward) {
             // Forward reachability for bad state predicates is currently not
@@ -247,10 +268,12 @@ public class SynthesisEdge {
             }
 
             // Apply the runtime error predicate.
-            if (bad) {
-                rslt = rslt.orWith(guardError.id());
-            } else {
-                rslt = rslt.andWith(errorNot.id());
+            if (applyRuntime) {
+                if (bad) {
+                    rslt = rslt.orWith(guardError.id());
+                } else {
+                    rslt = rslt.andWith(errorNot.id());
+                }
             }
 
             if (restriction != null) {

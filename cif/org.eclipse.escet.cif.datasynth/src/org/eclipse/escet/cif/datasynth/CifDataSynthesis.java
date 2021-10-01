@@ -81,11 +81,30 @@ public class CifDataSynthesis {
             }
             checkSystem(aut, dbgEnabled);
 
-            // Apply plant invariants.
+            // Apply state/event exclusion plant invariants.
             if (aut.env.isTerminationRequested()) {
                 return;
             }
             applyStateEvtExclPlants(aut, dbgEnabled);
+
+            // Initialize applying edges.
+            for (SynthesisEdge edge: aut.edges) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                edge.initApply(doForward);
+            }
+
+            // Apply state plant invariants.
+            applyStatePlantInvs(aut, dbgEnabled);
+
+            // Update the guards due to state plant invariants.
+            for (SynthesisEdge edge: aut.edges) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                edge.updateGuardPred(doForward);
+            }
 
             // Apply requirements.
             if (aut.env.isTerminationRequested()) {
@@ -109,14 +128,6 @@ public class CifDataSynthesis {
             }
             if (EventWarnOption.isEnabled()) {
                 checkInputEdges(aut);
-            }
-
-            // Prepare for actual synthesis. Allow applying edges from here on.
-            for (SynthesisEdge edge: aut.edges) {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-                edge.initApply(doForward);
             }
         } finally {
             if (doTiming) {
@@ -242,6 +253,45 @@ public class CifDataSynthesis {
      * @param dbgEnabled Whether debug output is enabled.
      */
     private static void checkSystem(SynthesisAutomaton aut, boolean dbgEnabled) {
+        // Debug state plant invariants (predicates) of the components.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (dbgEnabled) {
+            dbg();
+            for (BDD pred: aut.plantInvsComps) {
+                dbg("Invariant (component state plant invariant): %s", bddToStr(pred, aut));
+            }
+            dbg("Invariant (components state plant invariant):%s", bddToStr(aut.plantInvComps, aut));
+        }
+
+        // Debug state plant invariants (predicates) of the locations of the automata.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (dbgEnabled) {
+            for (BDD pred: aut.plantInvsLocs) {
+                dbg("Invariant (location state plant invariant):  %s", bddToStr(pred, aut));
+            }
+            dbg("Invariant (locations state plant invariant): %s", bddToStr(aut.plantInvLocs, aut));
+        }
+
+        // Debug state plant invariant (predicate) of the system.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (dbgEnabled) {
+            dbg("Invariant (system state plant invariant):    %s", bddToStr(aut.reqInv, aut));
+        }
+
+        // Warn if no state in system, due to state plant invariants.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (aut.plantInv.isZero()) {
+            warn("The uncontrolled system has no states (taking into account only the state plant invariants).");
+        }
+
         // Debug state requirement invariants (predicates) of the components.
         if (aut.env.isTerminationRequested()) {
             return;
@@ -331,12 +381,12 @@ public class CifDataSynthesis {
             dbg("Initial   (uncontrolled system):             %s", bddToStr(aut.initialUnctrl, aut));
         }
 
-        // Debug combined initialization and state requirement invariants of the system.
+        // Debug combined initialization and state invariants of the system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
-            dbg("Initial   (system, combined init/req inv):   %s", bddToStr(aut.initialReqInv, aut));
+            dbg("Initial   (system, combined init/state inv): %s", bddToStr(aut.initialInv, aut));
         }
 
         // Warn if no initial state in uncontrolled system.
@@ -350,9 +400,9 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (!aut.initialUnctrl.isZero() && !aut.reqInv.isZero() && aut.initialReqInv.isZero()) {
+        if (!aut.initialUnctrl.isZero() && !aut.plantInv.isZero() && !aut.reqInv.isZero() && aut.initialInv.isZero()) {
             warn("The controlled system has no initial state (taking into account both initialization and state "
-                    + "requirement invariants).");
+                    + "invariants).");
         }
 
         // Debug marker predicates of the components.
@@ -386,12 +436,12 @@ public class CifDataSynthesis {
             dbg("Marked    (uncontrolled system):             %s", bddToStr(aut.marked, aut));
         }
 
-        // Debug combined marking and state requirement invariants of the system.
+        // Debug combined marking and state invariants of the system.
         if (aut.env.isTerminationRequested()) {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined marked/req inv): %s", bddToStr(aut.markedReqInv, aut));
+            dbg("Marked    (system, combined marked/state inv): %s", bddToStr(aut.markedInv, aut));
         }
 
         // Warn if no marked state in uncontrolled system.
@@ -405,7 +455,7 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (!aut.marked.isZero() && !aut.reqInv.isZero() && aut.markedReqInv.isZero()) {
+        if (!aut.marked.isZero() && !aut.plantInv.isZero() && !aut.reqInv.isZero() && aut.markedInv.isZero()) {
             warn("The controlled system has no marked state (taking into account both marking and state requirement "
                     + "invariants).");
         }
@@ -467,6 +517,15 @@ public class CifDataSynthesis {
         }
 
         // Free no longer needed predicates.
+        for (BDD bdd: aut.plantInvsComps) {
+            bdd.free();
+        }
+        for (BDD bdd: aut.plantInvsLocs) {
+            bdd.free();
+        }
+        aut.plantInvComps.free();
+        aut.plantInvLocs.free();
+
         for (BDD bdd: aut.reqInvsComps) {
             bdd.free();
         }
@@ -490,7 +549,7 @@ public class CifDataSynthesis {
         aut.initialVars.free();
         aut.initialComps.free();
         aut.initialLocs.free();
-        aut.initialReqInv.free();
+        aut.initialInv.free();
 
         for (BDD bdd: aut.markedsComps) {
             bdd.free();
@@ -500,7 +559,7 @@ public class CifDataSynthesis {
         }
         aut.markedComps.free();
         aut.markedLocs.free();
-        aut.markedReqInv.free();
+        aut.markedInv.free();
 
         for (List<BDD> preds: aut.stateEvtExclPlantLists.values()) {
             for (BDD pred: preds) {
@@ -514,6 +573,11 @@ public class CifDataSynthesis {
             }
         }
 
+        aut.plantInvsComps = null;
+        aut.plantInvComps = null;
+        aut.plantInvsLocs = null;
+        aut.plantInvLocs = null;
+
         aut.reqInvsComps = null;
         aut.reqInvComps = null;
         aut.reqInvsLocs = null;
@@ -525,13 +589,13 @@ public class CifDataSynthesis {
         aut.initialComps = null;
         aut.initialsLocs = null;
         aut.initialLocs = null;
-        aut.initialReqInv = null;
+        aut.initialInv = null;
 
         aut.markedsComps = null;
         aut.markedComps = null;
         aut.markedsLocs = null;
         aut.markedLocs = null;
-        aut.markedReqInv = null;
+        aut.markedInv = null;
 
         aut.stateEvtExclPlantLists = null;
         aut.stateEvtExclReqLists = null;
@@ -551,7 +615,7 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             dbg();
-            dbg("Restricting behavior using state/event exclusion plants.");
+            dbg("Restricting uncontrolled behavior using state/event exclusion plants.");
         }
 
         boolean firstDbg = true;
@@ -597,6 +661,81 @@ public class CifDataSynthesis {
             dbg();
             dbg("Uncontrolled system:");
             dbg(aut.toString(1, guardChanged));
+        }
+    }
+
+    /**
+     * Applies the state plant invariants, as preprocessing step for synthesis.
+     *
+     * @param aut The automaton on which to perform synthesis. Is modified in-place.
+     * @param dbgEnabled Whether debug output is enabled.
+     */
+    private static void applyStatePlantInvs(SynthesisAutomaton aut, boolean dbgEnabled) {
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (dbgEnabled) {
+            dbg();
+            dbg("Restricting uncontrolled behavior using state plants.");
+        }
+
+        boolean guardUpdated = false;
+        for (SynthesisEdge edge: aut.edges) {
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            // The guards of the edge is restricted such that transitioning to a state that violates the plant
+            // invariants is not possible. The update to the predicate is obtained by applying the edge's update
+            // backward on the plant invariant.
+            BDD updPred = aut.plantInv.id();
+            edge.preApply(false, null);
+            updPred = edge.apply(updPred, // pred
+                    false, // good state
+                    false, // backward
+                    null, // no upper bound
+                    false);
+            edge.postApply(false);
+
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            // Simplify. That is, because the edge guards are restricted, `plantInv` will always be `true`. This ensures
+            // that for an edge with update 'y := y + 1' and state invariant 'x != 3' that the edge won't get an extra
+            // guard 'x != 3'. Simplifying is best effort, it may be possible to simplify the guard further.
+            BDD updPredSimplified = updPred.simplify(aut.plantInv);
+            if (updPred.equals(updPredSimplified)) {
+                updPredSimplified.free();
+            } else {
+                updPred.free();
+                updPred = updPredSimplified;
+            }
+
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+
+            // Store.
+            BDD newGuard = edge.guard.id().andWith(updPred);
+
+            if (edge.guard.equals(newGuard)) {
+                newGuard.free();
+            } else {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                if (dbgEnabled) {
+                    if (!guardUpdated) {
+                        dbg();
+                    }
+                    dbg("Edge %s: guard: %s -> %s.", edge.toString(0, ""), bddToStr(edge.guard, aut),
+                            bddToStr(newGuard, aut));
+                }
+                edge.guard.free();
+                edge.guard = newGuard;
+                guardUpdated = true;
+            }
         }
     }
 
@@ -859,17 +998,18 @@ public class CifDataSynthesis {
                 continue;
             }
 
-            // Check whether the guards on edges of automata combined with state/event exclusion invariants are all
-            // 'false'. There might be multiple edges for an event.
+            // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
+            // plant invariants are all 'false'. There might be multiple edges for an event.
             if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
                 warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
-                        + "and state/event exclusion invariants.", CifTextUtils.getAbsName(event));
+                        + ", state/event exclusion invariants, and state plant invariants.",
+                        CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
             }
 
             // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // requirement invariants are all 'false'. There might be multiple edges for an event.
+            // invariants are all 'false'. There might be multiple edges for an event.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
@@ -1002,7 +1142,7 @@ public class CifDataSynthesis {
                 break;
             }
             if (unchanged == 0) {
-                BDD init = aut.initialUnctrl.and(aut.ctrlBeh);
+                BDD init = aut.initialUnctrl.and(aut.ctrlBeh).and(aut.plantInv);
                 boolean noInit = init.isZero();
                 init.free();
                 if (noInit) {
@@ -1080,7 +1220,7 @@ public class CifDataSynthesis {
                     break;
                 }
                 if (unchanged == 0) {
-                    BDD init = aut.initialUnctrl.and(aut.ctrlBeh);
+                    BDD init = aut.initialUnctrl.and(aut.ctrlBeh).and(aut.plantInv);
                     boolean noInit = init.isZero();
                     init.free();
                     if (noInit) {
@@ -1100,6 +1240,7 @@ public class CifDataSynthesis {
                     timing.mainFwInit.start();
                 }
                 try {
+                    // TODO: We might have to use aut.initialUnctrl.id().and(aut.plantInv);
                     newCtrlBeh = reachability(aut.initialUnctrl.id(), false, // bad
                             true, // forward
                             true, // ctrl
@@ -1131,7 +1272,10 @@ public class CifDataSynthesis {
             }
 
             // Detect fixed point for main loop.
-            if (aut.ctrlBeh.isZero()) {
+            BDD ctrlStates = aut.ctrlBeh.and(aut.plantInv);
+            boolean noCtrlStates = ctrlStates.isZero();
+            ctrlStates.free();
+            if (noCtrlStates) {
                 if (dbgEnabled) {
                     dbg();
                     dbg("Round %d: finished, all states are bad.", round);
@@ -1146,7 +1290,7 @@ public class CifDataSynthesis {
                 break;
             }
             if (!doForward && unchanged == 0) {
-                BDD init = aut.initialUnctrl.and(aut.ctrlBeh);
+                BDD init = aut.initialUnctrl.and(aut.ctrlBeh).and(aut.plantInv);
                 boolean noInit = init.isZero();
                 init.free();
                 if (noInit) {
@@ -1264,7 +1408,7 @@ public class CifDataSynthesis {
 
                 // Apply edge.
                 BDD updPred = pred.id();
-                updPred = edge.apply(updPred, bad, forward, restriction);
+                updPred = edge.apply(updPred, bad, forward, restriction, true);
                 if (aut.env.isTerminationRequested()) {
                     return null;
                 }
@@ -1352,7 +1496,7 @@ public class CifDataSynthesis {
 
             BDD updPred = aut.ctrlBeh.id();
             edge.preApply(false, null);
-            updPred = edge.apply(updPred, false, false, null);
+            updPred = edge.apply(updPred, false, false, null, true);
             edge.postApply(false);
             edge.cleanupApply();
             if (aut.env.isTerminationRequested()) {
@@ -1397,7 +1541,7 @@ public class CifDataSynthesis {
     private static boolean checkInitStatePresent(SynthesisAutomaton aut, boolean doForward, boolean dbgEnabled) {
         // Get initialization predicate for controlled system.
         BDD initialUnctrl = aut.initialUnctrl;
-        aut.initialCtrl = initialUnctrl.and(aut.ctrlBeh);
+        aut.initialCtrl = initialUnctrl.and(aut.ctrlBeh).and(aut.plantInv);
         if (aut.env.isTerminationRequested()) {
             return true;
         }
@@ -1460,10 +1604,6 @@ public class CifDataSynthesis {
             dbg("Initial (controlled system):           %s", bddToStr(aut.initialCtrl, aut));
         }
 
-        // Initialization and options.
-        EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
-        boolean dbgPrinted = false;
-
         // What initialization was allowed in the uncontrolled system, but is no longer allowed in the controlled
         // system, as thus has been removed as allowed initialization? The inverse of that is what the supervisor adds
         // as additional initialization restriction on top of the uncontrolled system.
@@ -1493,19 +1633,46 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        aut.initialOutput = null;
+
+        // Initialization and options.
+        EnumSet<BddSimplify> simplifications = BddSimplifyOption.getSimplifications();
+        List<String> assumptionTxts = list();
+        boolean dbgPrinted = false;
+
         if (!initialRemoved.isZero()) {
-            aut.initialOutput = initialCtrl.id();
+            BDD assumption = aut.factory.one();
 
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
             // uncontrolled system initialization predicate, to obtain the additional initialization restrictions
-            // introduced by the controller.
+            // introduced by the controller with respect to this predicate.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
             if (simplifications.contains(BddSimplify.INITIAL_UNCTRL)) {
+                assumptionTxts.add("uncontrolled system");
+                assumption = assumption.and(initialUnctrl);
+            }
+
+            // If requested, the controlled system initialization predicate is simplified under the assumption of the
+            // state plant invariants, to obtain the additional initialization restrictions introduced by the
+            // controller with respect to the state plant invariants.
+            if (aut.env.isTerminationRequested()) {
+                return;
+            }
+            if (simplifications.contains(BddSimplify.INITIAL_STATE_PLANT_INVS)) {
+                assumptionTxts.add("state plant invariants");
+                assumption = assumption.and(aut.plantInv);
+            }
+
+            // Perform simplification if there are assumptions.
+            if (!assumptionTxts.isEmpty()) {
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
+                String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
+                aut.initialOutput = initialCtrl.id();
 
-                BDD newInitial = aut.initialOutput.simplify(initialUnctrl);
+                BDD newInitial = aut.initialOutput.simplify(assumption);
                 if (aut.env.isTerminationRequested()) {
                     return;
                 }
@@ -1514,10 +1681,10 @@ public class CifDataSynthesis {
                     if (!dbgPrinted) {
                         dbgPrinted = true;
                         dbg();
-                        dbg("Simplification of controlled system under the assumption of the uncontrolled system:");
+                        dbg("Simplification of controlled system under the assumption of the %s:", assumptionsTxt);
                     }
                     dbg("  Initial: %s -> %s [assume %s].", bddToStr(aut.initialOutput, aut), bddToStr(newInitial, aut),
-                            bddToStr(initialUnctrl, aut));
+                            bddToStr(assumption, aut));
                 }
                 aut.initialOutput.free();
                 aut.initialOutput = newInitial;
@@ -1629,7 +1796,7 @@ public class CifDataSynthesis {
             }
 
             // Determine when the event is enabled in controlled statespace.
-            BDD ctrlBehGuard = guards.get(event).and(aut.ctrlBeh);
+            BDD ctrlBehGuard = guards.get(event).and(aut.ctrlBeh).and(aut.plantInv);
 
             // Warn for events that are never enabled.
             if (ctrlBehGuard.isZero() && !aut.disabledEvents.contains(event)) {
@@ -1760,6 +1927,29 @@ public class CifDataSynthesis {
             }
         }
         aut.stateEvtExclsReqInvs = null;
+
+        // If requested, simplify output guards assuming the state plant invariants from the input specification.
+        // This results in the additional restrictions introduced by the controller with respect to those plants,
+        // instead of the full controlled system guard. Simplification is best effort.
+        if (aut.env.isTerminationRequested()) {
+            return;
+        }
+        if (simplifications.contains(BddSimplify.GUARDS_STATE_PLANT_INVS)) {
+            assumptionTxts.add("state plant invariants");
+
+            for (Event controllable: aut.controllables) {
+                BDD assumption = assumptions.get(controllable);
+                BDD extra = aut.plantInv.id();
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+
+                assumption = assumption.andWith(extra);
+                assumptions.put(controllable, assumption);
+            }
+        }
+        aut.plantInv.free();
+        aut.plantInv = null;
 
         // If requested, simplify output guards assuming the state requirement invariants from the input specification.
         // This results in the additional restrictions introduced by the controller with respect to those requirements,
