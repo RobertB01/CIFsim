@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ESCET Chi Documentation Utils (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.chi.documentation.utils;singleton:=true
-Bundle-Version: 0.3.0.qualifier
+Bundle-Version: 0.4.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Automatic-Module-Name: org.eclipse.escet.chi.documentation.utils
 Bundle-RequiredExecutionEnvironment: JavaSE-11
