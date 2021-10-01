@@ -16,7 +16,7 @@ SPDX-License-Identifier: MIT
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.eclipse.escet</groupId>
     <artifactId>org.eclipse.escet.configuration</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -122,7 +122,7 @@ SPDX-License-Identifier: MIT
                         <artifact>
                             <groupId>org.eclipse.escet</groupId>
                             <artifactId>org.eclipse.escet.target</artifactId>
-                            <version>0.3.0-SNAPSHOT</version>
+                            <version>0.4.0-SNAPSHOT</version>
                         </artifact>
                     </target>
 

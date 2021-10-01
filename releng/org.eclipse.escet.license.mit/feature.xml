@@ -13,7 +13,7 @@
 <feature
       id="org.eclipse.escet.license.mit"
       label="ESCET License (Incubation)"
-      version="0.3.0.qualifier"
+      version="0.4.0.qualifier"
       provider-name="Eclipse ESCET">
 
    <copyright>
