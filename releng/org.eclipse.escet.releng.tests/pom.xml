@@ -33,10 +33,31 @@
                 <version>${jacoco.version}</version>
                 <executions>
                     <execution>
-                        <phase>verify</phase>
+                        <phase>generate-resources</phase>
                         <goals>
                             <goal>report-aggregate</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Assemble code coverage ZIP. -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>assemble-code-coverage-zip</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>eclipse-escet-jacoco-aggregate</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>${basedir}/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

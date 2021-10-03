@@ -96,7 +96,7 @@ pipeline {
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-win*.zip'
 
                     // Code coverage.
-                    step([$class: 'JacocoPublisher'])
+                    archiveArtifacts 'releng/org.eclipse.escet.releng.tests/target/eclipse-escet-jacoco-aggregate.zip'
                 }
             }
         }
