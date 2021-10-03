@@ -54,6 +54,9 @@ SPDX-License-Identifier: MIT
 
         <!-- Eclipse Dash license tool. -->
         <eclipse.dash.license.tool.version>0.0.1-SNAPSHOT</eclipse.dash.license.tool.version>
+
+        <!-- JaCoCo code coverage tool. -->
+        <jacoco.version>0.8.7</jacoco.version>
     </properties>
 
     <pluginRepositories>
@@ -211,6 +214,27 @@ SPDX-License-Identifier: MIT
                         <phase>package</phase>
                         <goals>
                             <goal>p2-metadata</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Enable JaCoCo code coverage. -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+
+                <configuration>
+                    <output>file</output>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>jacoco-initialize</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                 </executions>
