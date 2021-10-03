@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.common.java;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 /** A class for performing assertion checks. Unlike the Java assert statement, these are always checked. */
 public class Assert {
     /** Constructor for the {@link Assert} class. */
@@ -62,7 +64,7 @@ public class Assert {
         if (!left || right) {
             return;
         }
-        throw new AssertionError();
+        throw new AssertionError(fmt("'%s => %s' doesn't hold", left, right));
     }
 
     /**
@@ -80,7 +82,7 @@ public class Assert {
         if (!left || right) {
             return;
         }
-        throw new AssertionError(String.valueOf(msg));
+        throw new AssertionError(String.valueOf(msg), new AssertionError(fmt("'%s => %s' doesn't hold", left, right)));
     }
 
     /**
@@ -95,7 +97,7 @@ public class Assert {
         if (left == right) {
             return;
         }
-        throw new AssertionError(left + " != " + right);
+        throw new AssertionError(fmt("'%s <=> %s' doesn't hold", left, right));
     }
 
     /**
@@ -113,7 +115,7 @@ public class Assert {
         if (left == right) {
             return;
         }
-        throw new AssertionError(String.valueOf(msg), new AssertionError(left + " != " + right));
+        throw new AssertionError(String.valueOf(msg), new AssertionError(fmt("'%s <=> %s' doesn't hold", left, right)));
     }
 
     /**
