@@ -96,7 +96,7 @@ pipeline {
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-win*.zip'
 
                     // Code coverage.
-                    publishCoverage adapters: [jacocoAdapter(path: 'releng/org.eclipse.escet.releng.tests/target/site/jacoco-aggregate/jacoco.xml')], sourceFileResolver: sourceFiles('STORE_LAST_BUILD')
+                    jacocoPublisher
                 }
             }
         }
