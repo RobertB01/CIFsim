@@ -13,6 +13,8 @@
 
 package org.eclipse.escet.common.java;
 
+import static org.eclipse.escet.common.java.Strings.fmt;
+
 /** A class for performing assertion checks. Unlike the Java assert statement, these are always checked. */
 public class Assert {
     /** Constructor for the {@link Assert} class. */
@@ -38,15 +40,16 @@ public class Assert {
      * Checks a condition and throws an {@link AssertionError}, with the given message, if the condition doesn't hold.
      *
      * @param condition The condition that should hold.
-     * @param msg The message to use for the exception.
+     * @param msg The message to use for the exception. {@link String#valueOf} is used to convert the object to a
+     *     message.
      *
      * @throws AssertionError If the condition doesn't hold.
      */
-    public static void check(boolean condition, String msg) {
+    public static void check(boolean condition, Object msg) {
         if (condition) {
             return;
         }
-        throw new AssertionError(msg);
+        throw new AssertionError(String.valueOf(msg));
     }
 
     /**
@@ -61,7 +64,7 @@ public class Assert {
         if (!left || right) {
             return;
         }
-        throw new AssertionError();
+        throw new AssertionError(fmt("'%s => %s' doesn't hold", left, right));
     }
 
     /**
@@ -70,15 +73,16 @@ public class Assert {
      *
      * @param left The left side of the implication.
      * @param right The right side of the implication.
-     * @param msg The message to use for the exception.
+     * @param msg The message to use for the exception. {@link String#valueOf} is used to convert the object to a
+     *     message.
      *
      * @throws AssertionError If the condition doesn't hold.
      */
-    public static void implies(boolean left, boolean right, String msg) {
+    public static void implies(boolean left, boolean right, Object msg) {
         if (!left || right) {
             return;
         }
-        throw new AssertionError(msg);
+        throw new AssertionError(String.valueOf(msg), new AssertionError(fmt("'%s => %s' doesn't hold", left, right)));
     }
 
     /**
@@ -93,7 +97,7 @@ public class Assert {
         if (left == right) {
             return;
         }
-        throw new AssertionError();
+        throw new AssertionError(fmt("'%s <=> %s' doesn't hold", left, right));
     }
 
     /**
@@ -102,15 +106,16 @@ public class Assert {
      *
      * @param left The left side of the biimplication.
      * @param right The right side of the biimplication.
-     * @param msg The message to use for the exception.
+     * @param msg The message to use for the exception. {@link String#valueOf} is used to convert the object to a
+     *     message.
      *
      * @throws AssertionError If the biimplication doesn't hold.
      */
-    public static void ifAndOnlyIf(boolean left, boolean right, String msg) {
+    public static void ifAndOnlyIf(boolean left, boolean right, Object msg) {
         if (left == right) {
             return;
         }
-        throw new AssertionError(msg);
+        throw new AssertionError(String.valueOf(msg), new AssertionError(fmt("'%s <=> %s' doesn't hold", left, right)));
     }
 
     /**
@@ -125,12 +130,13 @@ public class Assert {
     /**
      * Unconditionally throws an {@link AssertionError}, with the given message.
      *
-     * @param msg The message to use for the exception.
+     * @param msg The message to use for the exception. {@link String#valueOf} is used to convert the object to a
+     *     message.
      *
      * @throws AssertionError Always thrown.
      */
-    public static void fail(String msg) {
-        throw new AssertionError(msg);
+    public static void fail(Object msg) {
+        throw new AssertionError(String.valueOf(msg));
     }
 
     /**
@@ -153,14 +159,15 @@ public class Assert {
      * message, if it is {@code null}.
      *
      * @param value The value to check.
-     * @param msg The message to use for the exception.
+     * @param msg The message to use for the exception. {@link String#valueOf} is used to convert the object to a
+     *     message.
      *
      * @throws AssertionError If the value is {@code null}.
      */
-    public static void notNull(Object value, String msg) {
+    public static void notNull(Object value, Object msg) {
         if (value != null) {
             return;
         }
-        throw new AssertionError(msg);
+        throw new AssertionError(String.valueOf(msg));
     }
 }

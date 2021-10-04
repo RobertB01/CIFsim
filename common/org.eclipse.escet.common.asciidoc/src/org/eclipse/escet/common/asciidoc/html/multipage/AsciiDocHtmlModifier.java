@@ -345,9 +345,9 @@ class AsciiDocHtmlModifier {
         // Move copyright/version.
         Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
         elemBodyCopyrightVersion.remove();
-        Assert.check(elemBodyCopyrightVersion.children().size() == 3, elemBodyCopyrightVersion.toString());
+        Assert.check(elemBodyCopyrightVersion.children().size() == 3, elemBodyCopyrightVersion);
         Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
-        Assert.check(elemBodyCopyrightVersionSpans.size() == 2, elemBodyCopyrightVersionSpans.toString());
+        Assert.check(elemBodyCopyrightVersionSpans.size() == 2, elemBodyCopyrightVersionSpans);
         elemBodyCopyrightVersionSpans.removeAttr("id");
         elemBodyCopyrightVersionSpans.removeAttr("class");
         for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
@@ -357,7 +357,7 @@ class AsciiDocHtmlModifier {
 
         // Move title.
         Element elemBodyTitle = single(doc.select("#header h1"));
-        Assert.check(elemBodyTitle.children().isEmpty(), elemBodyTitle.toString());
+        Assert.check(elemBodyTitle.children().isEmpty(), elemBodyTitle);
         elemBodyTitle.tagName("span");
         elemBodyFooterText.prependChild(elemBodyTitle);
     }
@@ -468,8 +468,8 @@ class AsciiDocHtmlModifier {
                 minHeaderNr = Math.min(headerNr, minHeaderNr);
             }
         }
-        Assert.check(minHeaderNr > 0, String.valueOf(minHeaderNr));
-        Assert.check(minHeaderNr < Integer.MAX_VALUE, String.valueOf(minHeaderNr));
+        Assert.check(minHeaderNr > 0, minHeaderNr);
+        Assert.check(minHeaderNr < Integer.MAX_VALUE, minHeaderNr);
 
         // Normalize header numbers to ensure minimum header number is '2'.
         for (Element elem: elemContent.getAllElements()) {
@@ -477,7 +477,7 @@ class AsciiDocHtmlModifier {
             if (matcher.matches()) {
                 int headerNr = Integer.parseInt(matcher.group(1), 10);
                 int newHeaderNr = headerNr - minHeaderNr + 2;
-                Assert.check(newHeaderNr <= 6, String.valueOf(newHeaderNr)); // Only h1-h6 are defined in HTML.
+                Assert.check(newHeaderNr <= 6, newHeaderNr); // Only h1-h6 are defined in HTML.
                 elem.tagName("h" + newHeaderNr);
             }
         }
@@ -503,11 +503,11 @@ class AsciiDocHtmlModifier {
 
         // Sanity checks.
         if (htmlPages.homePage == page) {
-            Assert.check(tocLinkCurPageCount == 0, String.valueOf(tocLinkCurPageCount));
+            Assert.check(tocLinkCurPageCount == 0, tocLinkCurPageCount);
         } else {
             // If the TOC level setting used to generate the single page HTML file is too limited, the page will not be
             // in the TOC, and this will fail (count is zero).
-            Assert.check(tocLinkCurPageCount == 1, String.valueOf(tocLinkCurPageCount));
+            Assert.check(tocLinkCurPageCount == 1, tocLinkCurPageCount);
         }
     }
 
@@ -599,7 +599,7 @@ class AsciiDocHtmlModifier {
                 if (allowEmptyRefIfNoChildren) {
                     // Occurs for 'a.href' for bibliography entries.
                     // But then they have no child nodes, and are thus not clickable.
-                    Assert.check(elem.childNodeSize() == 0, String.valueOf(elem.childNodeSize()));
+                    Assert.check(elem.childNodeSize() == 0, elem.childNodeSize());
                     continue;
                 } else {
                     throw new RuntimeException(
@@ -631,7 +631,7 @@ class AsciiDocHtmlModifier {
             Assert.check(uriScheme == null, uriScheme);
             Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
             Assert.check(uri.getHost() == null, uri.getHost());
-            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
+            Assert.check(uri.getPort() == -1, uri.getPort());
             Assert.check(uri.getAuthority() == null, uri.getAuthority());
             Assert.check(uri.getQuery() == null, uri.getQuery());
             Assert.check(uri.getFragment() == null, uri.getFragment());

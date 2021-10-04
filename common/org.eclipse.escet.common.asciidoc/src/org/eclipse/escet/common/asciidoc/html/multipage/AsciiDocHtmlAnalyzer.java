@@ -143,8 +143,8 @@ class AsciiDocHtmlAnalyzer {
                 }
             }
         });
-        Assert.check(pageStack.size() == 1, String.valueOf(pageStack.size()));
-        Assert.check(tocStack.size() == 1, String.valueOf(tocStack.size()));
+        Assert.check(pageStack.size() == 1, pageStack.size());
+        Assert.check(tocStack.size() == 1, tocStack.size());
 
         // Ensure content for each page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
@@ -152,7 +152,7 @@ class AsciiDocHtmlAnalyzer {
         }
 
         // Return the TOC.
-        Assert.check(tocStack.peek().right == 0, String.valueOf(tocStack.peek().right));
+        Assert.check(tocStack.peek().right == 0, tocStack.peek().right);
         htmlPages.toc = tocStack.pop().left;
     }
 }
