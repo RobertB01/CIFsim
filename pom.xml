@@ -25,12 +25,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>releng/org.eclipse.escet.target</module>
-        <module>releng/org.eclipse.escet.license.mit</module>
-
         <module>chi</module>
         <module>cif</module>
         <module>common</module>
+        <module>releng</module>
         <module>setext</module>
         <module>thirdparty</module>
         <module>tooldef</module>

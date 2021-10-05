@@ -94,6 +94,9 @@ pipeline {
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-linux*.tar.gz'
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-mac*.dmg'
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-win*.zip'
+
+                    // Code coverage.
+                    archiveArtifacts 'releng/org.eclipse.escet.releng.tests/target/eclipse-escet-jacoco-aggregate.zip'
                 }
             }
         }
