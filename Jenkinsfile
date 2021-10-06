@@ -156,7 +156,6 @@ pipeline {
                         unzip -q products/org.eclipse.escet.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/escet/
                         unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/chi/
                         unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/cif/
-                        unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/setext/
                         unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
                     '''
                     dir('deploy/www') {
