@@ -48,7 +48,7 @@ Currently there are two modeling languages in this layer, <<intro-chapter-cif,CI
 The third language in the top layer is <<intro-chapter-tooldef,ToolDef>>, a cross-platform scripting language to run tests, and to automate the various tools that need to be executed while designing a controller.
 
 * The middle layer contains developer oriented support code.
-It has a language of its own, named <<intro-chapter-setext,SeText>>.
+It has a language of its own, named <<setext-chapter-index,SeText>>.
 This language implements an LALR(1) parser generator with a few twists to make it easy to use in a Java environment and to connect it to an Eclipse text editor.
 +
 The other part of the middle layer is common functionality shared between the languages.
@@ -64,7 +64,7 @@ Instead, different parts are stored in different sub-directories from the root.
 
 === Language directories
 
-Each language has its own subdirectory in the root, `/cif` and `/chi` for the <<intro-chapter-cif,CIF>> and <<intro-chapter-chi,Chi>> modeling languages, `/tooldef` for the <<intro-chapter-tooldef,ToolDef>> language, and `/setext` for the <<intro-chapter-setext,SeText>> language.
+Each language has its own subdirectory in the root, `/cif` and `/chi` for the <<intro-chapter-cif,CIF>> and <<intro-chapter-chi,Chi>> modeling languages, `/tooldef` for the <<intro-chapter-tooldef,ToolDef>> language, and `/setext` for the <<setext-chapter-index,SeText>> language.
 
 Within a language directory, a directory exists for each part of the code (often equivalent to a plugin), with the same name as the plugin.
 The pattern of a plugin name is `org.eclipse.escet.<language>.<plugin-name>` where the plugin-name in different directories has the same meaning.
