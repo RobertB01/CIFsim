@@ -10,88 +10,31 @@
 // SPDX-License-Identifier: MIT
 /////////////////////////////////////////////////////////////////////////////////
 
-// Including common attributes to set for all documents within this directory.
-include::_root_attributes.asciidoc[]
+include::_part_attributes.asciidoc[]
 
-// Enable custom style in index-docinfo.html.
-:docinfo: private
-
-// Use this for asciidoc documents containing a title.
-:doctype: book
-
-
-= SeText documentation (Incubation)
-:author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
-:title-logo-image: {imgsdir}/eclipse-incubation.png
+[[setext-chapter-index]]
+== SeText scanner/parser generator
 
 SeText is a textual syntax specification language and associated scanner/parser generator.
 It can be used to specify the syntax of a language, and automatically generate a scanner and LALR(1) parser(s).
 
-SeText is one of the tools of the Eclipse ESCET(TM) project.
-Visit the link:https://eclipse.org/escet[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
+For the purpose of this documentation, it is assumed that the reader:
 
-[WARNING]
-====
-The Eclipse ESCET project, including the SeText language and toolset, is currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+* Is familiar with scanner/parser generators (for example _yacc_/_bison_ and _lex_/_flex_).
+* Is familiar with scanner and LALR(1) parser technology, including regular expressions and BNF notation.
+* Understands the limitations of the LALR(1) algorithm.
 
-image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
-====
+The following topics explain the SeText language and tools in more detail:
 
-For the purpose of this document, it is assumed that the reader is familiar with scanner/parser generators (for example _yacc_/_bison_ and _lex_/_flex_), scanner and LALR(1) parser technology (including regular expressions and BNF notation), and understands the limitations of the LALR(1) algorithm.
-
-ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-setext-manual.pdf[download this manual] as a PDF as well.
-endif::website-output[]
-
-The following topics are discussed:
-
-* <<setext-reference-manual>>
+* <<setext-lexical-syntax>>
+* <<setext-specifying-lexical-syntax>>
+* <<setext-regular-expressions>>
+* <<setext-terminal-descriptions>>
+* <<setext-imports>>
+* <<setext-scanner-hooks>>
+* <<setext-specifying-grammars>>
+* <<setext-parser-hooks>>
+* <<setext-usage-hints>>
+* <<setext-generated-scanners-parsers>>
 * <<setext-using-in-an-eclipse-plugin-project>>
 * <<setext-limitations>>
-* <<setext-release-notes,SeText release notes>>
-* <<setext-legal,Legal information>>
-
-
-// Reference manual
-
-include::reference-manual/index.asciidoc[]
-
-:leveloffset: +1
-
-include::reference-manual/lexical-syntax.asciidoc[]
-
-include::reference-manual/specifying-lexical-syntax.asciidoc[]
-
-include::reference-manual/regular-expressions.asciidoc[]
-
-include::reference-manual/terminal-descriptions.asciidoc[]
-
-include::reference-manual/imports.asciidoc[]
-
-include::reference-manual/scanner-hooks.asciidoc[]
-
-include::reference-manual/specifying-grammars.asciidoc[]
-
-include::reference-manual/parser-hooks.asciidoc[]
-
-include::reference-manual/usage-hints.asciidoc[]
-
-include::reference-manual/generated-scanners-parsers.asciidoc[]
-
-:leveloffset: -1
-
-// Using SeText in an Eclipse Plug-in Project
-
-include::using-in-an-eclipse-plugin-project.asciidoc[]
-
-// Limitations
-
-include::limitations.asciidoc[]
-
-// Release notes
-
-include::release-notes.asciidoc[]
-
-// Legal
-
-include::legal.asciidoc[]
