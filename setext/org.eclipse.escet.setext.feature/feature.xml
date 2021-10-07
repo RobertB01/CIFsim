@@ -78,12 +78,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.escet.setext.documentation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.escet.setext.texteditorbase"
          download-size="0"
          install-size="0"

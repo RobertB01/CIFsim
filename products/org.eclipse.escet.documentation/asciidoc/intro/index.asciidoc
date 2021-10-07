@@ -38,5 +38,4 @@ The Eclipse ESCET toolkit features the following languages and associated tools:
 
 * <<intro-chapter-chi,Chi>>
 * <<intro-chapter-cif,CIF>>
-* <<intro-chapter-setext,SeText>>
 * <<intro-chapter-tooldef,ToolDef>>

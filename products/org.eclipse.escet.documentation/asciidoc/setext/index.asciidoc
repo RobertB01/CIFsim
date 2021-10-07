@@ -12,11 +12,19 @@
 
 include::_part_attributes.asciidoc[]
 
-[[setext-reference-manual]]
-== SeText Reference Manual
+[[setext-chapter-index]]
+== SeText scanner/parser generator
 
-This manual explains the SeText language.
-Topics discussed here are:
+SeText is a textual syntax specification language and associated scanner/parser generator.
+It can be used to specify the syntax of a language, and automatically generate a scanner and LALR(1) parser(s).
+
+For the purpose of this documentation, it is assumed that the reader:
+
+* Is familiar with scanner/parser generators (for example _yacc_/_bison_ and _lex_/_flex_).
+* Is familiar with scanner and LALR(1) parser technology, including regular expressions and BNF notation.
+* Understands the limitations of the LALR(1) algorithm.
+
+The following topics explain the SeText language and tools in more detail:
 
 * <<setext-lexical-syntax>>
 * <<setext-specifying-lexical-syntax>>
@@ -28,3 +36,5 @@ Topics discussed here are:
 * <<setext-parser-hooks>>
 * <<setext-usage-hints>>
 * <<setext-generated-scanners-parsers>>
+* <<setext-using-in-an-eclipse-plugin-project>>
+* <<setext-limitations>>

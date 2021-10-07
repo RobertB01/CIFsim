@@ -43,7 +43,6 @@ The Eclipse ESCET toolkit features the following languages and associated tools:
 
 * <<intro-chapter-chi,Chi>>
 * <<intro-chapter-cif,CIF>>
-* <<intro-chapter-setext,SeText>>
 * <<intro-chapter-tooldef,ToolDef>>
 
 This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to those tools as well.
@@ -63,6 +62,7 @@ The following information is available for developers of the toolkit:
 * <<app-framework-chapter-index>>
 * <<multivalue-chapter-index>>
 * <<rail-chapter-index>>
+* <<setext-chapter-index>>
 
 // Introduction
 
@@ -73,8 +73,6 @@ include::intro/index.asciidoc[]
 include::intro/chi.asciidoc[]
 
 include::intro/cif.asciidoc[]
-
-include::intro/setext.asciidoc[]
 
 include::intro/tooldef.asciidoc[]
 
@@ -223,6 +221,38 @@ include::rail/customizing-output.asciidoc[]
 include::rail/lexical-syntax.asciidoc[]
 
 include::rail/grammar.asciidoc[]
+
+:leveloffset: -1
+
+// SeText scanner/parser generator
+
+include::setext/index.asciidoc[]
+
+:leveloffset: +1
+
+include::setext/lexical-syntax.asciidoc[]
+
+include::setext/specifying-lexical-syntax.asciidoc[]
+
+include::setext/regular-expressions.asciidoc[]
+
+include::setext/terminal-descriptions.asciidoc[]
+
+include::setext/imports.asciidoc[]
+
+include::setext/scanner-hooks.asciidoc[]
+
+include::setext/specifying-grammars.asciidoc[]
+
+include::setext/parser-hooks.asciidoc[]
+
+include::setext/usage-hints.asciidoc[]
+
+include::setext/generated-scanners-parsers.asciidoc[]
+
+include::setext/using-in-an-eclipse-plugin-project.asciidoc[]
+
+include::setext/limitations.asciidoc[]
 
 :leveloffset: -1
 

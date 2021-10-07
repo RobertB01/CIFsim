@@ -47,7 +47,6 @@ Furthermore, the following documentation is available for download:
 * Eclipse ESCET documentation (this documentation)
 * <<intro-chapter-chi,Chi>> documentation
 * <<intro-chapter-cif,CIF>> documentation
-* <<intro-chapter-setext,SeText>> documentation
 * <<intro-chapter-tooldef,ToolDef>> documentation
 
 The following additional information is available:
