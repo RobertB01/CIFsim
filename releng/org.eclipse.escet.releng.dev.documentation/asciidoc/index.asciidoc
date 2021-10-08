@@ -1,0 +1,275 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+// Including common attributes to set for all documents within this directory.
+include::_root_attributes.asciidoc[]
+
+// Enable custom style in index-docinfo.html.
+:docinfo: private
+
+// Use this for asciidoc documents containing a title.
+:doctype: book
+
+
+= Eclipse ESCET(TM) documentation (Incubation)
+:author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+:title-logo-image: {imgsdir}/eclipse-incubation.png
+
+The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project is an link:https://eclipse.org[Eclipse Foundation] open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
+The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
+The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
+
+[WARNING]
+====
+The Eclipse ESCET project and all its tools are currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+
+image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
+====
+
+ifdef::website-output[]
+TIP: You can link:eclipse-escet-incubation-manual.pdf[download this manual] as a PDF as well.
+endif::website-output[]
+
+The Eclipse ESCET toolkit features the following languages and associated tools:
+
+* <<intro-chapter-chi,Chi>>
+* <<intro-chapter-cif,CIF>>
+* <<intro-chapter-tooldef,ToolDef>>
+
+This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to those tools as well.
+The following information is available for end users of the toolkit:
+
+* <<intro-chapter-index>>
+* <<download-install-chapter-index>>
+* <<use-chapter-index>>
+* <<performance-chapter-index>>
+* <<release-notes-chapter-index>>
+* <<contact-chapter-index>>
+* <<legal-chapter-index>>
+
+The following information is available for developers of the toolkit:
+
+* <<developer-chapter-index>>
+* <<app-framework-chapter-index>>
+* <<multivalue-chapter-index>>
+* <<rail-chapter-index>>
+* <<setext-chapter-index>>
+
+// Introduction
+
+include::intro/index.asciidoc[]
+
+:leveloffset: +1
+
+include::intro/chi.asciidoc[]
+
+include::intro/cif.asciidoc[]
+
+include::intro/tooldef.asciidoc[]
+
+:leveloffset: -1
+
+// Download and installation
+
+include::download-install/index.asciidoc[]
+
+:leveloffset: +1
+
+include::download-install/install.asciidoc[]
+
+include::download-install/starting-first-time.asciidoc[]
+
+include::download-install/update.asciidoc[]
+
+include::download-install/remove.asciidoc[]
+
+include::download-install/find-version-number.asciidoc[]
+
+:leveloffset: -1
+
+// Use
+
+include::use/index.asciidoc[]
+
+:leveloffset: +1
+
+include::use/terminology.asciidoc[]
+
+include::use/projects.asciidoc[]
+
+include::use/edit-exec.asciidoc[]
+
+include::use/escet-perspective.asciidoc[]
+
+include::use/apps-view.asciidoc[]
+
+:leveloffset: -1
+
+// Performance
+
+include::performance/index.asciidoc[]
+
+:leveloffset: +1
+
+include::performance/clear-console.asciidoc[]
+
+include::performance/reduce-console-output.asciidoc[]
+
+include::performance/close-running-apps.asciidoc[]
+
+include::performance/tweak-perf-settings.asciidoc[]
+
+:leveloffset: -1
+
+// Developer info
+
+include::developer/index.asciidoc[]
+
+:leveloffset: +1
+
+include::developer/development-process.asciidoc[]
+
+include::developer/contributing.asciidoc[]
+
+include::developer/issue-tracking.asciidoc[]
+
+include::developer/dev-env-setup.asciidoc[]
+
+include::developer/git-repo.asciidoc[]
+
+include::developer/coding-standards.asciidoc[]
+
+include::developer/building-and-testing.asciidoc[]
+
+include::developer/release-process.asciidoc[]
+
+include::developer/third-party-tools.asciidoc[]
+
+include::developer/upgrade-instructions.asciidoc[]
+
+:leveloffset: -1
+
+// Application framework
+
+include::app-framework/index.asciidoc[]
+
+:leveloffset: +1
+
+include::app-framework/introduction.asciidoc[]
+
+include::app-framework/standalone-vs-eclipse.asciidoc[]
+
+include::app-framework/application-class.asciidoc[]
+
+include::app-framework/exception-framework.asciidoc[]
+
+include::app-framework/exit-codes.asciidoc[]
+
+include::app-framework/io-framework.asciidoc[]
+
+include::app-framework/option-framework.asciidoc[]
+
+include::app-framework/compiler-framework.asciidoc[]
+
+include::app-framework/implement-your-application.asciidoc[]
+
+include::app-framework/registration.asciidoc[]
+
+include::app-framework/execution.asciidoc[]
+
+:leveloffset: -1
+
+// Multi-value Decision Diagrams
+
+include::multivalue/index.asciidoc[]
+
+:leveloffset: +1
+
+include::multivalue/goals.asciidoc[]
+
+include::multivalue/variables-and-relations.asciidoc[]
+
+include::multivalue/combining-relations.asciidoc[]
+
+include::multivalue/computing.asciidoc[]
+
+include::multivalue/practical-usage.asciidoc[]
+
+:leveloffset: -1
+
+// Rail diagram generator
+
+include::rail/index.asciidoc[]
+
+:leveloffset: +1
+
+include::rail/introduction.asciidoc[]
+
+include::rail/examples.asciidoc[]
+
+include::rail/customizing-output.asciidoc[]
+
+include::rail/lexical-syntax.asciidoc[]
+
+include::rail/grammar.asciidoc[]
+
+:leveloffset: -1
+
+// SeText scanner/parser generator
+
+include::setext/index.asciidoc[]
+
+:leveloffset: +1
+
+include::setext/lexical-syntax.asciidoc[]
+
+include::setext/specifying-lexical-syntax.asciidoc[]
+
+include::setext/regular-expressions.asciidoc[]
+
+include::setext/terminal-descriptions.asciidoc[]
+
+include::setext/imports.asciidoc[]
+
+include::setext/scanner-hooks.asciidoc[]
+
+include::setext/specifying-grammars.asciidoc[]
+
+include::setext/parser-hooks.asciidoc[]
+
+include::setext/usage-hints.asciidoc[]
+
+include::setext/generated-scanners-parsers.asciidoc[]
+
+include::setext/using-in-an-eclipse-plugin-project.asciidoc[]
+
+include::setext/limitations.asciidoc[]
+
+:leveloffset: -1
+
+// Release notes
+
+include::release-notes.asciidoc[]
+
+// Contact information
+
+include::contact.asciidoc[]
+
+// Legal
+
+include::legal.asciidoc[]
+
+
+ifdef::pdf-output[]
+[index]
+== Index
+endif::pdf-output[]
