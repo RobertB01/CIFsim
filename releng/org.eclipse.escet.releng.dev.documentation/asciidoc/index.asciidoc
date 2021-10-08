@@ -49,32 +49,19 @@ This manual includes information related to the development of the Eclipse ESCET
 Furthermore, this manual includes information on various common libraries and development tools.
 These libraries and development tools are shared by the various end-user languages and tools that comprise the Eclipse ESCET toolkit.
 
-The following topics relate to development in general:
+Information on the following topics is available:
 
-* <<development-dev-list-chapter-index>>
-* <<development-development-process-chapter-index>>
-* <<development-contributing-chapter-index>>
-* <<development-issue-tracking-chapter-index>>
-* <<development-dev-env-setup-chapter-index>>
-* <<development-git-repo-chapter-index>>
-* <<development-coding-standards-chapter-index>>
-* <<development-building-and-testing-chapter-index>>
-* <<development-release-process-chapter-index>>
-* <<development-third-party-tools-chapter-index>>
-* <<development-upgrade-instructions-chapter-index>>
-* <<legal-chapter-index>>
-
-The following topics relate to the common libraries and development tools:
-
+* <<development-chapter-index>>
 * <<app-framework-chapter-index>>
 * <<multivalue-chapter-index>>
 * <<rail-chapter-index>>
 * <<setext-chapter-index>>
+* <<legal-chapter-index>>
 
 
-// Development info
+// Development
 
-== Development
+include::development/index.asciidoc[]
 
 :leveloffset: +1
 
