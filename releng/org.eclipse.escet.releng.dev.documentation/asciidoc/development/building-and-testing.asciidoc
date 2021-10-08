@@ -19,14 +19,14 @@ indexterm:[Jenkins]
 indexterm:[test]
 indexterm:[JUnit]
 
-[[developer-building-and-testing-chapter-index]]
+[[development-building-and-testing-chapter-index]]
 == Building and testing
 
 The Eclipse ESCET software can be built using Maven/Tycho.
 The build will build every individual plugin and feature, as well as the update site, product and all documentation.
 Manually run it in one of the following ways:
 
-* In an Eclipse-based <<developer-dev-env-setup-chapter-index,development environment>>, select menu:Run[Run Configurations...] to open the _Run Configurations_ dialog.
+* In an Eclipse-based <<development-dev-env-setup-chapter-index,development environment>>, select menu:Run[Run Configurations...] to open the _Run Configurations_ dialog.
 From the list at the left, under _Maven Build_, select the _build_ launch configuration, and click the btn:[Run] button to run the build.
 +
 Additional launch configurations are available to build documentation projects separately.

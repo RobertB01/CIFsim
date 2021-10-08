@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[developer-third-party-tools-chapter-index]]
+[[development-third-party-tools-chapter-index]]
 == Third party tools
 
 As part of development for the Eclipse ESCET project, several third party tools are used.

@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[developer-dev-env-setup-chapter-index]]
+[[development-dev-env-setup-chapter-index]]
 == Development environment setup
 
 Follow these instructions to set up an Eclipse ESCET development environment.
@@ -69,7 +69,7 @@ The new development environment will be put at `<root_installation_folder>/<inst
 ** Fill in the _Eclipse ESCET Git clone URL_:
 *** Committers with write access to the Eclipse ESCET official GitLab repository can use the default URL `https://gitlab.eclipse.org/eclipse/escet/escet.git`.
 *** Contributors can use the same URL, but as they don't have write access, they will not be able to push to the remote repository.
-They can instead make a fork of the official Git repository, as described in the <<developer-contributing-chapter-index,contributing>> section.
+They can instead make a fork of the official Git repository, as described in the <<development-contributing-chapter-index,contributing>> section.
 Then they can fill in the URL of their clone instead, i.e. `+https://gitlab.eclipse.org/<username>/<cloned_repo_name>.git+`, with `<username>` replaced by their Eclipse Foundation account username, and `<cloned_repo_name>` replaced by the name of the cloned repistory, which defaults to `escet`.
 ** For _Eclipse Foundation account full name_ fill in your full name (first and last name) matching the full name in your Eclipse Foundation account.
 This will be used as name for Git commits.
@@ -102,8 +102,8 @@ In your new development environment, consider changing the following settings:
 
 * For the _Package Explorer_ <<use-terminology-view,view>>:
 
-** Enable the _Link with Editor_ setting, using the image:{developer-imgsdir}/link-with-editor.png[] icon.
+** Enable the _Link with Editor_ setting, using the image:{development-imgsdir}/link-with-editor.png[] icon.
 
 ** Enable showing resources (files/folders) with names starting with a period.
-Open the _View Menu_ (image:{developer-imgsdir}/view-menu.png[]) and choose menu:Filters...[].
+Open the _View Menu_ (image:{development-imgsdir}/view-menu.png[]) and choose menu:Filters...[].
 Uncheck the `+.* resources+` option and click btn:[OK].

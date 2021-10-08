@@ -15,7 +15,7 @@ include::_part_attributes.asciidoc[]
 indexterm:[contributing]
 indexterm:[patches]
 
-[[developer-contributing-chapter-index]]
+[[development-contributing-chapter-index]]
 == Contributing
 
 Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
@@ -23,19 +23,19 @@ We welcome your contributions.
 
 The following topics are discussed:
 
-* <<developer-contributing-contribute>>
-* <<developer-contributing-keep-sync-official-repo>>
-* <<developer-contributing-collab-committers>>
-* <<developer-contributing-become-committer>>
+* <<development-contributing-contribute>>
+* <<development-contributing-keep-sync-official-repo>>
+* <<development-contributing-collab-committers>>
+* <<development-contributing-become-committer>>
 
 
-[[developer-contributing-contribute]]
+[[development-contributing-contribute]]
 === How to contribute to Eclipse ESCET
 
 It is often a good idea to first discuss your contribution with the project's community and committers, before creating the actual code (e.g. patches), documentation, etc of your contribution.
-Discussions can take place via an <<developer-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<developer-chapter-index,'dev' list>>.
+Discussions can take place via an <<development-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<development-chapter-index,'dev' list>>.
 
-To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please make sure an issue already exists or create a new issue for it in the <<developer-issue-tracking-chapter-index,issue tracker>>.
+To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please make sure an issue already exists or create a new issue for it in the <<development-issue-tracking-chapter-index,issue tracker>>.
 
 To create issues, reply to issues, contribute patches and merge requests, etc, you need an Eclipse Foundation account.
 It can easily be created at https://accounts.eclipse.org/user/register.
@@ -57,7 +57,7 @@ This creates a fork of the official repository under your own account.
 
 ** Click the _Clone_ button near the top-right of the page and observe the `https` URL.
 
-** Follow the <<developer-dev-env-setup-chapter-index,development environment setup>> instructions to set up a properly configured development environment.
+** Follow the <<development-dev-env-setup-chapter-index,development environment setup>> instructions to set up a properly configured development environment.
 You need the `https` URL of your fork for this.
 
 * Make your changes in the forked repository under your own account:
@@ -72,7 +72,7 @@ To create branches in your fork, navigate to `+https://gitlab.eclipse.org/<usern
 There click _New branch_ to create a new branch from `develop`.
 
 ** Please start each commit message with the issue number, e.g. `#NNN Commit summary.` for issue `NNN`.
-See our <<developer-development-process-chapter-index,development process>> for more information.
+See our <<development-development-process-chapter-index,development process>> for more information.
 
 * Once you've finished work on your contribution, create a merge request for it:
 
@@ -113,7 +113,7 @@ For more information, including the specific format of commit messages, please s
 * link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records]
 
 A contribution by a non-committer will be reviewed by the project committers.
-This includes adherence to the project's <<developer-coding-standards-chapter-index,coding standards>>.
+This includes adherence to the project's <<development-coding-standards-chapter-index,coding standards>>.
 Discussions regarding the contribution will typically take place in the associated merge request (or issue).
 
 Align with the project committers on who will address the review feedback.
@@ -125,13 +125,13 @@ Remember that contributions are always welcome, and contributions don't have to 
 The project's developers can help to improve your contribution.
 If you need any help regarding the content of your contribution, the steps above, or anything else, just ask the project's developers via the issue or the project's <<develop-dev-list,'dev' list>>.
 
-See for more information our <<developer-development-process-chapter-index,development process>>.
+See for more information our <<development-development-process-chapter-index,development process>>.
 
 
-[[developer-contributing-keep-sync-official-repo]]
+[[development-contributing-keep-sync-official-repo]]
 === Keeping in sync with the official Eclipse ESCET GitLab repository
 
-If you've <<developer-dev-env-setup-chapter-index,set up a development environment>> for your forked repository, it will at some point get out of sync with new developments on the official Eclipse ESCET GitLab repository.
+If you've <<development-dev-env-setup-chapter-index,set up a development environment>> for your forked repository, it will at some point get out of sync with new developments on the official Eclipse ESCET GitLab repository.
 To sync those changes to your forked repository and to the local clone of your forked repository, follow these steps:
 
 * Navigate in a command prompt or shell to your local Git clone of your forked repository.
@@ -168,7 +168,7 @@ You are then back in sync and ready to start work on your next contribution.
 Using this process it is also possible to work on multiple contributions at once, via separate feature branches.
 
 
-[[developer-contributing-collab-committers]]
+[[development-contributing-collab-committers]]
 === Collaborating with project committers on a contribution
 
 During a review of your contribution, the project committers may provide some feedback on how to improve your contribution.
@@ -187,7 +187,7 @@ This process also works if multiple contributors are involved.
 Some alignment between all parties involved is typically desired to e.g. prevent merge conflicts.
 
 
-[[developer-contributing-become-committer]]
+[[development-contributing-become-committer]]
 === How to become a committer
 
 The Eclipse Foundation operates on the principle of meritocracy.

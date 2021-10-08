@@ -16,7 +16,7 @@ indexterm:[issues]
 indexterm:[issue, create]
 indexterm:[GitLab]
 
-[[developer-issue-tracking-chapter-index]]
+[[development-issue-tracking-chapter-index]]
 == Issue tracking
 
 The Eclipse ESCET project uses GitLab to track ongoing development and issues:
@@ -27,6 +27,6 @@ The Eclipse ESCET project uses GitLab to track ongoing development and issues:
 Be sure to search for existing issues before you create another one.
 Remember that contributions are always welcome!
 
-To contribute code (e.g. patches), documentation, or anything else, see the <<developer-contributing-chapter-index,contributing>> section.
+To contribute code (e.g. patches), documentation, or anything else, see the <<development-contributing-chapter-index,contributing>> section.
 
-To understand how we work with issues, see our <<developer-development-process-chapter-index, development process>>.
+To understand how we work with issues, see our <<development-development-process-chapter-index, development process>>.

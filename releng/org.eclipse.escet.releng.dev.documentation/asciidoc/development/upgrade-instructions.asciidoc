@@ -12,13 +12,13 @@
 
 include::_part_attributes.asciidoc[]
 
-[[developer-upgrade-instructions-chapter-index]]
+[[development-upgrade-instructions-chapter-index]]
 == Upgrade instructions
 
 To upgrade to a new Eclipse Platform/IDE/SDK version:
 
 * New development environment
-** <<developer-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
+** <<development-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
 
 * Version updates
 ** Look up Orbit version for the new Eclipse Platform/IDE/SDK release, see https://download.eclipse.org/tools/orbit/downloads/.
@@ -67,7 +67,7 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 ** Ensure the Maven version in `misc/license-check-dependencies/Jenkinsfile` matches the embedded Maven version.
 
 * Validation
-** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+** Run a <<development-building-and-testing-chapter-index,Maven build>>.
 ** Ensure no errors or warnings during Maven build.
 
 * Dependency information
@@ -79,7 +79,7 @@ To upgrade to a new Tycho version:
 * Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
 * Update version in `org.eclipse.escet.configuration/pom.xml`.
 * Check Tycho release notes for changes and adapt as necessary.
-* Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+* Run a <<development-building-and-testing-chapter-index,Maven build>>.
 * Ensure no errors or warnings during Maven build.
 
 To upgrade to a new Java version:
@@ -100,7 +100,7 @@ To upgrade to a new Java version:
 ** Update the JustJ version in the product (`org.eclipse.escet.product/escet.product`).
 ** Update `dev-env-setup.asciidoc` to match new Java version.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
-** Run a <<developer-building-and-testing-chapter-index,Maven build>>.
+** Run a <<development-building-and-testing-chapter-index,Maven build>>.
 ** Ensure no errors or warnings during Maven build.
 ** Run `misc/license-check-dependencies/license-check-dependencies.sh` and update `DEPENDENCIES.txt` according to the output.
 ** Run `misc/license-check-dependencies/license-check-dependencies.sh` to ensure `DEPENDENCIES.txt` is up-to-date.

@@ -12,20 +12,20 @@
 
 include::_part_attributes.asciidoc[]
 
-[[developer-release-process-chapter-index]]
+[[development-release-process-chapter-index]]
 == Release process
 
 This page explains step by step the various processes involved from preparing for a release to actually releasing it.
 The following topics are covered:
 
-* <<developer-release-process-plan-next-version>>
-* <<developer-release-process-prepare-git-repo-for-next-version>>
-* <<developer-release-process-working-on-a-release>>
-* <<developer-release-process-prepare-release>>
-* <<developer-release-process-perform-release>>
+* <<development-release-process-plan-next-version>>
+* <<development-release-process-prepare-git-repo-for-next-version>>
+* <<development-release-process-working-on-a-release>>
+* <<development-release-process-prepare-release>>
+* <<development-release-process-perform-release>>
 
 
-[[developer-release-process-plan-next-version]]
+[[development-release-process-plan-next-version]]
 === Planning for a next version
 
 For a new version (not milestone or release candidate), follow these steps.
@@ -72,7 +72,7 @@ Replace `N.N` by the actual release record version, `0.1`, `0.1.1` or `1.0`.
 ** Click _Create milestone_.
 
 
-[[developer-release-process-prepare-git-repo-for-next-version]]
+[[development-release-process-prepare-git-repo-for-next-version]]
 === Preparing Git repository for a next version
 
 To prepare the Git repository for the next version (not a milestone or release candidate), follow these steps:
@@ -139,19 +139,19 @@ Check for unintended changes.
 
 * Search the entire Git repository (all projects) for the old version number and update anything that still requires updating.
 
-* Test that the <<developer-building-and-testing-chapter-index,build works>>.
+* Test that the <<development-building-and-testing-chapter-index,build works>>.
 
 
-[[developer-release-process-working-on-a-release]]
+[[development-release-process-working-on-a-release]]
 === Working on a release
 
 The work for the next release (milestone, release candidate, or final release) is done in the `develop` branch.
-See the <<developer-development-process-chapter-index,development process>> for more information.
+See the <<development-development-process-chapter-index,development process>> for more information.
 
 Note that for each version at least one milestone release and at least one release candidate are required before a final release.
 
 
-[[developer-release-process-prepare-release]]
+[[development-release-process-prepare-release]]
 === Preparing a release
 
 Once the work on `develop` is done for a release (milestone, release candidate, or final release), follow these steps to prepare for the release:
@@ -180,7 +180,7 @@ See e.g. https://www.eclipse.org/lists/escet-dev/msg00091.html (mail also sent t
 ** Ensure the release review is successful before performing the release.
 
 
-[[developer-release-process-perform-release]]
+[[development-release-process-perform-release]]
 === Performing a release
 
 To perform a release (milestone, release candidate, or final release), i.e. actually release it, follow these steps:

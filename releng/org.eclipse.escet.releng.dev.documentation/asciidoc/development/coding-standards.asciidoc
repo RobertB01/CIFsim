@@ -15,10 +15,10 @@ include::_part_attributes.asciidoc[]
 indexterm:[Checkstyle]
 indexterm:[formatting]
 
-[[developer-coding-standards-chapter-index]]
+[[development-coding-standards-chapter-index]]
 == Coding standards
 
-The Eclipse ESCET <<developer-dev-env-setup-chapter-index,development environment>> has some features that allow developing high quality contributions:
+The Eclipse ESCET <<development-dev-env-setup-chapter-index,development environment>> has some features that allow developing high quality contributions:
 
 * A Java formatter profile is included.
 It allows to automatically format Java code for consistency and convenience.
@@ -34,7 +34,7 @@ For all contributions to the Eclipse ESCET project, check the following:
 
 * All contributions should be free of warnings and errors, when working with them in the Eclipse ESCET development environment.
 
-Remember that <<developer-contributing-chapter-index,contributions>> are always welcome, and contributions don't have to be perfect.
+Remember that <<development-contributing-chapter-index,contributions>> are always welcome, and contributions don't have to be perfect.
 The project's developers can help to improve your contribution, and ensure it adheres to these coding standards.
 
-For any questions regarding these coding standards, please <<developer-chapter-index,contact>> the project's developers.
+For any questions regarding these coding standards, please <<development-chapter-index,contact>> the project's developers.

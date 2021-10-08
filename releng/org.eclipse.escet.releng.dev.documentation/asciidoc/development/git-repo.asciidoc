@@ -14,7 +14,7 @@ include::_part_attributes.asciidoc[]
 
 indexterm:[Git, repository]
 
-[[developer-git-repo-chapter-index]]
+[[development-git-repo-chapter-index]]
 == Git repository
 
 The Eclipse ESCET project maintains the following source code repositories:
@@ -31,11 +31,11 @@ indexterm:[Java]
 The software is written in the https://www.oracle.com/java/[Java] programming language, as a collection of https://www.eclipse.org/pde/[Eclipse plugins], and using the https://www.eclipse.org/modeling/emf/[Eclipse Modeling Framework] (EMF).
 
 For ease of programming, the https://eclipse.org[Eclipse IDE] is recommended.
-See also the section on <<developer-dev-env-setup-chapter-index, setting up a development environment>>.
+See also the section on <<development-dev-env-setup-chapter-index, setting up a development environment>>.
 
-To contribute code (e.g. patches), documentation, or anything else, see the <<developer-contributing-chapter-index,contributing>> section.
+To contribute code (e.g. patches), documentation, or anything else, see the <<development-contributing-chapter-index,contributing>> section.
 
-The way we work with our Git repository is explained as part of our <<developer-development-process-chapter-index,development process>>.
+The way we work with our Git repository is explained as part of our <<development-development-process-chapter-index,development process>>.
 
 
 === Repository structure

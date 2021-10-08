@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[developer-chapter-index]]
+[[development-chapter-index]]
 == Eclipse ESCET development
 
 Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
@@ -32,13 +32,13 @@ For other means to interact with the Eclipse ESCET community and its developers,
 
 Further topics:
 
-* <<developer-development-process-chapter-index>>
-* <<developer-contributing-chapter-index>>
-* <<developer-issue-tracking-chapter-index>>
-* <<developer-dev-env-setup-chapter-index>>
-* <<developer-git-repo-chapter-index>>
-* <<developer-coding-standards-chapter-index>>
-* <<developer-building-and-testing-chapter-index>>
-* <<developer-release-process-chapter-index>>
-* <<developer-third-party-tools-chapter-index>>
-* <<developer-upgrade-instructions-chapter-index>>
+* <<development-development-process-chapter-index>>
+* <<development-contributing-chapter-index>>
+* <<development-issue-tracking-chapter-index>>
+* <<development-dev-env-setup-chapter-index>>
+* <<development-git-repo-chapter-index>>
+* <<development-coding-standards-chapter-index>>
+* <<development-building-and-testing-chapter-index>>
+* <<development-release-process-chapter-index>>
+* <<development-third-party-tools-chapter-index>>
+* <<development-upgrade-instructions-chapter-index>>
