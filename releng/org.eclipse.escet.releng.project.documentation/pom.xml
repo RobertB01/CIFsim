@@ -20,7 +20,7 @@
         <relativePath>../../</relativePath>
     </parent>
 
-    <artifactId>org.eclipse.escet.documentation</artifactId>
+    <artifactId>org.eclipse.escet.releng.project.documentation</artifactId>
     <packaging>eclipse-plugin</packaging>
 
     <build>
@@ -71,7 +71,7 @@
                         </goals>
                         <configuration>
                             <outputFile>
-                                ${project.build.directory}/website-intermediate/eclipse-escet-incubation-manual.pdf
+                                ${project.build.directory}/website-intermediate/eclipse-escet-project-incubation-manual.pdf
                             </outputFile>
                             <backend>pdf</backend>
                             <sourceHighlighter>coderay</sourceHighlighter>
@@ -247,7 +247,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>escet-website-${escet.version.enduser}</finalName>
+                            <finalName>escet-project-website-${escet.version.enduser}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>${basedir}/assembly.xml</descriptor>

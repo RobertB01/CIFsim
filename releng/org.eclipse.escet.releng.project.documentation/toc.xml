@@ -15,4 +15,4 @@
   A real one is generated and packaged during the build.
   This one is only present to silence warnings in the development environment, for plugin.xml.
 -->
-<toc label="Eclipse ESCET dummy TOC" topic="escet_dummy_toc_does_not_exist.html"/>
+<toc label="Eclipse ESCET project dummy TOC" topic="project_dummy_toc_does_not_exist.html"/>

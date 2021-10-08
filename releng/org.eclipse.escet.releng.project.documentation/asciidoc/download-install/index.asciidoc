@@ -45,6 +45,7 @@ The tools are also available as plug-ins for the Eclipse IDE, by means of an Ecl
 Furthermore, the following documentation is available for download:
 
 * Eclipse ESCET documentation (this documentation)
+* link:https://eclipse.org/escet/development[Eclipse ESCET development] documentation
 * <<intro-chapter-chi,Chi>> documentation
 * <<intro-chapter-cif,CIF>> documentation
 * <<intro-chapter-tooldef,ToolDef>> documentation
