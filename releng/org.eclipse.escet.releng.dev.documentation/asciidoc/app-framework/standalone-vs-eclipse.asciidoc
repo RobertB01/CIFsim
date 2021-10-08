@@ -156,7 +156,7 @@ Changing the current working directory is also supported.
 Application framework applications should use the methods in the `org.eclipse.escet.common.app.framework.Paths` class to get and set the current working directory, to resolve relative paths, etc.
 These methods also allow both Windows (`\`) and Unix (`/`) separators to be used in paths, on all platforms, transparently.
 
-Furthermore, within the Eclipse IDE, the concept of a link:https://eclipse.org/escet/escet/use/terminology.html#eclipse-workspace[workspace] is introduced.
+Furthermore, within the Eclipse IDE all projects are visible in the _Project Explorer_ and _Package Explorer_ views.
 In order to allow importing of resources from other projects etc, it may be nice to allow end users to specify platform paths (plug-in paths or workspace paths).
 Eclipse Modeling Framework (EMF) URIs, besides local file system paths, provide functionality for platform URIs as well.
 EMF URIs can for instance be used to load models that are instances of an Ecore.

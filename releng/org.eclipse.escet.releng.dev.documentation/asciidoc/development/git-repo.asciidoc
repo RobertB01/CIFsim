@@ -135,7 +135,7 @@ These plugins contain:
 | Common <<app-framework-chapter-index,application framework>>.
 
 | `org.eclipse.escet.common.app.framework.appsview.ui`
-| The link:https://eclipse.org/escet/escet/use/apps-view.html[Applications] view provides a user interface to manage the active applications.
+| The _Applications_ view provides a user interface to manage the active applications.
 
 | `org.eclipse.escet.common.asciidoc`
 | Common functionality related to _AsciiDoc_ documentation.
