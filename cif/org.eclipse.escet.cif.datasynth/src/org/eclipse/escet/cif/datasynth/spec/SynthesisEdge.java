@@ -130,8 +130,9 @@ public class SynthesisEdge {
     }
 
     /**
-     * Global edge initialization for {@link #apply applying} the edge. Must be invoked only once per edge. Must be
-     * invoked after {@link #apply applying} and before any invocation of {@link #preApply} or {@link #apply}.
+     * Global edge guard update, to be applied after the guard has been updated because of the state plant invariants.
+     * Must be invoked only once per edge. Must be invoked after an invocation of {@link #initApply} and before any
+     * invocation of {@link #preApply}.
      *
      * @param doForward Whether to do forward reachability during synthesis.
      */
@@ -231,10 +232,10 @@ public class SynthesisEdge {
      * @param restriction The predicate that indicates the upper bound on the reached states. That is, restrict the
      *     result to these states. May be {@code null} to not impose a restriction, which is semantically equivalent to
      *     providing 'true'.
-     * @param applyRuntime Whether to apply apply the runtime error predicates.
+     * @param applyError Whether to apply the runtime error predicates.
      * @return The resulting predicate.
      */
-    public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction, boolean applyRuntime) {
+    public BDD apply(BDD pred, boolean bad, boolean forward, BDD restriction, boolean applyError) {
         // Apply the edge.
         if (forward) {
             // Forward reachability for bad state predicates is currently not
@@ -268,7 +269,7 @@ public class SynthesisEdge {
             }
 
             // Apply the runtime error predicate.
-            if (applyRuntime) {
+            if (applyError) {
                 if (bad) {
                     rslt = rslt.orWith(guardError.id());
                 } else {

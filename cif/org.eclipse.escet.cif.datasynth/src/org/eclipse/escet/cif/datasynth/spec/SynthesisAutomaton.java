@@ -115,9 +115,14 @@ public class SynthesisAutomaton {
     public BDD initialUnctrl;
 
     /**
+     * Combined initialization and state plant invariant predicates of the uncontrolled system. Conjunction of
+     * {@link #initialUnctrl} and {@link #plantInv}. Is {@code null} if not yet or no longer available.
+     */
+    public BDD initialPlantInv;
+
+    /**
      * Combined initialization and state invariant predicates of the uncontrolled system. Conjunction of
-     * {@link #initialUnctrl}, {@link #plantInv}, and {@link #reqInv}. Is {@code null} if not yet or no longer
-     * available.
+     * {@link #initialPlantInv} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
      */
     public BDD initialInv;
 
@@ -158,40 +163,16 @@ public class SynthesisAutomaton {
     public BDD marked;
 
     /**
+     * Combined Marker predicate and state invariant predicates for the uncontrolled system. Conjunction of
+     * {@link #marked} and {@link #plantInv}. Is {@code null} if not yet available.
+     */
+    public BDD markedPlantInv;
+
+    /**
      * Combined marking and state invariant predicates of the uncontrolled system. Conjunction of {@link #marked},
-     * {@link #plantInv}, and {@link #reqInv}. Is {@code null} if not yet or no longer available.
+     * {@link #plantInv} and {@link #reqInv}. Is {@code null} if not yet or no longer available.
      */
     public BDD markedInv;
-
-    /**
-     * State requirement invariants (predicates) from the components. Is {@code null} if not yet or no longer available.
-     */
-    public List<BDD> reqInvsComps;
-
-    /**
-     * State requirement invariants (predicates) from the locations of the automata. Unlike initialization and marker
-     * predicates, these are not combined per automaton, but instead individual state requirement invariants
-     * (predicates) are kept. Is {@code null} if not yet or no longer available.
-     */
-    public List<BDD> reqInvsLocs;
-
-    /**
-     * State requirement invariant (predicate) for the components. Conjunction of {@link #reqInvsComps}. Is {@code null}
-     * if not yet or no longer available.
-     */
-    public BDD reqInvComps;
-
-    /**
-     * State requirement invariant (predicate) for the locations of the automata. Conjunction of {@link #reqInvsLocs}.
-     * Is {@code null} if not yet or no longer available.
-     */
-    public BDD reqInvLocs;
-
-    /**
-     * State requirement invariant (predicate) for the system. Conjunction of {@link #reqInvComps} and
-     * {@link #reqInvLocs}. Is {@code null} if not yet or no longer available.
-     */
-    public BDD reqInv;
 
     /**
      * State plant invariants (predicates) from the components. Is {@code null} if not yet or no longer available.
@@ -222,6 +203,36 @@ public class SynthesisAutomaton {
      * {@link #plantInvLocs}. Is {@code null} if not yet or no longer available.
      */
     public BDD plantInv;
+
+    /**
+     * State requirement invariants (predicates) from the components. Is {@code null} if not yet or no longer available.
+     */
+    public List<BDD> reqInvsComps;
+
+    /**
+     * State requirement invariants (predicates) from the locations of the automata. Unlike initialization and marker
+     * predicates, these are not combined per automaton, but instead individual state requirement invariants
+     * (predicates) are kept. Is {@code null} if not yet or no longer available.
+     */
+    public List<BDD> reqInvsLocs;
+
+    /**
+     * State requirement invariant (predicate) for the components. Conjunction of {@link #reqInvsComps}. Is {@code null}
+     * if not yet or no longer available.
+     */
+    public BDD reqInvComps;
+
+    /**
+     * State requirement invariant (predicate) for the locations of the automata. Conjunction of {@link #reqInvsLocs}.
+     * Is {@code null} if not yet or no longer available.
+     */
+    public BDD reqInvLocs;
+
+    /**
+     * State requirement invariant (predicate) for the system. Conjunction of {@link #reqInvComps} and
+     * {@link #reqInvLocs}. Is {@code null} if not yet or no longer available.
+     */
+    public BDD reqInv;
 
     /**
      * Mapping from controllable events to their corresponding state/event exclusion requirements, derived from

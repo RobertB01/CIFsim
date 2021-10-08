@@ -49,11 +49,11 @@ public class BddSimplifyOption extends EnumSetOption<BddSimplify> {
                         "\"guards-ctrl-beh\" to simplify supervisor guards wrt controlled behavior, " +
 
                         "\"initial-unctrl\" to simplify the initialization predicate of the controlled system wrt "
-                        + "the initialization predicate of the uncontrolled system. " +
+                        + "the initialization predicate of the uncontrolled system, " +
 
                         "and/or " +
 
-                        "\"initial-plant\" to simplify the initialization predicate of the controlled system wrt "
+                        "\"initial-state-plant-invs\" to simplify the initialization predicate of the controlled system wrt "
                         + "the state plant invariants. " +
 
                         "Prefix a name with \"+\" to add it on top of the defaults, or with \\\"-\\\" to remove it "

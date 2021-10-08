@@ -472,7 +472,9 @@ public class CifToSynthesisConverter {
         synthAut.initialComps = synthAut.factory.one();
         synthAut.initialLocs = synthAut.factory.one();
         convertInit(spec, synthAut, locPtrManager);
-        synthAut.initialUnctrl = synthAut.initialVars.and(synthAut.initialComps).and(synthAut.initialLocs);
+        BDD initialAuts = synthAut.initialComps.and(synthAut.initialLocs);
+        synthAut.initialUnctrl = synthAut.initialVars.and(initialAuts);
+        initialAuts.free();
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -515,9 +517,13 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Set combined predicates for both initialization and marking with state invariants.
-        synthAut.initialInv = synthAut.initialUnctrl.and(synthAut.plantInv).and(synthAut.reqInv);
-        synthAut.markedInv = synthAut.marked.and(synthAut.plantInv).and(synthAut.reqInv);
+        // Set combined predicate for initialization with state invariants.
+        synthAut.initialPlantInv = synthAut.initialUnctrl.and(synthAut.plantInv);
+        synthAut.initialInv = synthAut.initialPlantInv.and(synthAut.reqInv);
+
+        // Set combined predicate for marked with state invariants.
+        synthAut.markedPlantInv = synthAut.marked.and(synthAut.plantInv);
+        synthAut.markedInv = synthAut.markedPlantInv.and(synthAut.reqInv);
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
