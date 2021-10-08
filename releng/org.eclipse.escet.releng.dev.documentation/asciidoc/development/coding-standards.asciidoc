@@ -37,4 +37,4 @@ For all contributions to the Eclipse ESCET project, check the following:
 Remember that <<development-contributing-chapter-index,contributions>> are always welcome, and contributions don't have to be perfect.
 The project's developers can help to improve your contribution, and ensure it adheres to these coding standards.
 
-For any questions regarding these coding standards, please <<development-chapter-index,contact>> the project's developers.
+For any questions regarding these coding standards, please <<development-dev-list-chapter-index,contact>> the project's developers.

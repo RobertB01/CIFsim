@@ -100,7 +100,7 @@ After setting them, make sure to fully close the Eclipse Installer and then star
 
 In your new development environment, consider changing the following settings:
 
-* For the _Package Explorer_ <<use-terminology-view,view>>:
+* For the _Package Explorer_ view:
 
 ** Enable the _Link with Editor_ setting, using the image:{development-imgsdir}/link-with-editor.png[] icon.
 

@@ -33,7 +33,7 @@ The following topics are discussed:
 === How to contribute to Eclipse ESCET
 
 It is often a good idea to first discuss your contribution with the project's community and committers, before creating the actual code (e.g. patches), documentation, etc of your contribution.
-Discussions can take place via an <<development-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<development-chapter-index,'dev' list>>.
+Discussions can take place via an <<development-issue-tracking-chapter-index,issue>> in the issue tracker, or on the project's <<development-dev-list-chapter-index,'dev' list>>.
 
 To contribute your actual contribution, e.g. code, documentation, examples, or anything else to the project, please make sure an issue already exists or create a new issue for it in the <<development-issue-tracking-chapter-index,issue tracker>>.
 
@@ -123,7 +123,7 @@ Once the committers agree with the contribution, they will merge the contributio
 
 Remember that contributions are always welcome, and contributions don't have to be perfect.
 The project's developers can help to improve your contribution.
-If you need any help regarding the content of your contribution, the steps above, or anything else, just ask the project's developers via the issue or the project's <<develop-dev-list,'dev' list>>.
+If you need any help regarding the content of your contribution, the steps above, or anything else, just ask the project's developers via the issue or the project's <<development-dev-list-chapter-index,'dev' list>>.
 
 See for more information our <<development-development-process-chapter-index,development process>>.
 

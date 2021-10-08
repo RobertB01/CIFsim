@@ -28,7 +28,7 @@ The Eclipse ESCET project primarily uses GitLab for its development:
 === Discussion
 
 It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e. the project committers and the project community.
-Discussions can take place on the project's <<development-chapter-index,'dev' list>>, especially for radical new ideas and new features that have not been discussed before.
+Discussions can take place on the project's <<development-dev-list-chapter-index,'dev' list>>, especially for radical new ideas and new features that have not been discussed before.
 
 
 indexterm:[issue]

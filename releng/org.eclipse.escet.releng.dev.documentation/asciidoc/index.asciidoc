@@ -78,7 +78,7 @@ The following topics relate to the common libraries and development tools:
 
 :leveloffset: +1
 
-include::development/contact.asciidoc[]
+include::development/dev-list.asciidoc[]
 
 include::development/development-process.asciidoc[]
 

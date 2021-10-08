@@ -21,4 +21,4 @@ You can contact the Eclipse ESCET developers via the project's 'dev' list.
 
 For other means to interact with the Eclipse ESCET community and its developers, see:
 
-* link:https://www.eclipse.org/escet/escet/contact.html[Eclipse ESCET contact information]
+* link:https://eclipse.org/escet/escet/contact.html[Eclipse ESCET contact information]

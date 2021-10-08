@@ -37,7 +37,7 @@ All output that the application generates, is given to the output components.
 Each output component can decide for itself what to do with that output.
 All applications include at least a `StreamOutputComponent`, that redirects stream output to the console.
 For stand-alone applications, this means redirection to stdout and stderr.
-For application running within the Eclipse IDE, this means redirection to a _Console_ <<use-terminology-view,view>>.
+For application running within the Eclipse IDE, this means redirection to a _Console_ view.
 
 Applications that only need to provide error, warning, normal, and debug textual output, the default output component interface (`IOutputComponent`) suffices.
 Applications that want to provide additional (typed) output, should create a derived interface that inherits from `IOutputComponent`, and extends the interface with additional callback methods.

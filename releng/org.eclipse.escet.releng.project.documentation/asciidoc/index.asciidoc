@@ -54,6 +54,7 @@ The following information is available:
 * <<performance-chapter-index>>
 * <<release-notes-chapter-index>>
 * <<contact-chapter-index>>
+* <<issue-reporting-chapter-index>>
 * <<legal-chapter-index>>
 
 
@@ -130,6 +131,10 @@ include::release-notes.asciidoc[]
 // Contact information
 
 include::contact.asciidoc[]
+
+// Issue reporting
+
+include::issue-reporting.asciidoc[]
 
 // Legal
 
