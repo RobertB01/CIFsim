@@ -20,7 +20,7 @@ include::_root_attributes.asciidoc[]
 :doctype: book
 
 
-= Eclipse ESCET(TM) documentation (Incubation)
+= Eclipse ESCET(TM) development documentation (Incubation)
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 
@@ -36,125 +36,69 @@ image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
 
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-manual.pdf[download this manual] as a PDF as well.
+TIP: You can link:eclipse-escet-dev-incubation-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
-The Eclipse ESCET toolkit features the following languages and associated tools:
+Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
 
-* <<intro-chapter-chi,Chi>>
-* <<intro-chapter-cif,CIF>>
-* <<intro-chapter-tooldef,ToolDef>>
+For more information about the project, see:
 
-This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to those tools as well.
-The following information is available for end users of the toolkit:
+* link:https://eclipse.org/escet[Eclipse ESCET website]
 
-* <<intro-chapter-index>>
-* <<download-install-chapter-index>>
-* <<use-chapter-index>>
-* <<performance-chapter-index>>
-* <<release-notes-chapter-index>>
-* <<contact-chapter-index>>
+This manual includes information related to the development of the Eclipse ESCET toolkit as a whole, as it applies to all its languages and tools.
+Furthermore, this manual includes information on various common libraries and development tools.
+These libraries and development tools are shared by the various end-user languages and tools that comprise the Eclipse ESCET toolkit.
+
+The following topics relate to development in general:
+
+* <<development-dev-list-chapter-index>>
+* <<development-development-process-chapter-index>>
+* <<development-contributing-chapter-index>>
+* <<development-issue-tracking-chapter-index>>
+* <<development-dev-env-setup-chapter-index>>
+* <<development-git-repo-chapter-index>>
+* <<development-coding-standards-chapter-index>>
+* <<development-building-and-testing-chapter-index>>
+* <<development-release-process-chapter-index>>
+* <<development-third-party-tools-chapter-index>>
+* <<development-upgrade-instructions-chapter-index>>
 * <<legal-chapter-index>>
 
-The following information is available for developers of the toolkit:
+The following topics relate to the common libraries and development tools:
 
-* <<developer-chapter-index>>
 * <<app-framework-chapter-index>>
 * <<multivalue-chapter-index>>
 * <<rail-chapter-index>>
 * <<setext-chapter-index>>
 
-// Introduction
 
-include::intro/index.asciidoc[]
+// Development info
 
-:leveloffset: +1
-
-include::intro/chi.asciidoc[]
-
-include::intro/cif.asciidoc[]
-
-include::intro/tooldef.asciidoc[]
-
-:leveloffset: -1
-
-// Download and installation
-
-include::download-install/index.asciidoc[]
+== Development
 
 :leveloffset: +1
 
-include::download-install/install.asciidoc[]
+include::development/contact.asciidoc[]
 
-include::download-install/starting-first-time.asciidoc[]
+include::development/development-process.asciidoc[]
 
-include::download-install/update.asciidoc[]
+include::development/contributing.asciidoc[]
 
-include::download-install/remove.asciidoc[]
+include::development/issue-tracking.asciidoc[]
 
-include::download-install/find-version-number.asciidoc[]
+include::development/dev-env-setup.asciidoc[]
 
-:leveloffset: -1
+include::development/git-repo.asciidoc[]
 
-// Use
+include::development/coding-standards.asciidoc[]
 
-include::use/index.asciidoc[]
+include::development/building-and-testing.asciidoc[]
 
-:leveloffset: +1
+include::development/release-process.asciidoc[]
 
-include::use/terminology.asciidoc[]
+include::development/third-party-tools.asciidoc[]
 
-include::use/projects.asciidoc[]
-
-include::use/edit-exec.asciidoc[]
-
-include::use/escet-perspective.asciidoc[]
-
-include::use/apps-view.asciidoc[]
-
-:leveloffset: -1
-
-// Performance
-
-include::performance/index.asciidoc[]
-
-:leveloffset: +1
-
-include::performance/clear-console.asciidoc[]
-
-include::performance/reduce-console-output.asciidoc[]
-
-include::performance/close-running-apps.asciidoc[]
-
-include::performance/tweak-perf-settings.asciidoc[]
-
-:leveloffset: -1
-
-// Developer info
-
-include::developer/index.asciidoc[]
-
-:leveloffset: +1
-
-include::developer/development-process.asciidoc[]
-
-include::developer/contributing.asciidoc[]
-
-include::developer/issue-tracking.asciidoc[]
-
-include::developer/dev-env-setup.asciidoc[]
-
-include::developer/git-repo.asciidoc[]
-
-include::developer/coding-standards.asciidoc[]
-
-include::developer/building-and-testing.asciidoc[]
-
-include::developer/release-process.asciidoc[]
-
-include::developer/third-party-tools.asciidoc[]
-
-include::developer/upgrade-instructions.asciidoc[]
+include::development/upgrade-instructions.asciidoc[]
 
 :leveloffset: -1
 
@@ -255,14 +199,6 @@ include::setext/using-in-an-eclipse-plugin-project.asciidoc[]
 include::setext/limitations.asciidoc[]
 
 :leveloffset: -1
-
-// Release notes
-
-include::release-notes.asciidoc[]
-
-// Contact information
-
-include::contact.asciidoc[]
 
 // Legal
 

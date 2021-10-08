@@ -27,5 +27,5 @@ If you have any questions regarding the Eclipse ESCET project, any of its tools,
 <<developer-issue-tracking-chapter-index,Issue tracking>>::
 If you wish to browse existing issues or report new ones, then see the issue tracking section for more information.
 
-<<developer-chapter-index,Developer information>>::
-If you specifically want to contact the Eclipse ESCET developers concerning development related activities, want to contribute to the Eclipse ESCET project, or want to browse the source code, then see the developer information.
+link:https://eclipse.org/escet/development[Development information]::
+If you specifically want to contact the Eclipse ESCET developers concerning development related activities, want to contribute to the Eclipse ESCET project, or want to browse the source code, then see the development information.

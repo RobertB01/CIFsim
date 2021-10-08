@@ -46,7 +46,7 @@ The Eclipse ESCET toolkit features the following languages and associated tools:
 * <<intro-chapter-tooldef,ToolDef>>
 
 This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to those tools as well.
-The following information is available for end users of the toolkit:
+The following information is available:
 
 * <<intro-chapter-index>>
 * <<download-install-chapter-index>>
@@ -56,13 +56,6 @@ The following information is available for end users of the toolkit:
 * <<contact-chapter-index>>
 * <<legal-chapter-index>>
 
-The following information is available for developers of the toolkit:
-
-* <<developer-chapter-index>>
-* <<app-framework-chapter-index>>
-* <<multivalue-chapter-index>>
-* <<rail-chapter-index>>
-* <<setext-chapter-index>>
 
 // Introduction
 
@@ -127,132 +120,6 @@ include::performance/reduce-console-output.asciidoc[]
 include::performance/close-running-apps.asciidoc[]
 
 include::performance/tweak-perf-settings.asciidoc[]
-
-:leveloffset: -1
-
-// Developer info
-
-include::developer/index.asciidoc[]
-
-:leveloffset: +1
-
-include::developer/development-process.asciidoc[]
-
-include::developer/contributing.asciidoc[]
-
-include::developer/issue-tracking.asciidoc[]
-
-include::developer/dev-env-setup.asciidoc[]
-
-include::developer/git-repo.asciidoc[]
-
-include::developer/coding-standards.asciidoc[]
-
-include::developer/building-and-testing.asciidoc[]
-
-include::developer/release-process.asciidoc[]
-
-include::developer/third-party-tools.asciidoc[]
-
-include::developer/upgrade-instructions.asciidoc[]
-
-:leveloffset: -1
-
-// Application framework
-
-include::app-framework/index.asciidoc[]
-
-:leveloffset: +1
-
-include::app-framework/introduction.asciidoc[]
-
-include::app-framework/standalone-vs-eclipse.asciidoc[]
-
-include::app-framework/application-class.asciidoc[]
-
-include::app-framework/exception-framework.asciidoc[]
-
-include::app-framework/exit-codes.asciidoc[]
-
-include::app-framework/io-framework.asciidoc[]
-
-include::app-framework/option-framework.asciidoc[]
-
-include::app-framework/compiler-framework.asciidoc[]
-
-include::app-framework/implement-your-application.asciidoc[]
-
-include::app-framework/registration.asciidoc[]
-
-include::app-framework/execution.asciidoc[]
-
-:leveloffset: -1
-
-// Multi-value Decision Diagrams
-
-include::multivalue/index.asciidoc[]
-
-:leveloffset: +1
-
-include::multivalue/goals.asciidoc[]
-
-include::multivalue/variables-and-relations.asciidoc[]
-
-include::multivalue/combining-relations.asciidoc[]
-
-include::multivalue/computing.asciidoc[]
-
-include::multivalue/practical-usage.asciidoc[]
-
-:leveloffset: -1
-
-// Rail diagram generator
-
-include::rail/index.asciidoc[]
-
-:leveloffset: +1
-
-include::rail/introduction.asciidoc[]
-
-include::rail/examples.asciidoc[]
-
-include::rail/customizing-output.asciidoc[]
-
-include::rail/lexical-syntax.asciidoc[]
-
-include::rail/grammar.asciidoc[]
-
-:leveloffset: -1
-
-// SeText scanner/parser generator
-
-include::setext/index.asciidoc[]
-
-:leveloffset: +1
-
-include::setext/lexical-syntax.asciidoc[]
-
-include::setext/specifying-lexical-syntax.asciidoc[]
-
-include::setext/regular-expressions.asciidoc[]
-
-include::setext/terminal-descriptions.asciidoc[]
-
-include::setext/imports.asciidoc[]
-
-include::setext/scanner-hooks.asciidoc[]
-
-include::setext/specifying-grammars.asciidoc[]
-
-include::setext/parser-hooks.asciidoc[]
-
-include::setext/usage-hints.asciidoc[]
-
-include::setext/generated-scanners-parsers.asciidoc[]
-
-include::setext/using-in-an-eclipse-plugin-project.asciidoc[]
-
-include::setext/limitations.asciidoc[]
 
 :leveloffset: -1
 

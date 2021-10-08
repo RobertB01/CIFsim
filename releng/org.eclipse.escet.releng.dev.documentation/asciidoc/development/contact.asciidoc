@@ -1,0 +1,24 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[development-dev-list-chapter-index]]
+== The Eclipse ESCET dev-list
+
+You can contact the Eclipse ESCET developers via the project's 'dev' list.
+
+* link:https://accounts.eclipse.org/mailing-list/escet-dev[Eclipse ESCET 'dev' list]
+
+For other means to interact with the Eclipse ESCET community and its developers, see:
+
+* link:https://www.eclipse.org/escet/escet/contact.html[Eclipse ESCET contact information]
