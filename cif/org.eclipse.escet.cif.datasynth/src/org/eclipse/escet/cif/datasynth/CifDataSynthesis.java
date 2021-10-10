@@ -95,15 +95,9 @@ public class CifDataSynthesis {
                 edge.initApply(doForward);
             }
 
-            // Apply state plant invariants.
-            applyStatePlantInvs(aut, dbgEnabled);
-
-            // Update the guards due to state plant invariants.
-            for (SynthesisEdge edge: aut.edges) {
-                if (aut.env.isTerminationRequested()) {
-                    return;
-                }
-                edge.updateGuardPred(doForward);
+            // Apply state plant invariants if there are any.
+            if (!aut.plantInv.isOne()) {
+                applyStatePlantInvs(aut, dbgEnabled);
             }
 
             // Apply requirements.
@@ -121,6 +115,14 @@ public class CifDataSynthesis {
                 return;
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
+
+            // Update the guards due to state plant and state/event exclusion invariants.
+            for (SynthesisEdge edge: aut.edges) {
+                if (aut.env.isTerminationRequested()) {
+                    return;
+                }
+                edge.updateGuardPred(doForward);
+            }
 
             // Check edges.
             if (aut.env.isTerminationRequested()) {
@@ -262,7 +264,7 @@ public class CifDataSynthesis {
             for (BDD pred: aut.plantInvsComps) {
                 dbg("Invariant (component state plant invariant): %s", bddToStr(pred, aut));
             }
-            dbg("Invariant (components state plant invariant):%s", bddToStr(aut.plantInvComps, aut));
+            dbg("Invariant (components state plant inv):      %s", bddToStr(aut.plantInvComps, aut));
         }
 
         // Debug state plant invariants (predicates) of the locations of the automata.
@@ -281,7 +283,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Invariant (system state plant invariant):    %s", bddToStr(aut.reqInv, aut));
+            dbg("Invariant (system state plant invariant):    %s", bddToStr(aut.plantInv, aut));
         }
 
         // Warn if no state in system, due to state plant invariants.
@@ -652,7 +654,7 @@ public class CifDataSynthesis {
         }
         if (dbgEnabled) {
             dbg();
-            dbg("Restricting uncontrolled behavior using state/event exclusion plants.");
+            dbg("Restricting behavior using state/event exclusion plants.");
         }
 
         boolean firstDbg = true;
@@ -731,7 +733,7 @@ public class CifDataSynthesis {
                     false, // good state
                     false, // backward
                     null, // no upper bound
-                    false);
+                    false); // don't apply error. The supervisor should restrict that.
             edge.postApply(false);
 
             if (aut.env.isTerminationRequested()) {
@@ -1036,7 +1038,8 @@ public class CifDataSynthesis {
             }
 
             // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // plant invariants are all 'false'. There might be multiple edges for an event.
+            // plant invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be
+            // multiple edges for an event.
             if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
                 warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
                         + ", state/event exclusion invariants, and state plant invariants.",
@@ -1046,7 +1049,8 @@ public class CifDataSynthesis {
             }
 
             // Check whether the guards on edges of automata combined with state/event exclusion invariants and state
-            // invariants are all 'false'. There might be multiple edges for an event.
+            // invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be multiple
+            // edges for an event.
             boolean alwaysDisabled = true;
             for (SynthesisEdge edge: aut.eventEdges.get(event)) {
                 BDD enabledExpression = edge.guard.and(aut.reqInv);
