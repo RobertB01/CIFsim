@@ -106,35 +106,27 @@ public class SvgNameUtils {
 
         // Process data from file.
         Map<String, Set<String>> mapping = map();
-        String elemName = null;
-        Set<String> attrs = set();
         for (String line: lines) {
-            if (line.isBlank()) {
-                // Skip empty lines.
-            } else if (line.startsWith("#")) {
-                // Skip license header.
-            } else if (line.startsWith("//")) {
-                // Save attributes for current element.
-                if (elemName != null) {
-                    Assert.check(!attrs.isEmpty(), attrs);
-                    Set<String> prev = mapping.put(elemName, Collections.unmodifiableSet(attrs));
-                    Assert.check(prev == null, prev);
-                }
-
-                // Start new element.
-                elemName = line.substring("//".length()).strip();
-                attrs = set();
+            if (line.isBlank() || line.startsWith("#")) {
+                // Skip empty/comment lines.
             } else {
-                // Attribute line.
-                Assert.notNull(attrs);
-                attrs.add(line);
+                // Split element and attribute.
+                int idx = line.indexOf(" / ");
+                Assert.check(idx > 0);
+                String elemName = line.substring(0, idx);
+                String attrName = line.substring(idx + " / ".length());
+                Assert.check(elemName.indexOf(" / ") < 0, elemName);
+                Assert.check(attrName.indexOf(" / ") < 0, attrName);
+
+                // Add to mapping.
+                Set<String> attrs = mapping.get(elemName);
+                if (attrs == null) {
+                    attrs = set();
+                    mapping.put(elemName, attrs);
+                }
+                attrs.add(attrName);
             }
         }
-
-        // Save attributes for last element.
-        Assert.check(!attrs.isEmpty(), attrs);
-        Set<String> prev = mapping.put(elemName, Collections.unmodifiableSet(attrs));
-        Assert.check(prev == null, prev);
 
         // Store mapping in static variable.
         SVG_ELEM_ATTR_MAP = Collections.unmodifiableMap(mapping);
