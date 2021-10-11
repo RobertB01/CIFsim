@@ -410,7 +410,7 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (aut.initialPlantInv.isZero()) {
+        if (!aut.initialUnctrl.isZero() && !aut.plantInv.isZero() && aut.initialPlantInv.isZero()) {
             warn("The uncontrolled system has no initial state (taking into account only initialization and state "
                     + "plant invariants).");
         }
@@ -461,7 +461,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined marked/plant inv): %s", bddToStr(aut.markedPlantInv, aut));
+            dbg("Marked    (system, combined mark/plant inv): %s", bddToStr(aut.markedPlantInv, aut));
         }
 
         // Debug combined marking and state invariants of the system.
@@ -469,7 +469,7 @@ public class CifDataSynthesis {
             return;
         }
         if (dbgEnabled) {
-            dbg("Marked    (system, combined marked/state inv): %s", bddToStr(aut.markedInv, aut));
+            dbg("Marked    (system, combined mark/state inv): %s", bddToStr(aut.markedInv, aut));
         }
 
         // Warn if no marked state in uncontrolled system.
@@ -483,7 +483,7 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        if (aut.markedPlantInv.isZero()) {
+        if (!aut.marked.isZero() && !aut.plantInv.isZero() && aut.markedPlantInv.isZero()) {
             warn("The uncontrolled system has no marked state (taking into account only marking and state plant "
                     + "invariants).");
         }
@@ -1041,8 +1041,8 @@ public class CifDataSynthesis {
             // plant invariants are all 'false'. State plant invariants are included in 'edge.guard'. There might be
             // multiple edges for an event.
             if (aut.eventEdges.get(event).stream().filter(edge -> !edge.guard.isZero()).count() == 0) {
-                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards "
-                        + ", state/event exclusion invariants, and state plant invariants.",
+                warn("Event \"%s\" is never enabled in the input specification, taking into account automaton guards, "
+                        + "state/event exclusion invariants, and state plant invariants.",
                         CifTextUtils.getAbsName(event));
                 aut.disabledEvents.add(event);
                 continue;
@@ -1679,6 +1679,7 @@ public class CifDataSynthesis {
         boolean dbgPrinted = false;
 
         if (!initialRemoved.isZero()) {
+            aut.initialOutput = initialCtrl.id();
             BDD assumption = aut.factory.one();
 
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
@@ -1835,7 +1836,9 @@ public class CifDataSynthesis {
             }
 
             // Determine when the event is enabled in controlled statespace.
-            BDD ctrlBehGuard = guards.get(event).and(aut.ctrlBeh).and(aut.plantInv);
+            BDD ctrlBehPlantInv = aut.ctrlBeh.and(aut.plantInv);
+            BDD ctrlBehGuard = guards.get(event).and(ctrlBehPlantInv);
+            ctrlBehPlantInv.free();
 
             // Warn for events that are never enabled.
             if (ctrlBehGuard.isZero() && !aut.disabledEvents.contains(event)) {
