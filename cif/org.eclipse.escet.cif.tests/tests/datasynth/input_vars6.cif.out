@@ -18,6 +18,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -29,13 +33,15 @@ Initial   (components init predicate):       io.sensor1 and io.sensor2
 Initial   (aut/locs init predicate):         true
 Initial   (auts/locs init predicate):        true
 Initial   (uncontrolled system):             io.sensor1 and io.sensor2
-Initial   (system, combined init/req inv):   io.sensor1 and io.sensor2
+Initial   (system, combined init/plant inv): io.sensor1 and io.sensor2
+Initial   (system, combined init/state inv): io.sensor1 and io.sensor2
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       not io.sensor2 and not io.sensor3
 Marked    (auts/locs marker predicate):      not io.sensor2 and not io.sensor3
 Marked    (uncontrolled system):             not io.sensor2 and not io.sensor3
-Marked    (system, combined marked/req inv): not io.sensor2 and not io.sensor3
+Marked    (system, combined mark/plant inv): not io.sensor2 and not io.sensor3
+Marked    (system, combined mark/state inv): not io.sensor2 and not io.sensor3
 
 State/event exclusion plants:
   None

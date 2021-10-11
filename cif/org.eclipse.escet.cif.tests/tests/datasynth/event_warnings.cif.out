@@ -49,6 +49,10 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (component state req invariant):   p.y != 5
 Invariant (components state req invariant):  p.y != 5
 Invariant (locations state req invariant):   true
@@ -66,7 +70,8 @@ Initial   (aut/locs init predicate):         a.l1
 Initial   (aut/locs init predicate):         b.l1
 Initial   (auts/locs init predicate):        p.l1 and (a.l1 and b.l1)
 Initial   (uncontrolled system):             p.x = 0 and (p.l1 and p.y = 0) and (p.z = 1 and q.x = 0 and (a.l1 and b.l1))
-Initial   (system, combined init/req inv):   p.x = 0 and (p.l1 and p.y = 0) and (p.z = 1 and q.x = 0 and (a.l1 and b.l1))
+Initial   (system, combined init/plant inv): p.x = 0 and (p.l1 and p.y = 0) and (p.z = 1 and q.x = 0 and (a.l1 and b.l1))
+Initial   (system, combined init/state inv): p.x = 0 and (p.l1 and p.y = 0) and (p.z = 1 and q.x = 0 and (a.l1 and b.l1))
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       p.l1
@@ -75,7 +80,8 @@ Marked    (aut/locs marker predicate):       true
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      p.l1
 Marked    (uncontrolled system):             p.l1
-Marked    (system, combined marked/req inv): (not p.l1 or p.y != 5) and (not p.l3 and not p.l2)
+Marked    (system, combined mark/plant inv): p.l1
+Marked    (system, combined mark/state inv): (not p.l1 or p.y != 5) and (not p.l3 and not p.l2)
 
 State/event exclusion plants:
   Event "p.c2" needs:

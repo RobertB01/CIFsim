@@ -48,6 +48,10 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -62,13 +66,15 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.loc1
 Initial   (auts/locs init predicate):        p.loc1
 Initial   (uncontrolled system):             <bdd 16n 243p>
-Initial   (system, combined init/req inv):   <bdd 16n 243p>
+Initial   (system, combined init/plant inv): <bdd 16n 243p>
+Initial   (system, combined init/state inv): <bdd 16n 243p>
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 Marked    (auts/locs marker predicate):      p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 Marked    (uncontrolled system):             p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
-Marked    (system, combined marked/req inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+Marked    (system, combined mark/plant inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
+Marked    (system, combined mark/state inv): p.m1 = 1 and (p.m2 = 1 and p.loc2) and (p.m3 = 1 and (p.m4 = 1 and p.m5 = 1))
 
 State/event exclusion plants:
   None

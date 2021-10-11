@@ -30,6 +30,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (component state req invariant):   (g.p.x = 1 or 3 <= g.p.x and g.p.x <= 10) and g.p.x != 1
 Invariant (component state req invariant):   0 <= g.p.x and g.p.x <= 7
 Invariant (components state req invariant):  g.p.x = 4 or g.p.x = 6 or (g.p.x = 5 or (g.p.x = 3 or g.p.x = 7))
@@ -42,13 +46,15 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         g.p.l0
 Initial   (auts/locs init predicate):        g.p.l0
 Initial   (uncontrolled system):             g.p.l0
-Initial   (system, combined init/req inv):   g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
+Initial   (system, combined init/plant inv): g.p.l0
+Initial   (system, combined init/state inv): g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       g.p.l0
 Marked    (auts/locs marker predicate):      g.p.l0
 Marked    (uncontrolled system):             g.p.l0
-Marked    (system, combined marked/req inv): g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
+Marked    (system, combined mark/plant inv): g.p.l0
+Marked    (system, combined mark/state inv): g.p.l0 and (g.p.x = 4 or g.p.x = 6) or (g.p.l0 and g.p.x = 5 or g.p.l0 and (g.p.x = 3 or g.p.x = 7))
 
 State/event exclusion plants:
   None

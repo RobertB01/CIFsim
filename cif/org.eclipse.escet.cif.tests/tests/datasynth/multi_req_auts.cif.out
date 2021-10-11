@@ -31,6 +31,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (components state req invariant):  true
 Invariant (locations state req invariant):   true
 Invariant (system state req invariant):      true
@@ -43,7 +47,8 @@ Initial   (aut/locs init predicate):         r2.l1
 Initial   (aut/locs init predicate):         r3.l1
 Initial   (auts/locs init predicate):        r2.l1 and r3.l1
 Initial   (uncontrolled system):             p.x = 0 and (r2.l1 and r3.l1)
-Initial   (system, combined init/req inv):   p.x = 0 and (r2.l1 and r3.l1)
+Initial   (system, combined init/plant inv): p.x = 0 and (r2.l1 and r3.l1)
+Initial   (system, combined init/state inv): p.x = 0 and (r2.l1 and r3.l1)
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       true
@@ -51,7 +56,8 @@ Marked    (aut/locs marker predicate):       r2.l1
 Marked    (aut/locs marker predicate):       r3.l1
 Marked    (auts/locs marker predicate):      r2.l1 and r3.l1
 Marked    (uncontrolled system):             r2.l1 and r3.l1
-Marked    (system, combined marked/req inv): r2.l1 and r3.l1
+Marked    (system, combined mark/plant inv): r2.l1 and r3.l1
+Marked    (system, combined mark/state inv): r2.l1 and r3.l1
 
 State/event exclusion plants:
   None

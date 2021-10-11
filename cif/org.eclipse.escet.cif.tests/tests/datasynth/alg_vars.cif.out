@@ -33,6 +33,10 @@ Applying automatic variable ordering:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (component state req invariant):   r1.inactive or r3.inactive
 Invariant (components state req invariant):  r1.inactive or r3.inactive
 Invariant (locations state req invariant):   true
@@ -48,7 +52,8 @@ Initial   (aut/locs init predicate):         r2.inactive
 Initial   (aut/locs init predicate):         r3.inactive
 Initial   (auts/locs init predicate):        q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 Initial   (uncontrolled system):             q.l1 and r1.inactive and (r2.inactive and r3.inactive)
-Initial   (system, combined init/req inv):   q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (system, combined init/plant inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Initial   (system, combined init/state inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       true
@@ -58,7 +63,8 @@ Marked    (aut/locs marker predicate):       r2.inactive
 Marked    (aut/locs marker predicate):       r3.inactive
 Marked    (auts/locs marker predicate):      q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 Marked    (uncontrolled system):             q.l1 and r1.inactive and (r2.inactive and r3.inactive)
-Marked    (system, combined marked/req inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (system, combined mark/plant inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
+Marked    (system, combined mark/state inv): q.l1 and r1.inactive and (r2.inactive and r3.inactive)
 
 State/event exclusion plants:
   None

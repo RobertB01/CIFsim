@@ -45,6 +45,10 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (component state req invariant):   p.y != 2
 Invariant (components state req invariant):  p.y != 2
 Invariant (locations state req invariant):   true
@@ -60,13 +64,15 @@ Initial   (components init predicate):       true
 Initial   (aut/locs init predicate):         p.y != 1
 Initial   (auts/locs init predicate):        p.y != 1
 Initial   (uncontrolled system):             <bdd 14n 81p>
-Initial   (system, combined init/req inv):   <bdd 14n 54p>
+Initial   (system, combined init/plant inv): <bdd 14n 81p>
+Initial   (system, combined init/state inv): <bdd 14n 54p>
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       p.y != 3
 Marked    (auts/locs marker predicate):      p.y != 3
 Marked    (uncontrolled system):             p.y != 3
-Marked    (system, combined marked/req inv): p.y = 0 or (p.y = 1 or p.y = 4)
+Marked    (system, combined mark/plant inv): p.y != 3
+Marked    (system, combined mark/state inv): p.y = 0 or (p.y = 1 or p.y = 4)
 
 State/event exclusion plants:
   None

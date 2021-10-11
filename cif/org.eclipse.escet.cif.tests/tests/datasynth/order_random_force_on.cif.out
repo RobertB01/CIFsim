@@ -50,6 +50,10 @@ CIF variables and location pointers:
 
 Starting data-based synthesis.
 
+Invariant (components state plant inv):      true
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    true
+
 Invariant (component state req invariant):   buffer3.count != 3 or (buffer1.count != 3 or buffer2.count != 3)
 Invariant (components state req invariant):  buffer3.count != 3 or (buffer1.count != 3 or buffer2.count != 3)
 Invariant (locations state req invariant):   true
@@ -65,7 +69,8 @@ Initial   (aut/locs init predicate):         buffer3.add
 Initial   (aut/locs init predicate):         buffer2.add
 Initial   (auts/locs init predicate):        buffer3.add and (buffer1.add and buffer2.add)
 Initial   (uncontrolled system):             buffer3.add and (buffer3.count = 0 and buffer1.count = 0) and (buffer1.add and (buffer2.count = 0 and buffer2.add))
-Initial   (system, combined init/req inv):   buffer3.add and (buffer3.count = 0 and buffer1.count = 0) and (buffer1.add and (buffer2.count = 0 and buffer2.add))
+Initial   (system, combined init/plant inv): buffer3.add and (buffer3.count = 0 and buffer1.count = 0) and (buffer1.add and (buffer2.count = 0 and buffer2.add))
+Initial   (system, combined init/state inv): buffer3.add and (buffer3.count = 0 and buffer1.count = 0) and (buffer1.add and (buffer2.count = 0 and buffer2.add))
 
 Marked    (components marker predicate):     true
 Marked    (aut/locs marker predicate):       true
@@ -73,7 +78,8 @@ Marked    (aut/locs marker predicate):       true
 Marked    (aut/locs marker predicate):       true
 Marked    (auts/locs marker predicate):      true
 Marked    (uncontrolled system):             true
-Marked    (system, combined marked/req inv): buffer3.count != 3 or (buffer1.count != 3 or buffer2.count != 3)
+Marked    (system, combined mark/plant inv): true
+Marked    (system, combined mark/state inv): buffer3.count != 3 or (buffer1.count != 3 or buffer2.count != 3)
 
 State/event exclusion plants:
   None
