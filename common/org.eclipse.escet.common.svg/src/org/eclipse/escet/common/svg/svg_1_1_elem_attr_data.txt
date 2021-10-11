@@ -656,7 +656,6 @@ color-profile / xlink:type
 color-profile / xml:base
 color-profile / xml:lang
 color-profile / xml:space
-color-profile / mapping.put("color-profile",Collections.unmodifiableSet(attrs));
 
 cursor / externalResourcesRequired
 cursor / id
@@ -2318,27 +2317,23 @@ font-face / x-height
 font-face / xml:base
 font-face / xml:lang
 font-face / xml:space
-font-face / mapping.put("font-face",Collections.unmodifiableSet(attrs));
 
 font-face-format / id
 font-face-format / string
 font-face-format / xml:base
 font-face-format / xml:lang
 font-face-format / xml:space
-font-face-format / mapping.put("font-face-format",Collections.unmodifiableSet(attrs));
 
 font-face-name / id
 font-face-name / name
 font-face-name / xml:base
 font-face-name / xml:lang
 font-face-name / xml:space
-font-face-name / mapping.put("font-face-name",Collections.unmodifiableSet(attrs));
 
 font-face-src / id
 font-face-src / xml:base
 font-face-src / xml:lang
 font-face-src / xml:space
-font-face-src / mapping.put("font-face-src",Collections.unmodifiableSet(attrs));
 
 font-face-uri / id
 font-face-uri / xlink:actuate
@@ -2351,7 +2346,6 @@ font-face-uri / xlink:type
 font-face-uri / xml:base
 font-face-uri / xml:lang
 font-face-uri / xml:space
-font-face-uri / mapping.put("font-face-uri",Collections.unmodifiableSet(attrs));
 
 foreignObject / alignment-baseline
 foreignObject / baseline-shift
@@ -3168,7 +3162,6 @@ missing-glyph / writing-mode
 missing-glyph / xml:base
 missing-glyph / xml:lang
 missing-glyph / xml:space
-missing-glyph / mapping.put("missing-glyph",Collections.unmodifiableSet(attrs));
 
 mpath / externalResourcesRequired
 mpath / id

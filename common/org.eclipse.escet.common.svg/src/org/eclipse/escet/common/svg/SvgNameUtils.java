@@ -105,6 +105,7 @@ public class SvgNameUtils {
         }
 
         // Process data from file.
+        Pattern svgElemAttrNameSyntaxPattern = Pattern.compile("[a-zA-Z0-9\\-:]+");
         Map<String, Set<String>> mapping = map();
         for (String line: lines) {
             if (line.isBlank() || line.startsWith("#")) {
@@ -115,8 +116,8 @@ public class SvgNameUtils {
                 Assert.check(idx > 0);
                 String elemName = line.substring(0, idx);
                 String attrName = line.substring(idx + " / ".length());
-                Assert.check(elemName.indexOf(" / ") < 0, elemName);
-                Assert.check(attrName.indexOf(" / ") < 0, attrName);
+                Assert.check(svgElemAttrNameSyntaxPattern.matcher(elemName).matches(), elemName);
+                Assert.check(svgElemAttrNameSyntaxPattern.matcher(attrName).matches(), attrName);
 
                 // Add to mapping.
                 Set<String> attrs = mapping.get(elemName);
