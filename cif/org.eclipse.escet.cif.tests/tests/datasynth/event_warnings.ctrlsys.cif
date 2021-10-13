@@ -15,6 +15,8 @@ plant automaton p:
   controllable c10;
   controllable c11;
   controllable c12;
+  controllable c13;
+  disc int[0..10] w;
   disc int[0..10] x;
   disc int[0..10] y;
   disc int[0..1] z = 1;
@@ -28,28 +30,32 @@ plant automaton p:
     edge c4 when x < 5;
     edge c5;
     edge c6 when y = 5;
-    edge c7 when y = 4 do y := y + 1;
-    edge c8 goto l2;
-    edge c9 when z = 1 do z := z + 1;
-    edge c10 when false;
-    edge c10 when false;
-    edge c11;
+    edge c7 when w = 5;
+    edge c8 when y = 4 do y := y + 1;
+    edge c9 goto l2;
+    edge c10 when z = 1 do z := z + 1;
     edge c11 when false;
+    edge c11 when false;
+    edge c12;
+    edge c12 when false;
   location l2;
   location l3:
-    edge c12;
+    edge c13;
 end
 plant automaton q:
   uncontrollable u0;
   uncontrollable u1;
   uncontrollable u2;
-  disc int[0..10] x;
+  uncontrollable u3;
+  uncontrollable u4;
   location l1:
     initial;
     marked;
     edge u0 when false;
     edge u1;
-    edge u2 when x < 5;
+    edge u2 when p.x < 5;
+    edge u3 when p.y = 5;
+    edge u4 when p.w = 5;
 end
 plant automaton a:
   location l1:
@@ -72,17 +78,18 @@ plant automaton b:
     edge u_synch;
 end
 supervisor automaton sup:
-  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, c_off, c_synch;
+  alphabet p.c0, p.c1, p.c2, p.c3, p.c4, p.c5, p.c6, p.c7, p.c8, p.c9, p.c10, p.c11, p.c12, p.c13, c_off, c_synch;
   location:
     initial;
     marked;
-    edge c_off when p.x = 0 and p.l1 and (p.y = 0 and (p.z = 1 and q.x = 0));
+    edge c_off when p.w = 0 and p.x = 0 and (p.l1 and (p.y = 0 and p.z = 1));
     edge c_synch when false;
     edge p.c0 when true;
     edge p.c1 when false;
-    edge p.c10 when true;
-    edge p.c11 when p.x = 0 and (p.y = 0 and p.z = 1) and (q.x = 0 and (a.l1 and b.l1)) or p.x = 0 and (p.y = 0 and p.z = 1) and (q.x = 0 and (a.l2 and b.l2));
-    edge p.c12 when false;
+    edge p.c10 when false;
+    edge p.c11 when true;
+    edge p.c12 when p.w = 0 and (p.x = 0 and p.y = 0) and (p.z = 1 and (a.l1 and b.l1)) or p.w = 0 and (p.x = 0 and p.y = 0) and (p.z = 1 and (a.l2 and b.l2));
+    edge p.c13 when false;
     edge p.c2 when false;
     edge p.c3 when false;
     edge p.c4 when false;
@@ -95,5 +102,6 @@ end
 plant invariant p.c2 needs false;
 plant invariant p.c4 needs p.x >= 5;
 plant invariant p.c5 needs p.x > 5;
+plant invariant p.w != 5;
 plant invariant q.u1 needs false;
-plant invariant q.u2 needs q.x >= 5;
+plant invariant q.u2 needs p.x >= 5;

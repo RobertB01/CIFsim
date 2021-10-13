@@ -1,0 +1,14 @@
+plant automaton A:
+  disc int[0..2] D in any;
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet;
+  initial A.D != 1;
+  location:
+    initial;
+    marked;
+end
+plant invariant A.D != 1;

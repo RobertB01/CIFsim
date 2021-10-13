@@ -1,0 +1,92 @@
+Reading CIF file "datasynth/no_initial_plant_inv.cif".
+Preprocessing CIF specification.
+Converting CIF specification to internal format.
+
+CIF variables and location pointers:
+  Nr     Kind               Type       Name  Group  BDD vars  CIF values  BDD values  Values used
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  1      discrete variable  int[0..5]  p.x   0      3 * 2     6 * 2       8 * 2       75%
+  -----  -----------------  ---------  ----  -----  --------  ----------  ----------  -----------
+  Total                                      1      6         12          16          75%
+
+Starting data-based synthesis.
+
+Invariant (component state plant invariant): p.x = 0 or p.x = 1
+Invariant (components state plant inv):      p.x = 0 or p.x = 1
+Invariant (locations state plant invariant): true
+Invariant (system state plant invariant):    p.x = 0 or p.x = 1
+
+Invariant (components state req invariant):  true
+Invariant (locations state req invariant):   true
+Invariant (system state req invariant):      true
+
+Initial   (discrete variable 0):             p.x = 2 or p.x = 3
+Initial   (discrete variables):              p.x = 2 or p.x = 3
+Initial   (components init predicate):       true
+Initial   (aut/locs init predicate):         true
+Initial   (auts/locs init predicate):        true
+Initial   (uncontrolled system):             p.x = 2 or p.x = 3
+Initial   (system, combined init/plant inv): false
+Initial   (system, combined init/state inv): false
+
+Marked    (components marker predicate):     true
+Marked    (aut/locs marker predicate):       true
+Marked    (auts/locs marker predicate):      true
+Marked    (uncontrolled system):             true
+Marked    (system, combined mark/plant inv): p.x = 0 or p.x = 1
+Marked    (system, combined mark/state inv): p.x = 0 or p.x = 1
+
+State/event exclusion plants:
+  None
+
+State/event exclusion requirements:
+  None
+
+Uncontrolled system:
+  State: (controlled-behavior: ?)
+
+Restricting behavior using state/event exclusion plants.
+
+Restricting uncontrolled behavior using state plants.
+
+Initialized controlled-behavior predicate using invariants: true.
+
+Extending controlled-behavior predicate using variable ranges.
+
+Controlled behavior: true -> true [range: true, variable: discrete variable "p.x" of type "int[0..5]" (group: 0, domain: 0+1, BDD variables: 3, CIF/BDD values: 6/8)].
+
+Extended controlled-behavior predicate using variable ranges: true.
+
+Restricting behavior using state/event exclusion requirements.
+
+Round 1: started.
+
+Round 1: computing backward controlled-behavior predicate.
+Backward controlled-behavior: true [marker predicate]
+Backward controlled-behavior: true -> true [restricted to current/previous controlled-behavior predicate: true]
+Backward reachability: iteration 1.
+Backward controlled-behavior: true [fixed point].
+
+Round 1: computing backward uncontrolled bad-state predicate.
+Backward uncontrolled bad-state: false [current/previous controlled behavior predicate]
+Backward reachability: iteration 1.
+
+Round 1: computing forward controlled-behavior predicate.
+Forward controlled-behavior: false [initialization predicate]
+Forward reachability: iteration 1.
+Controlled behavior: true -> false.
+
+Round 1: finished, all states are bad.
+
+Computing controlled system guards.
+
+Final synthesis result:
+  State: (controlled-behavior: false)
+
+Controlled system:                     exactly 0 states.
+
+Initial (synthesis result):            false
+Initial (uncontrolled system):         p.x = 2 or p.x = 3
+Initial (controlled system):           false
+Initial (removed by supervisor):       p.x = 2 or p.x = 3
+Initial (added by supervisor):         not(p.x = 2 or p.x = 3)

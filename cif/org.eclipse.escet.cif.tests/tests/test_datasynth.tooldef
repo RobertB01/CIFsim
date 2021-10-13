@@ -26,7 +26,7 @@ list string default_options = [
     "--forward-reach=on",
 ];
 
-string opt_simplify_all = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-plant-invs,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl";
+string opt_simplify_all = "--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-plant-invs,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl,initial-state-plant-invs";
 
 map(string:list string) test_options = {
     "datasynth/bdd_dbg_maxnodes.cif":                     ["--bdd-dbg-maxnodes=2"],
@@ -61,6 +61,8 @@ map(string:list string) test_options = {
     "datasynth/simplify_ctrl_beh_on.cif":                 ["--bdd-simplify=guards-ctrl-beh"],
     "datasynth/simplify_initial_unctrl_off.cif":          ["--bdd-simplify="],
     "datasynth/simplify_initial_unctrl_on.cif":           ["--bdd-simplify=initial-unctrl"],
+    "datasynth/simplify_initial_plant_inv_off.cif":       ["--bdd-simplify="],
+    "datasynth/simplify_initial_plant_inv_on.cif":        ["--bdd-simplify=initial-state-plant-invs"],
     "datasynth/simplify_plants_off.cif":                  ["--bdd-simplify="],
     "datasynth/simplify_plants_on.cif":                   ["--bdd-simplify=guards-plants"],
     "datasynth/simplify_propagation_all.cif":             ["--bdd-simplify=guards-plants,guards-req-auts,guards-se-excl-req-invs,guards-state-req-invs,guards-ctrl-beh,initial-unctrl"],
@@ -73,8 +75,14 @@ map(string:list string) test_options = {
     "datasynth/simplify_se_excl_plant_invs_on.cif":       ["--bdd-simplify=guards-se-excl-plant-invs"],
     "datasynth/simplify_se_excl_req_invs_off.cif":        ["--bdd-simplify="],
     "datasynth/simplify_se_excl_req_invs_on.cif":         ["--bdd-simplify=guards-se-excl-req-invs"],
+    "datasynth/simplify_state_plant_invs_off.cif":        ["--bdd-simplify="],
+    "datasynth/simplify_state_plant_invs_on.cif":         ["--bdd-simplify=guards-state-plant-invs"],
     "datasynth/simplify_state_req_invs_off.cif":          ["--bdd-simplify="],
     "datasynth/simplify_state_req_invs_on.cif":           ["--bdd-simplify=guards-state-req-invs"],
+    "datasynth/state_plant_invs_ctrl.cif":                [opt_simplify_all],
+    "datasynth/state_plant_invs_simple.cif":              ["--forward-reach=on"],
+    "datasynth/state_plant_invs_init.cif":                ["--forward-reach=on"],
+    "datasynth/state_plant_invs_unctrl.cif":              [opt_simplify_all],
     "datasynth/supname_custom.cif":                       ["-s g"],
     "datasynth/supname_invalid.cif":                      ["-s b@"],
 };

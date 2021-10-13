@@ -1,0 +1,16 @@
+uncontrollable e;
+plant automaton p:
+  disc int[0..9] x in any;
+  plant invariant x mod 2 = 1;
+  location:
+    initial;
+    marked;
+    edge e;
+end
+supervisor automaton sup:
+  alphabet;
+  initial p.x = 9 or (p.x = 5 or p.x = 7);
+  location:
+    initial;
+    marked;
+end

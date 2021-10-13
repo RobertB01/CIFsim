@@ -66,7 +66,7 @@ plant p4:
 end
 
 group g2a:
-  invariant false;                          // Non-requirement state invariant.
+  invariant false;                          // Non-requirement/non-plant state invariant.
 end
 
 group g2b:
@@ -80,7 +80,7 @@ group g2c:
 end
 
 group g3a:
-  plant invariant false;                    // Non-requirement state invariant.
+  plant invariant false;                    // OK.
 end
 
 group g3b:
@@ -94,7 +94,7 @@ group g3c:
 end
 
 group g4a:
-  supervisor invariant false;               // Non-requirement state invariant.
+  supervisor invariant false;               // Non-requirement/non-plant state invariant.
 end
 
 group g4b:
