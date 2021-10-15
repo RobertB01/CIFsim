@@ -226,6 +226,7 @@ public abstract class RuntimeState {
                 return getTime();
 
             case DISCRETE:
+            case INPUT:
             case CONTINUOUS:
                 return getStateVarValue(objMeta.idx);
 
@@ -258,6 +259,7 @@ public abstract class RuntimeState {
                 return getTimeText();
 
             case DISCRETE:
+            case INPUT:
             case CONTINUOUS:
                 return runtimeToString(getStateVarValue(objMeta.idx));
 

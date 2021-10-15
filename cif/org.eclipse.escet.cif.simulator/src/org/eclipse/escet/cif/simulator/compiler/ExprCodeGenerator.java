@@ -42,6 +42,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
@@ -232,6 +233,8 @@ public class ExprCodeGenerator {
             return ctxt.getConstFieldName(cexpr.getConstant());
         } else if (expr instanceof DiscVariableExpression) {
             return gencodeDiscVarExpr((DiscVariableExpression)expr, ctxt, state);
+        } else if (expr instanceof InputVariableExpression) {
+            return gencodeInputVarExpr((InputVariableExpression)expr, ctxt, state);
         } else if (expr instanceof AlgVariableExpression) {
             AlgVariable var = ((AlgVariableExpression)expr).getVariable();
             return fmt("%s(%s)", ctxt.getAlgVarMethodName(var), state);
@@ -249,9 +252,6 @@ public class ExprCodeGenerator {
         } else if (expr instanceof EventExpression) {
             // Can't use event as value. Disallowed by type checker.
             throw new RuntimeException("Event used as value: " + expr);
-        } else if (expr instanceof InputVariableExpression) {
-            // Should have been checked by InputVariableChecker already.
-            throw new RuntimeException("Input var expr unexpected.");
         } else if (expr instanceof ReceivedExpression) {
             return RCVD_VALUE_VAR_NAME;
         } else if (expr instanceof SelfExpression) {
@@ -997,6 +997,20 @@ public class ExprCodeGenerator {
         } else {
             throw new RuntimeException("Unknown disc var parent: " + parent);
         }
+    }
+
+    /**
+     * Generate a Java code fragment for the given input variable expression.
+     *
+     * @param expr The expression.
+     * @param ctxt The compiler context to use.
+     * @param state The name of the state variable in the context where the generated code is used. May be {@code null}
+     *     only if the context in which the expression occurs can not access the state.
+     * @return The Java code that represents the given expression.
+     */
+    private static String gencodeInputVarExpr(InputVariableExpression expr, CifCompilerContext ctxt, String state) {
+        InputVariable var = expr.getVariable();
+        return fmt("%s.%s.%s", state, ctxt.getInputVarSubStateName(var), ctxt.getInputVarFieldName(var));
     }
 
     /**

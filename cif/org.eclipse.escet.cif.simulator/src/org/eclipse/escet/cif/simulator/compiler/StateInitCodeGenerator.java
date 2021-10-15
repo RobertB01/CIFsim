@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.common.CifTextUtils.exprToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.exprsToStr;
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
+import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.DefaultValueCodeGenerator.getDefaultValueCode;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodeExpr;
 import static org.eclipse.escet.cif.simulator.compiler.ExprCodeGenerator.gencodePreds;
@@ -37,6 +38,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.VariableValue;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
@@ -81,9 +83,8 @@ public class StateInitCodeGenerator {
      * @param ctxt The compiler context to use.
      */
     private static void gencodeInitState(CodeBox c, CifCompilerContext ctxt) {
-        // Get objects to initialize. This includes the state variables
-        // (discrete and continuous, except for variable 'time'), and the
-        // automata.
+        // Get objects to initialize. This includes the state variables (discrete, input and continuous, except for
+        // variable 'time'), and the automata.
         List<Declaration> variables = ctxt.getStateVars();
         List<Automaton> automata = ctxt.getAutomata();
         List<PositionObject> objs = concat(variables, automata);
@@ -150,6 +151,9 @@ public class StateInitCodeGenerator {
             if (obj instanceof DiscVariable) {
                 // Generate code to initialize the variable.
                 gencodeInitDiscVar(variables, (DiscVariable)obj, c, ctxt);
+            } else if (obj instanceof InputVariable) {
+                // Generate code to initialize the variable.
+                gencodeInitInputVar(variables, (InputVariable)obj, c, ctxt);
             } else if (obj instanceof ContVariable) {
                 // Generate code to initialize the variable.
                 gencodeInitContVar((ContVariable)obj, c, ctxt);
@@ -282,6 +286,51 @@ public class StateInitCodeGenerator {
             c.dedent();
             c.add("}");
         }
+
+        // Close local scope.
+        c.dedent();
+        c.add("}");
+    }
+
+    /**
+     * Generate Java code for the initialization of the runtime state of the given input variable.
+     *
+     * @param vars The state variables.
+     * @param var The input variable.
+     * @param c The code box to which to add the code.
+     * @param ctxt The compiler context to use.
+     */
+    private static void gencodeInitInputVar(List<Declaration> vars, InputVariable var, CodeBox c,
+            CifCompilerContext ctxt)
+    {
+        // Add initialization code, in local scope.
+        c.add("{");
+        c.indent();
+
+        int varIdx = vars.indexOf(var);
+        Assert.check(varIdx >= 0);
+        c.add("Object optValue = optValues[%d];", varIdx);
+        String typeCode = gencodeType(var.getType(), ctxt);
+
+        // Get sub-state name.
+        String subStateName = INPUT_SUB_STATE_FIELD_NAME;
+
+        // Generate code for the initial value.
+        String varName = ctxt.getInputVarFieldName(var);
+        String fieldTxt = fmt("state.%s.%s", subStateName, varName);
+
+        // Either the initial value is provided via the option window or the default initial value is used.
+        c.add("if (optValue != null) {");
+        c.indent();
+        c.add("%s = (%s)optValue;", fieldTxt, typeCode);
+        c.dedent();
+        c.add("} else {");
+        c.indent();
+        c.add("warn(\"No initial value provided for input variable \\\"%s\\\". Default initial value is used.\");",
+                getAbsName(var));
+        c.add("%s = %s;", fieldTxt, getDefaultValueCode(var.getType(), ctxt));
+        c.dedent();
+        c.add("}");
 
         // Close local scope.
         c.dedent();
@@ -424,14 +473,13 @@ public class StateInitCodeGenerator {
     }
 
     /**
-     * Generate Java code for reading values of discrete variables provided by the {@link CifSpecInitOption}.
+     * Generate Java code for reading values of discrete and input variables provided by the {@link CifSpecInitOption}.
      *
      * @param c The code box to which to add the code.
      * @param ctxt The compiler context to use.
      */
     private static void gencodeInitOpt(CodeBox c, CifCompilerContext ctxt) {
-        // Get state variables (excluding variable 'time'). Then get discrete
-        // variables only.
+        // Get state variables (excluding variable 'time'). Then get discrete and input variables only.
         List<Declaration> stateVars = ctxt.getStateVars();
 
         // Add 'processVarValue' method.
@@ -450,19 +498,29 @@ public class StateInitCodeGenerator {
             if (decl instanceof ContVariable) {
                 continue;
             }
-            DiscVariable var = (DiscVariable)decl;
+
+            CifType type;
+            String objectType;
+            if (decl instanceof DiscVariable) {
+                DiscVariable var = (DiscVariable)decl;
+                type = var.getType();
+                objectType = "discrete";
+            } else {
+                InputVariable var = (InputVariable)decl;
+                type = var.getType();
+                objectType = "input";
+            }
 
             // Add case.
             c.add("case %d: {", i);
             c.indent();
 
             // Handle (non-)serializable data types.
-            CifType type = var.getType();
             if (!LiteralCodeGenerator.isSerializableType(type)) {
                 String typeTxt = CifTextUtils.typeToStr(type);
                 c.add("String msg = \"Specifying initialization using the simulation option is not supported for "
-                        + "discrete variable \\\"%s\\\", as its type \\\"%s\\\" is not serializable.\";",
-                        CifTextUtils.getAbsName(var), StringEscapeUtils.escapeJava(typeTxt));
+                        + "%s variable \\\"%s\\\", as its type \\\"%s\\\" is not serializable.\";", objectType,
+                        CifTextUtils.getAbsName(decl), StringEscapeUtils.escapeJava(typeTxt));
                 c.add("throw new UnsupportedException(msg);");
             } else {
                 c.add("try {");
@@ -485,7 +543,7 @@ public class StateInitCodeGenerator {
 
         c.add("default:");
         c.indent();
-        c.add("throw new RuntimeException(\"Invalid disc var idx: \" + obj.idx);");
+        c.add("throw new RuntimeException(\"Invalid state var idx: \" + obj.idx);");
         c.dedent();
 
         c.dedent();

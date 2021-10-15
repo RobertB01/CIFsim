@@ -26,6 +26,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
@@ -99,6 +100,9 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
                     // Initial value is 'any', which has no dependencies.
                     return set();
                 }
+            } else if (obj instanceof InputVariable) {
+                // Does not have a value.
+                return set();
             } else {
                 ContVariable cvar = (ContVariable)obj;
                 if (cvar.getValue() == null) {

@@ -55,7 +55,7 @@ public abstract class RuntimeStateInit {
         optionLocIndices = new Integer[state.getAutCount()];
 
         // Create a mapping from unescaped absolute names of objects to their
-        // meta information, for all discrete variables and automata.
+        // meta information, for all discrete and input variables and automata.
         int metaCount = optionVarValues.length + optionLocIndices.length;
         Map<String, RuntimeStateObjectMeta> metaMap = mapc(metaCount);
         for (RuntimeStateObjectMeta meta: spec.stateObjectsMeta) {
@@ -67,6 +67,7 @@ public abstract class RuntimeStateInit {
                     break;
 
                 case DISCRETE:
+                case INPUT:
                 case AUTOMATON:
                     metaMap.put(meta.plainName, meta);
                     break;
@@ -88,7 +89,7 @@ public abstract class RuntimeStateInit {
             // Get variable/automaton.
             RuntimeStateObjectMeta obj = metaMap.get(name);
             if (obj == null) {
-                String msg = fmt("Could not find a discrete variable or automaton with name \"%s\" for "
+                String msg = fmt("Could not find a discrete or input variable or automaton with name \"%s\" for "
                         + "initialization \"%s\".", name, init);
                 throw new InvalidOptionException(msg);
             }
@@ -123,23 +124,24 @@ public abstract class RuntimeStateInit {
                 }
                 optionLocIndices[obj.idx] = foundIdx;
             } else {
-                // Initial value for a discrete variable.
-                Assert.check(obj.type == StateObjectType.DISCRETE);
+                // Initial value for a discrete or input variable.
+                Assert.check(obj.type == StateObjectType.DISCRETE || obj.type == StateObjectType.INPUT);
+                String objectType = obj.type == StateObjectType.DISCRETE ? "discrete" : "input";
 
-                // Use runtime literal reader to convert literal text to a
-                // runtime value.
+                // Use runtime literal reader to convert literal text to a runtime value.
                 Object value;
                 try {
                     value = processVarValue(obj, valueTxt);
                 } catch (InputOutputException ex) {
-                    String msg = fmt("Initial value \"%s\" for discrete variable \"%s\" is invalid, for "
-                            + "initialization \"%s\".", valueTxt, name, init);
+                    String msg = fmt(
+                            "Initial value \"%s\" for %s variable \"%s\" is invalid, for initialization \"%s\".",
+                            valueTxt, objectType, name, init);
                     throw new InvalidOptionException(msg, ex);
                 }
 
                 // Store.
                 if (optionVarValues[obj.idx] != null) {
-                    String msg = fmt("Duplicate initialization provided for discrete variable \"%s\".", name);
+                    String msg = fmt("Duplicate initialization provided for %s variable \"%s\".", valueTxt, name);
                     throw new InvalidOptionException(msg);
                 }
                 optionVarValues[obj.idx] = value;
@@ -148,9 +150,9 @@ public abstract class RuntimeStateInit {
     }
 
     /**
-     * Processes the given literal value text for the given discrete variable.
+     * Processes the given literal value text for the given discrete or input variable.
      *
-     * @param obj The runtime state object metadata for the discrete variable for which to process the value.
+     * @param obj The runtime state object metadata for the discrete or input variable for which to process the value.
      * @param valueTxt The literal value text to convert to a runtime value.
      * @return The runtime value obtained form the literal value text.
      */
