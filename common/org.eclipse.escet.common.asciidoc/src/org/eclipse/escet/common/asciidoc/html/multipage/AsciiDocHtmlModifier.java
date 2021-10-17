@@ -53,6 +53,9 @@ import com.google.common.collect.Multimaps;
 
 /** AsciiDoc-generated single-page HTML modifier. */
 class AsciiDocHtmlModifier {
+    /** Whether to print debug output. */
+    private static final boolean DEBUG = false;
+
     /** Constructor for the {@link AsciiDocHtmlModifier} class. */
     private AsciiDocHtmlModifier() {
         // Static class.
@@ -78,6 +81,11 @@ class AsciiDocHtmlModifier {
         // Modify the pages, per page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
             try {
+                // Debug output.
+                if (DEBUG) {
+                    System.out.println("Modifying page: " + page.sourceFile.relPath);
+                }
+
                 // Clone the original single-page HTML file for this page.
                 page.doc = singlePageDoc.clone();
 
@@ -397,37 +405,55 @@ class AsciiDocHtmlModifier {
      * @param doc The HTML document to modify in-place.
      */
     private static void removeEmptyParagraphsAndSections(Document doc) {
-        // Remove empty paragraphs.
-        for (Element pElem: doc.select("p")) {
-            if (pElem.attributes().size() == 0 && haveNoContent(pElem.childNodes())) {
-                pElem.remove();
-            }
-        }
+        boolean modified;
+        do {
+            // Initialization.
+            modified = false;
 
-        for (Element paragraphDivElem: doc.select("div.paragraph")) {
-            if (haveNoContent(paragraphDivElem.childNodes())) {
-                paragraphDivElem.remove();
+            // Remove empty paragraphs.
+            for (Element pElem: doc.select("p")) {
+                if (pElem.attributes().size() == 0 && haveNoContent(pElem.childNodes())) {
+                    pElem.remove();
+                    modified = true;
+                }
             }
-        }
 
-        // Remove empty sections.
-        Element elemContent = single(doc.select("#content"));
-        for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
-            for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
-                if (haveNoContent(sectElem.childNodes())) {
-                    // Completely empty section.
-                    sectElem.remove();
-                } else if (sectElem.children().size() == 1) {
-                    Element sectChildElem = sectElem.child(0);
-                    List<Node> sectChildNodes = copy(sectElem.childNodes());
-                    sectChildNodes.remove(sectChildElem);
-                    if (sectChildElem.tagName().matches("h\\d+") && haveNoContent(sectChildNodes)) {
-                        // Section with only a wrapper header name (all actual content is on other pages).
+            for (Element paragraphDivElem: doc.select("div.paragraph")) {
+                if (haveNoContent(paragraphDivElem.childNodes())) {
+                    paragraphDivElem.remove();
+                    modified = true;
+                }
+            }
+
+            // Remove empty section bodies.
+            for (Element sectionBodyDivElem: doc.select("div.sectionbody")) {
+                if (haveNoContent(sectionBodyDivElem.childNodes())) {
+                    sectionBodyDivElem.remove();
+                    modified = true;
+                }
+            }
+
+            // Remove empty sections.
+            Element elemContent = single(doc.select("#content"));
+            for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
+                for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
+                    if (haveNoContent(sectElem.childNodes())) {
+                        // Completely empty section.
                         sectElem.remove();
+                        modified = true;
+                    } else if (sectElem.children().size() == 1) {
+                        Element sectChildElem = sectElem.child(0);
+                        List<Node> sectChildNodes = copy(sectElem.childNodes());
+                        sectChildNodes.remove(sectChildElem);
+                        if (sectChildElem.tagName().matches("h\\d+") && haveNoContent(sectChildNodes)) {
+                            // Section with only a wrapper header name (all actual content is on other pages).
+                            sectElem.remove();
+                            modified = true;
+                        }
                     }
                 }
             }
-        }
+        } while (modified);
     }
 
     /**
