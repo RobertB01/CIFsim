@@ -63,7 +63,7 @@ class AsciiDocHtmlAnalyzer {
         // Map ids of non-home pages to their pages.
         Map<String, AsciiDocHtmlPage> idToPages = mapc(htmlPages.pages.size());
         for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
-            if (!htmlPage.sourceFile.isRootIndexFile) {
+            if (!htmlPage.sourceFile.isRootAsciiDocFile) {
                 AsciiDocHtmlPage prev = idToPages.put(htmlPage.sourceFile.sourceId, htmlPage);
                 if (prev != null) {
                     Assert.fail(fmt("Duplicate source id: %s, for sources: %s and %s", htmlPage.sourceFile.sourceId,

@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.escet.common.app.framework.XmlSupport;
 import org.eclipse.escet.common.java.Assert;
+import org.eclipse.escet.common.java.Strings;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -80,7 +81,11 @@ public class AsciiDocMultiPageHtmlSplitter {
         htmlTypeText = htmlTypeText.substring(2).replace("-", "_").toUpperCase(Locale.US);
         HtmlType htmlType = HtmlType.valueOf(htmlTypeText);
 
-        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType);
+        String rootBaseName = singleHtmlPagePath.getFileName().toString();
+        Assert.check(rootBaseName.endsWith(".html"));
+        rootBaseName = Strings.slice(rootBaseName, null, -".html".length());
+
+        splitHtml(sourceRootPath, singleHtmlPagePath, outputRootPath, htmlType, rootBaseName);
     }
 
     /**
@@ -92,10 +97,11 @@ public class AsciiDocMultiPageHtmlSplitter {
      * @param outputRootPath The path to the directory in which to write output. Is removed if it already exists. Is
      *     created if it does not yet exist.
      * @param htmlType The HTML type.
+     * @param rootBaseName The base name (file name excluding file extension) of the root AsciiDoc file.
      * @throws IOException In case of an I/O error.
      */
-    public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType)
-            throws IOException
+    public static void splitHtml(Path sourceRootPath, Path singleHtmlPagePath, Path outputRootPath, HtmlType htmlType,
+            String rootBaseName) throws IOException
     {
         // Check inputs exist.
         Assert.check(Files.isDirectory(sourceRootPath), sourceRootPath);
@@ -122,7 +128,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         for (Path sourcePath: sourcePaths) {
             AsciiDocSourceFile sourceFile;
             try {
-                sourceFile = AsciiDocSourceFileAnalyzer.analyze(sourceRootPath, sourcePath);
+                sourceFile = AsciiDocSourceFileAnalyzer.analyze(sourceRootPath, sourcePath, rootBaseName);
             } catch (Throwable e) {
                 throw new RuntimeException("Failed to analyze AsciiDoc source file: " + sourcePath, e);
             }
@@ -135,6 +141,8 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Analyze AsciiDoc-generated single-page HTML file.
         System.out.println("Analyzing AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
         AsciiDocHtmlPages htmlPages = new AsciiDocHtmlPages(sourceFiles);
+        Assert.check(htmlPages.homePage.sourceFile.getBaseName().equals(rootBaseName),
+                htmlPages.homePage.sourceFile.getBaseName() + " / " + rootBaseName);
         AsciiDocHtmlAnalyzer.analyze(singlePageDoc, htmlPages);
 
         // Generate and write multiple HTML files, one per page.
@@ -145,7 +153,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Copy single AsciiDoc-generated HTML file to output directory, with different name.
         if (htmlType == HtmlType.WEBSITE) {
             System.out.println("Copying single-page HTML file to: " + outputRootPath.toString());
-            Path singlePathOutputPath = outputRootPath.resolve("index-single-page.html");
+            Path singlePathOutputPath = outputRootPath.resolve(rootBaseName + "-single-page.html");
             Assert.check(!Files.exists(singlePathOutputPath), singlePathOutputPath);
             Files.copy(singleHtmlPagePath, singlePathOutputPath);
         }

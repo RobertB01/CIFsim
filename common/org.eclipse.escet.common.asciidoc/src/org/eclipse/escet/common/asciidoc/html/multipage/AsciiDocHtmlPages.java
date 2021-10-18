@@ -24,7 +24,7 @@ public class AsciiDocHtmlPages {
     /** All pages, including the home page. */
     final List<AsciiDocHtmlPage> pages;
 
-    /** The home page. */
+    /** The home page (root page). */
     final AsciiDocHtmlPage homePage;
 
     /** The Table of Contents (TOC). */
@@ -41,6 +41,7 @@ public class AsciiDocHtmlPages {
                 .unmodifiableList(sourceFiles.stream().map(f -> new AsciiDocHtmlPage(f)).collect(Collectors.toList()));
 
         // Find the home page.
-        this.homePage = single(pages.stream().filter(p -> p.sourceFile.isRootIndexFile).collect(Collectors.toList()));
+        this.homePage = single(
+                pages.stream().filter(p -> p.sourceFile.isRootAsciiDocFile).collect(Collectors.toList()));
     }
 }

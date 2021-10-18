@@ -73,8 +73,9 @@ class AsciiDocEclipseHelpTocUtil {
         String refAttrName = (node instanceof Document) ? "topic" : "href";
         String refTxt = AsciiDocHtmlUtil.getFileOrSectionHref(rootEntry.page, entry.page, entry.refId);
         if (node instanceof Document) {
+            Assert.check(entry == rootEntry);
             Assert.check(refTxt.equals("#"));
-            refTxt = "index.html";
+            refTxt = rootEntry.page.sourceFile.getBaseName() + ".html";
         }
         elem.setAttribute(refAttrName, refTxt);
 

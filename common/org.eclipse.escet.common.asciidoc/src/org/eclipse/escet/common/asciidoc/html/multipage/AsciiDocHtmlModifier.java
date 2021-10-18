@@ -68,7 +68,7 @@ class AsciiDocHtmlModifier {
      * @param singlePageDoc The AsciiDoc-generated single-page HTML document.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
-     *     the root 'index.asciidoc' file.
+     *     the root AsciiDoc file.
      * @param outputRootPath The path to the directory in which to write output.
      * @param htmlType The HTML type.
      */
@@ -136,7 +136,7 @@ class AsciiDocHtmlModifier {
                 // Update references.
                 updateReferences(page, htmlPages, sourceRootPath);
 
-                // Add home page (root index file) to TOC.
+                // Add home page (root AsciiDoc file) to TOC.
                 if (htmlType == HtmlType.WEBSITE) {
                     addHomePageToToc(page, htmlPages.homePage);
                 }
@@ -592,7 +592,7 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
-     *     the root 'index.asciidoc' file.
+     *     the root AsciiDoc file.
      */
     private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath) {
         updateReferences(page, htmlPages, sourceRootPath, "a", "href", true, true);
@@ -606,7 +606,7 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
-     *     the root 'index.asciidoc' file.
+     *     the root AsciiDoc file.
      * @param tagName The tag name of elements for which to update references.
      * @param attrName The attribute name that contains the reference.
      * @param allowEmptyRefIfNoChildren Whether to allow empty references (attribute values) if the element has no child
@@ -726,7 +726,7 @@ class AsciiDocHtmlModifier {
         Element elemPdfTip = single(homePage.doc.select("div.tip td.content:contains(as a PDF as well)"));
         elemPdfTip.appendText("Or use the ");
         Element elemPdfTipA = elemPdfTip.appendElement("a");
-        elemPdfTipA.attr("href", "index-single-page.html");
+        elemPdfTipA.attr("href", homePage.sourceFile.getBaseName() + "-single-page.html");
         elemPdfTipA.text("single-page HTML");
         elemPdfTip.appendText(" version.");
     }
