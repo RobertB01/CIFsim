@@ -31,8 +31,8 @@ public abstract class RuntimeStateInit {
     /**
      * Initial values of the state variables (see {@link RuntimeState#getStateVarNames}), as provided by the
      * {@link CifSpecInitOption}. Is {@code null} until initialized by the {@link #processInitOption} method. May be
-     * {@code null} for individual discrete variables, if not supplied using the option. Is {@code null} for individual
-     * continuous variables.
+     * {@code null} for individual discrete variables or input variables, if not supplied using the option. Is
+     * {@code null} for individual continuous variables.
      */
     protected Object[] optionVarValues;
 
@@ -54,8 +54,8 @@ public abstract class RuntimeStateInit {
         optionVarValues = new Object[state.getStateVarCount()];
         optionLocIndices = new Integer[state.getAutCount()];
 
-        // Create a mapping from unescaped absolute names of objects to their
-        // meta information, for all discrete and input variables and automata.
+        // Create a mapping from unescaped absolute names of objects to their meta information, for all discrete
+        // variables, input variables and automata.
         int metaCount = optionVarValues.length + optionLocIndices.length;
         Map<String, RuntimeStateObjectMeta> metaMap = mapc(metaCount);
         for (RuntimeStateObjectMeta meta: spec.stateObjectsMeta) {
@@ -89,7 +89,7 @@ public abstract class RuntimeStateInit {
             // Get variable/automaton.
             RuntimeStateObjectMeta obj = metaMap.get(name);
             if (obj == null) {
-                String msg = fmt("Could not find a discrete or input variable or automaton with name \"%s\" for "
+                String msg = fmt("Could not find a discrete variable, input variable or automaton with name \"%s\" for "
                         + "initialization \"%s\".", name, init);
                 throw new InvalidOptionException(msg);
             }
@@ -124,7 +124,7 @@ public abstract class RuntimeStateInit {
                 }
                 optionLocIndices[obj.idx] = foundIdx;
             } else {
-                // Initial value for a discrete or input variable.
+                // Initial value for a discrete variable or input variable.
                 Assert.check(obj.type == StateObjectType.DISCRETE || obj.type == StateObjectType.INPUT);
                 String objectType = obj.type == StateObjectType.DISCRETE ? "discrete" : "input";
 
@@ -141,7 +141,7 @@ public abstract class RuntimeStateInit {
 
                 // Store.
                 if (optionVarValues[obj.idx] != null) {
-                    String msg = fmt("Duplicate initialization provided for %s variable \"%s\".", valueTxt, name);
+                    String msg = fmt("Duplicate initialization provided for %s variable \"%s\".", objectType, name);
                     throw new InvalidOptionException(msg);
                 }
                 optionVarValues[obj.idx] = value;

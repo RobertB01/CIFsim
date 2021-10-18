@@ -648,6 +648,7 @@ public class CifCompilerContext {
      * @return The unique generated name of the input variable field.
      */
     public String getInputVarFieldName(InputVariable var) {
+        // The absolute name is used to avoid conflicts, since all input variables are placed in the same sub state.
         return getName(var, INPUT_VAR_FLD_PREFIX, true);
     }
 
@@ -659,12 +660,7 @@ public class CifCompilerContext {
      * @return The unique generated name of the sub state field.
      */
     public String getInputVarSubStateName(InputVariable var) {
-        EObject parent = var.eContainer();
-        if (parent instanceof Automaton) {
-            return getAutSubStateFieldName((Automaton)parent);
-        } else {
-            return INPUT_SUB_STATE_FIELD_NAME;
-        }
+        return INPUT_SUB_STATE_FIELD_NAME;
     }
 
     /**

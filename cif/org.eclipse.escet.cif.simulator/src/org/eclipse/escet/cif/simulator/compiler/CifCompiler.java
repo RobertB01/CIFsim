@@ -80,7 +80,6 @@ public class CifCompiler {
         ctxt.setSpecification(cifSpec, cifSpecFileDir);
 
         // Check specification.
-        InputVariableChecker.checkInputVars(cifSpec);
         AutomatonKindChecker.checkKinds(cifSpec);
 
         // Generate code.

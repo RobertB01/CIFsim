@@ -101,7 +101,7 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
                     return set();
                 }
             } else if (obj instanceof InputVariable) {
-                // Does not have a value.
+                // Does not have a dependency to other variables or locations.
                 return set();
             } else {
                 ContVariable cvar = (ContVariable)obj;
@@ -349,7 +349,7 @@ public class StateInitOrderer extends DependencyOrderer<PositionObject> {
             return;
         }
 
-        // Input variables don't have a value.
+        // Input variables don't have dependencies to other variables or locations.
         if (expr instanceof InputVariableExpression) {
             return;
         }

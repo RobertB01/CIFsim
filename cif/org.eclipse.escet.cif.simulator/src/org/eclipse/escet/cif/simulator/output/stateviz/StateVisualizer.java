@@ -61,12 +61,14 @@ public class StateVisualizer extends ControlEditor {
         // Load the icons.
         Image iconAut = loadIcon(parent, "aut");
         Image iconDiscVar = loadIcon(parent, "discvar");
+        Image iconInputVar = loadIcon(parent, "inputVar");
         Image iconContVar = loadIcon(parent, "contvar");
         Image iconDeriv = loadIcon(parent, "deriv");
         Image iconAlgVar = loadIcon(parent, "algvar");
         iconMap.put(StateObjectType.AUTOMATON, iconAut);
         iconMap.put(StateObjectType.TIME, iconContVar);
         iconMap.put(StateObjectType.DISCRETE, iconDiscVar);
+        iconMap.put(StateObjectType.INPUT, iconInputVar);
         iconMap.put(StateObjectType.CONTINUOUS, iconContVar);
         iconMap.put(StateObjectType.DERIVATIVE, iconDeriv);
         iconMap.put(StateObjectType.ALGEBRAIC, iconAlgVar);

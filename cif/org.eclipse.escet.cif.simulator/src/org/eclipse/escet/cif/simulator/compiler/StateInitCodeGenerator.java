@@ -319,16 +319,16 @@ public class StateInitCodeGenerator {
         String varName = ctxt.getInputVarFieldName(var);
         String fieldTxt = fmt("state.%s.%s", subStateName, varName);
 
-        // Either the initial value is provided via the option window or the default initial value is used.
+        // The initial value must be provided via the option window.
         c.add("if (optValue != null) {");
         c.indent();
         c.add("%s = (%s)optValue;", fieldTxt, typeCode);
         c.dedent();
         c.add("} else {");
         c.indent();
-        c.add("warn(\"No initial value provided for input variable \\\"%s\\\". Default initial value is used.\");",
+        c.add("warn(\"No initial value provided for input variable \\\"%s\\\", via the simulation option.\");",
                 getAbsName(var));
-        c.add("%s = %s;", fieldTxt, getDefaultValueCode(var.getType(), ctxt));
+        c.add("throw new SimulatorExitException(SimulationResult.INIT_FAILED);");
         c.dedent();
         c.add("}");
 
@@ -479,7 +479,7 @@ public class StateInitCodeGenerator {
      * @param ctxt The compiler context to use.
      */
     private static void gencodeInitOpt(CodeBox c, CifCompilerContext ctxt) {
-        // Get state variables (excluding variable 'time'). Then get discrete and input variables only.
+        // Get state variables (excluding variable 'time').
         List<Declaration> stateVars = ctxt.getStateVars();
 
         // Add 'processVarValue' method.
@@ -499,6 +499,7 @@ public class StateInitCodeGenerator {
                 continue;
             }
 
+            // Must be a discrete variable or an input variable.
             CifType type;
             String objectType;
             if (decl instanceof DiscVariable) {
