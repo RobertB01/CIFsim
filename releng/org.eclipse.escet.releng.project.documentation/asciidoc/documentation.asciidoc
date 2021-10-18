@@ -13,7 +13,7 @@
 // Including common attributes to set for all documents within this directory.
 include::_root_attributes.asciidoc[]
 
-// Enable custom style in index-docinfo.html.
+// Enable custom style in *-docinfo-*.html.
 :docinfo: private
 
 // Use this for asciidoc documents containing a title.
@@ -36,65 +36,28 @@ image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
 
 ifdef::website-output[]
-TIP: You can link:eclipse-escet-incubation-manual.pdf[download this manual] as a PDF as well.
+TIP: You can link:eclipse-escet-project-incubation-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
-The Eclipse ESCET toolkit features the following languages and associated tools:
-
-* <<intro-chapter-chi,Chi>>
-* <<intro-chapter-cif,CIF>>
-* <<intro-chapter-tooldef,ToolDef>>
-
-This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to those tools as well.
+This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to all its tools.
 The following information is available:
 
-* <<intro-chapter-index>>
-* <<download-install-chapter-index>>
 * <<use-chapter-index>>
 * <<performance-chapter-index>>
 * <<release-notes-chapter-index>>
-* <<contact-chapter-index>>
-* <<issue-reporting-chapter-index>>
 * <<legal-chapter-index>>
-
-
-// Introduction
-
-include::intro/index.asciidoc[]
-
-:leveloffset: +1
-
-include::intro/chi.asciidoc[]
-
-include::intro/cif.asciidoc[]
-
-include::intro/tooldef.asciidoc[]
-
-:leveloffset: -1
-
-// Download and installation
-
-include::download-install/index.asciidoc[]
-
-:leveloffset: +1
-
-include::download-install/install.asciidoc[]
-
-include::download-install/starting-first-time.asciidoc[]
-
-include::download-install/update.asciidoc[]
-
-include::download-install/remove.asciidoc[]
-
-include::download-install/find-version-number.asciidoc[]
-
-:leveloffset: -1
 
 // Use
 
 include::use/index.asciidoc[]
 
 :leveloffset: +1
+
+include::use/starting-first-time.asciidoc[]
+
+include::use/update.asciidoc[]
+
+include::use/remove.asciidoc[]
 
 include::use/terminology.asciidoc[]
 
@@ -128,17 +91,9 @@ include::performance/tweak-perf-settings.asciidoc[]
 
 include::release-notes.asciidoc[]
 
-// Contact information
-
-include::contact.asciidoc[]
-
-// Issue reporting
-
-include::issue-reporting.asciidoc[]
-
 // Legal
 
-include::legal.asciidoc[]
+include::documentation-legal.asciidoc[]
 
 
 ifdef::pdf-output[]
