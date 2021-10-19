@@ -407,6 +407,8 @@
       <requirement
           name="org.apache.xerces"/>
       <requirement
+          name="org.apache.xml.serializer"/>
+      <requirement
           name="org.eclipse.emf.feature.group"/>
       <requirement
           name="org.eclipse.emf.validation"/>

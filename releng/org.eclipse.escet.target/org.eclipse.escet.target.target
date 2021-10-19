@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from Eclipse ESCET" sequenceNumber="33">
+<target name="Generated from Eclipse ESCET" sequenceNumber="34">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="com.google.guava" version="0.0.0"/>
@@ -10,6 +10,7 @@
       <unit id="org.apache.xalan" version="0.0.0"/>
       <unit id="org.apache.xerces" version="0.0.0"/>
       <unit id="org.apache.xml.resolver" version="0.0.0"/>
+      <unit id="org.apache.xml.serializer" version="0.0.0"/>
       <unit id="org.eclipse.ecf.core.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.ecf.core.ssl.feature.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.ecf.filetransfer.feature.feature.group" version="0.0.0"/>
