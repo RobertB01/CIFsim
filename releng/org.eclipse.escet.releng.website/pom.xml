@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.escet</groupId>
+        <artifactId>org.eclipse.escet.root</artifactId>
+        <version>0.4.0-SNAPSHOT</version>
+        <relativePath>../../</relativePath>
+    </parent>
+
+    <artifactId>org.eclipse.escet.releng.website</artifactId>
+    <packaging>eclipse-plugin</packaging>
+
+    <build>
+        <plugins>
+
+            <!-- Steps 1 and 3. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <!-- Step 1: Unzip AsciiDoc-rendered documentation sets. -->
+                    <execution>
+                        <id>unzip-docsets</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <unzip
+                                    src="${project.basedir}/../../chi/org.eclipse.escet.chi.documentation/target/chi-website-${escet.version.enduser}.zip"
+                                    dest="${project.build.directory}/extracted-chi" />
+                                <unzip
+                                    src="${project.basedir}/../../cif/org.eclipse.escet.cif.documentation/target/cif-website-${escet.version.enduser}.zip"
+                                    dest="${project.build.directory}/extracted-cif" />
+                                <unzip
+                                    src="${project.basedir}/../../tooldef/org.eclipse.escet.tooldef.documentation/target/tooldef-website-${escet.version.enduser}.zip"
+                                    dest="${project.build.directory}/extracted-tooldef" />
+                                <unzip
+                                    src="${project.basedir}/../org.eclipse.escet.releng.dev.documentation/target/escet-dev-website-${escet.version.enduser}.zip"
+                                    dest="${project.build.directory}/extracted-escet-dev" />
+                                <unzip
+                                    src="${project.basedir}/../org.eclipse.escet.releng.project.documentation/target/escet-project-website-${escet.version.enduser}.zip"
+                                    dest="${project.build.directory}/extracted-escet-project" />
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <!-- Step 3: Zip the final website. -->
+                    <execution>
+                        <id>zip-website</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <zip encoding="utf-8" basedir="${project.build.directory}/website"
+                                    destfile="${project.build.directory}/eclipse-escet-incubation-${escet.version.enduser}-website.zip" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Step 2. -->
+            <!-- Copy static HTML webpages and AsciiDoc-rendered documentation sets to the final website. -->
+            <!-- Combined they form the final complete website. -->
+            <!-- To prevent that files accidentally contributed by multiple sources overwrite each other, -->
+            <!-- copying fails for already existing files. -->
+            <plugin>
+                <groupId>ch.mfrey.maven.plugin</groupId>
+                <artifactId>copy-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <id>combine-website</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <showfiles>false</showfiles>
+                            <resources>
+                                <!-- Settings: -->
+                                <!-- * replaceExisting=false ensures copying fails if target files already exist. -->
+                                <!-- * workOnFullPath=true ensures path replacements are applied on absolute paths. -->
+                                <!-- * from: the path replacement 'from' pattern, i.e., where to copy from. -->
+                                <!-- * to: the path replacement 'to' pattern, i.e., where to copy to. -->
+
+                                <!-- Static web pages. -->
+                                <resource>
+                                    <directory>${project.basedir}/website</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <paths>
+                                        <path>
+                                            <from>${project.basedir}/website/</from>
+                                            <to>${project.build.directory}/website/</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+
+                                <!-- Chi. -->
+                                <resource>
+                                    <directory>${project.build.directory}/extracted-chi</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <paths>
+                                        <path>
+                                            <from>${project.build.directory}/extracted-chi/</from>
+                                            <to>${project.build.directory}/website/chi/</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+
+                                <!-- CIF. -->
+                                <resource>
+                                    <directory>${project.build.directory}/extracted-cif</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <paths>
+                                        <path>
+                                            <from>${project.build.directory}/extracted-cif/</from>
+                                            <to>${project.build.directory}/website/cif/</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+
+                                <!-- ToolDef. -->
+                                <resource>
+                                    <directory>${project.build.directory}/extracted-tooldef</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <paths>
+                                        <path>
+                                            <from>${project.build.directory}/extracted-tooldef/</from>
+                                            <to>${project.build.directory}/website/tooldef/</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+
+                                <!-- ESCET development. -->
+                                <resource>
+                                    <directory>${project.build.directory}/extracted-escet-dev</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <paths>
+                                        <path>
+                                            <from>${project.build.directory}/extracted-escet-dev/</from>
+                                            <to>${project.build.directory}/website/development/</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+
+                                <!-- ESCET project. -->
+                                <resource>
+                                    <directory>${project.build.directory}/extracted-escet-project</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <paths>
+                                        <path>
+                                            <from>${project.build.directory}/extracted-escet-project/</from>
+                                            <to>${project.build.directory}/website/</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
