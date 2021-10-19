@@ -24,9 +24,7 @@ include::_root_attributes.asciidoc[]
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 
-The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project is an link:https://eclipse.org[Eclipse Foundation] open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
-The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
-The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
+Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
 
 [WARNING]
 ====
@@ -39,29 +37,41 @@ ifdef::website-output[]
 TIP: You can link:eclipse-escet-dev-incubation-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
-Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
-
-For more information about the project, see:
-
-* link:https://eclipse.org/escet[Eclipse ESCET website]
+*Eclipse ESCET development*
 
 This manual includes information related to the development of the Eclipse ESCET toolkit as a whole, as it applies to all its languages and tools.
+
+The following topics are discussed in more detail:
+
+* <<development-dev-list-chapter-index>>
+* <<development-development-process-chapter-index>>
+* <<development-contributing-chapter-index>>
+* <<development-issue-tracking-chapter-index>>
+* <<development-dev-env-setup-chapter-index>>
+* <<development-git-repo-chapter-index>>
+* <<development-coding-standards-chapter-index>>
+* <<development-building-and-testing-chapter-index>>
+* <<development-release-process-chapter-index>>
+* <<development-third-party-tools-chapter-index>>
+* <<development-upgrade-instructions-chapter-index>>
+* <<legal-chapter-index>>
+
+*Common libraries and development tools*
+
 Furthermore, this manual includes information on various common libraries and development tools.
 These libraries and development tools are shared by the various end-user languages and tools that comprise the Eclipse ESCET toolkit.
 
-Information on the following topics is available:
+Information on the following libraries and development tools is available:
 
-* <<development-chapter-index>>
 * <<app-framework-chapter-index>>
 * <<multivalue-chapter-index>>
 * <<rail-chapter-index>>
 * <<setext-chapter-index>>
-* <<legal-chapter-index>>
 
 
 // Development
 
-include::development/index.asciidoc[]
+== Eclipse ESCET development
 
 :leveloffset: +1
 

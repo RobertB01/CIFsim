@@ -18,7 +18,7 @@ indexterm:[patches]
 [[development-contributing-chapter-index]]
 == Contributing
 
-Thanks for your interest in Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
+Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
 We welcome your contributions.
 
 The following topics are discussed:
