@@ -30,7 +30,7 @@ The toolkit supports the entire development process of (supervisory) controllers
 
 [WARNING]
 ====
-The Eclipse ESCET project and all its tools are currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+The Eclipse ESCET project and all its tools are currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
 
 image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
