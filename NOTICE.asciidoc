@@ -3,15 +3,14 @@
 This content is produced and maintained by the Eclipse Supervisory Control
 Engineering Toolkit (Eclipse ESCET) project.
 
- * Project home: https://projects.eclipse.org/projects/technology.escet
  * Website: https://eclipse.org/escet
+ * Downloads: https://eclipse.org/escet/download.html
+ * GitLab development server: https://gitlab.eclipse.org/eclipse/escet/escet
  * Issue tracker: https://gitlab.eclipse.org/eclipse/escet/escet/-/issues
- * Downloads: https://download.eclipse.org/escet
- * Archived downloads: https://archive.eclipse.org/escet
  * Forum: https://www.eclipse.org/forums/index.php/f/527/
  * Developers mailing list: https://accounts.eclipse.org/mailing-list/escet-dev
- * GitLab development server: https://gitlab.eclipse.org/eclipse/escet/escet
  * Jenkins build server: https://ci.eclipse.org/escet/
+ * Project home: https://projects.eclipse.org/projects/technology.escet
 
 
 ## Trademarks

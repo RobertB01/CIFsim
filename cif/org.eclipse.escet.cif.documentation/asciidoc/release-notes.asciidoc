@@ -21,7 +21,7 @@ The release notes for the versions of CIF and the associated tools, as part of t
 
 The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
 
-See also the Eclipse ESCET link:https://eclipse.org/escet/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
+See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
 
 === Version 0.4

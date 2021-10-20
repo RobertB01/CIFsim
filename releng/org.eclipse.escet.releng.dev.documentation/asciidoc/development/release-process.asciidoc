@@ -211,7 +211,7 @@ Select _Scan GitLab Project Now_ to ensure Jenkins picks up the new tag.
 Manually trigger a build for the tag, by clicking the _Schedule a build for ..._ icon in the row for the tag.
 Jenkins will then automatically build and release a new version from that tag.
 
-* All releases can be downloaded at https://download.eclipse.org/escet/.
+* All releases are available at https://download.eclipse.org/escet/.
 For a version `v0.1`, the downloads will be located at `\https://download.eclipse.org/escet/v0.1`.
 +
 Note that according to the Eclipse Foundation Wiki page link:https://wiki.eclipse.org/IT_Infrastructure_Doc[IT Infrastructure Doc], "Once your files are on the `download.eclipse.org` server, they are immediately available to the general public.
@@ -219,7 +219,10 @@ However, for release builds, we ask that you wait at least four hours for our mi
 It typically takes a day or two for all the mirror sites to synchronize with us and get new files."
 +
 That same wiki page also notes that "Although you can link directly to `download.eclipse.org/yourfile.zip`, you can also use the _Find a Mirror_ script [...].
-Using this script allows you to view download statistics and allows users to pick a nearby mirror site for their download." It further indicates that "P2 repositories are not normally accessed via the mirror selection script." The _Find a Mirror_ script also transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
+Using this script allows you to view download statistics and allows users to pick a nearby mirror site for their download."
+It further indicates that "P2 repositories are not normally accessed via the mirror selection script."
+The _Find a Mirror_ script also transparently handles files moved from `download.eclipse.org` to `archive.eclipse.org`.
+End users should thus be referred to https://eclipse.org/escet/download.html instead of to `download.eclipse.org`, to ensure the mirror script is used for faster downloads and to ensure downloads count in the download statistics.
 
 * Jenkins will automatically push the website for the new release to the website Git repository, in a directory for the specific release.
 For a version `v0.1`, the website can be accessed at `\https://eclipse.org/escet/v0.1`.
