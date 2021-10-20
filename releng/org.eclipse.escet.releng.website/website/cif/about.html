@@ -16,30 +16,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/eclipse-escet.css">
-    <link rel="stylesheet" href="assets/eclipse-escet-project.css">
+    <link rel="stylesheet" href="../assets/eclipse-escet.css">
+    <link rel="stylesheet" href="../assets/eclipse-escet-cif.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <title>About | Eclipse ESCET</title>
+    <title>About | CIF</title>
   </head>
 
   <body class="escet-light">
 
     <!-- Top navigation bar -->
-    <nav class="navbar navbar-expand-lg navbar-light escet-bg">
+    <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / Project</a>
+        <a class="navbar-brand me-1">Eclipse ESCET™ / CIF</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / Project</span></a>
+              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / CIF</span></a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="./">Eclipse ESCET / Project</a></li>
-                <li><a class="dropdown-item" href="cif">Eclipse ESCET / CIF</a></li>
-                <li><a class="dropdown-item" href="chi">Eclipse ESCET / Chi</a></li>
-                <li><a class="dropdown-item" href="tooldef">Eclipse ESCET / ToolDef</a></li>
+                <li><a class="dropdown-item" href="..">Eclipse ESCET / Project</a></li>
+                <li><a class="dropdown-item" href="./">Eclipse ESCET / CIF</a></li>
+                <li><a class="dropdown-item" href="../chi">Eclipse ESCET / Chi</a></li>
+                <li><a class="dropdown-item" href="../tooldef">Eclipse ESCET / ToolDef</a></li>
               </ul>
             </li>
             <li class="nav-item">
@@ -49,21 +49,22 @@
               <a class="nav-link active" aria-current="page" href="about.html">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="download.html">Download</a>
+              <a class="nav-link" href="../download.html">Download</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="documentation.html">Documentation</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="development.html">Development</a>
+              <a class="nav-link" href="../development.html">Development</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact-and-support.html">Contact/Support</a>
+              <a class="nav-link" href="../contact-and-support.html">Contact/Support</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
+
 
     <!-- Intro -->
     <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
@@ -71,7 +72,7 @@
         <span class="float-end">v0.4 <a href="release-notes.html">(release notes)</a></span>
       </div>
       <div class="col-12 mx-auto mt-0 mb-3">
-        <h1 class="display-4 fw-bold">About Eclipse ESCET™</h1>
+        <h1 class="display-4 fw-bold">About CIF</h1>
       </div>
     </div>
 
@@ -79,28 +80,63 @@
     <div class="px-4 pt-5">
       <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
-          <h4>The Eclipse ESCET project</h4>
+          <h4>CIF language</h4>
           <p>
-            The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET™) project is an Eclipse Foundation open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
+            The CIF language is a powerful declarative automata-based modeling language for the specification of discrete event, timed (linear dynamics), hybrid (piecewise continuous dynamics) systems.
           </p>
           <p>
-            The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
-            The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
+            It can be seen as a rich state machine language with the following main features:
+            <ul>
+              <li>Modular specification with synchronized events and communication between automata.</li>
+              <li>Many data types are available (booleans, integers, reals, tuples, lists, arrays, sets, and dictionaries), combined with a powerful expression language for compact variables updates.</li>
+              <li>Text-based specification of the automata, with many features to simplify modeling large non-trivial industrial systems.</li>
+              <li>Primitives for supervisory controller synthesis are integrated in the language.</li>
+            </ul>
           </p>
-          <h4>Model-Based Systems Engineering</h4>
           <p>
-            High-tech companies increasingly adopt the <a href="https://en.wikipedia.org/wiki/Model-based_systems_engineering">Model-Based Systems Engineering</a> (MBSE) paradigm.
-            The use of (formal) models for controller design allows validation and verification of controllers long before they are implemented and integrated into the system.
-            Early validation and verification have been shown to lead to less defects and reduced costs.
+            For more information, see the <a href="language-tutorial">language tutorial</a> and <a href="language-reference">language reference documentation</a>.
+          </p>
+          <h4>CIF tools</h4>
+          <p>
+            The CIF tooling supports the entire development process of controllers, including among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.
+          </p>
+          <p>
+            Highlights of the CIF tooling include:
+            <ul>
+              <li>Text-based editor that allows to easily specify and edit models.</li>
+              <li>
+                Feature-rich powerful data-based synthesis tool.
+                A transformation to the supervisory controller synthesis tool Supremica is also available.
+              </li>
+              <li>
+                A simulator that supports both interactive and automated validation of specifications.
+                Powerful visualization features allow for interactive visualization-based validation.
+              </li>
+              <li>Conversion to formal verification tools such as mCRL2 and UPPAAL.</li>
+              <li>Implementation language code generation (PLC languages, Java, C, and Simulink) for real-time testing and implementation of the designed controller.</li>
+            </ul>
+          </p>
+          <p>
+            For more information, see the <a href="tools">tool documentation</a>.
           </p>
           <h4>Supervisor synthesis</h4>
           <p>
-            Supervisory controller synthesis, provided by the <a href="cif">CIF</a> language and tools, is a key feature of the toolkit.
+            Supervisory controller synthesis is a key feature of CIF.
             It involves the automatic generation of supervisory controllers from a specification of the uncontrolled system and the (safety) requirements that the controller needs to enforce.
           </p>
           <p>
             This shifts controller design from 'how should the implementation work' to 'what should the controller do'.
             Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
+          </p>
+          <p>
+            For more information, see the <a href="documentation.html">CIF documentation</a>.
+          </p>
+          <h4>Part of Eclipse ESCET</h4>
+          <p>
+            The CIF language and tools are part of the Eclipse ESCET open-source project and toolkit.
+          </p>
+          <p>
+            For more information, see the <a href="../">Eclipse ESCET project</a> website.
           </p>
         </div>
       </div>

@@ -13,10 +13,10 @@
 /* Colors. */
 
 :root {
-  --escet-color-rgb:         255,193,7;   /* From Bootstrap: --bs-warning-rgb */
-                                          /* HSV color: HSV 45,97,100 */
-  --escet-color-light20-rgb: 255,205,58;  /* RGB -> HSV -> 77% of S -> RGB */
-  --escet-color-light40-rgb: 255,218,109; /* RGB -> HSV -> 57% of S -> RGB */
-  --escet-color-dark20-rgb:  204,154,6;   /* RGB -> HSV -> 80% of V -> RGB */
-  --escet-color-dark40-rgb:  153,115,4;   /* RGB -> HSV -> 60% of V -> RGB */
+  --escet-color-rgb:         13,110,253;  /* From Bootstrap: --bs-primary-rgb */
+                                          /* HSV color: HSV 215,94,99 */
+  --escet-color-light20-rgb: 65,143,252;  /* RGB -> HSV -> 74% of S -> RGB */
+  --escet-color-light40-rgb: 116,172,252; /* RGB -> HSV -> 54% of S -> RGB */
+  --escet-color-dark20-rgb:  12,90,201;   /* RGB -> HSV -> 79% of V -> RGB */
+  --escet-color-dark40-rgb:  9,67,150;    /* RGB -> HSV -> 59% of V -> RGB */
 }

@@ -14,7 +14,7 @@
 // Including common attributes to set for all documents within this directory.
 include::_root_attributes.asciidoc[]
 
-// Enable custom style in index-docinfo.html.
+// Enable custom style in *-docinfo*.html.
 :docinfo: private
 
 // Use this for asciidoc documents containing a title.
@@ -45,7 +45,6 @@ endif::website-output[]
 
 The documentation consists of:
 
-* <<introduction-chapter-index,CIF introduction>>
 * <<lang-tut-chapter-index,CIF language tutorial>>
 * <<lang-ref-chapter-index,CIF language reference manual>>
 * <<tools-chapter-index,CIF tool manual>>
@@ -58,9 +57,6 @@ A screenshot of the CIF tooling IDE:
 
 image::{imgsdir}/screenshot_ide.png[]
 
-// Introduction
-
-include::introduction.asciidoc[]
 
 // Language tutorial
 
@@ -702,7 +698,7 @@ include::developers/lang-modify.asciidoc[]
 
 // Legal
 
-include::legal.asciidoc[]
+include::documentation-legal.asciidoc[]
 
 
 ifdef::pdf-output[]
