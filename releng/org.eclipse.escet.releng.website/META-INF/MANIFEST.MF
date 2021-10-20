@@ -10,5 +10,4 @@ Require-Bundle: org.eclipse.escet.chi.documentation;bundle-version="0.4.0",
  org.eclipse.escet.cif.documentation;bundle-version="0.4.0",
  org.eclipse.escet.releng.dev.documentation;bundle-version="0.4.0",
  org.eclipse.escet.releng.project.documentation;bundle-version="0.4.0",
- org.eclipse.escet.tooldef.documentation;bundle-version="0.4.0",
- org.eclipse.escet.product;bundle-version="0.4.0"
+ org.eclipse.escet.tooldef.documentation;bundle-version="0.4.0"
