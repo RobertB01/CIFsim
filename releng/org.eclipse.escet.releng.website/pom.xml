@@ -104,11 +104,14 @@
                                 <!-- * replace/from: the content replacement 'from' text, i.e., content to change. -->
                                 <!-- * replace/to: the content replacement 'to' text, i.e., replacement content. -->
 
-                                <!-- Static web pages. -->
+                                <!-- Static web pages (HTML files). -->
                                 <resource>
                                     <directory>${project.basedir}/website</directory>
                                     <replaceExisting>false</replaceExisting>
                                     <workOnFullPath>true</workOnFullPath>
+                                    <includes>
+                                        <include>**/*.html</include>
+                                    </includes>
                                     <paths>
                                         <path>
                                             <from>${project.basedir}/website/</from>
@@ -121,6 +124,22 @@
                                             <to>${escet.version.enduser}</to>
                                         </replace>
                                     </replaces>
+                                </resource>
+
+                                <!-- Static web pages (non-HTML files). -->
+                                <resource>
+                                    <directory>${project.basedir}/website</directory>
+                                    <replaceExisting>false</replaceExisting>
+                                    <workOnFullPath>true</workOnFullPath>
+                                    <excludes>
+                                        <exclude>**/*.html</exclude>
+                                    </excludes>
+                                    <paths>
+                                        <path>
+                                            <from>${project.basedir}/website/</from>
+                                            <to>${project.build.directory}/website/</to>
+                                        </path>
+                                    </paths>
                                 </resource>
 
                                 <!-- Chi. -->
