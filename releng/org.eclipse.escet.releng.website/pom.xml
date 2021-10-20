@@ -99,8 +99,10 @@
                                 <!-- Settings: -->
                                 <!-- * replaceExisting=false ensures copying fails if target files already exist. -->
                                 <!-- * workOnFullPath=true ensures path replacements are applied on absolute paths. -->
-                                <!-- * from: the path replacement 'from' pattern, i.e., where to copy from. -->
-                                <!-- * to: the path replacement 'to' pattern, i.e., where to copy to. -->
+                                <!-- * path/from: the path replacement 'from' text, i.e., where to copy from. -->
+                                <!-- * path/to: the path replacement 'to' text, i.e., where to copy to. -->
+                                <!-- * replace/from: the content replacement 'from' text, i.e., content to change. -->
+                                <!-- * replace/to: the content replacement 'to' text, i.e., replacement content. -->
 
                                 <!-- Static web pages. -->
                                 <resource>
@@ -113,6 +115,12 @@
                                             <to>${project.build.directory}/website/</to>
                                         </path>
                                     </paths>
+                                    <replaces>
+                                        <replace>
+                                            <from>@@ESCET-VERSION@@</from>
+                                            <to>${escet.version.enduser}</to>
+                                        </replace>
+                                    </replaces>
                                 </resource>
 
                                 <!-- Chi. -->
