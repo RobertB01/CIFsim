@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/eclipse-escet.css">
-    <link rel="stylesheet" href="../assets/eclipse-escet-cif.css">
+    <link rel="stylesheet" href="../assets/eclipse-escet-tooldef.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <title>Home | CIF</title>
+    <title>Home | ToolDef</title>
   </head>
 
   <body class="escet-dark">
@@ -27,19 +27,19 @@
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / CIF</a>
+        <a class="navbar-brand me-1">Eclipse ESCET™ / ToolDef</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / CIF</span></a>
+              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / ToolDef</span></a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="..">Eclipse ESCET / Project</a></li>
-                <li><a class="dropdown-item" href="./">Eclipse ESCET / CIF</a></li>
+                <li><a class="dropdown-item" href="../cif">Eclipse ESCET / CIF</a></li>
                 <li><a class="dropdown-item" href="../chi">Eclipse ESCET / Chi</a></li>
-                <li><a class="dropdown-item" href="../tooldef">Eclipse ESCET / ToolDef</a></li>
+                <li><a class="dropdown-item" href="./">Eclipse ESCET / ToolDef</a></li>
               </ul>
             </li>
             <li class="nav-item">
@@ -71,9 +71,8 @@
         <span class="float-end">v0.4 <a href="release-notes.html">(release notes)</a></span>
       </div>
       <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
-        <h1 class="display-4 fw-bold">CIF</h1>
-        <p class="lead fw-normal fst-italic">CIF is a declarative modeling language for the specification of discrete event, timed, and hybrid systems as a collection of synchronizing automata.</p>
-        <p class="lead fw-normal fst-italic">The CIF tooling supports the entire development process of controllers, including among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.</p>
+        <h1 class="display-4 fw-bold">ToolDef</h1>
+        <p class="lead fw-normal fst-italic">ToolDef is a cross-platform and machine-independent scripting language.</p>
         <a class="btn escet-btn" href="about.html">Learn more</a>
       </div>
     </div>
@@ -87,17 +86,8 @@
             <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-list-check"></use></svg>
           </div>
           <div>
-            <h2>Powerful language</h2>
-            <p class="lead fw-normal">CIF features a powerful declarative automata-based modeling language for the specification of discrete event, timed and hybrid systems.</p>
-          </div>
-        </div>
-        <div class="col d-flex align-items-start">
-          <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg escet-bg-opacity-125">
-            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-tools"></use></svg>
-          </div>
-          <div>
-            <h2>Extensive tools</h2>
-            <p class="lead fw-normal">The CIF tooling supports the entire development process of controllers, from specification to code generation.</p>
+            <h2>Intuitive language</h2>
+            <p class="lead fw-normal">ToolDef features a simple and intuitive syntax that makes it easy to write scripts.</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
@@ -105,8 +95,17 @@
             <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-trophy"></use></svg>
           </div>
           <div>
-            <h2>World-class algorithms</h2>
-            <p class="lead fw-normal">The CIF toolset features world-class algorithms for synthesis of supervisory controllers. Focus on the 'what' rather than the 'how'!</p>
+            <h2>Reduce mistakes</h2>
+            <p class="lead fw-normal">Static typing reduces simple mistakes, compared to Windows batch files and Linux shell scripts.</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-tools"></use></svg>
+          </div>
+          <div>
+            <h2>Powerful tools</h2>
+            <p class="lead fw-normal">ToolDef features many built-in data types and tools, and integrates well with Eclipse ESCET tools and Java.</p>
           </div>
         </div>
       </div>
@@ -119,13 +118,18 @@
     <div class="px-4 mt-3 mb-5 text-center">
       <h1 class="display-4 fw-bold">Getting started</h1>
       <div class="mx-auto">
-        <p class="lead fw-normal mb-1">The CIF tooling is part of the Eclipse ESCET toolkit.</p>
+        <p class="lead fw-normal mb-1">The ToolDef tooling is part of the Eclipse ESCET toolkit.</p>
         <p class="lead fw-normal mb-4">It is available for Windows, Linux and macOS, portable and ready to go.</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
           <a class="btn escet-btn btn-lg px-4" href="../download.html">Download</a>
         </div>
       </div>
-      <img src="cif-screenshot-ide.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Eclipse ESCET IDE with CIF" width="700" loading="lazy">
+      <div class="d-flex justify-content-center">
+        <img src="tooldef-screenshot-ide.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="ToolDef execution on command line and in IDE" width="700" loading="lazy">
+      </div>
+      <div class="d-flex justify-content-center">
+        <img src="tooldef-screenshot-cmdline.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="ToolDef execution on command line and in IDE" width="700" loading="lazy">
+      </div>
     </div>
 
     <!-- More information -->
@@ -133,20 +137,18 @@
       <div class="col-12 mx-auto px-3">
         <div class="row justify-content-center">
           <div class="col-11 col-md-5 col-xl-4 px-4 py-3 my-3 my-md-4 mx-md-3 escet-bg escet-bg-opacity-125 escet-shadow">
-            <h2>CIF</h2>
-            <p>Learn more about CIF from the extensive documentation that covers both the CIF language and tools.</p>
+            <h2>ToolDef</h2>
+            <p>Learn more about ToolDef from the extensive documentation that covers both the ToolDef language and tools.</p>
             <ul class="icon-list escet-arrow-icon-list mb-0">
-              <li><a href="documentation.html">CIF documentation</a></li>
-              <li><a href="language-tutorial">CIF language tutorial</a></li>
-              <li><a href="language-reference">CIF language reference</a></li>
-              <li><a href="tools">CIF tools</a></li>
-              <li><a href="examples.html">CIF examples</a></li>
+              <li><a href="documentation.html">ToolDef documentation</a></li>
+              <li><a href="language-reference">ToolDef language reference</a></li>
+              <li><a href="tools.html">ToolDef tooling</a></li>
             </ul>
           </div>
 
           <div class="col-11 col-md-5 col-xl-4 px-4 py-3 my-3 my-md-4 mx-md-3 escet-bg escet-bg-opacity-125 escet-shadow">
             <h2>Eclipse ESCET</h2>
-            <p>CIF is part of the Eclipse ESCET open-source project. Learn more about the project and toolkit.</p>
+            <p>ToolDef is part of the Eclipse ESCET open-source project. Learn more about the project and toolkit.</p>
             <ul class="icon-list escet-arrow-icon-list mb-0">
               <li><a href="..">Eclipse ESCET project</a></li>
               <li><a href="../documentation.html">Eclipse ESCET toolkit documentation</a></li>
