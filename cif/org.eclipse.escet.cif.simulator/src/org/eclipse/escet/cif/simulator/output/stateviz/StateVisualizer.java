@@ -61,7 +61,7 @@ public class StateVisualizer extends ControlEditor {
         // Load the icons.
         Image iconAut = loadIcon(parent, "aut");
         Image iconDiscVar = loadIcon(parent, "discvar");
-        Image iconInputVar = loadIcon(parent, "inputVar");
+        Image iconInputVar = loadIcon(parent, "inputvar");
         Image iconContVar = loadIcon(parent, "contvar");
         Image iconDeriv = loadIcon(parent, "deriv");
         Image iconAlgVar = loadIcon(parent, "algvar");

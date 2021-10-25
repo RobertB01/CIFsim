@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
+import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.RCVD_VALUE_VAR_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifFormatPatternCodeGenerator.gencodePattern;
 import static org.eclipse.escet.cif.simulator.compiler.LiteralCodeGenerator.gencodeLiteral;
@@ -1010,7 +1011,7 @@ public class ExprCodeGenerator {
      */
     private static String gencodeInputVarExpr(InputVariableExpression expr, CifCompilerContext ctxt, String state) {
         InputVariable var = expr.getVariable();
-        return fmt("%s.%s.%s", state, ctxt.getInputVarSubStateName(var), ctxt.getInputVarFieldName(var));
+        return fmt("%s.%s.%s", state, INPUT_SUB_STATE_FIELD_NAME, ctxt.getInputVarFieldName(var));
     }
 
     /**

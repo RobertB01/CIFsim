@@ -319,7 +319,7 @@ public class StateInitCodeGenerator {
         String varName = ctxt.getInputVarFieldName(var);
         String fieldTxt = fmt("state.%s.%s", subStateName, varName);
 
-        // The initial value must be provided via the option window.
+        // The initial value must be provided via the simulation option.
         c.add("if (optValue != null) {");
         c.indent();
         c.add("%s = (%s)optValue;", fieldTxt, typeCode);

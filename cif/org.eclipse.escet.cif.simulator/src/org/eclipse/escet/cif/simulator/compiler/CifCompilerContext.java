@@ -653,17 +653,6 @@ public class CifCompilerContext {
     }
 
     /**
-     * Returns the unique generated name for the field that is generated for the sub state that contains the given input
-     * variable.
-     *
-     * @param var The input variable for which to get the unique name.
-     * @return The unique generated name of the sub state field.
-     */
-    public String getInputVarSubStateName(InputVariable var) {
-        return INPUT_SUB_STATE_FIELD_NAME;
-    }
-
-    /**
      * Returns the unique generated name for the field that is generated for the given continuous variable. This applies
      * only to continuous variables declared in automata.
      *

@@ -36,7 +36,7 @@ public class CifSpecInitOption extends Option<List<String>> {
     public CifSpecInitOption() {
         super("CIF specification initialization",
                 "Specify an initial value for a single discrete variable or input variable (\"var:value\", with "
-                        + "\"var\" the absolute name of the variable and \"value\" a CIF expression), or an initial "
+                        + "\"var\" the absolute name of the variable and \"value\" a CIF literal), or an initial "
                         + "location for a single automaton (\"aut:loc\", with \"aut\" the absolute name of the "
                         + "automaton and \"loc\" a name of one of its locations).",
                 null, "init", "INIT", true);
