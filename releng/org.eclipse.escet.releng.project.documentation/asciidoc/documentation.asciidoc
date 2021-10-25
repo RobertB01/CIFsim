@@ -20,7 +20,7 @@ include::_root_attributes.asciidoc[]
 :doctype: book
 
 
-= Eclipse ESCET(TM) documentation (Incubation)
+= Eclipse ESCET(TM) general tookit documentation (Incubation)
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 
@@ -39,7 +39,7 @@ ifdef::website-output[]
 TIP: You can link:eclipse-escet-project-incubation-manual.pdf[download this manual] as a PDF as well.
 endif::website-output[]
 
-This manual includes information related to the Eclipse ESCET toolkit as a whole, and applies to all its tools.
+This documentation includes general information related to the Eclipse ESCET toolkit as a whole.
 The following information is available:
 
 * <<use-chapter-index>>
