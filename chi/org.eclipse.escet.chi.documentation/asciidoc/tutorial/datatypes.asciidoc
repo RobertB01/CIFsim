@@ -205,10 +205,9 @@ indexterm:[arithmetic,operator]
 indexterm:[operator,arithmetic]
 For numbers, the normal arithmetic operators are defined.
 Expressions can be constructed with these operators.
-The arithmetic operators for numbers are listed in <<tut-table-aritoper>>.
+The arithmetic operators for numbers are listed in the following table:
 
 [[tut-table-aritoper]]
-.The arithmetic operators
 [cols=3*,options="header"]
 |===
 |Operator name
@@ -279,10 +278,9 @@ indexterm:[operator,relational]
 indexterm:[relational,operator]
 Between two numbers a relational operation can be defined.
 If for example variable `x` is smaller than variable `y`, the expression `x < y` equals `true`.
-The relational operators, with well-known semantics, are listed in <<tut-table-reloper>>.
+The relational operators, with well-known semantics, are listed in the following table:
 
 [[tut-table-reloper]]
-.The relational operators
 [cols=2*,options="header"]
 |===
 |Name
@@ -706,10 +704,9 @@ indexterm:[type,set]
 ==== Sets
 
 Set operators for union, intersection and difference are present.
-<<tut-table-set-operations>> gives the name, the mathematical notation and the notation in the Chi language.
+The table below gives the name, the mathematical notation and the notation in the Chi language.
 
 [[tut-table-set-operations]]
-.Table with set operations
 [cols=3*,options="header"]
 |===
 |Operator
