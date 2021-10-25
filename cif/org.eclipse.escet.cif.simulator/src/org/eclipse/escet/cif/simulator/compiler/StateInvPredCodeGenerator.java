@@ -263,7 +263,8 @@ public class StateInvPredCodeGenerator {
      * @throws UnsupportedException If the invariant is time dependent.
      */
     private static void checkInvTimeConstant(Invariant inv) {
-        if (isTimeConstant(inv.getPredicate())) {
+        // In the context of the simulator, input variables are regarded as being 'time constant'.
+        if (isTimeConstant(inv.getPredicate(), true)) {
             return;
         }
 

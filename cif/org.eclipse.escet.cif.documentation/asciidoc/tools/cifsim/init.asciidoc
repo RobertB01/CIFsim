@@ -16,14 +16,14 @@ include::../_part_attributes.asciidoc[]
 == Initialization of the CIF specification
 
 indexterm:[CIF simulator,initialization]
-CIF supports <<lang-tut-data-chapter-discrete-variables,discrete variables>> with <<lang-tut-data-discvar-init-multiple,multiple potential initial values>>, as well as discrete variables with an <<lang-tut-data-discvar-init-any,arbitrary initial value>>.
+CIF supports <<lang-tut-data-chapter-discrete-variables,discrete variables>> with <<lang-tut-data-discvar-init-multiple,multiple potential initial values>>, as well as discrete variables with an <<lang-tut-data-discvar-init-any,arbitrary initial value>>, and <<lang-tut-reuse2-chapter-input-variables,input variables>> without an explicit value.
 Furthermore, CIF supports automata with <<lang-tut-data-init-preds-aut,multiple potential initial locations>>.
 The simulator however, needs to know how to initialize the specification.
-The initial values of discrete variables, and the initial locations of automata, can be specified using the menu:CIF specification initialization[] option (menu:Simulator[] category).
-Initialization can be provided using the option, per discrete variable or automaton.
+The initial values of discrete variables and input variables, and the initial locations of automata, can be specified using the menu:CIF specification initialization[] option (menu:Simulator[] category).
+Initialization can be provided using the option, per discrete variable, input variable or automaton.
 
-For a discrete variable, initialization is of the form `var:value`, where `var` is the absolute name of a discrete variable, and `value` is a CIF <<lang-tut-values-types-values-exprs-literal,literal>> that represents a valid initial value for the variable.
-Providing an initialization for a discrete variable with a <<lang-tut-functions-chapter-functions-as-values,function type>> or a <<lang-tut-stochastics-chapter-intro,distribution>> type, is not supported.
+For discrete variables and input variables, initialization is of the form `var:value`, where `var` is the absolute name of a discrete variable or input variable, and `value` is a CIF <<lang-tut-values-types-values-exprs-literal,literal>> that represents a valid initial value for the variable.
+Providing an initialization with a <<lang-tut-functions-chapter-functions-as-values,function type>> or a <<lang-tut-stochastics-chapter-intro,distribution>> type, is not supported.
 
 For an automaton, initialization is of the form `aut:loc`, where `aut` is the absolute name of an automaton, and `loc` is the name of a location of that automaton.
 Providing an initialization for an automata with only one nameless location, is not supported.

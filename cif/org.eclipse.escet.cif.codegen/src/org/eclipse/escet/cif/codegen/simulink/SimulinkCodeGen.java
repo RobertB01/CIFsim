@@ -1224,7 +1224,7 @@ public class SimulinkCodeGen extends CodeGen {
                 guardCode = null;
             } else {
                 guardCode = ctxt.exprToTarget(guard, null);
-                if (!isTimeConstant(guard)) {
+                if (!isTimeConstant(guard, false)) {
                     // Guard to check in zero crossings as well as in event processing, fold it in
                     // a separate function.
                     String guardFuncName = fmt("GuardEval%02d", i);

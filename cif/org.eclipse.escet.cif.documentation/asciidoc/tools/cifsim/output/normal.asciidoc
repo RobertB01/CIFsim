@@ -139,7 +139,7 @@ indexterm:[normal console output,output details]
 === Output details
 
 When printing states, variable `time` is always printed first.
-It is followed by the current location of each of the automata, the current values of the state variables (the discrete and continuous variables), the current values of the derivatives of the continuous variables, and the current values of the algebraic variables.
+It is followed by the current location of each of the automata, the current values of the state variables (the discrete, input and continuous variables), the current values of the derivatives of the continuous variables, and the current values of the algebraic variables.
 Except for variable `time`, the state objects are sorted alphabetically based on their absolute names.
 For automata with a single nameless location, the current location is always `+*+`.
 

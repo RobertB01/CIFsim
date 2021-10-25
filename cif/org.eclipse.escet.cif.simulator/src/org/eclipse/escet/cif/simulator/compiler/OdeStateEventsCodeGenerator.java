@@ -255,6 +255,8 @@ public class OdeStateEventsCodeGenerator {
     /**
      * Collects the time dependent predicates from the component (recursively), and maps them to unique numbers.
      *
+     * <p> In the context of the simulator, input variables are regarded as being 'time constant'. </p>
+     *
      * @param comp The component.
      * @param preds Mapping from the time dependent predicates collected so far, to their unique numbers and an
      *     indication of their origin (0 or timed guards, 1 for state/event exclusion invariants). Is modified in-place.
@@ -270,7 +272,7 @@ public class OdeStateEventsCodeGenerator {
                 continue;
             }
             Expression pred = inv.getPredicate();
-            if (!isTimeConstant(pred)) {
+            if (!isTimeConstant(pred, true)) {
                 preds.put(pred, pair(number, 1));
                 number++;
             }
@@ -282,7 +284,7 @@ public class OdeStateEventsCodeGenerator {
                 // Guards of edges of automata.
                 for (Edge edge: loc.getEdges()) {
                     for (Expression guard: edge.getGuards()) {
-                        if (!isTimeConstant(guard)) {
+                        if (!isTimeConstant(guard, true)) {
                             preds.put(guard, pair(number, 0));
                             number++;
                         }
@@ -295,7 +297,7 @@ public class OdeStateEventsCodeGenerator {
                         continue;
                     }
                     Expression pred = inv.getPredicate();
-                    if (!isTimeConstant(pred)) {
+                    if (!isTimeConstant(pred, true)) {
                         preds.put(pred, pair(number, 1));
                         number++;
                     }

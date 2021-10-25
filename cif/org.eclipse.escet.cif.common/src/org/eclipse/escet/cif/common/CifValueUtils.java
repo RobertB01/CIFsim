@@ -1271,10 +1271,11 @@ public class CifValueUtils {
      * </p>
      *
      * @param expr The expression to check.
+     * @param isInputVarTimeConstant Whether input variables should be regarded as time constant.
      * @return {@code true} if the value of the given expression is time constant, {@code false} if it is time
      *     inconstant (time dependent).
      */
-    public static boolean isTimeConstant(Expression expr) {
+    public static boolean isTimeConstant(Expression expr, Boolean isInputVarTimeConstant) {
         if (expr instanceof BoolExpression) {
             return true;
         }
@@ -1295,19 +1296,20 @@ public class CifValueUtils {
         if (expr instanceof CastExpression) {
             // Depends on the child.
             CastExpression cexpr = (CastExpression)expr;
-            return isTimeConstant(cexpr.getChild());
+            return isTimeConstant(cexpr.getChild(), isInputVarTimeConstant);
         }
 
         if (expr instanceof UnaryExpression) {
             // Depends on the child.
             UnaryExpression uexpr = (UnaryExpression)expr;
-            return isTimeConstant(uexpr.getChild());
+            return isTimeConstant(uexpr.getChild(), isInputVarTimeConstant);
         }
 
         if (expr instanceof BinaryExpression) {
             // Depends on the children.
             BinaryExpression bexpr = (BinaryExpression)expr;
-            return isTimeConstant(bexpr.getLeft()) && isTimeConstant(bexpr.getRight());
+            return isTimeConstant(bexpr.getLeft(), isInputVarTimeConstant)
+                    && isTimeConstant(bexpr.getRight(), isInputVarTimeConstant);
         }
 
         if (expr instanceof IfExpression) {
@@ -1316,45 +1318,45 @@ public class CifValueUtils {
             IfExpression ifExpr = (IfExpression)expr;
 
             for (Expression guard: ifExpr.getGuards()) {
-                if (!isTimeConstant(guard)) {
+                if (!isTimeConstant(guard, isInputVarTimeConstant)) {
                     return false;
                 }
             }
 
-            if (!isTimeConstant(ifExpr.getThen())) {
+            if (!isTimeConstant(ifExpr.getThen(), isInputVarTimeConstant)) {
                 return false;
             }
 
             for (ElifExpression elif: ifExpr.getElifs()) {
                 for (Expression guard: elif.getGuards()) {
-                    if (!isTimeConstant(guard)) {
+                    if (!isTimeConstant(guard, isInputVarTimeConstant)) {
                         return false;
                     }
                 }
 
-                if (!isTimeConstant(elif.getThen())) {
+                if (!isTimeConstant(elif.getThen(), isInputVarTimeConstant)) {
                     return false;
                 }
             }
 
-            return isTimeConstant(ifExpr.getElse());
+            return isTimeConstant(ifExpr.getElse(), isInputVarTimeConstant);
         }
 
         if (expr instanceof SwitchExpression) {
             // It depends on the control value, keys, and values.
             SwitchExpression switchExpr = (SwitchExpression)expr;
 
-            if (!isTimeConstant(switchExpr.getValue())) {
+            if (!isTimeConstant(switchExpr.getValue(), isInputVarTimeConstant)) {
                 return false;
             }
 
             for (SwitchCase cse: switchExpr.getCases()) {
                 if (cse.getKey() != null) {
-                    if (!isTimeConstant(cse.getKey())) {
+                    if (!isTimeConstant(cse.getKey(), isInputVarTimeConstant)) {
                         return false;
                     }
                 }
-                if (!isTimeConstant(cse.getValue())) {
+                if (!isTimeConstant(cse.getValue(), isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1365,28 +1367,28 @@ public class CifValueUtils {
         if (expr instanceof ProjectionExpression) {
             // Depends on the child and index.
             ProjectionExpression pexpr = (ProjectionExpression)expr;
-            if (!isTimeConstant(pexpr.getChild())) {
+            if (!isTimeConstant(pexpr.getChild(), isInputVarTimeConstant)) {
                 return false;
             }
             if (pexpr.getIndex() instanceof FieldExpression) {
                 return true;
             }
-            return isTimeConstant(pexpr.getIndex());
+            return isTimeConstant(pexpr.getIndex(), isInputVarTimeConstant);
         }
 
         if (expr instanceof SliceExpression) {
             // Depends on the child, begin index, and end index.
             SliceExpression sexpr = (SliceExpression)expr;
-            if (!isTimeConstant(sexpr.getChild())) {
+            if (!isTimeConstant(sexpr.getChild(), isInputVarTimeConstant)) {
                 return false;
             }
             if (sexpr.getBegin() != null) {
-                if (!isTimeConstant(sexpr.getBegin())) {
+                if (!isTimeConstant(sexpr.getBegin(), isInputVarTimeConstant)) {
                     return false;
                 }
             }
             if (sexpr.getEnd() != null) {
-                if (!isTimeConstant(sexpr.getEnd())) {
+                if (!isTimeConstant(sexpr.getEnd(), isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1400,13 +1402,13 @@ public class CifValueUtils {
             if (fcexpr.getFunction() instanceof StdLibFunctionExpression) {
                 // Always time constant.
             } else {
-                if (!isTimeConstant(fcexpr.getFunction())) {
+                if (!isTimeConstant(fcexpr.getFunction(), isInputVarTimeConstant)) {
                     return false;
                 }
             }
 
             for (Expression param: fcexpr.getParams()) {
-                if (!isTimeConstant(param)) {
+                if (!isTimeConstant(param, isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1418,7 +1420,7 @@ public class CifValueUtils {
             // Depends on the elements.
             ListExpression lexpr = (ListExpression)expr;
             for (Expression elem: lexpr.getElements()) {
-                if (!isTimeConstant(elem)) {
+                if (!isTimeConstant(elem, isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1429,7 +1431,7 @@ public class CifValueUtils {
             // Depends on the elements.
             SetExpression sexpr = (SetExpression)expr;
             for (Expression elem: sexpr.getElements()) {
-                if (!isTimeConstant(elem)) {
+                if (!isTimeConstant(elem, isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1440,7 +1442,7 @@ public class CifValueUtils {
             // Depends on the elements.
             TupleExpression texpr = (TupleExpression)expr;
             for (Expression elem: texpr.getFields()) {
-                if (!isTimeConstant(elem)) {
+                if (!isTimeConstant(elem, isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1451,10 +1453,10 @@ public class CifValueUtils {
             // Depends on the keys/values.
             DictExpression dexpr = (DictExpression)expr;
             for (DictPair pair: dexpr.getPairs()) {
-                if (!isTimeConstant(pair.getKey())) {
+                if (!isTimeConstant(pair.getKey(), isInputVarTimeConstant)) {
                     return false;
                 }
-                if (!isTimeConstant(pair.getValue())) {
+                if (!isTimeConstant(pair.getValue(), isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1476,7 +1478,7 @@ public class CifValueUtils {
             // Try value first.
             Expression value = var.getValue();
             if (value != null) {
-                return isTimeConstant(value);
+                return isTimeConstant(value, isInputVarTimeConstant);
             }
 
             // Algebraic variable parameters are unsupported.
@@ -1488,7 +1490,7 @@ public class CifValueUtils {
             // Value(s) specified in equation(s).
             List<Expression> values = getValuesForAlgVar(var, false);
             for (Expression val: values) {
-                if (!isTimeConstant(val)) {
+                if (!isTimeConstant(val, isInputVarTimeConstant)) {
                     return false;
                 }
             }
@@ -1504,13 +1506,13 @@ public class CifValueUtils {
                 // Try derivative from declaration first.
                 Expression deriv = var.getDerivative();
                 if (deriv != null) {
-                    return isTimeConstant(deriv);
+                    return isTimeConstant(deriv, isInputVarTimeConstant);
                 }
 
                 // Derivative(s) specified in equation(s).
                 List<Expression> derivs = getDerivativesForContVar(var, false);
                 for (Expression d: derivs) {
-                    if (!isTimeConstant(d)) {
+                    if (!isTimeConstant(d, isInputVarTimeConstant)) {
                         return false;
                     }
                 }
@@ -1557,7 +1559,7 @@ public class CifValueUtils {
         }
 
         if (expr instanceof InputVariableExpression) {
-            return false;
+            return isInputVarTimeConstant;
         }
 
         if (expr instanceof ComponentExpression) {
@@ -1567,13 +1569,13 @@ public class CifValueUtils {
         if (expr instanceof CompInstWrapExpression) {
             // Depends on the child, and not how we reach the child.
             Expression rexpr = ((CompInstWrapExpression)expr).getReference();
-            return isTimeConstant(rexpr);
+            return isTimeConstant(rexpr, isInputVarTimeConstant);
         }
 
         if (expr instanceof CompParamWrapExpression) {
             // Depends on the child, and not how we reach the child.
             Expression rexpr = ((CompParamWrapExpression)expr).getReference();
-            return isTimeConstant(rexpr);
+            return isTimeConstant(rexpr, isInputVarTimeConstant);
         }
 
         if (expr instanceof ReceivedExpression) {

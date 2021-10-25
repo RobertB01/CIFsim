@@ -293,7 +293,7 @@ public class StateInitVarOrderer extends DependencyOrderer<Declaration> {
             return;
         }
 
-        // Input variables don't have a value.
+        // Input variables don't have dependencies to other variables or locations.
         if (expr instanceof InputVariableExpression) {
             return;
         }
