@@ -47,6 +47,14 @@ The following information is available:
 * <<release-notes-chapter-index>>
 * <<legal-chapter-index>>
 
+The Eclipse ESCET toolkit features multiple languages and associated tools.
+Check the website for each of these languages for more specific information, including separate documentation for each of them:
+
+* link:https://eclipse.org/escet/cif[CIF]
+* link:https://eclipse.org/escet/chi[Chi]
+* link:https://eclipse.org/escet/tooldef[ToolDef]
+
+
 // Use
 
 include::use/index.asciidoc[]
