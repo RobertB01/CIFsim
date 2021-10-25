@@ -93,10 +93,9 @@ Boolean variables are initialized with the value `false`.
 In mathematics, various symbols are used for unary and binary boolean operators.
 These operators are also present in Chi.
 The most commonly used boolean operators are `not`, `and`, and `or`.
-The names of the operators, the symbols in mathematics and the symbols in the language are presented in <<tut-table-boolsymbols>>.
+The names of the operators, the symbols in mathematics and the symbols in the language are presented in the following table:
 
 [[tut-table-boolsymbols]]
-.Table with boolean symbols
 [cols=3*,options="header"]
 |===
 |Operator
@@ -122,10 +121,9 @@ If `s` equals `false`, and `t` equals `true`, then the value of the expression `
 
 indexterm:[operator,logical]
 indexterm:[logical,operator]
-The result of the unary `not`, the binary `and` and `or` operators, for two variables `p` and `q` is given in <<tut-table-truthtable>>.
+The result of the unary `not`, the binary `and` and `or` operators, for two variables `p` and `q` is given in the following table:
 
 [[tut-table-truthtable]]
-.Truth table for  `not`, `and` and `or` operators
 [cols=5*,options="header"]
 |===
 |`p`
@@ -159,7 +157,7 @@ The result of the unary `not`, the binary `and` and `or` operators, for two vari
 |`true`
 |===
 
-If `p = true` and `q = false`, we find for `p or q` the value `true` (third line in <<tut-table-truthtable>>).
+If `p = true` and `q = false`, we find for `p or q` the value `true` (third line in the table).
 
 indexterm:[enum]
 indexterm:[enumeration,type]
