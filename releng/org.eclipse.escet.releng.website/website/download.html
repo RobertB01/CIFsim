@@ -77,7 +77,7 @@
     </div>
 
     <!-- Different ways to consume the tools -->
-    <div class="container px-4 my-5">
+    <div class="container px-4 mt-5">
       <div class="row g-4 pt-3 row-cols-1 row-cols-lg-3">
         <div class="col d-flex align-items-start">
           <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg escet-bg-opacity-125">
@@ -110,7 +110,7 @@
     </div>
 
     <!-- Downloads -->
-    <div class="px-4 my-5 text-center">
+    <div class="px-4 mt-4 text-center">
       <div class="mx-auto">
         <div class="d-flex justify-content-center">
           <p class="lead fw-normal col-12 col-md-10 col-lg-8 col-xxl-5">
@@ -144,91 +144,75 @@
           </table>
         </div>
         <div class="d-flex justify-content-center">
-          <p class="lead fw-normal col-12 col-md-10 col-lg-8 col-xxl-5 mb-3">
+          <p class="lead fw-normal col-12 col-md-10 col-lg-8 col-xxl-5 mb-0">
             Eclipse ESCET is also available as an Eclipse P2 update site:<br>
             <code>https://download.eclipse.org/escet/@@ESCET-VERSION@@/update-site/</code>
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- More information -->
+    <div class="px-4 my-5">
+      <div class="row justify-content-center">
         <div class="d-flex justify-content-center">
-          <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xxl-4 mb-4">
-            <div class="accordion escet-accordion px-2" id="more-info-accordion">
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="more-info-header">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#more-info-content" aria-expanded="false" aria-controls="more-info-content">
-                    More information
-                  </button>
-                </h2>
-                <div id="more-info-content" class="accordion-collapse collapse" aria-labelledby="more-info-header" data-bs-parent="#more-info-accordion">
-                  <div class="accordion-body text-start">
-                    <p>
-                      <strong>Windows</strong>
-                    </p>
-                    <p>
-                      Extract the downloaded archive somewhere on your hard disk:
-                      <ul>
-                        <li>Extract to a directory where you have read and write access.</li>
-                        <li>There is no need to extract to an empty folder, as all files in the archive are contained within a root folder.</li>
-                        <li>Don't extract in too deep a path as then you may get issues with too long paths.</li>
-                      </ul>
-                      Execute <code>eclipse.exe</code> from the directory that contains the extracted files to launch the Eclipse ESCET IDE.
-                      The <code>bin</code> directory contains the command line scripts.
-                    </p>
-                    <p>
-                      <strong>Linux</strong>
-                    </p>
-                    <p>
-                      Extract the downloaded archive somewhere on your hard disk:
-                      <ul>
-                        <li>Extract to a directory where you have read and write access.</li>
-                        <li>There is no need to extract to an empty folder, as all files in the archive are contained within a root folder.</li>
-                      </ul>
-                      Execute <code>eclipse</code> from the directory that contains the extracted files to launch the Eclipse ESCET IDE.
-                      The <code>bin</code> directory contains the command line scripts.
-                    </p>
-                    <p>
-                      <strong>macOS</strong>
-                    </p>
-                    <p>
-                      Add the Eclipse ESCET app to the Applications folder:
-                      <ul>
-                        <li>Open the downloaded <code>.dmg</code> file by double clicking it. This opens a window with the Eclipse ESCET app and a shortcut icon to your Applications folder.</li>
-                        <li>Drag the Eclipse ESCET icon onto the Applications folder icon. This causes the Eclipse ESCET app to be copied to the Applications folder, where all apps can be found.</li>
-                        <li>You can now open the Eclipse ESCET app from the Applications folder.</li>
-                      </ul>
-                    </p>
-                    <p>
-                      The first time you open the Eclipse ESCET app:
-                      <ul>
-                        <li>Dismiss the popup with error message <em>"Eclipse" can't be opened because Apple cannot check it for malicious software</em> or <em>"Eclipse" can't be opened because it was not downloaded from the App store</em> by clicking <em>OK</em>.</li>
-                        <li>Go to the <em>Apple</em> menu, select <em>System Preferences</em>, click <em>Security & Privacy</em>, and then select the <em>General</em> tab.</li>
-                        <li>Under <em>Allow apps downloaded from</em>, click the <em>Open Anyway</em> button just after <em>"Eclipse-ESCET.app" was blocked from use because it is not from an identified developer</em>, to allow the Eclipse ESCET app to be executed.</li>
-                      </ul>
-                    </p>
-                    <p>
-                      <strong>Eclipse ESCET IDE</strong>
-                    </p>
-                    <p>
-                      For more information on the Eclipse ESCET IDE, see the Eclipse ESCET <a href="documentation.html">toolkit documentation</a>.
-                      In particular the section on starting the Eclipse ESCET IDE <a href="use/starting-first-time.html">for the first time</a>.
-                    </p>
-                    <p>
-                      <strong>Eclipse ESCET command line tools</strong>
-                    </p>
-                    <p>
-                      After extracting the downloaded archive, the command line tools are located in the <code>bin</code> directory.
-                      The command line tools are only available for Windows and Linux, not for macOS.
-                      You may want to add the <code>bin</code> directory to your <code>PATH</code> environment variable.
-                      See e.g. <a href="https://www.java.com/en/download/help/path.xml">How do I set or change the PATH system variable?</a> for how to achieve this.
-                    </p>
-                    <p class="mb-0">
-                      To see which tools are available, simply look in the <code>bin</code> directory.
-                      Each of these tools can be started with the <code>-h</code> or <code>--help</code> option to get further information.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h2>More information</h2>
+        </div>
+        <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
+          <h4 class="mt-3">Windows</h4>
+          <p>
+            Extract the downloaded archive somewhere on your hard disk:
+            <ul>
+              <li>Extract to a directory where you have read and write access.</li>
+              <li>There is no need to extract to an empty folder, as all files in the archive are contained within a root folder.</li>
+              <li>Don't extract in too deep a path as then you may get issues with too long paths.</li>
+            </ul>
+            Execute <code>eclipse.exe</code> from the directory that contains the extracted files to launch the Eclipse ESCET IDE.
+            The <code>bin</code> directory contains the command line scripts.
+          </p>
+          <h4 class="mt-5">Linux</h4>
+          <p>
+            Extract the downloaded archive somewhere on your hard disk:
+            <ul>
+              <li>Extract to a directory where you have read and write access.</li>
+              <li>There is no need to extract to an empty folder, as all files in the archive are contained within a root folder.</li>
+            </ul>
+            Execute <code>eclipse</code> from the directory that contains the extracted files to launch the Eclipse ESCET IDE.
+            The <code>bin</code> directory contains the command line scripts.
+          </p>
+          <h4 class="mt-5">macOS</h4>
+          <p>
+            Add the Eclipse ESCET app to the Applications folder:
+            <ul>
+              <li>Open the downloaded <code>.dmg</code> file by double clicking it. This opens a window with the Eclipse ESCET app and a shortcut icon to your Applications folder.</li>
+              <li>Drag the Eclipse ESCET icon onto the Applications folder icon. This causes the Eclipse ESCET app to be copied to the Applications folder, where all apps can be found.</li>
+              <li>You can now open the Eclipse ESCET app from the Applications folder.</li>
+            </ul>
+          </p>
+          <p>
+            The first time you open the Eclipse ESCET app:
+            <ul>
+              <li>Dismiss the popup with error message <em>"Eclipse" can't be opened because Apple cannot check it for malicious software</em> or <em>"Eclipse" can't be opened because it was not downloaded from the App store</em> by clicking <em>OK</em>.</li>
+              <li>Go to the <em>Apple</em> menu, select <em>System Preferences</em>, click <em>Security & Privacy</em>, and then select the <em>General</em> tab.</li>
+              <li>Under <em>Allow apps downloaded from</em>, click the <em>Open Anyway</em> button just after <em>"Eclipse-ESCET.app" was blocked from use because it is not from an identified developer</em>, to allow the Eclipse ESCET app to be executed.</li>
+            </ul>
+          </p>
+          <h4 class="mt-5">Eclipse ESCET IDE</h4>
+          <p>
+            For more information on the Eclipse ESCET IDE, see the Eclipse ESCET <a href="documentation.html">general toolkit documentation</a>.
+            In particular the section on starting the Eclipse ESCET IDE <a href="use/starting-first-time.html">for the first time</a>.
+          </p>
+          <h4 class="mt-5">Eclipse ESCET command line tools</h4>
+          <p>
+            After extracting the downloaded archive, the command line tools are located in the <code>bin</code> directory.
+            The command line tools are only available for Windows and Linux, not for macOS.
+            You may want to add the <code>bin</code> directory to your <code>PATH</code> environment variable.
+            See e.g. <a href="https://www.java.com/en/download/help/path.xml">How do I set or change the PATH system variable?</a> for how to achieve this.
+          </p>
+          <p class="mb-0">
+            To see which tools are available, simply look in the <code>bin</code> directory.
+            Each of these tools can be started with the <code>-h</code> or <code>--help</code> option to get further information.
+          </p>
         </div>
       </div>
     </div>
