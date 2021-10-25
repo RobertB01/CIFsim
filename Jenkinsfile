@@ -88,7 +88,7 @@ pipeline {
                     archiveArtifacts '*/org.eclipse.escet.*documentation/target/*-website-*.zip'
 
                     // Update site.
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/*-updatesite-*.zip'
+                    archiveArtifacts 'products/org.eclipse.escet.product/target/*-updatesite.zip'
 
                     // Product.
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-linux*.tar.gz'
@@ -115,7 +115,7 @@ pipeline {
                 // Deploy downloads.
                 sh '''
                     mkdir -p deploy/update-site/
-                    unzip -q products/org.eclipse.escet.product/target/*-updatesite-*.zip -d deploy/update-site/
+                    unzip -q products/org.eclipse.escet.product/target/*-updatesite.zip -d deploy/update-site/
                 '''
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                     // Remove any existing directory for this release.
@@ -130,7 +130,7 @@ pipeline {
                     sh 'scp -r */org.eclipse.escet.*documentation/target/*-website-*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/websites/'
 
                     // Update site (archive).
-                    sh 'scp -r products/org.eclipse.escet.product/target/*-updatesite-*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                    sh 'scp -r products/org.eclipse.escet.product/target/*-updatesite.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
                     // Update site (extracted).
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/update-site/'
