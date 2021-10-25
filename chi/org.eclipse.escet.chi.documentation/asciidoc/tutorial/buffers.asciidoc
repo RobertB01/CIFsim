@@ -24,10 +24,9 @@ Values (products, packets, messages, simple tokens, and so on) are sent, tempora
 In fact, the decoupling of sending and receiving is very important, it allows compensating temporarily differences between the number of items that are sent and received.
 (Under the assumption that the receiver is fast enough to keep up with the sender in general, otherwise the buffer will grow forever or overflow.)
 
-For example, consider the exchange of items from a producer process `P` to a consumer process `C` as shown in <<tut-figure-pc2>>.
+For example, consider the exchange of items from a producer process `P` to a consumer process `C` as shown in the following figure:
 
 [[tut-figure-pc2]]
-.A producer and a consumer
 image::{tut-imgsdir}/pictures/producer_consumer.png[]
 
 In the unbuffered situation, both processes communicate at the same time.
@@ -36,10 +35,9 @@ With a buffer in-between, the producer can give its item to the buffer, and cont
 Likewise, the consumer can pick up a new item from the buffer at any later time (if the buffer has items).
 
 In Chi, buffers are not modeled as channels, they are modeled as additional processes instead.
-The result is shown in <<tut-figure-pbc>>.
+The result is shown in the following figure:
 
 [[tut-figure-pbc]]
-.A producer and a consumer, with an additional buffer process
 image::{tut-imgsdir}/pictures/buffered_producer_consumer.png[]
 
 The producer sends its items synchronously (using channel `a`) to the buffer process.
@@ -58,10 +56,9 @@ The producer and consumer processes are not discussed in this chapter.
 === A one-place buffer
 
 A buffer usually has a receiving channel and a sending channel, for receiving and sending items.
-A buffer, buffer `B1`, is presented in <<tut-figure-oneplacebuffer>>.
+A buffer, buffer `B1`, is presented in the figure below:
 
 [[tut-figure-oneplacebuffer]]
-.A `1`-place buffer
 image::{tut-imgsdir}/pictures/one_place_buffer.png[]
 
 The simplest buffer is a one-place buffer, for buffering precisely one item.
@@ -85,10 +82,9 @@ A buffer receives an item, stores the item, and sends the item to the next proce
 The buffer is  not willing to receive a second item, as long as the first item is still in the buffer.
 
 A two-place buffer can be created, by using the one-place buffer process twice.
-A two-place buffer is depicted in <<tut-figure-twoplacebuffer>>.
+A two-place buffer is depicted below.
 
 [[tut-figure-twoplacebuffer]]
-.A `2`-place buffer
 image::{tut-imgsdir}/pictures/two_place_buffer.png[]
 
 A two-place buffer is defined by:
@@ -354,10 +350,9 @@ Note that the order of the alternatives in the select statement does not matter,
 [[tut-buffer-exercises]]
 === Exercises
 
-. To study product flow to and from a factory, a setup as shown in <<tut-figure-controlled-factory>> is created.
+. To study product flow to and from a factory, a setup as shown in the figure below is created.
 +
 [[tut-figure-controlled-factory]]
-.A controlled factory
 image::{tut-imgsdir}/pictures/controlled_factory.png[]
 +
 `F` is the factory being studied, generator `G` sends products into the factory, and exit process `E` retrieves finished products.

@@ -117,10 +117,9 @@ In both cases, the question is what the flow time of an item is (the amount of t
 ==== A deterministic system
 
 The model of a deterministic system consists of a deterministic generator, a deterministic server, and an exit process.
-The line is depicted in <<tut-figure2-generator-server-exit>>.
+The line is depicted in the following figure:
 
 [[tut-figure2-generator-server-exit]]
-.Generator `G`, server `S`, and exit `E`
 image::{tut-imgsdir}/pictures/generator_server_exit.png[]
 
 Generator process `G` sends items, with constant inter-arrival time `ta`, via channel `a`, to server process `S`.
@@ -204,11 +203,10 @@ Analysis of the measurements will show that the system throughput equals `1 / ta
 
 In the next model, the generator produces items with an exponential inter-arrival time, and the server processes items with an exponential server processing time.
 To compensate for the variations in time of the generator and the server, a buffer process has been added.
-The model is depicted in <<tut-figure-MM1>>.
+The model is depicted below.
 
 
 [[tut-figure-MM1]]
-.Generator `G`, buffer `B`, server `S`, and exit `E`
 image::{tut-imgsdir}/pictures/generator_buffer_server_exit.png[]
 
 Type `item` is the same as in the previous situation.
@@ -281,11 +279,10 @@ Both systems use a stochastic generator, and stochastic servers.
 
 The next model describes a _serial_ system, where an item is processed by one server, followed by another server.
 The generator and the servers are decoupled by buffers.
-The model is depicted in <<tut-figure-tandem>>.
+The model is depicted below.
 
 
 [[tut-figure-tandem]]
-.A generator, two buffers, two servers, and an exit
 image::{tut-imgsdir}/pictures/generator_2buffers_2servers_exit.png[]
 
 The model can be described by:
@@ -310,10 +307,9 @@ The various processes are equal to those described previously in <<tut-stochasti
 
 In a parallel system the servers are operating in parallel.
 Having several servers in parallel is useful for enlarging the processing capacity of the task being done, or for reducing the effect of break downs of servers (when a server breaks down, the other server continues with the task for other items).
-<<tut-figure-two-parallel-servers>> depicts the system.
+The system is depicted below.
 
 [[tut-figure-two-parallel-servers]]
-.A model with two parallel servers
 image::{tut-imgsdir}/pictures/two_parallel_servers.png[]
 
 Generator process `G` sends items via `a` to buffer process `B`, and process `B` sends the items in a first-in first-out manner to the servers `S`.
@@ -341,10 +337,9 @@ To control which server gets the next item, each server must have its own channe
 In addition, the buffer has to know when the server can receive a new item.
 The latter is done with a 'request' channel, denoting that a server is free and needs a new item.
 The server sends its own identity as request, the requests are administrated in the buffer.
-The model is depicted in <<tut-figure-two-parallel-requesting-servers>>.
+The model is depicted below.
 
 [[tut-figure-two-parallel-requesting-servers]]
-.A model with two parallel requesting servers
 image::{tut-imgsdir}/pictures/two_parallel_requesting_servers.png[]
 
 In this model, the servers 'pull' an item through the line.
@@ -425,10 +420,9 @@ In this way, products are built, e.g. tables, chairs, computers, or cars.
 In this section some simple assembly processes are described.
 These systems illustrate how assembling can be performed: in industry these assembly processes are often more complicated.
 
-An assembly work station for two components is shown in <<tut-figure-assembly-two-components>>.
+An assembly work station for two components is shown below.
 
 [[tut-figure-assembly-two-components]]
-.Assembly for two components
 image::{tut-imgsdir}/pictures/assembly_two_components.png[]
 
 The assembly process server `S` is preceded by buffers.
@@ -463,10 +457,10 @@ The second alternative does the same, but with the channels and stored items swa
 
 When both components have been received, the assembled product is sent away.
 
-A generalized assembly work station for `n` components is depicted in <<tut-figure-assembly-n-components>>.
+A generalized assembly work station for `n` components is depicted below.
+In the figure, `m = n - 1`.
 
 [[tut-figure-assembly-n-components]]
-.Assembly for `n` components, with `m = n - 1`
 image::{tut-imgsdir}/pictures/assembly_n_components.png[]
 
 The entire work station (the combined buffer processes and the assembly server process) is described by:

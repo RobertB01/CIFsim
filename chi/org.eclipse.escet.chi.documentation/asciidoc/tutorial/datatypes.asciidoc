@@ -541,12 +541,11 @@ indexterm:[list,head]
 indexterm:[head,list]
 indexterm:[list,head right]
 indexterm:[head right,list]
-In <<tut-figure-list-with-indices>> the list with indices is visualized.
+In the figure below, the list with indices is visualized.
 A common name for the first element of a list (i.e., `x[0]`) is the _head_ of a list.
 Similarly, the last element of a list (`xs[-1]`) is also known as _head right_.
 
 [[tut-figure-list-with-indices]]
-.A list with indices
 image::{tut-imgsdir}/pictures/list_with_indices.png[]
 
 A part of a list can be fetched by _slicing_.
@@ -577,10 +576,9 @@ indexterm:[tail,list]
 indexterm:[list,tail right]
 indexterm:[tail right,list]
 The list of all but the first elements (`xs[1:]`) is often called _tail_ and `xs[:-1]` is also known as _tail right_.
-In <<tut-figure-list-with-slices>> the slicing operator is visualized.
+Below, the slicing operator is visualized.
 
 [[tut-figure-list-with-slices]]
-.A list with indices and slices
 image::{tut-imgsdir}/pictures/list_with_slices.png[]
 
 indexterm:[list,concatenation]
