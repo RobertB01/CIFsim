@@ -93,14 +93,14 @@
             The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
             The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
           </p>
-          <h4>Supervisor synthesis</h4>
+          <h4>Supervisory controller synthesis</h4>
           <p>
-            Supervisory controller synthesis, provided by the <a href="cif">CIF</a> language and tools, is a key feature of the toolkit.
+            Supervisory controller synthesis (or just, supervisor synthesis) shifts controller design from 'how should the implementation work' to 'what should the controller do'.
             It involves the automatic generation of supervisory controllers from a specification of the uncontrolled system and the (safety) requirements that the controller needs to enforce.
+            Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
           </p>
           <p>
-            This shifts controller design from 'how should the implementation work' to 'what should the controller do'.
-            Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
+            Supervisory controller synthesis is a key feature of the Eclipse ESCET toolkit and is provided by the <a href="cif">CIF</a> language and tools.
           </p>
         </div>
       </div>
