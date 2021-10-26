@@ -312,37 +312,39 @@ public class SvgViewer extends ControlEditor {
         }
 
         // Set up popup menu.
-        Menu popupMenu = new Menu(parent);
-        final MenuItem saveItem = new MenuItem(popupMenu, SWT.NONE);
-        saveItem.setEnabled(isSaveAsAllowed());
-        saveItem.setText("Save as...");
+        if (svgLoadError == null) {
+            Menu popupMenu = new Menu(parent);
+            final MenuItem saveItem = new MenuItem(popupMenu, SWT.NONE);
+            saveItem.setEnabled(isSaveAsAllowed());
+            saveItem.setText("Save as...");
 
-        scroll.setMenu(popupMenu);
-        canvas.setMenu(popupMenu);
+            scroll.setMenu(popupMenu);
+            canvas.setMenu(popupMenu);
 
-        popupMenu.addMenuListener(new MenuListener() {
-            @Override
-            public void menuShown(MenuEvent e) {
-                saveItem.setEnabled(isSaveAsAllowed());
-            }
+            popupMenu.addMenuListener(new MenuListener() {
+                @Override
+                public void menuShown(MenuEvent e) {
+                    saveItem.setEnabled(isSaveAsAllowed());
+                }
 
-            @Override
-            public void menuHidden(MenuEvent e) {
-                // Nothing to do here.
-            }
-        });
+                @Override
+                public void menuHidden(MenuEvent e) {
+                    // Nothing to do here.
+                }
+            });
 
-        saveItem.addSelectionListener(new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                doSaveAs();
-            }
+            saveItem.addSelectionListener(new SelectionListener() {
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    doSaveAs();
+                }
 
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-        });
+                @Override
+                public void widgetDefaultSelected(SelectionEvent e) {
+                    widgetSelected(e);
+                }
+            });
+        }
 
         // Return the contents of the editor. This is the scrolled composite,
         // which contains the SVG canvas and/or text box.
