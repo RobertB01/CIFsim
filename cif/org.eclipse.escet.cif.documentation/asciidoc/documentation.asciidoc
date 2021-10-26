@@ -53,7 +53,7 @@ The documentation consists of:
 * <<dev-chapter-index, CIF developers manual>>
 * <<legal-chapter-index, Legal information>>
 
-A screenshot of the CIF tooling IDE:
+A screenshot showing a CIF model and simulation:
 
 image::{imgsdir}/screenshot_ide.png[]
 
