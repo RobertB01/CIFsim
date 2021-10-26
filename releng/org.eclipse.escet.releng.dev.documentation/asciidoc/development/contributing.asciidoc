@@ -18,10 +18,10 @@ indexterm:[patches]
 [[development-contributing-chapter-index]]
 == Contributing
 
-Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
-We welcome your contributions.
+Interested in contributing to the Eclipse ESCET project?
+Contributions are always welcome!
 
-The following topics are discussed:
+The following information may help you get started:
 
 * <<development-contributing-contribute>>
 * <<development-contributing-keep-sync-official-repo>>
