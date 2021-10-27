@@ -51,6 +51,8 @@ import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.FileSizes;
 import org.eclipse.escet.common.java.Strings;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 
 /** Class for generating crash reports. */
 public final class CrashReport {
@@ -346,7 +348,9 @@ public final class CrashReport {
         if (!Platform.isRunning()) {
             s.println("(OSGi platform is not running)");
         } else {
-            Bundle[] bundles = Activator.getContext().getBundles();
+            Bundle appFrameworkBundle = FrameworkUtil.getBundle(CrashReport.class);
+            BundleContext appFrameworkBundleContext = appFrameworkBundle.getBundleContext();
+            Bundle[] bundles = appFrameworkBundleContext.getBundles();
             String[][] bundleTable = new String[bundles.length][6];
             int i = 0;
             for (Bundle bundle: bundles) {
