@@ -33,18 +33,18 @@ indexterm:[Inkscape,changing ids]
 
 As described on the <<tools-cifsim-output-svgviz-chapter-svg,page about SVG>>, every SVG object has an id.
 To change the id of an object in Inkscape, right click on the object, and choose menu:Object Properties[].
-The menu:Object Properties[] window will appear, which looks like this:
+The _Object Properties_ window will appear, which looks like this:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/inkscape/inkscape_props_xml.png[]
 
-In this window, you can change the object's id, by entering a new id in the menu:Id[] field, and clicking the btn:[Set] button.
+In this window, you can change the object's id, by entering a new id in the _Id_ field, and clicking the btn:[Set] button.
 
 indexterm:[Inkscape,XML editor]
 
 === XML editor
 
 Inkscape also features an XML editor, that can be used to view and edit the underlying XML representation of the SVG image.
-The screenshot above also shows Inkscape's menu:XML Editor[] window, which can be opened via the menu:XML Editor...[] item in the menu:Edit[] menu.
+The screenshot above also shows Inkscape's _XML Editor_ window, which can be opened via menu:Edit[XML Editor...].
 The XML editor can be useful to find out the exact structure of the XML tree, and to see the precise definitions that were used to represent the objects that you created on Inkscape's canvas.
 
 indexterm:[Inkscape,document size]
@@ -55,39 +55,39 @@ indexterm:[Inkscape,height]
 === Document size
 
 It is recommended to always set the correct size of the image, before adding any shapes or text labels.
-To do this, select menu:Document Properties...[] from the menu:File[] menu, to open the menu:Document Properties[] window.
-On the menu:Page[] tab, we recommend to set the menu:Units[] to menu:px[].
-You can then enter the menu:Width[] and menu:Height[] of the image.
+To do this, select menu:File[Document Properties...], to open the _Document Properties_ window.
+On the _Page_ tab, we recommend to set the _Units_ to _px_.
+You can then enter the _Width_ and _Height_ of the image.
 
 By default, Inkscape always adds a layer to new images.
 When changing the size of the image as described above, this layer gets a `transform` attribute that can cause all kinds of trouble later on.
 There are several ways to get rid of this `transform` attribute of the layer:
 
-* Select menu:Layers...[] from the menu:Layer[] menu to show the menu:Layers[] panel.
-In that panel, select menu:Layer 1[] by clicking on it.
-Then click the menu:Delete the current layer[] button to remove the selected layer.
+* Select menu:Layer[Layers...], to show the _Layers_ panel.
+In that panel, select _Layer 1_ by clicking on it.
+Then click the _Delete the current layer_ button to remove the selected layer.
 
-* Use the menu:XML Editor[] to select the layer (`<svg:g id="layer1"`... node).
-Then click the menu:Delete node[] button at the top of the menu:XML Editor[] window to remove the layer.
+* Use the _XML Editor_ to select the layer (`<svg:g id="layer1"`... node).
+Then click the _Delete node_ button at the top of the _XML Editor_ window to remove the layer.
 Alternatively, after selecting the layer, press the kbd:[Delete] key on the keyboard to delete the selected layer.
 
-* Use the menu:XML Editor[] to select the layer (`<svg:g id="layer1"`... node).
+* Use the _XML Editor_ to select the layer (`<svg:g id="layer1"`... node).
 Then, on the right, select the `transform` attribute by clicking on it.
-Then click the menu:Delete attribute[] button at the top of the menu:XML Editor[] window to remove the attribute.
+Then click the _Delete attribute_ button at the top of the _XML Editor_ window to remove the attribute.
 
 The first two approaches remove the layer, the third approach keeps the layer and only removes the `transform` attribute.
 
 Alternatively, there is also a way to avoid the `transform` attribute from being added in the first place.
-Instead of using the menu:Document Properties[] window to change the size of the image, do the following:
+Instead of using the _Document Properties_ window to change the size of the image, do the following:
 
-* Use the menu:XML Editor[] to select the entire image (`<svg:svg`... node).
+* Use the _XML Editor_ to select the entire image (`<svg:svg`... node).
 
 * Select the `width` attribute on the right, by clicking on it.
 
 * Change the value in the text area at the lower right corner of the window.
 
-* Click the menu:Set[] button to save the new width value.
-Alternatively, after typing the new value, press kbd:[Ctrl+ENTER] to save the new width value.
+* Click the btn:[Set] button to save the new width value.
+Alternatively, after typing the new value, press kbd:[Ctrl+Enter] to save the new width value.
 
 * Repeat for the `height` attribute.
 

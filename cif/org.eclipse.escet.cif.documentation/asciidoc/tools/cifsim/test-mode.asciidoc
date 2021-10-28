@@ -20,12 +20,12 @@ indexterm:[test mode]
 
 WARNING: This page is primarily intended for the developers of the CIF simulator, and not its end users.
 
-In order to be able to perform automated testing, the menu:Test mode[] option (menu:Output[] category) can be used.
+In order to be able to perform automated testing, the _Test mode_ option (_Output_ category) can be used.
 This option has the following effect:
 
 * The visual interfaces for all <<tools-cifsim-output-chapter-index,output components>> (such as visualizers) are disabled.
 
-* The user is no longer asked to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator, if the the menu:Ask to confirm simulator termination[] option (menu:Simulator[] category) is configured to let the simulator decide whether to ask the user for confirmation or terminate automatically.
+* The user is no longer asked to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator, if the the _Ask to confirm simulator termination_ option (_Simulator_ category) is configured to let the simulator decide whether to ask the user for confirmation or terminate automatically.
 By not asking for user input at the console, the automated test set can be fully automatically executed.
 
 * It is allowed to perform <<tools-cifsim-output-chapter-realtime,real-time>> simulation without using any <<tools-cifsim-output-realtime-outcomp,real-time output components>>, allowing testing of the real-time functionality in the automated test set.

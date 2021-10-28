@@ -31,7 +31,7 @@ indexterm:[SVG visualization,console output]
 [[tools-cifsim-output-svgviz-debugging-console]]
 === Console debugging
 
-Console debugging for CIF/SVG declarations can be enabled or disabled by using the menu:Debug output[] option (menu:Output[] category).
+Console debugging for CIF/SVG declarations can be enabled or disabled by using the _Debug output_ option (_Output_ category).
 It is disabled by default.
 If enabled, it produces debug output to the console, whenever CIF/SVG declarations are applied.
 Here is an example of what such output looks like:

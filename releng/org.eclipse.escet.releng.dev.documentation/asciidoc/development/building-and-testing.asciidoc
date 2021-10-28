@@ -31,11 +31,11 @@ From the list at the left, under _Maven Build_, select the _build_ launch config
 +
 Additional launch configurations are available to build documentation projects separately.
 
-* On Windows, in a command prompt, with the root of the Git repository as current directory, enter `.\build.cmd` and press kbd:[ENTER].
+* On Windows, in a command prompt, with the root of the Git repository as current directory, enter `.\build.cmd` and press kbd:[Enter].
 This requires Maven to be available on your system (to be on your `PATH`).
 Make sure to use the same Java and Maven versions as for the Eclipse-based development environment.
 
-* On Linux/macOS, in a shell, with the root of the Git repository as current directory, enter `./build.sh` and press kbd:[ENTER].
+* On Linux/macOS, in a shell, with the root of the Git repository as current directory, enter `./build.sh` and press kbd:[Enter].
 This requires Maven to be available on your system (to be on your `PATH`).
 Make sure to use the same Java and Maven versions as for the Eclipse-based development environment.
 

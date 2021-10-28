@@ -28,7 +28,7 @@ They are pseudorandom, as they start to repeat after some time.
 The Mersenne Twister however, has a very long _period_ of 2^19937^ - 1 numbers.
 
 Since the sequence of generated random numbers is always the same, the only way to vary it, is to use a different starting place.
-The starting place is determined by the initial link:http://en.wikipedia.org/wiki/Random_seed[seed], which can be configured through the menu:Initial seed for stochastic distributions[] option (menu:Simulator[] category).
+The starting place is determined by the initial link:http://en.wikipedia.org/wiki/Random_seed[seed], which can be configured through the _Initial seed for stochastic distributions_ option (_Simulator_ category).
 If specified, it must be a value in the range [1 .. 2^30^].
 If it is not specified, a random initial seed in that range is chosen by the simulator.
 If a random initial seed is chosen, and it is used, it is <<tools-cifsim-output-normal-seeds,printed>> to the console.

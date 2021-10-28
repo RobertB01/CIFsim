@@ -33,7 +33,7 @@ image::{tools-imgsdir}/cifsim/output/svgviz/sun_moon/sun_moon_inkscape.png[]
 
 The image features a sun and a moon.
 The sun consists of a circle and several lines.
-They are grouped together, using the menu:Group[] command from Inkscape's menu:Object[] menu.
+They are grouped together, using the _Group_ command from Inkscape's _Object_ menu.
 The group can also be seen in the XML representation, as an `svg:g` element, with the actual shapes (paths in this case) as children.
 We assigned the `sun` id to the `svg:g` element, as it represents the entire sun.
 For clarity we gave the sub-elements ids as well, although that was not necessary, as we won't directly reference them in the CIF/SVG declarations.

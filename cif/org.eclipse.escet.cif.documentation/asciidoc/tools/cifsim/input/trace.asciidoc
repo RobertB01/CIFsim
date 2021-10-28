@@ -22,7 +22,7 @@ In the trace input mode, the simulator automatically chooses transitions as well
 [[tools-cifsim-input-trace-file]]
 === Trace file
 
-If the trace input mode is used, the menu:Trace input file[] option (menu:Input[] category) can be used to specify the path to the trace file.
+If the trace input mode is used, the _Trace input file_ option (_Input_ category) can be used to specify the path to the trace file.
 If the path is not explicitly specified, the input CIF file path is used, where the `.cif` file extension is removed if present, and a `.trace` file extension is added.
 
 The trace file uses a line based file format.

@@ -58,7 +58,7 @@ indexterm:[CIF event disabler,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF miscellaneous tools[Disable events of CIF specification...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Disable events of CIF specification...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Disable events of CIF specification...].
 

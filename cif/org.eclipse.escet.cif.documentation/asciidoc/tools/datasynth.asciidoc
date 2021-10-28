@@ -46,7 +46,7 @@ indexterm:[data-based supervisory controller synthesis,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Apply data-based synthesis...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 
@@ -669,7 +669,7 @@ indexterm:[data-based supervisory controller synthesis,debugging]
 
 By default, the synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
 By enabling debug output, detailed information is printed to the console.
-Debug output can be enabled by setting the menu:Output mode[] option (menu:General[] category) to menu:Debug[].
+Debug output can be enabled by setting the _Output mode_ option (_General_ category) to _Debug_.
 
 The debug output also contains information about the number of states in the resulting controlled system (the uncontrolled system restricted by the synthesized supervisor).
 If the resulting supervisor (and thus the controlled system) is empty, or if <<tools-datasynth-forward-reach,forward reachability>> is enabled, the number of states that is printed is an exact number (e.g. `exactly 0 states`, `exactly 1 state`, `exactly 1,234 states`).

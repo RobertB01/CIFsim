@@ -27,7 +27,7 @@ indexterm:[CIF PLC code generator,start]
 
 The generator can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Generate PLC code for CIF specification...].
 
@@ -119,7 +119,7 @@ By default this option is enabled.
 The option is disabled by default.
 See the section on <<tools-cif2plc-names,names>> for more information.
 
-Formal function invocation syntax (e.g. `MIN(IN1:3, IN2:5)`) is used in the generated PLC code only for those functions that are included by both the menu:Formal function invocation (arguments based)[] option and the menu:Formal function invocation (function kind based)[] option.
+Formal function invocation syntax (e.g. `MIN(IN1:3, IN2:5)`) is used in the generated PLC code only for those functions that are included by both the _Formal function invocation (arguments based)_ option and the _Formal function invocation (function kind based)_ option.
 If either of the options excludes the function, the non-formal function invocation syntax (e.g. `MIN(3, 5)`) is used for that function.
 Note that for invocations of function blocks, the generated PLC code always uses the formal syntax.
 Furthermore, for certain standard library functions, only the non-formal syntax is defined by the standard, and thus used in the generated PLC code.
@@ -354,7 +354,7 @@ indexterm:[debug,PLC code]
 Within the 'event loop', a counter is used to detect how often the loop is repeated.
 After the loop is executed a 100 times, the loop is terminated, to ensure that the body terminates in the case of events that are always possible.
 In such a cases, variable `loopsKilled` is incremented by one, for debugging.
-While by default the loop is terminated after 100 iterations, this maximum number of iterations can be configured using the menu:PLC maximum iterations[] option (menu:Generator[] category).
+While by default the loop is terminated after 100 iterations, this maximum number of iterations can be configured using the _PLC maximum iterations_ option (_Generator_ category).
 The option can also be set to infinite, to not impose a restriction, and never terminate the loop due to too many iterations.
 See also the <<tools-cif2plc-options>> section above.
 
@@ -414,7 +414,7 @@ indexterm:[CIF PLC code generator,TwinCAT]
 === PLC output type
 
 The PLC code generator can generate its output in multiple forms (file formats) depending on the output type.
-The output type can be configured using the menu:PLC code output type[] option ( menu:Generator[] category).
+The output type can be configured using the _PLC code output type_ option (_Generator_ category).
 The following output types are currently available:
 
 * PLCopen XML (default)

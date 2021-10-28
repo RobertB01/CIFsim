@@ -27,7 +27,7 @@ Also add any plug-ins that define the classes that you will be referring to in t
 * Create a text file ending with `.setext` in that same package.
 Fill the specification, and save it.
 
-* Right click the file in the _Project Explorer_ or _Package Explorer_, and choose the _Generate Parser(s)_ action.
+* Right click the file in the _Project Explorer_ or _Package Explorer_, and choose the menu:Generate Parser(s)[] action.
 Alternatively, right click the text editor for the SeText specification and choose the same action.
 
 * Observe how the files are generated.

@@ -109,7 +109,7 @@ where `<prefix>` is replaced by the value of the _Code prefix_ option during cod
 
 The `<prefix>.c` file contains the source code of the actual S-Function.
 The file can be compiled using the Matlab Mex C compiler.
-The resulting mex file can be used in Simulink (Open the menu:Simulink Library[], select menu:User-defined functions[], and then the menu:S-Function[] block, drag it into the Simulink canvas, open the block , and type the `<prefix>` name into the menu:Name[] field.)
+The resulting mex file can be used in Simulink (Open the menu:Simulink Library[], select menu:User-defined functions[], and then the menu:S-Function[] block, drag it into the Simulink canvas, open the block , and type the `<prefix>` name into the _Name_ field.)
 
 The report file lists how CIF variables got mapped onto the input, mode, contstate, and output Simulink vectors.
 You can use this information to connect your CIF program with the other parts of the Simulink model.

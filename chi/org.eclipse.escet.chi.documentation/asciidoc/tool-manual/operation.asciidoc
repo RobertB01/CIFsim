@@ -37,7 +37,7 @@ The Chi simulator software uses two steps internally (first checking the input a
 The process starts by selecting the source file you want to use (a file with a `.chi` extension) in the _Project Explorer_ or _Package Explorer_ tab, and opening the popup menu with the right mouse button from that selection.
 Alternatively, open the file in the editor, and use the right mouse button to get a similar popup menu.
 
-From the popup menu, select _Simulate Chi file_ entry.
+From the popup menu, select menu:Simulate Chi file[] entry.
 The selection causes the _Console_ view to be opened in Eclipse, and a dialog window pops up to set the simulator options like below.
 
 image::{tool-imgsdir}/chi_simulator_dialog.png[]
@@ -53,16 +53,16 @@ If both attempts fail, or the simulator finds more than one such experiment or m
 If you want to set an initial seed (see <<tut-simulating-stochastic-behavior>> for a discussion), you can use the _Initial seed value_ box.
 Value `0` means 'create a new one'.
 
-This is all you have to do, select _OK_ at the bottom.
+This is all you have to do, select btn:[OK] at the bottom.
 The software performs its two steps, and if no errors are found, it runs the model.
 
 ==== Quick simulate
 
 For files that do not need any further configuration before they are run, there is a _Quick simulate Chi file_.
-This menu option assumes the default configuration (a parameter-less experiment or model needs to be run with a new seed), skips the dialog (saving you from having to press _OK_) and immediately proceeds with processing the Chi file.
+This menu option assumes the default configuration (a parameter-less experiment or model needs to be run with a new seed), skips the dialog (saving you from having to press btn:[OK]) and immediately proceeds with processing the Chi file.
 
-This functionality is also available from the Chi text editor, by pressing the _F9_ key.
-Alternatively, you can select a Chi file in the _Project Explorer_ or _Package Explorer_, and press the _F9_ key.
+This functionality is also available from the Chi text editor, by pressing the kbd:[F9] key.
+Alternatively, you can select a Chi file in the _Project Explorer_ or _Package Explorer_, and press the kbd:[F9] key.
 
 [[tool-compile-or-simulate]]
 === Compile only
@@ -70,15 +70,15 @@ Alternatively, you can select a Chi file in the _Project Explorer_ or _Package E
 The above is convenient for simple experiments, but checking the input and building a simulator each time is tedious if you want to do several experiments with the same source file.
 For this reason, each step can be done separately as well.
 
-Only building a simulator starts in the same way as above, select a `.chi` source file from the _Project Explorer_, the _Package Explorer_ or an editor window, and right-click at it.
-Select the _Simulate Chi file_ option from the popup menu.
+Only building a simulator starts in the same way as above, select a `.chi` source file from the _Project Explorer_ or _Package Explorer_ or an editor window, and right-click at it.
+Select the menu:Simulate Chi file[] option from the popup menu.
 As the file only gets compiled, the simulator options are of no interest.
 Instead switch to the _Compiler_ tab.
 It looks like this:
 
 image::{tool-imgsdir}/chi_compiler_dialog.png[]
 
-Most settings are only useful for developers, but at the bottom, check the _Write the compiled Java code to a .cchi file_ box, and click _OK_ at the bottom.
+Most settings are only useful for developers, but at the bottom, check the _Write the compiled Java code to a .cchi file_ box, and click btn:[OK] at the bottom.
 Setting this option causes the simulator software to check the input file, build a simulator, write the constructed simulator to a `.cchi` file (a compiled Chi file), and quit.
 No simulation of the Chi model is performed at this time.
 
@@ -86,7 +86,7 @@ No simulation of the Chi model is performed at this time.
 === Simulate a compiled model
 
 You can simulate the Chi model from the `.cchi` file now, by selecting that file as source file by right-clicking on it.
-Select the _Simulate Chi file_ or the _Quick simulate Chi file_ option as before, and proceed with setting the simulator options and running the model as-if you selected a normal `.chi` file, as explained in <<tool-compile-and-simulate>> above.
+Select the menu:Simulate Chi file[] or the menu:Quick simulate Chi file[] option as before, and proceed with setting the simulator options and running the model as-if you selected a normal `.chi` file, as explained in <<tool-compile-and-simulate>> above.
 
 
 === Terminating a simulation
@@ -106,4 +106,4 @@ Note however that if the console does not have the focus, this button may not be
 If the button is not visible, click somewhere in the console to make the button appear.
 If even then the button is still not available, it may still appear if you _Maximize_ the console.
 Also note that the button has no effect while the simulator interactively asks for input from the console.
-However, once the console input is provided, and _ENTER_ is pressed, the termination request will be processed.
+However, once the console input is provided, and kbd:[Enter] is pressed, the termination request will be processed.

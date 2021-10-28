@@ -25,8 +25,8 @@ This page provides additional information specific to the CIF simulator.
 === Closing the simulator
 
 Closing the simulator ensures that all its resources are freed, and become available for other applications.
-The CIF simulator however, may ask you to press kbd:[ENTER] to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator.
-If asked, as long as you haven't pressed kbd:[ENTER] yet, the status of the console will still show it's running, and the application can't release its resources.
+The CIF simulator however, may ask you to press kbd:[Enter] to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator.
+If asked, as long as you haven't pressed kbd:[Enter] yet, the status of the console will still show it's running, and the application can't release its resources.
 // Removed the previously present link to documentation about 'closing running applications'.
 
 

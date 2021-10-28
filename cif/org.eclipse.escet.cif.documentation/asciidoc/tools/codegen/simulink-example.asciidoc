@@ -83,7 +83,7 @@ The _Simulink Generation_ tab allows precise definition of what output variables
 
 image::{tools-imgsdir}/codegen/simulink-example/set-output-variables.png[]
 
-After selecting _OK_, the CIF model is translated to C code.
+After clicking btn:[OK], the CIF model is translated to C code.
 Code generation from the `tank_ctrl.cif` files results in two output files.
 The `tank_ctrl.c` file contains the generated C source code.
 The `tank_ctrl_report.txt` is a text file describing the data of the generated SFunction code:

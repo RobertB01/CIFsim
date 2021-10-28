@@ -48,4 +48,4 @@ Note however that if the console does not have the focus, this button may not be
 If the button is not visible, click somewhere in the console to make the button appear.
 If even then the button is still not available, it may still appear if you _Maximize_ the console.
 Also note that the button has no effect while the application interactively asks for input from the console.
-However, once the console input is provided, and kbd:[ENTER] is pressed, the termination request will be processed.
+However, once the console input is provided, and kbd:[Enter] is pressed, the termination request will be processed.

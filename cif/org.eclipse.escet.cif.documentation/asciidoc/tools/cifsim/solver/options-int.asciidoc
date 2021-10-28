@@ -24,7 +24,7 @@ indexterm:[integrator options,algorithm]
 [[tools-cifsim-solver-options-int-algo]]
 === Integration algorithm
 
-The menu:ODE solver integrator algorithm[] option (menu:ODE solver: ODE integrator[] category) can be used to configure the integrator algorithm to use.
+The _ODE solver integrator algorithm_ option (_ODE solver: ODE integrator_ category) can be used to configure the integrator algorithm to use.
 The following algorithms are available:
 
 * Higham and Hall 5(4)
@@ -47,7 +47,7 @@ indexterm:[integrator options,tolerances]
 [[tools-cifsim-solver-options-int-tol]]
 === Absolute and relative tolerance
 
-The menu:ODE solver integrator absolute tolerance[] option (menu:ODE solver: ODE integrator[] category) and the menu:ODE solver integrator relative tolerance[] option (menu:ODE solver: ODE integrator[] category), can be used to configure how precise the results of the integrator should be.
+The _ODE solver integrator absolute tolerance_ option (_ODE solver: ODE integrator_ category) and the _ODE solver integrator relative tolerance_ option (_ODE solver: ODE integrator_ category), can be used to configure how precise the results of the integrator should be.
 The lower the tolerance (or error), the higher the precision of the results, but also the more computing time it costs to get to that precision.
 The absolute precision is the difference between the prediction and the actual value, while the relative precision is that same difference, as a fraction of the actual value.
 In the latter case, precision reduces with increasing values.
@@ -57,7 +57,7 @@ indexterm:[integrator options,step sizes]
 [[tools-cifsim-solver-options-int-step]]
 === Minimum and maximum step size
 
-The interval between two consecutive time points calculated by the integrator can be configured using the menu:ODE solver integrator minimum step size[] option (menu:ODE solver: ODE integrator[] category) and the menu:ODE solver integrator maximum step size[] option (menu:ODE solver: ODE integrator[] category).
+The interval between two consecutive time points calculated by the integrator can be configured using the _ODE solver integrator minimum step size_ option (_ODE solver: ODE integrator_ category) and the _ODE solver integrator maximum step size_ option (_ODE solver: ODE integrator_ category).
 
 The default minimum step size is `1e-15` and the default maximum step size is `0.5`.
 Note however that the last step can be smaller than the value specified for the minimum step size option.
@@ -70,5 +70,5 @@ indexterm:[integrator options,number of steps]
 [[tools-cifsim-solver-options-int-numstep]]
 === Number of steps
 
-The menu:ODE solver integrator number of steps[] option (menu:ODE solver: ODE integrator[] category) can be used to configure the number of steps to use for the experimental link:http://en.wikipedia.org/wiki/Adams_method[Adams-Bashforth] and link:http://en.wikipedia.org/wiki/Adams_method[Adams-Moulton] integrators.
+The _ODE solver integrator number of steps_ option (_ODE solver: ODE integrator_ category) can be used to configure the number of steps to use for the experimental link:http://en.wikipedia.org/wiki/Adams_method[Adams-Bashforth] and link:http://en.wikipedia.org/wiki/Adams_method[Adams-Moulton] integrators.
 The number of steps must be greater or equal to two.

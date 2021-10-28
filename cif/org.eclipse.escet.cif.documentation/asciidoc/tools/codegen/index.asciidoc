@@ -36,7 +36,7 @@ indexterm:[CIF code generator,start]
 
 The generator can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the menu:Project Explorer[] or menu:Package Explorer[] and choose menu:CIF implementation tools[Generate code for CIF specification...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF implementation tools[Generate code for CIF specification...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF implementation tools[Generate code for CIF specification...].
 

@@ -92,13 +92,13 @@ To change to _Config Mode_ or restart _Config Mode_ from Visual Studio:
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/restart_config.png[]).
 
 * A dialog pops up with the question _Restart TwinCAT System in Config Mode_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 * A dialog pops up with the question _Load I/O Devices_.
-Click btn:[Yes] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 * A dialog pops up with the question _Activate Free Run_.
-Click btn:[Yes] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 To change to _Run Mode_ or restart _Run Mode_ from the system tray:
 
@@ -114,7 +114,7 @@ To change to _Run Mode_ or restart _Run Mode_ from Visual Studio:
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/restart_run.png[]).
 
 * A dialog pops up with the question _Restart TwinCAT System in Run Mode_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 In general it is recommended to switch modes via Visual Studio instead of via the system tray icon.
 
@@ -130,20 +130,20 @@ The CIF PLC code generator can generate code into an existing TwinCAT Visual Stu
 The directory that contains the solution must have the same name (except for the file extension) as the solution file (`.sln` file).
 The TwinCAT XAE project (both the directory and the `.tsproj` file) in the solution should have the same name as well.
 The TwinCAT XAE project should contain a TwinCAT Standard PLC project.
-This project may be given any name, and this name can be configured using the menu:PLC project name[] option (menu:Generator[] category).
+This project may be given any name, and this name can be configured using the _PLC project name_ option (_Generator_ category).
 However, in order to be able to import I/O mappings it is highly recommended to always use the default name suggested by TwinCAT (`Untitled1`) for TwinCAT Default PLC projects.
 
 The project should already contain a task.
-This task can be given any name, and this name can be configured using the menu:PLC task name[] option (menu:Generator[] category).
+This task can be given any name, and this name can be configured using the _PLC task name_ option (_Generator_ category).
 By default, TwinCAT Default PLC projects have a task named `PlcTask`.
-This name is the default for the menu:PLC task name[] option as well.
+This name is the default for the _PLC task name_ option as well.
 The cycle time and priority of the task are automatically updated by the PLC code generator, depending on the values provided for the options of the generator.
 The code generator also ensures that the `MAIN` program is instantiated/scheduled on the task.
 
 All `POU` (functions, programs, etc), `DUT` (data types), and `GVL` (global variable lists) code files that are present in the TwinCAT Default PLC project are removed, from both the project and from disk, by the PLC code generator.
 The newly generated code files are (over)written, and the project is updated to include and compile only the newly generated files.
 
-The menu:PLC configuration name[] and menu:PLC resource name[] options have no effect on the TwinCAT output.
+The _PLC configuration name_ and _PLC resource name_ options have no effect on the TwinCAT output.
 
 indexterm:[TwinCAT,usage]
 
@@ -158,18 +158,18 @@ Follow these steps to create a solution and project in TwinCAT, generate PLC cod
 
 ** Click menu:File[New > Project...].
 
-** In the menu:New Project[] window, menu:TwinCAT XAE Project (XML format)[] should already be selected.
-If not, first select menu:TwinCAT Project[] on the left (from the list of menu:Installed Templates[]), and then select menu:TwinCAT XAE Project (XML format)[].
+** In the _New Project_ window, _TwinCAT XAE Project (XML format)_ should already be selected.
+If not, first select _TwinCAT Project_ on the left (from the list of _Installed Templates_), and then select _TwinCAT XAE Project (XML format)_.
 
-** Choose a project name and enter it in the menu:Name[] box at the bottom of the dialog.
+** Choose a project name and Enter it in the _Name_ box at the bottom of the dialog.
 
-** Make sure the menu:Solution name[] is exactly the same, and that the menu:Create directory for solution[] option is enabled.
+** Make sure the _Solution name_ is exactly the same, and that the _Create directory for solution_ option is enabled.
 
-** For menu:Location[], select the directory in which the directory for the solution should be created.
+** For _Location_, select the directory in which the directory for the solution should be created.
 This is usually the directory that contains the script and/or source files you will be using to generate the PLC code.
 
-*** To figure out the directory that contains the ToolDef script, make sure that the menu:Properties[] view is visible in Eclipse.
-Select the ToolDef script in the 'Project Explorer' tab or 'Package Explorer' tab, and look for the menu:location[] property.
+*** To figure out the directory that contains the ToolDef script, make sure that the _Properties_ view is visible in Eclipse.
+Select the ToolDef script in the _Project Explorer_ tab or _Package Explorer_ tab, and look for the _Location_ property.
 // Removed the previously present link to documentation about 'views'.
 
 ** Click btn:[OK] to create the project.
@@ -180,33 +180,33 @@ Select the ToolDef script in the 'Project Explorer' tab or 'Package Explorer' ta
 
 ** Make sure the <<tools-cif2plc-twincat-modes,Config Mode>> is enabled, by <<tools-cif2plc-twincat-modes-change,switching>> to it if it is not the current mode.
 
-** In the project, under menu:I/O[], right click the menu:Devices[] item and choose menu:Scan[].
-Alternatively, select the menu:I/O[] item and click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/scan_devices.png[]).
+** In the project, under _I/O_, right click the _Devices_ item and choose menu:Scan[].
+Alternatively, select the _I/O_ item and click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/scan_devices.png[]).
 
 ** A dialog pops up with the warning _HINT: Not all types of devices can be found automatically_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 ** A dialog pops up where you have to choose the I/O device to scan.
 Normally, if you have only one I/O device, it should already be selected.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 ** A dialog pops up with the question _Scan for boxes_.
-Click btn:[Yes] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 ** A dialog pops up with the question _Activate Free Run_.
-Click btn:[Yes] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 * Create a new TwinCAT PLC project:
 
-** Right click the menu:PLC[] item in the project, and choose menu:Add New Item...[].
+** Right click the _PLC_ item in the project, and choose menu:Add New Item...[].
 
-** In the menu:Add New Item[] dialog, menu:Standard PLC project[] should already be selected.
+** In the _Add New Item_ dialog, _Standard PLC project_ should already be selected.
 
-** Keep the name `Untitled1` in the menu:Name[] box at the bottom of the dialog.
+** Keep the name `Untitled1` in the _Name_ box at the bottom of the dialog.
 
-** Also don't change the menu:Location[] of the project.
+** Also don't change the _Location_ of the project.
 
-** Click menu:Add[] to add the PLC project.
+** Click btn:[Add] to add the PLC project.
 
 * Save the entire solution by clicking menu:File[Save All].
 
@@ -221,11 +221,11 @@ If using a script, wait for the execution of the script to finish (the status in
 
 * Load the I/O mappings:
 
-** In the project, under menu:I/O[], right click menu:Mappings[], and choose menu:Import Mapping Infos...[].
+** In the project, under _I/O_, right click _Mappings_, and choose menu:Import Mapping Infos...[].
 
-** Select the mappings file for your hardware, and click menu:Open[].
+** Select the mappings file for your hardware, and click btn:[Open].
 
-** If the import succeeds, you should see an _Untitled1 Instance - ..._ item under the menu:Mappings[] item.
+** If the import succeeds, you should see an _Untitled1 Instance - ..._ item under the _Mappings_ item.
 
 * Activate the configuration:
 
@@ -233,10 +233,10 @@ If using a script, wait for the execution of the script to finish (the status in
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/activate_cfg.png[]).
 
 ** A dialog pops up with the question _Activate Configuration (Old Configurations will be overwritten!)_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 ** A dialog pops up with the question _Restart TwinCAT System in Run Mode_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 * Start the PLC:
 
@@ -245,7 +245,7 @@ Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc
 
 ** A dialog pops up with the question _Application Port_851 does not exist on the device.
 Do you want to create it and proceed with download?_.
-Click btn:[Yes] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 ** Click menu:PLC[Start].
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/start.png[]).
@@ -267,13 +267,13 @@ To reset the PLC and start the 'simulation' from the beginning, with the same co
 
 * Make sure the hardware is powered up.
 
-* Load the I/O mappings, if the _Untitled1 Instance - ..._ item under the menu:Mappings[] item is no longer present:
+* Load the I/O mappings, if the _Untitled1 Instance - ..._ item under the _Mappings_ item is no longer present:
 
-** In the project, under menu:I/O[], right click menu:Mappings[], and choose menu:Import Mapping Infos...[].
+** In the project, under _I/O_, right click _Mappings_, and choose menu:Import Mapping Infos...[].
 
-** Select the mappings file for your hardware, and click menu:Open[].
+** Select the mappings file for your hardware, and click btn:[Open].
 
-** If the import succeeds, you should see an _Untitled1 Instance - ..._ item under the menu:Mappings[] item.
+** If the import succeeds, you should see an _Untitled1 Instance - ..._ item under the _Mappings_ item.
 
 * Reactivate the configuration:
 
@@ -281,10 +281,10 @@ To reset the PLC and start the 'simulation' from the beginning, with the same co
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/activate_cfg.png[]).
 
 ** A dialog pops up with the question _Activate Configuration (Old Configurations will be overwritten!)_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 ** A dialog pops up with the question _Restart TwinCAT System in Run Mode_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
 * Start the PLC:
 
@@ -293,7 +293,7 @@ Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc
 
 ** A dialog pops up with the question _Application Port_851 does not exist on the device.
 Do you want to create it and proceed with download?_.
-Click btn:[Yes] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 ** Click menu:PLC[Start].
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/start.png[]).
@@ -314,7 +314,7 @@ If using a script, wait for the execution of the script to finish (the status in
 * Switch back to TwinCAT (Microsoft Visual Studio).
 
 * For all _File has been changed outside the environment.
-Reload the new file?_ questions, click btn:[Yes] or press kbd:[ENTER].
+Reload the new file?_ questions, click btn:[Yes] or press kbd:[Enter].
 See the <<tools-cif2plc-twincat-faq>> for instructions on how to disable some of these questions.
 
 * When a _File Modification Detected_ window pops up for the project, click btn:[Reload] to reload the updated project that was written by the CIF tooling.
@@ -327,11 +327,11 @@ See the <<tools-cif2plc-twincat-faq>> for instructions on how to disable some of
 
 * Reload the I/O mappings:
 
-** In the project, under menu:I/O[], right click menu:Mappings[], and choose menu:Import Mapping Infos...[].
+** In the project, under _I/O_, right click _Mappings_, and choose menu:Import Mapping Infos...[].
 
-** Select the mappings file for your hardware, and click menu:Open[].
+** Select the mappings file for your hardware, and click btn:[Open].
 
-** If the import succeeds, you should see an _Untitled1 Instance - ..._ item under the menu:Mappings[] item.
+** If the import succeeds, you should see an _Untitled1 Instance - ..._ item under the _Mappings_ item.
 
 * Activate the configuration:
 
@@ -339,10 +339,10 @@ See the <<tools-cif2plc-twincat-faq>> for instructions on how to disable some of
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/activate_cfg.png[]).
 
 ** A dialog pops up with the question _Activate Configuration (Old Configurations will be overwritten!)_.
-Click btn:[OK] or press kbd:[ENTER].
+Click btn:[OK] or press kbd:[Enter].
 
-** A dialog pops up with the question menu:Restart TwinCAT System in Run Mode[].
-Click btn:[OK] or press kbd:[ENTER].
+** A dialog pops up with the question _Restart TwinCAT System in Run Mode_.
+Click btn:[OK] or press kbd:[Enter].
 
 * Start the PLC:
 
@@ -351,7 +351,7 @@ Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc
 
 ** A dialog pops up with the question _Application Port_851 does not exist on the device.
 Do you want to create it and proceed with download?_.
-Click btn:Yes[] or press kbd:[ENTER].
+Click btn:[Yes] or press kbd:[Enter].
 
 ** Click menu:PLC[Start].
 Alternatively, click the appropriate toolbar item (image:{tools-imgsdir}/cif2plc/start.png[]).
@@ -366,9 +366,9 @@ indexterm:[TwinCAT,FAQ]
 * *Question*: Is there something that can be done about the large number of _File has been changed outside the environment..._ prompts?
 +
 *Answer*: Yes.
-Click menu:Tools[Options...] to show the menu:Options[] dialog.
+Click menu:Tools[Options...] to show the _Options_ dialog.
 On the left, select menu:Environment[Documents].
-Then, on the right, enable the menu:Detect when file is changed outside the environment[] and menu:Auto-load changes, if saved[] options.
+Then, on the right, enable the _Detect when file is changed outside the environment_ and _Auto-load changes, if saved_ options.
 
 * *Question*: Why doesn't importing the I/O mappings have any effect?
 +
@@ -384,10 +384,10 @@ What should I do?
 * *Question*: Why does opening the MAIN program take so long in Run Mode?
 +
 *Answer*: As the generated code becomes larger, it can take a long time for TwinCAT to set up the environment for inline monitoring of the MAIN program.
-To disable inline monitoring, click menu:Tools[Options...] to show the menu:Options[] dialog.
+To disable inline monitoring, click menu:Tools[Options...] to show the _Options_ dialog.
 On the left, select menu:TwinCAT[PLC Environment > Text Editor].
-Then, on the right, switch to the menu:Monitoring[] tab.
-Disable the menu:Enable inline monitoring option[].
+Then, on the right, switch to the _Monitoring_ tab.
+Disable the _Enable inline monitoring option_.
 
 
 * *Question*: TwinCAT hangs for long periods of time, before crashing and automatically being restarted by Windows.
@@ -397,8 +397,8 @@ What should I do?
 In such cases, reduce the size of the generated code, by reducing the size of the CIF model for which you are generating the code.
 
 
-* *Question*: I get an error stating 'Reading file failed.
-[...]'.
+* *Question*: I get an error stating _Reading file failed.
+[...]_.
 What should I do?
 +
 *Answer*: The generated code is too large for TwinCAT to handle.

@@ -26,7 +26,7 @@ The user makes choices via the GUI as well.
 The following is an example of the simulator interactively asking the user to choose a possible transition:
 
 image::{tools-imgsdir}/cifsim/input/interactive_gui_basic.png[]
-The events of the system are vertically listed, in alphabetical order, with event `tau` at the end, just before the menu:time delay[], and menu:reset[] and menu:undo[].
+The events of the system are vertically listed, in alphabetical order, with event `tau` at the end, just before the btn:[time delay], btn:[reset], and btn:[undo].
 If there are too many elements to fit vertically, more columns are used.
 If things still don't fit, a horizontal scroll bar is shown.
 
@@ -35,13 +35,13 @@ If things still don't fit, a horizontal scroll bar is shown.
 
 Choices for events are only present if the events are interactively chosen.
 If they are (semi-)automatically chosen, they are not shown in the GUI.
-Similarly, choices for menu:time delay[] are only shown if time transitions or their durations are interactively chosen.
+Similarly, choices for _time delay_ are only shown if time transitions or their durations are interactively chosen.
 For more information, see the <<tools-cifsim-input-gui-semiauto>> section below.
 
 For event `tau`, the choices are additionally only shown if there is at least one `tau` edge in the specification.
 
-The choice to menu:reset[] the simulation is only shown if <<tools-cifsim-input-history-reset-undo,resetting>> the simulation is enabled.
-Similarly, the choice to menu:undo[] transitions is only shown if <<tools-cifsim-input-history-reset-undo,undo>> is enabled.
+The choice to _reset_ the simulation is only shown if <<tools-cifsim-input-history-reset-undo,resetting>> the simulation is enabled.
+Similarly, the choice to _undo_ transitions is only shown if <<tools-cifsim-input-history-reset-undo,undo>> is enabled.
 
 If none of the choices are to be shown in the GUI, the GUI itself is not shown at all.
 
@@ -49,7 +49,7 @@ If none of the choices are to be shown in the GUI, the GUI itself is not shown a
 === Buttons
 
 For each element, there are two buttons.
-The left button shows the name of the event, or a description of the choice (e.g. menu:time delay[], menu:reset[]), and can be used to quickly choose a transition.
+The left button shows the name of the event, or a description of the choice (e.g. _time delay_, _reset_), and can be used to quickly choose a transition.
 The second button shows an arrow, and can be used to show a popup menu, presenting additional choices.
 What exactly is chosen when clicking the button, and what exactly is shown in the popup menu, differs for the different choices.
 The sections below provide further details.
@@ -65,7 +65,7 @@ For non-environment (urgent) events, as well as for non-event choices, the label
 
 Before each element a colored box is shown.
 The box is gray while that particular choice is not available.
-If choices are available, the box is green for <<lang-tut-extensions-synthesis-evtctrl,controllable>> events, red for <<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events, blue for other events, and black for everything else (menu:time delay[], menu:reset[], and menu:undo[]).
+If choices are available, the box is green for <<lang-tut-extensions-synthesis-evtctrl,controllable>> events, red for <<lang-tut-extensions-synthesis-evtctrl,uncontrollable>> events, blue for other events, and black for everything else (_time delay_, _reset_, and _undo_).
 The text of the left button has the same color as the box.
 The colors help to quickly identify elements with possible choices.
 
@@ -108,7 +108,7 @@ image::{tools-imgsdir}/cifsim/input/interactive_gui_time.png[]
 
 At most `0.30000000000000066` units of time can pass (`0.300` in short form).
 The first option is to choose a custom duration.
-The second option is to choose that maximum duration, similar to clicking the menu:time delay[] button.
+The second option is to choose that maximum duration, similar to clicking the btn:[time delay] button.
 The following image shows the dialog that is presented to the user to enter the custom duration:
 
 image::{tools-imgsdir}/cifsim/input/interactive_gui_duration.png[]
@@ -164,11 +164,11 @@ See also the <<tools-cifsim-input-gui-availability>> section above.
 
 By enabling semi-automatic mode to automatically choose time transitions (option value `time`), while not automatically choosing the delay durations of time transitions (option value `timedur`), time transitions are automatically chosen, but the user is still asked to choose the duration of the time transitions.
 For this choice, all non-time choices are disabled, making only the time related choices available.
-The effect of the menu:time delay[] button remains the same, i.e. choosing the maximum allowed or available delay.
+The effect of the btn:[time delay] button remains the same, i.e. choosing the maximum allowed or available delay.
 The popup menu for the time delay also still shows the default options, to choose either a specific custom delay duration, or the maximum duration.
 
-By enabling semi-automatic mode to automatically choose the delay durations of time transitions (option value `timedur`), while not automatically choosing the time transition themselves (option value `time`), the effect of the menu:time delay[] button changes from choosing the time transition with the maximum allowed or available delay, to choosing the time transition and letting the <<tools-cifsim-input-chapter-automatic,automatic input component>> choose the actual delay duration, based on its own configuration.
-The popup menu for the time delay then only shows one option, to let the automatic input component choose, identical to the effect of the menu:time delay[] button.
+By enabling semi-automatic mode to automatically choose the delay durations of time transitions (option value `timedur`), while not automatically choosing the time transition themselves (option value `time`), the effect of the btn:[time delay] button changes from choosing the time transition with the maximum allowed or available delay, to choosing the time transition and letting the <<tools-cifsim-input-chapter-automatic,automatic input component>> choose the actual delay duration, based on its own configuration.
+The popup menu for the time delay then only shows one option, to let the automatic input component choose, identical to the effect of the btn:[time delay] button.
 
 
 === Termination

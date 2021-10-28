@@ -174,9 +174,9 @@ The _Properties_ <<use-terminology-view,view>> can be used to find out where the
 With the _Properties_ view visible, select a file, directory, or project in the _Project Explorer_ or _Package Explorer_ view.
 In the _Property_ column of the _Properties_ view, look for _location_.
 The corresponding _Value_ indicates where the file, directory, or project is located on your hard disk.
-Note that you can right click the location and choose _Copy_ to copy the location to the clipboard.
+Note that you can right click the location and choose menu:Copy[] to copy the location to the clipboard.
 
-As an alternative to the _Properties_ view, you can also use the _Properties_  window.
+As an alternative to the _Properties_ view, you can also use the _Properties_ window.
 Right click a file, directory, or project in the _Project Explorer_ or _Package Explorer_ view and choose menu:Properties[].
 In the window that shows, select _Resource_ on the left, if it is not already selected.
 Then, on the right, look for the _Location_.

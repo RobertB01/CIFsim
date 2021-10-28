@@ -41,7 +41,7 @@ indexterm:[event-based nonconflicting check,start]
 
 The tool can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply nonconflicting check...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply nonconflicting check...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Event-based synthesis tools > Apply nonconflicting check...].
 

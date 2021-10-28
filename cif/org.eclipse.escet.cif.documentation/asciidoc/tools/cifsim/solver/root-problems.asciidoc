@@ -42,7 +42,7 @@ indexterm:[ODE,maximum check interval]
 
 === Solution 1: maximum check interval
 
-The first solution is to use the menu:ODE solver root finder maximum check interval[] option (menu:ODE solver: ODE root finder[] category).
+The first solution is to use the _ODE solver root finder maximum check interval_ option (_ODE solver: ODE root finder_ category).
 This option can be used to set the maximum time interval between two consecutive checks of the sign of the guard.
 By default, this is `0.5` time units.
 If we set this value to `0.001`, then we ensure that at least once every `0.001` time units, the guard sign is checked.

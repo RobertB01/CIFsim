@@ -119,7 +119,7 @@ indexterm:[normal console output,option]
 
 === Normal output option
 
-In the option dialog, each of the different types of output can be enabled and disabled individually (menu:Normal output[] option, menu:Output[] category).
+In the option dialog, each of the different types of output can be enabled and disabled individually (_Normal output_ option, _Output_ category).
 
 From the command line, using the `-o` or `--output` option, the names of the different types of normal output, as specified between square brackets, should be used, separated by commas.
 The output types indicated with '(default)' are enabled when default settings are used, i.e. when the `-o` or `--output` option is not used.
@@ -154,8 +154,8 @@ indexterm:[normal console output,state filtering]
 === State filtering
 
 By default, when printing states, all state objects are included.
-Using the menu:Normal output state filters[] option (menu:Output[] category), the state objects can be filtered.
-The menu:Normal output state filters[] option only has effect if states are printed at all.
+Using the _Normal output state filters_ option (_Output_ category), the state objects can be filtered.
+The _Normal output state filters_ option only has effect if states are printed at all.
 
 As value for the option, comma separated _filters_ should be supplied.
 Each filter specifies one or more state objects.
