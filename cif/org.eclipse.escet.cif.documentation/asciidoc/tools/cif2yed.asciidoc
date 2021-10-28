@@ -375,7 +375,7 @@ Good results for <<tools-cif2yed-diagram-model,model diagrams>> can often be obt
 Select menu:Layout[Orthogonal > Classic] to show the 'Orthogonal Layout' window.
 Click the btn:[Dock] button to dock the window.
 Once docked, select btn:[Integrated] for btn:[Edge Labeling] and btn:[Free] for btn:[Edge Label Model].
-Also enable the btn:[Length Reduction] and btn:[Consider Node Labels] options.
+Also enable the btn:[Consider Node Labels] option.
 Press the btn:[Apply changes] button (the green rectangle) at the top of the docked window to apply the changes to the layout.
 
 You may want to try different values for the 'Grid' option, to get more or less spacing between nodes.
