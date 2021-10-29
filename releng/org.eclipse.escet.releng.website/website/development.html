@@ -1,0 +1,144 @@
+﻿<!doctype html>
+<!--
+  Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/eclipse-escet.css">
+    <link rel="stylesheet" href="assets/eclipse-escet-project.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <title>Development | Eclipse ESCET</title>
+  </head>
+
+  <body class="escet-light">
+
+    <!-- Top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light escet-bg">
+      <div class="container-fluid">
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / Project</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / Project</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="./">Eclipse ESCET / Project</a></li>
+                <li><a class="dropdown-item" href="cif">Eclipse ESCET / CIF</a></li>
+                <li><a class="dropdown-item" href="chi">Eclipse ESCET / Chi</a></li>
+                <li><a class="dropdown-item" href="tooldef">Eclipse ESCET / ToolDef</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="download.html">Download</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="documentation.html">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="development.html">Development</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact-and-support.html">Contact/Support</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Intro -->
+    <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
+      <div class="clearfix mb-4 mb-md-0">
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
+      </div>
+      <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
+        <h1 class="display-4 fw-bold">Eclipse ESCET™ development</h1>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="px-4 pt-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
+          <p>
+            Eclipse ESCET is an Eclipse Foundation open-source project.
+            We develop the <a href="cif">CIF</a>, <a href="chi">Chi</a> and <a href="tooldef">ToolDef</a> languages and tools.
+          </p>
+          <h4 class="mt-5">Contributing to Eclipse ESCET</h4>
+          <p>
+            Interested in contributing to the Eclipse ESCET project?
+            Contributions are always welcome!
+            <ul>
+              <li>Check out the <a href="development/development/contributing.html">contributing information</a> to get started quickly.</li>
+              <li><a href="development/development/dev-list.html">Contact</a> the Eclipse ESCET developers if you have any questions.</li>
+            </ul>
+          </p>
+          <p>
+            <div class="d-grid gap-3 d-sm-flex">
+              <a class="btn escet-btn btn-lg px-4" href="development/development/contributing.html">Contribute now</a>
+              <a class="btn escet-outline-btn btn-lg px-4" href="https://gitlab.eclipse.org/eclipse/escet/escet">GitLab</a>
+            </div>
+          </p>
+          <h4 class="mt-5">Eclipse ESCET developer information</h4>
+          <p>
+            Check out the Eclipse ESCET development documentation for more info on the development of the Eclipse ESCET toolkit:
+            <ul>
+              <li>Our development process</li>
+              <li>Issue tracking</li>
+              <li>Setting up a developer environment</li>
+              <li>Coding standards</li>
+              <li>Builds</li>
+              <li>Common libraries and development tools</li>
+              <li>... and much more</li>
+            </ul>
+          </p>
+          <p>
+            <div class="d-grid gap-3 d-sm-flex">
+              <a class="btn escet-btn btn-lg px-4" href="development">Development documentation</a>
+            </div>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container">
+      <footer class="pt-3 mt-4">
+        <ul class="nav justify-content-center border-top pb-1 mb-1">
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org">Eclipse Home</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/privacy.php">Eclipse Privacy Policy</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/termsofuse.php">Eclipse Terms of Use</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/copyright.php">Eclipse Copyright Agent</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal">Eclipse Legal</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="legal.html">Eclipse ESCET Legal</a></li>
+        </ul>
+        <p class="text-center text-muted">Copyright © 2010, 2021 Contributors to the Eclipse Foundation</p>
+      </footer>
+    </div>
+
+  </body>
+</html>

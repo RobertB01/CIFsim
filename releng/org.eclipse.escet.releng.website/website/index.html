@@ -1,0 +1,205 @@
+﻿<!doctype html>
+<!--
+  Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/eclipse-escet.css">
+    <link rel="stylesheet" href="assets/eclipse-escet-project.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <title>Home | Eclipse ESCET</title>
+  </head>
+
+  <body class="escet-light">
+
+    <!-- Top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light escet-bg">
+      <div class="container-fluid">
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / Project</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / Project</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="./">Eclipse ESCET / Project</a></li>
+                <li><a class="dropdown-item" href="cif">Eclipse ESCET / CIF</a></li>
+                <li><a class="dropdown-item" href="chi">Eclipse ESCET / Chi</a></li>
+                <li><a class="dropdown-item" href="tooldef">Eclipse ESCET / ToolDef</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="download.html">Download</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="documentation.html">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="development.html">Development</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact-and-support.html">Contact/Support</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Intro -->
+    <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
+      <div class="clearfix mb-4 mb-md-0">
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
+      </div>
+      <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
+        <h1 class="display-4 fw-bold">Eclipse ESCET™</h1>
+        <p class="lead fw-normal fst-italic">The Eclipse ESCET project provides a model-based approach and toolkit for the development of supervisory controllers.</p>
+        <a class="btn escet-btn" href="about.html">Learn more</a>
+      </div>
+    </div>
+
+    <!-- Languages and tools -->
+    <div class="container px-4 py-5">
+      <h1 class="display-4 fw-bold text-center">Languages and tools</h1>
+      <div class="row g-4 pt-3 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 bg-primary escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-tools"></use></svg>
+          </div>
+          <div class="d-flex flex-column h-100">
+            <h2>CIF</h2>
+            <p class="lead fw-normal">CIF is a modeling language and extensive toolset supporting the entire development process of supervisory controllers.</p>
+            <div class="col d-flex">
+              <a class="btn btn-outline-primary align-self-end" href="cif">Learn more</a>
+            </div>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 bg-success escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-tools"></use></svg>
+          </div>
+          <div class="d-flex flex-column h-100">
+            <h2>Chi</h2>
+            <p class="lead fw-normal">Chi is a modeling language and toolset to analyze the performance of supervisory controllers.</p>
+            <div class="col d-flex">
+              <a class="btn btn-outline-success align-self-end" href="chi">Learn more</a>
+            </div>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg-purple escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-tools"></use></svg>
+          </div>
+          <div class="d-flex flex-column h-100">
+            <h2>ToolDef</h2>
+            <p class="lead fw-normal">ToolDef is a cross-platform and machine-independent scripting language to automate CIF and Chi tools.</p>
+            <div class="col d-flex">
+              <a class="btn escet-outline-btn-purple align-self-end" href="tooldef">Learn more</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Get started -->
+    <div class="px-4 mt-3 mb-5 text-center">
+      <h1 class="display-4 fw-bold">Getting started</h1>
+      <div class="mx-auto">
+        <p class="lead fw-normal mb-1">The Eclipse ESCET toolkit contains the tooling for CIF, Chi and ToolDef.</p>
+        <p class="lead fw-normal mb-4">It is portable and ready to go!</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+          <a class="btn escet-btn btn-lg px-4 mb-3" href="download.html">Download</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- More information -->
+    <div class="mb-5">
+      <div class="col-12 mx-auto px-3">
+        <div class="row justify-content-center">
+          <div class="col-11 col-md-5 col-xl-4 px-4 py-3 my-3 my-md-4 mx-md-3 escet-bg escet-bg-opacity-125 escet-shadow">
+            <h2>Documentation</h2>
+            <p>Learn more about the Eclipse ESCET project and toolkit as a whole:</p>
+            <p>
+              <ul class="icon-list escet-arrow-icon-list mb-0">
+                <li><a href="documentation.html">Eclipse ESCET general toolkit documentation</a></li>
+                <li><a href="release-notes.html">Eclipse ESCET general toolkit release notes</a></li>
+                <li><a href="legal.html">Eclipse ESCET license and legal information</a></li>
+              </ul>
+            </p>
+            <p class="mb-0">Or learn more about its languages and tools: <a href="cif">CIF</a>, <a href="chi">Chi</a> and <a href="tooldef">ToolDef</a>.</p>
+          </div>
+
+          <div class="col-11 col-md-5 col-xl-4 px-4 py-3 my-3 my-md-4 mx-md-3 escet-bg escet-bg-opacity-125 escet-shadow">
+            <h2>Community</h2>
+            <p>Eclipse ESCET is an open-source project. Don't hesitate to contact us in case of questions or to report issues. We also welcome your contributions.</p>
+            <ul class="icon-list escet-arrow-icon-list mb-0">
+              <li><a href="contact-and-support.html">Contact and support</a></li>
+              <li><a href="development.html">Development and contributing</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Incubation -->
+    <div class="px-4 mb-5 text-center">
+      <h1 class="display-4 fw-bold">Incubation phase</h1>
+      <div class="row justify-content-center">
+        <div class="col-11 col-md-5 col-xl-4 px-4 mx-md-3">
+          <p class="lead fw-normal mb-4">The Eclipse ESCET project is a relatively new Eclipse Foundation open-source project and is currently in the <a href="https://www.eclipse.org/projects/handbook/#starting-incubation">incubation phase</a>.</p>
+        </div>
+        <div class="col-11 col-md-5 col-xl-4 px-4 mt-md-0 mx-md-3">
+          <img src="assets/eclipse-incubation.png" class="img-fluid mt-1" alt="Eclipse Incubation" width="300" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container">
+      <footer class="pt-3 mt-4">
+        <ul class="nav justify-content-center border-top pb-1 mb-1">
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org">Eclipse Home</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/privacy.php">Eclipse Privacy Policy</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/termsofuse.php">Eclipse Terms of Use</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/copyright.php">Eclipse Copyright Agent</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal">Eclipse Legal</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="legal.html">Eclipse ESCET Legal</a></li>
+        </ul>
+        <p class="text-center text-muted">Copyright © 2010, 2021 Contributors to the Eclipse Foundation</p>
+      </footer>
+    </div>
+
+    <!-- Icons -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="bi-tools" viewBox="0 0 16 16">
+        <path d="M1 0L0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"></path>
+      </symbol>
+    </svg>
+
+  </body>
+</html>

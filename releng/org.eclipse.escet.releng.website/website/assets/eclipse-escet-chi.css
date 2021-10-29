@@ -1,0 +1,22 @@
+/******************************************************************************
+ * Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the terms
+ * of the MIT License which is available at https://opensource.org/licenses/MIT
+ *
+ *  SPDX-License-Identifier: MIT
+ *****************************************************************************/
+
+/* Colors. */
+
+:root {
+  --escet-color-rgb:         25,135,84;  /* From Bootstrap: --bs-success-rgb */
+                                         /* HSV color: HSV 152,81,52 */
+  --escet-color-light20-rgb: 51,132,94;  /* RGB -> HSV -> 61% of S -> RGB */
+  --escet-color-light40-rgb: 78,132,107; /* RGB -> HSV -> 41% of S -> RGB */
+  --escet-color-dark20-rgb:  20,107,66;  /* RGB -> HSV -> 42% of V -> RGB */
+  --escet-color-dark40-rgb:  15,81,50;   /* RGB -> HSV -> 32% of V -> RGB */
+}

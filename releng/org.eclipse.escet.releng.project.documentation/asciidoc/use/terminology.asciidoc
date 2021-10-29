@@ -41,7 +41,7 @@ You can choose any directory you like to serve as a workspace, as long as you ha
 It is usually best to choose an empty directory or a directory that does not yet exist as your workspace.
 
 Typically, and by default, a directory named `workspace` inside your Eclipse ESCET installation directory is used.
-Eclipse will ask you to choose a workspace directory when you start the Eclipse ESCET IDE for the <<download-install-first-start,first time>>.
+Eclipse will ask you to choose a workspace directory when you start the Eclipse ESCET IDE for the <<use-starting-first-time,first time>>.
 
 indexterm:[workspace,metadata]
 indexterm:[metadata,workspace]

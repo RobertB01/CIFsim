@@ -61,7 +61,7 @@ The ToolDef language features the following concepts:
 
 * A registered library mechanism, allowing easy importing of libraries of tools.
 
-* Platform independent path handling, allowing a single script with relative paths to be executed on Window, Linux, and Mac OS X.
+* Platform independent path handling, allowing a single script with relative paths to be executed on Window, Linux, and macOS.
 
 For more information, see also the <<lang-ref-chapter-index,language reference>> documentation.
 
@@ -70,7 +70,7 @@ indexterm:[tooling,features]
 
 The ToolDef tooling features:
 
-* Platform and machine independent execution of ToolDef scripts, on Microsoft Windows, Linux, and Mac OS X.
+* Platform and machine independent execution of ToolDef scripts, on Microsoft Windows, Linux, and macOS.
 
 * Command line execution.
 

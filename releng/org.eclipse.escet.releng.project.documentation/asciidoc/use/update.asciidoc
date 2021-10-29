@@ -14,14 +14,14 @@ include::_part_attributes.asciidoc[]
 
 indexterm:[update]
 
-[[download-install-update]]
-== Updating Eclipse ESCET tools
+[[use-update]]
+== Updating Eclipse ESCET IDE
 
-New versions of the Eclipse ESCET tools can be used side-by-side older versions.
+New versions of the Eclipse ESCET IDE can be used side-by-side older versions.
 
-To download and install a new version of Eclipse ESCET tools side-by-side an older version, follow these steps:
+To download and install a new version of Eclipse ESCET IDE side-by-side an older version, follow these steps:
 
-* Follow the normal <<download-install-install,installation instructions>>, extracting the new version to a different directory than the old version.
+* Download and extract the new version as usual, but extract the new version to a different directory than the old version.
 
 * You can copy the data (<<use-terminology-project,projects>>, files, and settings) of an earlier installation to the new installation.
 While neither version of the Eclipse ESCET IDE is running, simply remove the <<use-terminology-workspace,workspace>> directory of the new installation, and copy the workspace directory of the earlier installation to the new installation.

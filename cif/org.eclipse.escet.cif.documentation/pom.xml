@@ -31,7 +31,7 @@
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <configuration>
                     <sourceDirectory>asciidoc</sourceDirectory>
-                    <sourceDocumentName>index.asciidoc</sourceDocumentName>
+                    <sourceDocumentName>documentation.asciidoc</sourceDocumentName>
                     <attributes>
                         <imagesdir />
                     </attributes>
@@ -44,7 +44,9 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <outputFile>${project.build.directory}/eclipse-help-intermediate/index.html</outputFile>
+                            <outputFile>
+                                ${project.build.directory}/eclipse-help-intermediate/documentation.html
+                            </outputFile>
                             <backend>html5</backend>
                             <sourceHighlighter>coderay</sourceHighlighter>
                             <logHandler>
@@ -100,7 +102,7 @@
                             <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <outputFile>${project.build.directory}/website-intermediate/index.html</outputFile>
+                            <outputFile>${project.build.directory}/website-intermediate/documentation.html</outputFile>
                             <backend>html5</backend>
                             <sourceHighlighter>coderay</sourceHighlighter>
                             <logHandler>
@@ -146,7 +148,7 @@
                         <configuration>
                             <arguments>
                                 <argument>${project.basedir}/asciidoc</argument>
-                                <argument>${project.build.directory}/eclipse-help-intermediate/index.html</argument>
+                                <argument>${project.build.directory}/eclipse-help-intermediate/documentation.html</argument>
                                 <argument>${project.build.directory}/eclipse-help</argument>
                                 <argument>--eclipse-help</argument>
                             </arguments>
@@ -161,7 +163,7 @@
                         <configuration>
                             <arguments>
                                 <argument>${project.basedir}/asciidoc</argument>
-                                <argument>${project.build.directory}/website-intermediate/index.html</argument>
+                                <argument>${project.build.directory}/website-intermediate/documentation.html</argument>
                                 <argument>${project.build.directory}/website</argument>
                                 <argument>--website</argument>
                             </arguments>

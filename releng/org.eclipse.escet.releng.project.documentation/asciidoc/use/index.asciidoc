@@ -13,11 +13,14 @@
 include::_part_attributes.asciidoc[]
 
 [[use-chapter-index]]
-== Using Eclipse ESCET tools
+== Using Eclipse ESCET IDE
 
-After you have <<download-install-install,installed>> the Eclipse ESCET tools, you can start using them.
-The following information is available to get you started on using the Eclipse ESCET tools in general, and applies to the various tools in the toolkit:
+After you have downloaded and extracted the Eclipse ESCET IDE, you can start using it.
+The following information is available to get you started on using the Eclipse ESCET IDE in general, and applies to the various tools in the toolkit:
 
+* <<use-starting-first-time>>
+* <<use-update>>
+* <<use-remove>>
 * <<use-terminology>>
 * <<use-projects>>
 * <<use-edit-exec>>

@@ -27,17 +27,22 @@ class AsciiDocHtmlUtil {
     }
 
     /**
-     * Get an 'href' value from a given multi-page HTML page to (a section in) another page:
+     * Get an 'href' value from a given multi-page HTML page to (a section in) a(nother) page:
      * <ul>
      * <li>If no section id is given, a reference to the entire file is returned.</li>
-     * <li>If the section in the other page is the first section, a reference to the entire file is returned.</li>
+     * <li>If the section in the 'to' page is the first section, a reference to the entire file is returned.</li>
      * <li>Otherwise, a reference to the section within the file is returned.</li>
      * </ul>
      *
+     * <p>
+     * If it concerns a reference to the page itself and it is not a reference to a section on the page, {@code #} is
+     * returned to refer to the current page.
+     * </p>
+     *
      * @param fromPage The page from which the 'href' is referenced.
-     * @param toPage The other page to which the 'href' should point.
-     * @param singlePageId The AsciiDoc-generated single-page HTML id of the section in the other page to which to
-     *     refer, or {@code null} to refer to the entire file.
+     * @param toPage The page to which the 'href' should point.
+     * @param singlePageId The AsciiDoc-generated single-page HTML id of the section in the 'to' page to which to refer,
+     *     or {@code null} to refer to the entire file.
      * @return The 'href' value.
      */
     static String getFileOrSectionHref(AsciiDocHtmlPage fromPage, AsciiDocHtmlPage toPage, String singlePageId) {

@@ -13,7 +13,7 @@
 // Including common attributes to set for all documents within this directory.
 include::_root_attributes.asciidoc[]
 
-// Enable custom style in index-docinfo.html.
+// Enable custom style in *-docinfo*.html.
 :docinfo: private
 
 // Use this for asciidoc documents containing a title.
@@ -34,7 +34,7 @@ Visit the link:https://eclipse.org/escet[project website] for downloads, install
 
 [WARNING]
 ====
-The Eclipse ESCET project, including the Chi language and toolset, is currently in the link:https://wiki.eclipse.org/Development_Resources/Process_Guidelines/What_is_Incubation[Incubation Phase].
+The Eclipse ESCET project, including the Chi language and toolset, is currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
 
 image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
 ====
@@ -71,6 +71,10 @@ The <<release-notes-chapter-index,Release notes>> provides information on all Ch
 
 Legal::
 See <<legal-chapter-index,Legal>> for copyright and licensing information.
+
+A screenshot showing a Chi model and simulation with visualization:
+
+image::{imgsdir}/screenshot_ide.png[]
 
 
 // Tutorial
@@ -161,7 +165,7 @@ include::release-notes.asciidoc[]
 
 // Legal
 
-include::legal.asciidoc[]
+include::documentation-legal.asciidoc[]
 
 
 ifdef::pdf-output[]

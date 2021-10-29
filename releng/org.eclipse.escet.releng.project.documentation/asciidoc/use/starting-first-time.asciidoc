@@ -12,7 +12,7 @@
 
 include::_part_attributes.asciidoc[]
 
-[[download-install-first-start]]
+[[use-starting-first-time]]
 == Starting Eclipse ESCET IDE for the first time
 
 When you start the Eclipse ESCET IDE for the first time, it will ask you to choose a <<use-terminology-workspace,workspace>> directory.

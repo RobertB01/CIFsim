@@ -1,0 +1,196 @@
+﻿<!doctype html>
+<!--
+  Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+
+  See the NOTICE file(s) distributed with this work for additional
+  information regarding copyright ownership.
+
+  This program and the accompanying materials are made available under the terms
+  of the MIT License which is available at https://opensource.org/licenses/MIT
+
+  SPDX-License-Identifier: MIT
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/eclipse-escet.css">
+    <link rel="stylesheet" href="../assets/eclipse-escet-cif.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <title>Home | CIF</title>
+  </head>
+
+  <body class="escet-dark">
+
+    <!-- Top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
+      <div class="container-fluid">
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / CIF</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / CIF</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="..">Eclipse ESCET / Project</a></li>
+                <li><a class="dropdown-item" href="./">Eclipse ESCET / CIF</a></li>
+                <li><a class="dropdown-item" href="../chi">Eclipse ESCET / Chi</a></li>
+                <li><a class="dropdown-item" href="../tooldef">Eclipse ESCET / ToolDef</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../download.html">Download</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="documentation.html">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../development.html">Development</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../contact-and-support.html">Contact/Support</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Intro -->
+    <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
+      <div class="clearfix mb-4 mb-md-0">
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
+      </div>
+      <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
+        <h1 class="display-4 fw-bold">CIF</h1>
+        <p class="lead fw-normal fst-italic">CIF is a declarative modeling language for the specification of discrete event, timed, and hybrid systems as a collection of synchronizing automata.</p>
+        <p class="lead fw-normal fst-italic">The CIF tooling supports the entire development process of controllers, including among others specification, supervisory controller synthesis, simulation-based validation and visualization, verification, real-time testing, and code generation.</p>
+        <a class="btn escet-btn" href="about.html">Learn more</a>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="container px-4 py-5">
+      <h1 class="display-4 fw-bold text-center">Features</h1>
+      <div class="row g-4 pt-3 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-list-check"></use></svg>
+          </div>
+          <div>
+            <h2>Powerful language</h2>
+            <p class="lead fw-normal">CIF features a powerful declarative automata-based modeling language for the specification of discrete event, timed and hybrid systems.</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-tools"></use></svg>
+          </div>
+          <div>
+            <h2>Extensive tools</h2>
+            <p class="lead fw-normal">The CIF tooling supports the entire development process of controllers, from specification to code generation.</p>
+          </div>
+        </div>
+        <div class="col d-flex align-items-start">
+          <div class="escet-icon-square text-dark flex-shrink-0 me-3 escet-bg escet-bg-opacity-125">
+            <svg class="escet-bi" width="1em" height="1em"><use xlink:href="#bi-trophy"></use></svg>
+          </div>
+          <div>
+            <h2>World-class algorithms</h2>
+            <p class="lead fw-normal">The CIF toolset features world-class algorithms for synthesis of supervisory controllers. Focus on the 'what' rather than the 'how'!</p>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <a class="btn escet-btn" href="about.html">Learn more</a>
+      </div>
+    </div>
+
+    <!-- Get started -->
+    <div class="px-4 mt-3 mb-5 text-center">
+      <h1 class="display-4 fw-bold">Getting started</h1>
+      <div class="mx-auto">
+        <p class="lead fw-normal mb-1">The CIF tooling is part of the Eclipse ESCET toolkit.</p>
+        <p class="lead fw-normal mb-4">It is available for Windows, Linux and macOS, portable and ready to go.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+          <a class="btn escet-btn btn-lg px-4" href="../download.html">Download</a>
+        </div>
+      </div>
+      <img src="cif-screenshot-ide.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Eclipse ESCET IDE with CIF" width="700" loading="lazy">
+    </div>
+
+    <!-- More information -->
+    <div class="mb-5">
+      <div class="col-12 mx-auto px-3">
+        <div class="row justify-content-center">
+          <div class="col-11 col-md-5 col-xl-4 px-4 py-3 my-3 my-md-4 mx-md-3 escet-bg escet-bg-opacity-125 escet-shadow">
+            <h2>CIF</h2>
+            <p>Learn more about CIF from the extensive documentation that covers both the CIF language and tools:</p>
+            <ul class="icon-list escet-arrow-icon-list mb-0">
+              <li><a href="documentation.html">CIF documentation home page</a></li>
+              <li><a href="language-tutorial">CIF language tutorial</a></li>
+              <li><a href="language-reference">CIF language reference</a></li>
+              <li><a href="tools">CIF tools</a></li>
+              <li><a href="examples.html">CIF examples</a></li>
+              <li><a href="release-notes.html">CIF release notes</a></li>
+            </ul>
+          </div>
+
+          <div class="col-11 col-md-5 col-xl-4 px-4 py-3 my-3 my-md-4 mx-md-3 escet-bg escet-bg-opacity-125 escet-shadow">
+            <h2>Eclipse ESCET</h2>
+            <p>CIF is part of the Eclipse ESCET open-source project. Learn more about the project and toolkit:</p>
+            <ul class="icon-list escet-arrow-icon-list mb-0">
+              <li><a href="..">Eclipse ESCET project</a></li>
+              <li><a href="../documentation.html">Eclipse ESCET general toolkit documentation</a></li>
+              <li><a href="../contact-and-support.html">Eclipse ESCET contact and support</a></li>
+              <li><a href="../legal.html">Eclipse ESCET license and legal information</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container">
+      <footer class="pt-3 mt-4">
+        <ul class="nav justify-content-center border-top pb-1 mb-1">
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org">Eclipse Home</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/privacy.php">Eclipse Privacy Policy</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/termsofuse.php">Eclipse Terms of Use</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal/copyright.php">Eclipse Copyright Agent</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="https://eclipse.org/legal">Eclipse Legal</a></li>
+          <li class="nav-link disabled text-muted">|</li>
+          <li class="nav-item"><a class="nav-link px-2 text-muted" href="../legal.html">Eclipse ESCET Legal</a></li>
+        </ul>
+        <p class="text-center text-muted">Copyright © 2010, 2021 Contributors to the Eclipse Foundation</p>
+      </footer>
+    </div>
+
+    <!-- Icons -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <symbol id="bi-list-check" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+      </symbol>
+      <symbol id="bi-tools" viewBox="0 0 16 16">
+        <path d="M1 0L0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"></path>
+      </symbol>
+      <symbol id="bi-trophy" viewBox="0 0 16 16">
+        <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935zM3.504 1c.007.517.026 1.006.056 1.469.13 2.028.457 3.546.87 4.667C5.294 9.48 6.484 10 7 10a.5.5 0 0 1 .5.5v2.61a1 1 0 0 1-.757.97l-1.426.356a.5.5 0 0 0-.179.085L4.5 15h7l-.638-.479a.501.501 0 0 0-.18-.085l-1.425-.356a1 1 0 0 1-.757-.97V10.5A.5.5 0 0 1 9 10c.516 0 1.706-.52 2.57-2.864.413-1.12.74-2.64.87-4.667.03-.463.049-.952.056-1.469H3.504z"/>
+      </symbol>
+    </svg>
+
+  </body>
+</html>

@@ -1,0 +1,245 @@
+/******************************************************************************
+ * Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the terms
+ * of the MIT License which is available at https://opensource.org/licenses/MIT
+ *
+ *  SPDX-License-Identifier: MIT
+ *****************************************************************************/
+
+/* Colors. */
+
+:root {
+  --escet-color-purple-rgb: 111,66,193;
+}
+
+/* Background. */
+
+.escet-bg {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--escet-color-rgb),var(--bs-bg-opacity));
+}
+
+.escet-bg-purple {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--escet-color-purple-rgb),var(--bs-bg-opacity));
+}
+
+.escet-bg-opacity-125 {
+  --bs-bg-opacity: 0.125;
+}
+
+/* Headings. */
+
+h1, h2, h3, h4, h5, h6 {
+  margin-left: -1px;
+}
+
+.accordion h1, .accordion h2, .accordion h3, .accordion h4, .accordion h5, .accordion h6 {
+  margin-left: 0;
+}
+
+/* Buttons. */
+
+.escet-light .escet-btn {
+  color: black;
+  background-color: rgb(var(--escet-color-rgb));
+  border-color: rgb(var(--escet-color-rgb));
+}
+
+.escet-dark .escet-btn {
+  color: white;
+  background-color: rgb(var(--escet-color-rgb));
+  border-color: rgb(var(--escet-color-rgb));
+}
+
+.escet-light .escet-btn:hover {
+  color: black;
+  background-color: rgb(var(--escet-color-light40-rgb));
+  border-color: rgb(var(--escet-color-light40-rgb));
+}
+
+.escet-dark .escet-btn:hover {
+  color: white;
+  background-color: rgb(var(--escet-color-dark40-rgb));
+  border-color: rgb(var(--escet-color-dark40-rgb));
+}
+
+.escet-light .escet-outline-btn {
+  color: rgb(var(--escet-color-dark20-rgb));
+  border-color: rgb(var(--escet-color-dark20-rgb));
+}
+
+.escet-dark .escet-outline-btn {
+  color: rgb(var(--escet-color-rgb));
+  border-color: rgb(var(--escet-color-rgb));
+}
+
+.escet-light .escet-outline-btn:hover {
+  color: black;
+  background-color: rgb(var(--escet-color-rgb));
+  border-color: rgb(var(--escet-color-rgb));
+}
+
+.escet-dark .escet-outline-btn:hover {
+  color: white;
+  background-color: rgb(var(--escet-color-rgb));
+  border-color: rgb(var(--escet-color-rgb));
+}
+
+.escet-outline-btn-purple {
+  color: rgb(var(--escet-color-purple-rgb));
+  border-color: rgb(var(--escet-color-purple-rgb));
+}
+
+.escet-outline-btn-purple:hover {
+  color: white;
+  background-color: rgb(var(--escet-color-purple-rgb));
+  border-color: rgb(var(--escet-color-purple-rgb));
+}
+
+.btn-check:focus+.btn, .btn:focus {
+  box-shadow: none;
+}
+
+/* Links. */
+
+a {
+  color: rgb(var(--escet-color-dark20-rgb));
+}
+
+a:hover {
+  color: black;
+}
+
+a.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Code. */
+
+code {
+  color: black;
+  background-color: #f6f6f6;
+}
+
+/* Shadows. */
+
+.escet-shadow {
+  box-shadow: .1rem .3rem .8rem rgba(var(--escet-color-dark40-rgb),.25);
+}
+
+/* Navbar. */
+
+.navbar-light .navbar-nav .nav-link, .navbar-light .navbar-nav .show>.nav-link,
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+  color: rgba(0,0,0,.95);
+}
+
+.navbar-dark .navbar-nav .nav-link, .navbar-dark .navbar-nav .show>.nav-link,
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+  color: rgb(255,255,255,.95);
+}
+
+.navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .show>.nav-link {
+  color: rgba(0,0,0,.95);
+  font-weight: bold;
+}
+
+.navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show>.nav-link {
+  color: rgb(255,255,255,.95);
+  font-weight: bold;
+}
+
+@media (max-width: 991px) { /* Matches navbar-expand-lg with min-width=992px. */
+  .navbar-light .navbar-collapse {
+    border-top: 1px solid rgb(var(--escet-color-dark20-rgb));
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+  }
+
+  .navbar-dark .navbar-collapse {
+    border-top: 1px solid rgb(var(--escet-color-light20-rgb));
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+  }
+}
+
+@media (min-width: 992px) { /* Matches navbar-expand-lg with min-width=992px. */
+  .escet-brand { /* Based on navbar-brand. */
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-left: 0;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+}
+
+/* Features. */
+/* Inspired by: https://getbootstrap.com/docs/5.1/examples/features/ */
+
+.escet-bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.escet-icon-square {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+  border-radius: .75rem;
+}
+
+/* Icon list with arrow icons. */
+
+ul.escet-arrow-icon-list {
+  padding-left: 0;
+}
+
+.escet-arrow-icon-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: .25rem;
+}
+
+.escet-arrow-icon-list li::before {
+  display: block;
+  flex-shrink: 0;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: .5rem;
+  content: "";
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23212529' viewBox='0 0 16 16'%3E%3Cpath d='M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z'/%3E%3C/svg%3E") no-repeat center center / 100% auto;
+}
+
+/* Accordion. */
+
+.escet-accordion .accordion-button {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.escet-accordion .accordion-button:focus {
+  border-color: inherit;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%); /* inherit doesn't work */
+}
+
+.escet-accordion .accordion-button:not(.collapsed) {
+  color: inherit;
+  border-color: inherit;
+  background-color: #fafafa;
+  border: inherit;
+}
+
+.escet-accordion .accordion-button:not(.collapsed)::after {
+  /* Restore original black after image, as not-collapsed one is blue. */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
