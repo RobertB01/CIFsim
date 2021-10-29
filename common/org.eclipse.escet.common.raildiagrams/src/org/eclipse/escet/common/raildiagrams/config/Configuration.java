@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
@@ -371,8 +372,9 @@ public class Configuration {
      */
     public void loadPropertiesFile(String fname) {
         Properties props = new Properties();
+        String path = Paths.resolve(fname);
 
-        try (FileInputStream stream = new FileInputStream(fname)) {
+        try (FileInputStream stream = new FileInputStream(path)) {
             props.load(stream);
         } catch (FileNotFoundException ex) {
             throw new InputOutputException(fmt("Could not open file \"%s\".", fname), ex);
