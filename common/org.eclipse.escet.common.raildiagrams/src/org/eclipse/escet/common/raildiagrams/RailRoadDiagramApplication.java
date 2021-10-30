@@ -89,9 +89,10 @@ public class RailRoadDiagramApplication extends Application<IOutputComponent> {
         }
 
         // Load the configuration file.
-        String configFilename = ConfigFileOption.getConfigFilename();
-        if (!configFilename.isEmpty()) {
-            config.loadPropertiesFile(configFilename);
+        String configFilePath = ConfigFileOption.getFilePath();
+        if (configFilePath != null) {
+            String configFileAbsolutePath = Paths.resolve(configFilePath);
+            config.loadPropertiesFile(configFileAbsolutePath);
         }
         if (isTerminationRequested()) {
             return 0;

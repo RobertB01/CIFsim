@@ -31,21 +31,22 @@ public class ConfigFileOption extends StringOption {
     private static final String CMD_VALUE = "CFG";
 
     /** Default value of the option. */
-    private static final String DEFAULT_VALUE = "";
+    private static final String DEFAULT_VALUE = null;
 
     /** Whether to return {@code null} if the option value is empty. */
-    private static final boolean EMPTY_AS_NULL = false;
+    private static final boolean EMPTY_AS_NULL = true;
 
     /** Description of the option. */
-    private static final String DESCRIPTION = "Specifies the absolute or relative local file system path of the " +
-    "diagram generator configuration file. Default configuration is used if no configuration file is provided.";
+    private static final String DESCRIPTION = "Specifies the absolute or relative local file system path of the "
+            + "diagram generator configuration file. Default configuration is used if no configuration file is "
+            + "provided.";
 
     /** Whether to show the option in a dialogue box. */
     private static final boolean SHOW_IN_DIALOG = true;
 
     /** Dialogue description (since {@link #SHOW_IN_DIALOG} holds). */
-    private static final String OPT_DIALOG_DESCR = "The absolute or relative local file system path of the diagram " +
-            "generator configuration file. Default configuration is used if no configuration file is provided.";
+    private static final String OPT_DIALOG_DESCR = "The absolute or relative local file system path of the diagram "
+            + "generator configuration file. Default configuration is used if no configuration file is provided.";
 
     /** Label to use as prefix in the dialog box (since {@link #SHOW_IN_DIALOG} holds). */
     private static final String OPT_DIALOG_LABEL_TEXT = "File path:";
@@ -57,11 +58,12 @@ public class ConfigFileOption extends StringOption {
     }
 
     /**
-     * Get the name of the configuration file that is specified by the user.
+     * Returns the absolute or relative local file system path to the configuration file, or {@code null} if not
+     * specified.
      *
-     * @return Name of the config file to use in the application.
+     * @return The absolute or relative local file system path to the configuration file, or {@code null}.
      */
-    public static String getConfigFilename() {
+    public static String getFilePath() {
         return Options.get(ConfigFileOption.class);
     }
 }

@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.escet.common.app.framework.Paths;
 import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.raildiagrams.config.FontData.FontStyle;
@@ -368,18 +367,17 @@ public class Configuration {
     /**
      * Load a properties file into the configuration.
      *
-     * @param fname Name of the file to load.
+     * @param path The absolute path to the properties file.
      */
-    public void loadPropertiesFile(String fname) {
+    public void loadPropertiesFile(String path) {
         Properties props = new Properties();
-        String path = Paths.resolve(fname);
 
         try (FileInputStream stream = new FileInputStream(path)) {
             props.load(stream);
         } catch (FileNotFoundException ex) {
-            throw new InputOutputException(fmt("Could not open file \"%s\".", fname), ex);
+            throw new InputOutputException(fmt("Could not open file \"%s\".", path), ex);
         } catch (IOException ex) {
-            throw new InputOutputException(fmt("Could not read file \"%s\".", fname), ex);
+            throw new InputOutputException(fmt("Could not read file \"%s\".", path), ex);
         }
 
         // Extract the strings from the loaded properties and copy them to the global map.
