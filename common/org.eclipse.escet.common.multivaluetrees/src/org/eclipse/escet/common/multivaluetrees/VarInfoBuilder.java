@@ -34,8 +34,7 @@ public abstract class VarInfoBuilder<V> {
      * All the {@link VarInfo} instances ordered by variable.
      *
      * <p>
-     * The array indices correspond with the use-kinds, each kind of use for a variable has its own
-     * {@link VarInfo}.
+     * The array indices correspond with the use-kinds, each kind of use for a variable has its own {@link VarInfo}.
      * </p>
      */
     private final Map<V, VarInfo[]> varInfosByVariable = map();
@@ -63,8 +62,8 @@ public abstract class VarInfoBuilder<V> {
      *
      * @param numUseKinds Number of use-kinds for a variable.
      * @note Each kind of use gets a non-negative number up to and excluding 'numUseKinds'. Multi-value tree code
-     *     doesn't use or care about these numbers, for consistency between applications it's recommended to use
-     *     value {@code 0} for reading and {@code 1} for writing of a variable.
+     *     doesn't use or care about these numbers, for consistency between applications it's recommended to use value
+     *     {@code 0} for reading and {@code 1} for writing of a variable.
      */
     public VarInfoBuilder(int numUseKinds) {
         this.numUseKinds = numUseKinds;
@@ -75,9 +74,9 @@ public abstract class VarInfoBuilder<V> {
      * Elementary method to construct a {@link VarInfo} from a variable and its kind of use.
      *
      * <p>
-     * It is allowed to skip creation of some kinds of use for a variable if so desired. The corresponding {@link VarInfo}
-     * instance will not be created, and querying it will yield {@code null}. You cannot insert nodes in the tree for
-     * non-existing {@link VarInfo} instances.
+     * It is allowed to skip creation of some kinds of use for a variable if so desired. The corresponding
+     * {@link VarInfo} instance will not be created, and querying it will yield {@code null}. You cannot insert nodes in
+     * the tree for non-existing {@link VarInfo} instances.
      * </p>
      *
      * @param var Variable to associate with the new {@link VarInfo} instance.
@@ -96,7 +95,7 @@ public abstract class VarInfoBuilder<V> {
             vis = new VarInfo[numUseKinds];
             varInfosByVariable.put(var, vis);
         }
-        Assert.check(vis[useKind] == null, "Varinfo is already created.");
+        Assert.areEqual(vis[useKind], null, "Varinfo is already created.");
 
         String name = getName(var);
         int lower = getLowerBound(var);

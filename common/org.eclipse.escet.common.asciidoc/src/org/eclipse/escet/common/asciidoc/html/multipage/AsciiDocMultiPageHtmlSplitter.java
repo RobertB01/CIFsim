@@ -141,8 +141,7 @@ public class AsciiDocMultiPageHtmlSplitter {
         // Analyze AsciiDoc-generated single-page HTML file.
         System.out.println("Analyzing AsciiDoc-generated single-page HTML file: " + singleHtmlPagePath.toString());
         AsciiDocHtmlPages htmlPages = new AsciiDocHtmlPages(sourceFiles);
-        Assert.check(htmlPages.homePage.sourceFile.getBaseName().equals(rootBaseName),
-                htmlPages.homePage.sourceFile.getBaseName() + " / " + rootBaseName);
+        Assert.areEqual(htmlPages.homePage.sourceFile.getBaseName(), rootBaseName);
         AsciiDocHtmlAnalyzer.analyze(singlePageDoc, htmlPages);
 
         // Generate and write multiple HTML files, one per page.

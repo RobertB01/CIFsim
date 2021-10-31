@@ -53,9 +53,9 @@ class AsciiDocHtmlAnalyzer {
     static void analyze(Document doc, AsciiDocHtmlPages htmlPages) {
         // Check that not yet partitioned, and initialize.
         for (AsciiDocHtmlPage htmlPage: htmlPages.pages) {
-            Assert.check(htmlPage.breadcrumbs == null);
-            Assert.check(htmlPage.singlePageIds == null);
-            Assert.check(htmlPage.singlePageNodes == null);
+            Assert.areEqual(htmlPage.breadcrumbs, null);
+            Assert.areEqual(htmlPage.singlePageIds, null);
+            Assert.areEqual(htmlPage.singlePageNodes, null);
             htmlPage.singlePageIds = set();
             htmlPage.singlePageNodes = list();
         }
@@ -71,7 +71,7 @@ class AsciiDocHtmlAnalyzer {
                 }
             }
         }
-        Assert.check(idToPages.size() + 1 == htmlPages.pages.size(), idToPages.size() + " / " + htmlPages.pages.size());
+        Assert.areEqual(idToPages.size() + 1, htmlPages.pages.size());
 
         // Walk over HTML 'content' and assign all nodes to a single page. Also create the TOC.
         Deque<Pair<AsciiDocHtmlPage, Integer>> pageStack = new LinkedList<>();
@@ -143,8 +143,8 @@ class AsciiDocHtmlAnalyzer {
                 }
             }
         });
-        Assert.check(pageStack.size() == 1, pageStack.size());
-        Assert.check(tocStack.size() == 1, tocStack.size());
+        Assert.areEqual(pageStack.size(), 1);
+        Assert.areEqual(tocStack.size(), 1);
 
         // Ensure content for each page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
@@ -152,7 +152,7 @@ class AsciiDocHtmlAnalyzer {
         }
 
         // Return the TOC.
-        Assert.check(tocStack.peek().right == 0, tocStack.peek().right);
+        Assert.areEqual(tocStack.peek().right, 0);
         htmlPages.toc = tocStack.pop().left;
     }
 }
