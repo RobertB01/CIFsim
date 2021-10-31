@@ -46,7 +46,7 @@ image::{tools-imgsdir}/cifsim/output/svgviz/walk_floor/walk_floor_orig_inkscape.
 
 The image features a floor (gray bar), a person, and a text label.
 The person consists of some lines and a circle.
-These shapes are grouped together, using the menu:Group[] command from Inkscape's menu:Object[] menu.
+These shapes are grouped together, using the _Group_ command from Inkscape's _Object_ menu.
 The group can also be seen in the XML representation, as an `svg:g` element, with the actual shapes (paths in this case) as children.
 We assigned the `person` id to the `svg:g` element, as it represents the entire person.
 For clarity we gave the sub-elements ids as well, although that was not necessary, as we won't directly reference them in the CIF/SVG declarations.
@@ -56,7 +56,7 @@ Since `svg:g` elements don't have an `x` and `y` attribute in SVG, Inkscape appl
 This is reflected in the XML as a `transform` attribute, with the `translate(-290,-467)` value.
 This indicates that the person was moved 290 pixels to the left, and 467 pixels to the top (as SVG has its origin in the upper left corner of the canvas).
 
-To get rid of this, once the person is at the correct initial position, we can ungroup the `person` group ( menu:Ungroup[] command from Inkscape's menu:Object[] menu), and regroup it.
+To get rid of this, once the person is at the correct initial position, we can ungroup the `person` group (_Ungroup_ command from Inkscape's _Object_ menu), and regroup it.
 By ungrouping the group, the transformation is pushed to the individual elements of the group.
 The regroup simply adds a new group around the elements, without a translation transformation.
 The new group is given an automatically generated name, so we need to rename it to `person`.

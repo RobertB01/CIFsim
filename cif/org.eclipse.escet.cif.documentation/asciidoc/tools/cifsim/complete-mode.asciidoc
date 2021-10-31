@@ -21,7 +21,7 @@ It is up to the <<tools-cifsim-input-chapter-index,input component>> to choose o
 Using the <<tools-cifsim-input-chapter-automatic,automatic input mode>>, it is possible to always choose the first transition that is possible.
 
 In that situation, it is then a waste of resources to calculate the other possible transitions.
-Using the menu:Complete mode[] option (menu:Simulator[]) category), it is possible to enable complete mode.
+Using the _Complete mode_ option (_Simulator_ category), it is possible to enable complete mode.
 If complete mode is enabled, the calculation of the possible transitions stops as soon as one possible transition is found.
 
 The following values are available for the complete mode option:

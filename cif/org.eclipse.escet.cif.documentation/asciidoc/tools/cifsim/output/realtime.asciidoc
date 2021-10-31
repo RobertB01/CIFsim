@@ -62,7 +62,7 @@ indexterm:[real-time simulation,frame rate]
 [[tools-cifsim-output-realtime-framerate]]
 === Frame rate
 
-Using the menu:Frame rate[] option (menu:Output[] category), it is possible to specify how often per second of real time, visualizations should be updated.
+Using the _Frame rate_ option (_Output_ category), it is possible to specify how often per second of real time, visualizations should be updated.
 A higher frame rate leads to more updates per second, and thus to a more fluent visualization.
 However, since a higher frame rate also leads to more frequent updates, the amount of CPU power it takes to perform these updates increases as well.
 If the computer can not update the visualization in time for the next update to take place, the visualization may start to 'stutter'.
@@ -85,7 +85,7 @@ indexterm:[real-time simulation,simulation speed]
 === Simulation speed
 
 If real-time simulation is enabled, the simulator by default interprets the model time (the value of variable `time`) in seconds.
-However, this can be changed using the menu:Simulation speed[] option (menu:Output[] category).
+However, this can be changed using the _Simulation speed_ option (_Output_ category).
 This option specifies a scaling factor.
 A scaling factor of `1.0` interprets model time as seconds, `2.0` is twice as fast (1 unit of model time takes 0.5 seconds), etc.
 The simulation speed must always be positive, and may be fractional.

@@ -30,7 +30,7 @@ The following choices can be automatically made by the simulator, in semi-automa
 
 * Automatically choose event transitions (for certain events), regardless of how many transitions are possible.
 
-Each of these possible automatic choices can be individually enabled, through the menu:Interactive mode automatic transition choice[] option (menu:Input[] category).
+Each of these possible automatic choices can be individually enabled, through the _Interactive mode automatic transition choice_ option (_Input_ category).
 As value for the option, comma separated _filters_ should be supplied.
 The following filters are available:
 

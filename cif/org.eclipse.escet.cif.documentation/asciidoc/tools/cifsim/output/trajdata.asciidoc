@@ -25,13 +25,13 @@ indexterm:[trajectory data,enable]
 indexterm:[trajectory data,disable]
 
 [[tools-cifsim-output-trajdata-option]]
-Enable the menu:Trajectory data[] option (menu:Output: Trajectory data[] category) to enable writing the trajectory data to a file.
+Enable the _Trajectory data_ option (_Output: Trajectory data_ category) to enable writing the trajectory data to a file.
 
 indexterm:[trajectory data,file]
 
 [[tools-cifsim-output-trajdata-file]]
 By default, the file to which to write the trajectory data, is the name of the input specification file, with `.trajdata` added to it.
-Using the menu:Trajectory data file[] option (menu:Output: Trajectory data[] category), a different file can be specified.
+Using the _Trajectory data file_ option (_Output: Trajectory data_ category), a different file can be specified.
 The value of the option is the absolute or relative local file system path to use for the trajectory data file.
 
 indexterm:[trajectory data,filtering]
@@ -51,8 +51,8 @@ This does not include the derivative of variable `time`.
 Only variables of type `bool`, `int` (with or without ranges), or `real` are included.
 
 [[tools-cifsim-output-trajdata-filters]]
-Using the menu:Trajectory data filters[] option (menu:Output: Trajectory data[] category), the state objects can be filtered.
-The menu:Trajectory data filters[] option only has effect if trajectory data output is enabled, using the menu:Trajectory data[] option.
+Using the _Trajectory data filters_ option (_Output: Trajectory data_ category), the state objects can be filtered.
+The _Trajectory data filters_ option only has effect if trajectory data output is enabled, using the _Trajectory data_ option.
 
 As value for the option, comma separated _filters_ should be supplied.
 Each filter specifies one or more state objects.
@@ -119,7 +119,7 @@ include::{incdir-tools-cifsim-output}/tank.trajdata[]
 
 [[tools-cifsim-output-trajdata-sep]]
 By default, the trajectory data output is prettified using a column separation of three spaces.
-This can be changed using the menu:Trajectory data separation amount[] option (menu:Output: Trajectory data[] category).
+This can be changed using the _Trajectory data separation amount_ option (_Output: Trajectory data_ category).
 Using this option, prettification can be disabled, or a different number of spaces can be used between the columns.
 
 indexterm:[trajectory data,undo]

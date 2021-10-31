@@ -26,7 +26,7 @@ The simulator defers this choice to an _input component_.
 The primary responsibility or an input component is to choose the transition to take, from the given possible transitions, calculated for the current <<tools-cifsim-traces-state,state>>.
 If the chosen transition is a time transition, the input component must also decide the amount of time to delay.
 
-The input component to use for the simulation, depends on the _input mode_, which can be configured via the menu:Input mode[] option (menu:Input[] category).
+The input component to use for the simulation, depends on the _input mode_, which can be configured via the _Input mode_ option (_Input_ category).
 The simulator has several input modes:
 
 indexterm:[input mode,overview]

@@ -68,7 +68,7 @@ indexterm:[SVG visualization,disable]
 [[tools-cifsim-output-svgviz-simulation-option]]
 === SVG visualization option
 
-The menu:SVG visualization[] option (menu:Output: SVG visualization[] category) can be used to disable SVG visualization.
+The _SVG visualization_ option (_Output: SVG visualization_ category) can be used to disable SVG visualization.
 By default, the option is enabled, and SVG visualization is used if the CIF file being simulated declares any CIF/SVG declarations.
 By disabling the option, SVG visualization is disabled, regardless of whether the CIF specification has any CIF/SVG declarations.
 

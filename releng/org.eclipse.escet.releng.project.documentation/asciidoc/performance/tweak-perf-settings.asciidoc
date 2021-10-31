@@ -388,7 +388,7 @@ indexterm:[Eclipse,heap status]
 In Eclipse, it is possible to observe the amount of Java object heap space that is being used.
 In Eclipse, open the _Preferences_ dialog, via menu:Window[Preferences].
 Select the _General_ category on the left, if not already selected.
-On the right, make sure the menu:Show heap status[] option is checked, and click btn:[OK] to close the dialog.
+On the right, make sure the _Show heap status_ option is checked, and click btn:[OK] to close the dialog.
 
 The heap status should now be displayed in the bottom right corner of the Eclipse window:
 

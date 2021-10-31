@@ -28,7 +28,8 @@ To clear the console, right click the console (the part of the view that contain
 Alternatively, click the _Clear Console_ button (image:{performance-imgsdir}/clear_console.png[]) of the _Console_ view's toolbar.
 
 The Eclipse _Console_ view does not just keep the console output of the currently running application or applications in memory, it also keeps the output of all terminated applications in memory.
-To look at the applications that you executed, click the small arrow next to the _Display Selected Console_ icon (image:{performance-imgsdir}/console_pages.png[]) of the _Console_ view's toolbar.A list of executed applications will appear, that looks something like this:
+To look at the applications that you executed, click the small arrow next to the _Display Selected Console_ icon (image:{performance-imgsdir}/console_pages.png[]) of the _Console_ view's toolbar.
+A list of executed applications will appear, that looks something like this:
 
 image::{performance-imgsdir}/console_pages_list.png[]
 

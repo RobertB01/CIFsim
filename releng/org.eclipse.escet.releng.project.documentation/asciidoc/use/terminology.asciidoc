@@ -102,7 +102,7 @@ A new dialog opens, in which you can find all available views.
 The views are organized into categories.
 Expand a category, select the desired view, and click btn:[OK].
 
-Alternatively, in the menu:Show view[] dialog, enter the name of the view (or the first part of it) in the filter box at the top of the dialog, and observe how views that don't match the filter are no longer displayed.
+Alternatively, in the _Show view_ dialog, enter the name of the view (or the first part of it) in the filter box at the top of the dialog, and observe how views that don't match the filter are no longer displayed.
 This makes it easier to find the desired view.
 
 

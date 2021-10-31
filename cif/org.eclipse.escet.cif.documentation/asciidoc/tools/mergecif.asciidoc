@@ -34,7 +34,7 @@ The merger can be started in the following ways:
 
 * Use the Eclipse IDE to merge multiple files:
 
-** Select a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab by left clicking on it.
+** Select a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab by left clicking on it.
 
 ** Select additional `.cif` files by left clicking on them while pressing the kbd:[Ctrl] or kbd:[Control] key.
 
@@ -44,7 +44,7 @@ The merger can be started in the following ways:
 
 * Use the Eclipse IDE to merge a single file with itself (allowed, but practically not that useful):
 
-** Right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF miscellaneous tools[Merge CIF specifications...].
+** Right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Merge CIF specifications...].
 
 ** Right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Merge CIF specifications...].
 

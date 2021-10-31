@@ -27,10 +27,9 @@ Communication between the processes takes place instantly when both processes ar
 === A channel
 
 The following example shows the sending of an integer value between two processes via a channel.
-<<tut-figure-producer-consumer>> shows the two processes `P` and `C`, connected by channel variable `a`.
+The figure below shows the two processes `P` and `C`, connected by channel variable `a`:
 
 [[tut-figure-producer-consumer]]
-.A producer and a consumer
 image::{tut-imgsdir}/pictures/producer_consumer.png[]
 
 Processes are denoted by circles, and channels are denoted by directed arrows in the figure.
@@ -92,7 +91,7 @@ However, in modeling there is often a notion of 'initiator' process that can be 
 The following example shows the use of synchronization signals between processes `P` and `C`.
 The connecting channel 'transfers' values of type `void`.
 The type `void` means that 'non-values' are sent and received; the type `void` is only allowed in combination with channels.
-The iconic model is given in the previous figure, <<tut-figure-producer-consumer>>.
+The iconic model is given in the previous figure, at the start of this chapter.
 The model is:
 
 
@@ -131,10 +130,9 @@ The effect of the model is identical to the previous example: the numbers `0, 1,
 A process can have more than one channel, allowing interaction with several other processes.
 
 The next example shows two channel variables, `a` and `b`, and three processes, generator `G`, server `S` and exit `E`.
-The iconic model is given in <<tut-figure-generator-server-exit>>.
+The iconic model is given below:
 
 [[tut-figure-generator-server-exit]]
-.A generator, a server and an exit
 image::{tut-imgsdir}/pictures/generator_server_exit.png[]
 
 Process `G` is connected via channel variable `a` to process `S` and process `S` is connected via channel variable `b` to process `E`.
@@ -200,10 +198,9 @@ Channels send a message (or a signal in case of synchronization channels) from o
 It is however allowed to give the same channel to several sender or receiver processes.
 The channel selects a sender and a receiver before each communication.
 
-The following example gives an illustration, see <<tut-figure-generator-2servers-exit>>.
+The following example gives an illustration:
 
 [[tut-figure-generator-2servers-exit]]
-.A generator, two servers and an exit
 image::{tut-imgsdir}/pictures/generator_2servers_exit.png[]
 
 Suppose that only `G` and `S0` want to communicate.
@@ -295,10 +292,9 @@ Child `C1` adds 2 and tells the result to its right neighbour, child `C2`.
 After telling the result to child `C2`, child `C1` is able to start calculating on the next number the reader `R` tells him.
 Children `C2`, `C3`, and `C4` are analogous to child `C1`; they each perform a different calculation on a number they hear and tell the result to their right neighbor.
 At the end of the table the writer `W` writes every result he hears down on paper.
-Figure <<tut-figure-sixchilds>> shows a schematic drawing of the children at the table.
+A schematic drawing of the children at the table, is given below:
 +
 [[tut-figure-sixchilds]]
-.Six children working in parallel
 image::{tut-imgsdir}/pictures/sixchilds.png[]
 
 .. Finish the specification for the reading child `R`, that reads the numbers 0 till 9 one by one:

@@ -33,7 +33,7 @@ indexterm:[CIF to CIF transformer,start]
 
 The transformation can be started from Eclipse in the following ways:
 
-* Right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF miscellaneous tools[Apply CIF to CIF transformations...].
+* Right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Apply CIF to CIF transformations...].
 
 * Right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Apply CIF to CIF transformations...].
 
@@ -60,8 +60,8 @@ Transformations may be applied multiple times.
 By default, no transformations are applied, essentially making the CIF to CIF transformer a <<tools-cif2cif-pprinter,pretty printer>>.
 +
 In the option dialog, the available transformations are shown.
-To add a transformation, double click it, or select it and click the _Add_ button below the list of available transformations.
-To remove a transformation, double click on it in the list of chosen transformations, or select it in that list and click the _Remove_ button.
+To add a transformation, double click it, or select it and click the btn:[Add] button below the list of available transformations.
+To remove a transformation, double click on it in the list of chosen transformations, or select it in that list and click the btn:[Remove] button.
 +
 At the command line, specify comma separated transformation names, in the order they should be applied.
 The names to use are listed below, in the <<tools-cif2cif-available>> section.

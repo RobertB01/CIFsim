@@ -21,7 +21,7 @@ indexterm:[debug,generated code]
 WARNING: This page is primarily intended for the developers of the CIF simulator, and not its end users.
 
 The CIF simulator generates highly optimized code for the specification, to speed up the simulation.
-By enabling the menu:Debug the generated code (by writing it to disk)[] <<tools-cifsim-output-chapter-debug,debugging output>>, the generated code can be written to disk, for further debugging.
+By enabling the _Debug the generated code (by writing it to disk)_ <<tools-cifsim-output-chapter-debug,option>> (_Output_ category), the generated code can be written to disk, for further debugging.
 
 === Output directory
 
@@ -53,13 +53,13 @@ To use this feature, follow these steps:
 
 * Make sure your workspace is automatically rebuilt, by enabling the menu:Build Automatically[] option in the menu:Project[] menu.
 
-* Start a sub-Eclipse application, by right clicking on any plug-in project in the workspace, and choosing menu:Run as[Eclipse Application] or menu:Debug as[Eclipse Application].
+* Start a sub-Eclipse application, by clicking menu:Run[Run Configurations...] or menu:Run[Debug Configratuions], and selecting _product-escet_ and clicking btn:[Run].
 
 * In the sub-Eclipse that opens, make sure the CIF specification (the `.cif` file) that you like to simulate is available in the workspace.
 
 * In the sub-Eclipse, import the `org.eclipse.escet.cif.simulator.debug` source project.
 
-* Simulate the CIF specification, and make sure you enable the menu:Debug the generated code[] option.
+* Simulate the CIF specification, and make sure you enable the _Debug the generated code (by writing it to disk)_ option.
 
 * Continue simulation, if desired.
 
@@ -77,7 +77,7 @@ indexterm:[CIF simulator,starting with generated code]
 
 === Starting the simulator with generated code
 
-The launch configuration that is written to disk with the generated code, uses the menu:Load debug code[] option (menu:Simulator[] category).
+The launch configuration that is written to disk with the generated code, uses the _Load debug code_ option (_Simulator_ category).
 Using this option, the classpath (directory) where the already generated code is located, is specified.
 By specifying it, the simulator knows from where to load it.
 

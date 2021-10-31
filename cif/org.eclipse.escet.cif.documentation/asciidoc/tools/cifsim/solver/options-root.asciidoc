@@ -24,7 +24,7 @@ indexterm:[root finder options,maximum check interval]
 [[tools-cifsim-solver-options-root-maxcheck]]
 === Maximum check interval
 
-The menu:ODE solver root finder maximum check interval[] option (menu:ODE solver: ODE root finder[] category) is explained on a separate page.
+The _ODE solver root finder maximum check interval_ option (_ODE solver: ODE root finder_ category) is explained on a separate page.
 See <<tools-cifsim-solver-chapter-root-problems>>.
 
 indexterm:[root finder options,algorithm]
@@ -36,7 +36,7 @@ indexterm:[root finder options,Pegasus]
 [[tools-cifsim-solver-options-root-algo]]
 === Root finding algorithm
 
-The menu:ODE solver root finding algorithm[] option (menu:ODE solver: ODE root finder[] category) can be used to configure the root finding algorithm to use.
+The _ODE solver root finding algorithm_ option (_ODE solver: ODE root finder_ category) can be used to configure the root finding algorithm to use.
 The following algorithms are available:
 
 * Regula Falsi (link:http://en.wikipedia.org/wiki/False_position_method[False position]) method
@@ -55,7 +55,7 @@ indexterm:[root finder options,tolerances]
 [[tools-cifsim-solver-options-root-tol]]
 === Absolute and relative tolerance
 
-The menu:ODE solver root finder absolute tolerance[] option (menu:ODE solver: ODE root finder[] category) and the menu:ODE solver root finder relative tolerance[] option (menu:ODE solver: ODE root finder[] category), can be used to configure how precise the results of the root finder should be.
+The _ODE solver root finder absolute tolerance_ option (_ODE solver: ODE root finder_ category) and the _ODE solver root finder relative tolerance_ option (_ODE solver: ODE root finder_ category), can be used to configure how precise the results of the root finder should be.
 The lower the tolerance (or error), the higher the precision of the results, but also the more computing time it costs to get to that precision.
 The absolute precision is the difference between the prediction and the actual value, while the relative precision is that same difference, as a fraction of the actual value.
 In the latter case, precision reduces with increasing values.
@@ -65,7 +65,7 @@ indexterm:[root finder options,maximum iterations]
 [[tools-cifsim-solver-options-root-maxiter]]
 === Maximum iterations
 
-The menu:ODE solver root finder maximum iterations[] option (menu:ODE solver: ODE root finder[] category) can be used to set the maximum number of iterations to use for root finding.
+The _ODE solver root finder maximum iterations_ option (_ODE solver: ODE root finder_ category) can be used to set the maximum number of iterations to use for root finding.
 This value must be at least one.
 If the root interval is larger than the tolerances allow, after the maximum number of iterations, root finding fails.
 

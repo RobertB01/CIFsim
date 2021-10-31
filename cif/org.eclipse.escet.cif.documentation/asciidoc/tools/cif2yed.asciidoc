@@ -33,7 +33,7 @@ indexterm:[CIF to yEd transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Convert CIF to yEd diagram...[].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:Convert CIF to yEd diagram...[].
 
@@ -371,25 +371,25 @@ After opening the diagram, all nodes overlap, as the generated diagrams don't co
 yEd can automatically layout the diagram.
 Several layout algorithms are available in the menu:Layout[] menu.
 
-Good results for <<tools-cif2yed-diagram-model,model diagrams>> can often be obtained by using the btn:[Orthogonal layout].
-Select menu:Layout[Orthogonal > Classic] to show the 'Orthogonal Layout' window.
+Good results for <<tools-cif2yed-diagram-model,model diagrams>> can often be obtained by using the _Orthogonal layout_.
+Select menu:Layout[Orthogonal > Classic] to show the _Orthogonal Layout_ window.
 Click the btn:[Dock] button to dock the window.
-Once docked, select btn:[Integrated] for btn:[Edge Labeling] and btn:[Free] for btn:[Edge Label Model].
-Also enable the btn:[Consider Node Labels] option.
-Press the btn:[Apply changes] button (the green rectangle) at the top of the docked window to apply the changes to the layout.
+Once docked, select _Integrated_ for the _Edge Labeling_ option (_Labelling_ category) and _Free_ for the _Edge Label Model_ option (_Labelling_ category).
+Also enable the _Consider Node Labels_ option (_Labelling_ category).
+Press the _Apply changes_ button (the green rectangle) at the top of the docked window to apply the changes to the layout.
 
-You may want to try different values for the 'Grid' option, to get more or less spacing between nodes.
+You may want to try different values for the _Grid_ option (_Layout_ category), to get more or less spacing between nodes.
 Once you change a value, just apply the new layout, as before.
 The automatic layout algorithms aren't perfect, but they are usually a good starting point.
 
 By default, edge labels have a light gray background.
 This makes them easier to read when placed on the edges.
-By changing the 'Edge Label Model' from 'Free' to 'Side Slider' , labels are not placed on the edges, but besides them.
+By changing the _Edge Label Model_ option (_Labelling_ category) from _Free_ to _Side Slider_, labels are not placed on the edges, but besides them.
 However, this often leads to some overlap, requiring manual layouting.
-If the 'Side Slider' variant is used, you may want to change the background of the edge labels to be transparent.
+If the _Side Slider_ variant is used, you may want to change the background of the edge labels to be transparent.
 This can be achieved by enabling the _Transparent edge labels_ option (see the <<tools-cif2yed-options>> section above).
 
-Good results for <<tools-cif2yed-diagram-relations,relations diagrams>> can often be obtained using the 'One-Click Layout' functionality of yEd.
+Good results for <<tools-cif2yed-diagram-relations,relations diagrams>> can often be obtained using the _One-Click Layout_ functionality of yEd.
 Select menu:Layout[One-Click Layout] or use the corresponding toolbar button.
 This option is only available in yEd 3.14 or newer.
 
@@ -403,8 +403,8 @@ indexterm:[yEd,Structure View]
 === Structure View
 
 yEd has a _Structure View_ window that can be enabled via menu:Windows[Structure View].
-The _Structure View_ can be used to see and navigate the structure of the CIF model.
-By switching from 'Text' to 'Description' (see upper right corner of the _Structure View_ window), useful descriptions are shown for all elements.
+The _Structure View_ window can be used to see and navigate the structure of the CIF model.
+By switching from _Text_ to _Description_ (see upper right corner of the _Structure View_ window), useful descriptions are shown for all elements.
 Furthermore, switching also ensures that the HTML code that is used for syntax highlighting is not shown in the _Structure Viewer_ (if syntax highlighting is enabled, see the <<tools-cif2yed-options>> section above).
 The following image shows the difference:
 
