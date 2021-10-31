@@ -15,6 +15,8 @@ package org.eclipse.escet.common.java;
 
 import static org.eclipse.escet.common.java.Strings.fmt;
 
+import java.util.Objects;
+
 /** A class for performing assertion checks. Unlike the Java assert statement, these are always checked. */
 public class Assert {
     /** Constructor for the {@link Assert} class. */
@@ -50,6 +52,41 @@ public class Assert {
             return;
         }
         throw new AssertionError(String.valueOf(msg));
+    }
+
+    /**
+     * Checks whether two values are {@link Object#equals equal} and throws an {@link AssertionError} if they are not
+     * equal.
+     *
+     * @param value1 The first value. Maybe {@code null}.
+     * @param value2 The second value. Maybe {@code null}.
+     *
+     * @throws AssertionError If the values are not equal.
+     */
+    public static void areEqual(Object value1, Object value2) {
+        if (Objects.equals(value1, value2)) {
+            return;
+        }
+        throw new AssertionError(fmt("Values are not equal: '%s' and '%s'", value1, value2));
+    }
+
+    /**
+     * Checks whether two values are {@link Object#equals equal} and throws an {@link AssertionError} if they are not
+     * equal.
+     *
+     * @param value1 The first value. Maybe {@code null}.
+     * @param value2 The second value. Maybe {@code null}.
+     * @param msg The message to use for the exception. {@link String#valueOf} is used to convert the object to a
+     *     message.
+     *
+     * @throws AssertionError If the values are not equal.
+     */
+    public static void areEqual(Object value1, Object value2, Object msg) {
+        if (Objects.equals(value1, value2)) {
+            return;
+        }
+        throw new AssertionError(String.valueOf(msg),
+                new AssertionError(fmt("Values are not equal: '%s' and '%s'", value1, value2)));
     }
 
     /**
