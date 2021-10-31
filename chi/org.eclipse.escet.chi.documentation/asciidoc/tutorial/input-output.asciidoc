@@ -259,7 +259,7 @@ A list of format specifiers is given in the following table:
 Finally, there are also a few special character sequences called _escape sequence_ which allow to write characters like horizontal tab (which means 'jump to next tab position in the output'), or newline (which means 'go to the next line in the output') in a string.
 An escape sequence consists of two characters.
 First a backslash character `\`, followed by a second character.
-The escape sequence are presented in the following table:
+The escape sequences are presented in the following table:
 
 [[tut-table-escape-sequences]]
 [cols=2*,options="header"]

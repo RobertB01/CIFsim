@@ -47,7 +47,7 @@ This file describes not only the behavior of the lamp using a CIF automaton, but
 
 Next, we'll create an <<tools-cifsim-output-svgviz-chapter-svg,SVG>> image.
 Start link:http://inkscape.org/[Inkscape], Select menu:File[Document Properties...], to open the _Document Properties_ window.
-On the _Page_ tab, set the _Units_ to _px_, the _Width_ to `75.00`, and the _height_ to `100.00`.
+On the _Page_ tab, set the _Units_ to _px_, the _Width_ to `75.00`, and the _Height_ to `100.00`.
 It is recommended to always <<tools-cifsim-output-svgviz-inkscape-size,set the size>> of the image, before adding any shapes or text labels.
 
 Next, select the circle tool, by clicking on the circle in the _Toolbox_ on the left side of the application.

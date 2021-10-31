@@ -161,7 +161,7 @@ Follow these steps to create a solution and project in TwinCAT, generate PLC cod
 ** In the _New Project_ window, _TwinCAT XAE Project (XML format)_ should already be selected.
 If not, first select _TwinCAT Project_ on the left (from the list of _Installed Templates_), and then select _TwinCAT XAE Project (XML format)_.
 
-** Choose a project name and Enter it in the _Name_ box at the bottom of the dialog.
+** Choose a project name and enter it in the _Name_ box at the bottom of the dialog.
 
 ** Make sure the _Solution name_ is exactly the same, and that the _Create directory for solution_ option is enabled.
 
