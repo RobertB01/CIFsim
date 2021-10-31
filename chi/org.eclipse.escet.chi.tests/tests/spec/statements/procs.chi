@@ -1,5 +1,5 @@
 ################################################################################
-# Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+# Copyright (c) 2021 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -10,24 +10,27 @@
 # SPDX-License-Identifier: MIT
 #################################################################################
 
-model M():
-    bool b;
-    int i;
-    real d;
-    file f;
-    func int () fn;
-    proc () pr1;
-    proc int () pr2;
-    proc (int, bool) pr3;
-    proc int (int, bool) pr4;
-    set bool s;
-    dist int di;
-    dist bool db;
-    dist real dr;
-    set dict(int:list file) sdx;
-    timer t;
-    inst ins;
-    chan chan int ch;
-
+proc p1():
     pass
+end
+
+proc int p2():
+    exit 1
+end
+
+proc p3(int x):
+    write("%d\n", x);
+end
+
+proc p4(int x, y; bool z):
+    write("%d %d %s\n", x, y, z);
+end
+
+proc int p5(int x, y; bool z):
+    write("%d %d %s\n", x, y, z);
+    exit 1
+end
+
+model int m():
+    run p1(), p2(), p3(1), p4(2, 3, true), p5(4, 5, false);
 end

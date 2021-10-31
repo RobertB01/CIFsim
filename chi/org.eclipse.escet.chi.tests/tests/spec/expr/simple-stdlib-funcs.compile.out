@@ -15,6 +15,5 @@ Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 34, 
 Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 35, column 10: Unused variable "r43".
 Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 36, column 10: Unused variable "r44".
 Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 37, column 10: Unused variable "r45".
-Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 39, column 9: Unused variable "n01".
 Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 40, column 9: Unused variable "n02".
 Warning: File "spec/expr/simple-stdlib-funcs.chi": Semantic warning at line 41, column 9: Unused variable "n03".
