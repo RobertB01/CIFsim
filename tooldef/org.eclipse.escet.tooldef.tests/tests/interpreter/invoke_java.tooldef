@@ -86,3 +86,15 @@ import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.Interpret
 
 outln("%s", priv());
 outln();
+
+// Import as other name.
+
+import java.lang.Long.compare as cmp;
+
+outln("%s", cmp(1, 2));
+outln();
+
+import org.eclipse.escet.tooldef.tests:org.eclipse.escet.tooldef.tests.InterpreterTestClass.swap2 as swap2b;
+
+outln("%s", swap2b((1, 2)));
+outln();

@@ -11,32 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-int i, j;
-bool b, c;
+from "../interpreter/invoke_tooldef.tooldef" import *;
 
- i     = b;
- i, j  = b;
-(i, j) = b;
+for x in range(5):: outln("%s %s", x, inc(x));
+outln();
 
-b =  i;
-b =  i, j;
-b = (i, j);
-
-b = c;
-i, j = j, i;
-
-tuple(int, bool) tib;
-
- i, b  = tib;
-(i, b) = tib;
-
-tib =  i, b;
-tib = (i, b);
-
-long l;
-
-i = l;
-l = i;
-
-bool r;
-r = exec("does_not_exist");
+outln("%s", t1(1, 2, 3));
+outln("%s", t2(1, 2, 3));

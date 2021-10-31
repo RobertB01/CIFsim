@@ -24,3 +24,8 @@ end
 
 x = x + f(10);
 outln("%s", x);
+
+type t1 = t, t2 = t1;
+t1 v1 = 3;
+t2 v2 = 4;
+outln("%s", v1 + v2);
