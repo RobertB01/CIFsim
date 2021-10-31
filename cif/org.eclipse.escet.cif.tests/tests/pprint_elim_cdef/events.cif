@@ -22,3 +22,11 @@ automaton aut:
     initial;
     edge e, c1, c2, c3, u1, u2, u3;
 end
+
+automaton def C1(controllable c1): location: initial; edge c1; end
+automaton def C2(controllable c1, c2): location: initial; edge c1, c2; end
+automaton def C3(uncontrollable u1): location: initial; edge u1; end
+automaton def C4(uncontrollable u1, u2): location: initial; edge u1, u2; end
+
+automaton def C5(controllable int c1): location: initial; edge c1?; end
+automaton def C6(controllable int c1, c2): location: initial; edge c1?, c2?; end
