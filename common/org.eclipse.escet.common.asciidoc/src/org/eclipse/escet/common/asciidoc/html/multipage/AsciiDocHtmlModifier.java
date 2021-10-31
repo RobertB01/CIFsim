@@ -309,7 +309,7 @@ class AsciiDocHtmlModifier {
 
         // Store new id.
         String previous = renames.put(tocEntry.refId, newId);
-        Assert.check(previous == null, previous);
+        Assert.areEqual(previous, null);
 
         // Process children.
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
@@ -353,9 +353,9 @@ class AsciiDocHtmlModifier {
         // Move copyright/version.
         Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
         elemBodyCopyrightVersion.remove();
-        Assert.check(elemBodyCopyrightVersion.children().size() == 3, elemBodyCopyrightVersion);
+        Assert.areEqual(elemBodyCopyrightVersion.children().size(), 3, elemBodyCopyrightVersion);
         Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
-        Assert.check(elemBodyCopyrightVersionSpans.size() == 2, elemBodyCopyrightVersionSpans);
+        Assert.areEqual(elemBodyCopyrightVersionSpans.size(), 2, elemBodyCopyrightVersionSpans);
         elemBodyCopyrightVersionSpans.removeAttr("id");
         elemBodyCopyrightVersionSpans.removeAttr("class");
         for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
@@ -529,11 +529,11 @@ class AsciiDocHtmlModifier {
 
         // Sanity checks.
         if (htmlPages.homePage == page) {
-            Assert.check(tocLinkCurPageCount == 0, tocLinkCurPageCount);
+            Assert.areEqual(tocLinkCurPageCount, 0);
         } else {
             // If the TOC level setting used to generate the single page HTML file is too limited, the page will not be
             // in the TOC, and this will fail (count is zero).
-            Assert.check(tocLinkCurPageCount == 1, tocLinkCurPageCount);
+            Assert.areEqual(tocLinkCurPageCount, 1);
         }
     }
 
@@ -625,7 +625,7 @@ class AsciiDocHtmlModifier {
                 if (allowEmptyRefIfNoChildren) {
                     // Occurs for 'a.href' for bibliography entries.
                     // But then they have no child nodes, and are thus not clickable.
-                    Assert.check(elem.childNodeSize() == 0, elem.childNodeSize());
+                    Assert.areEqual(elem.childNodeSize(), 0);
                     continue;
                 } else {
                     throw new RuntimeException(
@@ -654,15 +654,15 @@ class AsciiDocHtmlModifier {
             }
 
             // Handle relative paths.
-            Assert.check(uriScheme == null, uriScheme);
-            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
-            Assert.check(uri.getHost() == null, uri.getHost());
-            Assert.check(uri.getPort() == -1, uri.getPort());
-            Assert.check(uri.getAuthority() == null, uri.getAuthority());
-            Assert.check(uri.getQuery() == null, uri.getQuery());
-            Assert.check(uri.getFragment() == null, uri.getFragment());
+            Assert.areEqual(uriScheme, null);
+            Assert.areEqual(uri.getUserInfo(), null);
+            Assert.areEqual(uri.getHost(), null);
+            Assert.areEqual(uri.getPort(), -1);
+            Assert.areEqual(uri.getAuthority(), null);
+            Assert.areEqual(uri.getQuery(), null);
+            Assert.areEqual(uri.getFragment(), null);
             Assert.notNull(uri.getPath());
-            Assert.check(ref.equals(uri.getPath()), ref + " / " + uri.getPath());
+            Assert.areEqual(ref, uri.getPath());
             String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(ref, sourceRootPath.toString());
             String rootPathForNewRelHref = page.sourceFile.absPath.getParent().toString();
             String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,

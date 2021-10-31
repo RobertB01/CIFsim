@@ -32,7 +32,7 @@ The current location of an automaton is also called the _state_ of the automaton
 Similar to having multiple locations in automata, variables usually have many possible values.
 However, similar to automata having only one current location, variables can not have two values at the same time.
 
-The current location of each of the automata (i.e. the states of the automata), together with the current values of the variables (all discrete and continuous variables, including variable `time`), is called the _state_ of the specification.
+The current location of each of the automata (i.e. the states of the automata), together with the current values of the variables (all discrete, input and continuous variables, including variable `time`), is called the _state_ of the specification.
 The state of the specification (or simply 'the state'), is all the information that needs to be maintained about the history of the simulation, going forward.
 
 For instance, consider the following specification:

@@ -41,7 +41,7 @@ indexterm:[trajectory data,filtering]
 Variable `time` is always included in the trajectory data file.
 The following additional variables (officially 'state objects') are included by default:
 
-* The state variables, which includes the discrete variables and the continuous variables.
+* The state variables, which includes the discrete variables, input variables and the continuous variables.
 
 * The derivatives of the continuous variables.
 This does not include the derivative of variable `time`.

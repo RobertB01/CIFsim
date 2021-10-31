@@ -27,14 +27,14 @@
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / CIF</a>
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / CIF</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / CIF</span></a>
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / CIF</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="..">Eclipse ESCET / Project</a></li>
                 <li><a class="dropdown-item" href="./">Eclipse ESCET / CIF</a></li>
@@ -69,7 +69,7 @@
     <!-- Intro -->
     <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
       <div class="clearfix mb-4 mb-md-0">
-        <span class="float-end">@@ESCET-VERSION@@ <a href="release-notes.html">(release notes)</a></span>
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
       </div>
       <div class="col-12 mx-auto mt-0 mb-3">
         <h1 class="display-4 fw-bold">About CIF</h1>
@@ -105,7 +105,7 @@
             <ul>
               <li>Text-based editor that allows to easily specify and edit models.</li>
               <li>
-                Feature-rich powerful data-based synthesis tool.
+                Feature-rich powerful data-based supervisory controller synthesis tool.
                 A transformation to the supervisory controller synthesis tool Supremica is also available.
               </li>
               <li>
@@ -119,9 +119,9 @@
           <p>
             For more information, see the <a href="tools">tool documentation</a>.
           </p>
-          <h4>Supervisor synthesis</h4>
+          <h4>Supervisory controller synthesis</h4>
           <p>
-            Supervisory controller synthesis is a key feature of CIF.
+            Supervisory controller synthesis (or just, supervisor synthesis) is a key feature of CIF.
             It involves the automatic generation of supervisory controllers from a specification of the uncontrolled system and the (safety) requirements that the controller needs to enforce.
           </p>
           <p>
@@ -131,9 +131,18 @@
           <p>
             For more information, see the <a href="documentation.html">CIF documentation</a>.
           </p>
+          <h4>CIF application</h4>
+          <p>
+            CIF has been applied in industry, for various domains, including the medical, semiconductor and public works (infrastructure) domains.
+          </p>
+          <p>
+            The main application area of CIF is the development of supervisory controllers.
+            The language and tools are however generic, and can be used to work with state machines in general for various other purposes.
+          </p>
           <h4>Part of Eclipse ESCET</h4>
           <p>
-            The CIF language and tools are part of the Eclipse ESCET open-source project and toolkit.
+            The CIF language and tools are being developed as part of the Eclipse ESCET open-source project.
+            The CIF tools are part of the Eclipse ESCET toolkit.
           </p>
           <p>
             For more information, see the <a href="../">Eclipse ESCET project</a> website.

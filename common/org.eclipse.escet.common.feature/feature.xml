@@ -32,6 +32,7 @@
    </license>
 
    <requires>
+      <import plugin="org.apache.commons.io"/>
       <import plugin="org.apache.xalan"/>
       <import feature="org.eclipse.jdt"/>
    </requires>

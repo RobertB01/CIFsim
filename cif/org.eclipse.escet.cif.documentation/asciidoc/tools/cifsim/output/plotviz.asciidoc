@@ -36,7 +36,7 @@ It can be enabled using the _Plot visualization_ option (_Output: Plot visualiza
 
 The plot visualizer can plot the values of the following variables (officially 'state objects'):
 
-* The state variables, which includes the discrete variables and the continuous variables.
+* The state variables, which includes the discrete variables, input variables and the continuous variables.
 
 * The derivatives of the continuous variables.
 This does not include the derivative of variable `time`.

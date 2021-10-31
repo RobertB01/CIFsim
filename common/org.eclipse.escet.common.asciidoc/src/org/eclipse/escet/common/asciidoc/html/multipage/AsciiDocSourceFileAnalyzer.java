@@ -85,7 +85,7 @@ class AsciiDocSourceFileAnalyzer {
             title = titleLine.substring(3); // == Title
 
             // Sanity check: source id is the id for the page title header.
-            Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
+            Assert.areEqual(idIndex + 1, titleIndex);
 
             // Sanitize title.
             // - Check for balanced backticks and remove backticks.
@@ -93,7 +93,7 @@ class AsciiDocSourceFileAnalyzer {
             title = title.replace("`", "");
 
             // Sanity check: stripped title.
-            Assert.check(title.equals(title.strip()), title);
+            Assert.areEqual(title, title.strip());
 
             // Sanity check: no markup in title.
             String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";

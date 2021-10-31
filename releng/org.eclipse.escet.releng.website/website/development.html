@@ -27,14 +27,14 @@
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / Project</a>
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / Project</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / Project</span></a>
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / Project</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="./">Eclipse ESCET / Project</a></li>
                 <li><a class="dropdown-item" href="cif">Eclipse ESCET / CIF</a></li>
@@ -68,7 +68,7 @@
     <!-- Intro -->
     <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
       <div class="clearfix mb-4 mb-md-0">
-        <span class="float-end">@@ESCET-VERSION@@ <a href="release-notes.html">(release notes)</a></span>
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
       </div>
       <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
         <h1 class="display-4 fw-bold">Eclipse ESCET™ development</h1>
@@ -80,33 +80,40 @@
       <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
           <p>
-            Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) open-source project.
-            Contributions are always welcome!
+            Eclipse ESCET is an Eclipse Foundation open-source project.
+            We develop the <a href="cif">CIF</a>, <a href="chi">Chi</a> and <a href="tooldef">ToolDef</a> languages and tools.
           </p>
           <h4 class="mt-5">Contributing to Eclipse ESCET</h4>
           <p>
-            You can contribute source code, documentation and any other contributions via the Eclipse ESCET GitLab.
-            To get started quickly, please consult the <a href="development/development/contributing.html">contributing information</a>.
-            If you have any questions, don't hesitate to <a href="development/development/dev-list.html">contact</a> the Eclipse ESCET developers.
+            Interested in contributing to the Eclipse ESCET project?
+            Contributions are always welcome!
+            <ul>
+              <li>Check out the <a href="development/development/contributing.html">contributing information</a> to get started quickly.</li>
+              <li><a href="development/development/dev-list.html">Contact</a> the Eclipse ESCET developers if you have any questions.</li>
+            </ul>
           </p>
           <p>
-            <div class="d-grid gap-2 d-sm-flex">
+            <div class="d-grid gap-3 d-sm-flex">
               <a class="btn escet-btn btn-lg px-4" href="development/development/contributing.html">Contribute now</a>
+              <a class="btn escet-outline-btn btn-lg px-4" href="https://gitlab.eclipse.org/eclipse/escet/escet">GitLab</a>
             </div>
           </p>
           <h4 class="mt-5">Eclipse ESCET developer information</h4>
           <p>
-            The Eclipse ESCET development documentation includes information related to the development of the Eclipse ESCET toolkit as a whole, as it applies to all its languages and tools.
-            Check it out for more information regarding our development process, issue tracking, setting up a developer environment, coding standards, builds, and more.
-          </p>
-          <p>
-            Furthermore, the development documentation includes information on various common libraries and development tools.
-            These common libraries and development tools are shared by the various end-user languages and tools that comprise the Eclipse ESCET toolkit.
+            Check out the Eclipse ESCET development documentation for more info on the development of the Eclipse ESCET toolkit:
+            <ul>
+              <li>Our development process</li>
+              <li>Issue tracking</li>
+              <li>Setting up a developer environment</li>
+              <li>Coding standards</li>
+              <li>Builds</li>
+              <li>Common libraries and development tools</li>
+              <li>... and much more</li>
+            </ul>
           </p>
           <p>
             <div class="d-grid gap-3 d-sm-flex">
               <a class="btn escet-btn btn-lg px-4" href="development">Development documentation</a>
-              <a class="btn escet-outline-btn btn-lg px-4" href="https://gitlab.eclipse.org/eclipse/escet/escet">GitLab</a>
             </div>
           </p>
         </div>

@@ -24,6 +24,9 @@ public enum StateObjectType {
     /** Discrete variable. */
     DISCRETE,
 
+    /** Input variable. */
+    INPUT,
+
     /** Continuous variable. */
     CONTINUOUS,
 

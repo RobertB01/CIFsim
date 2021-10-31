@@ -27,14 +27,14 @@
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / Project</a>
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / Project</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / Project</span></a>
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / Project</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="./">Eclipse ESCET / Project</a></li>
                 <li><a class="dropdown-item" href="cif">Eclipse ESCET / CIF</a></li>
@@ -68,7 +68,7 @@
     <!-- Intro -->
     <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
       <div class="clearfix mb-4 mb-md-0">
-        <span class="float-end">@@ESCET-VERSION@@ <a href="release-notes.html">(release notes)</a></span>
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
       </div>
       <div class="col-12 mx-auto mt-0 mb-3">
         <h1 class="display-4 fw-bold">About Eclipse ESCET™</h1>
@@ -79,6 +79,12 @@
     <div class="px-4 pt-5">
       <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-xl-8 col-xxl-6">
+          <h4>Model-Based Systems Engineering</h4>
+          <p>
+            High-tech companies increasingly adopt the <a href="https://en.wikipedia.org/wiki/Model-based_systems_engineering">Model-Based Systems Engineering</a> (MBSE) paradigm.
+            The use of (formal) models for controller design allows validation and verification of controllers long before they are implemented and integrated into the system.
+            Early validation and verification have been shown to lead to less defects and reduced costs.
+          </p>
           <h4>The Eclipse ESCET project</h4>
           <p>
             The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET™) project is an Eclipse Foundation open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
@@ -87,20 +93,14 @@
             The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
             The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
           </p>
-          <h4>Model-Based Systems Engineering</h4>
+          <h4>Supervisory controller synthesis</h4>
           <p>
-            High-tech companies increasingly adopt the <a href="https://en.wikipedia.org/wiki/Model-based_systems_engineering">Model-Based Systems Engineering</a> (MBSE) paradigm.
-            The use of (formal) models for controller design allows validation and verification of controllers long before they are implemented and integrated into the system.
-            Early validation and verification have been shown to lead to less defects and reduced costs.
-          </p>
-          <h4>Supervisor synthesis</h4>
-          <p>
-            Supervisory controller synthesis, provided by the <a href="cif">CIF</a> language and tools, is a key feature of the toolkit.
+            Supervisory controller synthesis (or just, supervisor synthesis) shifts controller design from 'how should the implementation work' to 'what should the controller do'.
             It involves the automatic generation of supervisory controllers from a specification of the uncontrolled system and the (safety) requirements that the controller needs to enforce.
+            Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
           </p>
           <p>
-            This shifts controller design from 'how should the implementation work' to 'what should the controller do'.
-            Implementation of the controller is achieved through (implementation language) code generation, reducing the number of errors introduced at this stage.
+            Supervisory controller synthesis is a key feature of the Eclipse ESCET toolkit and is provided by the <a href="cif">CIF</a> language and tools.
           </p>
         </div>
       </div>

@@ -27,14 +27,14 @@
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / ToolDef</a>
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / ToolDef</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / ToolDef</span></a>
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / ToolDef</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="..">Eclipse ESCET / Project</a></li>
                 <li><a class="dropdown-item" href="../cif">Eclipse ESCET / CIF</a></li>
@@ -65,11 +65,10 @@
       </div>
     </nav>
 
-
     <!-- Intro -->
     <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
       <div class="clearfix mb-4 mb-md-0">
-        <span class="float-end">@@ESCET-VERSION@@ <a href="release-notes.html">(release notes)</a></span>
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
       </div>
       <div class="col-12 mx-auto mt-0 mb-3">
         <h1 class="display-4 fw-bold">About ToolDef</h1>
@@ -83,28 +82,41 @@
           <h4>ToolDef language</h4>
           <p>
             ToolDef is a cross-platform and machine-independent scripting language.
-            The ToolDef language features a simple and intuitive syntax to make it easy to write scripts, static typing to catch simple mistakes, a large number of built-in data types and tools, Java integration, and more.
-            This sets it apart from other scripting languages, like Windows batch files and Linux shell scripts.
+            Some of its main features are:
+            <ul>
+              <li>Easily write scripts using a simple and intuitive syntax, loosely based on the better aspects of Python.</li>
+              <li>Catch simple mistakes early on due to static typing.</li>
+              <li>Easily work with data of all kinds, using a large number of built-in data types.</li>
+              <li>Easily manipulate data and paths, work with files and directories, and much more, with over 80 built-in tools.</li>
+              <li>Easily share your tools as ToolDef libraries.</li>
+              <li>Unleash the full power of Java by importing any Java static method and using it like any other ToolDef tool.</li>
+            </ul>
           </p>
           <p>
-            For more information, see the <a href="introduction.html">extended ToolDef introduction</a> and <a href="language-reference">language reference documentation</a>.
+            For more information, see the <a href="introduction.html">extended ToolDef introduction</a> and <a href="language-reference">ToolDef language reference documentation</a>.
           </p>
           <h4>ToolDef tools</h4>
           <p>
-            ToolDef supports command line execution, but is also available as plug-in for the Eclipse IDE, providing an integrated development experience as part of the Eclipse ESCET IDE.
-          </p>
-          <p>
-            ToolDef libraries with ToolDef compatible tools are available for all tools of the Eclipse ESCET toolkit, allowing cross-platform and machine-independent scripting using Eclipse ESCET tools.
-            In particular, ToolDef libraries for <a href="../cif">CIF</a> and <a href="../chi">Chi</a> are available.
-            ToolDef however is a generic scripting language, and can be used without using any of the other Eclipse ESCET tools.
-            Furthermore, other tools can be made available for use within ToolDef scripts by defining ToolDef libraries for them.
+            Some of the main features of the ToolDef tooling include:
+            <ul>
+              <li>Easily develop ToolDef scripts, with syntax highlighting, real-time type checking and more.</li>
+              <li>Platform and machine independent execution of ToolDef scripts, on Windows, Linux, and macOS.</li>
+              <li>Seamlessly execute ToolDef scripts, whether on the command line or in the Eclipse IDE.</li>
+              <li>User-friendly (runtime) error messages make it easy to debug and fix scripts.</li>
+            </ul>
           </p>
           <p>
             For more information, see the <a href="documentation.html">ToolDef documentation</a>.
           </p>
           <h4>Part of Eclipse ESCET</h4>
           <p>
-            The ToolDef language and tools are part of the Eclipse ESCET open-source project and toolkit.
+            The ToolDef language and tools are being developed as part of the Eclipse ESCET open-source project.
+            The ToolDef tools are part of the Eclipse ESCET toolkit.
+          </p>
+          <p>
+            The other Eclipse ESCET languages, <a href="../cif">CIF</a> and <a href="../chi">Chi</a>, both offer a ToolDef library.
+            This allows to quickly and easily execute any Eclipse ESCET tools in ToolDef scripts.
+            ToolDef is however a generic scripting language, and can be used completely independent of any other Eclipse ESCET tools.
           </p>
           <p>
             For more information, see the <a href="../">Eclipse ESCET project</a> website.

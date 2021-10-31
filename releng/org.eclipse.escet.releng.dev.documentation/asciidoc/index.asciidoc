@@ -24,7 +24,7 @@ include::_root_attributes.asciidoc[]
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
 
-Thanks for your interest in the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) project.
+This documentation concerns the development of the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) open-source project.
 
 [WARNING]
 ====

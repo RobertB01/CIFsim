@@ -72,6 +72,10 @@ The <<release-notes-chapter-index,Release notes>> provides information on all Ch
 Legal::
 See <<legal-chapter-index,Legal>> for copyright and licensing information.
 
+A screenshot showing a Chi model and simulation with visualization:
+
+image::{imgsdir}/screenshot_ide.png[]
+
 
 // Tutorial
 

@@ -230,7 +230,7 @@ This expression may for instance be a literal value, such as `1`, `true`, `1.0`,
 At first, it might not seem useful to use a literal as a value for an output mapping, since the mapping will then produce the same value every time it is applied.
 However, the <<tools-cifsim-output-svgviz-chapter-example-rate,rate example>> shows why this can in fact be very useful.
 
-The expressions however, may also contain references to variables (discrete, continuous, or algebraic), functions, constants, locations, etc.
+The expressions however, may also contain references to variables (discrete, input, continuous, or algebraic), functions, constants, locations, etc.
 For instance, we could use the value of a continuous variable and multiply it by two, by using `x * 2` as expression, assuming that the continuous variable is named `x`.
 Since we may refer to the <<tools-cifsim-traces-state,state>> of the CIF specification, the value of the expression can change as the simulation continues, resulting in different values being mapped to the image.
 

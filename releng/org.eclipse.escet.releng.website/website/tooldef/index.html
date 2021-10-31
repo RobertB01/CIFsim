@@ -27,14 +27,14 @@
     <!-- Top navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark escet-bg">
       <div class="container-fluid">
-        <a class="navbar-brand me-1">Eclipse ESCET™ / ToolDef</a>
+        <a class="navbar-brand d-lg-none">Eclipse ESCET™ / ToolDef</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-0 mb-lg-0">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle px-0 pe-lg-2 py-lg-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="d-lg-none">Eclipse ESCET / ToolDef</span></a>
+              <a class="nav-link dropdown-toggle escet-brand px-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eclipse ESCET™ / ToolDef</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="..">Eclipse ESCET / Project</a></li>
                 <li><a class="dropdown-item" href="../cif">Eclipse ESCET / CIF</a></li>
@@ -68,11 +68,12 @@
     <!-- Intro -->
     <div class="position-relative overflow-hidden p-3 text-center escet-bg escet-bg-opacity-125">
       <div class="clearfix mb-4 mb-md-0">
-        <span class="float-end">@@ESCET-VERSION@@ <a href="release-notes.html">(release notes)</a></span>
+        <span class="float-end"><a href="release-notes.html">Version: @@ESCET-VERSION@@</a></span>
       </div>
       <div class="col-11 col-md-6 col-lg-5 mx-auto mt-0 mb-3">
         <h1 class="display-4 fw-bold">ToolDef</h1>
-        <p class="lead fw-normal fst-italic">ToolDef is a cross-platform and machine-independent scripting language.</p>
+        <p class="lead fw-normal fst-italic">Tired of scripting with Windows batch files and Linux shell scripts?</p>
+        <p class="lead fw-normal fst-italic">ToolDef is a cross-platform scripting language with the simplicity of Python and the power of Java.</p>
         <a class="btn escet-btn" href="about.html">Learn more</a>
       </div>
     </div>
@@ -87,7 +88,7 @@
           </div>
           <div>
             <h2>Intuitive language</h2>
-            <p class="lead fw-normal">ToolDef features a simple and intuitive syntax that makes it easy to write scripts.</p>
+            <p class="lead fw-normal">ToolDef features a simple and intuitive Python-inspired syntax that makes it easy to write scripts.</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
@@ -96,7 +97,7 @@
           </div>
           <div>
             <h2>Reduce mistakes</h2>
-            <p class="lead fw-normal">Static typing reduces simple mistakes, compared to Windows batch files and Linux shell scripts.</p>
+            <p class="lead fw-normal">Static typing reduces simple mistakes, compared to Windows batch files, Linux shell scripts and Python.</p>
           </div>
         </div>
         <div class="col d-flex align-items-start">
@@ -105,7 +106,7 @@
           </div>
           <div>
             <h2>Powerful tools</h2>
-            <p class="lead fw-normal">ToolDef features many built-in data types and tools, and integrates well with Eclipse ESCET tools and Java.</p>
+            <p class="lead fw-normal">ToolDef features many built-in data types and tools, and integrates well with Java and the Eclipse ESCET tools.</p>
           </div>
         </div>
       </div>
@@ -140,9 +141,10 @@
             <h2>ToolDef</h2>
             <p>Learn more about ToolDef from the extensive documentation that covers both the ToolDef language and tools:</p>
             <ul class="icon-list escet-arrow-icon-list mb-0">
-              <li><a href="documentation.html">ToolDef documentation</a></li>
+              <li><a href="documentation.html">ToolDef documentation home page</a></li>
               <li><a href="language-reference">ToolDef language reference</a></li>
               <li><a href="tools.html">ToolDef tooling</a></li>
+              <li><a href="release-notes.html">ToolDef release notes</a></li>
             </ul>
           </div>
 
@@ -151,7 +153,7 @@
             <p>ToolDef is part of the Eclipse ESCET open-source project. Learn more about the project and toolkit:</p>
             <ul class="icon-list escet-arrow-icon-list mb-0">
               <li><a href="..">Eclipse ESCET project</a></li>
-              <li><a href="../documentation.html">Eclipse ESCET toolkit documentation</a></li>
+              <li><a href="../documentation.html">Eclipse ESCET general toolkit documentation</a></li>
               <li><a href="../contact-and-support.html">Eclipse ESCET contact and support</a></li>
               <li><a href="../legal.html">Eclipse ESCET license and legal information</a></li>
             </ul>

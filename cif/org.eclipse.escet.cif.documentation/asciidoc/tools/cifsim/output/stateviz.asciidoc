@@ -38,7 +38,7 @@ indexterm:[state visualizer,contents]
 
 === Contents
 
-The state visualizer shows all the discrete, continuous, and algebraic variables of the specification, as well as their values.
+The state visualizer shows all the discrete, input, continuous, and algebraic variables of the specification, as well as their values.
 It also shows the derivatives of the continuous variables, and their values.
 This includes variable `time`, but not its derivative.
 It also shows the automata, with their current locations.
@@ -53,6 +53,7 @@ The icons on the left indicate the kind of object that is shown in a particular 
 
 :img-icon-aut:
 :img-icon-discvar:
+:img-icon-inputvar:
 :img-icon-contvar:
 :img-icon-deriv:
 :img-icon-algvar:
@@ -62,6 +63,9 @@ An automaton, with its current location.
 
 * image:{tools-imgsdir}/cifsim/output/stateviz_discvar.png[]
 A discrete variable, with its current value.
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_inputvar.png[]
+An input variable, with its current value.
 
 * image:{tools-imgsdir}/cifsim/output/stateviz_contvar.png[]
 A continuous variable (includes variable `time`), with its current value.

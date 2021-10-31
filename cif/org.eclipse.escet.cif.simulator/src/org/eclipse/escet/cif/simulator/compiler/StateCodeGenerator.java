@@ -15,6 +15,7 @@ package org.eclipse.escet.cif.simulator.compiler;
 
 import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.CONT_SUB_STATE_FIELD_NAME;
+import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.INPUT_SUB_STATE_FIELD_NAME;
 import static org.eclipse.escet.cif.simulator.compiler.CifCompilerContext.LOC_POINTER_TYPE;
 import static org.eclipse.escet.cif.simulator.compiler.TypeCodeGenerator.gencodeType;
 import static org.eclipse.escet.common.java.Lists.list;
@@ -32,6 +33,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Pair;
 
@@ -78,6 +80,7 @@ public class StateCodeGenerator {
             c.add("public State%s %s;", ctxt.getAutClassName(aut), ctxt.getAutSubStateFieldName(aut));
         }
         c.add("public StateCont %s;", CONT_SUB_STATE_FIELD_NAME);
+        c.add("public StateInputVars %s;", INPUT_SUB_STATE_FIELD_NAME);
 
         // Add constructor.
         c.add();
@@ -97,6 +100,7 @@ public class StateCodeGenerator {
             c.add("rslt.%s = new State%s();", ctxt.getAutSubStateFieldName(aut), ctxt.getAutClassName(aut));
         }
         c.add("rslt.%s = new StateCont();", CONT_SUB_STATE_FIELD_NAME);
+        c.add("rslt.%s = new StateInputVars();", INPUT_SUB_STATE_FIELD_NAME);
         c.add("new StateInit().initState(spec, rslt);");
         c.add("return rslt;");
         c.dedent();
@@ -111,6 +115,7 @@ public class StateCodeGenerator {
             c.add("rslt.%s = state.%s;", ctxt.getAutSubStateFieldName(aut), ctxt.getAutSubStateFieldName(aut));
         }
         c.add("rslt.%s = state.%s;", CONT_SUB_STATE_FIELD_NAME, CONT_SUB_STATE_FIELD_NAME);
+        c.add("rslt.%s = state.%s;", INPUT_SUB_STATE_FIELD_NAME, INPUT_SUB_STATE_FIELD_NAME);
         c.add("return rslt;");
         c.dedent();
         c.add("}");
@@ -144,6 +149,16 @@ public class StateCodeGenerator {
 
         for (int i = 0; i < vars.size(); i++) {
             Declaration var = vars.get(i);
+
+            // Input variables are part of the input variables sub state.
+            if (var instanceof InputVariable) {
+                c.add("case %d: return %s.%s;", i, INPUT_SUB_STATE_FIELD_NAME,
+                        ctxt.getInputVarFieldName((InputVariable)var));
+
+                continue;
+            }
+
+            // Discrete variables and continuous variables.
             EObject parent = var.eContainer();
             if (parent instanceof Automaton) {
                 String varField;
@@ -330,6 +345,7 @@ public class StateCodeGenerator {
             gencodeSubState(aut, ctxt);
         }
         gencodeSubStateCont(spec, ctxt);
+        gencodeSubStateInputVars(spec, ctxt);
     }
 
     /**
@@ -360,6 +376,9 @@ public class StateCodeGenerator {
             if (decl instanceof DiscVariable) {
                 DiscVariable var = (DiscVariable)decl;
                 c.add("public %s %s;", gencodeType(var.getType(), ctxt), ctxt.getDiscVarFieldName(var));
+            } else if (decl instanceof InputVariable) {
+                // Input variables are placed in their own sub state.
+                continue;
             } else if (decl instanceof ContVariable) {
                 ContVariable var = (ContVariable)decl;
                 c.add("public double %s;", ctxt.getContVarFieldName(var));
@@ -378,6 +397,9 @@ public class StateCodeGenerator {
             if (decl instanceof DiscVariable) {
                 DiscVariable var = (DiscVariable)decl;
                 c.add("rslt.%s = %s;", ctxt.getDiscVarFieldName(var), ctxt.getDiscVarFieldName(var));
+            } else if (decl instanceof InputVariable) {
+                // Input variables are placed in their own sub state.
+                continue;
             } else if (decl instanceof ContVariable) {
                 ContVariable var = (ContVariable)decl;
                 c.add("rslt.%s = %s;", ctxt.getContVarFieldName(var), ctxt.getContVarFieldName(var));
@@ -441,6 +463,47 @@ public class StateCodeGenerator {
     }
 
     /**
+     * Generate Java code for the runtime sub-state for the input variables.
+     *
+     * @param spec The specification.
+     * @param ctxt The compiler context to use.
+     */
+    private static void gencodeSubStateInputVars(Specification spec, CifCompilerContext ctxt) {
+        // Collect input variables.
+        List<InputVariable> variables = ctxt.getInputVariables();
+
+        // Add new code file.
+        JavaCodeFile file = ctxt.addCodeFile("StateInputVars");
+
+        // Add header.
+        CodeBox h = file.header;
+        h.add("/** Runtime sub-state for input variables. */");
+        h.add("public final class StateInputVars {");
+
+        // Add body.
+        CodeBox c = file.body;
+
+        // Add fields for the input variables.
+        for (InputVariable var: variables) {
+            c.add("public %s %s;", gencodeType(var.getType(), ctxt), ctxt.getInputVarFieldName(var));
+        }
+
+        // Add 'copy' method.
+        c.add();
+        c.add("public StateInputVars copy() {");
+        c.indent();
+        c.add("StateInputVars rslt = new StateInputVars();");
+
+        for (InputVariable var: variables) {
+            c.add("rslt.%s = %s;", ctxt.getInputVarFieldName(var), ctxt.getInputVarFieldName(var));
+        }
+
+        c.add("return rslt;");
+        c.dedent();
+        c.add("}");
+    }
+
+    /**
      * Collect the continuous variables declared in the given component (recursively), which are declared outside of
      * automata.
      *
@@ -467,7 +530,30 @@ public class StateCodeGenerator {
     }
 
     /**
-     * Collect the (discrete and continuous) variables that are part of the state, and are declared in the given
+     * Collect the input variables defined in the component (recursively).
+     *
+     * @param comp The component.
+     * @param vars The variables collected so far, as pairs of absolute names of the variables and the variables
+     *     themselves. Is modified in-place.
+     */
+    public static void collectInputVars(ComplexComponent comp, List<Pair<String, InputVariable>> vars) {
+        // Collect locally.
+        for (Declaration decl: comp.getDeclarations()) {
+            if (decl instanceof InputVariable) {
+                vars.add(pair(getAbsName(decl, false), (InputVariable)decl));
+            }
+        }
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child: ((Group)comp).getComponents()) {
+                collectInputVars((ComplexComponent)child, vars);
+            }
+        }
+    }
+
+    /**
+     * Collect the discrete, input and continuous variables that are part of the state, and are declared in the given
      * component (recursively).
      *
      * @param comp The component.
@@ -477,7 +563,7 @@ public class StateCodeGenerator {
     public static void collectStateVars(ComplexComponent comp, List<Pair<String, Declaration>> vars) {
         // Collect locally.
         for (Declaration decl: comp.getDeclarations()) {
-            if (decl instanceof DiscVariable || decl instanceof ContVariable) {
+            if (decl instanceof DiscVariable || decl instanceof InputVariable || decl instanceof ContVariable) {
                 vars.add(pair(getAbsName(decl, false), decl));
             }
         }

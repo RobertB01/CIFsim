@@ -1,0 +1,12 @@
+Initial state: time=0.0, g=l1, g.i_b=true, g.i_i=3, i_r=2.0
+
+Transition: event g.e
+State: time=0.0, g=l2, g.i_b=true, g.i_i=3, i_r=2.0
+
+Transition: event g.e
+State: time=0.0, g=l3, g.i_b=true, g.i_i=3, i_r=2.0
+
+Transition: event g.e
+State: time=0.0, g=l4, g.i_b=true, g.i_i=3, i_r=2.0
+
+Simulation resulted in deadlock.
