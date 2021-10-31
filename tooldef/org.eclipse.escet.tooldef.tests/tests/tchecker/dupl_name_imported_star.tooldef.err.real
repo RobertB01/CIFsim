@@ -1,0 +1,3 @@
+ERROR: File "tchecker/dupl_name_imported_star.tooldef": Semantic error at line 14, column 45: Duplicate tool overload for tool "a" and tool "a".
+ERROR: File "tchecker/dupl_name_imported_star.tooldef": Semantic error at line 14, column 47: Duplicate tool overload for tool "a" and tool "a".
+ERROR: Failed to load ToolDef file "tchecker/dupl_name_imported_star.tooldef": the file has errors.
