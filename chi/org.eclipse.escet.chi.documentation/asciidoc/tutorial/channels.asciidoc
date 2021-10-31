@@ -27,7 +27,7 @@ Communication between the processes takes place instantly when both processes ar
 === A channel
 
 The following example shows the sending of an integer value between two processes via a channel.
-The figure below shows the two processes `P` and `C`, connected by channel variable `a`.
+The figure below shows the two processes `P` and `C`, connected by channel variable `a`:
 
 [[tut-figure-producer-consumer]]
 image::{tut-imgsdir}/pictures/producer_consumer.png[]
@@ -198,7 +198,7 @@ Channels send a message (or a signal in case of synchronization channels) from o
 It is however allowed to give the same channel to several sender or receiver processes.
 The channel selects a sender and a receiver before each communication.
 
-The following example gives an illustration, see the figure below.
+The following example gives an illustration:
 
 [[tut-figure-generator-2servers-exit]]
 image::{tut-imgsdir}/pictures/generator_2servers_exit.png[]
@@ -292,7 +292,7 @@ Child `C1` adds 2 and tells the result to its right neighbour, child `C2`.
 After telling the result to child `C2`, child `C1` is able to start calculating on the next number the reader `R` tells him.
 Children `C2`, `C3`, and `C4` are analogous to child `C1`; they each perform a different calculation on a number they hear and tell the result to their right neighbor.
 At the end of the table the writer `W` writes every result he hears down on paper.
-A schematic drawing of the children at the table, is given below.
+A schematic drawing of the children at the table, is given below:
 +
 [[tut-figure-sixchilds]]
 image::{tut-imgsdir}/pictures/sixchilds.png[]

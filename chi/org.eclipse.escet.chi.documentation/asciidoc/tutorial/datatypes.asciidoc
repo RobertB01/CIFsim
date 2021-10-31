@@ -572,7 +572,7 @@ indexterm:[tail,list]
 indexterm:[list,tail right]
 indexterm:[tail right,list]
 The list of all but the first elements (`xs[1:]`) is often called _tail_ and `xs[:-1]` is also known as _tail right_.
-Below, the slicing operator is visualized.
+Below, the slicing operator is visualized:
 
 [[tut-figure-list-with-slices]]
 image::{tut-imgsdir}/pictures/list_with_slices.png[]
@@ -704,7 +704,7 @@ indexterm:[type,set]
 ==== Sets
 
 Set operators for union, intersection and difference are present.
-The table below gives the name, the mathematical notation and the notation in the Chi language.
+The table below gives the name, the mathematical notation and the notation in the Chi language:
 
 [[tut-table-set-operations]]
 [cols=3*,options="header"]

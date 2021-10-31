@@ -1,3 +1,4 @@
+A two-place buffer is depicted below
 /////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
@@ -82,7 +83,7 @@ A buffer receives an item, stores the item, and sends the item to the next proce
 The buffer is  not willing to receive a second item, as long as the first item is still in the buffer.
 
 A two-place buffer can be created, by using the one-place buffer process twice.
-A two-place buffer is depicted below.
+A two-place buffer is depicted below:
 
 [[tut-figure-twoplacebuffer]]
 image::{tut-imgsdir}/pictures/two_place_buffer.png[]
@@ -350,7 +351,7 @@ Note that the order of the alternatives in the select statement does not matter,
 [[tut-buffer-exercises]]
 === Exercises
 
-. To study product flow to and from a factory, a setup as shown in the figure below is created.
+. To study product flow to and from a factory, a setup as shown in the figure below is created:
 +
 [[tut-figure-controlled-factory]]
 image::{tut-imgsdir}/pictures/controlled_factory.png[]

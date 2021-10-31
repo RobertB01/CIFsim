@@ -203,7 +203,7 @@ Analysis of the measurements will show that the system throughput equals `1 / ta
 
 In the next model, the generator produces items with an exponential inter-arrival time, and the server processes items with an exponential server processing time.
 To compensate for the variations in time of the generator and the server, a buffer process has been added.
-The model is depicted below.
+The model is depicted below:
 
 
 [[tut-figure-MM1]]
@@ -279,7 +279,7 @@ Both systems use a stochastic generator, and stochastic servers.
 
 The next model describes a _serial_ system, where an item is processed by one server, followed by another server.
 The generator and the servers are decoupled by buffers.
-The model is depicted below.
+The model is depicted below:
 
 
 [[tut-figure-tandem]]
@@ -307,7 +307,7 @@ The various processes are equal to those described previously in <<tut-stochasti
 
 In a parallel system the servers are operating in parallel.
 Having several servers in parallel is useful for enlarging the processing capacity of the task being done, or for reducing the effect of break downs of servers (when a server breaks down, the other server continues with the task for other items).
-The system is depicted below.
+The system is depicted below:
 
 [[tut-figure-two-parallel-servers]]
 image::{tut-imgsdir}/pictures/two_parallel_servers.png[]
@@ -337,7 +337,7 @@ To control which server gets the next item, each server must have its own channe
 In addition, the buffer has to know when the server can receive a new item.
 The latter is done with a 'request' channel, denoting that a server is free and needs a new item.
 The server sends its own identity as request, the requests are administrated in the buffer.
-The model is depicted below.
+The model is depicted below:
 
 [[tut-figure-two-parallel-requesting-servers]]
 image::{tut-imgsdir}/pictures/two_parallel_requesting_servers.png[]
@@ -420,7 +420,7 @@ In this way, products are built, e.g. tables, chairs, computers, or cars.
 In this section some simple assembly processes are described.
 These systems illustrate how assembling can be performed: in industry these assembly processes are often more complicated.
 
-An assembly work station for two components is shown below.
+An assembly work station for two components is shown below:
 
 [[tut-figure-assembly-two-components]]
 image::{tut-imgsdir}/pictures/assembly_two_components.png[]
