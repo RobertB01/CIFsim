@@ -1,8 +1,10 @@
 ERROR: File "models_invalid/nonterm_unused.setext": Semantic error at line 1, column 1: The specification is missing a scanner class.
-WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 25, column 1: Non-terminal "Y" can not be reached from any of the main/start symbols.
-WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 28, column 1: Non-terminal "Z" can not be reached from any of the main/start symbols.
-WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 31, column 1: Non-terminal "A" can not be reached from any of the main/start symbols.
-WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 31, column 1: Non-terminal "A" is not used.
-WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 34, column 1: Non-terminal "B" can not be reached from any of the main/start symbols.
-WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 37, column 1: Non-terminal "C" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 26, column 1: Non-terminal "Y" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 29, column 1: Non-terminal "Z" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 32, column 1: Non-terminal "A" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 32, column 1: Non-terminal "A" is not used.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 35, column 1: Non-terminal "B" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 38, column 1: Non-terminal "C" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 41, column 1: Non-terminal "NTA" can not be reached from any of the main/start symbols.
+WARNING: File "models_invalid/nonterm_unused.setext": Semantic warning at line 41, column 1: Non-terminal "NTA" is not used.
 ERROR: Failed to load SeText file "models_invalid/nonterm_unused.setext": the file has errors.
