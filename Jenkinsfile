@@ -25,7 +25,25 @@ pipeline {
     }
 
     options {
-        buildDiscarder(logRotator(numToKeepStr: '5'))
+        buildDiscarder(logRotator(
+            // Number of builds to keep.
+            numToKeepStr: '5',
+
+            // Number of builds for which to keep the artifacts.
+            artifactNumToKeepStr: '5',
+
+            // Number of days to keep builds.
+            daysToKeepStr: env.BRANCH_NAME ==~ /master/ ? '7' :             // master
+                           env.BRANCH_NAME ==~ /develop/ ? '1000' :         // develop
+                           env.TAG_NAME ==~ /v[0-9]+\\.[0-9]+.*/ ?  '120' : // release tags
+                           '30',                                            // other branches and merge requests
+
+            // Number of days to keep artifacts of builds.
+            artifactDaysToKeepStr: env.BRANCH_NAME ==~ /master/ ? '7' :            // master
+                                   env.BRANCH_NAME ==~ /develop/ ? '1000' :        // develop
+                                   env.TAG_NAME ==~ /v[0-9]+\\.[0-9]+.*/ ?  '30' : // release tags
+                                   '30',                                           // other branches and merge requests
+        ))
         timeout(time: 1, unit: 'HOURS')
         timestamps()
     }
