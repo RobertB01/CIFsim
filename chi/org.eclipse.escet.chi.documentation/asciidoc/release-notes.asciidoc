@@ -33,16 +33,16 @@ TBD
 
 Improvements and fixes:
 
-- The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
-- Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
-- Several small documentation fixes and improvements (issues #36 and #166).
+* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
+* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
+* Several small documentation fixes and improvements (issues #36 and #166).
 
 
 === Version 0.2
 
 Improvements and fixes:
 
-- Chi simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
+* Chi simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
 
 
 === Version 0.1
@@ -52,4 +52,4 @@ This release is based on the initial contribution by the Eindhoven University of
 
 Most notable changes compared to the last TU/e release:
 
-- The Chi simulator no longer crashes on code generation.
+* The Chi simulator no longer crashes on code generation.

@@ -40,7 +40,7 @@ This functionality is implemented by the `org.eclipse.escet.common.app.framework
 +
 The following command line arguments are expected:
 +
-- The name of the plug-in (OSGi bundle) that provides the application.
-- The full/absolute name of the Java class that implements the application.
+* The name of the plug-in (OSGi bundle) that provides the application.
+* The full/absolute name of the Java class that implements the application.
 Must extend the `Application` class and have a parameterless constructor.
-- The remaining command line arguments are the command line arguments for the application itself.
+* The remaining command line arguments are the command line arguments for the application itself.

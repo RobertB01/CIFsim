@@ -28,10 +28,10 @@ Its syntax is described in the link:https://docs.oracle.com/en/java/javase/11/do
 
 In short:
 
-- It is a file format that consists of lines of text.
-- Empty lines are allowed and are skipped.
-- Lines beginning with `#` or `!` are considered to be comment lines and are ignored.
-- Data lines contain key/value pairs.
+* It is a file format that consists of lines of text.
+* Empty lines are allowed and are skipped.
+* Lines beginning with `#` or `!` are considered to be comment lines and are ignored.
+* Data lines contain key/value pairs.
 
 Here, a key of a data line is a sequence of words, separated by a dot, for example, `terminal.token.Identifier`.
 The key is followed by an optional but recommended separator character, either `:` or `=`.
