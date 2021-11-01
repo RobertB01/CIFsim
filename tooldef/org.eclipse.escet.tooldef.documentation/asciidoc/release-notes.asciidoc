@@ -33,9 +33,9 @@ TBD
 
 Improvements and fixes:
 
-- The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
-- Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
-- Several small documentation fixes and improvements (issue #166).
+* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
+* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
+* Several small documentation fixes and improvements (issue #166).
 
 
 === Version 0.2
@@ -50,5 +50,5 @@ This release is based on the initial contribution by the Eindhoven University of
 
 Most notable changes compared to the last TU/e release:
 
-- We no longer use separate language and tool versions.
+* We no longer use separate language and tool versions.
 The `.tooldef2` file extension has been changed to `.tooldef` as part of this change.
