@@ -150,6 +150,8 @@ public class CifDataSynthesis {
                 return;
             }
             synthesizeFixedPoints(aut, doForward, dbgEnabled, doTiming, timing);
+            aut.marked.free();
+            aut.marked = null;
         } finally {
             if (doTiming) {
                 timing.main.stop();
@@ -1585,6 +1587,10 @@ public class CifDataSynthesis {
             return true;
         }
 
+        // Free no longer needed predicates.
+        aut.initialPlantInv.free();
+        aut.initialPlantInv = null;
+
         // Check for empty supervisor (no initial state).
         boolean emptySup = aut.initialCtrl.isZero();
         return !emptySup;
@@ -1649,10 +1655,8 @@ public class CifDataSynthesis {
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        BDD initialUnctrl = aut.initialUnctrl;
-        BDD initialCtrl = aut.initialCtrl;
 
-        BDD initialRemoved = initialUnctrl.id().andWith(initialCtrl.not());
+        BDD initialRemoved = aut.initialUnctrl.id().andWith(aut.initialCtrl.not());
         if (aut.env.isTerminationRequested()) {
             return;
         }
@@ -1679,7 +1683,7 @@ public class CifDataSynthesis {
         boolean dbgPrinted = false;
 
         if (!initialRemoved.isZero()) {
-            aut.initialOutput = initialCtrl.id();
+            aut.initialOutput = aut.initialCtrl.id();
             BDD assumption = aut.factory.one();
 
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
@@ -1690,7 +1694,9 @@ public class CifDataSynthesis {
             }
             if (simplifications.contains(BddSimplify.INITIAL_UNCTRL)) {
                 assumptionTxts.add("uncontrolled system");
-                assumption = assumption.and(initialUnctrl);
+
+                BDD extra = aut.initialUnctrl.id();
+                assumption = assumption.andWith(extra);
             }
 
             // If requested, the controlled system initialization predicate is simplified under the assumption of the
@@ -1701,7 +1707,9 @@ public class CifDataSynthesis {
             }
             if (simplifications.contains(BddSimplify.INITIAL_STATE_PLANT_INVS)) {
                 assumptionTxts.add("state plant invariants");
-                assumption = assumption.and(aut.plantInv);
+
+                BDD extra = aut.plantInv.id();
+                assumption = assumption.andWith(extra);
             }
 
             // Perform simplification if there are assumptions.
@@ -1710,7 +1718,6 @@ public class CifDataSynthesis {
                     return;
                 }
                 String assumptionsTxt = combineAssumptionTexts(assumptionTxts);
-                aut.initialOutput = initialCtrl.id();
 
                 BDD newInitial = aut.initialOutput.simplify(assumption);
                 if (aut.env.isTerminationRequested()) {
@@ -1729,15 +1736,22 @@ public class CifDataSynthesis {
                 aut.initialOutput.free();
                 aut.initialOutput = newInitial;
             }
+
+            assumption.free();
         }
 
         if (aut.env.isTerminationRequested()) {
             return;
         }
-        initialCtrl.free();
-        initialUnctrl.free();
+
+        // Free no longer needed predicates.
+        aut.initialCtrl.free();
+        aut.initialUnctrl.free();
         initialRemoved.free();
         initialAdded.free();
+
+        aut.initialCtrl = null;
+        aut.initialUnctrl = null;
     }
 
     /**
@@ -2037,6 +2051,8 @@ public class CifDataSynthesis {
                 assumptions.put(controllable, assumption);
             }
         }
+        aut.ctrlBeh.free();
+        aut.ctrlBeh = null;
 
         // Initialize output guards.
         if (aut.env.isTerminationRequested()) {
