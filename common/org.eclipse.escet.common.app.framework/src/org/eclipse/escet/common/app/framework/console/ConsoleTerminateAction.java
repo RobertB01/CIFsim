@@ -13,9 +13,16 @@
 
 package org.eclipse.escet.common.app.framework.console;
 
-import org.eclipse.escet.common.app.framework.Activator;
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.escet.common.app.framework.Application;
+import org.eclipse.escet.common.java.Assert;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 /** Console terminate action that can be used to terminate the running {@link Application}. */
 public class ConsoleTerminateAction extends Action {
@@ -31,7 +38,14 @@ public class ConsoleTerminateAction extends Action {
         super("Terminate");
         this.console = console;
         setToolTipText("Terminate");
-        setImageDescriptor(Activator.getImageDescriptor("icons/terminate_button.png"));
+
+        // Add icon image, with lazy loading.
+        Bundle bundle = FrameworkUtil.getBundle(getClass());
+        setImageDescriptor(ImageDescriptor.createFromURLSupplier(false, () -> {
+            URL imageUrl = FileLocator.find(bundle, new Path("icons/terminate_button.png"));
+            Assert.notNull(imageUrl);
+            return imageUrl;
+        }));
     }
 
     @Override

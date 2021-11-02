@@ -27,5 +27,4 @@ Export-Package: org.eclipse.escet.common.app.framework,
  org.eclipse.escet.common.app.framework.options,
  org.eclipse.escet.common.app.framework.options.processing,
  org.eclipse.escet.common.app.framework.output
-Bundle-Activator: org.eclipse.escet.common.app.framework.Activator
 Automatic-Module-Name: org.eclipse.escet.common.app.framework

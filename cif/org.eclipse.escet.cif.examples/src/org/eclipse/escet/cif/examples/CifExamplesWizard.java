@@ -17,14 +17,14 @@ import static org.eclipse.escet.common.java.Maps.map;
 
 import java.util.Map;
 
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.escet.common.eclipse.ui.CopyFilesNewProjectWizard;
+import org.osgi.framework.FrameworkUtil;
 
 /** Wizard to create a CIF examples project. */
 public class CifExamplesWizard extends CopyFilesNewProjectWizard {
     @Override
     protected String getInitialProjectName() {
-        String qualifier = getPlugin().getBundle().getVersion().toString();
+        String qualifier = FrameworkUtil.getBundle(getClass()).getVersion().toString();
         return "CIFExamples-" + qualifier;
     }
 
@@ -35,10 +35,5 @@ public class CifExamplesWizard extends CopyFilesNewProjectWizard {
         entries.put("examples/synthesis", "synthesis");
         entries.put("examples/timed", "timed");
         return entries;
-    }
-
-    @Override
-    protected Plugin getPlugin() {
-        return CifExamplesPlugin.instance;
     }
 }

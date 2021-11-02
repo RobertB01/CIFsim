@@ -18,6 +18,8 @@ import org.eclipse.osgi.service.resolver.DisabledInfo;
 import org.eclipse.osgi.service.resolver.PlatformAdmin;
 import org.eclipse.osgi.service.resolver.State;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
 /** Utility class with OSGi platform and bundle related helper methods. */
@@ -66,12 +68,15 @@ public final class PlatformUtils {
      * @return A value indicating whether the given bundle is disabled.
      */
     private static boolean isDisabled(Bundle bundle) {
+        Bundle appFrameworkBundle = FrameworkUtil.getBundle(PlatformUtils.class);
+        BundleContext appFrameworkBundleContext = appFrameworkBundle.getBundleContext();
+
         boolean disabled = false;
         ServiceReference<PlatformAdmin> platformAdminRef = null;
         try {
-            platformAdminRef = Activator.getContext().getServiceReference(PlatformAdmin.class);
+            platformAdminRef = appFrameworkBundleContext.getServiceReference(PlatformAdmin.class);
             if (platformAdminRef != null) {
-                PlatformAdmin platAdmin = Activator.getContext().getService(platformAdminRef);
+                PlatformAdmin platAdmin = appFrameworkBundleContext.getService(platformAdminRef);
                 if (platAdmin != null) {
                     State state = platAdmin.getState(false);
                     BundleDescription bundleDesc = state.getBundle(bundle.getBundleId());
@@ -83,7 +88,7 @@ public final class PlatformUtils {
             }
         } finally {
             if (platformAdminRef != null) {
-                Activator.getContext().ungetService(platformAdminRef);
+                appFrameworkBundleContext.ungetService(platformAdminRef);
             }
         }
         return disabled;
