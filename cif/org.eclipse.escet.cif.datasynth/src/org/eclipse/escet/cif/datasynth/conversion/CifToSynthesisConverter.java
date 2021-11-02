@@ -472,9 +472,9 @@ public class CifToSynthesisConverter {
         synthAut.initialComps = synthAut.factory.one();
         synthAut.initialLocs = synthAut.factory.one();
         convertInit(spec, synthAut, locPtrManager);
-        BDD initialAuts = synthAut.initialComps.and(synthAut.initialLocs);
-        synthAut.initialUnctrl = synthAut.initialVars.and(initialAuts);
-        initialAuts.free();
+        BDD initialCompsAndLocs = synthAut.initialComps.and(synthAut.initialLocs);
+        synthAut.initialUnctrl = synthAut.initialVars.and(initialCompsAndLocs);
+        initialCompsAndLocs.free();
 
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
