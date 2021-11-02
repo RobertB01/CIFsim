@@ -163,8 +163,8 @@ public class SynthesisAutomaton {
     public BDD marked;
 
     /**
-     * Combined Marker predicate and state invariant predicates for the uncontrolled system. Conjunction of
-     * {@link #marked} and {@link #plantInv}. Is {@code null} if not yet available.
+     * Combined marking and state plant invariant predicates for the uncontrolled system. Conjunction of {@link #marked}
+     * and {@link #plantInv}. Is {@code null} if not yet available.
      */
     public BDD markedPlantInv;
 

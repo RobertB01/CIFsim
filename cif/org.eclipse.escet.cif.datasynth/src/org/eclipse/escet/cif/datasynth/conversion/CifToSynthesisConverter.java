@@ -504,13 +504,15 @@ public class CifToSynthesisConverter {
         synthAut.reqInvComps = synthAut.factory.one();
         synthAut.reqInvLocs = synthAut.factory.one();
 
-        // Convert state plant invariants and requirement invariants.
+        // Convert state invariants.
         convertStateInvs(spec, synthAut, locPtrManager);
 
-        // Determine state plant invariant, combination of the state component and the state location plant invariants.
+        // Determine state plant invariant for the system, combination of the state plant invariant for the components
+        // and the state plant invariant for the locations of the automata.
         synthAut.plantInv = synthAut.plantInvComps.and(synthAut.plantInvLocs);
 
-        // Determine state req invariant, combination of the state component and the state location req invariants.
+        // Determine state requirement invariant for the system, combination of the state requirement invariant for the
+        // components and the state requirement invariant for the locations of automata.
         synthAut.reqInv = synthAut.reqInvComps.and(synthAut.reqInvLocs);
 
         if (synthAut.env.isTerminationRequested()) {
@@ -521,7 +523,7 @@ public class CifToSynthesisConverter {
         synthAut.initialPlantInv = synthAut.initialUnctrl.and(synthAut.plantInv);
         synthAut.initialInv = synthAut.initialPlantInv.and(synthAut.reqInv);
 
-        // Set combined predicate for marked with state invariants.
+        // Set combined predicate for marking with state invariants.
         synthAut.markedPlantInv = synthAut.marked.and(synthAut.plantInv);
         synthAut.markedInv = synthAut.markedPlantInv.and(synthAut.reqInv);
 
@@ -557,7 +559,7 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Convert state/event exclusion plant invariants and requirement invariants.
+        // Convert state/event exclusion invariants.
         convertStateEvtExclInvs(spec, synthAut, locPtrManager);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;

@@ -116,7 +116,7 @@ public class CifDataSynthesis {
             }
             applyStateEvtExclReqs(aut, dbgEnabled);
 
-            // Update the guards due to state plant and state/event exclusion invariants.
+            // Update the guards due to state plant invariants and state/event exclusion requirement invariants.
             for (SynthesisEdge edge: aut.edges) {
                 if (aut.env.isTerminationRequested()) {
                     return;
@@ -740,9 +740,9 @@ public class CifDataSynthesis {
                 return;
             }
 
-            // Simplify. That is, because the edge guards are restricted, `plantInv` will always be `true`. This ensures
-            // that for an edge with update 'y := y + 1' and state invariant 'x != 3' that the edge won't get an extra
-            // guard 'x != 3'. Simplifying is best effort, it may be possible to simplify the guard further.
+            // Simplify. That is, because the edge guards are restricted, 'plantInv' will always be 'true'. This ensures
+            // that for an edge with update 'y := y + 1' and state plant invariant 'x != 3' that the edge won't get an
+            // extra guard 'x != 3'. Simplifying is best effort, it may be possible to simplify the guard further.
             BDD updPredSimplified = updPred.simplify(aut.plantInv);
             if (updPred.equals(updPredSimplified)) {
                 updPredSimplified.free();

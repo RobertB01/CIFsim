@@ -130,9 +130,9 @@ public class SynthesisEdge {
     }
 
     /**
-     * Global edge guard update, to be applied after the guards have been updated because of the state plant and state
-     * plant/exclusion invariants. Must be invoked only once per edge. Must be invoked after an invocation of
-     * {@link #initApply} and before any invocation of {@link #preApply}.
+     * Global edge guard update, to be applied after the guards have been updated because of the state plant invariants
+     * and state/event exclusion requirement invariants. Must be invoked only once per edge. Must be invoked after an
+     * invocation of {@link #initApply} and before any invocation of {@link #preApply}.
      *
      * @param doForward Whether to do forward reachability during synthesis.
      */
