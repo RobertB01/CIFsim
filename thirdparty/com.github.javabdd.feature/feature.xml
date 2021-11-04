@@ -2,7 +2,7 @@
 <feature
       id="com.github.javabdd.feature"
       label="JavaBDD"
-      version="1.0.1.qualifier"
+      version="2.0.0.qualifier"
       provider-name="Eclipse ESCET">
 
    <description url="https://github.com/com-github-javabdd/com.github.javabdd">
