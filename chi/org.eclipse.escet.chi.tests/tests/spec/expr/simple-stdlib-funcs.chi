@@ -60,4 +60,7 @@ model M():
     dr = lognormal(v, v);
     dr = triangle(v, v+2, v + 4);
     dr = weibull(v, v);
+
+    n01 = abs(i);
+    n01 = sign(i);
 end

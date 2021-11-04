@@ -5,6 +5,8 @@ alg int[2..2] z = 1 + 1;
 alg int i = p.i + 1;
 alg list int li = [1];
 alg real a;
+alg bool ab1 = true;
+alg bool ab2 = false;
 group x:
   group y:
     plant automaton def z():
@@ -78,4 +80,5 @@ invariant b or r = GREEN or r = BLUE;
 invariant z > 0 and i > 0 and size(li) > 0;
 invariant a + q1.a + q2.a + q2.alg_var > 0;
 invariant q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;
+invariant ab1 or ab2;
 equation a = 1.0;

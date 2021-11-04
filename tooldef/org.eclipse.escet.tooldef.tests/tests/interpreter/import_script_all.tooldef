@@ -11,17 +11,10 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-const bool          b1 = true;
-const bool          b2 = b1;
-const int           i1 = 0;
-const int[0..0]     i2 = 0;
-const int[1..1]     i3 = 1;
-const int[-1..-1]   i4 = -1;
-const int[i2..i3]   i5 = 1;
-const int[i2+1..i3] i6 = 1;
-const int           i7 = round(1.0);
-const list int      li = [1];
+from "../interpreter/invoke_tooldef.tooldef" import *;
 
-const int x = 5, y = 6;
+for x in range(5):: outln("%s %s", x, inc(x));
+outln();
 
-invariant b1 or b2 or (i1 + i2 + i3 + i4 + i5 + i6 + i7) > 0 or size(li) > 0 or x + y = 15;
+outln("%s", t1(1, 2, 3));
+outln("%s", t2(1, 2, 3));

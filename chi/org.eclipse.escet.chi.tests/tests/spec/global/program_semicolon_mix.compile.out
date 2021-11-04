@@ -1,0 +1,4 @@
+Warning: File "spec/global/program_semicolon_mix.chi": Semantic warning at line 13, column 6: Unused process "p1".
+Warning: File "spec/global/program_semicolon_mix.chi": Semantic warning at line 15, column 6: Unused type "t1".
+Warning: File "spec/global/program_semicolon_mix.chi": Semantic warning at line 17, column 6: Unused process "p2".
+Warning: File "spec/global/program_semicolon_mix.chi": Semantic warning at line 19, column 6: Unused type "t2".
