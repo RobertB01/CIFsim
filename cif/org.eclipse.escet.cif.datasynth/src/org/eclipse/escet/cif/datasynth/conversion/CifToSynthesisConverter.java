@@ -2831,19 +2831,10 @@ public class CifToSynthesisConverter {
      * @param synthAut The synthesis automaton.
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
-//        // If any of the variables failed to convert, skip ordering.
-//        int varCnt = synthAut.variables.length;
-//        for (int i = 0; i < varCnt; i++) {
-//            SynthesisVariable var = synthAut.variables[i];
-//            if (var == null) {
-//                return;
-//            }
-//        }
-
         // Get order from option.
         String orderTxt = EventOrderOption.getOrder();
 
-        // Order the variables.
+        // Order the edges.
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
             // No reordering. Keep model order.
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
@@ -2948,7 +2939,7 @@ public class CifToSynthesisConverter {
                 throw new InvalidOptionException(msg);
             }
 
-            // Set new variable order.
+            // Set new edge order.
             synthAut.edges = edges;
         }
     }
