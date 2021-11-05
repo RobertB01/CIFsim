@@ -88,6 +88,7 @@ import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.options.EventOrderOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -568,6 +569,12 @@ public class CifToSynthesisConverter {
 
         // Add events and edges for input variables.
         addInputVariableEdges(synthAut);
+        if (synthAut.env.isTerminationRequested()) {
+            return synthAut;
+        }
+
+        // Order the edges, based on event names.
+        orderEdges(synthAut);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
         }
@@ -2815,6 +2822,134 @@ public class CifToSynthesisConverter {
                 vectorOld.free();
                 vectorNew.free();
             }
+        }
+    }
+
+    /**
+     * Orders the synthesis edges based on the event names.
+     *
+     * @param synthAut The synthesis automaton.
+     */
+    private void orderEdges(SynthesisAutomaton synthAut) {
+//        // If any of the variables failed to convert, skip ordering.
+//        int varCnt = synthAut.variables.length;
+//        for (int i = 0; i < varCnt; i++) {
+//            SynthesisVariable var = synthAut.variables[i];
+//            if (var == null) {
+//                return;
+//            }
+//        }
+
+        // Get order from option.
+        String orderTxt = EventOrderOption.getOrder();
+
+        // Order the variables.
+        if (orderTxt.toLowerCase(Locale.US).equals("model")) {
+            // No reordering. Keep model order.
+        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
+            // Reorder to the reverse of the model order.
+            Collections.reverse(synthAut.edges);
+        } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
+            // Sort based on absolute name.
+            Collections.sort(synthAut.edges,
+                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event), getAbsName(w.event)));
+        } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
+            // Sort based on absolute name.
+            Collections.sort(synthAut.edges,
+                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event), getAbsName(w.event)));
+
+            // Reorder to the reverse of the sorted order.
+            Collections.reverse(synthAut.edges);
+        } else if (orderTxt.toLowerCase(Locale.US).equals("random")
+                || orderTxt.toLowerCase(Locale.US).startsWith("random:"))
+        {
+            // Get seed, if specified.
+            Long seed = null;
+            if (orderTxt.contains(":")) {
+                int idx = orderTxt.indexOf(":");
+                String seedTxt = orderTxt.substring(idx + 1);
+                try {
+                    seed = Long.parseUnsignedLong(seedTxt);
+                } catch (NumberFormatException ex) {
+                    String msg = fmt("Invalid event random order seed number: \"%s\".", orderTxt);
+                    throw new InvalidOptionException(msg, ex);
+                }
+            }
+
+            // Shuffle to random order.
+            if (seed == null) {
+                Collections.shuffle(synthAut.edges);
+            } else {
+                Collections.shuffle(synthAut.edges, new Random(seed));
+            }
+        } else {
+            // Sort based on supplied custom order.
+            List<SynthesisEdge> edges = listc(synthAut.edges.size());
+            Set<SynthesisEdge> processedEdges = set();
+
+            // Process elements.
+            for (String elemTxt: StringUtils.split(orderTxt, ",")) {
+                // Skip empty.
+                elemTxt = elemTxt.trim();
+                if (elemTxt.isEmpty()) {
+                    continue;
+                }
+
+                // Create regular expression from filter.
+                String regEx = elemTxt.replace(".", "\\.");
+                regEx = regEx.replace("*", ".*");
+                Pattern pattern = Pattern.compile("^" + regEx + "$");
+
+                // Found actual element. Look up matching synthesis edges.
+                List<SynthesisEdge> matches = list();
+                for (SynthesisEdge edge: synthAut.edges) {
+                    String name = getAbsName(edge.event);
+                    if (pattern.matcher(name).matches()) {
+                        matches.add(edge);
+                    }
+                }
+
+                // Need a least one match.
+                if (matches.isEmpty()) {
+                    String msg = fmt(
+                            "Invalid event order: can't find a match for \"%s\". There is no supported event "
+                                    + "or input variable in the specification that matches the given name pattern.",
+                            elemTxt);
+                    throw new InvalidOptionException(msg);
+                }
+
+                // Sort matches.
+                Collections.sort(matches, (v, w) -> Strings.SORTER.compare(getAbsName(v.event), getAbsName(w.event)));
+
+                for (SynthesisEdge edge: matches) {
+                    if (processedEdges.contains(edge)) {
+                        String msg = fmt("Invalid event order: \"%s\" is included more than once.",
+                                getAbsName(edge.event));
+                        throw new InvalidOptionException(msg);
+                    }
+                    processedEdges.add(edge);
+                }
+
+                // Update for matched edges.
+                edges.addAll(matches);
+            }
+
+            // Check completeness.
+            if (edges.size() < synthAut.edges.size()) {
+                List<String> names = list();
+                for (SynthesisEdge edge: synthAut.edges) {
+                    if (!processedEdges.contains(edge)) {
+                        names.add("\"" + getAbsName(edge.event) + "\"");
+                    }
+                }
+                Collections.sort(names, Strings.SORTER);
+                String msg = fmt("Invalid event order: the following are missing from the specified order: %s.",
+                        StringUtils.join(names, ", "));
+                throw new InvalidOptionException(msg);
+            }
+
+            // Set new variable order.
+            synthAut.edges = edges;
         }
     }
 
