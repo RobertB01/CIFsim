@@ -105,6 +105,10 @@ For more information, see the <<tools-datasynth-supervisor-bdd>> section below.
 The initial order of the boolean variables is determined by this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
 
+* _Event order_: Edges are 'applied' to update the various BDDs during calculation.
+The order of the applied edges is determined by this option.
+For more information, see the <<tools-datasynth-event-order>> section below.
+
 * _BDD FORCE variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
 The initial order of the boolean variables can be improved by enabling this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
@@ -927,6 +931,61 @@ The size must be an integer number in the range [1 .. 12].
 
 If enabled, the algorithms are applied in the order they are listed above.
 
+indexterm:[data-based supervisory controller synthesis,event order]
+
+[[tools-datasynth-event-order]]
+=== Event order
+
+TODO: General information about edge/event ordering.
+
+The initial order in which the edges are applied is determined by the _Event order_ option (see <<tools-datasynth-options,options>> section above).
+Several default orders exist, and it is also possible to define a custom order.
+By default, the model order is used.
+The following default orders exist:
+
+* _model ordering_ (option value `model`)
++
+The initial order of the edges is as they occur in the model.
+Input variable are always put after the edges, sorted based on the variable order.
+
+* _reverse model ordering_ (option value `reverse-model`)
++
+The initial order of the edges is as they occur in the model, but reversed.
+Input variable are always put before the edges, sorted based on the reversed variable order.
+
+* _sorted ordering_ (option value `sorted`)
++
+The initial order of the edges is based on the names of the events and input variables.
+They are sorted alphabetically in ascending order, based on their absolute names.
+
+* _reverse sorted ordering_ (option value `reverse-sorted`)
++
+The initial order of the edges is based on the names of the events and input variables.
+They are sorted alphabetically in descending order, based on their absolute names.
+
+* _random ordering_ (option value `random` or `random:SEED`)
++
+The edges are initially ordered randomly.
+If no seed is specified, a random seed is used, resulting in a random random order.
+If a seed is specified, a fixed random order is used.
+That is, using the same seed again, results in the same random order.
+The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
+For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
+
+Furthermore, a custom initial order can be defined.
+Custom orders consist of absolute names of events and input variables.
+That is, for an automaton `a`, with an event `x`, the absolute name of the event is `a.x`.
+In case edges are labeled with the same event, the edges are ordered based on the model order.
+The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
+In case of multiple matches, the matches are sorted increasingly on their absolute names.
+
+Multiple names can be separated with `,` characters.
+The edges matching the name pattern before the `,` are ordered before the edges matching the name pattern after the `,`.
+
+Each name pattern in the order must match at least one event or input variable.
+An event or input variable may not be included more than once in the order.
+Every event and input variable needs to be included in the order.
+
 indexterm:[data-based supervisory controller synthesis,operation caches]
 
 [[tools-datasynth-op-caches]]
@@ -986,6 +1045,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | <<tools-datasynth-var-order>>
 | Better order for smaller BDD representations
 | Choose the best order, depends on the model, (reversed) model/sorted usually good choices, custom order allows for best performance
+
+| Order
+| Event order
+| <<tools-datasynth-event-order>>
+| Better order for smaller BDD representations
+| Choose the best order, depends on the model, model usually good choice, custom order allows for best performance
 
 | Order
 | BDD FORCE variable ordering algorithm
