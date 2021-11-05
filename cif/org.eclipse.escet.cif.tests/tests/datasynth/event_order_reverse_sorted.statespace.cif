@@ -1,0 +1,160 @@
+group p:
+  controllable c;
+  controllable a;
+  controllable z;
+end
+group Vars:
+  uncontrollable u_C;
+  uncontrollable u_D;
+  uncontrollable u_X;
+  uncontrollable u_Y;
+end
+automaton statespace:
+  alphabet p.c, p.a, p.z, Vars.u_C, Vars.u_D, Vars.u_X, Vars.u_Y;
+  location loc1:
+    initial;
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc3;
+    edge Vars.u_D goto loc4;
+    edge Vars.u_X goto loc5;
+    edge Vars.u_Y goto loc3;
+  location loc2:
+    initial;
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc6;
+    edge Vars.u_D goto loc7;
+    edge Vars.u_X goto loc8;
+    edge Vars.u_Y;
+  location loc3:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc1;
+    edge Vars.u_D goto loc9;
+    edge Vars.u_X goto loc10;
+    edge Vars.u_Y;
+  location loc4:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc9;
+    edge Vars.u_D goto loc1;
+    edge Vars.u_X goto loc11;
+    edge Vars.u_Y goto loc9;
+  location loc5:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc10;
+    edge Vars.u_D goto loc11;
+    edge Vars.u_X goto loc1;
+    edge Vars.u_Y goto loc10;
+  location loc6:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc2;
+    edge Vars.u_D goto loc12;
+    edge Vars.u_X goto loc13;
+    edge Vars.u_Y goto loc2;
+  location loc7:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc12;
+    edge Vars.u_D goto loc2;
+    edge Vars.u_X goto loc14;
+    edge Vars.u_Y;
+  location loc8:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc13;
+    edge Vars.u_D goto loc14;
+    edge Vars.u_X goto loc2;
+    edge Vars.u_Y;
+  location loc9:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc4;
+    edge Vars.u_D goto loc3;
+    edge Vars.u_X goto loc15;
+    edge Vars.u_Y;
+  location loc10:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc5;
+    edge Vars.u_D goto loc15;
+    edge Vars.u_X goto loc3;
+    edge Vars.u_Y;
+  location loc11:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc15;
+    edge Vars.u_D goto loc5;
+    edge Vars.u_X goto loc4;
+    edge Vars.u_Y goto loc15;
+  location loc12:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc7;
+    edge Vars.u_D goto loc6;
+    edge Vars.u_X goto loc16;
+    edge Vars.u_Y goto loc7;
+  location loc13:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc8;
+    edge Vars.u_D goto loc16;
+    edge Vars.u_X goto loc6;
+    edge Vars.u_Y goto loc8;
+  location loc14:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc16;
+    edge Vars.u_D goto loc8;
+    edge Vars.u_X goto loc7;
+    edge Vars.u_Y;
+  location loc15:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc11;
+    edge Vars.u_D goto loc10;
+    edge Vars.u_X goto loc9;
+    edge Vars.u_Y;
+  location loc16:
+    marked;
+    edge p.c;
+    edge p.a;
+    edge p.z;
+    edge Vars.u_C goto loc14;
+    edge Vars.u_D goto loc13;
+    edge Vars.u_X goto loc12;
+    edge Vars.u_Y goto loc14;
+end
