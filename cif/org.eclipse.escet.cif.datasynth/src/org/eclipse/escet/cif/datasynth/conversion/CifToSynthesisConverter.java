@@ -573,7 +573,7 @@ public class CifToSynthesisConverter {
             return synthAut;
         }
 
-        // Order the edges, based on event names.
+        // Order the synthesis edges.
         orderEdges(synthAut);
         if (synthAut.env.isTerminationRequested()) {
             return synthAut;
@@ -2826,9 +2826,9 @@ public class CifToSynthesisConverter {
     }
 
     /**
-     * Orders the synthesis edges based on the event names.
+     * Orders the synthesis edges.
      *
-     * @param synthAut The synthesis automaton.
+     * @param synthAut The synthesis automaton. Is modified in-place.
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
         // Get order from option.
@@ -2927,15 +2927,16 @@ public class CifToSynthesisConverter {
 
             // Check completeness.
             if (edges.size() < synthAut.edges.size()) {
-                List<String> names = list();
+                Set<String> names = set();
                 for (SynthesisEdge edge: synthAut.edges) {
                     if (!processedEdges.contains(edge)) {
                         names.add("\"" + getAbsName(edge.event) + "\"");
                     }
                 }
-                Collections.sort(names, Strings.SORTER);
+                List<String> sortedNames = set2list(names);
+                Collections.sort(sortedNames, Strings.SORTER);
                 String msg = fmt("Invalid event order: the following are missing from the specified order: %s.",
-                        StringUtils.join(names, ", "));
+                        StringUtils.join(sortedNames, ", "));
                 throw new InvalidOptionException(msg);
             }
 

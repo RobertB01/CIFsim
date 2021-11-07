@@ -18,6 +18,7 @@ plant p:
     initial;
     marked;
     edge c;
+    edge c; // Same event label, should only be listed once.
 end
 
 plant q:

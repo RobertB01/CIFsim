@@ -305,7 +305,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         bddOpts.add(Options.getInstance(BddOutputOption.class));
         bddOpts.add(Options.getInstance(BddOutputNamePrefixOption.class));
         bddOpts.add(Options.getInstance(BddVariableOrderOption.class));
-        bddOpts.add(Options.getInstance(EventOrderOption.class));
         bddOpts.add(Options.getInstance(BddForceVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowVarOrderOption.class));
         bddOpts.add(Options.getInstance(BddSlidingWindowSizeOption.class));
@@ -323,6 +322,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNameOption.class));
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
+        synthOpts.add(Options.getInstance(EventOrderOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));
         OptionCategory synthCat = new OptionCategory("Synthesis", "Synthesis options.", list(bddCat), synthOpts);
