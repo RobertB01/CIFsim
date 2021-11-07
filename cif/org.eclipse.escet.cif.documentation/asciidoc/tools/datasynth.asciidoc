@@ -938,41 +938,43 @@ indexterm:[data-based supervisory controller synthesis,event order]
 
 TODO: General information about edge/event ordering.
 
-The initial order in which the edges are applied is determined by the _Event order_ option (see <<tools-datasynth-options,options>> section above).
+The order in which the edges are applied is determined by the _Event order_ option (see <<tools-datasynth-options,options>> section above).
 Several default orders exist, and it is also possible to define a custom order.
 By default, the model order is used.
 The following default orders exist:
 
 * _model ordering_ (option value `model`)
 +
-The initial order of the edges is as they occur in the model.
-Input variable are always put after the edges, sorted based on the variable order.
+The order of the edges is as they occur in the model.
+Edges for input variables are always put after the other edges, sorted based on the variable order.
 
 * _reverse model ordering_ (option value `reverse-model`)
 +
-The initial order of the edges is as they occur in the model, but reversed.
-Input variable are always put before the edges, sorted based on the reversed variable order.
+The order of the edges is as they occur in the model, but reversed.
+Edges for input variable are always put before the other edges, sorted based on the reversed variable order.
 
 * _sorted ordering_ (option value `sorted`)
 +
-The initial order of the edges is based on the names of the events and input variables.
+The order of the edges is based on the names of the events and input variables.
 They are sorted alphabetically in ascending order, based on their absolute names.
+In case edges are labeled with the same event, the edges are ordered based on the model order.
 
 * _reverse sorted ordering_ (option value `reverse-sorted`)
 +
-The initial order of the edges is based on the names of the events and input variables.
+The order of the edges is based on the names of the events and input variables.
 They are sorted alphabetically in descending order, based on their absolute names.
+In case edges are labeled with the same event, the edges are ordered based on the reversed model order.
 
 * _random ordering_ (option value `random` or `random:SEED`)
 +
-The edges are initially ordered randomly.
+The edges are ordered randomly.
 If no seed is specified, a random seed is used, resulting in a random random order.
 If a seed is specified, a fixed random order is used.
 That is, using the same seed again, results in the same random order.
 The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
 For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
 
-Furthermore, a custom initial order can be defined.
+Furthermore, a custom order can be defined.
 Custom orders consist of absolute names of events and input variables.
 That is, for an automaton `a`, with an event `x`, the absolute name of the event is `a.x`.
 In case edges are labeled with the same event, the edges are ordered based on the model order.
