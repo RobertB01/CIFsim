@@ -157,6 +157,7 @@ import org.eclipse.escet.common.box.GridBox;
 import org.eclipse.escet.common.box.GridBox.GridBoxLayout;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.java.Pair;
+import org.eclipse.escet.common.java.Sets;
 import org.eclipse.escet.common.java.Strings;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -2843,11 +2844,11 @@ public class CifToSynthesisConverter {
         } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
             // Sort based on absolute name.
             Collections.sort(synthAut.edges,
-                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event), getAbsName(w.event)));
+                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-sorted")) {
             // Sort based on absolute name.
             Collections.sort(synthAut.edges,
-                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event), getAbsName(w.event)));
+                    (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
             // Reorder to the reverse of the sorted order.
             Collections.reverse(synthAut.edges);
@@ -2933,8 +2934,7 @@ public class CifToSynthesisConverter {
                         names.add("\"" + getAbsName(edge.event) + "\"");
                     }
                 }
-                List<String> sortedNames = set2list(names);
-                Collections.sort(sortedNames, Strings.SORTER);
+                List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
                 String msg = fmt("Invalid event order: the following are missing from the specified order: %s.",
                         StringUtils.join(sortedNames, ", "));
                 throw new InvalidOptionException(msg);

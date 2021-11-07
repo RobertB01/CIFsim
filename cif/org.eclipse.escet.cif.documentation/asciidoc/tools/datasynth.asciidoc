@@ -81,6 +81,10 @@ For more information, see the section on <<tools-datasynth-supervisor-namespace,
 Is disabled by default.
 For more information, see the section on <<tools-datasynth-forward-reach,forward reachability>> below.
 
+* _Event order_: Edges are 'applied' to update the various BDDs during calculation.
+The order of the applied edges is determined by this option.
+For more information, see the <<tools-datasynth-event-order>> section below.
+
 * _Statistics_: The kinds of statistics to print.
 By default, no statistics are printed.
 For more information, see the section on <<tools-datasynth-stats,statistics>> below.
@@ -104,10 +108,6 @@ For more information, see the <<tools-datasynth-supervisor-bdd>> section below.
 * _BDD variable order_: CIF variables and automata are represented using one or more boolean variables.
 The initial order of the boolean variables is determined by this option.
 For more information, see the <<tools-datasynth-var-order>> section below.
-
-* _Event order_: Edges are 'applied' to update the various BDDs during calculation.
-The order of the applied edges is determined by this option.
-For more information, see the <<tools-datasynth-event-order>> section below.
 
 * _BDD FORCE variable ordering algorithm_: CIF variables and automata are represented using one or more boolean variables.
 The initial order of the boolean variables can be improved by enabling this option.

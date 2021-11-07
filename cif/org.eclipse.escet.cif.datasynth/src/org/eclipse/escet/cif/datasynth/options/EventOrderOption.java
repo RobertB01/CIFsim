@@ -33,6 +33,10 @@ public class EventOrderOption extends StringOption {
                         "\"reverse-model\" for reverse model ordering, with events for input variables reverse sorted "
                         + "as in the variable ordering, " +
 
+                        "\"sorted\" for sorted order, " +
+
+                        "\"reverse-sorted\" for reverse sorted order, " +
+
                         "\"random\" for random order (with random seed), " +
 
                         "\"random:SEED\" for random order (with \"SEED\" as seed, in range [0..2^64-1]), " +
@@ -60,7 +64,7 @@ public class EventOrderOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                "The event odering. Specify " +
+                "The event ordering. Specify " +
 
                         "\"model\" for model ordering, with events for input variables sorted as in the variable "
                         + "ordering, " +
@@ -68,12 +72,16 @@ public class EventOrderOption extends StringOption {
                         "\"reverse-model\" for reverse model ordering, with events for input variables reverse sorted "
                         + "as in the variable ordering, " +
 
+                        "\"sorted\" for sorted order, " +
+
+                        "\"reverse-sorted\" for reverse sorted order, " +
+
                         "\"random\" for random order (with random seed), " +
 
                         "\"random:SEED\" for random order (with \"SEED\" as seed, in range [0..2^64-1]), " +
 
                         "or specify a custom ordering. Custom orders consist of names of events and input variables. "
-                        + "The \"*\" character can be used as wildcard in names, and indicates zero or more characters "
+                        + "The \"*\" character can be used as wildcard in names, and indicates zero or more "
                         + "characters. Separate names with \",\".",
 
                 // optDialogLabelText
