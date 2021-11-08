@@ -627,7 +627,11 @@ public abstract class CodeGen {
 
         // Remove CIF/SVG declarations. We don't use them, and by removing them
         // we don't get unsupported errors for features used in them.
-        new RemoveCifSvgDecls().transform(spec);
+        RemoveCifSvgDecls removeCifSvgDecls = new RemoveCifSvgDecls();
+        removeCifSvgDecls.transform(spec);
+        if (removeCifSvgDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+        }
 
         // Eliminate component definition/instantiation, to get a concrete
         // specification, without via references, etc.

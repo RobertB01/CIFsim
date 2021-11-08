@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.cif2mcrl2;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
 
@@ -96,10 +97,16 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+        }
+
         // Perform preprocessing on the specification. The most expensive
         // variant of value simplification is used, to inline (and thus
         // support) constants, and get the most simple result.
-        new RemoveIoDecls().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimSelf().transform(spec);
         new ElimAlgVariables().transform(spec);

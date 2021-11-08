@@ -340,7 +340,11 @@ public class CifToPlcTrans {
         new SimplifyOthers().transform(spec);
 
         // Remove/ignore I/O declarations, to increase the supported subset.
-        new RemoveIoDecls().transform(spec);
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+        }
 
         // Check the specification, now that it is still intact (absolute names
         // still make sense in the input specification). Note that even though

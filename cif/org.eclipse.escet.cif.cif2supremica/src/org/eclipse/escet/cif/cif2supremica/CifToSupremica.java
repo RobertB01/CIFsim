@@ -133,7 +133,11 @@ public class CifToSupremica {
      */
     public static Document transform(Specification spec, String moduleName, boolean elimEnums) {
         // Remove/ignore I/O declarations, to increase the supported subset.
-        new RemoveIoDecls().transform(spec);
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+        }
 
         // Check preconditions and perform further preprocessing.
         new CifToSupremicaPreChecker().check(spec);
