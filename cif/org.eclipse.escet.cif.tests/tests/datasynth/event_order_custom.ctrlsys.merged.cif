@@ -6,20 +6,23 @@ plant automaton p:
   controllable c;
   controllable a;
   controllable z;
+  controllable $event;
   location l1:
     initial;
     marked;
     edge c;
     edge a;
     edge z;
+    edge $event;
 end
 supervisor automaton sup:
-  alphabet p.c, p.a, p.z;
+  alphabet p.c, p.a, p.z, p.$event;
   location:
     initial;
     marked;
     edge p.a when true;
     edge p.c when true;
+    edge p.$event when true;
     edge p.z when true;
 end
 automaton Vars:

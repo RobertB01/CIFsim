@@ -12,13 +12,14 @@
 //////////////////////////////////////////////////////////////////////////////
 
 plant p:
-  controllable c;
+  controllable c, $event;
 
   location:
     initial;
     marked;
     edge c;
     edge c; // Same event label, should only be listed once.
+    edge $event;
 end
 
 plant q:

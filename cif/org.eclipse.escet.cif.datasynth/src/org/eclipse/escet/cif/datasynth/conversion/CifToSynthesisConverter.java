@@ -2895,7 +2895,7 @@ public class CifToSynthesisConverter {
                 // Found actual element. Look up matching synthesis edges.
                 List<SynthesisEdge> matches = list();
                 for (SynthesisEdge edge: synthAut.edges) {
-                    String name = getAbsName(edge.event);
+                    String name = getAbsName(edge.event, false);
                     if (pattern.matcher(name).matches()) {
                         matches.add(edge);
                     }
@@ -2911,12 +2911,13 @@ public class CifToSynthesisConverter {
                 }
 
                 // Sort matches.
-                Collections.sort(matches, (v, w) -> Strings.SORTER.compare(getAbsName(v.event), getAbsName(w.event)));
+                Collections.sort(matches,
+                        (v, w) -> Strings.SORTER.compare(getAbsName(v.event, false), getAbsName(w.event, false)));
 
                 for (SynthesisEdge edge: matches) {
                     if (processedEdges.contains(edge)) {
                         String msg = fmt("Invalid event order: \"%s\" is included more than once.",
-                                getAbsName(edge.event));
+                                getAbsName(edge.event, false));
                         throw new InvalidOptionException(msg);
                     }
                     processedEdges.add(edge);
@@ -2931,7 +2932,7 @@ public class CifToSynthesisConverter {
                 Set<String> names = set();
                 for (SynthesisEdge edge: synthAut.edges) {
                     if (!processedEdges.contains(edge)) {
-                        names.add("\"" + getAbsName(edge.event) + "\"");
+                        names.add("\"" + getAbsName(edge.event, false) + "\"");
                     }
                 }
                 List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
