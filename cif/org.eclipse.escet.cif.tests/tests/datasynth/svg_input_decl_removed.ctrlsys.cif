@@ -1,0 +1,14 @@
+plant automaton p:
+  controllable c;
+  location:
+    initial;
+    marked;
+    edge c;
+end
+supervisor automaton sup:
+  alphabet p.c;
+  location:
+    initial;
+    marked;
+    edge p.c when true;
+end
