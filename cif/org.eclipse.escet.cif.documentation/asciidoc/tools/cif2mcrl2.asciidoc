@@ -127,6 +127,9 @@ The latter may have a range.
 
 * Integer constants, discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` are allowed.
 
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
 indexterm:[CIF to mCRL2 transformer,preprocessing]
 
 === Preprocessing

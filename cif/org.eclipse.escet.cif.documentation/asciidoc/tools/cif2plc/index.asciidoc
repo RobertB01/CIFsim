@@ -197,6 +197,9 @@ For arrays, both 0-based indices (counting from the left) as well as negative in
 * The use of functions as values is not supported.
 That is, functions may only be used in function calls, and may for instance not be stored in variables.
 
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
 indexterm:[CIF PLC code generator,preprocessing]
 
 === Preprocessing

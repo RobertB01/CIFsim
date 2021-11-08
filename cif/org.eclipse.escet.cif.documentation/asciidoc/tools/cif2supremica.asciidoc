@@ -115,6 +115,9 @@ However, it is allowed to use multiple assignments on an edge (such as `do x := 
 
 * Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on a ranged integer operand, and plus (`pass:c[+]`) on a ranged integer operand.
 
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
 indexterm:[CIF to Supremica transformer,preprocessing]
 
 [[tools-cif2supremica-preprocessing]]

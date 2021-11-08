@@ -116,6 +116,9 @@ The following information from the specification is ignored:
 
 * Controllability of events.
 
+* I/O declarations.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
 indexterm:[CIF explorer,preprocessing]
 
 === Preprocessing
