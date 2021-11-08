@@ -95,7 +95,7 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
         if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
 
         // Pre-processing.

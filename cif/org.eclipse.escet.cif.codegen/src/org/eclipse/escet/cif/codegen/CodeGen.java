@@ -630,7 +630,7 @@ public abstract class CodeGen {
         RemoveCifSvgDecls removeCifSvgDecls = new RemoveCifSvgDecls();
         removeCifSvgDecls.transform(spec);
         if (removeCifSvgDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
 
         // Eliminate component definition/instantiation, to get a concrete

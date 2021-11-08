@@ -343,7 +343,7 @@ public class CifToPlcTrans {
         RemoveIoDecls removeIoDecls = new RemoveIoDecls();
         removeIoDecls.transform(spec);
         if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
-            warn("The specification contains CIF/SVG input declarations, these will be ignored.");
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
         }
 
         // Check the specification, now that it is still intact (absolute names
