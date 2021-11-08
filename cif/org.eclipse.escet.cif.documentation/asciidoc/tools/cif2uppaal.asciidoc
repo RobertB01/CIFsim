@@ -106,6 +106,9 @@ However, it is allowed to use multiple assignments on an edge (such as `do x := 
 
 * Marker predicates are ignored.
 
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
 indexterm:[CIF to UPPAAL transformer,preprocessing]
 
 === Preprocessing

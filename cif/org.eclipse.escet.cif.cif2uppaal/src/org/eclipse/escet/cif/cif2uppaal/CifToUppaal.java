@@ -141,8 +141,14 @@ public class CifToUppaal {
         nameMap = map();
         names = set();
 
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
         // Perform preprocessing.
-        new RemoveIoDecls().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimTauEvent().transform(spec);
         new ElimStateEvtExclInvs().transform(spec);

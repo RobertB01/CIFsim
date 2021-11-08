@@ -1,0 +1,20 @@
+Input/output report of the svg_input_decl_removed.cif SFunction.
+
+During code generation, CIF variables are made available in the Simulink vectors.
+This report lists the variables in each vector, along with their index number.
+
+Modes
+-----
+p 1
+
+Continuous states
+-----------------
+time 1
+
+Inputs
+------
+x 1
+
+Outputs
+-------
+p 1

@@ -43,6 +43,9 @@ public class RemoveIoDecls implements CifToCifTransformation {
     /** Whether to remove CIF/SVG declarations. */
     private final boolean removeCifSvgDecls;
 
+    /** Whether CIF/SVG input declarations were removed in the last transformation. */
+    private boolean svgInputDeclarationsWereRemoved = false;
+
     /** Constructor for the {@link RemoveIoDecls} class. Removes all I/O declarations. */
     public RemoveIoDecls() {
         this(true, true);
@@ -61,6 +64,7 @@ public class RemoveIoDecls implements CifToCifTransformation {
 
     @Override
     public void transform(Specification spec) {
+        svgInputDeclarationsWereRemoved = false;
         removeIoDecls(spec);
     }
 
@@ -73,6 +77,14 @@ public class RemoveIoDecls implements CifToCifTransformation {
         // Remove I/O declarations of this component.
         if (!comp.getIoDecls().isEmpty()) {
             if (removePrintDecls && removeCifSvgDecls) {
+                // Determine whether an SVG input declaration will be removed.
+                for (IoDecl decl: comp.getIoDecls()) {
+                    if (decl instanceof SvgIn) {
+                        svgInputDeclarationsWereRemoved = true;
+                    }
+                }
+
+                // Remove all declarations.
                 comp.getIoDecls().clear();
             } else {
                 Iterator<IoDecl> iter = comp.getIoDecls().iterator();
@@ -83,6 +95,12 @@ public class RemoveIoDecls implements CifToCifTransformation {
                     remove |= removeCifSvgDecls && (decl instanceof SvgCopy || decl instanceof SvgFile
                             || decl instanceof SvgIn || decl instanceof SvgOut || decl instanceof SvgMove);
                     if (remove) {
+                        // Determine whether an SVG input declaration will be removed.
+                        if (decl instanceof SvgIn) {
+                            svgInputDeclarationsWereRemoved = true;
+                        }
+
+                        // Remove declaration.
                         iter.remove();
                     }
                 }
@@ -105,5 +123,15 @@ public class RemoveIoDecls implements CifToCifTransformation {
                 removeIoDecls(def.getBody());
             }
         }
+    }
+
+    /**
+     * Returns whether CIF/SVG input declarations were removed in the last transformation.
+     *
+     * @return {@code true} if CIF/SVG input declarations were removed in the last transformation, {@code false}
+     *     otherwise.
+     */
+    public boolean haveAnySvgInputDeclarationsBeenRemoved() {
+        return svgInputDeclarationsWereRemoved;
     }
 }

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
@@ -170,7 +171,14 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             timing.inputPreProcess.start();
         }
         try {
-            new RemoveIoDecls().transform(spec);
+            // Remove/ignore I/O declarations, to increase the supported subset.
+            RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+            removeIoDecls.transform(spec);
+            if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+                warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+            }
+
+            // Eliminate component definition/instantiation, to avoid having to handle them.
             new ElimComponentDefInst().transform(spec);
         } finally {
             if (doTiming) {
