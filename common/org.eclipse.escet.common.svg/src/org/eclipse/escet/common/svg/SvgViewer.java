@@ -385,7 +385,7 @@ public class SvgViewer extends ControlEditor {
             return;
         }
 
-        // Create file.
+        // Get file.
         File saveFile = new File(savePath);
         Assert.check(saveFile.isAbsolute());
 
