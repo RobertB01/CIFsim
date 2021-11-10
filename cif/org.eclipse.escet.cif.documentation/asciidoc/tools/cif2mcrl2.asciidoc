@@ -190,7 +190,8 @@ Below a number of example option values, and what variables they select from the
 
 * The option value `++*+` selects all variables.
 
-* The option value `''` (empty list) selects no variables.
+* The 'empty' option value selects no variables.
+On the command line or in ToolDef scripts, when using the `-r` short option, use `''` for the 'empty' option value.
 
 * The option value `++*1+` selects all variables that end with a `1`, which is variable `B.y1` only (Variable `A.p12` does have a `1` in it, but not at the end.)
 
