@@ -20,6 +20,7 @@ list string default_options = ["--devmode=1"];
 map(string:list string) test_options = {
     "cif2mcrl2/asgn_out_of_range2.cif": ["-t buff,buff.cnt"],
     "cif2mcrl2/example.cif":            ["--read-values=+*,-*novalue*,-*value*,+*wel"],
+    "cif2mcrl2/no_value_actions.cif":   ["-r ''"],
 };
 set string test_skip = {};
 

@@ -190,7 +190,7 @@ Below a number of example option values, and what variables they select from the
 
 * The option value `++*+` selects all variables.
 
-* The 'empty' option value selects no variables.
+* The option value `''` (empty list) selects no variables.
 
 * The option value `++*1+` selects all variables that end with a `1`, which is variable `B.y1` only (Variable `A.p12` does have a `1` in it, but not at the end.)
 
