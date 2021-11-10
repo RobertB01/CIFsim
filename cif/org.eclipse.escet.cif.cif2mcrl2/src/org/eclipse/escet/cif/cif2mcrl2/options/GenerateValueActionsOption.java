@@ -37,11 +37,13 @@ public class GenerateValueActionsOption extends StringOption {
     private static final String NAME = "Generate 'value' actions";
 
     /** Description in the option dialog. */
-    private static final String OPT_DIALOG_DESCR = "Option to specify which variables should get a 'value' action in"
+    private static final String OPT_DIALOG_DESCR = "Option to specify which variables should get a 'value' action in "
             + "the generated mCRL2 code. Specify a comma-separated list of variable names. The \"*\" character can be "
             + "used as wildcard, and indicates zero or more characters. Prefixing a name with a \"+\" adds the "
             + "variable(s) matching the name, while a \"-\" prefix removes the variable(s) matching the name. If "
-            + "neither a \"+\" nor a \"-\" prefix is given, \"+\" (adding) is assumed.";
+            + "neither a \"+\" nor a \"-\" prefix is given, \"+\" (adding) is assumed. The list of variables is "
+            + "interpreted relative to selecting no variables. That is, if an empty list is specified, no variables "
+            + "are added.";
 
     /** Default value of the option. */
     private static final String DEFAULT_VALUE = "+*";
@@ -80,8 +82,10 @@ public class GenerateValueActionsOption extends StringOption {
      */
     public static List<OptionPattern> getValueActionsOptionPatterns() {
         String optValue = Options.get(GenerateValueActionsOption.class);
+
+        // Empty string means no pattern is specified.
         if (optValue == null) {
-            return list(new OptionPattern(true, "+*", "^.*$"));
+            return list();
         }
 
         // Split on ",", check each element for validity, and build a list to return.
@@ -108,7 +112,7 @@ public class GenerateValueActionsOption extends StringOption {
                 regex = s;
             }
 
-            // Convert to a normal regular expression pattern and add it to the reslut list.
+            // Convert to a normal regular expression pattern and add it to the result list.
             regex = "^" + regex.replace(".", "\\.").replace("*", ".*") + "$";
             resultPatterns.add(new OptionPattern(addMatch, s, regex));
         }
