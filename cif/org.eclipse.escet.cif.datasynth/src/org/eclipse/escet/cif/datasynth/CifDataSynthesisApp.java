@@ -215,6 +215,19 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         boolean doResizeStats = stats.contains(SynthesisStatistics.BDD_RESIZE);
         BddUtils.setBddCallbacks(factory, doGcStats, doResizeStats);
 
+        boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_CACHE);
+        boolean doContinuousNodesStats = stats.contains(SynthesisStatistics.BDD_CONTINUOUS_NODES);
+        boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_MAX_NODES);
+        if (doCacheStats || doContinuousNodesStats) {
+            factory.getCacheStats().enableMeasurements();
+        }
+        if (doContinuousNodesStats) {
+            factory.getContinuousStats().enableMeasurements();
+        }
+        if (doMaxBddNodesStats) {
+            factory.getMaxUsedBddNodesStats().enableMeasurements();
+        }
+
         // Perform synthesis.
         Specification rslt;
         try {
