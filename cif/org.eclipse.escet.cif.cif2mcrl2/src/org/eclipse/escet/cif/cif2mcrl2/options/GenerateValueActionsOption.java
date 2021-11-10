@@ -43,7 +43,7 @@ public class GenerateValueActionsOption extends StringOption {
             + "variable(s) matching the name, while a \"-\" prefix removes the variable(s) matching the name. If "
             + "neither a \"+\" nor a \"-\" prefix is given, \"+\" (adding) is assumed. The list of variables is "
             + "interpreted relative to selecting no variables. That is, if an empty list is specified, no variables "
-            + "are added.";
+            + "get a 'value' action.";
 
     /** Default value of the option. */
     private static final String DEFAULT_VALUE = "+*";
@@ -52,7 +52,7 @@ public class GenerateValueActionsOption extends StringOption {
     private static final String DESCRIPTION = fmt("%s [DEFAULT=%s]", OPT_DIALOG_DESCR, DEFAULT_VALUE);
 
     /** Whether to return {@code null} as option value if it was left empty. */
-    private static final boolean EMPTY_AS_NULL = true;
+    private static final boolean EMPTY_AS_NULL = false;
 
     /** Short option name. */
     private static final Character CMD_SHORT = 'r';
@@ -82,11 +82,6 @@ public class GenerateValueActionsOption extends StringOption {
      */
     public static List<OptionPattern> getValueActionsOptionPatterns() {
         String optValue = Options.get(GenerateValueActionsOption.class);
-
-        // Empty string means no pattern is specified.
-        if (optValue == null) {
-            return list();
-        }
 
         // Split on ",", check each element for validity, and build a list to return.
         List<OptionPattern> resultPatterns = list();
@@ -190,8 +185,8 @@ public class GenerateValueActionsOption extends StringOption {
     public static Set<String> matchNames(Set<String> names) {
         List<OptionPattern> patterns = getValueActionsOptionPatterns();
 
-        // Matching empty lists is silly. Also it causes false positive warnings
-        // on failure to match names in the patterns.
+        // If there are no names to match the patterns against, there will not be any matches. Also it causes false
+        // positive warnings on failure to match names in the patterns.
         if (names.isEmpty()) {
             return names;
         }
