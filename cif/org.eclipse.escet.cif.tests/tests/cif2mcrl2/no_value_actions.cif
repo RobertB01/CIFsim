@@ -1,0 +1,38 @@
+//////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+//////////////////////////////////////////////////////////////////////////////
+
+event a, b, c;
+
+automaton P:
+  disc int[0..10] x = 0;
+  disc int[-5..5] zero = 0;
+
+  location p1:
+    initial;
+    edge a do x := x + 1 goto p2;
+
+  location p2:
+    edge c when Q.y != 0 goto p1;
+    edge a do x := 1 goto p1;
+end
+
+automaton Q:
+  disc int[0..1] y = 1;
+
+  location q1:
+    initial;
+    edge a when y = 1 goto q2;
+
+  location q2:
+    edge b when y = 1 and P.x < 8 and P.zero = 0 goto q1;
+end

@@ -260,8 +260,8 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
     @Override
     protected OptionCategory getAllOptions() {
         List<OptionCategory> subPages = list();
-        subPages.add(getConvertOptionsCategory());
         subPages.add(getGeneralOptionCategory());
+        subPages.add(getConvertOptionsCategory());
 
         @SuppressWarnings("rawtypes")
         List<Option> options = list();
