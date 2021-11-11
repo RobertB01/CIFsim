@@ -2837,9 +2837,9 @@ public class CifToSynthesisConverter {
 
         // Order the edges.
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {
-            // No reordering. Keep model order.
+            // No reordering. Keep linearized model order.
         } else if (orderTxt.toLowerCase(Locale.US).equals("reverse-model")) {
-            // Reorder to the reverse of the model order.
+            // Reorder to the reverse of the linearized model order.
             Collections.reverse(synthAut.edges);
         } else if (orderTxt.toLowerCase(Locale.US).equals("sorted")) {
             // Sort based on absolute name.
@@ -2863,7 +2863,7 @@ public class CifToSynthesisConverter {
                 try {
                     seed = Long.parseUnsignedLong(seedTxt);
                 } catch (NumberFormatException ex) {
-                    String msg = fmt("Invalid event random order seed number: \"%s\".", orderTxt);
+                    String msg = fmt("Invalid edge random order seed number: \"%s\".", orderTxt);
                     throw new InvalidOptionException(msg, ex);
                 }
             }
@@ -2887,7 +2887,7 @@ public class CifToSynthesisConverter {
                     continue;
                 }
 
-                // Create regular expression from filter.
+                // Create regular expression for matching.
                 String regEx = elemTxt.replace(".", "\\.");
                 regEx = regEx.replace("*", ".*");
                 Pattern pattern = Pattern.compile("^" + regEx + "$");
@@ -2904,7 +2904,7 @@ public class CifToSynthesisConverter {
                 // Need a least one match.
                 if (matches.isEmpty()) {
                     String msg = fmt(
-                            "Invalid event order: can't find a match for \"%s\". There is no supported event "
+                            "Invalid edge order: can't find a match for \"%s\". There is no supported event "
                                     + "or input variable in the specification that matches the given name pattern.",
                             elemTxt);
                     throw new InvalidOptionException(msg);
@@ -2916,7 +2916,7 @@ public class CifToSynthesisConverter {
 
                 for (SynthesisEdge edge: matches) {
                     if (processedEdges.contains(edge)) {
-                        String msg = fmt("Invalid event order: \"%s\" is included more than once.",
+                        String msg = fmt("Invalid edge order: \"%s\" is included more than once.",
                                 getAbsName(edge.event, false));
                         throw new InvalidOptionException(msg);
                     }
@@ -2936,7 +2936,7 @@ public class CifToSynthesisConverter {
                     }
                 }
                 List<String> sortedNames = Sets.sortedgeneric(names, Strings.SORTER);
-                String msg = fmt("Invalid event order: the following are missing from the specified order: %s.",
+                String msg = fmt("Invalid edge order: the following are missing from the specified order: %s.",
                         StringUtils.join(sortedNames, ", "));
                 throw new InvalidOptionException(msg);
             }
