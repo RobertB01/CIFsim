@@ -1,1 +1,1 @@
-ERROR: Invalid event order: the following are missing from the specified order: "p.c", "p.event", "x", "y".
+ERROR: Invalid edge order: the following are missing from the specified order: "p.c", "p.event", "x", "y".

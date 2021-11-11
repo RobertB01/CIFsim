@@ -1,1 +1,1 @@
-ERROR: Invalid event order: "p.event" is included more than once.
+ERROR: Invalid edge order: "p.event" is included more than once.
