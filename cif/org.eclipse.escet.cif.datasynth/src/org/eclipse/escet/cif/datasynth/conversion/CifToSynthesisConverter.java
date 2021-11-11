@@ -88,7 +88,7 @@ import org.eclipse.escet.cif.datasynth.options.BddForceVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.EventOrderOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisAutomaton;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisDiscVariable;
 import org.eclipse.escet.cif.datasynth.spec.SynthesisEdge;
@@ -2833,7 +2833,7 @@ public class CifToSynthesisConverter {
      */
     private void orderEdges(SynthesisAutomaton synthAut) {
         // Get order from option.
-        String orderTxt = EventOrderOption.getOrder();
+        String orderTxt = EdgeOrderOption.getOrder();
 
         // Order the edges.
         if (orderTxt.toLowerCase(Locale.US).equals("model")) {

@@ -16,22 +16,22 @@ package org.eclipse.escet.cif.datasynth.options;
 import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** Event order option. */
-public class EventOrderOption extends StringOption {
-    /** Constructor for the {@link EventOrderOption} class. */
-    public EventOrderOption() {
+/** Edge order option. */
+public class EdgeOrderOption extends StringOption {
+    /** Constructor for the {@link EdgeOrderOption} class. */
+    public EdgeOrderOption() {
         super(
                 // name
-                "Event order",
+                "Edge order",
 
                 // description
-                "The event ordering. Specify " +
+                "The edge ordering. Specify " +
 
-                        "\"model\" (default) for model ordering, with events for input variables sorted as in the "
-                        + "variable ordering, " +
+                        "\"model\" (default) for linearized model ordering, with events for input variables sorted as "
+                        + "in the variable ordering, " +
 
-                        "\"reverse-model\" for reverse model ordering, with events for input variables reverse sorted "
-                        + "as in the variable ordering, " +
+                        "\"reverse-model\" for reverse linearized model ordering, with events for input variables "
+                        + "reverse sorted as in the variable ordering, " +
 
                         "\"sorted\" for sorted order, " +
 
@@ -49,10 +49,10 @@ public class EventOrderOption extends StringOption {
                 'e',
 
                 // cmdLong
-                "event-order",
+                "edge-order",
 
                 // cmdValue
-                "EVENTORDER",
+                "EDGEORDER",
 
                 // defaultValue
                 "model",
@@ -64,13 +64,13 @@ public class EventOrderOption extends StringOption {
                 true,
 
                 // optDialogDescr
-                "The event ordering. Specify " +
+                "The edge ordering. Specify " +
 
-                        "\"model\" for model ordering, with events for input variables sorted as in the variable "
-                        + "ordering, " +
+                        "\"model\" for linearized model ordering, with events for input variables sorted as in the "
+                        + "variable ordering, " +
 
-                        "\"reverse-model\" for reverse model ordering, with events for input variables reverse sorted "
-                        + "as in the variable ordering, " +
+                        "\"reverse-model\" for reverse linearized model ordering, with events for input variables "
+                        + "reverse sorted as in the variable ordering, " +
 
                         "\"sorted\" for sorted order, " +
 
@@ -85,15 +85,15 @@ public class EventOrderOption extends StringOption {
                         + "characters. Separate names with \",\".",
 
                 // optDialogLabelText
-                "Event order:");
+                "Edge order:");
     }
 
     /**
-     * Returns the value of the {@link EventOrderOption} option.
+     * Returns the value of the {@link EdgeOrderOption} option.
      *
-     * @return The value of the {@link EventOrderOption} option.
+     * @return The value of the {@link EdgeOrderOption} option.
      */
     public static String getOrder() {
-        return Options.get(EventOrderOption.class);
+        return Options.get(EdgeOrderOption.class);
     }
 }

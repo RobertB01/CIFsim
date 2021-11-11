@@ -36,7 +36,7 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.EventOrderOption;
+import org.eclipse.escet.cif.datasynth.options.EdgeOrderOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
@@ -322,7 +322,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNameOption.class));
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
-        synthOpts.add(Options.getInstance(EventOrderOption.class));
+        synthOpts.add(Options.getInstance(EdgeOrderOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));
         OptionCategory synthCat = new OptionCategory("Synthesis", "Synthesis options.", list(bddCat), synthOpts);
