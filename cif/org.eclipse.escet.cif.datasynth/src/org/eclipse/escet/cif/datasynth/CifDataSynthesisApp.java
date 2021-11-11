@@ -14,8 +14,10 @@
 package org.eclipse.escet.cif.datasynth;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.dbg;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Strings.fmt;
 
 import java.util.List;
 import java.util.Set;
@@ -60,8 +62,10 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.box.GridBox;
 
 import com.github.javabdd.BDDFactory;
+import com.github.javabdd.BDDFactory.ContinuousStats;
 import com.github.javabdd.JFactory;
 
 /** CIF data-based supervisory controller synthesis application. */
@@ -283,6 +287,25 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (isTerminationRequested()) {
                 return;
             }
+
+            // Print BDD nodes statistics.
+            dbg();
+            if (doCacheStats) {
+                out();
+                out(factory.getCacheStats().toString());
+            }
+            if (doContinuousNodesStats) {
+                out();
+                printContinuousNodesStats(factory.getContinuousStats());
+            }
+            if (doMaxBddNodesStats) {
+                out();
+                out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
+            }
+
+            if (isTerminationRequested()) {
+                return;
+            }
         } finally {
             // Always clean up the BDD factory.
             factory.done();
@@ -308,6 +331,32 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         if (isTerminationRequested()) {
             return;
+        }
+    }
+
+    /**
+     * Print the continuous nodes statistics to the 'normal' output stream.
+     *
+     * @param cs The continuous statistics to print.
+     */
+    private void printContinuousNodesStats(ContinuousStats cs) {
+        List<Long> operations = cs.getOperationsStats();
+        List<Integer> nodes = cs.getNodesStats();
+        int numberOfDataPoints = nodes.size();
+        GridBox grid = new GridBox(numberOfDataPoints + 1, 2, 0, 1);
+
+        grid.set(0, 0, "Operations");
+        grid.set(0, 1, "Used BDD nodes");
+        for (int i = 0; i < numberOfDataPoints; i++) {
+            grid.set(i + 1, 0, operations.get(i).toString());
+            grid.set(i + 1, 1, nodes.get(i).toString());
+        }
+
+        // Print the actual content.
+        out("Continuous node statistics");
+        out("--------------------------");
+        for (String line : grid.getLines()) {
+            out(line);
         }
     }
 
