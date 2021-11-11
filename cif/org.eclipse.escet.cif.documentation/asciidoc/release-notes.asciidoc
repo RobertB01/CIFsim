@@ -37,7 +37,7 @@ Support for modifying the value of input variables during simulation is planned 
 Improvements and fixes:
 
 * Introduced a brand new website (issue #35).
-* Many website URLs have changed due to various website structure changes (issue #35 and #73).
+* Many website URLs have changed due to various website structure changes (issues #35 and #73).
 * Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
 * The CIF simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
 * The CIF simulator plot visualizer and SVG visualizer functionality to save as an image no longer ask duplicate overwrite questions (issue #223).
