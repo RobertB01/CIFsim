@@ -737,6 +737,28 @@ BDD node table resize statistics are printed when the node table is resized.
 The printed information includes the old and the new sizes of the node table.
 See also the BDD library initial node table size option (see <<tools-datasynth-options,options>>` section above).
 
+* _Maximum used BDD nodes_ [`bdd_max_nodes`]
++
+The larger a BDD is, the more memory is needed to store it. 
+The size of a BDD can be expressed as the number of nodes used, which is implementation and machine independent.
+This statistic prints the maximum number of BDD nodes used during synthesis.
+Note that collecting this statistics requires more clock time (as expressed in seconds) than without collecting it.
+This statistic is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
+
+* _Continuous BDD node usage_ [`bdd_continuous_nodes`]
++
+The larger a BDD is, the more memory is needed to store it. 
+The size of a BDD can be expressed as the number of nodes used, which is implementation and machine independent.
+This statistic prints the number of BDD nodes used during synthesis over 'time', where the BDD operations are used to represent time, i.e., each BDD operation is one time unit.
+The printed information includes a table where each row contains the number of performed BDD operations from the start of synthesis and the used BDD nodes at that point in time.
+Note that collecting this statistics requires more clock time (as expressed in seconds) than without collecting it.
+This statistic is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
+
+* _BDD cache_ [`bdd_cache`]
++
+The BDD library that is used implements a cache to speed up the calculations.
+The printed information includes the number of times the cache is accessed, the number of hits, and the number of misses.
+
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
 From the command line, using the `--stats` option, the names of the different kinds of statistics, as indicated above between square brackets, should be used, separated by commas.
