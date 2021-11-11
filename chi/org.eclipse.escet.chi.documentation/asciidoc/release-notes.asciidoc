@@ -28,6 +28,15 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 TBD
 
+Improvements and fixes:
+
+* Introduced a brand new website (issue #35).
+* Many website URLs have changed due to various website structure changes (issue #35 and #73).
+* Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
+* The Chi simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
+* The Chi simulator SVG visualizer functionality to save as an image no longer asks duplicate overwrite questions (issue #223).
+* The Chi simulator no longer crashes when showing an SVG visualizer if the SVG file can't be loaded (issue #207).
+
 
 === Version 0.3
 

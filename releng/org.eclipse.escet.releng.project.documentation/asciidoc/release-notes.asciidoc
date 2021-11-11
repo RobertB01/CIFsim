@@ -32,6 +32,16 @@ See also the release notes for the specific tools for more information:
 
 TBD
 
+Improvements and fixes:
+
+* Introduced a brand new website (issue #35).
+* Many website URLs have changed due to various website structure changes (issue #35 and #73).
+* Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
+* The Eclipse ESCET end-user and development documentation have been split into two separate documentation sets (issue #73).
+* SeText is now considered an internal developers tool.
+It no longer has a website of its own.
+Its documentation is now part of the Eclipse ESCET development documentation (issue #73).
+
 
 === Version 0.3
 
