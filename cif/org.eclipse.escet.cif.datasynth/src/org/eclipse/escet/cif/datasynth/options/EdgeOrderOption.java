@@ -27,10 +27,10 @@ public class EdgeOrderOption extends StringOption {
                 // description
                 "The edge ordering. Specify " +
 
-                        "\"model\" (default) for linearized model ordering, with events for input variables sorted as "
+                        "\"model\" (default) for linearized model ordering, with edges for input variables sorted as "
                         + "in the variable ordering, " +
 
-                        "\"reverse-model\" for reverse linearized model ordering, with events for input variables "
+                        "\"reverse-model\" for reverse linearized model ordering, with edges for input variables "
                         + "reverse sorted as in the variable ordering, " +
 
                         "\"sorted\" for sorted order, " +
@@ -66,10 +66,10 @@ public class EdgeOrderOption extends StringOption {
                 // optDialogDescr
                 "The edge ordering. Specify " +
 
-                        "\"model\" for linearized model ordering, with events for input variables sorted as in the "
+                        "\"model\" for linearized model ordering, with edges for input variables sorted as in the "
                         + "variable ordering, " +
 
-                        "\"reverse-model\" for reverse linearized model ordering, with events for input variables "
+                        "\"reverse-model\" for reverse linearized model ordering, with edges for input variables "
                         + "reverse sorted as in the variable ordering, " +
 
                         "\"sorted\" for sorted order, " +
