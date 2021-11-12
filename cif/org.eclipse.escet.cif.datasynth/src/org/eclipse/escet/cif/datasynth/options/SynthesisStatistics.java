@@ -31,5 +31,5 @@ public enum SynthesisStatistics {
     BDD_CONTINUOUS_NODES,
 
     /** BDD cache. */
-    BDD_CACHE;
+    BDD_CACHE ;
 }
