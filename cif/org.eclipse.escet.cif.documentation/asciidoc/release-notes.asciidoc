@@ -33,6 +33,7 @@ New features:
 * The CIF simulator now supports simulating specifications with input variables.
 Use the _CIF specification initialization_ option to specify the initial value of input variables.
 Support for modifying the value of input variables during simulation is planned for future versions (issue #203).
+* The CIF data-based synthesis tool now has an _Edge order_ option to influence the order in which edges are considered, which can significantly influence the performance (issue #197).
 
 Improvements and fixes:
 
