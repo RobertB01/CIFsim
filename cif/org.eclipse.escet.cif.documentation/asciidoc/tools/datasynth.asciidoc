@@ -593,7 +593,7 @@ During reachability computations the edges are considered one by one to find mor
 Regardless of whether an edge leads to new states being found or not, the search always continues with the next edge.
 As long as new states are found, the edges will keep being applied one after the other.
 After the last edge has been considered, the first edge is considered again, then the second one, etc.
-Only once all edges have been applied and none of them leads to new states being found has a fixed point been reached and the computation stops.
+Only once all edges have been applied and none of them lead to new states being found has a fixed point been reached and the computation stops.
 
 The order in which the edges are considered for such computations has no effect on the final fixed point result.
 The order can however significantly influence the performance of supervisor synthesis.
@@ -628,13 +628,13 @@ Edges for input variable are thus always put before the other edges, sorted base
 +
 The order of the edges is based on the names of their corresponding events and input variables.
 They are sorted alphabetically in ascending order, based on their absolute names.
-In case edges are labeled with the same event or input variable, the edges are ordered based on the linearized model order.
+In case edges are labeled with the same event, the edges are ordered based on the linearized model order.
 
 * _reverse sorted ordering_ (option value `reverse-sorted`)
 +
 The order of the edges is based on the names of their corresponding events and input variables.
 They are sorted alphabetically in descending order, based on their absolute names.
-In case edges are labeled with the same event or input variable, the edges are ordered based on the reversed linearized model order.
+In case edges are labeled with the same event, the edges are ordered based on the reversed linearized model order.
 
 * _random ordering_ (option value `random` or `random:SEED`)
 +
@@ -648,7 +648,7 @@ For instance, use `random:123` as option value to get a random order that can be
 Furthermore, a custom order can be defined.
 Custom orders consist of absolute names of events and input variables.
 That is, for an automaton `a`, with an event `x`, the absolute name of the event is `a.x`.
-In case edges are labeled with the same event or input variable, the edges are ordered based on the linearized model order.
+In case edges are labeled with the same event, the edges are ordered based on the linearized model order.
 The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
 In case of multiple matches, the matches are sorted alphabetically in ascending order, based on their absolute names.
 
