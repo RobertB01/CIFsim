@@ -166,7 +166,7 @@ pipeline {
 
                         rm -rf deploy/www/${RELEASE_VERSION}
                         mkdir -p deploy/www/${RELEASE_VERSION}
-                        unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/escet/
+                        unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/
                     '''
                     dir('deploy/www') {
                         sh '''
