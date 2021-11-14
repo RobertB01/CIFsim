@@ -75,6 +75,7 @@ map(string:list string) test_options = {
     "datasynth/simplify_se_excl_req_invs_on.cif":         ["--bdd-simplify=guards-se-excl-req-invs"],
     "datasynth/simplify_state_req_invs_off.cif":          ["--bdd-simplify="],
     "datasynth/simplify_state_req_invs_on.cif":           ["--bdd-simplify=guards-state-req-invs"],
+    "datasynth/stats.cif":                                ["--stats=bdd-max-nodes,bdd-continuous-nodes"],
     "datasynth/supname_custom.cif":                       ["-s g"],
     "datasynth/supname_invalid.cif":                      ["-s b@"],
 };
