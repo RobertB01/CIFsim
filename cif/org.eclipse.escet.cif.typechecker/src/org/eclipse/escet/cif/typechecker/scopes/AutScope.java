@@ -258,7 +258,7 @@ public class AutScope extends ParentScope<Automaton> {
 
                 for (AName event1: events) {
                     // Resolve to event.
-                    SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker);
+                    SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker, autScope);
                     EventParameter param;
                     Event event2;
                     if (entry instanceof EventDeclWrap) {
@@ -328,7 +328,7 @@ public class AutScope extends ParentScope<Automaton> {
                 // Process monitor events.
                 for (AName event1: astMonitor.events) {
                     // Resolve to event.
-                    SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker);
+                    SymbolTableEntry entry = autScope.resolve(event1.position, event1.name, tchecker, autScope);
                     Event event2;
                     if (entry instanceof EventDeclWrap) {
                         event2 = ((EventDeclWrap)entry).getObject();
@@ -622,7 +622,7 @@ public class AutScope extends ParentScope<Automaton> {
         Location targetLoc = null;
         if (astEdge.target != null) {
             // Resolve the location.
-            SymbolTableEntry entry = autScope.resolve(astEdge.target.position, astEdge.target.id, tchecker);
+            SymbolTableEntry entry = autScope.resolve(astEdge.target.position, astEdge.target.id, tchecker, null);
             if (entry instanceof LocationDeclWrap) {
                 targetLoc = ((LocationDeclWrap)entry).getObject();
             } else if (entry instanceof FormalLocationDeclWrap) {

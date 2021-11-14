@@ -4583,7 +4583,7 @@ public class CifExprsTypeChecker {
                 String autRef = ((ANameExpression)astSwitchValue).name.name;
 
                 // Resolve reference to a scope.
-                SymbolTableEntry entry = scope.resolve(null, autRef, tchecker);
+                SymbolTableEntry entry = scope.resolve(null, autRef, tchecker, null);
                 keyScope = (SymbolScope<?>)entry;
 
                 // Handle scopes that can only be used as 'via' scopes.
@@ -4882,7 +4882,7 @@ public class CifExprsTypeChecker {
             ExprContext context, CifTypeChecker tchecker)
     {
         // Resolve the referenced object.
-        SymbolTableEntry entry = scope.resolve(expr.position, expr.name.name, tchecker);
+        SymbolTableEntry entry = scope.resolve(expr.position, expr.name.name, tchecker, scope);
 
         // Check for invalid references.
         if (entry instanceof EnumDeclWrap || entry instanceof TypeDeclWrap) {

@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.typechecker.scopes;
 
 import static org.eclipse.escet.cif.common.CifScopeUtils.isParamRefExpr;
+import static org.eclipse.escet.cif.common.CifTextUtils.escapeIdentifier;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapExpression;
@@ -198,19 +199,26 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param position Position information for the textual reference.
      * @param name The textual reference to resolve.
      * @param tchecker The type checker to which to add 'resolve' failures, if any.
+     * @param origScope The scope where the original textual reference is a part of. Used for checking covoluting names,
+     *     may be {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
-    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker) {
+    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker, SymbolScope<?> origScope) {
         // Root absolute name.
         if (name.startsWith("^")) {
             // If we are already at the root, resolve it relatively.
             if (isRootScope()) {
-                return resolve(position, name.substring(1), "^", tchecker, null);
+                // Resolve entry.
+                SymbolTableEntry entry = resolve(position, name.substring(1), "^", tchecker, null);
+
+                // Warn for convoluting names. That is, a root name is used for a local declaration.
+                warnIfConvolutingName(position, tchecker, entry, origScope);
+                return entry;
             }
 
             // Move up the hierarchy to the root. If we get a result, it is
             // 'in scope'.
-            return parent.resolve(position, name, tchecker);
+            return parent.resolve(position, name, tchecker, origScope);
         }
 
         // Scope absolute name.
@@ -218,14 +226,19 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             // If we are at the root of the current scope, resolve it
             // relatively.
             if (!isSubScope()) {
-                return resolve(position, name.substring(1), ".", tchecker, null);
+                // Resolve entry.
+                SymbolTableEntry entry = resolve(position, name.substring(1), ".", tchecker, null);
+
+                // Warn for convoluting names. That is, an absolute name is used for a local declaration.
+                warnIfConvolutingName(position, tchecker, entry, origScope);
+                return entry;
             }
 
             // Move up the hierarchy to the root of the scope. The result
             // should always be 'in scope', as we resolve it relative to the
             // root of the current scope.
             Assert.check(isSubScope());
-            return parent.resolve(position, name, tchecker);
+            return parent.resolve(position, name, tchecker, origScope);
         }
 
         // Relative name. Resolve from this scope.
@@ -233,11 +246,46 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
     }
 
     /**
+     * Adds a warning to the type checker if a resolved entry is equal to the original scope. This can be used to warn
+     * in case relative, absolute, root names are used to reference local declaration.
+     *
+     * @param position Position information for the textual reference.
+     * @param tchecker The type checker to which to add 'convoluting name' warnings, if any.
+     * @param entry The resolved symbol table entry for the reference.
+     * @param origScope The scope where the original textual reference is a part of.
+     */
+    private void warnIfConvolutingName(Position position, CifTypeChecker tchecker, SymbolTableEntry entry,
+            SymbolScope<?> origScope)
+    {
+        // Skip if original scope is not supplied.
+        if (origScope == null) {
+            return;
+        }
+
+        // Skip automaton definition and group definition scope as these can result in false positive. That is the
+        // definition itself can reference different instantiations of itself. However, these will share the same scope.
+        if (origScope instanceof AutDefScope || origScope instanceof GroupDefScope) {
+            return;
+        }
+
+        // Only warnings for references to declarations.
+        if (!(entry instanceof DeclWrap)) {
+            return;
+        }
+
+        // Warn if the original scope is equal to the scope of the entry.
+        ParentScope<?> entryParentScope = ((DeclWrap<?>)entry).getParent();
+        if (entryParentScope.equals(origScope)) {
+            tchecker.addProblem(ErrMsg.CONVOLUTING_NAME, position, escapeIdentifier(entry.getName()));
+        }
+    }
+
+    /**
      * Resolves a textual reference against this scope. Note that:
      * <ul>
      * <li>{@code $} characters have already been removed by the parser.</li>
      * <li>{@code ^} and {@code .} prefixes have already been handled by the
-     * {@link #resolve(Position, String, CifTypeChecker)} method.</li>
+     * {@link #resolve(Position, String, CifTypeChecker, SymbolScope)} method.</li>
      * </ul>
      *
      * @param position Position information for the textual reference.
@@ -294,6 +342,11 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             entry = scope.resolve(position, name, done, tchecker, null);
         }
 
+        // Warn for convoluting names. That is, a relative name is used for a local declaration.
+        if (done.contains(".")) {
+            warnIfConvolutingName(position, tchecker, entry, origScope);
+        }
+
         // Return the fully resolved symbol table entry.
         return entry;
     }
@@ -303,7 +356,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * <ul>
      * <li>{@code $} characters have already been removed by the parser.</li>
      * <li>{@code ^} and {@code .} prefixes have already been handled by the
-     * {@link #resolve(Position, String, CifTypeChecker)} method.</li>
+     * {@link #resolve(Position, String, CifTypeChecker, SymbolScope)} method.</li>
      * </ul>
      *
      * <p>

@@ -147,7 +147,7 @@ public abstract class SymbolTableEntry {
     public abstract PositionObject getObject();
 
     /**
-     * Changes the parent of this symbol table enty. Should only be used by the {@link SymbolScopeMerger#mergeScopes}
+     * Changes the parent of this symbol table entry. Should only be used by the {@link SymbolScopeMerger#mergeScopes}
      * method.
      *
      * @param parent The new parent scope.
