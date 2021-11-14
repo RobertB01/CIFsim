@@ -1,0 +1,1 @@
+WARNING: File "pprint_elim_cdef/refs1.cif": Semantic warning at line 50, column 10: Convoluted reference to local declaration. Use "t" instead

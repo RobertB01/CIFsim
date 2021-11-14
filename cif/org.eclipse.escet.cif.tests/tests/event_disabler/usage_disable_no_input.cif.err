@@ -4,3 +4,5 @@ WARNING: File "event_disabler/usage_disable_no_input.cif": Semantic warning at l
 WARNING: File "event_disabler/usage_disable_no_input.cif": Semantic warning at line 18, column 21: Event "g.nu" is not used anywhere in the specification.
 WARNING: File "event_disabler/usage_disable_no_input.cif": Semantic warning at line 21, column 19: Event "g.a.ns" is not used anywhere in the specification.
 WARNING: File "event_disabler/usage_disable_no_input.cif": Semantic warning at line 21, column 23: Event "g.a.nu" is not used anywhere in the specification.
+WARNING: File "event_disabler/usage_disable_no_input.cif": Semantic warning at line 25, column 36: Convoluted reference to local declaration. Use "is" instead
+WARNING: File "event_disabler/usage_disable_no_input.cif": Semantic warning at line 25, column 45: Convoluted reference to local declaration. Use "iu" instead
