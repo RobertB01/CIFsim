@@ -1,15 +1,20 @@
-enum E = l1, l2;
+group p1:
+  event e;
+  enum LPE_p1 = l1, l2;
+end
+group p2:
+  enum LPE_p2 = l1, l2;
+end
 plant automaton M:
-  alphabet p1_e;
-  event p1_e;
-  disc E p1 = l1;
-  disc E p2 = l1;
-  initial p1 = l1 and true or p1 = l2 and false,
-          p2 = l1 and true or p2 = l2 and false;
-  marked p1 = l1 and false or p1 = l2 and false,
-         p2 = l1 and false or p2 = l2 and false;
+  alphabet .p1.e;
+  disc .p1.LPE_p1 p1 = .p1.l1;
+  disc .p2.LPE_p2 p2 = .p2.l1;
+  initial p1 = .p1.l1 and true or p1 = .p1.l2 and false,
+          p2 = .p2.l1 and true or p2 = .p2.l2 and false;
+  marked p1 = .p1.l1 and false or p1 = .p1.l2 and false,
+         p2 = .p2.l1 and false or p2 = .p2.l2 and false;
   location L:
     initial;
     marked;
-    edge p1_e when p1 = l1 and p2 = l1 do p1 := l2, p2 := l2;
+    edge .p1.e when p1 = .p1.l1 and p2 = .p2.l1 do p1 := .p1.l2, p2 := .p2.l2;
 end

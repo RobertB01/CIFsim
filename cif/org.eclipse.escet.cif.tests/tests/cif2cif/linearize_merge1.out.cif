@@ -18,243 +18,385 @@ event e30;
 event e31a;
 event e31b;
 event e34;
-func int _f():
-  return 0;
+group p1:
 end
-enum E = ABC, DEF, l1, l2, l3, l4, l5, l6;
-automaton M:
-  alphabet e12, e14, e18, e19, e20, e20c, e21, e22, e23, e24, e26, e27a, e27b, e28, e30, e31a, e31b, e34, f27, p15a_e15a, p15b_e15b, p16_e16, p3_e3, p37_e37, p38_e38, p4_e4, p40_e40, p41_e41a, p41_e41b, p5_e5, p6_e6a, p6_e6b, p7_e7, p8_e8a, p8_e8b, p9_e9;
-  disc E p11 = l1;
-  disc E p12b = l1;
-  disc real p14a_v = 0.0;
-  disc real p14b_v = 0.0;
-  disc E p14b = l1;
-  disc real p15a_v = 0.0;
-  event p15a_e15a;
-  disc E p15a = l1;
-  disc real p15b_v = 0.0;
-  event p15b_e15b;
-  disc E p15b in any;
-  disc real p16_v = 0.0;
-  event p16_e16;
-  disc E p16 = l1;
-  disc real p17_dv = 0.0;
-  cont p17_cv = 0.0 der 1.0;
-  disc real p18b_v = 0.0;
-  disc E p19a = l1;
-  disc real p19b_v = 0.0;
-  disc E p20a = l1;
-  disc real p20b_v = 0.0;
-  disc E p21a = l1;
-  disc E p22a = l1;
-  disc real p22b_v1 = 0.0;
-  disc real p22b_v2 = 0.0;
-  disc real p23b_v1 = 0.0;
-  disc real p23b_v2 = 0.0;
-  disc E p23b in any;
-  disc real p24b_v1 = 0.0;
-  disc E p24b in any;
-  disc real p25_v = 0.0;
-  disc tuple(int a; int b) p26b_v = (0, 0);
-  disc list int p26b_l = [261, 262];
-  disc tuple(tuple(real a; real b) c; real d) p27b_v1 = ((0.0, 0.0), 0.0);
-  disc list list int p27b_v2 = <list[0] list int>[];
-  cont p28b_v1 = 0.0 der 28.1;
-  cont p28b_v2 = 0.0 der 28.2;
-  disc E p29_v29 = l1;
-  event p3_e3;
-  disc E p32 in any;
-  disc E p33 in any;
-  disc E p34 in any;
-  disc E p36 in any;
-  event p37_e37;
-  disc E p37 in any;
-  event p38_e38;
-  disc real p38_v = 0.0;
-  disc E p38 in any;
-  event p4_e4;
-  event p40_e40;
-  disc real p40_v = 0.0;
-  disc E p40 = l1;
-  event p41_e41a;
-  event p41_e41b;
-  disc int p41_a = 0;
-  disc func int() p41_b = _f;
-  event p5_e5;
-  disc E p5 = l1;
-  event p6_e6a;
-  event p6_e6b;
-  disc E p6 in any;
-  event p7_e7;
-  disc E p7 in any;
-  event p8_e8a;
-  event p8_e8b;
-  disc bool p9_b = p9 = l1;
-  alg bool p9_a = p9 = l2;
-  event p9_e9;
-  disc E p9 = l1;
-  disc tuple(real a; real b) q27b_v = (0.0, 0.0);
-  disc int recv20c_1_a = 0;
-  disc int recv20c_2_b = 0;
-  disc E recv20c_2 = l1;
-  disc int send20c_1_x = 0;
-  disc int send20c_2_y = 0;
-  disc E send20c_2 = l1;
-  disc int sync20c_1_a = 0;
-  disc int sync20c_2_b = 0;
-  disc E sync20c_2 = l1;
-  disc bool u = true;
-  initial 34.0 = 34.0,
-          34.1 = 34.1,
-          true and false,
-          true and true,
-          p11 = l1 and true or p11 = l2 and false,
-          true and true,
-          p12b = l1 and true or p12b = l2 and false,
-          true and true,
-          p14b = l1 and true or p14b = l2 and false,
-          p15a = l1 and true or (p15a = l2 and false or p15a = l3 and false),
-          p15b = l1 and true or (p15b = l2 and true or p15b = l3 and true),
-          p16 = l1 and true or p16 = l2 and false,
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          p19a = l1 and true or p19a = l2 and false,
-          true and true,
-          true and true,
-          true and true,
-          p20a = l1 and true or p20a = l2 and false,
-          true and true,
-          p21a = l1 and true or p21a = l2 and false,
-          true and true,
-          p22a = l1 and true or p22a = l2 and false,
-          true and true,
-          true and true,
-          p23b = l1 and true or (p23b = l2 and true or p23b = l3 and true),
-          true and true,
-          p24b = l1 and true or (p24b = l2 and true or p24b = l3 and true),
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          true and false,
-          true and true,
-          true and true,
-          true and true,
-          true and true,
-          p32 = l1 and true or p32 = l2 and true,
-          p33 = l1 and true or p33 = l2 and true or (p33 = l3 and true or p33 = l4 and true),
-          p34 = l1 and false or p34 = l2 and true or (p34 = l3 and 34.3 = 34.3 or p34 = l4 and 34.4 = 34.4),
-          true and p36 = l1,
-          p36 = l1 and true or p36 = l2 and true,
-          p37 = l1 and true or p37 = l2 and true,
-          p38 = l1 and true or (p38 = l2 and true or p38 = l3 and true) or (p38 = l4 and true or (p38 = l5 and true or p38 = l6 and true)),
-          true and true,
-          p40 = l1 and true or p40 = l2 and false,
-          true and true,
-          p5 = l1 and true or p5 = l2 and false,
-          p6 = l1 and true or p6 = l2 and true,
-          p7 = l1 and true or p7 = l2 and true,
-          true and true,
-          p9 = l1 and true or p9 = l2 and false,
-          true and true,
-          true and true,
-          true and true,
-          recv20c_2 = l1 and true or recv20c_2 = l2 and false,
-          true and true,
-          send20c_2 = l1 and true or send20c_2 = l2 and false,
-          true and true,
-          sync20c_2 = l1 and true or sync20c_2 = l2 and false;
-  marked 33.0 = 33.0,
-         33.1 = 33.1,
-         true and false,
-         true and false,
-         p11 = l1 and false or p11 = l2 and false,
-         true and false,
-         p12b = l1 and false or p12b = l2 and false,
-         true and false,
-         p14b = l1 and false or p14b = l2 and false,
-         p15a = l1 and false or (p15a = l2 and false or p15a = l3 and false),
-         p15b = l1 and false or (p15b = l2 and false or p15b = l3 and false),
-         p16 = l1 and false or p16 = l2 and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         p19a = l1 and false or p19a = l2 and false,
-         true and false,
-         true and false,
-         true and false,
-         p20a = l1 and false or p20a = l2 and false,
-         true and false,
-         p21a = l1 and false or p21a = l2 and false,
-         true and false,
-         p22a = l1 and false or p22a = l2 and false,
-         true and false,
-         true and false,
-         p23b = l1 and false or (p23b = l2 and false or p23b = l3 and false),
-         true and false,
-         p24b = l1 and false or (p24b = l2 and false or p24b = l3 and false),
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         true and false,
-         p32 = l1 and false or p32 = l2 and false,
-         p33 = l1 and false or p33 = l2 and true or (p33 = l3 and 33.3 = 33.3 or p33 = l4 and 33.4 = 33.4),
-         p34 = l1 and false or p34 = l2 and false or (p34 = l3 and false or p34 = l4 and false),
-         true and false,
-         p36 = l1 and false or p36 = l2 and false,
-         p37 = l1 and false or p37 = l2 and false,
-         p38 = l1 and false or (p38 = l2 and false or p38 = l3 and false) or (p38 = l4 and false or (p38 = l5 and false or p38 = l6 and false)),
-         true and false,
-         p40 = l1 and false or p40 = l2 and false,
-         true and false,
-         p5 = l1 and false or p5 = l2 and false,
-         p6 = l1 and false or p6 = l2 and false,
-         p7 = l1 and false or p7 = l2 and false,
-         true and false,
-         p9 = l1 and false or p9 = l2 and false,
-         true and false,
-         true and false,
-         true and false,
-         recv20c_2 = l1 and false or recv20c_2 = l2 and false,
-         true and false,
-         send20c_2 = l1 and false or send20c_2 = l2 and false,
-         true and false,
-         sync20c_2 = l1 and false or sync20c_2 = l2 and false;
-  invariant p29_v29 = l1 or p29_v29 = l2;
+group p2:
+end
+group p3:
+  event e3;
+end
+group p4:
+  event e4;
+end
+group p5:
+  event e5;
+  enum LPE_p5 = l1, l2;
+end
+group p6:
+  event e6a;
+  event e6b;
+  enum LPE_p6 = l1, l2;
+end
+group p7:
+  event e7;
+  enum LPE_p7 = l1, l2;
+end
+group p8:
+  event e8a;
+  event e8b;
+end
+group p9:
+  alg bool a = M.p9 = l2;
+  event e9;
+  enum LPE_p9 = l1, l2;
+  invariant a or M.p9_b;
+end
+group p10:
+end
+group p11:
+  enum LPE_p11 = l1, l2;
+end
+group p12a:
+end
+group p12b:
+  enum LPE_p12b = l1, l2;
+end
+group p14a:
+end
+group p14b:
+  enum LPE_p14b = l1, l2;
+end
+group p15a:
+  event e15a;
+  enum LPE_p15a = l1, l2, l3;
+end
+group p15b:
+  event e15b;
+  enum LPE_p15b = l1, l2, l3;
+end
+group p16:
+  event e16;
+  enum LPE_p16 = l1, l2;
+end
+group p17:
+end
+group p18a:
+end
+group p18b:
+end
+group p18c:
+end
+group p19a:
+  enum LPE_p19a = l1, l2;
+end
+group p19b:
+end
+group p19c:
+end
+group p20a:
+  enum LPE_p20a = l1, l2;
+end
+group p20b:
+end
+group send20c_1:
+end
+group send20c_2:
+  enum LPE_send20c_2 = l1, l2;
+end
+group recv20c_1:
+end
+group recv20c_2:
+  enum LPE_recv20c_2 = l1, l2;
+end
+group sync20c_1:
+end
+group sync20c_2:
+  enum LPE_sync20c_2 = l1, l2;
+end
+group p21a:
+  enum LPE_p21a = l1, l2;
+end
+group p21b:
+end
+group p22a:
+  enum LPE_p22a = l1, l2;
+end
+group p22b:
+end
+group p23a:
+end
+group p23b:
+  enum LPE_p23b = l1, l2, l3;
+end
+group p24a:
+end
+group p24b:
+  enum LPE_p24b = l1, l2, l3;
+end
+group p25:
+end
+group p26a:
+end
+group p26b:
+end
+group p27a:
+end
+group p27b:
+end
+group q27a:
+end
+group q27b:
+end
+group p28a:
+end
+group p28b:
+end
+group p30a:
+end
+group p30b:
+end
+group p31a:
+end
+group p31b:
+end
+group p32:
+  enum LPE_p32 = l1, l2;
   invariant 32.3 = 32.3;
-  invariant p9_a or p9_b;
-  invariant p32 = l1 => 32.1 = 32.1;
-  invariant p32 = l2 => 32.2 = 32.2;
+end
+group p33:
+  enum LPE_p33 = l1, l2, l3, l4;
+  marked 33.1 = 33.1;
+end
+group p34:
+  enum LPE_p34 = l1, l2, l3, l4;
+  initial 34.1 = 34.1;
+end
+group p35:
+end
+group p36:
+  enum LPE_p36 = l1, l2;
+end
+group p37:
+  event e37;
+  enum LPE_p37 = l1, l2;
+end
+group p38:
+  event e38;
+  enum LPE_p38 = l1, l2, l3, l4, l5, l6;
+end
+group p40:
+  event e40;
+  enum LPE_p40 = l1, l2;
+end
+group p41:
+  event e41a;
+  event e41b;
+end
+automaton M:
+  alphabet e12, e14, e18, e19, e20, e20c, e21, e22, e23, e24, e26, e27a, e27b, e28, e30, e31a, e31b, e34, f27, .p15a.e15a, .p15b.e15b, .p16.e16, p3.e3, .p37.e37, .p38.e38, p4.e4, .p40.e40, p41.e41a, p41.e41b, .p5.e5, .p6.e6a, .p6.e6b, .p7.e7, p8.e8a, p8.e8b, .p9.e9;
+  disc .p11.LPE_p11 p11 = .p11.l1;
+  disc .p12b.LPE_p12b p12b = .p12b.l1;
+  disc real p14a_v;
+  disc real p14b_v;
+  disc .p14b.LPE_p14b p14b = .p14b.l1;
+  disc real p15a_v;
+  disc .p15a.LPE_p15a p15a = .p15a.l1;
+  disc real p15b_v;
+  disc .p15b.LPE_p15b p15b in any;
+  disc real p16_v;
+  disc .p16.LPE_p16 p16 = .p16.l1;
+  disc real p17_dv;
+  cont p17_cv der 1.0;
+  disc real p18b_v;
+  disc .p19a.LPE_p19a p19a = .p19a.l1;
+  disc real p19b_v;
+  disc .p20a.LPE_p20a p20a = .p20a.l1;
+  disc real p20b_v;
+  disc .p21a.LPE_p21a p21a = .p21a.l1;
+  disc .p22a.LPE_p22a p22a = .p22a.l1;
+  disc real p22b_v1;
+  disc real p22b_v2;
+  disc real p23b_v1;
+  disc real p23b_v2;
+  disc .p23b.LPE_p23b p23b in any;
+  disc real p24b_v1;
+  disc .p24b.LPE_p24b p24b in any;
+  disc real p25_v;
+  disc tuple(int a; int b) p26b_v;
+  disc list int p26b_l = [261, 262];
+  disc tuple(tuple(real a; real b) c; real d) p27b_v1;
+  disc list list int p27b_v2;
+  cont p28b_v1 der 28.1;
+  cont p28b_v2 der 28.2;
+  disc .p32.LPE_p32 p32 in any;
+  disc .p33.LPE_p33 p33 in any;
+  disc .p34.LPE_p34 p34 in any;
+  disc .p36.LPE_p36 p36 in any;
+  disc .p37.LPE_p37 p37 in any;
+  disc real p38_v;
+  disc .p38.LPE_p38 p38 in any;
+  disc real p40_v;
+  disc .p40.LPE_p40 p40 = .p40.l1;
+  disc int p41_a;
+  disc func int() p41_b;
+  disc .p5.LPE_p5 p5 = .p5.l1;
+  disc .p6.LPE_p6 p6 in any;
+  disc .p7.LPE_p7 p7 in any;
+  disc bool p9_b = p9 = .p9.l1;
+  disc .p9.LPE_p9 p9 = .p9.l1;
+  disc tuple(real a; real b) q27b_v;
+  disc int recv20c_1_a;
+  disc int recv20c_2_b;
+  disc .recv20c_2.LPE_recv20c_2 recv20c_2 = .recv20c_2.l1;
+  disc int send20c_1_x;
+  disc int send20c_2_y;
+  disc .send20c_2.LPE_send20c_2 send20c_2 = .send20c_2.l1;
+  disc int sync20c_1_a;
+  disc int sync20c_2_b;
+  disc .sync20c_2.LPE_sync20c_2 sync20c_2 = .sync20c_2.l1;
+  disc bool u = true;
+  initial true and false,
+          true and true,
+          p11 = .p11.l1 and true or p11 = .p11.l2 and false,
+          true and true,
+          p12b = .p12b.l1 and true or p12b = .p12b.l2 and false,
+          true and true,
+          p14b = .p14b.l1 and true or p14b = .p14b.l2 and false,
+          p15a = .p15a.l1 and true or (p15a = .p15a.l2 and false or p15a = .p15a.l3 and false),
+          p15b = .p15b.l1 and true or (p15b = .p15b.l2 and true or p15b = .p15b.l3 and true),
+          p16 = .p16.l1 and true or p16 = .p16.l2 and false,
+          true and true,
+          true and true,
+          true and true,
+          true and true,
+          p19a = .p19a.l1 and true or p19a = .p19a.l2 and false,
+          true and true,
+          true and true,
+          true and true,
+          p20a = .p20a.l1 and true or p20a = .p20a.l2 and false,
+          true and true,
+          p21a = .p21a.l1 and true or p21a = .p21a.l2 and false,
+          true and true,
+          p22a = .p22a.l1 and true or p22a = .p22a.l2 and false,
+          true and true,
+          true and true,
+          p23b = .p23b.l1 and true or (p23b = .p23b.l2 and true or p23b = .p23b.l3 and true),
+          true and true,
+          p24b = .p24b.l1 and true or (p24b = .p24b.l2 and true or p24b = .p24b.l3 and true),
+          true and true,
+          true and true,
+          true and true,
+          true and true,
+          true and true,
+          true and true,
+          true and true,
+          true and false,
+          true and true,
+          true and true,
+          true and true,
+          true and true,
+          p32 = .p32.l1 and true or p32 = .p32.l2 and true,
+          p33 = .p33.l1 and true or p33 = .p33.l2 and true or (p33 = .p33.l3 and true or p33 = .p33.l4 and true),
+          p34 = .p34.l1 and false or p34 = .p34.l2 and true or (p34 = .p34.l3 and 34.3 = 34.3 or p34 = .p34.l4 and 34.4 = 34.4),
+          true and p36 = .p36.l1,
+          p36 = .p36.l1 and true or p36 = .p36.l2 and true,
+          p37 = .p37.l1 and true or p37 = .p37.l2 and true,
+          p38 = .p38.l1 and true or (p38 = .p38.l2 and true or p38 = .p38.l3 and true) or (p38 = .p38.l4 and true or (p38 = .p38.l5 and true or p38 = .p38.l6 and true)),
+          true and true,
+          p40 = .p40.l1 and true or p40 = .p40.l2 and false,
+          true and true,
+          p5 = .p5.l1 and true or p5 = .p5.l2 and false,
+          p6 = .p6.l1 and true or p6 = .p6.l2 and true,
+          p7 = .p7.l1 and true or p7 = .p7.l2 and true,
+          true and true,
+          p9 = .p9.l1 and true or p9 = .p9.l2 and false,
+          true and true,
+          true and true,
+          true and true,
+          recv20c_2 = .recv20c_2.l1 and true or recv20c_2 = .recv20c_2.l2 and false,
+          true and true,
+          send20c_2 = .send20c_2.l1 and true or send20c_2 = .send20c_2.l2 and false,
+          true and true,
+          sync20c_2 = .sync20c_2.l1 and true or sync20c_2 = .sync20c_2.l2 and false;
+  marked true and false,
+         true and false,
+         p11 = .p11.l1 and false or p11 = .p11.l2 and false,
+         true and false,
+         p12b = .p12b.l1 and false or p12b = .p12b.l2 and false,
+         true and false,
+         p14b = .p14b.l1 and false or p14b = .p14b.l2 and false,
+         p15a = .p15a.l1 and false or (p15a = .p15a.l2 and false or p15a = .p15a.l3 and false),
+         p15b = .p15b.l1 and false or (p15b = .p15b.l2 and false or p15b = .p15b.l3 and false),
+         p16 = .p16.l1 and false or p16 = .p16.l2 and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         p19a = .p19a.l1 and false or p19a = .p19a.l2 and false,
+         true and false,
+         true and false,
+         true and false,
+         p20a = .p20a.l1 and false or p20a = .p20a.l2 and false,
+         true and false,
+         p21a = .p21a.l1 and false or p21a = .p21a.l2 and false,
+         true and false,
+         p22a = .p22a.l1 and false or p22a = .p22a.l2 and false,
+         true and false,
+         true and false,
+         p23b = .p23b.l1 and false or (p23b = .p23b.l2 and false or p23b = .p23b.l3 and false),
+         true and false,
+         p24b = .p24b.l1 and false or (p24b = .p24b.l2 and false or p24b = .p24b.l3 and false),
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         true and false,
+         p32 = .p32.l1 and false or p32 = .p32.l2 and false,
+         p33 = .p33.l1 and false or p33 = .p33.l2 and true or (p33 = .p33.l3 and 33.3 = 33.3 or p33 = .p33.l4 and 33.4 = 33.4),
+         p34 = .p34.l1 and false or p34 = .p34.l2 and false or (p34 = .p34.l3 and false or p34 = .p34.l4 and false),
+         true and false,
+         p36 = .p36.l1 and false or p36 = .p36.l2 and false,
+         p37 = .p37.l1 and false or p37 = .p37.l2 and false,
+         p38 = .p38.l1 and false or (p38 = .p38.l2 and false or p38 = .p38.l3 and false) or (p38 = .p38.l4 and false or (p38 = .p38.l5 and false or p38 = .p38.l6 and false)),
+         true and false,
+         p40 = .p40.l1 and false or p40 = .p40.l2 and false,
+         true and false,
+         p5 = .p5.l1 and false or p5 = .p5.l2 and false,
+         p6 = .p6.l1 and false or p6 = .p6.l2 and false,
+         p7 = .p7.l1 and false or p7 = .p7.l2 and false,
+         true and false,
+         p9 = .p9.l1 and false or p9 = .p9.l2 and false,
+         true and false,
+         true and false,
+         true and false,
+         recv20c_2 = .recv20c_2.l1 and false or recv20c_2 = .recv20c_2.l2 and false,
+         true and false,
+         send20c_2 = .send20c_2.l1 and false or send20c_2 = .send20c_2.l2 and false,
+         true and false,
+         sync20c_2 = .sync20c_2.l1 and false or sync20c_2 = .sync20c_2.l2 and false;
+  invariant p32 = .p32.l1 => 32.1 = 32.1;
+  invariant p32 = .p32.l2 => 32.2 = 32.2;
   plant invariant u;
   location L:
     initial;
     marked;
-    edge e12 when true and (true and (p12b = l1 and (12.1 = 12.1 and 12.2 = 12.2 or 12.3 = 12.3) or p12b = l2 and 12.4 = 12.4)) do if p12b = l1 and (12.1 = 12.1 and 12.2 = 12.2): p12b := l2 elif p12b = l1 and 12.3 = 12.3: p12b := l1 elif p12b = l2 and 12.4 = 12.4: p12b := l1 end;
-    edge e14 when true and (true and (p14b = l1 and (14.1 = 14.1 and 14.2 = 14.2 or 14.3 = 14.3) or p14b = l2 and 14.4 = 14.4)) do p14a_v := 14.1, if p14b = l1 and (14.1 = 14.1 and 14.2 = 14.2): p14b_v := 14.7, p14b := l2 elif p14b = l1 and 14.3 = 14.3: p14b_v := 14.8 elif p14b = l2 and 14.4 = 14.4: p14b_v := 14.9, p14b := l1 end;
+    edge e12 when true and (true and (p12b = .p12b.l1 and (12.1 = 12.1 and 12.2 = 12.2 or 12.3 = 12.3) or p12b = .p12b.l2 and 12.4 = 12.4)) do if p12b = .p12b.l1 and (12.1 = 12.1 and 12.2 = 12.2): p12b := .p12b.l2 elif p12b = .p12b.l1 and 12.3 = 12.3: p12b := .p12b.l1 elif p12b = .p12b.l2 and 12.4 = 12.4: p12b := .p12b.l1 end;
+    edge e14 when true and (true and (p14b = .p14b.l1 and (14.1 = 14.1 and 14.2 = 14.2 or 14.3 = 14.3) or p14b = .p14b.l2 and 14.4 = 14.4)) do p14a_v := 14.1, if p14b = .p14b.l1 and (14.1 = 14.1 and 14.2 = 14.2): p14b_v := 14.7, p14b := .p14b.l2 elif p14b = .p14b.l1 and 14.3 = 14.3: p14b_v := 14.8 elif p14b = .p14b.l2 and 14.4 = 14.4: p14b_v := 14.9, p14b := .p14b.l1 end;
     edge e18 when true and (true and true) and (true and (true and true)) do p18b_v := 18.1;
-    edge e19 when (p19a = l1 and true or p19a = l2 and true) and true and (true and (true and (19.3 = 19.3 or 19.4 = 19.4))) do if p19a = l1 and true: p19a := l2 elif p19a = l2 and true: p19a := l2 end, p19b_v := if p19a = l1 and true: 19.1 else 19.2 end;
-    edge e20 when (p20a = l1 and (true or true) or p20a = l2 and (true or true)) and (true and true) do if p20a = l1 and true: p20a := l2 elif p20a = l1 and true: p20a := l1 elif p20a = l2 and true: p20a := l2 elif p20a = l2 and true: p20a := l2 end, p20b_v := if p20a = l1 and true: 20.1 elif p20a = l1 and true: 20.2 elif p20a = l2 and true: 20.3 else 20.4 end;
-    edge e20c when (true and (true or true) or (send20c_2 = l1 and (true or true) or send20c_2 = l2 and true)) and (true and (true or true) or (recv20c_2 = l1 and (true or true) or recv20c_2 = l2 and true)) and (true and ((true or true) and (sync20c_2 = l1 and (true or true) or sync20c_2 = l2 and true))) do if true and true: send20c_1_x := send20c_1_x + 11 elif true and true: send20c_1_x := send20c_1_x + 22 elif send20c_2 = l1 and true: send20c_2_y := send20c_2_y + 33, send20c_2 := l2 elif send20c_2 = l1 and true: send20c_2 := l1 elif send20c_2 = l2 and true: send20c_2_y := send20c_2_y + 55 end, if true and true: recv20c_1_a := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = l1 and true: send20c_2_y + 3 elif send20c_2 = l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 6 elif true and true: recv20c_1_a := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = l1 and true: send20c_2_y + 3 elif send20c_2 = l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 7 elif recv20c_2 = l1 and true: recv20c_2_b := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = l1 and true: send20c_2_y + 3 elif send20c_2 = l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 8, recv20c_2 := l2 elif recv20c_2 = l1 and true: recv20c_2 := l1 elif recv20c_2 = l2 and true: recv20c_2_b := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = l1 and true: send20c_2_y + 3 elif send20c_2 = l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 9 end, if true and true: sync20c_1_a := 15 elif true and true: sync20c_1_a := 16 end, if sync20c_2 = l1 and true: sync20c_2_b := 8, sync20c_2 := l2 elif sync20c_2 = l1 and true: sync20c_2 := l1 elif sync20c_2 = l2 and true: sync20c_2_b := 9 end;
-    edge e21 when (p21a = l1 and true or p21a = l2 and true) and (true and (true or true)) do if p21a = l1 and true: p21a := l2 elif p21a = l2 and true: p21a := l2 end;
-    edge e22 when (p22a = l1 and true or p22a = l2 and true) and (true and (true or true)) do if p22a = l1 and true: p22a := l2 elif p22a = l2 and true: p22a := l2 end, if true and true: (p22b_v1, p22b_v2) := (if p22a = l1 and true: 22.1 else 22.2 end, p22b_v1 + p22b_v2 + 22.3) elif true and true: p22b_v2 := p22b_v1 + p22b_v2 + 22.4 end;
-    edge e23 when true and (true and (p23b = l1 and (true or true) or (p23b = l2 and (true or true) or p23b = l3 and (true or true)))) do if p23b = l1 and true: (p23b_v1, p23b_v2) := (23.0, 23.0 + p23b_v2 + 23.1) elif p23b = l1 and true: p23b := l1 elif p23b = l2 and true: p23b := l2 elif p23b = l2 and true: (p23b_v1, p23b_v2) := (23.0, 23.0 + p23b_v2 + 23.2) elif p23b = l3 and true: (p23b_v1, p23b_v2) := (23.0, 23.0 + p23b_v2 + 23.3) elif p23b = l3 and true: (p23b_v1, p23b_v2) := (23.0, p23b_v1 + p23b_v2 + 23.4) end;
-    edge e24 when true and (true and (p24b = l1 and (true or true) or (p24b = l2 and (true or true) or p24b = l3 and (true or true)))) do if p24b = l1 and true: p24b_v1 := p24b_v1 + 24.1 elif p24b = l1 and true: p24b := l1 elif p24b = l2 and true: p24b := l2 elif p24b = l2 and true: p24b_v1 := p24b_v1 + 24.2 elif p24b = l3 and true: p24b_v1 := p24b_v1 + 24.3 elif p24b = l3 and true: p24b_v1 := p24b_v1 + 24.4 end;
+    edge e19 when (p19a = .p19a.l1 and true or p19a = .p19a.l2 and true) and true and (true and (true and (19.3 = 19.3 or 19.4 = 19.4))) do if p19a = .p19a.l1 and true: p19a := .p19a.l2 elif p19a = .p19a.l2 and true: p19a := .p19a.l2 end, p19b_v := if p19a = .p19a.l1 and true: 19.1 else 19.2 end;
+    edge e20 when (p20a = .p20a.l1 and (true or true) or p20a = .p20a.l2 and (true or true)) and (true and true) do if p20a = .p20a.l1 and true: p20a := .p20a.l2 elif p20a = .p20a.l1 and true: p20a := .p20a.l1 elif p20a = .p20a.l2 and true: p20a := .p20a.l2 elif p20a = .p20a.l2 and true: p20a := .p20a.l2 end, p20b_v := if p20a = .p20a.l1 and true: 20.1 elif p20a = .p20a.l1 and true: 20.2 elif p20a = .p20a.l2 and true: 20.3 else 20.4 end;
+    edge e20c when (true and (true or true) or (send20c_2 = .send20c_2.l1 and (true or true) or send20c_2 = .send20c_2.l2 and true)) and (true and (true or true) or (recv20c_2 = .recv20c_2.l1 and (true or true) or recv20c_2 = .recv20c_2.l2 and true)) and (true and ((true or true) and (sync20c_2 = .sync20c_2.l1 and (true or true) or sync20c_2 = .sync20c_2.l2 and true))) do if true and true: send20c_1_x := send20c_1_x + 11 elif true and true: send20c_1_x := send20c_1_x + 22 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y := send20c_2_y + 33, send20c_2 := .send20c_2.l2 elif send20c_2 = .send20c_2.l1 and true: send20c_2 := .send20c_2.l1 elif send20c_2 = .send20c_2.l2 and true: send20c_2_y := send20c_2_y + 55 end, if true and true: recv20c_1_a := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 3 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 6 elif true and true: recv20c_1_a := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 3 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 7 elif recv20c_2 = .recv20c_2.l1 and true: recv20c_2_b := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 3 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 8, recv20c_2 := .recv20c_2.l2 elif recv20c_2 = .recv20c_2.l1 and true: recv20c_2 := .recv20c_2.l1 elif recv20c_2 = .recv20c_2.l2 and true: recv20c_2_b := if true and true: send20c_1_x + 1 elif true and true: send20c_1_x + 2 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 3 elif send20c_2 = .send20c_2.l1 and true: send20c_2_y + 4 else send20c_2_y + 5 end + 9 end, if true and true: sync20c_1_a := 15 elif true and true: sync20c_1_a := 16 end, if sync20c_2 = .sync20c_2.l1 and true: sync20c_2_b := 8, sync20c_2 := .sync20c_2.l2 elif sync20c_2 = .sync20c_2.l1 and true: sync20c_2 := .sync20c_2.l1 elif sync20c_2 = .sync20c_2.l2 and true: sync20c_2_b := 9 end;
+    edge e21 when (p21a = .p21a.l1 and true or p21a = .p21a.l2 and true) and (true and (true or true)) do if p21a = .p21a.l1 and true: p21a := .p21a.l2 elif p21a = .p21a.l2 and true: p21a := .p21a.l2 end;
+    edge e22 when (p22a = .p22a.l1 and true or p22a = .p22a.l2 and true) and (true and (true or true)) do if p22a = .p22a.l1 and true: p22a := .p22a.l2 elif p22a = .p22a.l2 and true: p22a := .p22a.l2 end, if true and true: (p22b_v1, p22b_v2) := (if p22a = .p22a.l1 and true: 22.1 else 22.2 end, p22b_v1 + p22b_v2 + 22.3) elif true and true: p22b_v2 := p22b_v1 + p22b_v2 + 22.4 end;
+    edge e23 when true and (true and (p23b = .p23b.l1 and (true or true) or (p23b = .p23b.l2 and (true or true) or p23b = .p23b.l3 and (true or true)))) do if p23b = .p23b.l1 and true: (p23b_v1, p23b_v2) := (23.0, 23.0 + p23b_v2 + 23.1) elif p23b = .p23b.l1 and true: p23b := .p23b.l1 elif p23b = .p23b.l2 and true: p23b := .p23b.l2 elif p23b = .p23b.l2 and true: (p23b_v1, p23b_v2) := (23.0, 23.0 + p23b_v2 + 23.2) elif p23b = .p23b.l3 and true: (p23b_v1, p23b_v2) := (23.0, 23.0 + p23b_v2 + 23.3) elif p23b = .p23b.l3 and true: (p23b_v1, p23b_v2) := (23.0, p23b_v1 + p23b_v2 + 23.4) end;
+    edge e24 when true and (true and (p24b = .p24b.l1 and (true or true) or (p24b = .p24b.l2 and (true or true) or p24b = .p24b.l3 and (true or true)))) do if p24b = .p24b.l1 and true: p24b_v1 := p24b_v1 + 24.1 elif p24b = .p24b.l1 and true: p24b := .p24b.l1 elif p24b = .p24b.l2 and true: p24b := .p24b.l2 elif p24b = .p24b.l2 and true: p24b_v1 := p24b_v1 + 24.2 elif p24b = .p24b.l3 and true: p24b_v1 := p24b_v1 + 24.3 elif p24b = .p24b.l3 and true: p24b_v1 := p24b_v1 + 24.4 end;
     edge e26 when true and true and (true and (true or true or (true or true))) do if true and true: p26b_v[a] := 26 - 25 elif true and true: p26b_v[b] := 26 - 25 elif true and true: p26b_v := (26 - 25, 26 - 25) elif true and true: p26b_l[26 - 25] := 26 - 25 end;
     edge e27a when true and true and (true and (true or true or (true or true))) do if true and true: p27b_v1[d] := 27.0 elif true and true: p27b_v1[c][a] := 27.0 elif true and true: p27b_v1[c][b] := 27.0 elif true and true: p27b_v1 := ((27.0, 27.0), 27.0) end;
     edge e27b when true and true and (true and (true or true)) do if true and true: p27b_v2[2][2] := 2 elif true and true: p27b_v2[floor(p27b_v1[0][1])][2] := 2 end;
@@ -262,37 +404,38 @@ automaton M:
     edge e30 when true and (true and 30.3 = 30.3);
     edge e31a when true and (true and 31.3 = 31.3);
     edge e31b when true and 31.2 = 31.2;
-    edge e34 when p34 = l1 and false or p34 = l2 and true or (p34 = l3 and false or p34 = l4 and false) do p34 := l1;
+    edge e34 when p34 = .p34.l1 and false or p34 = .p34.l2 and true or (p34 = .p34.l3 and false or p34 = .p34.l4 and false) do p34 := .p34.l1;
     edge f27 when true and true and (true and (true or (true or true))) do if true and true: q27b_v := (q27b_v[a], q27b_v[b]) elif true and true: q27b_v := (q27b_v[0], 27.1) elif true and true: q27b_v[a] := q27b_v[0] + q27b_v[1] + 27.1 end;
-    edge p15a_e15a when p15a = l1 and (true or true) or (p15a = l2 and (true or true) or p15a = l3 and (true or true)) do if p15a = l1 and true: p15a_v := 15.1, p15a := l2 elif p15a = l1 and true: p15a := l3 elif p15a = l2 and true: p15a := l1 elif p15a = l2 and true: p15a_v := 15.2, p15a := l3 elif p15a = l3 and true: p15a_v := 15.3, p15a := l1 elif p15a = l3 and true: p15a_v := 15.4, p15a := l2 end;
-    edge p15b_e15b when p15b = l1 and (true or true) or (p15b = l2 and (true or true) or p15b = l3 and (true or true)) do if p15b = l1 and true: p15b_v := 15.1 elif p15b = l1 and true: p15b := l1 elif p15b = l2 and true: p15b := l2 elif p15b = l2 and true: p15b_v := 15.2 elif p15b = l3 and true: p15b_v := 15.3 elif p15b = l3 and true: p15b_v := 15.4 end;
-    edge p16_e16 when p16 = l1 and 16 = 16 or p16 = l2 and false do p16_v := 16.1, p16 := l2;
-    edge p3_e3 when true and true;
-    edge p37_e37 when p37 = l1 and (37.1 = 37.1 or 37.2 = 37.2) or p37 = l2 and 37.3 = 37.3;
-    edge p38_e38 when true do if p38 = l1 and true: p38_v := p38_v + 38.1 elif p38 = l1 and true: p38 := l1 elif p38 = l2 and p38_v = 38.2: p38 := l2 elif p38 = l2 and p38_v = 38.3: p38_v := p38_v + 38.4 elif p38 = l2 and (not(p38_v = 38.2) and not(p38_v = 38.3)): p38 := l2 elif p38 = l3 and p38_v >= 10.0: p38_v := p38_v + 38.5 elif p38 = l3 and p38_v <= 15.0: p38_v := p38_v + 38.6 elif p38 = l3 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := l3 elif p38 = l4 and p38_v >= 10.0: p38 := l4 elif p38 = l4 and p38_v <= 15.0: p38_v := p38_v + 38.7 elif p38 = l4 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := l4 elif p38 = l5 and p38_v >= 10.0: p38_v := p38_v + 38.8 elif p38 = l5 and p38_v <= 15.0: p38 := l5 elif p38 = l5 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := l5 elif p38 = l6 and true: p38_v := p38_v + 38.9 elif p38 = l6 and true: p38_v := p38_v + 38.11, p38 := l4 end;
-    edge p4_e4 when true and true;
-    edge p40_e40 when true do if p40 = l1 and p40_v > 40.0: p40_v := 40.1, p40 := l2 elif p40 = l1 and not(p40_v > 40.0): p40 := l1 elif p40 = l2 and true: p40 := l2 end;
-    edge p41_e41a when false and (true and true);
-    edge p41_e41b when false and (true and true);
-    edge p5_e5 when p5 = l1 and true or p5 = l2 and true do if p5 = l1 and true: p5 := l2 elif p5 = l2 and true: p5 := l1 end;
-    edge p6_e6a when p6 = l1 and false or p6 = l2 and true do p6 := l1;
-    edge p6_e6b when p6 = l1 and true or p6 = l2 and false do p6 := l2;
-    edge p7_e7 when p7 = l1 and (true or true) or p7 = l2 and true do if p7 = l1 and true: p7 := l2 elif p7 = l1 and true: p7 := l1 elif p7 = l2 and true: p7 := l1 end;
-    edge p8_e8a when true and true;
-    edge p8_e8b when true and false;
-    edge p9_e9 when p9 = l1 and true or p9 = l2 and false do p9 := l2;
+    edge .p15a.e15a when p15a = .p15a.l1 and (true or true) or (p15a = .p15a.l2 and (true or true) or p15a = .p15a.l3 and (true or true)) do if p15a = .p15a.l1 and true: p15a_v := 15.1, p15a := .p15a.l2 elif p15a = .p15a.l1 and true: p15a := .p15a.l3 elif p15a = .p15a.l2 and true: p15a := .p15a.l1 elif p15a = .p15a.l2 and true: p15a_v := 15.2, p15a := .p15a.l3 elif p15a = .p15a.l3 and true: p15a_v := 15.3, p15a := .p15a.l1 elif p15a = .p15a.l3 and true: p15a_v := 15.4, p15a := .p15a.l2 end;
+    edge .p15b.e15b when p15b = .p15b.l1 and (true or true) or (p15b = .p15b.l2 and (true or true) or p15b = .p15b.l3 and (true or true)) do if p15b = .p15b.l1 and true: p15b_v := 15.1 elif p15b = .p15b.l1 and true: p15b := .p15b.l1 elif p15b = .p15b.l2 and true: p15b := .p15b.l2 elif p15b = .p15b.l2 and true: p15b_v := 15.2 elif p15b = .p15b.l3 and true: p15b_v := 15.3 elif p15b = .p15b.l3 and true: p15b_v := 15.4 end;
+    edge .p16.e16 when p16 = .p16.l1 and 16 = 16 or p16 = .p16.l2 and false do p16_v := 16.1, p16 := .p16.l2;
+    edge p3.e3 when true and true;
+    edge .p37.e37 when p37 = .p37.l1 and (37.1 = 37.1 or 37.2 = 37.2) or p37 = .p37.l2 and 37.3 = 37.3;
+    edge .p38.e38 when true do if p38 = .p38.l1 and true: p38_v := p38_v + 38.1 elif p38 = .p38.l1 and true: p38 := .p38.l1 elif p38 = .p38.l2 and p38_v = 38.2: p38 := .p38.l2 elif p38 = .p38.l2 and p38_v = 38.3: p38_v := p38_v + 38.4 elif p38 = .p38.l2 and (not(p38_v = 38.2) and not(p38_v = 38.3)): p38 := .p38.l2 elif p38 = .p38.l3 and p38_v >= 10.0: p38_v := p38_v + 38.5 elif p38 = .p38.l3 and p38_v <= 15.0: p38_v := p38_v + 38.6 elif p38 = .p38.l3 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := .p38.l3 elif p38 = .p38.l4 and p38_v >= 10.0: p38 := .p38.l4 elif p38 = .p38.l4 and p38_v <= 15.0: p38_v := p38_v + 38.7 elif p38 = .p38.l4 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := .p38.l4 elif p38 = .p38.l5 and p38_v >= 10.0: p38_v := p38_v + 38.8 elif p38 = .p38.l5 and p38_v <= 15.0: p38 := .p38.l5 elif p38 = .p38.l5 and (not(p38_v >= 10.0) and not(p38_v <= 15.0)): p38 := .p38.l5 elif p38 = .p38.l6 and true: p38_v := p38_v + 38.9 elif p38 = .p38.l6 and true: p38_v := p38_v + 38.11, p38 := .p38.l4 end;
+    edge p4.e4 when true and true;
+    edge .p40.e40 when true do if p40 = .p40.l1 and p40_v > 40.0: p40_v := 40.1, p40 := .p40.l2 elif p40 = .p40.l1 and not(p40_v > 40.0): p40 := .p40.l1 elif p40 = .p40.l2 and true: p40 := .p40.l2 end;
+    edge p41.e41a when false and (true and true);
+    edge p41.e41b when false and (true and true);
+    edge .p5.e5 when p5 = .p5.l1 and true or p5 = .p5.l2 and true do if p5 = .p5.l1 and true: p5 := .p5.l2 elif p5 = .p5.l2 and true: p5 := .p5.l1 end;
+    edge .p6.e6a when p6 = .p6.l1 and false or p6 = .p6.l2 and true do p6 := .p6.l1;
+    edge .p6.e6b when p6 = .p6.l1 and true or p6 = .p6.l2 and false do p6 := .p6.l2;
+    edge .p7.e7 when p7 = .p7.l1 and (true or true) or p7 = .p7.l2 and true do if p7 = .p7.l1 and true: p7 := .p7.l2 elif p7 = .p7.l1 and true: p7 := .p7.l1 elif p7 = .p7.l2 and true: p7 := .p7.l1 end;
+    edge p8.e8a when true and true;
+    edge p8.e8b when true and false;
+    edge .p9.e9 when p9 = .p9.l1 and true or p9 = .p9.l2 and false do p9 := .p9.l2;
     edge tau when true and true;
-    edge tau when p11 = l1 and (11.1 = 11.1 and 11.2 = 11.2) do p11 := l2;
-    edge tau when p11 = l1 and 11.3 = 11.3;
-    edge tau when p11 = l2 and 11.4 = 11.4 do p11 := l1;
-    edge tau when p16 = l1 and 16 = 16 do p16_v := 16.1, p16 := l2;
+    edge tau when p11 = .p11.l1 and (11.1 = 11.1 and 11.2 = 11.2) do p11 := .p11.l2;
+    edge tau when p11 = .p11.l1 and 11.3 = 11.3;
+    edge tau when p11 = .p11.l2 and 11.4 = 11.4 do p11 := .p11.l1;
+    edge tau when p16 = .p16.l1 and 16 = 16 do p16_v := 16.1, p16 := .p16.l2;
     edge tau when true do p17_dv := 17.0, p17_cv := 17.1;
     edge tau when true do (p17_dv, p17_cv) := (17.2, 17.3);
     edge tau when true do p25_v := 25.1;
     edge tau when true do p25_v := 25.2;
-    edge tau when true and p29_v29 = ABC do p29_v29 := DEF;
     edge tau when true and 30.2 = 30.2;
     edge tau when true and 31.3 = 31.3;
-    edge when p36 = l1 or p36 = l2 or (p37 = l1 and 37.1 = 37.1 or (p37 = l1 and 37.2 = 37.2 or p37 = l2 and 37.3 = 37.3)) now do u := false;
+    edge when p36 = .p36.l1 or p36 = .p36.l2 or (p37 = .p37.l1 and 37.1 = 37.1 or (p37 = .p37.l1 and 37.2 = 37.2 or p37 = .p37.l2 and 37.3 = 37.3)) now do u := false;
 end
+initial 34.0 = 34.0;
+marked 33.0 = 33.0;
 invariant 32.0 = 32.0;

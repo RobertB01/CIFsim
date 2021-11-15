@@ -4,11 +4,15 @@ alg bool X3 = if true: true else false end;
 alg string X4 = "v";
 alg bool X5 = false;
 alg string X6 = "*";
+group p:
+  event e;
+end
+group q:
+  event e;
+end
 automaton M:
-  alphabet p_e, q_e;
-  event p_e;
+  alphabet p.e, q.e;
   disc int p_x = 0;
-  event q_e;
   disc int q_x = 0;
   initial true and true,
           true and true;
@@ -17,6 +21,6 @@ automaton M:
   location L:
     initial;
     marked;
-    edge p_e when true and (p_x >= 3 or p_x < 3) do if true and p_x >= 3: p_x := p_x elif true and p_x < 3: if p_x = 0: p_x := p_x + 1 end end;
-    edge q_e when true and (q_x >= 3 or q_x < 3) do if true and q_x >= 3: q_x := q_x elif true and q_x < 3: q_x := q_x + 1 end;
+    edge p.e when true and (p_x >= 3 or p_x < 3) do if true and p_x >= 3: p_x := p_x elif true and p_x < 3: if p_x = 0: p_x := p_x + 1 end end;
+    edge q.e when true and (q_x >= 3 or q_x < 3) do if true and q_x >= 3: q_x := q_x elif true and q_x < 3: q_x := q_x + 1 end;
 end

@@ -1,40 +1,48 @@
-enum E = l1, l2;
-automaton M:
-  alphabet s_e;
-  event s_e;
-  disc E s = l1;
-  initial true and true,
-          true and true,
-          true and true,
-          s = l1 and true or s = l2 and false;
-  marked true and false,
-         true and false,
-         true and false,
-         s = l1 and false or s = l2 and false;
+group a:
   invariant 21 = 21;
   plant invariant 22 = 22;
   requirement invariant 23 = 23;
   supervisor invariant 24 = 24;
+end
+group p:
   invariant 31 = 31;
   plant invariant 32 = 32;
   requirement invariant 33 = 33;
   supervisor invariant 34 = 34;
+end
+group r:
   invariant 41 = 41;
   plant invariant 42 = 42;
   requirement invariant 43 = 43;
   supervisor invariant 44 = 44;
+end
+group s:
+  event e;
+  enum LPE_s = l1, l2;
   invariant 51 = 51;
   plant invariant 52 = 52;
   requirement invariant 53 = 53;
   supervisor invariant 54 = 54;
-  invariant s = l1 => 61 = 61;
-  plant invariant s = l1 => 62 = 62;
-  requirement invariant s = l1 => 63 = 63;
-  supervisor invariant s = l1 => 64 = 64;
+end
+automaton M:
+  alphabet .s.e;
+  disc .s.LPE_s s = .s.l1;
+  initial true and true,
+          true and true,
+          true and true,
+          s = .s.l1 and true or s = .s.l2 and false;
+  marked true and false,
+         true and false,
+         true and false,
+         s = .s.l1 and false or s = .s.l2 and false;
+  invariant s = .s.l1 => 61 = 61;
+  plant invariant s = .s.l1 => 62 = 62;
+  requirement invariant s = .s.l1 => 63 = 63;
+  supervisor invariant s = .s.l1 => 64 = 64;
   location L:
     initial;
     marked;
-    edge s_e when s = l1 do s := l2;
+    edge .s.e when s = .s.l1 do s := .s.l2;
 end
 invariant 11 = 11;
 plant invariant 12 = 12;
