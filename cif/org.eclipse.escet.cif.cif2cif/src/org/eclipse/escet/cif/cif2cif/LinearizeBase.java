@@ -35,7 +35,6 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.emf.EMFHelper.deepclone;
 import static org.eclipse.escet.common.java.Lists.concat;
 import static org.eclipse.escet.common.java.Lists.copy;
-import static org.eclipse.escet.common.java.Lists.filter;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Lists.listc;
@@ -54,6 +53,8 @@ import org.eclipse.escet.cif.common.CifEventUtils;
 import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifSortUtils;
+import org.eclipse.escet.cif.common.CifTextUtils;
+import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.InvKind;
 import org.eclipse.escet.cif.metamodel.cif.Invariant;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
@@ -67,6 +68,7 @@ import org.eclipse.escet.cif.metamodel.cif.automata.ElifUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.IfUpdate;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.automata.Update;
+import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
@@ -78,6 +80,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.EventExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ReceivedExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.TauExpression;
+import org.eclipse.escet.cif.metamodel.java.CifConstructors;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.app.framework.exceptions.UnsupportedException;
 import org.eclipse.escet.common.emf.EMFHelper;
@@ -92,12 +95,19 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  *
  * <p>
- * Component definitions/instantiations are eliminated using the "elim-comp-def-inst" CIF to CIF transformation. Groups
- * are flattened using the "elim-groups" CIF to CIF transformation. Automaton 'self' references are eliminated using the
- * "elim-self" CIF to CIF transformation. 'switch' expressions are converted to 'if' expressions using the
- * "switches-to-ifs" CIF to CIF transformation. Equations are eliminated using the "elim-equations" CIF to CIF
- * transformation. Casts from automata to string values are eliminated using the "elim-aut-casts" CIF to CIF
- * transformation.
+ * Component definitions/instantiations are eliminated using the "elim-comp-def-inst" CIF to CIF transformation.
+ * Automaton 'self' references are eliminated using the "elim-self" CIF to CIF transformation. 'switch' expressions are
+ * converted to 'if' expressions using the "switches-to-ifs" CIF to CIF transformation. Equations are eliminated using
+ * the "elim-equations" CIF to CIF transformation. Casts from automata to string values are eliminated using the
+ * "elim-aut-casts" CIF to CIF transformation.
+ * </p>
+ *
+ * <p>
+ * The structure of the model is kept intact as much as possible, to allow objects to retain their absolute identities
+ * (absolute names). Since all automata are linearized into a single automaton, the original automata are replaced by
+ * groups. These replacement groups will contain as much as possible all declarations, invariants, etc of the original
+ * automata. There are exceptions, such as the discrete and continuous variables (they can only be written by the new
+ * linearized automaton) and the locations (there will be only one location, in the new linearized automaton).
  * </p>
  *
  * <p>
@@ -110,10 +120,10 @@ import org.eclipse.escet.common.java.Assert;
  * <p>
  * One new automaton is created, called "M". If all original automata have the same kind, the new automaton gets this
  * kind as well. Otherwise, it has kind {@link SupKind#NONE}. The alphabet of this new automaton is the union of
- * alphabets of the original automata. All declarations from the original automata are moved to the new automaton. They
- * are renamed to their absolute names, with all "." characters replaced by "_" characters. One location, named "L", is
- * added. This location is both initial and marked. All initialization predicates, invariants, and marker predicates
- * (including ones from locations) are merged together. They restrict the initialization and marker predicates of
+ * alphabets of the original automata. All discrete and continuous variables from the original automata are moved to the
+ * new automaton. They are renamed to their absolute names, with all "." characters replaced by "_" characters. One
+ * location, named "L", is added. This location is both initial and marked. The initialization predicates, invariants,
+ * and marker predicates from locations are merged together. They restrict the initialization and marker predicates of
  * location "L".
  * </p>
  *
@@ -146,14 +156,9 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  *
  * <p>
- * Since declarations are moved/merged, and new names are introduced, renaming may be necessary to ensure unique names
- * within a single scope. In order to reduce the amount of renaming for the enumeration literals introduced for the
- * locations of the original automata, all enumerations are merged together into a single enumeration in the
- * specification, with name "E".
- * </p>
- *
- * <p>
- * I/O declarations from the automata are merged into the new automaton.
+ * Since some declarations are moved/merged, and some new names are introduced, renaming may be necessary to ensure
+ * unique names within a single scope. Enumeration literals representing original locations, that are created as values
+ * for the location pointer variables, are added to their original scope and thus keep their original names.
  * </p>
  *
  * <p>
@@ -164,8 +169,8 @@ import org.eclipse.escet.common.java.Assert;
 public abstract class LinearizeBase extends CifWalker implements CifToCifTransformation {
     /**
      * Mapping from location pointer variables to their absolute names, excluding the name of the automaton they are
-     * defined in, including any groups of which the automaton is a part. Filled in-place by {@link #lpIntroducer} when
-     * introducing location pointer variables.
+     * defined in, including any groups of which the automaton is a part, and including the variable name itself. Filled
+     * in-place by {@link #lpIntroducer} when introducing location pointer variables.
      */
     private final Map<DiscVariable, String> absLpNamesMap = map();
 
@@ -174,20 +179,32 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * locations.
      *
      * <p>
-     * We use an empty prefix for location pointer variables and enumeration literals, for improved readability. There
-     * is no conflict between location pointer variables and enumeration declarations, as the latter will be merged
-     * together anyway. This also explains the {@code "TMP_"} prefix. There is no conflict between enumeration literals
-     * and for instance locations, as the locations will be eliminated during linearization anyway. We don't add
-     * initialization predicates to the location, for initialization of the location pointer variables. We do that as
-     * part of the linearization instead, to avoid duplication. We don't optimize, to ensure location pointer variables
-     * for all automata with at least two locations. We don't allow the optimization of initialization of location
-     * pointers, by analyzing declarations (used for instance in initialization predicates) to see whether they have
-     * constant values, as that would mean we can't easily modify the linearization result, e.g. similar to when
-     * constants are inlined. We don't add additional location pointer guards on the edges. We do that as part of the
-     * linearization instead.
+     * Notes:
+     * <ul>
+     * <li>We don't use a prefix for location pointer variables. This ensures they are named after the original
+     * component. They may then have the same name as automata in the root of the specification, which can cause scope
+     * absolute textual references to be used to refer to anything in these automata from the automaton that contains
+     * the identically-named location pointer variables (e.g. '.autname.varname', note the dot at the start).</li>
+     * <li>We use an {@code "LPE_"} prefix for location pointer enumerations to make it clear what the enumeration
+     * represents.</li>
+     * <li>We use an empty prefix for enumeration literals as they replace the original locations, and thus there are no
+     * conflicts, and we can keep their original names intact.</li>
+     * <li>There is no conflict between location pointer variables and enumeration declarations, as location pointer
+     * variables will be moved to the new linearized automaton, while the enumerations will remain in the groups that
+     * replace the original automata.</li>
+     * <li>We don't add initialization predicates to the location, for initialization of the location pointer variables.
+     * We do that as part of the linearization instead, to avoid duplication.</li>
+     * <li>We don't optimize. This ensures location pointer variables will be present for all automata with at least two
+     * locations.</li>
+     * <li>We don't allow the optimization of initialization of location pointers, by analyzing declarations (used for
+     * instance in initialization predicates) to see whether they have constant values. Allowing it would mean we can't
+     * easily modify the linearization result, e.g. similar to when constants are inlined.</li>
+     * <li>We don't add additional location pointer guards on the edges. We do that as part of the linearization
+     * instead.</li>
+     * </ul>
      * </p>
      */
-    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs("", "TMP_", "", false, false, false,
+    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs("", "LPE_", "", false, false, false,
             absLpNamesMap, false, false);
 
     /**
@@ -207,26 +224,23 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         new ElimComponentDefInst().transform(spec);
 
         // Get sorted events. Do this after elimination of component/definition
-        // instantiation, to get concrete events. Do this before elimination of
-        // groups etc, to ensure absolute names are still intact.
+        // instantiation, to get concrete events.
         List<Event> sortedEvents = list();
         CifCollectUtils.collectEvents(spec, sortedEvents);
         CifSortUtils.sortCifObjects(sortedEvents);
 
         // Get sorted automata. Do this after elimination of
-        // component/definition instantiation, to get concrete automata. Do
-        // this before elimination of groups etc, to ensure absolute names are
-        // still intact.
-        List<Automaton> sortedAutomata = list();
-        CifCollectUtils.collectAutomata(spec, sortedAutomata);
-        CifSortUtils.sortCifObjects(sortedAutomata);
+        // component/definition instantiation, to get concrete automata.
+        // We sort them in the same order as the simulator sorts them. This
+        // ensures that we can combine edges etc also in the same order.
+        // That way, subsequent code generators that work on linearized
+        // output, can also generate code that is based on the same order
+        // as the simulator would choose with automatic/first mode enabled.
+        List<Automaton> auts = list();
+        CifCollectUtils.collectAutomata(spec, auts);
+        CifSortUtils.sortCifObjects(auts);
 
-        // Eliminate groups, to simplify the transformation. Also pushes I/O
-        // file declarations into the other I/O declarations.
-        new ElimGroups().transform(spec);
-
-        // Eliminate automaton 'self' references. This must be done before
-        // elimination of algebraic variables.
+        // Eliminate automaton 'self' references.
         new ElimSelf().transform(spec);
 
         // Convert 'switch' expressions to 'if' expressions.
@@ -244,34 +258,14 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // two locations, and eliminate location references from expressions.
         lpIntroducer.transform(spec);
 
-        // Get automata from linearized specification. Ensure no other
-        // components are present.
-        List<Automaton> auts = filter(spec.getComponents(), Automaton.class);
-        Assert.check(auts.size() == spec.getComponents().size());
-
-        // Continue with the sorted automata, in same order as the simulator
-        // sorts them. This ensures that we can combine edges etc also in the
-        // same order. That way, subsequent code generators that work on
-        // linearized output, can also generate code that is based on the same
-        // order as the simulator would choose with automatic/first mode
-        // enabled.
-        Assert.check(auts.size() == sortedAutomata.size());
-        auts = sortedAutomata;
-        sortedAutomata = null;
-
         // Require at least one automaton.
         if (auts.isEmpty()) {
             String msg = "Linearization of CIF specifications without automata is currently not supported.";
             throw new UnsupportedException(msg);
         }
 
-        // Get names in use in specification. Exclude the automata, as they
-        // will be removed later.
-        Set<String> specNames;
-        specNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
-        for (Automaton aut: auts) {
-            specNames.remove(aut.getName());
-        }
+        // Get names in use in specification.
+        Set<String> specNames = CifScopeUtils.getSymbolNamesForScope(spec, null);
 
         // Create new/merged automaton.
         Automaton aut = createAutomaton(spec, specNames);
@@ -290,16 +284,16 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // to regular events.
         aut.setAlphabet(mergeAlphabets(sortedEvents));
 
-        // Merge declarations (move and absolute names).
-        mergeDecls(aut, auts, autNames);
+        // Move discrete and continuous variables (and give them absolute
+        // names). Since location pointer variables were already introduced,
+        // these are moved as well. For simplicity, we move all continuous
+        // variables, even the ones that are not assigned new values by
+        // updates on edges.
+        moveDiscAndContVars(aut, auts, autNames);
 
-        // Merge I/O declarations (move).
-        for (Automaton automaton: auts) {
-            aut.getIoDecls().addAll(automaton.getIoDecls());
-        }
-
-        // Merge initialization predicates, invariants, and marker predicates.
-        mergeInvInitMarked(spec, aut, auts);
+        // Merge initialization predicates, invariants, and marker predicates
+        // of the locations.
+        mergeLocInvInitMarked(aut, auts);
 
         // Create new/merged location.
         Location loc = createLocation(aut, autNames);
@@ -324,21 +318,15 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         loc.getEdges().addAll(edges);
 
         // Remove channel data types.
-        removeChannelDataTypes(spec, aut);
+        removeChannelDataTypes(sortedEvents);
 
         // Handle urgency (for locations and edges).
-        handleUrgency(spec, auts, aut, autNames);
+        handleUrgency(auts, aut, autNames);
 
-        // Remove the original automata. We do this here at the end, and not
-        // before, to keep them rooted in the specification.
-        spec.getComponents().clear();
-        spec.getComponents().add(aut);
-
-        // Merge all enumerations in the specification, to avoid renaming
-        // enumeration literals, for locations with the same name, in different
-        // automata. Also ensures proper unique names for enumerations and
-        // enumeration literals.
-        new MergeEnums().transform(spec);
+        // Convert automata to groups. This removes the original automata. We
+        // do this here at the end, and not earlier, to keep them contained
+        // somewhere in the specification.
+        convertAutomataToGroups(auts);
     }
 
     /**
@@ -455,7 +443,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
         // Set initial and marked to 'true'. They are restricted to the proper
         // values by initialization and marker predicates from the
-        // specification.
+        // components.
         loc.getInitials().add(makeTrue());
         loc.getMarkeds().add(makeTrue());
 
@@ -464,41 +452,44 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     }
 
     /**
-     * Merges the declarations from the original automata into the new automaton.
-     *
-     * <p>
-     * Note that there is no need to rename enumeration literals, as we will merge all enumerations later on anyway, and
-     * we will then also assure that they have unique names.
-     * </p>
+     * Merges the discrete and continuous variables from the original automata into the new automaton.
      *
      * @param mergedAut The new/merged automaton. Is modified in-place.
      * @param auts The original automata, sorted in ascending order based on their absolute names (without escaping).
-     *     See also {@link CifSortUtils#sortCifObjects}.
+     *     See also {@link CifSortUtils#sortCifObjects}. Are modified in-place.
      * @param autNames The names already in use in the new/merged automaton. Is modified in-place.
      */
-    private void mergeDecls(Automaton mergedAut, List<Automaton> auts, Set<String> autNames) {
-        // Gather declarations, and give them absolute names.
+    private void moveDiscAndContVars(Automaton mergedAut, List<Automaton> auts, Set<String> autNames) {
+        // Gather discrete and continuous variable declarations, and give them absolute names.
         List<Declaration> decls = list();
         Set<String> declNames = set();
         for (Automaton aut: auts) {
             for (Declaration decl: aut.getDeclarations()) {
+                // Consider only discrete and continuous variables.
+                if (!(decl instanceof DiscVariable) && !(decl instanceof ContVariable)) {
+                    continue;
+                }
+
                 // Add declaration.
                 decls.add(decl);
 
-                // Rename declaration to unique name (candidate for now).
+                // Rename declaration to absolute name (candidate for now).
+                // For location pointer variables we can use the name that has
+                // been decided by the location pointer introducer.
                 String name = absLpNamesMap.get(decl);
-                if (name != null) {
-                    decl.setName(name);
-                } else {
-                    decl.setName(aut.getName() + "_" + decl.getName());
+                if (name == null) {
+                    name = CifTextUtils.getAbsName(decl, false);
                 }
+                name = name.replace(".", "_");
+                decl.setName(name);
 
-                // Add absolute name to set.
-                declNames.add(decl.getName());
+                // Add name to set of candidate names.
+                declNames.add(name);
             }
         }
 
         // One by one, move the declarations to the new automaton.
+        // Also give them their final unique names.
         List<Declaration> newDecls = mergedAut.getDeclarations();
         for (Declaration decl: decls) {
             // Move declaration.
@@ -517,36 +508,18 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     }
 
     /**
-     * Merges invariants, initialization predicates, and marker predicates, from the specification and original automata
-     * and their locations, to the new/merged automaton.
+     * Merges invariants, initialization predicates, and marker predicates, from the locations of the original automata
+     * to the new/merged automaton.
      *
-     * @param spec The specification. Is modified in-place.
      * @param auts The original automata, sorted in ascending order based on their absolute names (without escaping).
-     *     See also {@link CifSortUtils#sortCifObjects}.
+     *     See also {@link CifSortUtils#sortCifObjects}. Are modified in-place.
      * @param mergedAut The new/merged automaton. Is modified in-place.
      */
-    private void mergeInvInitMarked(Specification spec, Automaton mergedAut, List<Automaton> auts) {
-        // The initial and marker predicates in the specification and automata
-        // all have 'true' defaults and use conjunctions to combine, at all
-        // levels. So, we can just move the predicates to the merged automaton.
-        mergedAut.getInitials().addAll(spec.getInitials());
-        mergedAut.getMarkeds().addAll(spec.getMarkeds());
-
-        for (Automaton aut: auts) {
-            mergedAut.getInitials().addAll(aut.getInitials());
-            mergedAut.getMarkeds().addAll(aut.getMarkeds());
-        }
-
-        // We keep the invariants from the specification in the specification.
-        // We move invariants in automata to the merged automaton. Defaults/conjunctions
-        // are similar to the initial/marker predicates case above.
-        for (Automaton aut: auts) {
-            mergedAut.getInvariants().addAll(aut.getInvariants());
-        }
-
+    private void mergeLocInvInitMarked(Automaton mergedAut, List<Automaton> auts) {
         // Invariants in locations have 'true' default, and use conjunctions
-        // to combine (within a location). They are combined with invariants of
-        // the original automata and specification using conjunctions as well.
+        // to combine (within a location). Invariants in automata also have
+        // 'true' default and also use conjunctions to combine (within an
+        // automaton).
         for (Automaton aut: auts) {
             for (Location loc: aut.getLocations()) {
                 for (Invariant inv: copy(loc.getInvariants())) {
@@ -568,12 +541,13 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         }
 
         // Initialization predicates in locations have 'false' default, and use
-        // conjunctions to combine (within a location). We get the most
-        // intuitive results if we combine the combined initialization
-        // predicate of the location with the location itself using a
-        // conjunction, and then combine multiple locations using disjunctions.
-        // That is, we get '(loc1 and init1) or (loc2 and init2) or ...'
-        // for each automaton.
+        // conjunctions to combine (within a location). Initialization
+        // predicates in automata have 'true' default, and use conjunctions to
+        // combine (within an automaton). We get the most intuitive results if
+        // we combine the combined initialization predicates of the location
+        // with the location itself using a conjunction, and then combine
+        // multiple locations using disjunctions. That is, we get
+        // '(loc1 and init1) or (loc2 and init2) or ...' for each automaton.
         for (Automaton aut: auts) {
             List<Expression> inits = list();
 
@@ -589,12 +563,14 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         }
 
         // Marker predicates in locations have 'false' default, and use
-        // conjunctions to combine (within a location). We get the most
-        // intuitive results if we combine the combined marker
-        // predicate of the location with the location itself using a
-        // conjunction, and then combine multiple locations using disjunctions.
-        // That is, we get '(loc1 and marker1) or (loc2 and marker2) or ...'
-        // for each automaton.
+        // conjunctions to combine (within a location). Marker predicates in
+        // automata have 'true' default, and use conjunctions to combine
+        // (within an automaton). We get the most intuitive results if we
+        // combine the combined marker predicate of the location with the
+        // location itself using a conjunction, and then combine multiple
+        // locations using disjunctions. That is, we get
+        // '(loc1 and marker1) or (loc2 and marker2) or ...' for each
+        // automaton.
         for (Automaton aut: auts) {
             List<Expression> markers = list();
 
@@ -829,43 +805,23 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     /**
      * Remove the data types from all channels.
      *
-     * @param spec The specification to use to find event declarations.
-     * @param aut The new/merged automaton to use to find event declarations.
+     * @param events The events that may be channels. Are modified in-place.
      */
-    private void removeChannelDataTypes(Specification spec, Automaton aut) {
-        // Events in the specification.
-        for (Declaration decl: spec.getDeclarations()) {
-            // Skip non-event declarations.
-            if (!(decl instanceof Event)) {
-                continue;
-            }
-
-            // Remove type.
-            ((Event)decl).setType(null);
-        }
-
-        // Events in the one new automaton.
-        for (Declaration decl: aut.getDeclarations()) {
-            // Skip non-event declarations.
-            if (!(decl instanceof Event)) {
-                continue;
-            }
-
-            // Remove type.
-            ((Event)decl).setType(null);
+    private void removeChannelDataTypes(List<Event> events) {
+        for (Event event: events) {
+            event.setType(null);
         }
     }
 
     /**
      * Handles urgency, for locations and edges.
      *
-     * @param spec The specification.
      * @param auts The original automata, sorted in ascending order based on their absolute names (without escaping).
      *     See also {@link CifSortUtils#sortCifObjects}.
-     * @param mergedAut The new/merged automaton.
+     * @param mergedAut The new/merged automaton. Is modified in-place.
      * @param autNames The names already in use in the automaton. Is modified in-place.
      */
-    private void handleUrgency(Specification spec, List<Automaton> auts, Automaton mergedAut, Set<String> autNames) {
+    private void handleUrgency(List<Automaton> auts, Automaton mergedAut, Set<String> autNames) {
         // Initialize urgency conditions, which will become guards.
         List<Expression> guards = list();
 
@@ -930,7 +886,9 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
         mergedAut.getInvariants().add(inv);
 
-        // Add self loop: 'when guards now do u := false'.
+        // Add self loop: 'when guards now do u := false'. We use disjunction
+        // of all collected guards, as if any of these conditions does not
+        // hold, we have an urgent state.
         Assignment uasgn = newAssignment();
         uasgn.setAddressable(deepclone(uref));
         uasgn.setValue(makeFalse());
@@ -941,6 +899,39 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         edge.getUpdates().add(uasgn);
 
         mergedAut.getLocations().get(0).getEdges().add(edge);
+    }
+
+    /**
+     * Convert automata to groups.
+     *
+     * @param auts The automata to convert to groups. The automata and their parents are modified in-place.
+     */
+    private void convertAutomataToGroups(List<Automaton> auts) {
+        for (Automaton aut: auts) {
+            // Replace automaton by a new group.
+            Group group = CifConstructors.newGroup();
+            EMFHelper.updateParentContainment(aut, group);
+
+            // Group gets same name as original automaton. This keeps the
+            // absolute names of the component and its children intact.
+            group.setName(aut.getName());
+
+            // Move all that is contained in the automaton to the group.
+            group.getDeclarations().addAll(aut.getDeclarations());
+            group.getInitials().addAll(aut.getInitials());
+            group.getInvariants().addAll(aut.getInvariants());
+            group.getIoDecls().addAll(aut.getIoDecls());
+            group.getMarkeds().addAll(aut.getMarkeds());
+
+            // Equations have already been eliminated.
+            Assert.check(aut.getEquations().isEmpty());
+
+            // The following aspects of automata are considered elsewhere:
+            // - alphabet
+            // - kind
+            // - locations
+            // - monitors
+        }
     }
 
     /** Sorter to sort edges based on the order of some given events. Edges with 'tau' events are put at the end. */
