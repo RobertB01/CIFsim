@@ -200,7 +200,7 @@ WHILE TRUE DO
             progress := TRUE;
             state1 := state0;
 
-            state1.cvar_M_p_t := ivar_M_p_i;
+            state1.cvar_M_p_t := ivar_p_i;
 
             state0 := state1;
         END_IF;
@@ -228,7 +228,7 @@ END_WHILE;</xhtml>
             </pouInstance>
           </task>
           <globalVars constant="false" name="INPUTS">
-            <variable address="%I*" name="ivar_M_p_i">
+            <variable address="%I*" name="ivar_p_i">
               <type>
                 <LREAL/>
               </type>

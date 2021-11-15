@@ -96,22 +96,6 @@
           </struct>
         </baseType>
       </dataType>
-      <dataType name="TupleStruct_1">
-        <baseType>
-          <struct>
-            <variable name="field0">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-            <variable name="field1">
-              <type>
-                <LREAL/>
-              </type>
-            </variable>
-          </struct>
-        </baseType>
-      </dataType>
       <dataType name="enum_E">
         <baseType>
           <enum>
@@ -136,6 +120,22 @@
               <value name="elit_LIT2"/>
             </values>
           </enum>
+        </baseType>
+      </dataType>
+      <dataType name="TupleStruct_1">
+        <baseType>
+          <struct>
+            <variable name="field0">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+            <variable name="field1">
+              <type>
+                <LREAL/>
+              </type>
+            </variable>
+          </struct>
         </baseType>
       </dataType>
       <dataType name="TupleStruct_2">

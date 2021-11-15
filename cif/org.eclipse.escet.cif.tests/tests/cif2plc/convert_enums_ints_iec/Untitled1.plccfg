@@ -1,6 +1,6 @@
 CONFIGURATION Untitled1
     VAR_GLOBAL // INPUTS
-        ivar_M_hw_button_bit AT %I*: BOOL;
+        ivar_hw_button_bit AT %I*: BOOL;
     END_VAR
     VAR_GLOBAL // TIMERS
         timer0: TON;
