@@ -104,3 +104,7 @@ end
 
 invariant a + q1.a + q2.a + q2.alg_var > 0;
 invariant q3_1.x + q3_2.x + q3_3.x + q3_4.x > 0;
+
+alg bool ab1 = true, ab2 = false;
+
+invariant ab1 or ab2;

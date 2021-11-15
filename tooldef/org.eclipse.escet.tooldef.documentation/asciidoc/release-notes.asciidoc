@@ -21,16 +21,27 @@ The release notes for the versions of ToolDef and the associated tools, as part 
 
 The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
 
-See also the Eclipse ESCET link:https://eclipse.org/escet/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
+See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
+
+
+=== Version 0.4
+
+TBD
+
+Improvements and fixes:
+
+* Introduced a brand new website (issue #35).
+* Many website URLs have changed due to various website structure changes (issues #35 and #73).
+* Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
 
 
 === Version 0.3
 
 Improvements and fixes:
 
-- The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
-- Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
-- Several small documentation fixes and improvements (issue #166).
+* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
+* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
+* Several small documentation fixes and improvements (issue #166).
 
 
 === Version 0.2
@@ -45,5 +56,5 @@ This release is based on the initial contribution by the Eindhoven University of
 
 Most notable changes compared to the last TU/e release:
 
-- We no longer use separate language and tool versions.
+* We no longer use separate language and tool versions.
 The `.tooldef2` file extension has been changed to `.tooldef` as part of this change.

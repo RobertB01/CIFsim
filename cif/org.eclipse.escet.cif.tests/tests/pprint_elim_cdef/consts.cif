@@ -22,4 +22,6 @@ const int[i2+1..i3] i6 = 1;
 const int           i7 = round(1.0);
 const list int      li = [1];
 
-invariant b1 or b2 or (i1 + i2 + i3 + i4 + i5 + i6 + i7) > 0 or size(li) > 0;
+const int x = 5, y = 6;
+
+invariant b1 or b2 or (i1 + i2 + i3 + i4 + i5 + i6 + i7) > 0 or size(li) > 0 or x + y = 15;

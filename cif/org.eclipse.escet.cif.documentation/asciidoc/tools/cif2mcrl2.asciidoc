@@ -27,7 +27,7 @@ indexterm:[CIF to mCRL2 transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF simulation, validation and verification tools[Convert CIF to mCRL2...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF simulation, validation and verification tools[Convert CIF to mCRL2...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF simulation, validation and verification tools[Convert CIF to mCRL2...].
 
@@ -127,6 +127,9 @@ The latter may have a range.
 
 * Integer constants, discrete variables, binary operators `pass:c[+]`, `+*+`, `-`, and unary operators `-` and `pass:c[+]` are allowed.
 
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
+
 indexterm:[CIF to mCRL2 transformer,preprocessing]
 
 === Preprocessing
@@ -170,6 +173,10 @@ If the pattern start neither with a `pass:c[+]` nor with a `-` character, variab
 The main part of each pattern is the name of the variable to add or remove.
 In addition, you can use the `+*+` character as a shorthand for 'zero or more arbitrary characters', allowing you to write abbreviations, and match several variables at the same time.
 
+The list of patterns is interpreted relative to selecting no variables.
+That is, if an empty list is specified, no variables are added.
+By default, the `+*` pattern is used, which adds all variables.
+
 For example, assume existence of the following variables in a CIF model:
 
 [source]
@@ -181,15 +188,18 @@ Below a number of example option values, and what variables they select from the
 
 * The option value `B.x,+A.z` selects variables `B.x` and `A.z`.
 
-* The option value `++*1+` matches all variables that end with a `1`, which is variable `B.y1` only (Variable `A.p12` does have a `1` in it, but not at the end.)
+* The option value `++*+` selects all variables.
 
-* The option value `++*1*+` matches all variables with a `1` at any position.
+* The 'empty' option value selects no variables.
+On the command line or in ToolDef scripts, when using the `-r` short option, use `''` for the 'empty' option value.
+
+* The option value `++*1+` selects all variables that end with a `1`, which is variable `B.y1` only (Variable `A.p12` does have a `1` in it, but not at the end.)
+
+* The option value `++*1*+` selects all variables with a `1` at any position.
 This matches both `A.p12` and `B.y1`.
 
 * The option value `++*,-B.*+` selects all variables, except those in automaton `B`.
-(`+*+` adds all variables, then `+-B.*+` removes all variables that start with `B.`, that is all variables in automaton `B`.)
-
-* The option value `+-*+` removes all `value` actions, since the pattern removes all variables.
+(`+*` adds all variables, then `+-B.*+` removes all variables that start with `B.`, that is all variables in automaton `B`.)
 
 indexterm:[CIF to mCRL2 transformer,instance tree]
 

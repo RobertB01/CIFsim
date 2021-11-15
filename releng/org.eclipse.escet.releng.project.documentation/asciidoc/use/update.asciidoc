@@ -1,0 +1,30 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[update]
+
+[[use-update]]
+== Updating Eclipse ESCET IDE
+
+New versions of the Eclipse ESCET IDE can be used side-by-side older versions.
+
+To download and install a new version of Eclipse ESCET IDE side-by-side an older version, follow these steps:
+
+* Download and extract the new version as usual, but extract the new version to a different directory than the old version.
+
+* You can copy the data (<<use-terminology-project,projects>>, files, and settings) of an earlier installation to the new installation.
+While neither version of the Eclipse ESCET IDE is running, simply remove the <<use-terminology-workspace,workspace>> directory of the new installation, and copy the workspace directory of the earlier installation to the new installation.
+
+Using these instructions, it is possible to use multiple installations side by side, at the same time, regardless of whether the installations are the same version or different versions.
+Simply extract them to different directories and launch them as you would normally do.

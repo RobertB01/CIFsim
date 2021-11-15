@@ -1,0 +1,110 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+// Including common attributes to set for all documents within this directory.
+include::_root_attributes.asciidoc[]
+
+// Enable custom style in *-docinfo*.html.
+:docinfo: private
+
+// Use this for asciidoc documents containing a title.
+:doctype: book
+
+
+= ToolDef documentation (Incubation)
+:author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+:title-logo-image: {imgsdir}/eclipse-incubation.png
+:favicon: favicon.png
+
+ToolDef is a cross-platform and machine-independent scripting language.
+It supports command line execution, but is also available as plug-in for the link:https://eclipse.org[Eclipse] IDE, providing an integrated development experience.
+
+ToolDef is one of the tools of the Eclipse ESCET(TM) project.
+Visit the link:https://eclipse.org/escet[project website] for downloads, installation instructions, source code, general tool usage information, information on how to contribute, and more.
+
+[WARNING]
+====
+The Eclipse ESCET project, including the ToolDef language and toolset, is currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
+
+image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
+====
+
+ifdef::website-output[]
+TIP: You can link:eclipse-escet-incubation-tooldef-manual.pdf[download this manual] as a PDF as well.
+endif::website-output[]
+
+The documentation consists of:
+
+* <<lang-ref-chapter-index,ToolDef language reference manual>>
+* <<tools-chapter-index,ToolDef tool manual>>
+* <<release-notes-chapter-index,ToolDef release notes>>
+* <<legal-chapter-index,Legal information>>
+
+Some screenshots of ToolDef editing and execution:
+
+image::{imgsdir}/screenshot_ide.png[]
+
+image::{imgsdir}/screenshot_cmdline.png[]
+
+// Introduction
+
+include::introduction.asciidoc[]
+
+// Language reference manual
+
+include::language-reference/index.asciidoc[]
+
+=== Syntax
+
+:leveloffset: +2
+
+include::language-reference/syntax/lexical.asciidoc[]
+
+include::language-reference/syntax/grammar.asciidoc[]
+
+:leveloffset: -2
+
+=== Built-in tools and operators
+
+:leveloffset: +2
+
+include::language-reference/builtins/operators.asciidoc[]
+
+include::language-reference/builtins/data.asciidoc[]
+
+include::language-reference/builtins/io.asciidoc[]
+
+include::language-reference/builtins/generic.asciidoc[]
+
+include::language-reference/builtins/path.asciidoc[]
+
+include::language-reference/builtins/file.asciidoc[]
+
+:leveloffset: -2
+
+// Tool manual
+
+include::tools.asciidoc[]
+
+// Release notes
+
+include::release-notes.asciidoc[]
+
+// Legal
+
+include::documentation-legal.asciidoc[]
+
+
+ifdef::pdf-output[]
+[index]
+== Index
+endif::pdf-output[]

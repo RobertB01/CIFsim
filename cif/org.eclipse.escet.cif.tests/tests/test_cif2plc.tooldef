@@ -189,10 +189,9 @@ for test in tests:
                 string filename_exp = replace(pathjoin(dir_exp, filename), "\\", "/");
                 string filename_real = replace(pathjoin(dir_real, filename), "\\", "/");
                 bool file_diff = diff(filename_exp, filename_real, missingAsEmpty=true, warnOnDiff=true);
-                if not file_diff and exists(filename_real):: rmfile(filename_real);
                 if file_diff:: diff_count = diff_count + 1;
             end
-            if isdir(dir_real) and empty(find(dir_real, recursive=true, dirs=false)):: rmdir(dir_real);
+            if isdir(dir_real) and diff_count == 0:: rmdir(dir_real);
         end
 
         // Update counts.

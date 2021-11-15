@@ -21,23 +21,37 @@ The release notes for the versions of Chi and the associated tools, as part of t
 
 The release notes may refer to issues, the details for which can be found at the Eclipse ESCET link:https://gitlab.eclipse.org/eclipse/escet/escet/-/issues[GitLab issues page].
 
-See also the Eclipse ESCET link:https://eclipse.org/escet/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
+See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
+
+
+=== Version 0.4
+
+TBD
+
+Improvements and fixes:
+
+* Introduced a brand new website (issue #35).
+* Many website URLs have changed due to various website structure changes (issues #35 and #73).
+* Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
+* The Chi simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
+* The Chi simulator SVG visualizer functionality to save as an image no longer asks duplicate overwrite questions (issue #223).
+* The Chi simulator no longer crashes when showing an SVG visualizer if the SVG file can't be loaded (issue #207).
 
 
 === Version 0.3
 
 Improvements and fixes:
 
-- The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
-- Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
-- Several small documentation fixes and improvements (issues #36 and #166).
+* The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
+* Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
+* Several small documentation fixes and improvements (issues #36 and #166).
 
 
 === Version 0.2
 
 Improvements and fixes:
 
-- Chi simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
+* Chi simulator no longer crashes when using the Eclipse Compiler for Java (ecj) as Java compiler (issue #46).
 
 
 === Version 0.1
@@ -47,4 +61,4 @@ This release is based on the initial contribution by the Eindhoven University of
 
 Most notable changes compared to the last TU/e release:
 
-- The Chi simulator no longer crashes on code generation.
+* The Chi simulator no longer crashes on code generation.

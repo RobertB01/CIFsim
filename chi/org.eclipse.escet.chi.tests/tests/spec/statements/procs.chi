@@ -1,0 +1,36 @@
+################################################################################
+# Copyright (c) 2021 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc p1():
+    pass
+end
+
+proc int p2():
+    exit 1
+end
+
+proc p3(int x):
+    write("%d\n", x);
+end
+
+proc p4(int x, y; bool z):
+    write("%d %d %s\n", x, y, z);
+end
+
+proc int p5(int x, y; bool z):
+    write("%d %d %s\n", x, y, z);
+    exit 1
+end
+
+model int m():
+    run p1(), p2(), p3(1), p4(2, 3, true), p5(4, 5, false);
+end

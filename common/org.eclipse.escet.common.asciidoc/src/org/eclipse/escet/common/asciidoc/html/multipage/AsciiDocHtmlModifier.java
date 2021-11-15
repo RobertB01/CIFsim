@@ -53,6 +53,9 @@ import com.google.common.collect.Multimaps;
 
 /** AsciiDoc-generated single-page HTML modifier. */
 class AsciiDocHtmlModifier {
+    /** Whether to print debug output. */
+    private static final boolean DEBUG = false;
+
     /** Constructor for the {@link AsciiDocHtmlModifier} class. */
     private AsciiDocHtmlModifier() {
         // Static class.
@@ -65,7 +68,7 @@ class AsciiDocHtmlModifier {
      * @param singlePageDoc The AsciiDoc-generated single-page HTML document.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
-     *     the root 'index.asciidoc' file.
+     *     the root AsciiDoc file.
      * @param outputRootPath The path to the directory in which to write output.
      * @param htmlType The HTML type.
      */
@@ -78,6 +81,11 @@ class AsciiDocHtmlModifier {
         // Modify the pages, per page.
         for (AsciiDocHtmlPage page: htmlPages.pages) {
             try {
+                // Debug output.
+                if (DEBUG) {
+                    System.out.println("Modifying page: " + page.sourceFile.relPath);
+                }
+
                 // Clone the original single-page HTML file for this page.
                 page.doc = singlePageDoc.clone();
 
@@ -128,7 +136,7 @@ class AsciiDocHtmlModifier {
                 // Update references.
                 updateReferences(page, htmlPages, sourceRootPath);
 
-                // Add home page (root index file) to TOC.
+                // Add home page (root AsciiDoc file) to TOC.
                 if (htmlType == HtmlType.WEBSITE) {
                     addHomePageToToc(page, htmlPages.homePage);
                 }
@@ -301,7 +309,7 @@ class AsciiDocHtmlModifier {
 
         // Store new id.
         String previous = renames.put(tocEntry.refId, newId);
-        Assert.check(previous == null, previous);
+        Assert.areEqual(previous, null);
 
         // Process children.
         for (AsciiDocTocEntry childEntry: tocEntry.children) {
@@ -345,9 +353,9 @@ class AsciiDocHtmlModifier {
         // Move copyright/version.
         Element elemBodyCopyrightVersion = single(doc.select("#header div.details"));
         elemBodyCopyrightVersion.remove();
-        Assert.check(elemBodyCopyrightVersion.children().size() == 3, elemBodyCopyrightVersion.toString());
+        Assert.areEqual(elemBodyCopyrightVersion.children().size(), 3, elemBodyCopyrightVersion);
         Elements elemBodyCopyrightVersionSpans = elemBodyCopyrightVersion.children().select("span");
-        Assert.check(elemBodyCopyrightVersionSpans.size() == 2, elemBodyCopyrightVersionSpans.toString());
+        Assert.areEqual(elemBodyCopyrightVersionSpans.size(), 2, elemBodyCopyrightVersionSpans);
         elemBodyCopyrightVersionSpans.removeAttr("id");
         elemBodyCopyrightVersionSpans.removeAttr("class");
         for (Element elem: Lists.reverse(elemBodyCopyrightVersionSpans)) {
@@ -357,7 +365,7 @@ class AsciiDocHtmlModifier {
 
         // Move title.
         Element elemBodyTitle = single(doc.select("#header h1"));
-        Assert.check(elemBodyTitle.children().isEmpty(), elemBodyTitle.toString());
+        Assert.check(elemBodyTitle.children().isEmpty(), elemBodyTitle);
         elemBodyTitle.tagName("span");
         elemBodyFooterText.prependChild(elemBodyTitle);
     }
@@ -397,37 +405,55 @@ class AsciiDocHtmlModifier {
      * @param doc The HTML document to modify in-place.
      */
     private static void removeEmptyParagraphsAndSections(Document doc) {
-        // Remove empty paragraphs.
-        for (Element pElem: doc.select("p")) {
-            if (pElem.attributes().size() == 0 && haveNoContent(pElem.childNodes())) {
-                pElem.remove();
-            }
-        }
+        boolean modified;
+        do {
+            // Initialization.
+            modified = false;
 
-        for (Element paragraphDivElem: doc.select("div.paragraph")) {
-            if (haveNoContent(paragraphDivElem.childNodes())) {
-                paragraphDivElem.remove();
+            // Remove empty paragraphs.
+            for (Element pElem: doc.select("p")) {
+                if (pElem.attributes().size() == 0 && haveNoContent(pElem.childNodes())) {
+                    pElem.remove();
+                    modified = true;
+                }
             }
-        }
 
-        // Remove empty sections.
-        Element elemContent = single(doc.select("#content"));
-        for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
-            for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
-                if (haveNoContent(sectElem.childNodes())) {
-                    // Completely empty section.
-                    sectElem.remove();
-                } else if (sectElem.children().size() == 1) {
-                    Element sectChildElem = sectElem.child(0);
-                    List<Node> sectChildNodes = copy(sectElem.childNodes());
-                    sectChildNodes.remove(sectChildElem);
-                    if (sectChildElem.tagName().matches("h\\d+") && haveNoContent(sectChildNodes)) {
-                        // Section with only a wrapper header name (all actual content is on other pages).
+            for (Element paragraphDivElem: doc.select("div.paragraph")) {
+                if (haveNoContent(paragraphDivElem.childNodes())) {
+                    paragraphDivElem.remove();
+                    modified = true;
+                }
+            }
+
+            // Remove empty section bodies.
+            for (Element sectionBodyDivElem: doc.select("div.sectionbody")) {
+                if (haveNoContent(sectionBodyDivElem.childNodes())) {
+                    sectionBodyDivElem.remove();
+                    modified = true;
+                }
+            }
+
+            // Remove empty sections.
+            Element elemContent = single(doc.select("#content"));
+            for (int i = 99; i >= 0; i--) { // Start with most deeply nested sections first.
+                for (Element sectElem: elemContent.select("div.sect" + Integer.toString(i))) {
+                    if (haveNoContent(sectElem.childNodes())) {
+                        // Completely empty section.
                         sectElem.remove();
+                        modified = true;
+                    } else if (sectElem.children().size() == 1) {
+                        Element sectChildElem = sectElem.child(0);
+                        List<Node> sectChildNodes = copy(sectElem.childNodes());
+                        sectChildNodes.remove(sectChildElem);
+                        if (sectChildElem.tagName().matches("h\\d+") && haveNoContent(sectChildNodes)) {
+                            // Section with only a wrapper header name (all actual content is on other pages).
+                            sectElem.remove();
+                            modified = true;
+                        }
                     }
                 }
             }
-        }
+        } while (modified);
     }
 
     /**
@@ -468,8 +494,8 @@ class AsciiDocHtmlModifier {
                 minHeaderNr = Math.min(headerNr, minHeaderNr);
             }
         }
-        Assert.check(minHeaderNr > 0, String.valueOf(minHeaderNr));
-        Assert.check(minHeaderNr < Integer.MAX_VALUE, String.valueOf(minHeaderNr));
+        Assert.check(minHeaderNr > 0, minHeaderNr);
+        Assert.check(minHeaderNr < Integer.MAX_VALUE, minHeaderNr);
 
         // Normalize header numbers to ensure minimum header number is '2'.
         for (Element elem: elemContent.getAllElements()) {
@@ -477,7 +503,7 @@ class AsciiDocHtmlModifier {
             if (matcher.matches()) {
                 int headerNr = Integer.parseInt(matcher.group(1), 10);
                 int newHeaderNr = headerNr - minHeaderNr + 2;
-                Assert.check(newHeaderNr <= 6, String.valueOf(newHeaderNr)); // Only h1-h6 are defined in HTML.
+                Assert.check(newHeaderNr <= 6, newHeaderNr); // Only h1-h6 are defined in HTML.
                 elem.tagName("h" + newHeaderNr);
             }
         }
@@ -503,11 +529,11 @@ class AsciiDocHtmlModifier {
 
         // Sanity checks.
         if (htmlPages.homePage == page) {
-            Assert.check(tocLinkCurPageCount == 0, String.valueOf(tocLinkCurPageCount));
+            Assert.areEqual(tocLinkCurPageCount, 0);
         } else {
             // If the TOC level setting used to generate the single page HTML file is too limited, the page will not be
             // in the TOC, and this will fail (count is zero).
-            Assert.check(tocLinkCurPageCount == 1, String.valueOf(tocLinkCurPageCount));
+            Assert.areEqual(tocLinkCurPageCount, 1);
         }
     }
 
@@ -566,7 +592,7 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
-     *     the root 'index.asciidoc' file.
+     *     the root AsciiDoc file.
      */
     private static void updateReferences(AsciiDocHtmlPage page, AsciiDocHtmlPages htmlPages, Path sourceRootPath) {
         updateReferences(page, htmlPages, sourceRootPath, "a", "href", true, true);
@@ -580,7 +606,7 @@ class AsciiDocHtmlModifier {
      * @param page The multi-page HTML page to modify in-place.
      * @param htmlPages The multi-page HTML pages.
      * @param sourceRootPath The absolute path to the root directory that contains all the source files, and includes
-     *     the root 'index.asciidoc' file.
+     *     the root AsciiDoc file.
      * @param tagName The tag name of elements for which to update references.
      * @param attrName The attribute name that contains the reference.
      * @param allowEmptyRefIfNoChildren Whether to allow empty references (attribute values) if the element has no child
@@ -599,7 +625,7 @@ class AsciiDocHtmlModifier {
                 if (allowEmptyRefIfNoChildren) {
                     // Occurs for 'a.href' for bibliography entries.
                     // But then they have no child nodes, and are thus not clickable.
-                    Assert.check(elem.childNodeSize() == 0, String.valueOf(elem.childNodeSize()));
+                    Assert.areEqual(elem.childNodeSize(), 0);
                     continue;
                 } else {
                     throw new RuntimeException(
@@ -628,15 +654,15 @@ class AsciiDocHtmlModifier {
             }
 
             // Handle relative paths.
-            Assert.check(uriScheme == null, uriScheme);
-            Assert.check(uri.getUserInfo() == null, uri.getUserInfo());
-            Assert.check(uri.getHost() == null, uri.getHost());
-            Assert.check(uri.getPort() == -1, String.valueOf(uri.getPort()));
-            Assert.check(uri.getAuthority() == null, uri.getAuthority());
-            Assert.check(uri.getQuery() == null, uri.getQuery());
-            Assert.check(uri.getFragment() == null, uri.getFragment());
+            Assert.areEqual(uriScheme, null);
+            Assert.areEqual(uri.getUserInfo(), null);
+            Assert.areEqual(uri.getHost(), null);
+            Assert.areEqual(uri.getPort(), -1);
+            Assert.areEqual(uri.getAuthority(), null);
+            Assert.areEqual(uri.getQuery(), null);
+            Assert.areEqual(uri.getFragment(), null);
             Assert.notNull(uri.getPath());
-            Assert.check(ref.equals(uri.getPath()), ref + " / " + uri.getPath());
+            Assert.areEqual(ref, uri.getPath());
             String hrefAbsTarget = org.eclipse.escet.common.app.framework.Paths.resolve(ref, sourceRootPath.toString());
             String rootPathForNewRelHref = page.sourceFile.absPath.getParent().toString();
             String newRelHref = org.eclipse.escet.common.app.framework.Paths.getRelativePath(hrefAbsTarget,
@@ -700,7 +726,7 @@ class AsciiDocHtmlModifier {
         Element elemPdfTip = single(homePage.doc.select("div.tip td.content:contains(as a PDF as well)"));
         elemPdfTip.appendText("Or use the ");
         Element elemPdfTipA = elemPdfTip.appendElement("a");
-        elemPdfTipA.attr("href", "index-single-page.html");
+        elemPdfTipA.attr("href", homePage.sourceFile.getBaseName() + "-single-page.html");
         elemPdfTipA.text("single-page HTML");
         elemPdfTip.appendText(" version.");
     }

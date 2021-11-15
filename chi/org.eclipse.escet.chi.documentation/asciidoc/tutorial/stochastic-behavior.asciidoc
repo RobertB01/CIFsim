@@ -159,7 +159,7 @@ Variance:: `+a * b^2+`
 [bibliography]
 ==== References
 
-- [[[law-tut]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
+* [[[law-tut]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
 
 
 [[tut-simulating-stochastic-behavior]]

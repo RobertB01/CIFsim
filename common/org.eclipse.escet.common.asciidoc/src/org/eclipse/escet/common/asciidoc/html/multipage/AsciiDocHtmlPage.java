@@ -26,8 +26,8 @@ public class AsciiDocHtmlPage {
     final AsciiDocSourceFile sourceFile;
 
     /**
-     * The breadcrumbs for this page, starting from the home page (first element) to this page (last element). Is
-     * {@code null} for the {@link AsciiDocSourceFile#isRootIndexFile home page}.
+     * The breadcrumbs for this page, starting from the root/home page (first element) to this page (last element). Is
+     * {@code null} for the {@link AsciiDocSourceFile#isRootAsciiDocFile root/home page}.
      */
     List<AsciiDocHtmlPage> breadcrumbs;
 

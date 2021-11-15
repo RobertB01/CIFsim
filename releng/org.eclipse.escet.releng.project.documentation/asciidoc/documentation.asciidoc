@@ -1,0 +1,110 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+// Including common attributes to set for all documents within this directory.
+include::_root_attributes.asciidoc[]
+
+// Enable custom style in *-docinfo*.html.
+:docinfo: private
+
+// Use this for asciidoc documents containing a title.
+:doctype: book
+
+
+= Eclipse ESCET(TM) general tookit documentation (Incubation)
+:author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+:title-logo-image: {imgsdir}/eclipse-incubation.png
+
+The Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET(TM)) project is an link:https://eclipse.org[Eclipse Foundation] open-source project that provides a toolkit for the development of supervisory controllers in the Model-Based Systems Engineering (MBSE) paradigm.
+The toolkit has a strong focus on model-based design, supervisory controller synthesis, and industrial applicability, for example to cyber-physical systems.
+The toolkit supports the entire development process of (supervisory) controllers, from modeling, supervisory controller synthesis, simulation-based validation and visualization, and formal verification, to real-time testing and implementation.
+
+[WARNING]
+====
+The Eclipse ESCET project and all its tools are currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
+
+image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
+====
+
+ifdef::website-output[]
+TIP: You can link:eclipse-escet-project-incubation-manual.pdf[download this manual] as a PDF as well.
+endif::website-output[]
+
+This documentation includes general information related to the Eclipse ESCET toolkit as a whole.
+The following information is available:
+
+* <<use-chapter-index>>
+* <<performance-chapter-index>>
+* <<release-notes-chapter-index>>
+* <<legal-chapter-index>>
+
+The Eclipse ESCET toolkit features multiple languages and associated tools.
+Check the website for each of these languages for more specific information, including separate documentation for each of them:
+
+* link:https://eclipse.org/escet/cif[CIF]
+* link:https://eclipse.org/escet/chi[Chi]
+* link:https://eclipse.org/escet/tooldef[ToolDef]
+
+
+// Use
+
+include::use/index.asciidoc[]
+
+:leveloffset: +1
+
+include::use/starting-first-time.asciidoc[]
+
+include::use/update.asciidoc[]
+
+include::use/remove.asciidoc[]
+
+include::use/terminology.asciidoc[]
+
+include::use/projects.asciidoc[]
+
+include::use/edit-exec.asciidoc[]
+
+include::use/escet-perspective.asciidoc[]
+
+include::use/apps-view.asciidoc[]
+
+:leveloffset: -1
+
+// Performance
+
+include::performance/index.asciidoc[]
+
+:leveloffset: +1
+
+include::performance/clear-console.asciidoc[]
+
+include::performance/reduce-console-output.asciidoc[]
+
+include::performance/close-running-apps.asciidoc[]
+
+include::performance/tweak-perf-settings.asciidoc[]
+
+:leveloffset: -1
+
+// Release notes
+
+include::release-notes.asciidoc[]
+
+// Legal
+
+include::documentation-legal.asciidoc[]
+
+
+ifdef::pdf-output[]
+[index]
+== Index
+endif::pdf-output[]

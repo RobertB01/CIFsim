@@ -63,6 +63,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.expressions.Expression;
 import org.eclipse.escet.cif.metamodel.cif.functions.Function;
 import org.eclipse.escet.cif.metamodel.cif.functions.InternalFunction;
@@ -169,6 +170,9 @@ public class CifCompilerContext {
     /** Prefix for fields for local variables of functions. */
     public static final String FUNCVAR_VAR_PREFIX = "v";
 
+    /** Prefix for fields for input variables. */
+    public static final String INPUT_VAR_FLD_PREFIX = "v";
+
     /** The name of the literal reader class. */
     public static final String LITERAL_READER_CLS_NAME = "LiteralReader";
 
@@ -192,6 +196,9 @@ public class CifCompilerContext {
      * variable 'time').
      */
     public static final String CONT_SUB_STATE_FIELD_NAME = "s";
+
+    /** The name to use for the sub-state field for the input variables. */
+    public static final String INPUT_SUB_STATE_FIELD_NAME = "i";
 
     /** The name of the debug project. */
     public static final String DBG_PROJ = "org.eclipse.escet.cif.simulator.debug";
@@ -229,6 +236,14 @@ public class CifCompilerContext {
     private List<Event> events = null;
 
     /**
+     * The input variables of the specification. Is {@code null} until computed (when needed). The variables are sorted
+     * on their absolute names.
+     *
+     * @see #getInputVariables
+     */
+    private List<InputVariable> inputVariables = null;
+
+    /**
      * The algebraic variables of the specification. Is {@code null} until computed (when needed). The variables are
      * sorted on their absolute names.
      *
@@ -237,8 +252,8 @@ public class CifCompilerContext {
     private List<AlgVariable> algVars = null;
 
     /**
-     * The (discrete and continuous) variables that are part of the state. Is {@code null} until computed (when needed).
-     * The variables are sorted on their absolute names.
+     * The discrete, input and continuous variables that are part of the state. Is {@code null} until computed (when
+     * needed). The variables are sorted on their absolute names.
      *
      * @see #getStateVars
      */
@@ -627,6 +642,17 @@ public class CifCompilerContext {
     }
 
     /**
+     * Returns the unique generated name for the field that is generated for the given input variable.
+     *
+     * @param var The input variable for which to get the unique name.
+     * @return The unique generated name of the input variable field.
+     */
+    public String getInputVarFieldName(InputVariable var) {
+        // The absolute name is used to avoid conflicts, since all input variables are placed in the same sub state.
+        return getName(var, INPUT_VAR_FLD_PREFIX, true);
+    }
+
+    /**
      * Returns the unique generated name for the field that is generated for the given continuous variable. This applies
      * only to continuous variables declared in automata.
      *
@@ -946,10 +972,28 @@ public class CifCompilerContext {
     }
 
     /**
-     * Returns the (discrete and continuous) variables that are part of the state, sorted on their absolute names.
+     * Returns the input variables of the specification, sorted on their absolute names.
+     *
+     * @return The input variables of the specification.
+     */
+    public List<InputVariable> getInputVariables() {
+        if (inputVariables == null) {
+            List<Pair<String, InputVariable>> iVarTuples = list();
+            StateCodeGenerator.collectInputVars(spec, iVarTuples);
+            Collections.sort(iVarTuples, new PairTextComparer<InputVariable>());
+            inputVariables = listc(iVarTuples.size());
+            for (Pair<String, InputVariable> ivarTuple: iVarTuples) {
+                inputVariables.add(ivarTuple.right);
+            }
+        }
+        return inputVariables;
+    }
+
+    /**
+     * Returns the discrete, input and continuous variables that are part of the state, sorted on their absolute names.
      * Variable 'time' is not included.
      *
-     * @return The (discrete and continuous) variables that are part of the state.
+     * @return The discrete, input and continuous variables that are part of the state.
      */
     public List<Declaration> getStateVars() {
         if (stateVars == null) {

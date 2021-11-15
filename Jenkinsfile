@@ -25,7 +25,25 @@ pipeline {
     }
 
     options {
-        buildDiscarder(logRotator(numToKeepStr: '5'))
+        buildDiscarder(logRotator(
+            // Number of builds to keep.
+            numToKeepStr: '5',
+
+            // Number of builds for which to keep the artifacts.
+            artifactNumToKeepStr: '5',
+
+            // Number of days to keep builds.
+            daysToKeepStr: env.BRANCH_NAME ==~ /master/ ? '7' :             // master
+                           env.BRANCH_NAME ==~ /develop/ ? '1000' :         // develop
+                           env.TAG_NAME ==~ /v[0-9]+\\.[0-9]+.*/ ?  '120' : // release tags
+                           '30',                                            // other branches and merge requests
+
+            // Number of days to keep artifacts of builds.
+            artifactDaysToKeepStr: env.BRANCH_NAME ==~ /master/ ? '7' :            // master
+                                   env.BRANCH_NAME ==~ /develop/ ? '1000' :        // develop
+                                   env.TAG_NAME ==~ /v[0-9]+\\.[0-9]+.*/ ?  '30' : // release tags
+                                   '30',                                           // other branches and merge requests
+        ))
         timeout(time: 1, unit: 'HOURS')
         timestamps()
     }
@@ -84,16 +102,19 @@ pipeline {
 
             post {
                 success {
-                    // Documentation/websites.
-                    archiveArtifacts '*/org.eclipse.escet.*documentation/target/*-website-*.zip'
+                    // Website.
+                    archiveArtifacts 'releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip'
 
                     // Update site.
-                    archiveArtifacts 'products/org.eclipse.escet.product/target/*-updatesite-*.zip'
+                    archiveArtifacts 'products/org.eclipse.escet.product/target/*-updatesite.zip'
 
                     // Product.
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-linux*.tar.gz'
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-mac*.dmg'
                     archiveArtifacts 'products/org.eclipse.escet.product/target/products/*-win*.zip'
+
+                    // Code coverage.
+                    archiveArtifacts 'releng/org.eclipse.escet.releng.tests/target/eclipse-escet-jacoco-aggregate.zip'
                 }
             }
         }
@@ -112,7 +133,7 @@ pipeline {
                 // Deploy downloads.
                 sh '''
                     mkdir -p deploy/update-site/
-                    unzip -q products/org.eclipse.escet.product/target/*-updatesite-*.zip -d deploy/update-site/
+                    unzip -q products/org.eclipse.escet.product/target/*-updatesite.zip -d deploy/update-site/
                 '''
                 sshagent (['projects-storage.eclipse.org-bot-ssh']) {
                     // Remove any existing directory for this release.
@@ -121,13 +142,11 @@ pipeline {
                     // Create directory for this release.
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/'
 
-                    // Documentation/websites.
-                    // NOTE: for these artifacts the qualifier is 'SNAPSHOT' rather than the actual version qualifier.
-                    sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/websites/'
-                    sh 'scp -r */org.eclipse.escet.*documentation/target/*-website-*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/websites/'
+                    // Website.
+                    sh 'scp -r releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
                     // Update site (archive).
-                    sh 'scp -r products/org.eclipse.escet.product/target/*-updatesite-*.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
+                    sh 'scp -r products/org.eclipse.escet.product/target/*-updatesite.zip ${DOWNLOADS_URL}/${RELEASE_VERSION}/'
 
                     // Update site (extracted).
                     sh 'ssh genie.escet@projects-storage.eclipse.org mkdir -p ${DOWNLOADS_PATH}/${RELEASE_VERSION}/update-site/'
@@ -147,14 +166,7 @@ pipeline {
 
                         rm -rf deploy/www/${RELEASE_VERSION}
                         mkdir -p deploy/www/${RELEASE_VERSION}
-                        cp releng/website/*.html deploy/www/${RELEASE_VERSION}
-                        cp releng/website/*.png deploy/www/${RELEASE_VERSION}
-                        sed -i -e "s/@VERSION@/${RELEASE_VERSION}/g" deploy/www/${RELEASE_VERSION}/index.html
-                        unzip -q products/org.eclipse.escet.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/escet/
-                        unzip -q chi/org.eclipse.escet.chi.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/chi/
-                        unzip -q cif/org.eclipse.escet.cif.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/cif/
-                        unzip -q setext/org.eclipse.escet.setext.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/setext/
-                        unzip -q tooldef/org.eclipse.escet.tooldef.documentation/target/*-website-*.zip -d deploy/www/${RELEASE_VERSION}/tooldef/
+                        unzip -q releng/org.eclipse.escet.releng.website/target/eclipse-escet-*-website.zip -d deploy/www/${RELEASE_VERSION}/
                     '''
                     dir('deploy/www') {
                         sh '''

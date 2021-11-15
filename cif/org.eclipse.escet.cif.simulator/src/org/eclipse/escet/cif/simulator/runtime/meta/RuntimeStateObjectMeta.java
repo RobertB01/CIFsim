@@ -32,6 +32,7 @@ public class RuntimeStateObjectMeta {
      * <li>For automata, the index in {@link RuntimeSpec#automata}.</li>
      * <li>For variable 'time', always {@code 0}.</li>
      * <li>For discrete variables, the index in {@link RuntimeState#getStateVarNames}.</li>
+     * <li>For input variables, the index in {@link RuntimeState#getStateVarNames}.</li>
      * <li>For continuous variables, the index in {@link RuntimeState#getStateVarNames}.</li>
      * <li>For derivatives of continuous variables, the index in {@link RuntimeState#getStateVarNames} of the continuous
      * variable.</li>

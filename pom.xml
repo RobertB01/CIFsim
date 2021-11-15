@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.eclipse.escet</groupId>
         <artifactId>org.eclipse.escet.configuration</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>0.4.0-SNAPSHOT</version>
         <relativePath>./releng/org.eclipse.escet.configuration</relativePath>
     </parent>
 
@@ -25,12 +25,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>releng/org.eclipse.escet.target</module>
-        <module>releng/org.eclipse.escet.license.mit</module>
-
         <module>chi</module>
         <module>cif</module>
         <module>common</module>
+        <module>releng</module>
         <module>setext</module>
         <module>thirdparty</module>
         <module>tooldef</module>

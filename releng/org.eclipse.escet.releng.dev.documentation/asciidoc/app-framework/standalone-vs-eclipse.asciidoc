@@ -1,0 +1,166 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+indexterm:[application, stand-alone]
+indexterm:[application, IDE]
+
+[[app-framework-standalone-vs-eclipse]]
+== Stand-alone execution versus Eclipse IDE
+
+One of the goals of the application framework is to make it easier to allow applications to run as stand-alone Java command line applications, as well as run within the Eclipse IDE.
+The main problem faced when supporting general applications to run within Eclipse, is that such applications all run within the same instance of the Java Virtual Machine (JVM).
+In fact, a single application may have multiple instances running at the same time, within a single instance of the IDE.
+The following sections address the issues that arise when running within the IDE, and how the application framework handles them.
+
+
+indexterm:[static]
+
+[[app-framework-app-static-information]]
+=== Application static information
+
+Within Java programs, members can be defined with the `static` modifier.
+Since multiple instances of an application may be running simultaneously, within a single instance of the IDE, one should avoid using static variables that contain information that is specific to a single instance of the application.
+For instance, assume an application that maintains an integer counter, used to generate unique identifiers.
+If defined in a class as follows:
+
+[source, java]
+----
+public static int count = 0;
+----
+
+and incremented when needed, the first instance of the application will run just fine.
+Variable `count` starts at zero, and is incremented over and over again.
+When a second instance of the application starts however, the static variable keeps its value, as the new application is started within the same Eclipse instance, and thus within the same JVM.
+The count won't start from zero, thus leading to different results for the application.
+
+The conclusion is that one should be careful to avoid static variables that hold information specific to an application instance.
+
+
+indexterm:[application, options]
+
+[[app-framework-application-options]]
+=== Application options
+
+Applications often have settings, and they are generally passed as command line arguments.
+GUI applications however, often use a dialog to configure the options instead.
+To allow applications within the application framework to work in both scenarios, all applications should use the option framework.
+
+See also the <<app-framework-option-framework,option framework>> section.
+
+
+indexterm:[stdin]
+indexterm:[stout]
+indexterm:[stderr]
+
+[[app-framework-stdin-stdout-stderr]]
+=== Stdin, stdout, and stderr
+
+Command line applications generally obtain input from stdin, and write output to stdout and/or stderr streams.
+For applications running within the IDE, those streams are connected to the Eclipse application (IDE) as a whole, and not to the applications running within the IDE.
+To provide a uniform I/O interface, the application framework includes an I/O framework.
+
+See also the <<app-framework-io-framework,I/O framework>> section.
+
+
+indexterm:[gui]
+indexterm:[swt]
+
+[[app-framework-guis-and-swt]]
+=== Graphical User Interfaces (GUIs) and SWT
+
+The Eclipse IDE uses the Standard Widget Toolkit (SWT) for its graphical user interface (GUI).
+To be compatible with the Eclipse IDE, all GUI applications should use SWT as well.
+In order for GUI applications to work seamlessly within the Eclipse IDE as well as stand-alone, the application framework automatically registers the main SWT display thread for stand-alone applications, and uses the Eclipse SWT display thread when running within the Eclipse IDE.
+This reduces the burden of having to register the main SWT display threads, but also avoids blocking and other thread related issues.
+
+Using the _GUI_ option, the GUI can be enabled or disabled.
+If disabled, headless execution mode is used, which disables creation of a SWT display thread, and thus disables all GUI functionality, including the option dialog.
+
+
+indexterm:[application, termination]
+
+[[app-framework-app-termination]]
+=== Application termination
+
+Within Java, the `System.exit` method can be used to immediately terminate an application, by terminating the JVM.
+For applications running within the Eclipse IDE, this not only terminates the application, but the IDE as well.
+As such, the `System.exit` method should never be used in applications that are intended to be executed within the IDE.
+
+
+indexterm:[SIGINT]
+
+[[app-framework-sigint]]
+=== SIGINT
+
+Stand-alone applications can typically be started from a the command line terminal window.
+Pressing kbd:[Ctrl+C] at such a command line terminal window terminates the currently running application (on Unix-based systems, this generates a SIGINT).
+Applications running within the Eclipse IDE however, don't run in an actual command line terminal.
+Instead, they run within the IDE, and the stdin, stdout, and stderr streams are coupled to the Eclipse console view.
+The Eclipse console view does not support termination using the kbd:[Ctrl+C] key combination.
+Instead, kbd:[Ctrl+C] is used to copy console output to the clipboard.
+To remedy this situation, application framework applications running within Eclipse get a _Terminate_ button with their console within the IDE, to allow for easy termination.
+
+Furthermore, the application framework allows termination requests via the `AppEnv.terminate` method.
+Application framework applications and threads should regularly call the `AppEnv.isTerminationRequested` method to see whether they should terminate.
+
+See also the termination features of the link:https://eclipse.org/escet/use/apps-view.html[Applications] view.
+
+
+indexterm:[application, exceptions]
+
+[[app-framework-exceptions]]
+=== Exceptions
+
+Exceptions are Java feature that allows applications to report error conditions.
+Exceptions can generally be divided into two categories: internal errors, and end-user errors.
+Internal errors should generally not happen, and make the application crash.
+The application framework provides crash reports for end users to report crashes due to internal errors.
+The application framework also provides exception classes for end-user errors, to provide nice error messages, instead of stack traces.
+
+See also the <<app-framework-exception-framework,exception framework>> section.
+
+
+indexterm:[application, properties]
+
+[[app-framework-system-properties]]
+=== System properties
+
+Java uses system properties (`System.getProperty` method etc).
+Those properties are global to the entire JVM, meaning they are shared between applications running within the Eclipse IDE.
+The application framework provides functionality to maintain system properties on a per application basis, turning them into application properties.
+All application framework applications should use the `+getProp*+` and `+setProp*+` methods in the `AppEnv` class instead of the property related methods in the `System` class.
+This ensures that the application properties are used instead of the global system properties.
+
+
+indexterm:[application, paths]
+indexterm:[application, working directory]
+
+[[app-framework-filepaths-and-current-working-dir]]
+=== File paths and current working directory
+
+One of the standard system properties in Java is the `user.dir` property, which refers to the current working directory, or more precisely, the directory from which the JVM was started.
+Java doesn't allow changing the current working directory.
+The application framework however, maintains the current working directory on a per application basis.
+Changing the current working directory is also supported.
+Application framework applications should use the methods in the `org.eclipse.escet.common.app.framework.Paths` class to get and set the current working directory, to resolve relative paths, etc.
+These methods also allow both Windows (`\`) and Unix (`/`) separators to be used in paths, on all platforms, transparently.
+
+Furthermore, within the Eclipse IDE all projects are visible in the _Project Explorer_ and _Package Explorer_ views.
+In order to allow importing of resources from other projects etc, it may be nice to allow end users to specify platform paths (plug-in paths or workspace paths).
+Eclipse Modeling Framework (EMF) URIs, besides local file system paths, provide functionality for platform URIs as well.
+EMF URIs can for instance be used to load models that are instances of an Ecore.
+The `Paths` class mentioned above features methods to create such EMF URIs, from various sources.
+Those methods also feature smart handling of `+platform:/auto/...+` paths, an addition to platform URIs, added by the application framework.
+Such URIs are first resolved in the workspace, and if they can't be found there, they are resolved in the plug-ins.
+This allows for easier debugging, as the workspace always overrides the plug-ins.

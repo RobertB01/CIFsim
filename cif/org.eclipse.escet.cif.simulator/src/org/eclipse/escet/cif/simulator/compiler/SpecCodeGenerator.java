@@ -24,6 +24,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Event;
+import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.common.box.CodeBox;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
@@ -118,6 +119,10 @@ public class SpecCodeGenerator {
             } else if (stateObj instanceof DiscVariable) {
                 DiscVariable var = (DiscVariable)stateObj;
                 c.add("stateObjectsMeta.add(new RuntimeStateObjectMeta(%d, StateObjectType.DISCRETE, \"%s\"));",
+                        i - stateVarsOffset, getAbsName(var));
+            } else if (stateObj instanceof InputVariable) {
+                InputVariable var = (InputVariable)stateObj;
+                c.add("stateObjectsMeta.add(new RuntimeStateObjectMeta(%d, StateObjectType.INPUT, \"%s\"));",
                         i - stateVarsOffset, getAbsName(var));
             } else if (stateObj instanceof ContVariable) {
                 ContVariable var = (ContVariable)stateObj;

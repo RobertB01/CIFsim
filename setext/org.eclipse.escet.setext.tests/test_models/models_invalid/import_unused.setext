@@ -17,3 +17,4 @@
 end
 
 @import some.thing;
+@import unused<param1, param2, param3>;

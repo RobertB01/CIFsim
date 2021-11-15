@@ -26,12 +26,12 @@ By default, the CIF simulator treats all events are urgent.
 That is, whenever a transition is possible for any event, time may not progress.
 In other words, events take priority over time passage.
 However, not all events should be urgent.
-As such, the simulator has an menu:Environment events[] option (menu:Input[] category), that makes it possible to let the simulator know about the _environment events_ (non-urgent events).
+As such, the simulator has an _Environment events_ option (_Input_ category), that makes it possible to let the simulator know about the _environment events_ (non-urgent events).
 An example of an environment event (non-urgent event) is a button that can be pushed.
 The button can always be pushed, now or in the future.
 The corresponding event is thus always enabled, but time should still be able to progress, as the event may not actually happen at this time.
 
-As value for the menu:Environment events[] option, comma separated _filters_ should be supplied.
+As value for the _Environment events_ option, comma separated _filters_ should be supplied.
 Each filter specifies one or more environment events.
 The absolute names of the events are used.
 That is, for an automaton `a`, with an event `e`, the absolute name of the event is `a.e`.

@@ -38,7 +38,7 @@ It is also particularly useful for external functions that never terminate, for 
 indexterm:[performance,asynchronous external user-defined functions]
 This asynchronous execution however, does lead to a performance penalty.
 To get rid of this performance penalty, disable asynchronous execution, leading to synchronous execution.
-Asynchronous execution can be disabled using the menu:External functions asynchronous execution[] option (menu:Simulator[] category).
+Asynchronous execution can be disabled using the _External functions asynchronous execution_ option (_Simulator_ category).
 
 By disabling the asynchronous execution, the simulator can no longer be terminated if it gets stuck executing an external user-defined function.
 If the functions runs for a long time, the termination is postponed until the external function finishes its execution.

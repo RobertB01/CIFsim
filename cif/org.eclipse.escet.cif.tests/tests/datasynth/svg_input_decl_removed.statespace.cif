@@ -1,0 +1,10 @@
+group p:
+  controllable c;
+end
+automaton statespace:
+  alphabet p.c;
+  location loc1:
+    initial;
+    marked;
+    edge p.c;
+end

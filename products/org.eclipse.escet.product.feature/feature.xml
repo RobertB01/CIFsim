@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.product.feature"
       label="Eclipse ESCET (Incubation)"
-      version="0.3.0.qualifier"
+      version="0.4.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
-      license-feature-version="0.3.0.qualifier">
+      license-feature-version="0.4.0.qualifier">
 
    <description>
       Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET).
@@ -72,7 +72,13 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.escet.documentation"
+         id="org.eclipse.escet.releng.dev.documentation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.escet.releng.project.documentation"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

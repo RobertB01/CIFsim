@@ -17,9 +17,7 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF simulator,supported specifications]
 The CIF simulator supports a subset of CIF specifications.
-The following restrictions apply:
-
-* Input variables are currently not supported.
+The following restriction applies:
 
 * Time dependent <<lang-tut-data-chapter-stat-invariants,state invariants>> are not supported.
 This applies only to state invariants.
@@ -28,7 +26,11 @@ This applies only to state invariants.
 Specifications with component definitions/instantiations are not natively supported by the CIF simulator.
 Therefore, they are automatically eliminated by the simulator, as a preprocessing step, using the CIF to CIF transformation to <<tools-cif2cif-chapter-elim-comp-def-inst,eliminate component definition/instantiation>>.
 
-Automata with multiple possible initial locations and discrete variables with multiple possible initial values (including `any`) are not supported, unless additional <<tools-cifsim-chapter-init,initialization>> is provided.
+Automata with multiple possible initial locations, input variables, and discrete variables with multiple possible initial values (including `any`) are not supported, unless additional <<tools-cifsim-chapter-init,initialization>> is provided.
+
+Input variables are simulated as having a constant value.
+That is, it is not possible to assign a new value to them.
+Alternatively, input variables may first be <<tools-mergecif-shared,merged>> with other variables that provide their values.
 
 The controllability of events is ignored by the simulator, as are marker predicates.
 

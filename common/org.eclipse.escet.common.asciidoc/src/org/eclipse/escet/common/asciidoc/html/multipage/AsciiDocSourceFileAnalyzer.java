@@ -38,10 +38,11 @@ class AsciiDocSourceFileAnalyzer {
      *
      * @param sourceRootPath The path to the root directory that contains the AsciiDoc source files.
      * @param sourcePath The AsciiDoc source file path.
+     * @param rootBaseName The base name (file name without file extension) of the root AsciiDoc file.
      * @return Information about the AsciiDoc source file, or {@code null} if source file was skipped.
      * @throws IOException In case of an I/O error.
      */
-    static AsciiDocSourceFile analyze(Path sourceRootPath, Path sourcePath) throws IOException {
+    static AsciiDocSourceFile analyze(Path sourceRootPath, Path sourcePath, String rootBaseName) throws IOException {
         // Skip special files.
         String fileName = sourcePath.getFileName().toString();
         if (fileName.toString().startsWith("_")) {
@@ -53,16 +54,16 @@ class AsciiDocSourceFileAnalyzer {
         // Read source content.
         List<String> sourceContent = Files.readAllLines(sourcePath, StandardCharsets.UTF_8);
 
-        // Get paths and determine whether it is the root index file.
+        // Get paths and determine whether it is the root AsciiDoc file.
         Path absPath = sourcePath.toAbsolutePath().normalize();
         Path relPath = sourceRootPath.relativize(sourcePath);
-        boolean isRootIndexFile = sourcePath.getParent().equals(sourceRootPath)
-                && sourcePath.getFileName().toString().equals("index.asciidoc");
+        boolean isRootAsciiDocFile = sourcePath.getParent().equals(sourceRootPath)
+                && sourcePath.getFileName().toString().equals(rootBaseName + ".asciidoc");
 
         // Get page title and source id.
         String sourceId;
         String title;
-        if (isRootIndexFile) {
+        if (isRootAsciiDocFile) {
             sourceId = null;
             title = "Home";
         } else {
@@ -84,7 +85,7 @@ class AsciiDocSourceFileAnalyzer {
             title = titleLine.substring(3); // == Title
 
             // Sanity check: source id is the id for the page title header.
-            Assert.check(idIndex + 1 == titleIndex, idIndex + " / " + titleIndex);
+            Assert.areEqual(idIndex + 1, titleIndex);
 
             // Sanitize title.
             // - Check for balanced backticks and remove backticks.
@@ -92,7 +93,7 @@ class AsciiDocSourceFileAnalyzer {
             title = title.replace("`", "");
 
             // Sanity check: stripped title.
-            Assert.check(title.equals(title.strip()), title);
+            Assert.areEqual(title, title.strip());
 
             // Sanity check: no markup in title.
             String patternTitleWordNormalChars = "[a-zA-Z0-9, ]";
@@ -104,6 +105,6 @@ class AsciiDocSourceFileAnalyzer {
         }
 
         // Return the information.
-        return new AsciiDocSourceFile(absPath, relPath, sourceId, title, isRootIndexFile);
+        return new AsciiDocSourceFile(absPath, relPath, sourceId, title, isRootAsciiDocFile);
     }
 }

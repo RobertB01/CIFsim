@@ -32,13 +32,13 @@ indexterm:[state visualizer,disable]
 [[tools-cifsim-output-stateviz-option]]
 Unlike <<tools-cifsim-output-svgviz-chapter-index,SVG visualization>>, which requires that the user makes an image of the system and couples the image to the specification, the state visualizer can be used directly, without any additional effort.
 All that is required to use it, is to enable it.
-The state visualizer is disabled by default, and can be enabled using the menu:State visualization[] option (menu:Output: State visualization[] category).
+The state visualizer is disabled by default, and can be enabled using the _State visualization_ option (_Output: State visualization_ category).
 
 indexterm:[state visualizer,contents]
 
 === Contents
 
-The state visualizer shows all the discrete, continuous, and algebraic variables of the specification, as well as their values.
+The state visualizer shows all the discrete, input, continuous, and algebraic variables of the specification, as well as their values.
 It also shows the derivatives of the continuous variables, and their values.
 This includes variable `time`, but not its derivative.
 It also shows the automata, with their current locations.
@@ -53,6 +53,7 @@ The icons on the left indicate the kind of object that is shown in a particular 
 
 :img-icon-aut:
 :img-icon-discvar:
+:img-icon-inputvar:
 :img-icon-contvar:
 :img-icon-deriv:
 :img-icon-algvar:
@@ -62,6 +63,9 @@ An automaton, with its current location.
 
 * image:{tools-imgsdir}/cifsim/output/stateviz_discvar.png[]
 A discrete variable, with its current value.
+
+* image:{tools-imgsdir}/cifsim/output/stateviz_inputvar.png[]
+An input variable, with its current value.
 
 * image:{tools-imgsdir}/cifsim/output/stateviz_contvar.png[]
 A continuous variable (includes variable `time`), with its current value.
@@ -81,8 +85,8 @@ indexterm:[state visualizer,filtering]
 === Filtering
 
 By default, all state objects are displayed by the state visualizer.
-Using the menu:State visualization filters[] option (menu:Output: State visualization[] category), the state objects can be filtered.
-The menu:State visualization filters[] option only has effect if state visualization is enabled, using the menu:State visualization[] option.
+Using the _State visualization filters_ option (_Output: State visualization_ category), the state objects can be filtered.
+The _State visualization filters_ option only has effect if state visualization is enabled, using the _State visualization_ option.
 
 As value for the option, comma separated _filters_ should be supplied.
 Each filter specifies one or more state objects.
@@ -113,7 +117,7 @@ indexterm:[state visualizer,multiple]
 === Multiple state visualizers
 
 By default, only one visualizer is shown.
-However, using the menu:State visualization filters[] option (menu:Output: State visualization[] category), it is possible to specify that multiple visualizers should be used.
+However, using the _State visualization filters_ option (_Output: State visualization_ category), it is possible to specify that multiple visualizers should be used.
 The option allows for filtering of the state objects, as described above.
 However, such filters can be separated by semicolons, to specify the filters per visualizer.
 

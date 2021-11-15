@@ -66,7 +66,7 @@ indexterm:[print output,disable]
 === Enabling/disabling print output
 
 Print output is enabled by default.
-It can be disabled by reducing the types of <<tools-cifsim-output-chapter-normal,normal console output>> using the menu:Normal output[] option (menu:Output[] category).
+It can be disabled by reducing the types of <<tools-cifsim-output-chapter-normal,normal console output>> using the _Normal output_ option (_Output_ category).
 Using that option it is also possible to disable all other forms of normal output, to be able to see only the print output on the console.
 Print output can also be disabled by changing the <<tools-cifsim-output-mode,output mode>> to _Error_ or to _Warning_, instead of _Normal_.
 

@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.controllercheck;
 
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
@@ -90,9 +91,15 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
         // Pre-processing.
         // CIF automata structure normalization.
-        new RemoveIoDecls(true, true).transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimStateEvtExclInvs().transform(spec);
         new ElimMonitors().transform(spec);

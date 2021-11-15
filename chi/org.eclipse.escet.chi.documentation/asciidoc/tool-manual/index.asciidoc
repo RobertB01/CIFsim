@@ -20,7 +20,7 @@ Before using the software however, you need to install it.
 The software is part of the Eclipse ESCET software.
 
 Once you're finished installing, you can start to <<tool-chapter-software-operation,simulate>> Chi programs.
-The easiest way to start simulation is to press the _F9_ key in a Chi text editor, or when a Chi (a file with a `.chi` extension) is selected in the _Project Explorer_ or _Package Explorer_ tab.
+The easiest way to start simulation is to press the kbd:[F9] key in a Chi text editor, or when a Chi file (a file with a `.chi` extension) is selected in the _Project Explorer_ tab or _Package Explorer_ tab.
 
 _Topics_
 

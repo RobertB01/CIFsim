@@ -367,17 +367,17 @@ public class Configuration {
     /**
      * Load a properties file into the configuration.
      *
-     * @param fname Name of the file to load.
+     * @param path The absolute path to the properties file.
      */
-    public void loadPropertiesFile(String fname) {
+    public void loadPropertiesFile(String path) {
         Properties props = new Properties();
 
-        try (FileInputStream stream = new FileInputStream(fname)) {
+        try (FileInputStream stream = new FileInputStream(path)) {
             props.load(stream);
         } catch (FileNotFoundException ex) {
-            throw new InputOutputException(fmt("Could not open file \"%s\".", fname), ex);
+            throw new InputOutputException(fmt("Could not open file \"%s\".", path), ex);
         } catch (IOException ex) {
-            throw new InputOutputException(fmt("Could not read file \"%s\".", fname), ex);
+            throw new InputOutputException(fmt("Could not read file \"%s\".", path), ex);
         }
 
         // Extract the strings from the loaded properties and copy them to the global map.

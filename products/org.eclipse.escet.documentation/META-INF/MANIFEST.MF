@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: ESCET Documentation (Incubation)
-Bundle-SymbolicName: org.eclipse.escet.documentation;singleton:=true
-Bundle-Version: 0.3.0.qualifier
-Bundle-Vendor: Eclipse ESCET
-Require-Bundle: org.eclipse.help,
- org.eclipse.escet.common.asciidoc;bundle-version="0.3.0"

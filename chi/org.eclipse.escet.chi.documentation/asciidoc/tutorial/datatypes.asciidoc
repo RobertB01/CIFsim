@@ -93,10 +93,9 @@ Boolean variables are initialized with the value `false`.
 In mathematics, various symbols are used for unary and binary boolean operators.
 These operators are also present in Chi.
 The most commonly used boolean operators are `not`, `and`, and `or`.
-The names of the operators, the symbols in mathematics and the symbols in the language are presented in <<tut-table-boolsymbols>>.
+The names of the operators, the symbols in mathematics and the symbols in the language are presented in the following table:
 
 [[tut-table-boolsymbols]]
-.Table with boolean symbols
 [cols=3*,options="header"]
 |===
 |Operator
@@ -122,10 +121,9 @@ If `s` equals `false`, and `t` equals `true`, then the value of the expression `
 
 indexterm:[operator,logical]
 indexterm:[logical,operator]
-The result of the unary `not`, the binary `and` and `or` operators, for two variables `p` and `q` is given in <<tut-table-truthtable>>.
+The result of the unary `not`, the binary `and` and `or` operators, for two variables `p` and `q` is given in the following table:
 
 [[tut-table-truthtable]]
-.Truth table for  `not`, `and` and `or` operators
 [cols=5*,options="header"]
 |===
 |`p`
@@ -159,7 +157,7 @@ The result of the unary `not`, the binary `and` and `or` operators, for two vari
 |`true`
 |===
 
-If `p = true` and `q = false`, we find for `p or q` the value `true` (third line in <<tut-table-truthtable>>).
+If `p = true` and `q = false`, we find for `p or q` the value `true` (third line in the table).
 
 indexterm:[enum]
 indexterm:[enumeration,type]
@@ -207,10 +205,9 @@ indexterm:[arithmetic,operator]
 indexterm:[operator,arithmetic]
 For numbers, the normal arithmetic operators are defined.
 Expressions can be constructed with these operators.
-The arithmetic operators for numbers are listed in <<tut-table-aritoper>>.
+The arithmetic operators for numbers are listed in the following table:
 
 [[tut-table-aritoper]]
-.The arithmetic operators
 [cols=3*,options="header"]
 |===
 |Operator name
@@ -281,10 +278,9 @@ indexterm:[operator,relational]
 indexterm:[relational,operator]
 Between two numbers a relational operation can be defined.
 If for example variable `x` is smaller than variable `y`, the expression `x < y` equals `true`.
-The relational operators, with well-known semantics, are listed in <<tut-table-reloper>>.
+The relational operators, with well-known semantics, are listed in the following table:
 
 [[tut-table-reloper]]
-.The relational operators
 [cols=2*,options="header"]
 |===
 |Name
@@ -541,12 +537,11 @@ indexterm:[list,head]
 indexterm:[head,list]
 indexterm:[list,head right]
 indexterm:[head right,list]
-In <<tut-figure-list-with-indices>> the list with indices is visualized.
+In the figure below, the list with indices is visualized.
 A common name for the first element of a list (i.e., `x[0]`) is the _head_ of a list.
 Similarly, the last element of a list (`xs[-1]`) is also known as _head right_.
 
 [[tut-figure-list-with-indices]]
-.A list with indices
 image::{tut-imgsdir}/pictures/list_with_indices.png[]
 
 A part of a list can be fetched by _slicing_.
@@ -577,10 +572,9 @@ indexterm:[tail,list]
 indexterm:[list,tail right]
 indexterm:[tail right,list]
 The list of all but the first elements (`xs[1:]`) is often called _tail_ and `xs[:-1]` is also known as _tail right_.
-In <<tut-figure-list-with-slices>> the slicing operator is visualized.
+Below, the slicing operator is visualized:
 
 [[tut-figure-list-with-slices]]
-.A list with indices and slices
 image::{tut-imgsdir}/pictures/list_with_slices.png[]
 
 indexterm:[list,concatenation]
@@ -710,10 +704,9 @@ indexterm:[type,set]
 ==== Sets
 
 Set operators for union, intersection and difference are present.
-<<tut-table-set-operations>> gives the name, the mathematical notation and the notation in the Chi language.
+The table below gives the name, the mathematical notation and the notation in the Chi language:
 
 [[tut-table-set-operations]]
-.Table with set operations
 [cols=3*,options="header"]
 |===
 |Operator

@@ -45,7 +45,7 @@ indexterm:[debug console output,option]
 
 === Debug output option
 
-In the option dialog, each of the different types of output can be enabled and disabled individually (menu:Debug output[] option, menu:Output[] category).
+In the option dialog, each of the different types of output can be enabled and disabled individually (_Debug output_ option, _Output_ category).
 
 From the command line, using the `-d` or `--debug` option, the names of the different types of debug output, as specified between square brackets, should be used, separated by commas.
 By default, i.e. when not using the `-d` or `--debug` option, all debug output is disabled.

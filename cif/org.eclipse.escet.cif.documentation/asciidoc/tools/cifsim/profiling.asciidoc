@@ -18,7 +18,7 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF simulator,profiling]
 indexterm:[profiling]
 indexterm:[see: profiling,CIF simulator]
-The CIF simulator has a menu:Profiling[] option (menu:Simulator[] category).
+The CIF simulator has a _Profiling_ option (_Simulator_ category).
 If the option is enabled, information about the number of transitions taken per second, is printed to the console.
 Enabling profiling disables most other types of console <<tools-cifsim-output-chapter-index,output>>.
 By default, profiling is disabled.

@@ -103,11 +103,11 @@ image::{tools-imgsdir}/scripting/option_dialog_cmdline_help.png[]
 The option dialog shows the same help text as the command line `--help` and `-h` options.
 In this screenshot, you can see the help text of the `--end-time` or `-t` option.
 This particular option can also be configured using the option dialog.
-It is part of the menu:Simulator[] category:
+It is part of the _Simulator_ category:
 
 image::{tools-imgsdir}/scripting/option_dialog_cmdline_link.png[]
 
-There, it is listed as menu:Simulator end time[] option.
+There, it is listed as _Simulator end time_ option.
 After that name, the command line names of the option (`--end-time` and `-t`) are also listed.
 This makes it easier to link options in the option dialog with command line options.
 

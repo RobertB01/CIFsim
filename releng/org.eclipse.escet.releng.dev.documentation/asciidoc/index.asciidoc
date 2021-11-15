@@ -1,0 +1,208 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+// Including common attributes to set for all documents within this directory.
+include::_root_attributes.asciidoc[]
+
+// Enable custom style in index-docinfo.html.
+:docinfo: private
+
+// Use this for asciidoc documents containing a title.
+:doctype: book
+
+
+= Eclipse ESCET(TM) development documentation (Incubation)
+:author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+:title-logo-image: {imgsdir}/eclipse-incubation.png
+
+This documentation concerns the development of the Eclipse Supervisory Control Engineering Toolkit (Eclipse ESCET) open-source project.
+
+[WARNING]
+====
+The Eclipse ESCET project and all its tools are currently in the link:https://www.eclipse.org/projects/handbook/#starting-incubation[Incubation Phase].
+
+image:{imgsdir}/eclipse-incubation.png[,width=300,pdfwidth=45%]
+====
+
+ifdef::website-output[]
+TIP: You can link:eclipse-escet-dev-incubation-manual.pdf[download this manual] as a PDF as well.
+endif::website-output[]
+
+*Eclipse ESCET development*
+
+This manual includes information related to the development of the Eclipse ESCET toolkit as a whole, as it applies to all its languages and tools.
+
+The following topics are discussed in more detail:
+
+* <<development-dev-list-chapter-index>>
+* <<development-development-process-chapter-index>>
+* <<development-contributing-chapter-index>>
+* <<development-issue-tracking-chapter-index>>
+* <<development-dev-env-setup-chapter-index>>
+* <<development-git-repo-chapter-index>>
+* <<development-coding-standards-chapter-index>>
+* <<development-building-and-testing-chapter-index>>
+* <<development-release-process-chapter-index>>
+* <<development-third-party-tools-chapter-index>>
+* <<development-upgrade-instructions-chapter-index>>
+* <<legal-chapter-index>>
+
+*Common libraries and development tools*
+
+Furthermore, this manual includes information on various common libraries and development tools.
+These libraries and development tools are shared by the various end-user languages and tools that comprise the Eclipse ESCET toolkit.
+
+Information on the following libraries and development tools is available:
+
+* <<app-framework-chapter-index>>
+* <<multivalue-chapter-index>>
+* <<rail-chapter-index>>
+* <<setext-chapter-index>>
+
+
+// Development
+
+== Eclipse ESCET development
+
+:leveloffset: +1
+
+include::development/dev-list.asciidoc[]
+
+include::development/development-process.asciidoc[]
+
+include::development/contributing.asciidoc[]
+
+include::development/issue-tracking.asciidoc[]
+
+include::development/dev-env-setup.asciidoc[]
+
+include::development/git-repo.asciidoc[]
+
+include::development/coding-standards.asciidoc[]
+
+include::development/building-and-testing.asciidoc[]
+
+include::development/release-process.asciidoc[]
+
+include::development/third-party-tools.asciidoc[]
+
+include::development/upgrade-instructions.asciidoc[]
+
+:leveloffset: -1
+
+// Application framework
+
+include::app-framework/index.asciidoc[]
+
+:leveloffset: +1
+
+include::app-framework/introduction.asciidoc[]
+
+include::app-framework/standalone-vs-eclipse.asciidoc[]
+
+include::app-framework/application-class.asciidoc[]
+
+include::app-framework/exception-framework.asciidoc[]
+
+include::app-framework/exit-codes.asciidoc[]
+
+include::app-framework/io-framework.asciidoc[]
+
+include::app-framework/option-framework.asciidoc[]
+
+include::app-framework/compiler-framework.asciidoc[]
+
+include::app-framework/implement-your-application.asciidoc[]
+
+include::app-framework/registration.asciidoc[]
+
+include::app-framework/execution.asciidoc[]
+
+:leveloffset: -1
+
+// Multi-value Decision Diagrams
+
+include::multivalue/index.asciidoc[]
+
+:leveloffset: +1
+
+include::multivalue/goals.asciidoc[]
+
+include::multivalue/variables-and-relations.asciidoc[]
+
+include::multivalue/combining-relations.asciidoc[]
+
+include::multivalue/computing.asciidoc[]
+
+include::multivalue/practical-usage.asciidoc[]
+
+:leveloffset: -1
+
+// Rail diagram generator
+
+include::rail/index.asciidoc[]
+
+:leveloffset: +1
+
+include::rail/introduction.asciidoc[]
+
+include::rail/examples.asciidoc[]
+
+include::rail/customizing-output.asciidoc[]
+
+include::rail/lexical-syntax.asciidoc[]
+
+include::rail/grammar.asciidoc[]
+
+:leveloffset: -1
+
+// SeText scanner/parser generator
+
+include::setext/index.asciidoc[]
+
+:leveloffset: +1
+
+include::setext/lexical-syntax.asciidoc[]
+
+include::setext/specifying-lexical-syntax.asciidoc[]
+
+include::setext/regular-expressions.asciidoc[]
+
+include::setext/terminal-descriptions.asciidoc[]
+
+include::setext/imports.asciidoc[]
+
+include::setext/scanner-hooks.asciidoc[]
+
+include::setext/specifying-grammars.asciidoc[]
+
+include::setext/parser-hooks.asciidoc[]
+
+include::setext/usage-hints.asciidoc[]
+
+include::setext/generated-scanners-parsers.asciidoc[]
+
+include::setext/using-in-an-eclipse-plugin-project.asciidoc[]
+
+include::setext/limitations.asciidoc[]
+
+:leveloffset: -1
+
+// Legal
+
+include::legal.asciidoc[]
+
+
+ifdef::pdf-output[]
+[index]
+== Index
+endif::pdf-output[]

@@ -25,7 +25,7 @@ The integrator determines the time points for which to calculate values, based o
 The integrator can be influenced using the <<tools-cifsim-solver-chapter-options,integrator options>>.
 
 Sometimes however, it may be more convenient to have the integration output at more regular intervals.
-Using the menu:ODE solver fixed output step size[] option (menu:ODE solver[] category), a fixed output step size can be configured.
+Using the _ODE solver fixed output step size_ option (_ODE solver_ category), a fixed output step size can be configured.
 This value must be an integer or real number larger than zero.
 
 This option does not influence the actual time points for which the integrator calculates the values.

@@ -28,7 +28,7 @@ indexterm:[automatic input mode,automatic mode choice algorithm option]
 === Automatic mode choice algorithm option
 
 In the automatic input mode, the simulator automatically chooses the transitions to take, without any user interaction.
-The choice that is made can however be influenced using the menu:Automatic mode choice algorithm[] option (menu:Input[] category).
+The choice that is made can however be influenced using the _Automatic mode choice algorithm_ option (_Input_ category).
 The following choices are available:
 
 * First transition.
@@ -57,7 +57,7 @@ indexterm:[automatic input mode,automatic mode transition duration option]
 === Automatic mode time transition duration option
 
 In the automatic input mode, the simulator automatically chooses the durations of the time transitions, without any user interaction.
-The choice that is made can however be influenced using the menu:Automatic mode time transition duration[] option (menu:Input[] category).
+The choice that is made can however be influenced using the _Automatic mode time transition duration_ option (_Input_ category).
 The following choices are available:
 
 * Maximum allowed duration.

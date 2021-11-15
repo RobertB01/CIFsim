@@ -51,8 +51,8 @@ indexterm:[SVG viewer,SVG]
 
 The SVG viewer and SVG visualizer can export the currently visible image to several different image formats.
 To export the image, first make sure that the SVG viewer or SVG visualizer has the focus.
-Then select menu:File[Save As...] to open the menu:Save SVG as[] dialog.
-Alternatively, right click the SVG image itself, and choose menu:Save As...[] from the popup menu, to open the menu:Save SVG as[] dialog.
+Then select menu:File[Save As...] to open the _Save SVG as_ dialog.
+Alternatively, right click the SVG image itself, and choose menu:Save As...[] from the popup menu, to open the _Save SVG as_ dialog.
 In the dialog, specify the file name of the exported image.
 Click btn:[OK] to confirm and to actually export the image.
 
@@ -71,4 +71,4 @@ The following link:http://en.wikipedia.org/wiki/Vector_graphics[vector image] fo
 The image format that is used to export the image, is derived from the file extension that is used.
 For each of the supported file formats, the allowed file names (with file extensions) are indicated above (between parentheses).
 
-After the image is exported, the workspace is refreshed to show that new image file, if the image was saved in a project that is visible in the 'Project Explorer' tab or 'Package Explorer' tab.
+After the image is exported, the workspace is refreshed to show that new image file, if the image was saved in a project that is visible in the _Project Explorer_ tab or _Package Explorer_ tab.

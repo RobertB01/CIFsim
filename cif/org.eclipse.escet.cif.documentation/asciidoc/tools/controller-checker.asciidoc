@@ -31,7 +31,7 @@ indexterm:[controller property checker,start]
 
 The checker can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF simulation, validation and verification tools[Apply controller checks...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF simulation, validation and verification tools[Apply controller checks...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF simulation, validation and verification tools[Apply controller checks...].
 
@@ -86,6 +86,8 @@ However, it is allowed to use multiple assignments on an edge (such as ``do x :=
 That is, automata that have locations with multiple outgoing edges for the same controllable event, with overlapping guards (e.g. `x > 1` and `x < 4`), are not supported.
 Note that this check may lead to false positives, as the check is an over-approximation and guard overlap may be detected for unreachable states.
 
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
 
 indexterm:[controller property checker,preprocessing]
 

@@ -16,7 +16,10 @@ model M():
     real d;
     file f;
     func int () fn;
-    proc () pr;
+    proc () pr1;
+    proc int () pr2;
+    proc (int, bool) pr3;
+    proc int (int, bool) pr4;
     set bool s;
     dist int di;
     dist bool db;

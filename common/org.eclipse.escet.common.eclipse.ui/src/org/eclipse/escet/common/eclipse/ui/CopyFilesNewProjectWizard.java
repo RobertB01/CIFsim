@@ -37,11 +37,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.escet.common.java.Assert;
@@ -55,6 +55,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 /** Wizard to create a new project, with the contents of certain directories of a plug-in copied to it. */
 public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWizard {
@@ -75,13 +76,6 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
      * @return The mapping.
      */
     protected abstract Map<String, String> getPathsToCopy();
-
-    /**
-     * Returns the plug-in, in which to locate the plug-in relative paths.
-     *
-     * @return The plug-in, in which to locate the plug-in relative paths.
-     */
-    protected abstract Plugin getPlugin();
 
     /**
      * Returns the configuration element for this wizard, from the plug-in extension.
@@ -222,7 +216,9 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
             // Log crash.
             String name = getClass().getName();
             Status status = new Status(IStatus.ERROR, name, IStatus.OK, name + " failed.", ex);
-            getPlugin().getLog().log(status);
+            Bundle bundle = FrameworkUtil.getBundle(getClass());
+            ILog log = Platform.getLog(bundle);
+            log.log(status);
         }
 
         return true;
@@ -296,7 +292,7 @@ public abstract class CopyFilesNewProjectWizard extends Wizard implements INewWi
      * @throws IOException In case of an I/O error.
      */
     protected void copyFiles(Path projectPath, IProgressMonitor monitor) throws IOException {
-        Bundle bundle = getPlugin().getBundle();
+        Bundle bundle = FrameworkUtil.getBundle(getClass());
         String projectPathSeparator = projectPath.getFileSystem().getSeparator();
 
         Map<String, String> entriesToCopy = getPathsToCopy();

@@ -1,0 +1,106 @@
+/////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// This program and the accompanying materials are made available under the terms
+// of the MIT License which is available at https://opensource.org/licenses/MIT
+//
+// SPDX-License-Identifier: MIT
+/////////////////////////////////////////////////////////////////////////////////
+
+include::_part_attributes.asciidoc[]
+
+[[development-upgrade-instructions-chapter-index]]
+== Upgrade instructions
+
+To upgrade to a new Eclipse Platform/IDE/SDK version:
+
+* New development environment
+** <<development-dev-env-setup-chapter-index,Set up a new development environment>> for the new Eclipse IDE version.
+
+* Version updates
+** Look up Orbit version for the new Eclipse Platform/IDE/SDK release, see https://download.eclipse.org/tools/orbit/downloads/.
+** Update Oomph setup (`org.eclipse.escet.setup`), configuring new Eclipse IDE and Orbit versions.
+** Update `dev-env-setup.asciidoc` to match new Eclipse version.
+** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
+** Update Eclipse and Orbit update site URLs in product (`org.eclipse.escet.product/escet.product`).
+
+* Update target platform and address any issues
+** Let Oomph regenerate the target platform, and commit any changes.
+** Force a rebuild in Eclipse (menu:Project[Clean...]).
+** Check workspace for any errors/warnings and address them if any.
+** Check _New and Noteworthy_ (release notes) of the new Eclipse version for changes and adapt as necessary.
+
+* Java formatter profile
+** Navigate to menu:Window[Preferences].
+** Ensure the Oomph preference recorder is enabled, using the corresponding button at the bottom left of the dialog.
+** In the dialog, navigate to menu:Java[Code Style > Formatter > Eclipse ESCET profile > Edit...].
+** Make a dummy change to the Eclipse ESCET Java formatter profile and close the profile editing dialog by clicking btn:[OK].
+** Close the preferences dialog by clicking btn:[Apply and Close].
+** An Oomph preference recorder dialog will appear that can be dismissed by clicking btn:[Cancel].
+** Repeat the previous steps to revert the dummy change until the Oomph preference recorder dialog appears again.
+** Select the relevant preferences, note their names, and copy the values from the bottom text box to an external text editor.
+** Close the Oomph preference recorder dialog by clicking btn:[Cancel].
+** Open the Oomph setup (`org.eclipse.escet.setup`) and look for the relevant preferences.
+** Right click such a preference and choose menu:Show Properties View[].
+** In the properties view, get the current values of the preferences, and compare them to the new values using your favorite diff tool.
+** Replace the current values of the preferences by the new values.
+** Don't forget to save the updated Oomph setup.
+** In case of formatting profile changes, reformat all Java code using the new formatter profile.
+
+* Java errors/warnings settings
+** Right click the `org.eclipse.escet.common.java` project in the Package Explorer view and choose menu:Properties[].
+** In the properties dialog, select menu:Java Compiler[Errors/Warnings].
+** Make a dummy change and apply it by clicking _Apply and Close_.
+** Click _Yes_ when asked to _Rebuild the project now to apply the changes of the Error/Warning settings?_.
+** Revert the dummy change, using again the same steps.
+** In case of changes to `*.prefs` files in the `.settings` directory of that project, configure the new settings as desired.
+** Run `misc/java-code-style/copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new settings to the central place.
+** Run `misc/java-code-style/copy_there.bash` from `misc/java-code-style` to copy the new settings to all relevant projects.
+** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
+
+* Update Maven version
+** Check the embedded Maven version, by navigating to menu:Run[Run Configurations...], selecting the _build_ launch configuration under _Maven Build_, and observing the _Maven Runtime_ version.
+** Ensure the Maven version in `Jenkinsfile` matches the embedded Maven version.
+** Ensure the Maven version in `misc/license-check-dependencies/Jenkinsfile` matches the embedded Maven version.
+
+* Validation
+** Run a <<development-building-and-testing-chapter-index,Maven build>>.
+** Ensure no errors or warnings during Maven build.
+
+* Dependency information
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` and update `DEPENDENCIES.txt` according to the output.
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` again, to ensure `DEPENDENCIES.txt` is up-to-date.
+
+To upgrade to a new Tycho version:
+
+* Update version in `org.eclipse.escet.root/.mvn/extensions.xml`.
+* Update version in `org.eclipse.escet.configuration/pom.xml`.
+* Check Tycho release notes for changes and adapt as necessary.
+* Run a <<development-building-and-testing-chapter-index,Maven build>>.
+* Ensure no errors or warnings during Maven build.
+
+To upgrade to a new Java version:
+
+* For major Java versions (e.g. 11 to 12):
+** Update `Bundle-RequiredExecutionEnvironment` for all plug-in manifests.
+** Update `JRE_CONTAINER` in all `.classpath` files.
+** Update `JRE_CONTAINER` in all launch configurations (`.launch` files).
+** Update Java versions in `org.eclipse.jdt.core.prefs` files.
+** Update `osgi.requiredJavaVersion` in the product (`org.eclipse.escet.product/escet.product`).
+** Update Java version for `executionEnvironment` in `org.eclipse.escet.configuration/pom.xml`.
+** Update Java version in `Jenkinsfile`.
+** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
+
+* For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
+** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
+** Regenerate the target platform file using Oomph.
+** Update the JustJ version in the product (`org.eclipse.escet.product/escet.product`).
+** Update `dev-env-setup.asciidoc` to match new Java version.
+** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
+** Run a <<development-building-and-testing-chapter-index,Maven build>>.
+** Ensure no errors or warnings during Maven build.
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` and update `DEPENDENCIES.txt` according to the output.
+** Run `misc/license-check-dependencies/license-check-dependencies.sh` to ensure `DEPENDENCIES.txt` is up-to-date.

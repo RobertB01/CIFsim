@@ -1,0 +1,83 @@
+################################################################################
+# Copyright (c) 2021 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the terms
+# of the MIT License which is available at https://opensource.org/licenses/MIT
+#
+# SPDX-License-Identifier: MIT
+#################################################################################
+
+proc p(int i):
+    write("%d", i);
+end
+
+proc p0():
+    run unwind j in range(2): p(j + 0) end
+end
+
+proc p1():
+    run unwind j in range(2): p(j + 1) end;
+end
+
+proc p2():
+    run
+        unwind j in range(2): p(j + 2) end
+        p(9)
+end
+
+proc p3():
+    run
+        unwind j in range(2): p(j + 3) end,
+        p(9)
+end
+
+proc p4():
+    run
+        unwind j in range(2): p(j + 4) end,
+        p(9);
+end
+
+proc p5():
+    run
+        unwind j in range(2): p(j + 5) end
+        unwind j in range(2): p(j + 5) end
+end
+
+proc p6():
+    run
+        unwind j in range(2): p(j + 6) end,
+        unwind j in range(2): p(j + 6) end
+end
+
+proc p7():
+    run
+        unwind j in range(2): p(j + 7) end,
+        unwind j in range(2): p(j + 7) end;
+end
+
+proc p8():
+    run
+        unwind j in range(2): p(j + 8) end,
+end
+
+proc p9():
+    run
+        unwind j in range(2): p(j + 8) end,
+        p(9),
+end
+
+model m():
+    run p0(); writeln("");
+    run p1(); writeln("");
+    run p2(); writeln("");
+    run p3(); writeln("");
+    run p4(); writeln("");
+    run p5(); writeln("");
+    run p6(); writeln("");
+    run p7(); writeln("");
+    run p8(); writeln("");
+    run p9(); writeln("");
+end

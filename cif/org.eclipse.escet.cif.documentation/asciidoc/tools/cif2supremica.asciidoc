@@ -27,7 +27,7 @@ indexterm:[CIF to Supremica transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Convert CIF to Supremica...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF synthesis tools[Convert CIF to Supremica...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Convert CIF to Supremica...].
 
@@ -114,6 +114,9 @@ However, it is allowed to use multiple assignments on an edge (such as `do x := 
 * Only the following binary operators are supported: logical equivalence (`+<=>+`), logical implication (`+=>+`), conjunction (`and`) on boolean operands, disjunction (`or`) on boolean operands, addition (`pass:c[+]`) on ranged integer operands, subtraction (`-`) on ranged integer operands, multiplication (`+*+`) on ranged integer operands, integer division (`div`) on ranged integer operands, integer modulus (`mod`) on ranged integer operands, equality (`=`), inequality (`!=`), less than (`<`) on ranged integer operands, less than or equal to (`+<=+`) on ranged integer operands, greater than (`>`) on ranged integer operands, and greater than or equal to (`>=`) on ranged integer operands.
 
 * Only the following unary operators are supported: logical inverse (`not`), negation (`-`) on a ranged integer operand, and plus (`pass:c[+]`) on a ranged integer operand.
+
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
 
 indexterm:[CIF to Supremica transformer,preprocessing]
 

@@ -27,7 +27,7 @@ indexterm:[simulation output,console]
 
 [[tools-cifsim-output-mode]]
 The default form of output is to the console.
-The type of console output to produce, is determined by the menu:Output mode[] option (menu:General[] category).
+The type of console output to produce, is determined by the _Output mode_ option (_General_ category).
 The following modes are available:
 
 * _Error_: produces only error output.

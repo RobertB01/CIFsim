@@ -13,11 +13,11 @@
 <feature
       id="org.eclipse.escet.tooldef.feature"
       label="ESCET ToolDef (Incubation)"
-      version="0.3.0.qualifier"
+      version="0.4.0.qualifier"
       provider-name="Eclipse ESCET"
       plugin="org.eclipse.escet.product.branding"
       license-feature="org.eclipse.escet.license.mit"
-      license-feature-version="0.3.0.qualifier">
+      license-feature-version="0.4.0.qualifier">
 
    <description>
       Eclipse ESCET tooling for the ToolDef scripting language.
@@ -32,8 +32,8 @@
    </license>
 
    <requires>
-      <import feature="org.eclipse.escet.common.feature" version="0.3.0.qualifier"/>
-      <import feature="org.eclipse.escet.setext.feature" version="0.3.0.qualifier"/>
+      <import feature="org.eclipse.escet.common.feature" version="0.4.0.qualifier"/>
+      <import feature="org.eclipse.escet.setext.feature" version="0.4.0.qualifier"/>
       <import plugin="io.github.java-diff-utils"/>
       <import plugin="org.apache.commons.exec"/>
    </requires>

@@ -30,13 +30,13 @@ indexterm:[plot visualizer,disable]
 
 [[tools-cifsim-output-plotviz-option]]
 Plot visualization is disabled by default.
-It can be enabled using the menu:Plot visualization[] option (menu:Output: Plot visualization[] category).
+It can be enabled using the _Plot visualization_ option (_Output: Plot visualization_ category).
 
 === Variables
 
 The plot visualizer can plot the values of the following variables (officially 'state objects'):
 
-* The state variables, which includes the discrete variables and the continuous variables.
+* The state variables, which includes the discrete variables, input variables and the continuous variables.
 
 * The derivatives of the continuous variables.
 This does not include the derivative of variable `time`.
@@ -54,8 +54,8 @@ indexterm:[plot visualizer,filtering]
 By default, if plot visualization is enabled, all variables (officially 'state objects') that can be plotted are plotted.
 The one exception is variable `time`, which is excluded by default, as it already represents the x-axis.
 That is, variables are plotted against time.
-Using the menu:Plot visualization filters[] option (menu:Output: Plot visualization[] category), the state objects can be filtered.
-The menu:Plot visualization filters[] option only has effect if plot visualization is enabled, using the menu:Plot visualization[] option.
+Using the _Plot visualization filters_ option (_Output: Plot visualization_ category), the state objects can be filtered.
+The _Plot visualization filters_ option only has effect if plot visualization is enabled, using the _Plot visualization_ option.
 
 As value for the option, comma separated _filters_ should be supplied.
 Each filter specifies one or more state objects.
@@ -86,7 +86,7 @@ indexterm:[plot visualizer,multiple]
 === Multiple plot visualizers
 
 By default, only one visualizer is shown.
-However, using the menu:Plot visualization filters[] option (menu:Output: Plot visualization[] category), it is possible to specify that multiple visualizers should be used.
+However, using the _Plot visualization filters_ option (_Output: Plot visualization_ category), it is possible to specify that multiple visualizers should be used.
 The option allows for filtering of the state objects, as described above.
 However, such filters can be separated by semicolons, to specify the filters per visualizer.
 
@@ -107,7 +107,7 @@ In this mode, the plots are shown at the start of the simulation, and are contin
 * Postponed plotting.
 In this mode, the plots are shown after the simulation has <<tools-cifsim-chapter-termination,ended>>.
 
-Which plot visualization mode to use, can be configured using the menu:Plot visualization mode[] option (menu:Output: Plot visualization[] category).
+Which plot visualization mode to use, can be configured using the _Plot visualization mode_ option (_Output: Plot visualization_ category).
 Using that option it is possible to explicitly choose one of the modes.
 By default, an automatic mode is used, which chooses between live and postponed mode, as follows:
 
@@ -157,7 +157,7 @@ indexterm:[plot visualizer,range]
 === Plot visualization range
 
 For simulations that span longer periods of (model) time, there may be too much data to display, for the limited width of the time axis (x-axis).
-To keep the plot useful, the range of time values to display on the x-axis can be configured using the menu:Plot visualization range[] option (menu:Output: Plot visualization[] category).
+To keep the plot useful, the range of time values to display on the x-axis can be configured using the _Plot visualization range_ option (_Output: Plot visualization_ category).
 
 By default, only the `50` most recent time units are displayed.
 That is, if the current model time is `120`, then the plot only shows the values of the variables from time `70` to time `120`.
@@ -216,8 +216,8 @@ indexterm:[plot visualizer,save plot image]
 
 The plot visualizer can export the currently visible plot to several different image formats.
 To export the image, first make sure that the plot visualizer has the focus.
-Then select menu:File[Save As...] to open the menu:Save plot as[] dialog.
-Alternatively, right click the plot itself, and choose menu:Save As...[] from the popup menu, to open the menu:Save plot as[] dialog.
+Then select menu:File[Save As...] to open the _Save plot as_ dialog.
+Alternatively, right click the plot itself, and choose menu:Save As...[] from the popup menu, to open the _Save plot as_ dialog.
 In the dialog, specify the file name of the exported image.
 Click btn:[OK] to confirm and continue.
 
@@ -226,7 +226,7 @@ By default, the current size of the visualizer is used.
 A custom size can be entered.
 The width and height need to specified in pixels, separated by a `x` character.
 For instance, for a width of `640` pixels and a height of `480` pixels, enter `640x480` into the dialog.
-Click `OK` to confirm and to actually export the image.
+Click btn:[OK] to confirm and to actually export the image.
 
 The following link:http://en.wikipedia.org/wiki/Raster_graphics[raster image] formats are supported:
 
@@ -239,7 +239,7 @@ The following link:http://en.wikipedia.org/wiki/Raster_graphics[raster image] fo
 The image format that is used to export the image, is derived from the file extension that is used.
 For each of the supported file formats, the allowed file names (with file extensions) are indicated above (between parentheses).
 
-After the image is exported, the workspace is refreshed to show that new image file, if the image was saved in a project that is visible in the 'Project Explorer' tab or 'Package Explorer' tab.
+After the image is exported, the workspace is refreshed to show that new image file, if the image was saved in a project that is visible in the _Project Explorer_ tab or _Package Explorer_ tab.
 
 In order for the export to succeed, data points must be available for at least two time values.
 

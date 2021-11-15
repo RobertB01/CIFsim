@@ -46,7 +46,7 @@ indexterm:[data-based supervisory controller synthesis,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF synthesis tools[Apply data-based synthesis...].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 
 * In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF synthesis tools[Apply data-based synthesis...].
 
@@ -80,6 +80,11 @@ For more information, see the section on <<tools-datasynth-supervisor-namespace,
 * _Forward reachability_: Whether to perform forward reachability during synthesis, or omit it.
 Is disabled by default.
 For more information, see the section on <<tools-datasynth-forward-reach,forward reachability>> below.
+
+* _Edge order_: Synthesis involves many reachability computations.
+This involves following edges (forward or backward) to find reachable states.
+The order in which the edges are considered for such computations is determined by this option.
+For more information, see the <<tools-datasynth-edge-order>> section below.
 
 * _Statistics_: The kinds of statistics to print.
 By default, no statistics are printed.
@@ -196,6 +201,9 @@ That is, automata that have locations with multiple outgoing edges for the same 
 Note that this check is performed on the <<tools-cif2cif-chapter-linearize-product,linearized>> guards, and may therefore lead to false positives, as the check is an over-approximation and guard overlap may be detected for unreachable states.
 
 * Conditional updates (`if` updates), multi-assignments, and partial variable assignments are not supported.
+
+* I/O declarations are ignored.
+A warning is printed if a CIF/SVG input declaration is encountered.
 
 Only limited forms of predicates (for markers, invariants, initialization, guards, etc) are supported.
 The supported predicates are:
@@ -575,6 +583,87 @@ It also depends on the specification whether there is any benefit to using forwa
 Forward reachability is disabled by default.
 It can be enabled using the _Forward reachability_ option (see <<tools-datasynth-options,options>> section above).
 
+indexterm:[data-based supervisory controller synthesis,edge order]
+
+[[tools-datasynth-edge-order]]
+=== Edge order
+
+Supervisor synthesis involves many reachability computations to determine which states can be reached from which other states (forward reachability), or which states can reach which other states (backward reachability).
+This involves repeatedly following edges to find those states, using a fixed point computation.
+
+During reachability computations the edges are considered one by one to find more reachable states.
+Regardless of whether an edge leads to new states being found or not, the search always continues with the next edge.
+As long as new states are found, the edges will keep being applied one after the other.
+After the last edge has been considered, the first edge is considered again, then the second one, etc.
+Only once all edges have been applied and none of them lead to new states being found has a fixed point been reached and the computation stops.
+
+The order in which the edges are considered for such computations has no effect on the final fixed point result.
+The order can however significantly influence the performance of supervisor synthesis.
+For instance, consider that there are dozens of edges and from the already discovered states there is only one edge that leads to more states being found.
+Then considering that one particular edge first will immediately lead to more states being found.
+Considering other edges first will lead to wasted computations, as they won't find any new states.
+
+Besides finding or not finding new states, which new states are found first and in what order may also influence performance.
+It may lead to smaller or larger intermediate BDD representations of predicates.
+See the section on the <<tools-datasynth-var-order,BDD variable order>> for more information.
+
+Synthesis does not directly use the edges from the model.
+It applies <<tools-cif2cif-chapter-linearize-product,linearization>> and then uses the edges from the linearized model.
+Edges are internally also added to <<tools-datasynth-input-vars,support input variables>> during synthesis.
+
+The order in which the edges are considered is determined by the _Edge order_ option (see <<tools-datasynth-options,options>> section above).
+Several predefined orders exist, and it is also possible to define a custom order.
+By default, the _model ordering_ is used.
+The following predefined orders exist:
+
+* _model ordering_ (option value `model`)
++
+The order of the edges is as they occur in the linearized model.
+Edges for input variables are always put after the other edges, sorted based on the <<tools-datasynth-var-order,variable order>>.
+
+* _reverse model ordering_ (option value `reverse-model`)
++
+The order of the edges is as they occur in the linearized model, but reversed.
+Edges for input variable are thus always put before the other edges, sorted based on the reversed variable order.
+
+* _sorted ordering_ (option value `sorted`)
++
+The order of the edges is based on the names of their corresponding events and input variables.
+They are sorted alphabetically in ascending order, based on their absolute names.
+In case edges are labeled with the same event, the edges are ordered based on the linearized model order.
+
+* _reverse sorted ordering_ (option value `reverse-sorted`)
++
+The order of the edges is based on the names of their corresponding events and input variables.
+They are sorted alphabetically in descending order, based on their absolute names.
+In case edges are labeled with the same event, the edges are ordered based on the reversed linearized model order.
+
+* _random ordering_ (option value `random` or `random:SEED`)
++
+The edges are ordered randomly.
+If no seed is specified, a random seed is used, resulting in a random random order.
+If a seed is specified, a fixed random order is used.
+That is, using the same seed again, results in the same random order.
+The `SEED` must be an integer number in the range [0 .. 2^64^ - 1].
+For instance, use `random:123` as option value to get a random order that can be repeated on a subsequent synthesis for the same model.
+
+Furthermore, a custom order can be defined.
+Custom orders consist of absolute names of events and input variables.
+That is, for an automaton `a`, with an event `x`, the absolute name of the event is `a.x`.
+In case edges are labeled with the same event, the edges are ordered based on the linearized model order.
+The `+*+` character can be used as wildcard in those names, and indicates zero or more characters.
+In case of multiple matches, the matches are sorted alphabetically in ascending order, based on their absolute names.
+
+Multiple names can be separated with `,` characters.
+The edges and input variables matching the name pattern before the `,` are ordered before the edges and input variables matching the name pattern after the `,`.
+
+Each name pattern in the order must match at least one event or input variable.
+An event or input variable may not be included more than once in the order.
+Every event and input variable needs to be included in the order.
+
+Determining the best edge order is difficult as it can be tricky to predict which edges will lead to finding new states and quickly reaching the fixed point result.
+When in doubt, use the default value of the option.
+
 indexterm:[data-based supervisory controller synthesis,simplification]
 
 [[tools-datasynth-simplification]]
@@ -678,7 +767,7 @@ indexterm:[data-based supervisory controller synthesis,debugging]
 
 By default, the synthesis algorithm shows no progress information, and does not explain how the resulting supervisor is obtained.
 By enabling debug output, detailed information is printed to the console.
-Debug output can be enabled by setting the menu:Output mode[] option (menu:General[] category) to menu:Debug[].
+Debug output can be enabled by setting the _Output mode_ option (_General_ category) to _Debug_.
 
 The debug output also contains information about the number of states in the resulting controlled system (the uncontrolled system restricted by the synthesized supervisor).
 If the resulting supervisor (and thus the controlled system) is empty, or if <<tools-datasynth-forward-reach,forward reachability>> is enabled, the number of states that is printed is an exact number (e.g. `exactly 0 states`, `exactly 1 state`, `exactly 1,234 states`).
@@ -794,9 +883,9 @@ For a single CIF variable or location pointer, the old and new synthesis variabl
 The old synthesis variable is also always before the new synthesis variable.
 
 The initial order of the boolean/BDD variables is determined by the _BDD variable order_ option (see <<tools-datasynth-options,options>> section above).
-Several default orders exist, and it is also possible to define a custom order.
+Several predefined orders exist, and it is also possible to define a custom order.
 By default, the sorted order is used.
-The following default orders exist:
+The following predefined orders exist:
 
 * _model ordering without interleaving_ (option value `model`)
 +
@@ -1032,6 +1121,12 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Explore only reachable state space
 | Enable to reduce state space, although calculation itself may also be expensive, depends on model
 
+| Order
+| Edge order
+| <<tools-datasynth-edge-order>>
+| Better order for less computations and smaller BDD representations
+| Choose the best order, depends on the model, custom order allows for best performance
+
 | Debug
 | Output mode
 | <<tools-datasynth-dbg-output>>
@@ -1072,6 +1167,7 @@ Also, try to avoid an event-based modeling style, and use a data-based modeling 
 
 indexterm:[data-based supervisory controller synthesis,input variables]
 
+[[tools-datasynth-input-vars]]
 === Input variables
 
 Data-based synthesis supports input variables.
@@ -1092,6 +1188,6 @@ The supervisor can then only guarantee safe, non-blocking behavior if the system
 [bibliography]
 === References
 
-- [[[minato]]] Shin-ichi Minato. Binary Decision Diagrams and Applications for VLSI CAD: The Springer International Series in Engineering and Computer Science, Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book), ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
+* [[[minato]]] Shin-ichi Minato. Binary Decision Diagrams and Applications for VLSI CAD: The Springer International Series in Engineering and Computer Science, Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book), ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
 
-- [[[force]]] Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah. FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic: GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3
+* [[[force]]] Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah. FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic: GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3

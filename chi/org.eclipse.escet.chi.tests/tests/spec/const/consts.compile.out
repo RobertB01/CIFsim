@@ -1,0 +1,2 @@
+Warning: File "spec/const/consts.chi": Semantic warning at line 13, column 11: Unused constant "x".
+Warning: File "spec/const/consts.chi": Semantic warning at line 13, column 23: Unused constant "y".

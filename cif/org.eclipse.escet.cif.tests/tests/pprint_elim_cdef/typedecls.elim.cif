@@ -1,6 +1,8 @@
 type t1 = t2;
 type t2 = t3;
 type t3 = int[1..2];
+type t4 = t3;
+type t5 = t4;
 const t1 x1 = 1;
 const t2 x2 = 2;
 invariant x1 + x2 > 0;

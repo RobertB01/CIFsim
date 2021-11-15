@@ -220,10 +220,9 @@ The value of `i` is written in `d` format (as `int` value), and the value of `r`
 The symbols `d` and `f` originate respectively from 'decimal', and 'floating point' numbers.
 The numbers `4` respectively `8.2` denote that the integer value is written four positions wide (that is, 3 spaces and a `5` character), and that the real value is written eight positions wide, with two characters after the decimal point (that is, 4 spaces and the text `3.14`).
 
-A list of format specifiers is given in <<tut-table-format-specifiers>>.
+A list of format specifiers is given in the following table:
 
 [[tut-table-format-specifiers]]
-.Format specifiers
 [cols=2*,options="header"]
 |===
 |Format specifier
@@ -260,10 +259,9 @@ A list of format specifiers is given in <<tut-table-format-specifiers>>.
 Finally, there are also a few special character sequences called _escape sequence_ which allow to write characters like horizontal tab (which means 'jump to next tab position in the output'), or newline (which means 'go to the next line in the output') in a string.
 An escape sequence consists of two characters.
 First a backslash character `\`, followed by a second character.
-The escape sequence are presented in <<tut-table-escape-sequences>>.
+The escape sequences are presented in the following table:
 
 [[tut-table-escape-sequences]]
-.Escape sequences in strings
 [cols=2*,options="header"]
 |===
 |Sequence

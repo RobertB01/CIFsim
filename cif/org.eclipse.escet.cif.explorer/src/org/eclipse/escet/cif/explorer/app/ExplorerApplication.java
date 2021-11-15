@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.explorer.app;
 
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
+import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.ArrayDeque;
@@ -252,10 +253,16 @@ public class ExplorerApplication extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Remove/ignore I/O declarations, to increase the supported subset.
+        RemoveIoDecls removeIoDecls = new RemoveIoDecls();
+        removeIoDecls.transform(spec);
+        if (removeIoDecls.haveAnySvgInputDeclarationsBeenRemoved()) {
+            warn("The specification contains CIF/SVG input declarations. These will be ignored.");
+        }
+
         // Perform preprocessing. For value simplification, constants are
         // not inlined, and the optimized variant is used for performance
         // reasons.
-        new RemoveIoDecls().transform(spec);
         new ElimComponentDefInst().transform(spec);
         new ElimSelf().transform(spec);
         new SimplifyValuesNoRefsOptimized().transform(spec);

@@ -33,7 +33,7 @@ indexterm:[CIF explorer,start]
 
 The explorer can be started in Eclipse in the following ways:
 
-* Right click a `.cif` file in the 'Project Explorer' tab or 'Package Explorer' tab and choose menu:CIF miscellaneous tools[Explore untimed state space...].
+* Right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Explore untimed state space...].
 
 * Right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Explore untimed state space...].
 
@@ -115,6 +115,9 @@ The following information from the specification is ignored:
 * Automaton and invariant supervisory kinds.
 
 * Controllability of events.
+
+* I/O declarations.
+A warning is printed if a CIF/SVG input declaration is encountered.
 
 indexterm:[CIF explorer,preprocessing]
 

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse ESCET (Incubation)
 Bundle-SymbolicName: org.eclipse.escet.product.branding;singleton:=true
-Bundle-Version: 0.3.0.qualifier
+Bundle-Version: 0.4.0.qualifier
 Bundle-Vendor: Eclipse ESCET
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-11

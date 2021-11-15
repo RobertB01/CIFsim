@@ -312,37 +312,39 @@ public class SvgViewer extends ControlEditor {
         }
 
         // Set up popup menu.
-        Menu popupMenu = new Menu(parent);
-        final MenuItem saveItem = new MenuItem(popupMenu, SWT.NONE);
-        saveItem.setEnabled(isSaveAsAllowed());
-        saveItem.setText("Save as...");
+        if (svgLoadError == null) {
+            Menu popupMenu = new Menu(parent);
+            final MenuItem saveItem = new MenuItem(popupMenu, SWT.NONE);
+            saveItem.setEnabled(isSaveAsAllowed());
+            saveItem.setText("Save as...");
 
-        scroll.setMenu(popupMenu);
-        canvas.setMenu(popupMenu);
+            scroll.setMenu(popupMenu);
+            canvas.setMenu(popupMenu);
 
-        popupMenu.addMenuListener(new MenuListener() {
-            @Override
-            public void menuShown(MenuEvent e) {
-                saveItem.setEnabled(isSaveAsAllowed());
-            }
+            popupMenu.addMenuListener(new MenuListener() {
+                @Override
+                public void menuShown(MenuEvent e) {
+                    saveItem.setEnabled(isSaveAsAllowed());
+                }
 
-            @Override
-            public void menuHidden(MenuEvent e) {
-                // Nothing to do here.
-            }
-        });
+                @Override
+                public void menuHidden(MenuEvent e) {
+                    // Nothing to do here.
+                }
+            });
 
-        saveItem.addSelectionListener(new SelectionListener() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                doSaveAs();
-            }
+            saveItem.addSelectionListener(new SelectionListener() {
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    doSaveAs();
+                }
 
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-                widgetSelected(e);
-            }
-        });
+                @Override
+                public void widgetDefaultSelected(SelectionEvent e) {
+                    widgetSelected(e);
+                }
+            });
+        }
 
         // Return the contents of the editor. This is the scrolled composite,
         // which contains the SVG canvas and/or text box.
@@ -373,36 +375,19 @@ public class SvgViewer extends ControlEditor {
         fd.setFilterPath(path);
         fd.setFilterExtensions(new String[] {"*.svg;*.png;*.jpg;*.gif"});
         fd.setFileName(fileName);
+        fd.setOverwrite(true);
 
-        // Get save path using dialog.
-        String savePath;
-        File saveFile;
-        while (true) {
-            // Show dialog.
-            savePath = fd.open();
+        // Get save path using dialog. Dialog handles overwrites.
+        String savePath = fd.open();
 
-            // Check cancellation.
-            if (savePath == null || savePath.trim().length() == 0) {
-                return;
-            }
-
-            // Check overwrite.
-            saveFile = new File(savePath);
-            Assert.check(saveFile.isAbsolute());
-            if (!saveFile.exists()) {
-                // Does not yet exist.
-                break;
-            } else {
-                // Ask to overwrite.
-                String question = fmt("The file \"%s\" already exists. Do you want to replace the existing file?",
-                        savePath);
-                int rslt = MsgBox.show(contents.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO, "Save SVG as",
-                        question);
-                if (rslt == SWT.YES) {
-                    break;
-                }
-            }
+        // Check cancellation.
+        if (savePath == null || savePath.trim().length() == 0) {
+            return;
         }
+
+        // Get file.
+        File saveFile = new File(savePath);
+        Assert.check(saveFile.isAbsolute());
 
         // Check valid file extension.
         if (!savePath.endsWith(".svg") && !savePath.endsWith(".png") && !savePath.endsWith(".jpg")

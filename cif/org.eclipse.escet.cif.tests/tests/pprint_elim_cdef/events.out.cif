@@ -5,6 +5,36 @@ uncontrollable u1;
 uncontrollable u2;
 controllable c3;
 uncontrollable u3;
+automaton def C1(controllable c1):
+  location:
+    initial;
+    edge c1;
+end
+automaton def C2(controllable c1; controllable c2):
+  location:
+    initial;
+    edge c1, c2;
+end
+automaton def C3(uncontrollable u1):
+  location:
+    initial;
+    edge u1;
+end
+automaton def C4(uncontrollable u1; uncontrollable u2):
+  location:
+    initial;
+    edge u1, u2;
+end
+automaton def C5(controllable int c1):
+  location:
+    initial;
+    edge c1?;
+end
+automaton def C6(controllable int c1; controllable int c2):
+  location:
+    initial;
+    edge c1?, c2?;
+end
 automaton aut:
   location:
     initial;
