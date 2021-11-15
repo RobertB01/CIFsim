@@ -36,7 +36,7 @@ const char *svg_input_decl_removed_event_names[] = {
     "initial-step", /**< Initial step. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
-    "p_c",          /**< Event p_c. */
+    "p.c",          /**< Event p.c. */
 };
 
 /** Enumeration names. */

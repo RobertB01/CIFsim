@@ -25,7 +25,7 @@ enum svg_input_decl_removedEventEnum_ {
     EVT_INITIAL_, /**< Initial step. */
     EVT_DELAY_,   /**< Delay step. */
     EVT_TAU_,     /**< Tau step. */
-    p_c_,         /**< Event p_c. */
+    p_c_,         /**< Event p.c. */
 };
 typedef enum svg_input_decl_removedEventEnum_ svg_input_decl_removed_Event_;
 
