@@ -75,8 +75,8 @@ public enum ErrMsg {
     // InternalFunction.uniqueDecls
     DUPLICATE_NAME("Duplicate name \"%s\" in %s.", 2, ERROR),
 
-    // Warn user about absolute/relative/root names for local declarations.
-    CONVOLUTING_NAME("Convoluted reference to local declaration. Use \"%s\" instead", 1, WARNING),
+    // AST related constraint.
+    CONVOLUTED_REF("Convoluted reference to local declaration. Use \"%s\" instead.", 1, WARNING),
 
     // TupleType.uniqueFieldNames
     DUPLICATE_FIELD_NAME("Duplicate tuple type field name \"%s\".", 1, ERROR),
