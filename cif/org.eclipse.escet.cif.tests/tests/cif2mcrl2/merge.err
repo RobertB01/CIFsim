@@ -1,2 +1,2 @@
-WARNING: File "cif2mcrl2/merge.cif": Semantic warning at line 33, column 26: Convoluted reference to local declaration. Use "x" instead
-WARNING: File "cif2mcrl2/merge.cif": Semantic warning at line 34, column 26: Convoluted reference to local declaration. Use "x" instead
+WARNING: File "cif2mcrl2/merge.cif": Semantic warning at line 33, column 26: Convoluted reference to local declaration. Use "x" instead.
+WARNING: File "cif2mcrl2/merge.cif": Semantic warning at line 34, column 26: Convoluted reference to local declaration. Use "x" instead.
