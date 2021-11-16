@@ -97,7 +97,7 @@ To upgrade to a new Java version:
 * For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
 ** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
 ** Regenerate the target platform file using Oomph.
-** Update the JustJ version in the product (`org.eclipse.escet.product/escet.product`).
+** Update JustJ version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Update `dev-env-setup.asciidoc` to match new Java version.
 ** Force a rebuild in Eclipse (menu:Project[Clean...]) and check for any warnings/errors, addressing them if any.
 ** Run a <<development-building-and-testing-chapter-index,Maven build>>.
