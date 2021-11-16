@@ -67,7 +67,7 @@ It is under _Eclipse Projects_ / _<User>_.
 ** Choose a _Root install folder_ and _Installation folder name_.
 The new development environment will be put at `<root_installation_folder>/<installation_folder_name>`.
 ** Fill in the _Eclipse ESCET Git clone URL_:
-*** Committers with write access to the Eclipse ESCET official GitLab repository can use the default URL `https://gitlab.eclipse.org/eclipse/escet/escet.git`.
+*** Committers with write access to the Eclipse ESCET official GitLab repository can use the default URL `+https://gitlab.eclipse.org/eclipse/escet/escet.git+`.
 *** Contributors can use the same URL, but as they don't have write access, they will not be able to push to the remote repository.
 They can instead make a fork of the official Git repository, as described in the <<development-contributing-chapter-index,contributing>> section.
 Then they can fill in the URL of their clone instead, i.e. `+https://gitlab.eclipse.org/<username>/<cloned_repo_name>.git+`, with `<username>` replaced by their Eclipse Foundation account username, and `<cloned_repo_name>` replaced by the name of the cloned repistory, which defaults to `escet`.
