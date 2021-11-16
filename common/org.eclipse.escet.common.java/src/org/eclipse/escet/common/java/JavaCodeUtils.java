@@ -33,20 +33,33 @@ public class JavaCodeUtils {
     }
 
     /**
-     * Java language keywords and other reserved identifiers.
+     * Java language keywords, reserved identifiers and identifiers with special meaning.
      *
-     * @see <a href="http://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html">Java Language Keywords</a>
+     * @see <a href="https://docs.oracle.com/javase/specs/jls/se11/html/jls-3.html#jls-3.9">Keywords, Java Language
+     *     Specification</a>
      */
     public static final Set<String> JAVA_IDS = set(
             // Keywords.
-            "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const", // Reserved.
-            "continue", "default", "do", "double", "else", "enum", "extends", "final", "finally", "for", "goto", // Reserved.
-            "if", "implements", "import", "instanceof", "int", "interface", "long", "new", "package", "private",
-            "protected", "public", "return", "short", "static", "strictfp", "switch", "synchronized", "this", "throw",
-            "throws", "transient", "try", "void", "volatile",
+            "abstract", "assert", // a
+            "boolean", "break", "byte", // b
+            "case", "catch", "char", "class", "const", "continue", // c, 'const' is reserved
+            "default", "do", "double", // d
+            "else", "enum", "extends", // e
+            "final", "finally", "float", "for", // f
+            "goto", // g, 'goto' is reserved
+            "if", "implements", "import", "instanceof", "int", "interface", // i
+            "long", // l
+            "native", "new", // n
+            "package", "private", "protected", "public", // p
+            "return", // r
+            "short", "static", "strictfp", "super", "switch", "synchronized", // s
+            "this", "throw", "throws", "transient", "try", // t
+            "void", "volatile", // v
+            "while", // w
+            "_", // _
 
-            // Others.
-            "false", "null", "true");
+            // Other (literals and identifiers with special meaning).
+            "false", "null", "true", "var");
 
     /**
      * Returns a Java compatible name for the given {@code name}, that does not conflict with Java's reserved
@@ -54,6 +67,7 @@ public class JavaCodeUtils {
      *
      * @param name The name to make Java compatible.
      * @return The Java compatible name.
+     * @see #JAVA_IDS
      */
     public static String makeJavaName(String name) {
         if (!JavaCodeUtils.JAVA_IDS.contains(name)) {
