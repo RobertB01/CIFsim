@@ -250,7 +250,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
     /**
      * Warn in case of a convoluted reference. Warns if relative or absolute references are used to reference a local
-     * declaration.
+     * declaration, component, definition, or function.
      *
      * @param position Position information for the textual reference.
      * @param tchecker The type checker to which to add 'convoluted reference' warnings, if any.
@@ -271,15 +271,36 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             return;
         }
 
-        // Only warnings for references to declarations.
-        if (!(entry instanceof DeclWrap<?>)) {
+        ParentScope<?> entryParentScope = null;
+        String referencedEntryTxt = "";
+        if (entry instanceof DeclWrap) {
+            // References to declarations.
+            entryParentScope = ((DeclWrap<?>)entry).getParent();
+            referencedEntryTxt = "local declaration";
+        } else if (entry instanceof CompInstScope) {
+            // References to instantiation.
+            entryParentScope = ((CompInstScope)entry).getParent();
+            referencedEntryTxt = "local component";
+        } else if (entry instanceof GroupDefScope) {
+            // Reference to group definition.
+            entryParentScope = ((GroupDefScope)entry).getParent();
+            referencedEntryTxt = "local definition";
+        } else if (entry instanceof AutDefScope) {
+            // Reference to automaton definition.
+            entryParentScope = ((AutDefScope)entry).getParent();
+            referencedEntryTxt = "local definition";
+        } else if (entry instanceof FunctionScope) {
+            // Reference to function.
+            entryParentScope = ((FunctionScope)entry).getParent();
+            referencedEntryTxt = "local function";
+        } else {
+            // Only warnings are given for references to declarations, instantiations, definitions, and functions.
             return;
         }
 
-        // Warn if the origin scope is equal to the scope of the entry.
-        ParentScope<?> entryParentScope = ((DeclWrap<?>)entry).getParent();
+        // Warn if the origin scope is equal to the parent scope of the entry.
         if (entryParentScope.equals(originScope)) {
-            tchecker.addProblem(ErrMsg.CONVOLUTED_REF, position, escapeIdentifier(entry.getName()));
+            tchecker.addProblem(ErrMsg.CONVOLUTED_REF, position, referencedEntryTxt, escapeIdentifier(entry.getName()));
         }
     }
 

@@ -55,7 +55,7 @@ public enum ErrMsg {
     NAMESPACE_IN_GRP("Invalid namespace declaration: namespace declarations in groups are not allowed.", 0, ERROR),
 
     // AST related constraint.
-    CONVOLUTED_REF("Convoluted reference to local declaration. Use \"%s\" instead.", 1, WARNING),
+    CONVOLUTED_REF("Convoluted reference to %s. Use \"%s\" instead.", 2, WARNING),
 
     // Component.name
     // ComponentParameter.name

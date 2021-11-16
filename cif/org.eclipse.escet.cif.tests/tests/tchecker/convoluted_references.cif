@@ -34,3 +34,36 @@ automaton p:
     edge  p.e3 when  p.x3 = 3 do x3 := 3;
     edge ^p.event when ^p.disc = 4;
 end
+
+group q:
+  automaton def D(alg bool x):
+    alg bool y = x;
+    location:
+      initial;
+  end
+  group def E(q.D d):
+    alg bool x = d.y;
+  end
+
+  alg bool x = true;
+
+  d1 : ^q.D(^q.x);
+  d2 : .q.D(.q.x);
+  d3 :  q.D( q.x);
+  $automaton : D(x);
+
+  e1 : ^q.E(^q.d1);
+  e2 : .q.E(.q.d2);
+  e3 :  q.E( q.d3);
+  $group : E(^q.automaton);
+end
+
+group r:
+  alg bool f1 = ^r.f();
+  alg bool f2 = .r.f();
+  alg bool f3 =  r.f();
+
+  func bool f():
+    return true;
+  end
+end
