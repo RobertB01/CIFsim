@@ -39,6 +39,7 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
+import org.eclipse.escet.cif.datasynth.options.ContinuousNodesStatisticsFileOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
@@ -52,7 +53,10 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
+import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
+import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
+import org.eclipse.escet.common.app.framework.io.FileAppStream;
 import org.eclipse.escet.common.app.framework.options.InputFileOption;
 import org.eclipse.escet.common.app.framework.options.Option;
 import org.eclipse.escet.common.app.framework.options.OptionCategory;
@@ -62,7 +66,6 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
-import org.eclipse.escet.common.box.GridBox;
 
 import com.github.javabdd.BDDFactory;
 import com.github.javabdd.BDDFactory.ContinuousStats;
@@ -290,15 +293,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Print statistics before we clean up the factory.
             if (doCacheStats) {
-                out();
                 out(factory.getCacheStats().toString());
             }
             if (doContinuousNodesStats) {
-                out();
-                printContinuousNodesStats(factory.getContinuousStats());
+                printContinuousNodesStats(factory.getContinuousStats(), dbgEnabled);
             }
             if (doMaxBddNodesStats) {
-                out();
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
             }
 
@@ -334,28 +334,46 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Print the continuous nodes statistics to the 'normal' output stream.
+     * Print the continuous nodes statistics.
      *
      * @param cs The continuous statistics to print.
+     * @param dbgEnabled Whether debug mode is enabled.
      */
-    private void printContinuousNodesStats(ContinuousStats cs) {
+    private void printContinuousNodesStats(ContinuousStats cs, boolean dbgEnabled) {
+        // Collect the statistics.
         List<Long> operations = cs.getOperationsStats();
         List<Integer> nodes = cs.getNodesStats();
         int numberOfDataPoints = nodes.size();
-        GridBox grid = new GridBox(numberOfDataPoints + 1, 2, 0, 1);
 
-        grid.set(0, 0, "Operations");
-        grid.set(0, 1, "Used BDD nodes");
-        for (int i = 0; i < numberOfDataPoints; i++) {
-            grid.set(i + 1, 0, operations.get(i).toString());
-            grid.set(i + 1, 1, nodes.get(i).toString());
+        // Get the file to print to.
+        String outPath = ContinuousNodesStatisticsFileOption.getDerivedPath(".cif", ".stats.txt");
+        outPath = Paths.resolve(outPath);
+        AppStream stream = new FileAppStream(outPath, outPath);
+        if (dbgEnabled) {
+            dbg(fmt("Writing output statistics file \"%s\".", outPath));
         }
 
-        // Print the actual content.
-        out("Continuous node statistics");
-        out("--------------------------");
-        for (String line : grid.getLines()) {
-            out(line);
+        // Start the actual printing.
+        InputOutputException ex = null;
+        try {
+            stream.println("Operations,Used BBD nodes");
+            for (int i = 0; i < numberOfDataPoints; i++) {
+                stream.println(fmt("%d,%d", operations.get(i), nodes.get(i)));
+            }
+        } catch (InputOutputException e) {
+            ex = e;
+        } finally {
+            try {
+                stream.close();
+            } catch (InputOutputException e) {
+                if (ex == null) {
+                    ex = e;
+                }
+            }
+        }
+
+        if (ex != null) {
+            throw ex;
         }
     }
 
@@ -391,6 +409,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
+        synthOpts.add(Options.getInstance(ContinuousNodesStatisticsFileOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));
         OptionCategory synthCat = new OptionCategory("Synthesis", "Synthesis options.", list(bddCat), synthOpts);
 
