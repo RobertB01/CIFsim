@@ -199,26 +199,29 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param position Position information for the textual reference.
      * @param name The textual reference to resolve.
      * @param tchecker The type checker to which to add 'resolve' failures, if any.
-     * @param origScope The scope where the original textual reference is a part of. Used for checking convoluted
-     *     references. May be {@code null} to skip checking.
+     * @param originScope The scope from where the reference originates. Used for checking convoluted references. May be
+     *     {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
-    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker, SymbolScope<?> origScope) {
+    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker,
+            SymbolScope<?> originScope)
+    {
         // Root absolute name.
         if (name.startsWith("^")) {
             // If we are already at the root, resolve it relatively.
             if (isRootScope()) {
                 // Resolve entry.
-                SymbolTableEntry entry = resolve(position, name.substring(1), "^", tchecker, null);
+                SymbolTableEntry entry = resolve(position, name.substring(1), "^", tchecker, null, originScope);
 
-                // Warn for convoluted reference. That is, a root name is used for a local declaration.
-                warnIfConvolutedReference(position, tchecker, entry, origScope);
+                // Warn for convoluted reference. That is, a specification absolute reference is used for a local
+                // declaration.
+                warnIfConvolutedReference(position, tchecker, entry, originScope);
                 return entry;
             }
 
             // Move up the hierarchy to the root. If we get a result, it is
             // 'in scope'.
-            return parent.resolve(position, name, tchecker, origScope);
+            return parent.resolve(position, name, tchecker, originScope);
         }
 
         // Scope absolute name.
@@ -227,10 +230,10 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             // relatively.
             if (!isSubScope()) {
                 // Resolve entry.
-                SymbolTableEntry entry = resolve(position, name.substring(1), ".", tchecker, null);
+                SymbolTableEntry entry = resolve(position, name.substring(1), ".", tchecker, null, originScope);
 
-                // Warn for convoluted reference. That is, an absolute name is used for a local declaration.
-                warnIfConvolutedReference(position, tchecker, entry, origScope);
+                // Warn for convoluted reference. That is, a scope absolute reference is used for a local declaration.
+                warnIfConvolutedReference(position, tchecker, entry, originScope);
                 return entry;
             }
 
@@ -238,45 +241,44 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             // should always be 'in scope', as we resolve it relative to the
             // root of the current scope.
             Assert.check(isSubScope());
-            return parent.resolve(position, name, tchecker, origScope);
+            return parent.resolve(position, name, tchecker, originScope);
         }
 
         // Relative name. Resolve from this scope.
-        return resolve(position, name, "", tchecker, this);
+        return resolve(position, name, "", tchecker, this, originScope);
     }
 
     /**
-     * Warn if the scope of the given entry is equal to the original scope. This can be used to warn in case a relative,
-     * absolute, or root names is used to reference a local declaration.
+     * Warn in case of a convoluted reference. Warns if relative or absolute references are used to reference a local
+     * declaration.
      *
      * @param position Position information for the textual reference.
      * @param tchecker The type checker to which to add 'convoluted reference' warnings, if any.
      * @param entry The resolved symbol table entry for the reference.
-     * @param origScope The scope where the original textual reference is a part of. May be {@code null} to not give a
-     *     warning.
+     * @param originScope The scope from where the reference originates. May be {@code null} to not give a warning.
      */
     private void warnIfConvolutedReference(Position position, CifTypeChecker tchecker, SymbolTableEntry entry,
-            SymbolScope<?> origScope)
+            SymbolScope<?> originScope)
     {
-        // Skip if original scope is not supplied.
-        if (origScope == null) {
+        // Skip if origin scope is not supplied.
+        if (originScope == null) {
             return;
         }
 
-        // Skip automaton definition and group definition scope as these can result in false positive. That is, the
+        // Skip automaton definition and group definition scopes as these can result in false positive. That is, the
         // definition itself can reference different instantiations of itself. However, these will share the same scope.
-        if (origScope instanceof AutDefScope || origScope instanceof GroupDefScope) {
+        if (originScope instanceof AutDefScope || originScope instanceof GroupDefScope) {
             return;
         }
 
         // Only warnings for references to declarations.
-        if (!(entry instanceof DeclWrap)) {
+        if (!(entry instanceof DeclWrap<?>)) {
             return;
         }
 
-        // Warn if the original scope is equal to the scope of the entry.
+        // Warn if the origin scope is equal to the scope of the entry.
         ParentScope<?> entryParentScope = ((DeclWrap<?>)entry).getParent();
-        if (entryParentScope.equals(origScope)) {
+        if (entryParentScope.equals(originScope)) {
             tchecker.addProblem(ErrMsg.CONVOLUTED_REF, position, escapeIdentifier(entry.getName()));
         }
     }
@@ -297,10 +299,12 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param origScope The original scope, i.e. the scope from which we start resolving the first identifier of the
      *     reference, after absolute reference prefix symbols have already been processed. Is {@code null} if and only
      *     if this is a 'via' resolve.
+     * @param originScope The scope from where the reference originates. Used for checking convoluted references. May be
+     *     {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
     private SymbolTableEntry resolve(Position position, String name, String done, CifTypeChecker tchecker,
-            SymbolScope<?> origScope)
+            SymbolScope<?> origScope, SymbolScope<?> originScope)
     {
         // Paranoia checking.
         boolean isViaResolve = !done.isEmpty();
@@ -340,12 +344,12 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             // Further resolve via the resolved scope.
             SymbolScope<?> scope = (SymbolScope<?>)entry;
-            entry = scope.resolve(position, name, done, tchecker, null);
+            entry = scope.resolve(position, name, done, tchecker, null, originScope);
         }
 
-        // Warn for convoluted reference. That is, a relative name is used for a local declaration.
+        // Warn for convoluted reference. That is, a relative reference is used for a local declaration.
         if (done.contains(".")) {
-            warnIfConvolutedReference(position, tchecker, entry, origScope);
+            warnIfConvolutedReference(position, tchecker, entry, originScope);
         }
 
         // Return the fully resolved symbol table entry.

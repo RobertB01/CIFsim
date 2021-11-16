@@ -54,6 +54,9 @@ public enum ErrMsg {
     // AST related constraint.
     NAMESPACE_IN_GRP("Invalid namespace declaration: namespace declarations in groups are not allowed.", 0, ERROR),
 
+    // AST related constraint.
+    CONVOLUTED_REF("Convoluted reference to local declaration. Use \"%s\" instead.", 1, WARNING),
+
     // Component.name
     // ComponentParameter.name
     // Declaration.name
@@ -74,9 +77,6 @@ public enum ErrMsg {
     // ExternalFunction.uniqueParams
     // InternalFunction.uniqueDecls
     DUPLICATE_NAME("Duplicate name \"%s\" in %s.", 2, ERROR),
-
-    // AST related constraint.
-    CONVOLUTED_REF("Convoluted reference to local declaration. Use \"%s\" instead.", 1, WARNING),
 
     // TupleType.uniqueFieldNames
     DUPLICATE_FIELD_NAME("Duplicate tuple type field name \"%s\".", 1, ERROR),

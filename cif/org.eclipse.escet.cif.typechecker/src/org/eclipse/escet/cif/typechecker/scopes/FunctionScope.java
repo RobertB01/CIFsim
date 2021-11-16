@@ -767,13 +767,13 @@ public class FunctionScope extends ParentScope<Function> {
     }
 
     @Override
-    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker, SymbolScope<?> origScope) {
+    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker, SymbolScope<?> originScope) {
         // Paranoia check: we should only resolve things inside of a function,
         // for internal functions, and not for external functions.
         Assert.check(obj instanceof InternalFunction);
 
         // First, resolve as usual.
-        SymbolTableEntry entry = super.resolve(position, name, tchecker, origScope);
+        SymbolTableEntry entry = super.resolve(position, name, tchecker, originScope);
 
         // Make sure that we only reference things that may be referenced from
         // a function.

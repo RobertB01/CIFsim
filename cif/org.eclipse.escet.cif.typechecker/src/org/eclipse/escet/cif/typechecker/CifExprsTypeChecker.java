@@ -2092,16 +2092,16 @@ public class CifExprsTypeChecker {
                 if (listUpper >= 0 && indexLower <= indexUpper) {
                     // Check that the lowest possible index is not above the longest list size.
                     if (indexLower >= listUpper) {
-                        tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
-                                CifTextUtils.typeToStr(nitype));
+                        tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position,
+                                CifTextUtils.typeToStr(nctype), CifTextUtils.typeToStr(nitype));
                         throw new SemanticException();
                     }
                     // Check that the negative index nearest to 0 is not above the longest list size.
                     if (indexUpper < 0) {
                         long normalizedIndex = indexUpper + listUpper;
                         if (normalizedIndex < 0) {
-                            tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
-                                    CifTextUtils.typeToStr(nitype));
+                            tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position,
+                                    CifTextUtils.typeToStr(nctype), CifTextUtils.typeToStr(nitype));
                             throw new SemanticException();
                         }
                     }
@@ -4582,7 +4582,8 @@ public class CifExprsTypeChecker {
                 Assert.check(astSwitchValue instanceof ANameExpression);
                 String autRef = ((ANameExpression)astSwitchValue).name.name;
 
-                // Resolve reference to a scope.
+                // Resolve reference to a scope. No convoluted references check, since relative and absolute references
+                // are not allowed by the type checker.
                 SymbolTableEntry entry = scope.resolve(null, autRef, tchecker, null);
                 keyScope = (SymbolScope<?>)entry;
 
