@@ -288,8 +288,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 return;
             }
 
-            // Print BDD nodes statistics.
-            dbg();
+            // Print statistics before we clean up the factory.
             if (doCacheStats) {
                 out();
                 out(factory.getCacheStats().toString());
