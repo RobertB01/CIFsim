@@ -11,26 +11,19 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant def Buffer():
-  controllable c_add, c_remove;
-  uncontrollable u_switch_loc;
+controllable e;
+controllable f;
 
-  disc int[0..3] count = 0;
+plant a:
+  disc int[0..25] x = 1;
 
-  location add:
+  requirement invariant f needs x >= 10;            // f enabled for 10 <= x <= 15
+  requirement invariant f needs x <= 15;
+
+  location:
     initial;
     marked;
-    edge u_switch_loc when count <= 2 goto remove;
-    edge c_add do count := count + 1;
 
-  location remove:
-    marked;
-    edge u_switch_loc when count >= 1 goto add;
-    edge c_remove do count := count - 1;
+    edge e when x < 20 do x := x + 1;
+    edge f;
 end
-
-buffer1: Buffer();
-buffer3: Buffer();
-buffer2: Buffer();
-
-requirement invariant buffer1.count + buffer2.count + buffer3.count < 9;
