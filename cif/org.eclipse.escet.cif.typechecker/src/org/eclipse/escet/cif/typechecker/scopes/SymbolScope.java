@@ -18,6 +18,7 @@ import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariabl
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapType;
+import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompParamExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompParamWrapExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompParamWrapType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newComponentDefType;
@@ -43,6 +44,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
+import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
@@ -55,6 +57,7 @@ import org.eclipse.escet.cif.metamodel.cif.declarations.InputVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.TypeDecl;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -684,7 +687,17 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             return rslt;
         } else if (entry instanceof CompParamScope) {
-            throw new RuntimeException("Can't ref comp param in expr.");
+            ComponentParameter c = ((CompParamScope)entry).getObject();
+
+            ComponentDefType t = EMFHelper.deepclone((ComponentDefType)c.getType());
+            t.setPosition(copyPosition(position));
+
+            CompParamExpression rslt = newCompParamExpression();
+            rslt.setPosition(copyPosition(position));
+            rslt.setParameter(c);
+            rslt.setType(t);
+
+            return rslt;
         } else if (entry instanceof FunctionScope) {
             Function f = ((FunctionScope)entry).getObject();
 

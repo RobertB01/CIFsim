@@ -357,6 +357,18 @@ public class CifTypeUtils {
             return cdef1 == cdef2;
         }
 
+        // ComponentDefType and ComponentDefType.
+        if (type1 instanceof ComponentDefType && type2 instanceof ComponentDefType) {
+            // Get component definition from first type.
+            ComponentDef cdef1 = ((ComponentDefType)type1).getDefinition();
+
+            // Get component definition from second type.
+            ComponentDef cdef2 = ((ComponentDefType)type2).getDefinition();
+
+            // Do they refer to the same component definition?
+            return cdef1 == cdef2;
+        }
+
         // VoidType.
         if (type1 instanceof VoidType && type2 instanceof VoidType) {
             return true;

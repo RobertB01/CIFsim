@@ -23,9 +23,6 @@ import org.eclipse.escet.common.typechecker.SemanticProblemSeverity;
 /** CIF type checker error/problem message. */
 @SuppressWarnings("javadoc")
 public enum ErrMsg {
-    // Unsupported, for now (can't represent this in metamodel).
-    UNSUPPORTED_COMP_PARAM_USE("Use of a component parameter as %s is currently not supported.", 1, ERROR),
-
     // AST related constraint.
     IMPORT_NOT_FOUND("Imported CIF specification \"%s\" could not be found, is a directory, or for some other "
             + "reason could not be opened for reading.", 1, ERROR),

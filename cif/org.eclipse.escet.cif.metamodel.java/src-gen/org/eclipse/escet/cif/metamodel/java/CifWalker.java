@@ -73,6 +73,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -1155,6 +1156,60 @@ public abstract class CifWalker {
      * @param obj The object to post-process.
      */
     protected void postprocessCompInstWrapType(CompInstWrapType obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Walking function for the {@link CompParamExpression} class.
+     *
+     * @param obj The object to walk over.
+     */
+    protected void walkCompParamExpression(CompParamExpression obj) {
+        precrawlCompParamExpression(obj);
+        Position _position = obj.getPosition();
+        if (_position != null) {
+            walkPosition(_position);
+        }
+        CifType _type = obj.getType();
+        walkCifType(_type);
+        postcrawlCompParamExpression(obj);
+    }
+
+    /**
+     * Pre-crawling function for the {@link CompParamExpression} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void precrawlCompParamExpression(CompParamExpression obj) {
+        precrawlExpression(obj);
+        preprocessCompParamExpression(obj);
+    }
+
+    /**
+     * Post-crawling function for the {@link CompParamExpression} class.
+     *
+     * @param obj The object to crawl over.
+     */
+    protected void postcrawlCompParamExpression(CompParamExpression obj) {
+        postprocessCompParamExpression(obj);
+        postcrawlExpression(obj);
+    }
+
+    /**
+     * Pre-processing function for the {@link CompParamExpression} class.
+     *
+     * @param obj The object to pre-process.
+     */
+    protected void preprocessCompParamExpression(CompParamExpression obj) {
+        // Derived classes may override this method to do actual processing.
+    }
+
+    /**
+     * Post-processing function for the {@link CompParamExpression} class.
+     *
+     * @param obj The object to post-process.
+     */
+    protected void postprocessCompParamExpression(CompParamExpression obj) {
         // Derived classes may override this method to do actual processing.
     }
 
@@ -3281,6 +3336,10 @@ public abstract class CifWalker {
         }
         if (obj instanceof CompInstWrapExpression) {
             walkCompInstWrapExpression((CompInstWrapExpression)obj);
+            return;
+        }
+        if (obj instanceof CompParamExpression) {
+            walkCompParamExpression((CompParamExpression)obj);
             return;
         }
         if (obj instanceof CompParamWrapExpression) {

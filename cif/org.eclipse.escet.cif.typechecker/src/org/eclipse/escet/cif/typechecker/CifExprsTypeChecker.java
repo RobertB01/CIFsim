@@ -4897,11 +4897,6 @@ public class CifExprsTypeChecker {
             throw new SemanticException();
         }
 
-        if (entry instanceof CompParamScope) {
-            tchecker.addProblem(ErrMsg.UNSUPPORTED_COMP_PARAM_USE, expr.position, "a value");
-            throw new SemanticException();
-        }
-
         if ((entry instanceof EventDeclWrap || entry instanceof FormalEventDeclWrap)
                 && (context == null || !context.conditions.contains(ALLOW_EVENT)))
         {
