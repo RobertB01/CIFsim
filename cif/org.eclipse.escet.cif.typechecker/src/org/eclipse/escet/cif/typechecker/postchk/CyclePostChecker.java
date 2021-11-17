@@ -49,6 +49,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -725,6 +726,9 @@ public class CyclePostChecker {
             // components as values. If allowed, it should be handled by the
             // parent expression as special case.
             throw new RuntimeException("Component ref in value context.");
+        } else if (expr instanceof CompParamExpression) {
+            // Component definition has been eliminated.
+            throw new RuntimeException("Component param expr unexpected.");
         } else if (expr instanceof CompInstWrapExpression) {
             // Component definition has been eliminated.
             throw new RuntimeException("Wrap expr unexpected.");

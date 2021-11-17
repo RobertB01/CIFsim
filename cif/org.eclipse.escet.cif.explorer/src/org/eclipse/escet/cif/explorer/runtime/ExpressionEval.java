@@ -276,6 +276,7 @@ public class ExpressionEval {
         // InputVariableExpression never happens.
         // CompInstWrapExpression never happens.
         // CompParamWrapExpression never happens.
+        // CompParamExpression never happens.
         // SelfExpression never happens.
 
         String msg = fmt("Unexpected expression to evaluate: %s", expr);

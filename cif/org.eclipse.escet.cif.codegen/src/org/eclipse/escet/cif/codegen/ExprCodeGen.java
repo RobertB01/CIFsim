@@ -177,6 +177,7 @@ public abstract class ExprCodeGen {
             // - CompParamWrapExpression is already eliminated (preprocessing).
             // - CompInstWrapExpression is already eliminated (preprocessing).
             // - ComponentExpression is already eliminated (linearization).
+            // - CompParamExpression is already eliminated (linearization).
             // - ReceivedExpression is already eliminated (linearization).
             // - SelfExpression is already eliminated (linearization).
             // - StdLibFunctionExpression is handled by FunctionCallExpression.
