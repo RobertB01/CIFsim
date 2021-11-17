@@ -1,0 +1,11 @@
+plant automaton q1:
+  type t = bool;
+  location l:
+    initial;
+end
+group x1:
+  group x2:
+    alg q1.t v = true;
+    invariant q1.l;
+  end
+end
