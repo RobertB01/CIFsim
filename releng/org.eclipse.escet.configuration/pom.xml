@@ -131,7 +131,7 @@ SPDX-License-Identifier: MIT
 
                     <!-- Let JustJ handle the execution environment. -->
                     <!-- See https://www.eclipse.org/justj/?page=documentation for more information. -->
-                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11</executionEnvironment>
+                    <executionEnvironment>org.eclipse.justj.openjdk.hotspot.jre.full-11.0.12</executionEnvironment>
 
                     <!-- Special dependency for Eclipse JDT compiler tool fragment. -->
                     <dependency-resolution>
