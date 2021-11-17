@@ -357,8 +357,15 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         InputOutputException ex = null;
         try {
             stream.println("Operations,Used BBD nodes");
+            long lastOperations = -1;
+            int lastNodes = -1;
             for (int i = 0; i < numberOfDataPoints; i++) {
-                stream.println(fmt("%d,%d", operations.get(i), nodes.get(i)));
+                // Only print new data points.
+                if (operations.get(i) != lastOperations && nodes.get(i) != lastNodes) {
+                    lastOperations = operations.get(i);
+                    lastNodes = nodes.get(i);
+                    stream.println(fmt("%d,%d", lastOperations, lastNodes));
+                }
             }
         } catch (InputOutputException e) {
             ex = e;
