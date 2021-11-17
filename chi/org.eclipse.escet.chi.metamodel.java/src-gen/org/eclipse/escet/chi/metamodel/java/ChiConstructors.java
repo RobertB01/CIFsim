@@ -1555,10 +1555,10 @@ public class ChiConstructors {
      *
      * @param call The "call" of the new "ProcessInstance". Multiplicity [1..1]. May be {@code null} to set the "call" later.
      * @param position The "position" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
-     * @param var The "var" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "var", or to set it later.
+     * @param _var The "var" of the new "ProcessInstance". Multiplicity [0..1]. May be {@code null} to skip setting the "var", or to set it later.
      * @return A new instance of the {@link ProcessInstance} class.
      */
-    public static ProcessInstance newProcessInstance(Expression call, Position position, Expression var) {
+    public static ProcessInstance newProcessInstance(Expression call, Position position, Expression _var) {
         ProcessInstance rslt_ = newProcessInstance();
         if (call != null) {
             rslt_.setCall(call);
@@ -1566,8 +1566,8 @@ public class ChiConstructors {
         if (position != null) {
             rslt_.setPosition(position);
         }
-        if (var != null) {
-            rslt_.setVar(var);
+        if (_var != null) {
+            rslt_.setVar(_var);
         }
         return rslt_;
     }

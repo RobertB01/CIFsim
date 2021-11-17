@@ -93,6 +93,8 @@ To upgrade to a new Java version:
 ** Update Java version for `executionEnvironment` in `org.eclipse.escet.configuration/pom.xml`.
 ** Update Java version in `Jenkinsfile`.
 ** Update Java version in `misc/license-check-dependencies/Jenkinsfile`.
+** Update Java keywords for `org.eclipse.escet.common.java.JavaCodeUtils.JAVA_IDS`.
+Update the keywords themselves and the field's JavaDoc, including the link to the Java Language Specification (JLS).
 
 * For any Java versions (e.g. 11 to 12, or 11.0.1 to 11.0.2):
 ** Update the JustJ version (`eclipse.justj.version.*` variables) in the Oomph setup (`org.eclipse.escet.setup`).
