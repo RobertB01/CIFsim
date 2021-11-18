@@ -621,7 +621,8 @@ public class AutScope extends ParentScope<Automaton> {
         // Resolve target location and set it.
         Location targetLoc = null;
         if (astEdge.target != null) {
-            // Resolve the location. No convoluted references check, since that is not allowed by the type checker.
+            // Resolve the location. No convoluted references check as syntax only allows a single identifier for
+            // target locations of edges.
             SymbolTableEntry entry = autScope.resolve(astEdge.target.position, astEdge.target.id, tchecker, null);
             if (entry instanceof LocationDeclWrap) {
                 targetLoc = ((LocationDeclWrap)entry).getObject();

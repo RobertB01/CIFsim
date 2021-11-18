@@ -44,10 +44,12 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
+import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
@@ -249,8 +251,17 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
     }
 
     /**
-     * Warn in case of a convoluted reference. Warns if relative or absolute references are used to reference a local
-     * declaration, component, definition, or function.
+     * Warn in case of a convoluted reference.
+     *
+     * <p>
+     * Currently warns if anything but a single identifier is used as a textual reference, to reference a local
+     * {@link Declaration declaration}, {@link ComponentInst component instantiation}, automaton or group
+     * {@link ComponentDef definition}, or {@link Function function}.
+     * </p>
+     *
+     * <p>
+     * This method must not be invoked for symbol table entries referred to by a single identifier.
+     * </p>
      *
      * @param position Position information for the textual reference.
      * @param tchecker The type checker to which to add 'convoluted reference' warnings, if any.
@@ -265,36 +276,37 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             return;
         }
 
-        // Skip automaton definition and group definition scopes as these can result in false positive. That is, the
+        // Skip automaton definition and group definition scopes as these can result in false positives. That is, the
         // definition itself can reference different instantiations of itself. However, these will share the same scope.
         if (originScope instanceof AutDefScope || originScope instanceof GroupDefScope) {
             return;
         }
 
-        ParentScope<?> entryParentScope = null;
-        String referencedEntryTxt = "";
+        // Only report convoluted references for certain types of referenced symbol table entries.
+        ParentScope<?> entryParentScope;
+        String referencedEntryTxt;
         if (entry instanceof DeclWrap) {
-            // References to declarations.
+            // Reference to declaration.
             entryParentScope = ((DeclWrap<?>)entry).getParent();
             referencedEntryTxt = "local declaration";
         } else if (entry instanceof CompInstScope) {
-            // References to instantiation.
+            // Reference to component instantiation.
             entryParentScope = ((CompInstScope)entry).getParent();
-            referencedEntryTxt = "local component";
+            referencedEntryTxt = "local component instantiation";
         } else if (entry instanceof GroupDefScope) {
             // Reference to group definition.
             entryParentScope = ((GroupDefScope)entry).getParent();
-            referencedEntryTxt = "local definition";
+            referencedEntryTxt = "local group definition";
         } else if (entry instanceof AutDefScope) {
             // Reference to automaton definition.
             entryParentScope = ((AutDefScope)entry).getParent();
-            referencedEntryTxt = "local definition";
+            referencedEntryTxt = "local automaton definition";
         } else if (entry instanceof FunctionScope) {
             // Reference to function.
             entryParentScope = ((FunctionScope)entry).getParent();
             referencedEntryTxt = "local function";
         } else {
-            // Only warnings are given for references to declarations, instantiations, definitions, and functions.
+            // We don't report convoluted references for anything else yet.
             return;
         }
 

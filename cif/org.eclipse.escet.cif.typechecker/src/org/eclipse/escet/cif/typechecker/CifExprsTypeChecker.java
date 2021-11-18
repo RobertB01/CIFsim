@@ -4582,8 +4582,8 @@ public class CifExprsTypeChecker {
                 Assert.check(astSwitchValue instanceof ANameExpression);
                 String autRef = ((ANameExpression)astSwitchValue).name.name;
 
-                // Resolve reference to a scope. No convoluted references check, since relative and absolute references
-                // are not allowed by the type checker.
+                // Resolve reference to a scope. No convoluted references check as we already know we have a single
+                // identifier.
                 SymbolTableEntry entry = scope.resolve(null, autRef, tchecker, null);
                 keyScope = (SymbolScope<?>)entry;
 

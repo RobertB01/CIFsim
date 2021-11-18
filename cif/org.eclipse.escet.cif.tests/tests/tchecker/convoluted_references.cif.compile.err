@@ -17,19 +17,19 @@ WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 34,
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 34, column 22: Convoluted reference to local declaration. Use "x3" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 35, column 10: Convoluted reference to local declaration. Use "$event" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 35, column 24: Convoluted reference to local declaration. Use "$disc" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 50, column 8: Convoluted reference to local definition. Use "D" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 50, column 8: Convoluted reference to local automaton definition. Use "D" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 50, column 13: Convoluted reference to local declaration. Use "x" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 51, column 8: Convoluted reference to local definition. Use "D" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 51, column 8: Convoluted reference to local automaton definition. Use "D" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 51, column 13: Convoluted reference to local declaration. Use "x" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 52, column 9: Convoluted reference to local definition. Use "D" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 52, column 9: Convoluted reference to local automaton definition. Use "D" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 52, column 14: Convoluted reference to local declaration. Use "x" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 55, column 8: Convoluted reference to local definition. Use "E" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 55, column 13: Convoluted reference to local component. Use "d1" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 56, column 8: Convoluted reference to local definition. Use "E" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 56, column 13: Convoluted reference to local component. Use "d2" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 57, column 9: Convoluted reference to local definition. Use "E" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 57, column 14: Convoluted reference to local component. Use "d3" instead.
-WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 58, column 14: Convoluted reference to local component. Use "$automaton" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 55, column 8: Convoluted reference to local group definition. Use "E" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 55, column 13: Convoluted reference to local component instantiation. Use "d1" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 56, column 8: Convoluted reference to local group definition. Use "E" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 56, column 13: Convoluted reference to local component instantiation. Use "d2" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 57, column 9: Convoluted reference to local group definition. Use "E" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 57, column 14: Convoluted reference to local component instantiation. Use "d3" instead.
+WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 58, column 14: Convoluted reference to local component instantiation. Use "$automaton" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 62, column 17: Convoluted reference to local function. Use "f" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 63, column 17: Convoluted reference to local function. Use "f" instead.
 WARNING: File "tchecker/convoluted_references.cif": Semantic warning at line 64, column 18: Convoluted reference to local function. Use "f" instead.
