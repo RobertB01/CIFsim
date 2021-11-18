@@ -24,6 +24,9 @@ group def X1(Q p):
   end
 
   x2: X2(p);
+
+  alg string s1 = <string>p;
+  alg bool b1 = switch(p): case l: true end;
 end
 
 q1: Q();

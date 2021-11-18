@@ -426,6 +426,25 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     }
 
     @Override
+    protected void postprocessCompParamExpression(CompParamExpression compRef) {
+        // Non-wrapped component reference expression. First, get actual argument, if any.
+        ComponentParameter compParam = compRef.getParameter();
+        Expression newRef = compParamMap.get(compParam);
+        if (newRef == null) {
+            return;
+        }
+
+        // Copy actual parameter.
+        newRef = deepclone(newRef);
+
+        // Replace reference by actual argument.
+        EMFHelper.updateParentContainment(compRef, newRef);
+
+        // Make sure we process the actual argument, in case it contains references that we must process.
+        walkExpression(newRef);
+    }
+
+    @Override
     protected void postprocessSelfExpression(SelfExpression expr) {
         // If the type is a component definition type, and the component definition was instantiated, we need to update
         // the type to a component type.

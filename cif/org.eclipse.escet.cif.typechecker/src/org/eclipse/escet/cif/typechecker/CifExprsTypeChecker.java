@@ -108,6 +108,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -4682,6 +4683,27 @@ public class CifExprsTypeChecker {
             return locRef;
         }
 
+        // Automaton parameter reference expression. Create a component parameter wrapping expression.
+        if (autRef instanceof CompParamExpression) {
+            CompParamExpression expr = (CompParamExpression)autRef;
+            CompParamWrapExpression wrap = newCompParamWrapExpression();
+
+            // Put parameter in the new wrapper.
+            wrap.setParameter(expr.getParameter());
+
+            // Location references always have a boolean type.
+            wrap.setType(newBoolType());
+
+            // Replace current location reference by new wrapper.
+            EMFHelper.updateParentContainment(locRef, wrap);
+
+            // Put current location reference in new wrapper.
+            wrap.setReference(locRef);
+
+            // Return new wrapped location reference.
+            return wrap;
+        }
+
         // Wrapping expressions. Move inwards first, then add the wrapper.
         if (autRef instanceof CompParamWrapExpression) {
             // Recursively handle child of wrapped automaton reference.
@@ -4860,6 +4882,14 @@ public class CifExprsTypeChecker {
                 ComponentDef cdef = ((AutDefScope)scope).getObject();
                 return (Automaton)cdef.getBody();
             }
+        }
+
+        // Handle component parameter reference.
+        if (autRef instanceof CompParamExpression) {
+            CifType t = ((CompParamExpression)autRef).getType();
+            Assert.check(t instanceof ComponentDefType);
+            ComponentDef cdef = ((ComponentDefType)t).getDefinition();
+            return (Automaton)cdef.getBody();
         }
 
         // Handle direct automaton reference.

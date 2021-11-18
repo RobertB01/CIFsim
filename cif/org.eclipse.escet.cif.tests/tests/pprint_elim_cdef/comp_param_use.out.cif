@@ -4,6 +4,8 @@ plant automaton def Q():
     initial;
 end
 group def X1(Q p):
+  alg string s1 = <string>p;
+  alg bool b1 = switch p: case l: true end;
   group def X2(Q p):
     alg p.t v = true;
     invariant p.l;

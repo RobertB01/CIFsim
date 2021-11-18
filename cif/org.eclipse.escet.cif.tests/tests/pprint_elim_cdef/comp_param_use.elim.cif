@@ -4,6 +4,8 @@ plant automaton q1:
     initial;
 end
 group x1:
+  alg string s1 = <string>q1;
+  alg bool b1 = switch q1: case l: true end;
   group x2:
     alg q1.t v = true;
     invariant q1.l;
