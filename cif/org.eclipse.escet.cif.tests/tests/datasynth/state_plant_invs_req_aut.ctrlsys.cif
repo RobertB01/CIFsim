@@ -1,0 +1,29 @@
+input bool x;
+supervisor automaton A:
+  controllable c;
+  uncontrollable u1;
+  location l1:
+    initial;
+    marked;
+    edge c goto l2;
+    edge u1;
+  location l2:
+    marked;
+    edge u1 when x goto l3;
+  location l3:
+    marked;
+    edge u1;
+end
+plant automaton X:
+  location:
+    initial;
+    marked;
+end
+supervisor automaton sup:
+  alphabet A.c;
+  location:
+    initial;
+    marked;
+    edge A.c when false;
+end
+plant invariant not A.l3;

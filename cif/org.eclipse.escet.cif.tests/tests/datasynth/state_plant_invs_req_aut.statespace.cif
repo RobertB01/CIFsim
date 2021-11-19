@@ -1,0 +1,14 @@
+group A:
+  controllable c;
+  uncontrollable u1;
+end
+automaton statespace:
+  alphabet A.c, A.u1;
+  location loc1:
+    initial;
+    marked;
+    edge A.c goto loc2;
+    edge A.u1;
+  location loc2:
+    marked;
+end
