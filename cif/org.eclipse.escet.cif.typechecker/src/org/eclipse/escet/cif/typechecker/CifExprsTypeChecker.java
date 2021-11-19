@@ -2093,16 +2093,16 @@ public class CifExprsTypeChecker {
                 if (listUpper >= 0 && indexLower <= indexUpper) {
                     // Check that the lowest possible index is not above the longest list size.
                     if (indexLower >= listUpper) {
-                        tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
-                                CifTextUtils.typeToStr(nitype));
+                        tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position,
+                                CifTextUtils.typeToStr(nctype), CifTextUtils.typeToStr(nitype));
                         throw new SemanticException();
                     }
                     // Check that the negative index nearest to 0 is not above the longest list size.
                     if (indexUpper < 0) {
                         long normalizedIndex = indexUpper + listUpper;
                         if (normalizedIndex < 0) {
-                            tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position, CifTextUtils.typeToStr(nctype),
-                                    CifTextUtils.typeToStr(nitype));
+                            tchecker.addProblem(ErrMsg.PROJ_LIST_OUT_OF_BOUNDS, expr.position,
+                                    CifTextUtils.typeToStr(nctype), CifTextUtils.typeToStr(nitype));
                             throw new SemanticException();
                         }
                     }
@@ -4583,8 +4583,9 @@ public class CifExprsTypeChecker {
                 Assert.check(astSwitchValue instanceof ANameExpression);
                 String autRef = ((ANameExpression)astSwitchValue).name.name;
 
-                // Resolve reference to a scope.
-                SymbolTableEntry entry = scope.resolve(null, autRef, tchecker);
+                // Resolve reference to a scope. No convoluted references check as we already know we have a single
+                // identifier.
+                SymbolTableEntry entry = scope.resolve(null, autRef, tchecker, null);
                 keyScope = (SymbolScope<?>)entry;
 
                 // Handle scopes that can only be used as 'via' scopes.
@@ -4912,7 +4913,7 @@ public class CifExprsTypeChecker {
             ExprContext context, CifTypeChecker tchecker)
     {
         // Resolve the referenced object.
-        SymbolTableEntry entry = scope.resolve(expr.position, expr.name.name, tchecker);
+        SymbolTableEntry entry = scope.resolve(expr.position, expr.name.name, tchecker, scope);
 
         // Check for invalid references.
         if (entry instanceof EnumDeclWrap || entry instanceof TypeDeclWrap) {

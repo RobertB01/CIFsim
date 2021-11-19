@@ -14,6 +14,7 @@
 package org.eclipse.escet.cif.typechecker.scopes;
 
 import static org.eclipse.escet.cif.common.CifScopeUtils.isParamRefExpr;
+import static org.eclipse.escet.cif.common.CifTextUtils.escapeIdentifier;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newAlgVariableExpression;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newBoolType;
 import static org.eclipse.escet.cif.metamodel.java.CifConstructors.newCompInstWrapExpression;
@@ -44,11 +45,13 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
+import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
 import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
@@ -201,19 +204,29 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param position Position information for the textual reference.
      * @param name The textual reference to resolve.
      * @param tchecker The type checker to which to add 'resolve' failures, if any.
+     * @param originScope The scope from where the reference originates. Used for checking convoluted references. May be
+     *     {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
-    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker) {
+    public SymbolTableEntry resolve(Position position, String name, CifTypeChecker tchecker,
+            SymbolScope<?> originScope)
+    {
         // Root absolute name.
         if (name.startsWith("^")) {
             // If we are already at the root, resolve it relatively.
             if (isRootScope()) {
-                return resolve(position, name.substring(1), "^", tchecker, null);
+                // Resolve entry.
+                SymbolTableEntry entry = resolve(position, name.substring(1), "^", tchecker, null, originScope);
+
+                // Warn for convoluted reference. That is, a specification absolute reference is used for a local
+                // declaration.
+                warnIfConvolutedReference(position, tchecker, entry, originScope);
+                return entry;
             }
 
             // Move up the hierarchy to the root. If we get a result, it is
             // 'in scope'.
-            return parent.resolve(position, name, tchecker);
+            return parent.resolve(position, name, tchecker, originScope);
         }
 
         // Scope absolute name.
@@ -221,18 +234,89 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
             // If we are at the root of the current scope, resolve it
             // relatively.
             if (!isSubScope()) {
-                return resolve(position, name.substring(1), ".", tchecker, null);
+                // Resolve entry.
+                SymbolTableEntry entry = resolve(position, name.substring(1), ".", tchecker, null, originScope);
+
+                // Warn for convoluted reference. That is, a scope absolute reference is used for a local declaration.
+                warnIfConvolutedReference(position, tchecker, entry, originScope);
+                return entry;
             }
 
             // Move up the hierarchy to the root of the scope. The result
             // should always be 'in scope', as we resolve it relative to the
             // root of the current scope.
             Assert.check(isSubScope());
-            return parent.resolve(position, name, tchecker);
+            return parent.resolve(position, name, tchecker, originScope);
         }
 
         // Relative name. Resolve from this scope.
-        return resolve(position, name, "", tchecker, this);
+        return resolve(position, name, "", tchecker, this, originScope);
+    }
+
+    /**
+     * Warn in case of a convoluted reference.
+     *
+     * <p>
+     * Currently warns if anything but a single identifier is used as a textual reference, to reference a local
+     * {@link Declaration declaration}, {@link ComponentInst component instantiation}, automaton or group
+     * {@link ComponentDef definition}, or {@link Function function}.
+     * </p>
+     *
+     * <p>
+     * This method must not be invoked for symbol table entries referred to by a single identifier.
+     * </p>
+     *
+     * @param position Position information for the textual reference.
+     * @param tchecker The type checker to which to add 'convoluted reference' warnings, if any.
+     * @param entry The resolved symbol table entry for the reference.
+     * @param originScope The scope from where the reference originates. May be {@code null} to not give a warning.
+     */
+    private void warnIfConvolutedReference(Position position, CifTypeChecker tchecker, SymbolTableEntry entry,
+            SymbolScope<?> originScope)
+    {
+        // Skip if origin scope is not supplied.
+        if (originScope == null) {
+            return;
+        }
+
+        // Skip automaton definition and group definition scopes as these can result in false positives. That is, the
+        // definition itself can reference different instantiations of itself. However, these will share the same scope.
+        if (originScope instanceof AutDefScope || originScope instanceof GroupDefScope) {
+            return;
+        }
+
+        // Only report convoluted references for certain types of referenced symbol table entries.
+        ParentScope<?> entryParentScope;
+        String referencedEntryTxt;
+        if (entry instanceof DeclWrap) {
+            // Reference to declaration.
+            entryParentScope = ((DeclWrap<?>)entry).getParent();
+            referencedEntryTxt = "local declaration";
+        } else if (entry instanceof CompInstScope) {
+            // Reference to component instantiation.
+            entryParentScope = ((CompInstScope)entry).getParent();
+            referencedEntryTxt = "local component instantiation";
+        } else if (entry instanceof GroupDefScope) {
+            // Reference to group definition.
+            entryParentScope = ((GroupDefScope)entry).getParent();
+            referencedEntryTxt = "local group definition";
+        } else if (entry instanceof AutDefScope) {
+            // Reference to automaton definition.
+            entryParentScope = ((AutDefScope)entry).getParent();
+            referencedEntryTxt = "local automaton definition";
+        } else if (entry instanceof FunctionScope) {
+            // Reference to function.
+            entryParentScope = ((FunctionScope)entry).getParent();
+            referencedEntryTxt = "local function";
+        } else {
+            // We don't report convoluted references for anything else yet.
+            return;
+        }
+
+        // Warn if the origin scope is equal to the parent scope of the entry.
+        if (entryParentScope.equals(originScope)) {
+            tchecker.addProblem(ErrMsg.CONVOLUTED_REF, position, referencedEntryTxt, escapeIdentifier(entry.getName()));
+        }
     }
 
     /**
@@ -240,7 +324,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * <ul>
      * <li>{@code $} characters have already been removed by the parser.</li>
      * <li>{@code ^} and {@code .} prefixes have already been handled by the
-     * {@link #resolve(Position, String, CifTypeChecker)} method.</li>
+     * {@link #resolve(Position, String, CifTypeChecker, SymbolScope)} method.</li>
      * </ul>
      *
      * @param position Position information for the textual reference.
@@ -251,10 +335,12 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * @param origScope The original scope, i.e. the scope from which we start resolving the first identifier of the
      *     reference, after absolute reference prefix symbols have already been processed. Is {@code null} if and only
      *     if this is a 'via' resolve.
+     * @param originScope The scope from where the reference originates. Used for checking convoluted references. May be
+     *     {@code null} to skip checking.
      * @return The resolved symbol table entry.
      */
     private SymbolTableEntry resolve(Position position, String name, String done, CifTypeChecker tchecker,
-            SymbolScope<?> origScope)
+            SymbolScope<?> origScope, SymbolScope<?> originScope)
     {
         // Paranoia checking.
         boolean isViaResolve = !done.isEmpty();
@@ -294,7 +380,12 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
             // Further resolve via the resolved scope.
             SymbolScope<?> scope = (SymbolScope<?>)entry;
-            entry = scope.resolve(position, name, done, tchecker, null);
+            entry = scope.resolve(position, name, done, tchecker, null, originScope);
+        }
+
+        // Warn for convoluted reference. That is, a relative reference is used for a local declaration.
+        if (done.contains(".")) {
+            warnIfConvolutedReference(position, tchecker, entry, originScope);
         }
 
         // Return the fully resolved symbol table entry.
@@ -306,7 +397,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
      * <ul>
      * <li>{@code $} characters have already been removed by the parser.</li>
      * <li>{@code ^} and {@code .} prefixes have already been handled by the
-     * {@link #resolve(Position, String, CifTypeChecker)} method.</li>
+     * {@link #resolve(Position, String, CifTypeChecker, SymbolScope)} method.</li>
      * </ul>
      *
      * <p>
