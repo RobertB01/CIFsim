@@ -296,7 +296,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 out(factory.getCacheStats().toString());
             }
             if (doContinuousNodesStats) {
-                printContinuousNodesStats(factory.getContinuousStats(), dbgEnabled);
+                printContinuousNodesStats(factory.getContinuousStats());
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -334,12 +334,11 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Print the continuous nodes statistics.
+     * Print the continuous nodes statistics to a file.
      *
      * @param cs The continuous statistics to print.
-     * @param dbgEnabled Whether debug mode is enabled.
      */
-    private void printContinuousNodesStats(ContinuousStats cs, boolean dbgEnabled) {
+    private void printContinuousNodesStats(ContinuousStats cs) {
         // Collect the statistics.
         List<Long> operations = cs.getOperationsStats();
         List<Integer> nodes = cs.getNodesStats();
@@ -347,11 +346,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         // Get the file to print to.
         String outPath = ContinuousNodesStatisticsFileOption.getDerivedPath(".cif", ".stats.txt");
+        dbg("Writing output continuous nodes statistics file \"%s\".", outPath);
         outPath = Paths.resolve(outPath);
         AppStream stream = new FileAppStream(outPath, outPath);
-        if (dbgEnabled) {
-            dbg(fmt("Writing output statistics file \"%s\".", outPath));
-        }
 
         // Start the actual printing.
         InputOutputException ex = null;
@@ -361,10 +358,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             int lastNodes = -1;
             for (int i = 0; i < numberOfDataPoints; i++) {
                 // Only print new data points.
-                if (operations.get(i) != lastOperations && nodes.get(i) != lastNodes) {
-                    lastOperations = operations.get(i);
-                    lastNodes = nodes.get(i);
-                    stream.println(fmt("%d,%d", lastOperations, lastNodes));
+                long nextOperations = operations.get(i);
+                int nextNodes = nodes.get(i);
+                if (nextOperations != lastOperations && nextNodes != lastNodes) {
+                    lastOperations = nextOperations;
+                    lastNodes = nextNodes;
+                    stream.printfln("%d,%d", lastOperations, lastNodes);
                 }
             }
         } catch (InputOutputException e) {

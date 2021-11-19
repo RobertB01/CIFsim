@@ -18,16 +18,16 @@ import org.eclipse.escet.common.app.framework.options.Options;
 import org.eclipse.escet.common.app.framework.options.OutputFileOption;
 import org.eclipse.escet.common.app.framework.options.StringOption;
 
-/** Option for getting the path for the continuous nodes statistics output file. */
+/** Option to configure the path for the continuous nodes statistics output file. */
 public class ContinuousNodesStatisticsFileOption extends StringOption {
-    /** Constant describing the option. */
-    static final String OPTION_DESC = "The path to the continuous nodes statistics output file.";
+    /** Option description. */
+    private static final String OPTION_DESC = "The path to the continuous nodes statistics output file.";
 
     /** Constructor for the {@link ContinuousNodesStatisticsFileOption} class. */
     public ContinuousNodesStatisticsFileOption() {
         super(
             // name.
-            "Synthesis statistics file",
+            "Continuous nodes statistics file",
 
             // description.
             OPTION_DESC,
@@ -36,7 +36,7 @@ public class ContinuousNodesStatisticsFileOption extends StringOption {
             null,
 
             // cmdLong.
-            "statsfile",
+            "contnodesstatsfile",
 
             // cmdValue.
             "FILE",

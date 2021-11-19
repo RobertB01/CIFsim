@@ -148,7 +148,7 @@ for test in tests:
     string rslt1_real = chfileext(test, oldext="cif", newext="ctrlsys.real.cif");
 
     // Execute.
-    list string options1 = options + ["-o", rslt1_real, "--statsfile=" + test1_stats_real];
+    list string options1 = options + ["-o", rslt1_real, "--contnodesstatsfile=" + test1_stats_real];
     int exit_code1 = cifdatasynth([test] + options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
