@@ -58,28 +58,17 @@ public class ContinuousNodesStatisticsFileOption extends StringOption {
     }
 
     /**
-     * Returns the path of the output file, or {@code null} if not provided.
-     *
-     * @return The path of the output file, or {@code null}.
-     */
-    public static String getPath() {
-        return Options.get(ContinuousNodesStatisticsFileOption.class);
-    }
-
-    /**
      * Returns the path of the continuous nodes statistics output file. If the continuous nodes output file path is
-     * not specified, a modified input file path is used. The input path is modified by removing the given input
-     * file extension (if present), and adding the given output file extension.
+     * not specified, a modified input file path is used. The input path is modified by removing the {@code ".cif"}
+     * file extension, and adding the {@code ".stats.txt"} output file extension.
      *
-     * @param inExt Input file extension (including the dot).
-     * @param outExt Output file extension (including the dot).
      * @return The path of the continuous nodes statistics output file.
      * @see OutputFileOption
      */
-    public static String getDerivedPath(String inExt, String outExt) {
-        String rslt = getPath();
+    public static String getPath() {
+        String rslt = Options.get(ContinuousNodesStatisticsFileOption.class);
         if (rslt == null) {
-            rslt = InputFileOption.getDerivedPath(inExt, outExt);
+            rslt = InputFileOption.getDerivedPath(".cif", ".stats.txt");
         }
         return rslt;
     }

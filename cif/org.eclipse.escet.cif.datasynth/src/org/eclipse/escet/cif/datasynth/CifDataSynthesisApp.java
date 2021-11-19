@@ -345,7 +345,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         int numberOfDataPoints = nodes.size();
 
         // Get the file to print to.
-        String outPath = ContinuousNodesStatisticsFileOption.getDerivedPath(".cif", ".stats.txt");
+        String outPath = ContinuousNodesStatisticsFileOption.getPath();
         dbg("Writing output continuous nodes statistics file \"%s\".", outPath);
         outPath = Paths.resolve(outPath);
         AppStream stream = new FileAppStream(outPath, outPath);
