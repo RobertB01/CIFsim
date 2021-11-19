@@ -348,11 +348,9 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         String outPath = ContinuousNodesStatisticsFileOption.getPath();
         dbg("Writing output continuous nodes statistics file \"%s\".", outPath);
         outPath = Paths.resolve(outPath);
-        AppStream stream = new FileAppStream(outPath, outPath);
 
         // Start the actual printing.
-        InputOutputException ex = null;
-        try {
+        try (AppStream stream = new FileAppStream(outPath, outPath)) {
             stream.println("Operations,Used BBD nodes");
             long lastOperations = -1;
             int lastNodes = -1;
@@ -366,20 +364,6 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                     stream.printfln("%d,%d", lastOperations, lastNodes);
                 }
             }
-        } catch (InputOutputException e) {
-            ex = e;
-        } finally {
-            try {
-                stream.close();
-            } catch (InputOutputException e) {
-                if (ex == null) {
-                    ex = e;
-                }
-            }
-        }
-
-        if (ex != null) {
-            throw ex;
         }
     }
 
