@@ -143,7 +143,7 @@ public class CompInstScope extends SymbolScope<ComponentInst> {
         try {
             // Resolve the component definition.
             AName compDefRef = compInstDecl.defName;
-            SymbolTableEntry entry = parent.resolve(compDefRef.position, compDefRef.name, tchecker);
+            SymbolTableEntry entry = parent.resolve(compDefRef.position, compDefRef.name, tchecker, parent);
             if (!(entry instanceof AutDefScope) && !(entry instanceof GroupDefScope)) {
                 tchecker.addProblem(ErrMsg.RESOLVE_NOT_COMP_DEF, compDefRef.position, entry.getAbsName());
                 throw new SemanticException();
