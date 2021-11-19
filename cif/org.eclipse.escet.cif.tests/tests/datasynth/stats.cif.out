@@ -152,6 +152,6 @@ Simplification of controlled system under the assumption of the plants:
   Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
-Writing output statistics file "/Users/mgoorden/escet-develop/git/escet/cif/org.eclipse.escet.cif.tests/tests/datasynth/stats.stats.txt".
+Writing output statistics file "/Users/mgoorden/escet-develop/git/escet/cif/org.eclipse.escet.cif.tests/tests/datasynth/stats.cif.stats.real.txt".
 Maximum used BDD nodes: 95.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".
