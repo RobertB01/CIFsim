@@ -85,6 +85,10 @@ For more information, see the section on <<tools-datasynth-forward-reach,forward
 By default, no statistics are printed.
 For more information, see the section on <<tools-datasynth-stats,statistics>> below.
 
+* _Continuous nodes statistics file_: The absolute or relative local file system path to the continuous nodes statistics output file.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `.stats.txt` file extension is added.
+For more information, see the section on <<tools-datasynth-stats,statistics>> below.
+
 * _Event warning_: Whether to warn for events that are never enabled in the input specification or never enabled in the controlled system.
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
