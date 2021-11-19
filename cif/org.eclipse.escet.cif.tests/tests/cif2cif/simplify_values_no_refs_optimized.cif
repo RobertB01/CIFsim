@@ -867,7 +867,7 @@ automaton p2:
     edge do g := fmt("a%1$s %1$.1Gz", 3e9);             // "a3.0e9 3E+09z"
     edge do g := fmt("a%s %sz", "x", ["y"]);            // "ax [\"y\"]z"
     edge do g := fmt("a%3s_%9Sz", "x", ["y"]);          // "a  x_    [\"Y\"]z"
-    edge do g := fmt("a%sz", p2.ABC);                   // "aABCz"
+    edge do g := fmt("a%sz", ABC);                      // "aABCz"
 
     edge do r := ln(E);                                 // 1.0
 

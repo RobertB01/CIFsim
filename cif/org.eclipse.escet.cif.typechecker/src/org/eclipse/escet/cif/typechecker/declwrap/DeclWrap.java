@@ -65,6 +65,15 @@ public abstract class DeclWrap<TM extends PositionObject> extends SymbolTableEnt
         return mmDecl;
     }
 
+    /**
+     * Returns the parent scope.
+     *
+     * @return The parent scope.
+     */
+    public ParentScope<?> getParent() {
+        return scope;
+    }
+
     @Override
     public void changeParent(ParentScope<?> parent) {
         scope = parent;
