@@ -61,10 +61,13 @@ The alphabet of this new automaton is the union of alphabets of the original aut
 
 The structure of the original model is kept intact as much as possible, to allow objects to retain their absolute identities (absolute names).
 Since all automata are linearized into a single automaton, the original automata are replaced by groups.
-These replacement groups will contain as much as possible all declarations, invariants, etc of the original automata.
+Each replacement group will contain (as much as possible) all of the declarations, invariants, etc of its original automaton.
 
 All discrete and continuous variables from the original automata are moved to the new automaton, to ensure they can be assigned by the new automaton.
-They are renamed based on their absolute names.
+Discrete variables must be moved to the single new automaton as they can only be declared in automata.
+All continuous variables of the original automata are moved to the single new automaton, regardless of whether they are assigned by updates on edges or not.
+Continuous variables declared outside automata remain where they are.
+The moved discrete and continuous variables are renamed based on their absolute names.
 That is, for an automaton `a` with a discrete variable `v`, the absolute name of the constant is `a.v` and the moved variable will be named `a_v`.
 
 One location, named `L`, is added to the new automaton.
@@ -72,6 +75,8 @@ This location is both initial and marked.
 All initialization and marker predicates from the locations of the original automata are merged together.
 They are put in the new automaton, and restrict the initialization and marker predicates of location `L`.
 Invariants of the locations of the original automata are also moved to the new automaton.
+The initialization and marker predicates specified in automata, as well as invariants specified in automata, are not moved to the single new automaton.
+They remain in the groups that replace the original automata.
 
 For the `tau` event, a self loop is created per original `tau` edge.
 For all other events, the link:http://en.wikipedia.org/wiki/Cartesian_product[Cartesian product] of all edges is created, combining the edges in all possible combinations.

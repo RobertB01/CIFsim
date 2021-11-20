@@ -105,9 +105,20 @@ import org.eclipse.escet.common.java.Assert;
  * <p>
  * The structure of the model is kept intact as much as possible, to allow objects to retain their absolute identities
  * (absolute names). Since all automata are linearized into a single automaton, the original automata are replaced by
- * groups. These replacement groups will contain as much as possible all declarations, invariants, etc of the original
- * automata. There are exceptions, such as the discrete and continuous variables (they can only be written by the new
- * linearized automaton) and the locations (there will be only one location, in the new linearized automaton).
+ * groups. Each replacement group will contain (as much as possible) all of the declarations, invariants, etc of its
+ * original automaton. There are exceptions:
+ * <ul>
+ * <li>Discrete variables can only be declared in automata. The discrete variables of the original automata are thus all
+ * moved to the single new automaton.</li>
+ * <li>While continuous variables can be declared in groups, they can only be assigned by the automaton that declares
+ * them. Thus, continuous variables that are declared and assigned in original automata will need to be moved to the
+ * single new automaton. Similarly all discrete variables that are assigned will need to be moved as well. Currently,
+ * all discrete and continuous variables declared in automata are moved to the single new automaton. This thus also
+ * moves continuous variables declared in automata that are never assigned and only change value over due to their
+ * derivative. Continuous variables declared outside automata remain where they are.</li>
+ * <li>As part of linearization all locations of the original automata are removed, and the single new automaton has a
+ * single location.</li>
+ * </ul>
  * </p>
  *
  * <p>
@@ -123,8 +134,8 @@ import org.eclipse.escet.common.java.Assert;
  * alphabets of the original automata. All discrete and continuous variables from the original automata are moved to the
  * new automaton. They are renamed to their absolute names, with all "." characters replaced by "_" characters. One
  * location, named "L", is added. This location is both initial and marked. The initialization predicates, invariants,
- * and marker predicates from locations are merged together. They restrict the initialization and marker predicates of
- * location "L".
+ * and marker predicates from the original locations are merged together. They restrict the initialization and marker
+ * predicates of location "L".
  * </p>
  *
  * <p>
@@ -284,11 +295,9 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
         // to regular events.
         aut.setAlphabet(mergeAlphabets(sortedEvents));
 
-        // Move discrete and continuous variables (and give them absolute
-        // names). Since location pointer variables were already introduced,
-        // these are moved as well. For simplicity, we move all continuous
-        // variables, even the ones that are not assigned new values by
-        // updates on edges.
+        // Move discrete and continuous variables from the original automata
+        // (and give them absolute names). Since location pointer variables
+        // were already introduced, these are moved as well.
         moveDiscAndContVars(aut, auts, autNames);
 
         // Merge initialization predicates, invariants, and marker predicates
@@ -452,7 +461,23 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
     }
 
     /**
-     * Merges the discrete and continuous variables from the original automata into the new automaton.
+     * Moves the discrete and continuous variables from the original automata into the new automaton:
+     * <ul>
+     * <li>Discrete variables can only be declared in automata, so they must be moved.</li>
+     * <li>Continuous variables declared outside automata are not moved.</li>
+     * <li>For simplicity, all continuous variables declared in automata are moved, even if they are not assigned on
+     * edges and thus don't strictly require moving.</li>
+     * <li>A discrete or continuous variable can only be assigned by the automaton that declares it. All discrete and
+     * continuous variables that are assigned by updates on edges must thus be moved. For simplicity, we move all
+     * discrete and continuous variables declared in automata.</li>
+     * <li>Location pointer variables are discrete variables. They have already been created and will thus also be
+     * moved.</li>
+     * </ul>
+     *
+     * <p>
+     * The moved variables are renamed based on their absolute names. Location pointers are named based on
+     * {@link #absLpNamesMap}.
+     * </p>
      *
      * @param mergedAut The new/merged automaton. Is modified in-place.
      * @param auts The original automata, sorted in ascending order based on their absolute names (without escaping).
