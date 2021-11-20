@@ -72,11 +72,11 @@ That is, for an automaton `a` with a discrete variable `v`, the absolute name of
 
 One location, named `L`, is added to the new automaton.
 This location is both initial and marked.
+
 All initialization and marker predicates from the locations of the original automata are merged together.
-They are put in the new automaton, and restrict the initialization and marker predicates of location `L`.
-Invariants of the locations of the original automata are also moved to the new automaton.
-The initialization and marker predicates specified in automata, as well as invariants specified in automata, are not moved to the single new automaton.
-They remain in the groups that replace the original automata.
+They are each put in the group that replaces their respective original automaton.
+Similarly, the invariants of the locations of the original automata are also each moved to their corresponding groups.
+And the initialization and marker predicates specified in automata, as well as invariants specified in automata, are moved there as well.
 
 For the `tau` event, a self loop is created per original `tau` edge.
 For all other events, the edges are merged, resulting in a single self loop for each non-`tau` event.
@@ -123,10 +123,16 @@ event e;
 
 group p:
   enum LPE_p = l1, l2;
+
+  initial M.p = l1 and true or M.p = l2 and false;
+  marked M.p = l1 and false or M.p = l2 and false;
 end
 
 group q:
   enum LPE_q = l1, l2;
+
+  initial M.q = l1 and true or M.q = l2 and false;
+  marked M.q = l1 and false or M.q = l2 and false;
 end
 
 plant automaton M:
@@ -135,12 +141,6 @@ plant automaton M:
   disc int p_x = 1;
   disc .p.LPE_p p = .p.l1;
   disc .q.LPE_q q = .q.l1;
-
-  initial p = .p.l1 and true or p = .p.l2 and false,
-          q = .q.l1 and true or q = .q.l2 and false;
-
-  marked p = .p.l1 and false or p = .p.l2 and false,
-         q = .q.l1 and false or q = .q.l2 and false;
 
   location L:
     initial;
@@ -158,10 +158,10 @@ end
 
 We see that the automata `p` and `q` are replaced by groups.
 They contain 'location pointer enumerations' `LPE_p` and `LPE_q`, with literals for their original locations.
-We also see that plant automata `p` and `q` are linearized to plant automaton `M`.
+They also contain the linearized initialization and marker predicates of the locations.
+We further see that plant automata `p` and `q` are linearized to plant automaton `M`.
 Two location pointers, `p` and `q`, named after the original automata, are added.
 The discrete variables are moved.
-The initialization and marker predicates of the locations are linearized.
 We have one location `L`, which is initial and marked.
 For event `e`, the guards and updates are linearized into a single self loop.
 Location pointer updates are incorporated as well.
@@ -204,15 +204,15 @@ is transformed to the following specification:
 ----
 group p:
   event e;
+
+  initial true and true;
+  marked true and false;
 end
 
 automaton M:
   alphabet p.e;
 
   disc int p_x = 0;
-
-  initial true and true;
-  marked true and false;
 
   location L:
     initial;
@@ -251,15 +251,15 @@ is transformed to the following specification:
 ----
 group p:
   event e;
+
+  initial true and true;
+  marked true and false;
 end
 
 automaton M:
   alphabet p.e;
 
   disc int p_x = 0;
-
-  initial true and true;
-  marked true and false;
 
   location L:
     initial;
@@ -325,6 +325,9 @@ is transformed to the following specification:
 group p:
   event e;
   enum LPE_p = l1, l2;
+
+  initial M.p = l1 and true or M.p = l2 and false;
+  marked M.p = l1 and false or M.p = l2 and false;
 end
 
 automaton M:
@@ -332,9 +335,6 @@ automaton M:
 
   disc .p.LPE_p p = .p.l1;
   disc bool u = true;
-
-  initial p = .p.l1 and true or p = .p.l2 and false;
-  marked p = .p.l1 and false or p = .p.l2 and false;
 
   plant invariant u;
 
@@ -391,20 +391,19 @@ is transformed to the following specification:
 event e;
 
 group s:
+  initial true and true;
+  marked true and false;
 end
 
 group r:
+  initial true and true;
+  marked true and false;
 end
 
 automaton M:
   alphabet e;
 
   disc int r_x;
-
-  initial true and true,
-          true and true;
-  marked true and false,
-         true and false;
 
   location L:
     initial;

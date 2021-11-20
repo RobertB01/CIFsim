@@ -2,45 +2,67 @@ event e;
 const real M = 11.0;
 group p1:
   enum LPE_p1 = l1, l2;
+  initial M2.p1 = l1 and true or M2.p1 = l2 and false;
+  marked M2.p1 = l1 and false or M2.p1 = l2 and false;
   invariant M2.p1_p1;
 end
 group p1_p1:
   enum LPE_p1_p1 = l1, l2;
+  initial M2.p1_p12 = l1 and true or M2.p1_p12 = l2 and false;
+  marked M2.p1_p12 = l1 and false or M2.p1_p12 = l2 and false;
 end
 group p2:
   group p2:
     enum LPE_p2 = l1, l2;
+    initial M2.p2_p2 = l1 and true or M2.p2_p2 = l2 and false;
+    marked M2.p2_p2 = l1 and false or M2.p2_p2 = l2 and false;
     invariant M2.p2_p2_x;
   end
 end
 group p2_p2_x:
   enum LPE_p2_p2_x = l1, l2;
+  initial M2.p2_p2_x2 = l1 and true or M2.p2_p2_x2 = l2 and false;
+  marked M2.p2_p2_x2 = l1 and false or M2.p2_p2_x2 = l2 and false;
 end
 group p5:
   group p5:
     enum LPE_p5 = l1, l2;
+    initial M2.p5_p5 = l1 and true or M2.p5_p5 = l2 and false;
+    marked M2.p5_p5 = l1 and false or M2.p5_p5 = l2 and false;
   end
 end
 group p5_p5:
   enum LPE_p5_p5 = l1, l2;
+  initial M2.p5_p52 = l1 and true or M2.p5_p52 = l2 and false;
+  marked M2.p5_p52 = l1 and false or M2.p5_p52 = l2 and false;
 end
 group p8_a:
   enum LPE_p8_a = l1, l2;
+  initial M2.p8_a = l1 and true or M2.p8_a = l2 and false;
+  marked M2.p8_a = l1 and false or M2.p8_a = l2 and false;
   invariant M2.p8_a_p82 = 8.1;
 end
 group p8:
   enum LPE_p8 = l1, l2;
+  initial M2.p8 = l1 and true or M2.p8 = l2 and false;
+  marked M2.p8 = l1 and false or M2.p8 = l2 and false;
   invariant M2.p8_a_p8 = 8.4;
 end
 group p12:
   const real LPE_p12 = 1.0;
   enum LPE_p122 = l1, l2;
+  initial M2.p12 = l1 and true or M2.p12 = l2 and false;
+  marked M2.p12 = l1 and false or M2.p12 = l2 and false;
 end
 group u:
   enum LPE_u = l1, l2;
+  initial M2.u = l1 and true or M2.u = l2 and false;
+  marked M2.u = l1 and false or M2.u = l2 and false;
 end
 group L:
   enum LPE_L = l1, l2;
+  initial M2.L = l1 and true or M2.L = l2 and false;
+  marked M2.L = l1 and false or M2.L = l2 and false;
 end
 automaton M2:
   alphabet e;
@@ -60,28 +82,6 @@ automaton M2:
   disc .p8_a.LPE_p8_a p8_a = .p8_a.l1;
   disc .u.LPE_u u = .u.l1;
   disc bool u2 = true;
-  initial L = .L.l1 and true or L = .L.l2 and false,
-          p1 = .p1.l1 and true or p1 = .p1.l2 and false,
-          p12 = .p12.l1 and true or p12 = .p12.l2 and false,
-          p1_p12 = .p1_p1.l1 and true or p1_p12 = .p1_p1.l2 and false,
-          p2_p2 = p2.p2.l1 and true or p2_p2 = p2.p2.l2 and false,
-          p2_p2_x2 = .p2_p2_x.l1 and true or p2_p2_x2 = .p2_p2_x.l2 and false,
-          p5_p5 = p5.p5.l1 and true or p5_p5 = p5.p5.l2 and false,
-          p5_p52 = .p5_p5.l1 and true or p5_p52 = .p5_p5.l2 and false,
-          p8 = .p8.l1 and true or p8 = .p8.l2 and false,
-          p8_a = .p8_a.l1 and true or p8_a = .p8_a.l2 and false,
-          u = .u.l1 and true or u = .u.l2 and false;
-  marked L = .L.l1 and false or L = .L.l2 and false,
-         p1 = .p1.l1 and false or p1 = .p1.l2 and false,
-         p12 = .p12.l1 and false or p12 = .p12.l2 and false,
-         p1_p12 = .p1_p1.l1 and false or p1_p12 = .p1_p1.l2 and false,
-         p2_p2 = p2.p2.l1 and false or p2_p2 = p2.p2.l2 and false,
-         p2_p2_x2 = .p2_p2_x.l1 and false or p2_p2_x2 = .p2_p2_x.l2 and false,
-         p5_p5 = p5.p5.l1 and false or p5_p5 = p5.p5.l2 and false,
-         p5_p52 = .p5_p5.l1 and false or p5_p52 = .p5_p5.l2 and false,
-         p8 = .p8.l1 and false or p8 = .p8.l2 and false,
-         p8_a = .p8_a.l1 and false or p8_a = .p8_a.l2 and false,
-         u = .u.l1 and false or u = .u.l2 and false;
   plant invariant u2;
   location L2:
     initial;

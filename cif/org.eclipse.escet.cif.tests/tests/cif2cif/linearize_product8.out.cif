@@ -6,18 +6,18 @@ alg bool X5 = false;
 alg string X6 = "*";
 group p:
   event e;
+  initial true and true;
+  marked true and false;
 end
 group q:
   event e;
+  initial true and true;
+  marked true and false;
 end
 automaton M:
   alphabet p.e, q.e;
   disc int p_x = 0;
   disc int q_x = 0;
-  initial true and true,
-          true and true;
-  marked true and false,
-         true and false;
   location L:
     initial;
     marked;

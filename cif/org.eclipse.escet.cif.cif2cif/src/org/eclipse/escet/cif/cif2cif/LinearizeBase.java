@@ -133,9 +133,13 @@ import org.eclipse.escet.common.java.Assert;
  * kind as well. Otherwise, it has kind {@link SupKind#NONE}. The alphabet of this new automaton is the union of
  * alphabets of the original automata. All discrete and continuous variables from the original automata are moved to the
  * new automaton. They are renamed to their absolute names, with all "." characters replaced by "_" characters. One
- * location, named "L", is added. This location is both initial and marked. The initialization predicates, invariants,
- * and marker predicates from the original locations are merged together. They restrict the initialization and marker
- * predicates of location "L".
+ * location, named "L", is added. This location is both initial and marked.
+ * </p>
+ *
+ * <p>
+ * The initialization predicates of the locations of each original automaton are merged together. Similarly the marker
+ * predicates are merged together, and the invariants. They are all placed in the groups that replace the original
+ * automata.
  * </p>
  *
  * <p>
@@ -302,7 +306,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
         // Merge initialization predicates, invariants, and marker predicates
         // of the locations.
-        mergeLocInvInitMarked(aut, auts);
+        mergeLocInvInitMarked(auts);
 
         // Create new/merged location.
         Location loc = createLocation(aut, autNames);
@@ -534,13 +538,12 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
     /**
      * Merges invariants, initialization predicates, and marker predicates, from the locations of the original automata
-     * to the new/merged automaton.
+     * and moves them to the original automata. They will later be moved to the groups that replace the original
+     * automata.
      *
-     * @param auts The original automata, sorted in ascending order based on their absolute names (without escaping).
-     *     See also {@link CifSortUtils#sortCifObjects}. Are modified in-place.
-     * @param mergedAut The new/merged automaton. Is modified in-place.
+     * @param auts The original automata. Are modified in-place.
      */
-    private void mergeLocInvInitMarked(Automaton mergedAut, List<Automaton> auts) {
+    private void mergeLocInvInitMarked(List<Automaton> auts) {
         // Invariants in locations have 'true' default, and use conjunctions
         // to combine (within a location). Invariants in automata also have
         // 'true' default and also use conjunctions to combine (within an
@@ -559,8 +562,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
 
                     inv.setPredicate(bexpr);
 
-                    // Move invariant to merged automaton.
-                    mergedAut.getInvariants().add(inv);
+                    // Move invariant to automaton.
+                    aut.getInvariants().add(inv);
                 }
             }
         }
@@ -584,7 +587,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 inits.add(createConjunction(list(lexpr, init)));
             }
 
-            mergedAut.getInitials().add(createDisjunction(inits));
+            aut.getInitials().add(createDisjunction(inits));
         }
 
         // Marker predicates in locations have 'false' default, and use
@@ -607,7 +610,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 markers.add(createConjunction(list(lexpr, marker)));
             }
 
-            mergedAut.getMarkeds().add(createDisjunction(markers));
+            aut.getMarkeds().add(createDisjunction(markers));
         }
     }
 

@@ -1,16 +1,24 @@
 event e3;
 group p1:
   enum LPE_p1 = l1, l2;
+  initial M.p1 = l1 and true or M.p1 = l2 and true;
+  marked M.p1 = l1 and false or M.p1 = l2 and false;
 end
 group p2:
   event e2;
   enum LPE_p2 = l1, l2;
+  initial M.p2 = l1 and true or M.p2 = l2 and true;
+  marked M.p2 = l1 and false or M.p2 = l2 and false;
 end
 group p3a:
   enum LPE_p3a = l1, l2;
+  initial M.p3a = l1 and true or M.p3a = l2 and true;
+  marked M.p3a = l1 and false or M.p3a = l2 and false;
 end
 group p3b:
   enum LPE_p3b = l1, l2;
+  initial M.p3b = l1 and true or M.p3b = l2 and true;
+  marked M.p3b = l1 and false or M.p3b = l2 and false;
 end
 automaton M:
   alphabet e3, .p2.e2;
@@ -22,14 +30,6 @@ automaton M:
   disc .p3a.LPE_p3a p3a in any;
   disc real p3b_x;
   disc .p3b.LPE_p3b p3b in any;
-  initial p1 = .p1.l1 and true or p1 = .p1.l2 and true,
-          p2 = .p2.l1 and true or p2 = .p2.l2 and true,
-          p3a = .p3a.l1 and true or p3a = .p3a.l2 and true,
-          p3b = .p3b.l1 and true or p3b = .p3b.l2 and true;
-  marked p1 = .p1.l1 and false or p1 = .p1.l2 and false,
-         p2 = .p2.l1 and false or p2 = .p2.l2 and false,
-         p3a = .p3a.l1 and false or p3a = .p3a.l2 and false,
-         p3b = .p3b.l1 and false or p3b = .p3b.l2 and false;
   location L:
     initial;
     marked;

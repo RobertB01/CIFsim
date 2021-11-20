@@ -1,18 +1,18 @@
 group p1:
   event e;
   enum LPE_p1 = l1, l2;
+  initial M.p1 = l1 and true or M.p1 = l2 and false;
+  marked M.p1 = l1 and false or M.p1 = l2 and false;
 end
 group p2:
   enum LPE_p2 = l1, l2;
+  initial M.p2 = l1 and true or M.p2 = l2 and false;
+  marked M.p2 = l1 and false or M.p2 = l2 and false;
 end
 automaton M:
   alphabet .p1.e;
   disc .p1.LPE_p1 p1 = .p1.l1;
   disc .p2.LPE_p2 p2 = .p2.l1;
-  initial p1 = .p1.l1 and true or p1 = .p1.l2 and false,
-          p2 = .p2.l1 and true or p2 = .p2.l2 and false;
-  marked p1 = .p1.l1 and false or p1 = .p1.l2 and false,
-         p2 = .p2.l1 and false or p2 = .p2.l2 and false;
   location L:
     initial;
     marked;
