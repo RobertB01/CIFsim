@@ -408,6 +408,24 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     }
 
     @Override
+    protected void postprocessCompParamExpression(CompParamExpression compParamRef) {
+        // Non-wrapped component parameter reference expression. First, get actual argument, if any.
+        Expression newRef = compParamMap.get(compParamRef.getParameter());
+        if (newRef == null) {
+            return;
+        }
+
+        // Copy actual parameter.
+        newRef = deepclone(newRef);
+
+        // Replace reference by actual argument.
+        EMFHelper.updateParentContainment(compParamRef, newRef);
+
+        // Make sure we process the actual argument, in case it contains references that we must process.
+        walkExpression(newRef);
+    }
+
+    @Override
     protected void postprocessComponentExpression(ComponentExpression compRef) {
         // Get component instantiation, if any.
         Component c = compRef.getComponent();
@@ -423,25 +441,6 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
 
         // Replace reference.
         compRef.setComponent(comp);
-    }
-
-    @Override
-    protected void postprocessCompParamExpression(CompParamExpression compRef) {
-        // Non-wrapped component reference expression. First, get actual argument, if any.
-        ComponentParameter compParam = compRef.getParameter();
-        Expression newRef = compParamMap.get(compParam);
-        if (newRef == null) {
-            return;
-        }
-
-        // Copy actual parameter.
-        newRef = deepclone(newRef);
-
-        // Replace reference by actual argument.
-        EMFHelper.updateParentContainment(compRef, newRef);
-
-        // Make sure we process the actual argument, in case it contains references that we must process.
-        walkExpression(newRef);
     }
 
     @Override
@@ -559,6 +558,10 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             ComponentExpression compRef = (ComponentExpression)childRef;
             Component c = (Component)newRefObj;
             compRef.setComponent(c);
+        } else if (childRef instanceof CompParamExpression) {
+            // Can't happen. The leaf object ('x') is referenced 'via' a component instantiation. CIF considers
+            // parameters to be internal and thus not in scope to be referred to via other wrapping expressions.
+            throw new RuntimeException("Should never get here...");
         } else if (childRef instanceof CompInstWrapExpression) {
             // Can't happen. See above.
             throw new RuntimeException("Should never get here...");
@@ -669,7 +672,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // We know the following regarding the component referred to by the argument ('p1'):
         //
         // 1) In the original specification, it ('p1') must have been a component instantiation that instantiates the
-        // component definition ('P') or a component parameter, which has component definition 'P'. However, the
+        // component definition ('P'), or a component parameter of type component definition 'P'. However, the
         // component definition might have already been instantiated earlier during this transformation. Hence, it is
         // now either a concrete component, a component instantiation, or a component parameter.
         //
@@ -701,7 +704,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Task 1: Process the given argument ('a.b.c.p1') to replace the component parameter wrapping expression ('p').
 
         // Initialize the resulting new reference expression to the argument ('a.b.c.p1'). We clone it as there may be
-        // multiple multiple references via the parameter (e.g. 'p').
+        // multiple references via the parameter (e.g. 'p').
         Expression rsltExpr = deepclone(arg);
 
         // The argument either directly ('p1') or indirectly ('a.b.c.p1') points to some concrete component,
@@ -710,24 +713,41 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         Expression argLeaf = CifTypeUtils.unwrapExpression(rsltExpr);
         Assert.check(argLeaf instanceof ComponentExpression || argLeaf instanceof CompParamExpression);
 
-        Component argLeafComp;
-        if (argLeaf instanceof ComponentExpression) {
-            // The argument is either a concrete component or a component instantiation.
-            argLeafComp = ((ComponentExpression)argLeaf).getComponent();
-        } else {
-            // The argument is a component parameter. We replace the component parameter in the wrapping expression with
-            // the component parameter from the component parameter expression.
+        if (argLeaf instanceof CompParamExpression) {
+            // The argument ('a.b.c.p1') is a component parameter. Note that since the argument refers to a component
+            // parameter ('p1'), it cannot be a 'via' reference. That is because CIF considers parameters to be internal
+            // and thus not in scope to be referred to via other wrapping expressions. As a result, 'a.b.c.p1' is
+            // actually just 'p1'.
+            Assert.check(argLeaf == rsltExpr);
+
+            // The instantiation ('d') must be contained inside a component definition ('E'), see below:
+            //
+            // group def E(P p1):
+            // group def D(P p):
+            // invariant p.q.r.x;
+            // end
+            //
+            // d: D(p1)
+            // end
+
+            // We replace the component parameter ('p') in the wrapping expression ('p.q.r.x') with the argument
+            // component parameter ('p1').
             ComponentParameter compParam = ((CompParamExpression)argLeaf).getParameter();
             wrap.setParameter(compParam);
 
-            // We know the component parameter from the component parameter expression will not be eliminated this
-            // round. As there is a reference to that component parameter that must come from an argument to an
-            // instantiation. Hence, the component definition where the component parameter is a parameter for, still
-            // contains an instantiation and cannot be eliminated. Since the parameter is not being instantiated, walk
-            // over it normally.
+            // Since the outer component definition ('E') contains a component instantiation ('d'), this component
+            // definition will not be eliminated this round. Hence, the supplied component parameter ('p1') and this
+            // component parameter wrap ('p1.q.r.x') will not be eliminated. We don't need to process them further.
+            Assert.check(getActualArgument(compParam) == null);
+
+            // The child reference expression ('q.r.x') might need further processing.
             super.walkCompParamWrapExpression(wrap);
             return;
         }
+
+        // The argument ('a.b.c.p1') is not a component parameter, it is either a concrete component or a component
+        // instantiation.
+        Component argLeafComp = ((ComponentExpression)argLeaf).getComponent();
 
         // Process the component reference ('p1'). Also get the body of that component, as the first child reference
         // expression ('q') will refer to an object in that body.
@@ -928,7 +948,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Could be a component instantiation that is now instantiated, make sure to update that.
             walkComponentExpression((ComponentExpression)childRef);
         } else if (childRef instanceof CompParamExpression) {
-            // Can't happen. See above.
+            // Can't happen. The leaf object ('x') is referenced 'via' a component parameter. CIF considers parameters
+            // to be internal and thus not in scope to be referred to via other wrapping expressions.
             throw new RuntimeException("Should never get here...");
         } else if (childRef instanceof CompInstWrapExpression) {
             // Can't happen. See above.
@@ -991,7 +1012,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // We know the following regarding the component referred to by the argument ('p1'):
         //
         // 1) In the original specification, it ('p1') must have been a component instantiation that instantiates the
-        // component definition ('P') or a component parameter, which has component definition 'P'. However, the
+        // component definition ('P'), or a component parameter of type component definition 'P'. However, the
         // component definition might have already been instantiated earlier during this transformation. Hence, it is
         // now either a concrete component, a component instantiation, or a component parameter.
         //
@@ -1031,24 +1052,41 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         Expression argLeaf = CifTypeUtils.unwrapExpression(arg);
         Assert.check(argLeaf instanceof ComponentExpression || argLeaf instanceof CompParamExpression);
 
-        Component argLeafComp;
-        if (argLeaf instanceof ComponentExpression) {
-            // The argument is either a concrete component or a component instantiation.
-            argLeafComp = ((ComponentExpression)argLeaf).getComponent();
-        } else {
-            // The argument is a component parameter. We replace the component parameter in the wrapping expression with
-            // the component parameter from the component parameter expression.
+        if (argLeaf instanceof CompParamExpression) {
+            // The argument ('a.b.c.p1') is a component parameter. Note that since the argument refers to a component
+            // parameter ('p1'), it cannot be a 'via' reference. That is because CIF considers parameters to be internal
+            // and thus not in scope to be referred to via other wrapping expressions. As a result, 'a.b.c.p1' is
+            // actually just 'p1'.
+            Assert.check(argLeaf == arg);
+
+            // The instantiation ('d') must be contained inside a component definition ('E'), see below:
+            //
+            // group def E(P p1):
+            // group def D(P p):
+            // invariant p.q.r.x;
+            // end
+            //
+            // d: D(p1)
+            // end
+
+            // We replace the component parameter ('p') in the wrapping expression ('p.q.r.x') with the argument
+            // component parameter ('p1').
             ComponentParameter compParam = ((CompParamExpression)argLeaf).getParameter();
             wrap.setParameter(compParam);
 
-            // We know the component parameter from the component parameter expression will not be eliminated this
-            // round. As there is a reference to that component parameter that must come from an argument to an
-            // instantiation. Hence, the component definition where the component parameter is a parameter for, still
-            // contains an instantiation and cannot be eliminated. Since the parameter is not being instantiated, walk
-            // over it normally.
+            // Since the outer component definition ('E') contains a component instantiation ('d'), this component
+            // definition will not be eliminated this round. Hence, the supplied component parameter ('p1') and this
+            // component parameter wrap ('p1.q.r.x') will not be eliminated. We don't need to process them further.
+            Assert.check(getActualArgument(compParam) == null);
+
+            // The child reference expression ('q.r.x') might need further processing.
             super.walkCompParamWrapType(wrap);
             return;
         }
+
+        // The argument ('a.b.c.p1') is not a component parameter, it is either a concrete component or a component
+        // instantiation.
+        Component argLeafComp = ((ComponentExpression)argLeaf).getComponent();
 
         // Process the component reference ('p1'). Also get the body of that component, as the first child reference
         // type ('q') will refer to an object in that body.
@@ -1301,26 +1339,31 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             return arg;
         }
 
-        // Process actual argument. Note that we can't have 'via parameter' references in the actual argument, as that
-        // is not allowed. For example, in the example below, it is not allowed to use 'x' as an argument for 'Z'.
+        // Process actual argument. Note that the argument can be a direct reference to a component or component
+        // instantiation, a 'via' parameter reference, a 'via' instantiation reference, or a direct component parameter
+        // reference. For direct references, no mappings have to be updated. For 'via' references, it can be that a
+        // (child) component was instantiated. In that case, mappings have to be updated.
         //
-        // group def Y(X x):
-        // z : Z(x);
+        // Consider the example below:
+        //
+        // group def X():
+        // y: Y();
         // end
         //
-        // Not that we can have 'via component instantiation' references in the actual argument. For example, 'x.y' is a
-        // reference via the component instantiation x to component instantiation 'y'.
+        // x: X();
+        // z: Z(x.y);
         //
-        // x : X();
-        // z : Z(x.y);
+        // Initially, the argument ('x.y') refers to a component instantiation ('y') that is part of a component
+        // definition ('X'). When the component definitions ('X' and 'Y') get instantiated, the argument refers to
+        // a concrete component ('y') that is part of a concrete component ('x'). The actual parameter has to be updated
+        // from 'y' of 'X' to 'y' of 'x'
         //
-        // The instantiation that we are eliminating, to which the actual argument is given, is part of a component
-        // (definition) that has that parameter. Since the body of that component (definition) includes the
-        // instantiation that we're eliminating, that component definition itself can't be eliminated during this
-        // iteration (if it is a definition). Via a parameter reference we can't get to other parameter references,
-        // so we know there are no parameter references in the actual argument that may need processing. Therefore, we
-        // won't get into trouble with infinite recursion due to processing of the actual argument needing to process
-        // this parameter again.
+        // Note, if the argument ('x.y') is a 'via' parameter reference, the parameter ('x') can't be eliminated. Since
+        // the definition still contains this instantiation ('z'). Via a parameter reference we can't get to other
+        // parameter references, so we know there are no parameter references in the actual argument that may need
+        // processing (There can be 'via' instantiation references that need processing). Therefore, we won't get into
+        // trouble with infinite recursion due to processing of the actual argument needing to process this parameter
+        // again.
         walkExpression(arg);
 
         // Get potentially updated actual argument.
