@@ -638,15 +638,15 @@ public class CifConstructors {
     /**
      * Returns a new instance of the {@link CompParamExpression} class.
      *
-     * @param Parameter The "Parameter" of the new "CompParamExpression". Multiplicity [1..1]. May be {@code null} to set the "Parameter" later.
+     * @param parameter The "parameter" of the new "CompParamExpression". Multiplicity [1..1]. May be {@code null} to set the "parameter" later.
      * @param position The "position" of the new "CompParamExpression". Multiplicity [0..1]. May be {@code null} to skip setting the "position", or to set it later.
      * @param type The "type" of the new "CompParamExpression". Multiplicity [1..1]. May be {@code null} to set the "type" later.
      * @return A new instance of the {@link CompParamExpression} class.
      */
-    public static CompParamExpression newCompParamExpression(ComponentParameter Parameter, Position position, CifType type) {
+    public static CompParamExpression newCompParamExpression(ComponentParameter parameter, Position position, CifType type) {
         CompParamExpression rslt_ = newCompParamExpression();
-        if (Parameter != null) {
-            rslt_.setParameter(Parameter);
+        if (parameter != null) {
+            rslt_.setParameter(parameter);
         }
         if (position != null) {
             rslt_.setPosition(position);

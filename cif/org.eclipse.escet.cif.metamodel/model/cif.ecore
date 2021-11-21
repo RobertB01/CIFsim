@@ -467,7 +467,7 @@
           eType="#//Component"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CompParamExpression" eSuperTypes="#//expressions/Expression">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="Parameter" lowerBound="1"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" lowerBound="1"
           eType="#//ComponentParameter"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConstantExpression" eSuperTypes="#//expressions/Expression">

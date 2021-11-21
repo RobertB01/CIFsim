@@ -373,7 +373,7 @@
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//expressions/CompParamExpression">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference cif.ecore#//expressions/CompParamExpression/Parameter"/>
+            ecoreFeature="ecore:EReference cif.ecore#//expressions/CompParamExpression/parameter"/>
       </genClasses>
       <genClasses ecoreClass="cif.ecore#//expressions/ConstantExpression">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"

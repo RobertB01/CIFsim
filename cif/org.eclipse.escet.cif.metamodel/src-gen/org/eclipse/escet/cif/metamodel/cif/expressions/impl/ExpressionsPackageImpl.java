@@ -1855,7 +1855,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         initEReference(getComponentExpression_Component(), theCifPackage.getComponent(), null, "component", null, 1, 1, ComponentExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(compParamExpressionEClass, CompParamExpression.class, "CompParamExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEReference(getCompParamExpression_Parameter(), theCifPackage.getComponentParameter(), null, "Parameter", null, 1, 1, CompParamExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getCompParamExpression_Parameter(), theCifPackage.getComponentParameter(), null, "parameter", null, 1, 1, CompParamExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(constantExpressionEClass, ConstantExpression.class, "ConstantExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getConstantExpression_Constant(), theDeclarationsPackage.getConstant(), null, "constant", null, 1, 1, ConstantExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
