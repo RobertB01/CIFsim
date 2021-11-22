@@ -653,6 +653,10 @@ public class CifEvalUtils {
             String msg = "Cannot use component as value: " + expr;
             throw new RuntimeException(msg);
         } else if (expr instanceof CompParamExpression) {
+            // A reference to a component parameter always refers to the same
+            // component parameter, but we don't support components parameters
+            // as values. However, special cases such as casting to string
+            // may be handled by other expressions.
             String msg = "Cannot use component parameter as value: " + expr;
             throw new RuntimeException(msg);
         } else if (expr instanceof CompInstWrapExpression) {

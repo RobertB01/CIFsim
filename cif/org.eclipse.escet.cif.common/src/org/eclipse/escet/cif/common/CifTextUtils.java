@@ -693,6 +693,11 @@ public class CifTextUtils {
             return getAbsName(refObj);
         }
 
+        if (expr instanceof CompParamExpression) {
+            ComponentParameter refObj = ((CompParamExpression)expr).getParameter();
+            return getAbsName(refObj);
+        }
+
         if (expr instanceof CompInstWrapExpression) {
             // As documented, simply unwrap wrapping types. Note that
             // 'inst1.constant' and 'inst2.constant', where 'inst1' and

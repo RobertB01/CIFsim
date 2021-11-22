@@ -34,7 +34,6 @@ import java.util.List;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
-import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Constant;
 import org.eclipse.escet.cif.metamodel.cif.declarations.ContVariable;
@@ -1484,7 +1483,7 @@ public class CifTypeUtils {
             return CifScopeUtils.isAutomaton(comp);
         }
 
-        // Automaton reference via component parameter expression.
+        // Component parameter expression of type automaton definition.
         if (expr instanceof CompParamExpression) {
             CompParamExpression compParamExpr = (CompParamExpression)expr;
 
@@ -1493,7 +1492,7 @@ public class CifTypeUtils {
             ComponentDefType t = (ComponentDefType)compParamExpr.getType();
 
             // The component definition can be for an automaton or for a group.
-            return (t.getDefinition().getBody() instanceof Automaton);
+            return CifScopeUtils.isAutomaton(t.getDefinition().getBody());
         }
 
         // Expression does not refer to an automaton.

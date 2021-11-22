@@ -973,6 +973,8 @@ public class CifScopeUtils {
             refObj = ((InputVariableExpression)refExpr).getVariable();
         } else if (refExpr instanceof ComponentExpression) {
             refObj = ((ComponentExpression)refExpr).getComponent();
+        } else if (refExpr instanceof CompParamExpression) {
+            refObj = ((CompParamExpression)refExpr).getParameter();
         } else if (refExpr instanceof SelfExpression) {
             CifType ctype = CifTypeUtils.normalizeType(refExpr.getType());
             refObj = ((ComponentType)ctype).getComponent();
