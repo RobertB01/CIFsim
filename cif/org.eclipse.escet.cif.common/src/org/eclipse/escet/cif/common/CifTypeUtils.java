@@ -1488,11 +1488,12 @@ public class CifTypeUtils {
             CompParamExpression compParamExpr = (CompParamExpression)expr;
 
             // Component parameter expression must have a component definition type.
-            Assert.check(compParamExpr.getType() instanceof ComponentDefType);
-            ComponentDefType t = (ComponentDefType)compParamExpr.getType();
+            CifType t = CifTypeUtils.normalizeType(compParamExpr.getType());
+            Assert.check(t instanceof ComponentDefType);
+            ComponentDef cdef = ((ComponentDefType)t).getDefinition();
 
             // The component definition can be for an automaton or for a group.
-            return CifScopeUtils.isAutomaton(t.getDefinition().getBody());
+            return CifScopeUtils.isAutomaton(cdef.getBody());
         }
 
         // Expression does not refer to an automaton.

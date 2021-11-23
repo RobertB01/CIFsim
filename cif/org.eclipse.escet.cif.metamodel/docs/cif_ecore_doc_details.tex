@@ -2622,6 +2622,26 @@ expressions to be used.
 \end{constraints}
 }
 
+% CompParamExpression (class)
+\newcommand{\clsdocuCompParamExpression}{
+	A component parameter reference expression.
+	
+	\begin{constraints}
+		\citem{CompParamExpression.type}
+		The type of the component parameter reference expression must match the
+		type of the referenced component parameter.
+	\end{constraints}
+}
+
+\newcommand{\featdocuCompParamExpressionparameter}{
+	The object that is referenced via a component parameter expression.
+	
+	\begin{constraints}
+		\citem{CompParamExpression.parameterInScope}
+		The component parameter must satisfy the scoping rules.
+	\end{constraints}
+}
+
 % CompParamWrapExpression (class)
 \newcommand{\clsdocuCompParamWrapExpression}{
 Component parameter reference wrapping expression. Allows keeping track
@@ -2684,25 +2704,6 @@ The referenced component.
 \citem{ComponentExpression.componentInScope}
   The component reference must satisfy the scoping rules.
 \end{constraints}
-}
-
-% CompParamExpression (class)
-\newcommand{\clsdocuCompParamExpression}{
-A component parameter reference expression.
-
-\begin{constraints}
-\citem{CompParamExpression.type}
-  The type of the component parameter reference expression must match the
-  type of the referenced component parameter.
-\end{constraints}
-}
-
-\newcommand{\featdocuCompParamExpressionParameter}{
-  The object that is referenced via a component parameter expression.
-  
-  %<TODO> Constraints.
-  %\begin{constraints}
-  %\end{constraints}
 }
 
 % ConstantExpression (class)

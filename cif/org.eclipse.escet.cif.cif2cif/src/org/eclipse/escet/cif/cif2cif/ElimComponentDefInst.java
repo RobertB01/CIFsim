@@ -410,7 +410,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
     @Override
     protected void postprocessCompParamExpression(CompParamExpression compParamRef) {
         // Non-wrapped component parameter reference expression. First, get actual argument, if any.
-        Expression newRef = compParamMap.get(compParamRef.getParameter());
+        Expression newRef = getActualArgument(compParamRef.getParameter());
         if (newRef == null) {
             return;
         }
@@ -421,8 +421,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // Replace reference by actual argument.
         EMFHelper.updateParentContainment(compParamRef, newRef);
 
-        // Make sure we process the actual argument, in case it contains references that we must process.
-        walkExpression(newRef);
+        // No need for processing the actual argument, getActualArgument method does that already.
     }
 
     @Override
@@ -559,8 +558,8 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             Component c = (Component)newRefObj;
             compRef.setComponent(c);
         } else if (childRef instanceof CompParamExpression) {
-            // Can't happen. The leaf object ('x') is referenced 'via' a component instantiation. CIF considers
-            // parameters to be internal and thus not in scope to be referred to via other wrapping expressions.
+            // Can't happen. Due to scoping constraints, component parameters can not be referenced via component
+            // instantiations.
             throw new RuntimeException("Should never get here...");
         } else if (childRef instanceof CompInstWrapExpression) {
             // Can't happen. See above.
@@ -948,8 +947,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // Could be a component instantiation that is now instantiated, make sure to update that.
             walkComponentExpression((ComponentExpression)childRef);
         } else if (childRef instanceof CompParamExpression) {
-            // Can't happen. The leaf object ('x') is referenced 'via' a component parameter. CIF considers parameters
-            // to be internal and thus not in scope to be referred to via other wrapping expressions.
+            // Can't happen. The leaf reference expression ('x') is/was referenced 'via' a component parameter
+            // ('p.q.r.x'). CIF considers parameters to be internal and thus not in scope to be referred to via other
+            // wrapping expressions.
             throw new RuntimeException("Should never get here...");
         } else if (childRef instanceof CompInstWrapExpression) {
             // Can't happen. See above.
@@ -1063,14 +1063,14 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             //
             // group def E(P p1):
             // group def D(P p):
-            // invariant p.q.r.x;
+            // input p.q.r.x z;
             // end
             //
             // d: D(p1)
             // end
 
-            // We replace the component parameter ('p') in the wrapping expression ('p.q.r.x') with the argument
-            // component parameter ('p1').
+            // We replace the component parameter ('p') in the wrapping type ('p.q.r.x') with the argument component
+            // parameter ('p1').
             ComponentParameter compParam = ((CompParamExpression)argLeaf).getParameter();
             wrap.setParameter(compParam);
 
@@ -1079,7 +1079,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // component parameter wrap ('p1.q.r.x') will not be eliminated. We don't need to process them further.
             Assert.check(getActualArgument(compParam) == null);
 
-            // The child reference expression ('q.r.x') might need further processing.
+            // The child reference type ('q.r.x') might need further processing.
             super.walkCompParamWrapType(wrap);
             return;
         }
@@ -1354,16 +1354,35 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
         // z: Z(x.y);
         //
         // Initially, the argument ('x.y') refers to a component instantiation ('y') that is part of a component
-        // definition ('X'). When the component definitions ('X' and 'Y') get instantiated, the argument refers to
-        // a concrete component ('y') that is part of a concrete component ('x'). The actual parameter has to be updated
-        // from 'y' of 'X' to 'y' of 'x'
+        // definition ('X'). When the component definitions (first 'Y' then 'X') get instantiated, the argument refers
+        // to a concrete component ('y') that is part of a concrete component ('x'). The actual parameter has to be
+        // updated from a 'via' instantiation reference ('y' via 'x') to a direct component reference ('y').
         //
-        // Note, if the argument ('x.y') is a 'via' parameter reference, the parameter ('x') can't be eliminated. Since
-        // the definition still contains this instantiation ('z'). Via a parameter reference we can't get to other
-        // parameter references, so we know there are no parameter references in the actual argument that may need
-        // processing (There can be 'via' instantiation references that need processing). Therefore, we won't get into
-        // trouble with infinite recursion due to processing of the actual argument needing to process this parameter
-        // again.
+        // Note that when processing the actual argument ('x.y') we can't have infinite recursion for component
+        // parameters (neither for 'x', nor for 'y'):
+        // - Consider an actual argument ('x.y') that has a 'via' component parameter reference ('x'). The component
+        // parameter ('x') must come from a component definition (say 'C') that has that parameter ('x'). The actual
+        // argument ('x.y') is an argument of a component instantiation ('z'). The outer component definition ('C')
+        // contains that component instantiation ('z'), as otherwise the component parameter ('x') would not be in
+        // scope. Since the outer component definition ('C') contains a component instantiation ('z'), 'C' can't be
+        // instantiated during this round. Since 'C' is not being instantiated, its parameter ('x') is also not being
+        // eliminated during this round. Then there can't be an infinite recursion for the component parameter ('x') as
+        // this method skips component parameters that are not being instantiated during this round.
+        // - Consider an actual argument ('x.y') that refers to a component parameter ('y') 'via' a component
+        // instantiation ('x') or component parameter ('x'). This can't happen as CIF considers the component parameter
+        // ('y') internal to the component definition. That is, the CIF scoping rules don't allow referring to it ('y')
+        // 'via' a component instantiation/parameter ('x'). Then there can't be an infinite recursion for the component
+        // parameter 'y' as there can be no such references to begin with.
+        // - Consider an actual argument ('x') that is a direct component parameter reference. The component parameter
+        // ('x') must come from a component definition (say 'C') that has that parameter ('x'). The actual argument
+        // ('x') is an argument of a component instantiation ('z'). The outer component definition ('C') contains that
+        // component instantiation ('z'), as otherwise the component parameter ('x') would not be in scope. The only way
+        // for there to be infinite recursion would be for the actual argument (component parameter 'x') to be the
+        // actual argument for that same parameter of the component definition being instantiated (parameter 'x' of
+        // component definition 'C' being instantiated as 'z'). That means that 'C' contains 'z', which is an instance
+        // of 'C', which leads to self-instantiation, which is not allowed in CIF.
+        // - Via component instantiation references and direct component references don't refer to a component parameter
+        // at all, and thus trivially don't lead to infinite recursions on them.
         walkExpression(arg);
 
         // Get potentially updated actual argument.

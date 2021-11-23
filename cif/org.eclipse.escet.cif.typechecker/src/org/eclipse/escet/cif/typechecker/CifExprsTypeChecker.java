@@ -4684,8 +4684,9 @@ public class CifExprsTypeChecker {
             return locRef;
         }
 
-        // Automaton parameter reference expression. Create a component parameter wrapping expression.
+        // Automaton parameter reference expression. Add a component parameter wrapping expression.
         if (autRef instanceof CompParamExpression) {
+            // Create wrapping expression for automaton parameter reference.
             CompParamExpression expr = (CompParamExpression)autRef;
             CompParamWrapExpression wrap = newCompParamWrapExpression();
 
@@ -4887,7 +4888,7 @@ public class CifExprsTypeChecker {
 
         // Handle component parameter reference.
         if (autRef instanceof CompParamExpression) {
-            CifType t = ((CompParamExpression)autRef).getType();
+            CifType t = CifTypeUtils.normalizeType(((CompParamExpression)autRef).getType());
             Assert.check(t instanceof ComponentDefType);
             ComponentDef cdef = ((ComponentDefType)t).getDefinition();
             return (Automaton)cdef.getBody();
