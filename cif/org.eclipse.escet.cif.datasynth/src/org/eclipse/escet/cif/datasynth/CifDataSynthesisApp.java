@@ -39,7 +39,7 @@ import org.eclipse.escet.cif.datasynth.options.BddSimplifyOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowSizeOption;
 import org.eclipse.escet.cif.datasynth.options.BddSlidingWindowVarOrderOption;
 import org.eclipse.escet.cif.datasynth.options.BddVariableOrderOption;
-import org.eclipse.escet.cif.datasynth.options.ContinuousNodesStatisticsFileOption;
+import org.eclipse.escet.cif.datasynth.options.ContinuousPerformanceStatisticsFileOption;
 import org.eclipse.escet.cif.datasynth.options.EventWarnOption;
 import org.eclipse.escet.cif.datasynth.options.ForwardReachOption;
 import org.eclipse.escet.cif.datasynth.options.SupervisorNameOption;
@@ -53,7 +53,6 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.common.app.framework.AppEnv;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.Paths;
-import org.eclipse.escet.common.app.framework.exceptions.InputOutputException;
 import org.eclipse.escet.common.app.framework.io.AppStream;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
 import org.eclipse.escet.common.app.framework.io.FileAppStream;
@@ -223,12 +222,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         BddUtils.setBddCallbacks(factory, doGcStats, doResizeStats);
 
         boolean doCacheStats = stats.contains(SynthesisStatistics.BDD_CACHE);
-        boolean doContinuousNodesStats = stats.contains(SynthesisStatistics.BDD_CONTINUOUS_NODES);
+        boolean doContinuousPerformanceStats = stats.contains(SynthesisStatistics.BDD_CONT_PERF);
         boolean doMaxBddNodesStats = stats.contains(SynthesisStatistics.BDD_MAX_NODES);
-        if (doCacheStats || doContinuousNodesStats) {
+        if (doCacheStats || doContinuousPerformanceStats) {
             factory.getCacheStats().enableMeasurements();
         }
-        if (doContinuousNodesStats) {
+        if (doContinuousPerformanceStats) {
             factory.getContinuousStats().enableMeasurements();
         }
         if (doMaxBddNodesStats) {
@@ -295,8 +294,8 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
             if (doCacheStats) {
                 out(factory.getCacheStats().toString());
             }
-            if (doContinuousNodesStats) {
-                printContinuousNodesStats(factory.getContinuousStats());
+            if (doContinuousPerformanceStats) {
+                printContinuousPerformanceStats(factory.getContinuousStats());
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -334,19 +333,19 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Print the continuous nodes statistics to a file.
+     * Print the continuous performance statistics to a file.
      *
-     * @param cs The continuous statistics to print.
+     * @param cs The continuous performance statistics to print.
      */
-    private void printContinuousNodesStats(ContinuousStats cs) {
+    private void printContinuousPerformanceStats(ContinuousStats cs) {
         // Collect the statistics.
         List<Long> operations = cs.getOperationsStats();
         List<Integer> nodes = cs.getNodesStats();
         int numberOfDataPoints = nodes.size();
 
         // Get the file to print to.
-        String outPath = ContinuousNodesStatisticsFileOption.getPath();
-        dbg("Writing continuous nodes statistics file \"%s\".", outPath);
+        String outPath = ContinuousPerformanceStatisticsFileOption.getPath();
+        dbg("Writing continuous performance statistics file \"%s\".", outPath);
         String absOutPath = Paths.resolve(outPath);
 
         // Start the actual printing.
@@ -399,7 +398,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
         synthOpts.add(Options.getInstance(SupervisorNamespaceOption.class));
         synthOpts.add(Options.getInstance(ForwardReachOption.class));
         synthOpts.add(Options.getInstance(SynthesisStatisticsOption.class));
-        synthOpts.add(Options.getInstance(ContinuousNodesStatisticsFileOption.class));
+        synthOpts.add(Options.getInstance(ContinuousPerformanceStatisticsFileOption.class));
         synthOpts.add(Options.getInstance(EventWarnOption.class));
         OptionCategory synthCat = new OptionCategory("Synthesis", "Synthesis options.", list(bddCat), synthOpts);
 

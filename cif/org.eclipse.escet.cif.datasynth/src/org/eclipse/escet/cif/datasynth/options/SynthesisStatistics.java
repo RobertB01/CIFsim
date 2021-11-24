@@ -27,8 +27,8 @@ public enum SynthesisStatistics {
     /** Maximum used BDD nodes. */
     BDD_MAX_NODES,
 
-    /** Continuous BDD node usage. */
-    BDD_CONTINUOUS_NODES,
+    /** Continuous BDD performance. */
+    BDD_CONT_PERF,
 
     /** BDD cache. */
     BDD_CACHE;

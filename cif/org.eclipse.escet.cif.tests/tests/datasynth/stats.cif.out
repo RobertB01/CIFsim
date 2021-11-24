@@ -167,6 +167,6 @@ Operator Miss:  976
 => Hit rate =   0.35192564
 Swap count =    0
 
-Writing continuous nodes statistics file "datasynth/stats.cif.stats.txt.real".
+Writing continuous performance statistics file "datasynth/stats.cif.stats.txt.real".
 Maximum used BDD nodes: 95.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".
