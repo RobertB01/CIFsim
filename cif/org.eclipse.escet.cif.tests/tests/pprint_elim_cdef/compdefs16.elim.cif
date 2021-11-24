@@ -1,0 +1,10 @@
+group r:
+  group y:
+    group q1:
+      alg bool v = true;
+    end
+  end
+end
+group x1:
+  alg bool z = r.y.q1.v;
+end
