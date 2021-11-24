@@ -53,7 +53,7 @@ public class C99TypeInfoHelper {
     }
 
     /**
-     * Get the name of the the 'type print' for this type.
+     * Get the name of the 'type print' for this type.
      *
      * @param ti Type information object to query.
      * @param rawString Whether to output the string as-is, otherwise escape \n, \t, and \.

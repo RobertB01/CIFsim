@@ -24,11 +24,11 @@ public class TrajDataFileOption extends StringOption {
     public TrajDataFileOption() {
         super("Trajectory data file",
                 "Specify the absolute or relative local file system path of the trajectory data file, or \"\" to "
-                        + "default to the path of file containing the the specification being simulated, post-fixed "
-                        + "with \".trajdata\". [DEFAULT=\"\"]",
+                        + "default to the path of file containing the specification being simulated, post-fixed with "
+                        + "\".trajdata\". [DEFAULT=\"\"]",
                 null, "trajdata-file", "TDFILE", null, true, true,
                 "Specify the absolute or relative local file system path of the trajectory data file. Leave empty "
-                        + "to default to the path file containing the the specification being simulated, post-fixed with "
+                        + "to default to the path file containing the specification being simulated, post-fixed with "
                         + "\".trajdata\".",
                 "File path:");
     }

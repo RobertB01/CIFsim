@@ -28,7 +28,7 @@ import org.eclipse.escet.common.raildiagrams.solver.Variable;
 
 /** Row of child diagrams in a sequence. */
 public class SequenceRow {
-    /** Elements of the the row. */
+    /** Elements of the row. */
     public final List<DiagramElement> elements;
 
     /** Proxies of the child elements, always in proper order for flow in the diagram. */

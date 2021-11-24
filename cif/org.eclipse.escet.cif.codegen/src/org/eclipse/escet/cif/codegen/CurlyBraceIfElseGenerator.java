@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.common.box.CodeBox;
 
-/** Generic if/else if/else generator for languages with curly braced code blocks. */
+/** Generic if/else generator for languages with curly braced code blocks. */
 public class CurlyBraceIfElseGenerator implements IfElseGenerator {
     /** Number of additional opened indents in 'else if' due to code insertion. */
     private int numberAdditionalIndents;

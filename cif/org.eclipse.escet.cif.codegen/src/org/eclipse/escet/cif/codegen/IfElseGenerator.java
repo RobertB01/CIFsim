@@ -15,7 +15,7 @@ package org.eclipse.escet.cif.codegen;
 
 import org.eclipse.escet.common.box.CodeBox;
 
-/** Interface for generating the if/else if/else selections. */
+/** Interface for generating the if/else selections. */
 public interface IfElseGenerator {
     /**
      * Is a branch a safe scope for creating temporary variables?

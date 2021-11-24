@@ -63,8 +63,8 @@ public class BddOpCacheRatioOption extends DoubleOption {
      * Returns the ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD
      * library. Value should not be used if the BDD library operation size option is enabled.
      *
-     * @return The the ratio of the size of the operation cache of the BDD library to the size of the node table of the
-     *     BDD library.
+     * @return The ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD
+     *     library.
      */
     public static double getCacheRatio() {
         return Options.get(BddOpCacheRatioOption.class);

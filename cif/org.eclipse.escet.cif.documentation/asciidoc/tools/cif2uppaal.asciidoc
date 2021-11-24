@@ -64,7 +64,7 @@ The following restrictions apply:
 * Automata that do not have exactly one initial location are not supported.
 
 * Locations with initialization predicates that are too complex to evaluate statically, are not supported.
-That is, those predicates must essentially be be constant.
+That is, those predicates must essentially be constant.
 For instance, `true` and `true or false` are supported, as is `c` if `c` is a constant.
 However, `+v => c+` with `v` a discrete variable that can initially have several different values, is not supported.
 

@@ -207,7 +207,7 @@ If `EVENT_OUTPUT` is set during compilation, executed events are reported with:
 <prefix>_InfoEvent(<prefix>_Event_ event, BoolType pre)
 ----
 
-If the `EVENT_OUTPUT` macro is set during compilation, the generated code reports with this call that event event is about to (`pre` is `TRUE`), or has been (`pre` is `FALSE`) executed.
+If the `EVENT_OUTPUT` macro is set during compilation, the generated code reports with this call that event is about to (`pre` is `TRUE`), or has been (`pre` is `FALSE`) executed.
 In the pre-event call, the event can be executed, and all variables have their value before performing the updates of the involved edges.
 In the post-event call, all variables have their values updated as indicated in the updates of the edges.
 

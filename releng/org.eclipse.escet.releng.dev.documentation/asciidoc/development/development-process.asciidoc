@@ -178,7 +178,7 @@ indexterm:[commit]
 
 Consider the following regarding commits:
 
-* Project committers working on an issue in a a branch must commit regularly, to allow the other project committers and the rest of the community to see what they're working on.
+* Project committers working on an issue in a branch must commit regularly, to allow the other project committers and the rest of the community to see what they're working on.
 This is mandatory as per the Eclipse Foundation transparency principle.
 
 * If a branch involves significant changes, consider using multiple commits that may be easier to review.
