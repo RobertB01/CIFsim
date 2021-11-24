@@ -102,7 +102,7 @@ One practical example where this is very useful, is for buttons with a text labe
 In SVG, this requires the use of a rectangle and a text label.
 To ensure that clicking either one of them results in the same event, group the rectangle and text label together in a group.
 Then assign an <<tools-cifsim-output-svgviz-svg-id,id>> to the group and use that id in an <<tools-cifsim-input-svg-chapter-svgin,input mapping>>.
-During simulation, when hovering over either the rectangle or the text label, both will will be highlighted.
+During simulation, when hovering over either the rectangle or the text label, both will be highlighted.
 Clicking on either of them results in the corresponding input mapping being applied, and the resulting event being chosen by the SVG input component.
 
 In general, if an SVG image is clicked, the simulator will figure out on which graphical element the user clicked.

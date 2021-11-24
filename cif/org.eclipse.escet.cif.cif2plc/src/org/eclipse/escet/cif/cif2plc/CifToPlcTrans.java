@@ -1057,8 +1057,8 @@ public class CifToPlcTrans {
     }
 
     /**
-     * Transforms a CIF tuple type type to a PLC structure. The first call for a tuple type determines the name to use,
-     * and generates the code for the structure. Any subsequent calls for the same tuple type return the same structure
+     * Transforms a CIF tuple type to a PLC structure. The first call for a tuple type determines the name to use, and
+     * generates the code for the structure. Any subsequent calls for the same tuple type return the same structure
      * name. The generated names are globally unique, valid IEC 61131-3 identifiers, and are never keywords.
      *
      * @param tupleType The CIF tuple type.

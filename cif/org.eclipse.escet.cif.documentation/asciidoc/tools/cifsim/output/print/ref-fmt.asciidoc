@@ -595,7 +595,7 @@ That is, all features of format specifiers are supported.
 Real numbers include a _decimal mark_, a symbol used to separate the integer part from the fractional part of number, when written in decimal form.
 This decimal mark is denoted by a dot (`.`).
 
-If the real number is is greater than or equal to 10^-4^ but less than 10^precision^, the result is as `%f`.
+If the real number is greater than or equal to 10^-4^ but less than 10^precision^, the result is as `%f`.
 Otherwise, the result is as `%e` and `%E`, for `%g` and `%G` respectively.
 However, the total number of link:http://en.wikipedia.org/wiki/Significant_figures[significant digits] of the result is equal to the precision of the `%g` or `%G` specifier, and defaults to `6` if not specified.
 If the specified precision is `0`, it is taken to be `1` instead.
