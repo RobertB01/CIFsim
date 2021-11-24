@@ -34,7 +34,7 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                         + "\"bdd-resize\" for BDD node table resize statistics, "
                         + "\"bdd-max-nodes\" for maximum used BDD nodes statistics, "
                         + "\"bdd-continuous-nodes\" for continuous BDD node usage statistics, and/or "
-                        + "\"bdd-cache\" for BDD cache statistics." +
+                        + "\"bdd-cache\" for BDD cache statistics. " +
 
                         "By default, no statistics are printed. "
                         + "Prefix a name with \"+\" to add it on top of the defaults, "
