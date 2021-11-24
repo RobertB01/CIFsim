@@ -109,7 +109,7 @@ public class JavaRealTypeInfo extends RealTypeInfo {
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Use 'equalObjs' instead of '==' to avoid object equality for two Boolean objects.
+        // Use 'equalObjs' instead of '==' to avoid object equality for two Double objects.
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "equalObjs(${left-value}, ${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
