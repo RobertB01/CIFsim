@@ -346,7 +346,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         // Get the file to print to.
         String outPath = ContinuousNodesStatisticsFileOption.getPath();
-        dbg("Writing output continuous nodes statistics file \"%s\".", outPath);
+        dbg("Writing continuous nodes statistics file \"%s\".", outPath);
         outPath = Paths.resolve(outPath);
 
         // Start the actual printing.
@@ -358,7 +358,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
                 // Only print new data points.
                 long nextOperations = operations.get(i);
                 int nextNodes = nodes.get(i);
-                if (nextOperations != lastOperations && nextNodes != lastNodes) {
+                if (nextOperations != lastOperations || nextNodes != lastNodes) {
                     lastOperations = nextOperations;
                     lastNodes = nextNodes;
                     stream.printfln("%d,%d", lastOperations, lastNodes);
