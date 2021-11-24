@@ -581,10 +581,14 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // reference a component instantiation.
             refObj = ((ComponentType)childRef).getComponent();
         } else if (childRef instanceof ComponentDefType) {
-            // Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
-            // eliminating 'X' and 'x1', 'X' does not contain any component definitions. As such, 'childRef' can not be
-            // a component definition reference.
-            throw new RuntimeException("Invalid comp def type.");
+            // Assume that 'wrap' (say 'x1.C') consists of a component instantiation 'x1' for component definition 'X'
+            // and a reference to component definition 'C'. Then, since we are eliminating 'X' and 'x1', 'X' does no
+            // longer contain that component definition ('C'). As such, we won't find that definition in the
+            // instantiated component ('x1'). Every instantiation that has this type ('C') must have been instantiated
+            // already. Only component parameters can still have this type ('C'). Eventually the parameter and thus
+            // this type will get replaced by an actual argument. Hence, we won't have to replace this wrap.
+            Assert.check(wrap.eContainer() instanceof ComponentParameter);
+            return;
         } else if (childRef instanceof CompInstWrapType) {
             // Assume that 'wrap' is a component instantiation 'x1' for component definition 'X'. Then, since we are
             // eliminating 'X' and 'x1', 'X' does not contain any component instantiations. As such, 'childRef' can not
