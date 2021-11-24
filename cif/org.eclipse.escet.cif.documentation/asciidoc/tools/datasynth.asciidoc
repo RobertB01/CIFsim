@@ -790,7 +790,7 @@ indexterm:[data-based supervisory controller synthesis,statistics]
 
 The data-based synthesis tool supports printing various kinds of statistics to the console.
 By default, no statistics are printed.
-Statistics can be enabled using the the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
+Statistics can be enabled using the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
 The following statistics are available:
 
 * _Timing_ [`timing`]

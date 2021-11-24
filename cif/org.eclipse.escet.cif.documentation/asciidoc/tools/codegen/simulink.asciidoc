@@ -25,7 +25,7 @@ The <<tools-codegen-chapter-index>> can generate Matlab Simulink S-Function C co
 It is assumed the reader of this page is familiar with the general information of the CIF code generator tool.
 This page describes specific information applicable only to Simulink code generation.
 
-The aim of the the conversion from CIF to Simulink is to provide a smooth path from a CIF specification to a controlled real-time system.
+The aim of the conversion from CIF to Simulink is to provide a smooth path from a CIF specification to a controlled real-time system.
 
 At this page, all the details about the Simulink code generation are discussed.
 For an example of how to use this code generation in practice, read <<tools-codegen-chapter-simulink-example,the example>>.

@@ -39,7 +39,7 @@ public class PrintOutputComponent extends NullSimulatorOutputComponent {
     /**
      * Constructor for the {@link PrintOutputComponent} class.
      *
-     * @param printDecls The The print I/O declarations.
+     * @param printDecls The print I/O declarations.
      * @param ctxt The simulator runtime context.
      */
     public PrintOutputComponent(RuntimePrintDecls printDecls, CifSimulatorContext ctxt) {
