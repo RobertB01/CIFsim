@@ -83,7 +83,7 @@ public class JavaStringTypeInfo extends StringTypeInfo {
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Use 'equalObjs' instead of '==' to avoid object equality for two Boolean objects.
+        // Use 'equalObjs' instead of '==' to avoid object equality for two String objects.
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "equalObjs(${left-value}, ${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
