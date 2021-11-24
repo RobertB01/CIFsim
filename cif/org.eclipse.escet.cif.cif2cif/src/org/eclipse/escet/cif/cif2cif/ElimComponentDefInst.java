@@ -595,7 +595,7 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             Assert.check(parent instanceof ComponentParameter);
 
             // We remove the wrap to properly indicate that the instantiation ('x1') has been removed. Otherwise we may
-            // get trouble when the parent wrap ('y') gets removed, as it references is a component instantiation
+            // get trouble when the parent wrap ('y') gets removed, as it references is a component instantiation type
             // ('x1').
             EMFHelper.updateParentContainment(wrap, childRef);
             return;
