@@ -75,7 +75,7 @@ map(string:list string) test_options = {
     "datasynth/simplify_se_excl_req_invs_on.cif":         ["--bdd-simplify=guards-se-excl-req-invs"],
     "datasynth/simplify_state_req_invs_off.cif":          ["--bdd-simplify="],
     "datasynth/simplify_state_req_invs_on.cif":           ["--bdd-simplify=guards-state-req-invs"],
-    "datasynth/stats.cif":                                ["--stats=bdd-max-nodes,bdd-continuous-nodes"],
+    "datasynth/stats.cif":                                ["--stats=bdd-max-nodes,bdd-continuous-nodes,bdd-cache"],
     "datasynth/supname_custom.cif":                       ["-s g"],
     "datasynth/supname_invalid.cif":                      ["-s b@"],
 };
@@ -142,13 +142,13 @@ for test in tests:
     string test1_out_real   = chfileext(test, newext="out.real");
     string test1_err_real   = chfileext(test, newext="err.real");
     string test1_stats_exp  = chfileext(test, newext="stats.txt");
-    string test1_stats_real = chfileext(test, newext="stats.real.txt");
+    string test1_stats_real = chfileext(test, newext="stats.txt.real");
 
     string rslt1_exp  = chfileext(test, oldext="cif", newext="ctrlsys.cif");
     string rslt1_real = chfileext(test, oldext="cif", newext="ctrlsys.real.cif");
 
     // Execute.
-    list string options1 = options + ["-o", rslt1_real, "--contnodesstatsfile=" + test1_stats_real];
+    list string options1 = options + ["-o", rslt1_real, "--statsfile-contnodes=" + test1_stats_real];
     int exit_code1 = cifdatasynth([test] + options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
