@@ -149,6 +149,7 @@ public enum ErrMsg {
     // TypeRef.typeInScope
     // AlgVariableExpression.variableInScope
     // CompInstWrapExpression.instantiationInScope
+    // CompParamExpression.parameterInScope
     // CompParamWrapExpression.parameterInScope
     // ComponentExpression.componentInScope
     // ConstantExpression.constantInScope
@@ -778,6 +779,7 @@ public enum ErrMsg {
     // - ComponentExpression.type
     // - ComponentType.noCompDefBody
     // - ComponentType.noSpec
+    // - CompParamExpression.type
     // - CompParamWrapExpression.reference
     // - CompParamWrapExpression.type
     // - CompParamWrapType.reference
