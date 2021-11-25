@@ -556,7 +556,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
 
                 // Set result type for the new wrapper expression. The original
                 // result type (no deep cloning is performed) is used. This
-                // means the the original result expression no longer has a
+                // means the original result expression no longer has a
                 // type.
                 rslt.setType(rsltType);
 

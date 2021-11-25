@@ -537,7 +537,7 @@ public class BddToCif {
      * @param var The synthesis variable.
      * @param idx The 0-based index of the BDD variable into the domain of the synthesis variable, for which to create
      *     the CIF predicate.
-     * @return The CIF predicate the the BDD variable.
+     * @return The CIF predicate the BDD variable.
      */
     public static Expression getBddVarPred(SynthesisVariable var, int idx) {
         // Get variable type.

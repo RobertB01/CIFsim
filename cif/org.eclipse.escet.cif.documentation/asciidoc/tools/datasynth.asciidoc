@@ -265,7 +265,7 @@ That is, `j` must essentially be constant.
 
 * `Switch` expressions with supported control values and supported resulting values.
 
-* Any other valid CIF expression (computation) that that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
+* Any other valid CIF expression (computation) that results in a non-negative integer value or an enumeration value, as long as the computation is not too complex to be performed statically.
 That is, the computation must essentially represent a fixed/constant value.
 
 Here are some examples of computations that can be statically evaluated:
@@ -790,7 +790,7 @@ indexterm:[data-based supervisory controller synthesis,statistics]
 
 The data-based synthesis tool supports printing various kinds of statistics to the console.
 By default, no statistics are printed.
-Statistics can be enabled using the the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
+Statistics can be enabled using the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
 The following statistics are available:
 
 * _Timing_ [`timing`]

@@ -34,7 +34,7 @@ import java.util.List;
 public class ForceVarOrderer extends AutoVarOrderer {
     /**
      * The location of each vertex, i.e. l<sub>v</sub> and l<sub>v</sub>' in the paper. The vertices are variables, in
-     * increasing order of the their variable indices.
+     * increasing order of their variable indices.
      */
     private double[] locations;
 

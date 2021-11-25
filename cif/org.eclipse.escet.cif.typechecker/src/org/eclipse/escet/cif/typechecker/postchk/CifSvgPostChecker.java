@@ -110,7 +110,7 @@ public class CifSvgPostChecker {
 
     /**
      * Mapping from {@link SourceFile#absPath absolute paths} of SVG files to mappings from text nodes to pairs of SVG
-     * element ids and the position information for the output mapping that outputs to to that text node.
+     * element ids and the position information for the output mapping that outputs to that text node.
      */
     private Map<String, Map<Text, Pair<String, Position>>> outFileIdTextsMap = map();
 

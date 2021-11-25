@@ -104,7 +104,7 @@ public class RegExSeq extends RegEx {
             int partStrength = part.getBindingStrength();
             if (myStrength > partStrength || (myStrength == partStrength && !first)) {
                 // Local operator has higher binding strength, or any non-first
-                // has same binding strength but is is left-associative.
+                // has same binding strength but is left-associative.
                 rslt.append("(" + partTxt + ")");
             } else {
                 rslt.append(partTxt);
