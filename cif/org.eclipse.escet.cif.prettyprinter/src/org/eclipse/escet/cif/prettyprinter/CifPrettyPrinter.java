@@ -1864,8 +1864,8 @@ public final class CifPrettyPrinter {
             Component refObj = ((ComponentExpression)expr).getComponent();
             return CifScopeUtils.getRefTxtFromObj(expr, refObj, scopeCache);
         } else if (expr instanceof CompParamExpression) {
-            ComponentParameter param = ((CompParamExpression)expr).getParameter();
-            return escapeIdentifier(param.getName());
+            ComponentParameter refObj = ((CompParamExpression)expr).getParameter();
+            return CifScopeUtils.getRefTxtFromObj(expr, refObj, scopeCache);
         } else if (expr instanceof CompInstWrapExpression) {
             return CifScopeUtils.getViaRefTxt(expr, scopeCache);
         } else if (expr instanceof CompParamWrapExpression) {
