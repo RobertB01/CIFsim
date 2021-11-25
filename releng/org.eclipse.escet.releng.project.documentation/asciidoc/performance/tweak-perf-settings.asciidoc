@@ -45,7 +45,7 @@ The following information is available on this page:
 * <<performance-tweak-perf-settings-visualvm>>
 
 
-indexterm:[eclipse.ini]
+indexterm:[eclipse-escet.ini]
 indexterm:[memory,quick and dirty]
 indexterm:[memory,increase]
 indexterm:[memory,more]
@@ -56,7 +56,7 @@ indexterm:[memory,out of memory]
 
 This section explains a 'quick and dirty' solution that gives Eclipse more memory, resolving the most common performance problems and out-of-memory errors.
 
-Find the `eclipse.ini` file.
+Find the `eclipse-escet.ini` file.
 By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `EclipseESCET-vNNN.app/Contents/Eclipse` directory, with `vNNN` the version number, inside the Eclipse ESCET installation directory.
 Modify the last line (usually `-Xmx4g`).
 Replace it by the following to change the maximum available memory from 4 link:https://en.wikipedia.org/wiki/Gibibyte[GiB] to 8 GiB:
@@ -277,7 +277,7 @@ The `pass:[+]` part of the command line syntax indicates that the corresponding 
 Replace the `pass:[+]` by a `-` to disable the feature instead of enabling it.
 
 
-indexterm:[eclipse.ini]
+indexterm:[eclipse-escet.ini]
 indexterm:[memory,settings]
 indexterm:[memory,tweak]
 indexterm:[memory,configure]
@@ -287,20 +287,20 @@ indexterm:[vmargs]
 === Changing memory settings
 
 There are several ways to supply the command line arguments for the settings to Java.
-The easiest way to do it, when using Eclipse, is to modify the `eclipse.ini` file.
+The easiest way to do it, when using Eclipse, is to modify the `eclipse-escet.ini` file.
 By default, it is located in your Eclipse ESCET installation directory, except for macOS, where instead it is in the `EclipseESCET-vNNN.app/Contents/Eclipse` directory, with `vNNN` the version number, inside the Eclipse ESCET installation directory.
 
-Each of the settings you want to change should be added to the `eclipse.ini` text file, in the command line syntax.
+Each of the settings you want to change should be added to the `eclipse-escet.ini` text file, in the command line syntax.
 Each setting must be put on a line _by itself_.
 Furthermore, all these JVM settings must be put _after_ the line that contains `-vmargs`.
 Settings on lines before the `-vmargs` line are the settings for the launcher that starts Eclipse, rather than to the JVM.
 
-Note that the default `eclipse.ini` file supplied with Eclipse may already contain some of the settings.
+Note that the default `eclipse-escet.ini` file supplied with Eclipse may already contain some of the settings.
 If so, don't add the setting again.
 Instead, change the value of the existing setting.
 The settings that are present by default, as well as their values, may change from version to version.
 
-After modifying `eclipse.ini`, restart the Eclipse ESCET IDE or command line script for the changes to take effect.
+After modifying `eclipse-escet.ini`, restart the Eclipse ESCET IDE or command line script for the changes to take effect.
 
 
 indexterm:[ECLIPSE_HOME]
@@ -310,12 +310,12 @@ indexterm:[appendVmargs]
 
 ==== Miscellaneous troubleshooting
 
-If the `+ECLIPSE_HOME+` environment variable is defined, that directory is used instead of the default directory, to look for `eclipse.ini`.
+If the `+ECLIPSE_HOME+` environment variable is defined, that directory is used instead of the default directory, to look for `eclipse-escet.ini`.
 However, most users should not be affected by this.
 
-Using the `-vmargs` command line option replaces the similar settings from the `eclipse.ini` file.
+Using the `-vmargs` command line option replaces the similar settings from the `eclipse-escet.ini` file.
 For most users, this will not be applicable.
-If `--launcher.appendVmargs` is specified either in the `eclipse.ini` file, or on the command line, the `-vmargs` settings of the command line are added to the `eclipse.ini` file `-vmargs` instead of replacing them.
+If `--launcher.appendVmargs` is specified either in the `eclipse-escet.ini` file, or on the command line, the `-vmargs` settings of the command line are added to the `eclipse-escet.ini` file `-vmargs` instead of replacing them.
 
 
 indexterm:[performance,hints]
