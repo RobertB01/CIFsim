@@ -780,7 +780,7 @@ public abstract class SymbolScope<T extends PositionObject> extends SymbolTableE
         } else if (entry instanceof CompParamScope) {
             ComponentParameter p = ((CompParamScope)entry).getObject();
 
-            ComponentDefType t = EMFHelper.deepclone((ComponentDefType)p.getType());
+            CifType t = EMFHelper.deepclone(p.getType());
             t.setPosition(copyPosition(position));
 
             CompParamExpression rslt = newCompParamExpression();
