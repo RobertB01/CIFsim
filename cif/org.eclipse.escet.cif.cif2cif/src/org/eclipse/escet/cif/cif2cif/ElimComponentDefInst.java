@@ -629,6 +629,9 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // This component reference can not reference a component instantiation. See above.
             Component c = (Component)newRefObj;
             ((ComponentType)childRef).setComponent(c);
+        } else if (childRef instanceof ComponentDefType) {
+            // Already handled. See above.
+            throw new RuntimeException("Should never get here...");
         } else if (childRef instanceof CompInstWrapType) {
             // Can't happen. See above.
             throw new RuntimeException("Should never get here...");
