@@ -1,0 +1,15 @@
+group def Y():
+  group def Q():
+    input bool v;
+  end
+  q1: Q();
+end
+group def X1(y.Q p):
+  alg bool z = p.v;
+  group def X():
+    group def T():
+    end
+  end
+end
+y: Y();
+x1: X1(y.q1);
