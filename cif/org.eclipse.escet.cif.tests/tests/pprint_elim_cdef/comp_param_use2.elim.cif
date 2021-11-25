@@ -1,0 +1,12 @@
+group y:
+  plant automaton q1:
+    location l1:
+      initial;
+      edge when l1 goto l2;
+    location l2;
+  end
+end
+group x1:
+  alg string s1 = <string>y.q1;
+  alg bool b1 = switch y.q1: case l1: true else false end;
+end

@@ -607,14 +607,15 @@ public class ElimComponentDefInst extends CifWalker implements CifToCifTransform
             // and a reference to component definition 'C'. Then, since we are eliminating 'X' and 'x1', 'X' does no
             // longer contain that component definition ('C'). As such, we won't find that definition in the
             // instantiated component ('x1'). Every instantiation that has this type ('C') must have been instantiated
-            // already. Only component parameters (say 'p') can still have this type ('C'). Note there may be multiple
-            // 'via' instantiation wraps (e.g., 'r.y.x1.C'). Eventually the parameter ('p') and thus this type will get
-            // replaced by an actual argument. Hence, we won't have to eliminate this component definition type ('C').
+            // already. Only component parameters (say 'p') or component parameter references ('p') can still have this
+            // type ('C'). Note there may be multiple 'via' instantiation wraps (e.g., 'r.y.x1.C'). Eventually the
+            // parameter ('p') and thus this type will get replaced by an actual argument. Hence, we won't have to
+            // eliminate this component definition type ('C').
             EObject parent = wrap.eContainer();
             while (parent instanceof CompInstWrapType) {
                 parent = ((CompInstWrapType)parent).eContainer();
             }
-            Assert.check(parent instanceof ComponentParameter);
+            Assert.check(parent instanceof ComponentParameter || parent instanceof CompParamExpression);
 
             // We remove the wrap to properly indicate that the instantiation ('x1') has been removed. Otherwise we may
             // get trouble when the parent wrap ('y') gets removed, as it then references a component instantiation type
