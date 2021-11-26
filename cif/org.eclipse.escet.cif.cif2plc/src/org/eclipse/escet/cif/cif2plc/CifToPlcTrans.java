@@ -2203,7 +2203,7 @@ public class CifToPlcTrans {
             // avoid renaming local names (local variables and parameters of
             // functions, etc). Note that we need to ensure case insensitive
             // unique names.
-            String candidate = getAbsName(obj).replace('.', '_');
+            String candidate = getAbsName(obj, false).replace('.', '_');
 
             // Ensure valid candidate name.
             while (candidate.contains("__")) {
