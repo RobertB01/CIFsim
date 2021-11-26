@@ -488,18 +488,6 @@ public abstract class prints {
         }
         if (true) {
             if (!pre) {
-                String text = "bla3";
-                infoPrintOutput(text, "c.txt");
-            }
-        }
-        if (true) {
-            if (!pre) {
-                String text = "bla4";
-                infoPrintOutput(text, "d.txt");
-            }
-        }
-        if (true) {
-            if (!pre) {
                 String text = "bla1";
                 infoPrintOutput(text, "a.txt");
             }
@@ -508,6 +496,18 @@ public abstract class prints {
             if (!pre) {
                 String text = "bla2";
                 infoPrintOutput(text, "b.txt");
+            }
+        }
+        if (true) {
+            if (!pre) {
+                String text = "bla3";
+                infoPrintOutput(text, "c.txt");
+            }
+        }
+        if (true) {
+            if (!pre) {
+                String text = "bla4";
+                infoPrintOutput(text, "d.txt");
             }
         }
     }

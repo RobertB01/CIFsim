@@ -70,7 +70,7 @@ END_IF;
 WHILE TRUE DO
     progress := FALSE;
 
-    // Event "M.p_c".
+    // Event "p.c".
     IF NOT progress THEN
         b1 := (state0.dvar_M_p) = (elit_l1);
         b1 := b1 AND (ivar_x);

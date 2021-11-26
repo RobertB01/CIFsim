@@ -1,6 +1,6 @@
 CONFIGURATION Untitled1
     VAR_GLOBAL // INPUTS
-        ivar_M_p_i AT %I*: LREAL;
+        ivar_p_i AT %I*: LREAL;
     END_VAR
     VAR_GLOBAL // TIMERS
         timer0: TON;

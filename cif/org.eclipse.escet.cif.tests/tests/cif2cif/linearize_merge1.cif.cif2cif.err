@@ -4,5 +4,5 @@ WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 84, colum
 WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 143, column 7: Event "e13" is not used anywhere in the specification.
 WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 385, column 10: Duplicate event "e21" on a single edge.
 WARNING: File "cif2cif/linearize_merge1.cif": Semantic warning at line 385, column 16: Duplicate event "e21" on a single edge.
-WARNING: Event "p41_e41a" does not have a 'send' edge and is never enabled.
-WARNING: Event "p41_e41b" does not have a 'send' edge and is never enabled.
+WARNING: Event "p41.e41a" does not have a 'send' edge and is never enabled.
+WARNING: Event "p41.e41b" does not have a 'send' edge and is never enabled.

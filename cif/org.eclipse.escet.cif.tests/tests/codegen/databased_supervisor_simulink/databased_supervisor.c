@@ -1524,12 +1524,12 @@ enum databased_supervisorEventEnum_ {
     EVT_INITIAL_,       /**< Initial step. */
     EVT_DELAY_,         /**< Delay step. */
     EVT_TAU_,           /**< Tau step. */
-    Button_u_pushed_,   /**< Event Button_u_pushed. */
-    Button_u_released_, /**< Event Button_u_released. */
-    Lamp_c_on_,         /**< Event Lamp_c_on. */
-    Lamp_c_off_,        /**< Event Lamp_c_off. */
-    Timer_c_start_,     /**< Event Timer_c_start. */
-    Timer_u_timeout_,   /**< Event Timer_u_timeout. */
+    Button_u_pushed_,   /**< Event Button.u_pushed. */
+    Button_u_released_, /**< Event Button.u_released. */
+    Lamp_c_on_,         /**< Event Lamp.c_on. */
+    Lamp_c_off_,        /**< Event Lamp.c_off. */
+    Timer_c_start_,     /**< Event Timer.c_start. */
+    Timer_u_timeout_,   /**< Event Timer.u_timeout. */
 };
 typedef enum databased_supervisorEventEnum_ databased_supervisor_Event_;
 
@@ -1537,12 +1537,12 @@ const char *evt_names[] = { /** < Event names. */
     "initial-step",      /**< Initial step. */
     "delay-step",        /**< Delay step. */
     "tau",               /**< Tau step. */
-    "Button_u_pushed",   /**< Event Button_u_pushed. */
-    "Button_u_released", /**< Event Button_u_released. */
-    "Lamp_c_on",         /**< Event Lamp_c_on. */
-    "Lamp_c_off",        /**< Event Lamp_c_off. */
-    "Timer_c_start",     /**< Event Timer_c_start. */
-    "Timer_u_timeout",   /**< Event Timer_u_timeout. */
+    "Button.u_pushed",   /**< Event Button.u_pushed. */
+    "Button.u_released", /**< Event Button.u_released. */
+    "Lamp.c_on",         /**< Event Lamp.c_on. */
+    "Lamp.c_off",        /**< Event Lamp.c_off. */
+    "Timer.c_start",     /**< Event Timer.c_start. */
+    "Timer.u_timeout",   /**< Event Timer.u_timeout. */
 };
 
 /** Enum names. */
