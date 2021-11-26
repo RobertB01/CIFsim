@@ -133,11 +133,6 @@
                 <BOOL/>
               </type>
             </variable>
-            <variable name="b2">
-              <type>
-                <BOOL/>
-              </type>
-            </variable>
           </tempVars>
         </interface>
         <body>
@@ -186,27 +181,31 @@ END_IF;
 WHILE TRUE DO
     progress := FALSE;
 
-    // Event "p.event".
+    // Event "$tau".
     IF NOT progress THEN
-        b2 := (state0.dvar_M_p) = (elit_l1);
-        b2 := b2 AND (ivar_x);
-        b1 := b2;
-        IF NOT(b1) THEN
-            b2 := (state0.dvar_M_p) = (elit_l2);
-            b2 := b2 AND (NOT(ivar_x));
-            b1 := b1 OR (b2);
-        END_IF;
+        b1 := (state0.dvar_M_p) = (elit_l1);
+        b1 := b1 AND (ivar_x);
         IF b1 THEN
             progress := TRUE;
             state1 := state0;
 
-            IF (((state0.dvar_M_p) = (elit_l1)) AND (ivar_x)) THEN
-                state1.dvar_M_p_disc := TRUE;
-                state1.dvar_M_p := elit_l2;
-            ELSIF (((state0.dvar_M_p) = (elit_l2)) AND (NOT(ivar_x))) THEN
-                state1.dvar_M_p_disc := FALSE;
-                state1.dvar_M_p := elit_l1;
-            END_IF;
+            state1.dvar_M_p_disc := TRUE;
+            state1.dvar_M_p := elit_l2;
+
+            state0 := state1;
+        END_IF;
+    END_IF;
+
+    // Event "tau".
+    IF NOT progress THEN
+        b1 := (state0.dvar_M_p) = (elit_l2);
+        b1 := b1 AND (NOT(ivar_x));
+        IF b1 THEN
+            progress := TRUE;
+            state1 := state0;
+
+            state1.dvar_M_p_disc := FALSE;
+            state1.dvar_M_p := elit_l1;
 
             state0 := state1;
         END_IF;

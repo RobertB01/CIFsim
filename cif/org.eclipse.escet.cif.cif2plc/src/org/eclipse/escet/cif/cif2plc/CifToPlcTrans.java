@@ -1857,7 +1857,7 @@ public class CifToPlcTrans {
         Assert.check(edge.getEvents().size() == 1);
         Expression eventRef = first(edge.getEvents()).getEvent();
         Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
-        String eventName = (event == null) ? "tau" : getAbsName(event, false);
+        String eventName = (event == null) ? "tau" : getAbsName(event);
 
         // Header.
         CodeBox c = pou.body;
@@ -1891,7 +1891,6 @@ public class CifToPlcTrans {
             unrestricted = CifValueUtils.isTriviallyTrue(guard, false, true);
         }
         if (unrestricted) {
-            eventName = (event == null) ? "tau" : getAbsName(event);
             String msg = fmt("Event \"%s\" is unrestricted (always enabled), and would result in infinitely "
                     + "running PLC code.", eventName);
             throw new InvalidInputException(msg);

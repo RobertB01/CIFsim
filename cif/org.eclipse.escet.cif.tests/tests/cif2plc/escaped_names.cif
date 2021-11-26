@@ -13,13 +13,14 @@
 
 input bool x;
 
+event $tau;
+
 automaton p:
-  event $event;
   disc bool $disc;
 
   location l1:
     initial;
-    edge $event when x do $disc := true goto l2;
+    edge $tau when x do $disc := true goto l2;
   location l2:
-    edge $event when not x do $disc := false goto l1;
+    edge when not x do $disc := false goto l1;
 end
