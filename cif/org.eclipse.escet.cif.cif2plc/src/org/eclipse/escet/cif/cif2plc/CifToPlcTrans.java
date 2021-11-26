@@ -1857,7 +1857,7 @@ public class CifToPlcTrans {
         Assert.check(edge.getEvents().size() == 1);
         Expression eventRef = first(edge.getEvents()).getEvent();
         Event event = (eventRef instanceof TauExpression) ? null : ((EventExpression)eventRef).getEvent();
-        String eventName = (event == null) ? "tau" : getAbsName(event);
+        String eventName = (event == null) ? "tau" : getAbsName(event, false);
 
         // Header.
         CodeBox c = pou.body;
@@ -1891,6 +1891,7 @@ public class CifToPlcTrans {
             unrestricted = CifValueUtils.isTriviallyTrue(guard, false, true);
         }
         if (unrestricted) {
+            eventName = (event == null) ? "tau" : getAbsName(event);
             String msg = fmt("Event \"%s\" is unrestricted (always enabled), and would result in infinitely "
                     + "running PLC code.", eventName);
             throw new InvalidInputException(msg);
@@ -2203,7 +2204,7 @@ public class CifToPlcTrans {
             // avoid renaming local names (local variables and parameters of
             // functions, etc). Note that we need to ensure case insensitive
             // unique names.
-            String candidate = getAbsName(obj).replace('.', '_');
+            String candidate = getAbsName(obj, false).replace('.', '_');
 
             // Ensure valid candidate name.
             while (candidate.contains("__")) {
