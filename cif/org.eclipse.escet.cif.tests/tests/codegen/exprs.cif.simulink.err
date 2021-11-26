@@ -121,12 +121,12 @@ WARNING: File "codegen/exprs.cif": Semantic warning at line 238, column 13: Disc
 WARNING: File "codegen/exprs.cif": Semantic warning at line 239, column 13: Discrete variable "AA.f_size1" is not used anywhere in the specification.
 WARNING: File "codegen/exprs.cif": Semantic warning at line 240, column 13: Discrete variable "AA.f_size2" is not used anywhere in the specification.
 WARNING: File "codegen/exprs.cif": Semantic warning at line 241, column 13: Discrete variable "AA.f_sqrt" is not used anywhere in the specification.
-WARNING: Unsupported output type "string" found in discrete variable "vs", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "b2s", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "i2s", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "r2s", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "add5", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "tii", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "ss", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "proj5", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "proj6", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.vs", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.b2s", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.i2s", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.r2s", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.add5", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "AA.tii", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.ss", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.proj5", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "AA.proj6", variable will be omitted from the output.
