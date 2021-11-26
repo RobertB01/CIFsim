@@ -335,12 +335,12 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     /**
      * Print the continuous performance statistics to a file.
      *
-     * @param cs The continuous performance statistics to print.
+     * @param stats The continuous performance statistics to print.
      */
-    private void printContinuousPerformanceStats(ContinuousStats cs) {
+    private void printContinuousPerformanceStats(ContinuousStats stats) {
         // Collect the statistics.
-        List<Long> operations = cs.getOperationsStats();
-        List<Integer> nodes = cs.getNodesStats();
+        List<Long> operations = stats.getOperationsStats();
+        List<Integer> nodes = stats.getNodesStats();
         int numberOfDataPoints = nodes.size();
 
         // Get the file to print to.

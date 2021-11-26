@@ -730,7 +730,7 @@ The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
 BDD garbage collection statistics are printed before and after garbage collection.
 The printed information includes the size of the node table, the number of free nodes, timing information, etc.
-Is printed to the console, after execution, just before termination of the tool.
+Is printed to the console each time a BDD garbage collection is performed.
 See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
 
 * _BDD node table resize_ [`bdd-resize`]
@@ -740,7 +740,7 @@ Whenever new nodes no longer fit in the node table, a garbage collection is star
 If only very limited space could be reclaimed by garbage collection, the size of the node table is increased.
 BDD node table resize statistics are printed when the node table is resized.
 The printed information includes the old and the new sizes of the node table.
-Is printed to the console, after execution, just before termination of the tool.
+Is printed to the console each time a BDD node table resize is performed.
 See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
 
 * _Maximum used BDD nodes_ [`bdd-max-nodes`]
@@ -785,10 +785,10 @@ For more information, see the <<tools-datasynth-op-cache>> section below.
 | The relative unique chain size with respect to the unique access size.
 
 | Unique hits
-| The number of times the node was already in cache.
+| The number of times the node was already in the cache.
 
 | Unique misses
-| The number of times there was no existing node in cache.
+| The number of times there was no existing node in the cache.
 
 | Unique hit rate
 | The relative number of unique hits with respect to the total number of hits and misses.
@@ -797,10 +797,10 @@ For more information, see the <<tools-datasynth-op-cache>> section below.
 | The number of times a BDD operation is called. 
 
 | Operator hits
-| The number of times a BDD operation on a node or a pair of nodes was already in cache.
+| The number of times a BDD operation on a node or a pair of nodes was already in the cache.
 
 | Operator misses
-| The number of times a BDD operation on a node or a pair of nodes was not in cache.
+| The number of times a BDD operation on a node or a pair of nodes was not in the cache.
 
 | Operator hit rate
 | The relative number of operator hits with respect to the total number of hits and misses.
@@ -1114,7 +1114,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Debug
 | Statistics
 | <<tools-datasynth-stats>>
-| Statistics output on console
+| Statistics output on console or to file
 | Disable for better performance
 
 | Warnings

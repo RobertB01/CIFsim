@@ -21,8 +21,8 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 public class ContinuousPerformanceStatisticsFileOption extends StringOption {
     /** Option description. */
     private static final String OPTION_DESC = "The path to the continuous performance statistics output file. " +
-                                              "If not specified, defaults to the input file path, where the `.cif` " +
-                                              "file extension is removed (if present), and a `.stats.txt` file " +
+                                              "If not specified, defaults to the input file path, where the '.cif' " +
+                                              "file extension is removed (if present), and a '.stats.txt' file " +
                                               "extension is added.";
 
     /** Constructor for the {@link ContinuousPerformanceStatisticsFileOption} class. */
@@ -60,9 +60,9 @@ public class ContinuousPerformanceStatisticsFileOption extends StringOption {
     }
 
     /**
-     * Returns the path of the continuous performance statistics output file. If the continuous nodes output file path is
-     * not specified, a modified input file path is used. The input path is modified by removing the {@code ".cif"}
-     * file extension (if present), and adding the {@code ".stats.txt"} output file extension.
+     * Returns the path of the continuous performance statistics output file. If the continuous performance output file
+     * path is not specified, a modified input file path is used. The input path is modified by removing the
+     * {@code ".cif"} file extension (if present), and adding the {@code ".stats.txt"} output file extension.
      *
      * @return The path of the continuous performance statistics output file.
      */
