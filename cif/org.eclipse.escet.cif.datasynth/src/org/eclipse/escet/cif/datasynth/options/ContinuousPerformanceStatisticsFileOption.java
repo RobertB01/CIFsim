@@ -59,9 +59,9 @@ public class ContinuousPerformanceStatisticsFileOption extends StringOption {
     }
 
     /**
-     * Returns the path of the continuous performance statistics output file. If the continuous performance output file
-     * path is not specified, a modified input file path is used. The input path is modified by removing the
-     * {@code ".cif"} file extension (if present), and adding the {@code ".stats.txt"} output file extension.
+     * Returns the path to the continuous performance statistics output file. If not specified, defaults to the input
+     * file path, where the {@code ".cif"} file extension is removed (if present), and a {@code ".stats.txt"} file
+     * extension is added.
      *
      * @return The path of the continuous performance statistics output file.
      */
