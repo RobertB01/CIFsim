@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.out;
 import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.list;
 import static org.eclipse.escet.common.java.Strings.fmt;
+import static org.eclipse.escet.common.java.Strings.str;
 
 import java.util.List;
 import java.util.Set;
@@ -65,8 +66,10 @@ import org.eclipse.escet.common.app.framework.output.IOutputComponent;
 import org.eclipse.escet.common.app.framework.output.OutputMode;
 import org.eclipse.escet.common.app.framework.output.OutputModeOption;
 import org.eclipse.escet.common.app.framework.output.OutputProvider;
+import org.eclipse.escet.common.box.GridBox;
 
 import com.github.javabdd.BDDFactory;
+import com.github.javabdd.BDDFactory.CacheStats;
 import com.github.javabdd.BDDFactory.ContinuousStats;
 import com.github.javabdd.JFactory;
 
@@ -292,10 +295,10 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
             // Print statistics before we clean up the factory.
             if (doCacheStats) {
-                out(factory.getCacheStats().toString());
+                printBddCacheStats(factory.getCacheStats());
             }
             if (doContinuousPerformanceStats) {
-                printContinuousPerformanceStats(factory.getContinuousStats());
+                printBddContinuousPerformanceStats(factory.getContinuousStats());
             }
             if (doMaxBddNodesStats) {
                 out(fmt("Maximum used BDD nodes: %d.", factory.getMaxUsedBddNodesStats().getMaxUsedBddNodes()));
@@ -333,11 +336,43 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
     }
 
     /**
-     * Print the continuous performance statistics to a file.
+     * Print the BDD factory cache statistics.
      *
-     * @param stats The continuous performance statistics to print.
+     * @param stats The BDD factory cache statistics.
      */
-    private void printContinuousPerformanceStats(ContinuousStats stats) {
+    private void printBddCacheStats(CacheStats stats) {
+        // Create grid.
+        GridBox grid = new GridBox(7, 2, 0, 1);
+
+        grid.set(0, 0, "Node creation requests:");
+        grid.set(1, 0, "Node creation chain accesses:");
+        grid.set(2, 0, "Node creation cache hits:");
+        grid.set(3, 0, "Node creation cache misses:");
+        grid.set(4, 0, "Operation count:");
+        grid.set(5, 0, "Operation cache hits:");
+        grid.set(6, 0, "Operation cache misses:");
+
+        grid.set(0, 1, str(stats.uniqueAccess));
+        grid.set(1, 1, str(stats.uniqueChain));
+        grid.set(2, 1, str(stats.uniqueHit));
+        grid.set(3, 1, str(stats.uniqueMiss));
+        grid.set(4, 1, str(stats.opAccess));
+        grid.set(5, 1, str(stats.opHit));
+        grid.set(6, 1, str(stats.opMiss));
+
+        // Print statistics.
+        out("BDD cache statistics:");
+        for (String line: grid.getLines()) {
+            out("  " + line);
+        }
+    }
+
+    /**
+     * Print the continuous BDD performance statistics to a file.
+     *
+     * @param stats The continuous BDD performance statistics to print.
+     */
+    private void printBddContinuousPerformanceStats(ContinuousStats stats) {
         // Collect the statistics.
         List<Long> operations = stats.getOperationsStats();
         List<Integer> nodes = stats.getNodesStats();
@@ -345,7 +380,7 @@ public class CifDataSynthesisApp extends Application<IOutputComponent> {
 
         // Get the file to print to.
         String outPath = ContinuousPerformanceStatisticsFileOption.getPath();
-        dbg("Writing continuous performance statistics file \"%s\".", outPath);
+        dbg("Writing continuous BDD performance statistics file \"%s\".", outPath);
         String absOutPath = Paths.resolve(outPath);
 
         // Start the actual printing.

@@ -152,21 +152,14 @@ Simplification of controlled system under the assumption of the plants:
   Event e: guard: 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23)) -> true [assume 0 <= a.x and (a.x <= 23 and not(20 <= a.x and a.x <= 23))].
 
 Constructing output CIF specification.
-
-Cache statistics
-----------------
-Unique Access:  819
-Unique Chain:   2
-=> Ave. chain = 0.0024420025
-Unique Hit:     290
-Unique Miss:    407
-=> Hit rate =   0.41606885
-Operator Access:  2657
-Operator Hits:  530
-Operator Miss:  976
-=> Hit rate =   0.35192564
-Swap count =    0
-
-Writing continuous performance statistics file "datasynth/stats.cif.stats.txt.real".
+BDD cache statistics:
+  Node creation requests:       819
+  Node creation chain accesses: 2
+  Node creation cache hits:     290
+  Node creation cache misses:   407
+  Operation count:              2657
+  Operation cache hits:         530
+  Operation cache misses:       976
+Writing continuous BDD performance statistics file "datasynth/stats.cif.stats.txt.real".
 Maximum used BDD nodes: 95.
 Writing output CIF file "datasynth/stats.ctrlsys.real.cif".

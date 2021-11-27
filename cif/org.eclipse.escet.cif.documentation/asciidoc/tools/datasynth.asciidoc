@@ -802,49 +802,34 @@ The table below shows all metrics printed and their meaning.
 | Metric
 | Description
 
-| Unique access
+| Node creation requests
 | The number of times a node creation is requested.
 This includes the trivial cases where the cache is not checked, e.g. when both child nodes are the same.
 
-| Unique chain
+| Node creation chain accesses
 | The number of times a node creation is requested, and a next node in the cache needs to be checked.
 This excludes the trivial cases where the cache is not checked.
 
-| Average chain
-| The fraction of 'unique chain' with respect to 'unique access'.
-
-| Unique hits
+| Node creation cache hits
 | The number of times a node creation is requested, and the node is already in the cache.
 This excludes the trivial cases where the cache is not checked.
 
-| Unique misses
+| Node creation cache misses
 | The number of times a node creation is requested, and the node is not already in the cache.
 This excludes the trivial cases where the cache is not checked.
 
-| Unique hit rate
-| The fraction of 'unique hits' with respect to the total number of 'unique hits' and 'unique misses'.
-
-| Operator access
+| Operation count
 | The number of times a BDD operation is performed on a node or a pair of nodes.
 This includes the trivial cases where the cache is not checked, e.g. for `x and x`, `x and true`, `false and x`, etc.
 
-| Operator hits
+| Operation cache hits
 | The number of times a BDD operation is performed on a node or a pair of nodes, and the result is already in the cache.
 This excludes the trivial cases where the cache is not checked.
 
-| Operator misses
+| Operation cache misses
 | The number of times a BDD operation is performed on a node or a pair of nodes, and the result is not already in the cache.
 This excludes the trivial cases where the cache is not checked.
-
-| Operator hit rate
-| The fraction of 'operator hits' with respect to the total number of 'operator hits' and 'operator misses'.
-
-| Swap count
-| The number of times two consecutive BDD variables are swapped while reordering the BDD variables.
-This metric is currently always disabled and thus `0` is printed.
-For more information, see the <<tools-datasynth-var-order>> section.
 |===
-
 
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
