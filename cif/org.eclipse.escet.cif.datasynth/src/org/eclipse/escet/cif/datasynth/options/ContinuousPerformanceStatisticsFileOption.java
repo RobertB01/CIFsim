@@ -20,43 +20,42 @@ import org.eclipse.escet.common.app.framework.options.StringOption;
 /** Option to configure the path for the continuous performance statistics output file. */
 public class ContinuousPerformanceStatisticsFileOption extends StringOption {
     /** Option description. */
-    private static final String OPTION_DESC = "The path to the continuous performance statistics output file. " +
-                                              "If not specified, defaults to the input file path, where the '.cif' " +
-                                              "file extension is removed (if present), and a '.stats.txt' file " +
-                                              "extension is added.";
+    private static final String OPTION_DESC = "The path to the continuous performance statistics output file. "
+            + "If not specified, defaults to the input file path, where the '.cif' file extension is removed "
+            + "(if present), and a '.stats.txt' file extension is added.";
 
     /** Constructor for the {@link ContinuousPerformanceStatisticsFileOption} class. */
     public ContinuousPerformanceStatisticsFileOption() {
         super(
-            // name.
-            "Continuous performance statistics file",
+                // name.
+                "Continuous performance statistics file",
 
-            // description.
-            OPTION_DESC,
+                // description.
+                OPTION_DESC,
 
-            // cmdShort.
-            null,
+                // cmdShort.
+                null,
 
-            // cmdLong.
-            "statsfile-contperf",
+                // cmdLong.
+                "statsfile-contperf",
 
-            // cmdValue.
-            "FILE",
+                // cmdValue.
+                "FILE",
 
-            // defaultValue.
-            null,
+                // defaultValue.
+                null,
 
-            // emptyAsNull.
-            true,
+                // emptyAsNull.
+                true,
 
-            // showInDialog.
-            true,
+                // showInDialog.
+                true,
 
-            // optDialogDescr.
-            OPTION_DESC,
+                // optDialogDescr.
+                OPTION_DESC,
 
-            // optDialogLabelText.
-            "Continuous performance statistics output file path:");
+                // optDialogLabelText.
+                "Continuous performance statistics output file path:");
     }
 
     /**
