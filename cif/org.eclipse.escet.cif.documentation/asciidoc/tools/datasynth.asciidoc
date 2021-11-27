@@ -714,61 +714,88 @@ The following statistics are available:
 * _Timing_ [`timing`]
 +
 Print statistics for timing of various parts of the tool.
-Is printed to the console, after execution, just before termination of the tool.
-Timing is only printed for parts of the tool that were actually executed.
-Timing is printed as a tree.
++
+Timing is only collected for parts of the tool that were actually executed.
+Timing is collected as a tree.
 The root of the tree represents the total time of the synthesis tool.
-For some parts of the tool, timing is also measured for sub-parts.
-Timing is printed in milliseconds, to make it easier to compare timing for various parts.
+For some parts of the tool, timing is also collected for sub-parts.
++
+Timing statistics are printed to the console, after execution, just before termination of the tool.
+Durations are all printed in milliseconds, to make it easier to compare timing for various parts.
 +
 When measuring performance, always perform multiple measurements, and take the average.
 Also, use a warm-up phase, to avoid skewed results.
 
 * _BDD garbage collection_ [`bdd-gc`]
 +
+Prints BDD garbage collection information before and after each garbage collection.
++
 The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
-BDD garbage collection statistics are printed before and after garbage collection.
-The printed information includes the size of the node table, the number of free nodes, timing information, etc.
-Is printed to the console each time a BDD garbage collection is performed.
 See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
++
+BDD garbage collection information is printed to the console before and after each garbage collection.
+The printed information includes the size of the node table, the number of free nodes, timing information, etc.
 
 * _BDD node table resize_ [`bdd-resize`]
++
+Prints BDD node table resize information each time a BDD node table resize is performed.
 +
 The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
 If only very limited space could be reclaimed by garbage collection, the size of the node table is increased.
-BDD node table resize statistics are printed when the node table is resized.
-The printed information includes the old and the new sizes of the node table.
-Is printed to the console each time a BDD node table resize is performed.
 See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
++
+BDD node table resize information is printed to the console each time the node table is resized.
+The printed information includes the old and new sizes of the node table.
 
 * _Maximum used BDD nodes_ [`bdd-max-nodes`]
 +
-The larger a BDD is, the more memory is needed to store it. 
-The size of a BDD can be expressed as the number of nodes used, which is implementation and machine independent.
-This statistic prints the maximum number of BDD nodes used during synthesis.
-Is printed to the console, after execution, just before termination of the tool.
+Prints the maximum number of BDD nodes used during synthesis.
++
+The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
+This metric is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+This statistic is printed to the console, after execution, just before termination of the tool.
+It prints the maximum number of BDD nodes used during synthesis.
++
 Note that collecting this statistic makes synthesis take longer than without collecting it.
-This statistic is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
 
 * _Continuous BDD performance statistics_ [`bdd-cont-perf`]
 +
-The larger a BDD is, the more memory is needed to store it. 
-The size of a BDD can be expressed as the number of nodes used, which is implementation and machine independent.
-This statistic prints the number of BDD nodes used during synthesis over 'time', where the BDD operations are used to represent time, i.e., each BDD operation is one time unit.
-The printed information includes a table where each row contains the number of performed BDD operations from the start of synthesis and the used BDD nodes at that point in time.
-Is printed to the _continuous performance statistics file_, after execution, just before termination of the tool (see <<tools-datasynth-options,options>> section above).
+Prints continuously collected platform and machine independent BDD performance related metrics.
++
+This statistic continuously collects the platform and machine independent BDD performance metrics described in the table below.
+These metrics are discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+The information is printed as a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
+The file is written after execution, just before termination of the tool.
++
 Note that collecting these statistics makes synthesis take longer than without collecting it.
-This statistic is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+[cols="20,50",options="header"]
+|===
+| Metric
+| Description
+
+| Operations
+| The number of BDD operations performed on BDD nodes so far during synthesis, for which the cache is checked and the result is not already in the cache.
+The number of operations performed on BDD nodes is a platform and machine independent measure of the amount of time needed to perform BDD operations, due to BDD operations being implemented recursively on their node trees.
+
+| Used BBD nodes
+| The number of BDD nodes currently in use to represent all BDDs.
+The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
+|===
 
 * _BDD cache_ [`bdd-cache`]
 +
+Prints statistics related to the BDD cache.
++
 The BDD library that is used implements a cache to speed up the calculations.
-The printed information includes the number of times the cache is accessed, the number of hits, and the number of misses.
-Is printed to the console, after execution, just before termination of the tool.
-In the table below shows all metrics printed and their meaning.
 For more information, see the <<tools-datasynth-op-cache>> section below.
++
+This statistic prints BDD cache related metrics to the console, after execution, just before termination of the tool.
+The table below shows all metrics printed and their meaning.
 +
 [cols="20,50",options="header"]
 |===
@@ -776,37 +803,46 @@ For more information, see the <<tools-datasynth-op-cache>> section below.
 | Description
 
 | Unique access
-| The number of times the cache is accesses because a node needed to be created.
+| The number of times a node creation is requested.
+This includes the trivial cases where the cache is not checked, e.g. when both child nodes are the same.
 
 | Unique chain
-| The number of times the cache needs to check the next node in the cache.
+| The number of times a node creation is requested, and a next node in the cache needs to be checked.
+This excludes the trivial cases where the cache is not checked.
 
 | Average chain
-| The relative unique chain size with respect to the unique access size.
+| The fraction of 'unique chain' with respect to 'unique access'.
 
 | Unique hits
-| The number of times the node was already in the cache.
+| The number of times a node creation is requested, and the node is already in the cache.
+This excludes the trivial cases where the cache is not checked.
 
 | Unique misses
-| The number of times there was no existing node in the cache.
+| The number of times a node creation is requested, and the node is not already in the cache.
+This excludes the trivial cases where the cache is not checked.
 
 | Unique hit rate
-| The relative number of unique hits with respect to the total number of hits and misses.
+| The fraction of 'unique hits' with respect to the total number of 'unique hits' and 'unique misses'.
 
 | Operator access
-| The number of times a BDD operation is called. 
+| The number of times a BDD operation is performed on a node or a pair of nodes.
+This includes the trivial cases where the cache is not checked, e.g. for `x and x`, `x and true`, `false and x`, etc.
 
 | Operator hits
-| The number of times a BDD operation on a node or a pair of nodes was already in the cache.
+| The number of times a BDD operation is performed on a node or a pair of nodes, and the result is already in the cache.
+This excludes the trivial cases where the cache is not checked.
 
 | Operator misses
-| The number of times a BDD operation on a node or a pair of nodes was not in the cache.
+| The number of times a BDD operation is performed on a node or a pair of nodes, and the result is not already in the cache.
+This excludes the trivial cases where the cache is not checked.
 
 | Operator hit rate
-| The relative number of operator hits with respect to the total number of hits and misses.
+| The fraction of 'operator hits' with respect to the total number of 'operator hits' and 'operator misses'.
 
 | Swap count
-| The number of times two consecutive BDD variables that depend on each other are swapped while reordering the BDD variables.
+| The number of times two consecutive BDD variables are swapped while reordering the BDD variables.
+This metric is currently always disabled and thus `0` is printed.
+For more information, see the <<tools-datasynth-var-order>> section.
 |===
 
 
