@@ -713,14 +713,14 @@ The following statistics are available:
 
 * _Timing_ [`timing`]
 +
-Print statistics for timing of various parts of the tool.
+Print information for timing of various parts of the tool.
 +
 Timing is only collected for parts of the tool that were actually executed.
-Timing is collected as a tree.
+Timing is represented as a tree.
 The root of the tree represents the total time of the synthesis tool.
 For some parts of the tool, timing is also collected for sub-parts.
 +
-Timing statistics are printed to the console, after execution, just before termination of the tool.
+Timing information is printed to the console, after execution, just before termination of the tool.
 Durations are all printed in milliseconds, to make it easier to compare timing for various parts.
 +
 When measuring performance, always perform multiple measurements, and take the average.
@@ -756,10 +756,10 @@ Prints the maximum number of BDD nodes used during synthesis.
 The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
 This metric is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
 +
-This statistic is printed to the console, after execution, just before termination of the tool.
+This metric is printed to the console, after execution, just before termination of the tool.
 It prints the maximum number of BDD nodes used during synthesis.
 +
-Note that collecting this statistic makes synthesis take longer than without collecting it.
+Note that collecting this metric makes synthesis take longer than without collecting it.
 
 * _Continuous BDD performance statistics_ [`bdd-cont-perf`]
 +
@@ -768,10 +768,10 @@ Prints continuously collected platform and machine independent BDD performance r
 This statistic continuously collects the platform and machine independent BDD performance metrics described in the table below.
 These metrics are discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
 +
-The information is printed as a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
+The information is printed to a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
 The file is written after execution, just before termination of the tool.
 +
-Note that collecting these statistics makes synthesis take longer than without collecting it.
+Note that collecting these metrics makes synthesis take longer than without collecting it.
 +
 [cols="20,50",options="header"]
 |===
@@ -789,12 +789,12 @@ The size of a BDD, expressed as the number of nodes used, is a platform and mach
 
 * _BDD cache_ [`bdd-cache`]
 +
-Prints statistics related to the BDD cache.
+Prints metrics related to the BDD cache.
 +
 The BDD library that is used implements a cache to speed up the calculations.
 For more information, see the <<tools-datasynth-op-cache>> section below.
 +
-This statistic prints BDD cache related metrics to the console, after execution, just before termination of the tool.
+The information is printed to the console, after execution, just before termination of the tool.
 The table below shows all metrics printed and their meaning.
 +
 [cols="20,50",options="header"]
