@@ -30,8 +30,11 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                 "The kinds of statistics to print. Specify comma separated names of the statistics. " +
 
                         "Specify \"timing\" for timing statistics, "
-                        + "\"bdd-gc\" for BDD garbage collection statistics, and/or "
-                        + "\"bdd-resize\" for BDD node table resize statistics. " +
+                        + "\"bdd-gc\" for BDD garbage collection statistics, "
+                        + "\"bdd-resize\" for BDD node table resize statistics, "
+                        + "\"bdd-max-nodes\" for maximum used BDD nodes statistics, "
+                        + "\"bdd-cont-perf\" for continuous BDD performance statistics, and/or "
+                        + "\"bdd-cache\" for BDD cache statistics. " +
 
                         "By default, no statistics are printed. "
                         + "Prefix a name with \"+\" to add it on top of the defaults, "
@@ -68,6 +71,12 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                 return "BDD garbage collection";
             case BDD_RESIZE:
                 return "BDD node table resize";
+            case BDD_MAX_NODES:
+                return "Maximum used BDD nodes";
+            case BDD_CONT_PERF:
+                return "Continuous BDD performance";
+            case BDD_CACHE:
+                return "BDD cache";
         }
         throw new RuntimeException("Unknown statistic: " + stat);
     }
