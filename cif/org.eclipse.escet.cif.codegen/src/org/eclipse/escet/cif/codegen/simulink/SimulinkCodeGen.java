@@ -598,8 +598,12 @@ public class SimulinkCodeGen extends CodeGen {
         evtDecls.set(2, 1, "/**< Tau step. */");
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
+            String origName = origDeclNames.get(evt);
+            if (origName == null) {
+                origName = evt.getName();
+            }
             evtDecls.set(3 + i, 0, fmt("%s,", getTargetName(evt)));
-            evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", evt.getName()));
+            evtDecls.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
 
         evtDeclsCode.add(evtDecls);
@@ -620,8 +624,12 @@ public class SimulinkCodeGen extends CodeGen {
         evtNames.set(2, 1, "/**< Tau step. */");
         for (int i = 0; i < events.size(); i++) {
             Event evt = events.get(i);
-            evtNames.set(3 + i, 0, fmt("\"%s\",", evt.getName()));
-            evtNames.set(3 + i, 1, fmt("/**< Event %s. */", evt.getName()));
+            String origName = origDeclNames.get(evt);
+            if (origName == null) {
+                origName = evt.getName();
+            }
+            evtNames.set(3 + i, 0, fmt("\"%s\",", origName));
+            evtNames.set(3 + i, 1, fmt("/**< Event %s. */", origName));
         }
 
         evtNamesCode.add(evtNames);
@@ -757,7 +765,7 @@ public class SimulinkCodeGen extends CodeGen {
             String header = fmt("static %s %s(SimStruct *sim_struct)", ti.getTargetType(), algVarInfo.targetName);
             declCode.add("%s;", header);
 
-            defCode.add("/** Algebraic variable %s = %s; */\n", algVar.getName(), exprToStr(algVar.getValue()));
+            defCode.add("/** Algebraic variable %s = %s; */\n", algVarInfo.name, exprToStr(algVar.getValue()));
             defCode.add("%s {", header);
             defCode.indent();
             addPreamble(defCode, false);

@@ -375,7 +375,7 @@ public class ToolDefEval {
             try {
                 return Long.parseLong((String)value);
             } catch (NumberFormatException ex) {
-                String msg = "Text is not a long value, or is outside the the range of the \"long\" type.";
+                String msg = "Text is not a long value, or is outside the range of the \"long\" type.";
                 throw new ToolDefException(msg);
             }
         } else if (value instanceof String && type instanceof DoubleType) {
@@ -392,7 +392,7 @@ public class ToolDefEval {
                 }
                 return rslt;
             } catch (NumberFormatException ex) {
-                String msg = "Text is not a double value, or is outside the the range of the \"double\" type.";
+                String msg = "Text is not a double value, or is outside the range of the \"double\" type.";
                 throw new ToolDefException(msg);
             }
         }

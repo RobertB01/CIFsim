@@ -475,7 +475,7 @@ public class CifTypesTypeChecker {
      */
     private static CifType transNamedType(ANamedType type, SymbolScope<?> scope, CifTypeChecker tchecker) {
         // Resolve the referenced object.
-        SymbolTableEntry entry = scope.resolve(type.position, type.name.name, tchecker);
+        SymbolTableEntry entry = scope.resolve(type.position, type.name.name, tchecker, scope);
 
         // Check for invalid reference.
         if (!(entry instanceof EnumDeclWrap) && !(entry instanceof TypeDeclWrap) && !(entry instanceof AutDefScope)

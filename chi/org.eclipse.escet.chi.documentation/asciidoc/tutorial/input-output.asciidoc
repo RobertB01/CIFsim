@@ -153,7 +153,7 @@ indexterm:[screen,writing to]
 
 === The `write` statement
 
-The _write_ statement is used for for output of data to the screen of the computer.
+The _write_ statement is used for output of data to the screen of the computer.
 Data can also be written to a file.
 
 The first argument of `write` (or the second argument if you write to a file, see below) Is called the _format string_.

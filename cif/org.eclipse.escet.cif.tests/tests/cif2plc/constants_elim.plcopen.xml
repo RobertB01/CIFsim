@@ -160,7 +160,7 @@ END_IF;
 WHILE TRUE DO
     progress := FALSE;
 
-    // Event "M.aut_e".
+    // Event "aut.e".
     IF NOT progress THEN
         IF ((ivar_i) + (3)) &gt; (3) THEN
             progress := TRUE;

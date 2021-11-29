@@ -555,17 +555,6 @@ automaton p28b:
     edge e28? do (v1, v2) := (?, ? + v1 + v2 + 28.3);
 end
 
-// Enumerations in the input model, being merged.
-enum e29 = l1, l2, ABC, DEF;
-automaton p29:
-  disc e29 v29;
-  invariant v29 = l1 or v29 = l2;
-
-  location:
-    initial;
-    edge when v29 = ABC do v29 := DEF;
-end
-
 // Monitor all.
 event e30;
 
@@ -739,4 +728,16 @@ automaton p40:
     edge e40 when v > 40.0 do v := 40.1 goto l2;
 
   location l2;
+end
+
+// Receive edge without a send edge.
+automaton p41:
+  event int e41a;
+  event func int() e41b;
+  disc int a;
+  disc func int() b;
+  location:
+    initial;
+    edge e41a? do a := ?;
+    edge e41b? do b := ?;
 end

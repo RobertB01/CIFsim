@@ -61,7 +61,7 @@ public class LALR1ParserGenerator {
     public GrammarItemsMap itemsMap;
 
     /**
-     * 'first' mapping. Filled by the {@link #calcFirst} method. Maps the grammar's symbols to the their first sets. The
+     * 'first' mapping. Filled by the {@link #calcFirst} method. Maps the grammar's symbols to their first sets. The
      * keys do not include {@link #EMPTY_SYMBOL}, while the value sets may.
      */
     public Map<Symbol, Set<Symbol>> firstMap;

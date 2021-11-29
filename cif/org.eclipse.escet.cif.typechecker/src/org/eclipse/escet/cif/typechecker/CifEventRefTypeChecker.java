@@ -38,7 +38,7 @@ public class CifEventRefTypeChecker {
      */
     public static Expression checkEventRef(AName eventRef, SymbolScope<?> scope, CifTypeChecker tchecker) {
         // Resolve to event.
-        SymbolTableEntry entry = scope.resolve(eventRef.position, eventRef.name, tchecker);
+        SymbolTableEntry entry = scope.resolve(eventRef.position, eventRef.name, tchecker, scope);
 
         if (entry instanceof EventDeclWrap) {
             // OK.

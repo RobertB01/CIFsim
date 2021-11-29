@@ -1,0 +1,20 @@
+group def R():
+  group def Y():
+    group def Q():
+      alg bool v = true;
+    end
+    q1: Q();
+  end
+  y: Y();
+end
+group def X1(r.y.Q p):
+  alg bool z = p.v;
+  group def X():
+    group def T():
+      group def U():
+      end
+    end
+  end
+end
+r: R();
+x1: X1(r.y.q1);

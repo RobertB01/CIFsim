@@ -1,0 +1,44 @@
+alg bool D = Vars.D;
+alg bool C = Vars.C;
+plant automaton p:
+  alg bool Y = Vars.Y;
+  alg bool X = Vars.X;
+  controllable c;
+  controllable a;
+  controllable z;
+  controllable $event;
+  location l1:
+    initial;
+    marked;
+    edge c;
+    edge a;
+    edge z;
+    edge $event;
+end
+supervisor automaton sup:
+  alphabet p.c, p.a, p.z, p.$event;
+  location:
+    initial;
+    marked;
+    edge p.a when true;
+    edge p.c when true;
+    edge p.$event when true;
+    edge p.z when true;
+end
+automaton Vars:
+  disc bool C;
+  disc bool D;
+  disc bool X;
+  disc bool Y in any;
+  uncontrollable u_C;
+  uncontrollable u_D;
+  uncontrollable u_X;
+  uncontrollable u_Y;
+  location:
+    initial;
+    marked;
+    edge u_C do C := not C;
+    edge u_D do D := not D;
+    edge u_X do X := not X;
+    edge u_Y do C := not Y;
+end

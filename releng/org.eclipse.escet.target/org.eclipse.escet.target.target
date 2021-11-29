@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="Generated from Eclipse ESCET" sequenceNumber="34">
+<target name="Generated from Eclipse ESCET" sequenceNumber="35">
   <locations>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="com.google.guava" version="0.0.0"/>
@@ -27,6 +27,10 @@
       <repository location="https://download.eclipse.org/releases/2021-06"/>
     </location>
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+      <unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
+      <repository location="http://download.eclipse.org/justj/jres/11/updates/release/11.0.12"/>
+    </location>
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
       <unit id="io.github.java-diff-utils" version="0.0.0"/>
       <unit id="org.apache.batik.anim" version="0.0.0"/>
       <unit id="org.apache.batik.awt.util" version="0.0.0"/>
@@ -45,10 +49,6 @@
       <unit id="org.apache.commons.math3" version="0.0.0"/>
       <unit id="org.knowm.xchart" version="0.0.0"/>
       <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20210602031627/repository"/>
-    </location>
-    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-      <unit id="org.eclipse.justj.openjdk.hotspot.jre.full.feature.group" version="0.0.0"/>
-      <repository location="http://download.eclipse.org/justj/jres/11/updates/release/11.0.2"/>
     </location>
   </locations>
 </target>

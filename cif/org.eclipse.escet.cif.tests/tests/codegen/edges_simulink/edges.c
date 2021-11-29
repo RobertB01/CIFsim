@@ -2044,7 +2044,7 @@ static real_T deriv05(SimStruct *sim_struct);
 
 /* {{{ Algebraic variables, derivatives, and function definitions. */
 /* {{{ Algebraic variable definitions. */
-/** Algebraic variable aut12_v = M.aut12_x + M.aut12_y; */
+/** Algebraic variable aut12.v = M.aut12_x + M.aut12_y; */
 static real_T aut12_v_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2053,7 +2053,7 @@ static real_T aut12_v_(SimStruct *sim_struct) {
     return RealAdd(work->aut12_x_, work->aut12_y_);
 }
 
-/** Algebraic variable aut12_w = M.aut12_v + M.aut12_z; */
+/** Algebraic variable aut12.w = aut12.v + M.aut12_z; */
 static real_T aut12_w_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2062,7 +2062,7 @@ static real_T aut12_w_(SimStruct *sim_struct) {
     return RealAdd(aut12_v_(sim_struct), work->aut12_z_);
 }
 
-/** Algebraic variable aut13_v = M.aut13_x + M.aut13_y; */
+/** Algebraic variable aut13.v = M.aut13_x + M.aut13_y; */
 static real_T aut13_v_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);
@@ -2071,7 +2071,7 @@ static real_T aut13_v_(SimStruct *sim_struct) {
     return RealAdd(work->aut13_x_, work->aut13_y_);
 }
 
-/** Algebraic variable aut13_w = M.aut13_v + M.aut13_z; */
+/** Algebraic variable aut13.w = aut13.v + M.aut13_z; */
 static real_T aut13_w_(SimStruct *sim_struct) {
     struct WorkStruct *work = ssGetPWorkValue(sim_struct, 0);
     int_T *modes = ssGetModeVector(sim_struct);

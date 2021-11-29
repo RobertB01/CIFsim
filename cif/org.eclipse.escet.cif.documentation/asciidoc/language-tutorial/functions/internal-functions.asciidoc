@@ -102,4 +102,4 @@ That is, the result of a function is the same for the same input values, and fun
 Functions can not directly access variables outside their body.
 For example, they cannot access discrete, continuous, and algebraic variables.
 They can also not use variable `time`.
-To use the values of those variables in a function, they have to to be passed in through parameters.
+To use the values of those variables in a function, they have to be passed in through parameters.

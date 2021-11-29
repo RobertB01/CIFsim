@@ -50,7 +50,7 @@ If the button is disabled (grey), you are already using the latest version.
 * In the first wizard window:
 ** Select _Eclipse Platform_ from the big list at the top.
 ** Select _2021-06_ for _Product Version_.
-** For _Java 11+ VM_ select _JRE 11.0.2 - \http://download.eclipse.org/justj/jres/11/updates/release/11.0.2_.
+** For _Java 11+ VM_ select _JRE 11.0.12 - \http://download.eclipse.org/justj/jres/11/updates/release/11.0.12_.
 ** Choose whether you want a P2 bundle pool (recommended).
 ** Click btn:[Next].
 * In the second wizard window:
@@ -67,7 +67,7 @@ It is under _Eclipse Projects_ / _<User>_.
 ** Choose a _Root install folder_ and _Installation folder name_.
 The new development environment will be put at `<root_installation_folder>/<installation_folder_name>`.
 ** Fill in the _Eclipse ESCET Git clone URL_:
-*** Committers with write access to the Eclipse ESCET official GitLab repository can use the default URL `https://gitlab.eclipse.org/eclipse/escet/escet.git`.
+*** Committers with write access to the Eclipse ESCET official GitLab repository can use the default URL `+https://gitlab.eclipse.org/eclipse/escet/escet.git+`.
 *** Contributors can use the same URL, but as they don't have write access, they will not be able to push to the remote repository.
 They can instead make a fork of the official Git repository, as described in the <<development-contributing-chapter-index,contributing>> section.
 Then they can fill in the URL of their clone instead, i.e. `+https://gitlab.eclipse.org/<username>/<cloned_repo_name>.git+`, with `<username>` replaced by their Eclipse Foundation account username, and `<cloned_repo_name>` replaced by the name of the cloned repistory, which defaults to `escet`.
@@ -84,7 +84,7 @@ This will be used as email for Git commits.
 * In the new development environment, observe Oomph executing the startup tasks (such as Git clone, importing projects, etc).
 If this is not automatically shown, click the rotating arrows icon in the status bar (bottom right) of the new development environment.
 * Wait for the startup tasks to finish successfully.
-* NOTE: If you don't open the Oomph dialog, the status bar icon icon may disappear when the tasks are successfully completed.
+* NOTE: If you don't open the Oomph dialog, the status bar icon may disappear when the tasks are successfully completed.
 
 If you have any issues during setting up the development environment, consider the following:
 

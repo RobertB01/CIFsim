@@ -277,7 +277,7 @@ It's boxed variant is used when needed, for instance for element types of a `+ja
 
 * Generic lists are not supported, only CIF arrays can be used.
 
-* As linearization is applied on the CIF model prior to generating Java code, all enumerations are merged together to a single enumeration.
+* Due to <<tools-codegen-preprocessing,preprocessing>> all enumerations are merged together into a single enumeration.
 As such, always at most one Java `enum` is generated for a CIF model.
 
 === Runtime errors

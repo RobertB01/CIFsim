@@ -168,7 +168,7 @@ public class Trajectories {
         // the start of the time transition.
         Assert.check(firstTime <= reqTime);
 
-        // Find index of the the first time point greater than or equal to the
+        // Find index of the first time point greater than or equal to the
         // requested time value.
         int idx = Collections.binarySearch(times, reqTime);
         if (idx < 0) {

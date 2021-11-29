@@ -1,50 +1,73 @@
-enum E = l1, l2, l3;
+group aut:
+  group a1_noname:
+    alg string v1 = "*";
+    alg string v2 = "*";
+    alg string v3 = <string>true;
+    initial true and true;
+    marked true and false;
+  end
+  group a1_named:
+    alg string v1 = "l";
+    alg string v2 = "l";
+    alg string v3 = <string>true;
+    initial true and true;
+    marked true and false;
+  end
+  group a2:
+    alg string v1 = if M.aut_a2 = l1: "l1" else "l2" end;
+    alg string v2 = if M.aut_a2 = l1: "l1" else "l2" end;
+    alg string v3 = <string>true;
+    enum LPE_a2 = l1, l2;
+    initial M.aut_a2 = l1 and true or M.aut_a2 = l2 and true;
+    marked M.aut_a2 = l1 and false or M.aut_a2 = l2 and false;
+  end
+  group a3:
+    alg string v1 = if M.aut_a3 = l1: "l1" elif M.aut_a3 = l2: "l2" else "l3" end;
+    alg string v2 = if M.aut_a3 = l1: "l1" elif M.aut_a3 = l2: "l2" else "l3" end;
+    alg string v3 = <string>true;
+    enum LPE_a3 = l1, l2, l3;
+    initial M.aut_a3 = l1 and true or (M.aut_a3 = l2 and true or M.aut_a3 = l3 and true);
+    marked M.aut_a3 = l1 and false or (M.aut_a3 = l2 and false or M.aut_a3 = l3 and false);
+  end
+end
+group aut_def:
+  group a1_noname:
+    alg string v1 = "*";
+    alg string v2 = "*";
+    alg string v3 = <string>true;
+    initial true and true;
+    marked true and false;
+  end
+  group a1_named:
+    alg string v1 = "l";
+    alg string v2 = "l";
+    alg string v3 = <string>true;
+    initial true and true;
+    marked true and false;
+  end
+  group a2:
+    alg string v1 = if M.aut_def_a2 = l1: "l1" else "l2" end;
+    alg string v2 = if M.aut_def_a2 = l1: "l1" else "l2" end;
+    alg string v3 = <string>true;
+    enum LPE_a2 = l1, l2;
+    initial M.aut_def_a2 = l1 and true or M.aut_def_a2 = l2 and true;
+    marked M.aut_def_a2 = l1 and false or M.aut_def_a2 = l2 and false;
+  end
+  group a3:
+    alg string v1 = if M.aut_def_a3 = l1: "l1" elif M.aut_def_a3 = l2: "l2" else "l3" end;
+    alg string v2 = if M.aut_def_a3 = l1: "l1" elif M.aut_def_a3 = l2: "l2" else "l3" end;
+    alg string v3 = <string>true;
+    enum LPE_a3 = l1, l2, l3;
+    initial M.aut_def_a3 = l1 and true or (M.aut_def_a3 = l2 and true or M.aut_def_a3 = l3 and true);
+    marked M.aut_def_a3 = l1 and false or (M.aut_def_a3 = l2 and false or M.aut_def_a3 = l3 and false);
+  end
+end
 automaton M:
   alphabet;
-  alg string aut_a1_named_v1 = "l";
-  alg string aut_a1_named_v2 = "l";
-  alg string aut_a1_named_v3 = <string>true;
-  alg string aut_a1_noname_v1 = "*";
-  alg string aut_a1_noname_v2 = "*";
-  alg string aut_a1_noname_v3 = <string>true;
-  alg string aut_a2_v1 = if aut_a2 = l1: "l1" else "l2" end;
-  alg string aut_a2_v2 = if aut_a2 = l1: "l1" else "l2" end;
-  alg string aut_a2_v3 = <string>true;
-  disc E aut_a2 in any;
-  alg string aut_a3_v1 = if aut_a3 = l1: "l1" elif aut_a3 = l2: "l2" else "l3" end;
-  alg string aut_a3_v2 = if aut_a3 = l1: "l1" elif aut_a3 = l2: "l2" else "l3" end;
-  alg string aut_a3_v3 = <string>true;
-  disc E aut_a3 in any;
-  alg string aut_def_a1_named_v1 = "l";
-  alg string aut_def_a1_named_v2 = "l";
-  alg string aut_def_a1_named_v3 = <string>true;
-  alg string aut_def_a1_noname_v1 = "*";
-  alg string aut_def_a1_noname_v2 = "*";
-  alg string aut_def_a1_noname_v3 = <string>true;
-  alg string aut_def_a2_v1 = if aut_def_a2 = l1: "l1" else "l2" end;
-  alg string aut_def_a2_v2 = if aut_def_a2 = l1: "l1" else "l2" end;
-  alg string aut_def_a2_v3 = <string>true;
-  disc E aut_def_a2 in any;
-  alg string aut_def_a3_v1 = if aut_def_a3 = l1: "l1" elif aut_def_a3 = l2: "l2" else "l3" end;
-  alg string aut_def_a3_v2 = if aut_def_a3 = l1: "l1" elif aut_def_a3 = l2: "l2" else "l3" end;
-  alg string aut_def_a3_v3 = <string>true;
-  disc E aut_def_a3 in any;
-  initial true and true,
-          true and true,
-          aut_a2 = l1 and true or aut_a2 = l2 and true,
-          aut_a3 = l1 and true or (aut_a3 = l2 and true or aut_a3 = l3 and true),
-          true and true,
-          true and true,
-          aut_def_a2 = l1 and true or aut_def_a2 = l2 and true,
-          aut_def_a3 = l1 and true or (aut_def_a3 = l2 and true or aut_def_a3 = l3 and true);
-  marked true and false,
-         true and false,
-         aut_a2 = l1 and false or aut_a2 = l2 and false,
-         aut_a3 = l1 and false or (aut_a3 = l2 and false or aut_a3 = l3 and false),
-         true and false,
-         true and false,
-         aut_def_a2 = l1 and false or aut_def_a2 = l2 and false,
-         aut_def_a3 = l1 and false or (aut_def_a3 = l2 and false or aut_def_a3 = l3 and false);
+  disc aut.a2.LPE_a2 aut_a2 in any;
+  disc aut.a3.LPE_a3 aut_a3 in any;
+  disc aut_def.a2.LPE_a2 aut_def_a2 in any;
+  disc aut_def.a3.LPE_a3 aut_def_a3 in any;
   location L:
     initial;
     marked;

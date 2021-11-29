@@ -32,7 +32,7 @@ copy_files(".",           "wmod.real",    "wmod");
 copy_files(".",           "trajdata",     "trajdata.expected");
 
 tool copy_dirs(string dirpath, string old_postfix, string new_postfix):
-    list string paths = find(dirpath, "*" + old_postfix, files=false);
+    list string paths = find(dirpath, "*" + old_postfix, files=false, recursive=false);
     for i in range(paths):: paths[i] = replace(pathjoin(dirpath, paths[i]), "\\", "/");
     for path in paths:
         string path2 = path[:-size(old_postfix)] + new_postfix;

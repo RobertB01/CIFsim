@@ -163,6 +163,7 @@ A warning is printed if a CIF/SVG input declaration is encountered.
 
 indexterm:[CIF code generator,preprocessing]
 
+[[tools-codegen-preprocessing]]
 === Preprocessing
 
 The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are applied as preprocessing (in the given order), to increase the subset of CIF specifications that can be transformed:
@@ -177,6 +178,8 @@ After these preprocessing steps, the generator checks whether the specification 
 It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CIF transformations>>:
 
 * <<tools-cif2cif-chapter-linearize-merge>>
+* <<tools-cif2cif-chapter-print-file-into-decls>>
+* <<tools-cif2cif-chapter-merge-enums>>
 * <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>>
 * <<tools-cif2cif-chapter-add-default-init-values>>
 
@@ -287,6 +290,6 @@ Instead they should be reset, rendering the past loss of accuracy irrelevant for
 
 ==== Enumerations
 
-The <<tools-cif2cif-chapter-linearize-merge,linearization>> that is used as preprocessing, also <<tools-cif2cif-chapter-merge-enums,merges all enumerations>> into a single enumeration.
+One of the preprocessing transformations <<tools-cif2cif-chapter-merge-enums,merges all enumerations>> into a single enumeration.
 This is done in such a way that the behavior of the original CIF model is left intact.
 However, it is up to the implementer that connects the inputs from the environment to the generated code, to ensure that only valid enumeration literals are assigned to the input variables of the generated code.

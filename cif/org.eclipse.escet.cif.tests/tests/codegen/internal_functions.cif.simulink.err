@@ -1,2 +1,2 @@
 WARNING: File "codegen/internal_functions.cif": Semantic warning at line 185, column 3: Statement is unreachable.
-WARNING: Unsupported output type "tuple(int g; int h)" found in discrete variable "t", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(int g; int h)" found in discrete variable "fa.t", variable will be omitted from the output.

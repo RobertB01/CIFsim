@@ -223,6 +223,8 @@ It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CI
 
 * <<tools-cif2cif-chapter-linearize-merge>>
 
+* <<tools-cif2cif-chapter-merge-enums>>
+
 * <<tools-cif2cif-chapter-simplify-values>> (if _Simplify values_ option is enabled)
 
 * <<tools-cif2cif-chapter-add-default-init-values>>

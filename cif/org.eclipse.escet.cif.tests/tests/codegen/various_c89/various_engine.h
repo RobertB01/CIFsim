@@ -48,7 +48,7 @@ enum variousEventEnum_ {
     EVT_DELAY_,   /**< Delay step. */
     EVT_TAU_,     /**< Tau step. */
     e1_,          /**< Event e1. */
-    g_h1_,        /**< Event g_h1. */
+    g_h1_,        /**< Event g.h1. */
 };
 typedef enum variousEventEnum_ various_Event_;
 

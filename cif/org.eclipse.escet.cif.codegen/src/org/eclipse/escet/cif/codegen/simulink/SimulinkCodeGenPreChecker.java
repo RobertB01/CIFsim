@@ -13,6 +13,7 @@
 
 package org.eclipse.escet.cif.codegen.simulink;
 
+import static org.eclipse.escet.cif.common.CifTextUtils.getAbsName;
 import static org.eclipse.escet.cif.common.CifTextUtils.typeToStr;
 import static org.eclipse.escet.cif.common.CifTypeUtils.isArrayType;
 import static org.eclipse.escet.cif.common.CifTypeUtils.normalizeType;
@@ -122,7 +123,7 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
     protected void walkInputVariable(InputVariable var) {
         if (!isGoodType(var.getType())) {
             String msg = fmt("Unsupported type \"%s\" found with input variable \"%s\".", typeToStr(var.getType()),
-                    var.getName());
+                    getAbsName(var));
             problems.add(msg);
             return;
         }
@@ -134,7 +135,7 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
         // A bad type will drop the discrete variable from the output.
         if (!isGoodType(var.getType())) {
             String msg = fmt("Unsupported output type \"%s\" found in discrete variable \"%s\", "
-                    + "variable will be omitted from the output.", typeToStr(var.getType()), var.getName());
+                    + "variable will be omitted from the output.", typeToStr(var.getType()), getAbsName(var));
             warn(msg);
         }
 
@@ -146,7 +147,7 @@ public class SimulinkCodeGenPreChecker extends CodeGenPreChecker {
         // A bad type will drop the algebraic variable from the output.
         if (!isGoodType(var.getType())) {
             String msg = fmt("Unsupported output type \"%s\" found in algebraic variable \"%s\", "
-                    + "variable will be omitted from the output.", typeToStr(var.getType()), var.getName());
+                    + "variable will be omitted from the output.", typeToStr(var.getType()), getAbsName(var));
             warn(msg);
         }
 

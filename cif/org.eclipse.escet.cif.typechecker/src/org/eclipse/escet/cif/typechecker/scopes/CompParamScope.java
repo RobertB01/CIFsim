@@ -106,7 +106,7 @@ public class CompParamScope extends SymbolScope<ComponentParameter> {
 
         // Resolve the parameter type, in the parent scope of the component
         // definition, not in the parent scope of the component parameter.
-        SymbolTableEntry entry = parent.getParent().resolve(typeRef.position, typeRef.name, tchecker);
+        SymbolTableEntry entry = parent.getParent().resolve(typeRef.position, typeRef.name, tchecker, null);
 
         if (!(entry instanceof AutDefScope || entry instanceof GroupDefScope)) {
             tchecker.addProblem(ErrMsg.COMP_PARAM_INVALID_TYPE, typeRef.position, getAbsName());
