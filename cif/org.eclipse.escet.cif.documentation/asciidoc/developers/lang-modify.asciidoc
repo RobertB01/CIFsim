@@ -26,10 +26,18 @@ For each change to the CIF language, follow these steps:
 *** Set _Image Size_ to _Nominal_.
 *** Set _To file_ to the diagram's `.png` file in the `images` folder.
 *** Click btn:[OK].
+** Update genmodel.
+*** Delete `model/cif.genmodel`.
+*** Create a new genmodel, by clicking menu:File[New > Other...], select _Eclipse Modeling Framework_ and _EMF Generator Model_ and click btn:[Next].
+*** Enter `org.eclipse.escet.cif.metamodel/model` as the parent folder.
+For _File name_, enter `cif.genmodel` and click btn:[Next].
+*** Select _Ecore model_ and click btn:[Next].
+*** Click btn:[Browse File System...] or btn:[Browse Workspace...] to select `model/cif.ecore`, and click btn:[Next].
+*** For _Root packages_, select _cif_, for _Referenced generator models_, select _Position_, and click btn:[Finish]
+*** Run `model/autofix.py` to update the newly created `cif.genmodel`.
 ** Generate metamodel code.
 *** Remove the generated model code (contents of `src-gen`).
 *** Open `model/cif.genmodel`.
-*** Click tab _Generator_.
 *** Right click _Cif_ and click menu:Generate Model Code[].
 * Update generated Java constructors and walker code (`org.eclipse.escet.cif.metamodel.java`).
 ** Remove the generated code (contents of `src-gen`).
