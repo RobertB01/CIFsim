@@ -20,7 +20,7 @@ For each change to the CIF language, follow these steps:
 * Update `cif.setext` syntax (`org.eclipse.escet.cif.parser/src/org/eclipse/escet/cif/parser`).
 * Update `cif.bnf` syntax (`org.eclipse.escet.cif.documentation/images/language-reference/syntax`).
 * Update metamodel (`org.eclipse.escet.cif.metamodel`).
-** Update Ecore diagrams (unfold `model\cif.aird`, unfold `Design`, unfold `Entities in a Class Diagram`).
+** Update Ecore diagrams (open `model/cif.aird` and unfold _Design_ and then _Entities in a Class Diagram_).
 ** Update diagram images.
 *** Right click a diagram and choose menu:Export representations as images[].
 *** Set _Image Size_ to _Nominal_.
@@ -28,31 +28,31 @@ For each change to the CIF language, follow these steps:
 *** Click btn:[OK].
 ** Generate metamodel code.
 *** Remove the generated model code (contents of `src-gen`).
-*** Open `model\cif.genmodel`.
+*** Open `model/cif.genmodel`.
 *** Click tab _Generator_.
 *** Right click _Cif_ and click menu:Generate Model Code[].
 * Update generated Java constructors and walker code (`org.eclipse.escet.cif.metamodel.java`).
 ** Remove the generated code (contents of `src-gen`).
-** Right click _gen-cif-constructors.launch_ and click menu:Run As[gen-cif-constructors].
-** Right click _gen-cif-walker.launch_ and click menu:Run As[gen-cif-walker].
+** Right click `gen-cif-constructors.launch` and click menu:Run As[gen-cif-constructors].
+** Right click `gen-cif-walker.launch` and click menu:Run As[gen-cif-walker].
 * Update LaTeX documentation (`org.eclipse.escet.cif.metamodel`).
-** Right click _gen-cif-docs-ecore-latex-skeleton.launch_ and click menu:Run As[gen-cif-docs-ecore-latex-skeleton].
-** Right click _gen-cif-docs-ecore-latex-skeleton-detail.launch_ and click menu:Run As[gen-cif-docs-ecore-latex-skeleton-detail].
+** Right click `gen-cif-docs-ecore-latex-skeleton.launch` and click menu:Run As[gen-cif-docs-ecore-latex-skeleton].
+** Right click `gen-cif-docs-ecore-latex-skeleton-detail.launch` and click menu:Run As[gen-cif-docs-ecore-latex-skeleton-detail].
 ** Update `cif_ecore_doc.tex` based on the changes in `cif_ecore_doc_generated.tex`.
 ** Update `cif_ecore_doc_details.tex` based on the changes in `cif_ecore_doc_details_generated.tex`.
 ** Update the date in `cif_ecore_doc.tex` and generate a new PDF.
 * Update parser (`org.eclipse.escet.cif.parser`).
-** Right click _gen-cif-scanner-parser.launch_ and click menu:Run As[gen-cif-scanner-parser].
+** Right click `gen-cif-scanner-parser.launch` and click menu:Run As[gen-cif-scanner-parser].
 ** Implement new AST classes if needed.
 ** Update `CifParserHooks.java` such that it implements `CifParser.Hooks`.
-** Verify the implementation by running `chk.bash` with the _Git Bash_ tool.
+** Verify the implementation by running `chk.bash`.
 * Update keywords and syntax highlighting for the text editor (`org.eclipse.escet.cif.texteditor`).
 * Update type checker (`org.eclipse.escet.cif.typechecker`).
 ** Add new constraints to the error and problem messages (`ErrMsg.java`).
-** Verify the implementation by running `chk.bash` with the _Git Bash_ tool.
+** Verify the implementation by running `chk.bash`.
 * Update example models for changed syntax and constraints (`org.eclipse.escet.cif.examples`).
 * Update pretty printer including set of keywords (`org.eclipse.escet.cif.prettyprinter`).
 * Update common methods (`org.eclipse.escet.cif.common`).
 * Update CIF to CIF transformations and other tools.
 * Update CIF documentation, including language reference manual with lexical syntax and grammar.
-* Update CIF syntax highlighting definition for LaTeX (`org.eclipse.escet.cif.misc\latex\cif_listing.sty`).
+* Update CIF syntax highlighting definition for LaTeX (`org.eclipse.escet.cif.misc/latex/cif_listing.sty`).
