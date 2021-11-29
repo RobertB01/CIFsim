@@ -28,12 +28,12 @@ For each change to the CIF language, follow these steps:
 *** Click btn:[OK].
 ** Update genmodel.
 *** Delete `model/cif.genmodel`.
-*** Create a new genmodel, by clicking menu:File[New > Other...], select _Eclipse Modeling Framework_ and _EMF Generator Model_ and click btn:[Next].
-*** Enter `org.eclipse.escet.cif.metamodel/model` as the parent folder.
-For _File name_, enter `cif.genmodel` and click btn:[Next].
+*** Right click `model/cif.ecore` and select menu:New[Other...].
+*** Select _Eclipse Modeling Framework_ and _EMF Generator Model_ and click btn:[Next].
+*** The parent folder and the file name should already be filled, click btn:[Next].
 *** Select _Ecore model_ and click btn:[Next].
-*** Click btn:[Browse File System...] or btn:[Browse Workspace...] to select `model/cif.ecore`, and click btn:[Next].
-*** For _Root packages_, select _cif_, for _Referenced generator models_, select _Position_, and click btn:[Finish]
+*** Click btn:[Load] and then btn:[Next].
+*** For _Root packages_, select _cif_, for _Referenced generator models_, select _Position_, and click btn:[Finish].
 *** Run `model/autofix.py` to update the newly created `cif.genmodel`.
 ** Generate metamodel code.
 *** Remove the generated model code (contents of `src-gen`).
@@ -46,9 +46,9 @@ For _File name_, enter `cif.genmodel` and click btn:[Next].
 * Update LaTeX documentation (`org.eclipse.escet.cif.metamodel`).
 ** Right click `gen-cif-docs-ecore-latex-skeleton.launch` and click menu:Run As[gen-cif-docs-ecore-latex-skeleton].
 ** Right click `gen-cif-docs-ecore-latex-skeleton-detail.launch` and click menu:Run As[gen-cif-docs-ecore-latex-skeleton-detail].
-** Update `cif_ecore_doc.tex` based on the changes in `cif_ecore_doc_generated.tex`.
-** Update `cif_ecore_doc_details.tex` based on the changes in `cif_ecore_doc_details_generated.tex`.
-** Update the date in `cif_ecore_doc.tex` and generate a new PDF.
+** Update `docs/cif_ecore_doc.tex` based on the changes in `docs/cif_ecore_doc_generated.tex`.
+** Update `docs/cif_ecore_doc_details.tex` based on the changes in `docs/cif_ecore_doc_details_generated.tex`.
+** Run `docs/build.bash` to generate a new PDF.
 * Update parser (`org.eclipse.escet.cif.parser`).
 ** Right click `gen-cif-scanner-parser.launch` and click menu:Run As[gen-cif-scanner-parser].
 ** Implement new AST classes if needed.
