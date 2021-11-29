@@ -1511,7 +1511,7 @@ public interface CifPackage extends EPackage
      * @return the meta object for data type '<em>Identifier</em>'.
      * @see java.lang.String
      * @model instanceClass="java.lang.String"
-     *        extendedMetaData="name='CifIdentifier' baseType='string' pattern='[A-Za-z_][A-Za-z0-9_]*'"
+     *        extendedMetaData="name='CifIdentifier' baseType='http://www.eclipse.org/emf/2002/Ecore#EString' pattern='[A-Za-z_][A-Za-z0-9_]*'"
      * @generated
      */
     EDataType getCifIdentifier();
