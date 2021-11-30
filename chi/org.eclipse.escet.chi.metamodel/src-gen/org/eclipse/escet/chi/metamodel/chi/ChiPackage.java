@@ -6328,7 +6328,7 @@ public interface ChiPackage extends EPackage
      * @return the meta object for data type '<em>Real Number</em>'.
      * @see java.lang.String
      * @model instanceClass="java.lang.String"
-     *        extendedMetaData="name='ChiRealNumber' baseType='string' pattern='(0|([1-9][0-9]*))((\\.[0-9]+)|((\\.[0-9]+)?[eE][\\-\\+]?[0-9]+))'"
+     *        extendedMetaData="name='ChiRealNumber' baseType='http://www.eclipse.org/emf/2002/Ecore#EString' pattern='(0|([1-9][0-9]*))((\\.[0-9]+)|((\\.[0-9]+)?[eE][\\-\\+]?[0-9]+))'"
      * @generated
      */
     EDataType getChiRealNumber();
@@ -6340,7 +6340,7 @@ public interface ChiPackage extends EPackage
      * @return the meta object for data type '<em>Number</em>'.
      * @see java.lang.String
      * @model instanceClass="java.lang.String"
-     *        extendedMetaData="name='ChiNumber' baseType='string' pattern='0|([1-9][0-9]*)'"
+     *        extendedMetaData="name='ChiNumber' baseType='http://www.eclipse.org/emf/2002/Ecore#EString' pattern='0|([1-9][0-9]*)'"
      * @generated
      */
     EDataType getChiNumber();
