@@ -72,6 +72,7 @@ EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.expected.cif"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.merged.cif"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.statespace.cif"
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.trajdata.expected"
+EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=*.stats.txt"
 # Exclude feature.properties, to be replaced by license feature content.
 # Exception is license feature itself, which has been checked manually to have a header.
 EXCLUDE_ARGS="$EXCLUDE_ARGS --exclude=feature.properties"
