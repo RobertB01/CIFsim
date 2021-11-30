@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.EObjectValidator;
 
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 import org.eclipse.escet.chi.metamodel.chi.*;
@@ -71,6 +72,14 @@ public class ChiValidator extends EObjectValidator
     protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
 
     /**
+     * The cached base package validator.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected EcoreValidator ecoreValidator;
+
+    /**
      * Creates an instance of the switch.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -79,6 +88,7 @@ public class ChiValidator extends EObjectValidator
     public ChiValidator()
     {
         super();
+        ecoreValidator = EcoreValidator.INSTANCE;
     }
 
     /**

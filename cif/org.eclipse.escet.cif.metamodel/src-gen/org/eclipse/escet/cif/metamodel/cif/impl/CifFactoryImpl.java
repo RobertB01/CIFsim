@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -305,7 +307,7 @@ public class CifFactoryImpl extends EFactoryImpl implements CifFactory
      */
     public String createCifIdentifierFromString(EDataType eDataType, String initialValue)
     {
-        return (String)super.createFromString(eDataType, initialValue);
+        return (String)EcoreFactory.eINSTANCE.createFromString(EcorePackage.Literals.ESTRING, initialValue);
     }
 
     /**
@@ -315,7 +317,7 @@ public class CifFactoryImpl extends EFactoryImpl implements CifFactory
      */
     public String convertCifIdentifierToString(EDataType eDataType, Object instanceValue)
     {
-        return super.convertToString(eDataType, instanceValue);
+        return EcoreFactory.eINSTANCE.convertToString(EcorePackage.Literals.ESTRING, instanceValue);
     }
 
     /**

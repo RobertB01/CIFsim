@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
@@ -1334,7 +1336,7 @@ public class ChiFactoryImpl extends EFactoryImpl implements ChiFactory
      */
     public String createChiRealNumberFromString(EDataType eDataType, String initialValue)
     {
-        return (String)super.createFromString(eDataType, initialValue);
+        return (String)EcoreFactory.eINSTANCE.createFromString(EcorePackage.Literals.ESTRING, initialValue);
     }
 
     /**
@@ -1344,7 +1346,7 @@ public class ChiFactoryImpl extends EFactoryImpl implements ChiFactory
      */
     public String convertChiRealNumberToString(EDataType eDataType, Object instanceValue)
     {
-        return super.convertToString(eDataType, instanceValue);
+        return EcoreFactory.eINSTANCE.convertToString(EcorePackage.Literals.ESTRING, instanceValue);
     }
 
     /**
@@ -1354,7 +1356,7 @@ public class ChiFactoryImpl extends EFactoryImpl implements ChiFactory
      */
     public String createChiNumberFromString(EDataType eDataType, String initialValue)
     {
-        return (String)super.createFromString(eDataType, initialValue);
+        return (String)EcoreFactory.eINSTANCE.createFromString(EcorePackage.Literals.ESTRING, initialValue);
     }
 
     /**
@@ -1364,7 +1366,7 @@ public class ChiFactoryImpl extends EFactoryImpl implements ChiFactory
      */
     public String convertChiNumberToString(EDataType eDataType, Object instanceValue)
     {
-        return super.convertToString(eDataType, instanceValue);
+        return EcoreFactory.eINSTANCE.convertToString(EcorePackage.Literals.ESTRING, instanceValue);
     }
 
     /**

@@ -4025,7 +4025,7 @@ public class ChiPackageImpl extends EPackageImpl implements ChiPackage
            new String[]
            {
                "name", "ChiRealNumber",
-               "baseType", "string",
+               "baseType", "http://www.eclipse.org/emf/2002/Ecore#EString",
                "pattern", "(0|([1-9][0-9]*))((\\.[0-9]+)|((\\.[0-9]+)?[eE][\\-\\+]?[0-9]+))"
            });
         addAnnotation
@@ -4034,7 +4034,7 @@ public class ChiPackageImpl extends EPackageImpl implements ChiPackage
            new String[]
            {
                "name", "ChiNumber",
-               "baseType", "string",
+               "baseType", "http://www.eclipse.org/emf/2002/Ecore#EString",
                "pattern", "0|([1-9][0-9]*)"
            });
     }
