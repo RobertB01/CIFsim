@@ -1,4 +1,3 @@
-input bool x;
 supervisor automaton A:
   controllable c;
   uncontrollable u1;
@@ -9,7 +8,7 @@ supervisor automaton A:
     edge u1;
   location l2:
     marked;
-    edge u1 when x goto l3;
+    edge u1 goto l3;
   location l3:
     marked;
     edge u1;
@@ -24,6 +23,6 @@ supervisor automaton sup:
   location:
     initial;
     marked;
-    edge A.c when false;
+    edge A.c when A.l1;
 end
 plant invariant not A.l3;
