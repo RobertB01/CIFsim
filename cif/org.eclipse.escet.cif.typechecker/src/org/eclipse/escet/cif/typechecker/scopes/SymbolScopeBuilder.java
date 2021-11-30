@@ -1021,7 +1021,7 @@ public class SymbolScopeBuilder {
     }
 
     /**
-     * Adds local variable declarations to to the given parent function scope.
+     * Adds local variable declarations to the given parent function scope.
      *
      * @param vars The variables to add.
      * @param parent The parent function scope to which to add the variables.

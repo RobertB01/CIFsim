@@ -34,7 +34,7 @@ This compiler has the advantage that is has a bit less overhead of accessing the
 * Eclipse Compiler for Java (`eclipse`)
 +
 The Eclipse Compiler for Java (ecj) is part of the Eclipse Java Development Tools (JDT), and is provided with our tooling.
-This compiler has the advantage that is is a faster in actually compiling the Java code, while it has as disadvantage that it has a bit more overhead of accessing the file system.
+This compiler has the advantage that is a faster in actually compiling the Java code, while it has as disadvantage that it has a bit more overhead of accessing the file system.
 
 The names given above, in parentheses, indicate the command line option values to use for selecting the different compilers.
 

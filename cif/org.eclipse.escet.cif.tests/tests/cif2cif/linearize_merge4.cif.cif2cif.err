@@ -1,10 +1,9 @@
-WARNING: Automaton "p5_p5" is renamed to "p5_p52".
-WARNING: Automaton "p10_p10" is renamed to "p10_p102".
 WARNING: Location pointer variable "p1" is renamed to "p12".
-WARNING: Enumeration literal "p6_X", introduced as a value for location pointer variable "p6_X", is renamed to "p6_X2".
+WARNING: Enumeration "LPE_p12", introduced as the type of location pointer variable "p12", is renamed to "LPE_p122".
 WARNING: Merged automaton "M" is renamed to "M2".
 WARNING: Declaration "p1_p1" is renamed to "p1_p12".
 WARNING: Declaration "p2_p2_x" is renamed to "p2_p2_x2".
+WARNING: Declaration "p5_p5" is renamed to "p5_p52".
 WARNING: Declaration "p8_a_p8" is renamed to "p8_a_p82".
-WARNING: Enumeration literal "p4_l1" is renamed to "p4_l12".
-WARNING: Merged enumeration "E" is renamed to "E2".
+WARNING: Merged location "L" is renamed to "L2".
+WARNING: Variable "u", introduced during linearization to enforce urgency, is renamed to "u2".

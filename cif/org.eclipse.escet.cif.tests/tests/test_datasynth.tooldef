@@ -79,6 +79,7 @@ map(string:list string) test_options = {
     "datasynth/state_plant_invs_req_aut.cif":             ["--forward-reach=on"],
     "datasynth/state_plant_invs_simple.cif":              ["--forward-reach=on"],
     "datasynth/state_plant_invs_unctrl.cif":              [opt_simplify_all],
+    "datasynth/stats.cif":                                ["--stats=bdd-max-nodes,bdd-cont-perf,bdd-cache"],
     "datasynth/supname_custom.cif":                       ["-s g"],
     "datasynth/supname_invalid.cif":                      ["-s b@"],
     "datasynth/var_order_custom_force_off.cif":           ["-r *c*;*3,*1;*2 --force-order=off --sliding-window-order=off " + opt_simplify_all],
@@ -156,23 +157,27 @@ for test in tests:
     outln("Testing \"%s\" (datasynth) using options \"%s\"...", test, join(extra_options, " "));
 
     // Get paths.
-    string test1_out_exp  = chfileext(test, newext="out");
-    string test1_err_exp  = chfileext(test, newext="err");
-    string test1_out_real = chfileext(test, newext="out.real");
-    string test1_err_real = chfileext(test, newext="err.real");
+    string test1_out_exp    = chfileext(test, newext="out");
+    string test1_err_exp    = chfileext(test, newext="err");
+    string test1_out_real   = chfileext(test, newext="out.real");
+    string test1_err_real   = chfileext(test, newext="err.real");
+    string test1_stats_exp  = chfileext(test, newext="stats.txt");
+    string test1_stats_real = chfileext(test, newext="stats.txt.real");
 
     string rslt1_exp  = chfileext(test, oldext="cif", newext="ctrlsys.cif");
     string rslt1_real = chfileext(test, oldext="cif", newext="ctrlsys.real.cif");
 
     // Execute.
-    list string options1 = options + ["-o", rslt1_real];
+    list string options1 = options + ["-o", rslt1_real, "--statsfile-contperf=" + test1_stats_real];
     int exit_code1 = cifdatasynth([test] + options1, stdout=test1_out_real, stderr=test1_err_real, ignoreNonZeroExitCode=true);
 
     // Compare output.
     bool stderr1_diff = diff(test1_err_exp, test1_err_real, missingAsEmpty=true, warnOnDiff=true);
     bool stdout1_diff = diff(test1_out_exp, test1_out_real, missingAsEmpty=true, warnOnDiff=true);
+    bool stats1_diff  = diff(test1_stats_exp, test1_stats_real, missingAsEmpty=true, warnOnDiff=true);
     bool rslt1_diff   = diff(rslt1_exp, rslt1_real, missingAsEmpty=true, warnOnDiff=true);
     if not stderr1_diff:: rmfile(test1_err_real);
+    if not stats1_diff::  rmfile(test1_stats_real, true);
     // don't remove test1_out_real here, as we need it to get the number of states...
     // don't remove rslt1_real here, as we need to generate a state space from it...
 
@@ -180,6 +185,7 @@ for test in tests:
     int synth_diff_count = 0;
     if stderr1_diff:: synth_diff_count = synth_diff_count + 1;
     if stdout1_diff:: synth_diff_count = synth_diff_count + 1;
+    if stats1_diff::  synth_diff_count = synth_diff_count + 1;
     if rslt1_diff::   synth_diff_count = synth_diff_count + 1;
 
     synth_count = synth_count + 1;

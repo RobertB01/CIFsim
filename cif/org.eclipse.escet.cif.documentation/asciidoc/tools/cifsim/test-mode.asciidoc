@@ -25,7 +25,7 @@ This option has the following effect:
 
 * The visual interfaces for all <<tools-cifsim-output-chapter-index,output components>> (such as visualizers) are disabled.
 
-* The user is no longer asked to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator, if the the _Ask to confirm simulator termination_ option (_Simulator_ category) is configured to let the simulator decide whether to ask the user for confirmation or terminate automatically.
+* The user is no longer asked to <<tools-cifsim-termination-confirm,confirm termination>> of the simulator, if the _Ask to confirm simulator termination_ option (_Simulator_ category) is configured to let the simulator decide whether to ask the user for confirmation or terminate automatically.
 By not asking for user input at the console, the automated test set can be fully automatically executed.
 
 * It is allowed to perform <<tools-cifsim-output-chapter-realtime,real-time>> simulation without using any <<tools-cifsim-output-realtime-outcomp,real-time output components>>, allowing testing of the real-time functionality in the automated test set.

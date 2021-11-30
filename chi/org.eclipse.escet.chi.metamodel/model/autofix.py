@@ -38,6 +38,10 @@ genmodel_content = genmodel_content.replace(
 
 # Fix Java compliance level.
 genmodel_content = genmodel_content.replace(
+    'complianceLevel="5.0"',
+    'complianceLevel="8.0"'
+)
+genmodel_content = genmodel_content.replace(
     'complianceLevel="6.0"',
     'complianceLevel="8.0"'
 )

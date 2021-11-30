@@ -75,7 +75,7 @@ WHILE TRUE DO
             progress := TRUE;
             state1 := state0;
 
-            state1.cvar_M_p_t := ivar_M_p_i;
+            state1.cvar_M_p_t := ivar_p_i;
 
             state0 := state1;
         END_IF;

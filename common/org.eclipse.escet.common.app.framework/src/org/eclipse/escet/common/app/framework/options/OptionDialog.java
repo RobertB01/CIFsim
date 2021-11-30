@@ -475,7 +475,7 @@ public class OptionDialog implements Runnable {
     /**
      * Adds the 'About' option category to the 'Help' category of the option dialog.
      *
-     * @param parentItem The help item to to add the category tree item to.
+     * @param parentItem The help item to add the category tree item to.
      * @param pages The parent control to add option pages to.
      */
     private void addHelpAboutCategory(TreeItem parentItem, SashForm pages) {
@@ -515,7 +515,7 @@ public class OptionDialog implements Runnable {
     /**
      * Adds the 'Command line options' option category to the 'Help' category of the option dialog.
      *
-     * @param parentItem The help item to to add the category tree item to.
+     * @param parentItem The help item to add the category tree item to.
      * @param pages The parent control to add option pages to.
      */
     private void addHelpCmdLineCategory(TreeItem parentItem, SashForm pages) {
@@ -555,7 +555,7 @@ public class OptionDialog implements Runnable {
     /**
      * Adds the 'License information' option category to the 'Help' category of the option dialog.
      *
-     * @param parentItem The help item to to add the category tree item to.
+     * @param parentItem The help item to add the category tree item to.
      * @param pages The parent control to add option pages to.
      */
     private void addHelpLicenseCategory(TreeItem parentItem, SashForm pages) {

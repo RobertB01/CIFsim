@@ -1,0 +1,18 @@
+controllable e;
+controllable f;
+plant automaton a:
+  disc int[0..25] x = 1;
+  location:
+    initial;
+    marked;
+    edge e when x < 20 do x := x + 1;
+    edge f;
+end
+supervisor automaton sup:
+  alphabet e, f;
+  location:
+    initial;
+    marked;
+    edge e when true;
+    edge f when a.x = 12 or (a.x = 13 or a.x = 10) or (a.x = 11 or (a.x = 14 or a.x = 15));
+end

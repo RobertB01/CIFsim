@@ -56,7 +56,7 @@ Using a maximum check interval of `0.001` would then still suffice, as the guard
 If however `x'` is `100`, then the time interval would become `0.0001`, which is smaller than the maximum check interval of `0.001`.
 That is, the derivatives of the values occurring in guards influence the value that should be chosen for the maximum delay interval.
 
-In general, to choose an appropriate value for the maximum check interval, not only the the ranges of values of the variables where the guard is enabled should be taken into account, but the steepness of their derivatives as well.
+In general, to choose an appropriate value for the maximum check interval, not only the ranges of values of the variables where the guard is enabled should be taken into account, but the steepness of their derivatives as well.
 That is, the value of the maximum check interval should be based on the time interval where the guard is enabled.
 Choosing half the duration of the smallest of such time intervals, for all guards, is generally a good choice.
 

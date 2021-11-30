@@ -1,10 +1,10 @@
-WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "v1", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "v2", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(tuple(int a; int b) t; string c)" found in discrete variable "tt1", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(tuple(int a; int b) t; string c)" found in discrete variable "tt2", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "t", variable will be omitted from the output.
-WARNING: Unsupported output type "string" found in discrete variable "s", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z)" found in discrete variable "x1", variable will be omitted from the output.
-WARNING: Unsupported output type "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z)" found in discrete variable "x2", variable will be omitted from the output.
-WARNING: Unsupported output type "list[2] tuple(list[1] int x; list[1] real y)" found in discrete variable "l", variable will be omitted from the output.
-WARNING: Unsupported output type "list[3] tuple(int a; int b)" found in discrete variable "v1", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "aut06.v1", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "aut06.v2", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(tuple(int a; int b) t; string c)" found in discrete variable "aut08.tt1", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(tuple(int a; int b) t; string c)" found in discrete variable "aut08.tt2", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(int a; int b)" found in discrete variable "aut08.t", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "aut08.s", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z)" found in discrete variable "aut10.x1", variable will be omitted from the output.
+WARNING: Unsupported output type "tuple(string s; list[2] tuple(list[1] int x; list[1] real y) z)" found in discrete variable "aut10.x2", variable will be omitted from the output.
+WARNING: Unsupported output type "list[2] tuple(list[1] int x; list[1] real y)" found in discrete variable "aut10.l", variable will be omitted from the output.
+WARNING: Unsupported output type "list[3] tuple(int a; int b)" found in discrete variable "aut11.v1", variable will be omitted from the output.

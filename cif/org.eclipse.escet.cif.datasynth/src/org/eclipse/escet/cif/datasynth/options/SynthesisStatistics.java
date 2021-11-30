@@ -22,5 +22,14 @@ public enum SynthesisStatistics {
     BDD_GC,
 
     /** BDD node table resize. */
-    BDD_RESIZE;
+    BDD_RESIZE,
+
+    /** Maximum used BDD nodes. */
+    BDD_MAX_NODES,
+
+    /** Continuous BDD performance. */
+    BDD_CONT_PERF,
+
+    /** BDD cache. */
+    BDD_CACHE;
 }

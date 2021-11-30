@@ -320,7 +320,7 @@ end
 run P(2, -1, "is less than");
 ----
 
-The formal parameters introduce additional variables in the process, that can be just just like any other variable.
+The formal parameters introduce additional variables in the process, that can be just like any other variable.
 Here, they are just printed to the screen.
 Elsewhere in the program, the definition gets used (instantiated), and a value is supplied for the additional variables.
 Such values are called _actual parameters_.

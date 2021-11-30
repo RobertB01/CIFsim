@@ -74,7 +74,7 @@ END_IF;
 WHILE TRUE DO
     progress := FALSE;
 
-    // Event "M.aut_e".
+    // Event "aut.e".
     IF NOT progress THEN
         b1 := (state0.dvar_M_aut) = (elit_l1);
         IF b1 THEN

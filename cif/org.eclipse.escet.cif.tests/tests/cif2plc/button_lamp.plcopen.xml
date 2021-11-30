@@ -245,10 +245,10 @@ END_IF;
 WHILE TRUE DO
     progress := FALSE;
 
-    // Event "button_push".
+    // Event "button.push".
     IF NOT progress THEN
         b1 := (state0.dvar_M_hw_button) = (elit_Released);
-        b1 := b1 AND (ivar_M_hw_button_bit);
+        b1 := b1 AND (ivar_hw_button_bit);
         IF b1 THEN
             b2 := (state0.dvar_M_sup) = (elit_s1);
             b2 := b2 OR ((state0.dvar_M_sup) = (elit_s4));
@@ -278,10 +278,10 @@ WHILE TRUE DO
         END_IF;
     END_IF;
 
-    // Event "button_release".
+    // Event "button.release".
     IF NOT progress THEN
         b1 := (state0.dvar_M_hw_button) = (elit_Pushed);
-        b1 := b1 AND (NOT(ivar_M_hw_button_bit));
+        b1 := b1 AND (NOT(ivar_hw_button_bit));
         IF b1 THEN
             b2 := (state0.dvar_M_sup) = (elit_s2);
             b2 := b2 OR ((state0.dvar_M_sup) = (elit_s3));
@@ -311,7 +311,7 @@ WHILE TRUE DO
         END_IF;
     END_IF;
 
-    // Event "lamp_off".
+    // Event "lamp.off".
     IF NOT progress THEN
         b1 := (state0.dvar_M_hw_lamp) = (elit_On);
         IF b1 THEN
@@ -335,7 +335,7 @@ WHILE TRUE DO
         END_IF;
     END_IF;
 
-    // Event "lamp_on".
+    // Event "lamp.on".
     IF NOT progress THEN
         b1 := (state0.dvar_M_hw_lamp) = (elit_Off);
         IF b1 THEN
@@ -359,7 +359,7 @@ WHILE TRUE DO
         END_IF;
     END_IF;
 
-    // Event "M.timer_start".
+    // Event "timer.start".
     IF NOT progress THEN
         b2 := (state0.dvar_M_sup) = (elit_s3);
         b2 := b2 OR ((state0.dvar_M_sup) = (elit_s5));
@@ -381,7 +381,7 @@ WHILE TRUE DO
         END_IF;
     END_IF;
 
-    // Event "M.timer_timeout".
+    // Event "timer.timeout".
     IF NOT progress THEN
         b2 := (state0.dvar_M_sup) = (elit_s6);
         b2 := b2 OR ((state0.dvar_M_sup) = (elit_s7));
@@ -432,7 +432,7 @@ END_WHILE;</xhtml>
             </pouInstance>
           </task>
           <globalVars constant="false" name="INPUTS">
-            <variable address="%I*" name="ivar_M_hw_button_bit">
+            <variable address="%I*" name="ivar_hw_button_bit">
               <type>
                 <BOOL/>
               </type>

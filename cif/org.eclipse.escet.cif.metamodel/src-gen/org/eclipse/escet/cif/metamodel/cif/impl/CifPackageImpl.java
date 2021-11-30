@@ -1058,7 +1058,7 @@ public class CifPackageImpl extends EPackageImpl implements CifPackage
            new String[]
            {
                "name", "CifIdentifier",
-               "baseType", "string",
+               "baseType", "http://www.eclipse.org/emf/2002/Ecore#EString",
                "pattern", "[A-Za-z_][A-Za-z0-9_]*"
            });
     }

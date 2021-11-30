@@ -84,7 +84,7 @@ This will be used as email for Git commits.
 * In the new development environment, observe Oomph executing the startup tasks (such as Git clone, importing projects, etc).
 If this is not automatically shown, click the rotating arrows icon in the status bar (bottom right) of the new development environment.
 * Wait for the startup tasks to finish successfully.
-* NOTE: If you don't open the Oomph dialog, the status bar icon icon may disappear when the tasks are successfully completed.
+* NOTE: If you don't open the Oomph dialog, the status bar icon may disappear when the tasks are successfully completed.
 
 If you have any issues during setting up the development environment, consider the following:
 

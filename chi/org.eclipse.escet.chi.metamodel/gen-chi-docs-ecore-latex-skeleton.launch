@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
-    <stringAttribute key="bad_container_name" value="\org.eclipse.escet.ch.metamodel\docs"/>
+    <stringAttribute key="bad_container_name" value="\org.eclipse.escet.chi.metamodel\docs"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
         <listEntry value="/org.eclipse.escet.common.emf.ecore.codegen/src/org/eclipse/escet/common/emf/ecore/codegen/latex/EmfLatexDocSkeletonGenerator.java"/>
     </listAttribute>

@@ -73,7 +73,7 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * For each automaton for which a location is referenced (or for all automata, depending on the transformation
  * settings), a location pointer variable is introduced, with as value the current location. The values are part of a
  * new enumeration that has a value for each location of the automaton. For automata with exactly one location, no
- * location variable is introduced.
+ * location pointer variable is introduced.
  * </p>
  *
  * <p>
@@ -135,9 +135,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     private final boolean addInitPreds;
 
     /**
-     * Mapping from location pointer variables to their absolute names, with the name of the automaton omitted from the
-     * absolute name, but not any of the groups of which the automaton is a part. May be {@code null} to not construct
-     * this mapping.
+     * Mapping from location pointer variables to their absolute names, excluding the name of the automaton they are
+     * defined in, including any groups of which the automaton is a part, and including the variable name itself. May be
+     * {@code null} to not construct this mapping.
      */
     private final Map<DiscVariable, String> absVarNamesMap;
 
@@ -166,8 +166,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * Mapping from automata to their newly created location pointer variables.
      *
      * <p>
-     * For optimized mode, the keys are added during {@link #phase} 1, with {@code null} values, and the actual values
-     * are added during {@link #phase} 2. For non-optimized mode, the keys and values are all added during
+     * For {@link #optimized} mode, the keys are added during {@link #phase} 1, with {@code null} values, and the actual
+     * values are added during {@link #phase} 2. For non-optimized mode, the keys and values are all added during
      * {@link #phase} 2.
      * </p>
      */
@@ -285,7 +285,10 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             var.setType(enumType);
             autToVarMap.put(aut, var);
 
-            // Store absolute name, excluding automaton name.
+            // Store absolute name, excluding automaton name. The automaton
+            // name is left out to avoid duplicating the name of the
+            // automaton by the automaton itself and the location pointer
+            // variable name.
             if (absVarNamesMap != null) {
                 PositionObject autParentScope = CifScopeUtils.getScope(aut);
                 String autParentTxt = CifTextUtils.getAbsName(autParentScope, false);

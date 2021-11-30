@@ -66,7 +66,7 @@ public class JavaEnumTypeInfo extends EnumTypeInfo {
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Use 'equalObjs' instead of '==' to avoid object equality for two Boolean objects.
+        // Uses 'equalObjs' instead of '==' like for the other types, even though it is not needed for enums.
         if (binOp.equals(BinaryOperator.EQUAL)) {
             return "equalObjs(${left-value}, ${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {

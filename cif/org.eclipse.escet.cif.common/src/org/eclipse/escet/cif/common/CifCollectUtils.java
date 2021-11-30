@@ -18,6 +18,7 @@ import java.util.Collection;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Group;
+import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
@@ -120,6 +121,7 @@ public class CifCollectUtils {
      * @param variables The discrete and input variables collected so far. Is modified in-place.
      */
     public static void collectDiscAndInputVariables(ComplexComponent comp, Collection<Declaration> variables) {
+        // Collect locally.
         for (Declaration decl: comp.getDeclarations()) {
             if (decl instanceof DiscVariable || decl instanceof InputVariable) {
                 variables.add(decl);
@@ -128,8 +130,52 @@ public class CifCollectUtils {
 
         // Collect recursively.
         if (comp instanceof Group) {
-            for (Component child : ((Group)comp).getComponents()) {
+            for (Component child: ((Group)comp).getComponents()) {
                 collectDiscAndInputVariables((ComplexComponent)child, variables);
+            }
+        }
+    }
+
+    /**
+     * Collect the {@link Declaration}s declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp The component.
+     * @param declarations The declarations collected so far. Is modified in-place.
+     */
+    public static void collectDeclarations(ComplexComponent comp, Collection<Declaration> declarations) {
+        // Collect locally.
+        declarations.addAll(comp.getDeclarations());
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child: ((Group)comp).getComponents()) {
+                collectDeclarations((ComplexComponent)child, declarations);
+            }
+        }
+    }
+
+    /**
+     * Collect the I/O declarations declared in the given component (recursively).
+     *
+     * <p>
+     * Does not support component definition/instantiation.
+     * </p>
+     *
+     * @param comp The component.
+     * @param declarations The I/O declarations collected so far. Is modified in-place.
+     */
+    public static void collectIoDeclarations(ComplexComponent comp, Collection<IoDecl> declarations) {
+        // Collect locally.
+        declarations.addAll(comp.getIoDecls());
+
+        // Collect recursively.
+        if (comp instanceof Group) {
+            for (Component child: ((Group)comp).getComponents()) {
+                collectIoDeclarations((ComplexComponent)child, declarations);
             }
         }
     }
