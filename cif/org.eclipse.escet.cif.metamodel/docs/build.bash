@@ -17,12 +17,9 @@ set -e -u
 cd $(dirname $(readlink -f $0))
 
 DOCNAME=cif_ecore_doc
-DOCNAME_GEN=cif_ecore_doc_generated
 
 TODAY_DATE=`date +'%Y-%m-%d'`
 sed -i "s/^\\\\date{Version .*}$/\\\\date{Version $TODAY_DATE}/g" $DOCNAME.tex
-
-sed -i "s/Ecore\#EString/Ecore\\\#EString/g" $DOCNAME_GEN.tex
 
 rm -f $DOCNAME.aux
 rm -f $DOCNAME.bbl
