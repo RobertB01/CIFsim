@@ -42,7 +42,6 @@ The enumeration definitions start with the keyword `enum`, followed by a sequenc
 Each definition associates an enumeration type name with a set of enumeration value names.
 For example:
 
-
 [source, chi]
 ----
 enum FlagColours  = {red, white, blue},
@@ -53,7 +52,6 @@ The enumeration type names act as normal types, and the enumeration values are i
 The values have to be unique words.
 
 For example, you can create a variable, and compare values like:
-
 
 [source, chi]
 ----
@@ -82,7 +80,6 @@ For further details about type names and types, see <<ref-chapter-types>>.
 
 An example:
 
-
 [source, chi]
 ----
 type lot   = real,
@@ -92,7 +89,6 @@ type lot   = real,
 Here a `lot` type name is introduced that is implemented with a real number, and a `batch` type name is created, which is a list of `lot`.
 
 These type names can be used at every place where you can use a type, for example in variable declarations:
-
 
 [source, chi]
 ----
@@ -118,7 +114,6 @@ The syntax of constant definitions is as follows.
 image::{ref-imgsdir}/rail_diagrams/constantdef.png[]
 
 An example:
-
 
 [source, chi]
 ----
@@ -153,7 +148,6 @@ In the body, the behavior is described using statements.
 Formal parameters are further explained in <<ref-formal-parameters>>, statements are explained in the <<ref-chapter-statements>> section.
 
 For example:
-
 
 [source, chi]
 ----
@@ -262,7 +256,6 @@ Unlike a function, an experiment never returns a value with the <<ref-return-sta
 The primary goal of an `xper` is to allow you to run one or more model simulations that give an exit value.
 For this purpose, you can 'call' a model like a function, for example:
 
-
 [source, chi]
 ----
 xper X():
@@ -307,7 +300,6 @@ To a definition, the formal parameters act like variables.
 You may use them just like other variables.
 
 An example, where `int x, y; string rel` are the formal parameters of process definition `P`:
-
 
 [source, chi]
 ----

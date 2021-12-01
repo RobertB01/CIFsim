@@ -26,7 +26,6 @@ Data can be read from the command line or from a file by _read_ functions.
 A read function requires a type value for each parameter to be read.
 An example:
 
-
 [source, chi]
 ----
 int i; string s;
@@ -37,7 +36,6 @@ s = read(string);
 
 Two values, an integer value and a string value are read from the command line.
 On the command line the two values are typed:
-
 
 [source, console]
 ----
@@ -57,7 +55,6 @@ indexterm:[file,reading from]
 
 Data also can be read from files.
 An example fragment:
-
 
 [source, chi]
 ----
@@ -81,7 +78,6 @@ Reading values works in the same way as before, except you cannot add new text i
 Instead, the file is processed sequentially from begin to end, with values separated from each other by white space (spaces, tabs, and new-lines).
 You can read values of different types from the same file, as long as the value in the file matches with the type that you ask.
 For example, the above Chi program could read the following data from `data_file.txt`:
-
 
 [source, console]
 ----
@@ -107,7 +103,6 @@ These functions can be used to customize reading of more complicated values.
 As an example, you may want to read the same `list row` value as above, but without having all the comma's, quotes, parentheses, and brackets of the literal value `[("abc", [7,21]), ("def", [8,31,47])]`.
 Instead, imagine having a file `clean_data.txt` with the following layout:
 
-
 [source, console]
 ----
 abc 7 21
@@ -117,7 +112,6 @@ def 8 31 47
 Each line is one row.
 It starts with a one-word string, followed by a list of integer numbers.
 By using the `eof` and `eol` functions, you can read this file in the following way:
-
 
 [source, chi]
 ----
@@ -166,7 +160,6 @@ A place holder starts with `%` optionally followed by numbers or some punctuatio
 A place holder ends with a _format specifier_, a single letter like `s` or `f`.
 An example:
 
-
 [source, chi]
 ----
 int i = 5;
@@ -185,7 +178,6 @@ It means 'print as string'.
 The `%s` is a general purpose format specifier, it works with almost every type of data.
 For example:
 
-
 [source, chi]
 ----
 list dict(int:real) xs = [{1 : 5.3}];
@@ -199,7 +191,6 @@ In general, this works nicely, but for numeric values a little more control over
 To this end, there are also format specifiers `d` for integer numbers, and `f` for real numbers.
 An example:
 
-
 [source, chi]
 ----
 int i = 5;
@@ -209,7 +200,6 @@ write("%4d/%8.2f", i, r)
 ----
 
 This fragment has the effect that the values of `i` and `r` are written to the screen as follows:
-
 
 [source, console]
 ----
@@ -308,7 +298,6 @@ indexterm:[file,writing to]
 Data can be written to a file, analog to the read function.
 A file has to be defined first, and opened for writing before the file can be used.
 An example:
-
 
 [source, chi]
 ----
