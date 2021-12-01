@@ -26,7 +26,6 @@ Lists can be used to model anything where duplicate values may occur or where or
 Examples are customers waiting in a shop, process steps in a recipe, or products stored in a warehouse.
 Consider the following:
 
-
 [source, cif]
 ----
 disc list int x = [7, 8, 3];
@@ -42,7 +41,6 @@ Lists are ordered collections of elements.
 `[7, 8, 3]` is thus a different list as `[8, 7, 3]`.
 Lists are empty by default, and they may have duplicate elements:
 
-
 [source, cif]
 ----
 disc list int x1;                       // Implicitly empty list.
@@ -54,7 +52,6 @@ indexterm:[list,projection]
 indexterm:[list,indexing]
 Since lists are ordered, there is a first element and a last element (unless the list is empty).
 An element can be obtained by _projection_, usually called _indexing_ for lists:
-
 
 [source, cif]
 ----
@@ -75,7 +72,6 @@ Indexing does not change the value of variable `x`.
 The fourth edge is  invalid, as the fourth element (index `3`) of variable `x` is used, which does not exist.
 The fifth edge replaces only the first element (index `0`) of list `x`, while keeping the remaining elements as they are.
 It is also allowed to use negative indices:
-
 
 [source, cif]
 ----
@@ -109,7 +105,6 @@ If the begin index is equal to or larger than the end index, the slice is empty.
 Similar to indexing, negative indices may be used, which are relative to the end of the list rather than the start of the list.
 Indices that are out of bounds link:http://en.wikipedia.org/wiki/Saturation_arithmetic[saturate] to those bounds.
 Some examples:
-
 
 [source, cif]
 ----
@@ -145,7 +140,6 @@ This is called _concatenation_.
 This can also be used to add a single element to the front or back of the list.
 For instance:
 
-
 [source, cif]
 ----
 [7, 8, 3] + [5, 9]   // [7, 8, 3, 5, 9]
@@ -154,7 +148,6 @@ For instance:
 ----
 
 Several other standard operators and functions are available to work with lists, including the following:
-
 
 [source, cif]
 ----

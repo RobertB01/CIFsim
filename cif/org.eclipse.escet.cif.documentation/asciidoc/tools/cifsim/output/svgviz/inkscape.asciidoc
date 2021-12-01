@@ -118,7 +118,6 @@ These elements are _not_ supported by the CIF simulator, which only supports ver
 
 Using an SVG image with a `flowRoot` or other unsupported SVG feature, results in the following error when the SVG file is <<tools-cifsim-output-svgviz-chapter-viewer,opened>> in Eclipse:
 
-
 [source, console]
 ----
 ERROR: SVG image file "some_image.svg" is not an SVG file, is an invalid SVG file, or contains unsupported SVG features.

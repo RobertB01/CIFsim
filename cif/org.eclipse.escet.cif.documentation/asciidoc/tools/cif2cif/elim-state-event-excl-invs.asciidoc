@@ -78,7 +78,6 @@ The alphabets of the automata are left implicit.
 
 Consider the following example CIF specification:
 
-
 [source, cif]
 ----
 plant automaton aut:
@@ -100,7 +99,6 @@ end
 ----
 
 It is transformed to the following CIF specification:
-
 
 [source, cif]
 ----

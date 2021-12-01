@@ -173,7 +173,6 @@ Open systems can also be closed by the simulator, as described above for the dif
 
 As an example, consider the following open system:
 
-
 [source, cif]
 ----
 plant automaton Button:
@@ -213,7 +212,6 @@ The button events are environment events, since it always possible to either pus
 By specifying the button events as environment events, and specifying the lamp events as <<tools-cifsim-input-chapter-semi-automatic,semi-automatic>> events, we can use the <<tools-cifsim-input-chapter-console,interactive console input mode>> or the <<tools-cifsim-input-chapter-gui,interactive GUI input mode>> to try different traces, where we only have to choose between the button events and how much time we want to let pass.
 
 Alternatively, we could add a use case, modeling one possible behavior of a user:
-
 
 [source, cif]
 ----

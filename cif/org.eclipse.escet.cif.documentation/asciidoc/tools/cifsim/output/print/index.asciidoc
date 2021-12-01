@@ -42,7 +42,6 @@ indexterm:[print output,example]
 
 This example serves only to give a quick taste of what print output declarations look like:
 
-
 [source, cif]
 ----
 printfile "out.txt";

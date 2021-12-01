@@ -26,7 +26,6 @@ There is a sensor that can detect the product between positions `13` and `14`.
 The product exits the conveyor at position `18`.
 The following CIF specification models the conveyor, product, and sensor:
 
-
 [source, cif]
 ----
 automaton conveyor:
@@ -69,7 +68,6 @@ Both can be used to improve readability, and to make it easier to consistently c
 
 Algebraic variables can also be used as an abstraction.
 Consider the following extension of the specification:
-
 
 [source, cif]
 ----

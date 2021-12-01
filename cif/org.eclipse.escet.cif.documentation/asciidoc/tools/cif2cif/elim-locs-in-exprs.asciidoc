@@ -55,7 +55,6 @@ For references to a location of an automaton with exactly one location, all uses
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton x:
@@ -72,7 +71,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

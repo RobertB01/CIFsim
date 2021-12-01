@@ -19,7 +19,6 @@ indexterm:[algebraic variable,equation]
 indexterm:[equation,algebraic variable]
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton car:
@@ -57,7 +56,6 @@ That is, it can't be driven if the car is `broken` or a mechanic is `repairing` 
 In the example above, the value of the algebraic variable is defined with the declaration, as was already explained in the lesson that introduced <<lang-tut-reuse1-chapter-algebraic-variables,algebraic variables>>.
 However, it also possible to specify the value separately, using an equation:
 
-
 [source, cif]
 ----
 automaton car:
@@ -77,7 +75,6 @@ An equation of an algebraic variable must be placed in the same component as whe
 In the example above, the equation for algebraic variable `+can_drive+` must be placed in automaton `car`, as that is where the algebraic variable is declared.
 
 For algebraic variables declared in automata, it is also possible to specify the value using an equation per location of the automaton:
-
 
 [source, cif]
 ----

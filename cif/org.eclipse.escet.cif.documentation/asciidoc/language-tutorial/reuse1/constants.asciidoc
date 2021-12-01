@@ -23,7 +23,6 @@ Constants can thus make it easier to keep the model consistent.
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 const int STEP = 2;
@@ -54,7 +53,6 @@ Using a constant can thus enhance readability.
 
 Another benefit of constants, is that they can be used multiple times in the same model:
 
-
 [source, cif]
 ----
 const int STEP = 2;
@@ -80,8 +78,7 @@ Constants are not limited to integer values.
 Consider the following example, where a more complex value is used:
 
 // Copied to: reuse1/type-declarations
-
-[source,cif]
+[source, cif]
 ----
 enum ProductType = A, B, C;
 const dict(ProductType:real) DURATION = {A: 3.5, B: 5.7, C: 0.8};

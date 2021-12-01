@@ -20,7 +20,6 @@ indexterm:[see: observing,monitoring]
 This lesson explains the concept of _monitoring_.
 It is explained using the following CIF specification:
 
-
 [source, cif]
 ----
 automaton producer:
@@ -81,7 +80,6 @@ indexterm:[monitoring,self loops]
 
 A simple solution is to allow the disabled events:
 
-
 [source, cif]
 ----
 automaton detect_changeover:
@@ -125,7 +123,6 @@ A monitor automaton is an automaton that monitors or observes one or more events
 The events that it monitors, are never blocked (disabled) by that automaton.
 For our producer/changeover example, we can turn the `+detect_changeover+` automaton into a monitor automaton for the `+provide_a+` and `+provide_b+` events:
 
-
 [source, cif]
 ----
 automaton detect_changeover:
@@ -151,7 +148,6 @@ Using a `monitor` declaration with one or more events, turns the automaton into 
 For the producer/changeover example, the behavior with the monitor automaton is exactly identical to the behavior of the specification with the self loops.
 
 By omitting the events from the `monitor` declaration, an automaton monitors all events of its alphabet:
-
 
 [source, cif]
 ----

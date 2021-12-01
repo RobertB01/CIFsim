@@ -26,7 +26,6 @@ indexterm:[external user-defined Java functions,implementation reference]
 
 Consider the following examples of external user-defined Java function:
 
-
 [source, cif]
 ----
 func real f1(real x): "java:java.lang.Math.expm1";

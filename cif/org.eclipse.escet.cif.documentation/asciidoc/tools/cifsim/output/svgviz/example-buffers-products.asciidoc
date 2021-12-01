@@ -38,7 +38,7 @@ The template is moved outside of the canvas to ensure the template itself is not
 
 The SVG file has the following XML content:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.svg[]
 ----
@@ -51,7 +51,7 @@ That is, to add a single buffer, we only need one more instantiation, and also t
 
 The following CIF specification models the buffers/products example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/buffers_products/buffers_products.cif[]
 ----

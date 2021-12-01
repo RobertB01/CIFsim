@@ -49,7 +49,7 @@ The `width` and `fill` color of the latter will be updated to reflect the machin
 
 The following CIF specification models the workstation example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/workstation/workstation.cif[]
 ----

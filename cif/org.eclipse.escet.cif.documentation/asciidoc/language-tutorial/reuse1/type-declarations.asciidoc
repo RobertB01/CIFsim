@@ -19,7 +19,6 @@ indexterm:[type declaration]
 indexterm:[type,declaration]
 Consider this slightly modified version of an example from the lesson on <<lang-tut-reuse1-chapter-constants,constants>>:
 
-
 [source, cif]
 ----
 enum ProductType = A, B, C;
@@ -35,7 +34,6 @@ Constant `M2_DURATION` is similar, but for machine 2.
 
 The type of both constants is the same.
 To avoid having to repeat complex types in multiple places, a _type declaration_ can be used:
-
 
 [source, cif]
 ----

@@ -40,7 +40,6 @@ An algebraic parameter is similar to an <<lang-tut-reuse1-chapter-algebraic-vari
 Arbitrary values or expressions of matching type can be provided as arguments in automaton instantiations.
 For instance, consider the following partial CIF specification:
 
-
 [source, cif]
 ----
 event int accept, provide;
@@ -67,7 +66,6 @@ Algebraic parameters can be used inside an automaton definition, wherever a valu
 The expression that is provided by the instantiation is essentially filled in wherever the parameter is used.
 The above is equivalent to:
 
-
 [source, cif]
 ----
 event int accept, provide;
@@ -89,7 +87,6 @@ indexterm:[automaton definition parameter,event]
 
 Event parameters allow different instantiations to synchronize with different events or to communicate over different <<lang-tut-channels-chapter-intro,channels>>.
 For instance, consider the following partial CIF specification:
-
 
 [source, cif]
 ----
@@ -119,7 +116,6 @@ The first buffer thus provides its items to the second buffer.
 Event and channel parameters can be used inside an automaton definition, wherever an event or channel is expected, e.g. on edges and in <<lang-tut-basics-chapter-alphabet,alphabets>> if <<lang-tut-basics-alphabet-explicit,explicitly specified>>.
 The event or channel that is provided by the instantiation is essentially filled in wherever the parameter is used.
 The above is equivalent to:
-
 
 [source, cif]
 ----
@@ -180,14 +176,12 @@ Without the usage checking, you might not encounter the problem until for instan
 
 For the example above, we have the following _header_ of the `Buffer` definition:
 
-
 [source, cif]
 ----
 automaton def Buffer(event int accept, provide):
 ----
 
 We can change this as follows:
-
 
 [source, cif]
 ----
@@ -204,7 +198,6 @@ indexterm:[automaton definition parameter,location]
 An earlier lesson explained how a <<lang-tut-data-chapter-locs-as-var,location can be used as a variable>>.
 Using location parameters, automaton definitions can be supplied with different locations.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -237,7 +230,6 @@ Automaton instantiation `machine1` provides the first machine with the `processi
 Location parameters can be used inside an automaton definition, wherever a <<lang-tut-values-chapter-booleans,boolean>> value is expected, e.g. in guards.
 The location that is provided by the instantiation is essentially filled in wherever the parameter is used.
 The above is equivalent to:
-
 
 [source, cif]
 ----
@@ -274,7 +266,6 @@ indexterm:[automaton definition parameter,component]
 
 When multiple declarations (variables, locations, etc) from one automaton are to be supplied as parameters to another automaton, it is also possible to supply the entire automaton as a parameter, but only if the provided automaton is an instantiation of an automaton definition.
 Consider for instance the following CIF specification:
-
 
 [source, cif]
 ----
@@ -316,7 +307,6 @@ If `sensor1` goes on, `actuator1` is turned on, and if `sensor1` goes off, `actu
 Automaton parameters can be used inside an automaton definition, to refer to declarations inside the automaton supplied for the automaton parameter.
 The automaton that is provided by the instantiation is essentially filled in wherever the parameter is used.
 The above is equivalent to:
-
 
 [source, cif]
 ----
@@ -360,7 +350,6 @@ indexterm:[automaton definition parameter,multiple]
 === Multiple parameters
 
 It is possible to use multiple parameters of the same kind, as well as different kinds of parameters:
-
 
 [source, cif]
 ----

@@ -20,7 +20,6 @@ These concepts have already been used in previous lessons, but this lesson names
 Furthermore, this lesson serves as an introduction for the coming lessons, which rely heavily on these concepts.
 Consider the following declarations of <<lang-tut-data-chapter-discrete-variables,discrete variables>>:
 
-
 [source, cif]
 ----
 disc int x = 1;

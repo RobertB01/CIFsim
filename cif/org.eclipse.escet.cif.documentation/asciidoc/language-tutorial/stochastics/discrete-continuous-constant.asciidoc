@@ -64,7 +64,6 @@ Continuous distributions return a value from a continuous range.
 An example is the weight of link:http://en.wikipedia.org/wiki/Penny_(United_States_coin)[pennies].
 This could for instance be approximated using a continuous link:http://en.wikipedia.org/wiki/Normal_distribution[normal distribution] with a link:http://en.wikipedia.org/wiki/Mean[mean] of 2.46 grams and a link:http://en.wikipedia.org/wiki/Variance[variance] of 0.0004 grams:
 
-
 [source, cif]
 ----
 automaton pennies:
@@ -100,7 +99,6 @@ Changing the used distributions is however much less invasive, making it less li
 
 Constant distributions always produce the same sampled value.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----

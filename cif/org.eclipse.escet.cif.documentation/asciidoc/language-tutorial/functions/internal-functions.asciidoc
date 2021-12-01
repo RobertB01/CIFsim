@@ -20,8 +20,7 @@ The most commonly used <<lang-tut-functions-chapter-intro,kind>> of user-defined
 Consider the following CIF specification:
 
 // Copied to: functions/statements
-
-[source,cif]
+[source, cif]
 ----
 func real mean(list real vs):
   int length = size(vs);
@@ -69,7 +68,6 @@ indexterm:[function,application]
 indexterm:[function,call]
 A function can be called (or applied) on concrete input values, to obtain the computation result for those specific input values.
 For instance, consider the following extension to the above CIF specification:
-
 
 [source, cif]
 ----

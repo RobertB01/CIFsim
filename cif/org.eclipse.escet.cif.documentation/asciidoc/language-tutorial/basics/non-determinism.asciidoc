@@ -34,7 +34,6 @@ Another cause of non-determinism is the presence of multiple outgoing edges of a
 This can lead to multiple possible transitions for a that event, for a single state.
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton coin:

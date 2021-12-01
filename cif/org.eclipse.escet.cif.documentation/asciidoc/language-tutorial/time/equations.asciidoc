@@ -24,7 +24,6 @@ Variable `V` models the water volume of a tank.
 The water volume of the tank changes based on the incoming flow of water `Qi` and outgoing flow of water `Qo`.
 The tank can be modeled using the following CIF specification:
 
-
 [source, cif]
 ----
 cont V = 5 der Qi - Qo;
@@ -39,8 +38,7 @@ The outgoing flow increases as the water volume of the tank increases.
 By separating the declarations of the three variables from their equations, the specification becomes more readable:
 
 // Copied to: reuse2/groups
-
-[source,cif]
+[source, cif]
 ----
 cont V = 5;
 alg real Qi;

@@ -74,7 +74,6 @@ For both options, a uniform random distribution is used, which is sampled to obt
 The upper bound (exclusive) of the uniform random distribution is to be provided by the user.
 You can think of these random options as adding an extra automaton to the specification, that could look as follows:
 
-
 [source, cif]
 ----
 automaton auto_time_trans_duration:

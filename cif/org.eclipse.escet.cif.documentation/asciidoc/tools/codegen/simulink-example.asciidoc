@@ -130,7 +130,7 @@ image::{tools-imgsdir}/codegen/simulink-example/matlab-mex.png[]
 You can see the files present in the directory, as you would expect.
 In Matlab, the generated C code is compiled with the Matlab _Mex_ compiler:
 
-[source,shell]
+[source, shell]
 ----
 mex tank_ctrl.c
 ----

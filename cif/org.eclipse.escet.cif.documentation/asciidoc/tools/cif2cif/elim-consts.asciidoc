@@ -46,7 +46,6 @@ All uses of constants (for instance in guards, invariants, etc), are replaced by
 The constants themselves are removed.
 For instance, the following specification:
 
-
 [source, cif]
 ----
 const int x = 1;
@@ -56,7 +55,6 @@ invariant x + y + z > 0;
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

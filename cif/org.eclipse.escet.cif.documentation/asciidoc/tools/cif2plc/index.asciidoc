@@ -301,7 +301,6 @@ However, they are identical except for casing.
 Thus, the first one that is encountered during code generation gets the candidate name, and the second one is renamed.
 This results in a warning like this:
 
-
 [source, console]
 ----
 WARNING: PLC variable "elit_WaitForTimeout" is renamed to "elit_WaitForTimeout2".
