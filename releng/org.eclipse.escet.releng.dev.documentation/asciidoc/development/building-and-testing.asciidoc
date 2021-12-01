@@ -62,4 +62,6 @@ The expected outputs can be updated as follows.
 
 . Run the _copy all_ script under _JUnit Plug-in Test_ section to replace the expected outputs with the test outputs (e.g. _test-cif-integration-copy-all_).
 
-. Run the integration test again to assure that all expected test outputs have been updated.
+. Run the integration test again to ensure that all expected test outputs have been updated.
+
+. Before committing the changes, check whether the differences are as expected.
