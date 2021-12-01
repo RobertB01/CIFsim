@@ -52,3 +52,16 @@ Run tests in one of the following ways:
 * A single `test-all` launch configuration to run all tests is available under the _Launch Group_ section of the _Run Configurations_ dialog.
 
 * Launch configurations to run various subsets of the tests are also available, under the _JUnit Test_ and _JUnit Plug-in Test_ sections of the _Run Configurations_ dialog.
+
+When a tool has been updated, the test outputs may change.
+The expected outputs can be updated as follows.
+
+. Run the integration test under the _JUnit Plug-in Test_ section of the _Run Configurations_ dialog (e.g. _test-cif-integration_).
+
+. If an output differs from the expected output, the output is saved with a `.real` postfix.
+
+. Run the _copy all_ script under _JUnit Plug-in Test_ section to replace the expected outputs with the test outputs (e.g. _test-cif-integration-copy-all_).
+
+. Run the integration test again to ensure that all expected test outputs have been updated.
+
+. Before committing the changes, check whether the differences are as expected.
