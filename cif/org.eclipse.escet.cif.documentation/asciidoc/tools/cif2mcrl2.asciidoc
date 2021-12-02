@@ -303,7 +303,6 @@ Normally however, you would use a constant instead of a variable.
 The instance tree used in the transformation is `( ( P Q ) P.x ) Q.y`.
 The debug output for `P` is:
 
-
 [source]
 ----
 ===============================================================
@@ -322,7 +321,6 @@ Both edges assign a new value to `P.x`.
 
 In a similar way, the node information for automaton `Q` is computed.
 The result is:
-
 
 [source]
 ----

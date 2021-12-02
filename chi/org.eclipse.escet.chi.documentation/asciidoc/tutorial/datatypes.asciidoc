@@ -341,6 +341,7 @@ A type `person` is a tuple with two fields, a 'name' field of type `string`, and
 type person = tuple(string name; int age)
 ----
 
+
 ==== Operator
 
 A projection operator fetches a field from a tuple.

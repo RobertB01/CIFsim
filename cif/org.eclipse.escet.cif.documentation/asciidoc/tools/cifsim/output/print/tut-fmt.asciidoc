@@ -204,7 +204,6 @@ The `%d` specifier can only be used for integer values, while the `%f` specifier
 Besides a different specifier, the minus (`-`) flag is added, and different variables are used as values.
 After the changes, the CIF specification could result in the following output:
 
-
 [source, console]
 ----
 ---------- ---------- ----------

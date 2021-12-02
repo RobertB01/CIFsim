@@ -88,7 +88,7 @@ For every option, there may be at most one instance.
 Therefore, never use the constructors of options directly.
 Instead use the following:
 
-[source,java]
+[source, java]
 ----
 Options.getInstance(MyOption.class)
 ----
@@ -113,7 +113,6 @@ It is however also possible to set option values at run-time:
 ----
 Options.set(MyOption.class, <value>);
 ----
-
 
 indexterm:[option, order]
 

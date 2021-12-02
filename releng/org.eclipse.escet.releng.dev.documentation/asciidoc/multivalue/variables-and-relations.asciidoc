@@ -21,6 +21,7 @@ Normally, there is more than one variable, and relations use combined equalities
 
 Example:
 
+[source]
 ----
 X ::=    (i == 5 and j == 1)
       or (i == 2 and j == 1)
