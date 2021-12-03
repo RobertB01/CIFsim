@@ -920,7 +920,7 @@ Also, use a warm-up phase, to avoid skewed results.
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
 From the command line, using the `--stats` option, the names of the different kinds of statistics, as indicated above between square brackets, should be used, separated by commas.
-For instance, use `--stats=bdd-gc,bdd-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
+For instance, use `--stats=bdd-gc-collect,bdd-gc-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
 
 Specifying a statistics kind twice leads to a warning being printed to the console.
 
