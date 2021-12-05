@@ -18,7 +18,7 @@ include::../_part_attributes.asciidoc[]
 indexterm:[CIF to CIF transformer,linearize (merge)]
 indexterm:[linearize,merge]
 indexterm:[synchronization,eliminate]
-This CIF to CIF transformation performs process-algebraic linearization, thereby eliminating parallel composition and event synchronization.
+This CIF to CIF transformation performs process-algebraic linearization, thereby eliminating parallel composition, event synchronization and channel communication.
 
 indexterm:[linearize,supported specifications]
 
@@ -38,8 +38,6 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 * <<tools-cif2cif-chapter-remove-pos-info>>
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
-
-* <<tools-cif2cif-chapter-groups>>
 
 * <<tools-cif2cif-chapter-elim-self>>
 
@@ -61,17 +59,24 @@ If all original automata have the same supervisory kind, the new automaton gets 
 Otherwise, it gets no supervisory kind.
 The alphabet of this new automaton is the union of alphabets of the original automata, including the events that are used to send or receive in any of the automata.
 
-All declarations from the original automata are moved to the new automaton.
-They are renamed based on their absolute names.
-That is, for an automaton `a` with a constant `c`, the absolute name of the constant is `a.c` and the moved constant will be named `a_c`.
-Enumeration literals are not given absolute names, and keep their original names <<tools-cif2cif-linearize-merge-renaming,if possible>>.
+The structure of the original model is kept intact as much as possible, to allow objects to retain their absolute identities (absolute names).
+Since all automata are linearized into a single automaton, the original automata are replaced by groups.
+Each replacement group will contain (as much as possible) all of the declarations, invariants, etc of its original automaton.
 
-One location, named `L`, is added.
+All discrete and continuous variables from the original automata are moved to the new automaton, to ensure they can be assigned by the new automaton.
+Discrete variables must be moved to the single new automaton as they can only be declared in automata.
+All continuous variables of the original automata are moved to the single new automaton, regardless of whether they are assigned by updates on edges or not.
+Continuous variables declared outside automata remain where they are.
+The moved discrete and continuous variables are renamed based on their absolute names.
+That is, for an automaton `a` with a discrete variable `v`, the absolute name of the constant is `a.v` and the moved variable will be named `a_v`.
+
+One location, named `L`, is added to the new automaton.
 This location is both initial and marked.
-All initialization and marker predicates from all the original automata (including ones from locations) are merged together.
-They are put in the new automaton, and restrict the initialization and marker predicates of location `L`.
 
-Invariants of the original automata (including ones from locations) are merged together in a similar way as the initialization and marker predicates.
+All initialization and marker predicates from the locations of the original automata are merged together.
+They are each put in the group that replaces their respective original automaton.
+Similarly, the invariants of the locations of the original automata are also each moved to their corresponding groups.
+And the initialization and marker predicates specified in automata, as well as invariants specified in automata, are moved there as well.
 
 For the `tau` event, a self loop is created per original `tau` edge.
 For all other events, the edges are merged, resulting in a single self loop for each non-`tau` event.
@@ -82,7 +87,6 @@ Communication is eliminated altogether, and events no longer have data types aft
 For edges with receives, the 'received value' is replaced (in the updates) by the 'send value'.
 
 For instance, the following specification:
-
 
 [source, cif]
 ----
@@ -111,48 +115,57 @@ end
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
 event e;
-enum E = l1, l2;
+
+group p:
+  enum LPE_p = l1, l2;
+
+  initial M.p = l1 and true or M.p = l2 and false;
+  marked M.p = l1 and false or M.p = l2 and false;
+end
+
+group q:
+  enum LPE_q = l1, l2;
+
+  initial M.q = l1 and true or M.q = l2 and false;
+  marked M.q = l1 and false or M.q = l2 and false;
+end
 
 plant automaton M:
   alphabet e;
 
   disc int p_x = 1;
-  disc E p = l1;
-  disc E q = l1;
-
-  initial p = l1 and true or p = l2 and false,
-          q = l1 and true or q = l2 and false;
-
-  marked p = l1 and false or p = l2 and false,
-         q = l1 and false or q = l2 and false;
+  disc .p.LPE_p p = .p.l1;
+  disc .q.LPE_q q = .q.l1;
 
   location L:
     initial;
     marked;
 
-    edge e when (p = l1 and p_x = 1 or p = l2 and p_x = 2) and
-                (q = l1 and false or q = l2 and true)
-           do if   p = l1 and p_x = 1: p_x := 2, p := l2
-              elif p = l2 and p_x = 2: p_x := 1, p := l1
+    edge e when (p = .p.l1 and p_x = 1 or p = .p.l2 and p_x = 2) and
+                (q = .q.l1 and false or q = .q.l2 and true)
+           do if p = .p.l1 and p_x = 1: p_x := 2, p := .p.l2
+              elif p = .p.l2 and p_x = 2: p_x := 1, p := .p.l1
               end,
-              q := l1;
-    edge tau when q = l1 do q := l2;
+              q := .q.l1;
+    edge tau when q = .q.l1 do q := .q.l2;
 end
 ----
 
-We see that an enumeration `E` is added, with literals for all the locations of the original automata.
-We also see that plant automata `p` and `q` are linearized to plant automaton `M`.
+We see that the automata `p` and `q` are replaced by groups.
+They contain 'location pointer enumerations' `LPE_p` and `LPE_q`, with literals for their original locations.
+They also contain the linearized initialization and marker predicates of the locations.
+We further see that plant automata `p` and `q` are linearized to plant automaton `M`.
 Two location pointers, `p` and `q`, named after the original automata, are added.
-The variables are moved.
-The initialization and marker predicates are linearized.
+The discrete variables are moved.
 We have one location `L`, which is initial and marked.
 For event `e`, the guards and updates are linearized into a single self loop.
 Location pointer updates are incorporated as well.
 For event `tau`, the single original edge is simply included as a self loop.
+Within `M`, `p` refers to the location point variable and thus all references to objects in automaton `p` (now group `p`) use scope absolute references, e.g. `.p.l1`.
+
 
 indexterm:[linearize,non-determinism]
 
@@ -167,7 +180,6 @@ Linearization eliminates some of the non-determinism in this case, essentially c
 To ensure the same choices are made, events and automata are sorted in the same order for linearization and simulation.
 
 For instance, the following specification:
-
 
 [source, cif]
 ----
@@ -184,36 +196,36 @@ end
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
-automaton M:
-  alphabet p_e;
-
-  event p_e;
-
-  disc int p_x = 0;
+group p:
+  event e;
 
   initial true and true;
   marked true and false;
+end
+
+automaton M:
+  alphabet p.e;
+
+  disc int p_x = 0;
 
   location L:
     initial;
     marked;
 
-    edge p_e when true and (p_x < 5 or p_x > 3)
-             do if   true and p_x < 5: p_x := p_x + 1
+    edge p.e when true and (p_x < 5 or p_x > 3)
+             do if true and p_x < 5: p_x := p_x + 1
                 elif true and p_x > 3: p_x := p_x - 1
                 end;
 end
 ----
 
-Here, we see that the edge for event `e` with guard `x < 5` and update `x := x + 1` is chosen to take precedence over the edge with guard `x > 3` with update `x := x - 1`.
+Here, we see that the edge for event `p.e` with guard `x < 5` and update `x := x + 1` is chosen to take precedence over the edge with guard `x > 3` with update `x := x - 1`.
 This choice is based on the original specification, where the edge with guard `x < 5` is listed before the edge with guard `x > 3`.
 
 Related to this, are dummy updates, which are added to ensure that the correct updates are taken.
 For instance, the following specification:
-
 
 [source, cif]
 ----
@@ -229,31 +241,33 @@ end
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
-automaton M:
-  alphabet p_e;
-  event p_e;
-
-  disc int p_x = 0;
+group p:
+  event e;
 
   initial true and true;
   marked true and false;
+end
+
+automaton M:
+  alphabet p.e;
+
+  disc int p_x = 0;
 
   location L:
     initial;
     marked;
 
-    edge p_e when true and (p_x >= 3 or p_x < 3)
-             do if   true and p_x >= 3: p_x := p_x
-                elif true and p_x < 3:  p_x := p_x + 1
+    edge p.e when true and (p_x >= 3 or p_x < 3)
+             do if true and p_x >= 3: p_x := p_x
+                elif true and p_x < 3: p_x := p_x + 1
                 end;
 end
 ----
 
 Here, the edge with guard `x >= 3` takes precedence over the edge with guard `x < 3`.
-To ensure that no updates are performed when the edge with guard `x >= 3` is chosen, a dummy update is added (reassigning the value of `p_x` to itself).
+To ensure that no updates are performed when the edge with guard `x >= 3` is chosen, a dummy update is added (reassigning the value of `M.p_x` to itself).
 If this update were to be omitted, the update of the other edge would instead be executed, which is undesirable.
 
 indexterm:[linearize,order]
@@ -281,7 +295,6 @@ Since the edge is also urgent, it means that if the edge is enabled guard wise, 
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton p:
@@ -299,20 +312,21 @@ end
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
-enum E = l1, l2;
+group p:
+  event e;
+  enum LPE_p = l1, l2;
+
+  initial M.p = l1 and true or M.p = l2 and false;
+  marked M.p = l1 and false or M.p = l2 and false;
+end
 
 automaton M:
-  alphabet p_e;
-  event p_e;
+  alphabet .p.e;
 
-  disc E p = l1;
+  disc .p.LPE_p p = .p.l1;
   disc bool u = true;
-
-  initial p = l1 and true or p = l2 and false;
-  marked p = l1 and false or p = l2 and false;
 
   plant invariant u;
 
@@ -320,17 +334,17 @@ automaton M:
     initial;
     marked;
 
-    edge p_e when p = l1 and true or p = l2 and 1 = 1
-             do if   p = l1 and true:  p := l2
-                elif p = l2 and 1 = 1: p := l1
-                end;
+    edge .p.e when p = .p.l1 and true or p = .p.l2 and 1 = 1
+              do if p = .p.l1 and true: p := .p.l2
+                 elif p = .p.l2 and 1 = 1: p := .p.l1
+                 end;
 
-    edge when p = l1 or p = l2 and 1 = 1 now do u := false;
+    edge when p = .p.l1 or p = .p.l2 and 1 = 1 now do u := false;
 end
 ----
 
-So, if `p` (the location pointer variable for original automaton `p`) is equal to `l1` (the enumeration literal for original location `l1`), then the guard of the new urgent edge is enabled, and time may not progress.
-Similarly, if `p` is equal to `l2` and the guard `1 = 1` of the original urgent edge is enabled, the guard of the new urgent edge is enabled, and time may not progress.
+So, if `M.p` (the location pointer variable for original automaton `p`) is equal to `p.l1` (the enumeration literal for original location `l1`), then the guard of the new urgent edge is enabled, and time may not progress.
+Similarly, if `M.p` is equal to `p.l2` and the guard `1 = 1` of the original urgent edge is enabled, the guard of the new urgent edge is enabled, and time may not progress.
 This correctly reflects the urgency conditions of the original specification.
 
 To ensure that no additional event transitions are possible, the new urgent edge can never be taken, as it would update `u` to `false`, which violates `plant invariant u`.
@@ -342,39 +356,44 @@ indexterm:[linearize,tuple field projections]
 
 The following specification:
 
-
 [source, cif]
 ----
 event tuple(int a, b) e;
 
 automaton s:
   location:
+    initial;
     edge e!(1, 2);
 end
 
 automaton r:
   disc int x;
   location:
+    initial;
     edge e? do x := ?[a];
 end
 ----
 
 is transformed to the following specification:
 
-
 [source, cif]
 ----
 event e;
+
+group s:
+  initial true and true;
+  marked true and false;
+end
+
+group r:
+  initial true and true;
+  marked true and false;
+end
 
 automaton M:
   alphabet e;
 
   disc int r_x;
-
-  initial true and false,
-          true and false;
-  marked true and false,
-         true and false;
 
   location L:
     initial;
@@ -401,8 +420,6 @@ indexterm:[linearize,renaming]
 === Renaming
 
 Since declarations are moved/merged, and new names are introduced, renaming may be necessary to ensure unique names within a single scope.
-In order to reduce the amount of renaming for the enumeration literals introduced for the locations of the original automata, all enumerations are merged together into a single enumeration in the specification, with name `E`.
-
 If renaming is performed, a warning is printed to the console.
 
 indexterm:[linearize,size considerations]
@@ -410,13 +427,16 @@ indexterm:[linearize,size considerations]
 [[tools-cif2cif-linearize-merge-size]]
 === Size considerations
 
-Declarations are moved, so they don't increase the size of the specification.
+Variables are moved, so they don't increase the size of the specification.
 
-The addition of location variables increases the size of the specification, but this is linear in the number of automata and the number of locations.
+The addition of location pointer variables increases the size of the specification, but this is linear in the number of automata.
 
 Assignment are added for the updates to the location pointers.
 The increase is linear in the number of edges.
 The additional dummy updates that are added are linear in the number of edges as well.
+
+Since `tau` edges are essentially just moved, they don't increase the size of the specification.
+That is, their size is linear in the number of original `tau` edges.
 
 A single self loop is added for each non-`tau` event.
 This does increase the size of the specification.
@@ -426,12 +446,9 @@ Similarly, updates are combined using 'if' updates, and the increase is also lin
 For original edges with multiple events however, the guards and updates are duplicated for each event.
 The duplication is linear in the number of events on those edges.
 
-Since `tau` edges are essentially just moved, they don't increase the size of the specification.
-That is, their size is linear in the number of original `tau` edges.
-
-The initialization and marker predicates, as well as the invariants are moved.
+The initialization and marker predicates of locations, as well as the invariants of locations are moved.
 They remain linear in size related to the number of original predicates.
-The predicates for the locations are also made conditional on the values of the location pointer variable.
+The predicates are related to values of the location pointer variable.
 This size increase is linear in the number of original locations.
 Predicates are combined using boolean operators, leading to a size increase that is linear in the number of original predicates.
 

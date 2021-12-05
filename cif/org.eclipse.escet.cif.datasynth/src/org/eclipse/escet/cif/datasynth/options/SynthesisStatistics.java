@@ -15,12 +15,21 @@ package org.eclipse.escet.cif.datasynth.options;
 
 /** Synthesis statistics. */
 public enum SynthesisStatistics {
-    /** Timing. */
-    TIMING,
-
     /** BDD garbage collection. */
-    BDD_GC,
+    BDD_GC_COLLECT,
 
     /** BDD node table resize. */
-    BDD_RESIZE;
+    BDD_GC_RESIZE,
+
+    /** BDD cache. */
+    BDD_PERF_CACHE,
+
+    /** Continuous BDD performance. */
+    BDD_PERF_CONT,
+
+    /** Maximum used BDD nodes. */
+    BDD_PERF_MAX_NODES,
+
+    /** Timing. */
+    TIMING;
 }

@@ -21,7 +21,6 @@ Discrete variables can only be declared in automata, and may only be assigned (g
 They may however be read globally.
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton customer:

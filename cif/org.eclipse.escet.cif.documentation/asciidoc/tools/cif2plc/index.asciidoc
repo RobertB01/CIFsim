@@ -223,6 +223,8 @@ It then applies the following additional <<tools-cif2cif-chapter-index,CIF to CI
 
 * <<tools-cif2cif-chapter-linearize-merge>>
 
+* <<tools-cif2cif-chapter-merge-enums>>
+
 * <<tools-cif2cif-chapter-simplify-values>> (if _Simplify values_ option is enabled)
 
 * <<tools-cif2cif-chapter-add-default-init-values>>
@@ -298,7 +300,6 @@ The candidate names for these enumeration literals are `elit_WaitForTimeout` and
 However, they are identical except for casing.
 Thus, the first one that is encountered during code generation gets the candidate name, and the second one is renamed.
 This results in a warning like this:
-
 
 [source, console]
 ----

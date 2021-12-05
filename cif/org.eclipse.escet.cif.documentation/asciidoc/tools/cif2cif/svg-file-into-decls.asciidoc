@@ -49,7 +49,6 @@ If they already had a local SVG file declaration, the CIF/SVG declaration is not
 
 For instance, this specification:
 
-
 [source, cif]
 ----
 svgfile "file1.svg";
@@ -78,7 +77,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

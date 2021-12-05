@@ -86,7 +86,6 @@ div   not   sub
 in    or
 ----
 
-
 indexterm:[terminals]
 indexterm:[syntax,terminals]
 
@@ -243,7 +242,6 @@ Examples:
 "first line\nsecond line"
 ----
 
-
 indexterm:[whitespace]
 indexterm:[syntax,whitespace]
 
@@ -267,7 +265,6 @@ int
     5
   ;
 ----
-
 
 indexterm:[comments]
 indexterm:[comments,single line]

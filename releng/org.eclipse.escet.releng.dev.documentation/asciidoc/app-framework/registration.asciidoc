@@ -69,7 +69,6 @@ For instance, one could add the following to the `oneTimeSetUp` method, or at th
 Options.set(SomeOption.class, <value>);
 ----
 
-
 indexterm:[application, running]
 
 [[app-framework-running-app-from-other-app]]

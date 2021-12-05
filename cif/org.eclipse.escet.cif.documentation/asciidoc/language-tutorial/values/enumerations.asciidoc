@@ -29,7 +29,6 @@ Enumerations allow giving each entity a name, and to use those names instead of 
 This usually makes the model easier to read and understand.
 For instance, consider the following:
 
-
 [source, cif]
 ----
 enum TrafficColor = RED, ORANGE, GREEN;

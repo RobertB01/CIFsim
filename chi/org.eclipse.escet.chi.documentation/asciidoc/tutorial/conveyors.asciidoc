@@ -42,7 +42,6 @@ The function `ready` gives the boolean value `true` if the timer is ready.
 The amount of time left can be obtained by reading from the variable.
 An example:
 
-
 [source, chi]
 ----
 proc P():
@@ -67,7 +66,6 @@ Now the value of `time` equals `10.0`.
 Nothing happens to timer `t` as it was already zero.
 At time `10` timer `t` is started with the value `5.0`.
 The output of the program is:
-
 
 [source, console]
 ----
@@ -99,7 +97,6 @@ Item `0` has been placed on the conveyor `50.0` seconds ago, and will leave the 
 In the same way, item `1` will leave `30.0` seconds from now, and `2` leaves after `45.0` seconds.
 Each item has a _yellow sticker_ with the time that the item leaves the conveyor.
 Based on this idea, tuple type `conv_item` has been defined, consisting of a field `item`, denoting the received item, and a timer field `t`, with the remaining time until the item leaves the conveyor:
-
 
 [source, chi]
 ----
@@ -133,7 +130,6 @@ indexterm:[priority,conveyor]
 In this example, items are placed on a conveyor, where the time of an item on the conveyor varies between items.
 Items arriving at the conveyor process, get inserted in the list with waiting items, in ascending order of their remaining time on the conveyor.
 The field `tt` in the item denotes the traveling time of the item on the conveyor:
-
 
 [source, chi]
 ----

@@ -129,7 +129,6 @@ enum FlagColours  = {red, white, blue};
 bool same = (red == white);
 ----
 
-
 indexterm:[boolean,expression]
 indexterm:[expression,boolean]
 
@@ -642,7 +641,6 @@ size("a")  # results in 1, string is 1 character long (namely 'a').
 size("\n") # results in 1, string contains one NL character.
 ----
 
-
 indexterm:[list,expression]
 indexterm:[expression,list]
 
@@ -960,7 +958,6 @@ A few examples:
 {1, 3, 7} sub {1, 3, 7} == true # All sets are a sub-set of themselves.
 ----
 
-
 There are also standard library functions for sets, see <<ref-set-stdlib>> for details.
 
 indexterm:[dictionary,expression]
@@ -1174,7 +1171,6 @@ a, b = b, a;   # Swap values of 'a' and 'b'.
 
 The latter works due to the intermediate tuple that is created as part in the assignment.
 
-
 indexterm:[file,expression]
 indexterm:[expression,file]
 
@@ -1231,7 +1227,6 @@ Types `T`, `K`, and `V` must also be readable types of data (that is, get chosen
 
 Reading a value takes a text (with the same syntax as Chi literal values of the same type), and converts it into a value that can be manipulated in the Chi model.
 Values read from the text have to be constant, for example the input `time` cannot be interpreted as real number with the same value as the current simulation time.
-
 
 indexterm:[timer,expression]
 indexterm:[expression,timer]
@@ -1297,7 +1292,6 @@ The only binary expressions on channels are equality comparison operations.
 where `T` can be either a normal type, or `void`.
 There has to be an overlap between the channel directions (that is, you cannot compare a receive-only channel with a send-only channel).
 
-
 indexterm:[distribution,expression]
 indexterm:[expression,distribution]
 
@@ -1350,7 +1344,6 @@ model Dice():
 end
 ----
 
-
 indexterm:[process,expression]
 indexterm:[expression,process]
 
@@ -1384,7 +1377,6 @@ end
 Formal parameter `ab` of process `P` is a process variable that refers to a process taking an integer parameter.
 The given process definition is instantiated.
 Since in the model definition, `A` is given to process `P`, the output of the above model is `A(3)`.
-
 
 indexterm:[instance,expression]
 indexterm:[expression,instance]

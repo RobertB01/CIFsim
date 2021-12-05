@@ -22,7 +22,6 @@ For this purpose, CIF has _groups_.
 Groups are named collections of automata and other declarations.
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 group factory:
@@ -56,7 +55,6 @@ While in this case the subdivision into a hierarchical specification structure i
 
 Consider also the following partial CIF specification:
 
-
 [source, cif]
 ----
 group configuration:
@@ -70,7 +68,6 @@ The `configuration` group is used to group together several configuration values
 By grouping these constants together, it is more clear that they together are the configuration settings of the system, and that they belong together.
 
 Finally, consider the following CIF specification, based on the link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system] from the lesson on <<lang-tut-time-chapter-equations,equations>>.
-
 
 [source, cif]
 ----

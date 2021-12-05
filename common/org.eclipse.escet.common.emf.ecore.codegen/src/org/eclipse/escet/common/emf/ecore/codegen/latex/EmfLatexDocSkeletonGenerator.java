@@ -209,6 +209,7 @@ public class EmfLatexDocSkeletonGenerator extends EmfLatexCodeGenerator {
         }
         box.add("\\item[Instance class name] %s", dt.getInstanceClassName());
         if (baseType != null) {
+            baseType = baseType.replace("#", "\\#");
             box.add("\\item[Basetype] %s", baseType);
         }
         if (pattern != null) {

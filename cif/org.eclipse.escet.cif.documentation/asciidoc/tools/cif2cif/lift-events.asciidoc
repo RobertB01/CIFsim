@@ -54,7 +54,6 @@ The event is lifted to the top level of the specification, and named `x_y_e`.
 
 For instance, this specification:
 
-
 [source, cif]
 ----
 event e;
@@ -73,7 +72,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

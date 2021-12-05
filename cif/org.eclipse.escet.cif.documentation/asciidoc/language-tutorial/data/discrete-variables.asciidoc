@@ -20,7 +20,7 @@ Consider the following specification:
 
 // Copied to: data/loc-var-duality1
 // Copied to: data/invariants
-[source,cif]
+[source, cif]
 ----
 automaton counter:
   event increment, decrement;
@@ -32,6 +32,7 @@ automaton counter:
     edge increment when count < 5 do count := count + 1;
 end
 ----
+
 indexterm:[discrete variable]
 indexterm:[variable,discrete]
 The `counter` automaton can be used to count certain things.

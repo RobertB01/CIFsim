@@ -160,7 +160,7 @@ const char *various_event_names[] = {
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
     "e1",           /**< Event e1. */
-    "g_h1",         /**< Event g_h1. */
+    "g.h1",         /**< Event g.h1. */
 };
 
 /** Enumeration names. */

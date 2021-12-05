@@ -63,7 +63,6 @@ All equations are removed from components (including automata) and locations.
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 alg bool b1 = true;
@@ -80,7 +79,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

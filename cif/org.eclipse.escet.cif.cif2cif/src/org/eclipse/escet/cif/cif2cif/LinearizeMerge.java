@@ -44,6 +44,7 @@ import org.eclipse.escet.cif.common.CifEventUtils.Alphabets;
 import org.eclipse.escet.cif.common.CifGuardUtils;
 import org.eclipse.escet.cif.common.CifGuardUtils.LocRefExprCreator;
 import org.eclipse.escet.cif.common.CifSortUtils;
+import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Edge;
@@ -197,10 +198,9 @@ public class LinearizeMerge extends LinearizeBase {
 
             if (sendValue == null) {
                 // If there is no sender the event will never be enabled. Since there is no value for potential
-                // ReceivedExpressions, all updates are omitted. We use the non-absolute event name for this warning,
-                // rather than the absolute event name. Due to previous processing during this transformation the
-                // absolute name would be 'M.<something>', which makes no sense in the original specification.
-                warn(fmt("Event \"%s\" does not have a 'send' edge and is never enabled.", event.getName()));
+                // ReceivedExpressions, all updates are omitted.
+                warn(fmt("Event \"%s\" does not have a 'send' edge and is never enabled.",
+                        CifTextUtils.getAbsName(event)));
                 return list();
             }
         }

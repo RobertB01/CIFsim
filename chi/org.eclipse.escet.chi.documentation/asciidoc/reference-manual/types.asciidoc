@@ -44,7 +44,6 @@ It is further explained in <<ref-process-type>>.
 The `TypeName` is the name of a type defined with a `type` definition (explained in <<ref-type-definitions>>).
 For example:
 
-
 [source, chi]
 ----
 type lot = real;
@@ -60,7 +59,6 @@ The `lot x` variable declaration (explained in <<ref-variable-declarations>>) us
 
 The `EnumTypeName` is similar, except it uses an enumeration definition (see <<ref-enum-definitions>>) as type.
 For example:
-
 
 [source, chi]
 ----
@@ -245,7 +243,6 @@ The value of the elements in the initial list value depends on the type of the e
 
 A few examples:
 
-
 [source, chi]
 ----
 list bool    # A list of boolean values, initial value is <bool>[]
@@ -272,7 +269,6 @@ image::{ref-imgsdir}/rail_diagrams/set_type.png[]
 The set type starts with a `set` keyword, followed by the type of its elements.
 Its initial value is the empty set.
 An example:
-
 
 [source, chi]
 ----
@@ -301,7 +297,6 @@ The syntax starts with a `dict` keyword, and the key type and value type between
 The initial value of a dictionary type is the empty dictionary.
 An example:
 
-
 [source, chi]
 ----
 dict (bool : int)  # A dictionary with boolean keys, and integer values.
@@ -329,7 +324,6 @@ Sequences of fields with the same type can share their type description, which r
 Tuple types must have at least two fields.
 
 Examples:
-
 
 [source, chi]
 ----

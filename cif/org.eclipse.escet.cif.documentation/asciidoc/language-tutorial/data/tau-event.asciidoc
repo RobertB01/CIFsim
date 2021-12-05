@@ -23,7 +23,6 @@ Events allow for synchronization, allowing for interaction between automata base
 If however an automaton has an edge that performs some internal processing, the event may not always be relevant.
 Consider for instance the following CIF specification:
 
-
 [source, cif]
 ----
 automaton machine1:
@@ -58,7 +57,6 @@ Since automaton `machine2` has only a single location, its current location does
 
 The `provide` event synchronizes over both automata, while the `process` event is local to the first machine.
 The `process` event is not essential, and could be left out:
-
 
 [source, cif]
 ----
@@ -103,14 +101,12 @@ The use of the `tau` event is thus always a trade-off.
 indexterm:[tau,explicit]
 It is also possible to explicitly use the `tau` event:
 
-
 [source, cif]
 ----
 edge tau goto ...;
 ----
 
 The `tau` event can thus be used instead of 'regular' events, and may even be combined with 'regular' events on the same edge:
-
 
 [source, cif]
 ----

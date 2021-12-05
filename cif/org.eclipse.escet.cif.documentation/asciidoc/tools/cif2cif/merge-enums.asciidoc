@@ -57,7 +57,6 @@ The original enumerations are removed.
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 enum A = B, C;
@@ -73,7 +72,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -105,7 +103,6 @@ indexterm:[merge enumerations,default initial values]
 
 Consider the following specification:
 
-
 [source, cif]
 ----
 group g1:
@@ -126,7 +123,6 @@ end
 ----
 
 If we apply merging of enumerations directly, we get the following:
-
 
 [source, cif]
 ----

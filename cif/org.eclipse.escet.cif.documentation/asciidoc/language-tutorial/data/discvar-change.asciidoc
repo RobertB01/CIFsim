@@ -20,7 +20,6 @@ Discrete variables can only change value by explicitly assigning them a new valu
 If an edge does not assign a value to a discrete variable, that variable keeps its current value.
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton lamp:

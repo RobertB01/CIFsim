@@ -22,7 +22,6 @@ All variables must be declared in the program.
 The declaration of a variable consists of the type, and the name, of the variable.
 The following fragment shows the declaration of two elementary data types, integer variable `i` and real variable `r`:
 
-
 [source, chi]
 ----
 ...
@@ -38,7 +37,6 @@ All declared variables are initialized, variables `i` and `r` are both initializ
 An expression, consisting of operators, e.g. plus (`pass:c[+]`), times (`pass:[*]`), and operands, e.g. `i` and `r`, is used to calculate a new value.
 The new value can be assigned to a variable by using an _assignment_ statement.
 An example with four variables, two expressions and assignment statements is:
-
 
 [source, chi]
 ----
@@ -172,7 +170,6 @@ One way of coding them is give each a unique number, which results in code with 
 Another way is to give each variant a name (which often already exists), and use those names instead.
 
 For example, to model a traffic light:
-
 
 [source, chi]
 ----
@@ -339,7 +336,6 @@ It selects a field in the tuple for reading or assigning.
 
 A type `person` is a tuple with two fields, a 'name' field of type `string`, and an 'age' field of type `int`, is denoted by:
 
-
 [source, chi]
 ----
 type person = tuple(string name; int age)
@@ -351,7 +347,6 @@ type person = tuple(string name; int age)
 A projection operator fetches a field from a tuple.
 We define two persons:
 
-
 [source, chi]
 ----
 person eva  = ("eva" , 29),
@@ -360,7 +355,6 @@ person eva  = ("eva" , 29),
 
 And we can speak of `eva.name` and `adam.age`, denoting the name of `eva` (`"eva"`) and the age of `adam` (`27`).
 We can assign a field in a tuple to another variable:
-
 
 [source, chi]
 ----
@@ -372,7 +366,6 @@ This means that the age of `eva` is assigned tot variable `ae`, and the new age 
 
 By using a multi assignment statement all values of a tuple can be copied into separate variables:
 
-
 [source, chi]
 ----
 string name;
@@ -382,7 +375,6 @@ name, age = eva
 ----
 
 This assignment copies the name of `eva` into variable `name` of type `string` and her age into `age` of type `int`.
-
 
 
 === Container types
@@ -523,7 +515,6 @@ A negative index, say `m`, starts from the back of the list, or equivalently, at
 You cannot index non-existing elements.
 Some examples, with `xs = [7, 8, 3, 5, 9]` are:
 
-
 [source, chi]
 ----
 xs[0]  -> 7
@@ -557,7 +548,6 @@ If `i` is greater than or equal to `j`, the slice is empty.
 If `i` or `j` is negative, the index is relative to the end of the list: `size(xs) + i` or `size(xs) + j` is substituted.
 Some examples with `xs = [7, 8, 3, 5, 9]`:
 
-
 [source, chi]
 ----
 xs[1:3] -> [8, 3]
@@ -582,7 +572,6 @@ indexterm:[concatenation,list]
 Two lists can be 'glued' together into a new list.
 The glue-ing or concatenation of a list with elements `7`, `8`, `3` and a list with elements `5`, and `9` is denoted by:
 
-
 [source, chi]
 ----
 [7, 8, 3] + [5, 9] -> [7, 8, 3, 5, 9]
@@ -591,7 +580,6 @@ The glue-ing or concatenation of a list with elements `7`, `8`, `3` and a list w
 An element can be added to a list at the rear or at the front.
 The action is performed by transforming the element into a list and then concatenate these two lists.
 In the next example the value `5` is added to the rear, respectively the front, of a list:
-
 
 [source, chi]
 ----
@@ -610,7 +598,6 @@ The `del` function removes by position, e.g. `del(xs, 2)` returns the list `xs` 
 Removing a value by value can be performed by the subtraction operator `-`.
 For instance, consider the following subtractions:
 
-
 [source, chi]
 ----
 [1, 4, 2, 4, 5] - [2] -> [1, 4, 4, 5]
@@ -626,7 +613,6 @@ In the third example, nothing is removed, since value `8` is not in the list at 
 When the list at the right is longer than one element, the operation is repeated.
 For example, consider `xs - ys`, whereby `xs = [1, 2, 3, 4, 5]` and `ys = [6, 4, 2, 3]`.
 The result is computed as follows:
-
 
 [source, chi]
 ----
@@ -646,7 +632,6 @@ If the lists have the same number of elements and all the elements are pair-wise
 The not-equal operator (`!=`) does the same check, but with an opposite result.
 Some examples, with `xs = [7, 8, 3]`:
 
-
 [source, chi]
 ----
 xs == [7, 8, 3] -> true
@@ -655,7 +640,6 @@ xs == [7, 7, 7] -> false
 
 The membership operator (`in`) checks if an element is in a list.
 Some examples, with `xs = [7, 8, 3]`:
-
 
 [source, chi]
 ----
@@ -669,7 +653,6 @@ Some examples, with `xs = [7, 8, 3]`:
 
 A list variable is initialized with a list with zero elements, for example in:
 
-
 [source, chi]
 ----
 list int xs;
@@ -679,7 +662,6 @@ The initial value of `xs` equals `<int>[]`.
 
 A list can be initialized with a number, denoting the number of elements in the list:
 
-
 [source, chi]
 ----
 list(2) int ys
@@ -688,7 +670,6 @@ list(2) int ys
 This declaration creates a list with `2` elements, whereby each element of type `int` is initialized.
 The initial value of `ys` equals `[0, 0]`.
 Another example with a list of lists:
-
 
 [source, chi]
 ----
@@ -729,7 +710,6 @@ The table below gives the name, the mathematical notation and the notation in th
 The union of two sets merges the values of both sets into one, that is, the result is the collection of values that appear in at least one of the arguments of the union operation.
 Some examples:
 
-
 [source, chi]
 ----
 {3, 7, 8} + {5, 9} -> {3, 5, 7, 8, 9}
@@ -741,7 +721,6 @@ To keep sets readable the elements are sorted in increasing order in this tutori
 Values that occur in both arguments, appear only one time in the result (sets silently discard duplicate elements).
 For example:
 
-
 [source, chi]
 ----
 {3, 7, 8} + {7, 9} -> {3, 7, 8, 9}
@@ -749,7 +728,6 @@ For example:
 
 The intersection of two sets gives a set with the common elements, that is, all values that occur in _both_ arguments.
 Some examples:
-
 
 [source, chi]
 ----
@@ -762,7 +740,6 @@ The operation computes 'remaining elements'.
 The result is a new set containing all values from the first set which are not in the second set.
 Some examples:
 
-
 [source, chi]
 ----
 {3, 7, 8} - {5, 9} -> {3, 7, 8}
@@ -770,7 +747,6 @@ Some examples:
 ----
 
 The membership operator `in` works on sets too:
-
 
 [source, chi]
 ----
@@ -790,7 +766,6 @@ An element of a dictionary is accessed by the key of the element.
 
 The dictionary variable `d` of type `dict(string : int)` is given by:
 
-
 [source, chi]
 ----
 dict (string : int) d =
@@ -800,7 +775,6 @@ dict (string : int) d =
 ----
 
 Retrieving values of the dictionary by using the key:
-
 
 [source, chi]
 ----
@@ -812,7 +786,6 @@ Using a non-existing key to retrieve a value results in a error message.
 
 A new value can be assigned to the variable by selecting the key of the element:
 
-
 [source, chi]
 ----
 d["john"] = 35
@@ -821,14 +794,12 @@ d["john"] = 35
 This assignment changes the value of the `"john"` item to `35`.
 The assignment can also be used to add new items:
 
-
 [source, chi]
 ----
 d["lisa"] = 19
 ----
 
 Membership testing of keys in dictionaries can be done with the `in` operator:
-
 
 [source, chi]
 ----
@@ -838,7 +809,6 @@ Membership testing of keys in dictionaries can be done with the `in` operator:
 
 Merging two dictionaries is done by adding them together.
 The value of the second dictionary is used when a key exists in both dictionaries:
-
 
 [source, chi]
 ----
@@ -850,7 +820,6 @@ The left dictionary is copied, and updated with each item of the right dictionar
 Removing elements can be done with subtraction, based on key values.
 Lists and sets can also be used to denote which keys should be removed.
 A few examples for `p` is `{1 : 1, 2 : 2}`:
-
 
 [source, chi]
 ----
@@ -870,14 +839,12 @@ The definition can only be done at global level, that is, outside any `proc`, `f
 
 Types can be used as alias for elementary data types to increase readability, for example a variable of type `item`:
 
-
 [source, chi]
 ----
 type item = real;
 ----
 
 Variables of type `item` are, e.g.:
-
 
 [source, chi]
 ----
@@ -890,7 +857,6 @@ This definition creates the possibility to speak about an item.
 
 Types also can be used to make combinations of other data types, e.g. a recipe:
 
-
 [source, chi]
 ----
 type step   = tuple(string name; real process_time),
@@ -901,7 +867,6 @@ A type `step` is defined by a `tuple` with two fields, a field with `name` of ty
 The `step` definition is used in the type `recipe`.
 Type `recipe` is defined by a `tuple` with two fields, an `id` of type `int`, denoting the identification number, and a field `steps` of type `list step`, denoting a list of single steps.
 Variables of type recipe are, e.g.:
-
 
 [source, chi]
 ----

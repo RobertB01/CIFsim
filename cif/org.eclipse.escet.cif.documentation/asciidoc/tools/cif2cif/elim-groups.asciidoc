@@ -63,7 +63,6 @@ The constant is lifted to the top level of the specification, and named `x_y_z`.
 
 For instance, this specification:
 
-
 [source, cif]
 ----
 group a:
@@ -80,7 +79,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -111,7 +109,6 @@ Whenever renaming takes place, a warning will be printed to the console.
 Enumeration literals that are part of lifted enumeration declarations, are not renamed to their absolute names.
 To understand why this is necessary, consider:
 
-
 [source, cif]
 ----
 group x:
@@ -132,7 +129,6 @@ The invariant of the specification compares the literals of the two different en
 This is allowed, since the enumerations are _compatible_ (they have the same enumeration literals, with the same names, in the same order).
 If we were to rename the enumeration literals to absolute names as we lift them to the top level of the specification, the result would be:
 
-
 [source, cif]
 ----
 enum x_E = x_A, x_B;
@@ -148,7 +144,6 @@ invariant x_A = y.A;
 
 Which would no longer be a valid specification, as enumerations `x_E` and `y.E` are no longer compatible (they have enumeration literals with different names).
 Since we leave the names of the enumeration literals as they are, the result of the transformation is:
-
 
 [source, cif]
 ----
@@ -167,7 +162,6 @@ which is still a correct specification, and has the same meaning as the original
 
 Now assume the following specification:
 
-
 [source, cif]
 ----
 group x:
@@ -184,7 +178,6 @@ invariant x.A = y.A;
 Here, the two enumerations are both in groups.
 If we lift them, we have two enumerations, with the same literals, which is not a valid CIF specification.
 As such, renaming can not be avoided, and the result of the transformation will be:
-
 
 [source, cif]
 ----

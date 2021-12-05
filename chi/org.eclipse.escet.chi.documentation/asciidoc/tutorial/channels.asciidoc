@@ -40,7 +40,6 @@ In this case, the producer sends a finite stream of integer values (5 numbers) t
 The consumer receives these values and writes them to the screen.
 The model is:
 
-
 [source, chi]
 ----
 proc P(chan! int a):
@@ -94,7 +93,6 @@ The type `void` means that 'non-values' are sent and received; the type `void` i
 The iconic model is given in the previous figure, at the start of this chapter.
 The model is:
 
-
 [source, chi]
 ----
 proc P(chan! void a):
@@ -138,7 +136,6 @@ image::{tut-imgsdir}/pictures/generator_server_exit.png[]
 Process `G` is connected via channel variable `a` to process `S` and process `S` is connected via channel variable `b` to process `E`.
 The model is:
 
-
 [source, chi]
 ----
 proc G(chan! int a):
@@ -178,7 +175,6 @@ Process `G` sends a stream of integer values `0, 1, 2, 3, 4` to another process 
 Process `S` receives a value via channel `a`, assigns this value to variable `x`, doubles the value of the variable, and sends the value of the variable via `b` to another process.
 Process `E` receives a value via channel `b`, assigns this value to the variable `x`, and prints this value.
 The result of the model is given by:
-
 
 [source, console]
 ----

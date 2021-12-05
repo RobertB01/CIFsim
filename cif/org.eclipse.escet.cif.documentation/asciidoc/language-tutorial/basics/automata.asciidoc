@@ -28,7 +28,7 @@ The following CIF _specification_, or CIF _model_, shows a simple automaton:
 
 // Copied to: data/loc-var-duality2
 // Copied to: data/discvar-change
-[source,cif]
+[source, cif]
 ----
 automaton lamp:
   event turn_on, turn_off;

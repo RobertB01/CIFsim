@@ -25,7 +25,6 @@ The user enters his/her choice via the console as well.
 
 The following is an example of the simulator interactively asking the user to choose a possible transition:
 
-
 [source, console]
 ----
 Possible transitions:
@@ -70,7 +69,6 @@ If a choice is made that is invalid or is not available for the current state, a
 
 If the user chooses a time transition (choice `3` in the above example), the simulator subsequently asks for the duration of the time delay:
 
-
 [source, console]
 ----
 Select a duration from (0 .. 100.0]. Empty choice equals maximum delay. Enter q to quit. Confirm with <ENTER>:
@@ -94,7 +92,6 @@ If no transitions are possible, for instance due to <<lang-tut-time-deadlock,dea
 This choice is only presented if either reset or undo is enabled, as otherwise there is no choice to make.
 
 The following is an example of the simulator interactively asking the user to choose between termination and going back:
-
 
 [source, console]
 ----

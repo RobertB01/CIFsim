@@ -20,7 +20,6 @@ indexterm:[variable,versus location]
 The lesson that <<lang-tut-data-chapter-discrete-variables,introduces discrete variables>>, uses an example of a counter.
 The actual count was modeled using a variable:
 
-
 [source, cif]
 ----
 automaton counter:
@@ -35,7 +34,6 @@ end
 ----
 
 It is also possible to use multiple locations instead of a variable:
-
 
 [source, cif]
 ----

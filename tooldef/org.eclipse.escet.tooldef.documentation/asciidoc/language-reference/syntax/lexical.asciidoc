@@ -209,7 +209,6 @@ Examples:
 "first line\nsecond line"
 ----
 
-
 indexterm:[whitespace]
 indexterm:[syntax,whitespace]
 
@@ -233,7 +232,6 @@ int
     5
   ;
 ----
-
 
 indexterm:[comments]
 indexterm:[comments,single line]

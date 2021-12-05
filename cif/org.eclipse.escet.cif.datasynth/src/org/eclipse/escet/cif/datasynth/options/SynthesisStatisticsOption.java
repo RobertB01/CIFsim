@@ -29,9 +29,12 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
                 // description
                 "The kinds of statistics to print. Specify comma separated names of the statistics. " +
 
-                        "Specify \"timing\" for timing statistics, "
-                        + "\"bdd-gc\" for BDD garbage collection statistics, and/or "
-                        + "\"bdd-resize\" for BDD node table resize statistics. " +
+                        "Specify \"bdd-gc-collect\" for BDD garbage collection statistics, "
+                        + "\"bdd-gc-resize\" for BDD node table resize statistics, "
+                        + "\"bdd-perf-cache\" for BDD cache statistics, "
+                        + "\"bdd-perf-cont\" for continuous BDD performance statistics, "
+                        + "\"bdd-perf-max-nodes\" for maximum used BDD nodes statistics, and/or "
+                        + "\"timing\" for timing statistics. " +
 
                         "By default, no statistics are printed. "
                         + "Prefix a name with \"+\" to add it on top of the defaults, "
@@ -62,12 +65,18 @@ public class SynthesisStatisticsOption extends EnumSetOption<SynthesisStatistics
     @Override
     protected String getDialogText(SynthesisStatistics stat) {
         switch (stat) {
+            case BDD_GC_COLLECT:
+                return "BDD garbage collection";
+            case BDD_GC_RESIZE:
+                return "BDD node table resize";
+            case BDD_PERF_CACHE:
+                return "BDD cache";
+            case BDD_PERF_CONT:
+                return "Continuous BDD performance";
+            case BDD_PERF_MAX_NODES:
+                return "Maximum used BDD nodes";
             case TIMING:
                 return "Timing";
-            case BDD_GC:
-                return "BDD garbage collection";
-            case BDD_RESIZE:
-                return "BDD node table resize";
         }
         throw new RuntimeException("Unknown statistic: " + stat);
     }

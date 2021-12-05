@@ -90,6 +90,10 @@ For more information, see the <<tools-datasynth-edge-order>> section below.
 By default, no statistics are printed.
 For more information, see the section on <<tools-datasynth-stats,statistics>> below.
 
+* _Continuous performance statistics file_: The absolute or relative local file system path to the continuous performance statistics output file.
+If not specified, defaults to the input file path, where the `.cif` file extension is removed (if present), and a `.stats.txt` file extension is added.
+For more information, see the section on <<tools-datasynth-stats,statistics>> below.
+
 * _Event warning_: Whether to warn for events that are never enabled in the input specification or never enabled in the controlled system.
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
@@ -141,7 +145,7 @@ For more information, see the <<tools-datasynth-stats>> section.
 This option can be used to set the fixed size of that cache.
 The operation cache size must be in the range [2 .. 2^31^ - 1].
 By default, this option is disabled (value `off` on the command line), and the _BDD library operation cache ratio_ option is used instead.
-For more information, see the <<tools-datasynth-op-caches>> section below.
+For more information, see the <<tools-datasynth-op-cache>> section below.
 
 * _BDD library operation cache ratio_: The BDD library that is used maintains an internal operation cache.
 This option can be used to set the ratio of the size of the operation cache of the BDD library to the size of the node table of the BDD library.
@@ -149,7 +153,7 @@ For instance, a ratio of `0.1` means that the size of the operation cache is 10%
 The operation cache ratio must be in the range [0.01 .. 1000].
 The default ratio is 1.0.
 This option has no effect if the _BDD library operation cache size_ option is enabled.
-For more information, see the <<tools-datasynth-op-caches>> section below.
+For more information, see the <<tools-datasynth-op-cache>> section below.
 
 * _BDD debug max nodes_: Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 This option control the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug output.
@@ -346,7 +350,6 @@ State invariants are global conditions over the values of variables (and locatio
 Such requirements are sometimes also called mutual state exclusions.
 Here are some examples:
 
-
 [source, cif]
 ----
 requirement invariant x != 0 and not p.b;
@@ -360,7 +363,6 @@ requirement x = 1 => y > 2;
 
 State/event exclusion invariants or simply state/event exclusions are additional conditions under which transitions may take place for certain events.
 Here are some examples:
-
 
 [source, cif]
 ----
@@ -377,7 +379,6 @@ They usually introduce additional state by using multiple locations or a variabl
 The additional state is used to be able to express the requirement.
 One common example is a counter.
 For instance, consider the following requirement, which prevents more than three products being added to a buffer:
-
 
 [source, cif]
 ----
@@ -396,7 +397,6 @@ end
 
 Another common example is a requirement that introduces ordering.
 For instance, consider the following requirement, which states that `motor1` must always be turned on before `motor2` is turned on, and they must always be turned off in the opposite order:
-
 
 [source, cif]
 ----
@@ -788,45 +788,135 @@ indexterm:[data-based supervisory controller synthesis,statistics]
 [[tools-datasynth-stats]]
 === Statistics
 
-The data-based synthesis tool supports printing various kinds of statistics to the console.
+The data-based synthesis tool supports printing various kinds of statistics.
 By default, no statistics are printed.
 Statistics can be enabled using the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
 The following statistics are available:
 
-* _Timing_ [`timing`]
+* _BDD garbage collection_ [`bdd-gc-collect`]
 +
-Print statistics for timing of various parts of the tool.
-Is printed to the console, after execution, just termination of the tool.
-Timing is only printed for parts of the tool that were actually executed.
-Timing is printed as a tree.
-The root of the tree represents the total time of the synthesis tool.
-For some parts of the tool, timing is also measured for sub-parts.
-Timing is printed in milliseconds, to make it easier to compare timing for various parts.
-+
-When measuring performance, always perform multiple measurements, and take the average.
-Also, use a warm-up phase, to avoid skewed results.
-
-* _BDD garbage collection_ [`bdd-gc`]
+Prints BDD garbage collection information before and after each garbage collection.
 +
 The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
-BDD garbage collection statistics are printed before and after garbage collection.
+See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
++
+BDD garbage collection information is printed to the console before and after each garbage collection.
 The printed information includes the size of the node table, the number of free nodes, timing information, etc.
-See also the BDD library initial node table size option (see <<tools-datasynth-options,options>>` section above).
 
-* _BDD node table resize_ [`bdd-resize`]
+* _BDD node table resize_ [`bdd-gc-resize`]
++
+Prints BDD node table resize information each time a BDD node table resize is performed.
 +
 The BDD library that is used maintains an internal node table.
 Whenever new nodes no longer fit in the node table, a garbage collection is started by the BDD library, to clean out all nodes that are no longer needed.
 If only very limited space could be reclaimed by garbage collection, the size of the node table is increased.
-BDD node table resize statistics are printed when the node table is resized.
-The printed information includes the old and the new sizes of the node table.
-See also the BDD library initial node table size option (see <<tools-datasynth-options,options>>` section above).
+See also the BDD library initial node table size option (see <<tools-datasynth-options,options>> section above).
++
+BDD node table resize information is printed to the console each time the node table is resized.
+The printed information includes the old and new sizes of the node table.
+
+* _BDD cache_ [`bdd-perf-cache`]
++
+Prints metrics related to the BDD cache.
++
+The BDD library that is used implements a cache to speed up the calculations.
+For more information, see the <<tools-datasynth-op-cache>> section below.
++
+The information is printed to the console, after execution, just before termination of the tool.
+The table below shows all metrics printed and their meaning.
++
+[cols="20,50",options="header"]
+|===
+| Metric
+| Description
+
+| Node creation requests
+| The number of times a node creation is requested.
+This includes the trivial cases where the cache is not checked, e.g. when both child nodes are the same.
+
+| Node creation chain accesses
+| The number of times a node creation is requested, and a next node in the cache needs to be checked.
+This excludes the trivial cases where the cache is not checked.
+
+| Node creation cache hits
+| The number of times a node creation is requested, and the node is already in the cache.
+This excludes the trivial cases where the cache is not checked.
+
+| Node creation cache misses
+| The number of times a node creation is requested, and the node is not already in the cache.
+This excludes the trivial cases where the cache is not checked.
+
+| Operation count
+| The number of times a BDD operation is performed on a node or a pair of nodes.
+This includes the trivial cases where the cache is not checked, e.g. for `x and x`, `x and true`, `false and x`, etc.
+
+| Operation cache hits
+| The number of times a BDD operation is performed on a node or a pair of nodes, and the result is already in the cache.
+This excludes the trivial cases where the cache is not checked.
+
+| Operation cache misses
+| The number of times a BDD operation is performed on a node or a pair of nodes, and the result is not already in the cache.
+This excludes the trivial cases where the cache is not checked.
+|===
+
+* _Continuous BDD performance statistics_ [`bdd-perf-cont`]
++
+Prints continuously collected platform and machine independent BDD performance related metrics.
++
+This statistic continuously collects the platform and machine independent BDD performance metrics described in the table below.
+These metrics are discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+The information is printed to a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
+The file is written after execution, just before termination of the tool.
++
+Note that collecting these metrics makes synthesis take longer than without collecting it.
++
+[cols="20,50",options="header"]
+|===
+| Metric
+| Description
+
+| Operations
+| The number of BDD operations performed on BDD nodes so far during synthesis, for which the cache is checked and the result is not already in the cache.
+The number of operations performed on BDD nodes is a platform and machine independent measure of the amount of time needed to perform BDD operations, due to BDD operations being implemented recursively on their node trees.
+
+| Used BBD nodes
+| The number of BDD nodes currently in use to represent all BDDs.
+The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
+|===
+
+* _Maximum used BDD nodes_ [`bdd-perf-max-nodes`]
++
+Prints the maximum number of BDD nodes used during synthesis.
++
+The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
+This metric is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+This metric is printed to the console, after execution, just before termination of the tool.
+It prints the maximum number of BDD nodes used during synthesis.
++
+Note that collecting this metric makes synthesis take longer than without collecting it.
+
+* _Timing_ [`timing`]
++
+Print information for timing of various parts of the tool.
++
+Timing is only collected for parts of the tool that were actually executed.
+Timing is represented as a tree.
+The root of the tree represents the total time of the synthesis tool.
+For some parts of the tool, timing is also collected for sub-parts.
++
+Timing information is printed to the console, after execution, just before termination of the tool.
+Durations are all printed in milliseconds, to make it easier to compare timing for various parts.
++
+When measuring performance, always perform multiple measurements, and take the average.
+Also, use a warm-up phase, to avoid skewed results.
 
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
 From the command line, using the `--stats` option, the names of the different kinds of statistics, as indicated above between square brackets, should be used, separated by commas.
-For instance, use `--stats=bdd-gc,bdd-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
+For instance, use `--stats=bdd-gc-collect,bdd-gc-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
 
 Specifying a statistics kind twice leads to a warning being printed to the console.
 
@@ -1016,10 +1106,10 @@ The size must be an integer number in the range [1 .. 12].
 
 If enabled, the algorithms are applied in the order they are listed above.
 
-indexterm:[data-based supervisory controller synthesis,operation caches]
+indexterm:[data-based supervisory controller synthesis,operation cache]
 
-[[tools-datasynth-op-caches]]
-=== BDD operation caches
+[[tools-datasynth-op-cache]]
+=== BDD operation cache
 
 One of the main properties of BDDs is that they employ full sharing.
 That is, if a part of a binary tree needs to be represented more than once, it is stored only once, and reused.
@@ -1031,11 +1121,11 @@ If that same operation is performed again on the same nodes, the cached result i
 This way, repeated calculations can be prevented for shared sub-graphs.
 
 The operation cache is essential for the performance of the synthesis algorithm.
-With infinite caches, the operations are generally linear in the number of nodes used to represent the BDDs on which they are applied.
+With an infinite cache, the operations are generally linear in the number of nodes used to represent the BDDs on which they are applied.
 Without caching, the computation time grows exponentially.
 
-Obviously, in practice we can't have infinite caches, as a computer only has a finite amount of memory available.
-We thus need to work with finite caches.
+Obviously, in practice we can't have an infinite cache, as a computer only has a finite amount of memory available.
+We thus need to work with a finite cache.
 Whenever a new cached operation result doesn't fit in the cache, an older result is overwritten, and will need to be recomputed if it is needed again.
 
 Increasing the cache size can significantly increase performance for large systems, as a cache that is too small is ineffective, and results in many operations needing to be repeated, that could have otherwise been obtained from the cache.
@@ -1102,7 +1192,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 
 | Library
 | BDD library operation cache size/ratio
-| <<tools-datasynth-op-caches>>
+| <<tools-datasynth-op-cache>>
 | Increase cache for less computations
 | Enable, larger costs more memory, larger leads to less memory locality, size/ratio depends on model
 
@@ -1133,7 +1223,7 @@ The following <<tools-datasynth-options,options>> have an effect on the performa
 | Debug
 | Statistics
 | <<tools-datasynth-stats>>
-| Statistics output on console
+| Statistics output on console or to file
 | Disable for better performance
 
 | Warnings

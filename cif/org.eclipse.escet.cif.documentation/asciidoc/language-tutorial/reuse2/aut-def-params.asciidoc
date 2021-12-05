@@ -22,7 +22,6 @@ In the <<lang-tut-reuse2-chapter-aut-def-inst,previous lesson>>, automaton defin
 What we have seen so far, is enough for exactly identical automata, but not for nearly identical automata.
 Consider the following two nearly identical consumers:
 
-
 [source, cif]
 ----
 automaton consumer1:
@@ -46,7 +45,6 @@ The consumers can accept products that the producer provides (channel `provide`)
 They store the identification numbers of those products in a `buffer`.
 The two consumers are identical except for the number of products that they can accept: the first consumer can accept two products, the second producer can accept three products.
 We can still use automaton definition and instantiation to model the consumer only once, but we need to parametrize the automaton definition:
-
 
 [source, cif]
 ----

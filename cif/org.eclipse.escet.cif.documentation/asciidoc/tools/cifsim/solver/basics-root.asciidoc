@@ -24,7 +24,7 @@ To detect such changes during <<tools-cifsim-solver-chapter-basics-int,integrati
 
 Consider the following CIF specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/root_simple.cif[]
 ----

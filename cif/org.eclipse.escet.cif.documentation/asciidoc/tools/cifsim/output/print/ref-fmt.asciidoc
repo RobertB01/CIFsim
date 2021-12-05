@@ -31,7 +31,6 @@ The `fmt` function requires at least one argument, the _format pattern_.
 The remaining arguments of the function are the _values_ that can be inserted into the format pattern, to allow variable output.
 For instance, consider:
 
-
 [source, cif]
 ----
 fmt("%s %s", x, y)
@@ -51,7 +50,6 @@ The result of `fmt` applied to it arguments is the text of the format pattern, w
 
 Format specifiers can be customized to influence how their corresponding values are to be inserted.
 For instance, consider:
-
 
 [source, cif]
 ----
@@ -181,7 +179,6 @@ The first specifier then implicitly uses the first value, the second specifier i
 However, if an explicit value index is given, that explicit index indicates the value to use, and the specifier with the explicit index does not influence subsequent implicit indexing.
 That is, consider the following:
 
-
 [source, cif]
 ----
 fmt("%s %1$s %3$f %d %f %1$s", 1, 2, 3.0);
@@ -194,7 +191,6 @@ The fourth specifier (`%d`) is the second specifier to not explicitly specify an
 The fifth specifier (`%f`) is the third specifier to not explicitly specify an index, and thus implicitly uses the third value.
 Finally, the sixth specifier (`%1$s`) explicitly specifies index `1`, and thus uses the first value.
 The result of the formatting is:
-
 
 [source]
 ----
@@ -352,7 +348,6 @@ If the `-` flag is given, spaces are added to the right, otherwise spaces are ad
 
 Here are some examples, assuming `b` has value `true`:
 
-
 [source, cif]
 ----
 fmt("%b", b);       // true
@@ -391,7 +386,6 @@ It thus consists of only the digits `0` through `9`.
 * If a width is given, the text so far is shorter than the width, and neither the `0` flag nor the `-` flag is given, then space characters are added after the result, until the desired width is reached.
 
 Here are some examples, assuming `x` has value `12345` and `y` has value `-2345`:
-
 
 [source, cif]
 ----
@@ -435,7 +429,6 @@ It thus consists the digits `0` through `9` and letters `a` through `f`.
 * If a width is given, the text so far is shorter than the width, and neither the `0` flag nor the `-` flag is given, then space characters are added after the result, until the desired width is reached.
 
 Here are some examples, assuming `a` has value `5543` and `b` has value `-1`:
-
 
 [source, cif]
 ----
@@ -504,7 +497,6 @@ At least two decimal digits are added, so if the number of digits that was shift
 
 Here are some examples, assuming `a` has value `12345.6789` and `b` has value `-0.00002345678`:
 
-
 [source, cif]
 ----
 fmt("%e", a);           // 1.234568e+04
@@ -564,7 +556,6 @@ Rounding using the 'half up' algorithm is used to ensure correct results in case
 
 Here are some examples, assuming `a` has value `12345.6789` and `b` has value `-0.00002345678`:
 
-
 [source, cif]
 ----
 fmt("%f", a);           // 12345.678900
@@ -601,7 +592,6 @@ However, the total number of link:http://en.wikipedia.org/wiki/Significant_figur
 If the specified precision is `0`, it is taken to be `1` instead.
 
 Here are some examples, assuming `a` has value `12345.6789` and `b` has value `-0.00002345678`:
-
 
 [source, cif]
 ----
@@ -643,7 +633,6 @@ If the `-` flag is given, spaces are added to the right, otherwise spaces are ad
 
 Here are some examples, assuming `x` has value `"aBcD"`:
 
-
 [source, cif]
 ----
 fmt("%s", x);       // aBcD
@@ -654,7 +643,6 @@ fmt("_%-10s_", x);  // _aBcD      _
 
 As indicated above, `string` typed values are of special interest.
 For instance, consider the following examples:
-
 
 [source, cif]
 ----
@@ -676,7 +664,6 @@ If however the entire value is a string, then that string is used 'as is' (witho
 Also of special interest are real values.
 The number of digits after the decimal point can vary.
 For instance, consider the following examples:
-
 
 [source, cif]
 ----
@@ -705,7 +692,6 @@ If a percentage character is to be included as a percentage character instead of
 That is, to include a percentage character as a percentage character, use `%%` in the format pattern.
 
 For instance, the format pattern `"a\"b\nc\td\\e%%f"` results in the following text:
-
 
 [source]
 ----

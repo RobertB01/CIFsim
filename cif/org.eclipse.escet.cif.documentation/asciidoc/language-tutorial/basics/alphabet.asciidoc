@@ -33,7 +33,6 @@ indexterm:[alphabet,implicit]
 By default, the alphabet of an automaton implicitly contains all the events that occur on the edges of the automaton.
 For instance, consider the following CIF specification (the producer/consumer example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>):
 
-
 [source, cif]
 ----
 automaton producer:
@@ -96,7 +95,6 @@ indexterm:[alphabet,non-default]
 === Non-default alphabet
 
 The alphabet is allowed to be empty, which can be explicitly specified as follows:
-
 
 [source, cif]
 ----

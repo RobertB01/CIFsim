@@ -25,7 +25,6 @@ A dictionary is an unordered collection of _keys_ and associated _values_.
 A key with its associated value is called a key/value _pair_.
 Consider the following:
 
-
 [source, cif]
 ----
 disc dict(string:int) age = {"eve": 32, "john": 34, "adam": 25};
@@ -45,7 +44,6 @@ For readability, key/value pairs of dictionary literals are normally written in 
 
 Dictionary literals are often written using multiple lines, to get two 'columns' for the keys and values, which can improve readability:
 
-
 [source, cif]
 ----
 disc dict(string:int) age = {"eve":  32,
@@ -55,7 +53,6 @@ disc dict(string:int) age = {"eve":  32,
 
 The default value for dictionary types, is an empty dictionary.
 The following two variables thus have the same initial value:
-
 
 [source, cif]
 ----
@@ -67,7 +64,6 @@ Every key of a dictionary is unique, but they may be associated with the same va
 For the above example with ages, the names (keys) are used to uniquely identify people, but multiple people may have the same age (values).
 It is not allowed to have the same key twice, in a dictionary literal, regardless of whether they map to the same value or to different values:
 
-
 [source, cif]
 ----
 disc dict(int:int) x1 = {1: 2, 1: 2};  // Invalid due to duplicate key '1'.
@@ -75,7 +71,6 @@ disc dict(int:int) x2 = {1: 2, 1: 3};  // Invalid due to duplicate key '1'.
 ----
 
 The values of a dictionary can be obtained by _projection_ on that dictionary, using the keys:
-
 
 [source, cif]
 ----
@@ -91,7 +86,6 @@ Projection using a key that exists in the dictionary, results in the associated 
 Projection using a key that does not exist in the dictionary, leads to a runtime error.
 
 It is possible to modify single elements of a dictionary, as follows:
-
 
 [source, cif]
 ----

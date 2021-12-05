@@ -1,9 +1,9 @@
 WARNING: File "codegen/unsupported1.cif": Semantic warning at line 49, column 7: Automaton "p2" has no initial location.
-WARNING: Unsupported output type "string" found in discrete variable "v1", variable will be omitted from the output.
-WARNING: Unsupported output type "dict(int:bool)" found in discrete variable "v2", variable will be omitted from the output.
-WARNING: Unsupported output type "dist bool" found in discrete variable "v3", variable will be omitted from the output.
-WARNING: Unsupported output type "func int(int)" found in discrete variable "v4", variable will be omitted from the output.
-WARNING: Unsupported output type "set int" found in discrete variable "v6", variable will be omitted from the output.
+WARNING: Unsupported output type "string" found in discrete variable "q.v1", variable will be omitted from the output.
+WARNING: Unsupported output type "dict(int:bool)" found in discrete variable "q.v2", variable will be omitted from the output.
+WARNING: Unsupported output type "dist bool" found in discrete variable "q.v3", variable will be omitted from the output.
+WARNING: Unsupported output type "func int(int)" found in discrete variable "q.v4", variable will be omitted from the output.
+WARNING: Unsupported output type "set int" found in discrete variable "q.v6", variable will be omitted from the output.
 ERROR: Code generation to Simulink failed for CIF file "codegen/unsupported1.cif".
 CAUSE: CIF code generator failed due to unsatisfied preconditions:
  - Unsupported automaton "p": initialization predicates in components are currently not supported.

@@ -450,7 +450,7 @@ It returns a negative number if the end of the file has been reached.
 +
 For example, executing:
 +
-[source,chi]
+[source, chi]
 ----
 int i;
 file f = open("data.txt", "r");
@@ -466,7 +466,7 @@ close(f);
 +
 where "data.txt" contains:
 +
-[source,console]
+[source, console]
 ----
 123 345
 789
@@ -474,7 +474,7 @@ where "data.txt" contains:
 +
 produces:
 +
-[source,console]
+[source, console]
 ----
 read 123, eol count is 0
 read 345, eol count is 1

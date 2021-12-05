@@ -46,7 +46,6 @@ All uses of type declarations (in types of variables, types of other type declar
 The type declarations themselves are removed.
 For instance, the following specification:
 
-
 [source, cif]
 ----
 type t = int;
@@ -59,7 +58,6 @@ const v z = (4, 5);
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

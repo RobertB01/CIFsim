@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.app.framework.output.OutputProvider.warn;
 import static org.eclipse.escet.common.java.Lists.first;
 import static org.eclipse.escet.common.java.Lists.last;
 import static org.eclipse.escet.common.java.Lists.list;
+import static org.eclipse.escet.common.java.Lists.listc;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.copy;
 import static org.eclipse.escet.common.java.Strings.fmt;
@@ -40,6 +41,8 @@ import org.eclipse.escet.cif.cif2cif.AddDefaultInitialValues;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
 import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
+import org.eclipse.escet.cif.cif2cif.MergeEnums;
+import org.eclipse.escet.cif.cif2cif.PrintFileIntoDecls;
 import org.eclipse.escet.cif.cif2cif.RemoveCifSvgDecls;
 import org.eclipse.escet.cif.cif2cif.RemovePositionInfo;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
@@ -54,12 +57,12 @@ import org.eclipse.escet.cif.codegen.typeinfos.TypeInfo;
 import org.eclipse.escet.cif.codegen.updates.AlgDerInvalidations;
 import org.eclipse.escet.cif.codegen.updates.VariableWrapper;
 import org.eclipse.escet.cif.codegen.updates.tree.SingleVariableAssignment;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
 import org.eclipse.escet.cif.common.CifValidationUtils;
 import org.eclipse.escet.cif.common.ConstantOrderer;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
-import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.IoDecl;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -221,7 +224,7 @@ public abstract class CodeGen {
      * The print declarations of the specification. {@code null} if not available, empty until filled with actual data.
      *
      * <p>
-     * Each print declaration contains an explicit print file declaration as part of itself, after linearization. There
+     * Each print declaration contains an explicit print file declaration as part of itself, due to preprocessing. There
      * is no need to look for separate print file declarations.
      * </p>
      */
@@ -678,6 +681,12 @@ public abstract class CodeGen {
         linearize.transform(spec);
         lpVariables = linearize.getLPVariables();
 
+        // Push print file declarations inwards for easier code generation.
+        new PrintFileIntoDecls().transform(spec);
+
+        // Merge enumerations into a single enumeration for easier code generation.
+        new MergeEnums().transform(spec);
+
         // Simplify again, as linearization may introduce a lot of unnecessary
         // 'true' literals etc. Don't simplify references, as we for instance
         // don't want to inline large constant arrays. We do use the optimized
@@ -711,15 +720,15 @@ public abstract class CodeGen {
         // exist, or are trivially 'true', precondition), state/event
         // exclusion invariants (have already been eliminated) and marker
         // predicates (have no effect).
-        Assert.check(spec.getComponents().size() == 1);
-        Component comp = first(spec.getComponents());
-        Automaton aut = (Automaton)comp;
+        List<Automaton> automata = listc(1);
+        CifCollectUtils.collectAutomata(spec, automata);
+        Assert.check(automata.size() == 1);
+        Automaton aut = first(automata);
 
         // Get declarations. We ignore external user-defined functions (should
         // not exist, precondition).
         List<Declaration> decls = list();
-        decls.addAll(spec.getDeclarations());
-        decls.addAll(aut.getDeclarations());
+        CifCollectUtils.collectDeclarations(spec, decls);
 
         List<EnumDecl> enumDecls = list();
         for (Declaration decl: decls) {
@@ -757,6 +766,7 @@ public abstract class CodeGen {
         // should be at most one enum declaration.
         Assert.check(enumDecls.size() <= 1);
 
+        // Create code context.
         CodeContext ctxt = new CodeContext(this);
 
         // Generate code for the declarations.
@@ -773,8 +783,7 @@ public abstract class CodeGen {
 
         // Get code for the print declarations.
         List<IoDecl> ioDecls = list();
-        ioDecls.addAll(spec.getIoDecls());
-        ioDecls.addAll(aut.getIoDecls());
+        CifCollectUtils.collectIoDeclarations(spec, ioDecls);
 
         for (IoDecl decl: ioDecls) {
             if (decl instanceof Print) {

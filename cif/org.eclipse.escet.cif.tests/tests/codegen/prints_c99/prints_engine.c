@@ -354,17 +354,17 @@ static void PrintOutput(prints_Event_ event, BoolType pre) {
         T3IBSTypePrint(&(tuple_tmp4), text_var1.data, 0, MAX_STRING_SIZE);
         prints_PrintOutput(text_var1.data, ":stdout");
 
-        StringTypeCopyText(&(text_var1), "bla3");
-        prints_PrintOutput(text_var1.data, "c.txt");
-
-        StringTypeCopyText(&(text_var1), "bla4");
-        prints_PrintOutput(text_var1.data, "d.txt");
-
         StringTypeCopyText(&(text_var1), "bla1");
         prints_PrintOutput(text_var1.data, "a.txt");
 
         StringTypeCopyText(&(text_var1), "bla2");
         prints_PrintOutput(text_var1.data, "b.txt");
+
+        StringTypeCopyText(&(text_var1), "bla3");
+        prints_PrintOutput(text_var1.data, "c.txt");
+
+        StringTypeCopyText(&(text_var1), "bla4");
+        prints_PrintOutput(text_var1.data, "d.txt");
     }
 }
 #endif

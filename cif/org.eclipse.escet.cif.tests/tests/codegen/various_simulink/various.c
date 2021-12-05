@@ -1422,7 +1422,7 @@ enum variousEventEnum_ {
     EVT_DELAY_,   /**< Delay step. */
     EVT_TAU_,     /**< Tau step. */
     e1_,          /**< Event e1. */
-    g_h1_,        /**< Event g_h1. */
+    g_h1_,        /**< Event g.h1. */
 };
 typedef enum variousEventEnum_ various_Event_;
 
@@ -1431,7 +1431,7 @@ const char *evt_names[] = { /** < Event names. */
     "delay-step",   /**< Delay step. */
     "tau",          /**< Tau step. */
     "e1",           /**< Event e1. */
-    "g_h1",         /**< Event g_h1. */
+    "g.h1",         /**< Event g.h1. */
 };
 
 /** Enum names. */

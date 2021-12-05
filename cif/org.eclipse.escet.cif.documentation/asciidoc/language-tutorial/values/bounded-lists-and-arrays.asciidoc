@@ -21,7 +21,6 @@ CIF can only represent <<lang-tut-values-chapter-lists,lists>> (type `list`) wit
 Using lists with more elements results in the CIF model being invalid, and leads to runtime errors.
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton a:
@@ -37,7 +36,6 @@ Each time the edge is taken, another element is added to list `x`.
 As soon as an attempt is made to add the 2,147,483,648^th^ element, a runtime error occurs.
 
 It is possible to explicitly restrict the number of elements that may be contained in a list:
-
 
 [source, cif]
 ----
@@ -56,7 +54,6 @@ indexterm:[array]
 
 [[lang-tut-values-array]]
 Lists with a fixed length are called _arrays_:
-
 
 [source, cif]
 ----

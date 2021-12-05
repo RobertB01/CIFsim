@@ -25,7 +25,6 @@ The producer creates products, identified by a unique identification number.
 Each product produced by the producer, is provided either to the first or to the second consumer.
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 event provide1, provide2;
@@ -100,8 +99,7 @@ The following CIF specification models the above example using channels:
 // Copied to: channels/void
 // Copied to: channels/chan-sync-combi
 // Copied to: reuse2/aut-def-inst
-
-[source,cif]
+[source, cif]
 ----
 event int provide;
 
@@ -156,7 +154,6 @@ Furthermore, the consumers now use the `?` variable to obtain the received value
 This makes it easier to modify the producer without having to also modify the consumers.
 
 To conclude this lesson, we'll extend the example with a second producer:
-
 
 [source, cif]
 ----

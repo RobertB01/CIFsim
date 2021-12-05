@@ -74,7 +74,7 @@ The id of the text label is `pos_txt`.
 
 The following CIF specification models a person walking on a floor:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/walk_floor/walk_floor.cif[]
 ----
@@ -115,7 +115,7 @@ The same group/ungroup trick is used here as well, to make sure the group has no
 
 The following CIF specification models a person walking around in a room:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/walk_room/walk_room.cif[]
 ----

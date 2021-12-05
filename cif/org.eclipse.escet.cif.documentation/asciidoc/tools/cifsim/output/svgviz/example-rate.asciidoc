@@ -52,7 +52,7 @@ This makes that we can easily edit the rectangle, and see whether it has the cor
 
 The following CIF specification models the rate example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/rate/rate.cif[]
 ----

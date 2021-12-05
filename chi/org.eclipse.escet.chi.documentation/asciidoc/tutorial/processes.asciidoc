@@ -49,7 +49,6 @@ The latter (a process as a wrapper around many smaller-scale processes) is suppo
 
 The simplest form of processes is a model with one process:
 
-
 [source, chi]
 ----
 proc P():
@@ -66,7 +65,6 @@ Process `P` contains one statement, a `write` statement to output text to the sc
 Model `M` contains one statement, a `run` statement to run a process.
 When simulating this model, the output is:
 
-
 [source, console]
 ----
 Hello. I am a process.
@@ -79,7 +77,6 @@ This means that the statements inside each process are executed.
 The `run` statement waits until the statements in its created processes are finished, before it ends itself.
 
 To demonstrate, below is an example of a model with two processes:
-
 
 [source, chi]
 ----
@@ -98,7 +95,6 @@ Both processes can perform a `write` statement.
 One of them goes first, but there is no way to decide beforehand which one.
 (It may always be the same choice, it may be different on Wednesday, etc, you just don't know.) The output of the model is therefore either:
 
-
 [source, console]
 ----
 I am process 1.
@@ -106,7 +102,6 @@ I am process 2.
 ----
 
 or:
-
 
 [source, console]
 ----
@@ -125,7 +120,6 @@ It means that execution of the statement of one process cannot be interrupted by
 
 The view of a process being a wrapper around many other processes is supported by allowing to use the `run` statement inside a process as well.
 An example:
-
 
 [source, chi]
 ----
@@ -157,7 +151,6 @@ indexterm:[run,unwind]
 Some models consist of many identical processes at a single level.
 The language has an `unwind` statement to reduce the amount of program text.
 A model with e.g. ten identical processes, and a different parameter value, is:
-
 
 [source, chi]
 ----

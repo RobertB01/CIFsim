@@ -69,7 +69,7 @@ The code can be executed in multiple ways:
 
 * `execOnce` method
 +
-[source,java]
+[source, java]
 ----
 public void execOnce(double newTime)
 ----
@@ -86,7 +86,7 @@ This approach allows full control.
 
 * `exec` method
 +
-[source,java]
+[source, java]
 ----
 public void exec(long frequency)
 ----
@@ -111,7 +111,7 @@ The following methods are provided in the interface of the generated class as ab
 
 * `updateInputs` method
 +
-[source,java]
+[source, java]
 ----
 protected void updateInputs()
 ----
@@ -128,7 +128,7 @@ Don't modify arrays and tuples in-place, as that may lead to other variables bei
 
 * `preExec` method
 +
-[source,java]
+[source, java]
 ----
 protected void preExec()
 ----
@@ -140,7 +140,7 @@ You should not access the state of the CIF model from this method, as it may not
 
 * `postExec` method
 +
-[source,java]
+[source, java]
 ----
 protected void postExec()
 ----
@@ -155,7 +155,7 @@ The code to write the output values to the environment is the dual to reading th
 
 * `infoExec` method
 +
-[source,java]
+[source, java]
 ----
 protected void infoExec(long duration, long cycleTime)
 ----
@@ -172,7 +172,7 @@ This is enabled (`true`) by default.
 
 * `infoEvent` method
 +
-[source,java]
+[source, java]
 ----
 protected void infoEvent(int idx, boolean pre)
 ----
@@ -190,7 +190,7 @@ This is disabled (`false`) by default.
 
 * `infoPrintOutput` method
 +
-[source,java]
+[source, java]
 ----
 protected void infoPrintOutput(String text, String target)
 ----
@@ -277,7 +277,7 @@ It's boxed variant is used when needed, for instance for element types of a `+ja
 
 * Generic lists are not supported, only CIF arrays can be used.
 
-* As linearization is applied on the CIF model prior to generating Java code, all enumerations are merged together to a single enumeration.
+* Due to <<tools-codegen-preprocessing,preprocessing>> all enumerations are merged together into a single enumeration.
 As such, always at most one Java `enum` is generated for a CIF model.
 
 === Runtime errors

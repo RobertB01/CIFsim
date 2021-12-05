@@ -52,6 +52,7 @@ import org.eclipse.escet.cif.cif2cif.ElimStateEvtExclInvs;
 import org.eclipse.escet.cif.cif2cif.EnumsToConsts;
 import org.eclipse.escet.cif.cif2cif.EnumsToInts;
 import org.eclipse.escet.cif.cif2cif.LinearizeMerge;
+import org.eclipse.escet.cif.cif2cif.MergeEnums;
 import org.eclipse.escet.cif.cif2cif.RemoveIoDecls;
 import org.eclipse.escet.cif.cif2cif.SimplifyOthers;
 import org.eclipse.escet.cif.cif2cif.SimplifyValues;
@@ -92,6 +93,7 @@ import org.eclipse.escet.cif.cif2plc.plcdata.PlcValue;
 import org.eclipse.escet.cif.cif2plc.plcdata.PlcVariable;
 import org.eclipse.escet.cif.common.CifAddressableUtils;
 import org.eclipse.escet.cif.common.CifAddressableUtils.DuplVarAsgnException;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.common.CifValueUtils;
@@ -101,7 +103,6 @@ import org.eclipse.escet.cif.common.RangeCompat;
 import org.eclipse.escet.cif.common.StateInitVarOrderer;
 import org.eclipse.escet.cif.common.TypeEqHashWrap;
 import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.automata.Assignment;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
@@ -359,6 +360,9 @@ public class CifToPlcTrans {
         // results in the least amount of PLC code.
         new LinearizeMerge().transform(spec);
 
+        // Merge enumerations into a single enumeration for easier code generation.
+        new MergeEnums().transform(spec);
+
         // Simplify the values, to get rid of useless values introduced by
         // the linearization.
         if (trans.simplifyValues) {
@@ -398,31 +402,19 @@ public class CifToPlcTrans {
         // initialization predicates and state invariants (should not exist,
         // or trivially 'true'), state/event exclusion invariants (no longer
         // exist), and marker predicates (have no effect).
-        Assert.check(spec.getDefinitions().isEmpty());
-        Assert.check(spec.getComponents().size() == 1);
-        Component comp = first(spec.getComponents());
-        Automaton aut = (Automaton)comp;
+        List<Automaton> automata = listc(1);
+        CifCollectUtils.collectAutomata(spec, automata);
+        Assert.check(automata.size() == 1);
+        Automaton aut = first(automata);
 
         // Transform the declarations. Collect some declarations as well.
+        List<Declaration> declarations = list();
+        CifCollectUtils.collectDeclarations(spec, declarations);
+
         List<Declaration> stateVars = list();
         List<Constant> constants = list();
 
-        for (Declaration decl: spec.getDeclarations()) {
-            if (decl instanceof DiscVariable) {
-                stateVars.add(decl);
-            }
-            if (decl instanceof ContVariable) {
-                stateVars.add(decl);
-            }
-
-            if (decl instanceof Constant) {
-                constants.add((Constant)decl);
-            }
-
-            transDecl(decl);
-        }
-
-        for (Declaration decl: aut.getDeclarations()) {
+        for (Declaration decl: declarations) {
             if (decl instanceof DiscVariable) {
                 stateVars.add(decl);
             }
@@ -2211,7 +2203,7 @@ public class CifToPlcTrans {
             // avoid renaming local names (local variables and parameters of
             // functions, etc). Note that we need to ensure case insensitive
             // unique names.
-            String candidate = getAbsName(obj).replace('.', '_');
+            String candidate = getAbsName(obj, false).replace('.', '_');
 
             // Ensure valid candidate name.
             while (candidate.contains("__")) {

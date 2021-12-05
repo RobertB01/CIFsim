@@ -20,7 +20,6 @@ indexterm:[invariant,state]
 indexterm:[state,invariant]
 The lesson on <<lang-tut-data-chapter-discrete-variables,discrete variables>> used the following CIF specification:
 
-
 [source, cif]
 ----
 automaton counter:
@@ -39,7 +38,6 @@ The counter can repeatedly be incremented and decremented by one, as long as the
 To keep the count in the allowed range of values, guards were used to limit the occurrence of the `increment` and `decrement` events.
 
 Instead of using guards, it is also possible to use state (exclusion) invariants, also called state invariants, or just invariants:
-
 
 [source, cif]
 ----
@@ -76,7 +74,6 @@ In other words, the invariant disables the transition for the `increment` event 
 
 The two invariants can be specified in various ways:
 
-
 [source, cif]
 ----
 // Multiple invariants, each with a single predicate.
@@ -107,7 +104,6 @@ In those cases, invariants can thus help keep the specification consistent.
 
 Another benefit of invariants is that they explicitly state the conditions that must hold in relation to the variables, while guards specify the condition under which the update is allowed.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----

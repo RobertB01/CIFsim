@@ -45,7 +45,6 @@ This transformation ensures that each variable that is assigned, gets a single e
 Simply put, the 'if' update structure is replicated by an 'if' expression.
 For instance, the following edge updates:
 
-
 [source, cif]
 ----
 if g:
@@ -59,7 +58,6 @@ z := 7
 ----
 
 are transformed to the following edge updates:
-
 
 [source, cif]
 ----

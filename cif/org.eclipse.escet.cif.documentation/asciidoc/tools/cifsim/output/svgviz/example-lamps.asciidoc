@@ -32,7 +32,7 @@ This example shows:
 
 Consider the following CIF specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/lamps/lamps2.cif[]
 ----
@@ -55,7 +55,6 @@ The CIF specification also contains four <<tools-cifsim-output-svgviz-chapter-sv
 === SVG visualization scalability issues
 
 The use of the automaton definition allows us to add another lamp by simply adding the following line to the CIF specification:
-
 
 [source, cif]
 ----

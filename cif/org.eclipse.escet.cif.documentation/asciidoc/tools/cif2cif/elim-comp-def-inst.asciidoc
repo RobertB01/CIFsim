@@ -45,7 +45,6 @@ Also removes the component definitions that were just instantiated, and introduc
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 group def P(alg int x):
@@ -59,7 +58,6 @@ p2: P(y);
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -78,7 +76,6 @@ end
 Absolute references may be needed to express the results of this transformation.
 For instance:
 
-
 [source, cif]
 ----
 const int x = 5;
@@ -93,7 +90,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

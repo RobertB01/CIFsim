@@ -7,7 +7,7 @@
   <eClassifiers xsi:type="ecore:EDataType" name="CifIdentifier" instanceClassName="java.lang.String">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="CifIdentifier"/>
-      <details key="baseType" value="string"/>
+      <details key="baseType" value="http://www.eclipse.org/emf/2002/Ecore#EString"/>
       <details key="pattern" value="[A-Za-z_][A-Za-z0-9_]*"/>
     </eAnnotations>
   </eClassifiers>

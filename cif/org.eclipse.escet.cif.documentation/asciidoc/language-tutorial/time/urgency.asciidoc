@@ -39,7 +39,6 @@ indexterm:[location,urgency]
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton use_case:
@@ -62,7 +61,6 @@ image::{lang-tut-imgsdir}/time/usecase_nonurg_state_space.png[]
 The states are labeled with the names of the current locations of automaton `use_case` and the current values of variable time.
 At the end of the use case, no events are possible, and thus time can progress infinitely.
 To force that in location `done` no time can progress, the location can be made urgent:
-
 
 [source, cif]
 ----

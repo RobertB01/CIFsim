@@ -771,28 +771,28 @@ RealType aut12_u_deriv(void) {
     return RealAdd(aut12_t_deriv(), aut12_z_);
 }
 /**
- * Algebraic variable aut12_v = M.aut12_x + M.aut12_y;
+ * Algebraic variable aut12.v = M.aut12_x + M.aut12_y;
  */
 RealType aut12_v_(void) {
     return RealAdd(aut12_x_, aut12_y_);
 }
 
 /**
- * Algebraic variable aut12_w = M.aut12_v + M.aut12_z;
+ * Algebraic variable aut12.w = aut12.v + M.aut12_z;
  */
 RealType aut12_w_(void) {
     return RealAdd(aut12_v_(), aut12_z_);
 }
 
 /**
- * Algebraic variable aut13_v = M.aut13_x + M.aut13_y;
+ * Algebraic variable aut13.v = M.aut13_x + M.aut13_y;
  */
 RealType aut13_v_(void) {
     return RealAdd(aut13_x_, aut13_y_);
 }
 
 /**
- * Algebraic variable aut13_w = M.aut13_v + M.aut13_z;
+ * Algebraic variable aut13.w = aut13.v + M.aut13_z;
  */
 RealType aut13_w_(void) {
     return RealAdd(aut13_v_(), aut13_z_);

@@ -18,7 +18,6 @@ include::../_part_attributes.asciidoc[]
 Values of different types can usually be arbitrarily combined.
 For instance, consider the following example:
 
-
 [source, cif]
 ----
 disc dict(int;tuple(real pos, weight)) boxes = {1: (0.0, 2.5),
@@ -32,7 +31,6 @@ Initially, there are three boxes.
 The first box has identification number `1`, position `0.0`, and weight `2.5`.
 The second box has identification number `2`, position `3.0`, and weight `1.7`.
 Also consider the following example, where the data of that variable is manipulated:
-
 
 [source, cif]
 ----

@@ -53,8 +53,8 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 * Java errors/warnings settings
 ** Right click the `org.eclipse.escet.common.java` project in the Package Explorer view and choose menu:Properties[].
 ** In the properties dialog, select menu:Java Compiler[Errors/Warnings].
-** Make a dummy change and apply it by clicking _Apply and Close_.
-** Click _Yes_ when asked to _Rebuild the project now to apply the changes of the Error/Warning settings?_.
+** Make a dummy change and apply it by clicking btn:[Apply and Close].
+** Click btn:[Yes] when asked to _Rebuild the project now to apply the changes of the Error/Warning settings?_.
 ** Revert the dummy change, using again the same steps.
 ** In case of changes to `*.prefs` files in the `.settings` directory of that project, configure the new settings as desired.
 ** Run `misc/java-code-style/copy_here.bash ../../common/org.eclipse.escet.common.java` from `misc/java-code-style` to copy the new settings to the central place.
