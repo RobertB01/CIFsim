@@ -17,16 +17,16 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[stochastics]
 For many things in the world, the behavior is not the same every time.
-An example is a link:http://en.wikipedia.org/wiki/Coin_toss[coin toss], where the result can be either heads or tails.
-Tossing a coin exhibits link:http://en.wikipedia.org/wiki/Randomness[randomness].
+An example is a link:https://en.wikipedia.org/wiki/Coin_toss[coin toss], where the result can be either heads or tails.
+Tossing a coin exhibits link:https://en.wikipedia.org/wiki/Randomness[randomness].
 It is possible to model the different variants in a CIF model without specifying the likelihood of each of the outcomes.
 This approach was used in the lesson on <<lang-tut-basics-chapter-non-determinism,non-determinism>>.
 
 indexterm:[stochastics,distribution]
-It is however also possible to explicitly specify the likelihood of each of the outcomes in the CIF model, using a _stochastic distribution_ (also called link:http://en.wikipedia.org/wiki/Probability_distribution[probability distribution]).
+It is however also possible to explicitly specify the likelihood of each of the outcomes in the CIF model, using a _stochastic distribution_ (also called link:https://en.wikipedia.org/wiki/Probability_distribution[probability distribution]).
 A stochastic distribution describes how likely the different outcomes are.
 There are many different stochastic distributions.
-The link:http://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] for instance, can be used to model things with two potential outcomes, such as a coin toss.
+The link:https://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] for instance, can be used to model things with two potential outcomes, such as a coin toss.
 
 Consider the following CIF specification:
 

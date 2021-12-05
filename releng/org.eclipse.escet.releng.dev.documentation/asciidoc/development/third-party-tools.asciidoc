@@ -33,7 +33,7 @@ The following third party tools are used to build:
 
 The following third party tools are used to generate/convert images:
 
-* `bbox_add.pl` Perl script, used in conjunction with LaTeX, obtained from http://www.inference.org.uk/mackay/perl/bbox_add.pl.
+* `bbox_add.pl` Perl script, used in conjunction with LaTeX, obtained from https://www.inference.org.uk/mackay/perl/bbox_add.pl.
 * `eps2png` Perl script, used in conjunction with LaTeX, obtained from https://metacpan.org/pod/eps2png.
 * Gnuplot, to generate images.
 * ImageMagic, used in conjunction with LaTeX, including `convert`.

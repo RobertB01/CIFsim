@@ -22,12 +22,12 @@ indexterm:[ODE,IVP]
 indexterm:[ODE,step size]
 During time transitions, the values of the continuous variables and their derivatives change.
 The derivatives have explicit equations, the continuous variables change according to the value of their derivatives.
-Using the equations for the derivatives as a system of link:http://en.wikipedia.org/wiki/Ordinary_differential_equation[ordinary differential equations] (ODEs), together with the initial values of the continuous variables as the _initial conditions_, this essentially comes down to solving an link:http://en.wikipedia.org/wiki/Initial_value_problem[initial value problem] (IVP).
+Using the equations for the derivatives as a system of link:https://en.wikipedia.org/wiki/Ordinary_differential_equation[ordinary differential equations] (ODEs), together with the initial values of the continuous variables as the _initial conditions_, this essentially comes down to solving an link:https://en.wikipedia.org/wiki/Initial_value_problem[initial value problem] (IVP).
 
-Such problems can be solved through link:http://en.wikipedia.org/wiki/Integral[integration].
-For some problems it is possible to do this link:http://en.wikipedia.org/wiki/Symbolic_integration[symbolically].
-For more complex systems of ODEs however, link:http://en.wikipedia.org/wiki/Numerical_ordinary_differential_equations[numerical methods] are used.
-The CIF simulator uses link:http://commons.apache.org/proper/commons-math/[The Apache Commons Mathematics Library], which contains several numerical integrators.
+Such problems can be solved through link:https://en.wikipedia.org/wiki/Integral[integration].
+For some problems it is possible to do this link:https://en.wikipedia.org/wiki/Symbolic_integration[symbolically].
+For more complex systems of ODEs however, link:https://en.wikipedia.org/wiki/Numerical_ordinary_differential_equations[numerical methods] are used.
+The CIF simulator uses link:https://commons.apache.org/proper/commons-math/[The Apache Commons Mathematics Library], which contains several numerical integrators.
 
 indexterm:[ODE,linear ODE]
 
@@ -71,7 +71,7 @@ indexterm:[ODE,nonlinear ODE]
 === Nonlinear ODE
 
 The approximations of the integrator don't need to be linear.
-Some integrators for instance support link:http://en.wikipedia.org/wiki/Nonlinear#Nonlinear_differential_equations[nonlinear differential equations].
+Some integrators for instance support link:https://en.wikipedia.org/wiki/Nonlinear#Nonlinear_differential_equations[nonlinear differential equations].
 Consider the following CIF specification, with such a nonlinear ODE:
 
 The solution calculated by the numerical integrator is:
@@ -92,7 +92,7 @@ indexterm:[ODE,discontinuity]
 
 === Discontinuities
 
-If the derivative has a link:http://en.wikipedia.org/wiki/Discontinuity_%28mathematics%29[discontinuity], such as in the following CIF specification:
+If the derivative has a link:https://en.wikipedia.org/wiki/Discontinuity_%28mathematics%29[discontinuity], such as in the following CIF specification:
 
 [source, cif]
 ----

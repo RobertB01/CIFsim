@@ -220,7 +220,7 @@ machine2: Machine(machine1.processing);
 Automaton definition `Machine` represents a machine that can heat up, process something, cool down, and repeat that forever.
 The system consists of two of those machines.
 The machines can not start processing if the other machine is already processing.
-That is, the machines perform link:http://en.wikipedia.org/wiki/Mutual_exclusion[mutually exclusive] processing.
+That is, the machines perform link:https://en.wikipedia.org/wiki/Mutual_exclusion[mutually exclusive] processing.
 If the first machine is in its `processing` location, the other can't also be processing (in its own `processing` location).
 To prevent a machine from starting to process if the other machine is already processing, each machine needs to know whether the other is already processing.
 Therefore, automaton definition `Machine` is parametrized with a location parameter `+other_processing+`, that indicates whether the other machine is currently processing (in its `processing` location).

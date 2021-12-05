@@ -104,7 +104,7 @@ automaton odd_even:
 end
 ----
 
-In this specification, location `odd` can only be the initial location if the value is odd (the value link:http://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is congruent to one), and location `even` can only be the initial location if the value is even.
+In this specification, location `odd` can only be the initial location if the value is odd (the value link:https://en.wikipedia.org/wiki/Modular_arithmetic[modulo] two is congruent to one), and location `even` can only be the initial location if the value is even.
 Changing the initial value of variable `n` then also changes the potential initial locations.
 Since the value is always odd or even, and can't be both odd and even, automaton `+odd_even+` always has exactly one potential initial location.
 

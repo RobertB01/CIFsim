@@ -17,7 +17,7 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[CIF simulator,Java compiler]
 indexterm:[performance,Java compiler]
-The simulator internally generates link:http://oracle.com/java[Java] code from the CIF model.
+The simulator internally generates link:https://oracle.com/java[Java] code from the CIF model.
 This code is compiled using a Java compiler and executed.
 Code generation and compilation result in faster simulation.
 However, compilation itself also takes time.

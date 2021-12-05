@@ -16,7 +16,7 @@ include::../_part_attributes.asciidoc[]
 == Equations
 
 indexterm:[equation,benefit]
-Consider the following link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
+Consider the following link:https://en.wikipedia.org/wiki/Nonlinear_system[non-linear system]:
 
 image::{lang-tut-imgsdir}/time/tank.png[]
 

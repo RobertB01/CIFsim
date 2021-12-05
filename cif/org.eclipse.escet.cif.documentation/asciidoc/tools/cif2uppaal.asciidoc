@@ -19,7 +19,7 @@ indexterm:[CIF to UPPAAL transformer]
 indexterm:[tools,CIF to UPPAAL transformer]
 indexterm:[see: UPPAAL,CIF to UPPAAL transformer]
 The CIF to UPPAAL transformer can be used to transform CIF specifications to UPPAAL systems (`+*.xml+` files).
-link:http://www.uppaal.org/[UPPAAL] is a tool modeling, validation, and verification of networks of timed automata with variables.
+link:https://www.uppaal.org/[UPPAAL] is a tool modeling, validation, and verification of networks of timed automata with variables.
 The transformer only transforms untimed CIF specifications.
 
 indexterm:[CIF to UPPAAL transformer,start]

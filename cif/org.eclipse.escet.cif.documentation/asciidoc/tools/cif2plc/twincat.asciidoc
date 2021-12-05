@@ -17,7 +17,7 @@ include::../_part_attributes.asciidoc[]
 
 indexterm:[TwinCAT]
 indexterm:[see: CIF PLC code generator,TwinCAT]
-link:http://www.beckhoff.com/english/twincat[TwinCAT] is a complete link:http://en.wikipedia.org/wiki/Integrated_development_environment[IDE] for the development and testing of PLC controllers.
+link:https://www.beckhoff.com/english/twincat[TwinCAT] is a complete link:https://en.wikipedia.org/wiki/Integrated_development_environment[IDE] for the development and testing of PLC controllers.
 Using the TwinCAT <<tools-cif2plc-output-type,PLC output type>>, the generated PLC code can be written to the native file formats of the TwinCAT IDE.
 This allows for more tight integration and smoother development cycles than using the PLCopen XML output type.
 

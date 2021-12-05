@@ -25,7 +25,7 @@ indexterm:[boolean,literal]
 Booleans represents truth values of for instance guards and other conditions and properties.
 The only two possible values are `true` (condition or property holds) and `false` (condition or property does not hold).
 The default value of booleans (`bool` type) is `false`.
-Several standard link:http://en.wikipedia.org/wiki/Logical_operator[logical operators] are available to work with booleans, including the following:
+Several standard link:https://en.wikipedia.org/wiki/Logical_operator[logical operators] are available to work with booleans, including the following:
 
 [source, cif]
 ----

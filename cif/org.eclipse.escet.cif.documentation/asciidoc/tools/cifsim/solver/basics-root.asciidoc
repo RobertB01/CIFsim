@@ -20,7 +20,7 @@ indexterm:[ODE,root finding]
 indexterm:[ODE,numeric root finding]
 During time transitions, the values of the continuous variables and their derivatives change.
 If continuous variables or their derivatives are (directly or indirectly) used in guards of edges, changes in their values may result in the guard becoming enabled, as time progresses.
-To detect such changes during <<tools-cifsim-solver-chapter-basics-int,integration>>, a link:http://en.wikipedia.org/wiki/Root-finding_algorithm[root finding algorithm] can be used.
+To detect such changes during <<tools-cifsim-solver-chapter-basics-int,integration>>, a link:https://en.wikipedia.org/wiki/Root-finding_algorithm[root finding algorithm] can be used.
 
 Consider the following CIF specification:
 
@@ -48,13 +48,13 @@ we see that at time `1.1111`, the value of the guard is `-1` (`false`).
 At time `5.0` it is `pass:c[+1]` (`true`).
 That is, the guard changed value between two time points calculated by the integrator.
 If this is the case, the ODE solver tries to calculate the exact time point at which the guard changes its value.
-That is, it calculates the exact time point at which the guard function crosses the time axis, and thus has a link:http://en.wikipedia.org/wiki/Zero_of_a_function[root].
+That is, it calculates the exact time point at which the guard function crosses the time axis, and thus has a link:https://en.wikipedia.org/wiki/Zero_of_a_function[root].
 
 indexterm:[ODE,bisection]
 indexterm:[ODE,bracketing]
 indexterm:[ODE,interval]
-One of the simplest root finding algorithms, is the link:http://en.wikipedia.org/wiki/Bisection_method[bisection method].
-This algorithm starts with the two time points where the guard has opposite link:http://en.wikipedia.org/wiki/Sign_%28mathematics%29[signs].
+One of the simplest root finding algorithms, is the link:https://en.wikipedia.org/wiki/Bisection_method[bisection method].
+This algorithm starts with the two time points where the guard has opposite link:https://en.wikipedia.org/wiki/Sign_%28mathematics%29[signs].
 This is the interval where the guard sign change occurs (it contains the root).
 The bisection method tries to reduce the size of the interval, by calculating the value of the guard in the middle of the interval.
 Depending on the sign of the value of the guard at this middle point, this middle point replaces either the lower bound or the upper bound of the interval.

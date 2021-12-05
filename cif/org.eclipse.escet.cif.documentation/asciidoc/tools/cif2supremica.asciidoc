@@ -19,7 +19,7 @@ indexterm:[CIF to Supremica transformer]
 indexterm:[tools,CIF to Supremica transformer]
 indexterm:[see: Supremica,CIF to Supremica transformer]
 The CIF to Supremica transformer can be used to transform CIF specifications to Supremica modules (`+*.wmod+` files).
-link:http://supremica.org/[Supremica] is a tool for synthesis of discrete event supervisors.
+link:https://supremica.org/[Supremica] is a tool for synthesis of discrete event supervisors.
 
 indexterm:[CIF to Supremica transformer,start]
 

@@ -25,15 +25,15 @@ indexterm:[SVG,file format]
 === The SVG file format
 
 indexterm:[SVG,W3C]
-The link:http://www.w3.org/TR/SVG11/[Scalable Vector Graphics] (SVG) file format is a widely used, royalty-free standard for two-dimensional vector graphics, developed by the link:http://www.w3.org/[World Wide Web Consortium] (W3C).
+The link:https://www.w3.org/TR/SVG11/[Scalable Vector Graphics] (SVG) file format is a widely used, royalty-free standard for two-dimensional vector graphics, developed by the link:https://www.w3.org/[World Wide Web Consortium] (W3C).
 SVG images consist of three types of objects: vector graphic shapes (rectangles, circles, etc.), raster images, and text.
 The benefit of vector images formats over raster image formats, is that raster images are created with a fixed size, while vector images contain a description of the image and can be rendered at any size without loss of quality.
 
 indexterm:[SVG,XML]
 indexterm:[SVG,editing]
-SVG image files are stored in an link:http://en.wikipedia.org/wiki/XML[XML]-based file format.
+SVG image files are stored in an link:https://en.wikipedia.org/wiki/XML[XML]-based file format.
 This means that they can be edited with any text editor.
-However, it is often more convenient to edit them with a drawing program that supports vector graphics, such as link:http://www.adobe.com/products/illustrator.html[Adobe Illustrator] or link:https://inkscape.org/[Inkscape].
+However, it is often more convenient to edit them with a drawing program that supports vector graphics, such as link:https://www.adobe.com/products/illustrator.html[Adobe Illustrator] or link:https://inkscape.org/[Inkscape].
 Most modern web browsers also support display of SVG images.
 
 === Visualization
@@ -43,10 +43,10 @@ Elements further down in the file are thus drawn on top of earlier elements.
 Also, each element has a position and size.
 They may have other properties like a color or a gradient as well.
 There are also 'administrative' elements, that can group, scale, or rotate parts of the tree.
-The website of Jakob Jenkov has a very nice link:http://tutorials.jenkov.com/svg[SVG Tutorial].
+The website of Jakob Jenkov has a very nice link:https://tutorials.jenkov.com/svg[SVG Tutorial].
 
 The SVG visualization by the Chi simulator exploits this structure.
 You access the elements, and literally change the value of their properties or copy part of the tree.
-The link:http://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit] used for drawing the SVG image at the screen notices the changes, and updates the displayed image.
+The link:https://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit] used for drawing the SVG image at the screen notices the changes, and updates the displayed image.
 
 By updating the SVG tree every time when the state of the simulation changes, you can display how a system evolves over time as an animated image.

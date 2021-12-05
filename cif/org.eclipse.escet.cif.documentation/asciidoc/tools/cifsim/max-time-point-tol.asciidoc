@@ -25,7 +25,7 @@ The simulator compensates for these small deviations, to avoid accumulation of s
 
 indexterm:[ulp]
 The simulator uses the value of the _Maximum time point tolerance_ option (_Simulation_ category) to determine whether two time points are close enough to each other to constitute a match.
-The tolerance is given in link:http://en.wikipedia.org/wiki/Unit_in_the_last_place[ulps] (_units in the last place_, or _units of least precision_).
+The tolerance is given in link:https://en.wikipedia.org/wiki/Unit_in_the_last_place[ulps] (_units in the last place_, or _units of least precision_).
 One ulp is the difference between two subsequent floating point numbers, for the limited precision binary floating point number representation used by the simulator.
 That is, two floating point numbers are one ulp away from each other, if there is no other floating point number between them, that can be represented using the floating point number representation used by the simulator.
 Since an ulp increases as the floating point numbers increase, the tolerance is thus relative to the values of the time points.

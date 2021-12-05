@@ -19,7 +19,7 @@ indexterm:[Simulink; code generation]
 == Simulink C S-Function code generation
 
 Everywhere at this page, the terms _Matlab_, _Simulink_, _S-Function_, and _Mex_ refer to products and programs developed and owned by _MathWorks_.
-For more information, please visit link:http://mathworks.com/[].
+For more information, please visit link:https://mathworks.com/[].
 
 The <<tools-codegen-chapter-index>> can generate Matlab Simulink S-Function C code from a CIF specification.
 It is assumed the reader of this page is familiar with the general information of the CIF code generator tool.

@@ -261,12 +261,12 @@ The generated C89, C99 and Java code maintains the running time in seconds.
 Due to the finite representation of numeric values, this results in numeric overflow after execution for a long time.
 Running the code continuously for longer than 100 years should be avoided.
 
-The continuous variables from the CIF specification in the generated code are updated each execution using the link:http://en.wikipedia.org/wiki/Euler_method[Euler method] for integration.
+The continuous variables from the CIF specification in the generated code are updated each execution using the link:https://en.wikipedia.org/wiki/Euler_method[Euler method] for integration.
 That is, each execution the time that has elapsed since the previous execution is multiplied by the derivative of the continuous variable in the state of the previous execution.
 This value is added to the value of the continuous variable.
 Essentially, a linear approximation of the derivative is used, calculated using the state of the previous execution.
 
-The Euler method can be link:http://en.wikipedia.org/wiki/Numerical_stability[numerically unstable], it can suffer from rounding errors due to the use finite binary representations of real values, and has some other issues as well.
+The Euler method can be link:https://en.wikipedia.org/wiki/Numerical_stability[numerically unstable], it can suffer from rounding errors due to the use finite binary representations of real values, and has some other issues as well.
 The effects are likely to be limited if linear continuous variable (continuous variables with constant derivatives) are used.
 Especially clocks (derivative +1 or -1) generally don't suffer too much from these issues.
 However, even clocks may suffer from loss of accuracy over time.

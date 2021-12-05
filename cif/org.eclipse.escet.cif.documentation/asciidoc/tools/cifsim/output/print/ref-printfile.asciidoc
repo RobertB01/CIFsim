@@ -20,7 +20,7 @@ indexterm:[print output,print file declaration]
 indexterm:[I/O declaration,print file declaration]
 indexterm:[see: printfile,print file declaration]
 <<tools-cifsim-output-print-chapter-ref-printdecl,Print declarations>> can <<tools-cifsim-output-print-ref-printdecl-file,specify>> the file or special target to which text is to printed.
-If they don't specify anything, the default is to print to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
+If they don't specify anything, the default is to print to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
 This default can be influenced by means of _print file declarations_, which act as a sort of global declaration of the file or special target.
 A typical print file declaration looks like this:
 
@@ -56,10 +56,10 @@ indexterm:[print file declaration,stderr]
 
 The following special non-file targets are supported:
 
-* `":stdout"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
+* `":stdout"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream].
 In Eclipse, the text ends up on the console, as black text.
 
-* `":stderr"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
+* `":stderr"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard error stream].
 In Eclipse, the text ends up on the console, as red text.
 
 indexterm:[print file declaration,scoping]

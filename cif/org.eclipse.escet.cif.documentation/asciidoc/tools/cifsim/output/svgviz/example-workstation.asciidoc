@@ -106,9 +106,9 @@ indexterm:[SVG,colors]
 === Colors in SVG
 
 In the mappings, as described above, we used names to identify colors.
-SVG however, provides several ways to specify link:http://www.w3.org/TR/SVG11/types.html#DataTypeColor[colors]:
+SVG however, provides several ways to specify link:https://www.w3.org/TR/SVG11/types.html#DataTypeColor[colors]:
 
-* link:http://www.w3.org/TR/SVG11/types.html#ColorKeywords[Named colors], such as `red`, `yellow`, `lightblue` or `burlywood`.
+* link:https://www.w3.org/TR/SVG11/types.html#ColorKeywords[Named colors], such as `red`, `yellow`, `lightblue` or `burlywood`.
 
 * Decimal RGB (red-green-blue) colors, such as `rgb(255,0,0)` for `red`, or `rgb(255,255,0)` for `yellow`.
 

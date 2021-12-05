@@ -203,7 +203,7 @@ For instance, the appearance can not be customized.
 This is intentional.
 
 If further customization is required, use the <<tools-cifsim-output-chapter-trajdata,trajectory data output component>> instead.
-It allows saving the data to a file, for further processing with external tools, such as link:http://www.r-project.org/[R].
+It allows saving the data to a file, for further processing with external tools, such as link:https://www.r-project.org/[R].
 
 Such post processing is then performed after the simulation has <<tools-cifsim-chapter-termination,ended>>.
 A benefit of the plot visualizer, is that it allows live plotting mode, without the need of post processing, and which can be enabled with little effort.
@@ -228,13 +228,13 @@ The width and height need to specified in pixels, separated by a `x` character.
 For instance, for a width of `640` pixels and a height of `480` pixels, enter `640x480` into the dialog.
 Click btn:[OK] to confirm and to actually export the image.
 
-The following link:http://en.wikipedia.org/wiki/Raster_graphics[raster image] formats are supported:
+The following link:https://en.wikipedia.org/wiki/Raster_graphics[raster image] formats are supported:
 
-* link:http://en.wikipedia.org/wiki/Portable_Network_Graphics[Portable Network Graphics] (`+*.png+`)
+* link:https://en.wikipedia.org/wiki/Portable_Network_Graphics[Portable Network Graphics] (`+*.png+`)
 
-* link:http://en.wikipedia.org/wiki/JPEG[JPEG] (`+*.jpg+`)
+* link:https://en.wikipedia.org/wiki/JPEG[JPEG] (`+*.jpg+`)
 
-* link:http://en.wikipedia.org/wiki/Graphics_Interchange_Format[Graphics Interchange Format] (`+*.gif+`)
+* link:https://en.wikipedia.org/wiki/Graphics_Interchange_Format[Graphics Interchange Format] (`+*.gif+`)
 
 The image format that is used to export the image, is derived from the file extension that is used.
 For each of the supported file formats, the allowed file names (with file extensions) are indicated above (between parentheses).

@@ -86,9 +86,9 @@ Finally, a prerecorded movie doesn't change, and is not influenced by the <<tool
 To record a movie of the SVG visualization, screen recording or screen capturing software can be used.
 For instance:
 
-* link:http://camstudio.org/[CamStudio] for Microsoft Windows.
+* link:https://camstudio.org/[CamStudio] for Microsoft Windows.
 
-* link:http://recordmydesktop.sourceforge.net/about.php[recordMyDesktop] for Linux.
+* link:https://recordmydesktop.sourceforge.net/about.php[recordMyDesktop] for Linux.
 
 Both these screen recording applications are free and open source.
 

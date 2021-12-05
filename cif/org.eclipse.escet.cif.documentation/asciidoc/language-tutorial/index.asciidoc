@@ -193,7 +193,7 @@ Explains the use of continuous variables.
 Explains the use of equations to specify values of continuous variables.
 
 <<lang-tut-time-chapter-equations>>::
-Show the use of equations for both continuous and algebraic variables, by means of an example of a link:http://en.wikipedia.org/wiki/Nonlinear_system[non-linear system].
+Show the use of equations for both continuous and algebraic variables, by means of an example of a link:https://en.wikipedia.org/wiki/Nonlinear_system[non-linear system].
 
 <<lang-tut-time-chapter-var-overview>>::
 Provides an overview of the different kinds of variables in CIF, and their main differences.
