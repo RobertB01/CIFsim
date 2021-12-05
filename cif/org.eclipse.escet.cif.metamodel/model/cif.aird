@@ -24,7 +24,7 @@
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#//types"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f9lz8IleEeqQaNL0VWGLjw" name="expressions" repPath="#_WpUHkHcLEeWuLduNN8gYTg" changeId="43ed2029-0ae7-4ac5-96ed-4e70f231b6fe">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_f9lz8IleEeqQaNL0VWGLjw" name="expressions" repPath="#_WpUHkHcLEeWuLduNN8gYTg" changeId="f3440299-dd84-4033-a440-c9972e62b99f">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']"/>
         <target xmi:type="ecore:EPackage" href="cif.ecore#//expressions"/>
       </ownedRepresentationDescriptors>
@@ -9235,7 +9235,7 @@
         </edges>
         <edges xmi:type="notation:Edge" xmi:id="_XUiO6HcLEeWuLduNN8gYTg" type="4001" element="_XUDts3cLEeWuLduNN8gYTg" source="_XUX2y3cLEeWuLduNN8gYTg" target="_XUX2xHcLEeWuLduNN8gYTg">
           <children xmi:type="notation:Node" xmi:id="_XUiO7HcLEeWuLduNN8gYTg" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XUiO7XcLEeWuLduNN8gYTg" x="-48" y="-37"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XUiO7XcLEeWuLduNN8gYTg" x="81" y="-39"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_XUiO7ncLEeWuLduNN8gYTg" type="6002">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_XUiO73cLEeWuLduNN8gYTg" x="-19" y="10"/>
@@ -10243,7 +10243,7 @@
         </edges>
         <edges xmi:type="notation:Edge" xmi:id="_KcO443ysEeW1mMYaZaELpw" type="4001" element="_KcIyQHysEeW1mMYaZaELpw" source="_XUUzc3cLEeWuLduNN8gYTg" target="_KcOR0HysEeW1mMYaZaELpw">
           <children xmi:type="notation:Node" xmi:id="_KcPf8HysEeW1mMYaZaELpw" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KcPf8XysEeW1mMYaZaELpw" x="43" y="-45"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KcPf8XysEeW1mMYaZaELpw" x="47" y="-50"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_KcPf8nysEeW1mMYaZaELpw" type="6002">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KcPf83ysEeW1mMYaZaELpw" x="-9" y="10"/>
@@ -10275,7 +10275,7 @@
         </edges>
         <edges xmi:type="notation:Edge" xmi:id="_PkyuIHysEeW1mMYaZaELpw" type="4001" element="_PkqyUHysEeW1mMYaZaELpw" source="_XUUMeHcLEeWuLduNN8gYTg" target="_PkyHEHysEeW1mMYaZaELpw">
           <children xmi:type="notation:Node" xmi:id="_PkyuJHysEeW1mMYaZaELpw" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PkyuJXysEeW1mMYaZaELpw" x="15" y="-58"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PkyuJXysEeW1mMYaZaELpw" x="13" y="-56"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_PkyuJnysEeW1mMYaZaELpw" type="6002">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PkyuJ3ysEeW1mMYaZaELpw" x="23" y="10"/>
@@ -10355,7 +10355,7 @@
         </edges>
         <edges xmi:type="notation:Edge" xmi:id="_zpmnsEurEeyeVeWHWgtZdA" type="4001" element="_zmb-8EurEeyeVeWHWgtZdA" source="_L1CZQEeAEeyEwpvmm6gcSg" target="_KcOR0HysEeW1mMYaZaELpw">
           <children xmi:type="notation:Node" xmi:id="_zp1RMEurEeyeVeWHWgtZdA" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zp1RMUurEeyeVeWHWgtZdA" x="14" y="-47"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zp1RMUurEeyeVeWHWgtZdA" x="17" y="-48"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_zqA3YEurEeyeVeWHWgtZdA" type="6002">
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zqA3YUurEeyeVeWHWgtZdA" y="10"/>
