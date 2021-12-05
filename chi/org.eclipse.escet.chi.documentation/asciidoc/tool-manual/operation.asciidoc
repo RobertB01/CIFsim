@@ -82,12 +82,10 @@ Most settings are only useful for developers, but at the bottom, check the _Writ
 Setting this option causes the simulator software to check the input file, build a simulator, write the constructed simulator to a `.cchi` file (a compiled Chi file), and quit.
 No simulation of the Chi model is performed at this time.
 
-
 === Simulate a compiled model
 
 You can simulate the Chi model from the `.cchi` file now, by selecting that file as source file by right-clicking on it.
 Select the menu:Simulate Chi file[] or the menu:Quick simulate Chi file[] option as before, and proceed with setting the simulator options and running the model as-if you selected a normal `.chi` file, as explained in <<tool-compile-and-simulate>> above.
-
 
 === Terminating a simulation
 

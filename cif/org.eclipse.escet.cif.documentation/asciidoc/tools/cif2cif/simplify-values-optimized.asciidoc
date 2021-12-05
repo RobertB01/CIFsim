@@ -65,7 +65,6 @@ For instance, `1e3` is not normalized to `1000.0`.
 * For dictionary literals, duplicate keys are not removed, and the dictionary literal is not further simplified.
 Without literal optimization, duplicate keys would lead to an error during simplification.
 
-
 === Renaming
 
 n/a

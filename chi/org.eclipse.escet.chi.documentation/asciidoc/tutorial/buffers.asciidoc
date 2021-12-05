@@ -103,7 +103,6 @@ This procedure can be extended to create even larger buffers.
 Another, more preferable manner however, is to describe a buffer in a single process by using a _select_ statement and a list for storage of the items.
 Such a buffer is discussed in the next section.
 
-
 === A single process buffer
 
 An informal description of the process of a buffer, with an arbitrary number of stored items, is the following:
@@ -244,7 +243,6 @@ end
 The buffer puts the last received item at the head of the list, and gets the first item from the list.
 An alternative is to put the last item at the rear of the list, and to get the last item from the list.
 
-
 === A token buffer
 
 In the next example, signals are buffered instead of items.
@@ -275,7 +273,6 @@ end
 
 Note that variables of type `void` do not exist.
 Type `void` only can be used in combination with channels.
-
 
 === A priority buffer
 

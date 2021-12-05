@@ -32,7 +32,6 @@ Regardless, the code is also always written to a `cifcode` sub-directory.
 If this sub-directory does not yet exist, it is created.
 If it already exists, all existing `.java` files are removed from the sub-directory first, before the newly generated code is written.
 
-
 === Written files
 
 The generated code consists of Java files only.
@@ -43,7 +42,6 @@ This launch configuration can be used to reproduce the simulation implemented by
 The launch configuration reproduces the simulation options that were used, and always shows the option dialog.
 The working directory for the simulation performed via the generated launch configuration is the same working directory as the original simulation.
 This allows additional files, such as configuration files, to be found.
-
 
 === How to use
 

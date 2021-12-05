@@ -48,7 +48,6 @@ For details, see the <<tools-cif2cif-chapter-simplify-values-no-refs>> CIF to CI
 Furthermore, it simplifies with optimizations for literal expressions.
 For details, see the <<tools-cif2cif-chapter-simplify-values-optimized>> CIF to CIF transformation.
 
-
 === Renaming
 
 n/a

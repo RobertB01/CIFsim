@@ -61,7 +61,6 @@ is transformed to the following specification:
 invariant 1 + 2 + 2 > 0;
 ----
 
-
 === Renaming
 
 n/a

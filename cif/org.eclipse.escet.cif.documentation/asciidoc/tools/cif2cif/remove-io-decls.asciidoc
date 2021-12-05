@@ -26,7 +26,6 @@ It may also lead to the specification being supported by more tools, as the I/O 
 
 This transformation supports all CIF specifications.
 
-
 === Preprocessing
 
 n/a
@@ -51,7 +50,6 @@ To only remove certain kinds of I/O declarations, see the following CIF to CIF t
 
 * <<tools-cif2cif-chapter-remove-cif-svg-decls>>
 
-
 === Renaming
 
 n/a
@@ -61,7 +59,6 @@ indexterm:[remove I/O declarations,size considerations]
 === Size considerations
 
 Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
-
 
 === Optimality
 

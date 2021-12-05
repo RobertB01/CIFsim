@@ -20,7 +20,6 @@ indexterm:[syntax,lexical]
 
 This page describes the CIF lexical syntax.
 
-
 indexterm:[keywords]
 indexterm:[syntax,keywords]
 

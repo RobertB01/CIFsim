@@ -53,14 +53,12 @@ end
 When requirement automaton `req` is removed, the `switch` expression can no longer refer to that automaton, or to its locations.
 Removing the requirements from this CIF specification is not supported.
 
-
 === Preprocessing
 
 No preprocessing is currently performed by this CIF to CIF transformation.
 To increase the subset of specifications that can be transformed, apply the following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> (in the given order):
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
-
 
 === Implementation details
 
@@ -110,16 +108,13 @@ plant automaton buffer:
 end
 ----
 
-
 === Renaming
 
 n/a
 
-
 === Size considerations
 
 Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
-
 
 === Optimality
 

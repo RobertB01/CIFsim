@@ -20,7 +20,6 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-
 = CIF documentation (Incubation)
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
@@ -56,7 +55,6 @@ The documentation consists of:
 A screenshot showing a CIF model and simulation:
 
 image::{imgsdir}/screenshot_ide.png[]
-
 
 // Language tutorial
 
@@ -252,7 +250,6 @@ include::language-tutorial/extensions/synthesis.asciidoc[]
 
 :leveloffset: -2
 
-
 // Language reference manual
 
 include::language-reference/index.asciidoc[]
@@ -264,7 +261,6 @@ include::language-reference/syntax/lexical.asciidoc[]
 include::language-reference/syntax/grammar.asciidoc[]
 
 :leveloffset: -1
-
 
 // Tool manual
 
@@ -699,7 +695,6 @@ include::developers/lang-modify.asciidoc[]
 // Legal
 
 include::documentation-legal.asciidoc[]
-
 
 ifdef::pdf-output[]
 [index]

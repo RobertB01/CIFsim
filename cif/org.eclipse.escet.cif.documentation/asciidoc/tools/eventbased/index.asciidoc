@@ -105,7 +105,6 @@ Such a state refers to a location that represents the combined locations of the 
 
 Tools that combine or merge locations, like projection, report such combined locations as a partition, for example `partition "machine.down", "machine.off"` represents a location that is a combination of the `down` and the `off` locations in the `machine` automaton.
 
-
 indexterm:[event-based synthesis toolset,tools]
 
 === Available tools

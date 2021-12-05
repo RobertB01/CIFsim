@@ -23,7 +23,6 @@ The release notes may refer to issues, the details for which can be found at the
 
 See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[toolkit release notes] covering those aspects that are common to the various Eclipse ESCET tools.
 
-
 === Version 0.4
 
 TBD
@@ -48,7 +47,6 @@ Improvements and fixes:
 This is a backward incompatible change.
 The documentation of the option has also been improved (issue #225).
 * The CIF to yEd documentation has been updated for changes to recent yEd versions (issue #209).
-
 
 === Version 0.3
 
@@ -80,7 +78,6 @@ Improvements and fixes:
 * The website and Eclipse help now use multi-page HTML rather than a single HTML file, although the website still contains a link to the single-page HTML that allows easily searching the full documentation (issue #36).
 * Enabled section anchors for documentation on the website, and disabled section anchors for Eclipse help (issue #36).
 * Several small documentation fixes and improvements (issues #36 and #166).
-
 
 === Version 0.2
 
@@ -142,7 +139,6 @@ Therefore, simulating a synthesized supervisor no longer gives warnings for simu
 * CIF to UPPAAL transformation now supports algebraic variables and enumerations (issue #129).
 * CIF tutorial updated to remove explanation of list subtraction operator that doesn't exist in the language and implementation (issue #77).
 * CIF documentation updated to fix two broken links (issue #80).
-
 
 === Version 0.1
 

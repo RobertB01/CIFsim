@@ -88,7 +88,6 @@ These `if` updates are replicated by two `if` expressions.
 Since for `if` expressions the `else` part is not optional, dummy `x := x` assignments are sometimes performed in cases where the original specification would not have assigned variable `x` at all.
 That is, variables may be assigned their old values, resulting in superfluous assignments.
 
-
 === Renaming
 
 n/a

@@ -47,7 +47,6 @@ Since the background is also white, this 'hides' the rectangle, and makes for a 
 Because a white rectangle can not be distinguished from the background, we used a cyan fill color for the rectangle.
 This makes that we can easily edit the rectangle, and see whether it has the correct initial position, size, etc.
 
-
 === CIF specification
 
 The following CIF specification models the rate example:

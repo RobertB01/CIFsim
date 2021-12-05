@@ -64,7 +64,6 @@ The user is then again asked to choose.
 
 If a choice is made that is invalid or is not available for the current state, an error message is printed to the console, and the user is asked to make an other choice.
 
-
 === Choosing a time transition duration
 
 If the user chooses a time transition (choice `3` in the above example), the simulator subsequently asks for the duration of the time delay:
@@ -84,7 +83,6 @@ Pressing kbd:[Enter] without having entered anything, defaults to the maximum de
 Entering `q` or `Q`, and confirming that by pressing kbd:[Enter], will <<tools-cifsim-chapter-termination,terminate>> the simulation.
 
 If a choice is made that is invalid, an error message is printed to the console, and the user is asked to make an other choice.
-
 
 === Choosing between termination or going back
 

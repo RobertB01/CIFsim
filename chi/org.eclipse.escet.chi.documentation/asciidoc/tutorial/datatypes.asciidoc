@@ -319,7 +319,6 @@ indexterm:[type,tuple]
 indexterm:[tuple,type]
 indexterm:[tuple]
 
-
 === Tuple types
 
 indexterm:[tuple,field]
@@ -340,7 +339,6 @@ A type `person` is a tuple with two fields, a 'name' field of type `string`, and
 ----
 type person = tuple(string name; int age)
 ----
-
 
 ==== Operator
 
@@ -375,7 +373,6 @@ name, age = eva
 ----
 
 This assignment copies the name of `eva` into variable `name` of type `string` and her age into `age` of type `int`.
-
 
 === Container types
 
@@ -648,7 +645,6 @@ Some examples, with `xs = [7, 8, 3]`:
 8 in xs -> true
 ----
 
-
 ==== Initialization
 
 A list variable is initialized with a list with zero elements, for example in:
@@ -874,7 +870,6 @@ recipe plate, bread;
 plate = (34, [("s", 10.8), ("w", 13.7), ("s", 25.6)]);
 bread = (90, [("flour", 16.3), ("yeast", 6.9)]);
 ----
-
 
 === Exercises
 

@@ -138,7 +138,6 @@ The options provide a lightweight, quick, and easy to use approach to adding som
 If more control is needed, the environment can instead be modeled explicitly in the CIF model, thus defining when the environment events may or will occur.
 One way to accomplish this, is by adding a use case.
 
-
 === Undo/reset
 
 The automatic input mode does not support <<tools-cifsim-input-history-reset-undo,undo>> and <<tools-cifsim-input-history-reset-undo,reset>>.

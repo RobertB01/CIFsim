@@ -107,7 +107,6 @@ In other words, both transitions represent valid behavior, as described by this 
 Since only one transition can be taken at a time, there are two possibilities.
 Either the `producer` starts to `produce` the product first, and the `consumer` starts to `consume` after that, or the other way around.
 
-
 === Traces and state spaces
 
 Once both transitions have been taken, we are essentially in the same situation as we were after the `producer` produced a product the first time, as both automata will be in their `idle` locations again.

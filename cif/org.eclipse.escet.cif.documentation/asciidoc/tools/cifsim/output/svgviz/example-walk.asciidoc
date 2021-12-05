@@ -69,7 +69,6 @@ The text label is to be used to show the position of the person, as a percentage
 The left position is represented as 0%, and the right position is represented as 100%.
 The id of the text label is `pos_txt`.
 
-
 === CIF specification (walking on floor)
 
 The following CIF specification models a person walking on a floor:
@@ -99,7 +98,6 @@ This time the output range is [0 .. 100], to get a percentage.
 Format pattern `"%.1f%%"` uses a `%.1f` format specifier to convert that percentage to a textual value, with a single digit after the decimal point.
 After the value of the percentage, a percentage character is included in escaped form (`%%`), to ensure it is not interpreted as a format specifier.
 
-
 === SVG image (walking in room)
 
 The following SVG image is used for the example of a person walking around in a room:
@@ -109,7 +107,6 @@ image::{tools-imgsdir}/cifsim/output/svgviz/walk_room/walk_room_inkscape.png[]
 The image features a room (black rectangle) and a person.
 The person is the same group of elements as in the example of a person walking on a floor.
 The same group/ungroup trick is used here as well, to make sure the group has no translation transformation.
-
 
 === CIF specification (walking in room)
 

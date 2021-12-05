@@ -28,7 +28,6 @@ The following information may help you get started:
 * <<development-contributing-collab-committers>>
 * <<development-contributing-become-committer>>
 
-
 [[development-contributing-contribute]]
 === How to contribute to Eclipse ESCET
 
@@ -127,7 +126,6 @@ If you need any help regarding the content of your contribution, the steps above
 
 See for more information our <<development-development-process-chapter-index,development process>>.
 
-
 [[development-contributing-keep-sync-official-repo]]
 === Keeping in sync with the official Eclipse ESCET GitLab repository
 
@@ -167,7 +165,6 @@ Then, use these steps to resync your local `develop` branch and the `develop` br
 You are then back in sync and ready to start work on your next contribution.
 Using this process it is also possible to work on multiple contributions at once, via separate feature branches.
 
-
 [[development-contributing-collab-committers]]
 === Collaborating with project committers on a contribution
 
@@ -185,7 +182,6 @@ This can be repeated until the work is done and everything is in the branch used
 They can then merge their branch into the `develop` branch of the official Git repository, via a merge request.
 This process also works if multiple contributors are involved.
 Some alignment between all parties involved is typically desired to e.g. prevent merge conflicts.
-
 
 [[development-contributing-become-committer]]
 === How to become a committer

@@ -157,7 +157,6 @@ Therefore, this transformation may decrease the size of the specification.
 
 The added default initial values may significantly increase the size of the specification.
 
-
 === Optimality
 
 n/a

@@ -87,7 +87,6 @@ A self loop is added, to ensure the event is always enabled.
 
 Event `f` is not a monitor event, and is thus not affected by this transformation.
 
-
 === Renaming
 
 n/a

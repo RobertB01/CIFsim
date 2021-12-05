@@ -166,7 +166,6 @@ Location pointer updates are incorporated as well.
 For event `tau`, the single original edge is simply included as a self loop.
 Within `M`, `p` refers to the location point variable and thus all references to objects in automaton `p` (now group `p`) use scope absolute references, e.g. `.p.l1`.
 
-
 indexterm:[linearize,non-determinism]
 
 [[tools-cif2cif-linearize-merge-nondet]]

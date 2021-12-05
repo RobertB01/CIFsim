@@ -112,7 +112,6 @@ The SVG file declaration (`file5.svg`) from group `g.h` does not apply to any ma
 
 Group `g.i` does not have an SVG file declaration, so the mapping for SVG element id `k`, which is declared in that group, gets the SVG file declaration from group `g` (the parent scope of group `g.i`) instead.
 
-
 === Renaming
 
 n/a
@@ -123,7 +122,6 @@ indexterm:[push SVG file declarations into other CIF/SVG declarations,size consi
 
 As SVG file declarations may apply to multiple other CIF/SVG declarations, this transformation may increase the number of SVG file declarations in the specification.
 The number of SVG file declarations after the transformation is at most the number of 'other' CIF/SVG declarations, and as such the increase is at most linear in the number of 'other' CIF/SVG declarations as well.
-
 
 === Optimality
 

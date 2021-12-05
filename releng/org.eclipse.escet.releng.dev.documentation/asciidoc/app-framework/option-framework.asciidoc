@@ -21,7 +21,6 @@ Applications often have settings, and they are generally passed as command line 
 GUI applications however, often use a dialog to configure the options instead.
 To allow applications within the application framework to work in both scenarios, the application framework provides the option framework.
 
-
 indexterm:[option, class]
 
 [[app-framework-option-class]]
@@ -30,7 +29,6 @@ indexterm:[option, class]
 All options of applications that use the application framework, should be specified as application framework options.
 Each option is a derived class of the `org.eclipse.escet.common.app.framework.options.Option<T>` class.
 The generic type parameter `<T>` indicates that options are strongly typed with respect to their values.
-
 
 indexterm:[option, command line]
 indexterm:[option, dialog]
@@ -67,7 +65,6 @@ This overwrites the values of all options.
 
 * The post-options hook for the application is fired.
 
-
 indexterm:[option, category]
 
 [[app-framework-option-categories]]
@@ -77,7 +74,6 @@ Options can be ordered into categories.
 Categories can be combined into a hierarchical structure.
 This allows the option dialog to show options per category, and allows the command line help message to show command line option help per category.
 In both cases, this adds structure to the possibly large amount of options, and makes it easier for end users to find the option they are looking for.
-
 
 indexterm:[option, instance]
 
@@ -94,7 +90,6 @@ Options.getInstance(MyOption.class)
 ----
 
 to get an instance of an option.
-
 
 indexterm:[option, get]
 indexterm:[option, set]
@@ -122,7 +117,6 @@ indexterm:[option, order]
 If possible, options should not depend on the order in which they are parsed.
 If the value of one option depends on the value of another option, use the post-processing hook to achieve consistency.
 
-
 indexterm:[option, syntax]
 
 [[app-framework-cli-option-syntax]]
@@ -133,7 +127,6 @@ They can also have short form (`-o`), optionally with a value (`-oVALUE` or `-o 
 All arguments that do not start with a dash symbol (`-`) are considered to be the 'remaining arguments'.
 It is possible to register one option that processes those remaining arguments.
 Such special options have `+*+` as long option name.
-
 
 indexterm:[option, implement]
 
@@ -151,7 +144,6 @@ Furthermore, the option framework provides several options that can be used in a
 * `InputFileOption`: single remaining argument input file path option.
 
 * `OutputFileOption`: output file path option (`--output` / `-o`).
-
 
 indexterm:[option, standard]
 indexterm:[option, development mode]

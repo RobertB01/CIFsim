@@ -34,7 +34,6 @@ All other lines contain commands.
 There are two types of commands: option commands and non-option commands.
 The option commands must always be before the non-option commands.
 
-
 === Option commands
 
 All option commands use the `option NAME VALUE` syntax, where `NAME` is the name of the option, and `VALUE` is the value of the option.
@@ -95,7 +94,6 @@ Specifying the time command multiple times without an intermediate event command
 That is, it doesn't matter how many times you allow time passage, once is enough.
 
 The trace input mode does not support <<tools-cifsim-input-history-reset-undo,undo>> and <<tools-cifsim-input-history-reset-undo,reset>>.
-
 
 === Simulation
 

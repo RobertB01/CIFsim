@@ -33,7 +33,6 @@ When moving over one of the interactive SVG elements of the SVG visualization, u
 This makes it easier to identify the interactive SVG elements in the <<tools-cifsim-output-svgviz-chapter-viewer,SVG visualizer>>.
 When an interactive SVG element is clicked, the color is changed from red to green, for as long as the mouse button is not released.
 
-
 ==== Clicking
 
 The mouse click (and _not_ the release) makes that the input component will interrupt any time transition that is currently being taken by the simulator.

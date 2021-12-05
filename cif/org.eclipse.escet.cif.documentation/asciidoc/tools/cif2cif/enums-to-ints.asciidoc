@@ -98,7 +98,6 @@ Integer types and integer values are not larger than enumerations and their lite
 Therefore, this transformation does not increase the size of the specification.
 In fact, it may even be smaller.
 
-
 === Optimality
 
 n/a

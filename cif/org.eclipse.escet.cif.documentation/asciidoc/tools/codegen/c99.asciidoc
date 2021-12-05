@@ -31,7 +31,6 @@ The CIF code generator supports a subset of CIF specifications.
 Generation of C99 code does not impose additional restrictions.
 See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
 
-
 === Differences in output
 
 When converting a real number to text, for example when printing a real value, the generated C99 code does not preserve trailing zeroes of real number fractions while using `%g`.
@@ -42,13 +41,11 @@ This may cause real number values to be printed with less digits precision than 
 Strings have an upper limit in length that is set during compilation.
 Longer strings are silently truncated to this length.
 
-
 === Options
 
 The C99 code generator only uses the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>, it has no options of its own.
 
 The code prefix that can be configured using a common option is used to prefix external names, making them unique for the generated code.
-
 
 === Generated files
 
@@ -91,7 +88,6 @@ The interface of these files is however fixed (modulo the `<prefix>` replacement
 When modifying a generated file (such as the compile script or the example test code), keep in mind that running the code generator again will overwrite _all_ files.
 Rename a file before modifying it to avoid loss of work.
 
-
 === Compilation of the generated code
 
 The generated code is C99 code that can be compiled using a C99 C compiler, like `gcc`:
@@ -107,7 +103,6 @@ The single `\` is not part of the command, it means the next line should be appe
 The `<prefix>` should be replaced by the value of the _Code prefix_ option during code generation.
 The `PRINT_OUTPUT` and `CHECK_RANGES` macros enable support for the CIF `print` statement and checking of integer range overlap, as defined by CIF.
 In general however, you may want to replace the test code file by your own code.
-
 
 === C99 compile-time options
 
@@ -152,7 +147,6 @@ Most of these checks are in `assert()` checks and not controlled by this macro, 
 It is recommended to avoid using this macro.
 |===
 
-
 === Executing the code
 
 The engine files act as a library that implements the CIF program.
@@ -180,7 +174,6 @@ By calling this entry point, you indicate that `delta` (> 0) time units have pas
 The code reads new values of the input variables, <<tools-codegen-accuracy-over-time,updates the continuous variables>>, and performs edges until all edges are blocked, or hitting the `MAX_NUM_EVENTS` limit.
 
 When the call of either entry point returns, you can query the value of the variables to use as input for other parts of the system.
-
 
 === Environment interface
 
@@ -236,7 +229,6 @@ Internal functions are available as well if required.
 
 The engine header file lists the translated names.
 It should be easy to find the relevant entry, as the generated code also documents the original name.
-
 
 === Data types
 
@@ -329,7 +321,6 @@ As such, always at most one `enum` is generated for a CIF model.)
 |===
 
 For example, type `list[5] int` is converted to `A5I`, and type `tuple(list[5] int x; tuple(real a, b) z)` is converted to `T2A5IT2RR` (concatenation of `T2` with the field type names `A5I` and `T2RR`).
-
 
 === Runtime errors
 

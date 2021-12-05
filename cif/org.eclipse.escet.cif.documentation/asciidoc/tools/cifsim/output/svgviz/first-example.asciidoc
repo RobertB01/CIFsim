@@ -42,7 +42,6 @@ include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.cif[]
 
 This file describes not only the behavior of the lamp using a CIF automaton, but also contains a <<tools-cifsim-output-svgviz-chapter-cifsvg,CIF/SVG declaration>>, which specifies the connection between the behavioral CIF specification and the SVG image.
 
-
 === Creating the SVG image
 
 Next, we'll create an <<tools-cifsim-output-svgviz-chapter-svg,SVG>> image.
@@ -60,7 +59,6 @@ Right click the circle and choose menu:Object Properties[].
 The _Object Properties_ window will appear.
 Change the _Id_ of the circle to `lamp` and click the btn:[Set] button.
 Save the image as `lamp.svg`, in the same directory as the `lamp.cif` file.
-
 
 === Simulation and the options dialog
 
@@ -91,7 +89,6 @@ Furthermore, <<tools-cifsim-output-chapter-realtime,real-time simulation>> is en
 Using these options, SVG visualization essentially turns into an SVG movie of the simulation of a flashing lamp.
 Simulation will automatically stop after ten seconds, the default simulation end time.
 Once simulation terminates, you may close the visualization window.
-
 
 === Simulation using ToolDef
 

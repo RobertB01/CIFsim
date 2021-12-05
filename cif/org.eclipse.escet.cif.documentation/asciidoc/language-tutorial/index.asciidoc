@@ -57,7 +57,6 @@ Several lessons are available, grouped into the following categories:
 
 The lessons introduce new concepts, one by one, and are meant to be read in the given order.
 
-
 [[lang-tut-basics]]
 *Basics*
 
@@ -78,7 +77,6 @@ Explains the placement of event declarations.
 
 <<lang-tut-basics-chapter-shorter-notations>>::
 Explains several shorter notations, including self loops, declaring multiple events with a single declaration, multiple events on an edge, and nameless locations.
-
 
 [[lang-tut-data]]
 *Data*
@@ -121,7 +119,6 @@ Explains state (exclusion) invariants.
 
 <<lang-tut-data-chapter-stat-evt-excl-invariants>>::
 Explains state/event exclusion invariants.
-
 
 [[lang-tut-values]]
 *Types and values*
@@ -168,7 +165,6 @@ Explains dictionary types, values, and commonly used expressions.
 <<lang-tut-values-chapter-combining-values>>::
 Explains how to combine values of different types.
 
-
 [[lang-tut-reuse1]]
 *Scalable solutions and reuse (1/2)*
 
@@ -183,7 +179,6 @@ Explains the use of equations to specify values of algebraic variables.
 
 <<lang-tut-reuse1-chapter-type-declarations>>::
 Explains the use of type declarations.
-
 
 [[lang-tut-time]]
 *Time*
@@ -209,7 +204,6 @@ Explains the concept of urgency, as well as the different forms of urgency.
 <<lang-tut-time-chapter-deadlock-livelock>>::
 Explains the concepts of deadlock and livelock.
 
-
 [[lang-tut-channels]]
 *Channel communication*
 
@@ -221,7 +215,6 @@ Explains `void` channels that do not communicate any data.
 
 <<lang-tut-channels-chapter-chan-sync-combi>>::
 Explains how channel communication can be combined with event synchronization, further restricting the communication.
-
 
 [[lang-tut-functions]]
 *Functions*
@@ -237,7 +230,6 @@ Explains the different statements that can be used in internal user-defined func
 
 <<lang-tut-functions-chapter-functions-as-values>>::
 Explains using functions as values, allowing functions to be passed around.
-
 
 [[lang-tut-reuse2]]
 *Scalable solutions and reuse (2/2)*
@@ -272,7 +264,6 @@ Explains namespaces, and how they can be used together with imports.
 <<lang-tut-reuse2-chapter-input-variables>>::
 Explains input variables, how they can be used for coupling with other models and systems, and their relation to imports.
 
-
 [[lang-tut-stochastics]]
 *Stochastics*
 
@@ -284,7 +275,6 @@ Explains the different categories of stochastic distributions: discrete, continu
 
 <<lang-tut-stochastics-chapter-pseudo-randomness>>::
 Explains how computers implement stochastics using pseudo-random number generators, and how this affects the use of stochastics in CIF.
-
 
 [[lang-tut-extensions]]
 *Language extensions*

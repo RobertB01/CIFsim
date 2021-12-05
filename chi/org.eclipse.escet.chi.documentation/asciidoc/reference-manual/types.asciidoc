@@ -73,8 +73,6 @@ end
 
 The `FlagColours x` variable declaration defines that variable `x` has the type of the enumeration, and can hold its values.
 
-
-
 indexterm:[elementary,type]
 indexterm:[type,elementary]
 
@@ -90,8 +88,6 @@ As you can see, they are mostly just a single keyword.
 The `ConstantExpression` nodes in the `matrix` type line are integer expressions with a fixed (and known) value before execution of the program.
 More information about the elementary types is provided below.
 
-
-
 indexterm:[boolean,type]
 indexterm:[type,boolean]
 
@@ -103,8 +99,6 @@ The allowed values are `false` and `true`.
 While it is allowed to store boolean values in other data types, their most frequent use is in expressions of statements that decide what to do, for example, the condition in the `while`, `if` or select statement (see <<ref-while-loop-statement>>, <<ref-choice-statement>> and <<ref-select-statement>>).
 Expressions with booleans are explained in <<ref-boolean-expression>>.
 
-
-
 indexterm:[integer,type]
 indexterm:[type,integer]
 
@@ -114,8 +108,6 @@ indexterm:[type,integer]
 The `int` keyword denotes the integer data type, integer numbers from `2147483647` to `-2147483648` (a standard signed 32 bit number).
 Values outside that range give undefined behavior.
 Expressions with integers are explained in <<ref-integer-expression>>.
-
-
 
 indexterm:[real,type]
 indexterm:[type,real]
@@ -128,8 +120,6 @@ As normal with floating point numbers in computer systems, many  values are miss
 Expect rounding errors with each calculation.
 Expressions with real numbers are explained in <<ref-real-expression>>.
 
-
-
 indexterm:[string,type]
 indexterm:[type,string]
 
@@ -139,8 +129,6 @@ indexterm:[type,string]
 The `string` keyword denotes strings, sequences of characters.
 It contains all printable ASCII characters U+0020 to U+007E, and 'tab' (U+0009) and 'new line' (U+000A).
 Expressions with strings are explained in <<ref-string-expression>>.
-
-
 
 indexterm:[file,type]
 indexterm:[type,file]
@@ -153,8 +141,6 @@ It allows reading and writing values of many data types (not all data types can 
 Expressions with files are explained in <<ref-file-expression>>.
 How to work with files is explained in <<tut-chapter-input-and-output>>.
 
-
-
 indexterm:[instance,type]
 indexterm:[type,instance]
 
@@ -164,8 +150,6 @@ indexterm:[type,instance]
 The `inst` keyword denotes an instance type, it can store a running process.
 Its use is to check whether the stored process has ended.
 The <<ref-finish-statement>> gives more details and provides an example.
-
-
 
 indexterm:[timer,type]
 indexterm:[type,timer]
@@ -177,8 +161,6 @@ The `timer` keyword denotes a count-down timer.
 Variables of this type measure time that has passed since their initialization.
 Expressions with timers are given in <<ref-timer-expression>>, a tutorial about using timers can be found in <<tut-using-timers>>.
 
-
-
 indexterm:[matrix,type]
 indexterm:[type,matrix]
 
@@ -188,8 +170,6 @@ indexterm:[type,matrix]
 The `matrix` type takes two constant expressions that define the number of rows and the number of columns of the matrix.
 The main purpose of the data type is to allow temporary storage of matrices so they can be passed on to other software.
 The Chi language also has expressions to write literal matrices, see <<ref-matrix-expression>> for details.
-
-
 
 indexterm:[void,type]
 indexterm:[type,void]
@@ -206,8 +186,6 @@ Further explanation can be found at <<ref-communication-statements>> and <<ref-c
 
 * As exit type of <<ref-model-definitions>> and <<ref-process-definitions>>, to express that it may return an exit value from an <<ref-exit-statement>> without arguments.
 
-
-
 indexterm:[container,type]
 indexterm:[type,container]
 
@@ -220,8 +198,6 @@ The syntax diagram of the container types is as follows.
 image::{ref-imgsdir}/rail_diagrams/container_type.png[]
 
 The language has three container types, _lists_ (explained in <<ref-list-type>>), _sets_ (explained in <<ref-set-type>>), and _dictionaries_ (explained in <<ref-dictionary-type>>).
-
-
 
 indexterm:[list,type]
 indexterm:[type,list]
@@ -251,8 +227,6 @@ list (2) int # A list of integer values, initial value is [0, 0]
 
 For a discussion of operations on values of this type, see <<ref-list-expression>>.
 
-
-
 indexterm:[set,type]
 indexterm:[type,set]
 
@@ -276,8 +250,6 @@ set real  # A set of real numbers, initial value <real>{}.
 ----
 
 For a discussion of operations on values of this type, see <<ref-set-expression>>.
-
-
 
 indexterm:[dictionary,type]
 indexterm:[type,dictionary]
@@ -304,8 +276,6 @@ dict (bool : int)  # A dictionary with boolean keys, and integer values.
 ----
 
 For a discussion of operations on values of this type, see <<ref-dictionary-expression>>.
-
-
 
 indexterm:[tuple,type]
 indexterm:[type,tuple]
@@ -337,8 +307,6 @@ The first two examples are equivalent, the first form is just a bit shorter in n
 The third example is more common fields of different types that are kept together in the modeled system.
 Expressions with tuples are discussed in <<ref-tuple-expression>>.
 
-
-
 indexterm:[channel,type]
 indexterm:[type,channel]
 
@@ -363,8 +331,6 @@ The type of data that is transported with a communication is given by the `Type`
 Signalling channels (that only synchronize without transporting data) are indicated by the `void` keyword.
 The only expressions available for channels are the equality tests, and a function to create new channels, see <<ref-channel-expression>> for details.
 
-
-
 indexterm:[distribution,type]
 indexterm:[type,distribution]
 
@@ -380,8 +346,6 @@ A stochastic distribution allows modeling of random behavior, but with a known c
 The `Type` block in the `DistributionType` diagram defines the type of values drawn.
 For a discussion of expressions for the distribution type, see <<ref-distribution-expression>>.
 
-
-
 indexterm:[function,type]
 indexterm:[type,function]
 
@@ -395,8 +359,6 @@ image::{ref-imgsdir}/rail_diagrams/function_type.png[]
 
 A function type starts with the keyword `func` followed by the return type of the function and the type of the formal parameters.
 The purpose of the function type is to pass functions to processes or other functions, for example, the predicate function in `sort` and `insert`, see <<ref-list-stdlib>>.
-
-
 
 indexterm:[process,type]
 indexterm:[type,process]

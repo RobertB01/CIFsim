@@ -121,7 +121,6 @@ Specifying a replacement diagram kind twice leads to a warning being printed to 
 Adding a diagram kind that is already present or removing a diagram kind that is not present, also leads to a warning being printed.
 A warning is also printed to the console if all diagram kinds are disabled, and thus no output is generated.
 
-
 [[tools-cif2yed-diagram-model]]
 ==== Model diagram
 

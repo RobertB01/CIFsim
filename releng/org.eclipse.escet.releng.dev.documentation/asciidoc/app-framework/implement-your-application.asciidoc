@@ -118,7 +118,6 @@ protected OptionCategory getAllOptions() {
 
 * Override optional method `getAppVersion` if applicable.
 
-
 [[app-framework-runinternal-method]]
 === The runInternal method
 

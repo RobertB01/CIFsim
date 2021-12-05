@@ -33,7 +33,6 @@ All end-user exceptions must implement the `org.eclipse.escet.common.app.framewo
 All applications that use the application framework must satisfy these requirements when the error message is to be presented to end users.
 It is recommended to reuse existing application framework exceptions whenever possible.
 
-
 indexterm:[exception, internal]
 
 [[app-framework-internal-exceptions]]
@@ -44,7 +43,6 @@ Internal exceptions crash the application and are always considered to be bugs.
 The application framework generates crash reports for internal errors, so that end users can easily report them.
 Also, stack traces are not shown on the console.
 They are however present in the crash report, along with among others information about the system, the Java version used, the application that crashed (name, version, etc), and if the OSGi framework is running, the available plug-ins etc.
-
 
 indexterm:[exception, chained]
 indexterm:[exception, cause]

@@ -25,7 +25,6 @@ This CIF to CIF transformation eliminates all component definitions and instanti
 
 This transformation supports all CIF specifications.
 
-
 === Preprocessing
 
 n/a
@@ -105,7 +104,6 @@ end
 Note how the invariant in component `a.x` can not refer to constant `x` directly, as `x` refers to component `a.x` in that context.
 Therefore, the scope absolute reference `.x` is used instead.
 
-
 === Renaming
 
 n/a
@@ -115,7 +113,6 @@ indexterm:[eliminate component definition/instantiation,size considerations]
 === Size considerations
 
 Since component definitions are shortcuts for components, eliminating them could result in an increase of the size of the specification.
-
 
 === Optimality
 

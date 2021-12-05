@@ -59,7 +59,6 @@ This gives a sequence of choices:
 
 image::{rail-imgsdir}/choice2.png[Sequence of choice]
 
-
 === Optional
 
 An optional part of the syntax can be described in multiple ways:
@@ -74,7 +73,6 @@ This results in:
 image::{rail-imgsdir}/optional.png[Optional]
 
 It should be clear that using the dedicated optional syntax (`?`) is often more convenient than using the choice syntax.
-
 
 === Repetition
 
@@ -118,7 +116,6 @@ It describes EBNF `AB(CDAB)*`, and the tool translates it correctly, but the bot
 It is advised to avoid this case by changing the diagram.
 Limit the second part of the `+` operator to one node, possibly by introducing an additional non-terminal.
 
-
 === Splitting long sequences
 
 For rules that have a long sequence, the width of the diagram grows quickly beyond the width of the page.
@@ -139,7 +136,6 @@ image::{rail-imgsdir}/abcdefgh.png[ABCDEFGH]
 The double backslash breaks the '`line`' and it continues below on the next line.
 You cannot break the empty sequence, and each row must have at least one node.
 
-
 === Referencing a path in the diagram
 
 When explaining a diagram, it can be useful to refer to a path in the diagram.
@@ -153,7 +149,6 @@ include::{incdir-rail}/refpath.rr[]
 Now you can say that the `[nest]` path recursively applies the rule, while the `[exit]` path ends the recursion.
 
 image::{rail-imgsdir}/refpath.png[Recursion]
-
 
 === Terminals and meta-terminals
 

@@ -19,7 +19,6 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-
 = ToolDef documentation (Incubation)
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
@@ -102,7 +101,6 @@ include::release-notes.asciidoc[]
 // Legal
 
 include::documentation-legal.asciidoc[]
-
 
 ifdef::pdf-output[]
 [index]

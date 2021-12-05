@@ -30,7 +30,6 @@ The <<tools-cif2cif-chapter-remove-io-decls>> CIF to CIF transformation removes 
 
 This transformation supports all CIF specifications.
 
-
 === Preprocessing
 
 n/a
@@ -41,7 +40,6 @@ indexterm:[remove print declarations,implementation]
 
 All print and print file declarations are removed from the specification.
 
-
 === Renaming
 
 n/a
@@ -51,7 +49,6 @@ indexterm:[remove print declarations,size considerations]
 === Size considerations
 
 Since information is removed from the specification, the specification can only become smaller as a result of this transformation.
-
 
 === Optimality
 

@@ -23,7 +23,6 @@ Only a single application can be registered for each thread.
 Only once the application terminates and automatically unregisters itself, can a new application register itself in that thread.
 To run multiple applications in parallel, simply run them on different threads.
 
-
 indexterm:[application, multi-threading]
 indexterm:[application, thread]
 
@@ -35,7 +34,6 @@ If your application uses multiple threads, you need to register each thread with
 Use the `AppEnv.registerThread` method for this.
 This method requires the current application environment data as parameter, which may be obtained by using the `AppEnv.getData` method.
 To avoid managed memory leaks, always unregister threads once they are no longer used, by using the `AppEnv.unregisterThread` method.
-
 
 indexterm:[application, testing]
 

@@ -39,7 +39,6 @@ The signatures of the operators are given using tool headers, to show the name o
 Operators however, can not be used by means of tool invocations.
 Operators with one argument are put directly before the argument (e.g. `not true`, `-5`), while operators with two arguments are put between the arguments (e.g. `true and false`, `+1 + 3+`).
 
-
 indexterm:[not]
 
 [[lang-ref-builtins-operators-not]]
@@ -60,7 +59,6 @@ The boolean value.
 _Returns_
 
 The logical inverse result.
-
 
 indexterm:[and]
 
@@ -94,7 +92,6 @@ _Returns_
 
 The conjunction or intersection result.
 
-
 indexterm:[or]
 
 [[lang-ref-builtins-operators-or]]
@@ -127,7 +124,6 @@ _Returns_
 
 The disjunction or union result.
 
-
 indexterm:[+,unary]
 
 [[lang-ref-builtins-operators-plus-unary]]
@@ -151,7 +147,6 @@ The integer, long, or double value.
 _Returns_
 
 The integer, long, or double value.
-
 
 indexterm:[+,binary]
 
@@ -198,7 +193,6 @@ _Runtime errors_
 
 * If the operation results in overflow (for integer, long, and double numbers only).
 
-
 indexterm:[-,unary]
 
 [[lang-ref-builtins-operators-dash-unary]]
@@ -225,7 +219,6 @@ The negation result.
 _Runtime errors_
 
 * If the operation results in overflow.
-
 
 indexterm:[-,binary]
 
@@ -272,7 +265,6 @@ _Runtime errors_
 
 * If the operation results in overflow (for integer, long, and double numbers only).
 
-
 indexterm:[*]
 
 [[lang-ref-builtins-operators-star]]
@@ -303,7 +295,6 @@ _Runtime errors_
 
 * If the operation results in overflow.
 
-
 indexterm:[/]
 
 [[lang-ref-builtins-operators-slash]]
@@ -331,7 +322,6 @@ The division result.
 _Runtime errors_
 
 * If the operation results in overflow or division by zero.
-
 
 indexterm:[div]
 
@@ -362,7 +352,6 @@ _Runtime errors_
 
 * If the operation results in overflow or division by zero.
 
-
 indexterm:[mod]
 
 [[lang-ref-builtins-operators-mod]]
@@ -392,7 +381,6 @@ _Runtime errors_
 
 * If the operation results in division by zero.
 
-
 indexterm:[<]
 
 [[lang-ref-builtins-operators-lt]]
@@ -418,7 +406,6 @@ The second integer, long, or double number.
 _Returns_
 
 `true` if the first number is less than the second number, `false` otherwise.
-
 
 [subs=-replacements]
 indexterm:[<=]
@@ -446,7 +433,6 @@ The second integer, long, or double number.
 _Returns_
 
 `true` if the first number is less than or equal to the second number, `false` otherwise.
-
 
 indexterm:[>]
 
@@ -500,7 +486,6 @@ _Returns_
 
 `true` if the first number is greater than or equal to the second number, `false` otherwise.
 
-
 indexterm:[==]
 
 [[lang-ref-builtins-operators-eq]]
@@ -531,7 +516,6 @@ May be `null`.
 _Returns_
 
 `true` if the first value is equal to the second value, `false` otherwise.
-
 
 indexterm:[!=]
 

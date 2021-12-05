@@ -23,7 +23,6 @@ The main problem faced when supporting general applications to run within Eclips
 In fact, a single application may have multiple instances running at the same time, within a single instance of the IDE.
 The following sections address the issues that arise when running within the IDE, and how the application framework handles them.
 
-
 indexterm:[static]
 
 [[app-framework-app-static-information]]
@@ -46,7 +45,6 @@ The count won't start from zero, thus leading to different results for the appli
 
 The conclusion is that one should be careful to avoid static variables that hold information specific to an application instance.
 
-
 indexterm:[application, options]
 
 [[app-framework-application-options]]
@@ -57,7 +55,6 @@ GUI applications however, often use a dialog to configure the options instead.
 To allow applications within the application framework to work in both scenarios, all applications should use the option framework.
 
 See also the <<app-framework-option-framework,option framework>> section.
-
 
 indexterm:[stdin]
 indexterm:[stout]
@@ -71,7 +68,6 @@ For applications running within the IDE, those streams are connected to the Ecli
 To provide a uniform I/O interface, the application framework includes an I/O framework.
 
 See also the <<app-framework-io-framework,I/O framework>> section.
-
 
 indexterm:[gui]
 indexterm:[swt]
@@ -87,7 +83,6 @@ This reduces the burden of having to register the main SWT display threads, but 
 Using the _GUI_ option, the GUI can be enabled or disabled.
 If disabled, headless execution mode is used, which disables creation of a SWT display thread, and thus disables all GUI functionality, including the option dialog.
 
-
 indexterm:[application, termination]
 
 [[app-framework-app-termination]]
@@ -96,7 +91,6 @@ indexterm:[application, termination]
 Within Java, the `System.exit` method can be used to immediately terminate an application, by terminating the JVM.
 For applications running within the Eclipse IDE, this not only terminates the application, but the IDE as well.
 As such, the `System.exit` method should never be used in applications that are intended to be executed within the IDE.
-
 
 indexterm:[SIGINT]
 
@@ -116,7 +110,6 @@ Application framework applications and threads should regularly call the `AppEnv
 
 See also the termination features of the link:https://eclipse.org/escet/use/apps-view.html[Applications] view.
 
-
 indexterm:[application, exceptions]
 
 [[app-framework-exceptions]]
@@ -130,7 +123,6 @@ The application framework also provides exception classes for end-user errors, t
 
 See also the <<app-framework-exception-framework,exception framework>> section.
 
-
 indexterm:[application, properties]
 
 [[app-framework-system-properties]]
@@ -141,7 +133,6 @@ Those properties are global to the entire JVM, meaning they are shared between a
 The application framework provides functionality to maintain system properties on a per application basis, turning them into application properties.
 All application framework applications should use the `+getProp*+` and `+setProp*+` methods in the `AppEnv` class instead of the property related methods in the `System` class.
 This ensures that the application properties are used instead of the global system properties.
-
 
 indexterm:[application, paths]
 indexterm:[application, working directory]

@@ -198,7 +198,6 @@ In the next model, the generator produces items with an exponential inter-arriva
 To compensate for the variations in time of the generator and the server, a buffer process has been added.
 The model is depicted below:
 
-
 [[tut-figure-MM1]]
 image::{tut-imgsdir}/pictures/generator_buffer_server_exit.png[]
 
@@ -258,7 +257,6 @@ indexterm:[parallel,system]
 indexterm:[system,serial]
 indexterm:[serial,system]
 
-
 === Two servers
 
 In this section two different types of systems are shown: a serial and a parallel system.
@@ -270,7 +268,6 @@ Both systems use a stochastic generator, and stochastic servers.
 The next model describes a _serial_ system, where an item is processed by one server, followed by another server.
 The generator and the servers are decoupled by buffers.
 The model is depicted below:
-
 
 [[tut-figure-tandem]]
 image::{tut-imgsdir}/pictures/generator_2buffers_2servers_exit.png[]
@@ -290,7 +287,6 @@ end
 ----
 
 The various processes are equal to those described previously in <<tut-stochastic-system>>.
-
 
 ==== Parallel systems
 
@@ -399,7 +395,6 @@ proc S(chan? item b; chan! item c; chan! int r; real ts; int k):
     end
 end
 ----
-
 
 === Assembly
 
@@ -516,7 +511,6 @@ When all items have been received, the assembly process starts (modeled with a `
 
 In practical situations these assembly processes are performed in a more cascading manner.
 Two or three components are 'glued' together in one assemble process, followed in the next process by another assembly process.
-
 
 === Exercises
 

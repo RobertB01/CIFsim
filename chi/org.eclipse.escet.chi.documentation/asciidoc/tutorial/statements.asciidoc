@@ -253,7 +253,6 @@ end
 This statement iterates over the elements of list `xs`.
 This is particularly useful when the value of `xs` may change before the `for` statement.
 
-
 === Notes
 
 In this chapter the most used statements are described.
@@ -272,7 +271,6 @@ indexterm:[statement,pass]
 indexterm:[pass,statement]
 . A rarely used statement is the `pass` statement.
 It's like an `x = x` assignment statement, but more clearly expresses 'nothing is done here'.
-
 
 === Exercises
 

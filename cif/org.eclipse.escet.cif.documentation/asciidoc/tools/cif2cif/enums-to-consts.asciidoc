@@ -103,7 +103,6 @@ The number of added constants is linear in the number of enumeration literals of
 Integer types are slightly larger than enumeration types, but the increase is linear.
 Constant references in expressions are not larger than enumeration literal references.
 
-
 === Optimality
 
 n/a

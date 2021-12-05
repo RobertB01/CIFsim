@@ -25,11 +25,9 @@ For instance, it is possible to simultaneously simulate two models using a simul
 The downside is that running multiple applications at the same time, costs more memory.
 Sometimes, if you forget to close an application, it can still consume memory, and may even still be running active computations, thus consuming processing power.
 
-
 === Application management via the applications view
 
 The <<use-apps-view,Applications view>> can also be used observe the <<use-apps-view-status,status>> of running applications, and to <<use-apps-view-termination,terminate>> them.
-
 
 === Application management via the console view
 

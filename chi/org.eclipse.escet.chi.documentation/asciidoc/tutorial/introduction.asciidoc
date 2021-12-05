@@ -101,7 +101,6 @@ The integration allows for custom solutions to obtain the needed data in the wan
 
 * Input and output facilities from and to the file system exists to support large simulation experiments.
 
-
 === Exercises
 
 . Install the Chi programming environment at your computer.
