@@ -23,6 +23,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.expressions.AlgVariableExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ContVariableExpression;
@@ -341,6 +342,11 @@ public class RefReplace extends CifWalker implements CifToCifTransformation {
     @Override
     protected void preprocessCompInstWrapType(CompInstWrapType type) {
         throw new RuntimeException("Comp inst wrap type unupported: " + type);
+    }
+
+    @Override
+    protected void preprocessCompParamExpression(CompParamExpression expr) {
+        throw new RuntimeException("Comp param expr unupported: " + expr);
     }
 
     @Override
