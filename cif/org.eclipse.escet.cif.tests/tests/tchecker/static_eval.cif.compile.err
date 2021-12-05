@@ -15,4 +15,5 @@ ERROR: File "tchecker/static_eval.cif": Semantic error at line 90, column 23: Ca
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 92, column 48: Cannot statically evaluate user-defined function "user_def_func.f".
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 101, column 29: Cannot statically evaluate an automaton "self" reference.
 ERROR: File "tchecker/static_eval.cif": Semantic error at line 102, column 29: Cannot statically evaluate automaton "aut_ref" to its active location.
+ERROR: File "tchecker/static_eval.cif": Semantic error at line 114, column 29: Cannot statically evaluate component parameter "comp_param_ref2.p".
 ERROR: Failed to load CIF file "tchecker/static_eval.cif": the file has errors.

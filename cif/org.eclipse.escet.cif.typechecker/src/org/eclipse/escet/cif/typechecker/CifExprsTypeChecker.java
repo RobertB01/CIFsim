@@ -96,6 +96,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
+import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
@@ -533,6 +534,17 @@ public class CifExprsTypeChecker {
             Component comp = ((ComponentExpression)expr).getComponent();
             Automaton aut = CifScopeUtils.getAutomaton(comp);
             tchecker.addProblem(ErrMsg.STATIC_EVAL_AUT_REF, expr.getPosition(), getAbsName(aut));
+            throw new SemanticException();
+        } else if (expr instanceof CompParamExpression) {
+            // This always refers to the same component parameter. However,
+            // we don't know what component it is instantiated with. And it
+            // maybe instantiated with various different components for
+            // different instantiations. As such, we don't know its value.
+            if (tchecker == null) {
+                return false;
+            }
+            ComponentParameter compParam = ((CompParamExpression)expr).getParameter();
+            tchecker.addProblem(ErrMsg.STATIC_EVAL_COMP_PARAM, expr.getPosition(), getAbsName(compParam));
             throw new SemanticException();
         } else if (expr instanceof CompInstWrapExpression) {
             // Peel of the wrapper, as static evaluability of the wrapped

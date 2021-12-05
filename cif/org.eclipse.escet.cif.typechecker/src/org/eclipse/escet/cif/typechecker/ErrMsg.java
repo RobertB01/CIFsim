@@ -127,6 +127,7 @@ public enum ErrMsg {
     STATIC_EVAL_RCV_VALUE("Cannot statically evaluate the value received by a communication.", 0, ERROR),
     STATIC_EVAL_AUT_REF("Cannot statically evaluate automaton \"%s\" to its active location.", 1, ERROR),
     STATIC_EVAL_SELF("Cannot statically evaluate an automaton \"self\" reference.", 0, ERROR),
+    STATIC_EVAL_COMP_PARAM("Cannot statically evaluate component parameter \"%s\".", 1, ERROR),
 
     // AlgVariable.selfReference
     // Constant.selfReference
