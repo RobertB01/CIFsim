@@ -50,7 +50,6 @@ The functions are named `+_f+`, `+_f2+`, `+_f3+`, etc.
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton x:
@@ -61,7 +60,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

@@ -25,7 +25,6 @@ A tuple consists of a number of fields, where the types of these fields may be d
 The number of fields is fixed.
 For instance, consider the following:
 
-
 [source, cif]
 ----
 disc tuple(int nr; real weight) box;
@@ -37,7 +36,6 @@ The `box` variable has essentially two values, an integer typed value, and a rea
 If multiple consecutive fields have the same type, the type need not be repeated for each of them.
 In the following example, variables `x1` and `x2` have the same type:
 
-
 [source, cif]
 ----
 disc tuple(int a; int b; real c; int d) x1;
@@ -48,7 +46,6 @@ indexterm:[tuple,value]
 indexterm:[tuple,literal]
 indexterm:[literal,tuple]
 Literal values exist for tuple types:
-
 
 [source, cif]
 ----
@@ -63,7 +60,6 @@ That is, both fields are given new values.
 
 indexterm:[tuple,projection]
 It is also possible to refer to a specific field of a tuple, using _projection_:
-
 
 [source, cif]
 ----
@@ -85,7 +81,6 @@ The value of the `weight` field of the `box` variable is not affected by this as
 The third edge increments the value of the `nr` field of the `box` variable by one, leaving the `weight` of the `box` as is.
 Besides projection using field names, it is also possible to do projection using 0-based indices:
 
-
 [source, cif]
 ----
 disc tuple(int nr; real weight) box = (5, 2.7);
@@ -105,7 +100,6 @@ For tuples, it is usually preferred to use field names, rather than indices, for
 indexterm:[tuple,packing]
 It is possible to create a tuple from separate values, each stored in a variable:
 
-
 [source, cif]
 ----
 disc tuple(int nr; real weight) box;
@@ -123,7 +117,6 @@ indexterm:[tuple,unpacking]
 
 [[lang-tut-values-tuples-unpacking]]
 It is possible to obtain the values of the fields of a tuple into separate variables:
-
 
 [source, cif]
 ----

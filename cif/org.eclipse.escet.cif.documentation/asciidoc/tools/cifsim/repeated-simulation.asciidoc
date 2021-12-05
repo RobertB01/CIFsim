@@ -70,7 +70,7 @@ The _Compile only_ option (_Compiler_ category) has no effect when <<tools-cifsi
 
 As an example, consider the following CIF model in file `machine.cif`:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim}/machine.cif[]
 ----
@@ -86,7 +86,7 @@ The <<tools-cifsim-output-print-chapter-ref-printdecl,print declaration>> at the
 
 Consider the following ToolDef <<tools-scripting-chapter-intro,script>>:
 
-[source,tooldef]
+[source, tooldef]
 ----
 include::{incdir-tools-cifsim}/machine.tooldef[]
 ----
@@ -110,7 +110,6 @@ Then the `minimum` and `maximum` are updated as needed.
 After the minimum and maximum are calculated, they are printed to the console as floating point numbers with two digits after the decimal mark.
 
 The output of the execution of the script could look like this, but may vary given that stochastics are used:
-
 
 [source, console]
 ----

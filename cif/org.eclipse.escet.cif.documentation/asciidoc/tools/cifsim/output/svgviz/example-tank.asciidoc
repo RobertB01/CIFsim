@@ -50,7 +50,7 @@ The CIF/SVG declarations works on SVG images, and thus uses the coordinate syste
 
 The following CIF specification models the tank example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/tank/tank.cif[]
 ----

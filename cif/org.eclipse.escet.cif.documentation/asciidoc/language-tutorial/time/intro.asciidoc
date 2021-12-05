@@ -47,7 +47,6 @@ This can be achieved with <<lang-tut-time-chapter-continuous-variables,continuou
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 event push, release;

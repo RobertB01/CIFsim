@@ -89,7 +89,6 @@ For edges with receives, the 'received value' is replaced (in the updates) by th
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 event e;
@@ -116,7 +115,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -181,7 +179,6 @@ For a specification with 4 sender automata with two send edges each (8 send edge
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 event e;
@@ -207,7 +204,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -275,7 +271,6 @@ Since the edge is also urgent, it means that if the edge is enabled guard wise, 
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 automaton p:
@@ -292,7 +287,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----
@@ -335,7 +329,6 @@ indexterm:[linearize,tuple field projections]
 
 The following specification:
 
-
 [source, cif]
 ----
 event tuple(int a, b) e;
@@ -355,7 +348,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

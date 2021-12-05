@@ -34,8 +34,7 @@ While it is possible to communicate dummy values, dataless channels provide a be
 Consider again the producer/consumer example from the <<lang-tut-channels-chapter-intro,previous lesson>>, with one producer and two consumers, but without identification numbers for the products:
 
 // Copied and adapted from: channels/intro
-
-[source,cif]
+[source, cif]
 ----
 event void provide;
 

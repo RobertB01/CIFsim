@@ -86,21 +86,21 @@ indexterm:[CIF merger,example]
 
 Consider the following supervisor:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools}/mergecif/merge_sup.cif[]
 ----
 
 and the following timed plant:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools}/mergecif/merge_timed.cif[]
 ----
 
 Merging these two specifications results in the following merged specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools}/mergecif/merged.cif[]
 ----
@@ -382,7 +382,6 @@ Even when two or more CIF specifications are merge compatible, as described abov
 In such cases, merging fails.
 For instance, consider the following two CIF specifications:
 
-
 [source, cif]
 ----
 input int x;
@@ -396,7 +395,6 @@ input int y;
 ----
 
 Merging them would result in:
-
 
 [source, cif]
 ----

@@ -21,7 +21,6 @@ This lesson explains old and new values of variables in assignments, multiple as
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton counter:
@@ -61,7 +60,6 @@ indexterm:[assignment,multiple]
 
 It is allowed to update multiple variables on a single edge, leading to multiple variables getting a new value as part of a single transition.
 For instance, consider the following CIF specification:
-
 
 [source, cif]
 ----
@@ -109,7 +107,6 @@ Therefore, the assignment to `x`, which indicates how `x` should be given a new 
 Since assignments are independent of each other, the order of the assignments of the edge does not matter.
 Consider the following alternative edge:
 
-
 [source, cif]
 ----
 edge swap do y := x + 1, x := y;
@@ -125,7 +122,6 @@ indexterm:[assignment,multi-assignment]
 
 CIF supports both multiple assignments as well as multi-assignments.
 To see the difference, consider the following examples:
-
 
 [source, cif]
 ----
@@ -151,7 +147,6 @@ The positions of the left sides of the boxes are in range zero to seven, as indi
 image::{lang-tut-imgsdir}/data/conveyor.png[]
 
 This system can be modeled using the following CIF specification:
-
 
 [source, cif]
 ----

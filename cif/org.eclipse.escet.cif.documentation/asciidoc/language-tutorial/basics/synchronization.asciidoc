@@ -41,7 +41,6 @@ Once the product has been produced, indicated by the `produce` event, the automa
 Once it has provided the product to the consumer, it will once again be `producing` another product.
 Consider also the following continuation of the above specification:
 
-
 // Copied to: basics/alphabet
 // Copied to: basics/event-placement
 [source, cif]

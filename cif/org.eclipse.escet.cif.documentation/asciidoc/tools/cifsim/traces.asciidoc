@@ -37,7 +37,6 @@ The state of the specification (or simply 'the state'), is all the information t
 
 For instance, consider the following specification:
 
-
 [source, cif]
 ----
 automaton button:

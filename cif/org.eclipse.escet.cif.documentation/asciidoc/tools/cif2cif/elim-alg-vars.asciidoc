@@ -58,7 +58,6 @@ The algebraic variables and their equations are removed.
 
 For instance, the following specification:
 
-
 [source, cif]
 ----
 alg bool b1 = true;
@@ -77,7 +76,6 @@ invariant b1 or b2 or p.a > 0;
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

@@ -21,14 +21,12 @@ This lesson shows one example of how that can be useful.
 
 Consider the following list of numbers:
 
-
 [source, cif]
 ----
 alg list real nrs = [0.5, 1.3, 0.1, 2.7, 1.4];
 ----
 
 Now assume we wanted to sort these numbers both in increasing and in decreasing order, using a single sorting function:
-
 
 [source, cif]
 ----
@@ -38,7 +36,6 @@ alg list real dec = sort(nrs, cmp_dec); // [2.7, 1.4, 1.3, 0.5, 0.1]
 
 Variable `inc` contains the same numbers as `nrs`, but sorted in increasing order, while `dec` contains them in decreasing order.
 We use the same `sort` function in both cases, but with different comparison functions:
-
 
 [source, cif]
 ----
@@ -54,7 +51,6 @@ end
 Function `+cmp_inc+` takes two real numbers and returns `true` only if the first number is smaller than the second one (`a` and `b` are in increasing order).
 Function `+cmp_dec+` has the same parameters, but returns `true` only if the first number is larger than the second one (`a` and `b` are in decreasing order).
 The `sort` function is defined as follows:
-
 
 [source, cif]
 ----

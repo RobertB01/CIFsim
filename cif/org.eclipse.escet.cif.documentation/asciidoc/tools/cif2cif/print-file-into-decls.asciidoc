@@ -50,7 +50,6 @@ Print declarations to which no print file declaration applies, get the default t
 
 For instance, this specification:
 
-
 [source, cif]
 ----
 printfile "out1.txt";
@@ -76,7 +75,6 @@ end
 ----
 
 is transformed to the following specification:
-
 
 [source, cif]
 ----

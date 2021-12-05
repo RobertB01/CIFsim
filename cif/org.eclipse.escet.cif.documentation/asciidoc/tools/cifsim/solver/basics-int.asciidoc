@@ -35,7 +35,7 @@ indexterm:[ODE,linear ODE]
 
 Consider the following CIF specification, with a linear ODE:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/integr_linear.cif[]
 ----
@@ -76,7 +76,7 @@ Consider the following CIF specification, with such a nonlinear ODE:
 
 The solution calculated by the numerical integrator is:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/integr_nonlinear.cif[]
 ----
@@ -94,7 +94,7 @@ indexterm:[ODE,discontinuity]
 
 If the derivative has a link:http://en.wikipedia.org/wiki/Discontinuity_%28mathematics%29[discontinuity], such as in the following CIF specification:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-solver}/integr_discont.cif[]
 ----

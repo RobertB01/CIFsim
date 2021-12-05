@@ -350,7 +350,6 @@ State invariants are global conditions over the values of variables (and locatio
 Such requirements are sometimes also called mutual state exclusions.
 Here are some examples:
 
-
 [source, cif]
 ----
 requirement invariant x != 0 and not p.b;
@@ -364,7 +363,6 @@ requirement x = 1 => y > 2;
 
 State/event exclusion invariants or simply state/event exclusions are additional conditions under which transitions may take place for certain events.
 Here are some examples:
-
 
 [source, cif]
 ----
@@ -381,7 +379,6 @@ They usually introduce additional state by using multiple locations or a variabl
 The additional state is used to be able to express the requirement.
 One common example is a counter.
 For instance, consider the following requirement, which prevents more than three products being added to a buffer:
-
 
 [source, cif]
 ----
@@ -400,7 +397,6 @@ end
 
 Another common example is a requirement that introduces ordering.
 For instance, consider the following requirement, which states that `motor1` must always be turned on before `motor2` is turned on, and they must always be turned off in the opposite order:
-
 
 [source, cif]
 ----

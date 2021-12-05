@@ -35,7 +35,7 @@ In an Eclipse project or directory, create a new CIF file named `lamp.cif`:
 // Removed the previously present link to documentation about 'projects'.
 // Removed the previously present link to documentation about 'creating files'.
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.cif[]
 ----
@@ -98,7 +98,7 @@ Once simulation terminates, you may close the visualization window.
 While the option dialog is useful for configuring simulation options, it is often easier to use a _ToolDef_ file to <<tools-scripting-chapter-intro,script>> the execution of the CIF simulator.
 Create a new file named `lamp.tooldef`, in the same directory as the other files, and give it the following content:
 
-[source,tooldef]
+[source, tooldef]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/lamp/lamp.tooldef[]
 ----

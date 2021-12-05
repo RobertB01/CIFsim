@@ -31,7 +31,7 @@ indexterm:[SVG copy declaration,example]
 
 Consider the following SVG file:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/svgcopy.svg[]
 ----
@@ -41,14 +41,14 @@ They have different `fill` colors and positions.
 The second rectangle is enclosed in a group with id `grp`.
 Also consider the following CIF file:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/svgcopy.cif[]
 ----
 
 The effect of the copy declarations on the SVG image is:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/svgcopy.out.svg[]
 ----
@@ -64,7 +64,6 @@ indexterm:[SVG copy declaration,file]
 === Syntax
 
 The general syntax of CIF/SVG copy declarations is:
-
 
 [source, cif]
 ----
@@ -130,13 +129,12 @@ The unique ids are requires to ensure that we can still uniquely identify all el
 
 Consider once again the rectangles example above:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgcopy/svgcopy.svg[]
 ----
 
 We add the following copy declaration:
-
 
 [source, cif]
 ----
@@ -161,7 +159,6 @@ include::{incdir-tools-cifsim-output-svgviz}/svgcopy/overlap.svg[]
 ----
 
 We use the following copy declarations:
-
 
 [source, cif]
 ----
@@ -191,7 +188,6 @@ As seen above, the outcome depends on the order, and can be very confusing.
 CIF gives a warning in case such overlapping copies are used.
 Generally, instead of copying the element twice, what is really wanted, is to copy the copied element.
 This can be done as follows:
-
 
 [source, cif]
 ----

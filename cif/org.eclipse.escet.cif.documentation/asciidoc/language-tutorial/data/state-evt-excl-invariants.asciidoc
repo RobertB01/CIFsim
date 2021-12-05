@@ -22,7 +22,6 @@ indexterm:[state,state/event exclusion invariant,]
 Consider an elevator, consisting of three parts: a motor to make the elevator move up and down, a door that can be opened and closed to let passengers enter and exit, and an emergency button that can be used to stop the elevator in case of an emergency.
 The following CIF specification models the three parts:
 
-
 [source, cif]
 ----
 automaton motor:
@@ -69,7 +68,6 @@ What if we wanted to specify the controller separately from the behavior of the 
 We could introduce an additional automaton, that synchronizes with the existing automata.
 For instance, we could add the following to the CIF specification:
 
-
 [source, cif]
 ----
 automaton controller:
@@ -90,7 +88,6 @@ However, modeling an automaton with a single location that must then also be `in
 State/event exclusion invariants can serve the same purpose, but are often easier to use, shorter to write, and more intuitive to read.
 Instead of the `controller` automaton, we can also use the following:
 
-
 [source, cif]
 ----
 invariant motor.turn_on needs door.closed and emergency_button.released;
@@ -103,7 +100,6 @@ For the states in which that condition doesn't hold, the event is disabled.
 
 The invariant consists of two conditions.
 It can also be written as two separate state/event exclusion invariants, one for each condition:
-
 
 [source, cif]
 ----
@@ -125,7 +121,6 @@ The `door` is either `opened` or `closed`.
 So far, we've required that the door is closed to allow the motor to be turned on.
 We can also specify it the other way around: to disallow the motor to be turned on, while the door is opened:
 
-
 [source, cif]
 ----
 // State/event exclusion invariant to specify when event is allowed/enabled.
@@ -141,7 +136,6 @@ And that is exactly what is specified by the second invariant: when the door is 
 In general, state/event exclusion invariants can always be specified as a positive form (allowed/enabled) and a negative form (disallowed/disabled).
 It is up to the modeler to choose, based on considerations such as personal preference and readability.
 Consider the following four alternative forms:
-
 
 [source, cif]
 ----
@@ -180,7 +174,6 @@ To combine such invariants into a single invariant, the conditions need to be co
 
 It may occur that multiple events need to be disabled for the same conditions.
 Instead of writing multiple invariants with the same conditions, one for each event, they can also be combined:
-
 
 [source, cif]
 ----

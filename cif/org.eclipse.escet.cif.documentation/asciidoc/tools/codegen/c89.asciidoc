@@ -97,7 +97,7 @@ Rename a file before modifying it to avoid loss of work.
 
 The generated code is C89 code that can be compiled using a C89 C compiler, like `gcc`:
 
-[source,shell]
+[source, shell]
 ----
 gcc -Wall -std=c89 -DPRINT_OUTPUT=1 -DCHECK_RANGES=1 \
     <prefix>_engine.c <prefix>_library.c <prefix>_test_code.c -lm
@@ -162,7 +162,7 @@ The code has two entry points, one for initializing and performing the first ste
 
 The first entry point is:
 
-[source,c]
+[source, c]
 ----
 <prefix>_EngineFirstStep(void)
 ----
@@ -172,7 +172,7 @@ Since this resets the entire CIF program to its initial state, you should only c
 
 The second entry point is more regularly called, after a period of time has passed:
 
-[source,c]
+[source, c]
 ----
 <prefix>_EngineTimeStep(double delta)
 ----
@@ -191,7 +191,7 @@ In addition, after each call, variables may be inspected by the environment to g
 
 The externally provided callback functions that are being used are:
 
-[source,c]
+[source, c]
 ----
 <prefix>_AssignInputVariables(void)
 ----
@@ -202,7 +202,7 @@ Input variables are assumed to be independent of other parts of the CIF program,
 
 If `EVENT_OUTPUT` is set during compilation, executed events are reported with:
 
-[source,c]
+[source, c]
 ----
 <prefix>_InfoEvent(<prefix>_Event_ event, BoolType pre)
 ----
@@ -215,7 +215,7 @@ Primary use of this call is to forward the decision to other parts of the contro
 
 Finally, if the `PRINT_OUTPUT` macro is set during compilation, the generated code reports lines of output to be printed with the following function call:
 
-[source,c]
+[source, c]
 ----
 <prefix>_PrintOutput(const char *line, const char *fname)
 ----

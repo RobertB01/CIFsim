@@ -31,8 +31,7 @@ The link:http://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribut
 Consider the following CIF specification:
 
 // Adapted from: basics/non-determinism
-
-[source,cif]
+[source, cif]
 ----
 automaton coin_toss:
   disc dist bool d = bernoulli(0.5);

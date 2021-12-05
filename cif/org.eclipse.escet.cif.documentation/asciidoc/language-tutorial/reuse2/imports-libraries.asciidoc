@@ -19,7 +19,6 @@ indexterm:[import,library]
 Using <<lang-tut-reuse2-chapter-imports,imports>>, it is possible to make libraries that can be used by multiple CIF specifications.
 For instance, consider the following CIF specification in file `math.cif`:
 
-
 [source, cif]
 ----
 // math.cif
@@ -31,7 +30,6 @@ end
 
 This CIF specification declares a single function `inc` that takes an integer number and returns that number incremented by one.
 Now also consider the following CIF specification in file `counter.cif`:
-
 
 [source, cif]
 ----
@@ -65,7 +63,6 @@ image::{lang-tut-imgsdir}/reuse2/library_dir_tree.png[]
 Directory `system` contains a sub-directories named `libraries`, which contains the `math.cif` library.
 The `system` directory also contains the `counter.cif` file.
 The import in the `counter.cif` file needs to be adapted to refer to the `math.cif` file in the `libraries` directory:
-
 
 [source, cif]
 ----

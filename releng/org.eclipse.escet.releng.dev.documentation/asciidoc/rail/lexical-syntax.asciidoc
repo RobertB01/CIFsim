@@ -25,7 +25,7 @@ You may generally format the input as you see fit, and start on a new line when 
 
 Examples:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 # Normal layout.
 DiagramName : A B C
@@ -46,7 +46,7 @@ Comments are ignored.
 
 Examples:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 DiagramName : A B C ; # Comment
 ----
@@ -63,7 +63,7 @@ They thus consist of dashes (`-`), letters, digits and underscores (`+_+`).
 +
 Examples:
 +
-[source,raildiagram]
+[source, raildiagram]
 ----
 Expression
 ABC_DEF
@@ -81,7 +81,7 @@ Since a backslash (`\`) serves as escape character, to include a backslash it mu
 +
 Examples:
 +
-[source,raildiagram]
+[source, raildiagram]
 ----
 [literal]
 [line-break]
@@ -100,7 +100,7 @@ Since a backslash (`\`) serves as escape character, to include a backslash in a 
 +
 Examples:
 +
-[source,raildiagram]
+[source, raildiagram]
 ----
 'hello world'
 'abc\'def'
@@ -118,7 +118,7 @@ Since a backslash (`\`) serves as escape character, to include a backslash in a 
 +
 Examples:
 +
-[source,raildiagram]
+[source, raildiagram]
 ----
 "hello world"
 "abc\"def"

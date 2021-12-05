@@ -25,7 +25,6 @@ By default, profiling is disabled.
 
 The profiling output looks somewhat like this:
 
-
 [source, console]
 ----
 750431.42 transitions/second

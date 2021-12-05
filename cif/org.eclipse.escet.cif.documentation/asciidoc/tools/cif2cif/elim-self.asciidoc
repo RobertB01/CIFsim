@@ -45,7 +45,6 @@ indexterm:[eliminate automaton self references,implementation]
 All implicit automaton `self` references are replaced by explicit automaton references.
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton a:
@@ -57,7 +56,6 @@ end
 ----
 
 This is transformed to the following CIF specification:
-
 
 [source, cif]
 ----

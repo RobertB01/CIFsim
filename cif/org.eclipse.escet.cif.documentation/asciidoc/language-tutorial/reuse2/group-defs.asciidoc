@@ -20,7 +20,6 @@ indexterm:[group,instantiation]
 indexterm:[component,group instantiation]
 Similar to how <<lang-tut-reuse2-chapter-aut-def-inst,automaton definitions>> can be used for reuse of automata, group definitions can be used for reuse of groups:
 
-
 [source, cif]
 ----
 automaton def Machine():
@@ -51,7 +50,6 @@ indexterm:[component,definition]
 Automata and groups are both _components_ in CIF.
 Automaton definitions and group definitions can together be called _component definitions_.
 If we eliminate all component definitions and their instantiations, by replacing instantiations by their definitions, we get the following CIF specification:
-
 
 [source, cif]
 ----

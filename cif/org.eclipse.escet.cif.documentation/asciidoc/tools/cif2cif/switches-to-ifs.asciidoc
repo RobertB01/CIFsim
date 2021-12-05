@@ -36,7 +36,6 @@ indexterm:[convert switch expressions to if expressions,implementation]
 All `switch` expressions are replaced by `if` expressions.
 For instance, consider the following CIF specification:
 
-
 [source, cif]
 ----
 alg int y = ...
@@ -65,7 +64,6 @@ end
 ----
 
 This is transformed to the following CIF specification:
-
 
 [source, cif]
 ----

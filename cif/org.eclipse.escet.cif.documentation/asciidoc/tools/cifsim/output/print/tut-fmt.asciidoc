@@ -38,8 +38,7 @@ print "Time=" + <string>time;
 
 When simulated, it could give the following output:
 
-
-[source]
+[source, console]
 ----
 Time=0.0
 Time=3.333333333333336
@@ -51,7 +50,6 @@ As you can see, due to rounding and simulation imprecision, the length of the te
 Furthermore, the explicit casts (conversions) from real to string (`<string>`) and string concatenation (the `pass:c[+]` operator) can quickly become cluttered, and hard to read.
 
 To improve readability of the print declaration, we could adapt the CIF specification to the following:
-
 
 [source, cif]
 ----
@@ -82,7 +80,6 @@ As we saw in the previous section, due to rounding and simulation imprecision, t
 This reduces readability of the results, as a lot of irrelevant digits are included.
 Consider the following alternative CIF specification:
 
-
 [source, cif]
 ----
 print fmt("Time=%.2f", time);
@@ -93,8 +90,7 @@ This specifier can only be used for `real` numbers, and indicates that the numbe
 The `.2` part specifies the precision, and indicates that the floating point number in decimal notation should have exactly two digits after the decimal point.
 When simulated, this could give the following output:
 
-
-[source]
+[source, console]
 ----
 Time=0.00
 Time=3.33
@@ -109,7 +105,6 @@ indexterm:[text formatting,columns]
 In the examples above, we included a single value in the output.
 Now consider the following CIF specification:
 
-
 [source, cif]
 ----
 print fmt("%.2f %.2f %.2f", x, y, z);
@@ -120,8 +115,7 @@ The format pattern includes each of the values (the first `%.2f` includes the va
 The format pattern includes spaces between the format specifiers (between the `%.2f` parts), and thus the formatted values include spaces between them as well.
 When simulated, this could give the following output:
 
-
-[source]
+[source, console]
 ----
 1.50 0.00 -3.57
 2.34 3.75 5.78
@@ -132,7 +126,6 @@ When simulated, this could give the following output:
 Due to some larger values being mixed with shorter values, as well as due to having both positive and negative values, the output is not so easy to read.
 This can be solved by using the following CIF specification instead:
 
-
 [source, cif]
 ----
 print fmt("%10.2f %10.2f %10.2f", x, y, z);
@@ -140,8 +133,7 @@ print fmt("%10.2f %10.2f %10.2f", x, y, z);
 
 By including a _width_ of `10`, the text is now nicely formatted into columns of ten characters wide:
 
-
-[source]
+[source, console]
 ----
 ---------- ---------- ----------
       1.50       0.00      -3.57
@@ -159,7 +151,6 @@ indexterm:[text formatting,large numbers]
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 print fmt("%.2f", time);
@@ -167,8 +158,7 @@ print fmt("%.2f", time);
 
 When simulated, this could give the following output:
 
-
-[source]
+[source, console]
 ----
 0.00
 1.34
@@ -179,7 +169,6 @@ When simulated, this could give the following output:
 As the values of variable `time` get larger and larger, their textual representations become longer and longer, and it becomes more and more difficult to see exactly how large the values are.
 The following alternative CIF specification solves this problem:
 
-
 [source, cif]
 ----
 print fmt("%,.2f", time);
@@ -187,8 +176,7 @@ print fmt("%,.2f", time);
 
 The addition of the comma (`,`) _flag_ ensures that we get the following output instead:
 
-
-[source]
+[source, console]
 ----
 0.00
 1.34
@@ -206,7 +194,6 @@ Earlier, we put values in columns.
 By default, if a _width_ is used, text is right-justified (aligned to the right).
 We can also justify it to the left, as in this CIF specification:
 
-
 [source, cif]
 ----
 print fmt("%-10.2d %-10.2d %-10.2d", g, h, i);
@@ -217,8 +204,7 @@ The `%d` specifier can only be used for integer values, while the `%f` specifier
 Besides a different specifier, the minus (`-`) flag is added, and different variables are used as values.
 After the changes, the CIF specification could result in the following output:
 
-
-[source]
+[source, console]
 ----
 ---------- ---------- ----------
 184        3675       2
@@ -232,7 +218,6 @@ Observe how the addition of the `-` flag resulted in the right-justified output 
 The presence of negative numbers makes that the left-most digits of the columns are not nicely aligned.
 The following CIF specification solves this:
 
-
 [source, cif]
 ----
 print fmt("%-+10.2d %-+10.2d %-+10.2d", x, y, z);
@@ -240,8 +225,7 @@ print fmt("%-+10.2d %-+10.2d %-+10.2d", x, y, z);
 
 The addition of the plus (`pass:c[+]`) flag means that for non-negative numbers, a plus (`pass:c[+]`) character is always included:
 
-
-[source]
+[source, console]
 ----
 ---------- ---------- ----------
 +184       +3675      +2
@@ -252,7 +236,6 @@ The addition of the plus (`pass:c[+]`) flag means that for non-negative numbers,
 
 If preferred, a space can be used instead of a plus, resulting in the following CIF specification:
 
-
 [source, cif]
 ----
 print fmt("%- 10.2d %- 10.2d %- 10.2d", x, y, z);
@@ -260,8 +243,7 @@ print fmt("%- 10.2d %- 10.2d %- 10.2d", x, y, z);
 
 and the following output:
 
-
-[source]
+[source, console]
 ----
 ---------- ---------- ----------
  184        3675       2

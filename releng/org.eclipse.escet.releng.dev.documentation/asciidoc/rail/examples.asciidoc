@@ -21,7 +21,7 @@ The input of the program is similar to EBNF with an extra feature for repetition
 
 === Diagrams and sequences
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/sequence.rr[]
 ----
@@ -38,7 +38,7 @@ As rail diagrams are read from left to right, following a line without taking a 
 The second primitive is choice, where you pick one of the given alternatives.
 As with EBNF, this is written with the pipe symbol `|`, like:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/choice.rr[]
 ----
@@ -50,7 +50,7 @@ image::{rail-imgsdir}/choice.png[Choice]
 Note that as sequence has higher priority than choice, the `B` and `C` sequence forms one alternative.
 You can use parentheses to break the priority chain, e.g.:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/choice2.rr[]
 ----
@@ -64,7 +64,7 @@ image::{rail-imgsdir}/choice2.png[Sequence of choice]
 
 An optional part of the syntax can be described in multiple ways:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/optional.rr[]
 ----
@@ -80,7 +80,7 @@ It should be clear that using the dedicated optional syntax (`?`) is often more 
 
 The core repetition primitive is alternating between two nodes:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/alternating.rr[]
 ----
@@ -92,7 +92,7 @@ image::{rail-imgsdir}/alternating.png[Alternating between A and B]
 You can make one (or both) of the paths empty, which results in the normal EBNF repetition semantics.
 Below, node `A` must occur at least once, while node `B` may also be skipped.
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/emptyalternating.rr[]
 ----
@@ -104,7 +104,7 @@ image::{rail-imgsdir}/emptyalternating.png[A+ and B*]
 The third repetition is an alternative for the `B` sequence.
 It avoids the caveat with repetition due to the right-to-left visiting order of the bottom path, made more clearly visible in the following example:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/abcd.rr[]
 ----
@@ -127,7 +127,7 @@ The best way to deal with that is to change the diagram, for example by moving a
 The program however does offer a quick fix around the problem at the cost of a less readable diagram.
 An example is shown below:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/abcdefgh.rr[]
 ----
@@ -145,7 +145,7 @@ You cannot break the empty sequence, and each row must have at least one node.
 When explaining a diagram, it can be useful to refer to a path in the diagram.
 The program has a bracketed string for that:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/refpath.rr[]
 ----
@@ -162,7 +162,7 @@ This is the default behavior.
 Terminals in the diagram do not have a name, but show the concrete syntax instead.
 There are three ways to write terminals.
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/terminals.rr[]
 ----

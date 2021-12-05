@@ -24,7 +24,6 @@ If the controller has finite response, the controller will only generate a finit
 
 The algorithm for finite response is based on the following paper: F.F.H. Reijnen, A.T. Hofkamp, J.M. van de Mortel-Fronczak, M.A. Reniers, and J.E. Rooda: Finite Response and Confluence of State-based Supervisory Controllers. In: proceedings of the 15th International Conference on Automation Science and Engineering, 2019. pp. 509-516. IEEE.
 
-
 indexterm:[controller property checker,start]
 
 === Starting the checker
@@ -40,7 +39,6 @@ See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-sc
 
 * Use the `cifcontrollercheck` command line tool.
 
-
 indexterm:[controller property checker,options]
 
 [[tools-controller-checker-options]]
@@ -51,7 +49,6 @@ Besides the general application options, this application has the following opti
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
   
 * _Print control loops_: If set, the events that may still occur in a controllable-event loop are printed to the console.
-
 
 indexterm:[controller property checker,supported specifications]
 
@@ -119,7 +116,6 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 * <<tools-cif2cif-chapter-elim-if-updates>>
 
-
 indexterm:[controller property checker,finite response]
 
 === Finite response
@@ -168,7 +164,6 @@ automaton Motor:
 end
 ----
 
-
 indexterm:[controller checker property,implementation]
 
 === Implementation details
@@ -192,7 +187,6 @@ For the guards, all other edge guards and state/event exclusion conditions are i
 . If the set of controllable events is empty, the model has finite response.
 Otherwise, it can not be concluded there is finite response.
 Note that the check is an over-approximation, and there may be <<tools-controllercheck-falsenegs,false negatives>>.
-
 
 indexterm:[controller checker property,false negatives]
 
@@ -227,7 +221,6 @@ automaton Actuator:
 end
 ----
 
-
 indexterm:[controller checker property,runtime errors]
 
 [tools-controllercheck-runtime-errors]
@@ -241,4 +234,3 @@ When PLC code is generated for models with runtime errors, finite response canno
 One way to get a model without runtime errors is to use supervisor synthesis, since that removes such behavior from its input.
 For more information, see the <<tools-chapter-datasynth,data-based>> and <<tools-eventbased-chapter-supervisorsynthesis,event-based>> supervisor synthesis tools.
 Alternatively, the <<tools-chapter-cif-explorer,CIF explorer>> may be used to verify that the specification does not contain runtime errors.
-

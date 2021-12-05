@@ -18,7 +18,6 @@ include::../_part_attributes.asciidoc[]
 indexterm:[event,placement]
 Consider the following CIF specification (the producer/consumer example from the lesson on <<lang-tut-basics-chapter-synchronizing-events,synchronizing events>>):
 
-
 [source, cif]
 ----
 automaton producer:
@@ -45,7 +44,6 @@ end
 ----
 
 The specification could also be specified as follows:
-
 
 [source, cif]
 ----
@@ -84,7 +82,6 @@ Therefore, the `provide` event is declared in the `producer` automaton, rather t
 
 However, the modeler is free to choose the best place to declare the event.
 If no choice can be made between the automata, the event can also be declared outside the automata, as follows:
-
 
 [source, cif]
 ----

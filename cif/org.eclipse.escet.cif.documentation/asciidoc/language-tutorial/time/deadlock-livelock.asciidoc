@@ -27,7 +27,6 @@ This is called _deadlock_.
 No behavior is possible, or will ever become possible.
 As an example, consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton use_case:
@@ -54,7 +53,6 @@ indexterm:[livelock]
 As long as an event is possible, no time may pass.
 If by mistake always an event is possible, this prevents all passage of time.
 Consider the following CIF specification:
-
 
 [source, cif]
 ----

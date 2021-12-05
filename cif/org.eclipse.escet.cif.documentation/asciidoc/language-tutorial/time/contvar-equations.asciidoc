@@ -21,7 +21,6 @@ indexterm:[derivative,equation]
 indexterm:[equation,derivative]
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton person:
@@ -39,7 +38,6 @@ Every time that the person has walked `10` time units, (s)he will `turn` around,
 
 In the example above, the derivative of the continuous variable is defined with the declaration, as was already explained in the lesson that introduced <<lang-tut-time-chapter-continuous-variables,continuous variables>>.
 However, it also possible to specify the derivative separately, using an equation:
-
 
 [source, cif]
 ----
@@ -62,7 +60,6 @@ In the example above, the equation for `t'` must be placed in automaton `person`
 
 We could extend this specification to keep track of the direction that the person is moving:
 
-
 [source, cif]
 ----
 automaton person:
@@ -80,7 +77,6 @@ end
 
 For continuous variables declared in automata, it is also possible to specify the derivative using an equation per location of the automaton.
 This allows us to keep track of the exact position of the person:
-
 
 [source, cif]
 ----

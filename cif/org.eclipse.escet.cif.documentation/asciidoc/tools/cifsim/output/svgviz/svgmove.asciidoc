@@ -31,7 +31,7 @@ indexterm:[SVG move declaration,example]
 
 Consider the following SVG file:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.svg[]
 ----
@@ -49,7 +49,7 @@ It also means that the position of `rect2` is 100 pixels from the left (5 times 
 
 Also consider the following CIF file:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.cif[]
 ----
@@ -58,7 +58,7 @@ The upper left corner of the bounding box of rectangle `rect1` is moved to 10 pi
 The upper left corner of the bounding box of rectangle `rect2` is moved to 10 pixels from the left side, and 50 pixels from the top.
 The effect of the move declarations on the SVG image is:
 
-[source,svg]
+[source, svg]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/svgmove/svgmove.out.svg[]
 ----
@@ -91,7 +91,6 @@ indexterm:[SVG move declaration,file]
 === Syntax
 
 The general syntax of CIF/SVG move declarations is:
-
 
 [source, cif]
 ----

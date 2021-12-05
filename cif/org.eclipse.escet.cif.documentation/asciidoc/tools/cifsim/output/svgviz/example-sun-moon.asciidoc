@@ -43,7 +43,7 @@ For clarity we gave the sub-elements ids as well, although that was not necessar
 
 The following CIF specification models the sun/moon example:
 
-[source,cif]
+[source, cif]
 ----
 include::{incdir-tools-cifsim-output-svgviz}/sun_moon/sun_moon.cif[]
 ----

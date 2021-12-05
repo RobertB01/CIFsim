@@ -530,7 +530,7 @@ Its configuration settings are:
 The `loop.padding.left` and `loop.padding.right` become important when a diagram contains a sequence of repetitions.
 If you set the left and right padding to `0`, the following may happen:
 
-[source,raildiagram]
+[source, raildiagram]
 ----
 include::{incdir-rail}/sequence_loops.rr[]
 ----
@@ -618,7 +618,7 @@ Also, an element `x[2--7], y[1--2]` is directly next to the previous element, th
 
 The default values for the various properties are as follows:
 
-[source,properties]
+[source, properties]
 ----
 include::{incdir-rail}/../../../../common/org.eclipse.escet.common.raildiagrams/src/org/eclipse/escet/common/raildiagrams/config/default.properties[]
 ----

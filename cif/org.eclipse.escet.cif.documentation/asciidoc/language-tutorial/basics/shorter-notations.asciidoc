@@ -35,7 +35,6 @@ indexterm:[edge,self loop]
 A self loop is an edge that goes to the location from which it originated.
 Consider the following example:
 
-
 [source, cif]
 ----
 automaton a:
@@ -51,7 +50,6 @@ The effect of the `e` event is that automaton `a` remains in its `x` location.
 A self loop can be used to allow a certain event, essentially ignoring it for that location.
 
 The following short notation can be used for self loops:
-
 
 [source, cif]
 ----
@@ -74,14 +72,12 @@ indexterm:[declaration,multiple]
 
 Several of the previous lessons already showed that multiple events can be declared using a single event declaration:
 
-
 [source, cif]
 ----
 event a, b, c; // Single declaration declares multiple events.
 ----
 
 This is equivalent to using multiple event declarations that each declare a single event:
-
 
 [source, cif]
 ----
@@ -100,7 +96,6 @@ indexterm:[event,multiple on edge]
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton a:
@@ -113,7 +108,6 @@ end
 ----
 
 This can also be written more compactly, as follows:
-
 
 [source, cif]
 ----
@@ -137,7 +131,6 @@ indexterm:[location,nameless]
 
 Several of the examples above show automata with a single location.
 For such automata, the name of the location is optional:
-
 
 [source, cif]
 ----

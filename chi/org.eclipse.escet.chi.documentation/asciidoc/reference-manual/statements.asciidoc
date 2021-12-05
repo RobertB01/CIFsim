@@ -137,7 +137,6 @@ The fourth assignment assigns the value of `x+x` to the first element of the lis
 
 The next assignments show combining or splitting of tuples:
 
-
 [source, chi]
 ----
 t = r, y;
@@ -156,7 +155,6 @@ The origin of the value is however irrelevant to the assignment statement.
 
 To demonstrate the order of evaluation, the following assignment, under the assumption that variable `x` holds value 3:
 
-
 [source, chi]
 ----
 x, xs[x-1] = 7, x+2;
@@ -165,14 +163,12 @@ x, xs[x-1] = 7, x+2;
 The assignment first computes all values at the right.
 Since there are more than one expression, they are combined into a tuple:
 
-
 [source, chi]
 ----
 x, xs[x-1] = (7, 5);
 ----
 
 Next, the addressable values are calculated:
-
 
 [source, chi]
 ----
@@ -184,7 +180,6 @@ Finally the values are assigned, `x` gets a new value 7, while the third element
 The expressions at the right as well as the expressions to select elements in lists and dictionaries are always evaluated using values from before the assignment.
 
 It is forbidden to assign the same variable or selected element more than once:
-
 
 [source, chi]
 ----
@@ -226,7 +221,6 @@ After the last statement has been executed, the `while` statement starts again f
 
 As an example, consider the following code:
 
-
 [source, chi]
 ----
 int s, i;
@@ -253,7 +247,6 @@ image::{ref-imgsdir}/rail_diagrams/for_statement.png[]
 
 A common case for iterating is to execute some statements for every value in a collection, for example a list:
 
-
 [source, chi]
 ----
 list int xs;
@@ -271,7 +264,6 @@ where the `+...+` line represents the statements that should be executed for eac
 This is a very common case.
 Chi has a special statement for it, the `for` statement.
 It looks like:
-
 
 [source, chi]
 ----
@@ -325,7 +317,6 @@ The `break` statement may only be used inside the body of a loop statement.
 When executed, the inner-most loop statement ends immediately, and execution continues with the first statement after the inner-most loop statement.
 An example:
 
-
 [source, chi]
 ----
 # Get a slice of the xs list, up-to the position of value x in the list
@@ -358,7 +349,6 @@ image::{ref-imgsdir}/rail_diagrams/continue_statement.png[]
 
 The syntax of the continue statement is just `continue`.
 An example to demonstrate its operation:
-
 
 [source, chi]
 ----
@@ -407,7 +397,6 @@ If there is no `else` alternative, the choice statement ends without choosing an
 
 An example with just one alternative:
 
-
 [source, chi]
 ----
 if x == 1:
@@ -419,7 +408,6 @@ which tests for `x == 1`.
 If it holds, `x = 2` is performed, else no alternative is chosen.
 
 An longer example with several alternatives:
-
 
 [source, chi]
 ----
@@ -514,7 +502,6 @@ The `end` keyword denotes the end of the `unwind`.
 
 Typical use of `unwind` is to start many similar processes, for example:
 
-
 [source, chi]
 ----
 list int xs = [1, 2]
@@ -550,7 +537,6 @@ Each process variable must be of type `inst` (see <<ref-inst-type>> for details)
 The statement ends when all referenced process instances have ended.
 For example:
 
-
 [source, chi]
 ----
 chan bool c;
@@ -581,7 +567,6 @@ Using a channel increases flexibility, the same channel can be used by several p
 Channels can also be created and exchanged during execution, for even more flexibility.
 
 Setting up a communication channel between two processes is often done in the following way:
-
 
 [source, chi]
 ----
@@ -617,7 +602,6 @@ The statement takes a channel value (derived from `ChannelExpression`), and wait
 When that happens, and the channel is a synchronization channel, a signal 'Communication has occurred' is being sent, if the channel also carries data, the `Expression` value is computed and sent to the other process.
 For example:
 
-
 [source, chi]
 ----
 proc P(chan void a, chan! int b):
@@ -644,7 +628,6 @@ image::{ref-imgsdir}/rail_diagrams/receive_statement.png[]
 The statement takes a channel value (derived from the `ChannelExpression`), and waits until another process can send on the same channel.
 For synchronization channels, it receives just a signal that the communication has occurred, for channels carrying data, the data value is received and stored in the variable indicated by `Addressable`.
 For example:
-
 
 [source, chi]
 ----
@@ -704,7 +687,6 @@ If additional statements were given in the alternative using Path 3, they are ex
 
 A few examples to demonstrate use of the select statement:
 
-
 [source, chi]
 ----
 timer t = timer(5.2);
@@ -725,7 +707,6 @@ If `b!7` was selected, the `writeln("7 sent")` is executed after the communicati
 If the `ready(t)` alternative is chosen, the `writeln("done")` is executed.
 
 A buffer can be specified with:
-
 
 [source, chi]
 ----
@@ -748,7 +729,6 @@ In the second alternative, the assignment statement drops the first element of t
 
 The `unwind` loop 'unwinds' alternatives, for example:
 
-
 [source, chi]
 ----
 list(5) chan int cs;
@@ -767,7 +747,6 @@ Here `cs` is a list  of channels, for example `list(5) chan int cs`.
 The `SelectAlternative` uses the variables to express the actions to perform (wait for a receive, and output some text saying that a value has been received).
 
 The above is equivalent to (if list `cs` has length 5):
-
 
 [source, chi]
 ----
@@ -816,7 +795,6 @@ Changes in its value has thus no effect.
 A negative value ends the statement immediately, you cannot go back in time.
 
 Examples:
-
 
 [source, chi]
 ----
@@ -947,7 +925,6 @@ Execution of the function statements stops (even when inside a loop or in an alt
 
 Examples:
 
-
 [source, chi]
 ----
 return 4          # Return integer value 4 to the caller.
@@ -988,7 +965,6 @@ image::{ref-imgsdir}/rail_diagrams/pass_statement.png[]
 
 The `pass` statement does nothing.
 Its purpose is to act as a place holder for a statement at a point where there is nothing useful to do (for example to make an empty process), or to explicitly state nothing is being done at some point:
-
 
 [source, chi]
 ----

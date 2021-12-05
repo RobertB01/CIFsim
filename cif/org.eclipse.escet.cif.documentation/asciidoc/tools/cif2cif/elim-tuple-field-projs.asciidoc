@@ -39,7 +39,6 @@ That is, there are two ways to indicate from which field to obtain the value.
 The first way is to use the name of the field, the second way is to use the 0-based index of the field into the fields of the tuple's type.
 For instance:
 
-
 [source, cif]
 ----
 const tuple(int a; real b) t = (1, 2.0);
@@ -51,7 +50,6 @@ Here, both constants `x` and `y` have value `1`, obtained from field `a` of the 
 
 This transformation replaces tuple field projections (using the name of the field), by tuple index projections (using the 0-based index of the field).
 For instance, for the example above, the result of this transformation is:
-
 
 [source, cif]
 ----

@@ -23,7 +23,6 @@ Consider a factory with two machines, each consisting of two parts.
 We can model this using five files, one for each of the parts of the machines, and one for the factory as a whole.
 The following CIF specifications show the contents of the five CIF files, where the comment at the first line indicates which file it is:
 
-
 [source, cif]
 ----
 // p1.cif
@@ -102,7 +101,6 @@ The four CIF specifications for the machine parts differ only in their group and
 Their implementations are kept identical for simplicity.
 The `factory.cif` file imports all four part specifications, which together form the full factory.
 The effect of the imports in `factory.cif` is the following:
-
 
 [source, cif]
 ----

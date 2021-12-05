@@ -31,7 +31,6 @@ indexterm:[SVG input mapping,single event input mapping]
 The simplest form of an SVG input mapping maps to a single event.
 For instance:
 
-
 [source, cif]
 ----
 svgin id "button" event machine.button.toggle;
@@ -49,7 +48,6 @@ indexterm:[SVG input mapping,if event input mapping]
 
 Sometimes, the simple _single event input mapping_ is not enough.
 Consider for instance the following CIF specification:
-
 
 [source, cif]
 ----
@@ -69,7 +67,6 @@ This specification models a `button` that is initially released (location `Relea
 When the button is pushed (event `u_pushed`), the location is updated to `Pushed`.
 If we now want to couple a graphical representation of a button to this CIF specification, the event to choose depends on the current location of the `button` automaton.
 This can be mapped using an _if event input mapping_, as follows:
-
 
 [source, cif]
 ----

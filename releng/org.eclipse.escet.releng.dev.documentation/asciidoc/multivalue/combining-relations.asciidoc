@@ -18,6 +18,7 @@ include::_part_attributes.asciidoc[]
 You can have more than one relation at the same time and combine them.
 For example if you also have relations
 
+[source]
 ----
 X ::=    (i == 5 and j == 1)
       or (i == 2 and j == 1)
@@ -27,6 +28,7 @@ Y ::= i == 5 and k == 3
 
 then `Z ::= X and Y` becomes
 
+[source]
 ----
 Z ::= i == 5 and j == 1 and k == 3
 ----
@@ -37,6 +39,7 @@ The reason is that if an alternative in a relation does not say anything about a
 
 This also works if both relations are a disjunction. For example `P ::= X and Q` with
 
+[source]
 ----
 X ::=    (i == 5 and j == 1)
       or (i == 2 and j == 1)
@@ -49,6 +52,7 @@ Q ::=    (i == 5            and k == 5)
 
 gives
 
+[source]
 ----
 P ::=    (i == 5 and j == 1 and k == 5)
       or (i == 5 and j == 1 and k == 3)

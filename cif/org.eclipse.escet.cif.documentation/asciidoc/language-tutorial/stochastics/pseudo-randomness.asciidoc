@@ -53,7 +53,6 @@ Therefore, sampling does not only result in the sampled value, it also results i
 
 Consider the following CIF specification:
 
-
 [source, cif]
 ----
 automaton coin_toss:

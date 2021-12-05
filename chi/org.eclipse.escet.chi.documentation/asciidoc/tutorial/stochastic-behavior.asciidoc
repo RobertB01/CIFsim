@@ -31,7 +31,6 @@ Each value of the six-sided dice is equally likely to appear.
 Every value having the same probability of appearing is a property of the integer uniform distribution, in this case using interval `[1, 7)` (inclusive on the left side, exclusive on the right side).
 The model is:
 
-
 [source, chi]
 ----
 dist int dice = uniform(1,7);
@@ -83,7 +82,6 @@ There is one constant distribution for each type of sample value:
 * `constant(real v)`, a `real` distribution.
 
 An example with a constant distribution is:
-
 
 [source, chi]
 ----
