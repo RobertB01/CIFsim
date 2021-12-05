@@ -92,6 +92,7 @@ public class ExpressionsFactoryImpl extends EFactoryImpl implements ExpressionsF
             case ExpressionsPackage.COMP_PARAM_WRAP_EXPRESSION: return createCompParamWrapExpression();
             case ExpressionsPackage.COMP_INST_WRAP_EXPRESSION: return createCompInstWrapExpression();
             case ExpressionsPackage.COMPONENT_EXPRESSION: return createComponentExpression();
+            case ExpressionsPackage.COMP_PARAM_EXPRESSION: return createCompParamExpression();
             case ExpressionsPackage.CONSTANT_EXPRESSION: return createConstantExpression();
             case ExpressionsPackage.TAU_EXPRESSION: return createTauExpression();
             case ExpressionsPackage.PROJECTION_EXPRESSION: return createProjectionExpression();
@@ -339,6 +340,18 @@ public class ExpressionsFactoryImpl extends EFactoryImpl implements ExpressionsF
     {
         ComponentExpressionImpl componentExpression = new ComponentExpressionImpl();
         return componentExpression;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public CompParamExpression createCompParamExpression()
+    {
+        CompParamExpressionImpl compParamExpression = new CompParamExpressionImpl();
+        return compParamExpression;
     }
 
     /**

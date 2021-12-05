@@ -322,6 +322,7 @@ public class StateInitVarOrderer extends DependencyOrderer<Declaration> {
         // - ReceivedExpression (only allowed in updates of edges)
 
         // Should have been eliminated:
+        // - CompParamExpression
         // - CompInstWrapExpression
         // - CompParamWrapExpression
 

@@ -96,6 +96,7 @@ import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
 import org.eclipse.escet.cif.metamodel.cif.Component;
 import org.eclipse.escet.cif.metamodel.cif.ComponentDef;
 import org.eclipse.escet.cif.metamodel.cif.ComponentInst;
+import org.eclipse.escet.cif.metamodel.cif.ComponentParameter;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.AlgVariable;
@@ -108,6 +109,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -532,6 +534,17 @@ public class CifExprsTypeChecker {
             Component comp = ((ComponentExpression)expr).getComponent();
             Automaton aut = CifScopeUtils.getAutomaton(comp);
             tchecker.addProblem(ErrMsg.STATIC_EVAL_AUT_REF, expr.getPosition(), getAbsName(aut));
+            throw new SemanticException();
+        } else if (expr instanceof CompParamExpression) {
+            // This always refers to the same component parameter. However,
+            // we don't know what component it is instantiated with. And it
+            // maybe instantiated with various different components for
+            // different instantiations. As such, we don't know its value.
+            if (tchecker == null) {
+                return false;
+            }
+            ComponentParameter compParam = ((CompParamExpression)expr).getParameter();
+            tchecker.addProblem(ErrMsg.STATIC_EVAL_COMP_PARAM, expr.getPosition(), getAbsName(compParam));
             throw new SemanticException();
         } else if (expr instanceof CompInstWrapExpression) {
             // Peel of the wrapper, as static evaluability of the wrapped
@@ -4683,6 +4696,28 @@ public class CifExprsTypeChecker {
             return locRef;
         }
 
+        // Automaton parameter reference expression. Add a component parameter wrapping expression.
+        if (autRef instanceof CompParamExpression) {
+            // Create wrapping expression for automaton parameter reference.
+            CompParamExpression expr = (CompParamExpression)autRef;
+            CompParamWrapExpression wrap = newCompParamWrapExpression();
+
+            // Put parameter in the new wrapper.
+            wrap.setParameter(expr.getParameter());
+
+            // Location references always have a boolean type.
+            wrap.setType(newBoolType());
+
+            // Replace current location reference by new wrapper.
+            EMFHelper.updateParentContainment(locRef, wrap);
+
+            // Put current location reference in new wrapper.
+            wrap.setReference(locRef);
+
+            // Return new wrapped location reference.
+            return wrap;
+        }
+
         // Wrapping expressions. Move inwards first, then add the wrapper.
         if (autRef instanceof CompParamWrapExpression) {
             // Recursively handle child of wrapped automaton reference.
@@ -4863,6 +4898,14 @@ public class CifExprsTypeChecker {
             }
         }
 
+        // Handle component parameter reference.
+        if (autRef instanceof CompParamExpression) {
+            CifType t = CifTypeUtils.normalizeType(((CompParamExpression)autRef).getType());
+            Assert.check(t instanceof ComponentDefType);
+            ComponentDef cdef = ((ComponentDefType)t).getDefinition();
+            return (Automaton)cdef.getBody();
+        }
+
         // Handle direct automaton reference.
         Assert.check(autRef instanceof ComponentExpression);
         Component comp = ((ComponentExpression)autRef).getComponent();
@@ -4895,11 +4938,6 @@ public class CifExprsTypeChecker {
 
         if (entry instanceof AutDefScope || entry instanceof GroupDefScope) {
             tchecker.addProblem(ErrMsg.COMPDEF_REF_IN_EXPR, expr.position, entry.getAbsName());
-            throw new SemanticException();
-        }
-
-        if (entry instanceof CompParamScope) {
-            tchecker.addProblem(ErrMsg.UNSUPPORTED_COMP_PARAM_USE, expr.position, "a value");
             throw new SemanticException();
         }
 

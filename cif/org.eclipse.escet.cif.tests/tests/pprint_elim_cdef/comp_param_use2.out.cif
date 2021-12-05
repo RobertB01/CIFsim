@@ -1,0 +1,19 @@
+group def Y():
+  plant automaton def Q():
+    location l1:
+      initial;
+      edge when l1 goto l2;
+    location l2;
+  end
+  q1: Q();
+end
+group def X1(y.Q p):
+  alg string s1 = <string>p;
+  alg bool b1 = switch p: case l1: true else false end;
+  group def X():
+    group def Z():
+    end
+  end
+end
+y: Y();
+x1: X1(y.q1);

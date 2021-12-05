@@ -1511,6 +1511,27 @@ none
 \end{description}
 
 
+\subsection{CompParamExpression (class)}\label{cifclass:CompParamExpression}
+\clsdocuCompParamExpression
+
+~\\ \noindent \emph{EObject} \\
+\hook~\positionclass{PositionObject} \\
+\hookindent\hook~\cifclass{Expression} \\
+\hookindent\hookindent\hook~\emph{CompParamExpression}
+
+~\\ \noindent Direct derived classes:
+none
+
+\begin{description}
+\positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:CompParamExpression.position}}
+{\featdocuPositionObjectposition}
+\cifclassDetail{cont}{type}{{[1]}}{CifType}{(inherited from \textit{Expression})}{\label{cifattr:CompParamExpression.type}}
+{\featdocuExpressiontype}
+\cifclassDetail{ref}{parameter}{{[1]}}{ComponentParameter}{}{\label{cifattr:CompParamExpression.parameter}}
+{\featdocuCompParamExpressionparameter}
+\end{description}
+
+
 \subsection{CompParamWrapExpression (class)}\label{cifclass:CompParamWrapExpression}
 \clsdocuCompParamWrapExpression
 
@@ -1731,7 +1752,7 @@ none
 \hookindent\hook~\emph{Expression}
 
 ~\\ \noindent Direct derived classes:
-\cifclass{AlgVariableExpression}, \cifclass{BaseFunctionExpression}, \cifclass{BinaryExpression}, \cifclass{BoolExpression}, \cifclass{CastExpression}, \cifclass{CompInstWrapExpression}, \cifclass{CompParamWrapExpression}, \cifclass{ComponentExpression}, \cifclass{ConstantExpression}, \cifclass{ContVariableExpression}, \cifclass{DictExpression}, \cifclass{DiscVariableExpression}, \cifclass{EnumLiteralExpression}, \cifclass{EventExpression}, \cifclass{FieldExpression}, \cifclass{FunctionCallExpression}, \cifclass{IfExpression}, \cifclass{InputVariableExpression}, \cifclass{IntExpression}, \cifclass{ListExpression}, \cifclass{LocationExpression}, \cifclass{ProjectionExpression}, \cifclass{RealExpression}, \cifclass{ReceivedExpression}, \cifclass{SelfExpression}, \cifclass{SetExpression}, \cifclass{SliceExpression}, \cifclass{StringExpression}, \cifclass{SwitchExpression}, \cifclass{TauExpression}, \cifclass{TimeExpression}, \cifclass{TupleExpression}, \cifclass{UnaryExpression}
+\cifclass{AlgVariableExpression}, \cifclass{BaseFunctionExpression}, \cifclass{BinaryExpression}, \cifclass{BoolExpression}, \cifclass{CastExpression}, \cifclass{CompInstWrapExpression}, \cifclass{CompParamExpression}, \cifclass{CompParamWrapExpression}, \cifclass{ComponentExpression}, \cifclass{ConstantExpression}, \cifclass{ContVariableExpression}, \cifclass{DictExpression}, \cifclass{DiscVariableExpression}, \cifclass{EnumLiteralExpression}, \cifclass{EventExpression}, \cifclass{FieldExpression}, \cifclass{FunctionCallExpression}, \cifclass{IfExpression}, \cifclass{InputVariableExpression}, \cifclass{IntExpression}, \cifclass{ListExpression}, \cifclass{LocationExpression}, \cifclass{ProjectionExpression}, \cifclass{RealExpression}, \cifclass{ReceivedExpression}, \cifclass{SelfExpression}, \cifclass{SetExpression}, \cifclass{SliceExpression}, \cifclass{StringExpression}, \cifclass{SwitchExpression}, \cifclass{TauExpression}, \cifclass{TimeExpression}, \cifclass{TupleExpression}, \cifclass{UnaryExpression}
 
 \begin{description}
 \positionclassDetail{cont}{position}{{[0..1]}}{Position}{(inherited from \textit{PositionObject})}{\label{positionattr:Expression.position}}

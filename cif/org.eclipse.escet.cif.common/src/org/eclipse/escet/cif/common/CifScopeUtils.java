@@ -43,6 +43,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -972,6 +973,8 @@ public class CifScopeUtils {
             refObj = ((InputVariableExpression)refExpr).getVariable();
         } else if (refExpr instanceof ComponentExpression) {
             refObj = ((ComponentExpression)refExpr).getComponent();
+        } else if (refExpr instanceof CompParamExpression) {
+            refObj = ((CompParamExpression)refExpr).getParameter();
         } else if (refExpr instanceof SelfExpression) {
             CifType ctype = CifTypeUtils.normalizeType(refExpr.getType());
             refObj = ((ComponentType)ctype).getComponent();
@@ -1071,11 +1074,6 @@ public class CifScopeUtils {
     /**
      * Is the given reference expression a reference via/to a formal parameter of a component definition?
      *
-     * <p>
-     * Note that component parameters can not be referred to (only 'via'), as their type is a component definition, and
-     * we have no component definition reference expression class in the metamodel.
-     * </p>
-     *
      * @param refExpr The reference expression.
      * @return {@code true} if the reference expression refers via/to a formal parameter of a component definition,
      *     {@code false} otherwise.
@@ -1083,6 +1081,11 @@ public class CifScopeUtils {
     public static boolean isParamRefExpr(Expression refExpr) {
         // Via component parameter reference expression.
         if (refExpr instanceof CompParamWrapExpression) {
+            return true;
+        }
+
+        // Component parameter reference expression.
+        if (refExpr instanceof CompParamExpression) {
             return true;
         }
 
@@ -1249,6 +1252,9 @@ public class CifScopeUtils {
             // Directly a reference.
             rslt.add(expr);
         } else if (expr instanceof ComponentExpression) {
+            // Directly a reference.
+            rslt.add(expr);
+        } else if (expr instanceof CompParamExpression) {
             // Directly a reference.
             rslt.add(expr);
         } else if (expr instanceof CompInstWrapExpression) {

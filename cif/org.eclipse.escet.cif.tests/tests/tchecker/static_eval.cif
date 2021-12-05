@@ -105,3 +105,11 @@ automaton aut_ref:
     initial;
 end
 
+automaton def comp_param_ref1():
+  location:
+    initial;
+end
+
+group def comp_param_ref2(comp_param_ref1 p):
+  const string c1 = <string>p;
+end

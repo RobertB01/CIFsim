@@ -1,0 +1,25 @@
+group def R():
+  group def Y():
+    plant automaton def Q():
+      location l1:
+        initial;
+        edge when l1 goto l2;
+      location l2;
+    end
+    q1: Q();
+  end
+  y: Y();
+end
+group def X1(r.y.Q p):
+  alg bool b1 = switch p: case l1: true else false end;
+  group def X(r.y.Q p):
+    alg string s1 = <string>p;
+    group def T():
+      group def U():
+      end
+    end
+  end
+  x: X(p);
+end
+r: R();
+x1: X1(r.y.q1);

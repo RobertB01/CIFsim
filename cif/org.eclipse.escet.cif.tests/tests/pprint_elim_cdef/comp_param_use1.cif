@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,11 +11,23 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant def P():
+plant def Q():
+  type t = bool;
   location l:
     initial;
 end
 
-group def X(P p):
-  invariant p;
+group def X1(Q p):
+  group def X2(Q p):
+    alg p.t v = true;
+    invariant p.l;
+  end
+
+  x2: X2(p);
+
+  alg string s1 = <string>p;
+  alg bool b1 = switch(p): case l: true end;
 end
+
+q1: Q();
+x1: X1(q1);

@@ -63,6 +63,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -650,6 +651,13 @@ public class CifEvalUtils {
             // as values. However, special cases such as casting to string may
             // be handled by other expressions.
             String msg = "Cannot use component as value: " + expr;
+            throw new RuntimeException(msg);
+        } else if (expr instanceof CompParamExpression) {
+            // A reference to a component parameter always refers to the same
+            // component parameter, but we don't support components parameters
+            // as values. However, special cases such as casting to string
+            // may be handled by other expressions.
+            String msg = "Cannot use component parameter as value: " + expr;
             throw new RuntimeException(msg);
         } else if (expr instanceof CompInstWrapExpression) {
             // Peel of the wrapper. Statically, for values, we don't care

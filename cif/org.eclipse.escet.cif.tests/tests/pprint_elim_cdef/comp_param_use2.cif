@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-// Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
+// Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -11,11 +11,27 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-plant def P():
-  location l:
-    initial;
+group def Y():
+  plant def Q():
+    location l1:
+      initial;
+      edge when l1 goto l2;
+    location l2;
+  end
+
+  q1: Q();
 end
 
-group def X(P p):
-  invariant p;
+y: Y();
+
+group def X1(y.Q p):
+   group def X():
+     group def Z():
+     end
+   end
+
+   alg string s1 = <string>p;
+   alg bool b1 = switch p: case l1: true else false end;
 end
+
+x1: X1(y.q1);

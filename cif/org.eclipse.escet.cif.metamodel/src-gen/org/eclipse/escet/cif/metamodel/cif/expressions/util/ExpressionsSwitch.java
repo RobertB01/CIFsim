@@ -228,6 +228,15 @@ public class ExpressionsSwitch<T> extends Switch<T>
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case ExpressionsPackage.COMP_PARAM_EXPRESSION:
+            {
+                CompParamExpression compParamExpression = (CompParamExpression)theEObject;
+                T result = caseCompParamExpression(compParamExpression);
+                if (result == null) result = caseExpression(compParamExpression);
+                if (result == null) result = casePositionObject(compParamExpression);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case ExpressionsPackage.CONSTANT_EXPRESSION:
             {
                 ConstantExpression constantExpression = (ConstantExpression)theEObject;
@@ -691,6 +700,22 @@ public class ExpressionsSwitch<T> extends Switch<T>
      * @generated
      */
     public T caseComponentExpression(ComponentExpression object)
+    {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Comp Param Expression</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Comp Param Expression</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseCompParamExpression(CompParamExpression object)
     {
         return null;
     }

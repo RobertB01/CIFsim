@@ -43,6 +43,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -216,6 +217,13 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
      * @generated
      */
     private EClass componentExpressionEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass compParamExpressionEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -963,6 +971,28 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
      * @generated
      */
     @Override
+    public EClass getCompParamExpression()
+    {
+        return compParamExpressionEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EReference getCompParamExpression_Parameter()
+    {
+        return (EReference)compParamExpressionEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getConstantExpression()
     {
         return constantExpressionEClass;
@@ -1607,6 +1637,9 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         componentExpressionEClass = createEClass(COMPONENT_EXPRESSION);
         createEReference(componentExpressionEClass, COMPONENT_EXPRESSION__COMPONENT);
 
+        compParamExpressionEClass = createEClass(COMP_PARAM_EXPRESSION);
+        createEReference(compParamExpressionEClass, COMP_PARAM_EXPRESSION__PARAMETER);
+
         constantExpressionEClass = createEClass(CONSTANT_EXPRESSION);
         createEReference(constantExpressionEClass, CONSTANT_EXPRESSION__CONSTANT);
 
@@ -1737,6 +1770,7 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
         compParamWrapExpressionEClass.getESuperTypes().add(this.getExpression());
         compInstWrapExpressionEClass.getESuperTypes().add(this.getExpression());
         componentExpressionEClass.getESuperTypes().add(this.getExpression());
+        compParamExpressionEClass.getESuperTypes().add(this.getExpression());
         constantExpressionEClass.getESuperTypes().add(this.getExpression());
         tauExpressionEClass.getESuperTypes().add(this.getExpression());
         projectionExpressionEClass.getESuperTypes().add(this.getExpression());
@@ -1819,6 +1853,9 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
 
         initEClass(componentExpressionEClass, ComponentExpression.class, "ComponentExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getComponentExpression_Component(), theCifPackage.getComponent(), null, "component", null, 1, 1, ComponentExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(compParamExpressionEClass, CompParamExpression.class, "CompParamExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getCompParamExpression_Parameter(), theCifPackage.getComponentParameter(), null, "parameter", null, 1, 1, CompParamExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(constantExpressionEClass, ConstantExpression.class, "ConstantExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getConstantExpression_Constant(), theDeclarationsPackage.getConstant(), null, "constant", null, 1, 1, ConstantExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -92,6 +92,7 @@ import org.eclipse.escet.cif.metamodel.cif.expressions.BinaryOperator;
 import org.eclipse.escet.cif.metamodel.cif.expressions.BoolExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CastExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompInstWrapExpression;
+import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.CompParamWrapExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ComponentExpression;
 import org.eclipse.escet.cif.metamodel.cif.expressions.ConstantExpression;
@@ -1861,6 +1862,9 @@ public final class CifPrettyPrinter {
             return CifScopeUtils.getRefTxtFromObj(expr, refObj, scopeCache);
         } else if (expr instanceof ComponentExpression) {
             Component refObj = ((ComponentExpression)expr).getComponent();
+            return CifScopeUtils.getRefTxtFromObj(expr, refObj, scopeCache);
+        } else if (expr instanceof CompParamExpression) {
+            ComponentParameter refObj = ((CompParamExpression)expr).getParameter();
             return CifScopeUtils.getRefTxtFromObj(expr, refObj, scopeCache);
         } else if (expr instanceof CompInstWrapExpression) {
             return CifScopeUtils.getViaRefTxt(expr, scopeCache);

@@ -85,3 +85,121 @@ end
 ----
 
 Group definitions may be <<lang-tut-reuse2-chapter-aut-def-params,parametrized>> using the same <<lang-tut-reuse2-chapter-aut-def-param-kinds,kinds of parameters>> as automaton definitions.
+
+Component parameters can be used inside component definitions to be supplied to other components.
+Consider for instance the following CIF specification:
+
+
+[source, cif]
+----
+automaton def Sensor():
+  event go_on, go_off;
+
+  location off:
+    initial;
+    edge go_on goto on;
+
+  location on:
+    edge go_off goto off;
+end
+
+sensor1: Sensor();
+sensor2: Sensor();
+
+automaton def Actuator(Sensor sensor):
+  event turn_on, turn_off;
+
+  location off:
+    initial;
+    edge turn_on  when sensor.on  goto on;
+
+  location on:
+    edge turn_off when sensor.off goto off;
+end
+
+group def Actuators(Sensor sensor):
+  actuator1: Actuator(sensor);
+  actuator2: Actuator(sensor);
+  actuator3: Actuator(sensor);
+end
+
+actuators1: Actuators(sensor1);
+actuators2: Actuators(sensor2);
+----
+
+Group definition `Actuators` models a collection of three actuators.
+The actuators behave as <<lang-tut-reuse2-aut-def-param-kinds-aut,before>>.
+The actuators `actuator1`, `actuator2` and `actuator3` are provided parameter `sensor` as sensor.
+For the actuators part of `actuators1` the provided sensor is `sensor1` and for the actuators part of `actuators2` that is `sensor2`.
+Both `sensor1` and `sensor2` are actual sensors.
+
+If we eliminate all component definitions and their instantiations, by replacing instantiations by their definitions, we get the following CIF specification:
+
+
+[source, cif]
+----
+automaton sensor1:
+  ...
+end
+automaton sensor2:
+  ...
+end
+group actuators1:
+  automaton actuator1:
+    event turn_on;
+    event turn_off;
+    location off:
+      initial;
+      edge turn_on when sensor1.on goto on;
+    location on:
+      edge turn_off when sensor1.off goto off;
+  end
+  automaton actuator2:
+    event turn_on;
+    event turn_off;
+    location off:
+      initial;
+      edge turn_on when sensor1.on goto on;
+    location on:
+      edge turn_off when sensor1.off goto off;
+  end
+  automaton actuator3:
+    event turn_on;
+    event turn_off;
+    location off:
+      initial;
+      edge turn_on when sensor1.on goto on;
+    location on:
+      edge turn_off when sensor1.off goto off;
+  end
+end
+group actuators2:
+  automaton actuator1:
+    event turn_on;
+    event turn_off;
+    location off:
+      initial;
+      edge turn_on when sensor2.on goto on;
+    location on:
+      edge turn_off when sensor2.off goto off;
+  end
+  automaton actuator2:
+    event turn_on;
+    event turn_off;
+    location off:
+      initial;
+      edge turn_on when sensor2.on goto on;
+    location on:
+      edge turn_off when sensor2.off goto off;
+  end
+  automaton actuator3:
+    event turn_on;
+    event turn_off;
+    location off:
+      initial;
+      edge turn_on when sensor2.on goto on;
+    location on:
+      edge turn_off when sensor2.off goto off;
+  end
+end
+----
