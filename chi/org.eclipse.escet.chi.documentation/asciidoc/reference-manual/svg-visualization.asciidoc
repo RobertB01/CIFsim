@@ -36,7 +36,6 @@ The file should be available at the file system.
 Different Chi processes may open the same file at the same time.
 The SVG visualizer can only display one SVG file at a time, it is not allowed for processes to open different `.svg` files.
 
-
 === Visualization modification commands
 
 After opening the file, the content of the SVG file can be changed by modifying the nodes.

@@ -22,7 +22,6 @@ This page describes the built-in I/O tools:
 * <<lang-ref-builtins-io-outln,outln>>
 * <<lang-ref-builtins-io-errln,errln>>
 
-
 indexterm:[out]
 
 [[lang-ref-builtins-io-out]]
@@ -47,7 +46,6 @@ _Runtime errors_
 
 * If the format pattern is invalid.
 * If the format pattern and arguments don't match.
-
 
 indexterm:[err]
 
@@ -74,7 +72,6 @@ _Runtime errors_
 * If the format pattern is invalid.
 * If the format pattern and arguments don't match.
 
-
 indexterm:[outln]
 
 [[lang-ref-builtins-io-outln]]
@@ -99,7 +96,6 @@ _Runtime errors_
 
 * If the format pattern is invalid.
 * If the format pattern and arguments don't match.
-
 
 indexterm:[errln]
 

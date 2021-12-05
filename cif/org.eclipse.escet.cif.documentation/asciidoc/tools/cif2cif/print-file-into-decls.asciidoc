@@ -107,7 +107,6 @@ The print file declaration (`out5.txt`) from group `g.h` does not apply to any p
 
 Group `g.i` does not have an print file declaration, so the print declaration that prints `10`, which is declared in that group, gets the print file declaration from group `g` (the parent scope of group `g.i`) instead.
 
-
 === Renaming
 
 n/a
@@ -118,7 +117,6 @@ indexterm:[push print file declarations into print declarations,size considerati
 
 As print file declarations may apply to multiple print declarations, this transformation may increase the number of (local) print file declarations in the specification.
 The number of print file declarations after the transformation is at most the number of print declarations, and as such the increase is at most linear in the number of print declarations as well.
-
 
 === Optimality
 

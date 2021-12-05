@@ -125,7 +125,6 @@ See also:: DU(a, b - 1), <<law-tut>>, page 303
 indexterm:[distribution,continuous]
 indexterm:[continuous,distribution]
 
-
 ==== Continuous distributions
 
 Continuous distributions return a value from a continuous range.
@@ -153,12 +152,10 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/gamma.svg[]
 Mean:: `a * b`
 Variance:: `+a * b^2+`
 
-
 [bibliography]
 ==== References
 
 * [[[law-tut]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
-
 
 [[tut-simulating-stochastic-behavior]]
 === Simulating stochastic behavior
@@ -182,7 +179,6 @@ At the end of the simulation, the used initial seed of that simulation is printe
 
 While doing a stochastic simulation study, performing several experiments with the same initial seed invalidates the results, as it is equivalent to copying the outcome of a single experiment a number of times.
 On the other hand, when looking for the cause of a bug in the model, performing the exact same experiment is useful as outcomes of previous experiments should match exactly.
-
 
 === Exercises
 

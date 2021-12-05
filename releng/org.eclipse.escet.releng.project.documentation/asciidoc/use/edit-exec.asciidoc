@@ -46,7 +46,6 @@ Note that you can hover over an error in the source code itself to find out what
 Alternatively, you can hover over the error marker in the margin of the editor, or look at the _Problems_ view.
 Also, if a file has an error or a warning, an overlay icon is shown in the _Project Explorer_ and _Package Explorer_ views, for that file, the directories that contain it, and the <<use-terminology-project,project>> that contains it.
 
-
 indexterm:[command,execute]
 indexterm:[execute,command]
 indexterm:[file,right click]

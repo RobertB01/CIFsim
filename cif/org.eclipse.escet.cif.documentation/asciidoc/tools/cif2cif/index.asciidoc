@@ -26,7 +26,6 @@ Transformations that work on subsets of the CIF language, automatically apply th
 
 The CIF to CIF transformer can also be used as a <<tools-cif2cif-pprinter,pretty printer>>.
 
-
 indexterm:[CIF to CIF transformer,start]
 
 === Starting the transformation
@@ -41,7 +40,6 @@ The transformation can be started from Eclipse in the following ways:
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.
 
 * Use the `cif2cif` command line tool.
-
 
 indexterm:[CIF to CIF transformer,options]
 
@@ -65,7 +63,6 @@ To remove a transformation, double click on it in the list of chosen transformat
 +
 At the command line, specify comma separated transformation names, in the order they should be applied.
 The names to use are listed below, in the <<tools-cif2cif-available>> section.
-
 
 indexterm:[CIF to CIF transformer,transformation descriptions]
 
@@ -134,7 +131,6 @@ The available transformations are listed below, with a link to the information a
 * <<tools-cif2cif-chapter-simplify-values-no-refs-optimized>> (`simplify-values-no-refs-optimized`)
 * <<tools-cif2cif-chapter-svg-file-into-decls>> (`svg-file-into-decls`)
 * <<tools-cif2cif-chapter-switches-to-ifs>> (`switches-to-ifs`)
-
 
 indexterm:[CIF to CIF transformer,pretty printer]
 indexterm:[tools,pretty printer]

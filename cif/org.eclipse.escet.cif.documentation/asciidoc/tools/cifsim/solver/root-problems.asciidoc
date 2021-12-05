@@ -107,7 +107,6 @@ The second guard (`1 / x < 0.5`) is evaluated even if the first guard (`x > 0`) 
 Initially, the first guard does not hold, and the second guard results in division by zero.
 Changing the comma between the guards to an `and` operator, makes it possible to simulate this specification.
 
-
 === Debug information
 
 Debug information about what the ODE solver calculates, and for what time points, can be enabled using the _Debug output_ option.

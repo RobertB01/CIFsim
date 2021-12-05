@@ -839,7 +839,6 @@ Some examples of the element test operation:
 
 There are also standard library functions for lists, see <<ref-list-stdlib>> for details.
 
-
 indexterm:[set,expression]
 indexterm:[expression,set]
 
@@ -1418,7 +1417,6 @@ In the example, the test result is written to the screen, but this could also be
 
 The other thing that you can do is to wait for termination of the process by means of the `finish` statement, see also <<ref-finish-statement>>.
 
-
 [[ref-matrix-expression]]
 === Matrix expression
 
@@ -1558,7 +1556,6 @@ The sequence of expressions inside the parentheses denote the values of the inpu
 Their type has to match with the type stated in the formal parameter at the corresponding position.
 
 The result of the function call is a value with the same type as stated in the return type of the function definition.
-
 
 [[ref-operator-priorities]]
 === Operator priorities

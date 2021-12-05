@@ -34,7 +34,6 @@ This page describes the built-in I/O tools:
 * <<lang-ref-builtins-file-rmdir,rmdir>>
 * <<lang-ref-builtins-file-writefile,writefile>>
 
-
 indexterm:[cpfile]
 
 [[lang-ref-builtins-file-cpfile]]
@@ -69,7 +68,6 @@ _Runtime errors_
 * If the target file exists and overwriting is allowed, but the target refers to a directory rather than a file.
 * If the target file exists and overwriting is allowed, but it can not be determined whether the target path refers to a file or a directory.
 * If copying the file failed due to an I/O error.
-
 
 indexterm:[cpdir]
 
@@ -109,7 +107,6 @@ _Runtime errors_
 * If walking the directory (recursively) fails.
 * If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
 * If a file or (sub-)directory could not be copied due to an I/O error.
-
 
 indexterm:[diff]
 
@@ -166,7 +163,6 @@ _Runtime errors_
 * If the `out` file can not be closed.
 * If the files differ and `failOnDiff` is enabled.
 
-
 indexterm:[exists]
 
 [[lang-ref-builtins-file-exists]]
@@ -188,7 +184,6 @@ May contain both `\` and `/` as path separators.
 _Returns_
 
 `true` if the file or directory exists, `false` otherwise.
-
 
 indexterm:[filenewer]
 
@@ -233,7 +228,6 @@ _Runtime errors_
 * If for any of the paths it can not be determined whether the path refers to a file or a directory.
 * If the last change date/time of any of the files can not be determined.
 
-
 indexterm:[filesize]
 
 [[lang-ref-builtins-file-filesize]]
@@ -265,7 +259,6 @@ _Runtime errors_
 * If the file is a directory rather than a file.
 * If it can not be determined whether the path refers to a file or a directory.
 * If the size of the file can not be determined due to an I/O error.
-
 
 indexterm:[find]
 
@@ -314,7 +307,6 @@ _Runtime errors_
 * If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
 * If the operation fails due to an I/O error.
 
-
 indexterm:[isdir]
 
 [[lang-ref-builtins-file-isdir]]
@@ -337,7 +329,6 @@ _Returns_
 
 `true` if the directory exists, `false` if it doesn't exist or is not a directory.
 
-
 indexterm:[isfile]
 
 [[lang-ref-builtins-file-isfile]]
@@ -359,7 +350,6 @@ May contain both `\` and `/` as path separators.
 _Returns_
 
 `true` if the file exists, `false` if it doesn't exist or is not a file.
-
 
 indexterm:[mkdir]
 
@@ -389,7 +379,6 @@ _Runtime errors_
 
 * If the directory already exists and `force` is disabled.
 * If creating the directory or any of its parents fails, due to an I/O error.
-
 
 indexterm:[mvfile]
 
@@ -426,7 +415,6 @@ _Runtime errors_
 * If the target file exists and overwriting is allowed, but the target refers to a directory rather than a file.
 * If the target file exists and overwriting is allowed, but it can not be determined whether the target path refers to a file or a directory.
 * If moving the file fails due to an I/O error.
-
 
 indexterm:[mvdir]
 
@@ -467,7 +455,6 @@ _Runtime errors_
 * If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
 * If a file or (sub-)directory can not be copied or removed, due to an I/O error.
 
-
 indexterm:[readlines]
 
 [[lang-ref-builtins-file-readlines]]
@@ -498,7 +485,6 @@ _Runtime errors_
 * If for some other reason can not be opened for reading.
 * If an I/O error occurs.
 * If the file can not be closed.
-
 
 indexterm:[rmfile]
 
@@ -532,7 +518,6 @@ _Runtime errors_
 * If it can not be determined whether the path refers to a file or a directory.
 * If an I/O error occurs.
 * If the file can not be removed for some other reason.
-
 
 indexterm:[rmdir]
 
@@ -568,7 +553,6 @@ _Runtime errors_
 * If walking the directory (recursively) fails.
 * If walking the directory (recursively) encounters a file system cycle (due to symbolic links).
 * If the directory or one of its sub-files or sub-directories can not be removed for some other reason.
-
 
 indexterm:[writefile]
 

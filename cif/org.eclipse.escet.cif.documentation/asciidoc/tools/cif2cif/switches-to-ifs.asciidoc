@@ -24,7 +24,6 @@ This CIF to CIF transformation converts `switch` expressions to `if` expressions
 
 This transformation supports all CIF specifications.
 
-
 === Preprocessing
 
 n/a
@@ -94,7 +93,6 @@ This optimization means that the control value (`y` in this case) is lost.
 For algebraic variable `v` in automaton `a`, the `switch` expression uses an automaton self reference.
 The cases list the possible locations of the automaton, and the `switch` expression maps them to string values.
 Since for `if` expressions the `else` part is mandatory, the last `case` of the `switch` is converted to the `else` of the `if` expression.
-
 
 === Renaming
 

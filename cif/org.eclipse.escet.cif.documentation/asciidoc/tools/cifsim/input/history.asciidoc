@@ -44,7 +44,6 @@ If history is enabled, it only has an effect if an interactive input mode is use
 Other (automatic) input modes will never perform a reset or undo.
 That is, the simulator will not keep track of any history states, unless an interactive (either fully interactive or <<tools-cifsim-input-chapter-semi-automatic,semi-automatic>>) input mode is used, and history is enabled via the _History_ option.
 
-
 === State stack
 
 In order for the simulator to be able to go back to earlier states, it will need to remember those states.
@@ -116,7 +115,6 @@ However, as we forgot all about state `1`, we can't undo three transitions.
 Due to the _gap_ between states `0` and `2`, we can't undo past state `2`.
 As you can see from this example, for a history size of 3, we can undo at most 3 transitions when there is no gap, and at most 2 transitions when there is a gap.
 
-
 === Availability
 
 If history is disabled, reset is not available.
@@ -129,7 +127,6 @@ The number of transitions that can be undone depends on the number of states tha
 If `n` states are currently remembered, excluding the initial state, then `n - 1` transitions can be undone, at the least.
 If there is no gap, and the current state is not the initial state, then `n` transitions can be undone.
 
-
 === Requests
 
 Reset and undo are only supported by interactive input modes, as explained above.
@@ -140,7 +137,6 @@ The details on how the different choices are presented, and how the choice can b
 If no transitions are possible, for instance due to <<lang-tut-time-deadlock,deadlock>> or reaching the <<tools-cifsim-termination-endtime,end-user provided simulation end time>>, the simulator may interactively ask the user to choose between termination of the simulation, resetting the simulation to the initial state, or undoing some transitions.
 This choice is only presented if either reset or undo is enabled, as otherwise there is no choice to make.
 The details on how the different choices are presented, and how the choice can be made, are explained in the documentation for each of the interactive input modes.
-
 
 === Semi-automatic mode
 

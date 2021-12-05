@@ -45,11 +45,9 @@ To increase the subset of specifications that can be transformed, apply the foll
 
 * <<tools-cif2cif-chapter-elim-comp-def-inst>>
 
-
 === Implementation details
 
 n/a
-
 
 === Renaming
 
@@ -60,7 +58,6 @@ indexterm:[simplify others,size considerations]
 === Size considerations
 
 This transformation tries to simplify the specification, possibly reducing its size.
-
 
 === Optimality
 

@@ -42,7 +42,6 @@ In this lesson, absolute time will be used.
 In most models, it is easier to use relative time.
 This can be achieved with <<lang-tut-time-chapter-continuous-variables,continuous variables>>, discussed in the next lesson.
 
-
 === Timed guards
 
 Consider the following CIF specification:
@@ -99,7 +98,6 @@ At the end of the state space, a time transition of infinite duration is shown, 
 The current locations of automata can not change as time passes as the result of taking a time transition.
 The only way for the current locations to change, is as the result of taking an edge as part of an event transition.
 
-
 === Urgency
 
 By default, all events in CIF are _urgent_.
@@ -107,7 +105,6 @@ Events being urgent means that edges are taken as soon as possible.
 In other words, event transitions take priority over time transitions.
 Time can only progress if no event transitions are possible.
 For further details on urgency, see the future <<lang-tut-time-chapter-urgency,urgency>> lesson.
-
 
 === Numeric time
 

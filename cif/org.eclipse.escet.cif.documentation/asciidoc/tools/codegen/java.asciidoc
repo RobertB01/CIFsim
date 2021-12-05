@@ -27,7 +27,6 @@ The CIF code generator supports a subset of CIF specifications.
 Generation of Java code does not impose additional restrictions.
 See the <<tools-codegen-supported>> section of the <<tools-codegen-chapter-index>> page for more information.
 
-
 === Options
 
 Besides the <<tools-codegen-options,common options>> that apply to all target languages/platforms of the <<tools-codegen-chapter-index>>, the Java code generation can be influenced by the following additional options:
@@ -38,7 +37,6 @@ The specified package should be a valid Java package name, and must not be empty
 
 The code prefix that can be configured using a common option, is used in the generated Java code as prefix for class names.
 
-
 === Compilation
 
 The generated Java code can be compiled with a Java 7 compiler or newer.
@@ -46,7 +44,6 @@ The generated Java code can be compiled with a Java 7 compiler or newer.
 The generated code is complete, and can be used as is, without any CIF related library or runtime.
 No additional dependencies or libraries are required.
 Only the standard Java libraries, part of any Java installation, are needed.
-
 
 === Generated files
 
@@ -61,7 +58,6 @@ where `<prefix>` is replaced by the code prefix configured using the _Code prefi
 The first file contains the code for all the features of the CIF model in an abstract class named `<prefix>`.
 The second file contains a class named `<prefix>Test`, which inherits from the `<prefix>` class, and implements various abstract methods.
 This test class can be used to test the code, and can serve as a starting point for actually implementing the coupling between the code generated for the CIF model, and the environment in which it runs.
-
 
 === Executing the code
 

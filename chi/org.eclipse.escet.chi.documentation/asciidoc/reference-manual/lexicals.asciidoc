@@ -24,7 +24,6 @@ Also comments are recognized at this level.
 The characters that delimit groups and lines from each other is known as _whitespace_.
 It contains the 'tab' character (U0009), the 'line feed' character (U000A), the 'carriage return' character (U000D), and the 'space' character (U0020).
 
-
 === Comment
 
 A comment is a line of text intended for annotating the program text.

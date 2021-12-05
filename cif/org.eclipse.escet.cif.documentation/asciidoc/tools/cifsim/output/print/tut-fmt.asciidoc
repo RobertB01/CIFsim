@@ -252,7 +252,6 @@ and the following output:
  2946       567       -25072563
 ----
 
-
 === More formatting
 
 In this short tutorial, we've seen a few forms of text formatting using the `fmt` function.

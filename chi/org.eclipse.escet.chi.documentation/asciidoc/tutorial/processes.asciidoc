@@ -115,7 +115,6 @@ indexterm:[atomic]
 An important property of statements is that they are executed _atomically_.
 It means that execution of the statement of one process cannot be interrupted by the execution of a statement of another process.
 
-
 === A process in a process
 
 The view of a process being a wrapper around many other processes is supported by allowing to use the `run` statement inside a process as well.

@@ -19,7 +19,6 @@ include::_root_attributes.asciidoc[]
 // Use this for asciidoc documents containing a title.
 :doctype: book
 
-
 = Chi documentation (Incubation)
 :author: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 :title-logo-image: {imgsdir}/eclipse-incubation.png
@@ -75,7 +74,6 @@ See <<legal-chapter-index,Legal>> for copyright and licensing information.
 A screenshot showing a Chi model and simulation with visualization:
 
 image::{imgsdir}/screenshot_ide.png[]
-
 
 // Tutorial
 
@@ -166,7 +164,6 @@ include::release-notes.asciidoc[]
 // Legal
 
 include::documentation-legal.asciidoc[]
-
 
 ifdef::pdf-output[]
 [index]

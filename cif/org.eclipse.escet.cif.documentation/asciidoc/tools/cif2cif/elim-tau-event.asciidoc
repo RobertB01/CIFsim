@@ -24,7 +24,6 @@ This CIF to CIF transformation eliminates the `tau` event.
 
 This transformation supports all CIF specifications.
 
-
 === Preprocessing
 
 n/a
@@ -86,7 +85,6 @@ indexterm:[eliminate tau event,size considerations]
 
 New events may be added, the alphabet may be extended, and an explicit event may be added to edges.
 Therefore, the size of the specification may increase.
-
 
 === Optimality
 

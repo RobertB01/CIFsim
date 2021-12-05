@@ -45,7 +45,6 @@ These values are relative to the upper left corner of the canvas.
 Inkscape and SVG use different coordinate systems, where the `y`-axis is reversed.
 The CIF/SVG declarations works on SVG images, and thus uses the coordinate system of SVG.
 
-
 === CIF specification
 
 The following CIF specification models the tank example:
@@ -68,7 +67,6 @@ This results in an input interval of [0 .. `CAPACITY`].
 The height of the tank in the SVG image is `80` pixels.
 The output interval thus becomes [0 .. 80].
 
-
 === Simulation
 
 When we simulate the tank example using the CIF specification and SVG image as specified above, we immediately observe a problem:
@@ -78,7 +76,6 @@ image::{tools-imgsdir}/cifsim/output/svgviz/tank/tank_problem.png[]
 In SVG the origin is in the upper left corner of the canvas.
 Changing the height of an object results in the top of the object being fixed, and the bottom of the object being closer to or farther away from that top.
 What we want in this case, is to have the bottom of the object fixed, and the top of the object being closer to or farther away from the top, depending on the height of the object.
-
 
 === SVG image (revisited)
 

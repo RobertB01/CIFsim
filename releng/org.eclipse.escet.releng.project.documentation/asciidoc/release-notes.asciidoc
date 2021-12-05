@@ -27,7 +27,6 @@ See also the release notes for the specific tools for more information:
 * link:https://eclipse.org/escet/chi/release-notes.html[Chi release notes]
 * link:https://eclipse.org/escet/tooldef/release-notes.html[ToolDef release notes]
 
-
 === Version 0.4
 
 TBD
@@ -42,7 +41,6 @@ Improvements and fixes:
 It no longer has a website of its own.
 Its documentation is now part of the Eclipse ESCET development documentation (issue #73).
 
-
 === Version 0.3
 
 Improvements and fixes:
@@ -52,7 +50,6 @@ Improvements and fixes:
 * Fixed macOS-specific instructions for tweaking Java performance settings via `eclipse.ini` (issue #179).
 * Removed unsupported in-place update instructions from the documentation (issue #166).
 * Several small documentation fixes and improvements (issue #166).
-
 
 === Version 0.2
 
@@ -70,7 +67,6 @@ Improvements and fixes:
 * Non-release builds now indicate they are a development build in the Eclipse About dialog (issue #26).
 * Eclipse ESCET downloads for Linux previously included an 'executable' `about.html` file (issue #90).
 * Crash reports now indicate where and how to report issues (issue #33).
-
 
 === Version 0.1
 

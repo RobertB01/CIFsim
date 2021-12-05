@@ -135,7 +135,6 @@ Both are identical, in that they have the same affect: variable `x` is given the
 Generally, using multiple assignments is preferred over using multi-assignments, as the former is easier to read.
 However, in certain cases, such as for <<lang-tut-values-tuples-unpacking,tuple unpacking>>, only the latter variant can be used.
 
-
 === Event synchronization and assignment order
 
 Consider a system with two conveyors.

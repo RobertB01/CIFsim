@@ -12,7 +12,6 @@
 
 include::_part_attributes.asciidoc[]
 
-
 [[rail-lexical-syntax]]
 == Lexical syntax
 
@@ -38,7 +37,6 @@ DiagramName
   ;
 ----
 
-
 === Comments
 
 Comments start with a hash symbol (`+#+`) and end at the end of the line.
@@ -50,7 +48,6 @@ Examples:
 ----
 DiagramName : A B C ; # Comment
 ----
-
 
 === Terminals
 

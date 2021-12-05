@@ -112,7 +112,6 @@ _Runtime errors_
 * If the application fails to execute due to its thread being interrupted.
 * If the application exits with a non-zero exit code and non-zero exit codes are not ignored.
 
-
 indexterm:[exec]
 
 [[lang-ref-builtins-generic-exec]]
@@ -186,7 +185,6 @@ _Runtime errors_
 * If parsing of the command line arguments fails.
 * If ToolDef fails to execution the command or external application.
 * If execution results in a non-zero exit code and non-zero exit codes are not ignored.
-
 
 indexterm:[tooldef]
 

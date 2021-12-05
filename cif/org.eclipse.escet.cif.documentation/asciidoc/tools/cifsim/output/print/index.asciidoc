@@ -51,7 +51,6 @@ print x for e;
 
 This example prints the value of variable `x` to a file `out.txt` each time after a transition for event `e` is taken.
 
-
 === Documentation
 
 The tutorials introduce print declarations and text formatting, they explain the general idea behind them, and they show how to use them, all by means of examples.

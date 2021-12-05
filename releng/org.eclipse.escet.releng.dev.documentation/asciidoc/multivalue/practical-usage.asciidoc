@@ -17,7 +17,6 @@ include::_part_attributes.asciidoc[]
 
 After this short and possibly mind-blowing introduction on decision diagrams in particular in the multi-valued variation, below some practical information on using the `common.multivaluetrees` library.
 
-
 === Variables
 
 As you typically work with variables in several use-kinds, like `i` and `i+` in the explanation above, this has to be defined first.
@@ -38,7 +37,6 @@ Each call adds one or more `VarInfo` instances to the builder.
 A `VarInfo` instance is the equivalent of e.g. `i` and `i+` above.
 The `VarInfoBuilder` instance also stores the relation between variables and their `VarInfo` instances.
 With a variable you can ask it for all related `VarInfo` instances (or just one instance), with a `VarInfo` instance you can ask for the associated variable.
-
 
 === Trees and relations
 

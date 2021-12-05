@@ -19,7 +19,6 @@ include::_local_attributes.asciidoc[]
 The program can take a properties file to translate terminals and non-terminals.
 The same file can also contain settings to modify shape, color, fonts, and spacing of almost everything.
 
-
 [[rail-property-syntax]]
 === Syntax of the properties file
 
@@ -38,7 +37,6 @@ The key is followed by an optional but recommended separator character, either `
 The remainder of the line is the value part, where leading and trailing white space is removed.
 
 The properties file format uses `\` as continuation character to the next line and also as escape character.
-
 
 === Kinds of values
 
@@ -85,7 +83,6 @@ The program currently supports `plain`, `bold`, and `italics` styles.
 | Arbitrary text to display for a token.
 |===
 
-
 === Global settings
 
 The following settings affect background and the rail line.
@@ -108,7 +105,6 @@ The following settings affect background and the rail line.
 | RGB color
 | Color of the rail line.
 |===
-
 
 === Diagram settings
 
@@ -170,7 +166,6 @@ At the top is a header line with the name of the rule, below it are one or more 
 | Style of the diagram header text.
 |===
 
-
 === Empty node
 
 Each kind of node has a number of settings as well, starting with the simplest node, `()`.
@@ -185,7 +180,6 @@ Each kind of node has a number of settings as well, starting with the simplest n
 | Real
 | Horizontal length of the empty node.
 |===
-
 
 === Branch label
 
@@ -233,7 +227,6 @@ The bracketed string `[refname]` node configuration settings are listed below.
 | Font style
 | Font style of the label text.
 |===
-
 
 === Name node
 
@@ -436,7 +429,6 @@ All missing entries use the token name as their text.
 Note that the property file reader applies some interpretation to the text as well so what you enter in the file may not be what you get.
 Please check the <<rail-property-syntax, property file syntax>> section for details.
 
-
 === Sequence
 
 A sequence connects one or more child diagram nodes in one or more rows such that they are all visited in sequential order.
@@ -471,7 +463,6 @@ Also, the minimal amount of space between the same horizontal line and the top o
 | Radius of the arcs connecting horizontal lines with vertical lines.
 |===
 
-
 === Choice
 
 The choice node expresses a choice between one of the child diagram nodes.
@@ -494,7 +485,6 @@ Its configurable properties are:
 |===
 
 Note that the space between the first and second child is not only influenced by the `choice.padding.vertical` setting, but also influenced by the `choice.arc-radius`, as two arcs have to fit vertically as well.
-
 
 === Repetition
 
@@ -540,7 +530,6 @@ This results in:
 image::{rail-imgsdir}/sequence_loops.png[Sequence of loops]
 
 Other nodes all have some space at either end, making it less apparent in those cases.
-
 
 === Debugging
 
@@ -612,7 +601,6 @@ The `debug.abs_coordinates` flag shows the same position information, except all
 Note that positions are stated as inclusive horizontal and vertical edge positions everywhere.
 This means that element `x[1--1], y[1--2]` is one unit wide horizontally, and two units vertically.
 Also, an element `x[2--7], y[1--2]` is directly next to the previous element, there is no space between them.
-
 
 === Default property values
 

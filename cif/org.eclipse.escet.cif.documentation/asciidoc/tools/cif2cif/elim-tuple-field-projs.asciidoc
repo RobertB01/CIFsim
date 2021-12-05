@@ -24,7 +24,6 @@ This CIF to CIF transformation eliminates tuple field projections by replacing t
 
 This transformation supports all CIF specifications.
 
-
 === Preprocessing
 
 n/a
@@ -58,7 +57,6 @@ const int x = t[0];
 const int y = t[0];
 ----
 
-
 === Renaming
 
 n/a
@@ -68,7 +66,6 @@ indexterm:[eliminate tuple field projections,size considerations]
 === Size considerations
 
 Since both field references and integer values are single expression nodes, this transformation does not increase the size of the specification.
-
 
 === Optimality
 

@@ -51,7 +51,6 @@ The second lamp is on and has a yellow background color.
 The lamp that is off has a thin border and the lamp that is on has a thicker border.
 The CIF specification also contains four <<tools-cifsim-output-svgviz-chapter-svgout,CIF/SVG output mappings>>, two for the background colors of the circles and two for the thickness of the borders (strokes) of the circles.
 
-
 === SVG visualization scalability issues
 
 The use of the automaton definition allows us to add another lamp by simply adding the following line to the CIF specification:
@@ -70,7 +69,6 @@ Furthermore, if we were to decide to change the graphical representation of lamp
 
 It should be clear that this approach does not scale very well.
 Ideally, we would add another lamp by just adding another instantiation of the `Lamp` definition as we did above, and automatically get another circle in the image, and two more output mappings in the CIF model.
-
 
 === A scalable solution
 

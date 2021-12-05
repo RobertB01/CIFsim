@@ -20,7 +20,6 @@ All CIF <<tools-chapter-index,tools>> can be used in ToolDef scripts.
 ToolDef is a cross-platform and machine-independent scripting language that supports command line execution, but is also available as plug-in for link:https://eclipse.org[Eclipse], providing an integrated development experience.
 See the link:https://eclipse.org/escet/tooldef[ToolDef website] for more information on ToolDef.
 
-
 === Scenarios
 
 Using CIF tools in a ToolDef script can be useful for various reasons.
@@ -42,7 +41,6 @@ Instead of manually simulating a model with <<lang-tut-stochastics-chapter-intro
 The script can then also be used to automatically collect the results, and process them.
 Others can use the same script to repeat the experiments and verify the results, or to perform similar experiments.
 
-
 === Library import
 
 In order to use CIF tools in a ToolDef script, the library with all CIF tools needs to be imported.
@@ -55,7 +53,6 @@ from "lib:cif" import *;
 
 This statement imports all tools from the `cif` library, a library registered by the CIF tooling.
 You'll want to include this import statement in all your own scripts that use CIF tools.
-
 
 === Execution a tool
 
@@ -70,7 +67,6 @@ cifsim("some_model.cif -i auto -t 10");
 
 The second statement executes the `cifsim` tool (the CIF simulator).
 This is just one of the tools that is available, but there are <<tools-scripting-chapter-tools,many more>>.
-
 
 === Command line arguments
 

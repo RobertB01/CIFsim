@@ -36,7 +36,6 @@ This means that they can be edited with any text editor.
 However, it is often more convenient to edit them with a drawing program that supports vector graphics, such as link:http://www.adobe.com/products/illustrator.html[Adobe Illustrator] or link:https://inkscape.org/[Inkscape].
 Most modern web browsers also support display of SVG images.
 
-
 === Visualization
 
 An SVG file has a tree structure; (graphical) elements are drawn in the same order as they appear in the file.

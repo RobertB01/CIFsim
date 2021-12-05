@@ -275,7 +275,6 @@ The following flags are available:
 | The result will include commas (`,`) as grouping separator.
 |===
 
-
 The first column shows the available flags, the minus (`-`), the plus (`pass:c[+]`), the space, the zero (`0`), and the comma (`,`).
 The middle columns indicate for each of the different conversions, whether the flags are supported.
 The last column gives short descriptions of the effects of the flags.

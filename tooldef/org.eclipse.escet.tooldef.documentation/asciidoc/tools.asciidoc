@@ -22,7 +22,6 @@ Below you can find general information on how to use the ToolDef tooling, both o
 To start using the ToolDef tooling, create a `.tooldef` file.
 See the <<lang-ref-chapter-index,language reference>> documentation for more information on the syntax.
 
-
 indexterm:[execution,command line]
 indexterm:[command line,execution]
 

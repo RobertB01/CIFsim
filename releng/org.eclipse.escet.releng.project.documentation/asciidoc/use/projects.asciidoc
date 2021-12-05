@@ -26,7 +26,6 @@ This section contains information on the following topics:
 * <<use-locations>>
 * <<use-refresh>>
 
-
 indexterm:[project,create]
 indexterm:[create,project]
 
@@ -51,7 +50,6 @@ It is recommended to always create a project in a directory that has the same na
 
 Click the btn:[Finish] button to create the project.
 Observe how it appears in the _Project Explorer_ or _Package Explorer_ view.
-
 
 indexterm:[project,import]
 indexterm:[import,project]
@@ -78,7 +76,6 @@ The available projects in the given root directory, and all its sub-directories 
 Select the project(s) you want to import, by checking the relevant check boxes, and click btn:[Finish].
 Observe how the project(s) appear(s) in the _Project Explorer_ or _Package Explorer_ view.
 
-
 indexterm:[project,remove]
 indexterm:[remove,project]
 indexterm:[project,delete]
@@ -96,7 +93,6 @@ To only remove the project from Eclipse, and keep the files on your hard disk, d
 Alternatively, to remove the project from Eclipse and also remove all the files in the project from your hard disk, enable the _Delete project contents on disk (cannot be undone)_ option and click the btn:[OK] button.
 
 Wait for Eclipse to complete the removal operation.
-
 
 indexterm:[directory,create]
 indexterm:[create,directory]
@@ -116,7 +112,6 @@ Alternatively, right click on the project or directory instead, and from the pop
 
 In the _New Folder_ window, enter the _Folder name_, and click btn:[Finish].
 
-
 indexterm:[file,create]
 indexterm:[create,file]
 indexterm:[Eclipse,file]
@@ -132,7 +127,6 @@ Make sure to give the file the correct file extension.
 E.g. CIF files should end with `.cif`.
 
 An editor for the new file opens, and you can start <<use-edit,editing it>>.
-
 
 indexterm:[project,rename]
 indexterm:[rename,project]
@@ -151,7 +145,6 @@ Alternatively, right click on the file, directory, or project instead, and from 
 A second alternative is to select the file, directory, or project, and then press the kbd:[F2] key.
 
 In the _Rename Resource_ window, enter the _New name_, and click btn:[OK].
-
 
 indexterm:[project,location]
 indexterm:[location,project]
@@ -185,7 +178,6 @@ To directly open the directory that contains a file, directory, or project in yo
 
 Don't forget to <<use-refresh,refresh>> your projects in Eclipse after manipulating them outside Eclipse.
 
-
 indexterm:[project,refresh]
 indexterm:[refresh,project]
 indexterm:[directory,refresh]
@@ -202,7 +194,6 @@ To ensure that the current state of the files and directories are properly refle
 To refresh a file, directory, or project, right click it, and choose menu:Refresh[].
 Any files and directories that no longer exist will disappear from Eclipse.
 Any new files and directories created outside Eclipse will appear in Eclipse as well.
-
 
 indexterm:[file,size]
 indexterm:[size,file]

@@ -160,7 +160,6 @@ If a trivial value is found that is equal to the negation of the default value, 
 For instance, for guards on edges, `true`, `1 = 1`, etc, are removed as they are all trivially `true` (the default for guards).
 If however, `false`, `1 = 2`, `1 != 1`, or any other trivially `false` guards is found, all guards on that edge are removed, and a single `false` guard is added.
 
-
 === Renaming
 
 n/a

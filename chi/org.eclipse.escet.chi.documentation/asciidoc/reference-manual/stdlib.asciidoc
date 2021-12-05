@@ -39,8 +39,6 @@ They are organized by type and kind of use.
 
 * <<ref-instance-stdlib>>
 
-
-
 indexterm:[integer,stdlib functions]
 indexterm:[stdlib functions,integer]
 
@@ -64,7 +62,6 @@ Return the biggest value of the parameters.
 * `int` *min*`+(int a, b, ...)+`
 +
 Return the smallest value of the parameters.
-
 
 indexterm:[real number,stdlib functions]
 indexterm:[stdlib functions,real number]
@@ -92,7 +89,6 @@ Integer parameters are silently promoted to real.
 Return the smallest value of the parameters.
 Integer parameters are silently promoted to real.
 
-
 Conversion from real number to integer can be performed in three different ways.
 
 * `int` *ceil*`(real val)`
@@ -106,7 +102,6 @@ Return biggest integer less or equal to `val`.
 * `int` *round*`(real val)`
 +
 Round to nearest integer value (up if distance is `0.5`).
-
 
 The following power and logarithmic functions exist.
 
@@ -129,7 +124,6 @@ Compute the natural logarithm of `x`.
 * `real` *log*`(real x)`
 +
 Compute the base-10 logarithm of `x`.
-
 
 Finally, there are trigonometric functions available.
 
@@ -181,8 +175,6 @@ Inverse hyperbolic sine function of value `val`.
 +
 Inverse hyperbolic tangent function of value `val`.
 
-
-
 indexterm:[string,stdlib functions]
 indexterm:[stdlib functions,string]
 
@@ -203,8 +195,6 @@ Return the biggest string of the parameters.
 +
 Return the smallest string of the parameters.
 
-
-
 indexterm:[list,stdlib functions]
 indexterm:[stdlib functions,list]
 
@@ -223,7 +213,6 @@ Remove element `xs[index]` from list `xs` (with arbitrary type `T`).
 The index position must exist in the list.
 Returns a list without the removed element.
 
-
 For getting information about the number of elements in a list, the following functions are available.
 
 * `bool` *empty*`(list T xs)`
@@ -234,7 +223,6 @@ Returns `true` when `xs` contains no elements, and `false` when it has at least 
 * `int` *size*`(list T xs)`
 +
 Get the number of elements in list `xs` (for any element type `T`).
-
 
 List functions mainly useful for using with a `for` statement (explained in <<ref-for-loop-statement>>) follow next.
 
@@ -258,8 +246,6 @@ For example, `range(3, 7)` produces list `[3, 4, 5, 6]`.
 Construct a list with integer values running from `start` to (but not including) `end`, while incrementing the value with step size `step`.
 For example `range(3, 8, 2)` produces `list [3, 5, 7]`.
 Negative step sizes are also allowed to construct lists with decrementing values, but `start` has to be larger than `end` in that case.
-
-
 
 For occasionally getting the biggest or smallest element of a list, the `min` and `max` functions are available.
 These functions take a lot of time, if smallest or biggest values are needed often, it may be better to use a sorted list.
@@ -287,7 +273,6 @@ Return the list with the inserted `element`.
 The predicate function `pred` must implement a total ordering on the values.
 See also the <<tut-sorted-lists,sorted lists>> discussion in the tutorial.
 
-
 indexterm:[set,stdlib functions]
 indexterm:[stdlib functions,set]
 
@@ -306,14 +291,12 @@ Note that the order of elements in a set has no meaning, and may change at any m
 Construct a list of tuples with position `index` and element value `val` from the set `xr` with arbitrary element type `T`.
 Note that the `index` has no meaning in the set.
 
-
 Removing a single element from a set can be done with the function below.
 
 * `set T` *del*`(set T xr, T value)`
 +
 Remove from set `xr` (with arbitrary element type `T`) element `value` if it exists in the set.
 Returns a set without the (possibly) removed element.
-
 
 For getting information about the number of elements in a set, the following functions are available.
 
@@ -326,8 +309,6 @@ Returns `true` when `xr` contains no elements, and `false` when it has at least 
 +
 Get the number of elements in set `xr` (for any element type `T`).
 
-
-
 For occasionally getting the biggest or smallest element of a set, the `min` and `max` functions are available.
 These functions take a lot of time, if smallest or biggest values are needed often, it may be better to make a sorted list.
 
@@ -339,7 +320,6 @@ Return the smallest element value of type `T` (`T` must be type `int`, `real`, o
 +
 Return the biggest element value of type `T` (`T` must be type `int`, `real`, or `string`) from non-empty set `xr`.
 
-
 indexterm:[dictionary,stdlib functions]
 indexterm:[stdlib functions,dictionary]
 
@@ -347,7 +327,6 @@ indexterm:[stdlib functions,dictionary]
 === Dictionary functions
 
 Getting a value or a sequence of values from a dictionary can be done with the following functions.
-
 
 * `tuple(K key, V val, dict(K:V) e)` *pop*`(dict(K:V) d)`
 +
@@ -369,15 +348,12 @@ Since a dictionary has no order, the order of the elements in the resulting list
 Return the values of dictionary `d` (with any key type `K` and value type `V`) as a list with element type `V`.
 Since a dictionary has no order, the order of the elements in the resulting list is also undefined.
 
-
-
 Removing a single element from a dictionary can be done with the function below.
 
 * `dict(K:V)` *del*`(dict(K:V) d, K key)`
 +
 Remove element `key` from dictionary `d` (with arbitrary element key type `K` and arbitrary value type `V`) if it exists in the dictionary.
 Returns a dictionary without the (possibly) removed element.
-
 
 The number of keys in a dictionary can be queried with the following functions.
 
@@ -390,7 +366,6 @@ Is dictionary `d` empty?
 +
 Get the number of key elements in dictionary `d` (with any key type `K` and value type `V`).
 
-
 For occasionally getting the biggest or smallest key value of a dictionary, the `min` and `max` functions are available.
 These functions take a lot of time, if smallest or biggest keys are needed often, it may be better to use a sorted list.
 
@@ -402,7 +377,6 @@ Return the smallest key of type `K` (`K` must be type `int`, `real`, or `string`
 +
 Return the biggest key of type `K` (`K` must be type `int`, `real`, or `string`) from non-empty dictionary `d`.
 
-
 indexterm:[timer,stdlib functions]
 indexterm:[stdlib functions,timer]
 
@@ -413,7 +387,6 @@ indexterm:[stdlib functions,timer]
 +
 Return whether timer `t` has expired (or was never set).
 Returns `true` if the timer has reached `0` or was never set, and `false` if it is still running.
-
 
 indexterm:[file,stdlib functions]
 indexterm:[stdlib functions,file]
@@ -488,7 +461,6 @@ After reading the final value, a negative line count is returned to indicate lac
 Note that 'number of lines down' is applied only to the leading white space.
 It does not say anything about the number lines that a value itself uses, a set of list could use several lines.
 
-
 * `file` *open*`(string filename, string mode)`
 +
 Open the file with name `filename` using access mode `mode`.
@@ -501,13 +473,11 @@ Notice that filename is a normal Chi string, which means that the `\` character 
 +
 Alternatively, you may want to use the forward slash `/` instead as path component separator.
 
-
 indexterm:[process instance,stdlib functions]
 indexterm:[stdlib functions,process instance]
 
 [[ref-instance-stdlib]]
 === Process instance functions
-
 
 * `bool` *finished*`(inst p)`
 +

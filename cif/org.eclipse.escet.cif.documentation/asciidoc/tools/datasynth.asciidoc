@@ -724,7 +724,6 @@ The following simplifications are available:
 | Initialization predicate of the uncontrolled system
 |===
 
-
 Which simplifications should be performed, can be specified using the _BDD predicate simplify_ option (see <<tools-datasynth-options,options>> section above).
 
 The table above lists in the first column, the option values to use for each of the simplifications, on the command line.

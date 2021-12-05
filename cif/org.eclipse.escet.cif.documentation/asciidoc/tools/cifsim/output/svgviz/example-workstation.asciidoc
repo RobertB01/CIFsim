@@ -44,7 +44,6 @@ Each machine has a bar that shows the progress of the machine.
 Looking at the _XML Editor_ window, we can see the bar has a background (box), and a foreground (front) rectangle.
 The `width` and `fill` color of the latter will be updated to reflect the machine's status.
 
-
 === CIF specification
 
 The following CIF specification models the workstation example:

@@ -42,7 +42,6 @@ V' = Qi - Qo
 By switching `n` on or off, a controller can control the amount of water flowing into the tank, and with that, control the volume `V`.
 The objective is to keep the volume between 2 and 10.
 
-
 === Controller in CIF
 
 A switching controller will be sufficient to control this system.
@@ -68,7 +67,6 @@ end
 The controller has the control variable `n`, and input variable `V`.
 When the volume of the tank is below 2, `n` is set to `1`, which turns on the inflow.
 When the volume of the tank is high enough, `n` is set to `0` which turns the inflow off.
-
 
 === Generating Simulink C code
 
@@ -119,7 +117,6 @@ This is what you would expect for such a small system.
 With bigger systems, the index numbers are much more useful for making proper connections in Simulink.
 
 And this concludes the CIF part of this example, next step is setting things up in Matlab/Simulink.
-
 
 === Simulation in Simulink
 

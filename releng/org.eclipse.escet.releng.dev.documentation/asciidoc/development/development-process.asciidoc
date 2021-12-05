@@ -24,12 +24,10 @@ The Eclipse ESCET project primarily uses GitLab for its development:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet[Eclipse ESCET GitLab]
 
-
 === Discussion
 
 It is often a good idea to first discuss new ideas and features with the rest of the project developers, i.e. the project committers and the project community.
 Discussions can take place on the project's <<development-dev-list-chapter-index,'dev' list>>, especially for radical new ideas and new features that have not been discussed before.
-
 
 indexterm:[issue]
 
@@ -70,7 +68,6 @@ The components correspond to the directories in the root of our <<development-gi
 ** If you don't have permissions to add the labels, the project committers will add them.
 If they forget, you can remind them via a comment.
 
-
 indexterm:[release]
 indexterm:[milestone]
 
@@ -86,7 +83,6 @@ Each software version has one or more milestone releases (`M1`, `M2`, etc), foll
 See also:
 
 * link:https://gitlab.eclipse.org/eclipse/escet/escet/-/milestones[Eclipse ESCET GitLab milestones]
-
 
 === Working on issues
 
@@ -106,7 +102,6 @@ A contributor can ask the project committers to be unassigned.
 * Don't unassign yourself after finishing the issue.
 It is enough to close the issue.
 The issue may also be closed automatically when an associated <<development-development-process-merge-requests,merge request>> is merged.
-
 
 indexterm:[branch]
 indexterm:[GitFlow]
@@ -171,7 +166,6 @@ A safer alternative to rebasing is merging, which leads to an extra merge commit
 If you fully understand rebasing and employ it carefully, it can be a powerful to maintain a simpler and cleaner history.
 Rebasing local commits that have not yet been pushed to the remote public repository is always at your own discretion.
 
-
 indexterm:[commit]
 
 === Commits
@@ -197,7 +191,6 @@ Merge commits are exempt from this rule.
 See link:https://www.eclipse.org/projects/handbook/#resources-commit[Git Commit Records] in the Eclipse Foundation Project Handbook.
 
 If you are not an Eclipse ESCET project committer, with write access to our Git repository, see the information on <<development-contributing-chapter-index,contributing>> to the Eclipse ESCET project.
-
 
 indexterm:[merge request]
 

@@ -91,7 +91,6 @@ automaton b:
 end
 ----
 
-
 === Renaming
 
 n/a

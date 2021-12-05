@@ -65,7 +65,6 @@ The ToolDef language features the following concepts:
 
 For more information, see also the <<lang-ref-chapter-index,language reference>> documentation.
 
-
 indexterm:[tooling,features]
 
 The ToolDef tooling features:

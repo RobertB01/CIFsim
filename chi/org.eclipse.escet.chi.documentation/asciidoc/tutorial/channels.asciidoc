@@ -76,7 +76,6 @@ The received value is assigned in process `C` to variable `x`.
 The value of `x` is printed and the cycle starts again.
 This model writes the sequence `0, 1, 2, 3, 4` to the screen.
 
-
 === Synchronization channels
 
 Above, process `P` constructs the numbers and sends them to process `C`.
@@ -121,7 +120,6 @@ end
 Process `P` sends a signal (and no value is sent), and process `C` receives a signal (without a value).
 The signal is used by process `C` to write the value of `i` and to increment variable `i`.
 The effect of the model is identical to the previous example: the numbers `0, 1, 2, 3, 4` appear on the screen.
-
 
 === Two channels
 
@@ -187,7 +185,6 @@ E   8
 
 After printing this five lines, process `G` stops, process `S` is blocked, as well as process `E`, the model gets blocked, and the model ends.
 
-
 === More senders or receivers
 
 Channels send a message (or a signal in case of synchronization channels) from one sender to one receiver.
@@ -219,9 +216,7 @@ A non-deterministic choice is made for the sending process and a non-determinist
 
 To communicate with several other processes but without non-determinism, unique channels must be used.
 
-
 === Notes
-
 
 * The direction in channels, denoted by `?` or `!`, may be omitted.
 By leaving it out, the semantics of the parameters becomes less clear (the direction of communication has to be derived from the process code).
@@ -250,7 +245,6 @@ In this case the formal and actual parameters can be in most cases the same.
 If many identical processes are used, this convention does not really work.
 
 In the text all three conventions are used, depending on the structure of the model.
-
 
 === Exercises
 

@@ -87,7 +87,6 @@ end
 invariant true or false or if p.l1: 1 else 2 end > 0;
 ----
 
-
 === Renaming
 
 n/a

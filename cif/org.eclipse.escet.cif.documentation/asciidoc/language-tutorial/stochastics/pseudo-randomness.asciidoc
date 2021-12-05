@@ -29,7 +29,6 @@ It is not truly random however.
 Using the same seed again gives exactly the same stream of numbers.
 This is the reason to call the function a pseudorandom number generator, as a true random number generator would never produce the exact same stream of numbers.
 
-
 === Simulation and initial seed
 
 A sample of a distribution uses one or more numbers from the stream to compute its value.
@@ -40,7 +39,6 @@ See the <<tools-cifsim-chapter-distr-seeds>> page of the simulator for informati
 
 While doing a stochastic simulation study, performing several experiments with the same initial seed invalidates the results, as it is equivalent to copying the outcome of a single experiment a number of times.
 On the other hand, when looking for the cause of a bug in the model, performing the exact same experiment is useful as outcomes of previous experiments should match exactly.
-
 
 === Sampling and tuple results
 

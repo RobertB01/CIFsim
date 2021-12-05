@@ -38,7 +38,6 @@ The group can also be seen in the XML representation, as an `svg:g` element, wit
 We assigned the `sun` id to the `svg:g` element, as it represents the entire sun.
 For clarity we gave the sub-elements ids as well, although that was not necessary, as we won't directly reference them in the CIF/SVG declarations.
 
-
 === CIF specification
 
 The following CIF specification models the sun/moon example:

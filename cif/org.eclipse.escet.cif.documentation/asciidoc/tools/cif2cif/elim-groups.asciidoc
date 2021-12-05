@@ -199,7 +199,6 @@ The groups are removed.
 Other objects are lifted, which essentially means they are moved.
 The size of the specification does not increase.
 
-
 === Optimality
 
 n/a

@@ -22,7 +22,6 @@ The Chi simulator software takes one input file, which is a filename with `.chi`
 Below is a list of the available options of such a command line.
 Most of them are for advanced uses only, and not of interest to most users.
 
-
 === Simulator options
 
 * `--instance=<instance>`, `-i <instance>`

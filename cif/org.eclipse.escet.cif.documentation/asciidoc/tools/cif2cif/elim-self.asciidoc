@@ -67,7 +67,6 @@ automaton a:
 end
 ----
 
-
 === Renaming
 
 n/a
@@ -77,7 +76,6 @@ indexterm:[eliminate automaton self references,size considerations]
 === Size considerations
 
 Since both references are single expression nodes, this transformation does not increase the size of the specification.
-
 
 === Optimality
 

@@ -81,7 +81,6 @@ The output of the program is:
 Timer `t` decrements as time progresses, and it is `ready` at `10.0 + 5.0` units.
 A process can have more timers active at the same moment.
 
-
 === A conveyor
 
 A conveyor is schematically depicted in the following figure:
@@ -167,7 +166,6 @@ end
 
 The conveyor process works like before, except the new item is inserted in the list according to its remaining time, instead of at the rear of the list.
 
-
 === Exercises
 
 . Model the system as shown in the figure below, where `T` is a conveyor process with a capacity of _at most_ three products and exponentially distributed conveying times with an average of `4.0`.
@@ -176,7 +174,6 @@ Compute the average flow time of products in the system.
 +
 [[tut-figure-conveyor-system]]
 image::{tut-imgsdir}/pictures/conveyor_system.png[]
-
 
 . Model the system as shown in the figure below, with exponentially distributed server processing times with an average of `4.0`.
 +

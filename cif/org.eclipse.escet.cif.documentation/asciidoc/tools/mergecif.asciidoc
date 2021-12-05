@@ -330,7 +330,6 @@ The following table gives an overview of what can be merged:
 | yes
 |===
 
-
 For components (i.e. groups and automata) that are present in more than one specification, the contents are recursively merged into a single component.
 The contents of components consists not only of their declarations (such as events) and their sub-components (for groups), but also of their invariants, initialization predicates, marker predicates, equations, locations (for automata), etc.
 

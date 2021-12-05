@@ -389,13 +389,11 @@ On the left, select menu:TwinCAT[PLC Environment > Text Editor].
 Then, on the right, switch to the _Monitoring_ tab.
 Disable the _Enable inline monitoring option_.
 
-
 * *Question*: TwinCAT hangs for long periods of time, before crashing and automatically being restarted by Windows.
 What should I do?
 +
 *Answer*: If the generated code is too large, TwinCAT may not be able to handle it.
 In such cases, reduce the size of the generated code, by reducing the size of the CIF model for which you are generating the code.
-
 
 * *Question*: I get an error stating _Reading file failed.
 [...]_.
