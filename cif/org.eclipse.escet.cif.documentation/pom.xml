@@ -166,6 +166,8 @@
                                 <argument>${project.build.directory}/website-intermediate/documentation.html</argument>
                                 <argument>${project.build.directory}/website</argument>
                                 <argument>--website</argument>
+                                <argument>CIF website</argument>
+                                <argument>.</argument>
                             </arguments>
                         </configuration>
                     </execution>
