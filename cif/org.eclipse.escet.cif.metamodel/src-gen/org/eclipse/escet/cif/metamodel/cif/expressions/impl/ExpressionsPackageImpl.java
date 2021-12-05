@@ -223,6 +223,13 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass compParamExpressionEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass constantExpressionEClass = null;
 
     /**
@@ -378,13 +385,6 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
      * @generated
      */
     private EClass switchCaseEClass = null;
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    private EClass compParamExpressionEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -971,6 +971,28 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
      * @generated
      */
     @Override
+    public EClass getCompParamExpression()
+    {
+        return compParamExpressionEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
+    public EReference getCompParamExpression_Parameter()
+    {
+        return (EReference)compParamExpressionEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public EClass getConstantExpression()
     {
         return constantExpressionEClass;
@@ -1491,28 +1513,6 @@ public class ExpressionsPackageImpl extends EPackageImpl implements ExpressionsP
     public EReference getSwitchCase_Value()
     {
         return (EReference)switchCaseEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EClass getCompParamExpression()
-    {
-        return compParamExpressionEClass;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public EReference getCompParamExpression_Parameter()
-    {
-        return (EReference)compParamExpressionEClass.getEStructuralFeatures().get(0);
     }
 
     /**

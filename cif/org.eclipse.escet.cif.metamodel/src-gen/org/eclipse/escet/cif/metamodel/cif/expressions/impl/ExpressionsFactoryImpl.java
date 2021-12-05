@@ -348,6 +348,18 @@ public class ExpressionsFactoryImpl extends EFactoryImpl implements ExpressionsF
      * @generated
      */
     @Override
+    public CompParamExpression createCompParamExpression()
+    {
+        CompParamExpressionImpl compParamExpression = new CompParamExpressionImpl();
+        return compParamExpression;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    @Override
     public ConstantExpression createConstantExpression()
     {
         ConstantExpressionImpl constantExpression = new ConstantExpressionImpl();
@@ -604,18 +616,6 @@ public class ExpressionsFactoryImpl extends EFactoryImpl implements ExpressionsF
     {
         SwitchCaseImpl switchCase = new SwitchCaseImpl();
         return switchCase;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    @Override
-    public CompParamExpression createCompParamExpression()
-    {
-        CompParamExpressionImpl compParamExpression = new CompParamExpressionImpl();
-        return compParamExpression;
     }
 
     /**
