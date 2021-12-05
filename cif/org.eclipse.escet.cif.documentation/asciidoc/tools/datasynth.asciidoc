@@ -797,22 +797,7 @@ By default, no statistics are printed.
 Statistics can be enabled using the _Statistics_ option (see <<tools-datasynth-options,options>> section above).
 The following statistics are available:
 
-* _Timing_ [`timing`]
-+
-Print information for timing of various parts of the tool.
-+
-Timing is only collected for parts of the tool that were actually executed.
-Timing is represented as a tree.
-The root of the tree represents the total time of the synthesis tool.
-For some parts of the tool, timing is also collected for sub-parts.
-+
-Timing information is printed to the console, after execution, just before termination of the tool.
-Durations are all printed in milliseconds, to make it easier to compare timing for various parts.
-+
-When measuring performance, always perform multiple measurements, and take the average.
-Also, use a warm-up phase, to avoid skewed results.
-
-* _BDD garbage collection_ [`bdd-gc`]
+* _BDD garbage collection_ [`bdd-gc-collect`]
 +
 Prints BDD garbage collection information before and after each garbage collection.
 +
@@ -823,7 +808,7 @@ See also the BDD library initial node table size option (see <<tools-datasynth-o
 BDD garbage collection information is printed to the console before and after each garbage collection.
 The printed information includes the size of the node table, the number of free nodes, timing information, etc.
 
-* _BDD node table resize_ [`bdd-resize`]
+* _BDD node table resize_ [`bdd-gc-resize`]
 +
 Prints BDD node table resize information each time a BDD node table resize is performed.
 +
@@ -835,45 +820,7 @@ See also the BDD library initial node table size option (see <<tools-datasynth-o
 BDD node table resize information is printed to the console each time the node table is resized.
 The printed information includes the old and new sizes of the node table.
 
-* _Maximum used BDD nodes_ [`bdd-max-nodes`]
-+
-Prints the maximum number of BDD nodes used during synthesis.
-+
-The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
-This metric is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
-+
-This metric is printed to the console, after execution, just before termination of the tool.
-It prints the maximum number of BDD nodes used during synthesis.
-+
-Note that collecting this metric makes synthesis take longer than without collecting it.
-
-* _Continuous BDD performance statistics_ [`bdd-cont-perf`]
-+
-Prints continuously collected platform and machine independent BDD performance related metrics.
-+
-This statistic continuously collects the platform and machine independent BDD performance metrics described in the table below.
-These metrics are discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
-+
-The information is printed to a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
-The file is written after execution, just before termination of the tool.
-+
-Note that collecting these metrics makes synthesis take longer than without collecting it.
-+
-[cols="20,50",options="header"]
-|===
-| Metric
-| Description
-
-| Operations
-| The number of BDD operations performed on BDD nodes so far during synthesis, for which the cache is checked and the result is not already in the cache.
-The number of operations performed on BDD nodes is a platform and machine independent measure of the amount of time needed to perform BDD operations, due to BDD operations being implemented recursively on their node trees.
-
-| Used BBD nodes
-| The number of BDD nodes currently in use to represent all BDDs.
-The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
-|===
-
-* _BDD cache_ [`bdd-cache`]
+* _BDD cache_ [`bdd-perf-cache`]
 +
 Prints metrics related to the BDD cache.
 +
@@ -917,10 +864,63 @@ This excludes the trivial cases where the cache is not checked.
 This excludes the trivial cases where the cache is not checked.
 |===
 
+* _Continuous BDD performance statistics_ [`bdd-perf-cont`]
++
+Prints continuously collected platform and machine independent BDD performance related metrics.
++
+This statistic continuously collects the platform and machine independent BDD performance metrics described in the table below.
+These metrics are discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+The information is printed to a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
+The file is written after execution, just before termination of the tool.
++
+Note that collecting these metrics makes synthesis take longer than without collecting it.
++
+[cols="20,50",options="header"]
+|===
+| Metric
+| Description
+
+| Operations
+| The number of BDD operations performed on BDD nodes so far during synthesis, for which the cache is checked and the result is not already in the cache.
+The number of operations performed on BDD nodes is a platform and machine independent measure of the amount of time needed to perform BDD operations, due to BDD operations being implemented recursively on their node trees.
+
+| Used BBD nodes
+| The number of BDD nodes currently in use to represent all BDDs.
+The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
+|===
+
+* _Maximum used BDD nodes_ [`bdd-perf-max-nodes`]
++
+Prints the maximum number of BDD nodes used during synthesis.
++
+The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
+This metric is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
++
+This metric is printed to the console, after execution, just before termination of the tool.
+It prints the maximum number of BDD nodes used during synthesis.
++
+Note that collecting this metric makes synthesis take longer than without collecting it.
+
+* _Timing_ [`timing`]
++
+Print information for timing of various parts of the tool.
++
+Timing is only collected for parts of the tool that were actually executed.
+Timing is represented as a tree.
+The root of the tree represents the total time of the synthesis tool.
+For some parts of the tool, timing is also collected for sub-parts.
++
+Timing information is printed to the console, after execution, just before termination of the tool.
+Durations are all printed in milliseconds, to make it easier to compare timing for various parts.
++
+When measuring performance, always perform multiple measurements, and take the average.
+Also, use a warm-up phase, to avoid skewed results.
+
 In the option dialog, each of the different kinds of statistics can be enabled and disabled individually, using a checkbox.
 
 From the command line, using the `--stats` option, the names of the different kinds of statistics, as indicated above between square brackets, should be used, separated by commas.
-For instance, use `--stats=bdd-gc,bdd-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
+For instance, use `--stats=bdd-gc-collect,bdd-gc-resize` to enable both BDD garbage collection statistics and BDD node table resize statistics, but keep all other statistics disabled.
 
 Specifying a statistics kind twice leads to a warning being printed to the console.
 

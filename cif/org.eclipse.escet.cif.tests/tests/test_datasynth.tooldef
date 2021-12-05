@@ -70,7 +70,7 @@ map(string:list string) test_options = {
     "datasynth/simplify_se_excl_req_invs_on.cif":         ["--bdd-simplify=guards-se-excl-req-invs"],
     "datasynth/simplify_state_req_invs_off.cif":          ["--bdd-simplify="],
     "datasynth/simplify_state_req_invs_on.cif":           ["--bdd-simplify=guards-state-req-invs"],
-    "datasynth/stats.cif":                                ["--stats=bdd-max-nodes,bdd-cont-perf,bdd-cache"],
+    "datasynth/stats.cif":                                ["--stats=bdd-perf-cache,bdd-perf-cont,bdd-perf-max-nodes"],
     "datasynth/supname_custom.cif":                       ["-s g"],
     "datasynth/supname_invalid.cif":                      ["-s b@"],
     "datasynth/var_order_custom_force_off.cif":           ["-r *c*;*3,*1;*2 --force-order=off --sliding-window-order=off " + opt_simplify_all],
