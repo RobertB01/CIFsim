@@ -131,7 +131,7 @@ indexterm:[external user-defined Java functions,lazy loading]
 The class as specified in the external implementation reference is loaded using a Java class loader.
 By default, the system class loader is used.
 If additional class path entries are specified in the external implementation reference, an extended class loader is used that searches in the additional class path entries before deferring to the system class loader.
-The class is loaded using the link:https://docs.oracle.com/javase/7/docs/api/java/lang/ClassLoader.html#name[binary name] of the class.
+The class is loaded using the link:https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ClassLoader.html#binary-name[binary name] of the class.
 
 The method that is resolved must be a static method.
 The access modifier of the static method is irrelevant.
