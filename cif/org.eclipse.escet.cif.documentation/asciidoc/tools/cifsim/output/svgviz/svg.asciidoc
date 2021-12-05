@@ -55,4 +55,4 @@ The <<tools-cifsim-output-svgviz-svgout-id>> section of the <<tools-cifsim-outpu
 
 indexterm:[SVG,tutorial]
 indexterm:[tutorial,SVG]
-The website of Jakob Jenkov has a very nice link:https://tutorials.jenkov.com/svg[SVG Tutorial].
+The website of Jakob Jenkov has a very nice link:http://tutorials.jenkov.com/svg[SVG Tutorial].

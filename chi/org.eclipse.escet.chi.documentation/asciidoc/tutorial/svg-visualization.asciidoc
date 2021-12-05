@@ -43,7 +43,7 @@ Elements further down in the file are thus drawn on top of earlier elements.
 Also, each element has a position and size.
 They may have other properties like a color or a gradient as well.
 There are also 'administrative' elements, that can group, scale, or rotate parts of the tree.
-The website of Jakob Jenkov has a very nice link:https://tutorials.jenkov.com/svg[SVG Tutorial].
+The website of Jakob Jenkov has a very nice link:http://tutorials.jenkov.com/svg[SVG Tutorial].
 
 The SVG visualization by the Chi simulator exploits this structure.
 You access the elements, and literally change the value of their properties or copy part of the tree.

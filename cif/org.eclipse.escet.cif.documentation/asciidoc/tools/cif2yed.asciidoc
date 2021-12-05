@@ -25,7 +25,7 @@ These diagrams can be used to better understand the specification, to communicat
 The link:https://www.yworks.com/en/products/yfiles/yed/[yEd Graph Editor] is an application that can be used to view, create, edit, arrange, import and export various kinds of diagrams.
 It is freely available and runs on Windows, Linux, and macOS.
 
-The yEd diagrams are generated as link:https://graphml.graphdrawing.org/[GraphML] files (`+*.graphml+` files), using yEd specific extensions to specify the graphical representation.
+The yEd diagrams are generated as link:http://graphml.graphdrawing.org/[GraphML] files (`+*.graphml+` files), using yEd specific extensions to specify the graphical representation.
 
 indexterm:[CIF to yEd transformer,start]
 

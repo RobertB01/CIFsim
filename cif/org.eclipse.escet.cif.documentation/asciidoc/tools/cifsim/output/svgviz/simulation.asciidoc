@@ -88,7 +88,7 @@ For instance:
 
 * link:https://camstudio.org/[CamStudio] for Microsoft Windows.
 
-* link:https://recordmydesktop.sourceforge.net/about.php[recordMyDesktop] for Linux.
+* link:http://recordmydesktop.sourceforge.net/about.php[recordMyDesktop] for Linux.
 
 Both these screen recording applications are free and open source.
 
