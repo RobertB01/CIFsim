@@ -5,6 +5,7 @@
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
   <fileset name="all" enabled="true" check-config-name="Eclipse ESCET Checkstyle" local="true">
-    <file-match-pattern match-pattern="." include-pattern="true"/>
+    <file-match-pattern match-pattern="src|asciidoc" include-pattern="true"/>
   </fileset>
+  <filter name="NonSrcDirs" enabled="false"/>
 </fileset-config>
