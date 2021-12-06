@@ -25,8 +25,8 @@ for p in $PROJ_FILES
 do
     set +e
 
-    # Filter to include only projects with a Java nature.
-    grep -q "<nature>org.eclipse.jdt.core.javanature</nature>" $p
+    # Filter to include only projects with a Java nature or documentation.
+    grep -q "<nature>org.eclipse.jdt.core.javanature</nature>\|.documentation" $p
     if test $? -ne 0
     then
         continue
@@ -62,10 +62,16 @@ do
     TARGET_DIR=`dirname $p`
     echo $TARGET_DIR
 
-    # Copy files.
+    # Copy .checkstyle file.
     SOURCE_DIR=misc/java-code-style/
     cp -r $SOURCE_DIR/.checkstyle $TARGET_DIR
-    cp -r $SOURCE_DIR/.settings/ $TARGET_DIR
+
+    # For Java projects, copy .settings folder.
+    grep -q "<nature>org.eclipse.jdt.core.javanature</nature>" $p
+    if test $? -ne 0
+    then
+        cp -r $SOURCE_DIR/.settings/ $TARGET_DIR
+    fi
 
     # Add builder and nature, if not yet present.
     misc/java-code-style/add_checkstyle_to_project_file.py $p
