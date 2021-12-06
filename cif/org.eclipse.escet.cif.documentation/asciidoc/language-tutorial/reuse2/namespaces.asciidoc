@@ -36,7 +36,7 @@ group factory:
 end
 ----
 
-The groups around the entire specification lead to additional link:http://en.wikipedia.org/wiki/Indentation_%28typesetting%29[indentation].
+The groups around the entire specification lead to additional link:https://en.wikipedia.org/wiki/Indentation_%28typesetting%29[indentation].
 As this is a common pattern, the CIF language provides _namespaces_ to reduce the impact of large numbers of top level groups:
 
 [source, cif]

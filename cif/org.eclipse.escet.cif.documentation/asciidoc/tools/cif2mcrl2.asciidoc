@@ -19,7 +19,7 @@ indexterm:[CIF to mCRL2 transformer]
 indexterm:[tools,CIF to mCRL2 transformer]
 indexterm:[see: mCRL2,CIF to mCRL2 transformer]
 The CIF to mCRL2 transformer is used to convert a CIF specification to a mCRL2 specification.
-link:http://www.mcrl2.org/[mCRL2] is a tool for verifying properties of the model.
+link:https://www.mcrl2.org/[mCRL2] is a tool for verifying properties of the model.
 
 indexterm:[CIF to mCRL2 transformer,start]
 

@@ -53,7 +53,7 @@ indexterm:[print output,order]
 The simulator guarantees that once text is printed for a certain state, no text shall ever be printed during that same simulation, for previous states.
 That is, output text is ordered by 'increasing' states.
 This guarantee holds for file output.
-For the special targets link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream] (stdout) and link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream] (stderr), the output may get mixed, for instance on the Eclipse console.
+For the special targets link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream] (stdout) and link:https://en.wikipedia.org/wiki/Standard_streams[standard error stream] (stderr), the output may get mixed, for instance on the Eclipse console.
 
 The order in which text is printed for different print declarations that print text for the same state, is determined by the order in which the print declarations are specified in the CIF specification, from top to bottom.
 The order is determined per file or special target, after elimination of imports, component definition/instantiation, etc.

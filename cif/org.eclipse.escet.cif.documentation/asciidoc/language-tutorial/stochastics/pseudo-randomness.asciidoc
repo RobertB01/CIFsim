@@ -21,8 +21,8 @@ Computer systems are deterministic machines, and have no notion of varying resul
 
 === Pseudorandom number generator and seed
 
-A link:http://en.wikipedia.org/wiki/Pseudorandom_number_generator[pseudorandom number generator] is used to create stochastic results instead.
-It starts with an initial link:http://en.wikipedia.org/wiki/Random_seed[seed], an integer number.
+A link:https://en.wikipedia.org/wiki/Pseudorandom_number_generator[pseudorandom number generator] is used to create stochastic results instead.
+It starts with an initial link:https://en.wikipedia.org/wiki/Random_seed[seed], an integer number.
 From this seed, a function creates a stream of 'random' values.
 When looking at the values there does not seem to be any pattern.
 It is not truly random however.
@@ -63,7 +63,7 @@ automaton coin_toss:
 end
 ----
 
-The `bernoulli` function to create a link:http://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] with parameter `0.5` (the chance for `true`).
+The `bernoulli` function to create a link:https://en.wikipedia.org/wiki/Bernoulli_distribution[Bernoulli distribution] with parameter `0.5` (the chance for `true`).
 This Bernoulli distribution, along with its parameter and the seed, are stored in variable `d`.
 When the distribution in variable `d` is sampled (`sample d`), the result is both a sampled value, and a distribution (as a <<lang-tut-values-chapter-tuples,tuple>>).
 The distribution is the same distribution with the same parameters, but with an updated seed.

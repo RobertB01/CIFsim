@@ -133,7 +133,7 @@ For instance, a `rect` element can have an `x` and `y` position, a `width` and `
 A `g` element (a group) however, does not support those position attributes.
 It is beyond the scope of this document to go into more detail.
 The software however, will warn about using attribute names that are not supported according to the SVG standard (to catch simple spelling mistakes), and specifying attributes on elements that don't support them.
-Consult the official link:http://www.w3.org/TR/SVG11/[SVG specification] for further details.
+Consult the official link:https://www.w3.org/TR/SVG11/[SVG specification] for further details.
 The <<tools-cifsim-output-svgviz-examples,examples>> showcase several commonly used attributes as well.
 
 indexterm:[SVG output mapping,CSS style attributes]
@@ -158,7 +158,7 @@ CSS style attributes on the other hand, are always part of the SVG presentation 
 
 link:https://en.wikipedia.org/wiki/Cascading_Style_Sheets[CSS] stands for _Cascading Style Sheets_, and it is a style sheet language used for describing the look and formatting of a document.
 It's best known for its use in styling web pages written in link:https://en.wikipedia.org/wiki/HTML[HTML].
-Like SVG, CSS is an international standard developed and maintained by the link:http://www.w3.org/[World Wide Web Consortium] (W3C).
+Like SVG, CSS is an international standard developed and maintained by the link:https://www.w3.org/[World Wide Web Consortium] (W3C).
 SVG reuses the CSS standard for its CSS style attributes.
 The most commonly used attributes for certain elements are also available in the SVG standard as SVG presentation attributes.
 Furthermore, SVG adds additional presentation attributes not found in CSS.
@@ -270,7 +270,7 @@ indexterm:[SVG output mapping,spaces]
 
 If the textual result of an output mapping contains a new line character (for instance due to including `\n` in a string literal or <<tools-cifsim-output-print-ref-fmt-pattern,format pattern>>), the new line character is ignored by SVG.
 Furthermore, tabs (`\t`) are replaced by a single space character.
-Finally, link:http://www.w3.org/TR/SVG/text.html#WhiteSpace[by default] consecutive spaces (including tabs) are merged together into a single space, and spaces at the beginning and end of the output of a mapping are discarded by SVG.
+Finally, link:https://www.w3.org/TR/SVG/text.html#WhiteSpace[by default] consecutive spaces (including tabs) are merged together into a single space, and spaces at the beginning and end of the output of a mapping are discarded by SVG.
 
 This essentially renders `\n` and `\t` useless, as the first is ignored, and for the second spaces can be used instead.
 

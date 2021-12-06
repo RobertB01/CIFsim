@@ -18,7 +18,7 @@ include::../_part_attributes.asciidoc[]
 The <<tools-codegen-chapter-simulink>> can generate Simulink C code from a CIF specification.
 Here an example is given to demonstrate how the code generator can be used to control a model in Simulink.
 
-_Matlab_ and _Simulink_ are products owned by link:http://mathworks.com[Mathworks].
+_Matlab_ and _Simulink_ are products owned by link:https://mathworks.com[Mathworks].
 
 === System to control
 

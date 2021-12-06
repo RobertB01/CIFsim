@@ -103,7 +103,7 @@ If the start index is omitted, it defaults to zero.
 If the end index is omitted it defaults to the length of the list.
 If the begin index is equal to or larger than the end index, the slice is empty.
 Similar to indexing, negative indices may be used, which are relative to the end of the list rather than the start of the list.
-Indices that are out of bounds link:http://en.wikipedia.org/wiki/Saturation_arithmetic[saturate] to those bounds.
+Indices that are out of bounds link:https://en.wikipedia.org/wiki/Saturation_arithmetic[saturate] to those bounds.
 Some examples:
 
 [source, cif]

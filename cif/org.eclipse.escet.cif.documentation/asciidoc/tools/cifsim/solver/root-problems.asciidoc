@@ -90,7 +90,7 @@ As shown in the image, each of the guards changes value only once.
 The comma between guards means that both guards have to hold, in order for the edge to be enabled.
 This is similar, but not identical, to the `and` binary operator.
 For the `and` binary operator, the left hand side must be evaluated before the right hand side, and the right hand side may only be evaluated if the left hand side evaluates to `true`.
-This is called link:http://en.wikipedia.org/wiki/Short-circuit_evaluation[short-circuit evaluation].
+This is called link:https://en.wikipedia.org/wiki/Short-circuit_evaluation[short-circuit evaluation].
 For guards separated by commas, no such relation may be assumed.
 That is, even if the first guard evaluates to false, can the second guard still be evaluated by the root finding algorithm, for guard changes.
 It can even be the case that the second guard is evaluated before the first guard.

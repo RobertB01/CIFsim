@@ -79,7 +79,7 @@ Similarly, the invariants of the locations of the original automata are also eac
 And the initialization and marker predicates specified in automata, as well as invariants specified in automata, are moved there as well.
 
 For the `tau` event, a self loop is created per original `tau` edge.
-For all other events, the link:http://en.wikipedia.org/wiki/Cartesian_product[Cartesian product] of all edges is created, combining the edges in all possible combinations.
+For all other events, the link:https://en.wikipedia.org/wiki/Cartesian_product[Cartesian product] of all edges is created, combining the edges in all possible combinations.
 This results in self loops for all non-`tau` events, where the combination of all self loops maintains all non-deterministic choices of the original specification.
 Worst case, the model size of the resulting specification compared to the model size of the original specification <<tools-cif2cif-linearize-product-size,could blow up>> exponentially.
 

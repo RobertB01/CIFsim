@@ -28,7 +28,7 @@ indexterm:[print declaration,transition centric view]
 === Transition centric view
 
 Unlike many programming languages that have print statements, CIF has print declarations.
-Print declarations are link:http://en.wikipedia.org/wiki/Declarative_programming[declarative], rather than link:http://en.wikipedia.org/wiki/Imperative_programming[imperative].
+Print declarations are link:https://en.wikipedia.org/wiki/Declarative_programming[declarative], rather than link:https://en.wikipedia.org/wiki/Imperative_programming[imperative].
 Print declarations center on transitions.
 The following is a schematic overview of a transition:
 
@@ -297,7 +297,7 @@ indexterm:[print declaration,stderr]
 [[tools-cifsim-output-print-ref-printdecl-file]]
 === Output file/target
 
-By default text is printed to the console, to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
+By default text is printed to the console, to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream], usually called 'stdout'.
 It is however possible to explicitly specify the file or special target to which the output is to be printed.
 Consider the following examples:
 
@@ -315,10 +315,10 @@ It is also allowed to use backslashes (`\`), which are more common on Microsoft 
 
 The following special non-file targets are supported:
 
-* `":stdout"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard output stream].
+* `":stdout"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard output stream].
 In Eclipse, the text ends up on the console, as black text.
 
-* `":stderr"`: prints to the link:http://en.wikipedia.org/wiki/Standard_streams[standard error stream].
+* `":stderr"`: prints to the link:https://en.wikipedia.org/wiki/Standard_streams[standard error stream].
 In Eclipse, the text ends up on the console, as red text.
 
 Besides these local file indications, CIF also supports global <<tools-cifsim-output-print-chapter-ref-printfile,print file declarations>>, which influence the default, in case no local file or special target is specified.

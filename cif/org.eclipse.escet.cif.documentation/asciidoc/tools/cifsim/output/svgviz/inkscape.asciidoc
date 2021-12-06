@@ -18,11 +18,11 @@ include::../../../_part_attributes.asciidoc[]
 indexterm:[SVG,Inkscape]
 indexterm:[Inkscape]
 SVG images can best be edited with a drawing program that supports vector graphics.
-One such program is link:http://inkscape.org/[Inkscape], a free and open source vector graphics editor that uses SVG as its native file format, and is available for many platforms, including Microsoft Windows, macOS, and Linux.
+One such program is link:https://inkscape.org/[Inkscape], a free and open source vector graphics editor that uses SVG as its native file format, and is available for many platforms, including Microsoft Windows, macOS, and Linux.
 In this documentation, we'll use Inkscape to create and edit SVG images.
 
 It is beyond the scope of this document to explain how Inkscape works.
-For that, see the link:http://inkscape.org/[Inkscape website].
+For that, see the link:https://inkscape.org/[Inkscape website].
 Here is a screenshot of the Inkscape interface:
 
 image::{tools-imgsdir}/cifsim/output/svgviz/inkscape/inkscape.png[]

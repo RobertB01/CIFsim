@@ -508,7 +508,7 @@ With these operations, one of the operands has to be a real number value, while 
 The standard library functions for real numbers contain a lot of math functions.
 They can be found in <<ref-real-stdlib>>.
 
-The Chi simulator uses link:http://en.wikipedia.org/wiki/IEEE_floating_point[64-bit IEEE 754 floating point] numbers to represent real number values.
+The Chi simulator uses link:https://en.wikipedia.org/wiki/IEEE_floating_point[64-bit IEEE 754 floating point] numbers to represent real number values.
 Using a value outside the valid range of this format will yield invalid results.
 Sometimes such values are detected and reported.
 

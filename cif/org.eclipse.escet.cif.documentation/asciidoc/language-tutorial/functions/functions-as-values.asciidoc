@@ -79,7 +79,7 @@ The second parameter is `cmp`, the compare function to use to determine whether 
 The `cmp` parameter has type `func bool (real, real)`, which means that a function that has two real parameters and a boolean return value is required.
 The `+cmp_inc+` and `+cmp_dec+` functions satisfy these requirements, and can be used as second argument when the function is called to determine the values of algebraic variables `inc` and `dec`.
 
-The `sort` function implements a standard link:http://en.wikipedia.org/wiki/Insertion_sort[insertion sort] algorithm.
+The `sort` function implements a standard link:https://en.wikipedia.org/wiki/Insertion_sort[insertion sort] algorithm.
 The `cmp` parameter is used in the `sort` function to compare two consecutive values in `xs`, and swap them if they are not correctly ordered.
 
 The `cmp` parameter of the `sort` function has a function type, allowing compare functions to be passed to the `sort` function, as data.

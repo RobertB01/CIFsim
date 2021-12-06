@@ -52,7 +52,7 @@ end
 ----
 
 This specification models two machines, which produce products.
-The machines share a common resource, which may only be used by at most one of them, at any time (see link:http://en.wikipedia.org/wiki/Mutual_exclusion[mutual exclusion]).
+The machines share a common resource, which may only be used by at most one of them, at any time (see link:https://en.wikipedia.org/wiki/Mutual_exclusion[mutual exclusion]).
 Initially, the machines are `idle`.
 Then, they warm themselves up.
 Once they start processing, they set their boolean variable `claimed` to `true` to indicate that they claimed the shared resource.

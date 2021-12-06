@@ -68,7 +68,7 @@ Initially, it is in the `hand` of a person.
 That person can `toss` the coin up into the `air`, eventually causing it to fall and `land` on the `ground`.
 It can be picked up (event `pick_up`), causing it to once again be in the `hand` of a person.
 
-The `outcome` automaton registers the outcome of the link:http://en.wikipedia.org/wiki/Coin_toss[coin toss].
+The `outcome` automaton registers the outcome of the link:https://en.wikipedia.org/wiki/Coin_toss[coin toss].
 Initially, the outcome is `unknown`.
 Whenever the coin is tossed, it lands (event `land` from automaton `coin`) on the ground with either the `heads` or `tails` side up.
 The `unknown` location of the `outcome` automaton has two edges for the same event.

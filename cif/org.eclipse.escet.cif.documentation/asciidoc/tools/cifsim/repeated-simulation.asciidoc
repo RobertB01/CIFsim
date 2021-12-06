@@ -18,7 +18,7 @@ include::_local_attributes.asciidoc[]
 
 indexterm:[CIF simulator,repeated simulation]
 indexterm:[performance,repeated simulation]
-When simulating a CIF model, the simulator reads the CIF file, checks it for validity, generates link:http://oracle.com/java[Java] code, <<tools-cifsim-chapter-java-compiler,compiles>> the code, and uses the compiled code using the actual simulation.
+When simulating a CIF model, the simulator reads the CIF file, checks it for validity, generates link:https://oracle.com/java[Java] code, <<tools-cifsim-chapter-java-compiler,compiles>> the code, and uses the compiled code using the actual simulation.
 All of this takes a bit of time, or even quite some time, depending on the size of the model.
 This situation is not ideal for repeated simulations, for instance when trying different scenarios or use cases, when simulating with different <<tools-cifsim-chapter-options,options>>, or when repeating simulations with various different <<tools-cifsim-chapter-init,initializations>> or due to <<lang-tut-stochastics-chapter-intro,stochastic>> behavior.
 The startup time for the first simulation is also present for the second simulation, etc.
@@ -78,7 +78,7 @@ Initially, the machine is `waiting`.
 Once a product enters the system, the machine will start `processing`.
 Once the product is `processed`, the machine is `done` and will be `waiting` for the next product to `enter`.
 The time it takes to process a product varies with each product.
-A link:http://en.wikipedia.org/wiki/Normal_distribution[normal distribution] with a mean of `10` and a variance of `7` is used to model the varying processing times.
+A link:https://en.wikipedia.org/wiki/Normal_distribution[normal distribution] with a mean of `10` and a variance of `7` is used to model the varying processing times.
 
 The <<tools-cifsim-output-print-chapter-ref-printdecl,print declaration>> at the end of the model is used to <<tools-cifsim-output-print-chapter-index,print>> the number of processed products at the end of the simulation.
 

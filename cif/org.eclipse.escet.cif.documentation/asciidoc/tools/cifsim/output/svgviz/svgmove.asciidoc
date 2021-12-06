@@ -123,7 +123,7 @@ indexterm:[SVG move declaration,conflicts]
 
 === Conflicting transformations
 
-The SVG standard allows for powerful link:http://www.w3.org/TR/SVG11/coords.html#TransformAttribute[transformations], including the `scale` and `matrix` transformations.
+The SVG standard allows for powerful link:https://www.w3.org/TR/SVG11/coords.html#TransformAttribute[transformations], including the `scale` and `matrix` transformations.
 Now assume we use a `scale(0, 0)` transformation.
 Then all coordinates are multiplied by zero, always resulting in zero.
 As such, the entire image is scaled into zero by zero pixels.

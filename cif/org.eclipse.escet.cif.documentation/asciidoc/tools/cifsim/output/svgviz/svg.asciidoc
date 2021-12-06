@@ -19,7 +19,7 @@ indexterm:[SVG]
 indexterm:[SVG visualization,SVG standard]
 indexterm:[SVG,W3C]
 The SVG visualization feature uses Scalable Vector Graphics (SVG) images.
-link:http://www.w3.org/TR/SVG11/[SVG] is a widely-deployed royalty-free standard for two-dimensional vector graphics, developed by the link:http://www.w3.org/[World Wide Web Consortium] (W3C).
+link:https://www.w3.org/TR/SVG11/[SVG] is a widely-deployed royalty-free standard for two-dimensional vector graphics, developed by the link:https://www.w3.org/[World Wide Web Consortium] (W3C).
 SVG images consist of three types of objects: vector graphic shapes (rectangles, circles, etc.), raster images, and text.
 The benefit of vector images formats over raster image formats, is that raster images are created with a fixed size, while vector images contain a description of the image and can be rendered at any size without loss of quality.
 
@@ -27,13 +27,13 @@ indexterm:[SVG visualization,Batik]
 
 [[tools-cifsim-output-svgviz-svg-svg11]]
 Multiple versions of the SVG standard exist.
-The CIF simulator uses the free and open source link:http://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit] to render SVG images.
+The CIF simulator uses the free and open source link:https://xmlgraphics.apache.org/batik/[Apache Batik SVG Toolkit] to render SVG images.
 Batik supports version 1.1 of the SVG specification.
 
 indexterm:[SVG,XML]
-SVG image files are stored in an link:http://en.wikipedia.org/wiki/XML[XML]-based file format.
+SVG image files are stored in an link:https://en.wikipedia.org/wiki/XML[XML]-based file format.
 This means that they can be edited with any text editor.
-However, it is often more convenient to edit them with a drawing program that supports vector graphics, such as link:http://www.adobe.com/products/illustrator.html[Adobe Illustrator] or <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>.
+However, it is often more convenient to edit them with a drawing program that supports vector graphics, such as link:https://www.adobe.com/products/illustrator.html[Adobe Illustrator] or <<tools-cifsim-output-svgviz-chapter-inkscape,Inkscape>>.
 Most modern web browsers also support SVG images.
 
 Since SVG images are essentially XML files, we get all the benefits of XML for free.

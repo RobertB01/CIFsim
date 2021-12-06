@@ -78,7 +78,7 @@ func int signum(real x):
 end
 ----
 
-This `signum` function takes a real number `x` and returns its link:http://en.wikipedia.org/wiki/Signum_function[sign].
+This `signum` function takes a real number `x` and returns its link:https://en.wikipedia.org/wiki/Signum_function[sign].
 The `if` statement is used to detect the different situations, and to return the correct result in each of those situations.
 
 indexterm:[function statements,return]

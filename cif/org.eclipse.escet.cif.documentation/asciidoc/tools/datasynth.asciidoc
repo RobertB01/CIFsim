@@ -98,7 +98,7 @@ For more information, see the section on <<tools-datasynth-stats,statistics>> be
 Is enabled by default.
 Disabling this warning may increase the performance of synthesis.
 
-Internally during synthesis, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+Internally during synthesis, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 There are various options that can influence the use of BDDs.
 The following options are part of the _BDD_ sub-category of the _Synthesis_ category:
 
@@ -155,14 +155,14 @@ The default ratio is 1.0.
 This option has no effect if the _BDD library operation cache size_ option is enabled.
 For more information, see the <<tools-datasynth-op-cache>> section below.
 
-* _BDD debug max nodes_: Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+* _BDD debug max nodes_: Internally, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 This option control the maximum number of BDD nodes for which to convert a BDD to a readable CNF/DNF representation for the debug output.
 The default is `10` nodes.
 The maximum must be in the range [1 .. 2^31^ - 1].
 The option can be set to have an infinite maximum (no maximum), using option value `inf`.
 For more information, see the <<tools-datasynth-dbg-output>> section below.
 
-* _BDD debug max paths_: Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+* _BDD debug max paths_: Internally, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 This option control the maximum number of BDD true paths for which to convert a BDD to a readable CNF/DNF representation for the debug output.
 The default is `10` paths.
 The maximum must be in the range [0 .. 1.7e308].
@@ -337,7 +337,7 @@ The following <<tools-cif2cif-chapter-index,CIF to CIF transformations>> are app
 
 Additionally, the CIF specification is converted to an internal representation on which the synthesis is performed.
 This conversion also applies <<tools-cif2cif-chapter-linearize-product,linearization (product variant)>> to the edges.
-Predicates are represented internally using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+Predicates are represented internally using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 
 indexterm:[data-based supervisory controller synthesis,requirements]
 
@@ -491,13 +491,13 @@ If the namespace does not conflict, but is non-empty (it contains an event or it
 [[tools-datasynth-supervisor-bdd]]
 ==== BDD representation in CIF
 
-Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+Internally, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 The supervisor that is the output of synthesis, contains several predicates as well.
 For instance, it has self loops with guard predicates, and it may have an initialization predicate.
 The predicates represented as BDDs need to be represented as CIF predicates.
 There are multiple approaches to do this, and the _BDD output mode_ option (see <<tools-datasynth-options,options>> section above), can be used to configure the approach to use.
 
-The first approach, which is also the default approach (named `normal`), is to use either link:http://en.wikipedia.org/wiki/Conjunctive_normal_form[Conjunctive Normal Form] (CNF) or link:http://en.wikipedia.org/wiki/Disjunctive_normal_form[Disjunctive Normal Form] (DNF) predicates.
+The first approach, which is also the default approach (named `normal`), is to use either link:https://en.wikipedia.org/wiki/Conjunctive_normal_form[Conjunctive Normal Form] (CNF) or link:https://en.wikipedia.org/wiki/Disjunctive_normal_form[Disjunctive Normal Form] (DNF) predicates.
 This approach has as benefit that for relatively small predicates (usually for small systems), the CIF predicates are often intuitive, and can easily understood.
 The downside is that for larger systems, the CIF predicates often grow exponentially in size.
 
@@ -765,7 +765,7 @@ In other situations, the controlled behavior predicate that is used to determine
 
 Enabling debug output may significantly slow down the synthesis algorithm, especially for larger models.
 The performance degradation stems mostly from the printing of predicates.
-Predicates are internally represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+Predicates are internally represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 To print them, they are converted to CNF or DNF predicates, similar to one of the approaches to <<tools-datasynth-supervisor-bdd,convert>> BDDs to CIF predicates for synthesis output.
 
 To limit the performance degradation, options are available to limit the conversion of BDDs to CNF/DNF predicates.
@@ -939,7 +939,7 @@ indexterm:[data-based supervisory controller synthesis,variable order]
 [[tools-datasynth-var-order]]
 === BDD variable order
 
-Internally, predicates are represented using link:http://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
+Internally, predicates are represented using link:https://en.wikipedia.org/wiki/Binary_decision_diagram[Binary Decision Diagrams] (BDDs).
 CIF variables and automata are represented using one or more boolean variables (also called BDD variables or bits).
 For instance, a boolean CIF variable is represented using a single boolean/BDD variable, and a CIF variable of type `int[0..8]` is represented using four boolean/BDD variables (9 possible values, log~2~(9) ≈ 3.17).
 For each automaton with two or more locations, a location pointer variable is created, that represents the current or active location of that automaton.
