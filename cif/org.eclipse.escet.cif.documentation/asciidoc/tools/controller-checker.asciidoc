@@ -1,14 +1,15 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 include::_part_attributes.asciidoc[]
 
@@ -47,7 +48,7 @@ indexterm:[controller property checker,options]
 Besides the general application options, this application has the following options:
 
 * _Input file path_: The absolute or relative file system path to the input CIF specification.
-  
+
 * _Print control loops_: If set, the events that may still occur in a controllable-event loop are printed to the console.
 
 indexterm:[controller property checker,supported specifications]
@@ -170,7 +171,7 @@ indexterm:[controller checker property,implementation]
 
 Finite response for a model is determined as follows.
 
-. Find controllable-event loops in automata. 
+. Find controllable-event loops in automata.
 For this, guards and updates are omitted, also see <<tools-controllercheck-falsenegs,false negatives>>.
 
 . Find variables that are never updated by controllable events.
@@ -229,7 +230,7 @@ indexterm:[controller checker property,runtime errors]
 The model is assumed not to contain runtime errors, such as division by zero, modulus of zero, or assigning out of bounds values.
 The finite response check silently discards any such behavior.
 
-When PLC code is generated for models with runtime errors, finite response cannot be guaranteed as the resulting code may not behave as the CIF specification (see <<tools-cif2plc-generatedcode,generated code>>). 
+When PLC code is generated for models with runtime errors, finite response cannot be guaranteed as the resulting code may not behave as the CIF specification (see <<tools-cif2plc-generatedcode,generated code>>).
 
 One way to get a model without runtime errors is to use supervisor synthesis, since that removes such behavior from its input.
 For more information, see the <<tools-chapter-datasynth,data-based>> and <<tools-eventbased-chapter-supervisorsynthesis,event-based>> supervisor synthesis tools.
