@@ -155,7 +155,7 @@ Variance:: `+a * b^2+`
 [bibliography]
 ==== References
 
-* [[[law-tut]]] Averill M. Law, ''Simulation Modeling and Analysis'', McGraw-Hill, 2007
+* [[[law-tut]]] Averill M. Law, "Simulation Modeling and Analysis", McGraw-Hill, 2007
 
 [[tut-simulating-stochastic-behavior]]
 === Simulating stochastic behavior
