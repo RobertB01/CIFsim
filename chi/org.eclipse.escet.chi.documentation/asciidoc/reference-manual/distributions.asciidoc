@@ -266,6 +266,6 @@ See also:: Weibull(a, b), <<law-ref>>, page 284
 
 === References
 
-* [[[banks-ref]]] Jerry Banks, "Handbook of Simulation, Principles, Methodology, Advances, Applications, and Practice", John Wiley & Sons, inc, 1998, doi:link:https://doi.org/10.1002/9780470172445[10.1002/9780470172445]
+* [[[banks-ref]]] Jerry Banks, "Handbook of Simulation: Principles, Methodology, Advances, Applications, and Practice", John Wiley & Sons, Inc., 1998, doi:link:https://doi.org/10.1002/9780470172445[10.1002/9780470172445]
 
-* [[[law-ref]]] Averill M. Law, "Simulation Modeling and Analysis", McGraw-Hill, 2007
+* [[[law-ref]]] Averill M. Law, "Simulation Modeling and Analysis", fourth edition, McGraw-Hill, 2007
