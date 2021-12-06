@@ -89,7 +89,7 @@ image::{ref-imgsdir}/distribution_plots/bernoulli.svg[]
 Range:: `{false, true}`
 Mean:: `p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
 Variance:: `1 - p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
-See also:: Bernoulli(p), <<law-ref>>, page 302
+See also:: Bernoulli(p), <<ref-law>>, page 302
 
 * `dist` `int` *binomial*`(int n, real p)`
 +
@@ -99,7 +99,7 @@ Number of successes when performing `n` experiments `(n > 0)` with chance `p` `+
 Range:: `+{0, 1, ..., n}+`
 Mean:: `n * p`
 Variance:: `n * p * (1 - p)`
-See also:: bin(n, p), <<law-ref>>, page 304
+See also:: bin(n, p), <<ref-law>>, page 304
 
 * `dist` `int` *geometric*`(real p)`
 +
@@ -109,7 +109,7 @@ Geometric distribution, number of failures before success for an experiment with
 Range:: `+{0, 1, ...}+`
 Mean:: `(1 - p) / p`
 Variance:: `+(1 - p) / p^2+`
-See also:: geom(p), <<law-ref>>, page 305
+See also:: geom(p), <<ref-law>>, page 305
 
 * `dist` `int` *poisson*`(real lambda)`
 +
@@ -121,7 +121,7 @@ image::{ref-imgsdir}/distribution_plots/poisson.svg[]
 Range:: `+{0, 1, ...}+`
 Mean:: `lambda`
 Variance:: `lambda`
-See also:: Poison(lambda), <<law-ref>>, page 308
+See also:: Poison(lambda), <<ref-law>>, page 308
 
 * `dist` `int` *uniform*`(int a, b)`
 +
@@ -133,7 +133,7 @@ image::{ref-imgsdir}/distribution_plots/disc_uni.svg[]
 Range:: `+{a, a+1, ..., b-1}+`
 Mean:: `+(a + b - 1) / 2+`
 Variance:: `+((b - a)^2 - 1) / 12+`
-See also:: DU(a, b - 1), <<law-ref>>, page 303
+See also:: DU(a, b - 1), <<ref-law>>, page 303
 
 indexterm:[continuous distribution]
 indexterm:[beta]
@@ -160,7 +160,7 @@ image::{ref-imgsdir}/distribution_plots/beta.svg[]
 Range:: `[0, 1]`
 Mean:: `+p / (p + q)+`
 Variance:: `+p * q / ((p + q)^2 * (p + q + 1))+`
-See also:: Beta(p, q), <<law-ref>>, page 291
+See also:: Beta(p, q), <<ref-law>>, page 291
 
 * `dist` `real` *erlang*`(double m, int k)`
 +
@@ -170,7 +170,7 @@ Equivalent to `gamma(k, m / k)`.
 [horizontal]
 Mean:: `m`
 Variance:: `m * m / k`
-See also:: ERL(m, k), <<banks-ref>>, page 153
+See also:: ERL(m, k), <<ref-banks>>, page 153
 
 * `dist` `real` *exponential*`(real m)`
 +
@@ -182,7 +182,7 @@ image::{ref-imgsdir}/distribution_plots/exponential.svg[]
 Range:: `[0, infinite)`
 Mean:: `m`
 Variance:: `m * m`
-See also:: expo(m), <<law-ref>>, page 283
+See also:: expo(m), <<ref-law>>, page 283
 
 * `dist` `real` *gamma*`(real a, b)`
 +
@@ -204,7 +204,7 @@ image::{ref-imgsdir}/distribution_plots/lognormal.svg[]
 Range:: `[0, infinite)`
 Mean:: `+exp(m + v2/2)+`
 Variance:: `+exp(2*m + v2) * (exp(v2) - 1)+`
-See also:: N(m, v2), <<law-ref>>, page 290
+See also:: N(m, v2), <<ref-law>>, page 290
 
 * `dist` `real` *normal*`(real m, v2)`
 +
@@ -216,7 +216,7 @@ image::{ref-imgsdir}/distribution_plots/normal.svg[]
 Range:: `(-infinite, infinite)`
 Mean:: `m`
 Variance:: `v2`
-See also:: N(m, v2), <<law-ref>>, page 288
+See also:: N(m, v2), <<ref-law>>, page 288
 
 * `dist` `real` *random*`()`
 +
@@ -237,7 +237,7 @@ image::{ref-imgsdir}/distribution_plots/triangle.svg[]
 Range:: `[a, c]`
 Mean:: `+(a + b + c) /3+`
 Variance:: `+(a^2 + c^2 + b^2 - a*b - a*c - b*c) / 18+`
-See also:: Triangle(a, c, b), <<law-ref>>, page 300
+See also:: Triangle(a, c, b), <<ref-law>>, page 300
 
 * `dist` `real` *uniform*`(real a, b)`
 +
@@ -249,7 +249,7 @@ image::{ref-imgsdir}/distribution_plots/cont_uni.svg[]
 Range:: `[a, b)`
 Mean:: `+(a + b) / 2+`
 Variance:: `+(b - a)^2 / 12+`
-See also:: U(a,b), <<law-ref>>, page 282, except that distribution has an inclusive upper bound.
+See also:: U(a,b), <<ref-law>>, page 282, except that distribution has an inclusive upper bound.
 
 * `dist` `real` *weibull*`(real a, b)`
 +
@@ -262,11 +262,11 @@ Range:: `[0, infinite)`
 Mean:: `(b / a) * G(1 / a)`
 Variance:: `+(b^2 / a) * (2 * G(2 / a) - (1 / a) * G(1 / a)^2)+` with `G(x)` the Gamma function,
 `G(x)` `=` integral over `t` from `0` to `infinity`, for `+t^(x - 1) * exp(-t)+`
-See also:: Weibull(a, b), <<law-ref>>, page 284
+See also:: Weibull(a, b), <<ref-law>>, page 284
 
 [bibliography]
 === References
 
-* [[[banks-ref]]] Jerry Banks, "Handbook of Simulation: Principles, Methodology, Advances, Applications, and Practice", John Wiley & Sons, Inc., 1998, doi:link:https://doi.org/10.1002/9780470172445[10.1002/9780470172445]
+* [[[ref-banks,Banks]]] Jerry Banks, "Handbook of Simulation: Principles, Methodology, Advances, Applications, and Practice", John Wiley & Sons, Inc., 1998, doi:link:https://doi.org/10.1002/9780470172445[10.1002/9780470172445]
 
-* [[[law-ref]]] Averill M. Law, "Simulation Modeling and Analysis", fourth edition, McGraw-Hill, 2007
+* [[[ref-law,Law]]] Averill M. Law, "Simulation Modeling and Analysis", fourth edition, McGraw-Hill, 2007
