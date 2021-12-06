@@ -1265,7 +1265,6 @@ Using synthesis with requirements that restrict the allowed values of an input v
 A supervisor can however impose additional restrictions on the <<tools-datasynth-init,initial>> value of an input variable.
 The supervisor can then only guarantee safe, non-blocking behavior if the system is initialized in accordance with the additional initialization restrictions.
 
-[bibliography]
 === References
 
 * [[[force]]] Fadi A. Aloul, Igor L. Markov and Karem A. Sakallah, "FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic", In: Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, doi:link:https://doi.org/10.1145/764808.764839[10.1145/764808.764839]
