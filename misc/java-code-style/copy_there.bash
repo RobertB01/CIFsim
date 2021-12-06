@@ -56,8 +56,6 @@ do
         continue
     fi
 
-    set -e
-
     # Show what we will update.
     TARGET_DIR=`dirname $p`
     echo $TARGET_DIR
@@ -68,10 +66,12 @@ do
 
     # For Java projects, copy .settings folder.
     grep -q "<nature>org.eclipse.jdt.core.javanature</nature>" $p
-    if test $? -ne 0
+    if test $? -eq 0
     then
         cp -r $SOURCE_DIR/.settings/ $TARGET_DIR
     fi
+
+    set -e
 
     # Add builder and nature, if not yet present.
     misc/java-code-style/add_checkstyle_to_project_file.py $p
