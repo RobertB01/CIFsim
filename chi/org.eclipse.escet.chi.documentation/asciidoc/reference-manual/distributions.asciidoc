@@ -264,6 +264,7 @@ Variance:: `+(b^2 / a) * (2 * G(2 / a) - (1 / a) * G(1 / a)^2)+` with `G(x)` the
 `G(x)` `=` integral over `t` from `0` to `infinity`, for `+t^(x - 1) * exp(-t)+`
 See also:: Weibull(a, b), <<law-ref>>, page 284
 
+[bibliography]
 === References
 
 * [[[banks-ref]]] Jerry Banks, "Handbook of Simulation: Principles, Methodology, Advances, Applications, and Practice", John Wiley & Sons, Inc., 1998, doi:link:https://doi.org/10.1002/9780470172445[10.1002/9780470172445]

@@ -152,6 +152,7 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/gamma.svg[]
 Mean:: `a * b`
 Variance:: `+a * b^2+`
 
+[bibliography]
 ==== References
 
 * [[[law-tut]]] Averill M. Law, "Simulation Modeling and Analysis", fourth edition, McGraw-Hill, 2007
