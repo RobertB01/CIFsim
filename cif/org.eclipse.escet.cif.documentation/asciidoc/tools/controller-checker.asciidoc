@@ -238,4 +238,4 @@ Alternatively, the <<tools-chapter-cif-explorer,CIF explorer>> may be used to ve
 [bibliography]
 === References
 
-* [[[reijnen]]] Ferdie F.H. Reijnen, Albert T. Hofkamp, Joanna M. van de Mortel-Fronczak, Michel A. Reniers, and Jacobus E. Rooda, ''Finite Response and Confluence of State-based Supervisory Controllers'', In: Proceedings of the 15th International Conference on Automation Science and Engineering, pages 509-516, 2019, doi:link:https://doi.org/10.1109/COASE.2019.8843335[10.1109/COASE.2019.8843335]
+* [[[reijnen]]] Ferdie F.H. Reijnen, Albert T. Hofkamp, Joanna M. van de Mortel-Fronczak, Michel A. Reniers and Jacobus E. Rooda, ''Finite Response and Confluence of State-based Supervisory Controllers'', In: Proceedings of the 15th International Conference on Automation Science and Engineering, pages 509-516, 2019, doi:link:https://doi.org/10.1109/COASE.2019.8843335[10.1109/COASE.2019.8843335]
