@@ -258,29 +258,29 @@ SPDX-License-Identifier: MIT
     <metadata name="net.sf.eclipsecs.core.comment" value="XXX -- Could be improved if Checkstyle issue #976 is fixed."/>
     <property name="format" value="XXX"/>
     <property name="message" value="Found XXX."/>
-    <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
+    <property name="fileExtensions" value="java,xml,MF,properties,txt,asciidoc"/>
   </module>
   <module name="FileTabCharacter">
-    <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
+    <property name="fileExtensions" value="java,xml,MF,properties,txt,asciidoc"/>
   </module>
   <module name="RegexpMultiline">
     <metadata name="net.sf.eclipsecs.core.comment" value="Multiple consecutive empty lines"/>
     <property name="format" value="\n\n\n"/>
     <property name="message" value="Multiple consecutive empty lines found."/>
-    <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
+    <property name="fileExtensions" value="java,xml,MF,properties,txt,asciidoc"/>
   </module>
   <module name="RegexpSingleline">
     <metadata name="net.sf.eclipsecs.core.comment" value="Trailing whitespace"/>
     <property name="format" value="^.*\s$"/>
     <property name="message" value="Trailing whitespace found."/>
-    <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
+    <property name="fileExtensions" value="java,xml,MF,properties,txt,asciidoc"/>
   </module>
   <module name="NewlineAtEndOfFile">
-    <property name="fileExtensions" value="java,xml,MF,properties,txt"/>
+    <property name="fileExtensions" value="java,xml,MF,properties,txt,asciidoc"/>
   </module>
   <module name="UniqueProperties"/>
   <module name="RegexpHeader">
     <property name="header" value="^//////////////////////////////////////////////////////////////////////////////$\n^// Copyright \(c\) (\d\d\d\d, )?\d\d\d\d Contributors to the Eclipse Foundation$\n^//$\n^// See the NOTICE file\(s\) distributed with this work for additional$\n^// information regarding copyright ownership.$\n^//$\n^// This program and the accompanying materials are made available$\n^// under the terms of the MIT License which is available at$\n^// https://opensource.org/licenses/MIT$\n^//$\n^// SPDX-License-Identifier: MIT$\n^//////////////////////////////////////////////////////////////////////////////$"/>
-    <property name="fileExtensions" value="java"/>
+    <property name="fileExtensions" value="java, asciidoc"/>
   </module>
 </module>
