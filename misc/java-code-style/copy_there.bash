@@ -26,7 +26,7 @@ do
     set +e
 
     # Filter to include only projects with a Java nature or documentation.
-    grep -q "<nature>org.eclipse.jdt.core.javanature</nature>\|.documentation" $p
+    grep -q "<nature>org.eclipse.jdt.core.javanature</nature>\|.documentation</name>" $p
     if test $? -ne 0
     then
         continue

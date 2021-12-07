@@ -15,7 +15,7 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-        <buildCommand>
+		<buildCommand>
 			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
 			<arguments>
 			</arguments>
