@@ -38,20 +38,20 @@ group p4:
 end
 group p5:
   event e5;
-  enum LPE_p5 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p5 = l1 and true or M.p5 = l2 and false;
   marked M.p5 = l1 and false or M.p5 = l2 and false;
 end
 group p6:
   event e6a;
   event e6b;
-  enum LPE_p6 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p6 = l1 and true or M.p6 = l2 and true;
   marked M.p6 = l1 and false or M.p6 = l2 and false;
 end
 group p7:
   event e7;
-  enum LPE_p7 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p7 = l1 and true or M.p7 = l2 and true;
   marked M.p7 = l1 and false or M.p7 = l2 and false;
 end
@@ -64,7 +64,7 @@ end
 group p9:
   alg bool a = M.p9 = l2;
   event e9;
-  enum LPE_p9 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p9 = l1 and true or M.p9 = l2 and false;
   marked M.p9 = l1 and false or M.p9 = l2 and false;
   invariant a or M.p9_b;
@@ -74,7 +74,7 @@ group p10:
   marked true and false;
 end
 group p11:
-  enum LPE_p11 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p11 = l1 and true or M.p11 = l2 and false;
   marked M.p11 = l1 and false or M.p11 = l2 and false;
 end
@@ -83,7 +83,7 @@ group p12a:
   marked true and false;
 end
 group p12b:
-  enum LPE_p12b = l1, l2;
+  enum LPE = l1, l2;
   initial M.p12b = l1 and true or M.p12b = l2 and false;
   marked M.p12b = l1 and false or M.p12b = l2 and false;
 end
@@ -92,25 +92,25 @@ group p14a:
   marked true and false;
 end
 group p14b:
-  enum LPE_p14b = l1, l2;
+  enum LPE = l1, l2;
   initial M.p14b = l1 and true or M.p14b = l2 and false;
   marked M.p14b = l1 and false or M.p14b = l2 and false;
 end
 group p15a:
   event e15a;
-  enum LPE_p15a = l1, l2, l3;
+  enum LPE = l1, l2, l3;
   initial M.p15a = l1 and true or (M.p15a = l2 and false or M.p15a = l3 and false);
   marked M.p15a = l1 and false or (M.p15a = l2 and false or M.p15a = l3 and false);
 end
 group p15b:
   event e15b;
-  enum LPE_p15b = l1, l2, l3;
+  enum LPE = l1, l2, l3;
   initial M.p15b = l1 and true or (M.p15b = l2 and true or M.p15b = l3 and true);
   marked M.p15b = l1 and false or (M.p15b = l2 and false or M.p15b = l3 and false);
 end
 group p16:
   event e16;
-  enum LPE_p16 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p16 = l1 and true or M.p16 = l2 and false;
   marked M.p16 = l1 and false or M.p16 = l2 and false;
 end
@@ -131,7 +131,7 @@ group p18c:
   marked true and false;
 end
 group p19a:
-  enum LPE_p19a = l1, l2;
+  enum LPE = l1, l2;
   initial M.p19a = l1 and true or M.p19a = l2 and false;
   marked M.p19a = l1 and false or M.p19a = l2 and false;
 end
@@ -144,7 +144,7 @@ group p19c:
   marked true and false;
 end
 group p20a:
-  enum LPE_p20a = l1, l2;
+  enum LPE = l1, l2;
   initial M.p20a = l1 and true or M.p20a = l2 and false;
   marked M.p20a = l1 and false or M.p20a = l2 and false;
 end
@@ -157,7 +157,7 @@ group send20c_1:
   marked true and false;
 end
 group send20c_2:
-  enum LPE_send20c_2 = l1, l2;
+  enum LPE = l1, l2;
   initial M.send20c_2 = l1 and true or M.send20c_2 = l2 and false;
   marked M.send20c_2 = l1 and false or M.send20c_2 = l2 and false;
 end
@@ -166,7 +166,7 @@ group recv20c_1:
   marked true and false;
 end
 group recv20c_2:
-  enum LPE_recv20c_2 = l1, l2;
+  enum LPE = l1, l2;
   initial M.recv20c_2 = l1 and true or M.recv20c_2 = l2 and false;
   marked M.recv20c_2 = l1 and false or M.recv20c_2 = l2 and false;
 end
@@ -175,12 +175,12 @@ group sync20c_1:
   marked true and false;
 end
 group sync20c_2:
-  enum LPE_sync20c_2 = l1, l2;
+  enum LPE = l1, l2;
   initial M.sync20c_2 = l1 and true or M.sync20c_2 = l2 and false;
   marked M.sync20c_2 = l1 and false or M.sync20c_2 = l2 and false;
 end
 group p21a:
-  enum LPE_p21a = l1, l2;
+  enum LPE = l1, l2;
   initial M.p21a = l1 and true or M.p21a = l2 and false;
   marked M.p21a = l1 and false or M.p21a = l2 and false;
 end
@@ -189,7 +189,7 @@ group p21b:
   marked true and false;
 end
 group p22a:
-  enum LPE_p22a = l1, l2;
+  enum LPE = l1, l2;
   initial M.p22a = l1 and true or M.p22a = l2 and false;
   marked M.p22a = l1 and false or M.p22a = l2 and false;
 end
@@ -202,7 +202,7 @@ group p23a:
   marked true and false;
 end
 group p23b:
-  enum LPE_p23b = l1, l2, l3;
+  enum LPE = l1, l2, l3;
   initial M.p23b = l1 and true or (M.p23b = l2 and true or M.p23b = l3 and true);
   marked M.p23b = l1 and false or (M.p23b = l2 and false or M.p23b = l3 and false);
 end
@@ -211,7 +211,7 @@ group p24a:
   marked true and false;
 end
 group p24b:
-  enum LPE_p24b = l1, l2, l3;
+  enum LPE = l1, l2, l3;
   initial M.p24b = l1 and true or (M.p24b = l2 and true or M.p24b = l3 and true);
   marked M.p24b = l1 and false or (M.p24b = l2 and false or M.p24b = l3 and false);
 end
@@ -268,7 +268,7 @@ group p31b:
   marked true and false;
 end
 group p32:
-  enum LPE_p32 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p32 = l1 and true or M.p32 = l2 and true;
   marked M.p32 = l1 and false or M.p32 = l2 and false;
   invariant 32.3 = 32.3;
@@ -276,13 +276,13 @@ group p32:
   invariant M.p32 = l2 => 32.2 = 32.2;
 end
 group p33:
-  enum LPE_p33 = l1, l2, l3, l4;
+  enum LPE = l1, l2, l3, l4;
   initial M.p33 = l1 and true or M.p33 = l2 and true or (M.p33 = l3 and true or M.p33 = l4 and true);
   marked 33.1 = 33.1,
          M.p33 = l1 and false or M.p33 = l2 and true or (M.p33 = l3 and 33.3 = 33.3 or M.p33 = l4 and 33.4 = 33.4);
 end
 group p34:
-  enum LPE_p34 = l1, l2, l3, l4;
+  enum LPE = l1, l2, l3, l4;
   initial 34.1 = 34.1,
           M.p34 = l1 and false or M.p34 = l2 and true or (M.p34 = l3 and 34.3 = 34.3 or M.p34 = l4 and 34.4 = 34.4);
   marked M.p34 = l1 and false or M.p34 = l2 and false or (M.p34 = l3 and false or M.p34 = l4 and false);
@@ -292,25 +292,25 @@ group p35:
   marked true and false;
 end
 group p36:
-  enum LPE_p36 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p36 = l1 and true or M.p36 = l2 and true;
   marked M.p36 = l1 and false or M.p36 = l2 and false;
 end
 group p37:
   event e37;
-  enum LPE_p37 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p37 = l1 and true or M.p37 = l2 and true;
   marked M.p37 = l1 and false or M.p37 = l2 and false;
 end
 group p38:
   event e38;
-  enum LPE_p38 = l1, l2, l3, l4, l5, l6;
+  enum LPE = l1, l2, l3, l4, l5, l6;
   initial M.p38 = l1 and true or (M.p38 = l2 and true or M.p38 = l3 and true) or (M.p38 = l4 and true or (M.p38 = l5 and true or M.p38 = l6 and true));
   marked M.p38 = l1 and false or (M.p38 = l2 and false or M.p38 = l3 and false) or (M.p38 = l4 and false or (M.p38 = l5 and false or M.p38 = l6 and false));
 end
 group p40:
   event e40;
-  enum LPE_p40 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p40 = l1 and true or M.p40 = l2 and false;
   marked M.p40 = l1 and false or M.p40 = l2 and false;
 end
@@ -322,33 +322,33 @@ group p41:
 end
 automaton M:
   alphabet e12, e14, e18, e19, e20, e20c, e21, e22, e23, e24, e26, e27a, e27b, e28, e30, e31a, e31b, e34, f27, .p15a.e15a, .p15b.e15b, .p16.e16, p3.e3, .p37.e37, .p38.e38, p4.e4, .p40.e40, p41.e41a, p41.e41b, .p5.e5, .p6.e6a, .p6.e6b, .p7.e7, p8.e8a, p8.e8b, .p9.e9;
-  disc .p11.LPE_p11 p11 = .p11.l1;
-  disc .p12b.LPE_p12b p12b = .p12b.l1;
+  disc .p11.LPE p11 = .p11.l1;
+  disc .p12b.LPE p12b = .p12b.l1;
   disc real p14a_v;
   disc real p14b_v;
-  disc .p14b.LPE_p14b p14b = .p14b.l1;
+  disc .p14b.LPE p14b = .p14b.l1;
   disc real p15a_v;
-  disc .p15a.LPE_p15a p15a = .p15a.l1;
+  disc .p15a.LPE p15a = .p15a.l1;
   disc real p15b_v;
-  disc .p15b.LPE_p15b p15b in any;
+  disc .p15b.LPE p15b in any;
   disc real p16_v;
-  disc .p16.LPE_p16 p16 = .p16.l1;
+  disc .p16.LPE p16 = .p16.l1;
   disc real p17_dv;
   cont p17_cv der 1.0;
   disc real p18b_v;
-  disc .p19a.LPE_p19a p19a = .p19a.l1;
+  disc .p19a.LPE p19a = .p19a.l1;
   disc real p19b_v;
-  disc .p20a.LPE_p20a p20a = .p20a.l1;
+  disc .p20a.LPE p20a = .p20a.l1;
   disc real p20b_v;
-  disc .p21a.LPE_p21a p21a = .p21a.l1;
-  disc .p22a.LPE_p22a p22a = .p22a.l1;
+  disc .p21a.LPE p21a = .p21a.l1;
+  disc .p22a.LPE p22a = .p22a.l1;
   disc real p22b_v1;
   disc real p22b_v2;
   disc real p23b_v1;
   disc real p23b_v2;
-  disc .p23b.LPE_p23b p23b in any;
+  disc .p23b.LPE p23b in any;
   disc real p24b_v1;
-  disc .p24b.LPE_p24b p24b in any;
+  disc .p24b.LPE p24b in any;
   disc real p25_v;
   disc tuple(int a; int b) p26b_v;
   disc list int p26b_l = [261, 262];
@@ -356,32 +356,32 @@ automaton M:
   disc list list int p27b_v2;
   cont p28b_v1 der 28.1;
   cont p28b_v2 der 28.2;
-  disc .p32.LPE_p32 p32 in any;
-  disc .p33.LPE_p33 p33 in any;
-  disc .p34.LPE_p34 p34 in any;
-  disc .p36.LPE_p36 p36 in any;
-  disc .p37.LPE_p37 p37 in any;
+  disc .p32.LPE p32 in any;
+  disc .p33.LPE p33 in any;
+  disc .p34.LPE p34 in any;
+  disc .p36.LPE p36 in any;
+  disc .p37.LPE p37 in any;
   disc real p38_v;
-  disc .p38.LPE_p38 p38 in any;
+  disc .p38.LPE p38 in any;
   disc real p40_v;
-  disc .p40.LPE_p40 p40 = .p40.l1;
+  disc .p40.LPE p40 = .p40.l1;
   disc int p41_a;
   disc func int() p41_b;
-  disc .p5.LPE_p5 p5 = .p5.l1;
-  disc .p6.LPE_p6 p6 in any;
-  disc .p7.LPE_p7 p7 in any;
+  disc .p5.LPE p5 = .p5.l1;
+  disc .p6.LPE p6 in any;
+  disc .p7.LPE p7 in any;
   disc bool p9_b = p9 = .p9.l1;
-  disc .p9.LPE_p9 p9 = .p9.l1;
+  disc .p9.LPE p9 = .p9.l1;
   disc tuple(real a; real b) q27b_v;
   disc int recv20c_1_a;
   disc int recv20c_2_b;
-  disc .recv20c_2.LPE_recv20c_2 recv20c_2 = .recv20c_2.l1;
+  disc .recv20c_2.LPE recv20c_2 = .recv20c_2.l1;
   disc int send20c_1_x;
   disc int send20c_2_y;
-  disc .send20c_2.LPE_send20c_2 send20c_2 = .send20c_2.l1;
+  disc .send20c_2.LPE send20c_2 = .send20c_2.l1;
   disc int sync20c_1_a;
   disc int sync20c_2_b;
-  disc .sync20c_2.LPE_sync20c_2 sync20c_2 = .sync20c_2.l1;
+  disc .sync20c_2.LPE sync20c_2 = .sync20c_2.l1;
   disc bool u = true;
   plant invariant u;
   location L:

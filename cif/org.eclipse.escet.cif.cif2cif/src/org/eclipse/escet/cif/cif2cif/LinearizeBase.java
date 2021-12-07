@@ -196,17 +196,18 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * <p>
      * Notes:
      * <ul>
-     * <li>We don't use a prefix for location pointer variables. This ensures they are named after the original
-     * component. They may then have the same name as automata in the root of the specification, which can cause scope
-     * absolute textual references to be used to refer to anything in these automata from the automaton that contains
-     * the identically-named location pointer variables (e.g. '.autname.varname', note the dot at the start).</li>
-     * <li>We use an {@code "LPE_"} prefix for location pointer enumerations to make it clear what the enumeration
-     * represents.</li>
-     * <li>We use an empty prefix for enumeration literals as they replace the original locations, and thus there are no
+     * <li>For now, when introducing the location pointer variables, and thus before they are moved to the single new
+     * automaton, we use a dummy name for them that is very unlikely to clash with existing names and lead to
+     * renaming.</li>
+     * <li>We later use the absolute names of automata as candidate names for the location pointer variables in the
+     * single new automaton. This ensures they are named after the original automaton. They may then have the same name
+     * as automata in the root of the specification, which can cause scope absolute textual references to be used to
+     * refer to anything in these automata from the automaton that contains the identically-named location pointer
+     * variables (e.g. {@code ".autname.varname"}, note the dot at the start).</li>
+     * <li>We use {@code "LPE"} as candidate name for all location pointer enumerations to make it clear what the
+     * enumeration represents.</li>
+     * <li>We name location pointer enumeration literals after their original locations, and thus there are no
      * conflicts, and we can keep their original names intact.</li>
-     * <li>There is no conflict between location pointer variables and enumeration declarations, as location pointer
-     * variables will be moved to the new linearized automaton, while the enumerations will remain in the groups that
-     * replace the original automata.</li>
      * <li>We don't add initialization predicates to the location, for initialization of the location pointer variables.
      * We do that as part of the linearization instead, to avoid duplication.</li>
      * <li>We don't optimize. This ensures location pointer variables will be present for all automata with at least two
@@ -219,8 +220,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * </ul>
      * </p>
      */
-    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs(a -> a.getName(), a -> "LPE_" + a.getName(),
-            l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
+    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs(a -> "__Dummy_LP_Name_Very_Unlikely_To_Exist__",
+            a -> "LPE", l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
 
     /**
      * Per automaton, all the alphabets. The automata are sorted in ascending order based on their absolute names

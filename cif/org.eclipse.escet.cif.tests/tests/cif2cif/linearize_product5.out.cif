@@ -1,35 +1,35 @@
 event e3;
 group p1:
-  enum LPE_p1 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p1 = l1 and true or M.p1 = l2 and true;
   marked M.p1 = l1 and false or M.p1 = l2 and false;
 end
 group p2:
   event e2;
-  enum LPE_p2 = l1, l2;
+  enum LPE = l1, l2;
   initial M.p2 = l1 and true or M.p2 = l2 and true;
   marked M.p2 = l1 and false or M.p2 = l2 and false;
 end
 group p3a:
-  enum LPE_p3a = l1, l2;
+  enum LPE = l1, l2;
   initial M.p3a = l1 and true or M.p3a = l2 and true;
   marked M.p3a = l1 and false or M.p3a = l2 and false;
 end
 group p3b:
-  enum LPE_p3b = l1, l2;
+  enum LPE = l1, l2;
   initial M.p3b = l1 and true or M.p3b = l2 and true;
   marked M.p3b = l1 and false or M.p3b = l2 and false;
 end
 automaton M:
   alphabet e3, .p2.e2;
   disc real p1_x;
-  disc .p1.LPE_p1 p1 in any;
+  disc .p1.LPE p1 in any;
   disc real p2_x;
-  disc .p2.LPE_p2 p2 in any;
+  disc .p2.LPE p2 in any;
   disc real p3a_x;
-  disc .p3a.LPE_p3a p3a in any;
+  disc .p3a.LPE p3a in any;
   disc real p3b_x;
-  disc .p3b.LPE_p3b p3b in any;
+  disc .p3b.LPE p3b in any;
   location L:
     initial;
     marked;

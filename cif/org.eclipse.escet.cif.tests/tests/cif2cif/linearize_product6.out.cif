@@ -24,7 +24,7 @@ group r:
 end
 group s:
   event e;
-  enum LPE_s = l1, l2;
+  enum LPE = l1, l2;
   initial M.s = l1 and true or M.s = l2 and false;
   marked M.s = l1 and false or M.s = l2 and false;
   invariant 51 = 51;
@@ -38,7 +38,7 @@ group s:
 end
 automaton M:
   alphabet .s.e;
-  disc .s.LPE_s s = .s.l1;
+  disc .s.LPE s = .s.l1;
   location L:
     initial;
     marked;
