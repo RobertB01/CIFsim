@@ -477,19 +477,20 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         // Rename location pointer variable, if needed.
         if (usedNames.contains(var.getName())) {
             String oldName = var.getName();
-            String name = CifScopeUtils.getUniqueName(var.getName(), usedNames, avoidNames);
+            String name = CifScopeUtils.getUniqueName(oldName, usedNames, avoidNames);
             var.setName(name);
-            warn("Location pointer variable \"%s\" is renamed to \"%s\".", oldName, name);
+            warn("Location pointer variable \"%s\" for automaton \"%s\" is renamed to \"%s\".", oldName,
+                    CifTextUtils.getAbsName(aut), name);
         }
         usedNames.add(var.getName());
 
         // Rename enumeration, if needed.
         if (usedNames.contains(enumDecl.getName())) {
             String oldName = enumDecl.getName();
-            String name = CifScopeUtils.getUniqueName(enumDecl.getName(), usedNames, avoidNames);
+            String name = CifScopeUtils.getUniqueName(oldName, usedNames, avoidNames);
             enumDecl.setName(name);
-            warn("Enumeration \"%s\", introduced as the type of location pointer variable \"%s\", "
-                    + "is renamed to \"%s\".", oldName, var.getName(), name);
+            warn("Enumeration \"%s\", introduced as the type of the location pointer variable for automaton \"%s\", "
+                    + "is renamed to \"%s\".", oldName, CifTextUtils.getAbsName(aut), name);
         }
         usedNames.add(enumDecl.getName());
 
@@ -497,10 +498,10 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         for (EnumLiteral lit: enumDecl.getLiterals()) {
             if (usedNames.contains(lit.getName())) {
                 String oldName = lit.getName();
-                String name = CifScopeUtils.getUniqueName(lit.getName(), usedNames, avoidNames);
+                String name = CifScopeUtils.getUniqueName(oldName, usedNames, avoidNames);
                 lit.setName(name);
-                warn("Enumeration literal \"%s\", introduced as a value for location pointer variable \"%s\", "
-                        + "is renamed to \"%s\".", oldName, var.getName(), name);
+                warn("Enumeration literal \"%s\", introduced as a value of the location pointer variable for automaton "
+                        + "\"%s\", is renamed to \"%s\".", oldName, CifTextUtils.getAbsName(aut), name);
             }
             usedNames.add(lit.getName());
         }
