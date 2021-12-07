@@ -159,7 +159,7 @@ public abstract class svg_input_decl_removed {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = (equalObjs(p_, svg_input_decl_removedEnum._l1)) && (x_);
+        boolean guard = ((p_) == (svg_input_decl_removedEnum._l1)) && (x_);
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(0, true);
