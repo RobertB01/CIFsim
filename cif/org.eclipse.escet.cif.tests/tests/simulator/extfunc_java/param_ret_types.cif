@@ -12,11 +12,11 @@
 //////////////////////////////////////////////////////////////////////////////
 
 func bool                               f_b(        bool                               x): "java:testpkg.TestParamRetTypes.pb|java_code/bin";
-//func bool                               f_B(        bool                               x): "java:testpkg.TestParamRetTypes.p_B|java_code/bin";
+//func bool                               f_B(        bool                               x): "java:testpkg.TestParamRetTypes.pB|java_code/bin";
 func int                                f_i(        int                                x): "java:testpkg.TestParamRetTypes.pi|java_code/bin";
-//func int                                f_I(        int                                x): "java:testpkg.TestParamRetTypes.p_I|java_code/bin";
+//func int                                f_I(        int                                x): "java:testpkg.TestParamRetTypes.pI|java_code/bin";
 func real                               f_d(        real                               x): "java:testpkg.TestParamRetTypes.pd|java_code/bin";
-//func real                               f_D(        real                               x): "java:testpkg.TestParamRetTypes.p_D|java_code/bin";
+//func real                               f_D(        real                               x): "java:testpkg.TestParamRetTypes.pD|java_code/bin";
 func string                             f_G(        string                             x): "java:testpkg.TestParamRetTypes.pG|java_code/bin";
 func list bool                          f_LB(       list bool                          x): "java:testpkg.TestParamRetTypes.pLB|java_code/bin";
 func list int                           f_LI(       list int                           x): "java:testpkg.TestParamRetTypes.pLI|java_code/bin";
