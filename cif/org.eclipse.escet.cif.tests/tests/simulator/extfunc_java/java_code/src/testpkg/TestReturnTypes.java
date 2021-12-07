@@ -23,78 +23,82 @@ import java.util.Set;
 
 @SuppressWarnings("javadoc")
 public class TestReturnTypes {
-    public static double ret_NaN() {
+    private TestReturnTypes() {
+        // No body.
+    }
+
+    public static double retNaN() {
         return Double.NaN;
     }
 
-    public static double ret_inf_pos() {
+    public static double retInfPos() {
         return Double.POSITIVE_INFINITY;
     }
 
-    public static double ret_inf_neg() {
+    public static double retInfNeg() {
         return Double.NEGATIVE_INFINITY;
     }
 
-    public static boolean ret_b() {
+    public static boolean retb() {
         return true;
     }
 
-    public static Boolean ret_B() {
+    public static Boolean retB() {
         return false;
     }
 
-    public static int ret_i() {
+    public static int reti() {
         return 1;
     }
 
-    public static Integer ret_I() {
+    public static Integer retI() {
         return 2;
     }
 
-    public static double ret_d() {
+    public static double retd() {
         return 3.0;
     }
 
-    public static Double ret_D() {
+    public static Double retD() {
         return 4.0;
     }
 
-    public static String ret_G() {
+    public static String retG() {
         return "abc";
     }
 
-    public static List<Boolean> ret_LB() {
+    public static List<Boolean> retLB() {
         return Arrays.asList(new Boolean[]{true});
     }
 
-    public static List<Integer> ret_LI() {
+    public static List<Integer> retLI() {
         return Arrays.asList(new Integer[]{5});
     }
 
-    public static List<Double> ret_LD() {
+    public static List<Double> retLD() {
         return Arrays.asList(new Double[]{6.0});
     }
 
-    public static List<String> ret_LG() {
+    public static List<String> retLG() {
         return Arrays.asList(new String[]{"def"});
     }
 
-    public static List<Boolean> ret_LN() {
+    public static List<Boolean> retLN() {
         return Arrays.asList(new Boolean[]{null});
     }
 
-    public static List<List<Integer>> ret_LLI() {
+    public static List<List<Integer>> retLLI() {
         List<Integer> li = Arrays.asList(new Integer[]{1});
         List<List<Integer>> lli = new ArrayList<List<Integer>>();
         lli.add(li);
         return lli;
     }
 
-    public static Set<Integer> ret_SI() {
+    public static Set<Integer> retSI() {
         return new LinkedHashSet<Integer>(Arrays.asList(new Integer[]{7}));
     }
 
-    public static Set<Set<Integer>> ret_SSI() {
+    public static Set<Set<Integer>> retSSI() {
         Set<Integer> si = new LinkedHashSet<Integer>();
         si.add(8);
         Set<Set<Integer>> ssi = new LinkedHashSet<Set<Integer>>();
@@ -102,13 +106,13 @@ public class TestReturnTypes {
         return ssi;
     }
 
-    public static Map<Integer, Boolean> ret_MIB() {
+    public static Map<Integer, Boolean> retMIB() {
         Map<Integer, Boolean> mib = new LinkedHashMap<Integer, Boolean>();
         mib.put(9, true);
         return mib;
     }
 
-    public static Map<List<Integer>, Set<Boolean>> ret_MLISB() {
+    public static Map<List<Integer>, Set<Boolean>> retMLISB() {
         List<Integer> li = new ArrayList<Integer>();
         li.add(10);
 
@@ -121,14 +125,14 @@ public class TestReturnTypes {
         return mlisb;
     }
 
-    public static List<Object> ret_TIBX() {
+    public static List<Object> retTIBX() {
         List<Object> tibx = new ArrayList<Object>();
         tibx.add(11);
         tibx.add(true);
         return tibx;
     }
 
-    public static List<Object> ret_TLITIIXX() {
+    public static List<Object> retTLITIIXX() {
         List<Integer> li = new ArrayList<Integer>();
         li.add(12);
 

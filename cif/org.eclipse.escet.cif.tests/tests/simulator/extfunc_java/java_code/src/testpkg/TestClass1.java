@@ -11,14 +11,19 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-import java.lang.Math;
+package testpkg;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("javadoc")
 public class TestClass1 {
-    public static void void_method() {
+    private TestClass1() {
+        // No body.
+    }
+
+    public static void voidMethod() {
         // No body.
     }
 
@@ -28,7 +33,7 @@ public class TestClass1 {
 
     // list set dict(tuple(bool b; int i; real r; string s) : bool);
     // [{{(true, 1, 2.0, "abc") : true}}]
-    public static List<Set<Map<List<Object>, Boolean>>> side_effect(
+    public static List<Set<Map<List<Object>, Boolean>>> sideEffect(
                   List<Set<Map<List<Object>, Boolean>>> l)
     {
         Set<Map<List<Object>, Boolean>> s = l.get(0);
@@ -57,11 +62,11 @@ public class TestClass1 {
         throw new IllegalStateException("Some error...");
     }
 
-    public static int multi_param(int x, double y, List<Integer> z) {
+    public static int multiParam(int x, double y, List<Integer> z) {
         return x + (int)Math.floor(y) + z.get(0);
     }
 
-    private static int ret_priv125() {
+    private static int retPriv125() {
         return 125;
     }
 }
