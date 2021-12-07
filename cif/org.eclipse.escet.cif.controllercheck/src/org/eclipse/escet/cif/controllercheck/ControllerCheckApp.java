@@ -18,6 +18,7 @@ import static org.eclipse.escet.common.java.Lists.list;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.eclipse.escet.cif.cif2cif.ElimAlgVariables;
 import org.eclipse.escet.cif.cif2cif.ElimComponentDefInst;
@@ -35,6 +36,8 @@ import org.eclipse.escet.cif.controllercheck.finiteresponse.FiniteResponseChecke
 import org.eclipse.escet.cif.controllercheck.options.PrintControlLoopsOutputOption;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
+import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
+import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
 import org.eclipse.escet.common.app.framework.Application;
 import org.eclipse.escet.common.app.framework.io.AppStreams;
@@ -106,17 +109,17 @@ public class ControllerCheckApp extends Application<IOutputComponent> {
         new ElimSelf().transform(spec);
         new ElimTypeDecls().transform(spec);
 
-        final String varPrefix = "LP_";
-        final String enumPrefix = "LOCS_";
-        final String litPrefix = "LOC_";
+        final Function<Automaton, String> varNamingFunction = a -> "LP_" + a.getName();
+        final Function<Automaton, String> enumNamingFunction = a -> "LOCS_" + a.getName();
+        final Function<Location, String> litNamingFunction = l -> "LOC_" + l.getName();
         final boolean considerLocsForRename = true;
         final boolean addInitPreds = true;
         final boolean optimized = false;
         final Map<DiscVariable, String> absVarNamesMap = null;
         final boolean optInits = true;
         final boolean addEdgeGuards = true;
-        new ElimLocRefExprs(varPrefix, enumPrefix, litPrefix, considerLocsForRename, addInitPreds, optimized,
-                absVarNamesMap, optInits, addEdgeGuards).transform(spec);
+        new ElimLocRefExprs(varNamingFunction, enumNamingFunction, litNamingFunction, considerLocsForRename,
+                addInitPreds, optimized, absVarNamesMap, optInits, addEdgeGuards).transform(spec);
 
         new EnumsToInts().transform(spec);
         if (isTerminationRequested()) {

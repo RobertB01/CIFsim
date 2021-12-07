@@ -219,8 +219,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * </ul>
      * </p>
      */
-    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs("", "LPE_", "", false, false, false,
-            absLpNamesMap, false, false);
+    protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs(a -> a.getName(), a -> "LPE_" + a.getName(),
+            l -> l.getName(), false, false, false, absLpNamesMap, false, false);
 
     /**
      * Per automaton, all the alphabets. The automata are sorted in ascending order based on their absolute names

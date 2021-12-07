@@ -35,6 +35,7 @@ import static org.eclipse.escet.common.java.Sets.setc;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.eclipse.escet.cif.common.CifScopeUtils;
 import org.eclipse.escet.cif.common.CifTextUtils;
@@ -109,14 +110,26 @@ import org.eclipse.escet.common.position.metamodel.position.PositionObject;
  * </p>
  */
 public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation, LocationPointerManager {
-    /** The prefix to use for the new location pointer variables. */
-    private final String varPrefix;
+    /**
+     * The function to use to produce a candidate name for a new location pointer variable, given the automaton for
+     * which it is created. The candidate name is subject to renaming in case of naming conflicts with other
+     * declarations.
+     */
+    private final Function<Automaton, String> varNamingFunction;
 
-    /** The prefix to use for the new enumeration declarations. */
-    private final String enumPrefix;
+    /**
+     * The function to use to produce a candidate name for a new location pointer enumeration declaration, given the
+     * automaton for which it is created. The candidate name is subject to renaming in case of naming conflicts with
+     * other declarations.
+     */
+    private final Function<Automaton, String> enumNamingFunction;
 
-    /** The prefix to use for the new enumeration literals. */
-    private final String litPrefix;
+    /**
+     * The function to use to produce a candidate name for a new location pointer enumeration literal, given the
+     * location for which it is created. The candidate name is subject to renaming in case of naming conflicts with
+     * other declarations. Should only be invoked for locations with a name.
+     */
+    private final Function<Location, String> litNamingFunction;
 
     /**
      * Whether to perform an optimized transformation (only add location pointer variables to automata for which a
@@ -200,21 +213,22 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * </ul>
      */
     public ElimLocRefExprs() {
-        this("LP_", "LOCS_", "LOC_", true, true, true, null, true, false);
+        this(a -> "LP_" + a.getName(), a -> "LOCS_" + a.getName(), l -> "LOC_" + l.getName(), true, true, true, null,
+                true, false);
     }
 
     /**
      * Constructor for the {@link ElimLocRefExprs} class.
      *
-     * <p>
-     * The new location pointer variable and enumeration declaration are named after the automaton, and thus preferably
-     * use a different prefix, to avoid naming conflicts and subsequent renaming. The literals are named after the
-     * locations, and thus need a prefix to avoid naming conflicts and subsequent renaming.
-     * </p>
-     *
-     * @param varPrefix The prefix to use for the new location pointer variables.
-     * @param enumPrefix The prefix to use for the new enumeration declarations.
-     * @param litPrefix The prefix to use for the new enumeration literals.
+     * @param varNamingFunction The function to use to produce a candidate name for a new location pointer variable,
+     *     given the automaton for which it is created. The candidate name is subject to renaming in case of naming
+     *     conflicts with other declarations.
+     * @param enumNamingFunction The function to use to produce a candidate name for a new location pointer enumeration
+     *     declaration, given the automaton for which it is created. The candidate name is subject to renaming in case
+     *     of naming conflicts with other declarations.
+     * @param litNamingFunction The function to use to produce a candidate name for a new location pointer enumeration
+     *     literal, given the location for which it is created. The candidate name is subject to renaming in case of
+     *     naming conflicts with other declarations. Is only invoked for locations with a name.
      * @param considerLocsForRename Whether to consider the names of the locations of the automaton for renaming to
      *     ensure unique names.
      * @param addInitPreds Whether to add initialization predicates for the initialization the introduced location
@@ -233,13 +247,14 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *     all edges in the specification (of automata with at least two locations).
      *
      */
-    public ElimLocRefExprs(String varPrefix, String enumPrefix, String litPrefix, boolean considerLocsForRename,
-            boolean addInitPreds, boolean optimized, Map<DiscVariable, String> absVarNamesMap, boolean optInits,
-            boolean addEdgeGuards)
+    public ElimLocRefExprs(Function<Automaton, String> varNamingFunction,
+            Function<Automaton, String> enumNamingFunction, Function<Location, String> litNamingFunction,
+            boolean considerLocsForRename, boolean addInitPreds, boolean optimized,
+            Map<DiscVariable, String> absVarNamesMap, boolean optInits, boolean addEdgeGuards)
     {
-        this.varPrefix = varPrefix;
-        this.enumPrefix = enumPrefix;
-        this.litPrefix = litPrefix;
+        this.varNamingFunction = varNamingFunction;
+        this.enumNamingFunction = enumNamingFunction;
+        this.litNamingFunction = litNamingFunction;
         this.considerLocsForRename = considerLocsForRename;
         this.addInitPreds = addInitPreds;
         this.optimized = optimized;
@@ -278,10 +293,13 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             EnumType enumType = newEnumType();
             enumType.setEnum(enumDecl);
 
+            // Get name for the new location pointer variable.
+            String varName = varNamingFunction.apply(aut);
+
             // Create location pointer variable.
             var = newDiscVariable();
             var.setValue(newVariableValue());
-            var.setName(varPrefix + aut.getName());
+            var.setName(varName);
             var.setType(enumType);
             autToVarMap.put(aut, var);
 
@@ -324,9 +342,12 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
 
         EnumDecl enumDecl = autToEnumMap.get(aut);
         if (enumDecl == null) {
+            // Get name for the new location pointer enumeration.
+            String enumName = enumNamingFunction.apply(aut);
+
             // Create enum.
             enumDecl = newEnumDecl();
-            enumDecl.setName(enumPrefix + aut.getName());
+            enumDecl.setName(enumName);
 
             // Create literals.
             List<EnumLiteral> literals = enumDecl.getLiterals();
@@ -334,8 +355,10 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
                 String name = loc.getName();
                 Assert.notNull(name);
 
+                String litName = litNamingFunction.apply(loc);
+
                 EnumLiteral literal = newEnumLiteral();
-                literal.setName(litPrefix + name);
+                literal.setName(litName);
                 literals.add(literal);
             }
             autToEnumMap.put(aut, enumDecl);
