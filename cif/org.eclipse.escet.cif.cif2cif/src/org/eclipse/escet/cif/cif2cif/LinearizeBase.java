@@ -95,11 +95,11 @@ import org.eclipse.escet.common.java.Assert;
  * </p>
  *
  * <p>
- * Component definitions/instantiations are eliminated using the "elim-comp-def-inst" CIF to CIF transformation.
- * Automaton 'self' references are eliminated using the "elim-self" CIF to CIF transformation. 'switch' expressions are
- * converted to 'if' expressions using the "switches-to-ifs" CIF to CIF transformation. Equations are eliminated using
- * the "elim-equations" CIF to CIF transformation. Casts from automata to string values are eliminated using the
- * "elim-aut-casts" CIF to CIF transformation.
+ * Component definitions/instantiations are eliminated using the {@link ElimComponentDefInst} CIF to CIF transformation.
+ * Automaton 'self' references are eliminated using the {@link ElimSelf} CIF to CIF transformation. 'switch' expressions
+ * are converted to 'if' expressions using the {@link SwitchesToIfs} CIF to CIF transformation. Equations are eliminated
+ * using the {@link ElimEquations} CIF to CIF transformation. Casts from automata to string values are eliminated using
+ * the {@link ElimAutCasts} CIF to CIF transformation.
  * </p>
  *
  * <p>
