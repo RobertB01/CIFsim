@@ -15,7 +15,11 @@ package testpkg;
 
 @SuppressWarnings("javadoc")
 public class TestClass2 {
-    public int x = 1 / 0;
+    private TestClass2() {
+        // No body.
+    }
+
+    public static int x = 1 / 0;
 
     public static int staticInitErr() {
         return 5;
