@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func list bool f(): "java:testpkg.TestReturnTypes.ret_LN|java_code/bin";
+func list bool f(): "java:testpkg.TestReturnTypes.retLN|java_code/bin";
 initial f()[0];

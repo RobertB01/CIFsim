@@ -13,7 +13,7 @@
 
 import "subdir/import2.cif";
 
-func real f(): "java:testpkg.TestReturnTypes.ret_D|java_code/bin";
+func real f(): "java:testpkg.TestReturnTypes.retD|java_code/bin";
 
 plant p:
   disc list real l = [f(), g2.f()];

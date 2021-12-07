@@ -12,5 +12,5 @@
 //////////////////////////////////////////////////////////////////////////////
 
 // Can stop this only via stop button, so can't include in automated test set.
-func int f(): "java:TestClass1.inf|java_code/bin";
+func int f(): "java:testpkg.TestClass1.inf|java_code/bin";
 initial f() > 0;

@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func bool f(): "java:TestClass1.void_method|java_code/bin";
+func bool f(): "java:testpkg.TestClass1.voidMethod|java_code/bin";
 initial f();

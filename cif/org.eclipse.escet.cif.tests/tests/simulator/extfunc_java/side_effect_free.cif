@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 type t = list set dict(tuple(bool b; int i; real r; string s) : bool);
-func t f(t x): "java:TestClass1.side_effect|java_code/bin";
+func t f(t x): "java:testpkg.TestClass1.sideEffect|java_code/bin";
 
 plant p:
   disc t v1 = [{{(true, 1, 2.0, "abc") : true}}];

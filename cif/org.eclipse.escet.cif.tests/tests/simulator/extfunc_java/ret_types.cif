@@ -11,24 +11,24 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func bool f_b(): "java:testpkg.TestReturnTypes.ret_b|java_code/bin";
-func bool f_B(): "java:testpkg.TestReturnTypes.ret_B|java_code/bin";
-func int f_i(): "java:testpkg.TestReturnTypes.ret_i|java_code/bin";
-func int f_I(): "java:testpkg.TestReturnTypes.ret_I|java_code/bin";
-func real f_d(): "java:testpkg.TestReturnTypes.ret_d|java_code/bin";
-func real f_D(): "java:testpkg.TestReturnTypes.ret_D|java_code/bin";
-func string f_G(): "java:testpkg.TestReturnTypes.ret_G|java_code/bin";
-func list bool f_LB(): "java:testpkg.TestReturnTypes.ret_LB|java_code/bin";
-func list int f_LI(): "java:testpkg.TestReturnTypes.ret_LI|java_code/bin";
-func list real f_LD(): "java:testpkg.TestReturnTypes.ret_LD|java_code/bin";
-func list string f_LG(): "java:testpkg.TestReturnTypes.ret_LG|java_code/bin";
-func list list int f_LLI(): "java:testpkg.TestReturnTypes.ret_LLI|java_code/bin";
-func set int f_SI(): "java:testpkg.TestReturnTypes.ret_SI|java_code/bin";
-func set set int f_SSI(): "java:testpkg.TestReturnTypes.ret_SSI|java_code/bin";
-func dict(int:bool) f_MIB(): "java:testpkg.TestReturnTypes.ret_MIB|java_code/bin";
-func dict(list int:set bool) f_MLISB(): "java:testpkg.TestReturnTypes.ret_MLISB|java_code/bin";
-func tuple(int a;bool b) f_TIBX(): "java:testpkg.TestReturnTypes.ret_TIBX|java_code/bin";
-func tuple(list int a;tuple(int c,d) b) f_TLITIIXX(): "java:testpkg.TestReturnTypes.ret_TLITIIXX|java_code/bin";
+func bool f_b(): "java:testpkg.TestReturnTypes.retb|java_code/bin";
+func bool f_B(): "java:testpkg.TestReturnTypes.retB|java_code/bin";
+func int f_i(): "java:testpkg.TestReturnTypes.reti|java_code/bin";
+func int f_I(): "java:testpkg.TestReturnTypes.retI|java_code/bin";
+func real f_d(): "java:testpkg.TestReturnTypes.retd|java_code/bin";
+func real f_D(): "java:testpkg.TestReturnTypes.retD|java_code/bin";
+func string f_G(): "java:testpkg.TestReturnTypes.retG|java_code/bin";
+func list bool f_LB(): "java:testpkg.TestReturnTypes.retLB|java_code/bin";
+func list int f_LI(): "java:testpkg.TestReturnTypes.retLI|java_code/bin";
+func list real f_LD(): "java:testpkg.TestReturnTypes.retLD|java_code/bin";
+func list string f_LG(): "java:testpkg.TestReturnTypes.retLG|java_code/bin";
+func list list int f_LLI(): "java:testpkg.TestReturnTypes.retLLI|java_code/bin";
+func set int f_SI(): "java:testpkg.TestReturnTypes.retSI|java_code/bin";
+func set set int f_SSI(): "java:testpkg.TestReturnTypes.retSSI|java_code/bin";
+func dict(int:bool) f_MIB(): "java:testpkg.TestReturnTypes.retMIB|java_code/bin";
+func dict(list int:set bool) f_MLISB(): "java:testpkg.TestReturnTypes.retMLISB|java_code/bin";
+func tuple(int a;bool b) f_TIBX(): "java:testpkg.TestReturnTypes.retTIBX|java_code/bin";
+func tuple(list int a;tuple(int c,d) b) f_TLITIIXX(): "java:testpkg.TestReturnTypes.retTLITIIXX|java_code/bin";
 
 plant p:
   disc list bool x_lb = [f_b(), f_B()];

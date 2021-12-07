@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func tuple(int a,b,c) f(): "java:testpkg.TestReturnTypes.ret_TIBX|java_code/bin";
+func tuple(int a,b,c) f(): "java:testpkg.TestReturnTypes.retTIBX|java_code/bin";
 initial f()[a] > 0;

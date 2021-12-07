@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func list real f(): "java:testpkg.TestReturnTypes.ret_LB|java_code/bin";
+func list real f(): "java:testpkg.TestReturnTypes.retLB|java_code/bin";
 initial f()[0] > 0;

@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func real f(): "java:testpkg.TestReturnTypes.ret_NaN|java_code/bin";
+func real f(): "java:testpkg.TestReturnTypes.retNaN|java_code/bin";
 initial f() > 0;

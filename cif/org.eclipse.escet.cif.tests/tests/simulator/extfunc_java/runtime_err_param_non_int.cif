@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func list int f(list real x): "java:testpkg.TestParamRetTypes.p_LI|java_code/bin";
+func list int f(list real x): "java:testpkg.TestParamRetTypes.pLI|java_code/bin";
 initial f([1.0])[0] > 0;
