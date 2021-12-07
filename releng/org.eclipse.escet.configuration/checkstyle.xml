@@ -265,7 +265,7 @@ SPDX-License-Identifier: MIT
   </module>
   <module name="RegexpMultiline">
     <metadata name="net.sf.eclipsecs.core.comment" value="Multiple consecutive empty lines"/>
-    <property name="format" value="\n\n\n"/>
+    <property name="format" value="(\r?\n){3}"/>
     <property name="message" value="Multiple consecutive empty lines found."/>
     <property name="fileExtensions" value="java,xml,MF,properties,txt,asciidoc"/>
   </module>
