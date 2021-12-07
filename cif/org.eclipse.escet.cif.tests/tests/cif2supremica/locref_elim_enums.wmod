@@ -5,7 +5,7 @@
     <EventDecl Kind="PROPOSITION" Name=":accepting"/>
   </EventDeclList>
   <ComponentList>
-    <VariableComponent Name="aut:LP_aut">
+    <VariableComponent Name="aut:LP">
       <VariableRange>
         <BinaryExpression Operator="..">
           <IntConstant Value="0"/>
@@ -14,7 +14,7 @@
       </VariableRange>
       <VariableInitial>
         <BinaryExpression Operator="==">
-          <SimpleIdentifier Name="aut:LP_aut"/>
+          <SimpleIdentifier Name="aut:LP"/>
           <IntConstant Value="0"/>
         </BinaryExpression>
       </VariableInitial>
@@ -37,7 +37,7 @@
             <GuardActionBlock>
               <Actions>
                 <BinaryExpression Operator="=">
-                  <SimpleIdentifier Name="aut:LP_aut"/>
+                  <SimpleIdentifier Name="aut:LP"/>
                   <IntConstant Value="1"/>
                 </BinaryExpression>
               </Actions>
@@ -87,7 +87,7 @@
               <Guards>
                 <UnaryExpression Operator="!">
                   <BinaryExpression Operator="!=">
-                    <SimpleIdentifier Name="aut:LP_aut"/>
+                    <SimpleIdentifier Name="aut:LP"/>
                     <IntConstant Value="1"/>
                   </BinaryExpression>
                 </UnaryExpression>

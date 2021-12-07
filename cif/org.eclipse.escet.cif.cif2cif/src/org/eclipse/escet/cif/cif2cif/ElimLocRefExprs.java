@@ -197,9 +197,10 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     /**
      * Constructor for the {@link ElimLocRefExprs} class:
      * <ul>
-     * <li>Uses {@code "LP_"} prefix for location pointer variable names.</li>
-     * <li>Uses {@code "LOCS_"} prefix for enumeration declaration names.</li>
-     * <li>Uses {@code "LOC_"} prefix for enumeration literal names.</li>
+     * <li>Uses {@code "LP"} as candidate name for location pointer variables.</li>
+     * <li>Uses {@code "LPE"} as candidate name for location pointer enumeration declarations.</li>
+     * <li>Uses the location name prefixed with {@code "LOC_"} as candidate name for location pointer enumeration
+     * literals.</li>
      * <li>Adds initialization predicates for the initialization of the location pointer variables.</li>
      * <li>Considers the names of the locations of the automaton for renaming to ensure unique names.</li>
      * <li>Performs an optimized transformation (only adds location pointer variables to automata for which a location
@@ -212,8 +213,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * </ul>
      */
     public ElimLocRefExprs() {
-        this(a -> "LP_" + a.getName(), a -> "LOCS_" + a.getName(), l -> "LOC_" + l.getName(), true, true, true, null,
-                true, false);
+        this(a -> "LP", a -> "LPE", l -> "LOC_" + l.getName(), true, true, true, null, true, false);
     }
 
     /**
