@@ -38,7 +38,7 @@ That is, the controlled system permits all safe, controllable, and non-blocking 
 
 Note that <<lang-tut-time-deadlock,deadlock>> is not prevented for marked states.
 
-The synthesis algorithm is based on the following paper: Lucien Ouedraogo, Ratnesh Kumar, Robi Malik, and Knut Åkesson: Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata, IEEE Transactions on Automation Science and Engineering, Volume 8, Issue 3, Pages 560-569, July 2011.
+The synthesis algorithm is based on <<ouedraogo>>.
 
 indexterm:[data-based supervisory controller synthesis,start]
 
@@ -864,7 +864,7 @@ This excludes the trivial cases where the cache is not checked.
 Prints continuously collected platform and machine independent BDD performance related metrics.
 +
 This statistic continuously collects the platform and machine independent BDD performance metrics described in the table below.
-These metrics are discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
+These metrics are discussed in more detail in <<thuijsman>>.
 +
 The information is printed to a CSV file that can be configured using the _Continuous performance statistics file_ <<tools-datasynth-options,option>>.
 The file is written after execution, just before termination of the tool.
@@ -890,7 +890,7 @@ The size of a BDD, expressed as the number of nodes used, is a platform and mach
 Prints the maximum number of BDD nodes used during synthesis.
 +
 The size of a BDD, expressed as the number of nodes used, is a platform and machine independent measure of the amount of memory needed to store it.
-This metric is discussed in more detail in the following paper: Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers, Ramon Schiffelers, Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata, IEEE Conference on Automation Science and Engineering, Pages 486-493, 2019.
+This metric is discussed in more detail in <<thuijsman>>.
 +
 This metric is printed to the console, after execution, just before termination of the tool.
 It prints the maximum number of BDD nodes used during synthesis.
@@ -1089,7 +1089,7 @@ The following algorithms are available:
 
 * _FORCE_
 +
-The <<force>> algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
+The FORCE algorithm of <<aloul>> is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 +
 At most 10 * ceil(log~e~(n)) iterations of the FORCE algorithm are performed, with `n` the number of current/old BDD/boolean variables.
 
@@ -1268,6 +1268,10 @@ The supervisor can then only guarantee safe, non-blocking behavior if the system
 [bibliography]
 === References
 
-* [[[minato]]] Shin-ichi Minato. Binary Decision Diagrams and Applications for VLSI CAD: The Springer International Series in Engineering and Computer Science, Volume 342, 1996, Springer US, ISBN 978-1-4613-1303-8 (E-book), ISBN 978-0-7923-9652-9 (hardcover), ISBN 978-1-4612-8558-8 (softcover)
+* [[[aloul,Aloul et al.]]] Fadi A. Aloul, Igor L. Markov and Karem A. Sakallah, "FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic", In: Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, doi:link:https://doi.org/10.1145/764808.764839[10.1145/764808.764839]
 
-* [[[force]]] Fadi A. Aloul, Igor L. Markov, Karem A. Sakallah. FORCE: A Fast and Easy-To-Implement Variable-Ordering Heuristic: GLSVLSI '03 Proceedings of the 13th ACM Great Lakes symposium on VLSI, pages 116-119, 2003, ACM New York, NY, USA, ISBN 1-58113-677-3
+* [[[minato,Minato]]] Shin-ichi Minato, "Binary Decision Diagrams and Applications for VLSI CAD", The Kluwer International Series in Engineering and Computer Science, volume 342, Springer, 1996, doi:link:https://doi.org/10.1007/978-1-4613-1303-8[10.1007/978-1-4613-1303-8]
+
+* [[[ouedraogo,Ouedraogo et al.]]] Lucien Ouedraogo, Ratnesh Kumar, Robi Malik and Knut Åkesson, "Nonblocking and Safe Control of Discrete-Event Systems Modeled as Extended Finite Automata", IEEE Transactions on Automation Science and Engineering, volume 8, issue 3, pages 560-569, 2011, doi:link:https://doi.org/10.1109/TASE.2011.2124457[10.1109/TASE.2011.2124457]
+
+* [[[thuijsman,Thuijsman et al.]]] Sander Thuijsman, Dennis Hendriks, Rolf Theunissen, Michel Reniers and Ramon Schiffelers, "Computational Effort of BDD-Based Supervisor Synthesis of Extended Finite Automata", In: Proceedings of the IEEE Conference on Automation Science and Engineering, pages 486-493, 2019, doi:link:https://doi.org/10.1109/COASE.2019.8843327[10.1109/COASE.2019.8843327]

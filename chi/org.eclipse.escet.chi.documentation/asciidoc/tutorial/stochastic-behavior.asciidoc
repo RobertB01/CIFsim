@@ -108,7 +108,7 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/bernoulli.svg[]
 Range:: `{false, true}`
 Mean:: `p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
 Variance:: `1 - p` (where `false` is interpreted as `0`, and `true` is interpreted as `1`)
-See also:: Bernoulli(p), <<law-tut>>, page 302
+See also:: Bernoulli(p), <<tut-law>>, page 302
 
 * `dist` `int` *uniform*`(int a, b)`
 +
@@ -120,7 +120,7 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/disc_uni.svg[]
 Range:: `+{a, a+1, ..., b-1}+`
 Mean:: `(a + b - 1) / 2`
 Variance:: `+((b - a)\^2 - 1) / 12+`
-See also:: DU(a, b - 1), <<law-tut>>, page 303
+See also:: DU(a, b - 1), <<tut-law>>, page 303
 
 indexterm:[distribution,continuous]
 indexterm:[continuous,distribution]
@@ -139,7 +139,7 @@ image::{tut-imgsdir}/../reference-manual/distribution_plots/cont_uni.svg[]
 Range:: `[a, b)`
 Mean:: `(a + b) / 2`
 Variance:: `+(b - a)^2 / 12+`
-See also:: U(a,b), <<law-tut>>, page 282, except that distribution has an
+See also:: U(a,b), <<tut-law>>, page 282, except that distribution has an
 inclusive upper bound.
 
 * `dist` `real` *gamma*`(real a, b)`
@@ -155,7 +155,7 @@ Variance:: `+a * b^2+`
 [bibliography]
 ==== References
 
-* [[[law-tut]]] Simulation Modeling & Analysis, fourth edition, by Averill M. Law, publisher McGraw-Hill, International Edition, 2007, ISBN 978-007-125519-6
+* [[[tut-law,Law]]] Averill M. Law, "Simulation Modeling and Analysis", fourth edition, McGraw-Hill, 2007
 
 [[tut-simulating-stochastic-behavior]]
 === Simulating stochastic behavior
