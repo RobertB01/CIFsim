@@ -223,7 +223,6 @@ public abstract class TypeID {
      * @param box Code box to store the assignment in.
      * @param ctxt Code generation context.
      * @param javaFile Java file used as target for the code generation.
-     *
      */
     public void assignInitialValue(String name, Type tp, VBox box, CodeGeneratorContext ctxt, JavaFile javaFile) {
         String line = fmt("%s = %s;", name, getEmptyValue(javaFile));

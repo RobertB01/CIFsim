@@ -243,7 +243,6 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * @param addEdgeGuards Whether to add equality binary expressions that reference the new location pointer variable
      *     to the guards of edges. Note that only if {@code optimized} is disabled, these expressions are created for
      *     all edges in the specification (of automata with at least two locations).
-     *
      */
     public ElimLocRefExprs(Function<Automaton, String> varNamingFunction,
             Function<Automaton, String> enumNamingFunction, Function<Location, String> litNamingFunction,
