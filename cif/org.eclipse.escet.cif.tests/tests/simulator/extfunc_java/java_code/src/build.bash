@@ -20,7 +20,7 @@ rm -f $CLS_FILES
 
 # Compile source files.
 JAVA_FILES=`find . -name '*.java'`
-javac -d ../bin -source 1.7 -target 1.7 $JAVA_FILES
+javac -d ../bin -source 11 -target 11 $JAVA_FILES
 
 # List class files.
 cd ../bin

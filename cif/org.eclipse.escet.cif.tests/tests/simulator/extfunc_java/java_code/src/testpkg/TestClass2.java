@@ -11,13 +11,17 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-import java.lang.reflect.InvocationTargetException;
+package testpkg;
 
 @SuppressWarnings("javadoc")
 public class TestClass2 {
+    private TestClass2() {
+        // Static class.
+    }
+
     public static int x = 1 / 0;
 
-    public static int static_init_err() {
+    public static int staticInitErr() {
         return 5;
     }
 }

@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 group g2:
-  func real f(): "java:testpkg.TestReturnTypes.ret_d|../java_code/bin";
+  func real f(): "java:testpkg.TestReturnTypes.retd|../java_code/bin";
   initial f() > 0;
 end
 

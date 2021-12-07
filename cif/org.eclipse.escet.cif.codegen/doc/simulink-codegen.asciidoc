@@ -1,37 +1,32 @@
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
 //
-// This program and the accompanying materials are made available under the terms
-// of the MIT License which is available at https://opensource.org/licenses/MIT
+// This program and the accompanying materials are made available
+// under the terms of the MIT License which is available at
+// https://opensource.org/licenses/MIT
 //
 // SPDX-License-Identifier: MIT
-/////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 == CIF to Simulink translation
 
-The goal is to construct a translation from a CIF model to an equivalent
-Simulink model, which can also be used in real time control.
+The goal is to construct a translation from a CIF model to an equivalent Simulink model, which can also be used in real time control.
 
-This document describes the structure of the generated code with respect to
-interfacing with the Simulink program.
+This document describes the structure of the generated code with respect to interfacing with the Simulink program.
 
-The name Simulink in this document refers to the Matlab/Simulink product by
-MathWorks.
-
+The name Simulink in this document refers to the Matlab/Simulink product by MathWorks.
 
 === To do
 
 * print output
 * Simulink column major
 
-
 === Variable conversion
 
-CIF has a number of different variable concepts, which must be mapped onto
-Simulink variable concepts.
+CIF has a number of different variable concepts, which must be mapped onto Simulink variable concepts.
 The following table shows the mapping.
 
 [cols="1,3", options="header"]
@@ -61,54 +56,44 @@ The following table shows the mapping.
 | `Mode`, `Output`
 |===
 
-Variables with tuple types are not usefully representable in Simulink, in
-general. Such variables are converted, but not externally available. The user
-must re-organize the CIF program, or add algebraic variables with singular value
-or with an array (up to two dimensions) to make such data externally available.
-
+Variables with tuple types are not usefully representable in Simulink, in general.
+Such variables are converted, but not externally available.
+The user must re-organize the CIF program, or add algebraic variables with singular value or with an array (up to two dimensions) to make such data externally available.
 
 === Code organization
 
-Simulink expects code to be organized around its solvers. For this purpose, the
-following Simulink functions should be implemented.
+Simulink expects code to be organized around its solvers.
+For this purpose, the following Simulink functions should be implemented.
 
-* *mdlIInitializeSizes* Setup sizes and types of the various pieces of data in
-  Simulink, and expected sample handling.
+* *mdlIInitializeSizes* Setup sizes and types of the various pieces of data in   Simulink, and expected sample handling.
 * *mdlInitializeSampleTimes* Setup solver requirements.
 * *mdlInitializeConditions* Initialize all variables and other data.
-* *mdlStart* Startup of the `SFunction`, allocate `PWork` memory, initialize
-  constants.
+* *mdlStart* Startup of the `SFunction`, allocate `PWork` memory, initialize   constants.
 * *mdlZeroCrossings* Compute guards in current state.
 * *mdlOutputs* Compute outputs in current state.
 * *mdlDerivatives* Compute the derivatives in the current state.
 * *mdlUpdate* Update the discrete state by performing edges.
 * *mdlTerminate* Free `PWork` memory.
 
-
 === Variable creation and access
 
-For each kind of CIF variable, a more precise description is given on the
-considerations of constructing and accessing the variable in a Simulink
-SFunction.
+For each kind of CIF variable, a more precise description is given on the considerations of constructing and accessing the variable in a Simulink SFunction.
 
 ==== Constant
 
-Constants are not declared as const, since they may be arbitrary large and
-complicated to compute. Instead, they are stored as value in `PWork` (and written
-once at initialization).
+Constants are not declared as const, since they may be arbitrary large and complicated to compute.
+Instead, they are stored as value in `PWork` (and written once at initialization).
 
 See Discrete Variables for a discussion of `PWork`.
 
 ==== Input variable
 
-An input variable represents a value from an external source that is not under
-control by the CIF program. This fits nicely as a Simulink `InputPort`.
+An input variable represents a value from an external source that is not under control by the CIF program.
+This fits nicely as a Simulink `InputPort`.
 
-Simulink input ports however can only handle real values, in any number of
-dimensions. In the CIF to Simulink translation, only input variables of type
-`real`, type `list[r] real`, or type `list[r] list[c] real` are supported.
-These map to singular, undirected vectors, and matrix type input ports in
-Simulink.
+Simulink input ports however can only handle real values, in any number of dimensions.
+In the CIF to Simulink translation, only input variables of type `real`, type `list[r] real`, or type `list[r] list[c] real` are supported.
+These map to singular, undirected vectors, and matrix type input ports in Simulink.
 
 Creation of an input variable (in `mdlIInitializeSizes`):
 
@@ -127,10 +112,8 @@ ssSetInputPortComplexSignal(sim_struct, index, COMPLEX_NO);
 ssSetInputPortDirectFeedThrough(sim_struct, index, 1); // Output uses input.
 ----
 
-Note that Simulink only knows about real or complex data types, CIF
-integer-like types (bool, int, and enum) are silently translated from real
-values. CIF types with strings, with tuples, or with more than two nested
-levels of lists, are not supported.
+Note that Simulink only knows about real or complex data types, CIF integer-like types (bool, int, and enum) are silently translated from real values.
+CIF types with strings, with tuples, or with more than two nested levels of lists, are not supported.
 
 Accessing (reading) is performed with:
 
@@ -143,21 +126,18 @@ InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(sim_struct, index);
 // j = r + c * <num-rows>
 ----
 
-Vectors and matrices are not understood by the CIF C code. For this reason
-a copy must be created of a vector or matrix input value prior to giving CIF
-access. To avoid doing this many times, such copies should be cached. The copy
-is stored in the work data structure `WorkStruct`, along with a flag to avoid
-loading it more than once, for vectors and matrices.
-
+Vectors and matrices are not understood by the CIF C code.
+For this reason a copy must be created of a vector or matrix input value prior to giving CIF access.
+To avoid doing this many times, such copies should be cached.
+The copy is stored in the work data structure `WorkStruct`, along with a flag to avoid loading it more than once, for vectors and matrices.
 
 ==== Algebraic variable
 
-Algebraic variables do not really exist, they are functions to be called. Having
-a function instead of a variable ensures the returned value is always up-to-date
-with respect to the CIF state variables.
+Algebraic variables do not really exist, they are functions to be called.
+Having a function instead of a variable ensures the returned value is always up-to-date with respect to the CIF state variables.
 
-In Simulink, algebraic variables are put into output ports. These are created
-with:
+In Simulink, algebraic variables are put into output ports.
+These are created with:
 
 [source, c]
 ----
@@ -172,10 +152,9 @@ ssSetOutputPortDataType(sim_struct, index, SS_DOUBLE);
 ssSetOutputPortComplexSignal(sim_struct, index, COMPLEX_NO);
 ----
 
-As with input variables, Simulink can only handle real valued output. CIF
-integer-like types (bool, int, and enum) are silently translated from real
-values. CIF types with strings, with tuples, or with more than two nested
-levels of lists, are not supported.
+As with input variables, Simulink can only handle real valued output.
+CIF integer-like types (bool, int, and enum) are silently translated from real values.
+CIF types with strings, with tuples, or with more than two nested levels of lists, are not supported.
 
 Writing to the output is done as follows:
 
@@ -197,15 +176,12 @@ if (ssGetOutputPortConnected(sim_struct, index)) {
 }
 ----
 
-
 ==== Discrete variable
 
-A CIF discrete state variable could be stored in Simulink `DiscState`, but that
-has limitations for tuple types. Instead, discrete variables are stored in
-`PWork`, which is plain C, and capable of handling any type.
+A CIF discrete state variable could be stored in Simulink `DiscState`, but that has limitations for tuple types.
+Instead, discrete variables are stored in `PWork`, which is plain C, and capable of handling any type.
 
-In addition, discrete state variables that can be handled by Simulink, are
-copied to the output.
+In addition, discrete state variables that can be handled by Simulink, are copied to the output.
 
 The `PWork` data must be initialized first:
 
@@ -247,12 +223,10 @@ struct WorkStruct *data = ssGetPWorkValue(sim_struct, 0);
 
 The output of discrete variables is the same as with algebraic variables.
 
-
 ==== Continuous variables
 
-CIF continuous variables map properly onto Simulink `ContState`, to make them
-available externally, they are also copied to the output. Continuous state
-variable `0` is used for `time`. This value is not exported to the output.
+CIF continuous variables map properly onto Simulink `ContState`, to make them available externally, they are also copied to the output.
+Continuous state variable `0` is used for `time`. This value is not exported to the output.
 
 Initialization of the `ContState` vector is done with:
 
@@ -272,26 +246,22 @@ real_T *xC = ssGetContStates(sim_struct);
 // xC[0] is time, first continuous variable is at xC[1].
 ----
 
-
 ==== Derivative
 
-The derivative of a CIF continuous variable is a function. These are implemented
-similarly to algebraic variables, except that caching is less relevant since the
-number of contexts that use them is limited.
+The derivative of a CIF continuous variable is a function.
+These are implemented similarly to algebraic variables, except that caching is less relevant since the number of contexts that use them is limited.
 
-In Simulink, derivatives are stored in a derivative vector for use by the
-solvers:
+In Simulink, derivatives are stored in a derivative vector for use by the solvers:
 
 [source, c]
 ----
 real_T *dX = ssGetdX(sim_struct);
 ----
 
-
 ==== Location pointer
 
-A location pointer of an automaton is a mode in Simulink. Creation of a mode
-vector is done as follows:
+A location pointer of an automaton is a mode in Simulink.
+Creation of a mode vector is done as follows:
 
 [source, c]
 ----
@@ -310,28 +280,23 @@ This should not be a problem in the translation.
 
 Location pointers are not part of the output state.
 
-
 ==== Simulink functions
 
 * Array to/from matrix conversions.
 
-
 ==== Declarations required for computing CIF values
 
-Almost all functions access some part of CIF at some stage. To give them proper
-access, at the start of each function, declarations are inserted to make the
-data available to the code.
+Almost all functions access some part of CIF at some stage.
+To give them proper access, at the start of each function, declarations are inserted to make the data available to the code.
 
 For simplicity, in every function, the following is made available:
 
 * CIF variables in Simulink.
 * Cached input variables.
 
-
 ==== mdlIInitializeSizes
 
-Setup sizes and types of the various pieces of data in Simulink, and expected
-sample handling:
+Setup sizes and types of the various pieces of data in Simulink, and expected sample handling:
 
 [source, c]
 ----
@@ -367,7 +332,6 @@ static void mdlInitializeSizes(SimStruct *sim_struct) {
 }
 ----
 
-
 ==== mdlInitializeSampleTimes
 
 Setup solver requirements:
@@ -379,7 +343,6 @@ static void mdlInitializeSampleTimes(SimStruct *sim_struct) {
     ssSetOffsetTime(sim_struct, 0, 0.0);
 }
 ----
-
 
 ==== mdlInitializeConditions
 
@@ -397,7 +360,6 @@ static void mdlInitializeConditions(SimStruct *sim_struct) {
 }
 #endif
 ----
-
 
 ==== mdlStart
 
@@ -426,8 +388,8 @@ static void mdlStart(SimStruct *sim_struct) {
 
 ==== mdlZeroCrossings
 
-Compute time-dependent guards in the current state. If no time-dependent guards,
-omit the entire function:
+Compute time-dependent guards in the current state.
+If no time-dependent guards, omit the entire function:
 
 [source, c]
 ----
@@ -450,7 +412,6 @@ static void mdlZeroCrossings(SimStruct *sim_struct) {
 #endif
 ----
 
-
 ==== mdlOutputs
 
 Compute outputs in current state:
@@ -468,8 +429,7 @@ static void mdlOutputs(SimStruct *sim_struct, int_T tid) {
 }
 ----
 
-Note that output uses Matlab column major layout, copying matrices should be
-done while converting the format.
+Note that output uses Matlab column major layout, copying matrices should be done while converting the format.
 
 ==== mdlDerivatives
 
@@ -537,7 +497,6 @@ static bool tryEvent..() {
 }
 ----
 
-
 ==== mdlTerminate
 
 Free `PWork` memory:
@@ -551,12 +510,11 @@ static void mdlTerminate(SimStruct *sim_struct) {
 }
 ----
 
-
 === Algebraic variable functions
 
-Algebraic variables are represented by functions. The function is evaluated each
-time the value of the algebraic variable is needed. An algebraic variable van
-have any CIF type:
+Algebraic variables are represented by functions.
+The function is evaluated each time the value of the algebraic variable is needed.
+An algebraic variable van have any CIF type:
 
 [source, c]
 ----
@@ -568,13 +526,11 @@ have any CIF type:
 }
 ----
 
-
 === Derivative value functions
 
-Derivative value functions are always of type real. They compute the value of
-the derivative of a continuous variable. To do their job, they need access to
-the CIF variable data, as explained in Declarations required for computing CIF
-values:
+Derivative value functions are always of type real.
+They compute the value of the derivative of a continuous variable.
+To do their job, they need access to the CIF variable data, as explained in Declarations required for computing CIF values:
 
 [source, c]
 ----
@@ -586,17 +542,13 @@ real_T <varname>deriv() {
 }
 ----
 
-
 === Print statements
 
-Print statements are translated, and produce output on the Simulink output
-stream if available.
+Print statements are translated, and produce output on the Simulink output stream if available.
 
 * Compile time flag to disable?
 
-
 === Internal CIF functions
 
-Internal CIF functions do not use variables directly (they do use constants and
-constant algebraic variables). The functions are translated to C code and can be
-used in other CIF statements.
+Internal CIF functions do not use variables directly (they do use constants and constant algebraic variables).
+The functions are translated to C code and can be used in other CIF statements.

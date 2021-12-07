@@ -11,5 +11,5 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func int f(): "java:TestClass2.static_init_err|java_code/bin";
+func int f(): "java:testpkg.TestClass2.static_init_err|java_code/bin";
 initial f() > 0;

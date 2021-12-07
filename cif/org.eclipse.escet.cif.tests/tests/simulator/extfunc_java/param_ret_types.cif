@@ -11,24 +11,24 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-func bool                               f_b(        bool                               x): "java:testpkg.TestParamRetTypes.p_b|java_code/bin";
-//func bool                               f_B(        bool                               x): "java:testpkg.TestParamRetTypes.p_B|java_code/bin";
-func int                                f_i(        int                                x): "java:testpkg.TestParamRetTypes.p_i|java_code/bin";
-//func int                                f_I(        int                                x): "java:testpkg.TestParamRetTypes.p_I|java_code/bin";
-func real                               f_d(        real                               x): "java:testpkg.TestParamRetTypes.p_d|java_code/bin";
-//func real                               f_D(        real                               x): "java:testpkg.TestParamRetTypes.p_D|java_code/bin";
-func string                             f_G(        string                             x): "java:testpkg.TestParamRetTypes.p_G|java_code/bin";
-func list bool                          f_LB(       list bool                          x): "java:testpkg.TestParamRetTypes.p_LB|java_code/bin";
-func list int                           f_LI(       list int                           x): "java:testpkg.TestParamRetTypes.p_LI|java_code/bin";
-func list real                          f_LD(       list real                          x): "java:testpkg.TestParamRetTypes.p_LD|java_code/bin";
-func list string                        f_LG(       list string                        x): "java:testpkg.TestParamRetTypes.p_LG|java_code/bin";
-func list list int                      f_LLI(      list list int                      x): "java:testpkg.TestParamRetTypes.p_LLI|java_code/bin";
-func set int                            f_SI(       set int                            x): "java:testpkg.TestParamRetTypes.p_SI|java_code/bin";
-func set set int                        f_SSI(      set set int                        x): "java:testpkg.TestParamRetTypes.p_SSI|java_code/bin";
-func dict(int:bool)                     f_MIB(      dict(int:bool)                     x): "java:testpkg.TestParamRetTypes.p_MIB|java_code/bin";
-func dict(list int:set bool)            f_MLISB(    dict(list int:set bool)            x): "java:testpkg.TestParamRetTypes.p_MLISB|java_code/bin";
-func tuple(int a;bool b)                f_TIBX(     tuple(int a;bool b)                x): "java:testpkg.TestParamRetTypes.p_TIBX|java_code/bin";
-func tuple(list int a;tuple(int c,d) b) f_TLITIIXX( tuple(list int a;tuple(int c,d) b) x): "java:testpkg.TestParamRetTypes.p_TLITIIXX|java_code/bin";
+func bool                               f_b(        bool                               x): "java:testpkg.TestParamRetTypes.pb|java_code/bin";
+//func bool                               f_B(        bool                               x): "java:testpkg.TestParamRetTypes.pB|java_code/bin";
+func int                                f_i(        int                                x): "java:testpkg.TestParamRetTypes.pi|java_code/bin";
+//func int                                f_I(        int                                x): "java:testpkg.TestParamRetTypes.pI|java_code/bin";
+func real                               f_d(        real                               x): "java:testpkg.TestParamRetTypes.pd|java_code/bin";
+//func real                               f_D(        real                               x): "java:testpkg.TestParamRetTypes.pD|java_code/bin";
+func string                             f_G(        string                             x): "java:testpkg.TestParamRetTypes.pG|java_code/bin";
+func list bool                          f_LB(       list bool                          x): "java:testpkg.TestParamRetTypes.pLB|java_code/bin";
+func list int                           f_LI(       list int                           x): "java:testpkg.TestParamRetTypes.pLI|java_code/bin";
+func list real                          f_LD(       list real                          x): "java:testpkg.TestParamRetTypes.pLD|java_code/bin";
+func list string                        f_LG(       list string                        x): "java:testpkg.TestParamRetTypes.pLG|java_code/bin";
+func list list int                      f_LLI(      list list int                      x): "java:testpkg.TestParamRetTypes.pLLI|java_code/bin";
+func set int                            f_SI(       set int                            x): "java:testpkg.TestParamRetTypes.pSI|java_code/bin";
+func set set int                        f_SSI(      set set int                        x): "java:testpkg.TestParamRetTypes.pSSI|java_code/bin";
+func dict(int:bool)                     f_MIB(      dict(int:bool)                     x): "java:testpkg.TestParamRetTypes.pMIB|java_code/bin";
+func dict(list int:set bool)            f_MLISB(    dict(list int:set bool)            x): "java:testpkg.TestParamRetTypes.pMLISB|java_code/bin";
+func tuple(int a;bool b)                f_TIBX(     tuple(int a;bool b)                x): "java:testpkg.TestParamRetTypes.pTIBX|java_code/bin";
+func tuple(list int a;tuple(int c,d) b) f_TLITIIXX( tuple(list int a;tuple(int c,d) b) x): "java:testpkg.TestParamRetTypes.pTLITIIXX|java_code/bin";
 
 plant p:
   disc list bool x_lb = [f_b(true)];//, f_B(false)];

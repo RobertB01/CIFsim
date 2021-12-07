@@ -13,86 +13,89 @@
 
 package testpkg;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("javadoc")
 public class TestParamRetTypes {
-    public static boolean p_b(boolean x) {
+    private TestParamRetTypes() {
+        // Static class.
+    }
+
+    public static boolean pb(boolean x) {
         return x;
     }
 
-    public static Boolean p_B(Boolean x) {
+    public static Boolean pB(Boolean x) {
         return x;
     }
 
-    public static int p_i(int x) {
+    public static int pi(int x) {
         return x;
     }
 
-    public static Integer p_I(Integer x) {
+    public static Integer pI(Integer x) {
         return x;
     }
 
-    public static double p_d(double x) {
+    public static double pd(double x) {
         return x;
     }
 
-    public static Double p_D(Double x) {
+    public static Double pD(Double x) {
         return x;
     }
 
-    public static String p_G(String x) {
+    public static String pG(String x) {
         return x;
     }
 
-    public static List<Boolean> p_LB(List<Boolean> x) {
+    public static List<Boolean> pLB(List<Boolean> x) {
         return x;
     }
 
-    public static List<Integer> p_LI(List<Integer> x) {
+    public static List<Integer> pLI(List<Integer> x) {
         return x;
     }
 
-    public static List<Double> p_LD(List<Double> x) {
+    public static List<Double> pLD(List<Double> x) {
         return x;
     }
 
-    public static List<String> p_LG(List<String> x) {
+    public static List<String> pLG(List<String> x) {
         return x;
     }
 
-    public static List<Boolean> p_LN(List<Boolean> x) {
+    public static List<Boolean> pLN(List<Boolean> x) {
         return x;
     }
 
-    public static List<List<Integer>> p_LLI(List<List<Integer>> x) {
+    public static List<List<Integer>> pLLI(List<List<Integer>> x) {
         return x;
     }
 
-    public static Set<Integer> p_SI(Set<Integer> x) {
+    public static Set<Integer> pSI(Set<Integer> x) {
         return x;
     }
 
-    public static Set<Set<Integer>> p_SSI(Set<Set<Integer>> x) {
+    public static Set<Set<Integer>> pSSI(Set<Set<Integer>> x) {
         return x;
     }
 
-    public static Map<Integer, Boolean> p_MIB(Map<Integer, Boolean> x) {
+    public static Map<Integer, Boolean> pMIB(Map<Integer, Boolean> x) {
         return x;
     }
 
-    public static Map<List<Integer>, Set<Boolean>> p_MLISB(Map<List<Integer>, Set<Boolean>> x) {
+    public static Map<List<Integer>, Set<Boolean>> pMLISB(Map<List<Integer>, Set<Boolean>> x) {
         return x;
     }
 
-    public static List<Object> p_TIBX(List<Object> x) {
+    public static List<Object> pTIBX(List<Object> x) {
         return x;
     }
 
-    public static List<Object> p_TLITIIXX(List<Object> x) {
+    public static List<Object> pTLITIIXX(List<Object> x) {
         return x;
     }
 }
