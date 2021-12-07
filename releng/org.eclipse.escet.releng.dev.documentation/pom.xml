@@ -164,6 +164,8 @@
                                 <argument>${project.build.directory}/website-intermediate/index.html</argument>
                                 <argument>${project.build.directory}/website</argument>
                                 <argument>--website</argument>
+                                <argument>Eclipse ESCET™ website</argument>
+                                <argument>..</argument>
                             </arguments>
                         </configuration>
                     </execution>
