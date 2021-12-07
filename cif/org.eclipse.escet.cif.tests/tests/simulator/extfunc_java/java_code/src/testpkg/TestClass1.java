@@ -20,7 +20,7 @@ import java.util.Set;
 @SuppressWarnings("javadoc")
 public class TestClass1 {
     private TestClass1() {
-        // No body.
+        // Static class.
     }
 
     public static void voidMethod() {

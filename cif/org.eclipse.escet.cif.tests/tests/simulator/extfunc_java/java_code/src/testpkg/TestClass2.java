@@ -16,7 +16,7 @@ package testpkg;
 @SuppressWarnings("javadoc")
 public class TestClass2 {
     private TestClass2() {
-        // No body.
+        // Static class.
     }
 
     public static int x = 1 / 0;

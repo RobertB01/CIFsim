@@ -24,7 +24,7 @@ import java.util.Set;
 @SuppressWarnings("javadoc")
 public class TestReturnTypes {
     private TestReturnTypes() {
-        // No body.
+        // Static class.
     }
 
     public static double retNaN() {

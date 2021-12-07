@@ -20,7 +20,7 @@ import java.util.Set;
 @SuppressWarnings("javadoc")
 public class TestParamRetTypes {
     private TestParamRetTypes() {
-        // No body.
+        // Static class.
     }
 
     public static boolean pb(boolean x) {
