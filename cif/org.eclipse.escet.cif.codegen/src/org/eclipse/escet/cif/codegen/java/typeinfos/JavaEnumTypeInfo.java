@@ -66,11 +66,12 @@ public class JavaEnumTypeInfo extends EnumTypeInfo {
 
     @Override
     public String getBinaryExpressionTemplate(BinaryOperator binOp) {
-        // Uses 'equalObjs' instead of '==' like for the other types, even though it is not needed for enums.
+        // Uses '==' instead of 'equalsObj' like for the other types, as object equality works for enumerations and may
+        // also give slightly better performance.
         if (binOp.equals(BinaryOperator.EQUAL)) {
-            return "equalObjs(${left-value}, ${right-value})";
+            return "(${left-value}) == (${right-value})";
         } else if (binOp.equals(BinaryOperator.UNEQUAL)) {
-            return "!equalObjs(${left-value}, ${right-value})";
+            return "(${left-value}) != (${right-value})";
         }
         throw new RuntimeException("Unexpected binary operator: " + str(binOp));
     }
