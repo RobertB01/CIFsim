@@ -65,7 +65,6 @@ import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
 import org.eclipse.escet.cif.metamodel.java.CifWalker;
 import org.eclipse.escet.common.emf.EMFHelper;
 import org.eclipse.escet.common.java.Assert;
-import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
 /**
  * In-place transformation that eliminates location reference expressions.
@@ -148,11 +147,11 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     private final boolean addInitPreds;
 
     /**
-     * Mapping from location pointer variables to their absolute names, excluding the name of the automaton they are
-     * defined in, including any groups of which the automaton is a part, and including the variable name itself. May be
-     * {@code null} to not construct this mapping.
+     * Mapping from location pointer variables to the absolute names (without keyword escaping) of the original automata
+     * for which they were created. May be {@code null} to not construct this mapping. This mapping is for use after the
+     * transformation.
      */
-    private final Map<DiscVariable, String> absVarNamesMap;
+    private final Map<DiscVariable, String> lpVarToAbsAutNameMap;
 
     /**
      * Whether to allow optimization of initialization of location pointers, by analyzing declarations (used for
@@ -205,8 +204,8 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      * <li>Considers the names of the locations of the automaton for renaming to ensure unique names.</li>
      * <li>Performs an optimized transformation (only adds location pointer variables to automata for which a location
      * is referenced in an expression.</li>
-     * <li>Does not construct a mapping from location pointer variables to their absolute names, for use after the
-     * transformation.</li>
+     * <li>Does not construct a mapping location pointer variables to the absolute names (without keyword escaping) of
+     * the original automata for which they were created, for use after the transformation.</li>
      * <li>Allows optimization of initialization of location pointers, by analyzing declarations (used for instance in
      * initialization predicates) to see whether they have constant values.</li>
      * <li>Does not add equality binary expressions that reference the new location pointer to the guards of edges.</li>
@@ -236,10 +235,9 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
      *     is initialized in its declaration, regardless of the value of this parameter.
      * @param optimized Whether to perform an optimized transformation (only add location pointer variables to automata
      *     for which a location is referenced in an expression).
-     * @param absVarNamesMap Mapping from location pointer variables to their absolute names, where the name of the
-     *     automaton omitted from the absolute name, but not any of the groups of which the automaton is a part.
-     *     Absolute names are not escaped. The mapping is modified in-place. May be {@code null} to not construct this
-     *     mapping.
+     * @param lpVarToAbsAutNameMap Mapping from location pointer variables to the absolute names (without keyword
+     *     escaping) of the original automata for which they were created. May be {@code null} to not construct this
+     *     mapping. If provided, the mapping is modified in-place. This mapping is for use after the transformation.
      * @param optInits Whether to allow optimization of initialization of location pointers, by analyzing declarations
      *     (used for instance in initialization predicates) to see whether they have constant values.
      * @param addEdgeGuards Whether to add equality binary expressions that reference the new location pointer variable
@@ -250,7 +248,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
     public ElimLocRefExprs(Function<Automaton, String> varNamingFunction,
             Function<Automaton, String> enumNamingFunction, Function<Location, String> litNamingFunction,
             boolean considerLocsForRename, boolean addInitPreds, boolean optimized,
-            Map<DiscVariable, String> absVarNamesMap, boolean optInits, boolean addEdgeGuards)
+            Map<DiscVariable, String> lpVarToAbsAutNameMap, boolean optInits, boolean addEdgeGuards)
     {
         this.varNamingFunction = varNamingFunction;
         this.enumNamingFunction = enumNamingFunction;
@@ -258,7 +256,7 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
         this.considerLocsForRename = considerLocsForRename;
         this.addInitPreds = addInitPreds;
         this.optimized = optimized;
-        this.absVarNamesMap = absVarNamesMap;
+        this.lpVarToAbsAutNameMap = lpVarToAbsAutNameMap;
         this.optInits = optInits;
         this.addEdgeGuards = addEdgeGuards;
     }
@@ -303,15 +301,10 @@ public class ElimLocRefExprs extends CifWalker implements CifToCifTransformation
             var.setType(enumType);
             autToVarMap.put(aut, var);
 
-            // Store absolute name, excluding automaton name. The automaton
-            // name is left out to avoid duplicating the name of the
-            // automaton by the automaton itself and the location pointer
-            // variable name.
-            if (absVarNamesMap != null) {
-                PositionObject autParentScope = CifScopeUtils.getScope(aut);
-                String autParentTxt = CifTextUtils.getAbsName(autParentScope, false);
-                String absName = autParentTxt + (autParentTxt.isEmpty() ? "" : ".") + var.getName();
-                absVarNamesMap.put(var, absName);
+            // Store absolute automaton name (without keyword escaping)
+            // for use after the transformation, if requested.
+            if (lpVarToAbsAutNameMap != null) {
+                lpVarToAbsAutNameMap.put(var, CifTextUtils.getAbsName(aut, false));
             }
         }
         return var;

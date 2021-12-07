@@ -183,11 +183,11 @@ import org.eclipse.escet.common.java.Assert;
  */
 public abstract class LinearizeBase extends CifWalker implements CifToCifTransformation {
     /**
-     * Mapping from location pointer variables to their absolute names, excluding the name of the automaton they are
-     * defined in, including any groups of which the automaton is a part, and including the variable name itself. Filled
-     * in-place by {@link #lpIntroducer} when introducing location pointer variables.
+     * Mapping from location pointer variables to the absolute names (without keyword escaping) of the original automata
+     * for which they were created. Filled in-place by {@link #lpIntroducer} when introducing location pointer
+     * variables.
      */
-    private final Map<DiscVariable, String> absLpNamesMap = map();
+    private final Map<DiscVariable, String> lpVarToAbsAutNameMap = map();
 
     /**
      * Transformation used to introduce location pointer variables, and later to create proper expressions to refer to
@@ -220,7 +220,7 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * </p>
      */
     protected final ElimLocRefExprs lpIntroducer = new ElimLocRefExprs(a -> a.getName(), a -> "LPE_" + a.getName(),
-            l -> l.getName(), false, false, false, absLpNamesMap, false, false);
+            l -> l.getName(), false, false, false, lpVarToAbsAutNameMap, false, false);
 
     /**
      * Per automaton, all the alphabets. The automata are sorted in ascending order based on their absolute names
@@ -479,8 +479,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * </ul>
      *
      * <p>
-     * The moved variables are renamed based on their absolute names. Location pointers are named based on
-     * {@link #absLpNamesMap}.
+     * The moved variables are renamed based on their absolute names. Location pointers are named based on the absolute
+     * names of the automata for which they are created, as indicated by {@link #lpVarToAbsAutNameMap}.
      * </p>
      *
      * @param mergedAut The new/merged automaton. Is modified in-place.
@@ -503,9 +503,9 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
                 decls.add(decl);
 
                 // Rename declaration to absolute name (candidate for now).
-                // For location pointer variables we can use the name that has
-                // been decided by the location pointer introducer.
-                String name = absLpNamesMap.get(decl);
+                // For location pointer variables we use the absolute name of
+                // the automaton for which the location pointer was created.
+                String name = lpVarToAbsAutNameMap.get(decl);
                 if (name == null) {
                     name = CifTextUtils.getAbsName(decl, false);
                 }
@@ -790,8 +790,8 @@ public abstract class LinearizeBase extends CifWalker implements CifToCifTransfo
      * @return The variables that represent the locations of the original automata.
      */
     public List<DiscVariable> getLPVariables() {
-        List<DiscVariable> lpVariables = listc(absLpNamesMap.size());
-        lpVariables.addAll(absLpNamesMap.keySet());
+        List<DiscVariable> lpVariables = listc(lpVarToAbsAutNameMap.size());
+        lpVariables.addAll(lpVarToAbsAutNameMap.keySet());
         return lpVariables;
     }
 
