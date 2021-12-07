@@ -1089,7 +1089,7 @@ The following algorithms are available:
 
 * _FORCE_
 +
-The <<aloul>> algorithm is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
+The FORCE algorithm of <<aloul>> is enabled by default, but can be disabled using the _BDD FORCE variable ordering algorithm_ option (see <<tools-datasynth-options,options>> section above).
 +
 At most 10 * ceil(log~e~(n)) iterations of the FORCE algorithm are performed, with `n` the number of current/old BDD/boolean variables.
 
