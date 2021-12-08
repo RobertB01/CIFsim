@@ -39,21 +39,33 @@
    </extension>
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.eclipse.ui.popup.any">
-         <command
-               commandId="org.eclipse.escet.cif.cif2yed.CifToYedCommand"
+         <menu
                icon="icons/cif_to_yed.png"
-               label="&amp;Convert CIF to yEd diagram...">
-            <visibleWhen>
-               <or>
-                  <with variable="activeMenuSelection">
-                     <reference definitionId="org.eclipse.escet.cif.cif2yed.singleFile"/>
-                  </with>
-                  <with variable="activeMenuEditorInput">
-                     <reference definitionId="org.eclipse.escet.cif.cif2yed.singleFile"/>
-                  </with>
-               </or>
-            </visibleWhen>
-         </command>
+               id="org.eclipse.escet.cif.menu.misc"
+               label="CIF miscellaneo&amp;us tools">
+            <command
+                  commandId="org.eclipse.escet.cif.cif2yed.CifToYedCommand"
+                  icon="icons/cif_to_yed.png"
+                  label="&amp;Convert CIF to yEd diagram...">
+               <visibleWhen
+                     checkEnabled="false">
+                  <or>
+                     <with
+                           variable="activeMenuSelection">
+                        <reference
+                              definitionId="org.eclipse.escet.cif.cif2yed.singleFile">
+                        </reference>
+                     </with>
+                     <with
+                           variable="activeMenuEditorInput">
+                        <reference
+                              definitionId="org.eclipse.escet.cif.cif2yed.singleFile">
+                        </reference>
+                     </with>
+                  </or>
+               </visibleWhen>
+            </command>
+         </menu>
       </menuContribution>
    </extension>
 </plugin>
