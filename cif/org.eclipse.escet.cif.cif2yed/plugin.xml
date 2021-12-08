@@ -47,20 +47,13 @@
                   commandId="org.eclipse.escet.cif.cif2yed.CifToYedCommand"
                   icon="icons/cif_to_yed.png"
                   label="&amp;Convert CIF to yEd diagram...">
-               <visibleWhen
-                     checkEnabled="false">
+               <visibleWhen>
                   <or>
-                     <with
-                           variable="activeMenuSelection">
-                        <reference
-                              definitionId="org.eclipse.escet.cif.cif2yed.singleFile">
-                        </reference>
+                     <with variable="activeMenuSelection">
+                        <reference definitionId="org.eclipse.escet.cif.cif2yed.singleFile"/>
                      </with>
-                     <with
-                           variable="activeMenuEditorInput">
-                        <reference
-                              definitionId="org.eclipse.escet.cif.cif2yed.singleFile">
-                        </reference>
+                     <with variable="activeMenuEditorInput">
+                        <reference definitionId="org.eclipse.escet.cif.cif2yed.singleFile"/>
                      </with>
                   </or>
                </visibleWhen>
