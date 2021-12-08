@@ -15,15 +15,20 @@ type tt = tuple(int a; bool b; string c; real d);
 
 const bool a = true;
 const string b = "b";
+const int c = 0;
 
 automaton p:
   disc list int c;
   disc tt tv;
+  const int b = 0;
 
   alg int    pa = tv[a];
   alg bool   pb = tv[b];
   alg string pc = tv[c];
   alg real   pd = tv[d];
+
+  alg int    p1 = tv[p.b]; // Reference to constant b, not field b.
+  alg int    p2 = tv[.c];  // Reference to constant c, not field c.
 
   invariant pa > 0 or pb or pc = "" or pd = 0.0;
 
