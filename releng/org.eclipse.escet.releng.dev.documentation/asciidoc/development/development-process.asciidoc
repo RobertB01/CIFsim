@@ -254,11 +254,18 @@ The second approach resolves this issue, but is much more complex and cumbersome
 The solution is for the project committers to create a new branch in the official Git repository, based on a contributor's branch from their forked repository.
 The project committers can then make changes and push them to the official Git repository.
 Multiple contributors can then merge those changes into their own branches in their own forked repositories.
-They can then add their own changes again, the project committers can merge those changes into their branch, etc.
+Contributors can then add their own changes again and push those to their own branches.
+The project committers can merge those changes into the branch on the official Git repository, make changes of their own, push those changes, etc.
 This can be repeated until the work is done and everything is in the branch used by the project committers.
 The project committers can then merge their branch into the `develop` branch of the official Git repository, via a merge request.
 This process works for any number of contributors.
 Some alignment between all parties involved is typically desired to e.g. prevent merge conflicts.
+
+Note that you will get emails about new commits being pushed to merge requests, if you have notifications enabled for it.
+For branches without merge requests there is no way to get emails informing about new commits being pushed.
+It can thus be useful to have merge requests for all branches used by committers and contributors.
+Alternatively, others can be informed by posting comments on the original merge request created by the original contributor.
+This can prevent an overload of related merge requests and discussions being fragmented among them.
 
 ==== Fork collaboration script support
 
