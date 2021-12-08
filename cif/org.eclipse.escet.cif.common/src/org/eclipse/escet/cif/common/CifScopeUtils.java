@@ -311,9 +311,10 @@ public class CifScopeUtils {
      * Is the given CIF object a scope?
      *
      * <p>
-     * Components, functions, and component definitions are scopes. Components that represent bodies of component
-     * definitions are not scopes, as the component definitions themselves are the scopes. Component instantiations are
-     * not scopes, as they don't contain anything (yet). They can be considered 'via' scopes, but not 'real' scopes.
+     * Components, functions, component definitions, and project expressions for tuples are scopes. Components that
+     * represent bodies of component definitions are not scopes, as the component definitions themselves are the scopes.
+     * Component instantiations are not scopes, as they don't contain anything (yet). They can be considered 'via'
+     * scopes, but not 'real' scopes.
      * </p>
      *
      * @param obj The CIF object for which to determine whether it is a scope.
@@ -340,6 +341,13 @@ public class CifScopeUtils {
         if (obj instanceof Component) {
             PositionObject parent = (PositionObject)obj.eContainer();
             return !(parent instanceof ComponentDef);
+        }
+
+        // Projection expressions for tuples are regarded as scopes as they can contain fields.
+        if (obj instanceof ProjectionExpression) {
+            ProjectionExpression projExpr = (ProjectionExpression)obj;
+            CifType t = CifTypeUtils.normalizeType(projExpr.getChild().getType());
+            return t instanceof TupleType;
         }
 
         // Remaining CIF objects are not scopes.
@@ -625,6 +633,19 @@ public class CifScopeUtils {
             Set<String> bodyNames;
             bodyNames = getSymbolNamesForScope(compdef.getBody(), scopeCache);
             rslt.addAll(bodyNames);
+            return rslt;
+        }
+
+        if (scope instanceof ProjectionExpression) {
+            // Add fields of the tuple type.
+            ProjectionExpression projExpr = (ProjectionExpression)scope;
+            CifType t = CifTypeUtils.normalizeType(projExpr.getChild().getType());
+            Assert.check(t instanceof TupleType);
+
+            TupleType tt = (TupleType)t;
+            for (Field field: tt.getFields()) {
+                rslt.add(field.getName());
+            }
             return rslt;
         }
 
