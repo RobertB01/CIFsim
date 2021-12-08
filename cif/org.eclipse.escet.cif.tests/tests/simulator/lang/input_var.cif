@@ -24,7 +24,7 @@ automaton g:
   input int i_i;
 
   location l1:
-    initial; 
+    initial;
     edge e when i_b goto l2;
   location l2:
     edge e when i_i > 2 goto l3;

@@ -11,11 +11,11 @@
 // SPDX-License-Identifier: MIT
 //////////////////////////////////////////////////////////////////////////////
 
-// Default package, and non-default package. Imported as relative directory.
+// Imported as relative directory.
 func int f1(): "java:testpkg.TestClass1.ret5|java_code/bin";
 func int f2(): "java:testpkg.TestReturnTypes.reti|java_code\\bin";
 
-// Default package, and non-default package. Imported as JAR file.
+// Imported as JAR file.
 func int f3(): "java:testpkg.TestClass1.ret5|java_code/jar/test.jar";
 func int f4(): "java:testpkg.TestReturnTypes.reti|java_code/jar\\test.jar";
 
