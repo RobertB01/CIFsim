@@ -582,17 +582,17 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent0() {
-        boolean guard = (equalObjs(aut02_, edgesEnum._loc1)) || ((equalObjs(aut02_, edgesEnum._loc2)) || (equalObjs(aut02_, edgesEnum._loc3)));
+        boolean guard = ((aut02_) == (edgesEnum._loc1)) || (((aut02_) == (edgesEnum._loc2)) || ((aut02_) == (edgesEnum._loc3)));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(0, true);
         if (doInfoEvent) infoEvent(0, true);
 
-        if (equalObjs(aut02_, edgesEnum._loc1)) {
+        if ((aut02_) == (edgesEnum._loc1)) {
             aut02_ = edgesEnum._loc2;
-        } else if (equalObjs(aut02_, edgesEnum._loc2)) {
+        } else if ((aut02_) == (edgesEnum._loc2)) {
             aut02_ = edgesEnum._loc3;
-        } else if (equalObjs(aut02_, edgesEnum._loc3)) {
+        } else if ((aut02_) == (edgesEnum._loc3)) {
             aut02_ = edgesEnum._loc1;
         }
 
@@ -607,17 +607,17 @@ public abstract class edges {
      * @return {@code true} if the event was executed, {@code false} otherwise.
      */
     private boolean execEvent1() {
-        boolean guard = ((equalObjs(aut02_, edgesEnum._loc1)) && (equalObjs(aut02_x_, 2))) || ((equalObjs(aut02_, edgesEnum._loc2)) || ((equalObjs(aut02_, edgesEnum._loc3)) && (equalObjs(aut02_x_, 3))));
+        boolean guard = (((aut02_) == (edgesEnum._loc1)) && (equalObjs(aut02_x_, 2))) || (((aut02_) == (edgesEnum._loc2)) || (((aut02_) == (edgesEnum._loc3)) && (equalObjs(aut02_x_, 3))));
         if (!guard) return false;
 
         if (doInfoPrintOutput) printOutput(1, true);
         if (doInfoEvent) infoEvent(1, true);
 
-        if ((equalObjs(aut02_, edgesEnum._loc1)) && (equalObjs(aut02_x_, 2))) {
+        if (((aut02_) == (edgesEnum._loc1)) && (equalObjs(aut02_x_, 2))) {
             aut02_ = edgesEnum._loc1;
-        } else if (equalObjs(aut02_, edgesEnum._loc2)) {
+        } else if ((aut02_) == (edgesEnum._loc2)) {
             aut02_x_ = 1;
-        } else if ((equalObjs(aut02_, edgesEnum._loc3)) && (equalObjs(aut02_x_, 3))) {
+        } else if (((aut02_) == (edgesEnum._loc3)) && (equalObjs(aut02_x_, 3))) {
             aut02_x_ = 1;
         }
 
