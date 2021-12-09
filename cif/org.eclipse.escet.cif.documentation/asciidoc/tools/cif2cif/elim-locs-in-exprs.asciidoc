@@ -77,22 +77,22 @@ is transformed to the following specification:
 ----
 automaton x:
   event e;
-  alg bool a = LP_x = LOC_l1;
-  disc LOCS_x LP_x = LOC_l1;
-  enum LOCS_x = LOC_l1, LOC_l2;
+  alg bool a = LP = LOC_l1;
+  disc LPE LP = LOC_l1;
+  enum LPE = LOC_l1, LOC_l2;
 
   location l1:
     initial;
-    edge e do LP_x := LOC_l2 goto l2;
+    edge e do LP := LOC_l2 goto l2;
 
   location l2:
     edge e;
 end
 ----
 
-Location pointer variable `LP_x` is added.
+Location pointer variable `LP` is added.
 It is initialized directly in the declaration, since there is exactly one initial location in this automaton.
-Enumeration `LOCS_x` is created to represent the possible values of the location pointer variable.
+Enumeration `LPE` is created to represent the possible values of the location pointer variable.
 Enumerations literals `LOC_l1` and `LOC_l2` represent locations `l1` and `l2`, respectively.
 
 The edge from location `l1` to location `l2` is extended with an update to the location pointer.
@@ -103,7 +103,7 @@ indexterm:[eliminate the use of locations in expressions,renaming]
 === Renaming
 
 If the names of the location pointer variables that are introduced, conflict with already existing declarations, they are renamed.
-For instance, if `LP_x` is already in use, `LP_x2`, `LP_x3`, etc, are used instead.
+For instance, if `LP` is already in use, `LP2`, `LP3`, etc, are used instead.
 Similarly, renaming is performed for enumerations, and enumeration literals that conflict with already existing declarations.
 If renaming takes place, a warning is printed to the console.
 

@@ -1,86 +1,88 @@
 event e;
 const real M = 11.0;
 group p1:
-  enum LPE_p1 = l1, l2;
+  enum LPE = l1, l2;
   initial M2.p1 = l1 and true or M2.p1 = l2 and false;
   marked M2.p1 = l1 and false or M2.p1 = l2 and false;
+  invariant M2.p1___Dummy_LP_Name_Very_Unlikely_To_Exist__;
   invariant M2.p1_p1;
 end
 group p1_p1:
-  enum LPE_p1_p1 = l1, l2;
+  enum LPE = l1, l2;
   initial M2.p1_p12 = l1 and true or M2.p1_p12 = l2 and false;
   marked M2.p1_p12 = l1 and false or M2.p1_p12 = l2 and false;
 end
 group p2:
   group p2:
-    enum LPE_p2 = l1, l2;
+    enum LPE = l1, l2;
     initial M2.p2_p2 = l1 and true or M2.p2_p2 = l2 and false;
     marked M2.p2_p2 = l1 and false or M2.p2_p2 = l2 and false;
     invariant M2.p2_p2_x;
   end
 end
 group p2_p2_x:
-  enum LPE_p2_p2_x = l1, l2;
+  enum LPE = l1, l2;
   initial M2.p2_p2_x2 = l1 and true or M2.p2_p2_x2 = l2 and false;
   marked M2.p2_p2_x2 = l1 and false or M2.p2_p2_x2 = l2 and false;
 end
 group p5:
   group p5:
-    enum LPE_p5 = l1, l2;
+    enum LPE = l1, l2;
     initial M2.p5_p5 = l1 and true or M2.p5_p5 = l2 and false;
     marked M2.p5_p5 = l1 and false or M2.p5_p5 = l2 and false;
   end
 end
 group p5_p5:
-  enum LPE_p5_p5 = l1, l2;
+  enum LPE = l1, l2;
   initial M2.p5_p52 = l1 and true or M2.p5_p52 = l2 and false;
   marked M2.p5_p52 = l1 and false or M2.p5_p52 = l2 and false;
 end
 group p8_a:
-  enum LPE_p8_a = l1, l2;
+  enum LPE = l1, l2;
   initial M2.p8_a = l1 and true or M2.p8_a = l2 and false;
   marked M2.p8_a = l1 and false or M2.p8_a = l2 and false;
   invariant M2.p8_a_p82 = 8.1;
 end
 group p8:
-  enum LPE_p8 = l1, l2;
+  enum LPE = l1, l2;
   initial M2.p8 = l1 and true or M2.p8 = l2 and false;
   marked M2.p8 = l1 and false or M2.p8 = l2 and false;
   invariant M2.p8_a_p8 = 8.4;
 end
 group p12:
-  const real LPE_p12 = 1.0;
-  enum LPE_p122 = l1, l2;
+  const real LPE = 1.0;
+  enum LPE2 = l1, l2;
   initial M2.p12 = l1 and true or M2.p12 = l2 and false;
   marked M2.p12 = l1 and false or M2.p12 = l2 and false;
 end
 group u:
-  enum LPE_u = l1, l2;
+  enum LPE = l1, l2;
   initial M2.u = l1 and true or M2.u = l2 and false;
   marked M2.u = l1 and false or M2.u = l2 and false;
 end
 group L:
-  enum LPE_L = l1, l2;
+  enum LPE = l1, l2;
   initial M2.L = l1 and true or M2.L = l2 and false;
   marked M2.L = l1 and false or M2.L = l2 and false;
 end
 automaton M2:
   alphabet e;
-  disc .L.LPE_L L = .L.l1;
+  disc .L.LPE L = .L.l1;
+  disc bool p1___Dummy_LP_Name_Very_Unlikely_To_Exist__;
   disc bool p1_p1;
-  disc .p1.LPE_p1 p1 = .p1.l1;
-  disc .p12.LPE_p122 p12 = .p12.l1;
-  disc .p1_p1.LPE_p1_p1 p1_p12 = .p1_p1.l1;
+  disc .p1.LPE p1 = .p1.l1;
+  disc .p12.LPE2 p12 = .p12.l1;
+  disc .p1_p1.LPE p1_p12 = .p1_p1.l1;
   disc bool p2_p2_x;
-  disc p2.p2.LPE_p2 p2_p2 = p2.p2.l1;
-  disc .p2_p2_x.LPE_p2_p2_x p2_p2_x2 = .p2_p2_x.l1;
-  disc p5.p5.LPE_p5 p5_p5 = p5.p5.l1;
-  disc .p5_p5.LPE_p5_p5 p5_p52 = .p5_p5.l1;
+  disc p2.p2.LPE p2_p2 = p2.p2.l1;
+  disc .p2_p2_x.LPE p2_p2_x2 = .p2_p2_x.l1;
+  disc p5.p5.LPE p5_p5 = p5.p5.l1;
+  disc .p5_p5.LPE p5_p52 = .p5_p5.l1;
   cont p8_a_p8 = 8.2 der 8.3;
-  disc .p8.LPE_p8 p8 = .p8.l1;
+  disc .p8.LPE p8 = .p8.l1;
   disc real p8_a_p82 = 8.0;
-  disc .p8_a.LPE_p8_a p8_a = .p8_a.l1;
-  disc .u.LPE_u u = .u.l1;
+  disc .p8_a.LPE p8_a = .p8_a.l1;
+  disc .u.LPE u = .u.l1;
   disc bool u2 = true;
   plant invariant u2;
   location L2:

@@ -5,7 +5,7 @@
     <EventDecl Kind="PROPOSITION" Name=":accepting"/>
   </EventDeclList>
   <ComponentList>
-    <VariableComponent Name="g:p:LP_p">
+    <VariableComponent Name="g:p:LP">
       <VariableRange>
         <EnumSetExpression>
           <SimpleIdentifier Name=":lit:LOC_loc1"/>
@@ -14,7 +14,7 @@
       </VariableRange>
       <VariableInitial>
         <BinaryExpression Operator="==">
-          <SimpleIdentifier Name="g:p:LP_p"/>
+          <SimpleIdentifier Name="g:p:LP"/>
           <SimpleIdentifier Name=":lit:LOC_loc1"/>
         </BinaryExpression>
       </VariableInitial>
@@ -41,7 +41,7 @@
             <GuardActionBlock>
               <Actions>
                 <BinaryExpression Operator="=">
-                  <SimpleIdentifier Name="g:p:LP_p"/>
+                  <SimpleIdentifier Name="g:p:LP"/>
                   <SimpleIdentifier Name=":lit:LOC_loc2"/>
                 </BinaryExpression>
               </Actions>
@@ -91,7 +91,7 @@
               <Guards>
                 <UnaryExpression Operator="!">
                   <BinaryExpression Operator="==">
-                    <SimpleIdentifier Name="g:p:LP_p"/>
+                    <SimpleIdentifier Name="g:p:LP"/>
                     <SimpleIdentifier Name=":lit:LOC_loc1"/>
                   </BinaryExpression>
                 </UnaryExpression>

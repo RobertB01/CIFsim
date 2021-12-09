@@ -24,14 +24,14 @@ end
 
 // Test renaming.
 automaton p2:
-  disc bool LP_p2;
-  disc bool LOCS_p2;
+  disc bool LP;
+  disc bool LPE;
   disc bool LOC_l1;
   disc bool LOC_l12;
-  invariant LP_p2 or LOCS_p2 or LOC_l1 or LOC_l12;
+  invariant LP or LPE or LOC_l1 or LOC_l12;
   location l1:
     initial;
-    edge when LP_p2 or l1 goto l2;
+    edge when LP or l1 goto l2;
   location l2;
 end
 

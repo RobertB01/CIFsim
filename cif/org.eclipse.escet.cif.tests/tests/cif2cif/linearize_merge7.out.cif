@@ -17,7 +17,7 @@ group aut:
     alg string v1 = if M.aut_a2 = l1: "l1" else "l2" end;
     alg string v2 = if M.aut_a2 = l1: "l1" else "l2" end;
     alg string v3 = <string>true;
-    enum LPE_a2 = l1, l2;
+    enum LPE = l1, l2;
     initial M.aut_a2 = l1 and true or M.aut_a2 = l2 and true;
     marked M.aut_a2 = l1 and false or M.aut_a2 = l2 and false;
   end
@@ -25,7 +25,7 @@ group aut:
     alg string v1 = if M.aut_a3 = l1: "l1" elif M.aut_a3 = l2: "l2" else "l3" end;
     alg string v2 = if M.aut_a3 = l1: "l1" elif M.aut_a3 = l2: "l2" else "l3" end;
     alg string v3 = <string>true;
-    enum LPE_a3 = l1, l2, l3;
+    enum LPE = l1, l2, l3;
     initial M.aut_a3 = l1 and true or (M.aut_a3 = l2 and true or M.aut_a3 = l3 and true);
     marked M.aut_a3 = l1 and false or (M.aut_a3 = l2 and false or M.aut_a3 = l3 and false);
   end
@@ -49,7 +49,7 @@ group aut_def:
     alg string v1 = if M.aut_def_a2 = l1: "l1" else "l2" end;
     alg string v2 = if M.aut_def_a2 = l1: "l1" else "l2" end;
     alg string v3 = <string>true;
-    enum LPE_a2 = l1, l2;
+    enum LPE = l1, l2;
     initial M.aut_def_a2 = l1 and true or M.aut_def_a2 = l2 and true;
     marked M.aut_def_a2 = l1 and false or M.aut_def_a2 = l2 and false;
   end
@@ -57,17 +57,17 @@ group aut_def:
     alg string v1 = if M.aut_def_a3 = l1: "l1" elif M.aut_def_a3 = l2: "l2" else "l3" end;
     alg string v2 = if M.aut_def_a3 = l1: "l1" elif M.aut_def_a3 = l2: "l2" else "l3" end;
     alg string v3 = <string>true;
-    enum LPE_a3 = l1, l2, l3;
+    enum LPE = l1, l2, l3;
     initial M.aut_def_a3 = l1 and true or (M.aut_def_a3 = l2 and true or M.aut_def_a3 = l3 and true);
     marked M.aut_def_a3 = l1 and false or (M.aut_def_a3 = l2 and false or M.aut_def_a3 = l3 and false);
   end
 end
 automaton M:
   alphabet;
-  disc aut.a2.LPE_a2 aut_a2 in any;
-  disc aut.a3.LPE_a3 aut_a3 in any;
-  disc aut_def.a2.LPE_a2 aut_def_a2 in any;
-  disc aut_def.a3.LPE_a3 aut_def_a3 in any;
+  disc aut.a2.LPE aut_a2 in any;
+  disc aut.a3.LPE aut_a3 in any;
+  disc aut_def.a2.LPE aut_def_a2 in any;
+  disc aut_def.a3.LPE aut_def_a3 in any;
   location L:
     initial;
     marked;

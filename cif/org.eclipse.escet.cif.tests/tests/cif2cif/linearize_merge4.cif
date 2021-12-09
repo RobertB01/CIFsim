@@ -15,7 +15,9 @@ event e;
 
 // Name conflict on discrete variable and location pointer variable when it is temporarily added to the automaton.
 automaton p1:
-  disc bool p1;
+  disc bool __Dummy_LP_Name_Very_Unlikely_To_Exist__; // For this test.
+  invariant __Dummy_LP_Name_Very_Unlikely_To_Exist__;
+  disc bool p1; // For next test (automaton 'p1_p1').
   invariant p1;
   location l1:
     initial;
@@ -92,7 +94,7 @@ invariant M = 11.0;
 
 // Name conflict on location pointer enumeration and constant.
 automaton p12:
-  const real LPE_p12 = 1.0;
+  const real LPE = 1.0;
   location l1:
     initial;
     edge e goto l2;
@@ -114,4 +116,3 @@ automaton L:
     edge e goto l2;
   location l2;
 end
-

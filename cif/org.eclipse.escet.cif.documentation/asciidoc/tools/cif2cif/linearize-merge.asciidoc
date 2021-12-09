@@ -121,14 +121,14 @@ is transformed to the following specification:
 event e;
 
 group p:
-  enum LPE_p = l1, l2;
+  enum LPE = l1, l2;
 
   initial M.p = l1 and true or M.p = l2 and false;
   marked M.p = l1 and false or M.p = l2 and false;
 end
 
 group q:
-  enum LPE_q = l1, l2;
+  enum LPE = l1, l2;
 
   initial M.q = l1 and true or M.q = l2 and false;
   marked M.q = l1 and false or M.q = l2 and false;
@@ -138,8 +138,8 @@ plant automaton M:
   alphabet e;
 
   disc int p_x = 1;
-  disc .p.LPE_p p = .p.l1;
-  disc .q.LPE_q q = .q.l1;
+  disc .p.LPE p = .p.l1;
+  disc .q.LPE q = .q.l1;
 
   location L:
     initial;
@@ -156,7 +156,7 @@ end
 ----
 
 We see that the automata `p` and `q` are replaced by groups.
-They contain 'location pointer enumerations' `LPE_p` and `LPE_q`, with literals for their original locations.
+They contain 'location pointer enumerations' `LPE`, with literals for their original locations.
 They also contain the linearized initialization and marker predicates of the locations.
 We further see that plant automata `p` and `q` are linearized to plant automaton `M`.
 Two location pointers, `p` and `q`, named after the original automata, are added.
@@ -316,7 +316,7 @@ is transformed to the following specification:
 ----
 group p:
   event e;
-  enum LPE_p = l1, l2;
+  enum LPE = l1, l2;
 
   initial M.p = l1 and true or M.p = l2 and false;
   marked M.p = l1 and false or M.p = l2 and false;
@@ -325,7 +325,7 @@ end
 automaton M:
   alphabet .p.e;
 
-  disc .p.LPE_p p = .p.l1;
+  disc .p.LPE p = .p.l1;
   disc bool u = true;
 
   plant invariant u;
