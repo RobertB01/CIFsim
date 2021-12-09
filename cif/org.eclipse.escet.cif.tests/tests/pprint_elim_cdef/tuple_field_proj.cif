@@ -27,9 +27,6 @@ automaton p:
   alg string pc = tv[c];
   alg real   pd = tv[d];
 
-  alg int    p1 = tv[p.b]; // Reference to constant b, not field b.
-  alg int    p2 = tv[.c];  // Reference to constant c, not field c.
-
   invariant pa > 0 or pb or pc = "" or pd = 0.0;
 
   location:
@@ -37,3 +34,13 @@ automaton p:
 end
 
 invariant a or b = "" or size(p.c) > 0;
+
+const int i = 1;
+
+group q:
+  input tuple(real i; bool j; bool k) t;
+  invariant t[.i]    = true;
+  invariant t[i + 1] = true;
+  invariant t[i + 0] = true;
+end
+

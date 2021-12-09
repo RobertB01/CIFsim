@@ -1,1 +1,0 @@
-WARNING: File "pprint_elim_cdef/tuple_field_proj.cif": Semantic warning at line 30, column 22: Convoluted reference to local declaration. Use "b" instead.

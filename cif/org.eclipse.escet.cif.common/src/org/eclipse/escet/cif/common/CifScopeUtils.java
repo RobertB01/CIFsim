@@ -343,11 +343,20 @@ public class CifScopeUtils {
             return !(parent instanceof ComponentDef);
         }
 
-        // Projection expressions for tuples are regarded as scopes as they can contain fields.
+        // Projection expressions are scopes when their fields can be referenced.
         if (obj instanceof ProjectionExpression) {
+            // Only tuples contain fields.
             ProjectionExpression projExpr = (ProjectionExpression)obj;
             CifType t = CifTypeUtils.normalizeType(projExpr.getChild().getType());
-            return t instanceof TupleType;
+            if (!(t instanceof TupleType)) {
+                return false;
+            }
+
+            // Only named objects can reference the fields. E.g. for tuple-typed variable t, t[i] can be a field
+            // reference but t[i + 1] cannot be a field reference.
+            PositionObject index = projExpr.getIndex();
+            return index instanceof DiscVariableExpression || index instanceof AlgVariableExpression
+                    || index instanceof ConstantExpression || index instanceof InputVariableExpression;
         }
 
         // Remaining CIF objects are not scopes.
@@ -644,6 +653,10 @@ public class CifScopeUtils {
 
             TupleType tt = (TupleType)t;
             for (Field field: tt.getFields()) {
+                // Anonymous tuple fields may result from standard library functions.
+                if (field.getName() == null) {
+                    continue;
+                }
                 rslt.add(field.getName());
             }
             return rslt;
