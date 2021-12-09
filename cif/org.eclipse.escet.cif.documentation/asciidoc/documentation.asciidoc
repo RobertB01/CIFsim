@@ -272,8 +272,6 @@ include::tools/index.asciidoc[]
 
 include::tools/text-editor.asciidoc[]
 
-include::tools/cif2yed.asciidoc[]
-
 :leveloffset: -2
 
 === Supervisory controller synthesis tools
@@ -661,6 +659,8 @@ include::tools/mergecif.asciidoc[]
 include::tools/event-disabler.asciidoc[]
 
 include::tools/explorer.asciidoc[]
+
+include::tools/cif2yed.asciidoc[]
 
 :leveloffset: -2
 
