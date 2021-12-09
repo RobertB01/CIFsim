@@ -34,9 +34,9 @@ indexterm:[CIF to yEd transformer,start]
 
 The transformation can be started in the following ways:
 
-* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click a `.cif` file in the _Project Explorer_ tab or _Package Explorer_ tab and choose menu:CIF miscellaneous tools[Convert CIF to yEd diagram...].
 
-* In Eclipse, right click an open text editor for a `.cif` file and choose menu:Convert CIF to yEd diagram...[].
+* In Eclipse, right click an open text editor for a `.cif` file and choose menu:CIF miscellaneous tools[Convert CIF to yEd diagram...].
 
 * Use the `cif2yed` tool in a ToolDef script.
 See the <<tools-scripting-chapter-intro,scripting documentation>> and <<tools-scripting-chapter-tools,tools overview>> page for details.

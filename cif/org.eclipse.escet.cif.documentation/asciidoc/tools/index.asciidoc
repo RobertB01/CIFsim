@@ -23,12 +23,11 @@ indexterm:[tools,overview]
 *Applications*
 
 The CIF toolset consists of applications that cover a wide range of functionality.
-The available applications are listed below, categorized by the different phases of the development process.
+The available applications are listed below.
 
 _Specification_
 
 * <<tools-chapter-text-editor>>
-* <<tools-chapter-cif2yed>>
 
 _Supervisory controller synthesis_
 
@@ -54,6 +53,7 @@ _Miscellaneous_
 * <<tools-chapter-mergecif>>
 * <<tools-chapter-event-disabler>>
 * <<tools-chapter-cif-explorer>>
+* <<tools-chapter-cif2yed>>
 
 indexterm:[scripting]
 indexterm:[tools,scripting]
