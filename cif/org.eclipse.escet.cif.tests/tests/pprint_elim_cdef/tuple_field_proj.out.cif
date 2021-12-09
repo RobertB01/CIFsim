@@ -1,12 +1,10 @@
 type tt = tuple(int a; bool b; string c; real d);
 const bool a = true;
 const string b = "b";
-const int[0..0] c = 0;
 const int[1..1] i = 1;
 automaton p:
   disc list int c;
   disc tt tv;
-  const int[0..0] b = 0;
   alg int pa = tv[a];
   alg bool pb = tv[b];
   alg string pc = tv[c];

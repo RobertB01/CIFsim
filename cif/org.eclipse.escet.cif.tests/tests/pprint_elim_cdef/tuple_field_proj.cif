@@ -15,12 +15,10 @@ type tt = tuple(int a; bool b; string c; real d);
 
 const bool a = true;
 const string b = "b";
-const int c = 0;
 
 automaton p:
   disc list int c;
   disc tt tv;
-  const int b = 0;
 
   alg int    pa = tv[a];
   alg bool   pb = tv[b];
@@ -41,4 +39,3 @@ group q:
   invariant t[.i]    = true;
   invariant t[i + 1] = true;
 end
-
