@@ -353,10 +353,10 @@ public class CifScopeUtils {
             }
 
             // Only named objects can reference the fields. E.g. for tuple-typed variable t, t[i] can be a field
-            // reference but t[i + 1] cannot be a field reference.
-            PositionObject index = projExpr.getIndex();
-            return index instanceof DiscVariableExpression || index instanceof AlgVariableExpression
-                    || index instanceof ConstantExpression || index instanceof InputVariableExpression;
+            // reference but t[i + 1] cannot be a field reference. Only object that have integer type and can be
+            // statically evaluated are allowed as an index. Constants are the only named objects that can have integer
+            // type and can be statically evaluated.
+            return projExpr.getIndex() instanceof ConstantExpression;
         }
 
         // Remaining CIF objects are not scopes.

@@ -36,11 +36,9 @@ end
 invariant a or b = "" or size(p.c) > 0;
 
 const int i = 1;
-
 group q:
   input tuple(real i; bool j; bool k) t;
   invariant t[.i]    = true;
   invariant t[i + 1] = true;
-  invariant t[i + 0] = true;
 end
 
