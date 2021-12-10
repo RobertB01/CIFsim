@@ -35,7 +35,7 @@ SPDX-License-Identifier: MIT
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
         <!-- Tycho version to use. -->
-        <tycho.version>2.3.0</tycho.version>
+        <tycho.version>2.5.0</tycho.version>
         <tycho.extras.version>${tycho.version}</tycho.extras.version>
 
         <!-- Documentation plug-in versions. -->
