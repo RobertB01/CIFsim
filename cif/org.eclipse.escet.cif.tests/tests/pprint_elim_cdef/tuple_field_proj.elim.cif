@@ -15,6 +15,7 @@ automaton p:
 end
 group q:
   input tuple(real i; bool j; bool k) t;
+  invariant t[i] = 1.0;
   invariant t[.i] = true;
   invariant t[i + 1] = true;
 end
