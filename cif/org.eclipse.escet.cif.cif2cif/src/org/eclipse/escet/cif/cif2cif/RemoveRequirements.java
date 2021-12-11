@@ -40,6 +40,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -258,10 +259,17 @@ public class RemoveRequirements implements CifToCifTransformation {
             } else {
                 // Removed declaration should be in removed requirement
                 // automaton scope, as we don't have definition/instantiation
-                // anymore, functions and components can't be contained in
-                // automata, and tuple projection expressions can't contain
-                // declarations.
+                // anymore, and functions and components can't be contained in
+                // automata.
                 PositionObject scope = CifScopeUtils.getScope(removedObj);
+
+                // The scope can be a tuple projection. In that case, get the
+                // parent scope, as that is the 'real' scope.
+                if (scope instanceof ProjectionExpression) {
+                    scope = CifScopeUtils.getScope(scope);
+                }
+
+                // Ensure it is the removed requirement automaton.
                 Assert.check(scope == removedReqAut);
 
                 // Can use direct name, escaped.
@@ -279,11 +287,14 @@ public class RemoveRequirements implements CifToCifTransformation {
                 // that we can refer to textually, unlike expressions etc.
                 PositionObject scope = CifScopeUtils.isScope(refObj) ? refObj : CifScopeUtils.getScope(refObj);
 
+                // The scope can be a tuple projection. In that case, get the
+                // parent scope, as that is the 'real' scope.
+                if (scope instanceof ProjectionExpression) {
+                    scope = CifScopeUtils.getScope(scope);
+                }
+
                 // Get textual reference for the scope from which we reference
-                // the removed declaration. Can't be a tuple projection expression
-                // as that only contains single identifiers which can only reference
-                // an object in the removed requirement automaton scope if that
-                // reference itself is in that automaton.
+                // the removed declaration.
                 ComplexComponent scopeComp = (ComplexComponent)scope;
                 String scopeTxt = CifTextUtils.getComponentText2(scopeComp);
 
