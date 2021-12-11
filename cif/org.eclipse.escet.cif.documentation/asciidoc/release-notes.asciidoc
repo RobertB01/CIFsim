@@ -26,7 +26,10 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 
 === Version 0.4
 
-TBD
+Language changes:
+* Component parameters can now be used as values, for instance as arguments to component instantiations.
+See the CIF language tutorial lesson on group definitions for more information (issue #222).
+* Variables being assigned on edges can now be referred to by any reference expression rather than only be identifiers (issue #227).
 
 New features:
 
@@ -39,14 +42,42 @@ Improvements and fixes:
 
 * Introduced a brand new website (issue #35).
 * Many website URLs have changed due to various website structure changes (issues #35 and #73).
-* Various documentation/website textual improvements, style improvements and other changes (issues #35 and #54).
+* Various documentation/website textual improvements, style improvements and other changes (issues #35, #54, #188 and #236).
+* The CIF to CIF transformation to eliminate component definition/instantiation now correctly handles cases where component definitions are referred to via component instantiations (issue #244).
+* The CIF type checker now warns about some overly-convoluted references (issue #234).
 * The CIF simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
 * The CIF simulator plot visualizer and SVG visualizer functionality to save as an image no longer ask duplicate overwrite questions (issue #223).
 * The CIF simulator no longer crashes when showing an SVG visualizer if the SVG file can't be loaded (issue #207).
+* The CIF simulator trajectory data file option description has been improved (issue #248).
+* The CIF data-based synthesis tool now supports collecting additional statistics, i.e., maximum used BDD nodes, continuous BDD performance, and BDD cache statistics (issue #171).
+* The CIF data-based synthesis tool statistics option now has different option value names for various statistics.
+This is a backward incompatible change.
+Use `bdd-gc-collect` instead of `bdd-gc`, and `bdd-gc-resize` instead of `bdd-resize` (issue #235).
+* The CIF data-based synthesis tool documentation has various small improvements (issue #171).
+* The CIF to CIF linearization transformation now preserves more of the model structure.
+Groups are no longer eliminated, I/O file declarations are no longer pushed inwards, I/O declarations are no longer merged, and enumerations are no longer merged.
+The original automata are replaced by groups to allow keeping most declarations (e.g., algebraic variables) declared within them in their original scope, allowing them to keep their original absolute identities.
+Initialization predicates, marker predicates and invariants are also kept (close to) where they were.
+Linearization may now result in models with scope absolute references.
+Some warning messages now include proper absolute names.
+The documentation has been improved as well (issues #155 and #245).
+* The CIF to CIF linearization transformation now uses temporary location pointer variable names that are less likely to lead to name clashes and renamings (issue #245).
+* The CIF to CIF transformation to eliminate the use of locations in expressions now generates location pointer variables and enumerations with simpler names.
+This also affects the CIF to Supremica transformation (issue #245).
+* The CIF to CIF transformation to eliminate the use of locations in expressions has improved renaming warnings (issue #245).
+* The CIF PLC code generator has some backward incompatible name changes in the generated PLC code due to changes the CIF to CIF linearization transformation (issue #155).
+* The CIF PLC code generator has improved absolute names in error messages, generated comments, etc (issue #155).
+* The CIF PLC code generator now generates proper PLC names for CIF objects that have a CIF keyword as name (issue #249).
+* The CIF code generator has improved absolute names in generated comments, improved absolute original event names, and improved print declarations order in generated code (issue #155).
+* The CIF code generator has improved error and warning messages for Simulink code generation (issue #250).
+* The CIF code generator now takes into account all Java 11 keywords, literals and identifiers with special meaning for Java code generation (issue #238).
+* The CIF code generator now generates simpler and better performing code for (in)equality binary operators that compare enumeration literals (issue #247).
 * All CIF tools that support but ignore SVG input declarations now print a warning for specifications that contain SVG input declarations (issue #218).
 * The CIF to mCRL2 tool _Generate value actions_ option has been improved to not generate any value actions if an empty option value is provided.
 This is a backward incompatible change.
 The documentation of the option has also been improved (issue #225).
+* The CIF to yEd transformation is now part of the miscellaneous tools.
+In the Eclipse ESCET IDE it can now be found in the _CIF miscellaneous tools_ sub-menu (issue #188).
 * The CIF to yEd documentation has been updated for changes to recent yEd versions (issue #209).
 
 === Version 0.3

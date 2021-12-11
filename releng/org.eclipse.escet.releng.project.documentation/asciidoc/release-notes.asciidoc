@@ -30,8 +30,6 @@ See also the release notes for the specific tools for more information:
 
 === Version 0.4
 
-TBD
-
 Improvements and fixes:
 
 * Introduced a brand new website (issue #35).
@@ -41,6 +39,9 @@ Improvements and fixes:
 * SeText is now considered an internal developers tool.
 It no longer has a website of its own.
 Its documentation is now part of the Eclipse ESCET development documentation (issue #73).
+* The Eclipse ESCET IDE executable is now named `eclipse-escet` or `eclipse-escet.exe`.
+`eclipse.ini` is now named `eclipse-escet.ini` (issue #98).
+* Eclipse ESCET now bundles Java 11.0.12 rather than Java 11.0.2 (issue #237).
 
 === Version 0.3
 
