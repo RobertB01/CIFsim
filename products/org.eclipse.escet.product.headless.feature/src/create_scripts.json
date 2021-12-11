@@ -154,7 +154,7 @@
             "extension": ".cmd",
             "arguments": "%*",
             "header": "@echo off\r\n\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\r\n:: Copyright (c) 2010, 2021 Contributors to the Eclipse Foundation\r\n::\r\n:: See the NOTICE file(s) distributed with this work for additional\r\n:: information regarding copyright ownership.\r\n::\r\n:: This program and the accompanying materials are made available under the terms\r\n:: of the MIT License which is available at https://opensource.org/licenses/MIT\r\n::\r\n:: SPDX-License-Identifier: MIT\r\n::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
-            "eclipse": "%~dp0/../eclipsec.exe",
+            "eclipse": "%~dp0/../eclipse-escetc.exe",
             "newline": "\r\n"
         },
         {
