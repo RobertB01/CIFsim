@@ -311,10 +311,17 @@ public class CifScopeUtils {
      * Is the given CIF object a scope?
      *
      * <p>
-     * Components, functions, component definitions, and tuple projection expressions with a constant reference as index
-     * expression are scopes. Components that represent bodies of component definitions are not scopes, as the component
-     * definitions themselves are the scopes. Component instantiations are not scopes, as they don't contain anything
-     * (yet). They can be considered 'via' scopes, but not 'real' scopes.
+     * The following objects are scopes:
+     * <ul>
+     * <li>Components</li>
+     * <li>Functions</li>
+     * <li>Component definitions</li>
+     * <li>Tuple projection expressions with a constant reference as index expression</li>
+     * </ul>
+     *
+     * Components that represent bodies of component definitions are not scopes, as the component definitions themselves
+     * are the scopes. Component instantiations are not scopes, as they don't contain anything (yet). They can be
+     * considered 'via' scopes, but not 'real' scopes.
      * </p>
      *
      * @param obj The CIF object for which to determine whether it is a scope.
@@ -363,7 +370,7 @@ public class CifScopeUtils {
             // single identifier, can have an integer type, and are statically evaluable. In case of a tuple projection
             // on a constant, we consider the projection expression as a scope that declares the tuple field names. This
             // way, the pretty printer will consider the hidden objects and generate appropriate textual references to
-            // the them.
+            // them.
             return projExpr.getIndex() instanceof ConstantExpression;
         }
 
