@@ -23,12 +23,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.metamodel.cif.ComplexComponent;
-import org.eclipse.escet.cif.metamodel.cif.Component;
-import org.eclipse.escet.cif.metamodel.cif.Group;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
-import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.common.box.CodeBox;
@@ -135,7 +132,7 @@ public class EnumCodeGenerator {
     public static Map<EnumDecl, EnumDecl> getEnumDeclReprs(Specification spec) {
         // Collect all the enumerations from the specification.
         List<EnumDecl> enums = list();
-        collectEnums(spec, enums);
+        CifCollectUtils.collectEnumDecls(spec, enums);
 
         // Determine equal enumerations, and their representatives.
         Map<EnumDeclEqHashWrap, List<EnumDeclEqHashWrap>> commonMap = map();
@@ -162,28 +159,6 @@ public class EnumCodeGenerator {
             }
         }
         return rslt;
-    }
-
-    /**
-     * Collect the enumerations defined in the component (recursively).
-     *
-     * @param comp The component.
-     * @param enums The enumerations collected so far. Is modified in-place.
-     */
-    private static void collectEnums(ComplexComponent comp, List<EnumDecl> enums) {
-        // Collect locally.
-        for (Declaration decl: comp.getDeclarations()) {
-            if (decl instanceof EnumDecl) {
-                enums.add((EnumDecl)decl);
-            }
-        }
-
-        // Collect recursively.
-        if (comp instanceof Group) {
-            for (Component child: ((Group)comp).getComponents()) {
-                collectEnums((ComplexComponent)child, enums);
-            }
-        }
     }
 
     /** Wrapper around enumeration declarations for equality and hashing. */
