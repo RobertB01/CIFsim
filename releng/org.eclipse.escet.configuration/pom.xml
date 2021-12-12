@@ -120,13 +120,11 @@ SPDX-License-Identifier: MIT
                 <artifactId>target-platform-configuration</artifactId>
                 <version>${tycho.version}</version>
                 <configuration>
-                    <!-- Configure bundle that contains the target platform. -->
+                    <!-- Configure target platform file. -->
                     <target>
-                        <artifact>
-                            <groupId>org.eclipse.escet</groupId>
-                            <artifactId>org.eclipse.escet.target</artifactId>
-                            <version>0.4.0-SNAPSHOT</version>
-                        </artifact>
+                        <file>
+                            ${maven.multiModuleProjectDirectory}/releng/org.eclipse.escet.target/org.eclipse.escet.target.target
+                        </file>
                     </target>
 
                     <!-- Let JustJ handle the execution environment. -->
