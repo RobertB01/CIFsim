@@ -27,6 +27,7 @@ To upgrade to a new Eclipse Platform/IDE/SDK version:
 ** Update `dev-env-setup.asciidoc` to match new Eclipse version.
 ** Update `org.eclipse.platform` version for the product feature (`org.eclipse.escet.product.feature/feature.xml`).
 ** Update Eclipse and Orbit update site URLs in product (`org.eclipse.escet.product/escet.product`).
+** Update Eclipse and Orbit update site URLs in update site (`org.eclipse.escet.product/category.xml`).
 
 * Update target platform and address any issues
 ** Let Oomph regenerate the target platform, and commit any changes.
