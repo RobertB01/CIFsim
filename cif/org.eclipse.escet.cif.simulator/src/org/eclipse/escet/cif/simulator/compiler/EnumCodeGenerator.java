@@ -21,11 +21,7 @@ import static org.eclipse.escet.common.java.Maps.map;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import org.eclipse.escet.cif.common.CifCollectUtils;
-import org.eclipse.escet.cif.common.CifTypeUtils;
-import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumLiteral;
 import org.eclipse.escet.common.box.CodeBox;
@@ -120,82 +116,6 @@ public class EnumCodeGenerator {
             c.add("return cifLiteralName;");
             c.dedent();
             c.add("}");
-        }
-    }
-
-    /**
-     * Returns a mapping from enumeration declarations to their representatives, which may be themselves.
-     *
-     * @param spec The specification.
-     * @return The mapping from enumeration declarations to their representatives.
-     */
-    public static Map<EnumDecl, EnumDecl> getEnumDeclReprs(Specification spec) {
-        // Collect all the enumerations from the specification.
-        List<EnumDecl> enums = list();
-        CifCollectUtils.collectEnumDecls(spec, enums);
-
-        // Determine equal enumerations, and their representatives.
-        Map<EnumDeclEqHashWrap, List<EnumDeclEqHashWrap>> commonMap = map();
-        for (EnumDecl enumDecl: enums) {
-            EnumDeclEqHashWrap wrap = new EnumDeclEqHashWrap(enumDecl);
-            List<EnumDeclEqHashWrap> commonList = commonMap.get(wrap);
-            if (commonList == null) {
-                commonList = list(wrap);
-                commonMap.put(wrap, commonList);
-            } else {
-                commonList.add(wrap);
-            }
-        }
-
-        // Create representative mapping.
-        Map<EnumDecl, EnumDecl> rslt = map();
-        Set<Entry<EnumDeclEqHashWrap, List<EnumDeclEqHashWrap>>> elems;
-        elems = commonMap.entrySet();
-        for (Entry<EnumDeclEqHashWrap, List<EnumDeclEqHashWrap>> elem: elems) {
-            EnumDeclEqHashWrap representative = elem.getKey();
-            List<EnumDeclEqHashWrap> equalEnums = elem.getValue();
-            for (EnumDeclEqHashWrap equalEnum: equalEnums) {
-                rslt.put(equalEnum.enumDecl, representative.enumDecl);
-            }
-        }
-        return rslt;
-    }
-
-    /** Wrapper around enumeration declarations for equality and hashing. */
-    private static class EnumDeclEqHashWrap {
-        /** The enumeration declaration. */
-        public final EnumDecl enumDecl;
-
-        /** The enumeration literal names of {@link #enumDecl}. */
-        public final List<String> literals;
-
-        /** The hash of {@link #literals}. */
-        public final int literalsHash;
-
-        /**
-         * Constructor for the {@link EnumDeclEqHashWrap} class.
-         *
-         * @param enumDecl The enumeration declaration.
-         */
-        public EnumDeclEqHashWrap(EnumDecl enumDecl) {
-            this.enumDecl = enumDecl;
-            this.literals = CifTypeUtils.getLiteralNames(enumDecl);
-            this.literalsHash = literals.hashCode();
-        }
-
-        @Override
-        public int hashCode() {
-            return literalsHash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            // See also 'CifTypeUtils.areEnumsCompatible'.
-            if (this == obj) {
-                return true;
-            }
-            EnumDeclEqHashWrap other = (EnumDeclEqHashWrap)obj;
-            return literals.equals(other.literals);
         }
     }
 }
