@@ -13,12 +13,16 @@
 
 package org.eclipse.escet.cif.cif2mcrl2;
 
+import static org.eclipse.escet.common.java.Lists.set2list;
 import static org.eclipse.escet.common.java.Maps.map;
 import static org.eclipse.escet.common.java.Sets.set;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.escet.cif.common.CifEnumUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
@@ -42,12 +46,18 @@ public class NameMaps {
             "rename", "sort", "struct", "sum", "val", "var", "whr", "yaled", "Bag", "Bool", "Int", "List", "Nat", "Pos",
             "Real", "Set", "delta", "false", "nil", "tau", "true"};
 
-    /** Constructor of the {@link NameMaps} class. */
-    public NameMaps() {
+    /**
+     * Constructor of the {@link NameMaps} class.
+     *
+     * @param enumDecls The enumeration declarations of the CIF specification.
+     */
+    public NameMaps(List<EnumDecl> enumDecls) {
         names = set();
         for (String r: RESERVED) {
             names.add(r);
         }
+
+        this.enumRepresentatives = CifEnumUtils.getEnumDeclReprs(enumDecls);
     }
 
     //
@@ -381,7 +391,10 @@ public class NameMaps {
     /** All prefixes in use for enumeration sorts. */
     private static final String[] ENUM_PREFIXES = {ENUM_NAME};
 
-    /** Mapping of enumerations to their unique names. */
+    /** Mapping from enumerations to their representatives. */
+    private final Map<EnumDecl, EnumDecl> enumRepresentatives;
+
+    /** Mapping of representative enumerations to their unique names. */
     private Map<EnumDecl, String> enumsMap = map();
 
     /** Prefix of the names of enumeration literal constructors. */
@@ -390,8 +403,19 @@ public class NameMaps {
     /** All prefixes in use for enumeration literal constructors. */
     private static final String[] ENUM_LIT_PREFIXES = {ENUM_LIT_NAME};
 
-    /** Mapping of enumeration literals to their unique names. */
+    /** Mapping of representative enumeration literals to their unique names. */
     private Map<EnumLiteral, String> enumLitsMap = map();
+
+    /**
+     * Get the representative enumerations.
+     *
+     * @return The representative enumerations.
+     */
+    public Collection<EnumDecl> getRepresentativeEnums() {
+        Set<EnumDecl> representatives = set();
+        representatives.addAll(enumRepresentatives.values());
+        return set2list(representatives);
+    }
 
     /**
      * Get the base name of an enumeration.
@@ -400,12 +424,16 @@ public class NameMaps {
      * @return Basename (without prefix) of the given enumeration.
      */
     private String getEnum(EnumDecl enumDecl) {
-        String name = enumsMap.get(enumDecl);
+        // Get representative enum.
+        EnumDecl enumRepr = enumRepresentatives.get(enumDecl);
+
+        // Get enum name.
+        String name = enumsMap.get(enumRepr);
         if (name != null) {
             return name;
         }
-        name = makeName(enumDecl.getName(), ENUM_PREFIXES);
-        enumsMap.put(enumDecl, name);
+        name = makeName(enumRepr.getName(), ENUM_PREFIXES);
+        enumsMap.put(enumRepr, name);
         return name;
     }
 
@@ -426,12 +454,19 @@ public class NameMaps {
      * @return Basename (without prefix) of the given enumeration literal.
      */
     private String getEnumLit(EnumLiteral enumLit) {
-        String name = enumLitsMap.get(enumLit);
+        // Get representative literal.
+        EnumDecl enumDecl = (EnumDecl)enumLit.eContainer();
+        EnumDecl enumRepr = enumRepresentatives.get(enumDecl);
+        int litIdx = enumDecl.getLiterals().indexOf(enumLit);
+        EnumLiteral litRepr = enumRepr.getLiterals().get(litIdx);
+
+        // Get name.
+        String name = enumLitsMap.get(litRepr);
         if (name != null) {
             return name;
         }
-        name = makeName(enumLit.getName(), ENUM_LIT_PREFIXES);
-        enumLitsMap.put(enumLit, name);
+        name = makeName(litRepr.getName(), ENUM_LIT_PREFIXES);
+        enumLitsMap.put(litRepr, name);
         return name;
     }
 

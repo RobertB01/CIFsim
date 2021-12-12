@@ -37,6 +37,7 @@ import org.eclipse.escet.cif.cif2mcrl2.storage.AutomatonData;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
 import org.eclipse.escet.cif.cif2mcrl2.tree.ProcessNode;
 import org.eclipse.escet.cif.cif2mcrl2.tree.TextNode;
+import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.io.CifReader;
 import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
@@ -127,8 +128,12 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
             return 0;
         }
 
+        // Collect enumerations.
+        List<EnumDecl> enumDecls = list();
+        CifCollectUtils.collectEnumDecls(spec, enumDecls);
+
         // Initialize names mapping.
-        NameMaps names = new NameMaps();
+        NameMaps names = new NameMaps(enumDecls);
 
         // Extract CIF elements from the specification.
         AutomatonExtractor ae = new AutomatonExtractor();
@@ -136,7 +141,6 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         List<AutomatonData> autDatas = ae.getAutDatas();
         Set<VariableData> sharedVars = ae.getSharedVariables();
         Set<VariableData> singleUseVars = ae.getSingleUseVariables();
-        List<EnumDecl> enumDecls = ae.getEnumDecls();
         if (isTerminationRequested()) {
             return 0;
         }
@@ -184,7 +188,7 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
         }
 
         // Generate and write output.
-        Box code = generateCode(procRoot, localVars, enumDecls, names);
+        Box code = generateCode(procRoot, localVars, names);
         if (isTerminationRequested()) {
             return 0;
         }
@@ -201,18 +205,15 @@ public class Cif2Mcrl2Application extends Application<IOutputComponent> {
      *
      * @param procRoot Root of the tree.
      * @param localVars Local variables.
-     * @param enumDecls Enumeration declarations.
      * @param names Mapping of CIF elements to unique mCRL2 names.
      * @return Generated mCRL2 code.
      */
-    private static Box generateCode(ProcessNode procRoot, Set<VariableData> localVars, List<EnumDecl> enumDecls,
-            NameMaps names)
-    {
+    private static Box generateCode(ProcessNode procRoot, Set<VariableData> localVars, NameMaps names) {
         // Initialize code.
         VBox code = new VBox();
 
         // Enumeration sorts.
-        for (EnumDecl enumDecl: enumDecls) {
+        for (EnumDecl enumDecl: names.getRepresentativeEnums()) {
             String litNames = enumDecl.getLiterals().stream().map(l -> names.getEnumLitName(l))
                     .collect(Collectors.joining(" | "));
             code.add(new TextBox(fmt("sort %s = struct %s;", names.getEnumName(enumDecl), litNames)));

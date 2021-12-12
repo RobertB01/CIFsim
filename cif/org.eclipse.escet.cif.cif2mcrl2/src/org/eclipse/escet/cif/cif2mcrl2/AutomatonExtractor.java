@@ -26,7 +26,6 @@ import java.util.Set;
 import org.eclipse.escet.cif.cif2mcrl2.options.GenerateValueActionsOption;
 import org.eclipse.escet.cif.cif2mcrl2.storage.AutomatonData;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
-import org.eclipse.escet.cif.common.CifCollectUtils;
 import org.eclipse.escet.cif.common.CifEnumLiteral;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
@@ -39,7 +38,6 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
-import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
 import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
@@ -56,9 +54,6 @@ public class AutomatonExtractor {
 
     /** Found automata in the specification. */
     private List<AutomatonData> autDatas = null;
-
-    /** Found enumeration declarations in the specification. */
-    private List<EnumDecl> enumDecls = null;
 
     /**
      * Extract the automata and variables from the specification.
@@ -88,9 +83,6 @@ public class AutomatonExtractor {
 
         autDatas = list();
         unfoldForAutomata(spec, variableMap);
-
-        enumDecls = list();
-        CifCollectUtils.collectEnumDecls(spec, enumDecls);
     }
 
     /**
@@ -235,14 +227,5 @@ public class AutomatonExtractor {
             }
         }
         return vds;
-    }
-
-    /**
-     * Get the found enumeration declarations of the specification.
-     *
-     * @return Found enumeration declarations of the specification.
-     */
-    public List<EnumDecl> getEnumDecls() {
-        return enumDecls;
     }
 }
