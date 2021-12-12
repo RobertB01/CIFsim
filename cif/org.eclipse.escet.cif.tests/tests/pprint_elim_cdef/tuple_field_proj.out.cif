@@ -1,6 +1,7 @@
 type tt = tuple(int a; bool b; string c; real d);
 const bool a = true;
 const string b = "b";
+const int[1..1] i = 1;
 automaton p:
   disc list int c;
   disc tt tv;
@@ -11,5 +12,11 @@ automaton p:
   invariant pa > 0 or pb or pc = "" or pd = 0.0;
   location:
     initial;
+end
+group q:
+  input tuple(real i; bool j; bool k) t;
+  invariant t[i] = 1.0;
+  invariant t[.i] = true;
+  invariant t[i + 1] = true;
 end
 invariant a or b = "" or size(p.c) > 0;

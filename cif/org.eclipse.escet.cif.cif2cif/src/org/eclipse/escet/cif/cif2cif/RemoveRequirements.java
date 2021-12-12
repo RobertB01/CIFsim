@@ -40,6 +40,7 @@ import org.eclipse.escet.cif.metamodel.cif.Specification;
 import org.eclipse.escet.cif.metamodel.cif.SupKind;
 import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
+import org.eclipse.escet.cif.metamodel.cif.expressions.ProjectionExpression;
 import org.eclipse.escet.common.java.Assert;
 import org.eclipse.escet.common.position.metamodel.position.PositionObject;
 
@@ -258,8 +259,9 @@ public class RemoveRequirements implements CifToCifTransformation {
             } else {
                 // Removed declaration should be in removed requirement
                 // automaton scope, as we don't have definition/instantiation
-                // anymore, and functions and components can't be contained
-                // in automata.
+                // anymore, functions and components can't be contained in
+                // automata, and tuple projection expressions can't contain
+                // declarations.
                 PositionObject scope = CifScopeUtils.getScope(removedObj);
                 Assert.check(scope == removedReqAut);
 
@@ -277,6 +279,12 @@ public class RemoveRequirements implements CifToCifTransformation {
                 // Get scope of the referencing object, as that is something
                 // that we can refer to textually, unlike expressions etc.
                 PositionObject scope = CifScopeUtils.isScope(refObj) ? refObj : CifScopeUtils.getScope(refObj);
+
+                // The scope can be a tuple projection. In that case, get the
+                // parent scope, as that is the 'real' scope.
+                if (scope instanceof ProjectionExpression) {
+                    scope = CifScopeUtils.getScope(scope);
+                }
 
                 // Get textual reference for the scope from which we reference
                 // the removed declaration.

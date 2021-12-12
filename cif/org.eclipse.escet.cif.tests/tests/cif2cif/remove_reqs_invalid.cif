@@ -69,3 +69,13 @@ requirement k:
     requirement invariant 133 = 133;
     supervisor  invariant 134 = 134;
 end
+
+// Tuple projection expressions have a sub-scope. In that case, get the 'real'
+// parent scope for the error message.
+requirement r:
+  const int i = 1;
+  location:
+   initial;
+end
+input tuple(real i; bool j; bool k) t;
+invariant t[r.i] = true;
