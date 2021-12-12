@@ -27,6 +27,7 @@ See also the Eclipse ESCET link:https://eclipse.org/escet/release-notes.html[too
 === Version 0.4
 
 Language changes:
+
 * Component parameters can now be used as values, for instance as arguments to component instantiations.
 See the CIF language tutorial lesson on group definitions for more information (issue #222).
 
@@ -42,6 +43,8 @@ Improvements and fixes:
 * Introduced a brand new website (issue #35).
 * Many website URLs have changed due to various website structure changes (issues #35 and #73).
 * Various documentation/website textual improvements, style improvements and other changes (issues #35, #54, #188 and #236).
+* Various CIF tools now correctly handle a tuple projection index that is a constant reference with a name that is hidden by a tuple field name.
+In particular the CIF pretty printer now generates correct references for such indices (issue #258).
 * The CIF to CIF transformation to eliminate component definition/instantiation now correctly handles cases where component definitions are referred to via component instantiations (issue #244).
 * The CIF type checker now warns about some overly-convoluted references (issue #234).
 * The CIF simulator SVG visualizer functionality to save the image as an SVG file no longer crashes (issue #205).
@@ -75,8 +78,11 @@ This also affects the CIF to Supremica transformation (issue #245).
 * The CIF to mCRL2 tool _Generate value actions_ option has been improved to not generate any value actions if an empty option value is provided.
 This is a backward incompatible change.
 The documentation of the option has also been improved (issue #225).
+* The CIF to mCRL2 tool no longer eliminates enumerations to integers, but instead generates mCRL2 sorts for CIF enumerations.
+This allows referring to the enumeration literals by name when specifying properties to verify (issue #156).
+* The CIF to mCRL2 documentation on supported CIF specifications has been improved (issue #156).
 * The CIF to yEd transformation is now part of the miscellaneous tools.
-In the Eclipse ESCET IDE it can now be found in the _CIF miscellaneous tools_ sub-menu (issue #188).
+In the Eclipse ESCET IDE it can now be found in the menu:CIF miscellaneous tools[] sub-menu (issue #188).
 * The CIF to yEd documentation has been updated for changes to recent yEd versions (issue #209).
 
 === Version 0.3
