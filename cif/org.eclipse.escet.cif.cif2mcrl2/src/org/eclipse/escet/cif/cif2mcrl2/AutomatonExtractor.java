@@ -26,6 +26,8 @@ import java.util.Set;
 import org.eclipse.escet.cif.cif2mcrl2.options.GenerateValueActionsOption;
 import org.eclipse.escet.cif.cif2mcrl2.storage.AutomatonData;
 import org.eclipse.escet.cif.cif2mcrl2.storage.VariableData;
+import org.eclipse.escet.cif.common.CifCollectUtils;
+import org.eclipse.escet.cif.common.CifEnumLiteral;
 import org.eclipse.escet.cif.common.CifEvalException;
 import org.eclipse.escet.cif.common.CifEvalUtils;
 import org.eclipse.escet.cif.common.CifTypeUtils;
@@ -37,8 +39,11 @@ import org.eclipse.escet.cif.metamodel.cif.automata.Automaton;
 import org.eclipse.escet.cif.metamodel.cif.automata.Location;
 import org.eclipse.escet.cif.metamodel.cif.declarations.Declaration;
 import org.eclipse.escet.cif.metamodel.cif.declarations.DiscVariable;
+import org.eclipse.escet.cif.metamodel.cif.declarations.EnumDecl;
 import org.eclipse.escet.cif.metamodel.cif.types.BoolType;
 import org.eclipse.escet.cif.metamodel.cif.types.CifType;
+import org.eclipse.escet.cif.metamodel.cif.types.EnumType;
+import org.eclipse.escet.cif.metamodel.cif.types.IntType;
 import org.eclipse.escet.common.java.Assert;
 
 /**
@@ -47,19 +52,23 @@ import org.eclipse.escet.common.java.Assert;
  */
 public class AutomatonExtractor {
     /** Found variables in the specification. */
-    public List<VariableData> varDatas = null;
+    private List<VariableData> varDatas = null;
 
     /** Found automata in the specification. */
-    public List<AutomatonData> autDatas = null;
+    private List<AutomatonData> autDatas = null;
+
+    /** Found enumeration declarations in the specification. */
+    private List<EnumDecl> enumDecls = null;
 
     /**
      * Extract the automata and variables from the specification.
      *
      * @param spec Specification to search.
+     * @param names Mapping of CIF elements to unique mCRL2 names.
      */
-    public void findElements(Specification spec) {
+    public void findElements(Specification spec, NameMaps names) {
         varDatas = list();
-        unfoldForVariables(spec); // Collect variables from the specification.
+        unfoldForVariables(spec, names); // Collect variables from the specification.
 
         // Set the 'has value action' flag for each variable.
         Set<String> varNames = setc(varDatas.size());
@@ -79,23 +88,27 @@ public class AutomatonExtractor {
 
         autDatas = list();
         unfoldForAutomata(spec, variableMap);
+
+        enumDecls = list();
+        CifCollectUtils.collectEnumDecls(spec, enumDecls);
     }
 
     /**
      * Unfold and extract variables from a group.
      *
      * @param group Group to search.
+     * @param names Mapping of CIF elements to unique mCRL2 names.
      */
-    private void unfoldForVariables(Group group) {
+    private void unfoldForVariables(Group group, NameMaps names) {
         for (Component comp: group.getComponents()) {
             if (comp instanceof Automaton) {
                 Automaton aut = (Automaton)comp;
-                getVariableElements(aut);
+                getVariableElements(aut, names);
                 continue;
             }
             Assert.check(comp instanceof Group);
             Group g = (Group)comp;
-            unfoldForVariables(g);
+            unfoldForVariables(g, names);
         }
     }
 
@@ -103,20 +116,24 @@ public class AutomatonExtractor {
      * Extract the variable elements from the automaton.
      *
      * @param aut Automaton to inspect.
+     * @param names Mapping of CIF elements to unique mCRL2 names.
      */
-    private void getVariableElements(Automaton aut) {
+    private void getVariableElements(Automaton aut, NameMaps names) {
         for (Declaration decl: aut.getDeclarations()) {
             if (decl instanceof DiscVariable) {
                 DiscVariable dv = (DiscVariable)decl;
                 CifType tp = CifTypeUtils.normalizeType(dv.getType());
                 String initialValue = null;
                 try {
+                    Object val = CifEvalUtils.eval(dv.getValue().getValues().get(0), true);
                     if (tp instanceof BoolType) {
-                        Boolean val = (Boolean)CifEvalUtils.eval(dv.getValue().getValues().get(0), true);
-                        initialValue = val ? "true" : "false";
+                        initialValue = ((Boolean)val) ? "true" : "false";
+                    } else if (tp instanceof IntType) {
+                        initialValue = Integer.toString((int)val);
+                    } else if (tp instanceof EnumType) {
+                        initialValue = names.getEnumLitName(((CifEnumLiteral)val).literal);
                     } else {
-                        Integer val = (Integer)CifEvalUtils.eval(dv.getValue().getValues().get(0), true);
-                        initialValue = val.toString();
+                        throw new RuntimeException("Unexpected type: " + tp);
                     }
                 } catch (CifEvalException e) {
                     Assert.fail("Unexpected eval failure");
@@ -218,5 +235,14 @@ public class AutomatonExtractor {
             }
         }
         return vds;
+    }
+
+    /**
+     * Get the found enumeration declarations of the specification.
+     *
+     * @return Found enumeration declarations of the specification.
+     */
+    public List<EnumDecl> getEnumDecls() {
+        return enumDecls;
     }
 }
