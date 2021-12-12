@@ -259,17 +259,10 @@ public class RemoveRequirements implements CifToCifTransformation {
             } else {
                 // Removed declaration should be in removed requirement
                 // automaton scope, as we don't have definition/instantiation
-                // anymore, and functions and components can't be contained in
-                // automata.
+                // anymore, functions and components can't be contained in
+                // automata, and tuple projection expressions can't contain
+                // declarations.
                 PositionObject scope = CifScopeUtils.getScope(removedObj);
-
-                // The scope can be a tuple projection. In that case, get the
-                // parent scope, as that is the 'real' scope.
-                if (scope instanceof ProjectionExpression) {
-                    scope = CifScopeUtils.getScope(scope);
-                }
-
-                // Ensure it is the removed requirement automaton.
                 Assert.check(scope == removedReqAut);
 
                 // Can use direct name, escaped.
